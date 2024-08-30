@@ -1,61 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D57514E2C1;
-	Fri, 30 Aug 2024 19:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B321BAEDE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 19:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725044675; cv=none; b=KRihTXfKemsb3Z34yNegFgbQV9z9bIL5QdUwSDIwPdIt9j1erCpQ3LBcqIJMVeWUnDTaFdlFwyh2raSQPbLg9teq8zF/brSFa7c1C8ZtoAkZoYT7VRzyG5p9gVKig6qAiYtb33Xa4Xf2qoSLZd84A3V/Ix5JB6LKnC4bsgax0fw=
+	t=1725044696; cv=none; b=ViS9YHeZ2AAlP7BfiEDkkuD0WGQBMzVG7fTkYwXkjzOdxucdT3Gmql16VcDZOyt2fSL7Mx8SjriLHaM/6WN7UpG99gCKU2vcm9OUCJT8pUnDhAB98UWUrhyB4kgqT8cpjbxylfkypmAdBFt6uX6C5jFW8nUcAqC9h9tuvbzMQyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725044675; c=relaxed/simple;
-	bh=768uChLj28ZUvwd6FRzExWXXuwJbLiP7QZxl0LVbwHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pDSZHNOq4F7J6jN1TttOdJfE9rmFmCcgOWRN0jveeYwAHR++OOZmKrTQkLeXtuv4tRazjUphWn/ZHxptLIRC/ORO9GetZz9mRd9WpHJSKd2B/U2pC2jODv4JgZCGuQRwNoVti67mymmKO/lmHx/OQL0PmV03GVyeWNrj4H40ff0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ka4BuoDJ; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725044696; c=relaxed/simple;
+	bh=XXeFzFjFDshUQVP/x1R2xAH+R3MBWS5A0PsIE9H3mn8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPWxE6Ff03qgtcZYmOWSR270/r7pI4uIcsv4fhBcpn1mFCKKToOhRaH5pB5Gr0j5PxuGTihxkDLGa+J7dxCcZqFiHwXIK20nFWcf5+eRHURY0grff26sKEmxZFdcGRLXEfniW4R+z0gzUtZVke13OeqwlwNBAlf0GYHk6j/kWeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=LAeqnfXG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/IUTB+7L; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MVTdgMHe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rvOcFIzk; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ka4BuoDJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725044674; x=1756580674;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=768uChLj28ZUvwd6FRzExWXXuwJbLiP7QZxl0LVbwHM=;
-  b=Ka4BuoDJ5dJfCRA2j07h6YkEUdJGMIvEBBUszCEw2Wk0G+sLWkk0ciJD
-   tCZQU+AU4gAU2ttm4qg7CO6FP0Z5dsalVxI9cYWrheDwWj6QAE+wIGLS6
-   n2u6iERXL2UicJLMFdRuFOrlM6Ix06xACbc0cJEp5pIZKgSp5zJ3doSc9
-   2QSKNU4bjV4hkWT0zp8L19cbmkOFtCW99z/VF3ZiUlNUO7Jt+iXSHFr5G
-   9eDbOFAJt0M45wS2KgFB6tIwlEpcdcsr64SJZILbICaX0uSb77OYw4p8l
-   YPV0A39zZh0JEKd9IUuujy/D94uJ6GF2Y/QqpFpqIrt6fv9Y0NHcpAZ6d
-   A==;
-X-CSE-ConnectionGUID: perNJP4CQS+EjWMZ9pDxYw==
-X-CSE-MsgGUID: X9RMk745TNWogSPhxtoWBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23500731"
-X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="23500731"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 12:04:33 -0700
-X-CSE-ConnectionGUID: plZKGkXDS7mBFjRYcJcgFw==
-X-CSE-MsgGUID: QSGaFKq2StylUcou/xFm3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="68833598"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 Aug 2024 12:04:31 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sk6v7-0001wu-0B;
-	Fri, 30 Aug 2024 19:04:29 +0000
-Date: Sat, 31 Aug 2024 03:03:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	Lukas Czerner <lczerner@redhat.com>,
-	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Subject: fs/ext4/super.c:2054:1: error: unused function 'ctx_set_flags'
-Message-ID: <202408310303.6OpqRWeH-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LAeqnfXG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/IUTB+7L";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MVTdgMHe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rvOcFIzk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 038AA1F7EB;
+	Fri, 30 Aug 2024 19:04:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1725044692;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CkmhtExkaz4MAM4T2LkWCUM6+hC6bVGFHzX+BSJMAXU=;
+	b=LAeqnfXG3/Hv4y9mtojYse+wwrTHBD/CyP+KhfChgrATTZERmJvmtDlOnpjwx7lsC3D+OG
+	nDOzAQSXVxkGcjYjnJoNhcLm1vc+m7wrpFoiGUZB5Gr2oOIBSxfw8Wbic9HTpD+uXapVev
+	ANah9KBzruCEcVyPEYMnbXp4fBr6T5s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1725044692;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CkmhtExkaz4MAM4T2LkWCUM6+hC6bVGFHzX+BSJMAXU=;
+	b=/IUTB+7LS74aInfPaNi2M+4Ef/2qsH3yNmw2s4szMwKxGS+95u0Sj2P72ndRUiY0DYoMHL
+	4Z0tSQadl9avnZAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MVTdgMHe;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=rvOcFIzk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1725044691;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CkmhtExkaz4MAM4T2LkWCUM6+hC6bVGFHzX+BSJMAXU=;
+	b=MVTdgMHeFdvk5NDGzBdaPJKARj6O/pDUGuo/WalraShHJYCipnqOz053Ier5cvCXrdE2UY
+	KIfhx27HXHEodwsSD924bOt5cU5/v3Gb9TL0rIAfHTaLb0G9IVoROu2u4oRnLt++XKh0i/
+	q72iCdC7BRwWGgf4uo2Mo1SvMEa6JKA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1725044691;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CkmhtExkaz4MAM4T2LkWCUM6+hC6bVGFHzX+BSJMAXU=;
+	b=rvOcFIzk4WP1qIkTCl8Uuqy3s85AvUzbCUe5J2Vct8Wb1bvQ4ip0c3+Vg8R90mq8wxPXNp
+	lycRRcEY6XPqn2CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E4BE7139D3;
+	Fri, 30 Aug 2024 19:04:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id je5eN9IX0mbhOAAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Fri, 30 Aug 2024 19:04:50 +0000
+Date: Fri, 30 Aug 2024 21:04:45 +0200
+From: David Sterba <dsterba@suse.cz>
+To: kernel test robot <lkp@intel.com>
+Cc: David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] btrfs: constify more pointer parameters
+Message-ID: <20240830190445.GX25962@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <e163012ed80a4f55ce17641586681c6ac4ff9018.1724859620.git.dsterba@suse.com>
+ <202408302358.rW7e7sjz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,55 +90,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202408302358.rW7e7sjz-lkp@intel.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Rspamd-Queue-Id: 038AA1F7EB
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.21 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:replyto,intel.com:email,twin.jikos.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,git-scm.com:url]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.21
+X-Spam-Flag: NO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   20371ba120635d9ab7fc7670497105af8f33eb08
-commit: 1ff20307393e17dc57fde62226df625a3a3c36e9 ext4: unconditionally enable the i_version counter
-date:   1 year, 11 months ago
-config: x86_64-sof-customedconfig-amd-defconfig (https://download.01.org/0day-ci/archive/20240831/202408310303.6OpqRWeH-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310303.6OpqRWeH-lkp@intel.com/reproduce)
+On Fri, Aug 30, 2024 at 11:47:05PM +0800, kernel test robot wrote:
+> Hi David,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on kdave/for-next]
+> [also build test WARNING on linus/master next-20240830]
+> [cannot apply to v6.11-rc5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Sterba/btrfs-rework-BTRFS_I-as-macro-to-preserve-parameter-const/20240828-234222
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+> patch link:    https://lore.kernel.org/r/e163012ed80a4f55ce17641586681c6ac4ff9018.1724859620.git.dsterba%40suse.com
+> patch subject: [PATCH 2/2] btrfs: constify more pointer parameters
+> config: i386-buildonly-randconfig-001-20240830 (https://download.01.org/0day-ci/archive/20240830/202408302358.rW7e7sjz-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302358.rW7e7sjz-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408302358.rW7e7sjz-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    fs/btrfs/block-group.c: In function 'btrfs_should_reclaim':
+> >> fs/btrfs/block-group.c:1762:51: warning: passing argument 1 of 'btrfs_zoned_should_reclaim' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+>     1762 |                 return btrfs_zoned_should_reclaim(fs_info);
+>          |                                                   ^~~~~~~
+>    In file included from fs/btrfs/block-group.c:20:
+>    fs/btrfs/zoned.h:245:69: note: expected 'struct btrfs_fs_info *' but argument is of type 'const struct btrfs_fs_info *'
+>      245 | static inline bool btrfs_zoned_should_reclaim(struct btrfs_fs_info *fs_info)
+>          |                                               ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310303.6OpqRWeH-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   fs/ext4/super.c:1750:19: error: unused variable 'deprecated_msg' [-Werror,-Wunused-const-variable]
-    1750 | static const char deprecated_msg[] =
-         |                   ^~~~~~~~~~~~~~
->> fs/ext4/super.c:2054:1: error: unused function 'ctx_set_flags' [-Werror,-Wunused-function]
-    2054 | EXT4_SET_CTX(flags); /* set only */
-         | ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/super.c:2032:20: note: expanded from macro 'EXT4_SET_CTX'
-    2032 | static inline void ctx_set_##name(struct ext4_fs_context *ctx,          \
-         |                    ^~~~~~~~~~~~~~
-   <scratch space>:56:1: note: expanded from here
-      56 | ctx_set_flags
-         | ^~~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +/ctx_set_flags +2054 fs/ext4/super.c
-
-6e47a3cc68fc52 Lukas Czerner 2021-10-27  2053  
-e3952fcce1aad9 Lukas Czerner 2022-02-01 @2054  EXT4_SET_CTX(flags); /* set only */
-6e47a3cc68fc52 Lukas Czerner 2021-10-27  2055  EXT4_SET_CTX(mount_opt);
-e3952fcce1aad9 Lukas Czerner 2022-02-01  2056  EXT4_CLEAR_CTX(mount_opt);
-e3952fcce1aad9 Lukas Czerner 2022-02-01  2057  EXT4_TEST_CTX(mount_opt);
-6e47a3cc68fc52 Lukas Czerner 2021-10-27  2058  EXT4_SET_CTX(mount_opt2);
-e3952fcce1aad9 Lukas Czerner 2022-02-01  2059  EXT4_CLEAR_CTX(mount_opt2);
-e3952fcce1aad9 Lukas Czerner 2022-02-01  2060  EXT4_TEST_CTX(mount_opt2);
-e3952fcce1aad9 Lukas Czerner 2022-02-01  2061  
-
-:::::: The code at line 2054 was first introduced by commit
-:::::: e3952fcce1aad934f1322843b564ff86256444b2 ext4: fix remount with 'abort' option
-
-:::::: TO: Lukas Czerner <lczerner@redhat.com>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Valid report, this is the case with zoned mode disabled and the stub
+function does not match the real one.
