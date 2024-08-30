@@ -1,62 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111F5199FB7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 16:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862F41B86E2;
+	Fri, 30 Aug 2024 16:08:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725034103; cv=none; b=m9vYm73W25/pP/kMT+sN5wX2A6/ZFb5WHzzcuLEAe2rB/QH6AA8LIrSKWgUzWAiEUor7zSMo0JM+pEqNZkrHra546GNYusc2QEoHdyjRDUk3j7r+SfOXBBUp+3nD5uNJ7FoNxtiDCRupgpSNbM1rJ12Nr8O0PupqmAM+HoWSYyg=
+	t=1725034105; cv=none; b=csPuRwOmBQtLtcOPib7zzqRwrAvjonXO5PZflbvOZY+VrcPU710G0muIXJqv6joamRh8It2VdMx+Ruu3N9sVoZdfN/tBsebBRCQtgGzUnod36fB1+NLQPNWHiAu1vJYbgtrYuBPv4WYIlTVlLoUw+2pXAD43PeetgpIdqlOCea8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725034103; c=relaxed/simple;
-	bh=xWuumBZUjcCyekLxweCz/n24NMP/Q3YxWD8BcStGJlc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t4TaKNxnmpZ2KJ+2IO82b3NZP0+D6ftiMeJVQJNaz2Qi3U3aBFFH5qOgZBBC9Ky+skMURCYi0IA2GtDilwzBnRvaeHo9zXx3s3ZAiyYmw+mKPwmRlVmKSUkjEEXugcvd7yW3sUEfbuP2krLSfCcHGu2QZwM5AsCal7ptPCKeM9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EeBr4GeH; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1725034105; c=relaxed/simple;
+	bh=NQvkHbKFvCNmAk13O0Hw0+Go2GG2xCkOaQ+cBqqlySY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u578aIWwXaR1Ni3LE0omPinabIn/2YDrctJg0CKqqQY1dz4tVJfyLSkJiF+jPT9khBEkQzTFXNyvFv2VyZC8mgFUfNj2ja4SwZ7jVLn3m304R05kVpgDGNeW0wSh5Ly5Blkh+vhSF1z0aAheSkKmQSiQbDDYKn8Fa11s/NKPWMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNhsBHSJ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EeBr4GeH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNhsBHSJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725034101; x=1756570101;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xWuumBZUjcCyekLxweCz/n24NMP/Q3YxWD8BcStGJlc=;
-  b=EeBr4GeHa38/Civdj4IL0RlWyiu4Sue/pZ6tbOj609Kat/wEhnzvMKeh
-   0+k5yEnLJhMw/nKVbnJkSQ9b55xYLOdv9FdfYGffiA6ddFgs9Dgx7mPUv
-   amXBSRhcYeFvdZjYpS+R0ZDOnmJjCxWnSL/KL1bjbW1YfMuH+4bAuJyVA
-   hMCc+H1kUtb5yMokppsNe27iWT1fCf0RVXfvOcRaQ5CXteAVfYrVm07Bh
-   WVx5oJVgkBP4rLEPp0b44JtXfdI6KDlrLog2iR+0IrRDWorIdNWlx7RXr
-   3KxRWCb04QIIVAXbUFpEirknecUhE6z9fO1ki27dsKl1tdIWc/Y1zmZNz
-   A==;
-X-CSE-ConnectionGUID: rdO6t3kcS1yeyAoy0optdw==
-X-CSE-MsgGUID: Q9Bjav5qRpGi+O2KpkA7QA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34255320"
+  t=1725034104; x=1756570104;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NQvkHbKFvCNmAk13O0Hw0+Go2GG2xCkOaQ+cBqqlySY=;
+  b=mNhsBHSJkYFUYPYUvHRDkEMRWBBC8ishJZ1UBw6ZcKTWZRjl7KT6WOQt
+   5xHwLgmMicJcFLXQ4SHvyPO1eqHA/JYXogzHShUmV+sUJbObXbS3bxqW3
+   SbkdAldbPMsgqYT1io1pvKSJetiyNNq49cT7zOQXCen/sFR0/Eu8I09G1
+   N1SKrlBuZ7dgx/2cf3KCFWdTwPvzUspVcyiZ67BWdddOG2zkyWlN2c7au
+   4to1fGTR3X0PK3snG44uLA7SFLgAP7WNlkiJF8EWjmS+2MtcDAYxbVy1P
+   HjQ0OHqrZu+IH9Clm4L2F3WCCReVGmRjSZnd/kegaKYB/3DxBfqSYEqgo
+   Q==;
+X-CSE-ConnectionGUID: zDko7rMmSt2nE8fIohfnCw==
+X-CSE-MsgGUID: 56LNoQ9bTEe04y5Ekv64SQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34255322"
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="34255320"
+   d="scan'208";a="34255322"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 09:08:21 -0700
-X-CSE-ConnectionGUID: ysqcwFeqSwSrtjTmX8rehw==
-X-CSE-MsgGUID: IWW0MhrwTW++bvPA1BmqqQ==
+X-CSE-ConnectionGUID: dUUB7NMLS0i/oQh7OvxTUA==
+X-CSE-MsgGUID: LVikeV91R/i9tICoQsoktg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="94674488"
+   d="scan'208";a="94674482"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 30 Aug 2024 09:08:17 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk4AY-0001cs-2n;
+	id 1sk4AY-0001cu-2r;
 	Fri, 30 Aug 2024 16:08:14 +0000
-Date: Sat, 31 Aug 2024 00:07:38 +0800
+Date: Sat, 31 Aug 2024 00:07:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 9880/10950] kernel/tkernel/aegis/module.c:15:6:
- sparse: sparse: symbol 'hook_disable' was not declared. Should it be static?
-Message-ID: <202408310021.y7z7EzpL-lkp@intel.com>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
+	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware
+ access
+Message-ID: <202408302344.bCpCF6bu-lkp@intel.com>
+References: <20240830034047.2251482-4-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,165 +68,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240830034047.2251482-4-billy_tsai@aspeedtech.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   c99409f7fe0f14dae19af75e7e896e7a17b92946
-commit: 62b6061f5714aa71e2d5fdb14db9d1341bb82dd4 [9880/10950] [PATCH] security: add security hook point
-config: x86_64-randconfig-121-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310021.y7z7EzpL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310021.y7z7EzpL-lkp@intel.com/reproduce)
+Hi Billy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240830-114325
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20240830034047.2251482-4-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware access
+config: i386-buildonly-randconfig-004-20240830 (https://download.01.org/0day-ci/archive/20240830/202408302344.bCpCF6bu-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302344.bCpCF6bu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310021.y7z7EzpL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408302344.bCpCF6bu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/tkernel/aegis/module.c:15:6: sparse: sparse: symbol 'hook_disable' was not declared. Should it be static?
->> kernel/tkernel/aegis/module.c:65:5: sparse: sparse: symbol 'hook_sysfs_init' was not declared. Should it be static?
->> kernel/tkernel/aegis/module.c:80:6: sparse: sparse: symbol 'hook_sysfs_exit' was not declared. Should it be static?
---
->> kernel/tkernel/aegis/list.c:20:15: sparse: sparse: symbol 'percpu_total_num' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:33:15: sparse: sparse: symbol 'percpu_total_num_atomic64' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:46:5: sparse: sparse: symbol 'clear_hookinfo_list' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:73:6: sparse: sparse: symbol 'clear_cpu_list' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:95:17: sparse: sparse: cast to restricted __poll_t
->> kernel/tkernel/aegis/list.c:142:32: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *proc_poll )( ... ) @@     got unsigned int ( * )( ... ) @@
-   kernel/tkernel/aegis/list.c:142:32: sparse:     expected restricted __poll_t ( *proc_poll )( ... )
-   kernel/tkernel/aegis/list.c:142:32: sparse:     got unsigned int ( * )( ... )
->> kernel/tkernel/aegis/list.c:176:5: sparse: sparse: symbol 'hook_info_proc_create' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:206:6: sparse: sparse: symbol 'hook_info_proc_delete' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:211:5: sparse: sparse: symbol 'hook_info_percpu_create' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:254:5: sparse: sparse: symbol 'hook_info_percpu_delete' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:269:5: sparse: sparse: symbol 'hook_info_func_register' was not declared. Should it be static?
->> kernel/tkernel/aegis/list.c:301:6: sparse: sparse: symbol 'init_wait_queue' was not declared. Should it be static?
---
->> kernel/tkernel/aegis/hook_info.c:19:6: sparse: sparse: symbol 'ssh_info_head' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:20:6: sparse: sparse: symbol 'ssh_tty_head' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:37:14: sparse: sparse: symbol 'para_len_current' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:38:14: sparse: sparse: symbol 'para_sum_current' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:39:15: sparse: sparse: symbol 'min_para_len' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:40:15: sparse: sparse: symbol 'max_para_len' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:42:15: sparse: sparse: symbol 'sysctl_para_len' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:43:15: sparse: sparse: symbol 'sysctl_para_sum' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:44:15: sparse: sparse: symbol 'sysctl_info_num' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:47:15: sparse: sparse: symbol 'sysctl_set_min' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:48:15: sparse: sparse: symbol 'sysctl_set_max' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:75:39: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __user * @@     got void * @@
-   kernel/tkernel/aegis/hook_info.c:75:39: sparse:     expected char const [noderef] __user *
-   kernel/tkernel/aegis/hook_info.c:75:39: sparse:     got void *
-   kernel/tkernel/aegis/hook_info.c:82:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __user * @@     got void * @@
-   kernel/tkernel/aegis/hook_info.c:82:31: sparse:     expected char const [noderef] __user *
-   kernel/tkernel/aegis/hook_info.c:82:31: sparse:     got void *
->> kernel/tkernel/aegis/hook_info.c:87:6: sparse: sparse: symbol 'hookinfo_total_numb' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:92:6: sparse: sparse: symbol 'hookinfo_drop_stats' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:97:6: sparse: sparse: symbol 'clear_task_environ' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:114:5: sparse: sparse: symbol 'get_task_environ' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:200:5: sparse: sparse: symbol 'get_task_para' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:291:6: sparse: sparse: symbol 'get_pidns_inum' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:305:6: sparse: sparse: symbol 'get_task_ids' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:317:6: sparse: sparse: symbol 'get_task_pwd' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:340:6: sparse: sparse: symbol 'get_task_start_time' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:345:6: sparse: sparse: symbol 'info_ptr_hold_ref' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:415:37: sparse: sparse: Using plain integer as NULL pointer
-   kernel/tkernel/aegis/hook_info.c:419:33: sparse: sparse: Using plain integer as NULL pointer
-   kernel/tkernel/aegis/hook_info.c:423:39: sparse: sparse: Using plain integer as NULL pointer
-   kernel/tkernel/aegis/hook_info.c:427:38: sparse: sparse: Using plain integer as NULL pointer
->> kernel/tkernel/aegis/hook_info.c:619:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/tkernel/aegis/hook_info.c:619:52: sparse:     expected void *
-   kernel/tkernel/aegis/hook_info.c:619:52: sparse:     got void [noderef] __user *buffer
->> kernel/tkernel/aegis/hook_info.c:607:5: sparse: sparse: symbol 'para_len_sum_handler' was not declared. Should it be static?
-   kernel/tkernel/aegis/hook_info.c:648:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/tkernel/aegis/hook_info.c:648:52: sparse:     expected void *
-   kernel/tkernel/aegis/hook_info.c:648:52: sparse:     got void [noderef] __user *buffer
->> kernel/tkernel/aegis/hook_info.c:640:5: sparse: sparse: symbol 'secur_sysctl_handler' was not declared. Should it be static?
->> kernel/tkernel/aegis/hook_info.c:666:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/tkernel/aegis/hook_info.c:666:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/tkernel/aegis/hook_info.c:666:35: sparse:     got int ( * )( ... )
-   kernel/tkernel/aegis/hook_info.c:675:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/tkernel/aegis/hook_info.c:675:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/tkernel/aegis/hook_info.c:675:35: sparse:     got int ( * )( ... )
-   kernel/tkernel/aegis/hook_info.c:684:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/tkernel/aegis/hook_info.c:684:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/tkernel/aegis/hook_info.c:684:35: sparse:     got int ( * )( ... )
-   kernel/tkernel/aegis/hook_info.c:693:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/tkernel/aegis/hook_info.c:693:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/tkernel/aegis/hook_info.c:693:35: sparse:     got int ( * )( ... )
+All warnings (new ones prefixed by >>):
 
-vim +/hook_disable +15 kernel/tkernel/aegis/module.c
+>> drivers/gpio/gpio-aspeed.c:394:6: warning: variable 'copro' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     394 |         if (gpio->llops->copro_request)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-aspeed.c:399:6: note: uninitialized use occurs here
+     399 |         if (copro && gpio->llops->copro_release)
+         |             ^~~~~
+   drivers/gpio/gpio-aspeed.c:394:2: note: remove the 'if' if its condition is always true
+     394 |         if (gpio->llops->copro_request)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     395 |                 copro = gpio->llops->copro_request(gpio, offset);
+   drivers/gpio/gpio-aspeed.c:391:12: note: initialize the variable 'copro' to silence this warning
+     391 |         bool copro;
+         |                   ^
+         |                    = 0
+   drivers/gpio/gpio-aspeed.c:415:6: warning: variable 'copro' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     415 |         if (gpio->llops->copro_request)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-aspeed.c:418:6: note: uninitialized use occurs here
+     418 |         if (copro && gpio->llops->copro_release)
+         |             ^~~~~
+   drivers/gpio/gpio-aspeed.c:415:2: note: remove the 'if' if its condition is always true
+     415 |         if (gpio->llops->copro_request)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     416 |                 copro = gpio->llops->copro_request(gpio, offset);
+   drivers/gpio/gpio-aspeed.c:408:12: note: initialize the variable 'copro' to silence this warning
+     408 |         bool copro;
+         |                   ^
+         |                    = 0
+   drivers/gpio/gpio-aspeed.c:438:6: warning: variable 'copro' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     438 |         if (gpio->llops->copro_request)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-aspeed.c:443:6: note: uninitialized use occurs here
+     443 |         if (copro && gpio->llops->copro_release)
+         |             ^~~~~
+   drivers/gpio/gpio-aspeed.c:438:2: note: remove the 'if' if its condition is always true
+     438 |         if (gpio->llops->copro_request)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     439 |                 copro = gpio->llops->copro_request(gpio, offset);
+   drivers/gpio/gpio-aspeed.c:431:12: note: initialize the variable 'copro' to silence this warning
+     431 |         bool copro;
+         |                   ^
+         |                    = 0
+   drivers/gpio/gpio-aspeed.c:502:6: warning: variable 'copro' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     502 |         if (gpio->llops->copro_request)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-aspeed.c:507:6: note: uninitialized use occurs here
+     507 |         if (copro && gpio->llops->copro_release)
+         |             ^~~~~
+   drivers/gpio/gpio-aspeed.c:502:2: note: remove the 'if' if its condition is always true
+     502 |         if (gpio->llops->copro_request)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     503 |                 copro = gpio->llops->copro_request(gpio, offset);
+   drivers/gpio/gpio-aspeed.c:495:12: note: initialize the variable 'copro' to silence this warning
+     495 |         bool copro;
+         |                   ^
+         |                    = 0
+   drivers/gpio/gpio-aspeed.c:528:6: warning: variable 'copro' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     528 |         if (gpio->llops->copro_request)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-aspeed.c:533:6: note: uninitialized use occurs here
+     533 |         if (copro && gpio->llops->copro_release)
+         |             ^~~~~
+   drivers/gpio/gpio-aspeed.c:528:2: note: remove the 'if' if its condition is always true
+     528 |         if (gpio->llops->copro_request)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     529 |                 copro = gpio->llops->copro_request(gpio, offset);
+   drivers/gpio/gpio-aspeed.c:517:12: note: initialize the variable 'copro' to silence this warning
+     517 |         bool copro;
+         |                   ^
+         |                    = 0
+   drivers/gpio/gpio-aspeed.c:589:6: warning: variable 'copro' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     589 |         if (gpio->llops->copro_request)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-aspeed.c:596:6: note: uninitialized use occurs here
+     596 |         if (copro && gpio->llops->copro_release)
+         |             ^~~~~
+   drivers/gpio/gpio-aspeed.c:589:2: note: remove the 'if' if its condition is always true
+     589 |         if (gpio->llops->copro_request)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     590 |                 copro = gpio->llops->copro_request(gpio, offset);
+   drivers/gpio/gpio-aspeed.c:561:12: note: initialize the variable 'copro' to silence this warning
+     561 |         bool copro;
+         |                   ^
+         |                    = 0
+   drivers/gpio/gpio-aspeed.c:659:6: warning: variable 'copro' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     659 |         if (gpio->llops->copro_request)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-aspeed.c:664:6: note: uninitialized use occurs here
+     664 |         if (copro && gpio->llops->copro_release)
+         |             ^~~~~
+   drivers/gpio/gpio-aspeed.c:659:2: note: remove the 'if' if its condition is always true
+     659 |         if (gpio->llops->copro_request)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     660 |                 copro = gpio->llops->copro_request(gpio, offset);
+   drivers/gpio/gpio-aspeed.c:656:12: note: initialize the variable 'copro' to silence this warning
+     656 |         bool copro;
+         |                   ^
+         |                    = 0
+   7 warnings generated.
 
-    14	
-  > 15	void hook_disable(void)
-    16	{
-    17		mutex_lock(&hook_lock);
-    18		hook_info_flag = 0;
-    19		smp_wmb();
-    20		hook_info_func_unregister();
-    21		if (!module_putted && !hookinfo_nr()) {
-    22			module_put(THIS_MODULE);
-    23			module_putted = true;
-    24		}
-    25		mutex_unlock(&hook_lock);
-    26	}
-    27	
-    28	static ssize_t disable_show(struct kobject *kobj, struct kobj_attribute *attr,
-    29			char *buf)
-    30	{
-    31		return sprintf(buf, "%s\t%s\t%ld\n",
-    32				hook_info_flag ? "enabled" : "disabled",
-    33				module_putted ? "unused" : "inuse", hookinfo_nr());
-    34	}
-    35	
-    36	static ssize_t disable_store(struct kobject *kobj,
-    37			struct kobj_attribute *attr,
-    38			const char *buf, size_t count)
-    39	{
-    40		unsigned long v;
-    41	
-    42		if (kstrtoul(buf, 0, &v))
-    43			return -EINVAL;
-    44	
-    45		if ((v & 0xffffffff00000000) !=  SYSCTL_SET_MAGIC)
-    46			return -EINVAL;
-    47	
-    48		if (v & 0x00000000ffffffff)
-    49			hook_disable();
-    50	
-    51		return count;
-    52	}
-    53	
-    54	KERNEL_ATTR_RW(disable);
-    55	
-    56	static struct attribute *security_moni_attrs[] = {
-    57		&disable_attr.attr,
-    58		NULL
-    59	};
-    60	
-    61	static struct attribute_group hook_attrs_group = {
-    62		.attrs = security_moni_attrs,
-    63	};
-    64	
-  > 65	int hook_sysfs_init(void)
-    66	{
-    67		int ret;
-    68	
-    69		hook_sysfs_kset = kset_create_and_add("aegis", NULL, kernel_kobj);
-    70		if (!hook_sysfs_kset)
-    71			return -ENOMEM;
-    72	
-    73		ret = sysfs_create_group(&hook_sysfs_kset->kobj, &hook_attrs_group);
-    74		if (ret)
-    75			kset_unregister(hook_sysfs_kset);
-    76	
-    77		return ret;
-    78	}
-    79	
-  > 80	void hook_sysfs_exit(void)
-    81	{
-    82		sysfs_remove_group(&hook_sysfs_kset->kobj, &hook_attrs_group);
-    83		kset_unregister(hook_sysfs_kset);
-    84	}
-    85	
+
+vim +394 drivers/gpio/gpio-aspeed.c
+
+   385	
+   386	static void aspeed_gpio_set(struct gpio_chip *gc, unsigned int offset,
+   387				    int val)
+   388	{
+   389		struct aspeed_gpio *gpio = gpiochip_get_data(gc);
+   390		unsigned long flags;
+   391		bool copro;
+   392	
+   393		raw_spin_lock_irqsave(&gpio->lock, flags);
+ > 394		if (gpio->llops->copro_request)
+   395			copro = gpio->llops->copro_request(gpio, offset);
+   396	
+   397		__aspeed_gpio_set(gc, offset, val);
+   398	
+   399		if (copro && gpio->llops->copro_release)
+   400			gpio->llops->copro_release(gpio, offset);
+   401		raw_spin_unlock_irqrestore(&gpio->lock, flags);
+   402	}
+   403	
 
 -- 
 0-DAY CI Kernel Test Service
