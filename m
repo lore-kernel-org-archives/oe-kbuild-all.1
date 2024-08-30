@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF5018C004
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 21:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4603C23B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 00:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724965722; cv=none; b=h3FPLXj5jxjp6HHJSsoh3VvaV+K8H9Wvjlpn36Ls9oNp5K+wOSK3HsLzjDFZ57z6Rgf5ypVk6B/EYbhv+3ELCyNatQdRIUZ/hemmXvG4J2dVCp365ALPZwdSMjFegO4BjScF5qkrknJmGQ6smvZJjaS1B1ph+B5cEAzazdab+G8=
+	t=1724977309; cv=none; b=VgmRa4j1qkBat3DTO8bfnfNnmGE5MWVYkxPOzVLtsipGbHU7Xd7uHkYeEflixKMqHarpcEJEL3L5SZl6FwUYAhtN9uPmVyVQ8XZqWL7D9VV7hwQfRt9pI5jfHPLLkonzN4HFEf+RQSoBVKKbZ9u24PXcJsYIGfBtZnyxeO+bvLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724965722; c=relaxed/simple;
-	bh=jBWRwPJ96QBjGKJ8ydTl6aE0nvHcC6nFPznjno6M77g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jpjA+O8SQhrf1PxiNnc1SEnQp9Ep4sJDdZ6cPmrtc/PwxGC5nPOo4Bc0HhyLQot2tGNfrB08hBMgUBlS4QyFso0IspHwImIqa6XT37Z38itdrK5JH2booc2Z9stNZ7Ef3y1jAh5vXClj1DML/gmcztERSPj+G8q3+9mvnqO0lCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GjHbKFPn; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1724977309; c=relaxed/simple;
+	bh=w+yKiDpRWvKzQEAGuCGuIqf/9HVfNpoSKRtblk0n09A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AN5TSXIjUktjDlT0z6s4YfCZne0L+J+QsVvxou1MiXJJpFOiN3EjdJwHSFcyLSaIlKijKzZFALogV7LYH4q5vZa9aiG2ehoWFBJ80HCogHahVLoWfNow1bsoBxK0GHFV2/nLJPWTrtIyGY3xzVBM6nJ7zLLZWU2xm7QyIlH9mDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apqD0HMz; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GjHbKFPn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apqD0HMz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724965721; x=1756501721;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jBWRwPJ96QBjGKJ8ydTl6aE0nvHcC6nFPznjno6M77g=;
-  b=GjHbKFPnJBFewPXBqvcwHJD8hGCUftFPqu/Pav1q7FGBpTGT6OOAdCSJ
-   vWJYrhRO5pfuBEUHdvh0FgFmpeHG2YeLElM2r2c1gyo7Z4yt6XgLG6eUY
-   IEmoGc0kb93JeHrOPmJHWPjUxXVqq8H/duK0TLusLlW11Vvu6JT9GT+BG
-   LGEsDobclMqM3+4pUGxWMl5cXFQsiqGVe4ghZ5b0Dkbh3nGyFpupcccu3
-   yVjkUaRYPzCnS/G4w++uUu69XVcA6uP//dGcU5T9rkGZrYYI7eM/syl9l
-   dx/Ogm26uT6yoMCuTCK1UNsXWOaYUEDZR3KtnEsQ+8F9n9SI4s1aH481l
+  t=1724977307; x=1756513307;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w+yKiDpRWvKzQEAGuCGuIqf/9HVfNpoSKRtblk0n09A=;
+  b=apqD0HMzscltWkdz3KAwSAHfGYhQDfmsOfjuJbtmbrmQWQemZZmw8gG8
+   hqSKiNf1m/pcH19DB0dHy9bUgUU8uqSPFkP7d3yy+nO/qXGwnyD2cQE3P
+   gWGql2pRa/bAI5c872lUjR/0ECb+0GSzhjUZZZS57vg5CGm9NtDt7a6/l
+   XAmpebtpkrd1aZC4qcZqMdMSps/GjollYrqAfGuBjt6T4ZblUG5Tb9bpg
+   OIu5ApEndGWYSJ6LhzKHQCkNIH7IvQeBfAzXcTN0fAEitXcziiQd4PD8J
+   bmRTqX7FmVYR+WjCykLLvro15hSBEBVe4bCHbTf6dePMn2onQjt0qdUr8
    Q==;
-X-CSE-ConnectionGUID: Ei9n5jkUSaqk0xpwbUVPbQ==
-X-CSE-MsgGUID: qEBMSnZFQp+l4+jMp0vZ3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23452473"
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="23452473"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 14:08:40 -0700
-X-CSE-ConnectionGUID: 1ZRQ3oeNTYCBb635M8VHSQ==
-X-CSE-MsgGUID: h2HgCiS+QOOI/kHDax+yXQ==
+X-CSE-ConnectionGUID: icljFawXQXWOv15O0G3tXg==
+X-CSE-MsgGUID: gJWo+hhpQC+yv+IZNwD+Kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23407080"
+X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
+   d="scan'208";a="23407080"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 17:21:46 -0700
+X-CSE-ConnectionGUID: JuAvQF4QREifpbm53DR3bQ==
+X-CSE-MsgGUID: 3gWQbgCWSwGNsijAXnO5OA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="63694952"
+X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
+   d="scan'208";a="94559556"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Aug 2024 14:08:39 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Aug 2024 17:21:42 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjmNg-0000ja-1w;
-	Thu, 29 Aug 2024 21:08:36 +0000
-Date: Fri, 30 Aug 2024 05:08:11 +0800
+	id 1sjpOW-0000pS-0E;
+	Fri, 30 Aug 2024 00:21:40 +0000
+Date: Fri, 30 Aug 2024 08:21:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 6844/7693]
- arch/arm64/boot/dts/ti/k3-am6548-iot2050-advanced-m2-bkey-ekey-pcie.dtb:
- scm-conf@100000: compatible: ['syscon', 'simple-mfd'] is too short
-Message-ID: <202408300514.63wGUnTl-lkp@intel.com>
+To: Jammy Huang <jammy_huang@aspeedtech.com>, robh@kernel.org,
+	conor+dt@kernel.org, eajames@linux.ibm.com, mchehab@kernel.org,
+	joel@jms.id.au, andrew@aj.id.au, hverkuil@xs4all.nl,
+	pmenzel@molgen.mpg.de, krzk+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to
+ dt-schema
+Message-ID: <202408300813.2RN73Kn4-lkp@intel.com>
+References: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,26 +69,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b18bbfc14a38b5234e09c2adcf713e38063a7e6e
-commit: dba27d026fc841d28a0ed373f617cc84ec0e4504 [6844/7693] arm64: dts: ti: iot2050: Add overlays for M.2 used by firmware
-config: arm64-randconfig-051-20240829 (https://download.01.org/0day-ci/archive/20240830/202408300514.63wGUnTl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev16+gc51125d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300514.63wGUnTl-lkp@intel.com/reproduce)
+Hi Jammy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 47ac09b91befbb6a235ab620c32af719f8208399]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jammy-Huang/dt-bindings-media-convert-aspeed-video-txt-to-dt-schema/20240829-144721
+base:   47ac09b91befbb6a235ab620c32af719f8208399
+patch link:    https://lore.kernel.org/r/20240829064508.3706672-2-jammy_huang%40aspeedtech.com
+patch subject: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to dt-schema
+reproduce: (https://download.01.org/0day-ci/archive/20240830/202408300813.2RN73Kn4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408300514.63wGUnTl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408300813.2RN73Kn4-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-am6548-iot2050-advanced-m2-bkey-ekey-pcie.dtb: scm-conf@100000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
---
->> arch/arm64/boot/dts/ti/k3-am6548-iot2050-advanced-m2-bkey-usb3.dtb: scm-conf@100000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/aspeed-video.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
