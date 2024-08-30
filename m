@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1043D1D131C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 02:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBBD3FB9F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 04:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724986610; cv=none; b=nf6sLFI0F4Ks2TsMKqw98YD1Nt/ox03zaC6nbBXHVoT8ZN7oMcULJyDTg3c15BqgwXh5EB75nw+0c8reu8ZRXLwe3zvrSvF6X2xh3m6BL5vpf/4wVgaptcbWfn6fPzEOKT2Kk3wSvZEEfNWPiU31wonixtcg7tfBrSzqxIcTjfY=
+	t=1724990933; cv=none; b=CjHGqZXbnh6uY6ltco58wPPzwbpOw0HHTAgsxsTT/Ic1o0TOylOCfCRFYPlAovz9NcflKglvgxmk+Ck0JgXYA/pmE961siwIxJ8Vubl8SNmobuD/uCWl3Y8fR+eMK6ZvnzFxXqCLqNJPOWa6CwDLtKKaHuH7PzVwz89kNH0jFD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724986610; c=relaxed/simple;
-	bh=aQar/z5yi0IpojdwMgkqYFs3xDJDSY9fiPUMmksM4S8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DWTLe/vJAsw8oDGC0p84+xHiI6otIjU3fhLSKeTM1l2cEA8tBjdQ9YHRW7APR0zpGH4LSFYRLS3Umr1JlyGVtq+D77UEstqlAFdarzVRd5DBAt5k9eVxUzWA7QSTR6gy+qlfibfHgObYpJRjf6HdlbWOcoMaOsGgZfsNP+c5jBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnAfWtjg; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1724990933; c=relaxed/simple;
+	bh=b5J0jju0arQRQIUSz6LpBidm6yF4+jKcTJksjervCOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TXoesi1PCZqtOGf/YiZba+9Q51QqYcEW19O4bAsi0mI6XTEE0Xw6Z7ylC+8QhZWCr3/ivzTUVDG7uZhNAcJr/JFDm0oh3tzkJwkLawDJN5ALcDTHQJuI4T+8/8Rgjf2yJ3UaHbKdHj/DY6kK3eUgGAZMTebJylYxOby6PYqjl/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJXnj6oZ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnAfWtjg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJXnj6oZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724986610; x=1756522610;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aQar/z5yi0IpojdwMgkqYFs3xDJDSY9fiPUMmksM4S8=;
-  b=mnAfWtjgs4BbQgdM2Hfn7xO0tkI/ErqcidJiqWVWHzAPNhWHNd/2oB+n
-   xQreHx7njmlkrDo1Q0BH2vYrGq/uB7jl6Mx6prUpQd18TZL8Tz5DBVULA
-   nVQUklgdTzAeFOFq2Qz7oGd09DycceNu4TWBLOv/sVPktXSC1yRmdIJsm
-   dnWZfbDx6tgJ4+sPfO+qH2sHGs1yBR2a1wJM6GT9XYIGZiWv34nPR44d0
-   GGnpdUOBj+4Uc8cRGX7ntCo0kcmBhioMDuueobJNE3PvyESHsOrP7e9lB
-   xYnBaU4hVLHND3ZZ/y51K1crWItNOL1k6UV9PdII3MsZOUgnhf9/W0zFu
-   A==;
-X-CSE-ConnectionGUID: pc6R5lsCSBuzJ5wnRCvb2A==
-X-CSE-MsgGUID: Q8iqq9adRa2o3Wo95S1UJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="27410991"
+  t=1724990931; x=1756526931;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=b5J0jju0arQRQIUSz6LpBidm6yF4+jKcTJksjervCOc=;
+  b=GJXnj6oZ5WOcZDZB2/OhTe6rg30M6vhWNyESBwern/OXSS6Vl21jbSld
+   4ahIBxjXTURqXqKoZxGbKakm9vF2vq7t0M/qKkYaiYHN0XKZCrF2EN+x/
+   AXghfbgjhH0a8vjgjLUX+PCM7t/ncNO9EbPmDetdK7Z1ndLQ3ykX+tVIS
+   Jj0qsloO6x78S8GzBf62+vJDRBMuOGpK1JROwOXHc6GSdFr33DbfiGiJ+
+   7qKHX456fGeLPoSNoOh51CcDvLTUO2i6itB8F8sTt8HWcVjQ/l4QdNMjb
+   OzlyHXgOj8jv8zGtXUrcslrlwlRx97Cl5feidett2nt0jMycezklug/Mk
+   w==;
+X-CSE-ConnectionGUID: tq+Tru85RrO3ah5FTT/2Hg==
+X-CSE-MsgGUID: TbGMpJOkRvqXY51uZgBUgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="13291443"
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="27410991"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 19:56:49 -0700
-X-CSE-ConnectionGUID: Os+YLIpdR12mibT760u3Lw==
-X-CSE-MsgGUID: xeBI/GFKQrWE7cs7NAiYMQ==
+   d="scan'208";a="13291443"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 21:08:51 -0700
+X-CSE-ConnectionGUID: lvEPxzPUSeO+sUVjKI5tCw==
+X-CSE-MsgGUID: 2envdZ6WQbqxwTeSkzpdnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="63957854"
+   d="scan'208";a="63414248"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Aug 2024 19:56:46 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 Aug 2024 21:08:49 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjroa-0000vz-1n;
-	Fri, 30 Aug 2024 02:56:44 +0000
-Date: Fri, 30 Aug 2024 10:55:48 +0800
+	id 1sjswJ-00010q-0m;
+	Fri, 30 Aug 2024 04:08:47 +0000
+Date: Fri, 30 Aug 2024 12:08:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Theodore Dubois <tblodt@icloud.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Theodore Dubois <tblodt@icloud.com>,
-	Ryan Houdek <sonicadvance1@gmail.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	David Hildenbrand <david@redhat.com>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH] prctl: allow prctl_set_mm_exe_file without unmapping old
- exe
-Message-ID: <202408301005.IiGdSjk2-lkp@intel.com>
-References: <20240827215930.24703-1-tblodt@icloud.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gabriel Krisman Bertazi <krisman@suse.de>
+Subject: [axboe-block:io_uring-6.11 22/22] io_uring/rsrc.c:981:30: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202408301221.2XMPTbBw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,73 +62,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827215930.24703-1-tblodt@icloud.com>
 
-Hi Theodore,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kees/for-next/pstore]
-[also build test ERROR on kees/for-next/kspp linus/master v6.11-rc5 next-20240829]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Theodore-Dubois/prctl-allow-prctl_set_mm_exe_file-without-unmapping-old-exe/20240828-060019
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
-patch link:    https://lore.kernel.org/r/20240827215930.24703-1-tblodt%40icloud.com
-patch subject: [PATCH] prctl: allow prctl_set_mm_exe_file without unmapping old exe
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240830/202408301005.IiGdSjk2-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301005.IiGdSjk2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-6.11
+head:   41ce1313454c91878970b46ed7efe849921482c6
+commit: 41ce1313454c91878970b46ed7efe849921482c6 [22/22] io_uring/rsrc: ensure compat iovecs are copied correctly
+config: i386-randconfig-061-20240830 (https://download.01.org/0day-ci/archive/20240830/202408301221.2XMPTbBw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301221.2XMPTbBw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408301005.IiGdSjk2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408301221.2XMPTbBw-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/rsrc.c:981:33: sparse: sparse: cast removes address space '__user' of expression
+>> io_uring/rsrc.c:981:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct iovec const [noderef] __user *uvec @@     got struct iovec *[noderef] __user @@
+   io_uring/rsrc.c:981:30: sparse:     expected struct iovec const [noderef] __user *uvec
+   io_uring/rsrc.c:981:30: sparse:     got struct iovec *[noderef] __user
+   io_uring/rsrc.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/filetable.h:66:35: sparse: sparse: restricted io_req_flags_t degrades to integer
+   io_uring/rsrc.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/filetable.h:66:35: sparse: sparse: restricted io_req_flags_t degrades to integer
 
-   kernel/fork.c: In function 'replace_mm_exe_file':
->> kernel/fork.c:1439:9: error: 'old_exe_file' undeclared (first use in this function); did you mean 'new_exe_file'?
-    1439 |         old_exe_file = rcu_dereference_raw(mm->exe_file);
-         |         ^~~~~~~~~~~~
-         |         new_exe_file
-   kernel/fork.c:1439:9: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/fork.c:1433:13: warning: unused variable 'ret' [-Wunused-variable]
-    1433 |         int ret = 0;
-         |             ^~~
+vim +981 io_uring/rsrc.c
 
-
-vim +1439 kernel/fork.c
-
-3864601387cf41 Jiri Slaby              2011-05-26  1421  
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1422  /**
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1423   * replace_mm_exe_file - replace a reference to the mm's executable file
-ff0712ea71f173 Matthew Wilcox (Oracle  2023-08-24  1424)  * @mm: The mm to change.
-ff0712ea71f173 Matthew Wilcox (Oracle  2023-08-24  1425)  * @new_exe_file: The new file to use.
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1426   *
-a7031f14525751 Mateusz Guzik           2023-08-14  1427   * This changes mm's executable file (shown as symlink /proc/[pid]/exe).
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1428   *
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1429   * Main user is sys_prctl(PR_SET_MM_MAP/EXE_FILE).
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1430   */
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1431  int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1432  {
-35d7bdc86031a2 David Hildenbrand       2021-04-23 @1433  	int ret = 0;
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1434  
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1435  	get_file(new_exe_file);
-fe69d560b5bd9e David Hildenbrand       2021-04-23  1436  
-a7031f14525751 Mateusz Guzik           2023-08-14  1437  	/* set the new file */
-a7031f14525751 Mateusz Guzik           2023-08-14  1438  	mmap_write_lock(mm);
-a7031f14525751 Mateusz Guzik           2023-08-14 @1439  	old_exe_file = rcu_dereference_raw(mm->exe_file);
-a7031f14525751 Mateusz Guzik           2023-08-14  1440  	rcu_assign_pointer(mm->exe_file, new_exe_file);
-a7031f14525751 Mateusz Guzik           2023-08-14  1441  	mmap_write_unlock(mm);
-a7031f14525751 Mateusz Guzik           2023-08-14  1442  
-2a010c41285345 Christian Brauner       2024-05-31  1443  	if (old_exe_file)
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1444  		fput(old_exe_file);
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1445  	return 0;
-35d7bdc86031a2 David Hildenbrand       2021-04-23  1446  }
-3864601387cf41 Jiri Slaby              2011-05-26  1447  
+   951	
+   952	int io_sqe_buffers_register(struct io_ring_ctx *ctx, void __user *arg,
+   953				    unsigned int nr_args, u64 __user *tags)
+   954	{
+   955		struct page *last_hpage = NULL;
+   956		struct io_rsrc_data *data;
+   957		struct iovec fast_iov, *iov = &fast_iov;
+   958		const struct iovec __user *uvec;
+   959		int i, ret;
+   960	
+   961		BUILD_BUG_ON(IORING_MAX_REG_BUFFERS >= (1u << 16));
+   962	
+   963		if (ctx->user_bufs)
+   964			return -EBUSY;
+   965		if (!nr_args || nr_args > IORING_MAX_REG_BUFFERS)
+   966			return -EINVAL;
+   967		ret = io_rsrc_data_alloc(ctx, IORING_RSRC_BUFFER, tags, nr_args, &data);
+   968		if (ret)
+   969			return ret;
+   970		ret = io_buffers_map_alloc(ctx, nr_args);
+   971		if (ret) {
+   972			io_rsrc_data_free(data);
+   973			return ret;
+   974		}
+   975	
+   976		if (!arg)
+   977			memset(iov, 0, sizeof(*iov));
+   978	
+   979		for (i = 0; i < nr_args; i++, ctx->nr_user_bufs++) {
+   980			if (arg) {
+ > 981				uvec = (struct iovec * __user) arg;
+   982				iov = iovec_from_user(uvec, 1, 1, &fast_iov, ctx->compat);
+   983				if (IS_ERR(iov)) {
+   984					ret = PTR_ERR(iov);
+   985					break;
+   986				}
+   987				ret = io_buffer_validate(iov);
+   988				if (ret)
+   989					break;
+   990				if (ctx->compat)
+   991					arg += sizeof(struct compat_iovec);
+   992				else
+   993					arg += sizeof(struct iovec);
+   994			}
+   995	
+   996			if (!iov->iov_base && *io_get_tag_slot(data, i)) {
+   997				ret = -EINVAL;
+   998				break;
+   999			}
+  1000	
+  1001			ret = io_sqe_buffer_register(ctx, iov, &ctx->user_bufs[i],
+  1002						     &last_hpage);
+  1003			if (ret)
+  1004				break;
+  1005		}
+  1006	
+  1007		WARN_ON_ONCE(ctx->buf_data);
+  1008	
+  1009		ctx->buf_data = data;
+  1010		if (ret)
+  1011			__io_sqe_buffers_unregister(ctx);
+  1012		return ret;
+  1013	}
+  1014	
 
 -- 
 0-DAY CI Kernel Test Service
