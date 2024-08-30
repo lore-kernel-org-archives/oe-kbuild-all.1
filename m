@@ -1,64 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5CB1B3B13
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 16:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA7C148828;
+	Fri, 30 Aug 2024 16:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725034701; cv=none; b=OtYJkscdPlHLrpryRuorcA/a886q7mk8JafULd6ksBJuPmLIkKY6TwOIs2Cu2uc4XwYjIAl52ELyewveb59TqiIxtXViBIIXDcZ6AWzLBVkKlL7JO/1qJRpkIDUck+BNvn+k5cWOnC4+TOptw216QaxmlQInT8xImS8ALsPuCxQ=
+	t=1725034704; cv=none; b=UvdybP7RFGy1zXy3BqhuKGG1AbvQkqac/JhoBgMQ6jHY4Yaq5XbfmvEGzwNK9kkWmirtppnI7tNuzdXLgDUR97xfm6Px8ibazYX/gXJIwPMFFfpkPUjJW/83wzKrloTziFmC7ylxaMmpPpVBueAi+CU5mN6w2KKI7eatacaUpBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725034701; c=relaxed/simple;
-	bh=ST63oNtWEeahws4ZxuLG9rvw0D9cMNAgPwp86IE+CKc=;
+	s=arc-20240116; t=1725034704; c=relaxed/simple;
+	bh=DO78Muknig9uLuHIr6AaX8YDe6MmUYrrNJiE1yiyh+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WS5jAqnI9vqXW5OhR6bQtMuyurNVz8mCzdy1MLiWtFY8LkpizI1wZ76wLA2G0jY/5PAMP0t6XQZhP1e1GV9Y5ZGWHQT+eQBzlp2veaAtYn89sps8pe30Y5uuTsEXUfLBGunvST11MA3KZFFY5o8YcdvCk2qHAewV22YjU6nA3FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0uGNjvE; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qg6YaWZgAGP1eKOHUuuv6ZLadAFUdh3J2RCBW4658taPZSTcMdHNxxqzUO69C7yv7gUrq6edFgDFRqsY54KxN6utc4IN/leEPN2ZSDDpsQs9xDbiu0ObkZJn+PNe7LFcnwBsvyKaVbNZkqwjZdLtGWGax7rGKwzZmiUdcg7tXQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1H9mzd+; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0uGNjvE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1H9mzd+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725034700; x=1756570700;
+  t=1725034701; x=1756570701;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ST63oNtWEeahws4ZxuLG9rvw0D9cMNAgPwp86IE+CKc=;
-  b=b0uGNjvEpUToWRf713PJUvT6QX+wQHr8UEMxnwKKGFHpdDLTrLHGTrMs
-   LsJy1ZCPxUismTJi05eGwyMTo+HNCNS3UpIi0+P8oWRbxgzpydvZYZQLz
-   gcEjSYrgB6iu0yytng0pCEsO1t4HdLbjlgyKrBnm2kyd58LOdybGFvQlg
-   CNdmG/WOtYLduv3lLZmfROKNfD9eU283NzNlN+7BZiVZx/yuwgFalyjsh
-   UINvpSKGqLrTGlOZPFRGx69V0mOz1CJV1XdDTiTHsfdGu8pF7C9po5qd2
-   trM7h5vLIBQH87wh+UQ4h2FTE+ylapbXmsj4KV1WnRWsXwwmd9ffla4Xs
-   g==;
-X-CSE-ConnectionGUID: yWn/+Z6GSf+QIrQYtiptow==
-X-CSE-MsgGUID: 2S9Fh3/wRFO1RzzhMz/nLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23838213"
+  bh=DO78Muknig9uLuHIr6AaX8YDe6MmUYrrNJiE1yiyh+w=;
+  b=O1H9mzd+Hwlz5gwZ46xdCxwaQMD8UsGj+oBU7oIWyoRManAJJUd/6Keo
+   /d9KUE6kB91ilWpMPU/Dm6f4QrMT5wifQq5T4MvQTl1z8yD/0sZhsGBBW
+   8eAHeKGV9g700DR6C7T3EEGzwT05mNBjqih5BvppueaQZiyR0O41EMoz6
+   Jvvtpi+2yjxOLFqUk7BJqs3OMDZEUAD+kVPrR91OJusSE6AapOU2IetnI
+   9fBX6al5QxfKx0s3ZmFwWcgiCDSxocgHdKa2gxyneBy2VJbXE3l0kHcAM
+   zcqao9iS0G7rO1qQimNqgUv+KnSQ6pmvfi5kQIsfd9LMDqmbQje87fk7l
+   Q==;
+X-CSE-ConnectionGUID: O1pcNTzBTAqagS0GLCCQOA==
+X-CSE-MsgGUID: 84+7zuhlR1++s8HYzuXurw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23201125"
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="23838213"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 09:18:20 -0700
-X-CSE-ConnectionGUID: 0fd0LFhmQR6AJjg59QDGAw==
-X-CSE-MsgGUID: 7HgnHx48TEy6IrrwdgYPpA==
+   d="scan'208";a="23201125"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 09:18:20 -0700
+X-CSE-ConnectionGUID: ZmpClZ4hQiSdhPeamVJM7Q==
+X-CSE-MsgGUID: nUiw9z3xSnu9BstrvjHnZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="64445691"
+   d="scan'208";a="64134769"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Aug 2024 09:18:17 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 Aug 2024 09:18:17 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk4KF-0001dO-0D;
+	id 1sk4KF-0001dS-0L;
 	Fri, 30 Aug 2024 16:18:15 +0000
-Date: Sat, 31 Aug 2024 00:18:10 +0800
+Date: Sat, 31 Aug 2024 00:18:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Willem de Bruijn <willemb@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 1/2] net_tstamp: add SCM_TS_OPT_ID to provide
- OPT_ID in control message
-Message-ID: <202408310023.xSozGTYj-lkp@intel.com>
-References: <20240829204922.1674865-1-vadfed@meta.com>
+To: Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Theodore Ts'o <tytso@mit.edu>, linux-kernel@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-arch@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] aarch64: vdso: Wire up getrandom() vDSO implementation
+Message-ID: <202408310030.S5ZNwLWz-lkp@intel.com>
+References: <20240829201728.2825-1-adhemerval.zanella@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,96 +70,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829204922.1674865-1-vadfed@meta.com>
+In-Reply-To: <20240829201728.2825-1-adhemerval.zanella@linaro.org>
 
-Hi Vadim,
+Hi Adhemerval,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on crng-random/master]
+[also build test ERROR on next-20240830]
+[cannot apply to arm64/for-next/core shuah-kselftest/next shuah-kselftest/fixes linus/master v6.11-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/selftests-txtimestamp-add-SCM_TS_OPT_ID-test/20240830-045630
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240829204922.1674865-1-vadfed%40meta.com
-patch subject: [PATCH net-next 1/2] net_tstamp: add SCM_TS_OPT_ID to provide OPT_ID in control message
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240831/202408310023.xSozGTYj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310023.xSozGTYj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Adhemerval-Zanella/aarch64-vdso-Wire-up-getrandom-vDSO-implementation/20240830-041912
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git master
+patch link:    https://lore.kernel.org/r/20240829201728.2825-1-adhemerval.zanella%40linaro.org
+patch subject: [PATCH v2] aarch64: vdso: Wire up getrandom() vDSO implementation
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240831/202408310030.S5ZNwLWz-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 46fe36a4295f05d5d3731762e31fc4e6e99863e9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310030.S5ZNwLWz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310023.xSozGTYj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408310030.S5ZNwLWz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/sock.c: In function '__sock_cmsg_send':
->> net/core/sock.c:2862:14: error: 'SCM_TS_OPT_ID' undeclared (first use in this function); did you mean 'IPCORK_TS_OPT_ID'?
-    2862 |         case SCM_TS_OPT_ID:
-         |              ^~~~~~~~~~~~~
-         |              IPCORK_TS_OPT_ID
-   net/core/sock.c:2862:14: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:39:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
+   In file included from <built-in>:4:
+   In file included from lib/vdso/getrandom.c:8:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from <built-in>:4:
+   In file included from lib/vdso/getrandom.c:12:
+   In file included from arch/arm64/include/asm/vdso/getrandom.h:8:
+>> arch/arm64/include/asm/vdso.h:25:10: fatal error: 'generated/vdso-offsets.h' file not found
+      25 | #include <generated/vdso-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings and 1 error generated.
+   make[3]: *** [scripts/Makefile.build:244: arch/arm64/kernel/vdso/vgetrandom.o] Error 1
+   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[3]: Target 'arch/arm64/kernel/vdso/vdso.so' not remade because of errors.
+   make[2]: *** [arch/arm64/Makefile:217: vdso_prepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +2862 net/core/sock.c
+vim +25 arch/arm64/include/asm/vdso.h
 
-  2828	
-  2829	int __sock_cmsg_send(struct sock *sk, struct cmsghdr *cmsg,
-  2830			     struct sockcm_cookie *sockc)
-  2831	{
-  2832		u32 tsflags;
-  2833	
-  2834		switch (cmsg->cmsg_type) {
-  2835		case SO_MARK:
-  2836			if (!ns_capable(sock_net(sk)->user_ns, CAP_NET_RAW) &&
-  2837			    !ns_capable(sock_net(sk)->user_ns, CAP_NET_ADMIN))
-  2838				return -EPERM;
-  2839			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2840				return -EINVAL;
-  2841			sockc->mark = *(u32 *)CMSG_DATA(cmsg);
-  2842			break;
-  2843		case SO_TIMESTAMPING_OLD:
-  2844		case SO_TIMESTAMPING_NEW:
-  2845			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2846				return -EINVAL;
-  2847	
-  2848			tsflags = *(u32 *)CMSG_DATA(cmsg);
-  2849			if (tsflags & ~SOF_TIMESTAMPING_TX_RECORD_MASK)
-  2850				return -EINVAL;
-  2851	
-  2852			sockc->tsflags &= ~SOF_TIMESTAMPING_TX_RECORD_MASK;
-  2853			sockc->tsflags |= tsflags;
-  2854			break;
-  2855		case SCM_TXTIME:
-  2856			if (!sock_flag(sk, SOCK_TXTIME))
-  2857				return -EINVAL;
-  2858			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u64)))
-  2859				return -EINVAL;
-  2860			sockc->transmit_time = get_unaligned((u64 *)CMSG_DATA(cmsg));
-  2861			break;
-> 2862		case SCM_TS_OPT_ID:
-  2863			/* allow this option for UDP sockets only */
-  2864			if (!sk_is_udp(sk))
-  2865				return -EINVAL;
-  2866			tsflags = READ_ONCE(sk->sk_tsflags);
-  2867			if (!(tsflags & SOF_TIMESTAMPING_OPT_ID))
-  2868				return -EINVAL;
-  2869			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2870				return -EINVAL;
-  2871			sockc->ts_opt_id = *(u32 *)CMSG_DATA(cmsg);
-  2872			sockc->tsflags |= SOF_TIMESTAMPING_OPT_ID_CMSG;
-  2873			break;
-  2874		/* SCM_RIGHTS and SCM_CREDENTIALS are semantically in SOL_UNIX. */
-  2875		case SCM_RIGHTS:
-  2876		case SCM_CREDENTIALS:
-  2877			break;
-  2878		default:
-  2879			return -EINVAL;
-  2880		}
-  2881		return 0;
-  2882	}
-  2883	EXPORT_SYMBOL(__sock_cmsg_send);
-  2884	
+0a7927d2b89e55 Adhemerval Zanella 2024-08-29  24  
+9031fefde6f2ac Will Deacon        2012-03-05 @25  #include <generated/vdso-offsets.h>
+9031fefde6f2ac Will Deacon        2012-03-05  26  
 
 -- 
 0-DAY CI Kernel Test Service
