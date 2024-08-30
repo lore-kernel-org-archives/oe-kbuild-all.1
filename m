@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E21571750
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 04:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3B314AD38
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 04:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724991593; cv=none; b=KYz7mti4LzmNuS78G/0lhMUYdH2cm4HFnwthmTkPKEq0VtQFA6J+tgR9hGM0pwvP2aEewin4k+pZcR5niQ3FOg9hhPFbFP8TbZDL5hi+PTY/2iB2l53jzqxVKz5pMcjC6NtOjfm9U/yuXICjGNCs31VgJupypj4NRD8tGlmxtI0=
+	t=1724992195; cv=none; b=LQvRuxiNGYjSqd10khAGURthFa/itV+1G13/aLf1r4Q7dbNwj3Q497Cq6Kli+smvpFJDBYG2eRTjBah3nmPjxgQ8+YcG67mv8PnwvXTI5DNFuZ734voArLkHwOFIV166sSA5ai+CW7P294yV32fW+rlTsKtsTYtm7CUIN13YhHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724991593; c=relaxed/simple;
-	bh=IRjEHiV/VXzrzeWTwk74CO6KPhW90RjCbn9FpQpNkoo=;
+	s=arc-20240116; t=1724992195; c=relaxed/simple;
+	bh=HZiRI6SyEMeBbNVgqAOgHy9+liT5napyh25Lh2UQpuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qdErlaKa4hfxvM8XjMf7ZkmbnCFxcyu71uQu57ue0KocUOZrX4y75FhnAyaIA6I3aIxBkMtj23lxyDAXe1yndiqspcYopkLIMtlQnbzm1jGOO/MDvbTX0tiFNLXUj0raRx7equTOybiw5fgbjlnD2pV+W6XlbSIRrZmf2GAQa8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CoUJ4afL; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=BuTjeiBnuzUAzk2iHYj5w0DdVnwNBGX4OFcMGdhtiwtJxDKSCuT0xm7hiMl0aTzgmNLjaqgtmz2Kdonz45Ph8L81aeO8DG6UzzJc13Pk1Y855ah5dQjUvIolz3MKMu4DvtbacRb0pdaSFLZh03yUtd+g1srvoGmFpHJpSzESSAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nU8df6m8; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoUJ4afL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nU8df6m8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724991592; x=1756527592;
+  t=1724992195; x=1756528195;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IRjEHiV/VXzrzeWTwk74CO6KPhW90RjCbn9FpQpNkoo=;
-  b=CoUJ4afL4DGCa8YZLYuANvjtOtA3Qf6LSLgEi21qd24uyfoxqCSaUz0m
-   il1Xk20Eu1f/6rX41NLX+c4iplB2rh2l07B8Bg4ClUCI9u3ewzMgsPa50
-   pEpjU7d2A2y1TBzQiF3PbO2R8CuK52WjomR0Kk41H4IJ24ujYijW7r4ak
-   5egg+3eKoLsQeh5G94XrF/Yc5YNxQMeRsy1BYI1uwjGuDQzXlVlYaIkYg
-   tzvBhCm9FlI3r6T2d/pbVQbeX2QaWndLN51/Wzm63cKV27vgZkGh57Yc4
-   fuig0FsK3Ss4zRj1AVjGXjP0YcAOhcCcFsOvjUwzrUt6lQsahIlZo9KSj
-   g==;
-X-CSE-ConnectionGUID: nUYs4qTcQ/utus9VA1Eonw==
-X-CSE-MsgGUID: 7wn/qlbpQOywYu8wTPIV8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="35026567"
+  bh=HZiRI6SyEMeBbNVgqAOgHy9+liT5napyh25Lh2UQpuQ=;
+  b=nU8df6m8IA52NJ+DpzX2lvRNUW/hewlFoKQxEcHaK8mepxHQawcq0i47
+   tN1x0pLiULgsHVSKd33pxRpmMqDHufyfXcxRMSx3XizIegrMvucIGtj/5
+   AVIy6Tt4I3xlVlo5D6lRfOhPkY9lkfjEX1+yaO6fTxfzU9ZLlrU1Js/Z4
+   raWTVIrZUfSqJEAdHJ3V/sRYw1ONADT9lfQFRhWkz7kkUrlgcRSL6Yedn
+   9FAOgurRvk96yY0suJkgPFetUKZIXakiUxmDGAXfhpRGHuIWKWQB5lKtI
+   l5iZa8PsvEqaviewH5D4yHImGIaMWnJULVw7UsGFjg5mR6yT4ct6Mror6
+   w==;
+X-CSE-ConnectionGUID: l7WwxX/+SSqybCfxgFH5KA==
+X-CSE-MsgGUID: z5i1IICoRtWqNiF/YsCWXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="41099523"
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="35026567"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 21:19:52 -0700
-X-CSE-ConnectionGUID: UXfccF5ARdGCUDb/zR/vlw==
-X-CSE-MsgGUID: se+YXUx3Qd+mXhBh2+kGIQ==
+   d="scan'208";a="41099523"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 21:29:54 -0700
+X-CSE-ConnectionGUID: 0laKQN+VQIeeiDqRL217WQ==
+X-CSE-MsgGUID: CVsqXqEjQfGXvViuoMlA8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="63974422"
+   d="scan'208";a="68180056"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Aug 2024 21:19:50 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 29 Aug 2024 21:29:52 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjt6y-000120-1G;
-	Fri, 30 Aug 2024 04:19:48 +0000
-Date: Fri, 30 Aug 2024 12:18:49 +0800
+	id 1sjtGg-00014P-0F;
+	Fri, 30 Aug 2024 04:29:50 +0000
+Date: Fri, 30 Aug 2024 12:29:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, wu.zheng@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 5521/23944]
- drivers/bytedance/blackholefs/file.c:28:15: warning: variable 'fname' set
- but not used
-Message-ID: <202408301228.Wi06EmX1-lkp@intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Joerg Roedel <jroedel@suse.de>, Kevin Tian <kevin.tian@intel.com>,
+	Steve Wahl <steve.wahl@hpe.com>
+Subject: drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing
+ between 1 and 10 bytes into a region of size 9
+Message-ID: <202408301254.q8hKTUzC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +64,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   114077d3641f55e0727e810a4f1277a658f703b7
-commit: 658231c84c81b024c130b724cf9f12e5b018528d [5521/23944] bytedance: driver: blackholefs: Add blackholefs driver
-config: x86_64-bytedance-5.15-velinux (https://download.01.org/0day-ci/archive/20240830/202408301228.Wi06EmX1-lkp@intel.com/config)
+Hi Lu,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   20371ba120635d9ab7fc7670497105af8f33eb08
+commit: 913432f217c843a69ff9d11a6474a7982033087b iommu/vt-d: Use IDA interface to manage iommu sequence id
+date:   2 years, 2 months ago
+config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20240830/202408301254.q8hKTUzC-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301228.Wi06EmX1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301254.q8hKTUzC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408301228.Wi06EmX1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408301254.q8hKTUzC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/bytedance/blackholefs/file.c: In function 'blackholefs_read':
->> drivers/bytedance/blackholefs/file.c:28:15: warning: variable 'fname' set but not used [-Wunused-but-set-variable]
-      28 |         char *fname = "UNKNOWN";
-         |               ^~~~~
-   drivers/bytedance/blackholefs/file.c: In function 'blackholefs_write':
-   drivers/bytedance/blackholefs/file.c:62:15: warning: variable 'fname' set but not used [-Wunused-but-set-variable]
-      62 |         char *fname = "UNKNOWN";
-         |               ^~~~~
+   drivers/iommu/intel/dmar.c: In function 'dmar_parse_one_drhd':
+>> drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
+    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
+         |                                   ^~
+   In function 'alloc_iommu',
+       inlined from 'dmar_parse_one_drhd' at drivers/iommu/intel/dmar.c:439:8:
+   drivers/iommu/intel/dmar.c:1050:30: note: directive argument in the range [0, 2147483647]
+    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
+         |                              ^~~~~~~~
+   drivers/iommu/intel/dmar.c:1050:9: note: 'sprintf' output between 6 and 15 bytes into a destination of size 13
+    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/fname +28 drivers/bytedance/blackholefs/file.c
+vim +1050 drivers/iommu/intel/dmar.c
 
-    23	
-    24	ssize_t blackholefs_read(struct file *f, char __user *ubuf, size_t s,
-    25				loff_t *off)
-    26	{
-    27		loff_t read_size;
-  > 28		char *fname = "UNKNOWN";
-    29	
-    30		TRACE();
-    31		if (!f->f_inode) {
-    32			ERROR();
-    33			return 0;
-    34		}
-    35	
-    36		if (f->f_path.dentry && f->f_path.dentry->d_name.name)
-    37			fname = (char*)f->f_path.dentry->d_name.name;
-    38	
-    39		if (*off >= f->f_inode->i_size)
-    40			return 0;
-    41	
-    42		DEBUG("[READ][%s] : f->f_pos = %lld, off = %lld, size = %ld, inode->i_size = %lld\n",
-    43				fname, f->f_pos, *off, s, f->f_inode->i_size);
-    44	
-    45		if ((*off + s ) >= f->f_inode->i_size)
-    46			read_size = f->f_inode->i_size - *off;
-    47		else
-    48			read_size = s;
-    49	
-    50		*off += read_size;
-    51		if(clear_user(ubuf, s)) {
-    52			ERROR();
-    53		}
-    54	
-    55		return read_size;
-    56	}
-    57	
+  1025	
+  1026	static int alloc_iommu(struct dmar_drhd_unit *drhd)
+  1027	{
+  1028		struct intel_iommu *iommu;
+  1029		u32 ver, sts;
+  1030		int agaw = -1;
+  1031		int msagaw = -1;
+  1032		int err;
+  1033	
+  1034		if (!drhd->reg_base_addr) {
+  1035			warn_invalid_dmar(0, "");
+  1036			return -EINVAL;
+  1037		}
+  1038	
+  1039		iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
+  1040		if (!iommu)
+  1041			return -ENOMEM;
+  1042	
+  1043		iommu->seq_id = ida_alloc_range(&dmar_seq_ids, 0,
+  1044						DMAR_UNITS_SUPPORTED - 1, GFP_KERNEL);
+  1045		if (iommu->seq_id < 0) {
+  1046			pr_err("Failed to allocate seq_id\n");
+  1047			err = iommu->seq_id;
+  1048			goto error;
+  1049		}
+> 1050		sprintf(iommu->name, "dmar%d", iommu->seq_id);
+  1051	
+  1052		err = map_iommu(iommu, drhd->reg_base_addr);
+  1053		if (err) {
+  1054			pr_err("Failed to map %s\n", iommu->name);
+  1055			goto error_free_seq_id;
+  1056		}
+  1057	
+  1058		err = -EINVAL;
+  1059		if (cap_sagaw(iommu->cap) == 0) {
+  1060			pr_info("%s: No supported address widths. Not attempting DMA translation.\n",
+  1061				iommu->name);
+  1062			drhd->ignored = 1;
+  1063		}
+  1064	
+  1065		if (!drhd->ignored) {
+  1066			agaw = iommu_calculate_agaw(iommu);
+  1067			if (agaw < 0) {
+  1068				pr_err("Cannot get a valid agaw for iommu (seq_id = %d)\n",
+  1069				       iommu->seq_id);
+  1070				drhd->ignored = 1;
+  1071			}
+  1072		}
+  1073		if (!drhd->ignored) {
+  1074			msagaw = iommu_calculate_max_sagaw(iommu);
+  1075			if (msagaw < 0) {
+  1076				pr_err("Cannot get a valid max agaw for iommu (seq_id = %d)\n",
+  1077				       iommu->seq_id);
+  1078				drhd->ignored = 1;
+  1079				agaw = -1;
+  1080			}
+  1081		}
+  1082		iommu->agaw = agaw;
+  1083		iommu->msagaw = msagaw;
+  1084		iommu->segment = drhd->segment;
+  1085	
+  1086		iommu->node = NUMA_NO_NODE;
+  1087	
+  1088		ver = readl(iommu->reg + DMAR_VER_REG);
+  1089		pr_info("%s: reg_base_addr %llx ver %d:%d cap %llx ecap %llx\n",
+  1090			iommu->name,
+  1091			(unsigned long long)drhd->reg_base_addr,
+  1092			DMAR_VER_MAJOR(ver), DMAR_VER_MINOR(ver),
+  1093			(unsigned long long)iommu->cap,
+  1094			(unsigned long long)iommu->ecap);
+  1095	
+  1096		/* Reflect status in gcmd */
+  1097		sts = readl(iommu->reg + DMAR_GSTS_REG);
+  1098		if (sts & DMA_GSTS_IRES)
+  1099			iommu->gcmd |= DMA_GCMD_IRE;
+  1100		if (sts & DMA_GSTS_TES)
+  1101			iommu->gcmd |= DMA_GCMD_TE;
+  1102		if (sts & DMA_GSTS_QIES)
+  1103			iommu->gcmd |= DMA_GCMD_QIE;
+  1104	
+  1105		raw_spin_lock_init(&iommu->register_lock);
+  1106	
+  1107		/*
+  1108		 * This is only for hotplug; at boot time intel_iommu_enabled won't
+  1109		 * be set yet. When intel_iommu_init() runs, it registers the units
+  1110		 * present at boot time, then sets intel_iommu_enabled.
+  1111		 */
+  1112		if (intel_iommu_enabled && !drhd->ignored) {
+  1113			err = iommu_device_sysfs_add(&iommu->iommu, NULL,
+  1114						     intel_iommu_groups,
+  1115						     "%s", iommu->name);
+  1116			if (err)
+  1117				goto err_unmap;
+  1118	
+  1119			err = iommu_device_register(&iommu->iommu, &intel_iommu_ops, NULL);
+  1120			if (err)
+  1121				goto err_sysfs;
+  1122		}
+  1123	
+  1124		drhd->iommu = iommu;
+  1125		iommu->drhd = drhd;
+  1126	
+  1127		return 0;
+  1128	
+  1129	err_sysfs:
+  1130		iommu_device_sysfs_remove(&iommu->iommu);
+  1131	err_unmap:
+  1132		unmap_iommu(iommu);
+  1133	error_free_seq_id:
+  1134		ida_free(&dmar_seq_ids, iommu->seq_id);
+  1135	error:
+  1136		kfree(iommu);
+  1137		return err;
+  1138	}
+  1139	
 
 -- 
 0-DAY CI Kernel Test Service
