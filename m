@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3257818C001;
-	Fri, 30 Aug 2024 13:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98681AF4DA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 13:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725024794; cv=none; b=gNE+zq5QSn6mSL0eaSBJHrGVleMfqqVEhdkRSmERSD8GbAErGR4Hq4igT6iXqBeKAUlEgJPhkBxi9mAXUJ++0RyaK9Z6YQZswpP24glrbQi31NKsj552TBds25yJtPJyK9ZszrPX9L46+Bxm3Snvpm0/5oPk+NK9Kj8zXyUecxM=
+	t=1725025994; cv=none; b=atbqNDAk2CSBRGR+slyzdZvZ4XCC7fixh4eq1m/j1Be0G6ZdHMlmgC+zC4aTBsn2YWU0ZbFa1EV1lMsVegx3ABb0+20Msz6rJoe8tNo//PfHHrN0qKcVsNV2LoWeTBl3a98ygRgoLRZpRuY8sdKqeLBXs8ew2BBm8Se9XNwyQt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725024794; c=relaxed/simple;
-	bh=19ejD/e3OSsdC132ZJv9HbROxKBTDgAdLb4mAcHnXEE=;
+	s=arc-20240116; t=1725025994; c=relaxed/simple;
+	bh=1oUaswg+R8iG+WjLxCH8ZGJv1FtLEoU3wQI7+4G6kcM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jsjPaSQOODWTxUtB9YvN7h0VYupxkVZIywsB1yo+v3YIa+gBH29YKTsQkUKTPqTh/ibYXZJx4FGT5CDequky9YDtmhvzkeQkQqTtvQOXsm8BDmvH9lN77zMOLeFTNRXbSxtR2LwdMtu7s8mw45ZR/B3y4e/Qmr/dlHL+bjql2vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpExSolL; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJKpWAeBhcoc5NAbD1Zm2yhaPLx3SUiECIBPu94E6L52egWu2tZCrDD2IR9CrS3P0O514nMf2lerUFPtkl99Bgiszt+RB2UaXEjYmxTLjakBVsgjTqC0LcyWQZf4CIEKrY0gqACRPzrsIX8dUVEfcldOPFoWoSuHU63RuDoM6Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hoUhychW; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpExSolL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hoUhychW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725024792; x=1756560792;
+  t=1725025994; x=1756561994;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=19ejD/e3OSsdC132ZJv9HbROxKBTDgAdLb4mAcHnXEE=;
-  b=DpExSolLkOm4gvRH4FG2nIJZnJOOCO7V9fo5PnQkX+ydP6rJ72ZIBFHp
-   uH8r/EHoNh5ui+a8tcLRtkytRJDCwlm5qgztbgCgmY9A/nbdhxjXi5f5j
-   WW4Tta0YJ3lXcBW6iJQxYOdpE9NWPaEP1LtpXshVQ4YfHCXll6a4tEYhi
-   lFrnIBVgWw+hNAckLc4PJW7IjIUAYuD1LDeEU3Hb/wt7t/YerFBrLVG3x
-   /ux0fkEfDim+chhtkyvqtGt/jFnZ86GbeKbQLrmSDmM25EUJM/AbxmGYp
-   MKlvXWrUcZL/WQ9vTopPedr5LJ72Ot5FIKbqgE7nHJaQyHcXLCQTPel5j
+  bh=1oUaswg+R8iG+WjLxCH8ZGJv1FtLEoU3wQI7+4G6kcM=;
+  b=hoUhychWMkxbUbFAZxBZ0ryeZ+MVGrzBT5eN7n72dtF+ZHgt/dsoyN/6
+   yElToieDEJwM3m56oQmGr7hCyST0zJD0/2hTDIo8BjHx9b2O5m0x/vog/
+   onVTld7rvq1akKmvj/SDW7pUQOPt7Wvo2Cmwv8MtB0ECq6EXQZGULwGo3
+   0RbPZ7aJmTes6F+KRnulWf+QWwJvgCDsEkC2EZ/fuJ8zZv5hnJNzpl+G7
+   usKjiJW3Tb9fo/2GN+PFVM77X5H83dSXlRDQ3uRjIUQ5txSiOtpJdTJRq
+   wCL/Uaze5x6Tcp4VV/kgU1/Iq+Mqd4YjuT0EacW9kZdULd07bsUX2MrKO
    w==;
-X-CSE-ConnectionGUID: +VWT1+zuSc+z+ZwyLFvsyg==
-X-CSE-MsgGUID: BcSAn8NoRlGO+uQaaSFkRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23793500"
+X-CSE-ConnectionGUID: F5/K6KgrQcW00Mp/rQkTmA==
+X-CSE-MsgGUID: 9HF3aE3yS5y9SvKTJa1tGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34238019"
 X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="23793500"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 06:33:12 -0700
-X-CSE-ConnectionGUID: OzVNlHknTgaTlp0PoarvJA==
-X-CSE-MsgGUID: pY3Wi2MIR8eNLg7Z+PTf9g==
+   d="scan'208";a="34238019"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 06:53:13 -0700
+X-CSE-ConnectionGUID: 1zl4l9iHR3WPXK21eHv87g==
+X-CSE-MsgGUID: Regz6k+dQlyUnw94RonRTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="64649808"
+   d="scan'208";a="94641000"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Aug 2024 06:33:10 -0700
+  by orviesa002.jf.intel.com with ESMTP; 30 Aug 2024 06:53:12 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk1kS-0001VC-13;
-	Fri, 30 Aug 2024 13:33:08 +0000
-Date: Fri, 30 Aug 2024 21:32:14 +0800
+	id 1sk23o-0001Vy-2j;
+	Fri, 30 Aug 2024 13:53:08 +0000
+Date: Fri, 30 Aug 2024 21:53:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v2 2/2] Bluetooth: MGMT: Ignore keys being loaded with
  invalid type
-Message-ID: <202408302140.1IwYywEV-lkp@intel.com>
+Message-ID: <202408302106.kBcgzIZ5-lkp@intel.com>
 References: <20240828181051.876598-2-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,137 +79,51 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bl
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
 patch link:    https://lore.kernel.org/r/20240828181051.876598-2-luiz.dentz%40gmail.com
 patch subject: [PATCH v2 2/2] Bluetooth: MGMT: Ignore keys being loaded with invalid type
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240830/202408302140.1IwYywEV-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302140.1IwYywEV-lkp@intel.com/reproduce)
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240830/202408302106.kBcgzIZ5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302106.kBcgzIZ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408302140.1IwYywEV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408302106.kBcgzIZ5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/bluetooth/mgmt.c:2860:9: warning: format specifies type 'unsigned int' but the argument has type '__u8 *' (aka 'unsigned char *') [-Wformat]
-    2859 |                                     "Invalid link address type %u for %pMR",
-         |                                                                ~~
-         |                                                                %s
-    2860 |                                     &key->addr.type);
-         |                                     ^~~~~~~~~~~~~~~
-   include/net/bluetooth/bluetooth.h:276:43: note: expanded from macro 'bt_dev_warn'
+   In file included from net/bluetooth/mgmt.c:30:
+   net/bluetooth/mgmt.c: In function 'load_link_keys':
+>> include/net/bluetooth/bluetooth.h:276:17: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type '__u8 *' {aka 'unsigned char *'} [-Wformat=]
      276 |         BT_WARN("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
-         |                        ~~~                       ^~~~~~~~~~~
-   include/net/bluetooth/bluetooth.h:262:47: note: expanded from macro 'BT_WARN'
-     262 | #define BT_WARN(fmt, ...)       bt_warn(fmt "\n", ##__VA_ARGS__)
-         |                                         ~~~         ^~~~~~~~~~~
->> net/bluetooth/mgmt.c:2859:44: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-    2859 |                                     "Invalid link address type %u for %pMR",
-         |                                                                       ~^
-   include/net/bluetooth/bluetooth.h:276:17: note: expanded from macro 'bt_dev_warn'
-     276 |         BT_WARN("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
-         |                        ^~~
-   include/net/bluetooth/bluetooth.h:262:35: note: expanded from macro 'BT_WARN'
+         |                 ^~~~~~
+   include/net/bluetooth/bluetooth.h:262:41: note: in definition of macro 'BT_WARN'
      262 | #define BT_WARN(fmt, ...)       bt_warn(fmt "\n", ##__VA_ARGS__)
          |                                         ^~~
-   2 warnings generated.
+   net/bluetooth/mgmt.c:2858:25: note: in expansion of macro 'bt_dev_warn'
+    2858 |                         bt_dev_warn(hdev,
+         |                         ^~~~~~~~~~~
+>> include/net/bluetooth/bluetooth.h:276:17: warning: format '%p' expects a matching 'void *' argument [-Wformat=]
+     276 |         BT_WARN("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
+         |                 ^~~~~~
+   include/net/bluetooth/bluetooth.h:262:41: note: in definition of macro 'BT_WARN'
+     262 | #define BT_WARN(fmt, ...)       bt_warn(fmt "\n", ##__VA_ARGS__)
+         |                                         ^~~
+   net/bluetooth/mgmt.c:2858:25: note: in expansion of macro 'bt_dev_warn'
+    2858 |                         bt_dev_warn(hdev,
+         |                         ^~~~~~~~~~~
 
 
-vim +2860 net/bluetooth/mgmt.c
+vim +276 include/net/bluetooth/bluetooth.h
 
-  2793	
-  2794	static int load_link_keys(struct sock *sk, struct hci_dev *hdev, void *data,
-  2795				  u16 len)
-  2796	{
-  2797		struct mgmt_cp_load_link_keys *cp = data;
-  2798		const u16 max_key_count = ((U16_MAX - sizeof(*cp)) /
-  2799					   sizeof(struct mgmt_link_key_info));
-  2800		u16 key_count, expected_len;
-  2801		bool changed;
-  2802		int i;
-  2803	
-  2804		bt_dev_dbg(hdev, "sock %p", sk);
-  2805	
-  2806		if (!lmp_bredr_capable(hdev))
-  2807			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_LINK_KEYS,
-  2808					       MGMT_STATUS_NOT_SUPPORTED);
-  2809	
-  2810		key_count = __le16_to_cpu(cp->key_count);
-  2811		if (key_count > max_key_count) {
-  2812			bt_dev_err(hdev, "load_link_keys: too big key_count value %u",
-  2813				   key_count);
-  2814			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_LINK_KEYS,
-  2815					       MGMT_STATUS_INVALID_PARAMS);
-  2816		}
-  2817	
-  2818		expected_len = struct_size(cp, keys, key_count);
-  2819		if (expected_len != len) {
-  2820			bt_dev_err(hdev, "load_link_keys: expected %u bytes, got %u bytes",
-  2821				   expected_len, len);
-  2822			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_LINK_KEYS,
-  2823					       MGMT_STATUS_INVALID_PARAMS);
-  2824		}
-  2825	
-  2826		if (cp->debug_keys != 0x00 && cp->debug_keys != 0x01)
-  2827			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_LINK_KEYS,
-  2828					       MGMT_STATUS_INVALID_PARAMS);
-  2829	
-  2830		bt_dev_dbg(hdev, "debug_keys %u key_count %u", cp->debug_keys,
-  2831			   key_count);
-  2832	
-  2833		hci_dev_lock(hdev);
-  2834	
-  2835		hci_link_keys_clear(hdev);
-  2836	
-  2837		if (cp->debug_keys)
-  2838			changed = !hci_dev_test_and_set_flag(hdev, HCI_KEEP_DEBUG_KEYS);
-  2839		else
-  2840			changed = hci_dev_test_and_clear_flag(hdev,
-  2841							      HCI_KEEP_DEBUG_KEYS);
-  2842	
-  2843		if (changed)
-  2844			new_settings(hdev, NULL);
-  2845	
-  2846		for (i = 0; i < key_count; i++) {
-  2847			struct mgmt_link_key_info *key = &cp->keys[i];
-  2848	
-  2849			if (hci_is_blocked_key(hdev,
-  2850					       HCI_BLOCKED_KEY_TYPE_LINKKEY,
-  2851					       key->val)) {
-  2852				bt_dev_warn(hdev, "Skipping blocked link key for %pMR",
-  2853					    &key->addr.bdaddr);
-  2854				continue;
-  2855			}
-  2856	
-  2857			if (key->addr.type != BDADDR_BREDR) {
-  2858				bt_dev_warn(hdev,
-> 2859					    "Invalid link address type %u for %pMR",
-> 2860					    &key->addr.type);
-  2861				continue;
-  2862			}
-  2863	
-  2864			if (key->type > 0x08) {
-  2865				bt_dev_warn(hdev, "Invalid link key type %u for %pMR",
-  2866					    key->type, &key->addr.bdaddr);
-  2867				continue;
-  2868			}
-  2869	
-  2870			/* Always ignore debug keys and require a new pairing if
-  2871			 * the user wants to use them.
-  2872			 */
-  2873			if (key->type == HCI_LK_DEBUG_COMBINATION)
-  2874				continue;
-  2875	
-  2876			hci_add_link_key(hdev, NULL, &key->addr.bdaddr, key->val,
-  2877					 key->type, key->pin_len, NULL);
-  2878		}
-  2879	
-  2880		mgmt_cmd_complete(sk, hdev->id, MGMT_OP_LOAD_LINK_KEYS, 0, NULL, 0);
-  2881	
-  2882		hci_dev_unlock(hdev);
-  2883	
-  2884		return 0;
-  2885	}
-  2886	
+9b392e0e0b6d02 Luiz Augusto von Dentz 2022-03-03  272  
+6f558b70fb39fc Loic Poulain           2015-08-30  273  #define bt_dev_info(hdev, fmt, ...)				\
+9b392e0e0b6d02 Luiz Augusto von Dentz 2022-03-03  274  	BT_INFO("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
+594b31ea7dc610 Frederic Danis         2015-09-23  275  #define bt_dev_warn(hdev, fmt, ...)				\
+9b392e0e0b6d02 Luiz Augusto von Dentz 2022-03-03 @276  	BT_WARN("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
+6f558b70fb39fc Loic Poulain           2015-08-30  277  #define bt_dev_err(hdev, fmt, ...)				\
+9b392e0e0b6d02 Luiz Augusto von Dentz 2022-03-03  278  	BT_ERR("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
+6f558b70fb39fc Loic Poulain           2015-08-30  279  #define bt_dev_dbg(hdev, fmt, ...)				\
+9b392e0e0b6d02 Luiz Augusto von Dentz 2022-03-03  280  	BT_DBG("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
+6f558b70fb39fc Loic Poulain           2015-08-30  281  
 
 -- 
 0-DAY CI Kernel Test Service
