@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3B314AD38
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 04:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617A112C486
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 05:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724992195; cv=none; b=LQvRuxiNGYjSqd10khAGURthFa/itV+1G13/aLf1r4Q7dbNwj3Q497Cq6Kli+smvpFJDBYG2eRTjBah3nmPjxgQ8+YcG67mv8PnwvXTI5DNFuZ734voArLkHwOFIV166sSA5ai+CW7P294yV32fW+rlTsKtsTYtm7CUIN13YhHg=
+	t=1724994658; cv=none; b=X8n6gwMm7R/AjW86niY0pC30cgXCHNe3TMi7lZppEb6P1JRYMYRCJ6cv55lGjiXITKvAWv5MdzfQB8LZo7G3DiW0upr59f8LLulbMJVd6pEh4dCxEHciju4xREaz7+Dmvciu4gnLEqqO6VXcMOJBG65FKamtrk+/U5mT/Ur3P9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724992195; c=relaxed/simple;
-	bh=HZiRI6SyEMeBbNVgqAOgHy9+liT5napyh25Lh2UQpuQ=;
+	s=arc-20240116; t=1724994658; c=relaxed/simple;
+	bh=lTcYTBxWo4hPKOkqhfLc35efQiS0lygoFBKz4D7kfLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BuTjeiBnuzUAzk2iHYj5w0DdVnwNBGX4OFcMGdhtiwtJxDKSCuT0xm7hiMl0aTzgmNLjaqgtmz2Kdonz45Ph8L81aeO8DG6UzzJc13Pk1Y855ah5dQjUvIolz3MKMu4DvtbacRb0pdaSFLZh03yUtd+g1srvoGmFpHJpSzESSAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nU8df6m8; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=Ab/7S+9T1IkMvBj5skCT135Pab2SptqvalYhKO5JZrEyl3mAS3bLXBb1s3AtlyjJcKf872x+XXVCuLRQqX5PR1Llo6bA6EcaCM8tsLKAL8E33DRUVg3pF3wtY3nEuTaehrvUBbpfnvfve+c5DK0Vkz+jyAhpsbWcp0jgaPTo2KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O3rRSJqN; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nU8df6m8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3rRSJqN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724992195; x=1756528195;
+  t=1724994657; x=1756530657;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HZiRI6SyEMeBbNVgqAOgHy9+liT5napyh25Lh2UQpuQ=;
-  b=nU8df6m8IA52NJ+DpzX2lvRNUW/hewlFoKQxEcHaK8mepxHQawcq0i47
-   tN1x0pLiULgsHVSKd33pxRpmMqDHufyfXcxRMSx3XizIegrMvucIGtj/5
-   AVIy6Tt4I3xlVlo5D6lRfOhPkY9lkfjEX1+yaO6fTxfzU9ZLlrU1Js/Z4
-   raWTVIrZUfSqJEAdHJ3V/sRYw1ONADT9lfQFRhWkz7kkUrlgcRSL6Yedn
-   9FAOgurRvk96yY0suJkgPFetUKZIXakiUxmDGAXfhpRGHuIWKWQB5lKtI
-   l5iZa8PsvEqaviewH5D4yHImGIaMWnJULVw7UsGFjg5mR6yT4ct6Mror6
+  bh=lTcYTBxWo4hPKOkqhfLc35efQiS0lygoFBKz4D7kfLU=;
+  b=O3rRSJqN82+PWl8eQ6NRyOpFGjgec0rgSM0JOsljMgtZu2X+2hlmiWkf
+   n3DYC7zMyxoDDG9bgHan3Egx2OYSw6WxHmhgUvWpEZUbeBS0PR15VKYzd
+   UcZ9syQd0qtMbym7qNBvMhbup8qrMyaNJs03PPOqaL8qrYWXQ8P2IgsbP
+   al0em5C600RAqwnKQQhtCIbfdCDtx7sqbdu/YJ1lGtk2RTyaaK/4DVCW3
+   noEIATzmyTwM1CpYKuvKUR5YIzVVJw2xpQVsnEyN3SHMHHV72amk19qK6
+   xxb5ntwO9RbA49BmvkO/nzSNaqnxgtEKj1o60a5HI3mhr+PzujwAUNIge
    w==;
-X-CSE-ConnectionGUID: l7WwxX/+SSqybCfxgFH5KA==
-X-CSE-MsgGUID: z5i1IICoRtWqNiF/YsCWXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="41099523"
+X-CSE-ConnectionGUID: x2cdRVflRUm4TyE05cvo7w==
+X-CSE-MsgGUID: 0xf2X+XbTT2CBM5YsWNR2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="41101771"
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="41099523"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 21:29:54 -0700
-X-CSE-ConnectionGUID: 0laKQN+VQIeeiDqRL217WQ==
-X-CSE-MsgGUID: CVsqXqEjQfGXvViuoMlA8w==
+   d="scan'208";a="41101771"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 22:10:56 -0700
+X-CSE-ConnectionGUID: u/FjeXUsR/+8UehIkXLdeg==
+X-CSE-MsgGUID: 0y5K4xGLTqmV+czNVH5IUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="68180056"
+   d="scan'208";a="94533979"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Aug 2024 21:29:52 -0700
+  by orviesa002.jf.intel.com with ESMTP; 29 Aug 2024 22:10:54 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjtGg-00014P-0F;
-	Fri, 30 Aug 2024 04:29:50 +0000
-Date: Fri, 30 Aug 2024 12:29:03 +0800
+	id 1sjtuN-00016A-2G;
+	Fri, 30 Aug 2024 05:10:51 +0000
+Date: Fri, 30 Aug 2024 13:10:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>
+To: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Joerg Roedel <jroedel@suse.de>, Kevin Tian <kevin.tian@intel.com>,
-	Steve Wahl <steve.wahl@hpe.com>
-Subject: drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing
- between 1 and 10 bytes into a region of size 9
-Message-ID: <202408301254.q8hKTUzC-lkp@intel.com>
+	Alex Deucher <alexander.deucher@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+	Roman Li <roman.li@amd.com>
+Subject: ERROR: modpost: "_restfpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+ undefined!
+Message-ID: <202408301246.lYKLYGj3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,157 +65,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lu,
+Hi Qingqing,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   20371ba120635d9ab7fc7670497105af8f33eb08
-commit: 913432f217c843a69ff9d11a6474a7982033087b iommu/vt-d: Use IDA interface to manage iommu sequence id
-date:   2 years, 2 months ago
-config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20240830/202408301254.q8hKTUzC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301254.q8hKTUzC-lkp@intel.com/reproduce)
+commit: 7966f319c66d9468623c6a6a017ecbc0dd79be75 drm/amd/display: Introduce DML2
+date:   11 months ago
+config: powerpc64-randconfig-001-20240828 (https://download.01.org/0day-ci/archive/20240830/202408301246.lYKLYGj3-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301246.lYKLYGj3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408301254.q8hKTUzC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408301246.lYKLYGj3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/iommu/intel/dmar.c: In function 'dmar_parse_one_drhd':
->> drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |                                   ^~
-   In function 'alloc_iommu',
-       inlined from 'dmar_parse_one_drhd' at drivers/iommu/intel/dmar.c:439:8:
-   drivers/iommu/intel/dmar.c:1050:30: note: directive argument in the range [0, 2147483647]
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |                              ^~~~~~~~
-   drivers/iommu/intel/dmar.c:1050:9: note: 'sprintf' output between 6 and 15 bytes into a destination of size 13
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +1050 drivers/iommu/intel/dmar.c
-
-  1025	
-  1026	static int alloc_iommu(struct dmar_drhd_unit *drhd)
-  1027	{
-  1028		struct intel_iommu *iommu;
-  1029		u32 ver, sts;
-  1030		int agaw = -1;
-  1031		int msagaw = -1;
-  1032		int err;
-  1033	
-  1034		if (!drhd->reg_base_addr) {
-  1035			warn_invalid_dmar(0, "");
-  1036			return -EINVAL;
-  1037		}
-  1038	
-  1039		iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
-  1040		if (!iommu)
-  1041			return -ENOMEM;
-  1042	
-  1043		iommu->seq_id = ida_alloc_range(&dmar_seq_ids, 0,
-  1044						DMAR_UNITS_SUPPORTED - 1, GFP_KERNEL);
-  1045		if (iommu->seq_id < 0) {
-  1046			pr_err("Failed to allocate seq_id\n");
-  1047			err = iommu->seq_id;
-  1048			goto error;
-  1049		}
-> 1050		sprintf(iommu->name, "dmar%d", iommu->seq_id);
-  1051	
-  1052		err = map_iommu(iommu, drhd->reg_base_addr);
-  1053		if (err) {
-  1054			pr_err("Failed to map %s\n", iommu->name);
-  1055			goto error_free_seq_id;
-  1056		}
-  1057	
-  1058		err = -EINVAL;
-  1059		if (cap_sagaw(iommu->cap) == 0) {
-  1060			pr_info("%s: No supported address widths. Not attempting DMA translation.\n",
-  1061				iommu->name);
-  1062			drhd->ignored = 1;
-  1063		}
-  1064	
-  1065		if (!drhd->ignored) {
-  1066			agaw = iommu_calculate_agaw(iommu);
-  1067			if (agaw < 0) {
-  1068				pr_err("Cannot get a valid agaw for iommu (seq_id = %d)\n",
-  1069				       iommu->seq_id);
-  1070				drhd->ignored = 1;
-  1071			}
-  1072		}
-  1073		if (!drhd->ignored) {
-  1074			msagaw = iommu_calculate_max_sagaw(iommu);
-  1075			if (msagaw < 0) {
-  1076				pr_err("Cannot get a valid max agaw for iommu (seq_id = %d)\n",
-  1077				       iommu->seq_id);
-  1078				drhd->ignored = 1;
-  1079				agaw = -1;
-  1080			}
-  1081		}
-  1082		iommu->agaw = agaw;
-  1083		iommu->msagaw = msagaw;
-  1084		iommu->segment = drhd->segment;
-  1085	
-  1086		iommu->node = NUMA_NO_NODE;
-  1087	
-  1088		ver = readl(iommu->reg + DMAR_VER_REG);
-  1089		pr_info("%s: reg_base_addr %llx ver %d:%d cap %llx ecap %llx\n",
-  1090			iommu->name,
-  1091			(unsigned long long)drhd->reg_base_addr,
-  1092			DMAR_VER_MAJOR(ver), DMAR_VER_MINOR(ver),
-  1093			(unsigned long long)iommu->cap,
-  1094			(unsigned long long)iommu->ecap);
-  1095	
-  1096		/* Reflect status in gcmd */
-  1097		sts = readl(iommu->reg + DMAR_GSTS_REG);
-  1098		if (sts & DMA_GSTS_IRES)
-  1099			iommu->gcmd |= DMA_GCMD_IRE;
-  1100		if (sts & DMA_GSTS_TES)
-  1101			iommu->gcmd |= DMA_GCMD_TE;
-  1102		if (sts & DMA_GSTS_QIES)
-  1103			iommu->gcmd |= DMA_GCMD_QIE;
-  1104	
-  1105		raw_spin_lock_init(&iommu->register_lock);
-  1106	
-  1107		/*
-  1108		 * This is only for hotplug; at boot time intel_iommu_enabled won't
-  1109		 * be set yet. When intel_iommu_init() runs, it registers the units
-  1110		 * present at boot time, then sets intel_iommu_enabled.
-  1111		 */
-  1112		if (intel_iommu_enabled && !drhd->ignored) {
-  1113			err = iommu_device_sysfs_add(&iommu->iommu, NULL,
-  1114						     intel_iommu_groups,
-  1115						     "%s", iommu->name);
-  1116			if (err)
-  1117				goto err_unmap;
-  1118	
-  1119			err = iommu_device_register(&iommu->iommu, &intel_iommu_ops, NULL);
-  1120			if (err)
-  1121				goto err_sysfs;
-  1122		}
-  1123	
-  1124		drhd->iommu = iommu;
-  1125		iommu->drhd = drhd;
-  1126	
-  1127		return 0;
-  1128	
-  1129	err_sysfs:
-  1130		iommu_device_sysfs_remove(&iommu->iommu);
-  1131	err_unmap:
-  1132		unmap_iommu(iommu);
-  1133	error_free_seq_id:
-  1134		ida_free(&dmar_seq_ids, iommu->seq_id);
-  1135	error:
-  1136		kfree(iommu);
-  1137		return err;
-  1138	}
-  1139	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-abt-y030xx067a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/garp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_gred.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_tbf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_prio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_plug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ets.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_fw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_cgroup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+>> ERROR: modpost: "_restfpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_restfpr_26" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_restfpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+ERROR: modpost: "_savegpr1_27" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_savegpr1_25" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_restfpr_28" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_savegpr1_29" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+ERROR: modpost: "_savefpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+ERROR: modpost: "_savefpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_restfpr_15" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+WARNING: modpost: suppressed 56 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
