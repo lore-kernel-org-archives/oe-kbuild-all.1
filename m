@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92CD136E3F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 23:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C032215C150
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 23:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725060048; cv=none; b=s3ZqDU5/6DxQvNyUBcp8zWTFZ3vu4pm7nhUy6PzP+KQGqH374dZxVBTIaHfVVP7Lp2VnQyzRXGxoczIlGQ0abzMIAuAECdMtWQByPxXPVZi5qVRY9eQFCmUpqKzLj6Q6hQO2aSxo38WL/coTUHCXjxzj4Yn+uIZ9epmx766gLVk=
+	t=1725061365; cv=none; b=c+CiF+FVvM7VAqP+zx46xBYdmE4yt5SBcrcmHfwS4aDWkDALoK4nYqBp6qZ66Mrmt+RWHJQKGjiidqlw5U5IFF5xZ2Cjejugh1xehOBNNPgm3xLuG3Dm9P/w3rGbUlX02evTXy63thgpvMpwTWKPXlg3H3bHDCTE4Mtp1pADe4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725060048; c=relaxed/simple;
-	bh=nPwrvEN9XYrbT3J+y8lcXmeIHnztMSIuwQQIDpKMEbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ls+8OxcgAb5p70CIKnT5rE5TfejAUt+DKcclYr/ZidZG7eKNEpHw9BEcEPB1N/LAi7Ha/NirXRIue8E4kxHIvwX4YIsug/E/7AzEae6RIyZzWZqPXOBQnWlRrTMUCSrIy3KnAcYSOnT+suOQ4UP0CQTlzdPZtJ8WxHiFQJchqc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XvbWrE1b; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1725061365; c=relaxed/simple;
+	bh=1kfSTdoRWlVrECYNdQYmVRtHiehdc3tjOp7eh+JAOmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T6y6wTPlvoRiIA4V0Ktd8Z7/N6t7M8rsl3ilAxSArJZoX2RicmcItbDVriJGw4fVrewq55lJzlAWbzsh8yVin/q1ijH/wxK9aWRnj4BuwVov3FewA93T85fFrB91Gu+fQGzLPOsoRQynTNh7jDeRBHYWx35T2FsDJ0sVNjGyI5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVV48Rb8; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvbWrE1b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVV48Rb8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725060047; x=1756596047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nPwrvEN9XYrbT3J+y8lcXmeIHnztMSIuwQQIDpKMEbw=;
-  b=XvbWrE1bdyBWhAkL9P0LByjqexq/pnj1saMZfpNwjhZj/hj7ko79XSdH
-   tToN4R9cRi/M8Zi1q4JNiy2gl2D5IrzPl1rwf3nv2nrBX1rpPN6OcjBWW
-   lTl1MImKdN2esZo8PHJMEyN2mKpYJNpCVfQZVUYqB0b3dX/0/Ka4Vs/Ml
-   WpL/rvWtCMgek1LJ9d+2j4tBSzNyYv+qsoqoKUFyS3S2DmtvKWFSH2tRU
-   MBV0xCBeQTt4RVcBtMzVQXMj1v5XmOv4icx4NOuLFdvBSjY759Ic7GCk6
-   wBlaXeMddnlks7ddIC/cgx0FGoYM12dhXdbD9+JEp1I+JoLvwvWfx/IGk
-   A==;
-X-CSE-ConnectionGUID: N1rG0vPhRhuvFLIj/NR/Ig==
-X-CSE-MsgGUID: PR5kdOwlQfiFPG9e0n6aqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="35127144"
+  t=1725061364; x=1756597364;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1kfSTdoRWlVrECYNdQYmVRtHiehdc3tjOp7eh+JAOmE=;
+  b=RVV48Rb8q10+2fqVq2Q1lt2gAbQvnlmCB3ci7SjNc11aV4xRwsPbzKWu
+   zemIKYIAjwzc9CzG0jTncioqsE/H1HGBpu6D4Yu/ZDpzPYbj0O1jrs46R
+   vPOpQ5JbTSISyFqKvft2BPj/7hdBicmeWGudvdUemK9N6hpzh/eu2n+tn
+   NsDmZLE/zpBroQGl6MNNtlyvkIeoQBbIWdJg7JrCIpS84N5ixLGKiHrTm
+   VA2isMBbWe7XE5zG8aolciQOr/ZtCMaVxAXK5pZRRbQJFk1rjpeYGgneo
+   gO+N+VrZR6ZLMjjzXnxZPzqcJV3y15oaOfhGLf4FEdftWtzBe2SBVfvC+
+   Q==;
+X-CSE-ConnectionGUID: Tnl4VNVyTQK3DNg8zvSn5g==
+X-CSE-MsgGUID: 8ihJouQzTEqvw3A3I0D8sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23601172"
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="35127144"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 16:20:46 -0700
-X-CSE-ConnectionGUID: MIvltLxURYi6utmjs8MKtg==
-X-CSE-MsgGUID: X1M4ydP+RYiEybVXoNsE0A==
+   d="scan'208";a="23601172"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 16:42:43 -0700
+X-CSE-ConnectionGUID: or9RUdvEQgCmP/BDwvc0Vw==
+X-CSE-MsgGUID: ENRpUN54TNmztgzEf6nXoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="63990529"
+   d="scan'208";a="68446162"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 30 Aug 2024 16:20:42 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 30 Aug 2024 16:42:41 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skAv1-0002Ck-1t;
-	Fri, 30 Aug 2024 23:20:39 +0000
-Date: Sat, 31 Aug 2024 07:19:50 +0800
+	id 1skBGJ-0002DI-2w;
+	Fri, 30 Aug 2024 23:42:39 +0000
+Date: Sat, 31 Aug 2024 07:42:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: ende.tan@starfivetech.com, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch,
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, mcoquelin.stm32@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, leyfoon.tan@starfivetech.com,
-	minda.chen@starfivetech.com, endeneer@gmail.com,
-	Tan En De <ende.tan@starfivetech.com>
-Subject: Re: [net-next,v3,1/1] net: stmmac: Batch set RX OWN flag and other
- flags
-Message-ID: <202408310604.E3C4zDID-lkp@intel.com>
-References: <20240829134043.323855-1-ende.tan@starfivetech.com>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: error: ABI 'o32' is not supported on CPU 'mips64'
+Message-ID: <202408310705.y2OPq3Xs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,67 +61,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829134043.323855-1-ende.tan@starfivetech.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on horms-ipvs/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/ende-tan-starfivetech-com/net-stmmac-Batch-set-RX-OWN-flag-and-other-flags/20240829-214324
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240829134043.323855-1-ende.tan%40starfivetech.com
-patch subject: [net-next,v3,1/1] net: stmmac: Batch set RX OWN flag and other flags
-config: x86_64-randconfig-r132-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310604.E3C4zDID-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310604.E3C4zDID-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fb24560f31f9dff2c97707cfed6029bfebebaf1c
+commit: 2326c8f2022636a1e47402ffd09a3b28f737275f MIPS: Fix fallback march for SB1
+date:   7 weeks ago
+config: mips-randconfig-r121-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310604.E3C4zDID-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408310705.y2OPq3Xs-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:59:21: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] flags @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:59:21: sparse:     expected unsigned int [usertype] flags
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:59:21: sparse:     got restricted __le32 [usertype]
->> drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:62:24: sparse: sparse: invalid assignment: |=
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:62:24: sparse:    left side has type unsigned int
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:62:24: sparse:    right side has type restricted __le32
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:64:17: sparse: sparse: invalid assignment: |=
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:64:17: sparse:    left side has type restricted __le32
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:64:17: sparse:    right side has type unsigned int
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:110:23: sparse: sparse: restricted __le32 degrades to integer
-   drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c:110:50: sparse: sparse: restricted __le32 degrades to integer
---
->> drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:189:21: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] flags @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:189:21: sparse:     expected unsigned int [usertype] flags
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:189:21: sparse:     got restricted __le32 [usertype]
->> drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:192:23: sparse: sparse: invalid assignment: |=
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:192:23: sparse:    left side has type unsigned int
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:192:23: sparse:    right side has type restricted __le32
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:194:17: sparse: sparse: invalid assignment: |=
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:194:17: sparse:    left side has type restricted __le32
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:194:17: sparse:    right side has type unsigned int
+All errors (new ones prefixed by >>):
 
-vim +59 drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c
-
-    56	
-    57	static void dwxgmac2_set_rx_owner(struct dma_desc *p, int disable_rx_ic)
-    58	{
-  > 59		u32 flags = cpu_to_le32(XGMAC_RDES3_OWN);
-    60	
-    61		if (!disable_rx_ic)
-  > 62			 flags |= cpu_to_le32(XGMAC_RDES3_IOC);
-    63	
-    64		p->des3 |= flags;
-    65	}
-    66	
+>> error: ABI 'o32' is not supported on CPU 'mips64'
+>> error: error: ABI 'o32' is not supported on CPU 'mips64'
+   ABI 'o32' is not supported on CPU 'mips64'
+   make[3]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
+   make[3]: *** [scripts/Makefile.build:244: scripts/mod/empty.o] Error 1
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1207: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
