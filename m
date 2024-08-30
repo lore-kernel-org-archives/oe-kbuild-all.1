@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08E31B8EB3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 18:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D57514E2C1;
+	Fri, 30 Aug 2024 19:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725042210; cv=none; b=Ce7sG1R7CQIix0D2KkKrkqHf1qgG72zWkGFn3u2/hXSMcF/UfHOu40NURc/kqYDieAX8nZeOXZBSx/DrQN1i5dntc6P3zwL4m+Sa3+zZIV8uwlNVdHW7YAl34W8sumsbU4oZ/jhw3+t3YlTXjf+o65AdqQO+jE8+e3Od07LPlZs=
+	t=1725044675; cv=none; b=KRihTXfKemsb3Z34yNegFgbQV9z9bIL5QdUwSDIwPdIt9j1erCpQ3LBcqIJMVeWUnDTaFdlFwyh2raSQPbLg9teq8zF/brSFa7c1C8ZtoAkZoYT7VRzyG5p9gVKig6qAiYtb33Xa4Xf2qoSLZd84A3V/Ix5JB6LKnC4bsgax0fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725042210; c=relaxed/simple;
-	bh=0IMjd9AVYbS2XhMeFU1dMDxjDRwiz1/Iy4dYwy3Qj/s=;
+	s=arc-20240116; t=1725044675; c=relaxed/simple;
+	bh=768uChLj28ZUvwd6FRzExWXXuwJbLiP7QZxl0LVbwHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ayun6m6oLIzEsXKKTRT61fe5g/KYjlPRejPBbX8p0G2OV+L0OKjCLzD7GPyGrXj1SGe1zNxkSRiElEpKkBVGEjh3fjyVDoUEcEj1yNEgQFR9fdGLbdfxd5LcOcSHzaDIVBcL1KweyuNfaPgHpWHXQRB23SGqYuOXmUj75NKWc8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVfST5N4; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=pDSZHNOq4F7J6jN1TttOdJfE9rmFmCcgOWRN0jveeYwAHR++OOZmKrTQkLeXtuv4tRazjUphWn/ZHxptLIRC/ORO9GetZz9mRd9WpHJSKd2B/U2pC2jODv4JgZCGuQRwNoVti67mymmKO/lmHx/OQL0PmV03GVyeWNrj4H40ff0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ka4BuoDJ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVfST5N4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ka4BuoDJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725042209; x=1756578209;
+  t=1725044674; x=1756580674;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0IMjd9AVYbS2XhMeFU1dMDxjDRwiz1/Iy4dYwy3Qj/s=;
-  b=fVfST5N4ZGvScDBkTSwQr/1hL6gw+zpIcr9dJ695Kuc/QpR0FmiOJcYh
-   pdTMBRHAoRZdLaFc694h8CQeludVnvFj456KThbppI8OCnUmojdD+wKCR
-   FRltjh/SRlmJnEH4CaDHYhYudXspJZqzRhSfsc6AKykK8C1ifhVmWf2xz
-   trdJIigr/AFnRmXBFgVkr/zd8l2ixFDO4X0aM2H6abJ2Npp2bMj8JIGK0
-   9rj4Zm0QnS5O8jzS/Y0WZwTuHjb349WTOzDnvbM65FGj4Y/DL8bOaGSeV
-   Rhwy1/+qptPfLDAhbuUMUaR1EQEKhtqjmRu3M6Iobc1e81BuWbSXmae8c
+  bh=768uChLj28ZUvwd6FRzExWXXuwJbLiP7QZxl0LVbwHM=;
+  b=Ka4BuoDJ5dJfCRA2j07h6YkEUdJGMIvEBBUszCEw2Wk0G+sLWkk0ciJD
+   tCZQU+AU4gAU2ttm4qg7CO6FP0Z5dsalVxI9cYWrheDwWj6QAE+wIGLS6
+   n2u6iERXL2UicJLMFdRuFOrlM6Ix06xACbc0cJEp5pIZKgSp5zJ3doSc9
+   2QSKNU4bjV4hkWT0zp8L19cbmkOFtCW99z/VF3ZiUlNUO7Jt+iXSHFr5G
+   9eDbOFAJt0M45wS2KgFB6tIwlEpcdcsr64SJZILbICaX0uSb77OYw4p8l
+   YPV0A39zZh0JEKd9IUuujy/D94uJ6GF2Y/QqpFpqIrt6fv9Y0NHcpAZ6d
    A==;
-X-CSE-ConnectionGUID: 2UZLh/oWRZCyeKqUutKTWQ==
-X-CSE-MsgGUID: i2E1M0UuTYaxZZOb+vGP6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23559827"
+X-CSE-ConnectionGUID: perNJP4CQS+EjWMZ9pDxYw==
+X-CSE-MsgGUID: X9RMk745TNWogSPhxtoWBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23500731"
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="23559827"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 11:23:29 -0700
-X-CSE-ConnectionGUID: Sr5CiSyXQfq9/cWoltAZcw==
-X-CSE-MsgGUID: FiIZmFkyQ96ZAx5gYcoujg==
+   d="scan'208";a="23500731"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 12:04:33 -0700
+X-CSE-ConnectionGUID: plZKGkXDS7mBFjRYcJcgFw==
+X-CSE-MsgGUID: QSGaFKq2StylUcou/xFm3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="94705993"
+   d="scan'208";a="68833598"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Aug 2024 11:23:28 -0700
+  by orviesa005.jf.intel.com with ESMTP; 30 Aug 2024 12:04:31 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk6HM-0001qo-2L;
-	Fri, 30 Aug 2024 18:23:24 +0000
-Date: Sat, 31 Aug 2024 02:22:49 +0800
+	id 1sk6v7-0001wu-0B;
+	Fri, 30 Aug 2024 19:04:29 +0000
+Date: Sat, 31 Aug 2024 03:03:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [linux-next:master 7676/8126]
- arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: video-codec@fdb50000:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202408310237.k67m7tQn-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Lukas Czerner <lczerner@redhat.com>,
+	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Subject: fs/ext4/super.c:2054:1: error: unused function 'ctx_set_flags'
+Message-ID: <202408310303.6OpqRWeH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,45 +65,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   985bf40edf4343dcb04c33f58b40b4a85c1776d4
-commit: db1dcbe5f752d423421f77d54d246398b196f670 [7676/8126] arm64: dts: rockchip: add NanoPC-T6 LTS
-config: arm64-randconfig-051-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310237.k67m7tQn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev16+gc51125d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310237.k67m7tQn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   20371ba120635d9ab7fc7670497105af8f33eb08
+commit: 1ff20307393e17dc57fde62226df625a3a3c36e9 ext4: unconditionally enable the i_version counter
+date:   1 year, 11 months ago
+config: x86_64-sof-customedconfig-amd-defconfig (https://download.01.org/0day-ci/archive/20240831/202408310303.6OpqRWeH-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310303.6OpqRWeH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310237.k67m7tQn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408310303.6OpqRWeH-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: video-codec@fdb50000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-vpu121', 'rockchip,rk3568-vpu'] is too long
-   	'rockchip,rk3588-vpu121' is not one of ['rockchip,rk3036-vpu', 'rockchip,rk3066-vpu', 'rockchip,rk3288-vpu', 'rockchip,rk3328-vpu', 'rockchip,rk3399-vpu', 'rockchip,px30-vpu', 'rockchip,rk3568-vpu', 'rockchip,rk3588-av1-vpu']
-   	'rockchip,rk3188-vpu' was expected
-   	'rockchip,rk3228-vpu' was expected
-   	'rockchip,rk3066-vpu' was expected
-   	'rockchip,rk3399-vpu' was expected
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /video-codec@fdb50000: failed to match any schema with compatible: ['rockchip,rk3588-vpu121', 'rockchip,rk3568-vpu']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: regulator@42: Unevaluated properties are not allowed ('rockchip,suspend-voltage-selector' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: pmic@0: regulators:dcdc-reg4: Unevaluated properties are not allowed ('regulator-init-microvolt' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk806.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: pmic@0: Unevaluated properties are not allowed ('regulators' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk806.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: codec@1b: Unevaluated properties are not allowed ('assigned-clock-rates', 'assigned-clocks', 'clock-names', 'clocks', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5616.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: sound: 'simple-audio-card,hp-pin-name' does not match any of the regexes: '^simple-audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: vcc3v3-sd-s0-regulator: Unevaluated properties are not allowed ('enable-active-low' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
+All errors (new ones prefixed by >>):
+
+   fs/ext4/super.c:1750:19: error: unused variable 'deprecated_msg' [-Werror,-Wunused-const-variable]
+    1750 | static const char deprecated_msg[] =
+         |                   ^~~~~~~~~~~~~~
+>> fs/ext4/super.c:2054:1: error: unused function 'ctx_set_flags' [-Werror,-Wunused-function]
+    2054 | EXT4_SET_CTX(flags); /* set only */
+         | ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/super.c:2032:20: note: expanded from macro 'EXT4_SET_CTX'
+    2032 | static inline void ctx_set_##name(struct ext4_fs_context *ctx,          \
+         |                    ^~~~~~~~~~~~~~
+   <scratch space>:56:1: note: expanded from here
+      56 | ctx_set_flags
+         | ^~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +/ctx_set_flags +2054 fs/ext4/super.c
+
+6e47a3cc68fc52 Lukas Czerner 2021-10-27  2053  
+e3952fcce1aad9 Lukas Czerner 2022-02-01 @2054  EXT4_SET_CTX(flags); /* set only */
+6e47a3cc68fc52 Lukas Czerner 2021-10-27  2055  EXT4_SET_CTX(mount_opt);
+e3952fcce1aad9 Lukas Czerner 2022-02-01  2056  EXT4_CLEAR_CTX(mount_opt);
+e3952fcce1aad9 Lukas Czerner 2022-02-01  2057  EXT4_TEST_CTX(mount_opt);
+6e47a3cc68fc52 Lukas Czerner 2021-10-27  2058  EXT4_SET_CTX(mount_opt2);
+e3952fcce1aad9 Lukas Czerner 2022-02-01  2059  EXT4_CLEAR_CTX(mount_opt2);
+e3952fcce1aad9 Lukas Czerner 2022-02-01  2060  EXT4_TEST_CTX(mount_opt2);
+e3952fcce1aad9 Lukas Czerner 2022-02-01  2061  
+
+:::::: The code at line 2054 was first introduced by commit
+:::::: e3952fcce1aad934f1322843b564ff86256444b2 ext4: fix remount with 'abort' option
+
+:::::: TO: Lukas Czerner <lczerner@redhat.com>
+:::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 -- 
 0-DAY CI Kernel Test Service
