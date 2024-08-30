@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4603C23B1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 00:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6815638DD4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 01:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724977309; cv=none; b=VgmRa4j1qkBat3DTO8bfnfNnmGE5MWVYkxPOzVLtsipGbHU7Xd7uHkYeEflixKMqHarpcEJEL3L5SZl6FwUYAhtN9uPmVyVQ8XZqWL7D9VV7hwQfRt9pI5jfHPLLkonzN4HFEf+RQSoBVKKbZ9u24PXcJsYIGfBtZnyxeO+bvLQ=
+	t=1724981627; cv=none; b=nqpjluYF3xvlOXPa5cR1u23v2ld/UugGgwp1VsYCbLXbY8S312NLQocDk+MhT1GtdfulsugckYrH8MiXsFHoYitYvWJnFiRH1+E4Zg+gcJOSWFNYSbVCEcEmKt3PztJ2iZjnExmWLa2mVJGnlDllCQhmSR6GkFarOPZy8ffkbUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724977309; c=relaxed/simple;
-	bh=w+yKiDpRWvKzQEAGuCGuIqf/9HVfNpoSKRtblk0n09A=;
+	s=arc-20240116; t=1724981627; c=relaxed/simple;
+	bh=S00u+sMAZom70+h5Tn+g1sbaHrQM2Vncse1/WzaACNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AN5TSXIjUktjDlT0z6s4YfCZne0L+J+QsVvxou1MiXJJpFOiN3EjdJwHSFcyLSaIlKijKzZFALogV7LYH4q5vZa9aiG2ehoWFBJ80HCogHahVLoWfNow1bsoBxK0GHFV2/nLJPWTrtIyGY3xzVBM6nJ7zLLZWU2xm7QyIlH9mDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apqD0HMz; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=QAuKbTXM9DcuRb4GfOzp/Ni1hwVUDbWCMq1zRpz24VhqjIeTXN0nyANAe4H8mA5f02x+fNRimddpPTUrwKAxxh3ni/gfZ/YIfKzkob//6+7P6fT8j7scuYygRMpbt7FQQIKvg3j9wu0uoF+RmVAvA3SVd/M2WwXR48oNccLPkDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nuv1f+Di; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apqD0HMz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nuv1f+Di"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724977307; x=1756513307;
+  t=1724981626; x=1756517626;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=w+yKiDpRWvKzQEAGuCGuIqf/9HVfNpoSKRtblk0n09A=;
-  b=apqD0HMzscltWkdz3KAwSAHfGYhQDfmsOfjuJbtmbrmQWQemZZmw8gG8
-   hqSKiNf1m/pcH19DB0dHy9bUgUU8uqSPFkP7d3yy+nO/qXGwnyD2cQE3P
-   gWGql2pRa/bAI5c872lUjR/0ECb+0GSzhjUZZZS57vg5CGm9NtDt7a6/l
-   XAmpebtpkrd1aZC4qcZqMdMSps/GjollYrqAfGuBjt6T4ZblUG5Tb9bpg
-   OIu5ApEndGWYSJ6LhzKHQCkNIH7IvQeBfAzXcTN0fAEitXcziiQd4PD8J
-   bmRTqX7FmVYR+WjCykLLvro15hSBEBVe4bCHbTf6dePMn2onQjt0qdUr8
-   Q==;
-X-CSE-ConnectionGUID: icljFawXQXWOv15O0G3tXg==
-X-CSE-MsgGUID: gJWo+hhpQC+yv+IZNwD+Kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23407080"
+  bh=S00u+sMAZom70+h5Tn+g1sbaHrQM2Vncse1/WzaACNY=;
+  b=Nuv1f+Di0PUwGK/66/EbG2zY43HZJE453Cz3PrI+ARrn56SD79gIsf4Y
+   h/mwjDxPuIi0tPElqjdwQ3/Q7gtny8YRml89pXNqPX7KFdKjaTVJx0ACC
+   4VUErsVoUvkf4iMpgFoc5h/EqyRlLUVhJJdJb0dKNnHZc9cFuZT7iLxMD
+   ynMFMrJsEWGQ8OP7D6QsesT1xbXE6a+oQ5g5qoh/i1nJ8IHUBC8y313z+
+   OEPif8xhC1mfUUT9OBZsqPvHGlb/EMed/w77AWwwB4y1ki5C2bKuD2LyF
+   LSnDpF5loXDEUuvxlFbKWlFCZlaHMXCWkfZi5FszdqMII892W/JuwNPAH
+   w==;
+X-CSE-ConnectionGUID: XbuxCr5KRWe6/VGPsZDGSA==
+X-CSE-MsgGUID: 1sYXUS6YQAC+VBWALE3WpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="46119804"
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="23407080"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 17:21:46 -0700
-X-CSE-ConnectionGUID: JuAvQF4QREifpbm53DR3bQ==
-X-CSE-MsgGUID: 3gWQbgCWSwGNsijAXnO5OA==
+   d="scan'208";a="46119804"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 18:33:45 -0700
+X-CSE-ConnectionGUID: FIm8TtInQf2MGnY6VH8QqQ==
+X-CSE-MsgGUID: Qyfaf2riSZuKA8X2O6H4ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="94559556"
+   d="scan'208";a="86985990"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Aug 2024 17:21:42 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Aug 2024 18:33:44 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjpOW-0000pS-0E;
-	Fri, 30 Aug 2024 00:21:40 +0000
-Date: Fri, 30 Aug 2024 08:21:39 +0800
+	id 1sjqWD-0000ri-2G;
+	Fri, 30 Aug 2024 01:33:41 +0000
+Date: Fri, 30 Aug 2024 09:32:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jammy Huang <jammy_huang@aspeedtech.com>, robh@kernel.org,
-	conor+dt@kernel.org, eajames@linux.ibm.com, mchehab@kernel.org,
-	joel@jms.id.au, andrew@aj.id.au, hverkuil@xs4all.nl,
-	pmenzel@molgen.mpg.de, krzk+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to
- dt-schema
-Message-ID: <202408300813.2RN73Kn4-lkp@intel.com>
-References: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 3/7] nfsd: add support for FATTR4_OPEN_ARGUMENTS
+Message-ID: <202408300938.JuwmtIFM-lkp@intel.com>
+References: <20240826-delstid-v2-3-e8ab5c0e39cc@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,35 +62,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
+In-Reply-To: <20240826-delstid-v2-3-e8ab5c0e39cc@kernel.org>
 
-Hi Jammy,
+Hi Jeff,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 47ac09b91befbb6a235ab620c32af719f8208399]
+[auto build test ERROR on 55f9aa30de14b6ec52940adeb4790c15247fed40]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jammy-Huang/dt-bindings-media-convert-aspeed-video-txt-to-dt-schema/20240829-144721
-base:   47ac09b91befbb6a235ab620c32af719f8208399
-patch link:    https://lore.kernel.org/r/20240829064508.3706672-2-jammy_huang%40aspeedtech.com
-patch subject: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to dt-schema
-reproduce: (https://download.01.org/0day-ci/archive/20240830/202408300813.2RN73Kn4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfsd-add-pragma-public-to-delegated-timestamp-types/20240826-205313
+base:   55f9aa30de14b6ec52940adeb4790c15247fed40
+patch link:    https://lore.kernel.org/r/20240826-delstid-v2-3-e8ab5c0e39cc%40kernel.org
+patch subject: [PATCH v2 3/7] nfsd: add support for FATTR4_OPEN_ARGUMENTS
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240830/202408300938.JuwmtIFM-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300938.JuwmtIFM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408300813.2RN73Kn4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408300938.JuwmtIFM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/aspeed-video.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
+>> fs/nfsd/nfs4xdr_gen.c:5:10: fatal error: linux/sunrpc/xdrgen/nfs4.h: No such file or directory
+       5 | #include <linux/sunrpc/xdrgen/nfs4.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +5 fs/nfsd/nfs4xdr_gen.c
+
+a5d1a86a2b739f3 Chuck Lever 2024-08-19  4  
+f96781780f53e55 Jeff Layton 2024-08-26 @5  #include <linux/sunrpc/xdrgen/nfs4.h>
+a5d1a86a2b739f3 Chuck Lever 2024-08-19  6  
 
 -- 
 0-DAY CI Kernel Test Service
