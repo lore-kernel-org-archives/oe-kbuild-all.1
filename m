@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912E314D2B5;
-	Fri, 30 Aug 2024 19:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A5C1BF31D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 20:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725047137; cv=none; b=il4/qFkLm/jgFXzjtU9YKIjKqBamQu2qPOaWgrK9UKCNhouqhRd0YrQ3qkIIA2GwhEmtwd4QauBLzwvvfQ/Tzov4trMfGI3HN5HH4dNQU0aE885Fh0XUe+eOFneB6Q9vjJhV0f9xj+BRO34dOAWwZEzbcL/RuNXfviFzmddqiZE=
+	t=1725049619; cv=none; b=K7ClozbPd2Aqe8LYisssLmvGIPg9djrUBWcNgXU4V+BgNVtde6Hy+p5Yg8GAf7YRYzAdQzJbSyApqjC2lXFxE2JuYIoPHpXRU8eUnq2cdRfN95NbIzMr4WOdWQgsUDWM8JX7WZuPxpc3ir+WCWcZptHBR20w0tkC+btTLM7RgCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725047137; c=relaxed/simple;
-	bh=SD344OCCD7LX+LnQktBzXM0IesSTX5xz4IYqA0W677o=;
+	s=arc-20240116; t=1725049619; c=relaxed/simple;
+	bh=6XnRfJYitNRltftRoQoLREUxRMiE0p8BIsn+viquiOo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BKeCiZY81VDVO/FkPfSUZxE9W4zXpauojMriQKZ3khfBFU3CnYE6GM3ZtM2CS4yCIQ+NWkSy7A+0RIKnrBbgwai8WWuydCyLfogrP4zPvUd2keTLT+gJReBSKH4mkX7o97YiWHKr14vicCsuXcZFjY3Lm4Fwue8r+k9u/NC+u8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3o0VwO4; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=gWVGcTExC0ntM2u7n4YOonM/yf3D3DKG31qaYo05zfJY6V19zzzTeyru3WMLQAYeYJZ5iXtnAyl2yzCx5qxSKFTlizgSJsou/awWpNgqhZhAgqsKcibuIDjiN5iO4Vc8XJT33C2K+NwvHW3L5gVDM6suaDvTK8vqhapYPxTmfqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3Pkr7KJ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3o0VwO4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3Pkr7KJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725047135; x=1756583135;
+  t=1725049617; x=1756585617;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SD344OCCD7LX+LnQktBzXM0IesSTX5xz4IYqA0W677o=;
-  b=l3o0VwO4q4Y2rcnpxbQOZ9qUL0c2YiUQstGkImHVek/bhYDVq+iemkOM
-   yJw/SPJOFcK1hGeMnD0KOSMkNeRnrvDsjXkzf0FzLdBXh6aaIu7QuJD6j
-   TojkdwfTamkfyWeN/yfecrigrzf/OPSVdaG4Jzpm5Gfk69DBEA7AAsSew
-   j6YhpRKgvw0w2TjLKefSuTnBjhN3uScIoHux5VuWBtDV0cHKHeH4fYeg5
-   HKinn2lQetyCkB+L+EAPtHh62jaR4oDjDVynL7noUjjuD3LliSNr1uI7E
-   hc+xcNALEa7rRAe1qrRdmffYVsmUzLO4nM5StR/hEi6XYOF7yHrYl3qL5
+  bh=6XnRfJYitNRltftRoQoLREUxRMiE0p8BIsn+viquiOo=;
+  b=A3Pkr7KJJIs7tD41mGpdkv8toUyeVIQEMyq3Sv/1uc+lg4Zpt8A3SBMZ
+   imPA4WKkZVXVnvWN/SRfbwcX9cwU3ok3HiuilRERtIWuAbNnj92r3ZRop
+   qwrjH+VCGzogXcTdhissb6XJeYnzdUjBpXw0i3oPmxra7CoMQDn3BHz1d
+   eRnUzZg0hwMXFX3I/84HbebqBG63xDj5X5gr73FnD7+cCrUeP4y/YaF3u
+   eyP+SZMdoW0fJJCScoP4S2cH/j2OAiYVif3MVLViKfrmBUlen+jBPFMmc
+   /YUXMcH+lDQCuzoi8CglyDv6VRPu5RWAereIHKjcbPET5Z80WjlqM8BBE
    Q==;
-X-CSE-ConnectionGUID: LgvTlU4HSF2QIv1JXUZ4sA==
-X-CSE-MsgGUID: og6l8CY9QfG4czsPYgx95A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="27580607"
+X-CSE-ConnectionGUID: jN3zZJZLRzacNjKCk1pJ0A==
+X-CSE-MsgGUID: gUDxX+QxSkmPU47FAm1SyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23841854"
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="27580607"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 12:45:34 -0700
-X-CSE-ConnectionGUID: zp9lMq2ST3O6xTGC07iISw==
-X-CSE-MsgGUID: wV7XJOQOREmCNteBPmCicQ==
+   d="scan'208";a="23841854"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 13:26:37 -0700
+X-CSE-ConnectionGUID: baKUrsA6SG+n6/oR+Ku+yg==
+X-CSE-MsgGUID: qZ/0mJw8TaKkB5Xbz0FXAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="68881756"
+   d="scan'208";a="64352376"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Aug 2024 12:45:33 -0700
+  by orviesa006.jf.intel.com with ESMTP; 30 Aug 2024 13:26:35 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk7Yp-00020J-0l;
-	Fri, 30 Aug 2024 19:45:31 +0000
-Date: Sat, 31 Aug 2024 03:44:51 +0800
+	id 1sk8CX-000249-0z;
+	Fri, 30 Aug 2024 20:26:33 +0000
+Date: Sat, 31 Aug 2024 04:25:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Ruibin <11162571@vivo.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-misc:spi-6.12 23/30] drivers/spi/spi-pxa2xx-pci.c:149:15:
- warning: variable 'dma_dev' is uninitialized when used here
-Message-ID: <202408310358.XuRCuDQE-lkp@intel.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: [linux-next:master 7320/8126] lib/../mm/vma.h:173:22: error:
+ implicit declaration of function 'vma_iter_store_gfp'; did you mean
+ 'vma_iter_clear_gfp'?
+Message-ID: <202408310422.VQwKBiSC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,119 +66,257 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git spi-6.12
-head:   e3de1d8deb9f6429356eb81118aa1601c8a5a1b6
-commit: 8a0ec8c2d736961ff556e9d331decda9048fe0f1 [23/30] spi: Insert the missing pci_dev_put()before return
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240831/202408310358.XuRCuDQE-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310358.XuRCuDQE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   985bf40edf4343dcb04c33f58b40b4a85c1776d4
+commit: 59f8f23d91921f023428e34c061e8ee88b7670c7 [7320/8126] mm: change failure of MAP_FIXED to restoring the gap on failure
+config: x86_64-randconfig-x005-20230818 (https://download.01.org/0day-ci/archive/20240831/202408310422.VQwKBiSC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310422.VQwKBiSC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310358.XuRCuDQE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408310422.VQwKBiSC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD 985bf40edf4343dcb04c33f58b40b4a85c1776d4 builds fine.
+      It may have been fixed somewhere.
 
->> drivers/spi/spi-pxa2xx-pci.c:149:15: warning: variable 'dma_dev' is uninitialized when used here [-Wuninitialized]
-     149 |                 pci_dev_put(dma_dev);
-         |                             ^~~~~~~
-   drivers/spi/spi-pxa2xx-pci.c:99:25: note: initialize the variable 'dma_dev' to silence this warning
-      99 |         struct pci_dev *dma_dev;
-         |                                ^
-         |                                 = NULL
-   drivers/spi/spi-pxa2xx-pci.c:227:15: warning: variable 'dma_dev' is uninitialized when used here [-Wuninitialized]
-     227 |                 pci_dev_put(dma_dev);
-         |                             ^~~~~~~
-   drivers/spi/spi-pxa2xx-pci.c:197:25: note: initialize the variable 'dma_dev' to silence this warning
-     197 |         struct pci_dev *dma_dev;
-         |                                ^
-         |                                 = NULL
-   2 warnings generated.
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/build_bug.h:5,
+                    from lib/vsprintf.c:21:
+   lib/../mm/vma.h: In function 'vms_abort_munmap_vmas':
+>> lib/../mm/vma.h:173:22: error: implicit declaration of function 'vma_iter_store_gfp'; did you mean 'vma_iter_clear_gfp'? [-Werror=implicit-function-declaration]
+     173 |         if (unlikely(vma_iter_store_gfp(vms->vmi, NULL, GFP_KERNEL))) {
+         |                      ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   In file included from lib/../mm/internal.h:22,
+                    from lib/vsprintf.c:50:
+   lib/../mm/vma.h: At top level:
+>> lib/../mm/vma.h:336:19: error: static declaration of 'vma_iter_store_gfp' follows non-static declaration
+     336 | static inline int vma_iter_store_gfp(struct vma_iterator *vmi,
+         |                   ^~~~~~~~~~~~~~~~~~
+   lib/../mm/vma.h:173:22: note: previous implicit declaration of 'vma_iter_store_gfp' with type 'int()'
+     173 |         if (unlikely(vma_iter_store_gfp(vms->vmi, NULL, GFP_KERNEL))) {
+         |                      ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
+   cc1: some warnings being treated as errors
 
 
-vim +/dma_dev +149 drivers/spi/spi-pxa2xx-pci.c
+vim +173 lib/../mm/vma.h
 
-    94	
-    95	static int lpss_spi_setup(struct pci_dev *dev, struct pxa2xx_spi_controller *c)
-    96	{
-    97		struct ssp_device *ssp = &c->ssp;
-    98		struct dw_dma_slave *tx, *rx;
-    99		struct pci_dev *dma_dev;
-   100		int ret;
-   101	
-   102		switch (dev->device) {
-   103		case PCI_DEVICE_ID_INTEL_BYT:
-   104			ssp->type = LPSS_BYT_SSP;
-   105			ssp->port_id = 0;
-   106			c->tx_param = &byt_tx_param;
-   107			c->rx_param = &byt_rx_param;
-   108			break;
-   109		case PCI_DEVICE_ID_INTEL_BSW0:
-   110			ssp->type = LPSS_BSW_SSP;
-   111			ssp->port_id = 0;
-   112			c->tx_param = &bsw0_tx_param;
-   113			c->rx_param = &bsw0_rx_param;
-   114			break;
-   115		case PCI_DEVICE_ID_INTEL_BSW1:
-   116			ssp->type = LPSS_BSW_SSP;
-   117			ssp->port_id = 1;
-   118			c->tx_param = &bsw1_tx_param;
-   119			c->rx_param = &bsw1_rx_param;
-   120			break;
-   121		case PCI_DEVICE_ID_INTEL_BSW2:
-   122			ssp->type = LPSS_BSW_SSP;
-   123			ssp->port_id = 2;
-   124			c->tx_param = &bsw2_tx_param;
-   125			c->rx_param = &bsw2_rx_param;
-   126			break;
-   127		case PCI_DEVICE_ID_INTEL_LPT0_0:
-   128		case PCI_DEVICE_ID_INTEL_LPT1_0:
-   129			ssp->type = LPSS_LPT_SSP;
-   130			ssp->port_id = 0;
-   131			c->tx_param = &lpt0_tx_param;
-   132			c->rx_param = &lpt0_rx_param;
-   133			break;
-   134		case PCI_DEVICE_ID_INTEL_LPT0_1:
-   135		case PCI_DEVICE_ID_INTEL_LPT1_1:
-   136			ssp->type = LPSS_LPT_SSP;
-   137			ssp->port_id = 1;
-   138			c->tx_param = &lpt1_tx_param;
-   139			c->rx_param = &lpt1_rx_param;
-   140			break;
-   141		default:
-   142			return -ENODEV;
-   143		}
-   144	
-   145		c->num_chipselect = 1;
-   146	
-   147		ret = pxa2xx_spi_pci_clk_register(dev, ssp, 50000000);
-   148		if (ret) {
- > 149			pci_dev_put(dma_dev);
-   150			return ret;
-   151		}
-   152	
-   153		dma_dev = pci_get_slot(dev->bus, PCI_DEVFN(PCI_SLOT(dev->devfn), 0));
-   154		ret = devm_add_action_or_reset(&dev->dev, lpss_dma_put_device, dma_dev);
-   155		if (ret)
-   156			return ret;
-   157	
-   158		tx = c->tx_param;
-   159		tx->dma_dev = &dma_dev->dev;
-   160		tx->m_master = 0;
-   161		tx->p_master = 1;
-   162	
-   163		rx = c->rx_param;
-   164		rx->dma_dev = &dma_dev->dev;
-   165		rx->m_master = 0;
-   166		rx->p_master = 1;
+   147	
+   148	/*
+   149	 * vms_abort_munmap_vmas() - Undo as much as possible from an aborted munmap()
+   150	 * operation.
+   151	 * @vms: The vma unmap structure
+   152	 * @mas_detach: The maple state with the detached maple tree
+   153	 *
+   154	 * Reattach any detached vmas, free up the maple tree used to track the vmas.
+   155	 * If that's not possible because the ptes are cleared (and vm_ops->closed() may
+   156	 * have been called), then a NULL is written over the vmas and the vmas are
+   157	 * removed (munmap() completed).
+   158	 */
+   159	static inline void vms_abort_munmap_vmas(struct vma_munmap_struct *vms,
+   160			struct ma_state *mas_detach)
+   161	{
+   162		if (!vms->nr_pages)
+   163			return;
+   164	
+   165		if (vms->clear_ptes)
+   166			return reattach_vmas(mas_detach);
    167	
-   168		c->dma_filter = lpss_dma_filter;
-   169		c->dma_burst_size = 1;
-   170		c->enable_dma = 1;
-   171		return 0;
-   172	}
-   173	
+   168		/*
+   169		 * Aborting cannot just call the vm_ops open() because they are often
+   170		 * not symmetrical and state data has been lost.  Resort to the old
+   171		 * failure method of leaving a gap where the MAP_FIXED mapping failed.
+   172		 */
+ > 173		if (unlikely(vma_iter_store_gfp(vms->vmi, NULL, GFP_KERNEL))) {
+   174			pr_warn_once("%s: (%d) Unable to abort munmap() operation\n",
+   175				     current->comm, current->pid);
+   176			/* Leaving vmas detached and in-tree may hamper recovery */
+   177			reattach_vmas(mas_detach);
+   178		} else {
+   179			/* Clean up the insertion of unfortunate the gap */
+   180			vms_complete_munmap_vmas(vms, mas_detach);
+   181		}
+   182	}
+   183	
+   184	int
+   185	do_vmi_align_munmap(struct vma_iterator *vmi, struct vm_area_struct *vma,
+   186			    struct mm_struct *mm, unsigned long start,
+   187			    unsigned long end, struct list_head *uf, bool unlock);
+   188	
+   189	int do_vmi_munmap(struct vma_iterator *vmi, struct mm_struct *mm,
+   190			  unsigned long start, size_t len, struct list_head *uf,
+   191			  bool unlock);
+   192	
+   193	void remove_vma(struct vm_area_struct *vma, bool unreachable, bool closed);
+   194	
+   195	void unmap_region(struct ma_state *mas, struct vm_area_struct *vma,
+   196			struct vm_area_struct *prev, struct vm_area_struct *next);
+   197	
+   198	/* Required by mmap_region(). */
+   199	bool
+   200	can_vma_merge_before(struct vm_area_struct *vma, unsigned long vm_flags,
+   201			struct anon_vma *anon_vma, struct file *file,
+   202			pgoff_t vm_pgoff, struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
+   203			struct anon_vma_name *anon_name);
+   204	
+   205	/* Required by mmap_region() and do_brk_flags(). */
+   206	bool
+   207	can_vma_merge_after(struct vm_area_struct *vma, unsigned long vm_flags,
+   208			struct anon_vma *anon_vma, struct file *file,
+   209			pgoff_t vm_pgoff, struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
+   210			struct anon_vma_name *anon_name);
+   211	
+   212	struct vm_area_struct *vma_modify(struct vma_iterator *vmi,
+   213					  struct vm_area_struct *prev,
+   214					  struct vm_area_struct *vma,
+   215					  unsigned long start, unsigned long end,
+   216					  unsigned long vm_flags,
+   217					  struct mempolicy *policy,
+   218					  struct vm_userfaultfd_ctx uffd_ctx,
+   219					  struct anon_vma_name *anon_name);
+   220	
+   221	/* We are about to modify the VMA's flags. */
+   222	static inline struct vm_area_struct
+   223	*vma_modify_flags(struct vma_iterator *vmi,
+   224			  struct vm_area_struct *prev,
+   225			  struct vm_area_struct *vma,
+   226			  unsigned long start, unsigned long end,
+   227			  unsigned long new_flags)
+   228	{
+   229		return vma_modify(vmi, prev, vma, start, end, new_flags,
+   230				  vma_policy(vma), vma->vm_userfaultfd_ctx,
+   231				  anon_vma_name(vma));
+   232	}
+   233	
+   234	/* We are about to modify the VMA's flags and/or anon_name. */
+   235	static inline struct vm_area_struct
+   236	*vma_modify_flags_name(struct vma_iterator *vmi,
+   237			       struct vm_area_struct *prev,
+   238			       struct vm_area_struct *vma,
+   239			       unsigned long start,
+   240			       unsigned long end,
+   241			       unsigned long new_flags,
+   242			       struct anon_vma_name *new_name)
+   243	{
+   244		return vma_modify(vmi, prev, vma, start, end, new_flags,
+   245				  vma_policy(vma), vma->vm_userfaultfd_ctx, new_name);
+   246	}
+   247	
+   248	/* We are about to modify the VMA's memory policy. */
+   249	static inline struct vm_area_struct
+   250	*vma_modify_policy(struct vma_iterator *vmi,
+   251			   struct vm_area_struct *prev,
+   252			   struct vm_area_struct *vma,
+   253			   unsigned long start, unsigned long end,
+   254			   struct mempolicy *new_pol)
+   255	{
+   256		return vma_modify(vmi, prev, vma, start, end, vma->vm_flags,
+   257				  new_pol, vma->vm_userfaultfd_ctx, anon_vma_name(vma));
+   258	}
+   259	
+   260	/* We are about to modify the VMA's flags and/or uffd context. */
+   261	static inline struct vm_area_struct
+   262	*vma_modify_flags_uffd(struct vma_iterator *vmi,
+   263			       struct vm_area_struct *prev,
+   264			       struct vm_area_struct *vma,
+   265			       unsigned long start, unsigned long end,
+   266			       unsigned long new_flags,
+   267			       struct vm_userfaultfd_ctx new_ctx)
+   268	{
+   269		return vma_modify(vmi, prev, vma, start, end, new_flags,
+   270				  vma_policy(vma), new_ctx, anon_vma_name(vma));
+   271	}
+   272	
+   273	struct vm_area_struct
+   274	*vma_merge_new_vma(struct vma_iterator *vmi, struct vm_area_struct *prev,
+   275			   struct vm_area_struct *vma, unsigned long start,
+   276			   unsigned long end, pgoff_t pgoff);
+   277	
+   278	struct vm_area_struct *vma_merge_extend(struct vma_iterator *vmi,
+   279						struct vm_area_struct *vma,
+   280						unsigned long delta);
+   281	
+   282	void unlink_file_vma_batch_init(struct unlink_vma_file_batch *vb);
+   283	
+   284	void unlink_file_vma_batch_final(struct unlink_vma_file_batch *vb);
+   285	
+   286	void unlink_file_vma_batch_add(struct unlink_vma_file_batch *vb,
+   287				       struct vm_area_struct *vma);
+   288	
+   289	void unlink_file_vma(struct vm_area_struct *vma);
+   290	
+   291	void vma_link_file(struct vm_area_struct *vma);
+   292	
+   293	int vma_link(struct mm_struct *mm, struct vm_area_struct *vma);
+   294	
+   295	struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
+   296		unsigned long addr, unsigned long len, pgoff_t pgoff,
+   297		bool *need_rmap_locks);
+   298	
+   299	struct anon_vma *find_mergeable_anon_vma(struct vm_area_struct *vma);
+   300	
+   301	bool vma_needs_dirty_tracking(struct vm_area_struct *vma);
+   302	bool vma_wants_writenotify(struct vm_area_struct *vma, pgprot_t vm_page_prot);
+   303	
+   304	int mm_take_all_locks(struct mm_struct *mm);
+   305	void mm_drop_all_locks(struct mm_struct *mm);
+   306	unsigned long count_vma_pages_range(struct mm_struct *mm,
+   307					    unsigned long addr, unsigned long end,
+   308					    unsigned long *nr_accounted);
+   309	
+   310	static inline bool vma_wants_manual_pte_write_upgrade(struct vm_area_struct *vma)
+   311	{
+   312		/*
+   313		 * We want to check manually if we can change individual PTEs writable
+   314		 * if we can't do that automatically for all PTEs in a mapping. For
+   315		 * private mappings, that's always the case when we have write
+   316		 * permissions as we properly have to handle COW.
+   317		 */
+   318		if (vma->vm_flags & VM_SHARED)
+   319			return vma_wants_writenotify(vma, vma->vm_page_prot);
+   320		return !!(vma->vm_flags & VM_WRITE);
+   321	}
+   322	
+   323	#ifdef CONFIG_MMU
+   324	static inline pgprot_t vm_pgprot_modify(pgprot_t oldprot, unsigned long vm_flags)
+   325	{
+   326		return pgprot_modify(oldprot, vm_get_page_prot(vm_flags));
+   327	}
+   328	#endif
+   329	
+   330	static inline struct vm_area_struct *vma_prev_limit(struct vma_iterator *vmi,
+   331							    unsigned long min)
+   332	{
+   333		return mas_prev(&vmi->mas, min);
+   334	}
+   335	
+ > 336	static inline int vma_iter_store_gfp(struct vma_iterator *vmi,
+   337				struct vm_area_struct *vma, gfp_t gfp)
+   338	{
+   339		if (vmi->mas.status != ma_start &&
+   340		    ((vmi->mas.index > vma->vm_start) || (vmi->mas.last < vma->vm_start)))
+   341			vma_iter_invalidate(vmi);
+   342	
+   343		__mas_set_range(&vmi->mas, vma->vm_start, vma->vm_end - 1);
+   344		mas_store_gfp(&vmi->mas, vma, gfp);
+   345		if (unlikely(mas_is_err(&vmi->mas)))
+   346			return -ENOMEM;
+   347	
+   348		return 0;
+   349	}
+   350	
 
 -- 
 0-DAY CI Kernel Test Service
