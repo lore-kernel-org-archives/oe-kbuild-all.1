@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A741509BF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 07:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A871531CB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 07:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725002641; cv=none; b=lWJtGYxGv4P2BM5e4Ph6krS21pWreyl6Zt8gsIGznhX7vwWG0lTCfx37tJpgZLYhHPGdBTHacDS7IoivBGQv4yL9N8oOHi00mRyhw+9xtHJMG8dzmrFhQkHNcr0kOU8qm8kWWWiyiK2XyNvmx479jHQqfwr6sAtnvjTYVb+tozQ=
+	t=1725003368; cv=none; b=RitnWelkqQUqHadOdSAyV+IWTBrEhEGG3v5xwlp56DyOPzuTdMSaHlo+Gg+XwuNYBCYmCXRdbGPzswm2rxdr0R+12COAMVoQiEeFzdL9hF/e2FUHWf5D9qAoQAqvpzVHV4zIp7K2O0lLcVtPoNtfBHXhgBHH9yQA1zQhjLBDozE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725002641; c=relaxed/simple;
-	bh=/Op7KTD3vSbDNbG+X7x36mVWMqkVdeNfPHjZqfvpeq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sgu2Jo0rN/+YjS7gejO8gPsH6F2eCH8MwFeFEKFMF4mG32+jlemcd7MLSw8Mb4Pb++D5hSgnXmSQQ5fkQwpZLh4J8zI+ZNvAHkFoq1lxQnbBEepCQgUMFqFpiqXWKeZvOfHyvMj0scQ/L88YNe4DuV6Zo8LIgQNvn7FJAcIjuI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMumq2Hy; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1725003368; c=relaxed/simple;
+	bh=n/35HqCn73lYRlpxKo5rBfjvgN3VEWO+0F64++ekZ/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PandBi5I9h2yuXqIYURiosfpRXkEVoDJzq8SjgPSYTlHpkOsSUPICEYDN0z5Vo3ijnOAord5HynRUBn80lJmC+IN0tUbjD+9EXxj1ObuKRonkz0enBUgw3n1ziqFYj8AXd1zpmb+Io2GWMdddri2gNbRp+cK4Vhmm6WdHV/6sQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZKFzNbYp; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMumq2Hy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZKFzNbYp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725002639; x=1756538639;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/Op7KTD3vSbDNbG+X7x36mVWMqkVdeNfPHjZqfvpeq8=;
-  b=TMumq2Hy5Wr4nCUK6w5atcdmp57RL1Q2SrrymbQvu4P3C+Lrf2vIqAyT
-   O4Ty2XK+AGZWH9ganUqfLTYupAJdADSt4FQ3S3aBZpsQOtUCBv10J9AdK
-   hr7kMvQ6BONEhxAeA13sm/Jfp+TuPTDVb/Pn2ElIH1FH+uESRWkmQFNS3
-   RanRAfcwYNDuRpRefFk5/QyFk/n2JCd9AeLdx9Dd90LqT+zYsrjaaWgNG
-   5dFyfzI+ZU39kg3IExGnVI+gFk6J5IAyGR89aVSJE8IsjqTffhvzSGYPL
-   +JzUn/GcXPJAEA9Fh2dE/jaY6JqAoXc8RUhmTJabhFhlvVKgIdwLD70xL
-   g==;
-X-CSE-ConnectionGUID: EGy4w/DDQsum5GZ4zMRZiA==
-X-CSE-MsgGUID: mq3U7suaQvGKzcP9MAGHzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="35007737"
+  t=1725003367; x=1756539367;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n/35HqCn73lYRlpxKo5rBfjvgN3VEWO+0F64++ekZ/k=;
+  b=ZKFzNbYp5TPWFK9+hfmK6sNpAjmIWAnMF8icttC9yvPthxmomcOg/D6x
+   Xgl+ad9huB7uEcQ58y8X9UCP6MNiX+kSscA5DmAeioMVEVfdVnwys6/5f
+   9SRL6x7WLffy3aGfcAq6NpdIQuW9D32j5c85ECDgDUs7tPpSuTLZ1GZyN
+   s8jcdTvNHXWIP+f3Oj5G3tqcZEHkheVHGDfNBxf9BqbHEyQFMuqkeL9zB
+   tpjEqcp9WGOC//gBIhvfc6g/AFaR6ou42pMp9Koz3WzlTmwtAc0RVv9L5
+   13tWEbo2J6HcAuo24fWT92EUaDutNIh0XBbUjQqIkfoPAKkHjMMXaC1NJ
+   w==;
+X-CSE-ConnectionGUID: GaG0MQmZRVeHTuXx7i2GpA==
+X-CSE-MsgGUID: Hf4Bh82QRhmFceQVInWhJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="41113790"
 X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="35007737"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 00:23:59 -0700
-X-CSE-ConnectionGUID: QYmRifueRayeDg2oSKroLA==
-X-CSE-MsgGUID: +A4RtvQ2TWmxLJOHQt45CQ==
+   d="scan'208";a="41113790"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 00:35:00 -0700
+X-CSE-ConnectionGUID: vLGpPygGRtWKxp6NGAyfig==
+X-CSE-MsgGUID: 1aBvc4rDTYC00GfocNs/nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="87053762"
+   d="scan'208";a="94647610"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Aug 2024 00:23:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Aug 2024 00:34:58 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjvz9-0001C8-1N;
-	Fri, 30 Aug 2024 07:23:55 +0000
-Date: Fri, 30 Aug 2024 15:23:52 +0800
+	id 1sjw9n-0001D8-2p;
+	Fri, 30 Aug 2024 07:34:55 +0000
+Date: Fri, 30 Aug 2024 15:34:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC PREVIEW 4/6] iommu: init pasid array while doing
- domain_replace and iopf is active
-Message-ID: <202408301533.Re9SdBUG-lkp@intel.com>
-References: <20240826-iopf-for-all-v1-4-59174e6a7528@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gabriel Krisman Bertazi <krisman@suse.de>
+Subject: [axboe-block:io_uring-6.11 22/22] io_uring/rsrc.c:981:30: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202408301526.kGGDgLFJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +62,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826-iopf-for-all-v1-4-59174e6a7528@samsung.com>
 
-Hi Klaus,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3d5f968a177d468cd13568ef901c5be84d83d32b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Klaus-Jensen/iommu-vt-d-Separate-page-request-queue-from-SVM/20240826-194355
-base:   3d5f968a177d468cd13568ef901c5be84d83d32b
-patch link:    https://lore.kernel.org/r/20240826-iopf-for-all-v1-4-59174e6a7528%40samsung.com
-patch subject: [PATCH RFC PREVIEW 4/6] iommu: init pasid array while doing domain_replace and iopf is active
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240830/202408301533.Re9SdBUG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301533.Re9SdBUG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-6.11
+head:   41ce1313454c91878970b46ed7efe849921482c6
+commit: 41ce1313454c91878970b46ed7efe849921482c6 [22/22] io_uring/rsrc: ensure compat iovecs are copied correctly
+config: i386-randconfig-061-20240830 (https://download.01.org/0day-ci/archive/20240830/202408301526.kGGDgLFJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408301526.kGGDgLFJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408301533.Re9SdBUG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408301526.kGGDgLFJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/rsrc.c:981:33: sparse: sparse: cast removes address space '__user' of expression
+>> io_uring/rsrc.c:981:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct iovec const [noderef] __user *uvec @@     got struct iovec *[noderef] __user @@
+   io_uring/rsrc.c:981:30: sparse:     expected struct iovec const [noderef] __user *uvec
+   io_uring/rsrc.c:981:30: sparse:     got struct iovec *[noderef] __user
+   io_uring/rsrc.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/filetable.h:66:35: sparse: sparse: restricted io_req_flags_t degrades to integer
+   io_uring/rsrc.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/filetable.h:66:35: sparse: sparse: restricted io_req_flags_t degrades to integer
 
->> drivers/iommu/iommu.c:3511: warning: Function parameter or struct member 'domain' not described in 'iommu_init_pasid_array'
->> drivers/iommu/iommu.c:3511: warning: Function parameter or struct member 'group' not described in 'iommu_init_pasid_array'
->> drivers/iommu/iommu.c:3511: warning: Function parameter or struct member 'handle' not described in 'iommu_init_pasid_array'
+vim +981 io_uring/rsrc.c
 
-
-vim +3511 drivers/iommu/iommu.c
-
-  3500	
-  3501	/**
-  3502	 * iommu_init_pasid_array - Initialize pasid array in the domain group
-  3503	 *
-  3504	 * Returns 0 on success. Error code on failure
-  3505	 *
-  3506	 * An IOMMU_NO_PASID element is *NOT* replaced if there is one already there.
-  3507	 */
-  3508	int iommu_init_pasid_array(struct iommu_domain *domain,
-  3509				   struct iommu_group *group,
-  3510				   struct iommu_attach_handle *handle)
-> 3511	{
-  3512		int ret;
-  3513	
-  3514		if (handle)
-  3515			handle->domain = domain;
-  3516	
-  3517		mutex_lock(&group->mutex);
-  3518		ret = xa_insert(&group->pasid_array, IOMMU_NO_PASID, handle, GFP_KERNEL);
-  3519		mutex_unlock(&group->mutex);
-  3520	
-  3521		if (ret == -EBUSY)
-  3522			ret = 0;
-  3523	
-  3524		return ret;
-  3525	}
-  3526	EXPORT_SYMBOL_NS_GPL(iommu_init_pasid_array, IOMMUFD_INTERNAL);
-  3527	
+   951	
+   952	int io_sqe_buffers_register(struct io_ring_ctx *ctx, void __user *arg,
+   953				    unsigned int nr_args, u64 __user *tags)
+   954	{
+   955		struct page *last_hpage = NULL;
+   956		struct io_rsrc_data *data;
+   957		struct iovec fast_iov, *iov = &fast_iov;
+   958		const struct iovec __user *uvec;
+   959		int i, ret;
+   960	
+   961		BUILD_BUG_ON(IORING_MAX_REG_BUFFERS >= (1u << 16));
+   962	
+   963		if (ctx->user_bufs)
+   964			return -EBUSY;
+   965		if (!nr_args || nr_args > IORING_MAX_REG_BUFFERS)
+   966			return -EINVAL;
+   967		ret = io_rsrc_data_alloc(ctx, IORING_RSRC_BUFFER, tags, nr_args, &data);
+   968		if (ret)
+   969			return ret;
+   970		ret = io_buffers_map_alloc(ctx, nr_args);
+   971		if (ret) {
+   972			io_rsrc_data_free(data);
+   973			return ret;
+   974		}
+   975	
+   976		if (!arg)
+   977			memset(iov, 0, sizeof(*iov));
+   978	
+   979		for (i = 0; i < nr_args; i++, ctx->nr_user_bufs++) {
+   980			if (arg) {
+ > 981				uvec = (struct iovec * __user) arg;
+   982				iov = iovec_from_user(uvec, 1, 1, &fast_iov, ctx->compat);
+   983				if (IS_ERR(iov)) {
+   984					ret = PTR_ERR(iov);
+   985					break;
+   986				}
+   987				ret = io_buffer_validate(iov);
+   988				if (ret)
+   989					break;
+   990				if (ctx->compat)
+   991					arg += sizeof(struct compat_iovec);
+   992				else
+   993					arg += sizeof(struct iovec);
+   994			}
+   995	
+   996			if (!iov->iov_base && *io_get_tag_slot(data, i)) {
+   997				ret = -EINVAL;
+   998				break;
+   999			}
+  1000	
+  1001			ret = io_sqe_buffer_register(ctx, iov, &ctx->user_bufs[i],
+  1002						     &last_hpage);
+  1003			if (ret)
+  1004				break;
+  1005		}
+  1006	
+  1007		WARN_ON_ONCE(ctx->buf_data);
+  1008	
+  1009		ctx->buf_data = data;
+  1010		if (ret)
+  1011			__io_sqe_buffers_unregister(ctx);
+  1012		return ret;
+  1013	}
+  1014	
 
 -- 
 0-DAY CI Kernel Test Service
