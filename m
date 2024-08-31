@@ -1,80 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42335157A6B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 08:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E631A16D9C2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 08:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725091679; cv=none; b=ctyE8cZ+JVpseyFiMM6Yml+MMSUWvzpVPRrcZEKrvnlsXFTB4iUiMf9IVxrOQSIF2s0IIXeIxy1ejmDyFSut+fkm6BGgKpyVszdIVwfD53qpFyKvx3Vtw96GtbIIwaObCdnn2gOGylJlLRtjuD17HfSPZRf1enZn1YTKOyIAO/M=
+	t=1725092334; cv=none; b=ETnQApYAjJBdSZCvUFcRM17p3FZMrUvY97KQLXQrO+3O4477zmoXzRj/9hfyqVTNWvpxIKTBYFyO6DokGbSHcY3EetPVHiDJes7/yiolwG/2agO3gjDl5hgrCl4iVgTJ77pLQP0cbjSf/cDOfwIAPQrUJq6N4eDBRuMUxzBec2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725091679; c=relaxed/simple;
-	bh=pMyd6VJ5fw/wGHIvhzQNZYG4qJelaQ5hTMxf5GnoR3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tYSn5xBNxh8ba+Z1nNX3WPEMia4ZOHPXUyhj2YffRtCyFmfSi+jTOw3DZ3vE/agECygme2AxUjx8VZAMeIX1pU/gkGMDpko7p3T2ew/xokYVl7DfZhsMUPHO0+HmmDkrlVLq5Pa0CSLIO5vr3/TPZJ1DRVM9GuXVEA7JKZ+nHg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NL6KefUk; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1725092334; c=relaxed/simple;
+	bh=f5KKYnctUcVn6XNtZ3guTn8j4LZV12rZXbkUiPCchaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dTmWX4xAQrP5rUm5e9R317JLi1uc9exTGLtLzQa/Cm9kp4jaOuN3Wa6742zSqIprYdaxUAEmSQ7/gtzsggY235rby0LMMYG6dZO92txkKSmVE7SeXCW4H6s3oILkmb2nPwI79TA1aNmT6vNAGewL6CQrapvglOkLq4TxbwT7zzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iSs/KFuv; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NL6KefUk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSs/KFuv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725091678; x=1756627678;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pMyd6VJ5fw/wGHIvhzQNZYG4qJelaQ5hTMxf5GnoR3c=;
-  b=NL6KefUkOr+IN0DnYlV0AjeZBOsYYd8uvfx/KG6W5kJ9muO7YmMm8fcS
-   2xVn+sQXoVFkfbFxagFWeWv+5boKpn3pohGrBuwxzk6t8PKmwZbO/nx2v
-   dLM6EsBnvrMC31kgz59DjqCGqNPl9L5E/D0dGzKuW+CWi3tzZBeGesu7v
-   1MVo23fsqeltxJQwjPbSiLJ/wsccCOb3aES22mvJyu4KK+guuVwlUbOX9
-   blDXKI4TyrRH6mkPjKesLkjNYjtvxC+RbMHnaOftZ6S0EjHfbloWD5rGp
-   stx4GCOBOFm20oRLES8bTRCTKQoOusKigy0RVmswHjF4O7MFg54ihwFkj
-   Q==;
-X-CSE-ConnectionGUID: dab+GYqFSa2nMxsVDqgeBw==
-X-CSE-MsgGUID: BcOI00RzSAKyKY2cM7h5AA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23898821"
+  t=1725092333; x=1756628333;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f5KKYnctUcVn6XNtZ3guTn8j4LZV12rZXbkUiPCchaY=;
+  b=iSs/KFuvw37R2z/AknDV0j/uu/2Bmbllx5v/MPtAWRWXKw8rHwtL91Ig
+   fAKc7sDewVJJRyhzJH1S+31isgQFscRWrfFyN3OMuLQqD1J9im9Ed/uBg
+   EzswcOlzq4zzpApJBuDRQNctEMwmzu4zs+VMCX8chE7eKiApYsKES6LL5
+   +Uffwk2G+CbWharkJ9tEntZo8i1THe74jRoK/ex4Fi+nAZMcZsD5J7gwv
+   oc4VztjC10a2jCEAfaEObkw5LjAi+YYt/0M3RyBUQw4iHgCaQnAjPExQT
+   sLQ2XEQifAverNxTfdmrhFAQI9ILxrn7hSviJ+tz63suzlp4E08lw7dlK
+   w==;
+X-CSE-ConnectionGUID: h+mCoeNoQ6iFy5KBhVodow==
+X-CSE-MsgGUID: tQrqPanlRYOn5RoGqOWUVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="27531347"
 X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="23898821"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 01:07:57 -0700
-X-CSE-ConnectionGUID: +yHVbmu0R8O+HNdeMbMqzg==
-X-CSE-MsgGUID: QuDWnnohQq6+5BdwTdhPig==
+   d="scan'208";a="27531347"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 01:18:52 -0700
+X-CSE-ConnectionGUID: 2dBnMPleS8yp+DRdvOlokA==
+X-CSE-MsgGUID: lWQ4iPm3TH+Z7w4vA8pzEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="64167540"
+   d="scan'208";a="64620752"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Aug 2024 01:07:51 -0700
+  by orviesa007.jf.intel.com with ESMTP; 31 Aug 2024 01:18:51 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skJ9A-0002Ra-2m;
-	Sat, 31 Aug 2024 08:07:48 +0000
-Date: Sat, 31 Aug 2024 16:06:53 +0800
+	id 1skJJp-0002S9-0V;
+	Sat, 31 Aug 2024 08:18:49 +0000
+Date: Sat, 31 Aug 2024 16:18:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Macpaul Lin <macpaul.lin@mediatek.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>,
-	Lee Jones <lee@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Flora Fu <flora.fu@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bear Wang <bear.wang@mediatek.com>,
-	Pablo Sun <pablo.sun@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>,
-	Sen Chu <sen.chu@mediatek.com>,
-	Chris-qj chen <chris-qj.chen@mediatek.com>,
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v2 5/7] dt-bindings: leds: mt6323: merge to MFD
- mediatek,mt6397 DT schema
-Message-ID: <202408311533.GPosdKVY-lkp@intel.com>
-References: <20240830110732.30080-5-macpaul.lin@mediatek.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:mm-generic-shadow-stack-guard 2/4]
+ arch/mips/mm/mmap.c:100:15: error: conflicting types for
+ 'arch_get_unmapped_area'; have 'long unsigned int(struct file *, long
+ unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'
+Message-ID: <202408311630.zoXDd1pQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,40 +63,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830110732.30080-5-macpaul.lin@mediatek.com>
 
-Hi Macpaul,
+Hi Mark,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on next-20240830]
-[cannot apply to lee-mfd/for-mfd-next robh/for-next lee-mfd/for-mfd-fixes linus/master v6.11-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Macpaul-Lin/dt-bindings-mfd-mediatek-mt6397-Convert-to-DT-schema-format/20240830-191309
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20240830110732.30080-5-macpaul.lin%40mediatek.com
-patch subject: [PATCH v2 5/7] dt-bindings: leds: mt6323: merge to MFD mediatek,mt6397 DT schema
-reproduce: (https://download.01.org/0day-ci/archive/20240831/202408311533.GPosdKVY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git mm-generic-shadow-stack-guard
+head:   cee7666d4399dc5fc380d4bccf0ea2765ca0f475
+commit: 188eb913ab0dd50e2b8210b1d716edeaa38dfa3e [2/4] mm: Make arch_get_unmapped_area() take vm_flags by default
+config: mips-randconfig-r073-20240831 (https://download.01.org/0day-ci/archive/20240831/202408311630.zoXDd1pQ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408311630.zoXDd1pQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408311533.GPosdKVY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408311630.zoXDd1pQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/leds-mt6323.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
+>> arch/mips/mm/mmap.c:100:15: error: conflicting types for 'arch_get_unmapped_area'; have 'long unsigned int(struct file *, long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'
+     100 | unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr0,
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/xarray.h:21,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/huge_mm.h:8,
+                    from include/linux/mm.h:1127,
+                    from arch/mips/mm/mmap.c:12:
+   include/linux/sched/mm.h:184:1: note: previous declaration of 'arch_get_unmapped_area' with type 'long unsigned int(struct file *, long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  vm_flags_t)' {aka 'long unsigned int(struct file *, long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'}
+     184 | arch_get_unmapped_area(struct file *filp, unsigned long addr,
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/mips/mm/mmap.c:111:15: error: conflicting types for 'arch_get_unmapped_area_topdown'; have 'long unsigned int(struct file *, long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'
+     111 | unsigned long arch_get_unmapped_area_topdown(struct file *filp,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:188:1: note: previous declaration of 'arch_get_unmapped_area_topdown' with type 'long unsigned int(struct file *, long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  vm_flags_t)' {aka 'long unsigned int(struct file *, long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'}
+     188 | arch_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +100 arch/mips/mm/mmap.c
+
+d0be89f6c2570a Jian Peng      2011-05-17   99  
+d0be89f6c2570a Jian Peng      2011-05-17 @100  unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr0,
+d0be89f6c2570a Jian Peng      2011-05-17  101  	unsigned long len, unsigned long pgoff, unsigned long flags)
+d0be89f6c2570a Jian Peng      2011-05-17  102  {
+16650107579aed Kevin Cernekee 2011-06-18  103  	return arch_get_unmapped_area_common(filp,
+d0be89f6c2570a Jian Peng      2011-05-17  104  			addr0, len, pgoff, flags, UP);
+d0be89f6c2570a Jian Peng      2011-05-17  105  }
+d0be89f6c2570a Jian Peng      2011-05-17  106  
+d0be89f6c2570a Jian Peng      2011-05-17  107  /*
+d0be89f6c2570a Jian Peng      2011-05-17  108   * There is no need to export this but sched.h declares the function as
+d0be89f6c2570a Jian Peng      2011-05-17  109   * extern so making it static here results in an error.
+d0be89f6c2570a Jian Peng      2011-05-17  110   */
+d0be89f6c2570a Jian Peng      2011-05-17 @111  unsigned long arch_get_unmapped_area_topdown(struct file *filp,
+d0be89f6c2570a Jian Peng      2011-05-17  112  	unsigned long addr0, unsigned long len, unsigned long pgoff,
+d0be89f6c2570a Jian Peng      2011-05-17  113  	unsigned long flags)
+d0be89f6c2570a Jian Peng      2011-05-17  114  {
+16650107579aed Kevin Cernekee 2011-06-18  115  	return arch_get_unmapped_area_common(filp,
+d0be89f6c2570a Jian Peng      2011-05-17  116  			addr0, len, pgoff, flags, DOWN);
+6f6c3c33c027f2 Ralf Baechle   2011-05-19  117  }
+6f6c3c33c027f2 Ralf Baechle   2011-05-19  118  
+
+:::::: The code at line 100 was first introduced by commit
+:::::: d0be89f6c2570a63ac44ccdd12473a54243cd296 MIPS: topdown mmap support
+
+:::::: TO: Jian Peng <jipeng2005@gmail.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
