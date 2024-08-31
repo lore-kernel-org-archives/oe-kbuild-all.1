@@ -1,62 +1,58 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4E98BF3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 14:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24118468
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 15:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725115015; cv=none; b=J2lxFtmenYTAxVbCs33I/BZo+Q+S2DIBAquiXxp2KmZufJ4fm1GaWQiFGRN6Omq0ZmjkFXe5fMygEc8JnjpozPUMX4aOnlyLivUFDL/ywjCE7pscWkWQlJA+XqkOemTe73FKY6eSYP4RA3uLybQ6ssKbR/fHU3I5zpRj7qV+4qI=
+	t=1725117014; cv=none; b=lYP2ZqjyCPD8QIpq7+odRn8NV8GFFQykHUajO4QlNmZJ+1unUHyYZpkwtCPKJ1ghUUrfWrMnPsqJWTJeyqvXKBANH0jBgpvt6LYtHiE0esRUMKTVhs177OZ+IfqWe84IY5YUUIJLhbCgK+VydGfFPTcSeI81QCakVzvj45fL8gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725115015; c=relaxed/simple;
-	bh=Jo+1+h54Wyetpo7aO/P2L4VBPdK3T1+bVFrEV++xy3E=;
+	s=arc-20240116; t=1725117014; c=relaxed/simple;
+	bh=1xVGv+SC84h7SOr+spXDFBlJu2mosTjn3kUoDRcy6OU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NHiSDQZg/pN/97Ls35Whzj0XFIxZg98Z4HXVf1HswTavj55t/jo7aBcmcLxV5fjHrBMOvdSVjNUOYPmNa6k8gItt89sVnSyhC4C2XamgGttTG0zJp55G5gYHiSco/xrSssnX9N/of8l/qVG1OXBOCkwE2YXbiDwvzggkospRUU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=goS7OSQF; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=iguB72hII435BRQ9GNPXiDAaEEnmNne6sDvmGJqc+cozBhnGPOwW9kWwjfeIFBCW/I6Winvl2bo0OpVeq+hjbj5QRG1be6KXs0NmdAWt/CEM8+8MW01Cyg56ZKvPAkhf0Ci8SZJ+73NqFVsbHAmY3OkhOijkD6XmlomSNgd2/jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyvRCz8w; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="goS7OSQF"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42bbdf7f860so12465615e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 07:36:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725115012; x=1725719812; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SnxUaZW1hiT+pez+rLDt15E0bcJfGz2A/Fx4lCrlVxY=;
-        b=goS7OSQF4wJP+CRR4w4f6A5zEDIbLVjuGa4BeVWOl7hW43CDZxXaTeSTNFt0dbBP94
-         SA/8VA0yV1HLxjQG2NcuFh63NmpZ+JyUxXz5l1RGh9HWK3eBdWl93Z/aGeqyOQnLtVKk
-         n0finu4FeOaXNzfEzCQncOREFFX5EjEMrLyX5dFm5ZAQ9hDcmW7ry02HL2hUP9db43P4
-         vnBER14s/kZLdsqu78hg/LnMgKINgOuH0hTKTe6YYq1wzMUB0eB8Oh4FS1VnHV1vQ9Om
-         6kVAxCnhG+bSo33ltOYX2g3h+yj8fHCuYWt/RnEpn1Zjf4YXYICl/ZqC/tkwqxmcAUw0
-         rPyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725115012; x=1725719812;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SnxUaZW1hiT+pez+rLDt15E0bcJfGz2A/Fx4lCrlVxY=;
-        b=dGMz222oU6hPPoYkksvb1dXDisFw4RB5r3wzXbwtyOdDyLLv6nVzAKjkKIy9RKEOjE
-         CL+Q6k4XUcYSxY/lB7vpjRwe1m/xHoq6+TiBWoyU/MbKKJ9q0WXwxjaN8RjZb062N7qW
-         fReq1vbAjeABypxtSJ4BF302yZ7jK3hbxNVBotpnaXNE2tuDe5HYWq2lYjEm1LH/6/AR
-         gBs99GkrAuQ0Yfwfw+w95jGEv4b2l4jZiiJSVPj+Qoe2psAKFVBnwLR+nfzyPu96bDIY
-         2R6//zn2BGoZkPkmQWtvp+lnbNPw9MHUS2YfNnzlr6OOEuq/1xodIQUocuhjPKeIK9vC
-         IWxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWk3DQrhgKSYayy0EWTeHoLYz1S+9OOs//IWRQwMoNhJ+UbwSOz33f0pNTHQs9mmS/2nyTSV9MZnfRypum9@lists.linux.dev
-X-Gm-Message-State: AOJu0YzzX7pOuAgL5Js4jdhSbT3Eq5m+WH6qp2uD3Ky/Znh+kIAZTc9+
-	0b/jtW7Kl1NJnvqUe0vfW5/rHrOw/eRux0VVKBcL1nHmejohWYsOQE/X52VVcyo=
-X-Google-Smtp-Source: AGHT+IGwZtvsreGHafny6AmR3dsjkdwKHgJg5LZ80KDOrZpSysvmSOeqR2omJ2QlHTbSo/0H663OFw==
-X-Received: by 2002:a5d:424b:0:b0:368:6f30:ddf1 with SMTP id ffacd0b85a97d-3749b58750amr5862439f8f.59.1725115011978;
-        Sat, 31 Aug 2024 07:36:51 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3749efafb30sm6723348f8f.94.2024.08.31.07.36.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Aug 2024 07:36:51 -0700 (PDT)
-Date: Sat, 31 Aug 2024 17:36:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:slub-percpu-sheaves-v1r1 13/13] mm/slub.c:5070 free_to_pcs()
- error: we previously assumed 'pcs' could be null (see line 5069)
-Message-ID: <54fbc08a-43f9-4193-bf6e-f070900346fb@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyvRCz8w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725117012; x=1756653012;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1xVGv+SC84h7SOr+spXDFBlJu2mosTjn3kUoDRcy6OU=;
+  b=SyvRCz8w2wc7TlTzxyLVvTFk3Sw1R5GRVT0xNerWco6WxdQcaatdw1fz
+   ytIqdoXbVKHu9uO8y6ccpRMSvjtGDpfwXuKRZ8KTC+o/5+lpBVkE31a4Y
+   xhXn4bcfa6IwkTfldkYZRKweXMj2Un8SpHWLXMs3Q7ztb81xX5YDEUWCE
+   FLaUyql2XSgTcAoXIyP5R3CobuvbPrjkdZ+zORRtbmE5hpLdxCTtdEgdD
+   NMOGaVohZNaGfze0DPcaVxJtHMdfDpKPKZ5n50bZbDK/iabYr8SJoRx5m
+   Fk+dooHrQQpy64k3d74mnN6Sxj1hIHN0ngsWcqcrSIi/550m+jqYoxzjo
+   g==;
+X-CSE-ConnectionGUID: hLYg/Eq+RbyKfmRS3FU9PA==
+X-CSE-MsgGUID: DJSDLa2YRR6YdrWIXCPtQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23883288"
+X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
+   d="scan'208";a="23883288"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 08:10:12 -0700
+X-CSE-ConnectionGUID: Ra/oSbOeShGcBEgsKSU89g==
+X-CSE-MsgGUID: pS+mtawJR4eAeojIDVRiEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
+   d="scan'208";a="94890974"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2024 08:10:11 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1skPjs-0002rG-0N;
+	Sat, 31 Aug 2024 15:10:08 +0000
+Date: Sat, 31 Aug 2024 23:09:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>
+Subject: [mark:arm64/brbe 6/10] drivers/perf/arm_pmuv3.c:1314:22: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202408312311.XYj3ZFZu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,49 +62,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-sheaves-v1r1
-head:   000f7cce0fe19452a5ecbc350b16d7d8ac68d8ba
-commit: 000f7cce0fe19452a5ecbc350b16d7d8ac68d8ba [13/13] mm, slub: cheaper locking for percpu sheaves
-config: parisc-randconfig-r071-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312123.B5VrU0tZ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/brbe
+head:   dc7efc5b697eea31ad0c1b663f26417195556e8f
+commit: d4bb8bff2986d2ed49af99e8b034acfc738460db [6/10] WIP: perf/arm_pmuv3: Enable branch stack sampling via FEAT_BRBE
+config: arm64-randconfig-r112-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312311.XYj3ZFZu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240831/202408312311.XYj3ZFZu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408312123.B5VrU0tZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408312311.XYj3ZFZu-lkp@intel.com/
 
-smatch warnings:
-mm/slub.c:5070 free_to_pcs() error: we previously assumed 'pcs' could be null (see line 5069)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/perf/arm_pmuv3.c:1314:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_branch_stack *branch_stack @@     got void [noderef] __percpu *_res @@
+   drivers/perf/arm_pmuv3.c:1314:22: sparse:     expected struct perf_branch_stack *branch_stack
+   drivers/perf/arm_pmuv3.c:1314:22: sparse:     got void [noderef] __percpu *_res
+>> drivers/perf/arm_pmuv3.c:1324:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_branch_stack * @@
+   drivers/perf/arm_pmuv3.c:1324:36: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/perf/arm_pmuv3.c:1324:36: sparse:     got struct perf_branch_stack *
 
-vim +/pcs +5070 mm/slub.c
+vim +1314 drivers/perf/arm_pmuv3.c
 
-9488f19d44934d Vlastimil Babka   2023-11-15  5060  		if (!empty) {
-000f7cce0fe194 Vlastimil Babka   2024-08-28  5061  			if (sheaf_flush_main(s))
-9488f19d44934d Vlastimil Babka   2023-11-15  5062  				goto restart;
-000f7cce0fe194 Vlastimil Babka   2024-08-28  5063  			else
-000f7cce0fe194 Vlastimil Babka   2024-08-28  5064  				return false;
-9488f19d44934d Vlastimil Babka   2023-11-15  5065  		}
-9488f19d44934d Vlastimil Babka   2023-11-15  5066  
-9488f19d44934d Vlastimil Babka   2023-11-15  5067  got_empty:
-000f7cce0fe194 Vlastimil Babka   2024-08-28  5068  		pcs = cpu_sheaves_trylock(s->cpu_sheaves);
-000f7cce0fe194 Vlastimil Babka   2024-08-28 @5069  		if (!pcs) {
-                                                                     ^^^
-
-000f7cce0fe194 Vlastimil Babka   2024-08-28 @5070  			barn_put_empty_sheaf(pcs->barn, empty, true);
-                                                                                             ^^^^^^^^^
-
-000f7cce0fe194 Vlastimil Babka   2024-08-28  5071  			return false;
-000f7cce0fe194 Vlastimil Babka   2024-08-28  5072  		}
-9488f19d44934d Vlastimil Babka   2023-11-15  5073  
-9488f19d44934d Vlastimil Babka   2023-11-15  5074  		/*
-9488f19d44934d Vlastimil Babka   2023-11-15  5075  		 * if we put any sheaf to barn here, it's because we raced or
-9488f19d44934d Vlastimil Babka   2023-11-15  5076  		 * have been migrated to a different cpu, which should be rare
-9488f19d44934d Vlastimil Babka   2023-11-15  5077  		 * enough so just ignore the barn's limits to simplify
-9488f19d44934d Vlastimil Babka   2023-11-15  5078  		 */
-9488f19d44934d Vlastimil Babka   2023-11-15  5079  		if (unlikely(pcs->main->size < s->sheaf_capacity)) {
+  1306	
+  1307	static int branch_records_alloc(struct arm_pmu *armpmu)
+  1308	{
+  1309		struct perf_branch_stack *branch_stack;
+  1310		size_t size = struct_size(branch_stack, entries,
+  1311					  armpmu->num_branch_records);
+  1312		int cpu;
+  1313	
+> 1314		branch_stack = __alloc_percpu_gfp(size, __alignof__(*branch_stack),
+  1315						  GFP_KERNEL);
+  1316		if (!branch_stack)
+  1317			return -ENOMEM;
+  1318	
+  1319		for_each_possible_cpu(cpu) {
+  1320			struct pmu_hw_events *events_cpu;
+  1321			struct perf_branch_stack *branch_stack_cpu;
+  1322	
+  1323			events_cpu = per_cpu_ptr(armpmu->hw_events, cpu);
+> 1324			branch_stack_cpu = per_cpu_ptr(branch_stack, cpu);
+  1325			events_cpu->branch_stack = branch_stack_cpu;
+  1326		}
+  1327		return 0;
+  1328	}
+  1329	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
