@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D824FC8DF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 14:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4E98BF3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 14:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725113891; cv=none; b=lhzqPBhCEfoGhSqAa/ZhRf8XtOjA//VK/NVfgtAZBTX2aUigHuduLvXh4zyywXO1JQEzJZiS0fcYAlR7RQV70CEosbgeDZW4I2Pa30F0pdLUqUeoNt8yr7ph8gsz+t55WcZwDsb6lFuhhbYncyrg+XJJQmtMe4A39zCWfX+CEJM=
+	t=1725115015; cv=none; b=J2lxFtmenYTAxVbCs33I/BZo+Q+S2DIBAquiXxp2KmZufJ4fm1GaWQiFGRN6Omq0ZmjkFXe5fMygEc8JnjpozPUMX4aOnlyLivUFDL/ywjCE7pscWkWQlJA+XqkOemTe73FKY6eSYP4RA3uLybQ6ssKbR/fHU3I5zpRj7qV+4qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725113891; c=relaxed/simple;
-	bh=l0a9YP2+MMfCwNExSRU4V3/3lgAFzSvK1FEqsQU0GJI=;
+	s=arc-20240116; t=1725115015; c=relaxed/simple;
+	bh=Jo+1+h54Wyetpo7aO/P2L4VBPdK3T1+bVFrEV++xy3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mWLZn00TIBsyHoYVVcs5QcIs+twHubtOd/CLm9kZTRIJiAsmnOJYAfsdy3ega6PQAZJTyixm6GK0GDAHt73qD3gQylx5I9OGeXiJZXWkm7yCBHDhpJXhY/RiSn0rinVhPsTVWT/pKswK4tIwaiH+IZPCCvB7HFE+71VRbG2CFgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CdS652v3; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=NHiSDQZg/pN/97Ls35Whzj0XFIxZg98Z4HXVf1HswTavj55t/jo7aBcmcLxV5fjHrBMOvdSVjNUOYPmNa6k8gItt89sVnSyhC4C2XamgGttTG0zJp55G5gYHiSco/xrSssnX9N/of8l/qVG1OXBOCkwE2YXbiDwvzggkospRUU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=goS7OSQF; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CdS652v3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725113890; x=1756649890;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l0a9YP2+MMfCwNExSRU4V3/3lgAFzSvK1FEqsQU0GJI=;
-  b=CdS652v3BasztlKLrvLMtpcJy0kQzTv5AYzszd58xWj/zhqS+VI9xTvG
-   0hRfl4spfOqtUGK5VYAAKNIpCuZskUkK1KmNLWtiTxh7pggE73Rr3a8Wl
-   GM8F0KO75LfPFt8XT5+HXNO6lXc5Y2d5sbJMwqkkIk5DyuQsB9x7nsl7B
-   ClWtmGc7PoJ/RSarZhqdMqj3X84aPEDH6Yn5EbOxhg3nODM4j+9qnC0G9
-   1axbI+tdOSwvKDy6wADG3pe9okrH/yBQr+n4vRKGP4PAJ6MaJROCTcSWp
-   NES3xPvf5cf3bbQXvk7GCZH4vT2E/MyjFA+Ll7hsLAWs8BR4K8ZH1fP46
-   g==;
-X-CSE-ConnectionGUID: zkwhAL27SHCMNzhiCblPcA==
-X-CSE-MsgGUID: PhwrW/r2TMCjFI4Tk5rltQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="46253352"
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="46253352"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 07:18:10 -0700
-X-CSE-ConnectionGUID: iOhus2EhQtCDzo26dF5m9Q==
-X-CSE-MsgGUID: W1eJ/vZmS5GcXQlkjlbzVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="64214446"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Aug 2024 07:18:08 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skOvW-0002oY-16;
-	Sat, 31 Aug 2024 14:18:06 +0000
-Date: Sat, 31 Aug 2024 22:17:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:i2c-repeated-send-debug 2/4]
- drivers/i2c/busses/i2c-microchip-corei2c.c:121: warning: Function parameter
- or struct member 'msg_queue' not described in 'mchp_corei2c_dev'
-Message-ID: <202408312226.7GmF5A53-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="goS7OSQF"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42bbdf7f860so12465615e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 07:36:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725115012; x=1725719812; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SnxUaZW1hiT+pez+rLDt15E0bcJfGz2A/Fx4lCrlVxY=;
+        b=goS7OSQF4wJP+CRR4w4f6A5zEDIbLVjuGa4BeVWOl7hW43CDZxXaTeSTNFt0dbBP94
+         SA/8VA0yV1HLxjQG2NcuFh63NmpZ+JyUxXz5l1RGh9HWK3eBdWl93Z/aGeqyOQnLtVKk
+         n0finu4FeOaXNzfEzCQncOREFFX5EjEMrLyX5dFm5ZAQ9hDcmW7ry02HL2hUP9db43P4
+         vnBER14s/kZLdsqu78hg/LnMgKINgOuH0hTKTe6YYq1wzMUB0eB8Oh4FS1VnHV1vQ9Om
+         6kVAxCnhG+bSo33ltOYX2g3h+yj8fHCuYWt/RnEpn1Zjf4YXYICl/ZqC/tkwqxmcAUw0
+         rPyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725115012; x=1725719812;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SnxUaZW1hiT+pez+rLDt15E0bcJfGz2A/Fx4lCrlVxY=;
+        b=dGMz222oU6hPPoYkksvb1dXDisFw4RB5r3wzXbwtyOdDyLLv6nVzAKjkKIy9RKEOjE
+         CL+Q6k4XUcYSxY/lB7vpjRwe1m/xHoq6+TiBWoyU/MbKKJ9q0WXwxjaN8RjZb062N7qW
+         fReq1vbAjeABypxtSJ4BF302yZ7jK3hbxNVBotpnaXNE2tuDe5HYWq2lYjEm1LH/6/AR
+         gBs99GkrAuQ0Yfwfw+w95jGEv4b2l4jZiiJSVPj+Qoe2psAKFVBnwLR+nfzyPu96bDIY
+         2R6//zn2BGoZkPkmQWtvp+lnbNPw9MHUS2YfNnzlr6OOEuq/1xodIQUocuhjPKeIK9vC
+         IWxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWk3DQrhgKSYayy0EWTeHoLYz1S+9OOs//IWRQwMoNhJ+UbwSOz33f0pNTHQs9mmS/2nyTSV9MZnfRypum9@lists.linux.dev
+X-Gm-Message-State: AOJu0YzzX7pOuAgL5Js4jdhSbT3Eq5m+WH6qp2uD3Ky/Znh+kIAZTc9+
+	0b/jtW7Kl1NJnvqUe0vfW5/rHrOw/eRux0VVKBcL1nHmejohWYsOQE/X52VVcyo=
+X-Google-Smtp-Source: AGHT+IGwZtvsreGHafny6AmR3dsjkdwKHgJg5LZ80KDOrZpSysvmSOeqR2omJ2QlHTbSo/0H663OFw==
+X-Received: by 2002:a5d:424b:0:b0:368:6f30:ddf1 with SMTP id ffacd0b85a97d-3749b58750amr5862439f8f.59.1725115011978;
+        Sat, 31 Aug 2024 07:36:51 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3749efafb30sm6723348f8f.94.2024.08.31.07.36.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Aug 2024 07:36:51 -0700 (PDT)
+Date: Sat, 31 Aug 2024 17:36:46 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:slub-percpu-sheaves-v1r1 13/13] mm/slub.c:5070 free_to_pcs()
+ error: we previously assumed 'pcs' could be null (see line 5069)
+Message-ID: <54fbc08a-43f9-4193-bf6e-f070900346fb@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,69 +66,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git i2c-repeated-send-debug
-head:   39dbd883618e7102143007c1b2f82ba1cb5edf39
-commit: 7a2a2bbc167e6fb853b930098aaa9389ef442ae0 [2/4] i2c: microchip-core: actually use repeated sends
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240831/202408312226.7GmF5A53-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408312226.7GmF5A53-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-sheaves-v1r1
+head:   000f7cce0fe19452a5ecbc350b16d7d8ac68d8ba
+commit: 000f7cce0fe19452a5ecbc350b16d7d8ac68d8ba [13/13] mm, slub: cheaper locking for percpu sheaves
+config: parisc-randconfig-r071-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312123.B5VrU0tZ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408312226.7GmF5A53-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408312123.B5VrU0tZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/slub.c:5070 free_to_pcs() error: we previously assumed 'pcs' could be null (see line 5069)
 
->> drivers/i2c/busses/i2c-microchip-corei2c.c:121: warning: Function parameter or struct member 'msg_queue' not described in 'mchp_corei2c_dev'
->> drivers/i2c/busses/i2c-microchip-corei2c.c:121: warning: Function parameter or struct member 'total_num' not described in 'mchp_corei2c_dev'
->> drivers/i2c/busses/i2c-microchip-corei2c.c:121: warning: Function parameter or struct member 'current_num' not described in 'mchp_corei2c_dev'
-   drivers/i2c/busses/i2c-microchip-corei2c.c:121: warning: Function parameter or struct member 'repeated_send_needed' not described in 'mchp_corei2c_dev'
+vim +/pcs +5070 mm/slub.c
 
+9488f19d44934d Vlastimil Babka   2023-11-15  5060  		if (!empty) {
+000f7cce0fe194 Vlastimil Babka   2024-08-28  5061  			if (sheaf_flush_main(s))
+9488f19d44934d Vlastimil Babka   2023-11-15  5062  				goto restart;
+000f7cce0fe194 Vlastimil Babka   2024-08-28  5063  			else
+000f7cce0fe194 Vlastimil Babka   2024-08-28  5064  				return false;
+9488f19d44934d Vlastimil Babka   2023-11-15  5065  		}
+9488f19d44934d Vlastimil Babka   2023-11-15  5066  
+9488f19d44934d Vlastimil Babka   2023-11-15  5067  got_empty:
+000f7cce0fe194 Vlastimil Babka   2024-08-28  5068  		pcs = cpu_sheaves_trylock(s->cpu_sheaves);
+000f7cce0fe194 Vlastimil Babka   2024-08-28 @5069  		if (!pcs) {
+                                                                     ^^^
 
-vim +121 drivers/i2c/busses/i2c-microchip-corei2c.c
+000f7cce0fe194 Vlastimil Babka   2024-08-28 @5070  			barn_put_empty_sheaf(pcs->barn, empty, true);
+                                                                                             ^^^^^^^^^
 
-64a6f1c4987e02 Conor Dooley 2022-07-06   89  
-64a6f1c4987e02 Conor Dooley 2022-07-06   90  /**
-64a6f1c4987e02 Conor Dooley 2022-07-06   91   * struct mchp_corei2c_dev - Microchip CoreI2C device private data
-64a6f1c4987e02 Conor Dooley 2022-07-06   92   *
-64a6f1c4987e02 Conor Dooley 2022-07-06   93   * @base:		pointer to register struct
-64a6f1c4987e02 Conor Dooley 2022-07-06   94   * @dev:		device reference
-64a6f1c4987e02 Conor Dooley 2022-07-06   95   * @i2c_clk:		clock reference for i2c input clock
-64a6f1c4987e02 Conor Dooley 2022-07-06   96   * @buf:		pointer to msg buffer for easier use
-64a6f1c4987e02 Conor Dooley 2022-07-06   97   * @msg_complete:	xfer completion object
-64a6f1c4987e02 Conor Dooley 2022-07-06   98   * @adapter:		core i2c abstraction
-64a6f1c4987e02 Conor Dooley 2022-07-06   99   * @msg_err:		error code for completed message
-64a6f1c4987e02 Conor Dooley 2022-07-06  100   * @bus_clk_rate:	current i2c bus clock rate
-64a6f1c4987e02 Conor Dooley 2022-07-06  101   * @isr_status:		cached copy of local ISR status
-64a6f1c4987e02 Conor Dooley 2022-07-06  102   * @msg_len:		number of bytes transferred in msg
-64a6f1c4987e02 Conor Dooley 2022-07-06  103   * @addr:		address of the current slave
-64a6f1c4987e02 Conor Dooley 2022-07-06  104   */
-64a6f1c4987e02 Conor Dooley 2022-07-06  105  struct mchp_corei2c_dev {
-64a6f1c4987e02 Conor Dooley 2022-07-06  106  	void __iomem *base;
-64a6f1c4987e02 Conor Dooley 2022-07-06  107  	struct device *dev;
-64a6f1c4987e02 Conor Dooley 2022-07-06  108  	struct clk *i2c_clk;
-7a2a2bbc167e6f Conor Dooley 2024-07-19  109  	struct i2c_msg *msg_queue;
-64a6f1c4987e02 Conor Dooley 2022-07-06  110  	u8 *buf;
-64a6f1c4987e02 Conor Dooley 2022-07-06  111  	struct completion msg_complete;
-64a6f1c4987e02 Conor Dooley 2022-07-06  112  	struct i2c_adapter adapter;
-64a6f1c4987e02 Conor Dooley 2022-07-06  113  	int msg_err;
-7a2a2bbc167e6f Conor Dooley 2024-07-19  114  	int total_num;
-7a2a2bbc167e6f Conor Dooley 2024-07-19  115  	int current_num;
-64a6f1c4987e02 Conor Dooley 2022-07-06  116  	u32 bus_clk_rate;
-64a6f1c4987e02 Conor Dooley 2022-07-06  117  	u32 isr_status;
-64a6f1c4987e02 Conor Dooley 2022-07-06  118  	u16 msg_len;
-64a6f1c4987e02 Conor Dooley 2022-07-06  119  	u8 addr;
-7a2a2bbc167e6f Conor Dooley 2024-07-19  120  	bool repeated_send_needed;
-64a6f1c4987e02 Conor Dooley 2022-07-06 @121  };
-64a6f1c4987e02 Conor Dooley 2022-07-06  122  
-
-:::::: The code at line 121 was first introduced by commit
-:::::: 64a6f1c4987e027339818b9d142257e7ede6dfe0 i2c: add support for microchip fpga i2c controllers
-
-:::::: TO: Conor Dooley <conor.dooley@microchip.com>
-:::::: CC: Wolfram Sang <wsa@kernel.org>
+000f7cce0fe194 Vlastimil Babka   2024-08-28  5071  			return false;
+000f7cce0fe194 Vlastimil Babka   2024-08-28  5072  		}
+9488f19d44934d Vlastimil Babka   2023-11-15  5073  
+9488f19d44934d Vlastimil Babka   2023-11-15  5074  		/*
+9488f19d44934d Vlastimil Babka   2023-11-15  5075  		 * if we put any sheaf to barn here, it's because we raced or
+9488f19d44934d Vlastimil Babka   2023-11-15  5076  		 * have been migrated to a different cpu, which should be rare
+9488f19d44934d Vlastimil Babka   2023-11-15  5077  		 * enough so just ignore the barn's limits to simplify
+9488f19d44934d Vlastimil Babka   2023-11-15  5078  		 */
+9488f19d44934d Vlastimil Babka   2023-11-15  5079  		if (unlikely(pcs->main->size < s->sheaf_capacity)) {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
