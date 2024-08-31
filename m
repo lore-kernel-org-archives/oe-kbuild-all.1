@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84AC1D12EA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 02:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045542745D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 02:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725071268; cv=none; b=eSf9AKccY6zdwjHfUXS4feEKZDce9SGJs8as1P73kdX7Oj1SOf04g3ykbeF5PH7O/apE42uFrLEdiGglIdxbnpRZ2RLBIfM9JvbAHGFJf4YI9v0wkkcQ/EkGTQr8qiRWGDS3Cr1fT1+EmeM4hqlxbZ/U7Nl0aIEXiPxZyj8G02A=
+	t=1725072528; cv=none; b=R2/xNSyVcLpps78r+cR+Mjgc5H4sJKXo8B+X32lZSUkq5t+OJ/dteDvrjiBlPqOXtFScvXk5fEO8VBFzjxURG+jjFK+ycrsF6IqAA93Y0pdz3GmvHF7YwxE3bgG5EL0AVQs75B10vSHNW4QaNUXjW3rSYoVjUZQZxzpNCM8pU8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725071268; c=relaxed/simple;
-	bh=hvCG8Hspg2D7fhFjRA9FthTgABmSUJZiQdPrMIHoDEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNWc0tRO7Q2HY0Ou9HXFAHWwRk0jamAOlNt9CQ3Fr4esMAnwXJ48HQp1WXMkNlab6ikeryqiWlDVJXIZMybJf0ekE7JUzYgMqlsb26iw2Vy191OzAntEPfd1zznaqI+18HnsA2iWF6pqAJ4msHjm6UT4AdfLg5MPsYxw2j2wmEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FMiMlpVO; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1725072528; c=relaxed/simple;
+	bh=Ztx+YFvZwzlnpKUvCJfFPhHlkC0LdekyZRGy+nkC/aM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ehbnUjzNR0h37xt+5v/mPHwgykRHyFGgWMc2ZcXJBnuemHcdP1XzPjunPMU9Biz3JsTt439DhGMIiYq0a4KHM8SK4O+dO4/2cm06gZeDeLJHfZR1TLeXgEaMX31KFPlvZxx8cpPFCDMDAqnyqUhrPdneWS5ieijI57yTpi+Q+Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsfgBUZn; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMiMlpVO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsfgBUZn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725071266; x=1756607266;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hvCG8Hspg2D7fhFjRA9FthTgABmSUJZiQdPrMIHoDEE=;
-  b=FMiMlpVOVYEAsdMMRbxR/bhbFfaK92bV1HTpuXTiggGhSFKydKuG2wDi
-   5SWCUFT8Ilt5VKe2KH8U4Iqm3usPpQwp9vv0YscO+KSasIKV6p2ezPkp1
-   WgrAfjFzsenvF6gb3ZV1jpIWrSe7KWLA4sGRw/sslqxjETm1Ain6D2WR9
-   1gcRKZP17m7sonSfr7eNWBwkYHrygFstgzOHsYJEl2Y75g1TUvy7G5bbx
-   d/v01QbEsfAupNr/1xi0MU/zNo1y0Jt8mjWzfrica7uTv+StpAvu+9Gdw
-   KO+TWuv/9ktk9sg5HkrWh9h/LeoaiVPyConoPiNTJo8R3kvgkfMZGZFsK
-   Q==;
-X-CSE-ConnectionGUID: bbqEBCq2RAKCLaXFMipj5Q==
-X-CSE-MsgGUID: gxJBnPb/Q82m5YzSywRVUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="41221943"
+  t=1725072527; x=1756608527;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ztx+YFvZwzlnpKUvCJfFPhHlkC0LdekyZRGy+nkC/aM=;
+  b=OsfgBUZnQXNOJzax1ktMDMczaAJ5NH1sRlw9cHXcjQxsqfW1UE2l8J/h
+   /5WvsVxn0bpDTtxrwyXBQIxhhgnDtaZt2aR4v6GYI+5sj0D6KmJC3OmyE
+   zLZcCrRiPIXp3vfUz1EVtkQv+wlxr4RUBOaof79Vp1dgVPnN6Ik8ts4Zl
+   GcMD9zwhCImLrhOF7jzMlYB/mRl6fSszFnbiDLTsoGn5XWWuEeVXU/NTV
+   XA+FlAhB1wSLK3/sQTkeDX3D3Cu8XvjEbvYOtQzyraIoNjnbHsUSVfYQk
+   VIm4C4LTDy+m1RAouyOk5cb0AW8TDhY+06AWaDJwJPnKwrl1TXm8jkOfT
+   w==;
+X-CSE-ConnectionGUID: jJub/QtmRjCcZEzO1f6tJA==
+X-CSE-MsgGUID: yVFV2RoQTkmxQEtj25QzGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34391383"
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="41221943"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 19:27:45 -0700
-X-CSE-ConnectionGUID: 4VRHfVNpTAWjFL1E20qkrA==
-X-CSE-MsgGUID: qlCWxZeORYyfz8FtlLIWtw==
+   d="scan'208";a="34391383"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 19:48:46 -0700
+X-CSE-ConnectionGUID: Y/bewig4R2ufLo+vuCaRtw==
+X-CSE-MsgGUID: 7t21cODzROelKNBWRZy9Cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="68732238"
+   d="scan'208";a="68215380"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Aug 2024 19:27:44 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 30 Aug 2024 19:48:44 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skDq2-0002IA-0u;
-	Sat, 31 Aug 2024 02:27:42 +0000
-Date: Sat, 31 Aug 2024 10:27:37 +0800
+	id 1skEAM-0002Is-28;
+	Sat, 31 Aug 2024 02:48:42 +0000
+Date: Sat, 31 Aug 2024 10:48:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Schneider-Pargmann <msp@baylibre.com>
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v11 1/4] firmware: ti_sci: Add support for querying the
- firmware caps
-Message-ID: <202408311026.LluPK1A2-lkp@intel.com>
-References: <20240829201606.1407773-2-msp@baylibre.com>
+Subject: [l1k:pr/6 1/1] lib/spdm/req-authenticate.c:121:30: sparse: sparse:
+ restricted __le32 degrades to integer
+Message-ID: <202408311037.jpTXc6Pq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +61,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829201606.1407773-2-msp@baylibre.com>
 
-Hi Markus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/firmware-ti_sci-Add-support-for-querying-the-firmware-caps/20240830-041726
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240829201606.1407773-2-msp%40baylibre.com
-patch subject: [PATCH v11 1/4] firmware: ti_sci: Add support for querying the firmware caps
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240831/202408311026.LluPK1A2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408311026.LluPK1A2-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux pr/6
+head:   5fc03a9652f9ba343eea37f13afa99bc36726efe
+commit: 5fc03a9652f9ba343eea37f13afa99bc36726efe [1/1] spdm: large-transfer: set chunk capability
+config: loongarch-randconfig-r111-20240830 (https://download.01.org/0day-ci/archive/20240831/202408311037.jpTXc6Pq-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240831/202408311037.jpTXc6Pq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408311026.LluPK1A2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408311037.jpTXc6Pq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/spdm/req-authenticate.c:121:30: sparse: sparse: restricted __le32 degrades to integer
+   lib/spdm/req-authenticate.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
->> drivers/firmware/ti_sci.c:10:9: warning: "pr_fmt" redefined
-      10 | #define pr_fmt(fmt) "%s: " fmt, __func__
-         |         ^~~~~~
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from drivers/firmware/ti_sci.c:9:
-   include/linux/printk.h:355:9: note: this is the location of the previous definition
-     355 | #define pr_fmt(fmt) fmt
-         |         ^~~~~~
+vim +121 lib/spdm/req-authenticate.c
 
-
-vim +/pr_fmt +10 drivers/firmware/ti_sci.c
-
-aa276781a64a5f1 Nishanth Menon 2016-10-18 @10  #define pr_fmt(fmt) "%s: " fmt, __func__
-aa276781a64a5f1 Nishanth Menon 2016-10-18  11  
+    96	
+    97	static int spdm_get_capabilities(struct spdm_state *spdm_state)
+    98	{
+    99		struct spdm_get_capabilities_req *req = spdm_state->transcript_end;
+   100		struct spdm_get_capabilities_rsp *rsp;
+   101		size_t req_sz, rsp_sz;
+   102		int rc, length;
+   103	
+   104		*req = (struct spdm_get_capabilities_req) {
+   105			.code = SPDM_GET_CAPABILITIES,
+   106			.ctexponent = SPDM_CTEXPONENT,
+   107			.flags = cpu_to_le32(SPDM_REQ_CAPS),
+   108		};
+   109	
+   110		if (spdm_state->version == 0x10) {
+   111			req_sz = offsetofend(typeof(*req), param2);
+   112			rsp_sz = offsetofend(typeof(*rsp), flags);
+   113		} else if (spdm_state->version == 0x11) {
+   114			req_sz = offsetofend(typeof(*req), flags);
+   115			rsp_sz = offsetofend(typeof(*rsp), flags);
+   116		} else {
+   117			req_sz = sizeof(*req);
+   118			rsp_sz = sizeof(*rsp);
+   119			req->data_transfer_size = cpu_to_le32(spdm_state->transport_sz);
+   120			req->max_spdm_msg_size = cpu_to_le32(UINT_MAX);
+ > 121			req->flags = cpu_to_le32(req->flags | SPDM_CHUNK_CAP);
+   122		}
+   123	
+   124		rsp = spdm_state->transcript_end += req_sz;
+   125	
+   126		rc = spdm_exchange(spdm_state, req, req_sz, rsp, rsp_sz);
+   127		if (rc < 0)
+   128			return rc;
+   129	
+   130		length = rc;
+   131		if (length < rsp_sz) {
+   132			dev_err(spdm_state->dev, "Truncated capabilities response\n");
+   133			return -EIO;
+   134		}
+   135	
+   136		spdm_state->transcript_end += rsp_sz;
+   137	
+   138		spdm_state->rsp_caps = le32_to_cpu(rsp->flags);
+   139		if ((spdm_state->rsp_caps & SPDM_RSP_MIN_CAPS) != SPDM_RSP_MIN_CAPS)
+   140			return -EPROTONOSUPPORT;
+   141	
+   142		if (spdm_state->version >= 0x12) {
+   143			u32 data_transfer_size = le32_to_cpu(rsp->data_transfer_size);
+   144			if (data_transfer_size < SPDM_MIN_DATA_TRANSFER_SIZE) {
+   145				dev_err(spdm_state->dev,
+   146					"Malformed capabilities response\n");
+   147				return -EPROTO;
+   148			}
+   149			spdm_state->transport_sz = min(spdm_state->transport_sz,
+   150						       data_transfer_size);
+   151		}
+   152	
+   153		return 0;
+   154	}
+   155	
 
 -- 
 0-DAY CI Kernel Test Service
