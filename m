@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045542745D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 02:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79292E630
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 03:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725072528; cv=none; b=R2/xNSyVcLpps78r+cR+Mjgc5H4sJKXo8B+X32lZSUkq5t+OJ/dteDvrjiBlPqOXtFScvXk5fEO8VBFzjxURG+jjFK+ycrsF6IqAA93Y0pdz3GmvHF7YwxE3bgG5EL0AVQs75B10vSHNW4QaNUXjW3rSYoVjUZQZxzpNCM8pU8s=
+	t=1725075597; cv=none; b=qgKWM8BGrspPkNoQwtLKTtM7nHB0VsLMfb3pKwxYeqCo4c/mfXb1vYEkVHuhm9a9ePb8QMxEJjVao785wRmkAR5TIxYcaMtP80bHd/QNYIQR2vmCFcvFa4tfv4Q9FAbOC/lrdrOAaNcAos+eQv9ojncwPY4Ti5T+Zw87vWS6KOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725072528; c=relaxed/simple;
-	bh=Ztx+YFvZwzlnpKUvCJfFPhHlkC0LdekyZRGy+nkC/aM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ehbnUjzNR0h37xt+5v/mPHwgykRHyFGgWMc2ZcXJBnuemHcdP1XzPjunPMU9Biz3JsTt439DhGMIiYq0a4KHM8SK4O+dO4/2cm06gZeDeLJHfZR1TLeXgEaMX31KFPlvZxx8cpPFCDMDAqnyqUhrPdneWS5ieijI57yTpi+Q+Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsfgBUZn; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1725075597; c=relaxed/simple;
+	bh=E3vRu46hlWxy6N2bSPsweS01OPMGvsArMoRLzr9AZOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oll8PE2MLkeFUgpQTmWPa+Dna2lZuNUD9mffqZX+Rzoxmw8OqZQS13oG2QFHr0itHEMmjrBTqN72SA0SSfuE9a/RHMRRN2ish+me23I+RwimBH91rJTL0o/cE7d9CwQ7MVaVAojZPM9s23krx12NlGAKXYRKWans9iWO9DcCX4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L9+cKLg0; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsfgBUZn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9+cKLg0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725072527; x=1756608527;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ztx+YFvZwzlnpKUvCJfFPhHlkC0LdekyZRGy+nkC/aM=;
-  b=OsfgBUZnQXNOJzax1ktMDMczaAJ5NH1sRlw9cHXcjQxsqfW1UE2l8J/h
-   /5WvsVxn0bpDTtxrwyXBQIxhhgnDtaZt2aR4v6GYI+5sj0D6KmJC3OmyE
-   zLZcCrRiPIXp3vfUz1EVtkQv+wlxr4RUBOaof79Vp1dgVPnN6Ik8ts4Zl
-   GcMD9zwhCImLrhOF7jzMlYB/mRl6fSszFnbiDLTsoGn5XWWuEeVXU/NTV
-   XA+FlAhB1wSLK3/sQTkeDX3D3Cu8XvjEbvYOtQzyraIoNjnbHsUSVfYQk
-   VIm4C4LTDy+m1RAouyOk5cb0AW8TDhY+06AWaDJwJPnKwrl1TXm8jkOfT
+  t=1725075595; x=1756611595;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E3vRu46hlWxy6N2bSPsweS01OPMGvsArMoRLzr9AZOA=;
+  b=L9+cKLg0WZ2Cr9JyIwKfGGX96jbr2yrtMT3BTULMudwPp3+aKNxjDySc
+   Ncba3EjidJI7weOZw6IGj2gjKZvb1DpQU5opc3HZ+n8WO8IblfAM99jlT
+   O03OFMZB2zdc145kWjAyOm+Dne+LRdm5V2tVhzUAYcsLJ6TABZmZgaQWj
+   NaoTAf1W0d9N1zKn4GsPWOBhG70JufkEXqCtQSJ8GJ7i72vvie61jrptV
+   gQwLANGfETJzVj6us4YZnZcRU8SN2J1kYCmP3qGxFNasExkG4+voHJM/l
+   GM4xUOJw3DLzS0VPAyGmwnGtPL1wxhdZHJzry+PMZmzr33D2QvEfHBDRC
    w==;
-X-CSE-ConnectionGUID: jJub/QtmRjCcZEzO1f6tJA==
-X-CSE-MsgGUID: yVFV2RoQTkmxQEtj25QzGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34391383"
+X-CSE-ConnectionGUID: c2AqTKUNT8yscEASYbWrQQ==
+X-CSE-MsgGUID: x6VrNS0rQaexFiCrgBOcSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23592797"
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="34391383"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 19:48:46 -0700
-X-CSE-ConnectionGUID: Y/bewig4R2ufLo+vuCaRtw==
-X-CSE-MsgGUID: 7t21cODzROelKNBWRZy9Cg==
+   d="scan'208";a="23592797"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 20:39:54 -0700
+X-CSE-ConnectionGUID: e3zhyya4TkGgJU8661giWg==
+X-CSE-MsgGUID: FVPujpNEQdiXXGkrmCT8Gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="68215380"
+   d="scan'208";a="68740810"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Aug 2024 19:48:44 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 30 Aug 2024 20:39:45 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skEAM-0002Is-28;
-	Sat, 31 Aug 2024 02:48:42 +0000
-Date: Sat, 31 Aug 2024 10:48:05 +0800
+	id 1skExj-0002KF-1g;
+	Sat, 31 Aug 2024 03:39:43 +0000
+Date: Sat, 31 Aug 2024 11:39:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
+	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:pr/6 1/1] lib/spdm/req-authenticate.c:121:30: sparse: sparse:
- restricted __le32 degrades to integer
-Message-ID: <202408311037.jpTXc6Pq-lkp@intel.com>
+Subject: Re: [PATCH v2 4/4] gpio: aspeed: Support G7 Aspeed gpio controller
+Message-ID: <202408311104.T3i0AxEf-lkp@intel.com>
+References: <20240830034047.2251482-5-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,87 +67,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240830034047.2251482-5-billy_tsai@aspeedtech.com>
 
-tree:   https://github.com/l1k/linux pr/6
-head:   5fc03a9652f9ba343eea37f13afa99bc36726efe
-commit: 5fc03a9652f9ba343eea37f13afa99bc36726efe [1/1] spdm: large-transfer: set chunk capability
-config: loongarch-randconfig-r111-20240830 (https://download.01.org/0day-ci/archive/20240831/202408311037.jpTXc6Pq-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240831/202408311037.jpTXc6Pq-lkp@intel.com/reproduce)
+Hi Billy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240830-114325
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20240830034047.2251482-5-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v2 4/4] gpio: aspeed: Support G7 Aspeed gpio controller
+config: openrisc-randconfig-r131-20240830 (https://download.01.org/0day-ci/archive/20240831/202408311104.T3i0AxEf-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240831/202408311104.T3i0AxEf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408311037.jpTXc6Pq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408311104.T3i0AxEf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> lib/spdm/req-authenticate.c:121:30: sparse: sparse: restricted __le32 degrades to integer
-   lib/spdm/req-authenticate.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/gpio/gpio-aspeed.c:1181:26: sparse: sparse: symbol 'aspeed_g4_llops' was not declared. Should it be static?
+>> drivers/gpio/gpio-aspeed.c:1215:26: sparse: sparse: symbol 'aspeed_g7_llops' was not declared. Should it be static?
 
-vim +121 lib/spdm/req-authenticate.c
+vim +/aspeed_g7_llops +1215 drivers/gpio/gpio-aspeed.c
 
-    96	
-    97	static int spdm_get_capabilities(struct spdm_state *spdm_state)
-    98	{
-    99		struct spdm_get_capabilities_req *req = spdm_state->transcript_end;
-   100		struct spdm_get_capabilities_rsp *rsp;
-   101		size_t req_sz, rsp_sz;
-   102		int rc, length;
-   103	
-   104		*req = (struct spdm_get_capabilities_req) {
-   105			.code = SPDM_GET_CAPABILITIES,
-   106			.ctexponent = SPDM_CTEXPONENT,
-   107			.flags = cpu_to_le32(SPDM_REQ_CAPS),
-   108		};
-   109	
-   110		if (spdm_state->version == 0x10) {
-   111			req_sz = offsetofend(typeof(*req), param2);
-   112			rsp_sz = offsetofend(typeof(*rsp), flags);
-   113		} else if (spdm_state->version == 0x11) {
-   114			req_sz = offsetofend(typeof(*req), flags);
-   115			rsp_sz = offsetofend(typeof(*rsp), flags);
-   116		} else {
-   117			req_sz = sizeof(*req);
-   118			rsp_sz = sizeof(*rsp);
-   119			req->data_transfer_size = cpu_to_le32(spdm_state->transport_sz);
-   120			req->max_spdm_msg_size = cpu_to_le32(UINT_MAX);
- > 121			req->flags = cpu_to_le32(req->flags | SPDM_CHUNK_CAP);
-   122		}
-   123	
-   124		rsp = spdm_state->transcript_end += req_sz;
-   125	
-   126		rc = spdm_exchange(spdm_state, req, req_sz, rsp, rsp_sz);
-   127		if (rc < 0)
-   128			return rc;
-   129	
-   130		length = rc;
-   131		if (length < rsp_sz) {
-   132			dev_err(spdm_state->dev, "Truncated capabilities response\n");
-   133			return -EIO;
-   134		}
-   135	
-   136		spdm_state->transcript_end += rsp_sz;
-   137	
-   138		spdm_state->rsp_caps = le32_to_cpu(rsp->flags);
-   139		if ((spdm_state->rsp_caps & SPDM_RSP_MIN_CAPS) != SPDM_RSP_MIN_CAPS)
-   140			return -EPROTONOSUPPORT;
-   141	
-   142		if (spdm_state->version >= 0x12) {
-   143			u32 data_transfer_size = le32_to_cpu(rsp->data_transfer_size);
-   144			if (data_transfer_size < SPDM_MIN_DATA_TRANSFER_SIZE) {
-   145				dev_err(spdm_state->dev,
-   146					"Malformed capabilities response\n");
-   147				return -EPROTO;
-   148			}
-   149			spdm_state->transport_sz = min(spdm_state->transport_sz,
-   150						       data_transfer_size);
-   151		}
-   152	
-   153		return 0;
-   154	}
-   155	
+  1214	
+> 1215	struct aspeed_gpio_llops aspeed_g7_llops = {
+  1216		.copro_request = NULL,
+  1217		.copro_release = NULL,
+  1218		.reg_bits_set = aspeed_g7_reg_bits_set,
+  1219		.reg_bits_read = aspeed_g7_reg_bits_read,
+  1220	};
+  1221	
 
 -- 
 0-DAY CI Kernel Test Service
