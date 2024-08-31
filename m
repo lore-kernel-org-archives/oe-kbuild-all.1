@@ -1,62 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7989219A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 00:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E481A716;
+	Sat, 31 Aug 2024 00:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725062627; cv=none; b=Ios+WUPSWtuYe/mkqWUI7RNvUVe7L+sg62bpOt97JOQpTxasJIVK7HEKmuZUbPZ0dmcKJ2PlDiU5LKjiTbWYu0l95IzLIuA9mGqT4OG8gWVbw2Kb6/Q6H9a0ZkyTiffUDjboR+nty3JNkBR0fKv+OY08+GzhGu09JS2AUQQjdKs=
+	t=1725065150; cv=none; b=T8mFo+XNr6GzYyAoboKxV2OCltJEEColjmkfS0j0gDERArFj9Aqhx4Rq7K614+bD/LGspcjbTQHAhreFR2lKbe6vq51e7D5VKjC9v6EKa3WML+TmAlIQKA27mT4XPMeBNWYexqtIBAZl27K+Mp9XFH9SxfXGBx5Pc0jRaDnleaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725062627; c=relaxed/simple;
-	bh=CSG98qYBRHLQgIDicop4eyWS+z4wwtTD69AfaCa9Gro=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tuAFa7tFeaqz/wVam/e4lhJKiVMvfhOeNRramfAiu/bAA6URH0cIDHH6jnLUEYpnJfb//Iud+kk/DloeWQFOWLMAqoZJaqvbPC2Yl53kRrXJ5DqtDWvenHR9YqsoRhfWyDWYMnoAQVXExsotSL0GZsK8HvbyGWSsyEl0JINe6kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nX4vOgPu; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1725065150; c=relaxed/simple;
+	bh=m2q0EIE3WOnElSaZtNtUDPmT9aG++HAOSqsq5F8ycZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=unoKB58vhB8LxNl8/NG1nc/5qHuchcwYbYWSzAofR9uuRpPiVcDnRMWkaPqotQkGMajGUQxwoMXlLaksnNBuIXrUgPm7+dr0/Tn2sWnVI4uqptI8Ex2kD5ikDm0SZH2X5Mhl5pjd7fbXf4Y0DaSAX9B8JBh8tTMWmHHjaFvdsgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MWTSE9Br; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nX4vOgPu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MWTSE9Br"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725062625; x=1756598625;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CSG98qYBRHLQgIDicop4eyWS+z4wwtTD69AfaCa9Gro=;
-  b=nX4vOgPuDnt9/jHrQuMwg+bN2qqCJSTsG7ZNd9rlE5QF/NDNF+ipFiWQ
-   QbJb/BUlbx2P2VidHeoimvQqyePySk1zh6af+K/FSM/U0oMlXaqClcs6V
-   c3WcmxaYsoBUsDLRyvZfm5I/1wR2yCgPgdOfjrZppP/5nl5qs6VZg+okm
-   aztyCLaR0XGCvdcW6GWaOTUBBScXlnyFMiw/Zx7C6uR/lwL3SbIX9xR9n
-   HarsNeEyRWeh6CY/ejEoJfLg/gfJaIivTbXzojjBD9oi4Utgzu5InbGm4
-   F9VuA7rXN6l3zOy08Y2Ivg8qwoWXqGNrfHuMqpL5vd8oyGEq3Fz8HmrcG
-   w==;
-X-CSE-ConnectionGUID: 7Y+PVfU7Q7+DEkocr6LkGw==
-X-CSE-MsgGUID: ST6ko7msRzuer3J6wByrhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34293238"
+  t=1725065148; x=1756601148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m2q0EIE3WOnElSaZtNtUDPmT9aG++HAOSqsq5F8ycZo=;
+  b=MWTSE9BrC/5wP9addTlwbMw1dEATUI7rCIfIYUbugJkwl1SJt4kS6XAt
+   kKaHQO9aF4jNREzLw1nG6+D1xWn5Nr3YhPmZ/LwcWMwovgRImF3eWuUZE
+   A8o5JEK36S42uFjj3xZ7uyA0foB08EZR/YfH3e7Pt1h6WhGfbx3q1GroC
+   1ZD6L+e6BP/XlMdLChPE8m2351zVwUz5GCqUFkrW5AI/dWtpllpV15Lei
+   2xpIKWyfiofZGied+59zT1hGcBohExjkl1HchBOXEIUoRWV7uqYtFzssz
+   89SgVcJKeWb1ci9U7Pp0IqTIkafNUrWFR+WRh0/Lf9k4dFIgz8jFQyiqp
+   A==;
+X-CSE-ConnectionGUID: dluFo6f4RZy5eYfELfqbeQ==
+X-CSE-MsgGUID: izD9K9v4S9W4yNxZamse1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23892872"
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="34293238"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 17:03:44 -0700
-X-CSE-ConnectionGUID: vJWpeB3OSV2YX8PDAa8Www==
-X-CSE-MsgGUID: PiLkH86rRZqL3ZC99ToA2g==
+   d="scan'208";a="23892872"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 17:45:47 -0700
+X-CSE-ConnectionGUID: u/GJuGqQQlK5hrQMr3hglw==
+X-CSE-MsgGUID: k697wz3HTuSYiLlEI6//FQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
-   d="scan'208";a="94848956"
+   d="scan'208";a="68458817"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Aug 2024 17:03:42 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 30 Aug 2024 17:45:43 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skBae-0002Dq-0e;
-	Sat, 31 Aug 2024 00:03:40 +0000
-Date: Sat, 31 Aug 2024 08:03:03 +0800
+	id 1skCFJ-0002Fc-06;
+	Sat, 31 Aug 2024 00:45:41 +0000
+Date: Sat, 31 Aug 2024 08:45:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [linux-next:master 6740/8126]
- arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /video-codec@fdba0000:
- failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-Message-ID: <202408310737.mLgGnmfv-lkp@intel.com>
+To: Thomas Bonnefille <thomas.bonnefille@bootlin.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	Thomas Bonnefille <thomas.bonnefille@bootlin.com>
+Subject: Re: [PATCH v5 2/3] iio: adc: sophgo-saradc: Add driver for Sophgo
+ CV1800B SARADC
+Message-ID: <202408310817.GT3TMpnv-lkp@intel.com>
+References: <20240829-sg2002-adc-v5-2-aacb381e869b@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,167 +77,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240829-sg2002-adc-v5-2-aacb381e869b@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   985bf40edf4343dcb04c33f58b40b4a85c1776d4
-commit: cc0a05865cd5ff2a12479ab85093ed203af10520 [6740/8126] arm64: dts: rockchip: Add VEPU121 to RK3588
-config: arm64-randconfig-052-20240829 (https://download.01.org/0day-ci/archive/20240831/202408310737.mLgGnmfv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev16+gc51125d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310737.mLgGnmfv-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5be63fc19fcaa4c236b307420483578a56986a37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Bonnefille/dt-bindings-iio-adc-sophgo-cv1800b-saradc-Add-Sophgo-CV1800B-SARADC/20240829-203431
+base:   5be63fc19fcaa4c236b307420483578a56986a37
+patch link:    https://lore.kernel.org/r/20240829-sg2002-adc-v5-2-aacb381e869b%40bootlin.com
+patch subject: [PATCH v5 2/3] iio: adc: sophgo-saradc: Add driver for Sophgo CV1800B SARADC
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240831/202408310817.GT3TMpnv-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310817.GT3TMpnv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310737.mLgGnmfv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408310817.GT3TMpnv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
-   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts:1244.7-1252.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: regulator@42: Unevaluated properties are not allowed ('rockchip,suspend-voltage-selector' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: pmic@0: regulators:dcdc-reg4: Unevaluated properties are not allowed ('regulator-init-microvolt' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk806.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: pmic@0: Unevaluated properties are not allowed ('regulators' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk806.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: codec@1b: Unevaluated properties are not allowed ('assigned-clock-rates', 'assigned-clocks', 'clock-names', 'clocks', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5616.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: sound: 'simple-audio-card,hp-pin-name' does not match any of the regexes: '^simple-audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: audio-codec@11: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: audio-codec@11: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts:1115.7-1123.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /extcon-usb3: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
---
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: pmic@0: regulators:dcdc-reg4: Unevaluated properties are not allowed ('regulator-init-microvolt' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk806.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: pmic@0: Unevaluated properties are not allowed ('regulators' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk806.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: audio-codec@11: 'clock-names', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: gpio-func: leds-gpio: {'rockchip,pins': [[0, 2, 0, 245]], 'phandle': 253} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: vcc-3v3-sd-s0-regulator: Unevaluated properties are not allowed ('enable-active-low' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
+All warnings (new ones prefixed by >>):
+
+>> drivers/iio/adc/sophgo-cv1800b-adc.c:120:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     120 |                 u32 status_reg = readl(saradc->regs + CV1800B_ADC_CYC_SET_REG);
+         |                 ^
+   1 warning generated.
+
+
+vim +120 drivers/iio/adc/sophgo-cv1800b-adc.c
+
+    88	
+    89	static int cv1800b_adc_read_raw(struct iio_dev *indio_dev,
+    90					struct iio_chan_spec const *chan,
+    91					int *val, int *val2, long mask)
+    92	{
+    93		struct cv1800b_adc *saradc = iio_priv(indio_dev);
+    94	
+    95		switch (mask) {
+    96		case IIO_CHAN_INFO_RAW:{
+    97			u32 sample;
+    98	
+    99			scoped_guard(mutex, &saradc->lock) {
+   100				int ret;
+   101	
+   102				cv1800b_adc_start_measurement(saradc, chan->scan_index);
+   103				ret = cv1800b_adc_wait(saradc);
+   104				if (ret < 0)
+   105					return ret;
+   106	
+   107				sample = readl(saradc->regs + CV1800B_ADC_CH_RESULT_REG(chan->scan_index));
+   108			}
+   109			if (!(sample & CV1800B_ADC_CH_VALID))
+   110				return -ENODATA;
+   111	
+   112			*val = sample & CV1800B_ADC_CH_RESULT;
+   113			return IIO_VAL_INT;
+   114			}
+   115		case IIO_CHAN_INFO_SCALE:
+   116			*val = 3300;
+   117			*val2 = 12;
+   118			return IIO_VAL_FRACTIONAL_LOG2;
+   119		case IIO_CHAN_INFO_SAMP_FREQ:
+ > 120			u32 status_reg = readl(saradc->regs + CV1800B_ADC_CYC_SET_REG);
+   121			int clk_div = (1 + FIELD_GET(CV1800B_MASK_CLKDIV, status_reg));
+   122			int freq = clk_get_rate(saradc->clk) / clk_div;
+   123			int nb_startup_cycle = 1 + FIELD_GET(CV1800B_MASK_STARTUP_CYCLE, status_reg);
+   124			int nb_sample_cycle = 1 + FIELD_GET(CV1800B_MASK_SAMPLE_WINDOW, status_reg);
+   125			int nb_compare_cycle = 1 + FIELD_GET(CV1800B_MASK_COMPARE_CYCLE, status_reg);
+   126	
+   127			*val = freq / (nb_startup_cycle + nb_sample_cycle + nb_compare_cycle);
+   128			return IIO_VAL_INT;
+   129		default:
+   130			return -EINVAL;
+   131		}
+   132	}
+   133	
 
 -- 
 0-DAY CI Kernel Test Service
