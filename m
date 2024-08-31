@@ -1,70 +1,59 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C3C178370
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 08:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2794815F41F;
+	Sat, 31 Aug 2024 08:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725093122; cv=none; b=gr76zRW8CFh+eOXAS7EZ+N7sUnFJHXPPEKMEfRlNsIC48WLRi/YJzmSwQeRkxWL5RoqjYD9Mys5BAYCohDOeP+90c0IsXFZfVySTe4OZ/jmJBVOJViP37kwoMfvqw943waUHDd//XRLRIWub2Pnmy37I0qZDXQ6Msrmf1tcH/So=
+	t=1725093596; cv=none; b=oeuZrZCdp9/FqaygNx6WWPXPUe5SqvGTkC9pMF5yStvofjHKTNWsVS/rNDoyLz9hRP9XbYtpSM3DLS1KSAIzbnLBg9VinUZXuVaOWwXMsPTO+7W8h3b5EK44MvhKF0WUbSF6YXRS9Qsyad5HxPZpQ6i249NwvYDxvFvMFlV9tp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725093122; c=relaxed/simple;
-	bh=ygokJ3EuwP2KVqqlmTrJeAJWWdyXSr8sqWsV9WTAHco=;
+	s=arc-20240116; t=1725093596; c=relaxed/simple;
+	bh=dHu6uhN+37fGJnAu+oKkGVZm3gYFuLDYxsJkYWqXAZs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=CDnpsC7epdtS2wSbz+dpo0mi7Rh0XdKhzwQQ5cKdfyZSFwBhd2Gmgb3BZO435PzmzbXc6LUsHU5vIQRZ5Pi2CN8BkjP3aYV8c2Nhugm8HcUC7qHntnbKXL1rLodH5TPube5GCdNl6wbXgjMbxDmTLza4ye9R/iBhOgDyGeRq6+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HgxCdzuq; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=OBGDkGwHmAl4wwK/hzfWbwWKOMCCbvq0gWMeZIQuvC2nh3gmpJ3PiS+1KLGbom/F4OLfNzP3ZTVB1ELzeO+jy2ovgIQye+fuhcQblUGf1TbpqgaUFIUDVQbVO+1Ug6aZroKd+nEmff800/mAFmohV7hbsouvEHgcuQ7Wq0PjEk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emeGbnJw; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HgxCdzuq"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3719753d365so1960072f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 01:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725093118; x=1725697918; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cYKXU/GRuYajonH8bLwJRIkuKYJn/KULcoZQ/7PWKrE=;
-        b=HgxCdzuqTNcNXd9U52XOlQksGSvvUM9nHl/wdVGg2CVLxOhhwHYX0nRKh61rBVOfsw
-         eJ6Kqx5qnHDq/oGyu1FzcNTkVWjSYh/FH+VrWLd95v7SDEOqnc+fbdCtOZ4T8f3QUhzB
-         OfHFDu/QNOcX6xurXWtaK6i1ZaGTQyZpwusf+pFV5Tob9P6zyy12sqSJgwARm2avFlCM
-         dlUUi3ZqPS+1G9zHLGWOBvK48SHpgO+0kptGNsFTYVRuHjeusjHNR1KzxDq9swcxRdxB
-         QmRrlTAibCIhFYZkvNYHk+UFVW9r7UvavAMRVa1pJ6STGKPEEyAkyw0zWAzNn/rhPr/R
-         QFag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725093118; x=1725697918;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cYKXU/GRuYajonH8bLwJRIkuKYJn/KULcoZQ/7PWKrE=;
-        b=ICLyc0b979eiRhZ3de5X8l5Xt2oETOb+4IRdJ82N6lHka0UrIiGjmDHLDiZFRBP3n1
-         Yi3kQM2cudiVaV8GvYeL2cOTWTGIc3KJanbde2nMsReCTa3AB1M6LpeuWVK2KrZWzOKg
-         Y61Nao0Wl1kNXSOxKpeUNdhAKc0GARgnRS+tna4zs2cL+ul8DH70xpoLMQ5DWhChltqV
-         yA83z9lwegtpWVyuML1CTik0NEdL09L2H1a9KgvEJIKecEFX6H87xgkF1rGfOlUB+c+R
-         CyaInrQmNzMd18Nt8WL63YjY+Bd5pKQoamrTQakYUQ/Pot4hvC/yo3DmcOEtTnyjVOGe
-         y0Ig==
-X-Forwarded-Encrypted: i=1; AJvYcCVJp0thhGgfQLBfMfXnmkLp3Ov+2M2ZuJrc7FPJI6tZ7DJWPgcpQm4rFgT5ehVfRGUI32duObmFTXX0R3Xv@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoFAdGywjEHFUf8rW3OdS29rI5TzU8Kp6xY4H5CvjKfA5SHsgE
-	LZtj9wwrRDLe/0OyRu22NFRT25F4pQ5YeLU2CPH/3Skrkw+TwvA+GyEMNljNDV8=
-X-Google-Smtp-Source: AGHT+IEY8B96yyKAmsk7FOyikce6yeIKfN0PQpvR2+w944msLHKH11XTNcpqiCg0x0+w3FqoiWogJA==
-X-Received: by 2002:adf:e5c9:0:b0:374:c2e9:28b8 with SMTP id ffacd0b85a97d-374c2e92d16mr52551f8f.18.1725093118067;
-        Sat, 31 Aug 2024 01:31:58 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c08e07b6sm759594f8f.63.2024.08.31.01.31.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Aug 2024 01:31:57 -0700 (PDT)
-Date: Sat, 31 Aug 2024 11:31:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>
-Subject: Re: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe()
- usage
-Message-ID: <20dd56f0-78ea-4255-86ac-32151160b83d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emeGbnJw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725093594; x=1756629594;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dHu6uhN+37fGJnAu+oKkGVZm3gYFuLDYxsJkYWqXAZs=;
+  b=emeGbnJwTvw13oiKEEAUPRagwwzn3w6jj+wx0BrBsheun9JuUgiHvIE6
+   fh5xB2eWdrIIMW1+EUbFp+/jECx9wdWA5w4J8feoT/9F0AclhP6oENED+
+   ruFFWiCeTpayHQuLw/DQqn8VVBw5udGp+PKJeh8SMebovSUncSMusslxc
+   0sjozjdj7X8vDw4ipr9ImhuRzjM0ic0dBqOYYxZYwPeJu77SsQLMqojV9
+   l+fjGZFXcDOErHheMp/t8dn+k6fAHLjoVfSrgsw+zUMfgr4DSsfK9Rgx9
+   W1gZu7iCGfHaUETl6v8d8jQGSr/aDiZORIKFH7HtMYUhpveyWl16WNqRu
+   Q==;
+X-CSE-ConnectionGUID: hydwVQX/TaSWXPd51UppEA==
+X-CSE-MsgGUID: 1m6Z1+RjTTuuZDVmibbfxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23872632"
+X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
+   d="scan'208";a="23872632"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 01:39:53 -0700
+X-CSE-ConnectionGUID: IHuyiAZuT6i23zfrPPTcLQ==
+X-CSE-MsgGUID: W37IpqYXTUCu7W6s9dWESg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
+   d="scan'208";a="68529408"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 31 Aug 2024 01:39:52 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1skJeA-0002TM-04;
+	Sat, 31 Aug 2024 08:39:50 +0000
+Date: Sat, 31 Aug 2024 16:39:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2024.08.30a 28/33] include/linux/srcu.h:274:30:
+ error: use of undeclared identifier 'SRCU_READ_FLAVOR_LITE'
+Message-ID: <202408311649.7FRBYdiC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,71 +62,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822130722.1261891-3-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/driver-core-Ignore-0-in-dev_err_probe/20240826-113856
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20240822130722.1261891-3-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe() usage
-config: i386-randconfig-141-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310807.sNPe5Mr2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.08.30a
+head:   05416eb79213ad6a9770faa795059fdd00adb6e0
+commit: 23265e8fd7b05be03428c2e7632440d8573e5e7e [28/33] srcu: Add srcu_read_lock_lite() and srcu_read_unlock_lite()
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240831/202408311649.7FRBYdiC-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408311649.7FRBYdiC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408310807.sNPe5Mr2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408311649.7FRBYdiC-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() error: uninitialized symbol 'err_msg'.
-drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() warn: passing zero to 'dev_err_probe'
+All errors (new ones prefixed by >>):
 
-vim +/err_msg +292 drivers/platform/x86/intel/int3472/discrete.c
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1432:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   include/linux/srcu.h:248:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NORMAL'
+     248 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+         |                                     ^
+>> include/linux/srcu.h:274:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_LITE'
+     274 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_LITE);
+         |                                     ^
+   include/linux/srcu.h:295:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NMI'
+     295 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NMI);
+         |                                     ^
+   include/linux/srcu.h:307:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NORMAL'
+     307 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+         |                                     ^
+   include/linux/srcu.h:336:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NORMAL'
+     336 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+         |                                     ^
+   include/linux/srcu.h:351:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NORMAL'
+     351 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+         |                                     ^
+   include/linux/srcu.h:367:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_LITE'
+     367 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_LITE);
+         |                                     ^
+   include/linux/srcu.h:383:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NMI'
+     383 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NMI);
+         |                                     ^
+   include/linux/srcu.h:392:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NORMAL'
+     392 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+         |                                     ^
+   include/linux/srcu.h:409:30: error: use of undeclared identifier 'SRCU_READ_FLAVOR_NORMAL'
+     409 |         srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+         |                                     ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:16:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:16:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:16:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:16:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:16:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
 
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  270  		case INT3472_GPIO_TYPE_POWER_ENABLE:
-53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  271  			ret = skl_int3472_register_regulator(int3472, gpio);
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  272  			if (ret)
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  273  				err_msg = "Failed to map regulator to sensor\n";
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  274  
-53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  275  			break;
-53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  276  		default: /* Never reached */
-53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  277  			ret = -EINVAL;
-53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  278  			break;
-53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  279  		}
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  280  		break;
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  281  	default:
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  282  		dev_warn(int3472->dev,
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  283  			 "GPIO type 0x%02x unknown; the sensor may not work\n",
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  284  			 type);
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  285  		ret = 1;
-                                                                                                                                ^^^^^^^^
 
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  286  		break;
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  287  	}
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  288  
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  289  	int3472->ngpios++;
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  290  	ACPI_FREE(obj);
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  291  
-5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03 @292  	return dev_err_probe(int3472->dev, ret, err_msg);
+vim +/SRCU_READ_FLAVOR_LITE +274 include/linux/srcu.h
 
-This is the success path.  "err_msg" is only set for the error path.  "ret" is 1
-so it will use the uninitialized data.  But even if ret were zero, it's illegal
-to pass uninitialized variables to functions which aren't inlined.
-
-1) It's undefined behavior
-2) Linus said so
-3) It causes UBSan warnings at runtime.
-
-regards,
-dan carpenter
+   253	
+   254	/**
+   255	 * srcu_read_lock_lite - register a new reader for an SRCU-protected structure.
+   256	 * @ssp: srcu_struct in which to register the new reader.
+   257	 *
+   258	 * Enter an SRCU read-side critical section, but for a light-weight
+   259	 * smp_mb()-free reader.  See srcu_read_lock() for more information.
+   260	 *
+   261	 * If srcu_read_lock_lite() is ever used on an srcu_struct structure,
+   262	 * then none of the other flavors may be used, whether before, during,
+   263	 * or after.  Note that grace-period auto-expediting is disabled for _lite
+   264	 * srcu_struct structures because auto-expedited grace periods invoke
+   265	 * synchronize_rcu_expedited(), IPIs and all.
+   266	 *
+   267	 * Note that srcu_read_lock_lite() can be invoked only from those contexts
+   268	 * where RCU is watching.  Otherwise, lockdep will complain.
+   269	 */
+   270	static inline int srcu_read_lock_lite(struct srcu_struct *ssp) __acquires(ssp)
+   271	{
+   272		int retval;
+   273	
+ > 274		srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_LITE);
+   275		retval = __srcu_read_lock_lite(ssp);
+   276		rcu_try_lock_acquire(&ssp->dep_map);
+   277		return retval;
+   278	}
+   279	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
