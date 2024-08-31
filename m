@@ -1,69 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FD36FC7;
-	Sat, 31 Aug 2024 17:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFD24C8C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 17:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725123862; cv=none; b=LFXAShB5gW18Nl7gsG/qqy8QQwI4ibbqY/1nNfRnKjIWvgU+D4LflFsfS6i5/OdPthnjF4UGr9iN7dr0PB4DjLmILa4EhnHeOkmCTLI9S3QBu2/Oi4N8d1ZQ3C9EDjORCbyzu/RcjRC1A2RaW8WyTz2WTaMZWCxZfdQgasMrwsU=
+	t=1725125720; cv=none; b=qfpqlYBbmS0V7AnfF0I51dHC7QsmHadIcGxxcrnvKvyYhcptQlaY274dwKgNZTYkkw+IpZDobr5vW0Z1G+Kj4IZtHnlgojoQZcuatBMyb2n+m8fGSWVbQLC89MVPy9WbrhBFa0hMlpMX1spm8Bq6fHcKA7NqP+VP0dJ7abVt8to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725123862; c=relaxed/simple;
-	bh=Z2iU+6iIeLl81YPYU9R32z056dUcEIKREbZfkSIl/+4=;
+	s=arc-20240116; t=1725125720; c=relaxed/simple;
+	bh=XN2PsVitdwqyT+0EuFJyx51meuS/idl3glEF5fMYEO0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FAE6Cj+ZxUvx5JMvmDLepRLW11YDf1AI1BEL2rxjy8R5ff9GSe9vW+tEF6B/QdLpUHc0HvTAh7G3OpMpMtmNddJrK8alSjCfaIjhuBJmNsILzuqFivG6ERiNbwvpzIgdx93kEHdFU0m/4VtVVJ4g9tk2/NWiTyx1Ns10LeCRTqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLdtS2Om; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=sgGL66L1JgwjFkgzvhg7k4keKtlRvUOXfE3E7tFDsrj3kFqdMigsRccQpknhJC/xc4zysUBG346I6Pc61VQFKv/AkGcHWiMhkdPq0wKgJ/LGjUUPrg4K23KlEvBVV++5pm0CVNDeIwX7AqLsVEXKmySG/lfak8CqrdQQrm6IQX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SdfP09vQ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLdtS2Om"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdfP09vQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725123860; x=1756659860;
+  t=1725125719; x=1756661719;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Z2iU+6iIeLl81YPYU9R32z056dUcEIKREbZfkSIl/+4=;
-  b=dLdtS2OmxO8S0fFXgyW01kvK/6fNBczOio5WcMRqz29BoGdca6NuUIdy
-   3+BPNIA3erSLS7IpmlOt3LDari0qo2IyQL85RP20oGOVtWfb4hZOe19jj
-   U28nnAMCVorvk3I4mVIwCMb0/4OE4M4hG3TETwf2lXVDwi2tHpEkWNVJz
-   OLuoKjEg5LZ2ssSuS+NbmdywOkc/kE134DXeeR3vnVs7Soe2AXvbZhjYg
-   enxo9UFnIESMLb6hS8+gEIGKFG9TM53n1p15u8DB17UPCmoFv4+dKKpEQ
-   QAOj2Wmg7Oz8GU4j6emHSh+8AkNMqz1QipiEG0FfYXOYMej27QtsH0z3e
-   w==;
-X-CSE-ConnectionGUID: GSAWlX8MQx2zzasaa+3o2w==
-X-CSE-MsgGUID: 2+NarLgPTd6pZwJfJckeYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34417914"
+  bh=XN2PsVitdwqyT+0EuFJyx51meuS/idl3glEF5fMYEO0=;
+  b=SdfP09vQuoExcpD9inn0lQszbINo8yTg2Ef0L7KGDmnx2nDytYcsLfPm
+   jppCZAXhYFKRd7rWn10DPN+NQjF2HP0TeJCVAYLzO/02VSQluosvGjNTj
+   bDzlheEdh2/aZPISo4AaYzItckiuI8D+R0xCoU7dBapOFkJkstMGs1w5q
+   ngA/6HK+21taVj6dQtCRL2c9cOw3K8jov+5+b1IN6xEKwcGxI8k9fXTvG
+   bTAZQpDKWrBUHTG2maTOyWnRFY5OFheebWHmJbtPlFdGQxoBB43hwd/wV
+   nTFQSBT0VjgRHGU5P1GvMgd1VvebZxNtQLqtMCi36yMvRC/OOWBwyAtib
+   g==;
+X-CSE-ConnectionGUID: uGfTcOMaRtaccJVYwpibIw==
+X-CSE-MsgGUID: eLLNmcl1QZ2HvR48yYXZHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="46258292"
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="34417914"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 10:04:19 -0700
-X-CSE-ConnectionGUID: WrdMWQSZR8GSmtRM/bwj9A==
-X-CSE-MsgGUID: YIfU7kXcSYiauu9dYqQMfw==
+   d="scan'208";a="46258292"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 10:35:18 -0700
+X-CSE-ConnectionGUID: PT2O5JZcSyCtWNy+z3Irog==
+X-CSE-MsgGUID: qyimSlEjTtmy07lmiKhruw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="94903747"
+   d="scan'208";a="63885974"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2024 10:04:14 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2024 10:35:14 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skRWF-0002x4-19;
-	Sat, 31 Aug 2024 17:04:11 +0000
-Date: Sun, 1 Sep 2024 01:04:07 +0800
+	id 1skS0G-0002yK-0M;
+	Sat, 31 Aug 2024 17:35:12 +0000
+Date: Sun, 1 Sep 2024 01:35:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: peter.wang@mediatek.com, linux-scsi@vger.kernel.org,
-	martin.petersen@oracle.com, avri.altman@wdc.com,
-	alim.akhtar@samsung.com, jejb@linux.ibm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	wsd_upstream@mediatek.com, linux-mediatek@lists.infradead.org,
-	peter.wang@mediatek.com, chun-hung.wu@mediatek.com,
-	alice.chao@mediatek.com, cc.chou@mediatek.com,
-	chaotian.jing@mediatek.com, jiajie.hao@mediatek.com,
-	powen.kao@mediatek.com, qilin.tan@mediatek.com,
-	lin.gui@mediatek.com, tun-yu.yu@mediatek.com,
-	eddie.huang@mediatek.com, naomi.chu@mediatek.com,
-	ed.tsai@mediatek.com, bvanassche@acm.org, stable@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ufs: core: requeue MCQ abort request
-Message-ID: <202409010054.kNsXraZk-lkp@intel.com>
-References: <20240830074426.21968-3-peter.wang@mediatek.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sean Wang <sean.wang@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, upstream@airoha.com,
+	benjamin.larsson@genexis.eu, ansuelsmth@gmail.com,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] pinctrl: airoha: Add support for EN7581 SoC
+Message-ID: <202409010106.kqFZrO3g-lkp@intel.com>
+References: <20240831-en7581-pinctrl-v3-4-98eebfb4da66@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,64 +75,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830074426.21968-3-peter.wang@mediatek.com>
+In-Reply-To: <20240831-en7581-pinctrl-v3-4-98eebfb4da66@kernel.org>
 
-Hi,
+Hi Lorenzo,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on jejb-scsi/for-next]
-[also build test ERROR on mkp-scsi/for-next linus/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on defaf1a2113a22b00dfa1abc0fd2014820eaf065]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/peter-wang-mediatek-com/ufs-core-fix-the-issue-of-ICU-failure/20240830-154808
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20240830074426.21968-3-peter.wang%40mediatek.com
-patch subject: [PATCH v1 2/2] ufs: core: requeue MCQ abort request
-config: arm-randconfig-002-20240831 (https://download.01.org/0day-ci/archive/20240901/202409010054.kNsXraZk-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010054.kNsXraZk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-arm-airoha-Add-the-chip-scu-node-for-EN7581-SoC/20240831-222958
+base:   defaf1a2113a22b00dfa1abc0fd2014820eaf065
+patch link:    https://lore.kernel.org/r/20240831-en7581-pinctrl-v3-4-98eebfb4da66%40kernel.org
+patch subject: [PATCH v3 4/5] pinctrl: airoha: Add support for EN7581 SoC
+reproduce: (https://download.01.org/0day-ci/archive/20240901/202409010106.kqFZrO3g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409010054.kNsXraZk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409010106.kqFZrO3g-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/ufs/core/ufshcd.c:6505:6: error: call to undeclared function 'is_mcq_enabled'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           if (is_mcq_enabled(hba) && (*ret == 0))
-               ^
-   1 error generated.
-
-
-vim +/is_mcq_enabled +6505 drivers/ufs/core/ufshcd.c
-
-  6488	
-  6489	static bool ufshcd_abort_one(struct request *rq, void *priv)
-  6490	{
-  6491		int *ret = priv;
-  6492		u32 tag = rq->tag;
-  6493		struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(rq);
-  6494		struct scsi_device *sdev = cmd->device;
-  6495		struct Scsi_Host *shost = sdev->host;
-  6496		struct ufs_hba *hba = shost_priv(shost);
-  6497		struct ufshcd_lrb *lrbp = &hba->lrb[tag];
-  6498	
-  6499		*ret = ufshcd_try_to_abort_task(hba, tag);
-  6500		dev_err(hba->dev, "Aborting tag %d / CDB %#02x %s\n", tag,
-  6501			hba->lrb[tag].cmd ? hba->lrb[tag].cmd->cmnd[0] : -1,
-  6502			*ret ? "failed" : "succeeded");
-  6503	
-  6504		/* Host will post to CQ with OCS_ABORTED after SQ clean up */
-> 6505		if (is_mcq_enabled(hba) && (*ret == 0))
-  6506			lrbp->host_initiate_abort = true;
-  6507	
-  6508		return *ret == 0;
-  6509	}
-  6510	
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/airoha,en7581-pinctrl.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
