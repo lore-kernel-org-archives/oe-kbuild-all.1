@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02984139D1B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 20:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20531CF92
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 21:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725137484; cv=none; b=m2vk1mtcuGw1l5ZOQzc2tRzMOSB0A1zQzrzxgpj4R2/TEFutL1jHm24mOkRxh1He9NycqIubHOScFiZWLX887dDcDsMq1mNOWBvFNtCJ4tYy6svCweXiDFCPm+g7DBv9WUJbbCKMPYMQiCKBwARtM7sO3sKeTlqHeBgyg8P7s1g=
+	t=1725138083; cv=none; b=ZMSMGX6JKYUfSJvObr/kgi2IE6slJN0Ah+SaCZ1TCRTEo3OSawZ4tfL31uAfoMqbaXWT9wht5ejr/klxxUisD1jv5vmdV0wuDzGsH6v1wPaG60NFwiNjt7b/lcYKETbvPyLetdD8OxtYeufXR4puCamVkMphG5afhOsXRYuq5QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725137484; c=relaxed/simple;
-	bh=tsQb2fey/yeK6AlaA9X9bgbDeyxzL2IVJE60eeI26tA=;
+	s=arc-20240116; t=1725138083; c=relaxed/simple;
+	bh=TecFcMpqibA8H/5PUyr78LJsdInUIHC9dP8WJAfkWZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hsGPgGVjt5F0Tf5TnNr6aRDIxCGESsW706fY0Pjo16Xysj/mx/7Pz/TmY//V6aNjqwRx6yzB41gfDGvmE1qBciB9SCFhLd5Hq2yjWITLLssTBRjlkTqrA546AN67R82AM0FAAJqRlDQxvo4AsME7UbKOH1jePmfnQIULokj26k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QT4AXQh2; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=C29vaJhWnnLROxwMseCtIRcc1Z5BhFd+VLv7cJ71z/FOYPWdzW8p4vS/mqi24F5f3yT5UfvWd9ADtOrwHusgw/UjftN4mmqMNjml2URQaXZcUJ8N1qrcGg2jt2qG9dblhhY1vfemwoC6tELRQr8FmXmEkatHm4SDRDaWhIFUa8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IokbgHUc; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QT4AXQh2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IokbgHUc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725137482; x=1756673482;
+  t=1725138082; x=1756674082;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tsQb2fey/yeK6AlaA9X9bgbDeyxzL2IVJE60eeI26tA=;
-  b=QT4AXQh2FDU0FQjoEoH8XyRjFgCQc0qzfiywwJtE6O6WrV+60SWwEfI1
-   JuV57chnWuz+KuUJbVQfCu2pyAff+k/yw8H8zEDBCs/xRsM1LxnegLOT5
-   i8ks7TQmcYUUY1MejKw9OSDN3W6wntDREGO6tt5ifMoqYEsUUb0/KH8HO
-   4asC7ROZZuy18qkQQ0ScnLHYejIk6p3h5MmE5cRIVvv8J3okNEPSpGBNh
-   jfJxYUZ8ovC6U+v99rrljUrYhZqnzLYysc8DUvi+UphsDBOkGCVKko4cs
-   +lCLPypqs45CLgicw6tM7IECOakbYSa/wnKL9jIZ5ytBGXD9pDcvMVZg2
+  bh=TecFcMpqibA8H/5PUyr78LJsdInUIHC9dP8WJAfkWZQ=;
+  b=IokbgHUcfN23XsUGGMnYaFPHgkXfqM2ZpZBCJnWSxjs4jwRwpvNexaGe
+   yIXXAe78K+4RjlkW+cdu1htwe8Ou80ivS1bphb3iscj2HTgq2EFhnUqjb
+   ocR6dV4M6PKxMpcv1vVxJfGyGSVSKH48YKFfENGiZSr2CO5GJliCNwgLT
+   BzY7SsaHdzpUC04erqGIQj11Cz12ajlI4T7NHYPm4bH3494IH0mr6+ENH
+   /OERj3vEcpqiVuulWhLKpfP3sMS5Rwb2slTJxFYPwr216jX+yWR7XfHlU
+   1LKHFlD9LRzMQUd+mEd6Np5wahgZl5m0dry81S4ybiBPafVHxm+OoxTLt
    Q==;
-X-CSE-ConnectionGUID: cX4atZIiRhqKMUJ/uBFKVg==
-X-CSE-MsgGUID: fpZRJtnwSMOFfdm1axXYtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34327025"
+X-CSE-ConnectionGUID: CoMp5RS6SoO37TvAmwrZhg==
+X-CSE-MsgGUID: XgW0UYFNTpK5BW5HdBC/+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="27550434"
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="34327025"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 13:51:21 -0700
-X-CSE-ConnectionGUID: F/lpIS7gRDe80F0Xnt73dQ==
-X-CSE-MsgGUID: 5+HhaZkSR5iF/NEYnugjJQ==
+   d="scan'208";a="27550434"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 14:01:22 -0700
+X-CSE-ConnectionGUID: 0rV4gzAXSh2Etdioev8UCA==
+X-CSE-MsgGUID: PKvV16TiQ1SZU9td8EKxnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="69050624"
+   d="scan'208";a="64392698"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 31 Aug 2024 13:51:20 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 31 Aug 2024 14:01:20 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skV41-00037W-34;
-	Sat, 31 Aug 2024 20:51:17 +0000
-Date: Sun, 1 Sep 2024 04:50:38 +0800
+	id 1skVDi-00037m-0R;
+	Sat, 31 Aug 2024 21:01:18 +0000
+Date: Sun, 1 Sep 2024 05:00:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, wu.zheng@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 23605/23944]
- include/linux/lsm_hook_defs.h:410:18: warning: 'uring_sqpoll_default'
- defined but not used
-Message-ID: <202409010427.b53bAVGc-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, NeilBrown <neil@brown.name>,
+	Jeff Layton <jlayton@kernel.org>
+Subject: [snitzer:nfs-localio-for-next.v14-neilb 17/26]
+ fs/nfsd/nfsctl.c:2284:undefined reference to `nfs_uuid_invalidate_clients'
+Message-ID: <202409010417.E64kZYKJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,141 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   114077d3641f55e0727e810a4f1277a658f703b7
-commit: c10004388b8cf563f38aa7424176b8c01e48331c [23605/23944] lsm,io_uring: add LSM hooks to io_uring
-config: x86_64-bytedance-5.15-velinux (https://download.01.org/0day-ci/archive/20240901/202409010427.b53bAVGc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010427.b53bAVGc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next.v14-neilb
+head:   70cce93a681fa1956cb736e574953994bfd5aae0
+commit: 311a9e7ccc6022120e8d153b28e99238622a259d [17/26] nfsd: implement server support for NFS_LOCALIO_PROGRAM
+config: sh-sdk7780_defconfig (https://download.01.org/0day-ci/archive/20240901/202409010417.E64kZYKJ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010417.E64kZYKJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409010427.b53bAVGc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409010417.E64kZYKJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> include/linux/lsm_hook_defs.h:410:18: warning: 'uring_sqpoll_default' defined but not used [-Wunused-const-variable=]
-     410 | LSM_HOOK(int, 0, uring_sqpoll, void)
-         |                  ^~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:410:1: note: in expansion of macro 'LSM_HOOK'
-     410 | LSM_HOOK(int, 0, uring_sqpoll, void)
-         | ^~~~~~~~
->> include/linux/lsm_hook_defs.h:409:18: warning: 'uring_override_creds_default' defined but not used [-Wunused-const-variable=]
-     409 | LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:409:1: note: in expansion of macro 'LSM_HOOK'
-     409 | LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:405:18: warning: 'perf_event_write_default' defined but not used [-Wunused-const-variable=]
-     405 | LSM_HOOK(int, 0, perf_event_write, struct perf_event *event)
-         |                  ^~~~~~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:405:1: note: in expansion of macro 'LSM_HOOK'
-     405 | LSM_HOOK(int, 0, perf_event_write, struct perf_event *event)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:404:18: warning: 'perf_event_read_default' defined but not used [-Wunused-const-variable=]
-     404 | LSM_HOOK(int, 0, perf_event_read, struct perf_event *event)
-         |                  ^~~~~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:404:1: note: in expansion of macro 'LSM_HOOK'
-     404 | LSM_HOOK(int, 0, perf_event_read, struct perf_event *event)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:402:18: warning: 'perf_event_alloc_default' defined but not used [-Wunused-const-variable=]
-     402 | LSM_HOOK(int, 0, perf_event_alloc, struct perf_event *event)
-         |                  ^~~~~~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:402:1: note: in expansion of macro 'LSM_HOOK'
-     402 | LSM_HOOK(int, 0, perf_event_alloc, struct perf_event *event)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:401:18: warning: 'perf_event_open_default' defined but not used [-Wunused-const-variable=]
-     401 | LSM_HOOK(int, 0, perf_event_open, struct perf_event_attr *attr, int type)
-         |                  ^~~~~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:401:1: note: in expansion of macro 'LSM_HOOK'
-     401 | LSM_HOOK(int, 0, perf_event_open, struct perf_event_attr *attr, int type)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:398:18: warning: 'locked_down_default' defined but not used [-Wunused-const-variable=]
-     398 | LSM_HOOK(int, 0, locked_down, enum lockdown_reason what)
-         |                  ^~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:398:1: note: in expansion of macro 'LSM_HOOK'
-     398 | LSM_HOOK(int, 0, locked_down, enum lockdown_reason what)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:394:18: warning: 'bpf_prog_alloc_security_default' defined but not used [-Wunused-const-variable=]
-     394 | LSM_HOOK(int, 0, bpf_prog_alloc_security, struct bpf_prog_aux *aux)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:394:1: note: in expansion of macro 'LSM_HOOK'
-     394 | LSM_HOOK(int, 0, bpf_prog_alloc_security, struct bpf_prog_aux *aux)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:392:18: warning: 'bpf_map_alloc_security_default' defined but not used [-Wunused-const-variable=]
-     392 | LSM_HOOK(int, 0, bpf_map_alloc_security, struct bpf_map *map)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
-         |                                ^~~~
-   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
-     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lsm_hook_defs.h:392:1: note: in expansion of macro 'LSM_HOOK'
-     392 | LSM_HOOK(int, 0, bpf_map_alloc_security, struct bpf_map *map)
-         | ^~~~~~~~
-   include/linux/lsm_hook_defs.h:391:18: warning: 'bpf_prog_default' defined but not used [-Wunused-const-variable=]
-     391 | LSM_HOOK(int, 0, bpf_prog, struct bpf_prog *prog)
-         |                  ^~~~~~~~
-   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
-     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+   sh4-linux-ld: fs/nfsd/nfsctl.o: in function `nfsd_net_pre_exit':
+>> fs/nfsd/nfsctl.c:2284:(.text+0x140): undefined reference to `nfs_uuid_invalidate_clients'
 
 
-vim +/uring_sqpoll_default +410 include/linux/lsm_hook_defs.h
+vim +2284 fs/nfsd/nfsctl.c
 
-   407	
-   408	#ifdef CONFIG_IO_URING
- > 409	LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
- > 410	LSM_HOOK(int, 0, uring_sqpoll, void)
+  2272	
+  2273	/**
+  2274	 * nfsd_net_pre_exit - Disconnect localio clients from net namespace
+  2275	 * @net: a network namespace that is about to be destroyed
+  2276	 *
+  2277	 * This invalidated ->net pointers held by localio clients
+  2278	 * while they can still safely access nn->counter.
+  2279	 */
+  2280	static __net_exit void nfsd_net_pre_exit(struct net *net)
+  2281	{
+  2282		struct nfsd_net *nn = net_generic(net, nfsd_net_id);
+  2283	
+> 2284		nfs_uuid_invalidate_clients(&nn->local_clients);
+  2285	}
+  2286	/**
+  2287	 * nfsd_net_exit - Release the nfsd_net portion of a net namespace
+  2288	 * @net: a network namespace that is about to be destroyed
+  2289	 *
+  2290	 */
+  2291	static __net_exit void nfsd_net_exit(struct net *net)
+  2292	{
+  2293		struct nfsd_net *nn = net_generic(net, nfsd_net_id);
+  2294	
+  2295		nfsd_proc_stat_shutdown(net);
+  2296		percpu_counter_destroy_many(nn->counter, NFSD_STATS_COUNTERS_NUM);
+  2297		nfsd_idmap_shutdown(net);
+  2298		nfsd_export_shutdown(net);
+  2299	}
+  2300	
 
 -- 
 0-DAY CI Kernel Test Service
