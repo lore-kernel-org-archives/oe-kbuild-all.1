@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24118468
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 15:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA291BF2A;
+	Sat, 31 Aug 2024 15:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725117014; cv=none; b=lYP2ZqjyCPD8QIpq7+odRn8NV8GFFQykHUajO4QlNmZJ+1unUHyYZpkwtCPKJ1ghUUrfWrMnPsqJWTJeyqvXKBANH0jBgpvt6LYtHiE0esRUMKTVhs177OZ+IfqWe84IY5YUUIJLhbCgK+VydGfFPTcSeI81QCakVzvj45fL8gw=
+	t=1725118877; cv=none; b=mCkpClE9oZbrk614yrNuQ4zjOj3VWrkON/MMqZHvYkUiySzP7Odlllq1DzjDQE0xEFVh0mbMoNAiqu7AP8pzvAi/urP05A9exkx4T51TkzoorkFFBDRUmvJRj9n9ZoDguxR0dlm61GZBUAnfq/Jxqv9uHs8ublMO8tDPM0zHmPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725117014; c=relaxed/simple;
-	bh=1xVGv+SC84h7SOr+spXDFBlJu2mosTjn3kUoDRcy6OU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iguB72hII435BRQ9GNPXiDAaEEnmNne6sDvmGJqc+cozBhnGPOwW9kWwjfeIFBCW/I6Winvl2bo0OpVeq+hjbj5QRG1be6KXs0NmdAWt/CEM8+8MW01Cyg56ZKvPAkhf0Ci8SZJ+73NqFVsbHAmY3OkhOijkD6XmlomSNgd2/jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyvRCz8w; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1725118877; c=relaxed/simple;
+	bh=1yRS0gogRh784GbSU5al2JeuuxHmmdz6/2N7DYSOzAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j9aj/z00ryAwpaJyNZVxIETkteye3tkgrEvwYk9rMePmUwXHGBWX3z9m+DIdbEaA6EIfe9/9GPgvoGpCeRuAHm8TbYKZtv3GHOQUMKYjPIGRBrasTbCgDj5mz8RVhgTkO15pJ+FAnmG/kl3NeislSPvZi1PWYdDx5c0A3QYR8UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZmlwFos; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyvRCz8w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZmlwFos"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725117012; x=1756653012;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1xVGv+SC84h7SOr+spXDFBlJu2mosTjn3kUoDRcy6OU=;
-  b=SyvRCz8w2wc7TlTzxyLVvTFk3Sw1R5GRVT0xNerWco6WxdQcaatdw1fz
-   ytIqdoXbVKHu9uO8y6ccpRMSvjtGDpfwXuKRZ8KTC+o/5+lpBVkE31a4Y
-   xhXn4bcfa6IwkTfldkYZRKweXMj2Un8SpHWLXMs3Q7ztb81xX5YDEUWCE
-   FLaUyql2XSgTcAoXIyP5R3CobuvbPrjkdZ+zORRtbmE5hpLdxCTtdEgdD
-   NMOGaVohZNaGfze0DPcaVxJtHMdfDpKPKZ5n50bZbDK/iabYr8SJoRx5m
-   Fk+dooHrQQpy64k3d74mnN6Sxj1hIHN0ngsWcqcrSIi/550m+jqYoxzjo
-   g==;
-X-CSE-ConnectionGUID: hLYg/Eq+RbyKfmRS3FU9PA==
-X-CSE-MsgGUID: DJSDLa2YRR6YdrWIXCPtQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23883288"
+  t=1725118874; x=1756654874;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1yRS0gogRh784GbSU5al2JeuuxHmmdz6/2N7DYSOzAE=;
+  b=kZmlwFos2YElWPFsbmOorojoTmeAt4Y7RBdMrCluYgmHS20t5UXWKFXb
+   fhg2AwRiU1IzhXE7gx+FYNDRPuIqILSDGiOb8lUC7ME2VWUP3wX+UkN1n
+   1FmDp4NN9pOyinSHtEr8eMq9t1YdwFqt1bPpwLXlooXgjmXDMEURvwymc
+   sDIGZ3/P6R8TtAAnWuxGXtg7vFW08tWOMgD26rJeexk5DIUPSUSFYxRJ2
+   n0aLbglkUD7nspqdWMfCZUdecHxx9rk4kvVoZpPAl7AeoRzQgpqZ/Nqbu
+   Pd6buEewwqum9ZLwcY3YTNeFn3b6xbh4ecgE4HZiHaso6qWKfAppUz6V+
+   w==;
+X-CSE-ConnectionGUID: 6htX497AR6SyJQnnM71img==
+X-CSE-MsgGUID: JIDz10o2SpK8lqyhYzU/hQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34365687"
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="23883288"
+   d="scan'208";a="34365687"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 08:10:12 -0700
-X-CSE-ConnectionGUID: Ra/oSbOeShGcBEgsKSU89g==
-X-CSE-MsgGUID: pS+mtawJR4eAeojIDVRiEg==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 08:41:13 -0700
+X-CSE-ConnectionGUID: sqe79E9EQbOtEz7nGLuCPw==
+X-CSE-MsgGUID: xcrsmA2TQTaiTZu7jMdNYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="94890974"
+   d="scan'208";a="94894058"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2024 08:10:11 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2024 08:41:11 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skPjs-0002rG-0N;
-	Sat, 31 Aug 2024 15:10:08 +0000
-Date: Sat, 31 Aug 2024 23:09:31 +0800
+	id 1skQDs-0002sY-2c;
+	Sat, 31 Aug 2024 15:41:08 +0000
+Date: Sat, 31 Aug 2024 23:40:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>
-Subject: [mark:arm64/brbe 6/10] drivers/perf/arm_pmuv3.c:1314:22: sparse:
- sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202408312311.XYj3ZFZu-lkp@intel.com>
+To: Leo Tsai <antivirus621@gmail.com>, perex@perex.cz, tiwai@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	leo.tsai@cmedia.com.tw, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: Add new CM9825 driver
+Message-ID: <202408312351.eV8p77QU-lkp@intel.com>
+References: <20240830084521.15706-1-antivirus621@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,53 +64,173 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240830084521.15706-1-antivirus621@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/brbe
-head:   dc7efc5b697eea31ad0c1b663f26417195556e8f
-commit: d4bb8bff2986d2ed49af99e8b034acfc738460db [6/10] WIP: perf/arm_pmuv3: Enable branch stack sampling via FEAT_BRBE
-config: arm64-randconfig-r112-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312311.XYj3ZFZu-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240831/202408312311.XYj3ZFZu-lkp@intel.com/reproduce)
+Hi Leo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Tsai/ALSA-hda-Add-new-CM9825-driver/20240830-164709
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240830084521.15706-1-antivirus621%40gmail.com
+patch subject: [PATCH] ALSA: hda: Add new CM9825 driver
+config: i386-buildonly-randconfig-002-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312351.eV8p77QU-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408312351.eV8p77QU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408312311.XYj3ZFZu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408312351.eV8p77QU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/perf/arm_pmuv3.c:1314:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_branch_stack *branch_stack @@     got void [noderef] __percpu *_res @@
-   drivers/perf/arm_pmuv3.c:1314:22: sparse:     expected struct perf_branch_stack *branch_stack
-   drivers/perf/arm_pmuv3.c:1314:22: sparse:     got void [noderef] __percpu *_res
->> drivers/perf/arm_pmuv3.c:1324:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_branch_stack * @@
-   drivers/perf/arm_pmuv3.c:1324:36: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/perf/arm_pmuv3.c:1324:36: sparse:     got struct perf_branch_stack *
+All warnings (new ones prefixed by >>):
 
-vim +1314 drivers/perf/arm_pmuv3.c
+>> sound/pci/hda/patch_cmedia.c:572:12: warning: variable 'spec' is uninitialized when used here [-Wuninitialized]
+     572 |         codec_dbg(spec->codec, "Start\n");
+         |                   ^~~~
+   sound/pci/hda/hda_local.h:735:24: note: expanded from macro 'codec_dbg'
+     735 |         dev_dbg(hda_codec_dev(codec), fmt, ##args)
+         |                               ^~~~~
+   include/sound/hda_codec.h:289:32: note: expanded from macro 'hda_codec_dev'
+     289 | #define hda_codec_dev(_dev)     (&(_dev)->core.dev)
+         |                                    ^~~~
+   include/linux/dev_printk.h:165:18: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                         ^~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   sound/pci/hda/patch_cmedia.c:567:23: note: initialize the variable 'spec' to silence this warning
+     567 |         struct cmi_spec *spec;
+         |                              ^
+         |                               = NULL
+   1 warning generated.
 
-  1306	
-  1307	static int branch_records_alloc(struct arm_pmu *armpmu)
-  1308	{
-  1309		struct perf_branch_stack *branch_stack;
-  1310		size_t size = struct_size(branch_stack, entries,
-  1311					  armpmu->num_branch_records);
-  1312		int cpu;
-  1313	
-> 1314		branch_stack = __alloc_percpu_gfp(size, __alignof__(*branch_stack),
-  1315						  GFP_KERNEL);
-  1316		if (!branch_stack)
-  1317			return -ENOMEM;
-  1318	
-  1319		for_each_possible_cpu(cpu) {
-  1320			struct pmu_hw_events *events_cpu;
-  1321			struct perf_branch_stack *branch_stack_cpu;
-  1322	
-  1323			events_cpu = per_cpu_ptr(armpmu->hw_events, cpu);
-> 1324			branch_stack_cpu = per_cpu_ptr(branch_stack, cpu);
-  1325			events_cpu->branch_stack = branch_stack_cpu;
-  1326		}
-  1327		return 0;
-  1328	}
-  1329	
+
+vim +/spec +572 sound/pci/hda/patch_cmedia.c
+
+   564	
+   565	static int patch_cm9825(struct hda_codec *codec)
+   566	{
+   567		struct cmi_spec *spec;
+   568		struct auto_pin_cfg *cfg;
+   569		int err, i;
+   570		const struct snd_pci_quirk *quirk;
+   571	
+ > 572		codec_dbg(spec->codec, "Start\n");
+   573	
+   574		spec = kzalloc(sizeof(*spec), GFP_KERNEL);
+   575		if (spec == NULL)
+   576			return -ENOMEM;
+   577	
+   578		codec->spec = spec;
+   579		spec->codec = codec;
+   580	
+   581		/* Detect codec quirk */
+   582		quirk = snd_pci_quirk_lookup(codec->bus->pci, cm9825_quirks);
+   583		if (quirk)
+   584			spec->quirk = quirk->value;
+   585		else
+   586			spec->quirk = QUIRK_CM9825_STANDARD;
+   587	
+   588		if (spec->quirk == QUIRK_CM9825_STANDARD)
+   589			cm9825_detect_quirk(codec);
+   590	
+   591		codec_dbg(spec->codec, "spec->quirk %d\n", spec->quirk);
+   592	
+   593		codec->patch_ops = cmi_auto_patch_ops;
+   594		codec->patch_ops.init = CM9825_init;
+   595	#ifdef CONFIG_PM
+   596		codec->patch_ops.suspend = cm9825_suspend;
+   597		codec->patch_ops.resume = cm9825_resume;
+   598		codec->patch_ops.check_power_status = snd_hda_gen_check_power_status;
+   599	#endif
+   600		spec->gen.init_hook = CM9825_init_hook;
+   601		/* add hooks */
+   602		spec->gen.pcm_playback_hook = cm9825_playback_pcm_hook;
+   603	
+   604		cfg = &spec->gen.autocfg;
+   605		snd_hda_gen_spec_init(&spec->gen);
+   606	
+   607		if (spec->quirk == (int)QUIRK_CM9825_STANDARD) {
+   608			snd_hda_codec_set_name(codec, "CM9825 Standard");
+   609			spec->chip_D0_verbs = cm9825_D0_verbs;
+   610			spec->chip_D3_verbs = cm9825_D3_verbs;
+   611			spec->chip_HP_Present_verbs = cm9825_HP_Present_verbs;
+   612			spec->chip_HP_Remove_verbs = cm9825_HP_Remove_verbs;
+   613			spec->chip_playback_start_verbs =
+   614			    cm9825_std_playback_start_verbs;
+   615			spec->chip_playback_stop_verbs = cm9825_std_playback_stop_verbs;
+   616		} else if (spec->quirk == (int)QUIRK_CM9825_NCR) {
+   617	#ifdef CONFIG_PM
+   618			codec->patch_ops.suspend = cm9825_NCR_suspend;
+   619			codec->patch_ops.resume = cm9825_NCR_resume;
+   620			codec->patch_ops.check_power_status =
+   621			    snd_hda_gen_check_power_status;
+   622	#endif
+   623			snd_hda_codec_set_name(codec, "CM9825 NCR");
+   624			snd_hda_sequence_write(codec, cm9825_NCR_TpCon_verbs);
+   625			spec->chip_D0_verbs = cm9825_NCR_D0_verbs;
+   626			spec->chip_D3_verbs = cm9825_NCR_D3_verbs;
+   627			spec->chip_playback_start_verbs =
+   628			    cm9825_NCR_playback_start_verbs;
+   629			spec->chip_playback_stop_verbs = cm9825_NCR_playback_stop_verbs;
+   630	
+   631			for (i = 0; i < ARRAY_SIZE(cm9825_ncr_mixer); i++) {
+   632				err = snd_hda_add_new_ctls(codec, &cm9825_ncr_mixer[i]);
+   633				if (err < 0) {
+   634					codec_info(codec, "add new ctls fail: %d\n",
+   635						   err);
+   636					goto error;
+   637				}
+   638			}
+   639		} else {
+   640			snd_hda_codec_set_name(codec, "CM9825 Standard");
+   641			spec->chip_D0_verbs = cm9825_D0_verbs;
+   642			spec->chip_D3_verbs = cm9825_D3_verbs;
+   643			spec->chip_HP_Present_verbs = cm9825_HP_Present_verbs;
+   644			spec->chip_HP_Remove_verbs = cm9825_HP_Remove_verbs;
+   645			spec->chip_playback_start_verbs =
+   646			    cm9825_std_playback_start_verbs;
+   647			spec->chip_playback_stop_verbs = cm9825_std_playback_stop_verbs;
+   648		}
+   649	
+   650		err = snd_hda_parse_pin_defcfg(codec, cfg, NULL, 0);
+   651		if (err < 0)
+   652			goto error;
+   653		err = snd_hda_gen_parse_auto_config(codec, cfg);
+   654		if (err < 0)
+   655			goto error;
+   656	
+   657		if (spec->quirk == (int)QUIRK_CM9825_STANDARD) {
+   658			INIT_DELAYED_WORK(&spec->unsol_hp_work,
+   659					  cm9825_unsol_hp_delayed);
+   660			cm9825_setup_unsol(codec);
+   661		}
+   662	
+   663		return 0;
+   664	
+   665	 error:
+   666		snd_hda_gen_free(codec);
+   667	
+   668		codec_info(codec, "Enter err %d\n", err);
+   669	
+   670		return err;
+   671	}
+   672	
 
 -- 
 0-DAY CI Kernel Test Service
