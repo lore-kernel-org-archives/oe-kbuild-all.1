@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3EB2E416
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 19:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D53133CF1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 19:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725131300; cv=none; b=eqNJT8MGr36NTow+hhjg08GqCTN1iw6P4Z3PhzbmZEki3nXhDMcwmaIRbeuuUR6Kw+/4fqr7eLSWimLpSzGm05RhBFuMj+PYso+zs6L1v4GD6XwlH8uJ1g5umh6MrRZAC+tB058mKiNrgT6HT6+4KdONtmuNYM44hKh37rdisGY=
+	t=1725132560; cv=none; b=J84JYOM0DS8ar8Z3RZqT74nSSkn1MGws4xnFpnbg3UUAuDI67sxlAz2cc5JOsWP1J64gFvluzXcUreojP/xE9ggK5HteWWzJlOMcWb508XAefMUQOPHBuWxPdHzvgf4bkcaadQK8JeiN97UxIQ1N+EakFsKU745o/wsquPMmWkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725131300; c=relaxed/simple;
-	bh=uZu8jbFY9SSz5vYrLQM5/8MLUc5BBx8KD+WP4mqcUrg=;
+	s=arc-20240116; t=1725132560; c=relaxed/simple;
+	bh=tGiCsakdMPfE7p4auFfVRcWgkqQdQnRX82kkVE0IcmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NndibkutqIQdIW/0cWu6BTWMOMF0boTmjImjhDs4RNYaEHVYhGRo/P70S89o6SflaNg1ZjPwm8zEGZXirZ3Kb4uOcaoIr6SFN6T3wBvqj+ua4tP7zRAfCkB+qOteJA/nIkoZ1PoA0fp1hUALdxUbHyTYlkdC3tmctByOgR4Lrk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bjlxOnvE; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=HqlFfylcF4iIKX0UZ/NlPBaWYvRr7h4s1LGZ8ZMM0dXgXpkSIBcLL68OCn8E6UaZIKChkO45XPKxPg1VPnkHqklkeoJIQu8AK+oz49gRsT3nd28H2+rCtZIMRnhtip7wfv9g6niulilQou0pO5PiPhr+vqTbVBmTu5WKR5SwL+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgfgUpfG; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjlxOnvE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgfgUpfG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725131297; x=1756667297;
+  t=1725132558; x=1756668558;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uZu8jbFY9SSz5vYrLQM5/8MLUc5BBx8KD+WP4mqcUrg=;
-  b=bjlxOnvEkhQAiong/GRbmq3xG9SDeYSoUwmlmvFF87PjFSOZVOxrUs4w
-   FD+ZLy9gcqR+y1A87lJq4ozBNpozpkrWb5I/KNXNkjXfS+lDbpuHpdPmC
-   2fwhUFRGkUs7e3go9r34hHpBegNC9vRZdOboTeiRwx+HYOOjHbeL8iAjF
-   Bbhsl/KFGuJcFoLE38U5iN4bdlYDRyJNUp61Qbtim0g5slLKnugpiGme9
-   Mkqh8Ez/EuYiT82ezmrKN+eJ3drX4+5yGWSkNXMhWMiI73oMBE6S0qPX0
-   lMIvQ/pwAKbgo1Q49AFMZXZwBQyYxQnpUzbWsuTSU3G3arKGRI3ppKkp0
+  bh=tGiCsakdMPfE7p4auFfVRcWgkqQdQnRX82kkVE0IcmY=;
+  b=JgfgUpfGst5xdubWx3ikAdd/muJCsXS9f3MoLkl896bkdF4v/8vIdgNr
+   Y3vufYXHXS0rkLP/+RwgFfdC7AshJ63/QuuCfjt8CSNLbHgG1OmYsUgrO
+   hdnTv17ZK/hYgxylhKyuzqtPj7HYdkOSi6IO8EDhJvWccWUpgu6F8Am8e
+   pqmtmbzaA2MgcQpPZJceo26CnjqKApMLweaTwPlnkbURXL6itv0KgihjR
+   PdSO/4ut8mQ68zYuZBtzYTKKjpnLG3m3KXUdgkgaR1t0djt3KGWKBbgxv
+   lA89Q6KBqJCFLP/feNKgVl/BgN9oMC1XO9EQVt34awyoBYdCVKk5gMPxp
    w==;
-X-CSE-ConnectionGUID: vza9tXJKSxmA6NUs8rQVew==
-X-CSE-MsgGUID: DdTgTy/BSXqP2hZrC1N6gA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23878247"
+X-CSE-ConnectionGUID: AqICrr5rR6mrD2RDS9fhkQ==
+X-CSE-MsgGUID: nguF7kwmS3qPWIDoIiQpmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34325177"
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="23878247"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 12:08:17 -0700
-X-CSE-ConnectionGUID: 8ZbfMpfPQJKk2U2W2ukqHQ==
-X-CSE-MsgGUID: F7k0B3Q1ThCQzEca6VcZKA==
+   d="scan'208";a="34325177"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 12:29:17 -0700
+X-CSE-ConnectionGUID: yUYAQCLYTFKRuviGIZG1Mw==
+X-CSE-MsgGUID: su2dBc3vT2WCeLaOV2IkKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="68337993"
+   d="scan'208";a="69002556"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Aug 2024 12:08:16 -0700
+  by orviesa003.jf.intel.com with ESMTP; 31 Aug 2024 12:29:17 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skTSH-00031S-2k;
-	Sat, 31 Aug 2024 19:08:13 +0000
-Date: Sun, 1 Sep 2024 03:08:01 +0800
+	id 1skTmc-00032f-2e;
+	Sat, 31 Aug 2024 19:29:14 +0000
+Date: Sun, 1 Sep 2024 03:28:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: yangyun <yangyun50@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, fuse-devel@lists.sourceforge.net,
-	Miklos Szeredi <mszeredi@redhat.com>
-Subject: [mszeredi-fuse:for-next 18/18] fs/fuse/inode.c:1350:37: error:
- 'FUSE_NO_FORGET_SUPPORT' undeclared; did you mean 'FUSE_NO_OPEN_SUPPORT'?
-Message-ID: <202409010306.nsdZgxne-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [snitzer:nfs-localio-for-next.v14-neilb 26/26]
+ fs/nfsd/localio.c:73:24: error: returning 'int' from a function with return
+ type 'struct nfs_localio_ctx *' makes pointer from integer without a cast
+Message-ID: <202409010339.rYRlblg8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,183 +63,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-head:   aef9b1d92516359711b05de453aed75bd71c592a
-commit: aef9b1d92516359711b05de453aed75bd71c592a [18/18] fuse: add support for no forget requests
-config: arm64-randconfig-001-20240901 (https://download.01.org/0day-ci/archive/20240901/202409010306.nsdZgxne-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010306.nsdZgxne-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next.v14-neilb
+head:   70cce93a681fa1956cb736e574953994bfd5aae0
+commit: 70cce93a681fa1956cb736e574953994bfd5aae0 [26/26] neilb's __module_get changes
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240901/202409010339.rYRlblg8-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010339.rYRlblg8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409010306.nsdZgxne-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409010339.rYRlblg8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/fuse/inode.c: In function 'process_init_reply':
->> fs/fuse/inode.c:1350:37: error: 'FUSE_NO_FORGET_SUPPORT' undeclared (first use in this function); did you mean 'FUSE_NO_OPEN_SUPPORT'?
-    1350 |                         if (flags & FUSE_NO_FORGET_SUPPORT)
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-         |                                     FUSE_NO_OPEN_SUPPORT
-   fs/fuse/inode.c:1350:37: note: each undeclared identifier is reported only once for each function it appears in
-   fs/fuse/inode.c: In function 'fuse_send_init':
-   fs/fuse/inode.c:1399:60: error: 'FUSE_NO_FORGET_SUPPORT' undeclared (first use in this function); did you mean 'FUSE_NO_OPEN_SUPPORT'?
-    1399 |                 FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_NO_FORGET_SUPPORT;
-         |                                                            ^~~~~~~~~~~~~~~~~~~~~~
-         |                                                            FUSE_NO_OPEN_SUPPORT
+   fs/nfsd/localio.c: In function 'nfsd_open_local_fh':
+>> fs/nfsd/localio.c:73:24: error: returning 'int' from a function with return type 'struct nfs_localio_ctx *' makes pointer from integer without a cast [-Wint-conversion]
+      73 |                 return -ENXIO;
+         |                        ^
 
 
-vim +1350 fs/fuse/inode.c
+vim +73 fs/nfsd/localio.c
 
-  1228	
-  1229	static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
-  1230				       int error)
-  1231	{
-  1232		struct fuse_conn *fc = fm->fc;
-  1233		struct fuse_init_args *ia = container_of(args, typeof(*ia), args);
-  1234		struct fuse_init_out *arg = &ia->out;
-  1235		bool ok = true;
-  1236	
-  1237		if (error || arg->major != FUSE_KERNEL_VERSION)
-  1238			ok = false;
-  1239		else {
-  1240			unsigned long ra_pages;
-  1241	
-  1242			process_init_limits(fc, arg);
-  1243	
-  1244			if (arg->minor >= 6) {
-  1245				u64 flags = arg->flags;
-  1246	
-  1247				if (flags & FUSE_INIT_EXT)
-  1248					flags |= (u64) arg->flags2 << 32;
-  1249	
-  1250				ra_pages = arg->max_readahead / PAGE_SIZE;
-  1251				if (flags & FUSE_ASYNC_READ)
-  1252					fc->async_read = 1;
-  1253				if (!(flags & FUSE_POSIX_LOCKS))
-  1254					fc->no_lock = 1;
-  1255				if (arg->minor >= 17) {
-  1256					if (!(flags & FUSE_FLOCK_LOCKS))
-  1257						fc->no_flock = 1;
-  1258				} else {
-  1259					if (!(flags & FUSE_POSIX_LOCKS))
-  1260						fc->no_flock = 1;
-  1261				}
-  1262				if (flags & FUSE_ATOMIC_O_TRUNC)
-  1263					fc->atomic_o_trunc = 1;
-  1264				if (arg->minor >= 9) {
-  1265					/* LOOKUP has dependency on proto version */
-  1266					if (flags & FUSE_EXPORT_SUPPORT)
-  1267						fc->export_support = 1;
-  1268				}
-  1269				if (flags & FUSE_BIG_WRITES)
-  1270					fc->big_writes = 1;
-  1271				if (flags & FUSE_DONT_MASK)
-  1272					fc->dont_mask = 1;
-  1273				if (flags & FUSE_AUTO_INVAL_DATA)
-  1274					fc->auto_inval_data = 1;
-  1275				else if (flags & FUSE_EXPLICIT_INVAL_DATA)
-  1276					fc->explicit_inval_data = 1;
-  1277				if (flags & FUSE_DO_READDIRPLUS) {
-  1278					fc->do_readdirplus = 1;
-  1279					if (flags & FUSE_READDIRPLUS_AUTO)
-  1280						fc->readdirplus_auto = 1;
-  1281				}
-  1282				if (flags & FUSE_ASYNC_DIO)
-  1283					fc->async_dio = 1;
-  1284				if (flags & FUSE_WRITEBACK_CACHE)
-  1285					fc->writeback_cache = 1;
-  1286				if (flags & FUSE_PARALLEL_DIROPS)
-  1287					fc->parallel_dirops = 1;
-  1288				if (flags & FUSE_HANDLE_KILLPRIV)
-  1289					fc->handle_killpriv = 1;
-  1290				if (arg->time_gran && arg->time_gran <= 1000000000)
-  1291					fm->sb->s_time_gran = arg->time_gran;
-  1292				if ((flags & FUSE_POSIX_ACL)) {
-  1293					fc->default_permissions = 1;
-  1294					fc->posix_acl = 1;
-  1295				}
-  1296				if (flags & FUSE_CACHE_SYMLINKS)
-  1297					fc->cache_symlinks = 1;
-  1298				if (flags & FUSE_ABORT_ERROR)
-  1299					fc->abort_err = 1;
-  1300				if (flags & FUSE_MAX_PAGES) {
-  1301					fc->max_pages =
-  1302						min_t(unsigned int, fc->max_pages_limit,
-  1303						max_t(unsigned int, arg->max_pages, 1));
-  1304				}
-  1305				if (IS_ENABLED(CONFIG_FUSE_DAX)) {
-  1306					if (flags & FUSE_MAP_ALIGNMENT &&
-  1307					    !fuse_dax_check_alignment(fc, arg->map_alignment)) {
-  1308						ok = false;
-  1309					}
-  1310					if (flags & FUSE_HAS_INODE_DAX)
-  1311						fc->inode_dax = 1;
-  1312				}
-  1313				if (flags & FUSE_HANDLE_KILLPRIV_V2) {
-  1314					fc->handle_killpriv_v2 = 1;
-  1315					fm->sb->s_flags |= SB_NOSEC;
-  1316				}
-  1317				if (flags & FUSE_SETXATTR_EXT)
-  1318					fc->setxattr_ext = 1;
-  1319				if (flags & FUSE_SECURITY_CTX)
-  1320					fc->init_security = 1;
-  1321				if (flags & FUSE_CREATE_SUPP_GROUP)
-  1322					fc->create_supp_group = 1;
-  1323				if (flags & FUSE_DIRECT_IO_ALLOW_MMAP)
-  1324					fc->direct_io_allow_mmap = 1;
-  1325				/*
-  1326				 * max_stack_depth is the max stack depth of FUSE fs,
-  1327				 * so it has to be at least 1 to support passthrough
-  1328				 * to backing files.
-  1329				 *
-  1330				 * with max_stack_depth > 1, the backing files can be
-  1331				 * on a stacked fs (e.g. overlayfs) themselves and with
-  1332				 * max_stack_depth == 1, FUSE fs can be stacked as the
-  1333				 * underlying fs of a stacked fs (e.g. overlayfs).
-  1334				 *
-  1335				 * Also don't allow the combination of FUSE_PASSTHROUGH
-  1336				 * and FUSE_WRITEBACK_CACHE, current design doesn't handle
-  1337				 * them together.
-  1338				 */
-  1339				if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) &&
-  1340				    (flags & FUSE_PASSTHROUGH) &&
-  1341				    arg->max_stack_depth > 0 &&
-  1342				    arg->max_stack_depth <= FILESYSTEM_MAX_STACK_DEPTH &&
-  1343				    !(flags & FUSE_WRITEBACK_CACHE))  {
-  1344					fc->passthrough = 1;
-  1345					fc->max_stack_depth = arg->max_stack_depth;
-  1346					fm->sb->s_stack_depth = arg->max_stack_depth;
-  1347				}
-  1348				if (flags & FUSE_NO_EXPORT_SUPPORT)
-  1349					fm->sb->s_export_op = &fuse_export_fid_operations;
-> 1350				if (flags & FUSE_NO_FORGET_SUPPORT)
-  1351					fc->no_forget = 1;
-  1352			} else {
-  1353				ra_pages = fc->max_read / PAGE_SIZE;
-  1354				fc->no_lock = 1;
-  1355				fc->no_flock = 1;
-  1356			}
-  1357	
-  1358			fm->sb->s_bdi->ra_pages =
-  1359					min(fm->sb->s_bdi->ra_pages, ra_pages);
-  1360			fc->minor = arg->minor;
-  1361			fc->max_write = arg->minor < 5 ? 4096 : arg->max_write;
-  1362			fc->max_write = max_t(unsigned, 4096, fc->max_write);
-  1363			fc->conn_init = 1;
-  1364		}
-  1365		kfree(ia);
-  1366	
-  1367		if (!ok) {
-  1368			fc->conn_init = 0;
-  1369			fc->conn_error = 1;
-  1370		}
-  1371	
-  1372		fuse_set_initialized(fc);
-  1373		wake_up_all(&fc->blocked_waitq);
-  1374	}
-  1375	
+    25	
+    26	/**
+    27	 * nfsd_open_local_fh - lookup a local filehandle @nfs_fh and map to nfsd_file
+    28	 *
+    29	 * @cl_nfssvc_net: the 'struct net' to use to get the proper nfsd_net
+    30	 * @cl_nfssvc_dom: the 'struct auth_domain' required for localio access
+    31	 * @rpc_clnt: rpc_clnt that the client established, used for sockaddr and cred
+    32	 * @cred: cred that the client established
+    33	 * @nfs_fh: filehandle to lookup
+    34	 * @fmode: fmode_t to use for open
+    35	 *
+    36	 * This function maps a local fh to a path on a local filesystem.
+    37	 * This is useful when the nfs client has the local server mounted - it can
+    38	 * avoid all the NFS overhead with reads, writes and commits.
+    39	 *
+    40	 * On successful return, returned nfs_localio_ctx will have its nfsd_file and
+    41	 * nfsd_net members set. Caller is responsible for calling nfsd_file_put and
+    42	 * nfsd_serv_put (via nfs_localio_ctx_free).
+    43	 */
+    44	struct nfs_localio_ctx *
+    45	nfsd_open_local_fh(nfs_uuid_t *uuid,
+    46			   struct rpc_clnt *rpc_clnt, const struct cred *cred,
+    47			   const struct nfs_fh *nfs_fh, const fmode_t fmode)
+    48		__must_hold(rcu)
+    49	{
+    50		int mayflags = NFSD_MAY_LOCALIO;
+    51		int status = 0;
+    52		struct nfsd_net *nn = NULL;
+    53		struct net *net;
+    54		struct svc_cred rq_cred;
+    55		struct svc_fh fh;
+    56		struct nfs_localio_ctx *localio;
+    57		__be32 beres;
+    58	
+    59		if (nfs_fh->size > NFS4_FHSIZE)
+    60			return ERR_PTR(-EINVAL);
+    61	
+    62		/*
+    63		 * Not running in nfsd context, so must safely get reference on nfsd_serv.
+    64		 * But the server may already be shutting down, if so disallow new localio.
+    65		 * uuid->net is NOT a counted reference, but rcu_read_lock() ensures that if
+    66		 * uuid->net is not NULL, then nfsd_serv_try_get() is safe and if that succeeds
+    67		 * we will have an implied reference to the net.
+    68		 */
+    69		net = READ_ONCE(uuid->net);
+    70		if (net)
+    71			nn = net_generic(net, nfsd_net_id);
+    72		if (unlikely(!nn || !nfsd_serv_try_get(nn)))
+  > 73			return -ENXIO;
+    74	
+    75		/* Drop the rcu lock for alloc and nfsd_file_acquire_local() */
+    76		rcu_read_unlock();
+    77	
+    78		localio = nfs_localio_ctx_alloc();
+    79		if (!localio) {
+    80			localio = ERR_PTR(-ENOMEM);
+    81			nfsd_serv_put(nn);
+    82			goto out_localio;
+    83		}
+    84	
+    85		/* nfs_fh -> svc_fh */
+    86		fh_init(&fh, NFS4_FHSIZE);
+    87		fh.fh_handle.fh_size = nfs_fh->size;
+    88		memcpy(fh.fh_handle.fh_raw, nfs_fh->data, nfs_fh->size);
+    89	
+    90		if (fmode & FMODE_READ)
+    91			mayflags |= NFSD_MAY_READ;
+    92		if (fmode & FMODE_WRITE)
+    93			mayflags |= NFSD_MAY_WRITE;
+    94	
+    95		svcauth_map_clnt_to_svc_cred_local(rpc_clnt, cred, &rq_cred);
+    96	
+    97		beres = nfsd_file_acquire_local(uuid->net, &rq_cred, uuid->dom,
+    98						&fh, mayflags, &localio->nf);
+    99		if (beres) {
+   100			status = nfs_stat_to_errno(be32_to_cpu(beres));
+   101			goto out_fh_put;
+   102		}
+   103		localio->nn = nn;
+   104	
+   105	out_fh_put:
+   106		fh_put(&fh);
+   107		if (rq_cred.cr_group_info)
+   108			put_group_info(rq_cred.cr_group_info);
+   109	
+   110		if (status) {
+   111			nfs_localio_ctx_free(localio);
+   112			localio = ERR_PTR(status);
+   113		}
+   114	out_localio:
+   115		rcu_read_lock();
+   116		return localio;
+   117	}
+   118	EXPORT_SYMBOL_GPL(nfsd_open_local_fh);
+   119	
 
 -- 
 0-DAY CI Kernel Test Service
