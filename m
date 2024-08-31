@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3EB7BB14;
-	Sat, 31 Aug 2024 07:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0D27BB14
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 07:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725089757; cv=none; b=IIMIDnQ+GrGXBwE5ikZZ4pQILzPsHKUgLXAP/1HqgjosTaHVTFZpaz8pzXAFsfUpEdI6Rt3PszXSN6g2IC4jDayxMJReFzmR+k/dgDx/J27890+0S51W8XGugLeRchXrzKAqq2655fsdJDMFJVm7t8UhpOq3Q4vSZvHUpUr9vGA=
+	t=1725089993; cv=none; b=awACzsvRBwiH5E0P6m4/+5HCk/cAnH1klfcylZI9+Gh46p70YwUxx5q6VSwI3ggw6QKUaGzV8g5e0H6SUnmzB9wFEOWYceM3Ypr2cxz5vnW1SB5DXazpNLzcmvLN1MGrkFdvB38J4fOvDYAftUKPdbQuGyG45yjmlZUF/BxD/L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725089757; c=relaxed/simple;
-	bh=czp5B2f7yB9kZl1r+dl0QORW3vwTZa6LcMuzRe1KU+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LB6jzrzi7//abiumSADbNWP0I08jVn5yD1AA//LhP76/Vr0QdaHredMJTcv7LdQCYt8Ma0KNE/551m27ovnOQE/3qUyq+8Ne5SxgoGpfpUG6GBDiHsUKXCVVSt90F4NavsROW3wXxir4Rnswh9dVislWAZuxI5gwzYrTZa+gSB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6DkfDuO; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1725089993; c=relaxed/simple;
+	bh=bH4p/WjkhSlyQrdOPHrjx31BTwRgB5txEQXEJrX9mZs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=T+Qq33NtcQNo4+SxaEwQc4lZGjN3mjuaShGO/Gy0XoCPmOF9wlS0LOezCJ8tUpjLIEbve69oXnfber7PzbMkC1OHp6nCnpAAfgFLPHxH20zD7lEjJg3qQKtnR+XpgRvPG0CR6p45rChF2nyQBgEFkotj5+PZff+/z6SezIIbPtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+WCodRZ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6DkfDuO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+WCodRZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725089756; x=1756625756;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=czp5B2f7yB9kZl1r+dl0QORW3vwTZa6LcMuzRe1KU+8=;
-  b=a6DkfDuObpg+6Hlkjg2x9ORDf5QbJiYA1Up45gteXtxb8hcV+zzrcPDF
-   L++lP3ucm/pTFgxGtMkwHQbCq4oO9qtGtukxIp3cln2Pc6eqIMXmpSeek
-   11/7CBoE7BLEkHKVixFpxoKXzrbH3c6S2f/qPZ2WvFClsgxtBVlrpPX7M
-   5Uc3wezLE0FqmV71OFO75XdF7MvR/4InJ1AMh48Nvi4L8API4sGqqZKgk
-   B8b1oazQMnyP8n5Q8bLLp6eypLsds9J6YnIWtkzUPqLty3uP+MouXTng0
-   X9h/1XnWh0mpdRmmJqCBRef+nqpmxVG0OubEHgCTKYnFN0P/+Y53zOY/V
-   Q==;
-X-CSE-ConnectionGUID: 0ObJ9s0zT7GK60tIROWr0Q==
-X-CSE-MsgGUID: fbDNZOWPQu62m2F6IG+Jfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="26644511"
+  t=1725089992; x=1756625992;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=bH4p/WjkhSlyQrdOPHrjx31BTwRgB5txEQXEJrX9mZs=;
+  b=G+WCodRZCjgcl8zLWfcduQoSy1dKmZREhy5sesjlizfRlP5digK1AXjA
+   Lrfk4C62To8+itR2Rl9zHElB4gsUD9XHy1PIrYbINR/5R8QksAfWpo16t
+   fOdCcZOM6ePahrmfFNpUj3McOuQ9FZnT6QsuoAPBt+/Eypzz8f+QMuUaZ
+   Ra6g/n/bz7vV79f3LpD79nyCbziKhKsag3PKtIXTz8WIieQA34M/jodj0
+   OFxQqn5w07GziPg6jLbOJ+BIN8WLpTc+Pf1gyGibiGgWZLD4kCZ1QJ21m
+   UwAyALOwCrf0wKXNx9KhT+7cNhfLVylxFpUqGCngSa20Wy0LI+pGOX7il
+   w==;
+X-CSE-ConnectionGUID: 60wSiSInQgG2rLSpUsAsHw==
+X-CSE-MsgGUID: Hyu7aqeaTiCZjZW1ErtjEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23549005"
 X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="26644511"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 00:35:55 -0700
-X-CSE-ConnectionGUID: yxTs2rpBSbuLl83xUL3cog==
-X-CSE-MsgGUID: rW71+T5yRlq/qW58K35c4A==
+   d="scan'208";a="23549005"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 00:39:52 -0700
+X-CSE-ConnectionGUID: p0K30RINSoiAyvX9acj4pg==
+X-CSE-MsgGUID: KhWmOwNySCuVRV89PJHK/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="68950957"
+   d="scan'208";a="64163769"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 31 Aug 2024 00:35:51 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 31 Aug 2024 00:39:51 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skIeC-0002Qw-1m;
-	Sat, 31 Aug 2024 07:35:48 +0000
-Date: Sat, 31 Aug 2024 15:35:11 +0800
+	id 1skIi4-0002R0-1r;
+	Sat, 31 Aug 2024 07:39:48 +0000
+Date: Sat, 31 Aug 2024 15:39:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ashish Kalra <Ashish.Kalra@amd.com>, seanjc@google.com,
-	pbonzini@redhat.com, dave.hansen@linux.intel.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, hpa@zytor.com,
-	peterz@infradead.org, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, thomas.lendacky@amd.com, michael.roth@amd.com,
-	kexec@lists.infradead.org, linux-coco@lists.linux.dev
-Subject: Re: [PATCH] x86/sev: Fix host kdump support for SNP
-Message-ID: <202408311530.cYa27OX8-lkp@intel.com>
-References: <20240827203804.4989-1-Ashish.Kalra@amd.com>
+To: Luo Gengkun <luogengkun@huaweicloud.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 1/2] perf/core: Fix small negative period being ignored
+Message-ID: <ZtLIrrsvCaXWjlMU@bcffd8c2c65a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,69 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827203804.4989-1-Ashish.Kalra@amd.com>
+In-Reply-To: <20240831074316.2106159-2-luogengkun@huaweicloud.com>
 
-Hi Ashish,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on linus/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Kalra/x86-sev-Fix-host-kdump-support-for-SNP/20240828-044035
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20240827203804.4989-1-Ashish.Kalra%40amd.com
-patch subject: [PATCH] x86/sev: Fix host kdump support for SNP
-config: i386-buildonly-randconfig-006-20240831 (https://download.01.org/0day-ci/archive/20240831/202408311530.cYa27OX8-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408311530.cYa27OX8-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408311530.cYa27OX8-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/kvm/svm/svm.c:50:
->> arch/x86/kvm/svm/svm.h:783:13: warning: function 'snp_decommision_all' has internal linkage but is not defined [-Wundefined-internal]
-     783 | static void snp_decommision_all(void);
-         |             ^
-   arch/x86/kvm/svm/svm.c:686:3: note: used here
-     686 |                 snp_decommision_all();
-         |                 ^
-   1 warning generated.
-
-
-vim +/snp_decommision_all +783 arch/x86/kvm/svm/svm.h
-
-   763	
-   764	static inline void sev_free_vcpu(struct kvm_vcpu *vcpu) {}
-   765	static inline void sev_vm_destroy(struct kvm *kvm) {}
-   766	static inline void __init sev_set_cpu_caps(void) {}
-   767	static inline void __init sev_hardware_setup(void) {}
-   768	static inline void sev_hardware_unsetup(void) {}
-   769	static inline int sev_cpu_init(struct svm_cpu_data *sd) { return 0; }
-   770	static inline int sev_dev_get_attr(u32 group, u64 attr, u64 *val) { return -ENXIO; }
-   771	#define max_sev_asid 0
-   772	static inline void sev_handle_rmp_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u64 error_code) {}
-   773	static inline void sev_snp_init_protected_guest_state(struct kvm_vcpu *vcpu) {}
-   774	static inline int sev_gmem_prepare(struct kvm *kvm, kvm_pfn_t pfn, gfn_t gfn, int max_order)
-   775	{
-   776		return 0;
-   777	}
-   778	static inline void sev_gmem_invalidate(kvm_pfn_t start, kvm_pfn_t end) {}
-   779	static inline int sev_private_max_mapping_level(struct kvm *kvm, kvm_pfn_t pfn)
-   780	{
-   781		return 0;
-   782	}
- > 783	static void snp_decommision_all(void);
-   784	#endif
-   785	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v5 1/2] perf/core: Fix small negative period being ignored
+Link: https://lore.kernel.org/stable/20240831074316.2106159-2-luogengkun%40huaweicloud.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
