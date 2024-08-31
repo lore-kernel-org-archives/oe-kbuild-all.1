@@ -1,109 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFD24C8C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 17:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CD42033A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 17:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725125720; cv=none; b=qfpqlYBbmS0V7AnfF0I51dHC7QsmHadIcGxxcrnvKvyYhcptQlaY274dwKgNZTYkkw+IpZDobr5vW0Z1G+Kj4IZtHnlgojoQZcuatBMyb2n+m8fGSWVbQLC89MVPy9WbrhBFa0hMlpMX1spm8Bq6fHcKA7NqP+VP0dJ7abVt8to=
+	t=1725126377; cv=none; b=tsd4JAsv7iqpWmpCbS0Wlr9VVGwggEQfStbwwr/u4PJmdxhkWb3qjcrARbfXmiQwpi4xitt1I3CDjTtw+0ro5dMsMnQv2bgrLptZMZbZUp2tT9d9IImMYgQwbBYFAzd6/dcB2scPsx2gNjGpAKsVe2oHbI+OKyZExGVjee5tuvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725125720; c=relaxed/simple;
-	bh=XN2PsVitdwqyT+0EuFJyx51meuS/idl3glEF5fMYEO0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sgGL66L1JgwjFkgzvhg7k4keKtlRvUOXfE3E7tFDsrj3kFqdMigsRccQpknhJC/xc4zysUBG346I6Pc61VQFKv/AkGcHWiMhkdPq0wKgJ/LGjUUPrg4K23KlEvBVV++5pm0CVNDeIwX7AqLsVEXKmySG/lfak8CqrdQQrm6IQX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SdfP09vQ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1725126377; c=relaxed/simple;
+	bh=irDMlWGM282f9AvE16WrJ7M1insn37gzHA/XjGfm8sY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ViXLOemKX/kOg1Z1dOAtCdd4KIgdjtOOURLtKYZ0t6QxIjcyzkP6vHstGtqtSrFeZ8RenLRJzwqux6KEWYHSgx0YMb2RQElGih1d2A8ogLvx/NKAPgOXJQGxGrdHFxSz+myg0eVHBWZn+6FPfiu1VrYRWAWUY1Do3CEYTsFuIzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnZwAnnz; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdfP09vQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnZwAnnz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725125719; x=1756661719;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XN2PsVitdwqyT+0EuFJyx51meuS/idl3glEF5fMYEO0=;
-  b=SdfP09vQuoExcpD9inn0lQszbINo8yTg2Ef0L7KGDmnx2nDytYcsLfPm
-   jppCZAXhYFKRd7rWn10DPN+NQjF2HP0TeJCVAYLzO/02VSQluosvGjNTj
-   bDzlheEdh2/aZPISo4AaYzItckiuI8D+R0xCoU7dBapOFkJkstMGs1w5q
-   ngA/6HK+21taVj6dQtCRL2c9cOw3K8jov+5+b1IN6xEKwcGxI8k9fXTvG
-   bTAZQpDKWrBUHTG2maTOyWnRFY5OFheebWHmJbtPlFdGQxoBB43hwd/wV
-   nTFQSBT0VjgRHGU5P1GvMgd1VvebZxNtQLqtMCi36yMvRC/OOWBwyAtib
+  t=1725126376; x=1756662376;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=irDMlWGM282f9AvE16WrJ7M1insn37gzHA/XjGfm8sY=;
+  b=VnZwAnnzY1HoqEbhMRALN3bt3yCWNtqAxuy1Yw/p5y7VnQREeHllN4p9
+   4QtrMDcyfwFj0L80X5n6SIvBStzkbuPacVz0bOh2lPb40rG92lkmNRgSV
+   sHAdPNu3qlFDfI7YfKEe5I3cwQgq7JAWX8yzlEd1Hc44iEeAFFzesJ60L
+   AJcklz1OODie9bMivThtOGR757gQ038flTp5xQtCJVZ5dZesTkkYHjSwF
+   x2uIL+5XBujzjD48faBbtsntA682Pu1r/5Do9ER3d/JBZtTmGNoa4kK+4
+   tHFeqc1tX1U6UvCSHhEbpUi8NUu1I8W4x18XEGaWnM6NTQzesDZaOaMlV
    g==;
-X-CSE-ConnectionGUID: uGfTcOMaRtaccJVYwpibIw==
-X-CSE-MsgGUID: eLLNmcl1QZ2HvR48yYXZHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="46258292"
+X-CSE-ConnectionGUID: DBdKgLMLQO2aFPQaDUUnwg==
+X-CSE-MsgGUID: njX/FpqMSp2oyEC24HQTNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23331228"
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="46258292"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 10:35:18 -0700
-X-CSE-ConnectionGUID: PT2O5JZcSyCtWNy+z3Irog==
-X-CSE-MsgGUID: qyimSlEjTtmy07lmiKhruw==
+   d="scan'208";a="23331228"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 10:46:15 -0700
+X-CSE-ConnectionGUID: TcOUOjhTSh6ViQB/i2L8ug==
+X-CSE-MsgGUID: nNi7331SQhWqFZ+uzdmM9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="63885974"
+   d="scan'208";a="69083263"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2024 10:35:14 -0700
+  by orviesa004.jf.intel.com with ESMTP; 31 Aug 2024 10:46:14 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skS0G-0002yK-0M;
-	Sat, 31 Aug 2024 17:35:12 +0000
-Date: Sun, 1 Sep 2024 01:35:06 +0800
+	id 1skSAu-0002yq-1B;
+	Sat, 31 Aug 2024 17:46:12 +0000
+Date: Sun, 1 Sep 2024 01:45:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, upstream@airoha.com,
-	benjamin.larsson@genexis.eu, ansuelsmth@gmail.com,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] pinctrl: airoha: Add support for EN7581 SoC
-Message-ID: <202409010106.kqFZrO3g-lkp@intel.com>
-References: <20240831-en7581-pinctrl-v3-4-98eebfb4da66@kernel.org>
+To: Jyri Sarha <jyri.sarha@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:debug-stream-debugfs 4/4] sound/soc/sof/ipc4.c:18:10: fatal
+ error: 'ipc4-telemetry.h' file not found
+Message-ID: <202409010145.Kzfvtr4i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240831-en7581-pinctrl-v3-4-98eebfb4da66@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on defaf1a2113a22b00dfa1abc0fd2014820eaf065]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-arm-airoha-Add-the-chip-scu-node-for-EN7581-SoC/20240831-222958
-base:   defaf1a2113a22b00dfa1abc0fd2014820eaf065
-patch link:    https://lore.kernel.org/r/20240831-en7581-pinctrl-v3-4-98eebfb4da66%40kernel.org
-patch subject: [PATCH v3 4/5] pinctrl: airoha: Add support for EN7581 SoC
-reproduce: (https://download.01.org/0day-ci/archive/20240901/202409010106.kqFZrO3g-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux debug-stream-debugfs
+head:   68be79a50fc5b8f83378bdd48de9abf9eb9baa66
+commit: 68be79a50fc5b8f83378bdd48de9abf9eb9baa66 [4/4] ASoC: SOF: ipc4: Use generic function for mapping "exception" debugfs file
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240901/202409010145.Kzfvtr4i-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010145.Kzfvtr4i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409010106.kqFZrO3g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409010145.Kzfvtr4i-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/airoha,en7581-pinctrl.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
+>> sound/soc/sof/ipc4.c:18:10: fatal error: 'ipc4-telemetry.h' file not found
+      18 | #include "ipc4-telemetry.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   In file included from sound/soc/sof/intel/hda-ipc.c:23:
+>> sound/soc/sof/intel/telemetry.h:14:10: fatal error: '../ipc4-telemetry.h' file not found
+      14 | #include "../ipc4-telemetry.h"
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +18 sound/soc/sof/ipc4.c
+
+4605af81399c13 Rander Wang    2023-05-30 @18  #include "ipc4-telemetry.h"
+b2501c3d236e23 Peter Ujfalusi 2022-02-16  19  #include "ops.h"
+b2501c3d236e23 Peter Ujfalusi 2022-02-16  20  
+
+:::::: The code at line 18 was first introduced by commit
+:::::: 4605af81399c13687f3837f976a946e4ca5083a0 ASoC: SOF: ipc4: add exception node in sof debugfs directory
+
+:::::: TO: Rander Wang <rander.wang@intel.com>
+:::::: CC: Péter Ujfalusi <peter.ujfalusi@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
