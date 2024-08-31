@@ -1,80 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84F916EBE8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 07:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3EB7BB14;
+	Sat, 31 Aug 2024 07:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725087898; cv=none; b=hOiXA/pmDQfPjjVQDeEcgDp+tL6hPpM6v0fVZSBEsOQ8dB0WLylc+d3NEH0G1Gl5YvIjK/MnAQaAS50dBZZZNXZVNbpGx7WnYLRIScz8dr+l+o67Qd2JBxCP8SpdMl/2grA0pj372kHYbKWaURgSZjMvYe+TvqE0lPnQJYIiosY=
+	t=1725089757; cv=none; b=IIMIDnQ+GrGXBwE5ikZZ4pQILzPsHKUgLXAP/1HqgjosTaHVTFZpaz8pzXAFsfUpEdI6Rt3PszXSN6g2IC4jDayxMJReFzmR+k/dgDx/J27890+0S51W8XGugLeRchXrzKAqq2655fsdJDMFJVm7t8UhpOq3Q4vSZvHUpUr9vGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725087898; c=relaxed/simple;
-	bh=2MIvjife9TxEOVM4N//TXAhsxKXULju5kqrwtaSFDZI=;
+	s=arc-20240116; t=1725089757; c=relaxed/simple;
+	bh=czp5B2f7yB9kZl1r+dl0QORW3vwTZa6LcMuzRe1KU+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kwk6GX0fRio4wkg+RRzDbvjnTUW22kKfID+C1dTTmx4zRnK2YjjI9LZtBj15jonJsgwR+ZVOidAHQzFKHkTMVI9owzyOo4ZQBMledjtPPjJMEDwqMlgJLm5dSp5cy7buh3Uum0Ucbk2LdFQ9Bc+DnlzVooJyyabTfblbU/uoauc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=edQ7Gt8m; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=LB6jzrzi7//abiumSADbNWP0I08jVn5yD1AA//LhP76/Vr0QdaHredMJTcv7LdQCYt8Ma0KNE/551m27ovnOQE/3qUyq+8Ne5SxgoGpfpUG6GBDiHsUKXCVVSt90F4NavsROW3wXxir4Rnswh9dVislWAZuxI5gwzYrTZa+gSB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6DkfDuO; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edQ7Gt8m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6DkfDuO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725087897; x=1756623897;
+  t=1725089756; x=1756625756;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2MIvjife9TxEOVM4N//TXAhsxKXULju5kqrwtaSFDZI=;
-  b=edQ7Gt8mmXBpdXS9M/rn/3IwDMuaaSnCpuiz4eJEPB9rRkL5FPvCnoo5
-   lTSK1r3E/Hrshovh9++k5y8xbV8JGP+5LYX51+K/iqEvL4QvFNVS0BITY
-   BuieiZWpTGXH2hrVCx3AHsa/YrkVaMQxnhK5AtOyqp9+RD7CRKHTYY4fY
-   FLMHC3GrJ3b4PIq/h+zeWc5WzQYLoNY1m3XlEykh5P1YyR9FAr7/01Ms8
-   yebvpIqB8ze8h1yINOONHoG5uU8ELn0g3qr65ONOrVSGp9IarO8eK1B7k
-   hZTpnE1AJYHKf83mdcwLNjKMy6a0e2UacyinreffO0XpSBdsVL4WQxUbv
+  bh=czp5B2f7yB9kZl1r+dl0QORW3vwTZa6LcMuzRe1KU+8=;
+  b=a6DkfDuObpg+6Hlkjg2x9ORDf5QbJiYA1Up45gteXtxb8hcV+zzrcPDF
+   L++lP3ucm/pTFgxGtMkwHQbCq4oO9qtGtukxIp3cln2Pc6eqIMXmpSeek
+   11/7CBoE7BLEkHKVixFpxoKXzrbH3c6S2f/qPZ2WvFClsgxtBVlrpPX7M
+   5Uc3wezLE0FqmV71OFO75XdF7MvR/4InJ1AMh48Nvi4L8API4sGqqZKgk
+   B8b1oazQMnyP8n5Q8bLLp6eypLsds9J6YnIWtkzUPqLty3uP+MouXTng0
+   X9h/1XnWh0mpdRmmJqCBRef+nqpmxVG0OubEHgCTKYnFN0P/+Y53zOY/V
    Q==;
-X-CSE-ConnectionGUID: hPGIUjhMRLKjVowPJ4W/2g==
-X-CSE-MsgGUID: aSH8URk+QrKSxyYX3S32wA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="35142358"
+X-CSE-ConnectionGUID: 0ObJ9s0zT7GK60tIROWr0Q==
+X-CSE-MsgGUID: fbDNZOWPQu62m2F6IG+Jfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="26644511"
 X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="35142358"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 00:04:56 -0700
-X-CSE-ConnectionGUID: pBaWsdrATdClvQIISpIntA==
-X-CSE-MsgGUID: PGOW7AjMQ2qLPMI3JEsoQA==
+   d="scan'208";a="26644511"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 00:35:55 -0700
+X-CSE-ConnectionGUID: yxTs2rpBSbuLl83xUL3cog==
+X-CSE-MsgGUID: rW71+T5yRlq/qW58K35c4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="64160004"
+   d="scan'208";a="68950957"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Aug 2024 00:04:50 -0700
+  by orviesa005.jf.intel.com with ESMTP; 31 Aug 2024 00:35:51 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skIAC-0002Ps-0A;
-	Sat, 31 Aug 2024 07:04:48 +0000
-Date: Sat, 31 Aug 2024 15:04:06 +0800
+	id 1skIeC-0002Qw-1m;
+	Sat, 31 Aug 2024 07:35:48 +0000
+Date: Sat, 31 Aug 2024 15:35:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Macpaul Lin <macpaul.lin@mediatek.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>,
-	Lee Jones <lee@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Flora Fu <flora.fu@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bear Wang <bear.wang@mediatek.com>,
-	Pablo Sun <pablo.sun@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>,
-	Sen Chu <sen.chu@mediatek.com>,
-	Chris-qj chen <chris-qj.chen@mediatek.com>,
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v2 2/7] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
-Message-ID: <202408311453.Ui9YGyJc-lkp@intel.com>
-References: <20240830110732.30080-2-macpaul.lin@mediatek.com>
+To: Ashish Kalra <Ashish.Kalra@amd.com>, seanjc@google.com,
+	pbonzini@redhat.com, dave.hansen@linux.intel.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, hpa@zytor.com,
+	peterz@infradead.org, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, thomas.lendacky@amd.com, michael.roth@amd.com,
+	kexec@lists.infradead.org, linux-coco@lists.linux.dev
+Subject: Re: [PATCH] x86/sev: Fix host kdump support for SNP
+Message-ID: <202408311530.cYa27OX8-lkp@intel.com>
+References: <20240827203804.4989-1-Ashish.Kalra@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,37 +67,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830110732.30080-2-macpaul.lin@mediatek.com>
+In-Reply-To: <20240827203804.4989-1-Ashish.Kalra@amd.com>
 
-Hi Macpaul,
+Hi Ashish,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on lee-mfd/for-mfd-next robh/for-next lee-mfd/for-mfd-fixes linus/master v6.11-rc5 next-20240830]
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on linus/master v6.11-rc5 next-20240830]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Macpaul-Lin/dt-bindings-mfd-mediatek-mt6397-Convert-to-DT-schema-format/20240830-191309
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20240830110732.30080-2-macpaul.lin%40mediatek.com
-patch subject: [PATCH v2 2/7] dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format
-reproduce: (https://download.01.org/0day-ci/archive/20240831/202408311453.Ui9YGyJc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Kalra/x86-sev-Fix-host-kdump-support-for-SNP/20240828-044035
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20240827203804.4989-1-Ashish.Kalra%40amd.com
+patch subject: [PATCH] x86/sev: Fix host kdump support for SNP
+config: i386-buildonly-randconfig-006-20240831 (https://download.01.org/0day-ci/archive/20240831/202408311530.cYa27OX8-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408311530.cYa27OX8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408311453.Ui9YGyJc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408311530.cYa27OX8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/mt6397.txt
-   Warning: Documentation/devicetree/bindings/leds/leds-mt6323.txt references a file that doesn't exist: Documentation/devicetree/bindings/mfd/mt6397.txt
-   Warning: Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml references a file that doesn't exist: Documentation/devicetree/bindings/regulator/mt6323-regulator.txt
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   In file included from arch/x86/kvm/svm/svm.c:50:
+>> arch/x86/kvm/svm/svm.h:783:13: warning: function 'snp_decommision_all' has internal linkage but is not defined [-Wundefined-internal]
+     783 | static void snp_decommision_all(void);
+         |             ^
+   arch/x86/kvm/svm/svm.c:686:3: note: used here
+     686 |                 snp_decommision_all();
+         |                 ^
+   1 warning generated.
+
+
+vim +/snp_decommision_all +783 arch/x86/kvm/svm/svm.h
+
+   763	
+   764	static inline void sev_free_vcpu(struct kvm_vcpu *vcpu) {}
+   765	static inline void sev_vm_destroy(struct kvm *kvm) {}
+   766	static inline void __init sev_set_cpu_caps(void) {}
+   767	static inline void __init sev_hardware_setup(void) {}
+   768	static inline void sev_hardware_unsetup(void) {}
+   769	static inline int sev_cpu_init(struct svm_cpu_data *sd) { return 0; }
+   770	static inline int sev_dev_get_attr(u32 group, u64 attr, u64 *val) { return -ENXIO; }
+   771	#define max_sev_asid 0
+   772	static inline void sev_handle_rmp_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u64 error_code) {}
+   773	static inline void sev_snp_init_protected_guest_state(struct kvm_vcpu *vcpu) {}
+   774	static inline int sev_gmem_prepare(struct kvm *kvm, kvm_pfn_t pfn, gfn_t gfn, int max_order)
+   775	{
+   776		return 0;
+   777	}
+   778	static inline void sev_gmem_invalidate(kvm_pfn_t start, kvm_pfn_t end) {}
+   779	static inline int sev_private_max_mapping_level(struct kvm *kvm, kvm_pfn_t pfn)
+   780	{
+   781		return 0;
+   782	}
+ > 783	static void snp_decommision_all(void);
+   784	#endif
+   785	
 
 -- 
 0-DAY CI Kernel Test Service
