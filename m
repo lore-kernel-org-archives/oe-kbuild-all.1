@@ -1,43 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25323FC2;
-	Sat, 31 Aug 2024 01:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C260F1B970
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Aug 2024 01:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725067728; cv=none; b=CwcaIb2wLXozuNjoceBLnQ6OcEb4YX3gDURPGWf2Ff758wYDCGcltvvJ6YeSlYRtVPHQNBpv6o1jGxzDdMYhGpOG9f+4HSgtVDB7k50C1rwJDzqCKu2HwiWMo8uJhzij1rBb49BgnHZo7mKIcaHZgqMTnNAESj0FW05KZ+lri04=
+	t=1725068809; cv=none; b=Lgea9KGLKhZATadONTQQons4uROXiU/zY5HHiSc9wNZTFXXPhBPa1hG6dG+Xx/y0UauCad18oiZDrw5yZ/hpau7sQsY4OfLYB8+UNqGSQbQ+sFWYNWZNJw5/ZLoPU58WcLpxwzw4BWoMwLZK+mhjDZtoiFSUZ8QwFH/UNoGEHxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725067728; c=relaxed/simple;
-	bh=/oIGIDZx1EL02vEkq3oxHjcflX1plTu8Qt53MH7r1RY=;
+	s=arc-20240116; t=1725068809; c=relaxed/simple;
+	bh=JH7/oxYMhrd5K0tQtkbX38c7uRzIq1POnaw6jGBwBAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IP0mU1/QfDt+CbDSRcb7lQyskS21UKN8t6iwjlZW7es36slweOjytCbPUBy/j6cZ3jm1LLop5E/ETzk2EX3t1G0A014s+wNChGt4zLkC8n8omvKGz/NT9lOngO63Dp8NBDF/UrXvJ+6en6xmHdELTxOlty3X9mTW0s9uYb4JfQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IQRJ6MOd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dI1WD5bM8kVMtzecfoLufXah6yh/Ua9mn8JCCxHzbuUPQp5TJQ73htKH/WsdGDE7PoWNpNFw0lX2wsu8QwBBpOaosCimyw5NutGHHuRuiYgp2kllfqycGMaLQ6WP1M3ivNZLiKJo90Y4wQCZf++LK5RFzYfUYES4NM8E9OR8N7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiaEgRyn; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IQRJ6MOd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE424C4CEC2;
-	Sat, 31 Aug 2024 01:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725067727;
-	bh=/oIGIDZx1EL02vEkq3oxHjcflX1plTu8Qt53MH7r1RY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IQRJ6MOdEtrMwpjTXOeOKZjY7iYkZVdKz/t1kSB2S2micXC7NijpqBiChwUeMXAfB
-	 VuoHIXO77FXSh8wHPVmXu8mYY9ZAfd4NIqxzm1PcOFQYUPNPVGnsAKtTtoKUrGfFsw
-	 pa38RfrH6AGyeCsBCyWJA+xqsjc3uTF0fj2756KF/bIv50NTP94a/mR79qUaivVhV2
-	 ZSRTnttMSClZJRzb5hsEgpDmEskXgtTWkJP+UUavoqhePADZ39of7LxokpQtsi7drX
-	 XL8aTaV6dB1ID/toAVbcMwU9Rju4iQY0GarEPljT6Iup5ESUVj/HBoq8g1Kvf7mst6
-	 KqDrYD01NjWQw==
-Date: Fri, 30 Aug 2024 18:28:45 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: Re: lib/maple_tree.c:330:20: error: unused function 'mte_set_full'
-Message-ID: <20240831012845.GA2993938@thelio-3990X>
-References: <202408310728.S7EE59BN-lkp@intel.com>
- <20240830175015.3569d261b0d48d46eb6ec1cf@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiaEgRyn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725068808; x=1756604808;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JH7/oxYMhrd5K0tQtkbX38c7uRzIq1POnaw6jGBwBAg=;
+  b=QiaEgRyn/nNlRE1JKSCP3kJrD8cub365elCuHTVFDU6h2shd7zTDLbsk
+   npkZaf++G6txtQ7X7d9+iz/zUkiMr2EUerIZX/SE1Kqnaklgk2c/gocoQ
+   tdHdFm1w9buee7RAbtJyHLMih53h0//S0YfR3DHhdTtJseVbydGPEp0/r
+   OncOq5vbMMNREuzpUs8+3VX75wrlusZmCYHNFU7umXvFBYGAnKYeSxZr5
+   N+rKYWmCEI+gbLAKvWbCxz1Ntd0NhdBLq1D9Vwx+9OEOzuA22lAqGekD3
+   kgUrgNBUA5dz1KL/Gs7g0Jc3M2bx35VFU07DdUkvS3Xkig9Qbr1U6V2Ai
+   A==;
+X-CSE-ConnectionGUID: tbmW6FZqQfiyXenOmSgVXQ==
+X-CSE-MsgGUID: xeVPfpbvSyC3/je/REDz2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="41204770"
+X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
+   d="scan'208";a="41204770"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 18:46:47 -0700
+X-CSE-ConnectionGUID: zTL1yrceTkmGa+A5aSN7Ww==
+X-CSE-MsgGUID: 4Ct7P5J8SlSFEmV+B8gtnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
+   d="scan'208";a="64559992"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 30 Aug 2024 18:46:44 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1skDCL-0002H4-2O;
+	Sat, 31 Aug 2024 01:46:41 +0000
+Date: Sat, 31 Aug 2024 09:46:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
+	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware
+ access
+Message-ID: <202408310953.Z0c7NIuz-lkp@intel.com>
+References: <20240830034047.2251482-4-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,60 +68,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830175015.3569d261b0d48d46eb6ec1cf@linux-foundation.org>
+In-Reply-To: <20240830034047.2251482-4-billy_tsai@aspeedtech.com>
 
-On Fri, Aug 30, 2024 at 05:50:15PM -0700, Andrew Morton wrote:
-> On Sat, 31 Aug 2024 07:42:38 +0800 kernel test robot <lkp@intel.com> wrote:
-> 
-> > All errors (new ones prefixed by >>):
-> > 
-> > >> lib/maple_tree.c:330:20: error: unused function 'mte_set_full' [-Werror,-Wunused-function]
-> >      330 | static inline void mte_set_full(const struct maple_enode *node)
-> >          |                    ^~~~~~~~~~~~
-> > >> lib/maple_tree.c:335:20: error: unused function 'mte_clear_full' [-Werror,-Wunused-function]
-> >      335 | static inline void mte_clear_full(const struct maple_enode *node)
-> >          |                    ^~~~~~~~~~~~~~
-> >    2 errors generated.
-> 
-> afaict these have never been used.  It's odd that this was just detected.
+Hi Billy,
 
-I don't think it has just now been detected, as these functions have
-been flagged before:
+kernel test robot noticed the following build warnings:
 
-https://lore.kernel.org/20240503160821.GB3960118@thelio-3990X/
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Should we just zap them or is there some reason to retain?
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240830-114325
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20240830034047.2251482-4-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware access
+config: openrisc-randconfig-r131-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310953.Z0c7NIuz-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240831/202408310953.Z0c7NIuz-lkp@intel.com/reproduce)
 
-From the above thread, Liam and Matthew seem to want to retain them.
-Perhaps just wrapping them in '#if 0' and a comment that says these will
-eventually see use would be a happy compromise between outright removal
-and doing nothing about this warning?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408310953.Z0c7NIuz-lkp@intel.com/
 
-> --- a/lib/maple_tree.c~a
-> +++ a/lib/maple_tree.c
-> @@ -348,21 +348,6 @@ static inline void *mte_safe_root(const
->  	return (void *)((unsigned long)node & ~MAPLE_ROOT_NODE);
->  }
->  
-> -static inline void *mte_set_full(const struct maple_enode *node)
-> -{
-> -	return (void *)((unsigned long)node & ~MAPLE_ENODE_NULL);
-> -}
-> -
-> -static inline void *mte_clear_full(const struct maple_enode *node)
-> -{
-> -	return (void *)((unsigned long)node | MAPLE_ENODE_NULL);
-> -}
-> -
-> -static inline bool mte_has_null(const struct maple_enode *node)
-> -{
-> -	return (unsigned long)node & MAPLE_ENODE_NULL;
-> -}
-> -
->  static __always_inline bool ma_is_root(struct maple_node *node)
->  {
->  	return ((unsigned long)node->parent & MA_ROOT_PARENT);
-> _
-> 
-> 
-> 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-aspeed.c:1107:26: sparse: sparse: symbol 'aspeed_g4_llops' was not declared. Should it be static?
+
+vim +/aspeed_g4_llops +1107 drivers/gpio/gpio-aspeed.c
+
+  1106	
+> 1107	struct aspeed_gpio_llops aspeed_g4_llops = {
+  1108		.copro_request = aspeed_gpio_copro_request,
+  1109		.copro_release = aspeed_gpio_copro_release,
+  1110		.reg_bits_set = aspeed_g4_reg_bits_set,
+  1111		.reg_bits_read = aspeed_g4_reg_bits_read,
+  1112	};
+  1113	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
