@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB93524F;
-	Sun,  1 Sep 2024 00:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F47A1859
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Sep 2024 01:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725152250; cv=none; b=K2oExUmyayzB3HrIaJU6xCTpgMb5FW9NtBg0armdqwaBarvjzAhs03fylqrr7R2LGAlouaHSgCsTKUrOd4IqLuByW/NxPgJNPu57KwQoht0UrlIARV14OJmSDPFUUbbzIvBtDf89P8OeSV/NPUKi9YMPv6VOhE3J5QEqlQOO8gs=
+	t=1725153450; cv=none; b=MabFTfjNUfENsqKObrDuGpbQ0wPoRYJN8I9vArL6Z0bOcN41qa2iumgu+ScSBi1tIYJ9xmDt6mX9wmSIhJAewxGc+zBNXyYXiz90lpcmJGijj0dcp8oUoSCRm6CkXJ4Me5cxWdujgcPcxdLBvNqpj6aAbMcW6ONew+2W7mj7zdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725152250; c=relaxed/simple;
-	bh=66+8v+fM6k40fr/dxI0VkYcwoP+Nd7rk04AN9Egc1lo=;
+	s=arc-20240116; t=1725153450; c=relaxed/simple;
+	bh=aJaWmAcMYKuO+lMp8nHWCKnyksvaP51Rf1wjZmSysjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usoSwSDyEOu/YF2tnZ5fuAy6wDwZmi8nvDukK1I6GSPw/yNmZcLeg4U6UHIYXrFyV9wWaQ9QKY8PWKG6QYdmf1fOfXs2gKshBwlQT0BgsC98Vi2QLgdoWRHQdd2skPf/BaT/Oz9C0MU8ozFV1qcE8lNC34rZgGaJUqE43vc62So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmTWNpBz; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=f3WMriPlc1k+jIE63CBvGwoGihtrhCqnCHCM8Z+ZQHgJOvcH57fceqgyVyu8d3Nu++fnKG8oLsambClsgb2JDX6zyT//EY6AuBiiTh4TuXd5hos6+r3XXpfj/k3w8OEpPxC7ykhaMCwfgxshCCSoA8xikojvkQGzGKmFRl1LCsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdHmu1xP; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmTWNpBz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdHmu1xP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725152248; x=1756688248;
+  t=1725153447; x=1756689447;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=66+8v+fM6k40fr/dxI0VkYcwoP+Nd7rk04AN9Egc1lo=;
-  b=UmTWNpBz2tkx+6lzksnLLoreLVArCenDrFEHTVkCqtr2vK7/IJUEH9yk
-   wS9hv9HUn8hwtGmLo3qVtkmB82W9UOUXrwoce3OB0zxkRZmzH7hGd69Bd
-   DrzdciXkCj56JuXkVGnh96+7wY7V2QT39dkoPiywm8qLT2VWLbQY/JmIA
-   E/gl9Fic9GIUaHwq9bf98jyhmi3Ni6tt1Frw2tlrJ1mzAgIrUjiDT1wRm
-   LYjD2wHpTXWTirr1Rw4LoTkMnZW0fmPCYwBf+TFulg0cQzhA6QfQQOVnO
-   rg1f8oo0JJ2WQ4fsUeOcEmJXAF1RP1yrZUn2N8Fjm+Ceamq80mRmwa33v
+  bh=aJaWmAcMYKuO+lMp8nHWCKnyksvaP51Rf1wjZmSysjg=;
+  b=OdHmu1xPmMdvOZ61I0Nb9xgqjutcnyGM0t85MwuNv17doO1Orj5q6epj
+   ftrBtF2OW1EeFmO3tsHP89L1ma3geY3FE489ccWP1YimI399ZVFUw7kfS
+   veM/7bScd9EjiBZTKy97lsuTp+viTFE2sBWmzflVL7eQF7p7ObgL5H2v8
+   Nlpl8nnu9Cm9ruAWyWF9V15ZbCb1XXjuv8MSVXLAsPw3ibeRa+CViFTsS
+   5oAOMU26h0nY8Q04g3IbnDNceZGq2X7bx7xmGxrUKRLZ39v2UMxY7QmpT
+   tBq6gXxCbKXAaI2TlPwlJMo9rQgY/1hzU7UgjetiTdZ32g0qRbmxuTDnf
    Q==;
-X-CSE-ConnectionGUID: OB5FtSTRTb+L8PaeODwXHg==
-X-CSE-MsgGUID: LFiMJH2TTryMBVFl32UoKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23572642"
+X-CSE-ConnectionGUID: bXHa74WLSaWTqN20xeKbCg==
+X-CSE-MsgGUID: f4Dms7IEQw6xhrVRzvPk0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23643950"
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="23572642"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 17:57:27 -0700
-X-CSE-ConnectionGUID: zRGtLY5ZRXSC5ozGMkBqhw==
-X-CSE-MsgGUID: aXtAa4eVS3eoEP/4p0ndXQ==
+   d="scan'208";a="23643950"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 18:17:26 -0700
+X-CSE-ConnectionGUID: 3XCCxiKqQzyAx9aelDmwJw==
+X-CSE-MsgGUID: a/gCE+N6T56UGzcn2QWIqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="64249826"
+   d="scan'208";a="64203019"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 31 Aug 2024 17:57:25 -0700
+  by orviesa009.jf.intel.com with ESMTP; 31 Aug 2024 18:17:26 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skYuA-0003FQ-2q;
-	Sun, 01 Sep 2024 00:57:22 +0000
-Date: Sun, 1 Sep 2024 08:56:23 +0800
+	id 1skZDX-0003GC-0n;
+	Sun, 01 Sep 2024 01:17:23 +0000
+Date: Sun, 1 Sep 2024 09:16:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dimitri Fedrau <dima.fedrau@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dimitri Fedrau <dima.fedrau@gmail.com>
-Subject: Re: [PATCH v2] power: supply: max1720x: add read support for nvmem
-Message-ID: <202409010801.Ca4oeaWg-lkp@intel.com>
-References: <20240831182145.11589-1-dima.fedrau@gmail.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/4] mm/page_isolation: remove migratetype from
+ move_freepages_block_isolate()
+Message-ID: <202409010932.1Rz6Qe3X-lkp@intel.com>
+References: <20240828202240.2809740-3-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,162 +63,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240831182145.11589-1-dima.fedrau@gmail.com>
+In-Reply-To: <20240828202240.2809740-3-ziy@nvidia.com>
 
-Hi Dimitri,
+Hi Zi,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on sre-power-supply/for-next]
-[also build test ERROR on linus/master v6.11-rc5 next-20240830]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20240830]
+[cannot apply to linus/master v6.11-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dimitri-Fedrau/power-supply-max1720x-add-read-support-for-nvmem/20240901-022223
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20240831182145.11589-1-dima.fedrau%40gmail.com
-patch subject: [PATCH v2] power: supply: max1720x: add read support for nvmem
-config: i386-buildonly-randconfig-004-20240901 (https://download.01.org/0day-ci/archive/20240901/202409010801.Ca4oeaWg-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010801.Ca4oeaWg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-page_isolation-make-page-isolation-a-standalone-bit/20240829-042547
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240828202240.2809740-3-ziy%40nvidia.com
+patch subject: [RFC PATCH 2/4] mm/page_isolation: remove migratetype from move_freepages_block_isolate()
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240901/202409010932.1Rz6Qe3X-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010932.1Rz6Qe3X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409010801.Ca4oeaWg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409010932.1Rz6Qe3X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/power/supply/max1720x_battery.c:137:57: error: array has incomplete element type 'const struct nvmem_cell_info'
-     137 | static const struct nvmem_cell_info max1720x_nvmem_cells[] = {
-         |                                                         ^
-   drivers/power/supply/max1720x_battery.c:137:21: note: forward declaration of 'struct nvmem_cell_info'
-     137 | static const struct nvmem_cell_info max1720x_nvmem_cells[] = {
-         |                     ^
->> drivers/power/supply/max1720x_battery.c:404:22: error: variable has incomplete type 'struct nvmem_config'
-     404 |         struct nvmem_config nvmem_config = {
-         |                             ^
-   drivers/power/supply/max1720x_battery.c:404:9: note: forward declaration of 'struct nvmem_config'
-     404 |         struct nvmem_config nvmem_config = {
-         |                ^
->> drivers/power/supply/max1720x_battery.c:453:10: error: call to undeclared function 'devm_nvmem_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     453 |         nvmem = devm_nvmem_register(dev, &nvmem_config);
-         |                 ^
-   drivers/power/supply/max1720x_battery.c:453:10: note: did you mean 'device_register'?
-   include/linux/device.h:1064:18: note: 'device_register' declared here
-    1064 | int __must_check device_register(struct device *dev);
-         |                  ^
-   3 errors generated.
+>> mm/page_alloc.c:1768: warning: Excess function parameter 'migratetype' description in 'move_freepages_block_isolate'
 
 
-vim +137 drivers/power/supply/max1720x_battery.c
+vim +1768 mm/page_alloc.c
 
-   136	
- > 137	static const struct nvmem_cell_info max1720x_nvmem_cells[] = {
-   138		{ .name = "nXTable0",  .offset = 0,  .bytes = 2, },
-   139		{ .name = "nXTable1",  .offset = 2,  .bytes = 2, },
-   140		{ .name = "nXTable2",  .offset = 4,  .bytes = 2, },
-   141		{ .name = "nXTable3",  .offset = 6,  .bytes = 2, },
-   142		{ .name = "nXTable4",  .offset = 8,  .bytes = 2, },
-   143		{ .name = "nXTable5",  .offset = 10, .bytes = 2, },
-   144		{ .name = "nXTable6",  .offset = 12, .bytes = 2, },
-   145		{ .name = "nXTable7",  .offset = 14, .bytes = 2, },
-   146		{ .name = "nXTable8",  .offset = 16, .bytes = 2, },
-   147		{ .name = "nXTable9",  .offset = 18, .bytes = 2, },
-   148		{ .name = "nXTable10", .offset = 20, .bytes = 2, },
-   149		{ .name = "nXTable11", .offset = 22, .bytes = 2, },
-   150		{ .name = "nUser18C",  .offset = 24, .bytes = 2, },
-   151		{ .name = "nUser18D",  .offset = 26, .bytes = 2, },
-   152		{ .name = "nODSCTh",   .offset = 28, .bytes = 2, },
-   153		{ .name = "nODSCCfg",  .offset = 30, .bytes = 2, },
-   154	
-   155		{ .name = "nOCVTable0",  .offset = 32, .bytes = 2, },
-   156		{ .name = "nOCVTable1",  .offset = 34, .bytes = 2, },
-   157		{ .name = "nOCVTable2",  .offset = 36, .bytes = 2, },
-   158		{ .name = "nOCVTable3",  .offset = 38, .bytes = 2, },
-   159		{ .name = "nOCVTable4",  .offset = 40, .bytes = 2, },
-   160		{ .name = "nOCVTable5",  .offset = 42, .bytes = 2, },
-   161		{ .name = "nOCVTable6",  .offset = 44, .bytes = 2, },
-   162		{ .name = "nOCVTable7",  .offset = 46, .bytes = 2, },
-   163		{ .name = "nOCVTable8",  .offset = 48, .bytes = 2, },
-   164		{ .name = "nOCVTable9",  .offset = 50, .bytes = 2, },
-   165		{ .name = "nOCVTable10", .offset = 52, .bytes = 2, },
-   166		{ .name = "nOCVTable11", .offset = 54, .bytes = 2, },
-   167		{ .name = "nIChgTerm",   .offset = 56, .bytes = 2, },
-   168		{ .name = "nFilterCfg",  .offset = 58, .bytes = 2, },
-   169		{ .name = "nVEmpty",     .offset = 60, .bytes = 2, },
-   170		{ .name = "nLearnCfg",   .offset = 62, .bytes = 2, },
-   171	
-   172		{ .name = "nQRTable00",  .offset = 64, .bytes = 2, },
-   173		{ .name = "nQRTable10",  .offset = 66, .bytes = 2, },
-   174		{ .name = "nQRTable20",  .offset = 68, .bytes = 2, },
-   175		{ .name = "nQRTable30",  .offset = 70, .bytes = 2, },
-   176		{ .name = "nCycles",     .offset = 72, .bytes = 2, },
-   177		{ .name = "nFullCapNom", .offset = 74, .bytes = 2, },
-   178		{ .name = "nRComp0",     .offset = 76, .bytes = 2, },
-   179		{ .name = "nTempCo",     .offset = 78, .bytes = 2, },
-   180		{ .name = "nIAvgEmpty",  .offset = 80, .bytes = 2, },
-   181		{ .name = "nFullCapRep", .offset = 82, .bytes = 2, },
-   182		{ .name = "nVoltTemp",   .offset = 84, .bytes = 2, },
-   183		{ .name = "nMaxMinCurr", .offset = 86, .bytes = 2, },
-   184		{ .name = "nMaxMinVolt", .offset = 88, .bytes = 2, },
-   185		{ .name = "nMaxMinTemp", .offset = 90, .bytes = 2, },
-   186		{ .name = "nSOC",        .offset = 92, .bytes = 2, },
-   187		{ .name = "nTimerH",     .offset = 94, .bytes = 2, },
-   188	
-   189		{ .name = "nConfig",    .offset = 96,  .bytes = 2, },
-   190		{ .name = "nRippleCfg", .offset = 98,  .bytes = 2, },
-   191		{ .name = "nMiscCfg",   .offset = 100, .bytes = 2, },
-   192		{ .name = "nDesignCap", .offset = 102, .bytes = 2, },
-   193		{ .name = "nHibCfg",    .offset = 104, .bytes = 2, },
-   194		{ .name = "nPackCfg",   .offset = 106, .bytes = 2, },
-   195		{ .name = "nRelaxCfg",  .offset = 108, .bytes = 2, },
-   196		{ .name = "nConvgCfg",  .offset = 110, .bytes = 2, },
-   197		{ .name = "nNVCfg0",    .offset = 112, .bytes = 2, },
-   198		{ .name = "nNVCfg1",    .offset = 114, .bytes = 2, },
-   199		{ .name = "nNVCfg2",    .offset = 116, .bytes = 2, },
-   200		{ .name = "nSBSCfg",    .offset = 118, .bytes = 2, },
-   201		{ .name = "nROMID0",    .offset = 120, .bytes = 2, },
-   202		{ .name = "nROMID1",    .offset = 122, .bytes = 2, },
-   203		{ .name = "nROMID2",    .offset = 124, .bytes = 2, },
-   204		{ .name = "nROMID3",    .offset = 126, .bytes = 2, },
-   205	
-   206		{ .name = "nVAlrtTh",      .offset = 128, .bytes = 2, },
-   207		{ .name = "nTAlrtTh",      .offset = 130, .bytes = 2, },
-   208		{ .name = "nSAlrtTh",      .offset = 132, .bytes = 2, },
-   209		{ .name = "nIAlrtTh",      .offset = 134, .bytes = 2, },
-   210		{ .name = "nUser1C4",      .offset = 136, .bytes = 2, },
-   211		{ .name = "nUser1C5",      .offset = 138, .bytes = 2, },
-   212		{ .name = "nFullSOCThr",   .offset = 140, .bytes = 2, },
-   213		{ .name = "nTTFCfg",       .offset = 142, .bytes = 2, },
-   214		{ .name = "nCGain",        .offset = 144, .bytes = 2, },
-   215		{ .name = "nTCurve",       .offset = 146, .bytes = 2, },
-   216		{ .name = "nTGain",        .offset = 148, .bytes = 2, },
-   217		{ .name = "nTOff",         .offset = 150, .bytes = 2, },
-   218		{ .name = "nManfctrName0", .offset = 152, .bytes = 2, },
-   219		{ .name = "nManfctrName1", .offset = 154, .bytes = 2, },
-   220		{ .name = "nManfctrName2", .offset = 156, .bytes = 2, },
-   221		{ .name = "nRSense",       .offset = 158, .bytes = 2, },
-   222	
-   223		{ .name = "nUser1D0",       .offset = 160, .bytes = 2, },
-   224		{ .name = "nUser1D1",       .offset = 162, .bytes = 2, },
-   225		{ .name = "nAgeFcCfg",      .offset = 164, .bytes = 2, },
-   226		{ .name = "nDesignVoltage", .offset = 166, .bytes = 2, },
-   227		{ .name = "nUser1D4",       .offset = 168, .bytes = 2, },
-   228		{ .name = "nRFastVShdn",    .offset = 170, .bytes = 2, },
-   229		{ .name = "nManfctrDate",   .offset = 172, .bytes = 2, },
-   230		{ .name = "nFirstUsed",     .offset = 174, .bytes = 2, },
-   231		{ .name = "nSerialNumber0", .offset = 176, .bytes = 2, },
-   232		{ .name = "nSerialNumber1", .offset = 178, .bytes = 2, },
-   233		{ .name = "nSerialNumber2", .offset = 180, .bytes = 2, },
-   234		{ .name = "nDeviceName0",   .offset = 182, .bytes = 2, },
-   235		{ .name = "nDeviceName1",   .offset = 184, .bytes = 2, },
-   236		{ .name = "nDeviceName2",   .offset = 186, .bytes = 2, },
-   237		{ .name = "nDeviceName3",   .offset = 188, .bytes = 2, },
-   238		{ .name = "nDeviceName4",   .offset = 190, .bytes = 2, },
-   239	};
-   240	
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1747  
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1748  /**
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1749   * move_freepages_block_isolate - move free pages in block for page isolation
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1750   * @zone: the zone
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1751   * @page: the pageblock page
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1752   * @migratetype: migratetype to set on the pageblock
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1753   *
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1754   * This is similar to move_freepages_block(), but handles the special
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1755   * case encountered in page isolation, where the block of interest
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1756   * might be part of a larger buddy spanning multiple pageblocks.
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1757   *
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1758   * Unlike the regular page allocator path, which moves pages while
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1759   * stealing buddies off the freelist, page isolation is interested in
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1760   * arbitrary pfn ranges that may have overlapping buddies on both ends.
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1761   *
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1762   * This function handles that. Straddling buddies are split into
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1763   * individual pageblocks. Only the block of interest is moved.
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1764   *
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1765   * Returns %true if pages could be moved, %false otherwise.
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1766   */
+a3bab1588c46605 Zi Yan          2024-08-28  1767  bool move_freepages_block_isolate(struct zone *zone, struct page *page)
+fd919a85cd55be5 Johannes Weiner 2024-03-20 @1768  {
+e1f42a577f63647 Vlastimil Babka 2024-04-25  1769  	unsigned long start_pfn, pfn;
+a3bab1588c46605 Zi Yan          2024-08-28  1770  	bool is_block_isolated = get_pageblock_isolate(page);
+a3bab1588c46605 Zi Yan          2024-08-28  1771  	int from_mt;
+a3bab1588c46605 Zi Yan          2024-08-28  1772  	int to_mt;
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1773  
+e1f42a577f63647 Vlastimil Babka 2024-04-25  1774  	if (!prep_move_freepages_block(zone, page, &start_pfn, NULL, NULL))
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1775  		return false;
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1776  
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1777  	/* No splits needed if buddies can't span multiple blocks */
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1778  	if (pageblock_order == MAX_PAGE_ORDER)
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1779  		goto move;
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1780  
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1781  	/* We're a tail block in a larger buddy */
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1782  	pfn = find_large_buddy(start_pfn);
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1783  	if (pfn != start_pfn) {
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1784  		struct page *buddy = pfn_to_page(pfn);
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1785  		int order = buddy_order(buddy);
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1786  
+e0932b6c1f942fa Johannes Weiner 2024-03-20  1787  		del_page_from_free_list(buddy, zone, order,
+e0932b6c1f942fa Johannes Weiner 2024-03-20  1788  					get_pfnblock_migratetype(buddy, pfn));
+a3bab1588c46605 Zi Yan          2024-08-28  1789  		if (is_block_isolated)
+a3bab1588c46605 Zi Yan          2024-08-28  1790  			clear_pageblock_isolate(page);
+a3bab1588c46605 Zi Yan          2024-08-28  1791  		else
+a3bab1588c46605 Zi Yan          2024-08-28  1792  			set_pageblock_isolate(page);
+e076aa8880a982e Yu Zhao         2024-08-13  1793  		split_large_buddy(zone, buddy, pfn, order, FPI_NONE);
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1794  		return true;
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1795  	}
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1796  
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1797  	/* We're the starting block of a larger buddy */
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1798  	if (PageBuddy(page) && buddy_order(page) > pageblock_order) {
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1799  		int order = buddy_order(page);
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1800  
+e0932b6c1f942fa Johannes Weiner 2024-03-20  1801  		del_page_from_free_list(page, zone, order,
+e0932b6c1f942fa Johannes Weiner 2024-03-20  1802  					get_pfnblock_migratetype(page, pfn));
+a3bab1588c46605 Zi Yan          2024-08-28  1803  		if (is_block_isolated)
+a3bab1588c46605 Zi Yan          2024-08-28  1804  			clear_pageblock_isolate(page);
+a3bab1588c46605 Zi Yan          2024-08-28  1805  		else
+a3bab1588c46605 Zi Yan          2024-08-28  1806  			set_pageblock_isolate(page);
+e076aa8880a982e Yu Zhao         2024-08-13  1807  		split_large_buddy(zone, page, pfn, order, FPI_NONE);
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1808  		return true;
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1809  	}
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1810  move:
+a3bab1588c46605 Zi Yan          2024-08-28  1811  	if (is_block_isolated)
+a3bab1588c46605 Zi Yan          2024-08-28  1812  		clear_pageblock_isolate(page);
+a3bab1588c46605 Zi Yan          2024-08-28  1813  
+a3bab1588c46605 Zi Yan          2024-08-28  1814  	from_mt = is_block_isolated ? MIGRATE_ISOLATE : get_pageblock_migratetype(page);
+a3bab1588c46605 Zi Yan          2024-08-28  1815  	to_mt = is_block_isolated ? get_pageblock_migratetype(page) : MIGRATE_ISOLATE;
+a3bab1588c46605 Zi Yan          2024-08-28  1816  
+a3bab1588c46605 Zi Yan          2024-08-28  1817  	if (!is_block_isolated)
+a3bab1588c46605 Zi Yan          2024-08-28  1818  		set_pageblock_isolate(page);
+e1f42a577f63647 Vlastimil Babka 2024-04-25  1819  	__move_freepages_block(zone, start_pfn,
+a3bab1588c46605 Zi Yan          2024-08-28  1820  			       from_mt, to_mt);
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1821  	return true;
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1822  }
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1823  #endif /* CONFIG_MEMORY_ISOLATION */
+fd919a85cd55be5 Johannes Weiner 2024-03-20  1824  
 
 -- 
 0-DAY CI Kernel Test Service
