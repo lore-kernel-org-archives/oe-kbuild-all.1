@@ -1,71 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CC229A5;
-	Sun,  1 Sep 2024 02:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F299422625;
+	Sun,  1 Sep 2024 04:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725157712; cv=none; b=NMRer6+7rgNHnLwf6xL4NoYngj5lTKNK+aIX/atctF/Fu5VvPhq35BS+JRiLrRRlF3V+7iZq5H/FKbi2w1WQTOClku1NBfO0JZV00rhgbDHC1l83wyTZ+mrHJgQBlmq56ifCrTba1E2qxSMmOwUmri54aVijqWAwv+Gl5LCJcho=
+	t=1725163297; cv=none; b=QW3p12EaEIZDruLkrHYT5EGFV3RhPpv74fd5QiazHVq2nQGtEejcsLfw3s4UUX2jqERuqpxnRX0ETSRqdt1FcmeeYmF7Tvbj34aq50ubb1/emqPfNcQIOY4/5aYw/2t70vdiga7XLVYYFcs1QbAN3h2MBSZcE8rqoQ83y2/W3Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725157712; c=relaxed/simple;
-	bh=RLY9vgtFSSAnUSgXvZyFKQwN2JCSEdXEsD6XtAtQBHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ObZeiiSrMgFdDfrO+7HH7le7/280MmRyxBPZ/R7iKBnZdgzIcVlT6L6BARikOwKOaJ9R2VwjMSVmkU8xGrXpQ5o8YlBmBZ2j4yHD1QCuZu/fS4EN5t2zm3jWpUx5wDOi5UMhvy256YuzOM0Ttr7Ys5FfTkrJLFjZob3M4h5l3/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lixmEOF2; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1725163297; c=relaxed/simple;
+	bh=Zw3WK/6c1FjO/dIEFocDdm6PlD3PL5cVUvYMkMKY+pU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eBNmv68CKulPb4/MYUDhPSBkWgx6L78xlbzn0CNqWMymSZTS4B3EBxY4jwY2tGOUNSX9qmasthgmQn8YXe5a9ttcqBVF4uJeYtO7U2De4oLk3f2aHhjRT3mKaAB8oF0VNK9i10x0LTGetiPFBmQbq11zwA7ij09v+8ddI0hAuoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=biS+YE9l; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lixmEOF2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="biS+YE9l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725157710; x=1756693710;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RLY9vgtFSSAnUSgXvZyFKQwN2JCSEdXEsD6XtAtQBHQ=;
-  b=lixmEOF2eOJNPQHs9Ss+fmosT9PcEPsTrrTr+OQfhQDWHrysVrqdQM76
-   cjosVoiJBQzOFFLT0UJlJHVH4Ly42jiyEOY8I/haDbBeLFfGZJv033pMF
-   XQN7kpGtzp4duJte4UzebL9n8vMAcaYcvsgI7jVIE0Lab9fpjf/3mkLiV
-   nwKAZC0CALgElE2E7ZgPvYLqMjiumRX23kC0lDoowH3LM/0i39yDIYlHA
-   Izi5w0ottgJ1F/uiR+yggGF+kd5/9UTsAjD4d61Jc6DHzyyVWC9HxFrek
-   Ro2bEC7xLYO/+t5qYgF2AWCPU3czuIXuzJzwcxkjNB3xjvm+rHr5ehZ2y
-   Q==;
-X-CSE-ConnectionGUID: RU3ITmE0Qg2wMKCCJMnJrw==
-X-CSE-MsgGUID: pWRYT/8sSkusn9lPOeGXvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23574856"
+  t=1725163295; x=1756699295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Zw3WK/6c1FjO/dIEFocDdm6PlD3PL5cVUvYMkMKY+pU=;
+  b=biS+YE9lZJvB+1VfRs/+HTC+enhT/8fhtfWLvFNq9cnttTHRjjesZV4Y
+   C6ex+hf+COwo2QpCEIuxzL/SOdIlfGmOdJQEy/1CYUuEaJu/syS1lgIPp
+   R3TMn3hsDEixABdwa9/ljVoi+Rgn4j6+rIWomoyby03xpYvl3h4M2Le+j
+   6NUpYAFT8vojbmouHYbfT+8SCbe3msF7P/20OeKQxfjEbMi4v1Ufqe0S4
+   y/MF12rR2eR/Zbou/RA8gG5E/LT2psipZCT9EM6zGKcSu5MPHLjnnIdZt
+   KygB239XP3EmC0e7rVlEHlxcA8s6LMPgdZPj9kMjpIggi/6t+Ux9RmU2k
+   g==;
+X-CSE-ConnectionGUID: ojN5Uen9R9qk+0h0/XE9vg==
+X-CSE-MsgGUID: WgLQUICFSh22+O+VvIzo4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="35135560"
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="23574856"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 19:28:29 -0700
-X-CSE-ConnectionGUID: RChm/ESJSJKZdhlxhHKlAA==
-X-CSE-MsgGUID: Jwh5GKJKQty6aQKz3qbSyA==
+   d="scan'208";a="35135560"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 21:01:31 -0700
+X-CSE-ConnectionGUID: Etuq8h3NS7+XSiZfB3T+Ow==
+X-CSE-MsgGUID: DqyWKzt5S3K4Xnr90beFVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="64296260"
+   d="scan'208";a="68398802"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Aug 2024 19:28:26 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 31 Aug 2024 21:01:29 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skaKG-0003Hi-10;
-	Sun, 01 Sep 2024 02:28:24 +0000
-Date: Sun, 1 Sep 2024 10:28:14 +0800
+	id 1skbmJ-0003O2-1h;
+	Sun, 01 Sep 2024 04:01:27 +0000
+Date: Sun, 1 Sep 2024 12:01:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Arnd Bergmann <arnd@arndb.de>, Stefan Wahren <wahrenst@gmx.net>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: Re: [PATCH v2 1/7] staging: vchiq: Factor out bulk transfer for
- VCHIQ_BULK_MODE_WAITING
-Message-ID: <202409011052.hHoEnTUy-lkp@intel.com>
-References: <20240831162435.191084-2-umang.jain@ideasonboard.com>
+To: ningyu <ningyu@eswincomputing.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+	Darshan Prajapati <darshan.prajapati@einfochips.com>,
+	Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Subject: [esmil:eic7700 21/24] drivers/pci/controller/dwc/pcie-eswin.c:189:5:
+ warning: no previous prototype for function 'eswin_evb_socket_power_on'
+Message-ID: <202409011151.uOjxg9JM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,84 +64,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240831162435.191084-2-umang.jain@ideasonboard.com>
 
-Hi Umang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/staging-vchiq-Factor-out-bulk-transfer-for-VCHIQ_BULK_MODE_WAITING/20240901-002839
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20240831162435.191084-2-umang.jain%40ideasonboard.com
-patch subject: [PATCH v2 1/7] staging: vchiq: Factor out bulk transfer for VCHIQ_BULK_MODE_WAITING
-config: i386-buildonly-randconfig-001-20240901 (https://download.01.org/0day-ci/archive/20240901/202409011052.hHoEnTUy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409011052.hHoEnTUy-lkp@intel.com/reproduce)
+tree:   https://github.com/esmil/linux eic7700
+head:   eb44174b12f99d320be704b45db6b994f6a014bd
+commit: 357191b1d41675670255887ef252d171eef65bc4 [21/24] driver: PCIe: Add PCIe driver for EIC7700
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240901/202409011151.uOjxg9JM-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 46fe36a4295f05d5d3731762e31fc4e6e99863e9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409011151.uOjxg9JM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409011052.hHoEnTUy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409011151.uOjxg9JM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c: In function 'vchiq_bulk_xfer_waiting_interruptible':
->> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:3152:28: warning: variable 'bulk' set but not used [-Wunused-but-set-variable]
-    3152 |         struct vchiq_bulk *bulk;
-         |                            ^~~~
+   In file included from drivers/pci/controller/dwc/pcie-eswin.c:30:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:22:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-eswin.c:189:5: warning: no previous prototype for function 'eswin_evb_socket_power_on' [-Wmissing-prototypes]
+     189 | int eswin_evb_socket_power_on(struct device *dev)
+         |     ^
+   drivers/pci/controller/dwc/pcie-eswin.c:189:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     189 | int eswin_evb_socket_power_on(struct device *dev)
+         | ^
+         | static 
+   5 warnings generated.
 
 
-vim +/bulk +3152 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+vim +/eswin_evb_socket_power_on +189 drivers/pci/controller/dwc/pcie-eswin.c
 
-  3140	
-  3141	/*
-  3142	 * This function is called by VCHIQ ioctl interface and is interruptible.
-  3143	 * It may receive -EAGAIN to indicate that a signal has been received
-  3144	 * and the call should be retried after being returned to user context.
-  3145	 */
-  3146	int
-  3147	vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
-  3148					      unsigned int handle, struct bulk_waiter *userdata)
-  3149	{
-  3150		struct vchiq_service *service = find_service_by_handle(instance, handle);
-  3151		struct bulk_waiter *bulk_waiter;
-> 3152		struct vchiq_bulk *bulk;
-  3153		int status = -EINVAL;
-  3154	
-  3155		if (!service)
-  3156			goto error_exit;
-  3157	
-  3158		if (!userdata)
-  3159			goto error_exit;
-  3160	
-  3161		if (service->srvstate != VCHIQ_SRVSTATE_OPEN)
-  3162			goto error_exit;
-  3163	
-  3164		if (vchiq_check_service(service))
-  3165			goto error_exit;
-  3166	
-  3167		bulk_waiter = userdata;
-  3168		bulk = bulk_waiter->bulk;
-  3169	
-  3170		vchiq_service_put(service);
-  3171	
-  3172		status = 0;
-  3173	
-  3174		if (wait_for_completion_interruptible(&bulk_waiter->event))
-  3175			return -EAGAIN;
-  3176		else if (bulk_waiter->actual == VCHIQ_BULK_ACTUAL_ABORTED)
-  3177			return -EINVAL;
-  3178	
-  3179		return status;
-  3180	
-  3181	error_exit:
-  3182		if (service)
-  3183			vchiq_service_put(service);
-  3184		return status;
-  3185	}
-  3186	
+   185	
+   186	/* TODO: Check socket gpio number in actual board and
+   187	 *       change if necessary
+   188	 */
+ > 189	int eswin_evb_socket_power_on(struct device *dev)
+   190	{
+   191		int err_desc=0;
+   192		struct gpio_desc *gpio;
+   193		gpio = devm_gpiod_get(dev, "pci-socket", GPIOD_OUT_LOW);
+   194		err_desc = IS_ERR(gpio);
+   195	
+   196		if (err_desc) {
+   197			pr_err("No power control gpio found, maybe not needed\n");
+   198			return 0;
+   199		}
+   200	
+   201		gpiod_set_value(gpio,1);
+   202	
+   203		return err_desc;
+   204	}
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
