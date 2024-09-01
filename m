@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F299422625;
-	Sun,  1 Sep 2024 04:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DBD22625
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Sep 2024 04:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725163297; cv=none; b=QW3p12EaEIZDruLkrHYT5EGFV3RhPpv74fd5QiazHVq2nQGtEejcsLfw3s4UUX2jqERuqpxnRX0ETSRqdt1FcmeeYmF7Tvbj34aq50ubb1/emqPfNcQIOY4/5aYw/2t70vdiga7XLVYYFcs1QbAN3h2MBSZcE8rqoQ83y2/W3Hs=
+	t=1725163299; cv=none; b=qKcop9sWDtVPYaOi1VgwkbLyoTpu9i8p9vBGKEY3nk0Glf2ODD7l0lyiOi+4bfQKHzRMHAUiSndQ09YRn8Dy0y5l9H7wlGAi1tor12sStB/vhCsZ65jY9TpH1ZelbfnkB1z2TtIyltI7+Xi19cwHoUrsnyMwlVeXBqSFfKK8YiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725163297; c=relaxed/simple;
-	bh=Zw3WK/6c1FjO/dIEFocDdm6PlD3PL5cVUvYMkMKY+pU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eBNmv68CKulPb4/MYUDhPSBkWgx6L78xlbzn0CNqWMymSZTS4B3EBxY4jwY2tGOUNSX9qmasthgmQn8YXe5a9ttcqBVF4uJeYtO7U2De4oLk3f2aHhjRT3mKaAB8oF0VNK9i10x0LTGetiPFBmQbq11zwA7ij09v+8ddI0hAuoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=biS+YE9l; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1725163299; c=relaxed/simple;
+	bh=I10tpmOnhF/n+20WV8pj+exldQ7WDeO+H+u54+QpQIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SGUBQp0hwC/pbzSTYjj5HMGXCwj955ePu/Iti/mug6bEpQq93csfgVT76xa9XxqKbgvxfM2j7DIm0rQHXUaD2g2pmv5CY8bb/2mTYNMsvHKjEnEZQTzJSE6M65FocrTDH6B/SVL5UcEPrY5JGgoSL0hzI8uKgs/EBUad4JzUx7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiWQnDq2; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="biS+YE9l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiWQnDq2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725163295; x=1756699295;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zw3WK/6c1FjO/dIEFocDdm6PlD3PL5cVUvYMkMKY+pU=;
-  b=biS+YE9lZJvB+1VfRs/+HTC+enhT/8fhtfWLvFNq9cnttTHRjjesZV4Y
-   C6ex+hf+COwo2QpCEIuxzL/SOdIlfGmOdJQEy/1CYUuEaJu/syS1lgIPp
-   R3TMn3hsDEixABdwa9/ljVoi+Rgn4j6+rIWomoyby03xpYvl3h4M2Le+j
-   6NUpYAFT8vojbmouHYbfT+8SCbe3msF7P/20OeKQxfjEbMi4v1Ufqe0S4
-   y/MF12rR2eR/Zbou/RA8gG5E/LT2psipZCT9EM6zGKcSu5MPHLjnnIdZt
-   KygB239XP3EmC0e7rVlEHlxcA8s6LMPgdZPj9kMjpIggi/6t+Ux9RmU2k
-   g==;
-X-CSE-ConnectionGUID: ojN5Uen9R9qk+0h0/XE9vg==
-X-CSE-MsgGUID: WgLQUICFSh22+O+VvIzo4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="35135560"
+  t=1725163298; x=1756699298;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I10tpmOnhF/n+20WV8pj+exldQ7WDeO+H+u54+QpQIg=;
+  b=ZiWQnDq2J6KAvC8bNAJKEOKwnPktniotR1eyl2wk6Lftkqb+GZP0cSlD
+   u/uvHMJ+7Kvm9YhuUY4sZGLz8PdBvzFS5jE0hxsrBCBwD31ghJqbzAXGV
+   DhlQZjGFV5E0HB3IJrmuJe0ZOE3MhjsKV5hy4qlmEFli8Igg9CVP6Rfrh
+   LNJu1kjCaKlaZIH7PU/MnjwCziPGMIXxEhop7yBGYif3jfSDBfHE3I4ia
+   W5lR3dSycHC600m7CNIJwmto2H3wkR7d8bKSnwpOqBJzD0C3wK8l/vRv0
+   s6No4g2dao6oqTbyQzFjkBvdEIDAu/MnXVPicb6LQZSSsN00F10SC9s5w
+   A==;
+X-CSE-ConnectionGUID: +ea/QCrLTViUQo98j2g5MA==
+X-CSE-MsgGUID: DHPQ6jenTNyx5ELvQOaLFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="13314851"
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="35135560"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 21:01:31 -0700
-X-CSE-ConnectionGUID: Etuq8h3NS7+XSiZfB3T+Ow==
-X-CSE-MsgGUID: DqyWKzt5S3K4Xnr90beFVg==
+   d="scan'208";a="13314851"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 21:01:37 -0700
+X-CSE-ConnectionGUID: mMdSXkfUR3Ka3AH6Zy7A4g==
+X-CSE-MsgGUID: S7rTGM7XTNyBsU8ChyfLhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="68398802"
+   d="scan'208";a="64446613"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Aug 2024 21:01:29 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 31 Aug 2024 21:01:29 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skbmJ-0003O2-1h;
+	id 1skbmJ-0003Ny-1Z;
 	Sun, 01 Sep 2024 04:01:27 +0000
-Date: Sun, 1 Sep 2024 12:01:11 +0800
+Date: Sun, 1 Sep 2024 12:01:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: ningyu <ningyu@eswincomputing.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-	Darshan Prajapati <darshan.prajapati@einfochips.com>,
-	Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
-Subject: [esmil:eic7700 21/24] drivers/pci/controller/dwc/pcie-eswin.c:189:5:
- warning: no previous prototype for function 'eswin_evb_socket_power_on'
-Message-ID: <202409011151.uOjxg9JM-lkp@intel.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Andi Shyti <andi.shyti@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH] i2c: designware: Group all DesignWare drivers under a
+ single option
+Message-ID: <202409011153.4n9plSc8-lkp@intel.com>
+References: <20240830111222.2131172-1-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,77 +68,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240830111222.2131172-1-heikki.krogerus@linux.intel.com>
 
-tree:   https://github.com/esmil/linux eic7700
-head:   eb44174b12f99d320be704b45db6b994f6a014bd
-commit: 357191b1d41675670255887ef252d171eef65bc4 [21/24] driver: PCIe: Add PCIe driver for EIC7700
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240901/202409011151.uOjxg9JM-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 46fe36a4295f05d5d3731762e31fc4e6e99863e9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409011151.uOjxg9JM-lkp@intel.com/reproduce)
+Hi Heikki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/i2c-designware-Group-all-DesignWare-drivers-under-a-single-option/20240830-191656
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240830111222.2131172-1-heikki.krogerus%40linux.intel.com
+patch subject: [PATCH] i2c: designware: Group all DesignWare drivers under a single option
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240901/202409011153.4n9plSc8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409011153.4n9plSc8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409011151.uOjxg9JM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409011153.4n9plSc8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/pci/controller/dwc/pcie-eswin.c:30:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:22:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/controller/dwc/pcie-eswin.c:189:5: warning: no previous prototype for function 'eswin_evb_socket_power_on' [-Wmissing-prototypes]
-     189 | int eswin_evb_socket_power_on(struct device *dev)
-         |     ^
-   drivers/pci/controller/dwc/pcie-eswin.c:189:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     189 | int eswin_evb_socket_power_on(struct device *dev)
-         | ^
-         | static 
-   5 warnings generated.
+   loongarch64-linux-ld: drivers/i2c/busses/i2c-designware-platdrv.o: in function `dw_i2c_plat_runtime_resume':
+>> i2c-designware-platdrv.c:(.text+0x48): undefined reference to `i2c_dw_prepare_clk'
+   loongarch64-linux-ld: drivers/i2c/busses/i2c-designware-platdrv.o: in function `dw_i2c_plat_runtime_suspend':
+>> i2c-designware-platdrv.c:(.text+0x8c): undefined reference to `i2c_dw_disable'
+>> loongarch64-linux-ld: i2c-designware-platdrv.c:(.text+0x98): undefined reference to `i2c_dw_prepare_clk'
+   loongarch64-linux-ld: drivers/i2c/busses/i2c-designware-platdrv.o: in function `dw_i2c_plat_remove':
+   i2c-designware-platdrv.c:(.text+0x210): undefined reference to `i2c_dw_disable'
+   loongarch64-linux-ld: drivers/i2c/busses/i2c-designware-platdrv.o: in function `dw_i2c_plat_suspend':
+   i2c-designware-platdrv.c:(.text+0x30c): undefined reference to `i2c_dw_disable'
+   loongarch64-linux-ld: i2c-designware-platdrv.c:(.text+0x318): undefined reference to `i2c_dw_prepare_clk'
+   loongarch64-linux-ld: drivers/i2c/busses/i2c-designware-platdrv.o: in function `dw_i2c_plat_resume':
+   i2c-designware-platdrv.c:(.text+0x3c8): undefined reference to `i2c_dw_prepare_clk'
+   loongarch64-linux-ld: drivers/i2c/busses/i2c-designware-platdrv.o: in function `dw_i2c_plat_probe':
+>> i2c-designware-platdrv.c:(.text+0x49c): undefined reference to `i2c_dw_fw_parse_and_configure'
+>> loongarch64-linux-ld: i2c-designware-platdrv.c:(.text+0x56c): undefined reference to `i2c_dw_configure_master'
+   loongarch64-linux-ld: i2c-designware-platdrv.c:(.text+0x5a4): undefined reference to `i2c_dw_prepare_clk'
+>> loongarch64-linux-ld: i2c-designware-platdrv.c:(.text+0x6f0): undefined reference to `i2c_dw_probe_master'
 
-
-vim +/eswin_evb_socket_power_on +189 drivers/pci/controller/dwc/pcie-eswin.c
-
-   185	
-   186	/* TODO: Check socket gpio number in actual board and
-   187	 *       change if necessary
-   188	 */
- > 189	int eswin_evb_socket_power_on(struct device *dev)
-   190	{
-   191		int err_desc=0;
-   192		struct gpio_desc *gpio;
-   193		gpio = devm_gpiod_get(dev, "pci-socket", GPIOD_OUT_LOW);
-   194		err_desc = IS_ERR(gpio);
-   195	
-   196		if (err_desc) {
-   197			pr_err("No power control gpio found, maybe not needed\n");
-   198			return 0;
-   199		}
-   200	
-   201		gpiod_set_value(gpio,1);
-   202	
-   203		return err_desc;
-   204	}
-   205	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_DESIGNWARE_PLATFORM
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && I2C_DESIGNWARE_CORE [=n] && (ACPI [=y] && COMMON_CLK [=y] || !ACPI [=y])
+   Selected by [y]:
+   - TXGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_WANGXUN [=y] && PCI [=y] && COMMON_CLK [=y]
 
 -- 
 0-DAY CI Kernel Test Service
