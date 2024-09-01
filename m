@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0B52BAF3;
-	Sun,  1 Sep 2024 07:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DDB20DF4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Sep 2024 07:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725175784; cv=none; b=U4XrGPxN5qIJXv0cpcQECCOeT5SYLHcfjJInKspN+DtPrXDygS97enG6RXy0haAtg0Jfy4yywLeyZ6TWhyiQUvUhZueiwQl+jRTpQxwa3Dlbl58GJzyFvrrGUvH4heIqAI6AW6ix3/TWbH4jFhpxDn2EXV2iPL4yCbSefyFrd64=
+	t=1725177582; cv=none; b=Dh3TIPK3+6ak+b2MXeTP+zKDWOA4NgUuzrNLhDyVbPiDvtfNrMu6yGV7Z18Mx0acahA15VIx1qSsR2CO8S675KUPnQbxDTX30Rqqyq1BkVq3V3q42wNUax5W2fMRddj7kujh1L6dCVGKT3ZnQt6JKn0yBIcqh4kjAh16z8rp/f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725175784; c=relaxed/simple;
-	bh=SQt4JagV+lhS329kwX26vxDV+oV+80PNCFXXzVPsA2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VyQJmJV/o7Gg0oxBPC+bT+lf5DYSllqOPz3E11YldDD2Cc1/DZR9Sm2Fkki8eLu/heW293hMDybdWv8DrFlmbFmeMaTYJbgh8lhOETkA5afjcav/RaeNcjJtRfxNGzdNEr0iikiKJmbTrMGLdPVwHb2aFFTP+koPOlwgJYBQvI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UgF7X3e5; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1725177582; c=relaxed/simple;
+	bh=wvu12Ehzrk6KRlsZVBTLs0SKfiBW/rXovg7gQdDlHHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eVhUBFaxP7uaENHXByYBaAWbVdgSTABF/p2O1FPBKUU45OnDDcH1vyvJqumoOiYntSPaqJyRi5Yc8FQHxEi8lcTLUQ4haJgz7crGsp1zSobaq76uGTk6hdOXK38Yan/2VLExIo7+Vc8A2tOcyl7uxKWWxDF4pFKbVODEM0FuyMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kx4SsqIS; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UgF7X3e5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kx4SsqIS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725175781; x=1756711781;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SQt4JagV+lhS329kwX26vxDV+oV+80PNCFXXzVPsA2s=;
-  b=UgF7X3e5plAaMR3PhS2ePXkcZG9jsJoG8ohyFQMEPGKxfkdcV2SCjpzi
-   XrChSM3w5gSHU8jV1Kn7nOzWOIejrwipzbmRqg58J6SaIR1z4K2p5lAzO
-   uaTyedVyX4YohBi5WW+C9PWBnCtZh+cvIgc6FC5wgCQ5F2bUmMxKYeK03
-   OY5iBNW3pPfjzgta4tZoeP73ODwJyVtZQe4Sfm6HPPE4xUer5rrOUmXMs
-   BceDSBqVeZbFujbzSH9iGoFKVRoFJ9UVbr9/OONiMSXcO2TU/f7ubfljq
-   OTYgV5+X3xtx7q3hTy/wNdPZrre5imlHq5BecXKenxOHY0x3NYm9HTObO
-   g==;
-X-CSE-ConnectionGUID: MitdHT1/RHCBvsT8txpIlA==
-X-CSE-MsgGUID: +uDFv6dwRqOmI8zRMJa7Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23638525"
+  t=1725177580; x=1756713580;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wvu12Ehzrk6KRlsZVBTLs0SKfiBW/rXovg7gQdDlHHQ=;
+  b=kx4SsqISt+qFlaudkMhuyBWZ1kwVsTM1q6BogY5Hnphv7X1dt/muK5+b
+   Pvtzk9Ezl9bAIoVRmj7ryCLffaFO/r/iq1pkHP4OF11raj3O04Buk+90M
+   FbAp6ZLpXykfr63Zr5TIUdYYkNwPRuKVR4RCXMWCTZiPKZ0d/vc1HhWh0
+   EcknxnTfufwS3X/I9qQsYbdNj4sjzcBH894mGvdH09stwPdux+tMEOsPK
+   16TKE4bbm4DPJ1ALJ74GerhNjCEFTwwrWNipm3AAXcxss3Jn2Kh6soHMx
+   yLZIWcNoNO20iW1sYaqoWE/HDvlhGRGDllR+q4CwYxDoBMnCOOpnhm1KE
+   w==;
+X-CSE-ConnectionGUID: mAXtrdwcR8+tiA1d9LWrsw==
+X-CSE-MsgGUID: Rkxc1uiYSZykXm6KviDOLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23939678"
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="23638525"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 00:29:41 -0700
-X-CSE-ConnectionGUID: Aj8pqp2PS3yVenm/GXAe2w==
-X-CSE-MsgGUID: cW04QgowQM6PP7wDj0yJqQ==
+   d="scan'208";a="23939678"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 00:59:39 -0700
+X-CSE-ConnectionGUID: Gq8oKVflShm0/ar2W4jMwg==
+X-CSE-MsgGUID: 4rROlkngSSWdM32NdPJk4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="64644994"
+   d="scan'208";a="95010277"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Sep 2024 00:29:37 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Sep 2024 00:59:38 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skf1j-0003W6-00;
-	Sun, 01 Sep 2024 07:29:35 +0000
-Date: Sun, 1 Sep 2024 15:28:35 +0800
+	id 1skfUl-0003Ww-33;
+	Sun, 01 Sep 2024 07:59:35 +0000
+Date: Sun, 1 Sep 2024 15:59:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, manikandan.m@microchip.com,
-	dharma.b@microchip.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	daniel@ffwll.ch, hari.prasathge@microchip.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	claudiu.beznea@tuxon.dev
-Subject: Re: [PATCH 2/3] drm/bridge: microchip-lvds: Drop unused headers
-Message-ID: <202409011412.DQVmnHIW-lkp@intel.com>
-References: <20240827161223.4152195-3-claudiu.beznea@tuxon.dev>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: [rafael-pm:bleeding-edge 161/190] drivers/acpi/cppc_acpi.c:1141:3-4:
+ Unneeded semicolon
+Message-ID: <202409011554.KG79Y5xu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,55 +63,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827161223.4152195-3-claudiu.beznea@tuxon.dev>
 
-Hi Claudiu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu-Beznea/drm-bridge-microchip-lvds-Revert-clk_prepare_enable-in-case-of-failure/20240828-001456
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240827161223.4152195-3-claudiu.beznea%40tuxon.dev
-patch subject: [PATCH 2/3] drm/bridge: microchip-lvds: Drop unused headers
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240901/202409011412.DQVmnHIW-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   d683340e443e46fafe40b050b5dedb64924bf6c8
+commit: d837dbba610b1219f626af9578518ae066ed0571 [161/190] ACPI: CPPC: Fix MASK_VAL() usage
+config: x86_64-randconfig-103-20240901 (https://download.01.org/0day-ci/archive/20240901/202409011554.KG79Y5xu-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409011412.DQVmnHIW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409011412.DQVmnHIW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409011554.KG79Y5xu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/acpi/cppc_acpi.c:1141:3-4: Unneeded semicolon
 
->> drivers/gpu/drm/bridge/microchip-lvds.c:62:9: error: call to undeclared function 'readl_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      62 |         return readl_relaxed(lvds->regs + offset);
-         |                ^
->> drivers/gpu/drm/bridge/microchip-lvds.c:67:2: error: call to undeclared function 'writel_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      67 |         writel_relaxed(val, lvds->regs + offset);
-         |         ^
-   2 errors generated.
+vim +1141 drivers/acpi/cppc_acpi.c
 
-
-vim +/readl_relaxed +62 drivers/gpu/drm/bridge/microchip-lvds.c
-
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  59  
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  60  static inline u32 lvds_readl(struct mchp_lvds *lvds, u32 offset)
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  61  {
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21 @62  	return readl_relaxed(lvds->regs + offset);
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  63  }
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  64  
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  65  static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  66  {
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21 @67  	writel_relaxed(val, lvds->regs + offset);
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  68  }
-179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  69  
+  1075	
+  1076	static int cpc_write(int cpu, struct cpc_register_resource *reg_res, u64 val)
+  1077	{
+  1078		int ret_val = 0;
+  1079		int size;
+  1080		u64 prev_val;
+  1081		void __iomem *vaddr = NULL;
+  1082		int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpu);
+  1083		struct cpc_reg *reg = &reg_res->cpc_entry.reg;
+  1084		struct cpc_desc *cpc_desc;
+  1085	
+  1086		size = GET_BIT_WIDTH(reg);
+  1087	
+  1088		if (reg->space_id == ACPI_ADR_SPACE_SYSTEM_IO) {
+  1089			acpi_status status;
+  1090	
+  1091			status = acpi_os_write_port((acpi_io_address)reg->address,
+  1092						    (u32)val, size);
+  1093			if (ACPI_FAILURE(status)) {
+  1094				pr_debug("Error: Failed to write SystemIO port %llx\n",
+  1095					 reg->address);
+  1096				return -EFAULT;
+  1097			}
+  1098	
+  1099			return 0;
+  1100		} else if (reg->space_id == ACPI_ADR_SPACE_PLATFORM_COMM && pcc_ss_id >= 0) {
+  1101			/*
+  1102			 * For registers in PCC space, the register size is determined
+  1103			 * by the bit width field; the access size is used to indicate
+  1104			 * the PCC subspace id.
+  1105			 */
+  1106			size = reg->bit_width;
+  1107			vaddr = GET_PCC_VADDR(reg->address, pcc_ss_id);
+  1108		}
+  1109		else if (reg->space_id == ACPI_ADR_SPACE_SYSTEM_MEMORY)
+  1110			vaddr = reg_res->sys_mem_vaddr;
+  1111		else if (reg->space_id == ACPI_ADR_SPACE_FIXED_HARDWARE)
+  1112			return cpc_write_ffh(cpu, reg, val);
+  1113		else
+  1114			return acpi_os_write_memory((acpi_physical_address)reg->address,
+  1115					val, size);
+  1116	
+  1117		if (reg->space_id == ACPI_ADR_SPACE_SYSTEM_MEMORY) {
+  1118			cpc_desc = per_cpu(cpc_desc_ptr, cpu);
+  1119			if (!cpc_desc) {
+  1120				pr_debug("No CPC descriptor for CPU:%d\n", cpu);
+  1121				return -ENODEV;
+  1122			}
+  1123	
+  1124			spin_lock(&cpc_desc->rmw_lock);
+  1125			switch (size) {
+  1126			case 8:
+  1127				prev_val = readb_relaxed(vaddr);
+  1128				break;
+  1129			case 16:
+  1130				prev_val = readw_relaxed(vaddr);
+  1131				break;
+  1132			case 32:
+  1133				prev_val = readl_relaxed(vaddr);
+  1134				break;
+  1135			case 64:
+  1136				prev_val = readq_relaxed(vaddr);
+  1137				break;
+  1138			default:
+  1139				spin_unlock(&cpc_desc->rmw_lock);
+  1140				return -EFAULT;
+> 1141			};
+  1142			val = MASK_VAL_WRITE(reg, prev_val, val);
+  1143			val |= prev_val;
+  1144		}
+  1145	
+  1146		switch (size) {
+  1147		case 8:
+  1148			writeb_relaxed(val, vaddr);
+  1149			break;
+  1150		case 16:
+  1151			writew_relaxed(val, vaddr);
+  1152			break;
+  1153		case 32:
+  1154			writel_relaxed(val, vaddr);
+  1155			break;
+  1156		case 64:
+  1157			writeq_relaxed(val, vaddr);
+  1158			break;
+  1159		default:
+  1160			if (reg->space_id == ACPI_ADR_SPACE_SYSTEM_MEMORY) {
+  1161				pr_debug("Error: Cannot write %u bit width to system memory: 0x%llx\n",
+  1162					size, reg->address);
+  1163			} else if (reg->space_id == ACPI_ADR_SPACE_PLATFORM_COMM) {
+  1164				pr_debug("Error: Cannot write %u bit width to PCC for ss: %d\n",
+  1165					size, pcc_ss_id);
+  1166			}
+  1167			ret_val = -EFAULT;
+  1168			break;
+  1169		}
+  1170	
+  1171		if (reg->space_id == ACPI_ADR_SPACE_SYSTEM_MEMORY)
+  1172			spin_unlock(&cpc_desc->rmw_lock);
+  1173	
+  1174		return ret_val;
+  1175	}
+  1176	
 
 -- 
 0-DAY CI Kernel Test Service
