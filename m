@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C761420B0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Sep 2024 12:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B602617D345
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Sep 2024 12:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725194869; cv=none; b=Mff/VgXHVhBKCzV8x8oeG0hJHOdzJr3reBZKp8JDH+16WDrXCmrjV2Oiu2YCZeIzHCByFYjj53k4ngQ9ZxAPoagJV8pqqH7FbwRvRl7s9jGQLxgvcvC8NA5pGgJT65etMtZsytrWQo5n8dHHJgY1qfLwCNUe9Hy734ZpTvx1+AY=
+	t=1725194869; cv=none; b=JsAb+3kAt6XAUTgbasNk6S15oInABCRZRUTb/PHkKeyqKM6l5jAvuYtOc3pGGprX80EaI0ljzHX6rimNkBu8QLQ7zGqzi+sLgWWOooZ9xQW5j4ZSgstLmMQ2/4b2C6Zdn3fj36fFG/e6Ph1MVl4BAmUk1QiIbpV+SLy5N8IXUUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725194869; c=relaxed/simple;
-	bh=lD5iHJTZ8qGFua2/c0koUs5VYOF3+zNOa9SZSaaEnpM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nybNWWiF7vKTh56qM9SGY3vCw78zxxHgUomOQs/E4N9h8M2cWIdiEc4kcbdDeRE7rERoRgeXLcChSZ4Sx3dFhnL45ZaS6dxTi/KpI9X8gVVcIoNHQ1vbF5gEVIB4PHm/SvgUBClcI+Njv+MdJ1yJjaGupyjsKzu7p/voUEuZKRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeCcg+x6; arc=none smtp.client-ip=192.198.163.9
+	bh=KXwHXFoVbUQo0mmA9L6Z11g75Iq0m11E3mtjvkPEV3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/hy2hPV7pvP3/X12Zy8mHIuc/Rp/5t7Dix9wOFns7TF4JXQ59OamYSVvjjpba4fU4NmvlAuUEphOAlcTU5LamQd+7nQ2aj0X0KTBO5mvWdTA6CiPPUpyNX6EhlTk2tchUJnt6gGaSeH2JCv49o0KYxfXvKvy5fQdmBmMfNb9ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKEn9Pco; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeCcg+x6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKEn9Pco"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725194866; x=1756730866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lD5iHJTZ8qGFua2/c0koUs5VYOF3+zNOa9SZSaaEnpM=;
-  b=TeCcg+x6UCzTFWVRh6/vF9D0DdN8kc2uHWCwVfihJjbbMYWP3bydO8fP
-   LMpmbpawD+viiVViIqQtxeMx2iGm+NzoZUoDlt+Kn28o1JIpBQ4x9MI+s
-   mm0AfxLYWITgGC1hz1vcJt694VfEvW7VlosKt78K/neABFpV/ktXTHusC
-   qoxRsaGLtubUYPV0gl+7RNmfvtBpdPaS5bnjgBm7H1T2liO3hfrpA1ZEI
-   GYKlyyKxuYKehEiYuxuS79+nmvgKe4Jri5pZrgZUtrQJDXTUupnPnMECT
-   R9fHSm3S5aVMyBl3SAnVnphWSdA2PeLLJusiC7vfH4rbuggTFYC9GyB3b
-   A==;
-X-CSE-ConnectionGUID: 2Mb7VTlDRYGCwSp7X6ENRg==
-X-CSE-MsgGUID: I9lwMA3mRuaNANBRAtAs/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34445308"
+  t=1725194868; x=1756730868;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KXwHXFoVbUQo0mmA9L6Z11g75Iq0m11E3mtjvkPEV3M=;
+  b=DKEn9PcoEgsFgN5jXxPOOlIxHkQdEKEusb4r3RI3vLiVLb8xDuGjIi1k
+   hdSoECYDyRH0E463Yu9aDD2xB0bURIZNQu1mSkIqQqVXPznfu5KzhQ1Mn
+   ufVSAzZRI1JSMCbMQ1RgJ8YoAXzQuFHn/dfvq7rYcEj/vE5FKrVd2W/Of
+   4CyHJpCZt+0WhQq/FjXVfgjMvfgVVMSwkNwlTrehqwXUk81Sn50oDmU3q
+   R0JPDylX85dWjII109I2KHdpWUcI7hlt0NZKRkl9UJbn2AgJxhCq7J0S7
+   felfkbB0lNFqWFjmsFmTPMI6o31NBK4nopBWNaOABlEzXjLgTjqw+28FK
+   w==;
+X-CSE-ConnectionGUID: ZbxL+qO1ThyIEJVdskCMzw==
+X-CSE-MsgGUID: NqPy3QdNRRu/jZJKAJZvEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="13318152"
 X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; 
-   d="scan'208";a="34445308"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 05:47:44 -0700
-X-CSE-ConnectionGUID: aRFFZCYqQ9KMS7hYTCAppQ==
-X-CSE-MsgGUID: WOcwajdETxGSgiJSXsJSOw==
+   d="scan'208";a="13318152"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 05:47:47 -0700
+X-CSE-ConnectionGUID: qEuxH4RrTvO4hmLSQ1NkKw==
+X-CSE-MsgGUID: JvFphALFQW66W/hQzhpDaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; 
-   d="scan'208";a="95148323"
+   d="scan'208";a="68739433"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Sep 2024 05:47:43 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 Sep 2024 05:47:43 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skjzZ-0003ds-0H;
+	id 1skjzZ-0003dq-0C;
 	Sun, 01 Sep 2024 12:47:41 +0000
-Date: Sun, 1 Sep 2024 20:46:44 +0800
+Date: Sun, 1 Sep 2024 20:46:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: loongarch64-linux-ld: net-sysfs.c:undefined reference to `dql_group'
-Message-ID: <202409012047.eCaOdfQJ-lkp@intel.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sean Wang <sean.wang@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, upstream@airoha.com,
+	benjamin.larsson@genexis.eu, ansuelsmth@gmail.com,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] pinctrl: airoha: Add support for EN7581 SoC
+Message-ID: <202409012015.isPMHBiL-lkp@intel.com>
+References: <20240831-en7581-pinctrl-v3-4-98eebfb4da66@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,28 +75,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240831-en7581-pinctrl-v3-4-98eebfb4da66@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   431c1646e1f86b949fa3685efc50b660a364c2b6
-commit: 74293ea1c4db62cb969e741fbfd479a34d935024 net: sysfs: Do not create sysfs for non BQL device
-date:   7 months ago
-config: loongarch-randconfig-r113-20240820 (https://download.01.org/0day-ci/archive/20240901/202409012047.eCaOdfQJ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409012047.eCaOdfQJ-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on defaf1a2113a22b00dfa1abc0fd2014820eaf065]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-arm-airoha-Add-the-chip-scu-node-for-EN7581-SoC/20240831-222958
+base:   defaf1a2113a22b00dfa1abc0fd2014820eaf065
+patch link:    https://lore.kernel.org/r/20240831-en7581-pinctrl-v3-4-98eebfb4da66%40kernel.org
+patch subject: [PATCH v3 4/5] pinctrl: airoha: Add support for EN7581 SoC
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240901/202409012015.isPMHBiL-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409012015.isPMHBiL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409012047.eCaOdfQJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409012015.isPMHBiL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   loongarch64-linux-ld: net/core/net-sysfs.o: in function `.L778':
-   net-sysfs.c:(.text+0x5894): undefined reference to `dql_group'
->> loongarch64-linux-ld: net-sysfs.c:(.text+0x589c): undefined reference to `dql_group'
-   loongarch64-linux-ld: net/core/net-sysfs.o: in function `.L790':
-   net-sysfs.c:(.text+0x5b50): undefined reference to `dql_group'
-   loongarch64-linux-ld: net-sysfs.c:(.text+0x5b58): undefined reference to `dql_group'
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+>> ERROR: modpost: "__ffsdi2" [drivers/pinctrl/mediatek/pinctrl-airoha.ko] undefined!
+ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
