@@ -1,278 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946C523AB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Sep 2024 05:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725167616; cv=none; b=W1LUy1db/sAYxGOnpBiQzyTEi9ks+5JpE+xvG6CQuMjYBLrQRoWCV7A3EIzqt7YQvEh5R2Tgt8rTbIrW18Ou9eWc+6qmsn6JQ60dxlEa0Cax5brVFe0yc6m2SzK9oDsp63+fFOHe15jNy1tzwH6/X12iaXAqUG5YWPNt0c4hcQg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725167616; c=relaxed/simple;
-	bh=Svloc/17cgB1tI/t29aHIxSnubb5d8x1d/mrQM1NWe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s6nxjjIivN/YAMZlNuG+S9LczuAZd/u4OY1QAN9wuUSRPhFX9loDvQtez10UxVE9J+kf2kLkQyW5fU7NAIT4jbr/fW1pmfGNo43gj17giUX5cAjNVgUAUKFYiXZtbgBOH+C5eMJl57DqGNXSUAS4jcF2nELROqEhWUmynKJh+5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHz4/Wgo; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B65128389
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Sep 2024 05:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725167825; cv=fail; b=ayEr+o5/makO5XejTh/Mb0+Dwu6fzwbhls2NxJzo2hTgqYO90KwxgTbPwhE8Zk8L42iCukCQjfjTN9bNs+GMjjbHHVEF9w5Rrz4tAZ/WQ8l0m8B+y4C3i9I8HV5LhKTfau4Ub0wVxHEuGme1o3TEXdVIpc7EqZf7GTniqjwS49k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725167825; c=relaxed/simple;
+	bh=DNR7417cEW2c/r5+W3G9r463PpDHEzLC7hd4aK4OxI4=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=AUYhpBmmKE/CdaBCRjR+0/egIFaYZbLxz7rwExSHBjL3z05pZnaQsI2xMuD04p0xKJM+1TGkyMbglmS2YFQIyyElcSGTSbK6d6FWo52QCsYrxS3wO44WS2MsaQHpUywkwrebovBqCSYJl9cSNN+Ig7C43OV8sse+tJaiFzrHj68=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eb9vHA3B; arc=fail smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHz4/Wgo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eb9vHA3B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725167614; x=1756703614;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Svloc/17cgB1tI/t29aHIxSnubb5d8x1d/mrQM1NWe4=;
-  b=VHz4/WgoSILqVniDyl7zIQxWE2EIEuW+lie09x9Yiv0nvYv8/CgEnbTN
-   pxgP80/NNxUFGiOHDeoVMES09+pWWPBut0XLytXhxXBtxthd3My+4BCB9
-   xuKiZ4gmkf0jz60R6dp+K9s+szQigL9FfhyYmab9AlJCwgRrqle0siG/2
-   oKH3Uzgq9+c4NJHu7Uobv5fhHXKaklClOghS5Y1yr8G9UJ7Cw+FPIkg7u
-   I4C9sWZccnCnXvdnTPdtEIlNn+c/BanzWfg7jxvb1qCG/PbnW4spIa6Rn
-   mw9VFJd7GKRLY+wMPMmU/YfqNJ92M0sn0jgVwLZQXK+9bZFHgROMguSJ1
-   g==;
-X-CSE-ConnectionGUID: AmOoDTccTRS7TIHsLIF82A==
-X-CSE-MsgGUID: s1+xr3/2Rx6avR02QFS2Wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="26675923"
+  t=1725167823; x=1756703823;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DNR7417cEW2c/r5+W3G9r463PpDHEzLC7hd4aK4OxI4=;
+  b=Eb9vHA3B54R1Ik/U22kVhmhB4sqH99msw61OydpUtge8BO08XCDc5oHP
+   bRb9w3DxqJLc8ubYfZuB6knLYENZyrP3er3qxUH8MrO/AniKvza98x8YP
+   OeZ7ohiWCrALXBUIRD55f8zxrloJ7vmkhQRA1emXY+joRz9di6tDnIjmW
+   VKjGHHCsOVVOAguRv/1/Cr2tqDpci/pLMJpcAKRgSk4l2+mJLwyOm9724
+   SRDJEfJz0gkuWRB31kD4z2L2l3VWqrGGNa0bUZ5AFuzO4FRe1i25XVsiM
+   0wE6fKlfl+P1g7dzlVCdtOIwIiLP8V7GxkODd1x5GYuQXbRJx17Qrs20+
+   Q==;
+X-CSE-ConnectionGUID: NA4q5LlcQYefz6If6Xt8hA==
+X-CSE-MsgGUID: ldn29R68Rk2u3WUVGPKHvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23345294"
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="26675923"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 22:13:34 -0700
-X-CSE-ConnectionGUID: G/ipLG5SQTeRjFVDYsOX9Q==
-X-CSE-MsgGUID: /dyauXO0S4qv+Q4gn0j1tw==
+   d="scan'208";a="23345294"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 22:17:02 -0700
+X-CSE-ConnectionGUID: u/Z/5CzPRFul12SqpQGxaw==
+X-CSE-MsgGUID: ofGf4IJdTK2+9viTqK9Phw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="95080879"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Aug 2024 22:13:31 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skcu1-0003QY-1Y;
-	Sun, 01 Sep 2024 05:13:29 +0000
-Date: Sun, 1 Sep 2024 13:13:16 +0800
+   d="scan'208";a="69172162"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Aug 2024 22:17:03 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sat, 31 Aug 2024 22:17:02 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sat, 31 Aug 2024 22:17:01 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Sat, 31 Aug 2024 22:17:01 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Sat, 31 Aug 2024 22:17:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RTrZdgAG4ieHQRioHLOFSGQnPbPcyxu+gZXLZfqqAkL7NXUK+FPi4327KMRR9H83WwwGHfPFq4hebgncclRQRN1aLmou66nMjevXTkokda9gswoya/ezkEZNV5YDmShLuqz/TcKpEqVrYe2I7oTPxTSW8tjdfX7s8o19dVx/D2XXB+GXr7i3kZvKC21hnPNIE+zzIhybCJwcmduszOw2SwKd9jyBsqb2yvQeTYl3qG6cW+wlinOnlN8LGL21vZqO9acR7dYd+D4QcfDOSjZpFwOFVaHWQp9qTgXxYphFKI7KJTQv3ly6fhgvRI+bxvQ0CgTIs4d0ahgUxWgfMEE7GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eFliuz6JZrGgfpHvgEcPdqJUn+o5d6kj/60w2wr6Qhw=;
+ b=chBjLI+++7D4AkZL4bx5kYanQUbo1qOIQqrNzp93JogKfd5noxjU1FSTte6GtwMHsEv3etYHogZ0+Hidb+b/94fQvpWY7XhV2VGTG0fwFLkyRPwDAbNBkebLmUmuuL2Y855enE0CVZStgW6T1WLOZPpAU86RFnmt6PMg61aDhbIaaYS+XQKS7tyGokShfeu/7D+eWfbwTyB4fkFMxtlcOKUr2AKGwXcDlw7dQZo3HveiYCTxSTSyaCvtaylKdNRqsST2yWLPpPW7/5wqh/l9ja6vIlYdlS7b/W15ms3ScVinDmsG8eMvLCFp3WoWFiY9wXELlmGP6J42FFj9C2Cgjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by PH7PR11MB7478.namprd11.prod.outlook.com (2603:10b6:510:269::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Sun, 1 Sep
+ 2024 05:16:58 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7918.020; Sun, 1 Sep 2024
+ 05:16:58 +0000
+Date: Sun, 1 Sep 2024 13:16:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jordan Rife <jrife@google.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	wireguard@lists.zx2c4.com
-Cc: oe-kbuild-all@lists.linux.dev, Jordan Rife <jrife@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH net-next] wireguard: allowedips: Add
- WGALLOWEDIP_F_REMOVE_ME flag
-Message-ID: <202409011256.CWrnquxQ-lkp@intel.com>
-References: <20240830194103.2186774-1-jrife@google.com>
+To: Xianwei Zhao <xianwei.zhao@amlogic.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Neil Armstrong
+	<neil.armstrong@linaro.org>
+Subject: [amlogic:v6.12/arm64-dt 9/10]
+ arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:65.7-76.4: Warning
+ (unit_address_vs_reg): /sram: node has a reg or ranges property, but no unit
+ name
+Message-ID: <ZtP4wlOdg0noioAp@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240830194103.2186774-1-jrife@google.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH7PR11MB7478:EE_
+X-MS-Office365-Filtering-Correlation-Id: e08d14fc-7cf4-4dbc-4853-08dcca454db8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TEEvQHnL+v64b4UG2pnfG82LiaCnnoMljccW6Wi9sxcjgGgojuqPEIEHlnwP?=
+ =?us-ascii?Q?DhyI4sPeHzICOJi95GqP3rFC4yGjOBg/103Ina8wYSztAttS+YtQQoh7rIL8?=
+ =?us-ascii?Q?BFfm3Lf7F5O2bOU9/2m8YVQNrHK46T2XOmwHRyoLAlnqBMTJuPdL9zqAw7MA?=
+ =?us-ascii?Q?4EjzTuBgxaKkvIUqFYrodYIuXz6umb22VAm7p/tDYeuV4SXxev19LMuXTln3?=
+ =?us-ascii?Q?4/XWMM3D1LSI1XO9Fn7FyA1Hk9fDiRXJrKO+QMvmLIrMkwqihrqBePwJHFgA?=
+ =?us-ascii?Q?ufPUIAmLEE93o0iOLotv32P98cujAqGqvdeCUjPznDzJFosKEvaY1nWvmMNK?=
+ =?us-ascii?Q?hXj4eLTdOAZoROnCZ9SFnb/pyE4MDe9ZZZyEEtbiw0RF+2tQqqRYMkI68Thp?=
+ =?us-ascii?Q?+iAzLon0Zmc0Nup8XMKVxHS0FM1uof9YWLLm0GszbqSrv5Of9GnYSkKoD2ns?=
+ =?us-ascii?Q?Iu8VKz5L2mx/FShd9PcOsgUI281zzwFYxThl+wuxb4GiddxHyh2vQ8ZJxAqX?=
+ =?us-ascii?Q?Hkvy6exRrtja2JnKcAwecDEtsn+pNiNem5DS3LDNFs6Rs4F6tJPku4DytGCi?=
+ =?us-ascii?Q?3Qwx3A/9Gob+NrhrBolPqezwBk1mDDRziQLLM/oHto0sH6U+6HOFn0kF7UgC?=
+ =?us-ascii?Q?6uGCcMsOv/ySD6UBokh2w2htXUOvYsK7zjgeZvj1lNTHzNDlEktTyWUj4wjj?=
+ =?us-ascii?Q?T2w8irBqSCMsyZJ+Kp2P7mrNgCq9irQKyCg5D9HBAHDFZjQbROOB2QX2jY/M?=
+ =?us-ascii?Q?e+m9g1qYBApp1q7b0SUrAM5DpoIZp8xqWSrFFqi2RjL/3iGNP5hvt1zuc/30?=
+ =?us-ascii?Q?fVBbCFNMyepMT03Os23v5BAhCIiIpbsW7lJrih1YZHd5jkMKEl1CMV+gwHw1?=
+ =?us-ascii?Q?6LBVqH5qvE/VlbqdiXe9AeZjKdEkRWxo6yXGphvFLoVasj5/6prbJsr7Rp/i?=
+ =?us-ascii?Q?bpCNF533PHAHN+pPgV/NneVWyD2F/klVVmNlTvoioOjpd9/PSnfip7pXPute?=
+ =?us-ascii?Q?m8QtiP76Ij/tc9OlpJkOuBPfgk2upDMa+cISWu0oLtXD7k5zJhQqSm2B/E6i?=
+ =?us-ascii?Q?riwYjmlot1/OBzsAE6U3hy6BUY9rB+poJoEpWj01GcJlCRHykGiaAx2vYfbq?=
+ =?us-ascii?Q?SWoXHyHv5Zd36bXngZdy7Bd+pG0rMX1k5ManXORwWx0KSibTeAVF7poAPxTQ?=
+ =?us-ascii?Q?PFWwK70AlBDn+lhZujpmRQUBtNVWwZ62mZAZXb/RlcphkSI4DrVgkZRX3SA0?=
+ =?us-ascii?Q?NByfQidkjpfAjPohMB26gYJM3VQr1JUowtDZ4b8tU21TWdeXwAfQjBrhp7xl?=
+ =?us-ascii?Q?IaaJigs6qtg6fFiEjY/X01TH?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UcVm+ULim0rgupOIqnZJf5T9z8FidRa3wPIeJD8DDZEudUYbK9XQfXMgHC2Z?=
+ =?us-ascii?Q?c+VK9yS30j6kvDP1TojtDH2CjFEglPQ/zT/FJcF1JU7WU/NJ4QmCytPv7QYf?=
+ =?us-ascii?Q?H8DwHvpXjxY0yMSziNivKiU3HP6C7sXlRXWqIWrGMwz0+yyNIvsZYC8XuzgB?=
+ =?us-ascii?Q?uHwU9xf5yeI6V5H4oDMmlkxPsmQaAqoTon/ZCpsN9zHuals81XoHIE1JNWdh?=
+ =?us-ascii?Q?ZATgZ0WeMcnRHnXbIRouIM4d2ZkLxw8ahPu40IaCE4hEkWoCva+VMwCOrLVi?=
+ =?us-ascii?Q?dNCAgsUcAGl+LeMQxzVP+J+S6W9P5K1FgMgABmcada/+rpngVFqCyD6CqYRo?=
+ =?us-ascii?Q?iL4dQ7wVy8vE6nEg8cwWFYsB3AGk8nQW5+nQScKmQF6lfB42H/PMWscJ+9Fs?=
+ =?us-ascii?Q?3D82YDA+n26GHoln4Yh61jJ7uK7tRd00YsTtKyP1OwNSPeI2lXLJUX/14Smb?=
+ =?us-ascii?Q?Ci3VCpGb0SueBnzylP+SmG6gh80gmofXwhVhaxz1lPCh/swKLKgMZc1XDUNv?=
+ =?us-ascii?Q?Vs6LTJPPEH2VJBhaAdwAkEkdf6yR/hknSIOHHDGnG7MZSPhmtL8cQWxFBR27?=
+ =?us-ascii?Q?KZY4PoPKYbsAyW6xwlL0biNwEXw0J983bQUXEVuka1HIwjk+dV2XMnuZJzNO?=
+ =?us-ascii?Q?06Zk9+BWnwkSsjf1QXXKDWFi82zzdsCr04iiUBMzAbanEhZYE9fra4ua9ugx?=
+ =?us-ascii?Q?9Z6PlHcNfz5Yg1Ww3iay9Rsv97Ddc3MSzF8iomi3ObPBUxJOpNdDuknWE87t?=
+ =?us-ascii?Q?kLg7+j5g7lvcAgZw5PxKEKgdXxiSRdpAUI9xonEGgHVipzrvfCFlXrV4CMDS?=
+ =?us-ascii?Q?0iCNzF32TsxmFzj5Y7hNAYQ67dJEVAl0hRmgjR0wt0JM15VxiZGQrT5YfYTy?=
+ =?us-ascii?Q?QF2VmiQWcG+6euq8nnRtQwVcfUPwKlvZSEjRtznuxOafRM04U3kgekgJf+/m?=
+ =?us-ascii?Q?cjiVTvTOprUyx8N5bX29IYE/Dap6TTTa3Wya4XwXMDGvFxjIBUkMzE6P00UB?=
+ =?us-ascii?Q?nj4MdqmOFIbvcY10yZ3wVfUnHlAV958ksUb+IALo9e9nNQRKPKjlefbd8mVb?=
+ =?us-ascii?Q?mjAlibKTS3PI1U6AzVEtBqeVCFtzP7KfnUI2ilCZmXuCyDzcZGeY4NkcQaRO?=
+ =?us-ascii?Q?4yQ2Msb/JvqYFpRBuZSd2up4ClHF95ABfSkQX1xc6YCnHtyMsSwcdQAkJN3z?=
+ =?us-ascii?Q?K/vGJ49gpCyC1zKmI0t5mP83xlOpFW8RUuAAEL1suX1XcpkX5s9ByOVHG3Uy?=
+ =?us-ascii?Q?w9Cr+rlvz26s703veuClidIWI4evc3mpI3H0or3yPg5p4Dw6bW11hjIPHqQ8?=
+ =?us-ascii?Q?QHhKg05nhfu9+Xu96suI54//vZAPYjNXlvQWm5FaI/+hSisaRWm0S6T22CVH?=
+ =?us-ascii?Q?n1Z6qTZWNQ3O5a/GCcOrfLhrn077N9KWyAOdBqcAYiFMkkTw0IWMFN4hEHI4?=
+ =?us-ascii?Q?/IDiACcZBvwWawD7xSlxbgWvm6SbeWDzOl+hXCWkJjzIhIdpWr3JdnYouqxQ?=
+ =?us-ascii?Q?dcCsg/QAjx6U5njJLk2R61E6en/S1KQbEDCf5FAS5drNU13YqB4/DrisCjA8?=
+ =?us-ascii?Q?T19WGZ4r66ZDCLqsbzaX51Sad/i5nsPnxiER7oDwmz+5s1kkDooNBZ3MskCt?=
+ =?us-ascii?Q?ag=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e08d14fc-7cf4-4dbc-4853-08dcca454db8
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2024 05:16:58.7197
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HHkmGs4aa0Ww1ciemh1547QgdHhSy02TRdTebb+nxTqnZ+xUIKnD6FBlkYrOFqRgtfryr7+K7X/CuSuSrNt6NA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7478
+X-OriginatorOrg: intel.com
 
-Hi Jordan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Rife/wireguard-allowedips-Add-WGALLOWEDIP_F_REMOVE_ME-flag/20240831-034712
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240830194103.2186774-1-jrife%40google.com
-patch subject: [PATCH net-next] wireguard: allowedips: Add WGALLOWEDIP_F_REMOVE_ME flag
-config: i386-randconfig-062-20240901 (https://download.01.org/0day-ci/archive/20240901/202409011256.CWrnquxQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409011256.CWrnquxQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git v6.12/arm64-dt
+head:   d4bd8f3023b68f72431e05ec6cbc793519b449cf
+commit: 520b792e83171efc8ec0b004412b44dabc044de0 [9/10] arm64: dts: amlogic: add some device nodes for C3
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: arm64-randconfig-003-20240831 (https://download.01.org/0day-ci/archive/20240901/202409010005.A7tSzgEn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010005.A7tSzgEn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409011256.CWrnquxQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409010005.A7tSzgEn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireguard/allowedips.c:257:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct list_head *entry @@     got struct list_head [noderef] __rcu * @@
-   drivers/net/wireguard/allowedips.c:257:24: sparse:     expected struct list_head *entry
-   drivers/net/wireguard/allowedips.c:257:24: sparse:     got struct list_head [noderef] __rcu *
->> drivers/net/wireguard/allowedips.c:258:9: sparse: sparse: cast removes address space '__rcu' of expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: cast removes address space '__rcu' of expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: cast removes address space '__rcu' of expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: cast removes address space '__rcu' of expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: cast removes address space '__rcu' of expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: cast removes address space '__rcu' of expression
-   drivers/net/wireguard/allowedips.c:269:24: sparse: sparse: cast removes address space '__rcu' of expression
-   drivers/net/wireguard/allowedips.c:270:26: sparse: sparse: cast removes address space '__rcu' of expression
->> drivers/net/wireguard/allowedips.c:276:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
-   drivers/net/wireguard/allowedips.c:276:19: sparse:     expected struct callback_head *head
-   drivers/net/wireguard/allowedips.c:276:19: sparse:     got struct callback_head [noderef] __rcu *
-   drivers/net/wireguard/allowedips.c:294:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/net/wireguard/allowedips.c:294:18: sparse:    struct wg_peer *
-   drivers/net/wireguard/allowedips.c:294:18: sparse:    struct wg_peer [noderef] __rcu *
->> drivers/net/wireguard/allowedips.c:384:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct allowedips_node [noderef] __rcu *node @@     got struct allowedips_node *[assigned] node @@
->> drivers/net/wireguard/allowedips.c:258:9: sparse: sparse: dereference of noderef expression
->> drivers/net/wireguard/allowedips.c:258:9: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:259:22: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:259:38: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:261:17: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:264:44: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:265:50: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:268:25: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:269:24: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:269:24: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:270:26: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:270:26: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:271:26: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:274:25: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:274:25: sparse: sparse: dereference of noderef expression
-   drivers/net/wireguard/allowedips.c:274:25: sparse: sparse: dereference of noderef expression
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:65.7-76.4: Warning (unit_address_vs_reg): /sram: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:168.34-413.6: Warning (unit_address_vs_reg): /soc/bus@fe000000/pinctrl@4000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:168.34-413.6: Warning (simple_bus_reg): /soc/bus@fe000000/pinctrl@4000: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/amlogic/amlogic-c3-c302x-aw409.dts:205.9-245.4: Warning (avoid_unnecessary_addr_size): /soc/bus@fe000000/spi@56000/nand@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
 
-vim +257 drivers/net/wireguard/allowedips.c
+vim +65 arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi
 
-   251	
-   252	static void _remove(struct allowedips_node __rcu *node, struct mutex *lock)
-   253	{
-   254		struct allowedips_node *child, **parent_bit, *parent;
-   255		bool free_parent;
-   256	
- > 257		list_del_init(&node->peer_list);
- > 258		RCU_INIT_POINTER(node->peer, NULL);
-   259		if (node->bit[0] && node->bit[1])
-   260			return;
-   261		child = rcu_dereference_protected(node->bit[!rcu_access_pointer(node->bit[0])],
-   262						  lockdep_is_held(lock));
-   263		if (child)
-   264			child->parent_bit_packed = node->parent_bit_packed;
-   265		parent_bit = (struct allowedips_node **)(node->parent_bit_packed & ~3UL);
-   266		*parent_bit = child;
-   267		parent = (void *)parent_bit -
-   268				offsetof(struct allowedips_node, bit[node->parent_bit_packed & 1]);
-   269		free_parent = !rcu_access_pointer(node->bit[0]) &&
-   270				!rcu_access_pointer(node->bit[1]) &&
-   271				(node->parent_bit_packed & 3) <= 1 &&
-   272				!rcu_access_pointer(parent->peer);
-   273		if (free_parent)
-   274			child = rcu_dereference_protected(parent->bit[!(node->parent_bit_packed & 1)],
-   275							  lockdep_is_held(lock));
- > 276		call_rcu(&node->rcu, node_free_rcu);
-   277		if (!free_parent)
-   278			return;
-   279		if (child)
-   280			child->parent_bit_packed = parent->parent_bit_packed;
-   281		*(struct allowedips_node **)(parent->parent_bit_packed & ~3UL) = child;
-   282		call_rcu(&parent->rcu, node_free_rcu);
-   283	}
-   284	
-   285	static int remove(struct allowedips_node __rcu **trie, u8 bits, const u8 *key,
-   286			  u8 cidr, struct wg_peer *peer, struct mutex *lock)
-   287	{
-   288		struct allowedips_node *node;
-   289	
-   290		if (unlikely(cidr > bits || !peer))
-   291			return -EINVAL;
-   292		if (!rcu_access_pointer(*trie) ||
-   293		    !node_placement(*trie, key, cidr, bits, &node, lock) ||
-   294		    peer != node->peer)
-   295			return 0;
-   296	
-   297		_remove(node, lock);
-   298	
-   299		return 0;
-   300	}
-   301	
-   302	void wg_allowedips_init(struct allowedips *table)
-   303	{
-   304		table->root4 = table->root6 = NULL;
-   305		table->seq = 1;
-   306	}
-   307	
-   308	void wg_allowedips_free(struct allowedips *table, struct mutex *lock)
-   309	{
-   310		struct allowedips_node __rcu *old4 = table->root4, *old6 = table->root6;
-   311	
-   312		++table->seq;
-   313		RCU_INIT_POINTER(table->root4, NULL);
-   314		RCU_INIT_POINTER(table->root6, NULL);
-   315		if (rcu_access_pointer(old4)) {
-   316			struct allowedips_node *node = rcu_dereference_protected(old4,
-   317								lockdep_is_held(lock));
-   318	
-   319			root_remove_peer_lists(node);
-   320			call_rcu(&node->rcu, root_free_rcu);
-   321		}
-   322		if (rcu_access_pointer(old6)) {
-   323			struct allowedips_node *node = rcu_dereference_protected(old6,
-   324								lockdep_is_held(lock));
-   325	
-   326			root_remove_peer_lists(node);
-   327			call_rcu(&node->rcu, root_free_rcu);
-   328		}
-   329	}
-   330	
-   331	int wg_allowedips_insert_v4(struct allowedips *table, const struct in_addr *ip,
-   332				    u8 cidr, struct wg_peer *peer, struct mutex *lock)
-   333	{
-   334		/* Aligned so it can be passed to fls */
-   335		u8 key[4] __aligned(__alignof(u32));
-   336	
-   337		++table->seq;
-   338		swap_endian(key, (const u8 *)ip, 32);
-   339		return add(&table->root4, 32, key, cidr, peer, lock);
-   340	}
-   341	
-   342	int wg_allowedips_insert_v6(struct allowedips *table, const struct in6_addr *ip,
-   343				    u8 cidr, struct wg_peer *peer, struct mutex *lock)
-   344	{
-   345		/* Aligned so it can be passed to fls64 */
-   346		u8 key[16] __aligned(__alignof(u64));
-   347	
-   348		++table->seq;
-   349		swap_endian(key, (const u8 *)ip, 128);
-   350		return add(&table->root6, 128, key, cidr, peer, lock);
-   351	}
-   352	
-   353	int wg_allowedips_remove_v4(struct allowedips *table, const struct in_addr *ip,
-   354				    u8 cidr, struct wg_peer *peer, struct mutex *lock)
-   355	{
-   356		/* Aligned so it can be passed to fls */
-   357		u8 key[4] __aligned(__alignof(u32));
-   358	
-   359		++table->seq;
-   360		swap_endian(key, (const u8 *)ip, 32);
-   361		return remove(&table->root4, 32, key, cidr, peer, lock);
-   362	}
-   363	
-   364	int wg_allowedips_remove_v6(struct allowedips *table, const struct in6_addr *ip,
-   365				    u8 cidr, struct wg_peer *peer, struct mutex *lock)
-   366	{
-   367		/* Aligned so it can be passed to fls64 */
-   368		u8 key[16] __aligned(__alignof(u64));
-   369	
-   370		++table->seq;
-   371		swap_endian(key, (const u8 *)ip, 128);
-   372		return remove(&table->root6, 128, key, cidr, peer, lock);
-   373	}
-   374	
-   375	void wg_allowedips_remove_by_peer(struct allowedips *table,
-   376					  struct wg_peer *peer, struct mutex *lock)
-   377	{
-   378		struct allowedips_node *node, *tmp;
-   379	
-   380		if (list_empty(&peer->allowedips_list))
-   381			return;
-   382		++table->seq;
-   383		list_for_each_entry_safe(node, tmp, &peer->allowedips_list, peer_list) {
- > 384			_remove(node, lock);
-   385		}
-   386	}
-   387	
+02310be6f08007 Xianwei Zhao 2023-05-15  15  
+02310be6f08007 Xianwei Zhao 2023-05-15  16  / {
+02310be6f08007 Xianwei Zhao 2023-05-15  17  	cpus {
+02310be6f08007 Xianwei Zhao 2023-05-15  18  		#address-cells = <2>;
+02310be6f08007 Xianwei Zhao 2023-05-15  19  		#size-cells = <0>;
+02310be6f08007 Xianwei Zhao 2023-05-15  20  
+02310be6f08007 Xianwei Zhao 2023-05-15  21  		cpu0: cpu@0 {
+02310be6f08007 Xianwei Zhao 2023-05-15  22  			device_type = "cpu";
+02310be6f08007 Xianwei Zhao 2023-05-15  23  			compatible = "arm,cortex-a35";
+02310be6f08007 Xianwei Zhao 2023-05-15  24  			reg = <0x0 0x0>;
+02310be6f08007 Xianwei Zhao 2023-05-15  25  			enable-method = "psci";
+02310be6f08007 Xianwei Zhao 2023-05-15  26  		};
+02310be6f08007 Xianwei Zhao 2023-05-15  27  
+02310be6f08007 Xianwei Zhao 2023-05-15  28  		cpu1: cpu@1 {
+02310be6f08007 Xianwei Zhao 2023-05-15  29  			device_type = "cpu";
+02310be6f08007 Xianwei Zhao 2023-05-15  30  			compatible = "arm,cortex-a35";
+02310be6f08007 Xianwei Zhao 2023-05-15  31  			reg = <0x0 0x1>;
+02310be6f08007 Xianwei Zhao 2023-05-15  32  			enable-method = "psci";
+02310be6f08007 Xianwei Zhao 2023-05-15  33  		};
+02310be6f08007 Xianwei Zhao 2023-05-15  34  	};
+02310be6f08007 Xianwei Zhao 2023-05-15  35  
+02310be6f08007 Xianwei Zhao 2023-05-15  36  	timer {
+02310be6f08007 Xianwei Zhao 2023-05-15  37  		compatible = "arm,armv8-timer";
+02310be6f08007 Xianwei Zhao 2023-05-15  38  		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
+02310be6f08007 Xianwei Zhao 2023-05-15  39  			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
+02310be6f08007 Xianwei Zhao 2023-05-15  40  			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
+02310be6f08007 Xianwei Zhao 2023-05-15  41  			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
+02310be6f08007 Xianwei Zhao 2023-05-15  42  	};
+02310be6f08007 Xianwei Zhao 2023-05-15  43  
+02310be6f08007 Xianwei Zhao 2023-05-15  44  	psci {
+02310be6f08007 Xianwei Zhao 2023-05-15  45  		compatible = "arm,psci-1.0";
+02310be6f08007 Xianwei Zhao 2023-05-15  46  		method = "smc";
+02310be6f08007 Xianwei Zhao 2023-05-15  47  	};
+02310be6f08007 Xianwei Zhao 2023-05-15  48  
+02310be6f08007 Xianwei Zhao 2023-05-15  49  	xtal: xtal-clk {
+02310be6f08007 Xianwei Zhao 2023-05-15  50  		compatible = "fixed-clock";
+02310be6f08007 Xianwei Zhao 2023-05-15  51  		clock-frequency = <24000000>;
+02310be6f08007 Xianwei Zhao 2023-05-15  52  		clock-output-names = "xtal";
+02310be6f08007 Xianwei Zhao 2023-05-15  53  		#clock-cells = <0>;
+02310be6f08007 Xianwei Zhao 2023-05-15  54  	};
+02310be6f08007 Xianwei Zhao 2023-05-15  55  
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  56  	sm: secure-monitor {
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  57  		compatible = "amlogic,meson-gxbb-sm";
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  58  
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  59  		pwrc: power-controller {
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  60  			compatible = "amlogic,c3-pwrc";
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  61  			#power-domain-cells = <1>;
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  62  		};
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  63  	};
+22a9b2a488c3f0 Xianwei Zhao 2023-07-07  64  
+520b792e83171e Xianwei Zhao 2024-08-30 @65  	sram {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
