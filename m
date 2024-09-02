@@ -1,71 +1,64 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2198E156962
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DC515C13A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725262641; cv=none; b=gvv8r04+ZoLNr7CKt53mdszxfpGuSZZ6j6M+MbpkIWy81g8do2YDLaHfAFeDMWs2YKHHyJmuLBB90FsS9AEaz/1y0BdEqYB6LazFFPlGEsSUTatXcZL3EAjxkWXCxftJ92jHx7Ekkp0RrepYLAh0fapo9m1T0LRHRypZIo9gTOs=
+	t=1725263451; cv=none; b=AhQ/Nh/e5UYw93O3BQUWpkuQT2j/agf4oLMVX7eTCUdWzeo5M1QtO/NLeOP6dkzI+z6HJYjM/Tlcd7wxozUK2bXMxxDqk7d/Pl0Ss341YJSD08kSAXFDUgiLPZOabAJIgk1xfmsrdL7j8a/aJ9+r0hlfhIz0rFelevXaDqFL4XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725262641; c=relaxed/simple;
-	bh=ZqV7LNsiVGHoUM5UGbtwqKTKpF3Q0UUwmwKyZ9B64k4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=PR437O2GYRIguKfZtZxU3u0y2wDO9TiQVjg4OnvX85XMc6YAMi0IiwB6an+WaT5jtKctgcUMmP5xVu3UXSCiUIantlxEL+Xh353D9G77Wy9RlZMUKi2LeLBaxwPJXBaz3Ab6mjCikEiqu9Ka8tYkkaBz79hMmIccVt7+/FokNIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PUV/13zB; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725263451; c=relaxed/simple;
+	bh=S5+ORhvYHAjQ3Nu+w7aF/cDQYGF92UNOnE7o8O5LjSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qiPjY2x/mQ6BVSz/lG7/t4UnoRXHpqRJxgPJ3ehLGhoidDA6IDyb36qy1fnUHTqc0pJpI7RZdaoOU+gUQxmi/YN5BpnttyJgbEQlI1/hBjN4hSZryqk1ryLyxnX/5/4WnTdxqhMtY6zmQHwMwrKc5Wos7NBbJZeDDtgqw4npYCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qju6jSZK; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PUV/13zB"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-428e0d18666so33274525e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Sep 2024 00:37:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725262638; x=1725867438; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lFxf56tpsu9MCJOLHsalfoP4zZVv/tiIqwxHml+ydYU=;
-        b=PUV/13zBkdnoqkS/XZUzhAV33gMcb3NOp3+QAYh3ZEqT7iqLa3VV+DmhmEAj6ZUVSB
-         WUA1hMpTYJRxThsPLgXT3h43BEt+t+mcvbSGkjavVJp6r2LHfE9w52u2LpRkT0MGPUEi
-         XQlZD47MjVfTFfV36iYMqupDonRquyyj78/dNuGCB5VSZg8l8L9nsT7dvDcLyWcoetOc
-         p6rB2F6ki3d47lxoouAgdidO8k3T6PYifYCEiFEjT+mUGNlCyZykyQxmvCYiqKJjiUl+
-         aweHwzN5aqI4PpSK42e4hYPJAmIAyB7b+ViI6snFTDeKY7meoNI/m9mc6qVQVmoyp4Gz
-         7stQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725262638; x=1725867438;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lFxf56tpsu9MCJOLHsalfoP4zZVv/tiIqwxHml+ydYU=;
-        b=ZiSXs5zccjjbI8DuZirHfPDKHt9rkoG0vfXtnHsjM0D7He+zReCvvCncltENiw0ehb
-         iNvofUOaoHzc7VWMqOvWBP6qf/aTsjGnoQVFDhIjM9F3KddaHKGh8rIYzcxIhTaYj/93
-         0J59SW8FYCwgAv9xU01ry9E7escVHuzmCoFB6M8x/DQE/w9+J6K7UWmHZGw5oQCS6J5v
-         C+0fTbTIPvvSy54vIqy0calpNN8EYpChAFHufArJ8sMzQ1N803gsfkISXxK62LzcPtl7
-         DtbT5tFeHW5PHew3fzoQEzKlENtwj0MOczzV1N5WRmsuGd9iIkYrrUMzuOTUGvCgJImy
-         zG1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVVDJc8+cRjvFDIx3pKuuYoWNqDuFP1VOyBD54PY7nSIbDXMVh35q//DgJz65yXDBtK3OdapCoCrWTxJo2K@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVAlcz6h8CnAmDcEUp95V2kca36D1OKddnr86zUWdNIYXlUyPP
-	0a4msdB193XjqIVujtGx429ci3oZevnULO9+irmiOZd34iOTm97vrpoyCwQCVDQ=
-X-Google-Smtp-Source: AGHT+IH3Qcwv2NC2E574s+f0osfse5E8+QD0KTABLXftqeISTl0ZTPFa2vr6Y/cwqXkJEIRkULQ/NQ==
-X-Received: by 2002:a05:600c:1554:b0:428:18d9:9963 with SMTP id 5b1f17b1804b1-42bbb436e16mr71077435e9.22.1725262638228;
-        Mon, 02 Sep 2024 00:37:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6df7c5bsm128058675e9.23.2024.09.02.00.37.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 00:37:17 -0700 (PDT)
-Date: Mon, 2 Sep 2024 10:37:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Lorenzo Bianconi <lorenzo@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Felix Fietkau <nbd@nbd.name>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, upstream@airoha.com,
-	angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org, lorenzo.bianconi83@gmail.com,
-	ansuelsmth@gmail.com, Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: Re: [PATCH 4/7] clk: en7523: introduce chip_scu regmap
-Message-ID: <891de723-5e14-4540-8716-a465afd7a440@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qju6jSZK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725263449; x=1756799449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S5+ORhvYHAjQ3Nu+w7aF/cDQYGF92UNOnE7o8O5LjSA=;
+  b=Qju6jSZKV5UglgqIkDBrFY3ptWDE1gC08TGCvTEptU1jCYhb8GYwR3ut
+   0YOcmDe3jJX/2L3jmfCEg+xmMny7kbbghJEWsGIwNiWFYzGRfSN9Qb0v9
+   dfQeeUkwZ15K5Ue/3nueVVYKn9Uf/0x0HhwnMtw64jgueCVjIl/MeZvzE
+   SEsA5VZ3XpHpExzLitEpLMwZ6cZyC6VunVMIMb7I3G0aYagKOz5gYzhj5
+   7OjnwMiX7UvIrxIJhakZQCPVU1Rx0Ma4uCdTI26wPDa07VUaUk7p1gdE+
+   gjpmiI0GiT1L6CMkK9m2nBgD4abc0ZrnG/bfpNzV9DFwgEXjU4ge5KFWf
+   w==;
+X-CSE-ConnectionGUID: Y73kuuYRQIaaBLnIsggM6A==
+X-CSE-MsgGUID: o8rsI7B2QTWIA3CgcuH5SA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="34443950"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="34443950"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 00:50:49 -0700
+X-CSE-ConnectionGUID: zC2eh/4MSBKBTW1bD81/7g==
+X-CSE-MsgGUID: DcouEchOSouNJH+PmlwD7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="87772741"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 02 Sep 2024 00:50:47 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sl1pl-0005GM-0q;
+	Mon, 02 Sep 2024 07:50:45 +0000
+Date: Mon, 2 Sep 2024 15:49:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>,
+	linux-kernel@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] rpmb: fix error path in rpmb_dev_register()
+Message-ID: <202409021532.QfH7shPj-lkp@intel.com>
+References: <20240830061404.2831708-1-jens.wiklander@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,83 +67,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240831-clk-en7581-syscon-v1-4-5c2683541068@kernel.org>
+In-Reply-To: <20240830061404.2831708-1-jens.wiklander@linaro.org>
 
-Hi Lorenzo,
+Hi Jens,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-clock-airoha-update-reg-mapping-for-EN7581-SoC/20240831-152135
-base:   f0e992956eb617c8f16119944bfe101dea074147
-patch link:    https://lore.kernel.org/r/20240831-clk-en7581-syscon-v1-4-5c2683541068%40kernel.org
-patch subject: [PATCH 4/7] clk: en7523: introduce chip_scu regmap
-config: nios2-randconfig-r072-20240902 (https://download.01.org/0day-ci/archive/20240902/202409021114.11d1W3PJ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
+[auto build test WARNING on next-20240829]
+[cannot apply to v6.11-rc5 v6.11-rc4 v6.11-rc3 linus/master v6.11-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jens-Wiklander/rpmb-fix-error-path-in-rpmb_dev_register/20240830-141540
+base:   next-20240829
+patch link:    https://lore.kernel.org/r/20240830061404.2831708-1-jens.wiklander%40linaro.org
+patch subject: [PATCH] rpmb: fix error path in rpmb_dev_register()
+config: i386-randconfig-004-20240902 (https://download.01.org/0day-ci/archive/20240902/202409021532.QfH7shPj-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021532.QfH7shPj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409021114.11d1W3PJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409021532.QfH7shPj-lkp@intel.com/
 
-New smatch warnings:
-drivers/clk/clk-en7523.c:471 en7581_register_clocks() error: uninitialized symbol 'hw'.
-drivers/clk/clk-en7523.c:471 en7581_register_clocks() warn: passing zero to 'PTR_ERR'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/clk/clk-en7523.c:478 en7581_register_clocks() error: uninitialized symbol 'hw'.
-drivers/clk/clk-en7523.c:478 en7581_register_clocks() warn: passing zero to 'PTR_ERR'
+   drivers/misc/rpmb-core.c: In function 'rpmb_dev_register':
+>> drivers/misc/rpmb-core.c:199:1: warning: label 'err_id_remove' defined but not used [-Wunused-label]
+     199 | err_id_remove:
+         | ^~~~~~~~~~~~~
 
-vim +/hw +471 drivers/clk/clk-en7523.c
 
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  459  static void en7581_register_clocks(struct device *dev, struct clk_hw_onecell_data *clk_data,
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  460  				   struct regmap *map, void __iomem *base)
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  461  {
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  462  	struct clk_hw *hw;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  463  	u32 rate;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  464  	int i;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  465  
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  466  	for (i = 0; i < ARRAY_SIZE(en7523_base_clks); i++) {
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  467  		const struct en_clk_desc *desc = &en7523_base_clks[i];
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  468  		u32 val, reg = desc->div_reg ? desc->div_reg : desc->base_reg;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  469  
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  470  		if (regmap_read(map, desc->base_reg, &val)) {
-f114fc7e44857f Lorenzo Bianconi 2024-08-31 @471  			pr_err("Failed reading fixed clk rate %s: %ld\n",
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  472  			       desc->name, PTR_ERR(hw));
-                                                                                                   ^^
-Uninitialized
+vim +/err_id_remove +199 drivers/misc/rpmb-core.c
 
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  473  			continue;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  474  		}
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  475  		rate = en7523_get_base_rate(desc, val);
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  476  
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  477  		if (regmap_read(map, reg, &val)) {
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  478  			pr_err("Failed reading fixed clk div %s: %ld\n",
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  479  			       desc->name, PTR_ERR(hw));
-                                                                                                   ^^
-Uniniitialized
-
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  480  			continue;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  481  		}
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  482  		rate /= en7523_get_div(desc, val);
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  483  
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  484  		hw = clk_hw_register_fixed_rate(dev, desc->name, NULL, 0, rate);
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  485  		if (IS_ERR(hw)) {
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  486  			pr_err("Failed to register clk %s: %ld\n",
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  487  			       desc->name, PTR_ERR(hw));
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  488  			continue;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  489  		}
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  490  
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  491  		clk_data->hws[desc->id] = hw;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  492  	}
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  493  
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  494  	hw = en7523_register_pcie_clk(dev, base);
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  495  	clk_data->hws[EN7523_CLK_PCIE] = hw;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  496  
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  497  	clk_data->num = EN7523_NUM_CLOCKS;
-f114fc7e44857f Lorenzo Bianconi 2024-08-31  498  }
+1e9046e3a15460 Jens Wiklander 2024-08-14  146  
+1e9046e3a15460 Jens Wiklander 2024-08-14  147  /**
+1e9046e3a15460 Jens Wiklander 2024-08-14  148   * rpmb_dev_register - register RPMB partition with the RPMB subsystem
+1e9046e3a15460 Jens Wiklander 2024-08-14  149   * @dev: storage device of the rpmb device
+1e9046e3a15460 Jens Wiklander 2024-08-14  150   * @descr: RPMB device description
+1e9046e3a15460 Jens Wiklander 2024-08-14  151   *
+1e9046e3a15460 Jens Wiklander 2024-08-14  152   * While registering the RPMB partition extract needed device information
+1e9046e3a15460 Jens Wiklander 2024-08-14  153   * while needed resources are available.
+1e9046e3a15460 Jens Wiklander 2024-08-14  154   *
+1e9046e3a15460 Jens Wiklander 2024-08-14  155   * Returns: a pointer to a 'struct rpmb_dev' or an ERR_PTR on failure
+1e9046e3a15460 Jens Wiklander 2024-08-14  156   */
+1e9046e3a15460 Jens Wiklander 2024-08-14  157  struct rpmb_dev *rpmb_dev_register(struct device *dev,
+1e9046e3a15460 Jens Wiklander 2024-08-14  158  				   struct rpmb_descr *descr)
+1e9046e3a15460 Jens Wiklander 2024-08-14  159  {
+1e9046e3a15460 Jens Wiklander 2024-08-14  160  	struct rpmb_dev *rdev;
+1e9046e3a15460 Jens Wiklander 2024-08-14  161  	int ret;
+1e9046e3a15460 Jens Wiklander 2024-08-14  162  
+1e9046e3a15460 Jens Wiklander 2024-08-14  163  	if (!dev || !descr || !descr->route_frames || !descr->dev_id ||
+1e9046e3a15460 Jens Wiklander 2024-08-14  164  	    !descr->dev_id_len)
+1e9046e3a15460 Jens Wiklander 2024-08-14  165  		return ERR_PTR(-EINVAL);
+1e9046e3a15460 Jens Wiklander 2024-08-14  166  
+1e9046e3a15460 Jens Wiklander 2024-08-14  167  	rdev = kzalloc(sizeof(*rdev), GFP_KERNEL);
+1e9046e3a15460 Jens Wiklander 2024-08-14  168  	if (!rdev)
+1e9046e3a15460 Jens Wiklander 2024-08-14  169  		return ERR_PTR(-ENOMEM);
+1e9046e3a15460 Jens Wiklander 2024-08-14  170  	rdev->descr = *descr;
+1e9046e3a15460 Jens Wiklander 2024-08-14  171  	rdev->descr.dev_id = kmemdup(descr->dev_id, descr->dev_id_len,
+1e9046e3a15460 Jens Wiklander 2024-08-14  172  				     GFP_KERNEL);
+1e9046e3a15460 Jens Wiklander 2024-08-14  173  	if (!rdev->descr.dev_id) {
+1e9046e3a15460 Jens Wiklander 2024-08-14  174  		ret = -ENOMEM;
+1e9046e3a15460 Jens Wiklander 2024-08-14  175  		goto err_free_rdev;
+1e9046e3a15460 Jens Wiklander 2024-08-14  176  	}
+1e9046e3a15460 Jens Wiklander 2024-08-14  177  
+1e9046e3a15460 Jens Wiklander 2024-08-14  178  	mutex_lock(&rpmb_mutex);
+1e9046e3a15460 Jens Wiklander 2024-08-14  179  	ret = ida_simple_get(&rpmb_ida, 0, 0, GFP_KERNEL);
+1e9046e3a15460 Jens Wiklander 2024-08-14  180  	mutex_unlock(&rpmb_mutex);
+1e9046e3a15460 Jens Wiklander 2024-08-14  181  	if (ret < 0)
+1e9046e3a15460 Jens Wiklander 2024-08-14  182  		goto err_free_dev_id;
+1e9046e3a15460 Jens Wiklander 2024-08-14  183  	rdev->id = ret;
+1e9046e3a15460 Jens Wiklander 2024-08-14  184  
+1e9046e3a15460 Jens Wiklander 2024-08-14  185  	dev_set_name(&rdev->dev, "rpmb%d", rdev->id);
+1e9046e3a15460 Jens Wiklander 2024-08-14  186  	rdev->dev.class = &rpmb_class;
+1e9046e3a15460 Jens Wiklander 2024-08-14  187  	rdev->dev.parent = dev;
+1e9046e3a15460 Jens Wiklander 2024-08-14  188  
+1e9046e3a15460 Jens Wiklander 2024-08-14  189  	ret = device_register(&rdev->dev);
+d1c997b32ba265 Jens Wiklander 2024-08-30  190  	if (ret) {
+d1c997b32ba265 Jens Wiklander 2024-08-30  191  		put_device(&rdev->dev);
+d1c997b32ba265 Jens Wiklander 2024-08-30  192  		return ERR_PTR(ret);
+d1c997b32ba265 Jens Wiklander 2024-08-30  193  	}
+1e9046e3a15460 Jens Wiklander 2024-08-14  194  
+1e9046e3a15460 Jens Wiklander 2024-08-14  195  	dev_dbg(&rdev->dev, "registered device\n");
+1e9046e3a15460 Jens Wiklander 2024-08-14  196  
+1e9046e3a15460 Jens Wiklander 2024-08-14  197  	return rdev;
+1e9046e3a15460 Jens Wiklander 2024-08-14  198  
+1e9046e3a15460 Jens Wiklander 2024-08-14 @199  err_id_remove:
+1e9046e3a15460 Jens Wiklander 2024-08-14  200  	mutex_lock(&rpmb_mutex);
+1e9046e3a15460 Jens Wiklander 2024-08-14  201  	ida_simple_remove(&rpmb_ida, rdev->id);
+1e9046e3a15460 Jens Wiklander 2024-08-14  202  	mutex_unlock(&rpmb_mutex);
+1e9046e3a15460 Jens Wiklander 2024-08-14  203  err_free_dev_id:
+1e9046e3a15460 Jens Wiklander 2024-08-14  204  	kfree(rdev->descr.dev_id);
+1e9046e3a15460 Jens Wiklander 2024-08-14  205  err_free_rdev:
+1e9046e3a15460 Jens Wiklander 2024-08-14  206  	kfree(rdev);
+1e9046e3a15460 Jens Wiklander 2024-08-14  207  	return ERR_PTR(ret);
+1e9046e3a15460 Jens Wiklander 2024-08-14  208  }
+1e9046e3a15460 Jens Wiklander 2024-08-14  209  EXPORT_SYMBOL_GPL(rpmb_dev_register);
+1e9046e3a15460 Jens Wiklander 2024-08-14  210  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
