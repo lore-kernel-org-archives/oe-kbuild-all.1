@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DC515C13A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7F738DD8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725263451; cv=none; b=AhQ/Nh/e5UYw93O3BQUWpkuQT2j/agf4oLMVX7eTCUdWzeo5M1QtO/NLeOP6dkzI+z6HJYjM/Tlcd7wxozUK2bXMxxDqk7d/Pl0Ss341YJSD08kSAXFDUgiLPZOabAJIgk1xfmsrdL7j8a/aJ9+r0hlfhIz0rFelevXaDqFL4XM=
+	t=1725263452; cv=none; b=MVlUYAMsthAKfJAhKz+A3skeZGpimSRg0KYzlUUyv9v86xbJOELVRk40sgiDPmE8IHV79q3jUSAzipGoRCocOSOEXnk7z/tFYIOv5k/iRGvFu7mGUuLfCrCuLxgiE7NBaZJJyCPFIYG8UpOdHCJMM7P1Oky1NpSX2ObGudZVoPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725263451; c=relaxed/simple;
-	bh=S5+ORhvYHAjQ3Nu+w7aF/cDQYGF92UNOnE7o8O5LjSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qiPjY2x/mQ6BVSz/lG7/t4UnoRXHpqRJxgPJ3ehLGhoidDA6IDyb36qy1fnUHTqc0pJpI7RZdaoOU+gUQxmi/YN5BpnttyJgbEQlI1/hBjN4hSZryqk1ryLyxnX/5/4WnTdxqhMtY6zmQHwMwrKc5Wos7NBbJZeDDtgqw4npYCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qju6jSZK; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1725263452; c=relaxed/simple;
+	bh=yDjuTy8hfmyb/aRWx9Qf0ezIYN9Mbu/PKw/C0N2Fsus=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BIsglDGPAXQA4tt/aO8jmHJYoW+D9BL65IKt/4tQGJAhzRRs5XWZAM/mDYIH26J3/roqTK23iNncT9Un7a8JHnli3eLKFzqlXDJDvZL1HsGp7ZrsyhbloMUxtOiifs2tkx6ilCdleNJ6f14/mgSL7PbmWzPCxATAlzcRe8gdXpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9TX4HmD; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qju6jSZK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9TX4HmD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725263449; x=1756799449;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S5+ORhvYHAjQ3Nu+w7aF/cDQYGF92UNOnE7o8O5LjSA=;
-  b=Qju6jSZKV5UglgqIkDBrFY3ptWDE1gC08TGCvTEptU1jCYhb8GYwR3ut
-   0YOcmDe3jJX/2L3jmfCEg+xmMny7kbbghJEWsGIwNiWFYzGRfSN9Qb0v9
-   dfQeeUkwZ15K5Ue/3nueVVYKn9Uf/0x0HhwnMtw64jgueCVjIl/MeZvzE
-   SEsA5VZ3XpHpExzLitEpLMwZ6cZyC6VunVMIMb7I3G0aYagKOz5gYzhj5
-   7OjnwMiX7UvIrxIJhakZQCPVU1Rx0Ma4uCdTI26wPDa07VUaUk7p1gdE+
-   gjpmiI0GiT1L6CMkK9m2nBgD4abc0ZrnG/bfpNzV9DFwgEXjU4ge5KFWf
-   w==;
-X-CSE-ConnectionGUID: Y73kuuYRQIaaBLnIsggM6A==
-X-CSE-MsgGUID: o8rsI7B2QTWIA3CgcuH5SA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="34443950"
+  t=1725263451; x=1756799451;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yDjuTy8hfmyb/aRWx9Qf0ezIYN9Mbu/PKw/C0N2Fsus=;
+  b=A9TX4HmDa1JfhLIJz6Q0IeR95dvk87qgYABPU+Vc9U9NxiT4H4F+mWxU
+   dNMbj4JwdDMaimvWiCIIJxRlmKxhNImoi7ybrQJgmitoKw+jlwd7zO2hk
+   0nNuoaJe1rO1KQOja9ZIFCDj2Bl8M/QTAswGw2jujqJe3GHV6f+9eHyOK
+   0MqsoOhPV4NMD8N1j0xayedP+uuDdSfljZvATWDPccNa8Sx8zcLYXzh6Z
+   Ddp65nnCaEKHs+TzvjdQxoi/HxqOB9AcCnOFXhPWtpik9/G/voUwZPUdT
+   cjn0MUuTCI/bXg5TSEyTUKrE0bhG4N70CAVtV9oWGWLaOv2lLV7yZxUFK
+   Q==;
+X-CSE-ConnectionGUID: 7DHDb90gRFqw4qXM9G5IXA==
+X-CSE-MsgGUID: ELY5jQ7lQ+GflfAuCCU81g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23707947"
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="34443950"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 00:50:49 -0700
-X-CSE-ConnectionGUID: zC2eh/4MSBKBTW1bD81/7g==
-X-CSE-MsgGUID: DcouEchOSouNJH+PmlwD7g==
+   d="scan'208";a="23707947"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 00:50:49 -0700
+X-CSE-ConnectionGUID: +CUIRTTpSby4tM2fHYtXmg==
+X-CSE-MsgGUID: osimtiePR2iMWlr2W5ZBDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="87772741"
+   d="scan'208";a="64499967"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Sep 2024 00:50:47 -0700
+  by orviesa009.jf.intel.com with ESMTP; 02 Sep 2024 00:50:47 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sl1pl-0005GM-0q;
+	id 1sl1pl-0005GJ-0l;
 	Mon, 02 Sep 2024 07:50:45 +0000
-Date: Mon, 2 Sep 2024 15:49:49 +0800
+Date: Mon, 2 Sep 2024 15:49:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>,
-	linux-kernel@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] rpmb: fix error path in rpmb_dev_register()
-Message-ID: <202409021532.QfH7shPj-lkp@intel.com>
-References: <20240830061404.2831708-1-jens.wiklander@linaro.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [morimoto:for_each_port-2024-08-30 9/12]
+ drivers/media/platform/xilinx/xilinx-tpg.c:715:29: warning: unused variable
+ 'port'
+Message-ID: <202409021544.ilW1ZfT7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,106 +63,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830061404.2831708-1-jens.wiklander@linaro.org>
 
-Hi Jens,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20240829]
-[cannot apply to v6.11-rc5 v6.11-rc4 v6.11-rc3 linus/master v6.11-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jens-Wiklander/rpmb-fix-error-path-in-rpmb_dev_register/20240830-141540
-base:   next-20240829
-patch link:    https://lore.kernel.org/r/20240830061404.2831708-1-jens.wiklander%40linaro.org
-patch subject: [PATCH] rpmb: fix error path in rpmb_dev_register()
-config: i386-randconfig-004-20240902 (https://download.01.org/0day-ci/archive/20240902/202409021532.QfH7shPj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021532.QfH7shPj-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux for_each_port-2024-08-30
+head:   5e2a67e369f0bcdf5c52187dea66dbb20b2c7bcf
+commit: 90664b8aba5ac0e979a19bd97bfa2872a96628d4 [9/12] media: xilinx-tpg: use new of_graph functions
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240902/202409021544.ilW1ZfT7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021544.ilW1ZfT7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409021532.QfH7shPj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409021544.ilW1ZfT7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/misc/rpmb-core.c: In function 'rpmb_dev_register':
->> drivers/misc/rpmb-core.c:199:1: warning: label 'err_id_remove' defined but not used [-Wunused-label]
-     199 | err_id_remove:
-         | ^~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-tpg.c: In function 'xtpg_parse_of':
+>> drivers/media/platform/xilinx/xilinx-tpg.c:715:29: warning: unused variable 'port' [-Wunused-variable]
+     715 |         struct device_node *port;
+         |                             ^~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [m]:
+   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 
-vim +/err_id_remove +199 drivers/misc/rpmb-core.c
+vim +/port +715 drivers/media/platform/xilinx/xilinx-tpg.c
 
-1e9046e3a15460 Jens Wiklander 2024-08-14  146  
-1e9046e3a15460 Jens Wiklander 2024-08-14  147  /**
-1e9046e3a15460 Jens Wiklander 2024-08-14  148   * rpmb_dev_register - register RPMB partition with the RPMB subsystem
-1e9046e3a15460 Jens Wiklander 2024-08-14  149   * @dev: storage device of the rpmb device
-1e9046e3a15460 Jens Wiklander 2024-08-14  150   * @descr: RPMB device description
-1e9046e3a15460 Jens Wiklander 2024-08-14  151   *
-1e9046e3a15460 Jens Wiklander 2024-08-14  152   * While registering the RPMB partition extract needed device information
-1e9046e3a15460 Jens Wiklander 2024-08-14  153   * while needed resources are available.
-1e9046e3a15460 Jens Wiklander 2024-08-14  154   *
-1e9046e3a15460 Jens Wiklander 2024-08-14  155   * Returns: a pointer to a 'struct rpmb_dev' or an ERR_PTR on failure
-1e9046e3a15460 Jens Wiklander 2024-08-14  156   */
-1e9046e3a15460 Jens Wiklander 2024-08-14  157  struct rpmb_dev *rpmb_dev_register(struct device *dev,
-1e9046e3a15460 Jens Wiklander 2024-08-14  158  				   struct rpmb_descr *descr)
-1e9046e3a15460 Jens Wiklander 2024-08-14  159  {
-1e9046e3a15460 Jens Wiklander 2024-08-14  160  	struct rpmb_dev *rdev;
-1e9046e3a15460 Jens Wiklander 2024-08-14  161  	int ret;
-1e9046e3a15460 Jens Wiklander 2024-08-14  162  
-1e9046e3a15460 Jens Wiklander 2024-08-14  163  	if (!dev || !descr || !descr->route_frames || !descr->dev_id ||
-1e9046e3a15460 Jens Wiklander 2024-08-14  164  	    !descr->dev_id_len)
-1e9046e3a15460 Jens Wiklander 2024-08-14  165  		return ERR_PTR(-EINVAL);
-1e9046e3a15460 Jens Wiklander 2024-08-14  166  
-1e9046e3a15460 Jens Wiklander 2024-08-14  167  	rdev = kzalloc(sizeof(*rdev), GFP_KERNEL);
-1e9046e3a15460 Jens Wiklander 2024-08-14  168  	if (!rdev)
-1e9046e3a15460 Jens Wiklander 2024-08-14  169  		return ERR_PTR(-ENOMEM);
-1e9046e3a15460 Jens Wiklander 2024-08-14  170  	rdev->descr = *descr;
-1e9046e3a15460 Jens Wiklander 2024-08-14  171  	rdev->descr.dev_id = kmemdup(descr->dev_id, descr->dev_id_len,
-1e9046e3a15460 Jens Wiklander 2024-08-14  172  				     GFP_KERNEL);
-1e9046e3a15460 Jens Wiklander 2024-08-14  173  	if (!rdev->descr.dev_id) {
-1e9046e3a15460 Jens Wiklander 2024-08-14  174  		ret = -ENOMEM;
-1e9046e3a15460 Jens Wiklander 2024-08-14  175  		goto err_free_rdev;
-1e9046e3a15460 Jens Wiklander 2024-08-14  176  	}
-1e9046e3a15460 Jens Wiklander 2024-08-14  177  
-1e9046e3a15460 Jens Wiklander 2024-08-14  178  	mutex_lock(&rpmb_mutex);
-1e9046e3a15460 Jens Wiklander 2024-08-14  179  	ret = ida_simple_get(&rpmb_ida, 0, 0, GFP_KERNEL);
-1e9046e3a15460 Jens Wiklander 2024-08-14  180  	mutex_unlock(&rpmb_mutex);
-1e9046e3a15460 Jens Wiklander 2024-08-14  181  	if (ret < 0)
-1e9046e3a15460 Jens Wiklander 2024-08-14  182  		goto err_free_dev_id;
-1e9046e3a15460 Jens Wiklander 2024-08-14  183  	rdev->id = ret;
-1e9046e3a15460 Jens Wiklander 2024-08-14  184  
-1e9046e3a15460 Jens Wiklander 2024-08-14  185  	dev_set_name(&rdev->dev, "rpmb%d", rdev->id);
-1e9046e3a15460 Jens Wiklander 2024-08-14  186  	rdev->dev.class = &rpmb_class;
-1e9046e3a15460 Jens Wiklander 2024-08-14  187  	rdev->dev.parent = dev;
-1e9046e3a15460 Jens Wiklander 2024-08-14  188  
-1e9046e3a15460 Jens Wiklander 2024-08-14  189  	ret = device_register(&rdev->dev);
-d1c997b32ba265 Jens Wiklander 2024-08-30  190  	if (ret) {
-d1c997b32ba265 Jens Wiklander 2024-08-30  191  		put_device(&rdev->dev);
-d1c997b32ba265 Jens Wiklander 2024-08-30  192  		return ERR_PTR(ret);
-d1c997b32ba265 Jens Wiklander 2024-08-30  193  	}
-1e9046e3a15460 Jens Wiklander 2024-08-14  194  
-1e9046e3a15460 Jens Wiklander 2024-08-14  195  	dev_dbg(&rdev->dev, "registered device\n");
-1e9046e3a15460 Jens Wiklander 2024-08-14  196  
-1e9046e3a15460 Jens Wiklander 2024-08-14  197  	return rdev;
-1e9046e3a15460 Jens Wiklander 2024-08-14  198  
-1e9046e3a15460 Jens Wiklander 2024-08-14 @199  err_id_remove:
-1e9046e3a15460 Jens Wiklander 2024-08-14  200  	mutex_lock(&rpmb_mutex);
-1e9046e3a15460 Jens Wiklander 2024-08-14  201  	ida_simple_remove(&rpmb_ida, rdev->id);
-1e9046e3a15460 Jens Wiklander 2024-08-14  202  	mutex_unlock(&rpmb_mutex);
-1e9046e3a15460 Jens Wiklander 2024-08-14  203  err_free_dev_id:
-1e9046e3a15460 Jens Wiklander 2024-08-14  204  	kfree(rdev->descr.dev_id);
-1e9046e3a15460 Jens Wiklander 2024-08-14  205  err_free_rdev:
-1e9046e3a15460 Jens Wiklander 2024-08-14  206  	kfree(rdev);
-1e9046e3a15460 Jens Wiklander 2024-08-14  207  	return ERR_PTR(ret);
-1e9046e3a15460 Jens Wiklander 2024-08-14  208  }
-1e9046e3a15460 Jens Wiklander 2024-08-14  209  EXPORT_SYMBOL_GPL(rpmb_dev_register);
-1e9046e3a15460 Jens Wiklander 2024-08-14  210  
+a5562f65b1371a Laurent Pinchart  2013-05-15  706  
+a5562f65b1371a Laurent Pinchart  2013-05-15  707  /* -----------------------------------------------------------------------------
+a5562f65b1371a Laurent Pinchart  2013-05-15  708   * Platform Device Driver
+a5562f65b1371a Laurent Pinchart  2013-05-15  709   */
+a5562f65b1371a Laurent Pinchart  2013-05-15  710  
+a5562f65b1371a Laurent Pinchart  2013-05-15  711  static int xtpg_parse_of(struct xtpg_device *xtpg)
+a5562f65b1371a Laurent Pinchart  2013-05-15  712  {
+a5562f65b1371a Laurent Pinchart  2013-05-15  713  	struct device *dev = xtpg->xvip.dev;
+a5562f65b1371a Laurent Pinchart  2013-05-15  714  	struct device_node *node = xtpg->xvip.dev->of_node;
+a5562f65b1371a Laurent Pinchart  2013-05-15 @715  	struct device_node *port;
+a5562f65b1371a Laurent Pinchart  2013-05-15  716  	unsigned int nports = 0;
+a5562f65b1371a Laurent Pinchart  2013-05-15  717  	bool has_endpoint = false;
+a5562f65b1371a Laurent Pinchart  2013-05-15  718  
+90664b8aba5ac0 Kuninori Morimoto 2024-01-15  719  	for_each_of_graph_port(node, port) {
+a5562f65b1371a Laurent Pinchart  2013-05-15  720  		const struct xvip_video_format *format;
+a5562f65b1371a Laurent Pinchart  2013-05-15  721  		struct device_node *endpoint;
+a5562f65b1371a Laurent Pinchart  2013-05-15  722  
+a5562f65b1371a Laurent Pinchart  2013-05-15  723  		format = xvip_of_get_format(port);
+a5562f65b1371a Laurent Pinchart  2013-05-15  724  		if (IS_ERR(format)) {
+a5562f65b1371a Laurent Pinchart  2013-05-15  725  			dev_err(dev, "invalid format in DT");
+cc331d37fe3a7b Julia Lawall      2015-10-25  726  			of_node_put(port);
+a5562f65b1371a Laurent Pinchart  2013-05-15  727  			return PTR_ERR(format);
+a5562f65b1371a Laurent Pinchart  2013-05-15  728  		}
+a5562f65b1371a Laurent Pinchart  2013-05-15  729  
+a5562f65b1371a Laurent Pinchart  2013-05-15  730  		/* Get and check the format description */
+a5562f65b1371a Laurent Pinchart  2013-05-15  731  		if (!xtpg->vip_format) {
+a5562f65b1371a Laurent Pinchart  2013-05-15  732  			xtpg->vip_format = format;
+a5562f65b1371a Laurent Pinchart  2013-05-15  733  		} else if (xtpg->vip_format != format) {
+a5562f65b1371a Laurent Pinchart  2013-05-15  734  			dev_err(dev, "in/out format mismatch in DT");
+cc331d37fe3a7b Julia Lawall      2015-10-25  735  			of_node_put(port);
+a5562f65b1371a Laurent Pinchart  2013-05-15  736  			return -EINVAL;
+a5562f65b1371a Laurent Pinchart  2013-05-15  737  		}
+a5562f65b1371a Laurent Pinchart  2013-05-15  738  
+a5562f65b1371a Laurent Pinchart  2013-05-15  739  		if (nports == 0) {
+90664b8aba5ac0 Kuninori Morimoto 2024-01-15  740  			endpoint = of_graph_get_next_port_endpoint(port, NULL);
+a5562f65b1371a Laurent Pinchart  2013-05-15  741  			if (endpoint)
+a5562f65b1371a Laurent Pinchart  2013-05-15  742  				has_endpoint = true;
+a5562f65b1371a Laurent Pinchart  2013-05-15  743  			of_node_put(endpoint);
+a5562f65b1371a Laurent Pinchart  2013-05-15  744  		}
+a5562f65b1371a Laurent Pinchart  2013-05-15  745  
+a5562f65b1371a Laurent Pinchart  2013-05-15  746  		/* Count the number of ports. */
+a5562f65b1371a Laurent Pinchart  2013-05-15  747  		nports++;
+a5562f65b1371a Laurent Pinchart  2013-05-15  748  	}
+a5562f65b1371a Laurent Pinchart  2013-05-15  749  
+a5562f65b1371a Laurent Pinchart  2013-05-15  750  	if (nports != 1 && nports != 2) {
+a5562f65b1371a Laurent Pinchart  2013-05-15  751  		dev_err(dev, "invalid number of ports %u\n", nports);
+a5562f65b1371a Laurent Pinchart  2013-05-15  752  		return -EINVAL;
+a5562f65b1371a Laurent Pinchart  2013-05-15  753  	}
+a5562f65b1371a Laurent Pinchart  2013-05-15  754  
+a5562f65b1371a Laurent Pinchart  2013-05-15  755  	xtpg->npads = nports;
+a5562f65b1371a Laurent Pinchart  2013-05-15  756  	if (nports == 2 && has_endpoint)
+a5562f65b1371a Laurent Pinchart  2013-05-15  757  		xtpg->has_input = true;
+a5562f65b1371a Laurent Pinchart  2013-05-15  758  
+a5562f65b1371a Laurent Pinchart  2013-05-15  759  	return 0;
+a5562f65b1371a Laurent Pinchart  2013-05-15  760  }
+a5562f65b1371a Laurent Pinchart  2013-05-15  761  
+
+:::::: The code at line 715 was first introduced by commit
+:::::: a5562f65b1371a0988b707c10c44fcc2bba56990 [media] v4l: xilinx: Add Test Pattern Generator driver
+
+:::::: TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
