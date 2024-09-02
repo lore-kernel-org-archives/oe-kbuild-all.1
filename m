@@ -1,131 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9D41CB501
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 15:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F421A2646;
+	Mon,  2 Sep 2024 16:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725290531; cv=none; b=FvY6SSzRmqRvBuSNuc0cLLDoVFaqCZELVcfUBRche9PvsIa/ClD2hypvq3VzCnVz+vC9AMKiwijfV4m7Gw5iOdt3uSgKwOhUF9mIsmO4GTGnAGELZbAzZPs1n2yWK/MCAKf1opVKHultE1ouZOoKS78H58WMU3hljYgmupCvRS4=
+	t=1725293746; cv=none; b=cp/4mj4gfyD3Bo+zTR7i35tpBAU+8rqR2FRRTXq2zu8wordon+ZdYXEkpOa7URnhn0ZroR1143faJlJgMdEU4S/vJ/+Pco9tGr89BtDvTWcfJ7mP+sHLwj4yVgzER7HMtwcCEm6Izb4EVLaWi8a3gCoSKUqosxlZ7EtbzcXH57A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725290531; c=relaxed/simple;
-	bh=m54lpUm3g3LKde+BcQE2sb7EXgm2e0mqX0cAY0ZqEUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lfR4NXagF1bBgyu1XQtoKiwkcPGGGJ1r5UrCUrX1tmMutJ45AbIR4rg4BSFO5K/XjAjfSYiegDKpOy3vBQfSeuAbVJ7vilTzsZVdJXgRxg9jHeD6130RnIDWFYjLVe5nmTJaYB7iCrR9QxkTfGF+f+SXU2ghA0vXNlJ+vthNh3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgnNkhNP; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1725293746; c=relaxed/simple;
+	bh=UvIJZ7bYERYqwsuwrbSpVj2YegamCtPJzXRVn+BwiYc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D8XI5zZ2RQ4jALyGHzuS0Y8w9xmieJTtRCHSwLKzIlYNVOuxpayJGOloBlSS9rP1nYS8OvZ5j+d+G7XXjKcer0tDk8tUWO9uXNXmcwLb+PPOB7b0z9fpVmJKR8FjNZxgmkN/QaTknj3E5a55Z4KgkxdDLP9uuVAwAh2BnwOOpAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXHFFdlb; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgnNkhNP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXHFFdlb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725290529; x=1756826529;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m54lpUm3g3LKde+BcQE2sb7EXgm2e0mqX0cAY0ZqEUA=;
-  b=hgnNkhNPV5gah+3H+KR/l5ErN6D32lO26KOVOWEaxsq44jQ43P3Vo2XK
-   cCRfgg7sUHhxoQJRTSp1VuZ/MFAl3OYI7xD8h63b5kUfeMU9t/OFNd8x6
-   9V45oiQvBgtnyhyYCXpvqthQg/XbcTOcpCQMo3umfW5W9u/tIC6czuL1L
-   ari1ggTQNVQTusMNLwQtM2go1YBRjEpsEyj1k2sq8n6vneZJRBFMXbPAu
-   aWuedBolinnHbZFNSrCcg/fj2Vbd44SF0wq5v2fhPPbRpd8AiPQstwqac
-   TjN2PH/UnVLmf6378vP2bZfa7SMrcTzZG/MK5JhUoq1ZLbENSA7ngMlYU
-   A==;
-X-CSE-ConnectionGUID: lHKnQgnJQzuM9Osqpy9R/Q==
-X-CSE-MsgGUID: 1ZJ4Jj0DSCeKAVsG7EHlJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="23390603"
+  t=1725293743; x=1756829743;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=UvIJZ7bYERYqwsuwrbSpVj2YegamCtPJzXRVn+BwiYc=;
+  b=iXHFFdlbCIm7fHksb1kfk+4QZz4ijWLPJBLXIcDmLsnL1oDsWSf9yi2G
+   2HYdvRUuqmEolZqYxGVUZEA8+vgFjRL0kVc1dX+5rQrUMjVBphOvyu+ex
+   w58pzO3mIZYqjG0DNqekdJ2SsHyHv2DakSLw7/kZnjxjTBUkw58QdoRJb
+   LjuhHc5hmvPtx/AmxPs0zQNPHou4gllapOnoMdshhvQW5I539ftzayNo2
+   uYeclX9/yCzSkhc8FMQYl2wx6TZixH0ubez7D7w+WZEQqDvvemmRQ64DG
+   9vs6dgt2OLdoFXedIhgSW0I1539x6N9fsl4EDwQgYtJXsTuP/lmINtR64
+   Q==;
+X-CSE-ConnectionGUID: bt7+nd2SRaOwY38QQch/zg==
+X-CSE-MsgGUID: 0nl+5nDnReC6Ny5wRwiRLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="23447614"
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="23390603"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 08:22:08 -0700
-X-CSE-ConnectionGUID: ylx2yGAZT1S+6fIpbjIbCA==
-X-CSE-MsgGUID: kq2fNC1oT+qKluk5/pekxw==
+   d="scan'208";a="23447614"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 09:15:43 -0700
+X-CSE-ConnectionGUID: 1v07Ku3xQw2N05n5BqR9iw==
+X-CSE-MsgGUID: xUo9z+pJQsG0uufZgZZaMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="69275132"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Sep 2024 08:22:07 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sl8sX-0005fG-0C;
-	Mon, 02 Sep 2024 15:22:05 +0000
-Date: Mon, 2 Sep 2024 23:21:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [linux-next:master 7055/8400] include/linux/compiler_types.h:510:45:
- error: call to '__compiletime_assert_303' declared with attribute error:
- BUILD_BUG_ON failed: ALIGN_DOWN(MODULES_VADDR, SZ_256M) < TASK_SIZE
-Message-ID: <202409022326.gjEmSP9K-lkp@intel.com>
+   d="scan'208";a="102098298"
+Received: from ltuz-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.4])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 09:15:40 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: kernel test robot <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [linux-next:master 6570/8400] drivers/gpu/drm/tegra/output.c:42
+ tegra_output_connector_get_modes() error: uninitialized symbol 'drm_edid'.
+In-Reply-To: <ZtXLyXxew7z6H2bD@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <ZtXLyXxew7z6H2bD@stanley.mountain>
+Date: Mon, 02 Sep 2024 19:15:27 +0300
+Message-ID: <87y14at4kg.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ecc768a84f0b8e631986f9ade3118fa37852fef0
-commit: 2f2b9a3adc66e978a1248ffb38df8477e8e97c57 [7055/8400] powerpc/32s: Reduce default size of module/execmem area
-config: powerpc-buildonly-randconfig-r006-20220613 (https://download.01.org/0day-ci/archive/20240902/202409022326.gjEmSP9K-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409022326.gjEmSP9K-lkp@intel.com/reproduce)
+On Mon, 02 Sep 2024, kernel test robot <dan.carpenter@linaro.org> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   ecc768a84f0b8e631986f9ade3118fa37852fef0
+> commit: 98365ca74cbfae16b793b62a7ecabb5be8d77785 [6570/8400] drm/tegra: convert to struct drm_edid
+> config: nios2-randconfig-r072-20240902 (https://download.01.org/0day-ci/archive/20240902/202409022236.7pEcEksT-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 14.1.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202409022236.7pEcEksT-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/gpu/drm/tegra/output.c:42 tegra_output_connector_get_modes() error: uninitialized symbol 'drm_edid'.
+>
+> vim +/drm_edid +42 drivers/gpu/drm/tegra/output.c
+>
+> 132085d84fca65 Thierry Reding 2014-11-28  21  int tegra_output_connector_get_modes(struct drm_connector *connector)
+> d8f4a9eda00678 Thierry Reding 2012-11-15  22  {
+> d8f4a9eda00678 Thierry Reding 2012-11-15  23  	struct tegra_output *output = connector_to_output(connector);
+> 98365ca74cbfae Jani Nikula    2024-08-22  24  	const struct drm_edid *drm_edid;
+>
+> There used to be an = NULL here.
+>
+> d8f4a9eda00678 Thierry Reding 2012-11-15  25  	int err = 0;
+> d8f4a9eda00678 Thierry Reding 2012-11-15  26  
+> acde541324dcfe Thierry Reding 2014-01-13  27  	/*
+> acde541324dcfe Thierry Reding 2014-01-13  28  	 * If the panel provides one or more modes, use them exclusively and
+> acde541324dcfe Thierry Reding 2014-01-13  29  	 * ignore any other means of obtaining a mode.
+> acde541324dcfe Thierry Reding 2014-01-13  30  	 */
+> 9be7d864cf0763 Thierry Reding 2013-08-30  31  	if (output->panel) {
+> 06c4a9c2ae606a Sam Ravnborg   2019-12-07  32  		err = drm_panel_get_modes(output->panel, connector);
+> 9be7d864cf0763 Thierry Reding 2013-08-30  33  		if (err > 0)
+> 9be7d864cf0763 Thierry Reding 2013-08-30  34  			return err;
+> 9be7d864cf0763 Thierry Reding 2013-08-30  35  	}
+> 9be7d864cf0763 Thierry Reding 2013-08-30  36  
+> 98365ca74cbfae Jani Nikula    2024-08-22  37  	if (output->drm_edid)
+> 98365ca74cbfae Jani Nikula    2024-08-22  38  		drm_edid = drm_edid_dup(output->drm_edid);
+> d8f4a9eda00678 Thierry Reding 2012-11-15  39  	else if (output->ddc)
+> 98365ca74cbfae Jani Nikula    2024-08-22  40  		drm_edid = drm_edid_read_ddc(connector, output->ddc);
+>
+> I mean presumably either ->drm_edid or ->ddc is true, but you can see why the
+> checker complains.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409022326.gjEmSP9K-lkp@intel.com/
+Yeah, my bad. Fix at [1].
 
-All errors (new ones prefixed by >>):
+BR,
+Jani.
 
-   In file included from <command-line>:
-   arch/powerpc/mm/book3s32/mmu.c: In function 'mmu_mark_initmem_nx':
->> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_303' declared with attribute error: BUILD_BUG_ON failed: ALIGN_DOWN(MODULES_VADDR, SZ_256M) < TASK_SIZE
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/powerpc/mm/book3s32/mmu.c:226:9: note: in expansion of macro 'BUILD_BUG_ON'
-     226 |         BUILD_BUG_ON(ALIGN_DOWN(MODULES_VADDR, SZ_256M) < TASK_SIZE);
-         |         ^~~~~~~~~~~~
+[1] https://lore.kernel.org/r/20240902161317.2437148-1-jani.nikula@intel.com
 
-
-vim +/__compiletime_assert_303 +510 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
-
-:::::: The code at line 510 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+>
+> d8f4a9eda00678 Thierry Reding 2012-11-15  41  
+> 98365ca74cbfae Jani Nikula    2024-08-22 @42  	drm_edid_connector_update(connector, drm_edid);
+> 98365ca74cbfae Jani Nikula    2024-08-22  43  	cec_notifier_set_phys_addr(output->cec,
+> 98365ca74cbfae Jani Nikula    2024-08-22  44  				   connector->display_info.source_physical_address);
+> d8f4a9eda00678 Thierry Reding 2012-11-15  45  
+> 98365ca74cbfae Jani Nikula    2024-08-22  46  	err = drm_edid_connector_add_modes(connector);
+> 98365ca74cbfae Jani Nikula    2024-08-22  47  	drm_edid_free(drm_edid);
+> d8f4a9eda00678 Thierry Reding 2012-11-15  48  
+> d8f4a9eda00678 Thierry Reding 2012-11-15  49  	return err;
+> d8f4a9eda00678 Thierry Reding 2012-11-15  50  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jani Nikula, Intel
