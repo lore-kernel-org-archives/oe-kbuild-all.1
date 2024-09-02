@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894F313B7AE;
-	Mon,  2 Sep 2024 10:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D5F13C9DE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 10:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725271494; cv=none; b=JMVkPX3j71MeCyvPXZvF1W7OeNfUjz5hGaex480oTT//Jxnu1KwY+t1nxzb4Ct+KQgrFPMvCiXlury2pwZ1UIaZthqhb6Rd04dG2OS7e7SQpJR1nmKR0dzwWaiOFM5QFtZxjxlOA3lgPqRlmRK42I2+QjkLNYPm7hvwrGREK/XQ=
+	t=1725272095; cv=none; b=In24PIg6alBBxnTdnDrsxZro5dbLSQ1eWNN4p6ti+MP+LS5uCsycnFRKijNlFfoHEzz+1gbBx3BGd+hXBGZQ0ZmAVsxcQbFHTtE4ACGRi3jmSgNgs/W1ytQmzDvEdg7SO7Uc+mfw/U3jk1LCo63QY1HoDDG8ZkV2ua45kqAEUVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725271494; c=relaxed/simple;
-	bh=q39d6Wu7r5KVtiq7UiyJMFKniusd/YIl+hLBk+224U8=;
+	s=arc-20240116; t=1725272095; c=relaxed/simple;
+	bh=9eJGpFQ8hdjsdgu2Uow4M5hqnxIu0HsBFzdcl/3X0Ag=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j98VHM1I0Pm52LYq5WwpovM9hhN0CBNm9JleMF9RE+DXYsnA1+DmlLVnaSRQDNGuQ+3CW1qbFn8HAbXslTglKH5ixfRyUuR7I8MIwYdRHoTLbKoQdDtvJxO1QHEcnkuIWeY/HoGsOpg1JBnPCmYgxDrpbpV/qOVg7xEJ44uVRhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKfM1E+H; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=X3WrfMZvfu0ACAmT733Xs5Px8GtQSsJ7DOHgKENnPs/nzp/WFJH+8bfXqLi2rCwZcq2FBmwz3++/8EAFA5IMaHyj27iQW1EkrXSvs1CXDcIHpZaDCa0yNlWoJ8imZXPX6DVaAukX856KsaPAv34xQecIp4YY0FR92LNyrubA0vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SQhFcjIL; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKfM1E+H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SQhFcjIL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725271492; x=1756807492;
+  t=1725272093; x=1756808093;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q39d6Wu7r5KVtiq7UiyJMFKniusd/YIl+hLBk+224U8=;
-  b=TKfM1E+H7rbsgn/+qA6h2woxLuu9BmwNs42rCHB90J+BXIRP9X+pf8NI
-   ZITMdWQRMjkgna1cPikLDBby3EByxW0Yl48XkeL9dPg7APMRyb+O6tmQc
-   niXwpuGQhYTF4t1xIdOw3+qBsMtA1D+MzyhvFDIMfaBLLRdkoIcDUSxDQ
-   7kOLHCM0h+JKZN1lylsJ6BOgQqyFPWSgS1Lu9Pj1G8Giefo3VDPf34HWo
-   erEjmydOveIt5PlSS7Iima2Hi08r/HFUOWbFIM+wa/A7lDN6n1TmTPNNF
-   hmEjvT/LbDRkTesGxTrclWiBeifcuZykTpelr9ix+cPQV0YQXkSTIn/8j
-   Q==;
-X-CSE-ConnectionGUID: bC3rh7gbSPOyE8sRgLm+DQ==
-X-CSE-MsgGUID: y0X4IdU1Q2KiOMYHeFQrqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="34456282"
+  bh=9eJGpFQ8hdjsdgu2Uow4M5hqnxIu0HsBFzdcl/3X0Ag=;
+  b=SQhFcjILy/jcULjJAaXjOu3YEqDLIaNqBFKKWNA1arGVg1m2HX+Rwzy1
+   BSb54ljYPIOvlJpR3EbwFe11BU8V/Z9dO+TEiBSFT+bNUvJQZgycMIgc5
+   aqnDv45LJiaWpgmB/u0bbqS176cxf71oTf1OQYMTdzN9ISTDDpJPonZg9
+   8GmNBxvsGQL2Y7DG/+LWYEVwS2joj3m6dz6mt6+o0RVutC/0PFwQ+Fyy4
+   O9B+pXaVIqygJizVDrzNVr0fc5e97DQpioSfkn95nVRZNBuWDG3ZMHWKB
+   sp6DTyFP7v4fMOsNsZ/dVsEbJmZ13V2V+xuLtouKr+tCgCB4o5Jz9uZJe
+   g==;
+X-CSE-ConnectionGUID: Krn+nX/FTYu3auSLbHSlig==
+X-CSE-MsgGUID: W1036BlCSK2S7ujnf77aCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23964746"
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="34456282"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 03:04:51 -0700
-X-CSE-ConnectionGUID: a98hSjKeRsqMRW3hrB1mwA==
-X-CSE-MsgGUID: fbg8THvQTEGMZw6B1o9QOA==
+   d="scan'208";a="23964746"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 03:14:53 -0700
+X-CSE-ConnectionGUID: RzpWwBLlTq2HHLOHYaqEmQ==
+X-CSE-MsgGUID: X/s7Q+K+Sc+vLCmuf5qGcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="68952250"
+   d="scan'208";a="64196400"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Sep 2024 03:04:50 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 02 Sep 2024 03:14:50 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sl3vU-0005L6-0y;
-	Mon, 02 Sep 2024 10:04:48 +0000
-Date: Mon, 2 Sep 2024 18:04:34 +0800
+	id 1sl45A-0005LQ-1f;
+	Mon, 02 Sep 2024 10:14:48 +0000
+Date: Mon, 2 Sep 2024 18:14:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Xu Yilun <yilun.xu@linux.intel.com>
-Subject: [djbw:devsec-20240829 5/6] drivers/pci/tsm.c:215:6: warning:
- variable 'pdev' is used uninitialized whenever 'if' condition is false
-Message-ID: <202409021701.f3Xpx5wU-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: arch/sh/mm/cache-sh4.c:224:13: error: assignment to 'pmd_t *' from
+ 'int' makes pointer from integer without a cast
+Message-ID: <202409021810.ATs0en56-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,77 +66,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djbw/linux.git devsec-20240829
-head:   c412ecb5794c43513093a92b3730389cfd76e17f
-commit: 5807465b92acdf29166415fcf35db30572ffa44b [5/6] PCI/TSM: Authenticate devices via platform TSM
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240902/202409021701.f3Xpx5wU-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021701.f3Xpx5wU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   67784a74e258a467225f0e68335df77acd67b7ab
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=gnu11
+date:   2 years, 6 months ago
+config: sh-randconfig-r062-20240902 (https://download.01.org/0day-ci/archive/20240902/202409021810.ATs0en56-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021810.ATs0en56-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409021701.f3Xpx5wU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409021810.ATs0en56-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/tsm.c:215:6: warning: variable 'pdev' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     215 |         if (tsm_ops)
-         |             ^~~~~~~
-   drivers/pci/tsm.c:219:19: note: uninitialized use occurs here
-     219 |         for_each_pci_dev(pdev)
-         |                          ^~~~
-   include/linux/pci.h:550:80: note: expanded from macro 'for_each_pci_dev'
-     550 | #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
-         |                                                                                ^
-   drivers/pci/tsm.c:215:2: note: remove the 'if' if its condition is always true
-     215 |         if (tsm_ops)
-         |         ^~~~~~~~~~~~
-     216 |                 return -EBUSY;
-   drivers/pci/tsm.c:210:22: note: initialize the variable 'pdev' to silence this warning
-     210 |         struct pci_dev *pdev;
-         |                             ^
-         |                              = NULL
-   drivers/pci/tsm.c:250:6: warning: variable 'pdev' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     250 |         if (ops != tsm_ops)
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/sh/mm/cache-sh4.c:14:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1396:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1396 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1382:27: note: 'mem_section' declared here
+    1382 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/mm/cache-sh4.c: In function 'flush_cache_one':
+   arch/sh/mm/cache-sh4.c:99:31: error: 'cached_to_uncached' undeclared (first use in this function); did you mean 'jump_to_uncached'?
+      99 |                 exec_offset = cached_to_uncached;
+         |                               ^~~~~~~~~~~~~~~~~~
+         |                               jump_to_uncached
+   arch/sh/mm/cache-sh4.c:99:31: note: each undeclared identifier is reported only once for each function it appears in
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_mm':
+   arch/sh/mm/cache-sh4.c:192:13: error: implicit declaration of function 'cpu_context'; did you mean 'put_io_context'? [-Wimplicit-function-declaration]
+     192 |         if (cpu_context(smp_processor_id(), mm) == NO_CONTEXT)
+         |             ^~~~~~~~~~~
+         |             put_io_context
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_page':
+   arch/sh/mm/cache-sh4.c:224:15: error: implicit declaration of function 'pmd_off' [-Wimplicit-function-declaration]
+     224 |         pmd = pmd_off(vma->vm_mm, address);
+         |               ^~~~~~~
+>> arch/sh/mm/cache-sh4.c:224:13: error: assignment to 'pmd_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     224 |         pmd = pmd_off(vma->vm_mm, address);
+         |             ^
+   arch/sh/mm/cache-sh4.c:225:15: error: implicit declaration of function 'pte_offset_kernel' [-Wimplicit-function-declaration]
+     225 |         pte = pte_offset_kernel(pmd, address);
+         |               ^~~~~~~~~~~~~~~~~
+>> arch/sh/mm/cache-sh4.c:225:13: error: assignment to 'pte_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     225 |         pte = pte_offset_kernel(pmd, address);
+         |             ^
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_range':
+   arch/sh/mm/cache-sh4.c:276:30: warning: variable 'end' set but not used [-Wunused-but-set-variable]
+     276 |         unsigned long start, end;
+         |                              ^~~
+   arch/sh/mm/cache-sh4.c:276:23: warning: variable 'start' set but not used [-Wunused-but-set-variable]
+     276 |         unsigned long start, end;
+         |                       ^~~~~
+   arch/sh/mm/cache-sh4.c: At top level:
+   arch/sh/mm/cache-sh4.c:374:13: warning: no previous prototype for 'sh4_cache_init' [-Wmissing-prototypes]
+     374 | void __init sh4_cache_init(void)
          |             ^~~~~~~~~~~~~~
-   drivers/pci/tsm.c:252:19: note: uninitialized use occurs here
-     252 |         for_each_pci_dev(pdev)
-         |                          ^~~~
-   include/linux/pci.h:550:80: note: expanded from macro 'for_each_pci_dev'
-     550 | #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
-         |                                                                                ^
-   drivers/pci/tsm.c:250:2: note: remove the 'if' if its condition is always true
-     250 |         if (ops != tsm_ops)
-         |         ^~~~~~~~~~~~~~~~~~~
-     251 |                 return;
-   drivers/pci/tsm.c:245:22: note: initialize the variable 'pdev' to silence this warning
-     245 |         struct pci_dev *pdev;
-         |                             ^
-         |                              = NULL
-   2 warnings generated.
 
 
-vim +215 drivers/pci/tsm.c
+vim +224 arch/sh/mm/cache-sh4.c
 
-   207	
-   208	int pci_tsm_register(const struct pci_tsm_ops *ops, const struct attribute_group *grp)
-   209	{
-   210		struct pci_dev *pdev;
-   211	
-   212		if (!ops)
-   213			return 0;
-   214		guard(rwsem_write)(&pci_tsm_rwsem);
- > 215		if (tsm_ops)
-   216			return -EBUSY;
-   217		tsm_ops = ops;
-   218		pci_tsm_owner_attr_group = grp;
-   219		for_each_pci_dev(pdev)
-   220			__pci_tsm_init(pdev);
-   221		return 0;
-   222	}
-   223	EXPORT_SYMBOL_GPL(pci_tsm_register);
-   224	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  197  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  198  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  199   * Write back and invalidate I/D-caches for the page.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  200   *
+^1da177e4c3f41 Linus Torvalds     2005-04-16  201   * ADDR: Virtual Address (U0 address)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  202   * PFN: Physical page number
+^1da177e4c3f41 Linus Torvalds     2005-04-16  203   */
+f26b2a562b46ab Paul Mundt         2009-08-21  204  static void sh4_flush_cache_page(void *args)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  205  {
+f26b2a562b46ab Paul Mundt         2009-08-21  206  	struct flusher_data *data = args;
+f26b2a562b46ab Paul Mundt         2009-08-21  207  	struct vm_area_struct *vma;
+deaef20e9789d9 Paul Mundt         2009-09-09  208  	struct page *page;
+f26b2a562b46ab Paul Mundt         2009-08-21  209  	unsigned long address, pfn, phys;
+deaef20e9789d9 Paul Mundt         2009-09-09  210  	int map_coherent = 0;
+deaef20e9789d9 Paul Mundt         2009-09-09  211  	pmd_t *pmd;
+deaef20e9789d9 Paul Mundt         2009-09-09  212  	pte_t *pte;
+deaef20e9789d9 Paul Mundt         2009-09-09  213  	void *vaddr;
+b638d0b921dc95 Richard Curnow     2006-09-27  214  
+f26b2a562b46ab Paul Mundt         2009-08-21  215  	vma = data->vma;
+abeaf33a410176 Paul Mundt         2009-10-16  216  	address = data->addr1 & PAGE_MASK;
+f26b2a562b46ab Paul Mundt         2009-08-21  217  	pfn = data->addr2;
+f26b2a562b46ab Paul Mundt         2009-08-21  218  	phys = pfn << PAGE_SHIFT;
+deaef20e9789d9 Paul Mundt         2009-09-09  219  	page = pfn_to_page(pfn);
+f26b2a562b46ab Paul Mundt         2009-08-21  220  
+e7b8b7f16edc9b Paul Mundt         2009-08-15  221  	if (cpu_context(smp_processor_id(), vma->vm_mm) == NO_CONTEXT)
+e7b8b7f16edc9b Paul Mundt         2009-08-15  222  		return;
+e7b8b7f16edc9b Paul Mundt         2009-08-15  223  
+e05c7b1f2bc4b7 Mike Rapoport      2020-06-08 @224  	pmd = pmd_off(vma->vm_mm, address);
+deaef20e9789d9 Paul Mundt         2009-09-09 @225  	pte = pte_offset_kernel(pmd, address);
+deaef20e9789d9 Paul Mundt         2009-09-09  226  
+deaef20e9789d9 Paul Mundt         2009-09-09  227  	/* If the page isn't present, there is nothing to do here. */
+deaef20e9789d9 Paul Mundt         2009-09-09  228  	if (!(pte_val(*pte) & _PAGE_PRESENT))
+deaef20e9789d9 Paul Mundt         2009-09-09  229  		return;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  230  
+deaef20e9789d9 Paul Mundt         2009-09-09  231  	if ((vma->vm_mm == current->active_mm))
+deaef20e9789d9 Paul Mundt         2009-09-09  232  		vaddr = NULL;
+deaef20e9789d9 Paul Mundt         2009-09-09  233  	else {
+b638d0b921dc95 Richard Curnow     2006-09-27  234  		/*
+deaef20e9789d9 Paul Mundt         2009-09-09  235  		 * Use kmap_coherent or kmap_atomic to do flushes for
+deaef20e9789d9 Paul Mundt         2009-09-09  236  		 * another ASID than the current one.
+b638d0b921dc95 Richard Curnow     2006-09-27  237  		 */
+deaef20e9789d9 Paul Mundt         2009-09-09  238  		map_coherent = (current_cpu_data.dcache.n_aliases &&
+55661fc1f105ed Paul Mundt         2010-12-01  239  			test_bit(PG_dcache_clean, &page->flags) &&
+e1534ae95004d6 Kirill A. Shutemov 2016-01-15  240  			page_mapcount(page));
+deaef20e9789d9 Paul Mundt         2009-09-09  241  		if (map_coherent)
+deaef20e9789d9 Paul Mundt         2009-09-09  242  			vaddr = kmap_coherent(page, address);
+deaef20e9789d9 Paul Mundt         2009-09-09  243  		else
+bc3e11be88010e Cong Wang          2011-11-25  244  			vaddr = kmap_atomic(page);
+deaef20e9789d9 Paul Mundt         2009-09-09  245  
+deaef20e9789d9 Paul Mundt         2009-09-09  246  		address = (unsigned long)vaddr;
+deaef20e9789d9 Paul Mundt         2009-09-09  247  	}
+deaef20e9789d9 Paul Mundt         2009-09-09  248  
+abeaf33a410176 Paul Mundt         2009-10-16  249  	flush_cache_one(CACHE_OC_ADDRESS_ARRAY |
+deaef20e9789d9 Paul Mundt         2009-09-09  250  			(address & shm_align_mask), phys);
+deaef20e9789d9 Paul Mundt         2009-09-09  251  
+deaef20e9789d9 Paul Mundt         2009-09-09  252  	if (vma->vm_flags & VM_EXEC)
+deaef20e9789d9 Paul Mundt         2009-09-09  253  		flush_icache_all();
+deaef20e9789d9 Paul Mundt         2009-09-09  254  
+deaef20e9789d9 Paul Mundt         2009-09-09  255  	if (vaddr) {
+deaef20e9789d9 Paul Mundt         2009-09-09  256  		if (map_coherent)
+deaef20e9789d9 Paul Mundt         2009-09-09  257  			kunmap_coherent(vaddr);
+deaef20e9789d9 Paul Mundt         2009-09-09  258  		else
+bc3e11be88010e Cong Wang          2011-11-25  259  			kunmap_atomic(vaddr);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  260  	}
+b638d0b921dc95 Richard Curnow     2006-09-27  261  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  262  
+
+:::::: The code at line 224 was first introduced by commit
+:::::: e05c7b1f2bc4b7b28199b9a7572f73436d97317e mm: pgtable: add shortcuts for accessing kernel PMD and PTE
+
+:::::: TO: Mike Rapoport <rppt@linux.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
