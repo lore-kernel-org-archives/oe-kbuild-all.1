@@ -1,136 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F841E50B;
-	Mon,  2 Sep 2024 04:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40FA15445B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 05:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725251203; cv=none; b=HPLEXMj5MExtE+5wROhK1gqxFS/bvU5DDRSG9GTcFma38nXHae1KYzsQom5Rsd7FwtYHc8tktq8xJo4f3+JWKS8DksSRhzDseMWqnySPlNGreXTDF5DvX6VtpzgRCEeRdyfVGl+WYEFLZTZ/qJu4gO0/cagaAg8INale+7o9ox0=
+	t=1725253526; cv=none; b=nmH6UhKlhFnoL+2rpgKJRIcszyJpaSFxZxyq482h7k4kPBwLonUyxMzMovLmXNQowCAj29mWV8kKnvogrxs9GYq3iJFxkO2QEZpfElCckdKUnis7WR7FwByvI8FdxbaCqWbLDTdSZ2AEyKTlvFEKjYH8cX+qfoz4xBnZGMvzCZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725251203; c=relaxed/simple;
-	bh=S5qhRygrcfXvm7kJzwuP8Cmx/Ac9/Pt/rY0TldkIg7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PgPSS+c/TyMqz0Oz4WeKZYty4GFl0PU5/e3wSmMhLR8yatZFnJiR5MFG57dHH/84AABPEUO89IpCjvyDrnnSSCNhxHCJK4foVBnwJmWOMNPc5eHCL8WyGLWug6V4S3L2VrbE/mmB5pbi/upQA4mxVB+YN/2bwkL5kLF4xCeidB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dDxMc7pP; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725253526; c=relaxed/simple;
+	bh=YjSKkk5AaZK3SGxgSqTIcqwVSkYiq33F+jspB0swlXI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l255ow/60I/Zc89nUBT5BwjZ+6ZtU/I30MKrI2a5DXFc4Z5MZPyMrsI0CHmOAPLPQsHW7gl0w2oMjKItysUve2ByXF3uHtBs3Rw5lzqdOhiHt/fjZhbw4tYGrLT7FWVcMugHnQSjnjtG/yF5nR0zApmZ9tSPrXftcZSgOS695EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BaGwnoKm; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dDxMc7pP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725251201; x=1756787201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S5qhRygrcfXvm7kJzwuP8Cmx/Ac9/Pt/rY0TldkIg7A=;
-  b=dDxMc7pPokPtoqM0EDs2rOGefn8WSzChu1uYRuyz185oxRpSnmyzs+j8
-   KLsh240YPJAWKgiak8ZkiAW7GCjEv4GHlSA2mAPLktTt99ayQ6TVsHtin
-   vtvfpNF45mipsGlYIichfKsl15ujWy0yAOhKya1jXZekNpTBMLaQP2ByM
-   58c6aQBwODPsVQmBto4ipTSH5QkKFd/+ASw4UgI+AJEG4+GCJ2qSxufDz
-   slct6SLD/SuuKtay9BgOrDBfk1GZvqEBGcG0F0RNk9jBC+YG653XGhdMU
-   7nYI/U7SvFL87cowm1E+fKqQUdFcRCxQFAXl+qfwJHNJvAQ+mo4x/h8qN
-   w==;
-X-CSE-ConnectionGUID: bKkYHTpqQMurSeSEZZ7tlQ==
-X-CSE-MsgGUID: gaqoXubWQ3KZczaeNkJhCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="46327563"
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="46327563"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 21:26:41 -0700
-X-CSE-ConnectionGUID: tlFPs6IPQlWRA66z8qXHOg==
-X-CSE-MsgGUID: E6Dh4lY7SJCe09jHoHjkuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="64175427"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Sep 2024 21:26:38 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skyeC-00057C-23;
-	Mon, 02 Sep 2024 04:26:36 +0000
-Date: Mon, 2 Sep 2024 12:26:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: KobaK <kobak@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	James Morse <james.morse@arm.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH V2] acpi/prmt: find block with specific type
-Message-ID: <202409021235.QLbKiKxF-lkp@intel.com>
-References: <20240901162255.1302358-1-kobak@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BaGwnoKm"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-39f4ec52c5fso6722155ab.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Sep 2024 22:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725253524; x=1725858324; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e2TWqbJDbwXPjIIRpGPoSbV9nXuYLQsW7xnpIAgHKkY=;
+        b=BaGwnoKm7LkMUC10u0BVqupegSBbrB/AGfaWZLbTgJ2InWJYaXSq8X7JMslE166Ark
+         Q+scb895IbTaViOknhGreWk+OZiOBKsLVS7qel+Q+Q4Qwq3oYVG0fB9wFij9q6mvBA0j
+         VaxyYTeT1mEN4ST6uFtwGZNZFX5D7/ORSdEBqTZ9D4zzLERXJYqyFx56HJLnwDLuqBXd
+         X1/7cmXvfY3W1szrMuEaqCkZcN/vIDKECo7iQ8OvJTw051UPf+TJso4w/qvcY4YZqUsB
+         shXN+T0dqDlmUAeDd5hRFBY5joA0s0dXltXAbw0xWLBefy15KMif/7ei+Kdok2bAMRf0
+         yoqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725253524; x=1725858324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e2TWqbJDbwXPjIIRpGPoSbV9nXuYLQsW7xnpIAgHKkY=;
+        b=UQEzMFjPlw8quyrim+bhGkutoliJ6zLF0218TUDcSOWYIOu8Xuj9MvegEy5Uoz9k0w
+         UmH6HtFtiEZPGb4GvdgMj6WG4xEYnF7lTJjeUKIJDLx1h3BMwfgDP+zjkWnQDTRzK80o
+         EDQuO4efFcS7sqn9CJm+mQfUqz1ODhTa94Q7S/dchsGmhNnAMi/u8WPPhpjq98A2iB2e
+         I/WEwBrTr+21Ygdi71Gbh4ws1iE06PRa4u2AqPCeUPuF2sA5CJICMmFWmwvE3yLjAR3i
+         GqhsTemohXfbREkUqDuBvnQILGqw1EdItaJm7x98zmfJEOM2iI7SD2H14Zth5blZskau
+         vRMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUspTCrgBm7BBq10oXy0xfyBMz2xpw1DQ/Yynm8wyW/A1qmdbs/Xsanmgokycl75t6kO2Tv2lbozfkJ0Qjz@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCJxQoqVsl9iEkcL5bHGgASOdqj0C5z9nd8j+44qn0bwLJiaMu
+	1q7spA7zu+1SQrGRP+XzCwtpO8bkN0hz2onrDzvqwSaMUBz+nCMnkPosycBBMv84WPdkUOwFe/e
+	hxXDokeOHCPvauGD0gFbJJDo5tVI=
+X-Google-Smtp-Source: AGHT+IG1VyHfZjalYJIqKIyNKw/sF6IhMej6C7l+bmZXB6KNHUd9UNuI58IkccdU6ygosPo8329/ErH6f1PP2xuQ7rQ=
+X-Received: by 2002:a05:6e02:219e:b0:39a:1d8d:fc9d with SMTP id
+ e9e14a558f8ab-39f4f6c1f49mr74980875ab.22.1725253523751; Sun, 01 Sep 2024
+ 22:05:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240901162255.1302358-1-kobak@nvidia.com>
+References: <20240830153751.86895-3-kerneljasonxing@gmail.com>
+ <ZtUZpPISIpChbcRq@rli9-mobl> <CAL+tcoDg5rEQpx7mAvOxFg71iOT9gWBy0+NzjWV4r6JfhnOG0g@mail.gmail.com>
+ <ZtU+H5md7d/Svo0u@rli9-mobl>
+In-Reply-To: <ZtU+H5md7d/Svo0u@rli9-mobl>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Mon, 2 Sep 2024 13:04:47 +0800
+Message-ID: <CAL+tcoBL3ggcGOJXwsxXtq-OLH9Hjmou8se4eU8BKUWTOQjJHA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 2/2] rxtimestamp.c: add the test for SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, dsahern@kernel.org, willemb@google.com, 
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
+	Jason Xing <kernelxing@tencent.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi KobaK,
+On Mon, Sep 2, 2024 at 12:25=E2=80=AFPM Philip Li <philip.li@intel.com> wro=
+te:
+>
+> On Mon, Sep 02, 2024 at 10:41:28AM +0800, Jason Xing wrote:
+> > On Mon, Sep 2, 2024 at 9:49=E2=80=AFAM kernel test robot <lkp@intel.com=
+> wrote:
+> > >
+> > > Hi Jason,
+> > >
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > [auto build test ERROR on net-next/main]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net=
+-timestamp-filter-out-report-when-setting-SOF_TIMESTAMPING_SOFTWARE/2024083=
+0-234014
+> > > base:   net-next/main
+> > > patch link:    https://lore.kernel.org/r/20240830153751.86895-3-kerne=
+ljasonxing%40gmail.com
+> > > patch subject: [PATCH net-next v3 2/2] rxtimestamp.c: add the test fo=
+r SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
+> > > :::::: branch date: 2 days ago
+> > > :::::: commit date: 2 days ago
+> > > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project =
+617a15a9eac96088ae5e9134248d8236e34b91b1)
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20240902/202409020124.YybQQDrP-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/r/202409020124.YybQQDrP-lkp@intel.c=
+om/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > > >> rxtimestamp.c:102:6: error: use of undeclared identifier 'SOF_TIME=
+STAMPING_OPT_RX_SOFTWARE_FILTER'
+> > >      102 |                         | SOF_TIMESTAMPING_OPT_RX_SOFTWARE=
+_FILTER },
+> > >          |                           ^
+> > > >> rxtimestamp.c:373:20: error: invalid application of 'sizeof' to an=
+ incomplete type 'struct test_case[]'
+> > >      373 |                         for (t =3D 0; t < ARRAY_SIZE(test_=
+cases); t++) {
+> > >          |                                         ^~~~~~~~~~~~~~~~~~=
+~~~~
+> > >    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
+> > >       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+> > >          |                                ^~~~~
+> > >    rxtimestamp.c:380:13: error: invalid application of 'sizeof' to an=
+ incomplete type 'struct test_case[]'
+> > >      380 |                         if (t >=3D ARRAY_SIZE(test_cases))
+> > >          |                                  ^~~~~~~~~~~~~~~~~~~~~~
+> > >    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
+> > >       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+> > >          |                                ^~~~~
+> > >    rxtimestamp.c:419:19: error: invalid application of 'sizeof' to an=
+ incomplete type 'struct test_case[]'
+> > >      419 |                 for (t =3D 0; t < ARRAY_SIZE(test_cases); =
+t++) {
+> > >          |                                 ^~~~~~~~~~~~~~~~~~~~~~
+> > >    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
+> > >       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+> > >          |                                ^~~~~
+> > >    4 errors generated.
+> >
+> > I didn't get how it happened? I've already test it locally.
+> >
+> > Is it because the test environment didn't update the header files by
+> > using the command like "make headers_install && cp -r
+> > usr/include/linux /usr/include/"?
+>
+> Sorry about the false report, kindly ignore this. And thanks for the hint=
+,
+> we will check to understand the root cause of this wrong report and fix t=
+he
+> bot asap.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.11-rc6 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/KobaK/acpi-prmt-find-block-with-specific-type/20240902-002354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240901162255.1302358-1-kobak%40nvidia.com
-patch subject: [PATCH V2] acpi/prmt: find block with specific type
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240902/202409021235.QLbKiKxF-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021235.QLbKiKxF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409021235.QLbKiKxF-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/acpi/prmt.c:88:66: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
-      88 |         pr_warn("PRM: Failed to find a VA block for pa: %lx type %u\n", pa, type);
-         |                                                         ~~~             ^~
-         |                                                         %llx
-   include/linux/printk.h:518:37: note: expanded from macro 'pr_warn'
-     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:465:60: note: expanded from macro 'printk'
-     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +88 drivers/acpi/prmt.c
-
-    74	
-    75	static u64 efi_pa_va_lookup(u64 pa, u32 type)
-    76	{
-    77		efi_memory_desc_t *md;
-    78		u64 pa_offset = pa & ~PAGE_MASK;
-    79		u64 page = pa & PAGE_MASK;
-    80	
-    81		for_each_efi_memory_desc(md) {
-    82			if ((md->type == type) &&
-    83				(md->phys_addr < pa && pa < md->phys_addr + PAGE_SIZE * md->num_pages)) {
-    84				return pa_offset + md->virt_addr + page - md->phys_addr;
-    85			}
-    86		}
-    87	
-  > 88		pr_warn("PRM: Failed to find a VA block for pa: %lx type %u\n", pa, type);
-    89	
-    90		return 0;
-    91	}
-    92	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That's all right :)
