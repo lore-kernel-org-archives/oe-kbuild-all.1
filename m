@@ -1,135 +1,270 @@
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CC116BE20
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A62144D0A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725261640; cv=none; b=tPWE40TDUXbPUTgi5SOon42S4pihTkl/6HBzrlYmsA0QcAsm5a6N/TDNLsCO/vu7+2uRs8RcOLb4jSAkhE/KEwKAXKWGhOnh7rdaPLL7YZTa+2aYGoaIAWvA3wuzvRL+yHQOvBmHz6zPXNDReWhJFNLx86rUyTWA5JfrGdn7Fug=
+	t=1725261859; cv=none; b=O6L4marQuvw7i9Ee4mGOA+/c2cq8pTLzu9he5JnUayxXutlCgXaaElq7T6ABhsL39KIKwyqpBNEolID/bynKd14B60B046IQJcmmsgNWF4W3+oDMFINqPrpW9kXB1u1fmwAt6nauGPcIWmicspM5yBWeM94y/ot4OoOF2cttTgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725261640; c=relaxed/simple;
-	bh=++hGo6b12+vxq83JdLH9ooYDjvTjt3PqY5WgAfKFms4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=a1PgAtkbYYOWWTRR7FMa1de9CL1ghsncMRSCqLt+IzahIFOGoLpkP9J1d0ytmXk8xyHhfsECcQ9Vk2jegt4T9i8dTOvzDi3J5m43QH8FFakSKiozvfAVGpuzNu/rjoP912HAenKAgDYLAC7DmOj/ZrDewc9vfa06Js8BU0vs9eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=gLjKyA66; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1725261859; c=relaxed/simple;
+	bh=CsHeT5Wk+ZPzQWRsBXmelzpBlfoeX68jvBEKnUZjPgo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZCxGlk1kMJEoccc+0YOVjVpX/FmQCgKCZZLvPO58FXBh1jUUq3tkQtpRvhvDYkAwZfQvwljiBHCFanmXKgbaVc6w0D3jVkS3d9Ndg/su1lKLkOnNQ066UNbkZoxl2Gkv+UsTTr8am8KrXLo8vW9F4XqL2aMkcSpzib6+dEYGF/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HscZNDNb; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="gLjKyA66"
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4824snrq008347;
-	Mon, 2 Sep 2024 09:20:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	sLn8YX8O3WDqoWEd6Wy0yt1v1YptlaDbfBdJJeo6sw0=; b=gLjKyA66m6ulkqnY
-	9BvNbbR8zZoLSZ0gmKbPABqYi3hKbtGhMSnD1TT0+eHvXPGh3GgZTz0lFY2mjj6s
-	77ZuiokvGtQknaIbGPcrPOuYt1G7q49VbODXkpqeLVFiEn7ZotFmHXAotDr2FfBC
-	zoyd6A9J3Mrvs5Pq0IoGWcwTqrjCaO2v9AZxwbdVhTZz8KAoiwjzaFETpA7uRcVd
-	+Bf9K7Rge/UcM1FALM/zfaPjjBqYaEgsF4Qf1sb78dwj+qEit+Xc17wZ18/Xz3BP
-	93O+dtiiJyB1BHEJ9xpCCUbPNRoG0b0RJG9pFDfwYzcOh8qTTiW/LfPzkE9ZQxep
-	q0b89w==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41ce4j3eb4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Sep 2024 09:20:07 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 47CF240058;
-	Mon,  2 Sep 2024 09:19:57 +0200 (CEST)
-Received: from Webmail-eu.st.com (eqndag1node5.st.com [10.75.129.134])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0B84121D23A;
-	Mon,  2 Sep 2024 09:18:58 +0200 (CEST)
-Received: from SAFDAG1NODE1.st.com (10.75.90.17) by EQNDAG1NODE5.st.com
- (10.75.129.134) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 2 Sep
- 2024 09:18:57 +0200
-Received: from [10.48.86.121] (10.48.86.121) by SAFDAG1NODE1.st.com
- (10.75.90.17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 2 Sep
- 2024 09:18:57 +0200
-Message-ID: <cfc164a7-9cf9-42d8-8b66-b4567d3971ae@foss.st.com>
-Date: Mon, 2 Sep 2024 09:18:56 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HscZNDNb"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-374bb1a3addso1303964f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Sep 2024 00:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725261855; x=1725866655; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7d7/aXzmUkEP7wp8WVXmBgkLkOQ63NSYmkAtx/vE3K8=;
+        b=HscZNDNbbVqkQaNfQuaF1v2CGU6XSZ8iwZKC07phCwlepclxN84kgRv4SIuAgZCQY0
+         dyfzmxIJ9G5sQDe/khI+zhDRLc2w+8CNzPftSmuPH0Z7135IbvzazArUJbw1N6On0x/c
+         BHJ8I2fhcsXD/5YObE2vpZvq4KssgYq5gw5BdG5yBknFbJBU0Skt//xeM+0JXzHokm5K
+         E3l6r46BLqmGs2ArsrVhIVtfFsadejfQE89jf0hENWJ3b383KhvcR0GHLDqoGgTF6AAA
+         ccwRdoyz/QuBd0/wf6dcMJb8A3DRXfsqQZBnERDXJ3MEJrMrACWc4KtYTGQV6MFmaC4n
+         8ptQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725261855; x=1725866655;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7d7/aXzmUkEP7wp8WVXmBgkLkOQ63NSYmkAtx/vE3K8=;
+        b=Cxl9JAQVHpRgeittlCm+lhQhN6mbDRQnsxZH4QpfDAmYH+WGo6DBd1H5E2RD9z3aKA
+         kTb6Uz8x01CkCv/2KFpKogooSWoBS8ucmo5Xy1WCYXk9NwpUcJQQrZoQ9lQlqzvvhRBY
+         LHkGMStBsXEiEgUTrHovrTXrNACHmSdyVnZHvWycGXyOG2K0dZc8b9YZoU4JbNRIlQfv
+         1zq8sp+rSuLucEFOzeJZtnjeYRUSPH/CPac9rQHuQ8bia4GzZqk5XGWcW6vF8mXZIXS7
+         TcI8pR9BPWQulZRefKy1QI5sS159fGOXZ/ayzNPvYYqF8QU92bWz/LpeyDiu0RMAdi2o
+         cOVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVT6WtBFiaeoNtHWRBW+MuxlIiNc1QIP/qCbThlxPWJH+LgqEuYWT9X3FfWMS8dHJSdm02lUx0YTYenUdP/@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXcfHnAR0zGyLw1Jd2xfrUy8q9dOpI4d2JETBrTCzFi3zNQqzE
+	jK36e8I+fg9MirT/rMGZUA57We9EKlHOgI6aFFa/2HpSyVJW5+n2ktYL7Y97ao0=
+X-Google-Smtp-Source: AGHT+IGInyrjwt7MrhgUuiRt44vaB6Sxe3tceLhV2k3dGfkkXVltAC/yLQgvRR3tHF2KSmzN9XpGAw==
+X-Received: by 2002:adf:ab07:0:b0:374:c0cc:a1fb with SMTP id ffacd0b85a97d-374c0cca2c5mr3443714f8f.39.1725261855225;
+        Mon, 02 Sep 2024 00:24:15 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3749eeabcb1sm10621519f8f.60.2024.09.02.00.24.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2024 00:24:14 -0700 (PDT)
+Date: Mon, 2 Sep 2024 10:24:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Zizhi Wo <wozizhi@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 26998/30000] fs/cifs/file.c:2986
+ cifs_write_from_iter() error: uninitialized symbol 'pagevec'.
+Message-ID: <6a4e4f12-65d8-4b09-982d-5879e469c394@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 4/7] remoteproc: core: Add TEE interface support for
- firmware release
-To: kernel test robot <lkp@intel.com>, Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jens Wiklander
-	<jens.wiklander@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <op-tee@lists.trustedfirmware.org>, <devicetree@vger.kernel.org>
-References: <20240830095147.3538047-5-arnaud.pouliquen@foss.st.com>
- <202409010034.Tln3soEY-lkp@intel.com>
-Content-Language: en-US
-From: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Organization: STMicroelectronics
-In-Reply-To: <202409010034.Tln3soEY-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SAFDAG1NODE1.st.com
- (10.75.90.17)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-09-01_06,2024-08-30_01,2024-05-17_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   02994a9b68a17040658e1a32a4438a31ae6f273b
+commit: 9f14fd51e0779baa09eeeb3582d3d8a0557561fb [26998/30000] cifs: Fix pages leak when writedata alloc failed in cifs_write_from_iter()
+config: x86_64-randconfig-161-20240901 (https://download.01.org/0day-ci/archive/20240902/202409020711.CVj7KUmD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409020711.CVj7KUmD-lkp@intel.com/
 
-On 8/31/24 18:43, kernel test robot wrote:
-> Hi Arnaud,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 5be63fc19fcaa4c236b307420483578a56986a37]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-core-Introduce-rproc_pa_to_va-helper/20240830-175609
-> base:   5be63fc19fcaa4c236b307420483578a56986a37
-> patch link:    https://lore.kernel.org/r/20240830095147.3538047-5-arnaud.pouliquen%40foss.st.com
-> patch subject: [PATCH v9 4/7] remoteproc: core: Add TEE interface support for firmware release
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240901/202409010034.Tln3soEY-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010034.Tln3soEY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409010034.Tln3soEY-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/remoteproc/remoteproc_core.c:32:
->>> include/linux/remoteproc_tee.h:52:12: warning: 'tee_rproc_parse_fw' defined but not used [-Wunused-function]
->       52 | static int tee_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
->          |            ^~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/tee_rproc_parse_fw +52 include/linux/remoteproc_tee.h
-> 
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  51  
-> 498143a453d14e Arnaud Pouliquen 2024-08-30 @52  static int tee_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  53  {
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  54  	/* This shouldn't be possible */
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  55  	WARN_ON(1);
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  56  
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  57  	return 0;
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  58  }
-> 498143a453d14e Arnaud Pouliquen 2024-08-30  59  
-> 
+New smatch warnings:
+fs/cifs/file.c:2986 cifs_write_from_iter() error: uninitialized symbol 'pagevec'.
 
-The inline attribute is missing. As it is a minor fix, I'm waiting for more
-reviews before fixing it in the next version.
+Old smatch warnings:
+fs/cifs/file.c:2987 cifs_write_from_iter() error: uninitialized symbol 'pagevec'.
 
-Regards,
-Arnaud
+vim +/pagevec +2986 fs/cifs/file.c
+
+43de94eadf0ced Pavel Shilovsky 2014-06-20  2896  static int
+43de94eadf0ced Pavel Shilovsky 2014-06-20  2897  cifs_write_from_iter(loff_t offset, size_t len, struct iov_iter *from,
+43de94eadf0ced Pavel Shilovsky 2014-06-20  2898  		     struct cifsFileInfo *open_file,
+c610c4b619e534 Pavel Shilovsky 2017-04-25  2899  		     struct cifs_sb_info *cifs_sb, struct list_head *wdata_list,
+c610c4b619e534 Pavel Shilovsky 2017-04-25  2900  		     struct cifs_aio_ctx *ctx)
+72432ffcf555de Pavel Shilovsky 2011-01-24  2901  {
+43de94eadf0ced Pavel Shilovsky 2014-06-20  2902  	int rc = 0;
+43de94eadf0ced Pavel Shilovsky 2014-06-20  2903  	size_t cur_len;
+66386c08be5d1a Pavel Shilovsky 2014-06-20  2904  	unsigned long nr_pages, num_pages, i;
+43de94eadf0ced Pavel Shilovsky 2014-06-20  2905  	struct cifs_writedata *wdata;
+fc56b9838a20d4 Al Viro         2016-09-21  2906  	struct iov_iter saved_from = *from;
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  2907  	loff_t saved_offset = offset;
+da82f7e755d280 Jeff Layton     2012-03-23  2908  	pid_t pid;
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  2909  	struct TCP_Server_Info *server;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2910  	struct page **pagevec;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2911  	size_t start;
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  2912  	unsigned int xid;
+d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2913  
+d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2914  	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_RWPIDFORWARD)
+d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2915  		pid = open_file->pid;
+d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2916  	else
+d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2917  		pid = current->tgid;
+d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2918  
+352d96f3acc6e0 Aurelien Aptel  2020-05-31  2919  	server = cifs_pick_channel(tlink_tcon(open_file->tlink)->ses);
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  2920  	xid = get_xid();
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  2921  
+72432ffcf555de Pavel Shilovsky 2011-01-24  2922  	do {
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  2923  		unsigned int wsize;
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  2924  		struct cifs_credits credits_on_stack;
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  2925  		struct cifs_credits *credits = &credits_on_stack;
+72432ffcf555de Pavel Shilovsky 2011-01-24  2926  
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2927  		if (open_file->invalidHandle) {
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2928  			rc = cifs_reopen_file(open_file, false);
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2929  			if (rc == -EAGAIN)
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2930  				continue;
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2931  			else if (rc)
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2932  				break;
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2933  		}
+3e9529944d4177 Pavel Shilovsky 2019-01-25  2934  
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2935  		rc = server->ops->wait_mtu_credits(server, cifs_sb->wsize,
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  2936  						   &wsize, credits);
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2937  		if (rc)
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2938  			break;
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2939  
+b6bc8a7b993e62 Long Li         2018-12-16  2940  		cur_len = min_t(const size_t, len, wsize);
+b6bc8a7b993e62 Long Li         2018-12-16  2941  
+8c5f9c1ab7cb45 Long Li         2018-10-31  2942  		if (ctx->direct_io) {
+b98e26df07549d Steve French    2018-11-01  2943  			ssize_t result;
+b98e26df07549d Steve French    2018-11-01  2944  
+b98e26df07549d Steve French    2018-11-01  2945  			result = iov_iter_get_pages_alloc(
+b6bc8a7b993e62 Long Li         2018-12-16  2946  				from, &pagevec, cur_len, &start);
+b98e26df07549d Steve French    2018-11-01  2947  			if (result < 0) {
+8c5f9c1ab7cb45 Long Li         2018-10-31  2948  				cifs_dbg(VFS,
+a0a3036b81f1f6 Joe Perches     2020-04-14  2949  					 "direct_writev couldn't get user pages (rc=%zd) iter type %d iov_offset %zd count %zd\n",
+6629400a2227c8 David Howells   2019-11-21  2950  					 result, iov_iter_type(from),
+8c5f9c1ab7cb45 Long Li         2018-10-31  2951  					 from->iov_offset, from->count);
+8c5f9c1ab7cb45 Long Li         2018-10-31  2952  				dump_stack();
+54e94ff94eac88 Long Li         2018-12-16  2953  
+54e94ff94eac88 Long Li         2018-12-16  2954  				rc = result;
+54e94ff94eac88 Long Li         2018-12-16  2955  				add_credits_and_wake_if(server, credits, 0);
+8c5f9c1ab7cb45 Long Li         2018-10-31  2956  				break;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2957  			}
+b98e26df07549d Steve French    2018-11-01  2958  			cur_len = (size_t)result;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2959  			iov_iter_advance(from, cur_len);
+8c5f9c1ab7cb45 Long Li         2018-10-31  2960  
+8c5f9c1ab7cb45 Long Li         2018-10-31  2961  			nr_pages =
+8c5f9c1ab7cb45 Long Li         2018-10-31  2962  				(cur_len + start + PAGE_SIZE - 1) / PAGE_SIZE;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2963  
+8c5f9c1ab7cb45 Long Li         2018-10-31  2964  			wdata = cifs_writedata_direct_alloc(pagevec,
+8c5f9c1ab7cb45 Long Li         2018-10-31  2965  					     cifs_uncached_writev_complete);
+8c5f9c1ab7cb45 Long Li         2018-10-31  2966  			if (!wdata) {
+8c5f9c1ab7cb45 Long Li         2018-10-31  2967  				rc = -ENOMEM;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2968  				add_credits_and_wake_if(server, credits, 0);
+8c5f9c1ab7cb45 Long Li         2018-10-31  2969  				break;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2970  			}
+8c5f9c1ab7cb45 Long Li         2018-10-31  2971  
+8c5f9c1ab7cb45 Long Li         2018-10-31  2972  
+8c5f9c1ab7cb45 Long Li         2018-10-31  2973  			wdata->page_offset = start;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2974  			wdata->tailsz =
+8c5f9c1ab7cb45 Long Li         2018-10-31  2975  				nr_pages > 1 ?
+8c5f9c1ab7cb45 Long Li         2018-10-31  2976  					cur_len - (PAGE_SIZE - start) -
+8c5f9c1ab7cb45 Long Li         2018-10-31  2977  					(nr_pages - 2) * PAGE_SIZE :
+8c5f9c1ab7cb45 Long Li         2018-10-31  2978  					cur_len;
+8c5f9c1ab7cb45 Long Li         2018-10-31  2979  		} else {
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2980  			nr_pages = get_numpages(wsize, len, &cur_len);
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+da82f7e755d280 Jeff Layton     2012-03-23  2981  			wdata = cifs_writedata_alloc(nr_pages,
+da82f7e755d280 Jeff Layton     2012-03-23  2982  					     cifs_uncached_writev_complete);
+da82f7e755d280 Jeff Layton     2012-03-23  2983  			if (!wdata) {
+da82f7e755d280 Jeff Layton     2012-03-23  2984  				rc = -ENOMEM;
+9f14fd51e0779b Zhang Xiaoxu    2024-05-23  2985  				for (i = 0; i < nr_pages; i++)
+9f14fd51e0779b Zhang Xiaoxu    2024-05-23 @2986  					put_page(pagevec[i]);
+                                                                                                 ^^^^^^^
+9f14fd51e0779b Zhang Xiaoxu    2024-05-23  2987  				kvfree(pagevec);
+
+Uninitialized?  I don't feel like this code makes sense because we're freeing
+nr_pages pages of pagevec[], but we only set nr_pages on line 2980 so that's not
+what we allocated.
+
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2988  				add_credits_and_wake_if(server, credits, 0);
+da82f7e755d280 Jeff Layton     2012-03-23  2989  				break;
+da82f7e755d280 Jeff Layton     2012-03-23  2990  			}
+72432ffcf555de Pavel Shilovsky 2011-01-24  2991  
+da82f7e755d280 Jeff Layton     2012-03-23  2992  			rc = cifs_write_allocate_pages(wdata->pages, nr_pages);
+da82f7e755d280 Jeff Layton     2012-03-23  2993  			if (rc) {
+9bda8723da2d55 Pavel Shilovsky 2019-01-23  2994  				kvfree(wdata->pages);
+da82f7e755d280 Jeff Layton     2012-03-23  2995  				kfree(wdata);
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2996  				add_credits_and_wake_if(server, credits, 0);
+72432ffcf555de Pavel Shilovsky 2011-01-24  2997  				break;
+72432ffcf555de Pavel Shilovsky 2011-01-24  2998  			}
+72432ffcf555de Pavel Shilovsky 2011-01-24  2999  
+66386c08be5d1a Pavel Shilovsky 2014-06-20  3000  			num_pages = nr_pages;
+8c5f9c1ab7cb45 Long Li         2018-10-31  3001  			rc = wdata_fill_from_iovec(
+8c5f9c1ab7cb45 Long Li         2018-10-31  3002  				wdata, from, &cur_len, &num_pages);
+66386c08be5d1a Pavel Shilovsky 2014-06-20  3003  			if (rc) {
+5d81de8e8667da Jeff Layton     2014-02-14  3004  				for (i = 0; i < nr_pages; i++)
+5d81de8e8667da Jeff Layton     2014-02-14  3005  					put_page(wdata->pages[i]);
+9bda8723da2d55 Pavel Shilovsky 2019-01-23  3006  				kvfree(wdata->pages);
+5d81de8e8667da Jeff Layton     2014-02-14  3007  				kfree(wdata);
+cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  3008  				add_credits_and_wake_if(server, credits, 0);
+5d81de8e8667da Jeff Layton     2014-02-14  3009  				break;
+5d81de8e8667da Jeff Layton     2014-02-14  3010  			}
+5d81de8e8667da Jeff Layton     2014-02-14  3011  
+5d81de8e8667da Jeff Layton     2014-02-14  3012  			/*
+8c5f9c1ab7cb45 Long Li         2018-10-31  3013  			 * Bring nr_pages down to the number of pages we
+8c5f9c1ab7cb45 Long Li         2018-10-31  3014  			 * actually used, and free any pages that we didn't use.
+5d81de8e8667da Jeff Layton     2014-02-14  3015  			 */
+66386c08be5d1a Pavel Shilovsky 2014-06-20  3016  			for ( ; nr_pages > num_pages; nr_pages--)
+5d81de8e8667da Jeff Layton     2014-02-14  3017  				put_page(wdata->pages[nr_pages - 1]);
+5d81de8e8667da Jeff Layton     2014-02-14  3018  
+8c5f9c1ab7cb45 Long Li         2018-10-31  3019  			wdata->tailsz = cur_len - ((nr_pages - 1) * PAGE_SIZE);
+8c5f9c1ab7cb45 Long Li         2018-10-31  3020  		}
+8c5f9c1ab7cb45 Long Li         2018-10-31  3021  
+da82f7e755d280 Jeff Layton     2012-03-23  3022  		wdata->sync_mode = WB_SYNC_ALL;
+da82f7e755d280 Jeff Layton     2012-03-23  3023  		wdata->nr_pages = nr_pages;
+da82f7e755d280 Jeff Layton     2012-03-23  3024  		wdata->offset = (__u64)offset;
+da82f7e755d280 Jeff Layton     2012-03-23  3025  		wdata->cfile = cifsFileInfo_get(open_file);
+352d96f3acc6e0 Aurelien Aptel  2020-05-31  3026  		wdata->server = server;
+da82f7e755d280 Jeff Layton     2012-03-23  3027  		wdata->pid = pid;
+da82f7e755d280 Jeff Layton     2012-03-23  3028  		wdata->bytes = cur_len;
+eddb079deb4deb Jeff Layton     2012-09-18  3029  		wdata->pagesz = PAGE_SIZE;
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  3030  		wdata->credits = credits_on_stack;
+c610c4b619e534 Pavel Shilovsky 2017-04-25  3031  		wdata->ctx = ctx;
+c610c4b619e534 Pavel Shilovsky 2017-04-25  3032  		kref_get(&ctx->refcount);
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3033  
+9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3034  		rc = adjust_credits(server, &wdata->credits, wdata->bytes);
+9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3035  
+9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3036  		if (!rc) {
+9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3037  			if (wdata->cfile->invalidHandle)
+3e9529944d4177 Pavel Shilovsky 2019-01-25  3038  				rc = -EAGAIN;
+3e9529944d4177 Pavel Shilovsky 2019-01-25  3039  			else
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3040  				rc = server->ops->async_writev(wdata,
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3041  					cifs_uncached_writedata_release);
+9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3042  		}
+9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3043  
+da82f7e755d280 Jeff Layton     2012-03-23  3044  		if (rc) {
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  3045  			add_credits_and_wake_if(server, &wdata->credits, 0);
+4a5c80d7b5615b Steve French    2014-02-07  3046  			kref_put(&wdata->refcount,
+4a5c80d7b5615b Steve French    2014-02-07  3047  				 cifs_uncached_writedata_release);
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3048  			if (rc == -EAGAIN) {
+fc56b9838a20d4 Al Viro         2016-09-21  3049  				*from = saved_from;
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3050  				iov_iter_advance(from, offset - saved_offset);
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3051  				continue;
+6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3052  			}
+72432ffcf555de Pavel Shilovsky 2011-01-24  3053  			break;
+72432ffcf555de Pavel Shilovsky 2011-01-24  3054  		}
+72432ffcf555de Pavel Shilovsky 2011-01-24  3055  
+43de94eadf0ced Pavel Shilovsky 2014-06-20  3056  		list_add_tail(&wdata->list, wdata_list);
+da82f7e755d280 Jeff Layton     2012-03-23  3057  		offset += cur_len;
+da82f7e755d280 Jeff Layton     2012-03-23  3058  		len -= cur_len;
+72432ffcf555de Pavel Shilovsky 2011-01-24  3059  	} while (len > 0);
+72432ffcf555de Pavel Shilovsky 2011-01-24  3060  
+335b7b62ffb69d Pavel Shilovsky 2019-01-16  3061  	free_xid(xid);
+43de94eadf0ced Pavel Shilovsky 2014-06-20  3062  	return rc;
+43de94eadf0ced Pavel Shilovsky 2014-06-20  3063  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
