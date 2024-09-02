@@ -1,169 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA4D15C3;
-	Mon,  2 Sep 2024 00:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6462F1388
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 01:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725235287; cv=none; b=pG/jVC/fcdzBDRfGwyO2eoOCJxx0v1qZ+iY//0PI6Df330w2v1k4USx36Lzt9lngNmtFhAylCAyVoDr9DhmggbkPxPe8aJyZxE9vuNYkkfBQhGfWyjRC0/rabZzGbCZhGIvTxt7xT9t3QmBouWNVuHMmqwbXlDzcMO/vbVxXD1g=
+	t=1725239557; cv=none; b=AdLV6ke8tKXqYKMb8R0YZgbEDmKAyBJ4NTfh06YHth2Tocpo4yrYJhqFQlLw7RNjpcQj8x13bARB/KHa/SyzlSERYjsnR4zmvTnAOBflw7bVyp2VZMRMi+O73vv27ppbgj+8MqyBt5psRdKE+VQ3K2p11fiz1Vg2Mlr+Qc0JEf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725235287; c=relaxed/simple;
-	bh=hkU0QnkrHN8XnN5ikBgPv0IBCmQ5g53WU/xnLLTb+Mk=;
+	s=arc-20240116; t=1725239557; c=relaxed/simple;
+	bh=RBrzIiUWKGj5kFpbEuVCiiyHM6DxxKN3kCoQpSjcEsM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rqFADvyZQpHWEX9gWNV2jDuCQcm6MyU5EwwShKTPqW4+A7cGCRX5ZQAkIkLfTbrMdDaX0GoRc0DTLFyoNyMVzPNUOuVyp/xa37KE6WKry2LGychqQMv5l9sccbQsCS3uw+0El/NChx1NgFHin4QiJ3qKo7CdbrWgX3fiUEm4VdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a8FEjX9h; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=Ac+E5cUku9pzHBB6QMmYZp0qYLm8ZK8MuajsuGExZ1o9d6DPE+si3mNaWaeMTyIHonVQJrPIS3lSCgISF5UAEbWJ/X4Hjv8hObFGUqYl3qcuiA+XvNQku6PAjFPPB4+Z2H6AUolXpj13loUAHIpTvbVOvZQg8OQcd3lIe4ZKFmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XbgOEpJP; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8FEjX9h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbgOEpJP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725235285; x=1756771285;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hkU0QnkrHN8XnN5ikBgPv0IBCmQ5g53WU/xnLLTb+Mk=;
-  b=a8FEjX9hESmvWnyDZBOU6khhNgjTll9RWe6ZLiAVKr0FfXSDMJPhvJEz
-   lL4+dAg37lpUNeT7o1ZVSsPAr4xU8H+RFw5z6qMpgE4/QZ4fWEkBCJXId
-   jQPEdX1UMXQRuycLvXnPuTLd8wPl/wfA4aTxg/uYooRH6vxr7ROkfoktr
-   IEddxYmWrNjsw28+fStKRNzbjUZa/j9w3HGjg1coRwL9Z63dQqeYMATtb
-   OogwIUZMZc2I69yvKISISNkfkrexuhn0P43wox4UtpFZqHHeYiLLfyRZk
-   /C7e9B/YuySoGMNwdFM8wJ2LwK95zZdsMR/qIG7rT12ccsrPqJfnxL6b7
-   Q==;
-X-CSE-ConnectionGUID: 2NubmO7FTXK/3owfftoEHQ==
-X-CSE-MsgGUID: 6lJKXdoBQGq/4iUlljyEFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="27566843"
+  t=1725239556; x=1756775556;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RBrzIiUWKGj5kFpbEuVCiiyHM6DxxKN3kCoQpSjcEsM=;
+  b=XbgOEpJPJrTt+29J0Y7I4ddIQclRrOU3pTdk5eF0TfkG7ABmxmmrF5Dl
+   xVE/b8PR4hlLJZFlEKRNH1+kD1XZDc2B7B2d2OI0E6LSO01lCgmTDq9Tj
+   E2JFUSUz9F8xWAFH/vlJhVowprIKbr7rKFYGD8JqEXvV89gdq5edCY09c
+   21PZ0WTLdJC0CEwAHlGAhIJKGmH1pBKLIXQwTYo/Bj04qhvraRbEMCAcb
+   mI9K7IeZZB1gfpr2K9WjGaybFUeKCtHM0W76NF9h4aEg/DWMnJ8U3F9u9
+   N0jeZIKtMlDbpdTGjtGhX1D5nNxPLz/yjN4FZiTp2Occ0Kc7+a7twDBFe
+   w==;
+X-CSE-ConnectionGUID: l27UPtk/TW+kI3Y/vpQy3w==
+X-CSE-MsgGUID: slHuGYnFTqCQGDEngwIyPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="46316335"
 X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; 
-   d="scan'208";a="27566843"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 17:01:24 -0700
-X-CSE-ConnectionGUID: 14sbK2nBTIKXrow3iqONAA==
-X-CSE-MsgGUID: Yr0h0m8AQUOWLnHcGZpvVw==
+   d="scan'208";a="46316335"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 18:12:36 -0700
+X-CSE-ConnectionGUID: x7q6y3oTS8mEdG54nprkPQ==
+X-CSE-MsgGUID: Rxw9W0pxSG2moILV13WgEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; 
-   d="scan'208";a="64128607"
+   d="scan'208";a="95269574"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Sep 2024 17:01:22 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 Sep 2024 18:12:32 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skuVU-0004zK-0W;
-	Mon, 02 Sep 2024 00:01:20 +0000
-Date: Mon, 2 Sep 2024 08:00:30 +0800
+	id 1skvcM-00051H-0D;
+	Mon, 02 Sep 2024 01:12:30 +0000
+Date: Mon, 2 Sep 2024 09:12:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org
-Subject: [tiwai-sound:for-next 12/12] sound/core/pcm_memory.c:218:29:
- warning: format specifies type 'size_t' (aka 'unsigned int') but the
- argument has type 'unsigned long'
-Message-ID: <202409020722.T2ymGxmq-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: [linux-next:master 7142/8126] include/linux/numa_memblks.h:50:12:
+ error: conflicting types for 'phys_to_target_node'; have 'int(phys_addr_t)'
+ {aka 'int(unsigned int)'}
+Message-ID: <202409020920.5S9U7dww-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   43b42ed438bfff6bb5a51cc27a1658c03cd223fd
-commit: 43b42ed438bfff6bb5a51cc27a1658c03cd223fd [12/12] ALSA: pcm: Fix the previous conversion to kstrtoul()
-config: i386-buildonly-randconfig-002-20240902 (https://download.01.org/0day-ci/archive/20240902/202409020722.T2ymGxmq-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409020722.T2ymGxmq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   985bf40edf4343dcb04c33f58b40b4a85c1776d4
+commit: 58b48700d8e043187d8032e0855f7ee8c4af5eac [7142/8126] mm: make range-to-target_node lookup facility a part of numa_memblks
+config: riscv-randconfig-r022-20221228 (https://download.01.org/0day-ci/archive/20240902/202409020920.5S9U7dww-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409020920.5S9U7dww-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409020722.T2ymGxmq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409020920.5S9U7dww-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/core/pcm_memory.c:218:29: warning: format specifies type 'size_t' (aka 'unsigned int') but the argument has type 'unsigned long' [-Wformat]
-     215 |                                 pr_debug("ALSA pcmC%dD%d%c,%d:%s: cannot preallocate for size %zu\n",
-         |                                                                                               ~~~
-         |                                                                                               %lu
-     216 |                                          substream->pcm->card->number, substream->pcm->device,
-     217 |                                          substream->stream ? 'c' : 'p', substream->number,
-     218 |                                          substream->pcm->name, size);
-         |                                                                ^~~~
-   include/linux/printk.h:595:38: note: expanded from macro 'pr_debug'
-     595 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:133:18: note: expanded from macro 'no_printk'
-     133 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   1 warning generated.
+   In file included from mm/numa.c:6:
+>> include/linux/numa_memblks.h:50:12: error: conflicting types for 'phys_to_target_node'; have 'int(phys_addr_t)' {aka 'int(unsigned int)'}
+      50 | extern int phys_to_target_node(phys_addr_t start);
+         |            ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/cpumask.h:17,
+                    from arch/riscv/include/asm/processor.h:77,
+                    from arch/riscv/include/asm/thread_info.h:37,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/memblock.h:12,
+                    from mm/numa.c:3:
+   include/linux/numa.h:47:5: note: previous declaration of 'phys_to_target_node' with type 'int(u64)' {aka 'int(long long unsigned int)'}
+      47 | int phys_to_target_node(u64 start);
+         |     ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from mm/numa_memblks.c:8:
+>> include/linux/numa_memblks.h:50:12: error: conflicting types for 'phys_to_target_node'; have 'int(phys_addr_t)' {aka 'int(unsigned int)'}
+      50 | extern int phys_to_target_node(phys_addr_t start);
+         |            ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/cpumask.h:17,
+                    from arch/riscv/include/asm/processor.h:77,
+                    from arch/riscv/include/asm/thread_info.h:37,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/memblock.h:12,
+                    from mm/numa_memblks.c:6:
+   include/linux/numa.h:47:5: note: previous declaration of 'phys_to_target_node' with type 'int(u64)' {aka 'int(long long unsigned int)'}
+      47 | int phys_to_target_node(u64 start);
+         |     ^~~~~~~~~~~~~~~~~~~
+   include/linux/numa_memblks.h:51:29: error: conflicting types for 'phys_to_target_node'; have 'int(phys_addr_t)' {aka 'int(unsigned int)'}
+      51 | #define phys_to_target_node phys_to_target_node
+         |                             ^~~~~~~~~~~~~~~~~~~
+   mm/numa_memblks.c:546:5: note: in expansion of macro 'phys_to_target_node'
+     546 | int phys_to_target_node(phys_addr_t start)
+         |     ^~~~~~~~~~~~~~~~~~~
+   include/linux/numa.h:47:5: note: previous declaration of 'phys_to_target_node' with type 'int(u64)' {aka 'int(long long unsigned int)'}
+      47 | int phys_to_target_node(u64 start);
+         |     ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/printk.h:8,
+                    from mm/numa_memblks.c:5:
+   include/linux/numa_memblks.h:51:29: error: conflicting types for 'phys_to_target_node'; have 'int(phys_addr_t)' {aka 'int(unsigned int)'}
+      51 | #define phys_to_target_node phys_to_target_node
+         |                             ^~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   mm/numa_memblks.c:559:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     559 | EXPORT_SYMBOL_GPL(phys_to_target_node);
+         | ^~~~~~~~~~~~~~~~~
+   mm/numa_memblks.c:559:19: note: in expansion of macro 'phys_to_target_node'
+     559 | EXPORT_SYMBOL_GPL(phys_to_target_node);
+         |                   ^~~~~~~~~~~~~~~~~~~
+   include/linux/numa.h:47:5: note: previous declaration of 'phys_to_target_node' with type 'int(u64)' {aka 'int(long long unsigned int)'}
+      47 | int phys_to_target_node(u64 start);
+         |     ^~~~~~~~~~~~~~~~~~~
 
 
-vim +218 sound/core/pcm_memory.c
+vim +50 include/linux/numa_memblks.h
 
-c7132aeb72ad11 Jaroslav Kysela    2006-10-06  174  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  175  /*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  176   * write callback for prealloc proc file
-^1da177e4c3f41 Linus Torvalds     2005-04-16  177   *
-^1da177e4c3f41 Linus Torvalds     2005-04-16  178   * accepts the preallocation size in kB.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  179   */
-877211f5e1b119 Takashi Iwai       2005-11-17  180  static void snd_pcm_lib_preallocate_proc_write(struct snd_info_entry *entry,
-877211f5e1b119 Takashi Iwai       2005-11-17  181  					       struct snd_info_buffer *buffer)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  182  {
-877211f5e1b119 Takashi Iwai       2005-11-17  183  	struct snd_pcm_substream *substream = entry->private_data;
-d4cfb30fce0309 Takashi Iwai       2020-01-20  184  	struct snd_card *card = substream->pcm->card;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  185  	char line[64], str[64];
-43b42ed438bfff Takashi Iwai       2024-09-01  186  	unsigned long size;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  187  	struct snd_dma_buffer new_dmab;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  188  
-dd0da75b9a2768 Takashi Iwai       2024-02-27  189  	guard(mutex)(&substream->pcm->open_mutex);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  190  	if (substream->runtime) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  191  		buffer->error = -EBUSY;
-dd0da75b9a2768 Takashi Iwai       2024-02-27  192  		return;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  193  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  194  	if (!snd_info_get_line(buffer, line, sizeof(line))) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  195  		snd_info_get_str(str, line, sizeof(str));
-61bc4deff03318 Hongbo Li          2024-08-31  196  		buffer->error = kstrtoul(str, 10, &size);
-61bc4deff03318 Hongbo Li          2024-08-31  197  		if (buffer->error != 0)
-61bc4deff03318 Hongbo Li          2024-08-31  198  			return;
-61bc4deff03318 Hongbo Li          2024-08-31  199  		size *= 1024;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  200  		if ((size != 0 && size < 8192) || size > substream->dma_max) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  201  			buffer->error = -EINVAL;
-dd0da75b9a2768 Takashi Iwai       2024-02-27  202  			return;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  203  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  204  		if (substream->dma_buffer.bytes == size)
-dd0da75b9a2768 Takashi Iwai       2024-02-27  205  			return;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  206  		memset(&new_dmab, 0, sizeof(new_dmab));
-^1da177e4c3f41 Linus Torvalds     2005-04-16  207  		new_dmab.dev = substream->dma_buffer.dev;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  208  		if (size > 0) {
-d4cfb30fce0309 Takashi Iwai       2020-01-20  209  			if (do_alloc_pages(card,
-d4cfb30fce0309 Takashi Iwai       2020-01-20  210  					   substream->dma_buffer.dev.type,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  211  					   substream->dma_buffer.dev.dev,
-a25684a956468e Takashi Iwai       2021-10-17  212  					   substream->stream,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  213  					   size, &new_dmab) < 0) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  214  				buffer->error = -ENOMEM;
-dc85fc9d05d235 Amadeusz Sławiński 2021-03-18  215  				pr_debug("ALSA pcmC%dD%d%c,%d:%s: cannot preallocate for size %zu\n",
-dc85fc9d05d235 Amadeusz Sławiński 2021-03-18  216  					 substream->pcm->card->number, substream->pcm->device,
-dc85fc9d05d235 Amadeusz Sławiński 2021-03-18  217  					 substream->stream ? 'c' : 'p', substream->number,
-dc85fc9d05d235 Amadeusz Sławiński 2021-03-18 @218  					 substream->pcm->name, size);
-dd0da75b9a2768 Takashi Iwai       2024-02-27  219  				return;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  220  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  221  			substream->buffer_bytes_max = size;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  222  		} else {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  223  			substream->buffer_bytes_max = UINT_MAX;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  224  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  225  		if (substream->dma_buffer.area)
-d4cfb30fce0309 Takashi Iwai       2020-01-20  226  			do_free_pages(card, &substream->dma_buffer);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  227  		substream->dma_buffer = new_dmab;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  228  	} else {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  229  		buffer->error = -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  230  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  231  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  232  
-
-:::::: The code at line 218 was first introduced by commit
-:::::: dc85fc9d05d23591ddfde400c817413765611ec7 ALSA: pcm: Add debug print on memory allocation failure
-
-:::::: TO: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+    48	
+    49	#ifdef CONFIG_NUMA_KEEP_MEMINFO
+  > 50	extern int phys_to_target_node(phys_addr_t start);
+    51	#define phys_to_target_node phys_to_target_node
+    52	extern int memory_add_physaddr_to_nid(u64 start);
+    53	#define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
+    54	#endif /* CONFIG_NUMA_KEEP_MEMINFO */
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
