@@ -1,103 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147BD16EC1B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 06:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CC116BE20
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725259761; cv=none; b=Jh/l4rwG+vOhjsJjYzaNqWFgDdPRj3iv0WbRT1COKKKJwKkYOZyKHwTm2bbibQyRGCTnQriYWCj4w6EnSJttn2tq9pQcC/4fO6i7Z9k68H9RJYuNvZGJtTLyRDeyuPzbWdqtHbh64BA/KXGz/75tkRhGd/isWw+Zw1L7a8R3Wb8=
+	t=1725261640; cv=none; b=tPWE40TDUXbPUTgi5SOon42S4pihTkl/6HBzrlYmsA0QcAsm5a6N/TDNLsCO/vu7+2uRs8RcOLb4jSAkhE/KEwKAXKWGhOnh7rdaPLL7YZTa+2aYGoaIAWvA3wuzvRL+yHQOvBmHz6zPXNDReWhJFNLx86rUyTWA5JfrGdn7Fug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725259761; c=relaxed/simple;
-	bh=qWxRzCHnzIBJ4DND0TJRaPMmhldHv3MY8IAiCuRCEi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P4IWGyNISjC75Wsfwiymibb8oNGOG8XCkrmpl9hwRZ3WaPbR2/x2szwpFYBMUQWCcqcgFjRRwMKOhDB2A+vA+sO9V2Xq30qneiGghb93Ngq/Mj30zyKJDVm9/bzmUuMxmOHiXtH46sYUm7qLrK6xdY0eQpc1PWIH0hX8ePlNm6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IL7lpBdv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725261640; c=relaxed/simple;
+	bh=++hGo6b12+vxq83JdLH9ooYDjvTjt3PqY5WgAfKFms4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=a1PgAtkbYYOWWTRR7FMa1de9CL1ghsncMRSCqLt+IzahIFOGoLpkP9J1d0ytmXk8xyHhfsECcQ9Vk2jegt4T9i8dTOvzDi3J5m43QH8FFakSKiozvfAVGpuzNu/rjoP912HAenKAgDYLAC7DmOj/ZrDewc9vfa06Js8BU0vs9eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=gLjKyA66; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IL7lpBdv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E03C4CEC2;
-	Mon,  2 Sep 2024 06:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725259760;
-	bh=qWxRzCHnzIBJ4DND0TJRaPMmhldHv3MY8IAiCuRCEi4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IL7lpBdv6jLhlfsn4btlzHoTauKJc2octM1UUTnTpkhiR3Z5jGhEmOXiZxHjcI8Uw
-	 fz9mqyNFH3LYsR7epyiPGVcRL/aVK2DMfqGxff1u9R19TwMgP5QZ3qEdQjzaLt0CRP
-	 TZF38BquNjR/PGLnQNY/UmWxixLEI6gkk6adiqv6hx/ewRm++Bb+3FXmthwDfIJvF3
-	 RxUTg4eFHl98tgGInFepnwBxCv8L7b7XVtdBND8OtB6ypAW4dPbOqUSW9UtUvs8ivJ
-	 3By2pp13K+IMRqpsFWvbII2MNUO9tXUf9TqdLKk992w+Qw+C6NffYUF07MqAjxp9uU
-	 T2b/oR9ID90aA==
-Date: Mon, 2 Sep 2024 09:46:34 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [linux-next:master 7142/8126]
- include/linux/numa_memblks.h:50:12: error: conflicting types for
- 'phys_to_target_node'; have 'int(phys_addr_t)' {aka 'int(unsigned int)'}
-Message-ID: <ZtVfSt_zloPdDqVB@kernel.org>
-References: <202409020920.5S9U7dww-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="gLjKyA66"
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4824snrq008347;
+	Mon, 2 Sep 2024 09:20:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	sLn8YX8O3WDqoWEd6Wy0yt1v1YptlaDbfBdJJeo6sw0=; b=gLjKyA66m6ulkqnY
+	9BvNbbR8zZoLSZ0gmKbPABqYi3hKbtGhMSnD1TT0+eHvXPGh3GgZTz0lFY2mjj6s
+	77ZuiokvGtQknaIbGPcrPOuYt1G7q49VbODXkpqeLVFiEn7ZotFmHXAotDr2FfBC
+	zoyd6A9J3Mrvs5Pq0IoGWcwTqrjCaO2v9AZxwbdVhTZz8KAoiwjzaFETpA7uRcVd
+	+Bf9K7Rge/UcM1FALM/zfaPjjBqYaEgsF4Qf1sb78dwj+qEit+Xc17wZ18/Xz3BP
+	93O+dtiiJyB1BHEJ9xpCCUbPNRoG0b0RJG9pFDfwYzcOh8qTTiW/LfPzkE9ZQxep
+	q0b89w==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41ce4j3eb4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Sep 2024 09:20:07 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 47CF240058;
+	Mon,  2 Sep 2024 09:19:57 +0200 (CEST)
+Received: from Webmail-eu.st.com (eqndag1node5.st.com [10.75.129.134])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0B84121D23A;
+	Mon,  2 Sep 2024 09:18:58 +0200 (CEST)
+Received: from SAFDAG1NODE1.st.com (10.75.90.17) by EQNDAG1NODE5.st.com
+ (10.75.129.134) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 2 Sep
+ 2024 09:18:57 +0200
+Received: from [10.48.86.121] (10.48.86.121) by SAFDAG1NODE1.st.com
+ (10.75.90.17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 2 Sep
+ 2024 09:18:57 +0200
+Message-ID: <cfc164a7-9cf9-42d8-8b66-b4567d3971ae@foss.st.com>
+Date: Mon, 2 Sep 2024 09:18:56 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202409020920.5S9U7dww-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 4/7] remoteproc: core: Add TEE interface support for
+ firmware release
+To: kernel test robot <lkp@intel.com>, Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jens Wiklander
+	<jens.wiklander@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <op-tee@lists.trustedfirmware.org>, <devicetree@vger.kernel.org>
+References: <20240830095147.3538047-5-arnaud.pouliquen@foss.st.com>
+ <202409010034.Tln3soEY-lkp@intel.com>
+Content-Language: en-US
+From: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+Organization: STMicroelectronics
+In-Reply-To: <202409010034.Tln3soEY-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SAFDAG1NODE1.st.com
+ (10.75.90.17)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-09-01_06,2024-08-30_01,2024-05-17_01
 
-On Mon, Sep 02, 2024 at 09:12:06AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   985bf40edf4343dcb04c33f58b40b4a85c1776d4
-> commit: 58b48700d8e043187d8032e0855f7ee8c4af5eac [7142/8126] mm: make range-to-target_node lookup facility a part of numa_memblks
-> config: riscv-randconfig-r022-20221228 (https://download.01.org/0day-ci/archive/20240902/202409020920.5S9U7dww-lkp@intel.com/config)
-> compiler: riscv32-linux-gcc (GCC) 13.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409020920.5S9U7dww-lkp@intel.com/reproduce)
+
+
+On 8/31/24 18:43, kernel test robot wrote:
+> Hi Arnaud,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 5be63fc19fcaa4c236b307420483578a56986a37]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-core-Introduce-rproc_pa_to_va-helper/20240830-175609
+> base:   5be63fc19fcaa4c236b307420483578a56986a37
+> patch link:    https://lore.kernel.org/r/20240830095147.3538047-5-arnaud.pouliquen%40foss.st.com
+> patch subject: [PATCH v9 4/7] remoteproc: core: Add TEE interface support for firmware release
+> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240901/202409010034.Tln3soEY-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010034.Tln3soEY-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409020920.5S9U7dww-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409010034.Tln3soEY-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
+> All warnings (new ones prefixed by >>):
 > 
->    In file included from mm/numa.c:6:
-> >> include/linux/numa_memblks.h:50:12: error: conflicting types for 'phys_to_target_node'; have 'int(phys_addr_t)' {aka 'int(unsigned int)'}
->       50 | extern int phys_to_target_node(phys_addr_t start);
->          |            ^~~~~~~~~~~~~~~~~~~
+>    In file included from drivers/remoteproc/remoteproc_core.c:32:
+>>> include/linux/remoteproc_tee.h:52:12: warning: 'tee_rproc_parse_fw' defined but not used [-Wunused-function]
+>       52 | static int tee_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
+>          |            ^~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/tee_rproc_parse_fw +52 include/linux/remoteproc_tee.h
+> 
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  51  
+> 498143a453d14e Arnaud Pouliquen 2024-08-30 @52  static int tee_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  53  {
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  54  	/* This shouldn't be possible */
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  55  	WARN_ON(1);
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  56  
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  57  	return 0;
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  58  }
+> 498143a453d14e Arnaud Pouliquen 2024-08-30  59  
+> 
 
-Andrew, can you please apply this fixup?
+The inline attribute is missing. As it is a minor fix, I'm waiting for more
+reviews before fixing it in the next version.
 
-diff --git a/include/linux/numa_memblks.h b/include/linux/numa_memblks.h
-index 17d4bcc34091..cfad6ce7e1bd 100644
---- a/include/linux/numa_memblks.h
-+++ b/include/linux/numa_memblks.h
-@@ -47,7 +47,7 @@ static inline int numa_emu_cmdline(char *str)
- #endif /* CONFIG_NUMA_EMU */
- 
- #ifdef CONFIG_NUMA_KEEP_MEMINFO
--extern int phys_to_target_node(phys_addr_t start);
-+extern int phys_to_target_node(u64 start);
- #define phys_to_target_node phys_to_target_node
- extern int memory_add_physaddr_to_nid(u64 start);
- #define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
-diff --git a/mm/numa_memblks.c b/mm/numa_memblks.c
-index a28507cf1e7f..be52b93a9c58 100644
---- a/mm/numa_memblks.c
-+++ b/mm/numa_memblks.c
-@@ -543,7 +543,7 @@ static int meminfo_to_nid(struct numa_meminfo *mi, u64 start)
- 	return NUMA_NO_NODE;
- }
- 
--int phys_to_target_node(phys_addr_t start)
-+int phys_to_target_node(u64 start)
- {
- 	int nid = meminfo_to_nid(&numa_meminfo, start);
- 
-
--- 
-Sincerely yours,
-Mike.
+Regards,
+Arnaud
