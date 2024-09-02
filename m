@@ -1,155 +1,174 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40FA15445B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 05:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF77382
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 05:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725253526; cv=none; b=nmH6UhKlhFnoL+2rpgKJRIcszyJpaSFxZxyq482h7k4kPBwLonUyxMzMovLmXNQowCAj29mWV8kKnvogrxs9GYq3iJFxkO2QEZpfElCckdKUnis7WR7FwByvI8FdxbaCqWbLDTdSZ2AEyKTlvFEKjYH8cX+qfoz4xBnZGMvzCZA=
+	t=1725254264; cv=none; b=Dtl9lyldw9G+TOEd/L1HElg3KPaSkHZmHLSEeLEFYAjo+mp7Vr/4pdIipeCr61C+ZzYR1anmGa+hahOrUDXYvVukni7Sp9Mz/fD65aRgJ+I5JEfKIAPZD2K75anZDvWXH6DjdRhWU4ZWCxlbn6EuXFr0IWqhGOkYrCHzLJdl0uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725253526; c=relaxed/simple;
-	bh=YjSKkk5AaZK3SGxgSqTIcqwVSkYiq33F+jspB0swlXI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l255ow/60I/Zc89nUBT5BwjZ+6ZtU/I30MKrI2a5DXFc4Z5MZPyMrsI0CHmOAPLPQsHW7gl0w2oMjKItysUve2ByXF3uHtBs3Rw5lzqdOhiHt/fjZhbw4tYGrLT7FWVcMugHnQSjnjtG/yF5nR0zApmZ9tSPrXftcZSgOS695EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BaGwnoKm; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725254264; c=relaxed/simple;
+	bh=tFUMWPh3aJ5ZCUaxW1dtAsa6eZP+PkZScIfCUyDtUuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cr2CcZNV7e/wro2hiFbh698fX2A5Zkgwmt6UnWHNhb9uBNzw5UaX0I/iOICRSjCdSyqLFhIJzsENrSZKPKr/CBB5jsAy4bkB1Sv6xTt8YaldqDl1bqluZdSAxIZhUWX3iDF4nQvrIgVZ5M+hC4o4M1Td9SFf8qtX0wv2//FvvlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hr3TtgdR; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BaGwnoKm"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-39f4ec52c5fso6722155ab.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Sep 2024 22:05:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725253524; x=1725858324; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e2TWqbJDbwXPjIIRpGPoSbV9nXuYLQsW7xnpIAgHKkY=;
-        b=BaGwnoKm7LkMUC10u0BVqupegSBbrB/AGfaWZLbTgJ2InWJYaXSq8X7JMslE166Ark
-         Q+scb895IbTaViOknhGreWk+OZiOBKsLVS7qel+Q+Q4Qwq3oYVG0fB9wFij9q6mvBA0j
-         VaxyYTeT1mEN4ST6uFtwGZNZFX5D7/ORSdEBqTZ9D4zzLERXJYqyFx56HJLnwDLuqBXd
-         X1/7cmXvfY3W1szrMuEaqCkZcN/vIDKECo7iQ8OvJTw051UPf+TJso4w/qvcY4YZqUsB
-         shXN+T0dqDlmUAeDd5hRFBY5joA0s0dXltXAbw0xWLBefy15KMif/7ei+Kdok2bAMRf0
-         yoqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725253524; x=1725858324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e2TWqbJDbwXPjIIRpGPoSbV9nXuYLQsW7xnpIAgHKkY=;
-        b=UQEzMFjPlw8quyrim+bhGkutoliJ6zLF0218TUDcSOWYIOu8Xuj9MvegEy5Uoz9k0w
-         UmH6HtFtiEZPGb4GvdgMj6WG4xEYnF7lTJjeUKIJDLx1h3BMwfgDP+zjkWnQDTRzK80o
-         EDQuO4efFcS7sqn9CJm+mQfUqz1ODhTa94Q7S/dchsGmhNnAMi/u8WPPhpjq98A2iB2e
-         I/WEwBrTr+21Ygdi71Gbh4ws1iE06PRa4u2AqPCeUPuF2sA5CJICMmFWmwvE3yLjAR3i
-         GqhsTemohXfbREkUqDuBvnQILGqw1EdItaJm7x98zmfJEOM2iI7SD2H14Zth5blZskau
-         vRMA==
-X-Forwarded-Encrypted: i=1; AJvYcCUspTCrgBm7BBq10oXy0xfyBMz2xpw1DQ/Yynm8wyW/A1qmdbs/Xsanmgokycl75t6kO2Tv2lbozfkJ0Qjz@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCJxQoqVsl9iEkcL5bHGgASOdqj0C5z9nd8j+44qn0bwLJiaMu
-	1q7spA7zu+1SQrGRP+XzCwtpO8bkN0hz2onrDzvqwSaMUBz+nCMnkPosycBBMv84WPdkUOwFe/e
-	hxXDokeOHCPvauGD0gFbJJDo5tVI=
-X-Google-Smtp-Source: AGHT+IG1VyHfZjalYJIqKIyNKw/sF6IhMej6C7l+bmZXB6KNHUd9UNuI58IkccdU6ygosPo8329/ErH6f1PP2xuQ7rQ=
-X-Received: by 2002:a05:6e02:219e:b0:39a:1d8d:fc9d with SMTP id
- e9e14a558f8ab-39f4f6c1f49mr74980875ab.22.1725253523751; Sun, 01 Sep 2024
- 22:05:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hr3TtgdR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725254262; x=1756790262;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tFUMWPh3aJ5ZCUaxW1dtAsa6eZP+PkZScIfCUyDtUuw=;
+  b=Hr3TtgdRaa10dZYv2JOd7YGrJjT++SjAcB/YDXeR0xtYm1tDM9DqYZHA
+   2mmyoUXZLgIWwUpUuis4ie+97OYvjAdIlxKS9g5ys/L3wVffXgCuXIz+H
+   oR4P8B5rgbJtKNgvBBHr8R8yc1FILrmpckG/Rd9zEVLCA1HxYDev0SNYQ
+   sc27qXzXjRX/76FUytosraS4EdfJhkGQQJgWQVaON+FYzV9uvAft5/9Dv
+   LcN9XmBolhwrBiQEJbjJs1xRY6j+JgRo/JuxyyrLKqm2aqt9PzSLPF3GT
+   9rMqtaZFCrHI+Li6YnNbq6Ng06yp36j27wliYibcyD69PhUKiqVz1gv58
+   A==;
+X-CSE-ConnectionGUID: mthcZj5UTomIv7qLTEUyQA==
+X-CSE-MsgGUID: dIsaEhkaSf6CtXJmR3bpkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="35220138"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="35220138"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 22:17:41 -0700
+X-CSE-ConnectionGUID: obfOfuZ+RLGTwQuEiosgUg==
+X-CSE-MsgGUID: ZH3OfEPWSUGI5hNqCMPjMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="65000300"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 01 Sep 2024 22:17:40 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1skzRa-000590-04;
+	Mon, 02 Sep 2024 05:17:38 +0000
+Date: Mon, 2 Sep 2024 13:17:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 2/2] usb: typec: Add support for Parade PS8830 Type-C
+ Retimer
+Message-ID: <202409021148.xUP07N9p-lkp@intel.com>
+References: <20240829-x1e80100-ps8830-v1-2-bcc4790b1d45@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240830153751.86895-3-kerneljasonxing@gmail.com>
- <ZtUZpPISIpChbcRq@rli9-mobl> <CAL+tcoDg5rEQpx7mAvOxFg71iOT9gWBy0+NzjWV4r6JfhnOG0g@mail.gmail.com>
- <ZtU+H5md7d/Svo0u@rli9-mobl>
-In-Reply-To: <ZtU+H5md7d/Svo0u@rli9-mobl>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Mon, 2 Sep 2024 13:04:47 +0800
-Message-ID: <CAL+tcoBL3ggcGOJXwsxXtq-OLH9Hjmou8se4eU8BKUWTOQjJHA@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/2] rxtimestamp.c: add the test for SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, dsahern@kernel.org, willemb@google.com, 
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
-	Jason Xing <kernelxing@tencent.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240829-x1e80100-ps8830-v1-2-bcc4790b1d45@linaro.org>
 
-On Mon, Sep 2, 2024 at 12:25=E2=80=AFPM Philip Li <philip.li@intel.com> wro=
-te:
->
-> On Mon, Sep 02, 2024 at 10:41:28AM +0800, Jason Xing wrote:
-> > On Mon, Sep 2, 2024 at 9:49=E2=80=AFAM kernel test robot <lkp@intel.com=
-> wrote:
-> > >
-> > > Hi Jason,
-> > >
-> > > kernel test robot noticed the following build errors:
-> > >
-> > > [auto build test ERROR on net-next/main]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net=
--timestamp-filter-out-report-when-setting-SOF_TIMESTAMPING_SOFTWARE/2024083=
-0-234014
-> > > base:   net-next/main
-> > > patch link:    https://lore.kernel.org/r/20240830153751.86895-3-kerne=
-ljasonxing%40gmail.com
-> > > patch subject: [PATCH net-next v3 2/2] rxtimestamp.c: add the test fo=
-r SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
-> > > :::::: branch date: 2 days ago
-> > > :::::: commit date: 2 days ago
-> > > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project =
-617a15a9eac96088ae5e9134248d8236e34b91b1)
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20240902/202409020124.YybQQDrP-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/r/202409020124.YybQQDrP-lkp@intel.c=
-om/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > > >> rxtimestamp.c:102:6: error: use of undeclared identifier 'SOF_TIME=
-STAMPING_OPT_RX_SOFTWARE_FILTER'
-> > >      102 |                         | SOF_TIMESTAMPING_OPT_RX_SOFTWARE=
-_FILTER },
-> > >          |                           ^
-> > > >> rxtimestamp.c:373:20: error: invalid application of 'sizeof' to an=
- incomplete type 'struct test_case[]'
-> > >      373 |                         for (t =3D 0; t < ARRAY_SIZE(test_=
-cases); t++) {
-> > >          |                                         ^~~~~~~~~~~~~~~~~~=
-~~~~
-> > >    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
-> > >       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-> > >          |                                ^~~~~
-> > >    rxtimestamp.c:380:13: error: invalid application of 'sizeof' to an=
- incomplete type 'struct test_case[]'
-> > >      380 |                         if (t >=3D ARRAY_SIZE(test_cases))
-> > >          |                                  ^~~~~~~~~~~~~~~~~~~~~~
-> > >    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
-> > >       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-> > >          |                                ^~~~~
-> > >    rxtimestamp.c:419:19: error: invalid application of 'sizeof' to an=
- incomplete type 'struct test_case[]'
-> > >      419 |                 for (t =3D 0; t < ARRAY_SIZE(test_cases); =
-t++) {
-> > >          |                                 ^~~~~~~~~~~~~~~~~~~~~~
-> > >    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
-> > >       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-> > >          |                                ^~~~~
-> > >    4 errors generated.
-> >
-> > I didn't get how it happened? I've already test it locally.
-> >
-> > Is it because the test environment didn't update the header files by
-> > using the command like "make headers_install && cp -r
-> > usr/include/linux /usr/include/"?
->
-> Sorry about the false report, kindly ignore this. And thanks for the hint=
-,
-> we will check to understand the root cause of this wrong report and fix t=
-he
-> bot asap.
+Hi Abel,
 
-That's all right :)
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b18bbfc14a38b5234e09c2adcf713e38063a7e6e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/dt-bindings-usb-Add-Parade-PS8830-Type-C-retimer-bindings/20240830-025134
+base:   b18bbfc14a38b5234e09c2adcf713e38063a7e6e
+patch link:    https://lore.kernel.org/r/20240829-x1e80100-ps8830-v1-2-bcc4790b1d45%40linaro.org
+patch subject: [PATCH RFC 2/2] usb: typec: Add support for Parade PS8830 Type-C Retimer
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240902/202409021148.xUP07N9p-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021148.xUP07N9p-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409021148.xUP07N9p-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/usb/typec/mux/ps8830.c: In function 'ps8380_set':
+>> drivers/usb/typec/mux/ps8830.c:64:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      64 |         int ret;
+         |             ^~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [m]:
+   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+
+
+vim +/ret +64 drivers/usb/typec/mux/ps8830.c
+
+    60	
+    61	static int ps8380_set(struct ps8830_retimer *retimer)
+    62	{
+    63		int cfg0 = 0x00, cfg1 = 0x00, cfg2 = 0x00;
+  > 64		int ret;
+    65	
+    66		retimer->needs_update = false;
+    67	
+    68		switch (retimer->orientation) {
+    69		/* Safe mode */
+    70		case TYPEC_ORIENTATION_NONE:
+    71			cfg0 = 0x01;
+    72			cfg1 = 0x00;
+    73			cfg2 = 0x00;
+    74			break;
+    75		case TYPEC_ORIENTATION_NORMAL:
+    76			cfg0 = 0x01;
+    77			break;
+    78		case TYPEC_ORIENTATION_REVERSE:
+    79			cfg0 = 0x03;
+    80			break;
+    81		}
+    82	
+    83		switch (retimer->mode) {
+    84		/* Safe mode */
+    85		case TYPEC_STATE_SAFE:
+    86			cfg0 = 0x01;
+    87			cfg1 = 0x00;
+    88			cfg2 = 0x00;
+    89			break;
+    90	
+    91		/* USB3 Only */
+    92		case TYPEC_STATE_USB:
+    93			cfg0 |= 0x20;
+    94			break;
+    95	
+    96		/* DP Only */
+    97		case TYPEC_DP_STATE_C:
+    98		case TYPEC_DP_STATE_E:
+    99			cfg0 &= 0x0f;
+   100			cfg1 = 0x85;
+   101			break;
+   102	
+   103		/* DP + USB */
+   104		case TYPEC_DP_STATE_D:
+   105		case TYPEC_DP_STATE_F:
+   106			cfg0 |= 0x20;
+   107			cfg1 = 0x85;
+   108			break;
+   109	
+   110		default:
+   111			return -EOPNOTSUPP;
+   112		}
+   113	
+   114		gpiod_set_value(retimer->reset_gpio, 0);
+   115		msleep(20);
+   116		gpiod_set_value(retimer->reset_gpio, 1);
+   117	
+   118		msleep(60);
+   119	
+   120		ret = ps8830_configure(retimer, 0x01, 0x00, 0x00);
+   121	
+   122		msleep(30);
+   123	
+   124		return ps8830_configure(retimer, cfg0, cfg1, cfg2);
+   125	}
+   126	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
