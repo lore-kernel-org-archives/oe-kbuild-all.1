@@ -1,67 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D883BA34
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 01:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982B814F6C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 01:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725241782; cv=fail; b=edvM88PpOOzreAoSmxmVb9uPJj5aZruXV2zSjyjmI8BiRwgdSzfYq2mErdAPWr5OvH5/SkTtSdtQaFeavtunvJbCrlCTIzi43dxmMJGIFDizZk7zYmt6IeWiVb6GxoGstcnqXhR6gPJrOgyRLvntXL20bBwmfHHMRN7JBEP8qWs=
+	t=1725241844; cv=fail; b=f2WJdmFvu/Ta8G3+sN4x48+hkQOvuuJwRWtB/FyRBVqY10f3PpXKHNLzi1cIVs7E6Wo8HOhvtI3pvLMCvZ05lfWFqFlKbCCUGvawTX3ZAU3er4zQjY07wQTZyh1xBAeXK9cHhknwBcvYT+ZTs8C4DwCerLmnH2PjB7579X9jal4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725241782; c=relaxed/simple;
-	bh=hoD9Ki50eVGN+tdCqIIcoe82etdoXs5DDKVXecYlqgg=;
+	s=arc-20240116; t=1725241844; c=relaxed/simple;
+	bh=4Qo75yQF+XlVOLgutfmrEGdShqX+kjxVraOonJ9sI7s=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=BP5NcQdxQV8atkitBgUAeU1BSSbz59Y/Sn7EMlSYD1gEZEk+4vjOU2EKVM/ePNNKTqctYaohjYV8TdEjtGgAPHudJ5cWyQrpx4mSE9An+iNqrjEmbN4vLob1j68FMDny45Lu4KaZ1I+KCIqmlUinqLz7K3nMofIKGLvr9eiaXrk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCeQxjAG; arc=fail smtp.client-ip=192.198.163.7
+	 Content-Disposition:In-Reply-To:MIME-Version; b=SZwmNlwf6liQEXsZNMdNYW+g++zHPQGiD94n37N7PlBhMHpobDhysUde8YubZql407fFFmIMC7JW4PL6Z+lQH94nqZnLSkuWMGdO1zLbgOOM5mtTAp55xqduHFakUY0sxnhQ3XGtId6ryVIih3yal+AiNt/TGIckB6U8tFQTZms=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNCe1hGo; arc=fail smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCeQxjAG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNCe1hGo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725241781; x=1756777781;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=hoD9Ki50eVGN+tdCqIIcoe82etdoXs5DDKVXecYlqgg=;
-  b=mCeQxjAGGDZ0XH3iibJSE0GDiT+co6wxzp3d23ntD4JGR0PB5jODleVZ
-   0kDNS5qoyTHyz8wKGQQtT8/jVeWPy4zJbYaLB59ctex4QiApBUrLuI09W
-   jGxSNO4p+rO84X7+XelhPTHJLt636pKhAtmi8pYsh6BhYzWxDiKDkLPFF
-   QXOYN1lPmdtp4SNxhRNQ/q8TXb+Jr9BTtpo0tWr+08N41FJZp/51PW/1e
-   NtB0CC9cox7mzG3Hsb8ngBXsWzfmrwlglwOzjj2mvUVWRII1mYQCdsU4n
-   9dpif7RnYuPYvn4XankMwD7UZDdlFuSVoi6vcJTL4SM099yTLfs9NqDE3
-   w==;
-X-CSE-ConnectionGUID: extFcKqYTy+jDpea6ZgIEw==
-X-CSE-MsgGUID: lLZpuu8KSoOXGzxIokGTKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="49204247"
+  t=1725241843; x=1756777843;
+  h=date:from:to:cc:subject:message-id:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=4Qo75yQF+XlVOLgutfmrEGdShqX+kjxVraOonJ9sI7s=;
+  b=TNCe1hGojxGGtaO/XUjfH0oP5sRg2atduHMnAAASt5BBki7nOrfsahe+
+   4R87HhlSwkdDATgmDH9W0fNfI4MOPan8pqDFGJsivAJMem4iWiOOHzZCQ
+   gvvE9DtDENWEDRc2SUiy1toYHoiRJFe/weISiYewNuJMHKKEBphnaSDgM
+   5UyLoJtTt7QTjtXzCATWIlgPePelTgrSmJOh3kDf/zd2DezymmR9Rv7zX
+   8EKF2h8rV14WPxV3mupZbXXNE1F/xzYBtEQ9yseSuQ7JwApy4s8mZWjB4
+   MvP37y1PdeISNvr9wZucol4VoPrqojEtv9pWSInq1TEcjN1u1kNT8Ds+8
+   g==;
+X-CSE-ConnectionGUID: MW9m+NSpQtyeS2bUTrsuSw==
+X-CSE-MsgGUID: Vbd7hBwMQPiJk88OzTsAsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23943720"
 X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; 
-   d="scan'208";a="49204247"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 18:49:40 -0700
-X-CSE-ConnectionGUID: VPWEfAV3Ram7SlbND5CbOQ==
-X-CSE-MsgGUID: 3giKN1IWQcOabWeALHy8TQ==
+   d="scan'208";a="23943720"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 18:50:42 -0700
+X-CSE-ConnectionGUID: DxbnlAw9SZebQENND1jKYw==
+X-CSE-MsgGUID: ssF0pR8eSpWSf9QUzfydyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; 
-   d="scan'208";a="64273792"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Sep 2024 18:49:39 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+   d="scan'208";a="69263746"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Sep 2024 18:50:42 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sun, 1 Sep 2024 18:49:38 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ 15.1.2507.39; Sun, 1 Sep 2024 18:50:41 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sun, 1 Sep 2024 18:49:38 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.39; Sun, 1 Sep 2024 18:50:40 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Sun, 1 Sep 2024 18:50:40 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.172)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sun, 1 Sep 2024 18:49:37 -0700
+ 15.1.2507.39; Sun, 1 Sep 2024 18:50:40 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BC4BOtYOKShAyo656Mj4D5VOPy4IuRys+V6E6cnMSGX3xlsEBq9RM44iUEbYVaY3Hv2hu4s+/Dk94LuN4Dt/O+p2Lxxn2eF1it22jvr6Uh+ipiX9NvFPQl0LR/J27YumRfFfH6Vq/c4lPOq8/usfhjT6F6uAuifIE4NscvgZxTK34AsgxmDLG6ckZ4+XDwChUYvLt3qpurY9BtZ02YuHQMgTjMr7oVh0yPgkoOJcRsaaU9KOi8y4uElWg6qs59rhnTC5cDIPc2+k0ye7usTpIoRKJ3niOPRAEsnw8WRknMn9dV1i2LZKAhWLd863EhNNsvIkGQtC+/R1903OF/X+Lg==
+ b=thwOGiSQduw243mGzrq9QlMB7obBNWZER2N9eqNajuEFKCLA49FgxUxaPZJDH5IE1BAlAnilxk1qyVrZaVuFkOkd7Nw9MVutHrtbX8unBh8DvUELCpLeIW+lCJFksz3KEZwi2eKSdlEU0+bGeDQ2Q/kdkpmq3oPVDab/YSn7knj0MYi+HenHzSvRlGW/BsyVU0GB4EnQLxlwdzPr+XXD8AsBhPamZVCaPbpj+kc8X6AT/iUKmFtpt/P7oWOBWjy+c5zOiWbP4AniGwNlLkfafBeQYCmF3OkXtdlnqPAcVUKAsezLDH/MNkwyOy163Ecom5y4LKbA4aITu5GmZhsvuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RidLhAV37EMompXUXLPK69JADWbw0cfL35qCmgsh624=;
- b=Wt8t/UwmhDUItLxiyhX1yNNLsJijRJrMyLGO3cwlyao8bv3y12uSktUl1Cnk+x0edNR1lcEdUAjQs6xIkMswrDqPzveChW4OpaHrgLkIFg9kleKnfrn66pfBQXtXXOqqDeLvY7iiTIa7sENR7xs+Hu3JhxDqW+uEHtM1rYvNyod/MNZNyWXVXFAKdbmjI1bDbPcpnoeGQTFW3DwaCIuT9JOAL/26/UIotBY13ME2fF4pT1VD4ZBms52rzlLYZRvS2TRR8ddMaeY2y+Ed+bp88+HzgSyuDowNldU/QjxhHC8c0u/UqAF3GRwINmnvENXFlo8bijNfytvN5EiejEgQVw==
+ bh=xihZJpaVD1CjqJENiFqJAn7VROoPkpoqICoJVtMWfhY=;
+ b=JOe7RjTW43V+XoVCKVbI2cImI8B8oZDZWNwsFqSwVn9lSo1Vu2aWc23t1+LOG0CB6rnRkaxEr7j3+YrzC8Rd9ZNkWftwkCN7cR50EDsxSHyy7Xa18/U9G77BkTxVCeGd5+/DGFj+b+uK+/H00cCiDN+wRFkL0Z+Tx4D18Ci+kx1SyQeR07lc7bwiFByQotgzvziKf/UppFlpuLjsl1SKetZs9nDfpQvuRdHrMw74lW3tA4YW+NJela4rxBLTSlXIKeDySxA7uWEZFky2eQvvIo4Yy2+xvPCMAVyvkY0ONB04BgcTSoEUD6L2W7XfAwcw7u1OcPxFIEx0TPtmLdHVJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -71,25 +75,27 @@ Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
  by PH7PR11MB6651.namprd11.prod.outlook.com (2603:10b6:510:1a9::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Mon, 2 Sep
- 2024 01:49:34 +0000
+ 2024 01:50:38 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7918.020; Mon, 2 Sep 2024
- 01:49:34 +0000
-Date: Mon, 2 Sep 2024 09:49:24 +0800
+ 01:50:38 +0000
+Date: Mon, 2 Sep 2024 09:50:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<dsahern@kernel.org>, <willemb@google.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <netdev@vger.kernel.org>, Jason Xing
-	<kernelxing@tencent.com>
-Subject: Re: [PATCH net-next v3 2/2] rxtimestamp.c: add the test for
- SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
-Message-ID: <ZtUZpPISIpChbcRq@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>, Thomas Gleixner
+	<tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra
+	<peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, Davidlohr Bueso
+	<dave@stgolabs.net>, Shuah Khan <skhan@linuxfoundation.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <kernel-dev@igalia.com>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH] selftests/futex: Create test for robust list
+Message-ID: <ZtUZ5Ppq/xDC0/v5@rli9-mobl>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <20240830153751.86895-3-kerneljasonxing@gmail.com>
-X-ClientProxiedBy: SG2PR04CA0153.apcprd04.prod.outlook.com (2603:1096:4::15)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240829183509.446934-1-andrealmeid@igalia.com>
+X-ClientProxiedBy: SG2PR04CA0158.apcprd04.prod.outlook.com (2603:1096:4::20)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -100,172 +106,120 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH7PR11MB6651:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7994caa-8c78-4fae-33cd-08dccaf17e96
+X-MS-Office365-Filtering-Correlation-Id: b0b5949b-ebde-4a5c-2e8d-08dccaf1a4c7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DX+7lu523elIxqB+rJ5IaDx6vxrhWc8LoTKoT6lSaY2yusgZWLSRKNlk8QbY?=
- =?us-ascii?Q?0911RmbBxTO3SU8Srt4gf4RrgWfF5ot+2TtqkIK8dz5jt9GMsXMSy1ostXlO?=
- =?us-ascii?Q?TJpgDcuXSWJAV7+iZbZkJrDgao46oHQU4ftvJ4V8pwRFHp4GKsFcietcje0G?=
- =?us-ascii?Q?/dURTTWlXTqZ7mE4oltGb/AWHn+tlI146R3sVQ2IeKGwrV8brFsE0UUWBkzJ?=
- =?us-ascii?Q?XV6qZ5yb60qCReHyu065NZ1/I3s3A4CIt9y6DaHGCMY1yF8F5bFVMfaQJT7Q?=
- =?us-ascii?Q?5HWSQPqYqrQXsXfDc4FZIWbPX198EvzQfM70sdn8ch9MO1O3/ghjvAVKdV8L?=
- =?us-ascii?Q?3LRLPvcL4O0Xa9AZ4yc3NPF2RzMY1XAW/njWYsvmVJpLotrueeIrvpqjMKr2?=
- =?us-ascii?Q?tvqq1xBpOYFM18QBpslPsHoFoXAILMXLg6I9ll14hzuuI+CgMFgSzi6KAl+y?=
- =?us-ascii?Q?UCQLR5frCC+8hieeaDRkQreEztWcvKbA96sYwR8CHwzNNMVBLMxBuP4E6som?=
- =?us-ascii?Q?wvmUE6Xl3k61wMBaXxWueAsiCcPlGszkH37P3Xt6IER/8N6RXZ7dR/DjLPWG?=
- =?us-ascii?Q?CMgWyBVIndiEvG8d0KPsDQu4fx2GLfzIomFEu4rEglHlbSesz2nyJuJwkvMr?=
- =?us-ascii?Q?NgzvncDgldudSohS5U3U+rBuez4TUEukXtsjUpw8zjmp5LsaD31YXqe3zzBA?=
- =?us-ascii?Q?rCiPCpPqXOwxYwbdwT+m78+qiSecs8XtD9jRIaBxF57VQ1M1gXzRpUrTLaXF?=
- =?us-ascii?Q?2eEdCO1aquO9bitQZ++l6LduKgu+9qiRGWuOBwyHWsonGm/mMPC6JZ+xVCSY?=
- =?us-ascii?Q?1XsdqSBqKDnrJg5dn4txh7Ng8B5rYZoV6Ab9LMUpzPKGs0C1fUrn3ZPqz/f5?=
- =?us-ascii?Q?T9WMubYxRnp3CzhbLMlOTDSCQrC6U8Mm4NqTMisJOAzNwLqEMA7fafxLOY2W?=
- =?us-ascii?Q?MtxLtZ3D1pqJPX2Omq4dzHm3gTe3k2VagNwJt3kF9LhfvMrFI2VCKuS9PiH+?=
- =?us-ascii?Q?fnHTGHimwUpA2k9XJiesuoYCA7HuUe8owZJC8/WJ/73uStJdPKg9CPHujdVY?=
- =?us-ascii?Q?JJeztQniZ107NmS2VJ7sTbTnOLqXyOfwyJ65IHKIF62GNiwx9ZMUykRPXCCc?=
- =?us-ascii?Q?ohkbbWG+hcO2Omy4L9zn6ww19e8CfV1gl+tgbVlVOMH2FZEAtrbhXaThYB03?=
- =?us-ascii?Q?s7ykH4PTwOij5UYsNrYIgKPAuJuhEiGo03GJY2q6GApDTczNCKOMTKkb7/eX?=
- =?us-ascii?Q?ewA2N+7IdiRwM8oSlufjcM32IRHPbVD+wYALvn/LTh8pFsW1ZAAK83L8mHwt?=
- =?us-ascii?Q?u9ORu/3ew8dXtDsgQSBbJaPP?=
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?hkxkzfxhVdJAdu8UWt1OvVUA7IVI2cPDbRjYgEixppweZPqhKF0PEubU7w?=
+ =?iso-8859-1?Q?SrKGR5ASTACM3vNouTKTLJVJza4/mWUeKn6hl57fUb4OjXRFcjLNqoIKhm?=
+ =?iso-8859-1?Q?C97sJC38kHDPWte25W3jlKNPLKsKRTYcJUylg1B/BwzT5wnDjHA9cDS+k6?=
+ =?iso-8859-1?Q?+OrmI7ns4q9SRSFfJIXisUamDFJKZyti/xdCy5iGEg8i/L7VJJDRylDQQ6?=
+ =?iso-8859-1?Q?QxGN8PXf9qU32c8HSCom0plmRZz2BHY5Ilr25FD0dIS+aXv1ZH0U/Ewxdy?=
+ =?iso-8859-1?Q?Qg8+wa/HTPE2tpxy6w09iNmXiBN++9JiRNXtNDo+n/GCg5sJAyFunjoq/L?=
+ =?iso-8859-1?Q?SiFBVH7QZTdRzDF2isazn0pwhMPk1Qvr3BQ1aSm/Yk4EG0es4FZHeD6NXK?=
+ =?iso-8859-1?Q?KDwtz0/HZOlypw25Bzm86YoX5XB93NQ3xqdpIxoF/0Sk58CaYl98ORjVTN?=
+ =?iso-8859-1?Q?0q8DkxxnUptpOGKBBz0XngJ/khTkeosayMSvpVuz189FYaGqMxzbGfq/l7?=
+ =?iso-8859-1?Q?IOUI5C1hooavhMlE3GFp5yMzrf7KxwzyJU+i0HgHlSInAWIFIDjdzyYaOt?=
+ =?iso-8859-1?Q?EXIp9mqwTU5pVKwi060SwxZcd0lW1aOJgIJQueGD3obDu0csQWc9JLiuk9?=
+ =?iso-8859-1?Q?okRB3fZKBhnmTHD7d/WP/uJqBniCwZsKiu5oQyBIxJpgQq4fg4G0QzcICJ?=
+ =?iso-8859-1?Q?dsGgA+9FOedzBXuvE4vslhytW0xEH+DgryDbWrmG8We7MP4lU3av2Qkr21?=
+ =?iso-8859-1?Q?NUAEjDRxFoJD8HIJ9Rn1XB7/pEx/Xr4s1f9mbBnplzMaSEqIlAetoEW/0t?=
+ =?iso-8859-1?Q?U21ue89fwsaSPSIYMKoAJvJsEfyK9a6OuhuC54VhS2Iy/HulUjBEBHWbUQ?=
+ =?iso-8859-1?Q?7WVx6xv5uonRYj6w/m75dgKcBn+X8rs4w7gBFz0rN/xjYdGZvRb3TeirX3?=
+ =?iso-8859-1?Q?tQw+baKAU/IACVhLRAbmza6NfjXCGEy6RxYLHiCpuvJ70oItYSrVnvAZdd?=
+ =?iso-8859-1?Q?RowhMg5ZSeuH63pIjrFVHX2bs7L7MtE4cAviSZb/IiV7ft46rwrSC3HW1/?=
+ =?iso-8859-1?Q?j/Nutj/KIIXQzwuRGwJ/OQDig+yMIJ9MzAAmFvBNVRhVl+WaHFcn1zy6Lu?=
+ =?iso-8859-1?Q?c2rifTpqS02aIe25ioPrSbHMPQ//I5FhWWfIh+phwPB9fglUb+WAcoctOu?=
+ =?iso-8859-1?Q?q4TeL7JqfQ0bVWulohf3fFOu967W47yaBVCAlOZq+opkAu1QpdmnzntnWK?=
+ =?iso-8859-1?Q?a7IKcaSB9HaAPavnODvgYJ4Rz80vRnnkP2AxljGh8W2xfGNkyR+5EYWwF4?=
+ =?iso-8859-1?Q?DofP2kr1A93LfRj5rXIxzOZyn/Gl1payV1IRp6UQX9B4FDM=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MrqLHITK/JATywrM70Lk8DuargJb18GTiXAHU4QZOdUzZAA9dlCmfnS1Adca?=
- =?us-ascii?Q?RwC3d78up+QvIWh7QddpijDBh8YG84QKky+JdYmIegJPNf4mFaJVXTLLaZEW?=
- =?us-ascii?Q?aQbOyMD3rr0R1EzktcyrCk0wnhBu8APiHWH+mnZbfqvcuDsCseSPKyqIxuJg?=
- =?us-ascii?Q?JqxpNh7YtdPYL2XWcgAKeM9iDGBXYP9f+f1HmNWAmNwBjGDQA5QQkU5mtpaK?=
- =?us-ascii?Q?PGqNTG1t3ylb6hqASP2q8IzFAVIEtklqvWF3c5TlqH+Qz75h/SDEW0TSL4lV?=
- =?us-ascii?Q?6kP4HWNKLguM2e30YQte2CZy4mqXvL7RodINj1d30RU9/j/BOpiwIcoacDUK?=
- =?us-ascii?Q?+IgTn3MsDaL/CPRpdKiy+CMsFCwMuaX3Dblmg6SpyX7MZGLDCh13q7GBrrQY?=
- =?us-ascii?Q?ILCHsghkpjsT9cGe1cu+BvLIila+UnL6H8YGOZXCPuW6TLlSMBogrXW0VUkW?=
- =?us-ascii?Q?FEfzd8vyYbgx71IpBNVlYnvnK8AksYiZxWrD24vXBl1ttOqFnQbXa+O+MJ31?=
- =?us-ascii?Q?iBvkyIlTF1p8wWLFwfziOX6Iu6GqRVX94IXuwA9qRXPZg8P9LUksvvgbx4O/?=
- =?us-ascii?Q?g/oVL9e1lIzRWu49j05xWOjADyHBc/EwStj97clm6j7rRx+gqD4zj4cMF4N3?=
- =?us-ascii?Q?XZ5YW4KnsNBElW5+BUnhOCVsY6wOmL+QYLJkNRthDa7n3dMP+9rGKlCrnAfm?=
- =?us-ascii?Q?4MJkOdjCoWqdfP2Vrfh6YhNOSm8vdl7D+eSkAbUMn5p7BnxCSZhRb6ZQDa8i?=
- =?us-ascii?Q?JXxMZKboh/wKiAVDfCRWASCc3H6y9bpUevINaRRyYMLET1wNsdx/zh5HWoNE?=
- =?us-ascii?Q?bWI7r7el829GMjT+Eucepv1ScpmAYWttDW75vGDXOg18QArgepB5QB4d+uLP?=
- =?us-ascii?Q?SV1+VKwQ0jKbjPSt3JH4B8T6//iTqfurzCENPPcnQ1ZtD5MI58SPEUPpDqMc?=
- =?us-ascii?Q?xh08kQSdrnhRmxKyNqWECZJlYVEqetojVpjU1hNqTWpni1ZIH/wVRwOoyoV6?=
- =?us-ascii?Q?L+kyugnICx1tUhxNmOoOge6ZdSmJPTlAexmi61wuMuDjOF8NuT9jnsmmsei6?=
- =?us-ascii?Q?9rwvelIGUYaSERrxXeub3qey8/1xY6N8cWtcdxDUdQH/g95mWciSIlUTk1ZD?=
- =?us-ascii?Q?JNcyjY1h198FJwtLjUD8eqKnVlpJWc0UR6H/UM2bTLmo3mfNjc/EsnlsNqpP?=
- =?us-ascii?Q?SMFqezcLvBe3xNAWuqRisCMipH7uoPK7ssczgQPEIrbYfmidTHBj30mZvjzx?=
- =?us-ascii?Q?FEhtwNa4CcFXMrIbIyVmmweKzte5pRPr3pqkCp9AtV3wC5GWKM+QYYpVHSRQ?=
- =?us-ascii?Q?s1Q3wfc1YmgwL/e0jZxub93hmhZp9md2bM1NoMJ6fIq4IeQ/33Xd3aV5NC7/?=
- =?us-ascii?Q?PZZZh/RPxpXQ1WZt6COY4FibjDxwTaQatmhe1+5h8een8mCE883ajJYoDRB5?=
- =?us-ascii?Q?wax6hP2Jhw6KIOWrRX5jVl+hrXGHxdOFR1IhA96bsjkIcaR4XkOpftFdVbDu?=
- =?us-ascii?Q?Ryg10Q0zoRZTY2yTJ4QLNYO2PM30ax9hv/wHdKOUY2kMSQK2zf/4qBhkwEVl?=
- =?us-ascii?Q?1K3lOInmQnOWg1hMT34ZnKvL12ZYXQwa3FEgTTOr?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7994caa-8c78-4fae-33cd-08dccaf17e96
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?chWhaoC7oKs5WRWiNS5KV9B+sAPvQZSPZYYXC79pXC/MzIiWbt+A+bhb4b?=
+ =?iso-8859-1?Q?iWdSyQuiCSxwgROUbguhPIPLu0sw7hgr2RallWhlI7Y6qYcDTR8oceHBl1?=
+ =?iso-8859-1?Q?BV/Rw8iRU0XVRocyvvYLg+ygklxNRy4ApyqILQ4R6sqooIGBIwm9qsDWM2?=
+ =?iso-8859-1?Q?92ChBjYMxWhZbwZx/RTMLftR4kZAUdQwBmLhczYI/W5iFu1J1BI5BFvnCB?=
+ =?iso-8859-1?Q?m1QC+pAF7fOm96qmnFjePiBPNScEn6hoicqeqZ/PqWYBBUBKivnZ9lq3t2?=
+ =?iso-8859-1?Q?wq6qo7DqCoYYGjd/ipPwOs/2rHLPigiqL/HPUJh21W1QNabN+y8HQ0B2kY?=
+ =?iso-8859-1?Q?K95rlc/yC00mIyncqTBSZj3WtIrYJfvZbc9L3tbzcF8AbwA/HJaYiutKEX?=
+ =?iso-8859-1?Q?VO12J2f+hF3vfw2QuDDeSHZMO9AruCJ6zsqnZuWr3u2iUN/JtIypZI5M/+?=
+ =?iso-8859-1?Q?gVJppMKkvApH0m0yMyMISRVWp1/pDcgRAJfjNDqqYZCCPglrF/NTny3wOc?=
+ =?iso-8859-1?Q?5XO2/VnP/kUCFnmPw9LbqzTAODl0tYC6MXBnPD6tRj6yma/NHt2tcjYExy?=
+ =?iso-8859-1?Q?nfdnrPaL67Ofc1WFIea/WKus6aj1qhPmzjbviZLkEWDZiOD7AEJGj61RN2?=
+ =?iso-8859-1?Q?jewwIXq4/OwsWgDt3ewfq1P7bscd6IaN3dmkjiw6w65Cd+bDfJS1lHk457?=
+ =?iso-8859-1?Q?foaCKn3Fa8Ye9mKHiy5/XDc3XZDL33tJ1V/WWsijIHmO4jSwuiH3Z1Dy36?=
+ =?iso-8859-1?Q?HmF4h2mJmaGJm5C3gDx2O4pJxLy/+aDDSC5gnI3Oki+NsgbteVveweaZKv?=
+ =?iso-8859-1?Q?Y6Sxn9Wdr8IkkMApsAZ9gdXiSEq5i1Jg3AJS/4snGpcW25C1d/t20S6gvy?=
+ =?iso-8859-1?Q?Pv6VwxpzYWWg+2oYCAxIiesGKURNEd480Xgg/PR6500Vz4WwZ2V4u5DCs/?=
+ =?iso-8859-1?Q?4yKMpVagO471Spp6UlVHHTVrAzenu1kdKOlFj/yH3b6DVG7QVTLwkDvPiX?=
+ =?iso-8859-1?Q?KQ7C18cnL2f0X4/4MNj2YNs/J2F67+InmXrbfVGZ+CNAudiOkG816HzFd5?=
+ =?iso-8859-1?Q?ke6TK4LbxcRBL7LIICI0WTmeef2g8lGziW+KermVqdlDE53hx6vAF4xsNB?=
+ =?iso-8859-1?Q?dnS2ALdcWRIutqKKil0X4fTj5vtOwljZP/DWNlnVJBqs+ek1xiHOhuvasg?=
+ =?iso-8859-1?Q?2gIWB3T6RsPUQTQW9t4PVrOuadtuepM+oC9jKd5E4IzE4Q2ZBkPasB+zsK?=
+ =?iso-8859-1?Q?c20m47xG2Uv6hcLDAldbU93GO99w8I+AnAzM5mSgA2kVE514LvjvxN1M9a?=
+ =?iso-8859-1?Q?aVhsHU3K3bVUv6nARSy17h8aJS/OMmTuYeV5mXAO/GYrOWrPNvV47Z84JR?=
+ =?iso-8859-1?Q?Xb+jTTCq0rlabRNxo4Z3tFHtT5BDuPkHcJPD15rrAxwoI4FOzxPLmlKnPW?=
+ =?iso-8859-1?Q?MaicvFImAExZoBMMLGPcbQidYrjA2V0hWQNs1hMyzx7VPaCIK4Vk3m/VZS?=
+ =?iso-8859-1?Q?YfdajxleeycJ7MenOutjSV0nIi0KknafO/l7IEeyKbVq8TETiBhPPwq2qc?=
+ =?iso-8859-1?Q?v1/r372fqm1RRw6fTxQSd6sWbMBXxinyfA30R5ZTlRzi5ZJv4OCWiWuETZ?=
+ =?iso-8859-1?Q?NsNWAQdRuRcoHIZeZ5mnKdf6YGKwQx7Jr8?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0b5949b-ebde-4a5c-2e8d-08dccaf1a4c7
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 01:49:34.5779
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 01:50:38.3211
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T2plCPujGdcZumnkiUWlWlPN+onRETFJEnN3UzjNV6XhUw2nhfZazlEIUi3xydTlHtL3SvlQC80qf0gJ5xzSGg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: J6yc2dGgbODmf9I1BnVd+L3FpcZRrhUdJJbLmcs9wgExy1SEUoz+jEgC5CL/O13mpUrE83ydRuofkolH7QA9aQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6651
 X-OriginatorOrg: intel.com
 
-Hi Jason,
+Hi André,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on linus/master v6.11-rc6 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-filter-out-report-when-setting-SOF_TIMESTAMPING_SOFTWARE/20240830-234014
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240830153751.86895-3-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next v3 2/2] rxtimestamp.c: add the test for SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409020124.YybQQDrP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/selftests-futex-Create-test-for-robust-list/20240830-023631
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20240829183509.446934-1-andrealmeid%40igalia.com
+patch subject: [PATCH] selftests/futex: Create test for robust list
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409012132.wVaYZ660-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409020124.YybQQDrP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409012132.wVaYZ660-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> rxtimestamp.c:102:6: error: use of undeclared identifier 'SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER'
-     102 |                         | SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER },
-         |                           ^
->> rxtimestamp.c:373:20: error: invalid application of 'sizeof' to an incomplete type 'struct test_case[]'
-     373 |                         for (t = 0; t < ARRAY_SIZE(test_cases); t++) {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
-   ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
-      61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-         |                                ^~~~~
-   rxtimestamp.c:380:13: error: invalid application of 'sizeof' to an incomplete type 'struct test_case[]'
-     380 |                         if (t >= ARRAY_SIZE(test_cases))
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-   ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
-      61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-         |                                ^~~~~
-   rxtimestamp.c:419:19: error: invalid application of 'sizeof' to an incomplete type 'struct test_case[]'
-     419 |                 for (t = 0; t < ARRAY_SIZE(test_cases); t++) {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
-      61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-         |                                ^~~~~
-   4 errors generated.
+   robust_list.c: In function 'futex2_wait':
+>> robust_list.c:53:24: error: 'SYS_futex_wait' undeclared (first use in this function); did you mean 'SYS_futex_waitv'?
+      53 |         return syscall(SYS_futex_wait, futex, val, ~0U, FUTEX2_SIZE_U32, timo, CLOCK_MONOTONIC);
+         |                        ^~~~~~~~~~~~~~
+         |                        SYS_futex_waitv
+   robust_list.c:53:24: note: each undeclared identifier is reported only once for each function it appears in
+>> robust_list.c:54:1: warning: control reaches end of non-void function [-Wreturn-type]
+      54 | }
+         | ^
 
 
-vim +/SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER +102 tools/testing/selftests/net/rxtimestamp.c
+vim +53 tools/testing/selftests/futex/functional/robust_list.c
 
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   67  
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   68  static struct test_case test_cases[] = {
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   69  	{ {}, {} },
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   70  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   71  		{ .so_timestamp = 1 },
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   72  		{ .tstamp = true }
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   73  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   74  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   75  		{ .so_timestampns = 1 },
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   76  		{ .tstampns = true }
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   77  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   78  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   79  		{ .so_timestamp = 1, .so_timestampns = 1 },
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   80  		{ .tstampns = true }
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   81  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   82  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   83  		{ .so_timestamping = SOF_TIMESTAMPING_RX_SOFTWARE },
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   84  		{}
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   85  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   86  	{
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   87  		/* Loopback device does not support hw timestamps. */
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   88  		{ .so_timestamping = SOF_TIMESTAMPING_RX_HARDWARE },
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   89  		{}
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   90  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   91  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   92  		{ .so_timestamping = SOF_TIMESTAMPING_SOFTWARE },
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   93  		.warn_on_fail = true
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   94  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   95  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04   96  		{ .so_timestamping = SOF_TIMESTAMPING_RX_SOFTWARE
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   97  			| SOF_TIMESTAMPING_RX_HARDWARE },
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   98  		{}
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22   99  	},
-93e82194e6a4ec9 tools/testing/selftests/net/rxtimestamp.c                     Jason Xing   2024-08-30  100  	{
-93e82194e6a4ec9 tools/testing/selftests/net/rxtimestamp.c                     Jason Xing   2024-08-30  101  		{ .so_timestamping = SOF_TIMESTAMPING_SOFTWARE
-93e82194e6a4ec9 tools/testing/selftests/net/rxtimestamp.c                     Jason Xing   2024-08-30 @102  			| SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER },
-93e82194e6a4ec9 tools/testing/selftests/net/rxtimestamp.c                     Jason Xing   2024-08-30  103  		{}
-93e82194e6a4ec9 tools/testing/selftests/net/rxtimestamp.c                     Jason Xing   2024-08-30  104  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  105  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04  106  		{ .so_timestamping = SOF_TIMESTAMPING_SOFTWARE
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  107  			| SOF_TIMESTAMPING_RX_SOFTWARE },
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04  108  		{ .swtstamp = true }
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  109  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  110  	{
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04  111  		{ .so_timestamp = 1, .so_timestamping = SOF_TIMESTAMPING_SOFTWARE
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  112  			| SOF_TIMESTAMPING_RX_SOFTWARE },
-f551e2fdaf81b7b tools/testing/selftests/net/rxtimestamp.c                     Tanner Love  2020-07-04  113  		{ .tstamp = true, .swtstamp = true }
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  114  	},
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  115  };
-16e781224198be0 tools/testing/selftests/networking/timestamping/rxtimestamp.c Mike Maloney 2017-08-22  116  
+3306ef10715f1b André Almeida 2024-08-29  50  
+3306ef10715f1b André Almeida 2024-08-29  51  int futex2_wait(void *futex, int val, struct timespec *timo)
+3306ef10715f1b André Almeida 2024-08-29  52  {
+3306ef10715f1b André Almeida 2024-08-29 @53  	return syscall(SYS_futex_wait, futex, val, ~0U, FUTEX2_SIZE_U32, timo, CLOCK_MONOTONIC);
+3306ef10715f1b André Almeida 2024-08-29  54  }
+3306ef10715f1b André Almeida 2024-08-29  55  
 
 -- 
 0-DAY CI Kernel Test Service
