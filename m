@@ -1,63 +1,59 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A62144D0A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944B6153BC7
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725261859; cv=none; b=O6L4marQuvw7i9Ee4mGOA+/c2cq8pTLzu9he5JnUayxXutlCgXaaElq7T6ABhsL39KIKwyqpBNEolID/bynKd14B60B046IQJcmmsgNWF4W3+oDMFINqPrpW9kXB1u1fmwAt6nauGPcIWmicspM5yBWeM94y/ot4OoOF2cttTgU=
+	t=1725262189; cv=none; b=DiHF34b4tISrnNP1rqD+kcYQkEDMaIkRbrGlbLd9q/SnHbSKk7Vjk4RvFmKRoDmraCIHQ8Pe4S3v81Q7+1iBQq2re9yB69XTRfwiz+q3XR9QJex8Kbu0fJm6s3PEodmcvbZmqK5BA4kjLg0bzik9+Kqm4EcxkXM28V2vzRvurDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725261859; c=relaxed/simple;
-	bh=CsHeT5Wk+ZPzQWRsBXmelzpBlfoeX68jvBEKnUZjPgo=;
+	s=arc-20240116; t=1725262189; c=relaxed/simple;
+	bh=D2ZBPEp+lyvONuErfhoMVAa+5K3aoCh3tp9JmazsJAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZCxGlk1kMJEoccc+0YOVjVpX/FmQCgKCZZLvPO58FXBh1jUUq3tkQtpRvhvDYkAwZfQvwljiBHCFanmXKgbaVc6w0D3jVkS3d9Ndg/su1lKLkOnNQ066UNbkZoxl2Gkv+UsTTr8am8KrXLo8vW9F4XqL2aMkcSpzib6+dEYGF/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HscZNDNb; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=qXNeAz7tYizDaOmTDy/uLb4E70v9KMAhXVDIbVGqfvu61cw21jTQGe4n+rCdt7hMd+PANvFhvOE41ETCIIY4ziUD6sAqY7Bike9kTnajUCYRlLlSEAnkOS+oT0MI9FF0/N0lxuWhWSHEGr1yQy7Qvq2+Dzh8CumgkLrqmf1W9Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJHm7vk5; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HscZNDNb"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-374bb1a3addso1303964f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Sep 2024 00:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725261855; x=1725866655; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7d7/aXzmUkEP7wp8WVXmBgkLkOQ63NSYmkAtx/vE3K8=;
-        b=HscZNDNbbVqkQaNfQuaF1v2CGU6XSZ8iwZKC07phCwlepclxN84kgRv4SIuAgZCQY0
-         dyfzmxIJ9G5sQDe/khI+zhDRLc2w+8CNzPftSmuPH0Z7135IbvzazArUJbw1N6On0x/c
-         BHJ8I2fhcsXD/5YObE2vpZvq4KssgYq5gw5BdG5yBknFbJBU0Skt//xeM+0JXzHokm5K
-         E3l6r46BLqmGs2ArsrVhIVtfFsadejfQE89jf0hENWJ3b383KhvcR0GHLDqoGgTF6AAA
-         ccwRdoyz/QuBd0/wf6dcMJb8A3DRXfsqQZBnERDXJ3MEJrMrACWc4KtYTGQV6MFmaC4n
-         8ptQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725261855; x=1725866655;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7d7/aXzmUkEP7wp8WVXmBgkLkOQ63NSYmkAtx/vE3K8=;
-        b=Cxl9JAQVHpRgeittlCm+lhQhN6mbDRQnsxZH4QpfDAmYH+WGo6DBd1H5E2RD9z3aKA
-         kTb6Uz8x01CkCv/2KFpKogooSWoBS8ucmo5Xy1WCYXk9NwpUcJQQrZoQ9lQlqzvvhRBY
-         LHkGMStBsXEiEgUTrHovrTXrNACHmSdyVnZHvWycGXyOG2K0dZc8b9YZoU4JbNRIlQfv
-         1zq8sp+rSuLucEFOzeJZtnjeYRUSPH/CPac9rQHuQ8bia4GzZqk5XGWcW6vF8mXZIXS7
-         TcI8pR9BPWQulZRefKy1QI5sS159fGOXZ/ayzNPvYYqF8QU92bWz/LpeyDiu0RMAdi2o
-         cOVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVT6WtBFiaeoNtHWRBW+MuxlIiNc1QIP/qCbThlxPWJH+LgqEuYWT9X3FfWMS8dHJSdm02lUx0YTYenUdP/@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXcfHnAR0zGyLw1Jd2xfrUy8q9dOpI4d2JETBrTCzFi3zNQqzE
-	jK36e8I+fg9MirT/rMGZUA57We9EKlHOgI6aFFa/2HpSyVJW5+n2ktYL7Y97ao0=
-X-Google-Smtp-Source: AGHT+IGInyrjwt7MrhgUuiRt44vaB6Sxe3tceLhV2k3dGfkkXVltAC/yLQgvRR3tHF2KSmzN9XpGAw==
-X-Received: by 2002:adf:ab07:0:b0:374:c0cc:a1fb with SMTP id ffacd0b85a97d-374c0cca2c5mr3443714f8f.39.1725261855225;
-        Mon, 02 Sep 2024 00:24:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3749eeabcb1sm10621519f8f.60.2024.09.02.00.24.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 00:24:14 -0700 (PDT)
-Date: Mon, 2 Sep 2024 10:24:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	Zizhi Wo <wozizhi@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 26998/30000] fs/cifs/file.c:2986
- cifs_write_from_iter() error: uninitialized symbol 'pagevec'.
-Message-ID: <6a4e4f12-65d8-4b09-982d-5879e469c394@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJHm7vk5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725262188; x=1756798188;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=D2ZBPEp+lyvONuErfhoMVAa+5K3aoCh3tp9JmazsJAI=;
+  b=kJHm7vk5GXbQuhNhQKwoxrBoRc1F3Iqap7jq9H7XhPG6uvl4mCP0cbS0
+   SHhQbMxkHrNBpzGlDNkak7YoVP8qYTWJQMP828bRanK6YLCgLh32YnpSx
+   9EET4uOh4tFuqU652h5kR4EooY6pSEVw9SWhzhaoS16TIoWMQzZUkEDHB
+   1SYBUX3dYCDOQAyjmJOq3G1CDdMA3lG23U/ALQ2y85JG83V3Y0Sefd4KF
+   nenUY3PdsGJSI2cnAMbs4hjh3w3AjryFPDojvkKA+iIzsKdh8jNCRDVxe
+   2etgE4eIt1z17kKaVhta+5zzP+foD9XQvABGc7MNdwr7sn0OFf1DBWPVM
+   w==;
+X-CSE-ConnectionGUID: +6h0od0OTP6cSmGmGw0rRg==
+X-CSE-MsgGUID: KLNFeCYzQnKw6IwUFIcVOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23990748"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="23990748"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 00:29:47 -0700
+X-CSE-ConnectionGUID: Wj/UhqGjQq+thAQQyDyDXg==
+X-CSE-MsgGUID: ybsRg/RZSdKRN7qJ/g1tig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="68922738"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 02 Sep 2024 00:29:45 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sl1VP-0005Ec-1Y;
+	Mon, 02 Sep 2024 07:29:43 +0000
+Date: Mon, 2 Sep 2024 15:29:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 26911/30000]
+ drivers/ub/urma/ubcore/ubcore_umem.c:284:10: warning: no previous prototype
+ for function 'ubcore_umem_find_best_page_size'
+Message-ID: <202409021518.znzh3BK4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,202 +65,230 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   02994a9b68a17040658e1a32a4438a31ae6f273b
-commit: 9f14fd51e0779baa09eeeb3582d3d8a0557561fb [26998/30000] cifs: Fix pages leak when writedata alloc failed in cifs_write_from_iter()
-config: x86_64-randconfig-161-20240901 (https://download.01.org/0day-ci/archive/20240902/202409020711.CVj7KUmD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 5d130e2cfa3d2aaee4d10e18c075f6c3750600c5 [26911/30000] urma: upload kernel patch for 20240511_mig
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240902/202409021518.znzh3BK4-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021518.znzh3BK4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409020711.CVj7KUmD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409021518.znzh3BK4-lkp@intel.com/
 
-New smatch warnings:
-fs/cifs/file.c:2986 cifs_write_from_iter() error: uninitialized symbol 'pagevec'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-fs/cifs/file.c:2987 cifs_write_from_iter() error: uninitialized symbol 'pagevec'.
+   drivers/ub/urma/ubcore/ubcore_umem.c:242:21: warning: no previous prototype for function 'ubcore_umem_get' [-Wmissing-prototypes]
+     242 | struct ubcore_umem *ubcore_umem_get(struct ubcore_device *dev, uint64_t va,
+         |                     ^
+   drivers/ub/urma/ubcore/ubcore_umem.c:242:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     242 | struct ubcore_umem *ubcore_umem_get(struct ubcore_device *dev, uint64_t va,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_umem.c:260:6: warning: no previous prototype for function 'ubcore_umem_release' [-Wmissing-prototypes]
+     260 | void ubcore_umem_release(struct ubcore_umem *umem)
+         |      ^
+   drivers/ub/urma/ubcore/ubcore_umem.c:260:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     260 | void ubcore_umem_release(struct ubcore_umem *umem)
+         | ^
+         | static 
+>> drivers/ub/urma/ubcore/ubcore_umem.c:284:10: warning: no previous prototype for function 'ubcore_umem_find_best_page_size' [-Wmissing-prototypes]
+     284 | uint64_t ubcore_umem_find_best_page_size(struct ubcore_umem *umem, uint64_t page_size_bitmap,
+         |          ^
+   drivers/ub/urma/ubcore/ubcore_umem.c:284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     284 | uint64_t ubcore_umem_find_best_page_size(struct ubcore_umem *umem, uint64_t page_size_bitmap,
+         | ^
+         | static 
+   3 warnings generated.
+--
+   drivers/ub/urma/ubcore/ubcore_netdev.c:41:25: warning: no previous prototype for function 'ubcore_lookup_sip_info_without_lock' [-Wmissing-prototypes]
+      41 | struct ubcore_sip_info *ubcore_lookup_sip_info_without_lock(
+         |                         ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:41:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      41 | struct ubcore_sip_info *ubcore_lookup_sip_info_without_lock(
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:75:5: warning: no previous prototype for function 'ubcore_notify_uvs_del_sip' [-Wmissing-prototypes]
+      75 | int ubcore_notify_uvs_del_sip(struct ubcore_device *dev,
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:75:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      75 | int ubcore_notify_uvs_del_sip(struct ubcore_device *dev,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:113:22: warning: no previous prototype for function 'ubcore_new_sip_req_msg' [-Wmissing-prototypes]
+     113 | struct ubcore_nlmsg *ubcore_new_sip_req_msg(struct ubcore_device *dev,
+         |                      ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:113:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     113 | struct ubcore_nlmsg *ubcore_new_sip_req_msg(struct ubcore_device *dev,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:145:5: warning: no previous prototype for function 'ubcore_notify_uvs_add_sip' [-Wmissing-prototypes]
+     145 | int ubcore_notify_uvs_add_sip(struct ubcore_device *dev,
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:145:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     145 | int ubcore_notify_uvs_add_sip(struct ubcore_device *dev,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:177:5: warning: no previous prototype for function 'ubcore_check_port_state' [-Wmissing-prototypes]
+     177 | int ubcore_check_port_state(struct ubcore_device *dev)
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:177:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     177 | int ubcore_check_port_state(struct ubcore_device *dev)
+         | ^
+         | static 
+>> drivers/ub/urma/ubcore/ubcore_netdev.c:204:6: warning: no previous prototype for function 'ubcore_fill_port_netdev' [-Wmissing-prototypes]
+     204 | void ubcore_fill_port_netdev(struct ubcore_device *dev,
+         |      ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:204:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     204 | void ubcore_fill_port_netdev(struct ubcore_device *dev,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:268:5: warning: no previous prototype for function 'ubcore_set_port_netdev' [-Wmissing-prototypes]
+     268 | int ubcore_set_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:268:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     268 | int ubcore_set_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:353:5: warning: no previous prototype for function 'ubcore_unset_port_netdev' [-Wmissing-prototypes]
+     353 | int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:353:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     353 | int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:385:6: warning: no previous prototype for function 'ubcore_put_port_netdev' [-Wmissing-prototypes]
+     385 | void ubcore_put_port_netdev(struct ubcore_device *dev)
+         |      ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:385:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     385 | void ubcore_put_port_netdev(struct ubcore_device *dev)
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:412:5: warning: no previous prototype for function 'ubcore_sip_table_init' [-Wmissing-prototypes]
+     412 | int ubcore_sip_table_init(struct ubcore_sip_table *sip_table, uint32_t size)
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:412:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     412 | int ubcore_sip_table_init(struct ubcore_sip_table *sip_table, uint32_t size)
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:431:6: warning: no previous prototype for function 'ubcore_sip_table_uninit' [-Wmissing-prototypes]
+     431 | void ubcore_sip_table_uninit(struct ubcore_sip_table *sip_table)
+         |      ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:431:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     431 | void ubcore_sip_table_uninit(struct ubcore_sip_table *sip_table)
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:442:5: warning: no previous prototype for function 'ubcore_sip_idx_alloc' [-Wmissing-prototypes]
+     442 | int ubcore_sip_idx_alloc(struct ubcore_sip_table *sip_table)
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:442:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     442 | int ubcore_sip_idx_alloc(struct ubcore_sip_table *sip_table)
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:458:5: warning: no previous prototype for function 'ubcore_sip_idx_free' [-Wmissing-prototypes]
+     458 | int ubcore_sip_idx_free(struct ubcore_sip_table *sip_table, uint32_t idx)
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:458:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     458 | int ubcore_sip_idx_free(struct ubcore_sip_table *sip_table, uint32_t idx)
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:471:5: warning: no previous prototype for function 'ubcore_add_sip_entry' [-Wmissing-prototypes]
+     471 | int ubcore_add_sip_entry(struct ubcore_sip_table *sip_table, const struct ubcore_sip_info *sip,
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:471:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     471 | int ubcore_add_sip_entry(struct ubcore_sip_table *sip_table, const struct ubcore_sip_info *sip,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:489:5: warning: no previous prototype for function 'ubcore_del_sip_entry' [-Wmissing-prototypes]
+     489 | int ubcore_del_sip_entry(struct ubcore_sip_table *sip_table, uint32_t idx)
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:489:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     489 | int ubcore_del_sip_entry(struct ubcore_sip_table *sip_table, uint32_t idx)
+         | ^
+         | static 
+>> drivers/ub/urma/ubcore/ubcore_netdev.c:519:5: warning: no previous prototype for function 'ubcore_update_sip_entry' [-Wmissing-prototypes]
+     519 | int ubcore_update_sip_entry(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *new_sip,
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:519:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     519 | int ubcore_update_sip_entry(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *new_sip,
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_netdev.c:548:5: warning: no previous prototype for function 'ubcore_lookup_sip_idx' [-Wmissing-prototypes]
+     548 | int ubcore_lookup_sip_idx(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *sip,
+         |     ^
+   drivers/ub/urma/ubcore/ubcore_netdev.c:548:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     548 | int ubcore_lookup_sip_idx(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *sip,
+         | ^
+         | static 
+   17 warnings generated.
+--
+>> drivers/ub/urma/ubcore/ubcore_tpg.c:85:6: warning: no previous prototype for function 'ubcore_tpg_kref_get' [-Wmissing-prototypes]
+      85 | void ubcore_tpg_kref_get(struct ubcore_tpg *tpg)
+         |      ^
+   drivers/ub/urma/ubcore/ubcore_tpg.c:85:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      85 | void ubcore_tpg_kref_get(struct ubcore_tpg *tpg)
+         | ^
+         | static 
+   drivers/ub/urma/ubcore/ubcore_tpg.c:100:30: warning: comparison of address of 'dev->ht[UBCORE_HT_TPG].head' equal to a null pointer is always false [-Wtautological-pointer-compare]
+     100 |         if (&dev->ht[UBCORE_HT_TPG].head == NULL) {
+         |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~    ~~~~
+>> drivers/ub/urma/ubcore/ubcore_tpg.c:131:29: warning: comparison of address of 'dev->ht[UBCORE_HT_TP].head' equal to a null pointer is always false [-Wtautological-pointer-compare]
+     131 |         if (&dev->ht[UBCORE_HT_TP].head == NULL) {
+         |              ~~~~~~~~~~~~~~~~~~~~~~^~~~    ~~~~
+   3 warnings generated.
+--
+>> drivers/ub/urma/uburma/uburma_mmap.c:29:6: warning: no previous prototype for function 'uburma_umap_priv_init' [-Wmissing-prototypes]
+      29 | void uburma_umap_priv_init(struct uburma_umap_priv *priv,
+         |      ^
+   drivers/ub/urma/uburma/uburma_mmap.c:29:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      29 | void uburma_umap_priv_init(struct uburma_umap_priv *priv,
+         | ^
+         | static 
+>> drivers/ub/urma/uburma/uburma_mmap.c:42:6: warning: no previous prototype for function 'uburma_unmap_vma_pages' [-Wmissing-prototypes]
+      42 | void uburma_unmap_vma_pages(struct uburma_file *ufile)
+         |      ^
+   drivers/ub/urma/uburma/uburma_mmap.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      42 | void uburma_unmap_vma_pages(struct uburma_file *ufile)
+         | ^
+         | static 
+>> drivers/ub/urma/uburma/uburma_mmap.c:157:36: warning: no previous prototype for function 'uburma_get_umap_ops' [-Wmissing-prototypes]
+     157 | const struct vm_operations_struct *uburma_get_umap_ops(void)
+         |                                    ^
+   drivers/ub/urma/uburma/uburma_mmap.c:157:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     157 | const struct vm_operations_struct *uburma_get_umap_ops(void)
+         |       ^
+         | static 
+   3 warnings generated.
 
-vim +/pagevec +2986 fs/cifs/file.c
 
-43de94eadf0ced Pavel Shilovsky 2014-06-20  2896  static int
-43de94eadf0ced Pavel Shilovsky 2014-06-20  2897  cifs_write_from_iter(loff_t offset, size_t len, struct iov_iter *from,
-43de94eadf0ced Pavel Shilovsky 2014-06-20  2898  		     struct cifsFileInfo *open_file,
-c610c4b619e534 Pavel Shilovsky 2017-04-25  2899  		     struct cifs_sb_info *cifs_sb, struct list_head *wdata_list,
-c610c4b619e534 Pavel Shilovsky 2017-04-25  2900  		     struct cifs_aio_ctx *ctx)
-72432ffcf555de Pavel Shilovsky 2011-01-24  2901  {
-43de94eadf0ced Pavel Shilovsky 2014-06-20  2902  	int rc = 0;
-43de94eadf0ced Pavel Shilovsky 2014-06-20  2903  	size_t cur_len;
-66386c08be5d1a Pavel Shilovsky 2014-06-20  2904  	unsigned long nr_pages, num_pages, i;
-43de94eadf0ced Pavel Shilovsky 2014-06-20  2905  	struct cifs_writedata *wdata;
-fc56b9838a20d4 Al Viro         2016-09-21  2906  	struct iov_iter saved_from = *from;
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  2907  	loff_t saved_offset = offset;
-da82f7e755d280 Jeff Layton     2012-03-23  2908  	pid_t pid;
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  2909  	struct TCP_Server_Info *server;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2910  	struct page **pagevec;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2911  	size_t start;
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  2912  	unsigned int xid;
-d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2913  
-d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2914  	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_RWPIDFORWARD)
-d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2915  		pid = open_file->pid;
-d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2916  	else
-d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2917  		pid = current->tgid;
-d4ffff1fa9695c Pavel Shilovsky 2011-05-26  2918  
-352d96f3acc6e0 Aurelien Aptel  2020-05-31  2919  	server = cifs_pick_channel(tlink_tcon(open_file->tlink)->ses);
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  2920  	xid = get_xid();
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  2921  
-72432ffcf555de Pavel Shilovsky 2011-01-24  2922  	do {
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  2923  		unsigned int wsize;
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  2924  		struct cifs_credits credits_on_stack;
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  2925  		struct cifs_credits *credits = &credits_on_stack;
-72432ffcf555de Pavel Shilovsky 2011-01-24  2926  
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2927  		if (open_file->invalidHandle) {
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2928  			rc = cifs_reopen_file(open_file, false);
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2929  			if (rc == -EAGAIN)
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2930  				continue;
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2931  			else if (rc)
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2932  				break;
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2933  		}
-3e9529944d4177 Pavel Shilovsky 2019-01-25  2934  
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2935  		rc = server->ops->wait_mtu_credits(server, cifs_sb->wsize,
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  2936  						   &wsize, credits);
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2937  		if (rc)
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2938  			break;
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2939  
-b6bc8a7b993e62 Long Li         2018-12-16  2940  		cur_len = min_t(const size_t, len, wsize);
-b6bc8a7b993e62 Long Li         2018-12-16  2941  
-8c5f9c1ab7cb45 Long Li         2018-10-31  2942  		if (ctx->direct_io) {
-b98e26df07549d Steve French    2018-11-01  2943  			ssize_t result;
-b98e26df07549d Steve French    2018-11-01  2944  
-b98e26df07549d Steve French    2018-11-01  2945  			result = iov_iter_get_pages_alloc(
-b6bc8a7b993e62 Long Li         2018-12-16  2946  				from, &pagevec, cur_len, &start);
-b98e26df07549d Steve French    2018-11-01  2947  			if (result < 0) {
-8c5f9c1ab7cb45 Long Li         2018-10-31  2948  				cifs_dbg(VFS,
-a0a3036b81f1f6 Joe Perches     2020-04-14  2949  					 "direct_writev couldn't get user pages (rc=%zd) iter type %d iov_offset %zd count %zd\n",
-6629400a2227c8 David Howells   2019-11-21  2950  					 result, iov_iter_type(from),
-8c5f9c1ab7cb45 Long Li         2018-10-31  2951  					 from->iov_offset, from->count);
-8c5f9c1ab7cb45 Long Li         2018-10-31  2952  				dump_stack();
-54e94ff94eac88 Long Li         2018-12-16  2953  
-54e94ff94eac88 Long Li         2018-12-16  2954  				rc = result;
-54e94ff94eac88 Long Li         2018-12-16  2955  				add_credits_and_wake_if(server, credits, 0);
-8c5f9c1ab7cb45 Long Li         2018-10-31  2956  				break;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2957  			}
-b98e26df07549d Steve French    2018-11-01  2958  			cur_len = (size_t)result;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2959  			iov_iter_advance(from, cur_len);
-8c5f9c1ab7cb45 Long Li         2018-10-31  2960  
-8c5f9c1ab7cb45 Long Li         2018-10-31  2961  			nr_pages =
-8c5f9c1ab7cb45 Long Li         2018-10-31  2962  				(cur_len + start + PAGE_SIZE - 1) / PAGE_SIZE;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2963  
-8c5f9c1ab7cb45 Long Li         2018-10-31  2964  			wdata = cifs_writedata_direct_alloc(pagevec,
-8c5f9c1ab7cb45 Long Li         2018-10-31  2965  					     cifs_uncached_writev_complete);
-8c5f9c1ab7cb45 Long Li         2018-10-31  2966  			if (!wdata) {
-8c5f9c1ab7cb45 Long Li         2018-10-31  2967  				rc = -ENOMEM;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2968  				add_credits_and_wake_if(server, credits, 0);
-8c5f9c1ab7cb45 Long Li         2018-10-31  2969  				break;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2970  			}
-8c5f9c1ab7cb45 Long Li         2018-10-31  2971  
-8c5f9c1ab7cb45 Long Li         2018-10-31  2972  
-8c5f9c1ab7cb45 Long Li         2018-10-31  2973  			wdata->page_offset = start;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2974  			wdata->tailsz =
-8c5f9c1ab7cb45 Long Li         2018-10-31  2975  				nr_pages > 1 ?
-8c5f9c1ab7cb45 Long Li         2018-10-31  2976  					cur_len - (PAGE_SIZE - start) -
-8c5f9c1ab7cb45 Long Li         2018-10-31  2977  					(nr_pages - 2) * PAGE_SIZE :
-8c5f9c1ab7cb45 Long Li         2018-10-31  2978  					cur_len;
-8c5f9c1ab7cb45 Long Li         2018-10-31  2979  		} else {
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2980  			nr_pages = get_numpages(wsize, len, &cur_len);
-                                                                        ^^^^^^^^^^^^^^^^^^^^^^^
+vim +/ubcore_umem_find_best_page_size +284 drivers/ub/urma/ubcore/ubcore_umem.c
 
-da82f7e755d280 Jeff Layton     2012-03-23  2981  			wdata = cifs_writedata_alloc(nr_pages,
-da82f7e755d280 Jeff Layton     2012-03-23  2982  					     cifs_uncached_writev_complete);
-da82f7e755d280 Jeff Layton     2012-03-23  2983  			if (!wdata) {
-da82f7e755d280 Jeff Layton     2012-03-23  2984  				rc = -ENOMEM;
-9f14fd51e0779b Zhang Xiaoxu    2024-05-23  2985  				for (i = 0; i < nr_pages; i++)
-9f14fd51e0779b Zhang Xiaoxu    2024-05-23 @2986  					put_page(pagevec[i]);
-                                                                                                 ^^^^^^^
-9f14fd51e0779b Zhang Xiaoxu    2024-05-23  2987  				kvfree(pagevec);
-
-Uninitialized?  I don't feel like this code makes sense because we're freeing
-nr_pages pages of pagevec[], but we only set nr_pages on line 2980 so that's not
-what we allocated.
-
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2988  				add_credits_and_wake_if(server, credits, 0);
-da82f7e755d280 Jeff Layton     2012-03-23  2989  				break;
-da82f7e755d280 Jeff Layton     2012-03-23  2990  			}
-72432ffcf555de Pavel Shilovsky 2011-01-24  2991  
-da82f7e755d280 Jeff Layton     2012-03-23  2992  			rc = cifs_write_allocate_pages(wdata->pages, nr_pages);
-da82f7e755d280 Jeff Layton     2012-03-23  2993  			if (rc) {
-9bda8723da2d55 Pavel Shilovsky 2019-01-23  2994  				kvfree(wdata->pages);
-da82f7e755d280 Jeff Layton     2012-03-23  2995  				kfree(wdata);
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  2996  				add_credits_and_wake_if(server, credits, 0);
-72432ffcf555de Pavel Shilovsky 2011-01-24  2997  				break;
-72432ffcf555de Pavel Shilovsky 2011-01-24  2998  			}
-72432ffcf555de Pavel Shilovsky 2011-01-24  2999  
-66386c08be5d1a Pavel Shilovsky 2014-06-20  3000  			num_pages = nr_pages;
-8c5f9c1ab7cb45 Long Li         2018-10-31  3001  			rc = wdata_fill_from_iovec(
-8c5f9c1ab7cb45 Long Li         2018-10-31  3002  				wdata, from, &cur_len, &num_pages);
-66386c08be5d1a Pavel Shilovsky 2014-06-20  3003  			if (rc) {
-5d81de8e8667da Jeff Layton     2014-02-14  3004  				for (i = 0; i < nr_pages; i++)
-5d81de8e8667da Jeff Layton     2014-02-14  3005  					put_page(wdata->pages[i]);
-9bda8723da2d55 Pavel Shilovsky 2019-01-23  3006  				kvfree(wdata->pages);
-5d81de8e8667da Jeff Layton     2014-02-14  3007  				kfree(wdata);
-cb7e9eabb2b584 Pavel Shilovsky 2014-06-05  3008  				add_credits_and_wake_if(server, credits, 0);
-5d81de8e8667da Jeff Layton     2014-02-14  3009  				break;
-5d81de8e8667da Jeff Layton     2014-02-14  3010  			}
-5d81de8e8667da Jeff Layton     2014-02-14  3011  
-5d81de8e8667da Jeff Layton     2014-02-14  3012  			/*
-8c5f9c1ab7cb45 Long Li         2018-10-31  3013  			 * Bring nr_pages down to the number of pages we
-8c5f9c1ab7cb45 Long Li         2018-10-31  3014  			 * actually used, and free any pages that we didn't use.
-5d81de8e8667da Jeff Layton     2014-02-14  3015  			 */
-66386c08be5d1a Pavel Shilovsky 2014-06-20  3016  			for ( ; nr_pages > num_pages; nr_pages--)
-5d81de8e8667da Jeff Layton     2014-02-14  3017  				put_page(wdata->pages[nr_pages - 1]);
-5d81de8e8667da Jeff Layton     2014-02-14  3018  
-8c5f9c1ab7cb45 Long Li         2018-10-31  3019  			wdata->tailsz = cur_len - ((nr_pages - 1) * PAGE_SIZE);
-8c5f9c1ab7cb45 Long Li         2018-10-31  3020  		}
-8c5f9c1ab7cb45 Long Li         2018-10-31  3021  
-da82f7e755d280 Jeff Layton     2012-03-23  3022  		wdata->sync_mode = WB_SYNC_ALL;
-da82f7e755d280 Jeff Layton     2012-03-23  3023  		wdata->nr_pages = nr_pages;
-da82f7e755d280 Jeff Layton     2012-03-23  3024  		wdata->offset = (__u64)offset;
-da82f7e755d280 Jeff Layton     2012-03-23  3025  		wdata->cfile = cifsFileInfo_get(open_file);
-352d96f3acc6e0 Aurelien Aptel  2020-05-31  3026  		wdata->server = server;
-da82f7e755d280 Jeff Layton     2012-03-23  3027  		wdata->pid = pid;
-da82f7e755d280 Jeff Layton     2012-03-23  3028  		wdata->bytes = cur_len;
-eddb079deb4deb Jeff Layton     2012-09-18  3029  		wdata->pagesz = PAGE_SIZE;
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  3030  		wdata->credits = credits_on_stack;
-c610c4b619e534 Pavel Shilovsky 2017-04-25  3031  		wdata->ctx = ctx;
-c610c4b619e534 Pavel Shilovsky 2017-04-25  3032  		kref_get(&ctx->refcount);
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3033  
-9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3034  		rc = adjust_credits(server, &wdata->credits, wdata->bytes);
-9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3035  
-9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3036  		if (!rc) {
-9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3037  			if (wdata->cfile->invalidHandle)
-3e9529944d4177 Pavel Shilovsky 2019-01-25  3038  				rc = -EAGAIN;
-3e9529944d4177 Pavel Shilovsky 2019-01-25  3039  			else
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3040  				rc = server->ops->async_writev(wdata,
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3041  					cifs_uncached_writedata_release);
-9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3042  		}
-9a1c67e8d5dad1 Pavel Shilovsky 2019-01-23  3043  
-da82f7e755d280 Jeff Layton     2012-03-23  3044  		if (rc) {
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  3045  			add_credits_and_wake_if(server, &wdata->credits, 0);
-4a5c80d7b5615b Steve French    2014-02-07  3046  			kref_put(&wdata->refcount,
-4a5c80d7b5615b Steve French    2014-02-07  3047  				 cifs_uncached_writedata_release);
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3048  			if (rc == -EAGAIN) {
-fc56b9838a20d4 Al Viro         2016-09-21  3049  				*from = saved_from;
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3050  				iov_iter_advance(from, offset - saved_offset);
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3051  				continue;
-6ec0b01b2691d1 Pavel Shilovsky 2014-06-20  3052  			}
-72432ffcf555de Pavel Shilovsky 2011-01-24  3053  			break;
-72432ffcf555de Pavel Shilovsky 2011-01-24  3054  		}
-72432ffcf555de Pavel Shilovsky 2011-01-24  3055  
-43de94eadf0ced Pavel Shilovsky 2014-06-20  3056  		list_add_tail(&wdata->list, wdata_list);
-da82f7e755d280 Jeff Layton     2012-03-23  3057  		offset += cur_len;
-da82f7e755d280 Jeff Layton     2012-03-23  3058  		len -= cur_len;
-72432ffcf555de Pavel Shilovsky 2011-01-24  3059  	} while (len > 0);
-72432ffcf555de Pavel Shilovsky 2011-01-24  3060  
-335b7b62ffb69d Pavel Shilovsky 2019-01-16  3061  	free_xid(xid);
-43de94eadf0ced Pavel Shilovsky 2014-06-20  3062  	return rc;
-43de94eadf0ced Pavel Shilovsky 2014-06-20  3063  }
+   259	
+ > 260	void ubcore_umem_release(struct ubcore_umem *umem)
+   261	{
+   262		uint64_t npages;
+   263	
+   264		if (IS_ERR_OR_NULL(umem) || umem->ub_dev == NULL || umem->owning_mm == NULL) {
+   265			ubcore_log_err("Invalid parameter.\n");
+   266			return;
+   267		}
+   268	
+   269		if (((umem->va + umem->length) < umem->va) ||
+   270			PAGE_ALIGN(umem->va + umem->length) < (umem->va + umem->length)) {
+   271			ubcore_log_err("Invalid parameter, va or len is invalid.\n");
+   272			return;
+   273		}
+   274	
+   275		npages = umem_cal_npages(umem->va, umem->length);
+   276		dma_unmap_sg(umem->ub_dev->dma_dev, umem->sg_head.sgl, (int)umem->nmap, DMA_BIDIRECTIONAL);
+   277		umem_free_sgt(umem);
+   278		umem_atomic_sub(npages, umem->owning_mm);
+   279		mmdrop(umem->owning_mm);
+   280		kfree(umem);
+   281	}
+   282	EXPORT_SYMBOL(ubcore_umem_release);
+   283	
+ > 284	uint64_t ubcore_umem_find_best_page_size(struct ubcore_umem *umem, uint64_t page_size_bitmap,
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
