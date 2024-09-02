@@ -1,65 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4D61552F6;
-	Mon,  2 Sep 2024 07:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2198E156962
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 07:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725262190; cv=none; b=D/ECWFfDpqC+MKWctOj+722JlIK+/DNfYnsFy9P68TjdJ0rQz1lKcTfS4N7kETXyV2VWLjCKmh2L5Ttp1nC9n/5djhYpp+KI32SO/KkgqW6EQ/6Rec7zIkcWU0i1z02UBUD5TgziJIiLaGh0kqUgBvgs4NlEqQjJ3uGwyxD4854=
+	t=1725262641; cv=none; b=gvv8r04+ZoLNr7CKt53mdszxfpGuSZZ6j6M+MbpkIWy81g8do2YDLaHfAFeDMWs2YKHHyJmuLBB90FsS9AEaz/1y0BdEqYB6LazFFPlGEsSUTatXcZL3EAjxkWXCxftJ92jHx7Ekkp0RrepYLAh0fapo9m1T0LRHRypZIo9gTOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725262190; c=relaxed/simple;
-	bh=lhTaFc5ogQBNc6vanF2w9YH4+fRsbl4uXeonPitGgvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SjfaSmSS5c2wkDNXDIvNzzIt5Hbkudp65/DDSyvej8K07/EQFWOVWhqSyPLUAdR5lVQHj1JCQjpGabHoF20vkyrguIASVT2/d/d7m3eglf/7Qfbduk/UIQhXjleociBV0MSsGxIjvrEHBNujOC8Kvvwj7FjbLp8R/CVtiewqZyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJJgp/9c; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725262641; c=relaxed/simple;
+	bh=ZqV7LNsiVGHoUM5UGbtwqKTKpF3Q0UUwmwKyZ9B64k4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=PR437O2GYRIguKfZtZxU3u0y2wDO9TiQVjg4OnvX85XMc6YAMi0IiwB6an+WaT5jtKctgcUMmP5xVu3UXSCiUIantlxEL+Xh353D9G77Wy9RlZMUKi2LeLBaxwPJXBaz3Ab6mjCikEiqu9Ka8tYkkaBz79hMmIccVt7+/FokNIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PUV/13zB; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJJgp/9c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725262189; x=1756798189;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lhTaFc5ogQBNc6vanF2w9YH4+fRsbl4uXeonPitGgvg=;
-  b=OJJgp/9ccsMS2gb8ibou4zzRs8C5zBruUrvuQ+wXjmCtfl2M/VSbgpzq
-   OQGabGnOHXVu10MYIHqoOkQL32AGZm9Qtnwng7EgfI9479x/nqzkl4UeJ
-   AhrDceOT7kA/MWqi18TjSSXJI4OcaIONr3s9n58zrpuQ0ex3FG3mYzJG7
-   RGQiEkFBSiz+yMRp99XDDu6+w96sovLjPL2evwsuz2b75VSgkaFMoWpyt
-   DhIfWtqLVbE+zTjP5eHjRbZQ/iceXiiTQ+/LzjFO5CK5F3n9A7j3sMaS2
-   uZXunuKoBfzMiqPmOkh1+jIXC7/3csY8CxEO0MAETJ/xK4nNWwGQdn18z
-   A==;
-X-CSE-ConnectionGUID: sHmf9cT9T72dNfrn92tPAw==
-X-CSE-MsgGUID: UbGnVPuRQ+qF9NVjrXKvmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23990752"
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="23990752"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 00:29:48 -0700
-X-CSE-ConnectionGUID: sqYxTiB5T5Cls08UIZ6vxQ==
-X-CSE-MsgGUID: ysmC1HPUT3e9cRb9r1dJAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="68922739"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Sep 2024 00:29:46 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sl1VP-0005Ee-1c;
-	Mon, 02 Sep 2024 07:29:43 +0000
-Date: Mon, 2 Sep 2024 15:29:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Geoffrey D. Bennett" <g@b4.vu>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Mark Hills <mark@xwax.org>, Arun Raghavan <arun@arunraghavan.net>,
-	Cyan Nyan <cyan.vtb@gmail.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH 2/2] ALSA: usb-audio: Add mixer quirk for RME Digiface USB
-Message-ID: <202409021549.DbXWdqGa-lkp@intel.com>
-References: <20240902-rme-digiface-v1-2-6e88472a2744@asahilina.net>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PUV/13zB"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-428e0d18666so33274525e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Sep 2024 00:37:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725262638; x=1725867438; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lFxf56tpsu9MCJOLHsalfoP4zZVv/tiIqwxHml+ydYU=;
+        b=PUV/13zBkdnoqkS/XZUzhAV33gMcb3NOp3+QAYh3ZEqT7iqLa3VV+DmhmEAj6ZUVSB
+         WUA1hMpTYJRxThsPLgXT3h43BEt+t+mcvbSGkjavVJp6r2LHfE9w52u2LpRkT0MGPUEi
+         XQlZD47MjVfTFfV36iYMqupDonRquyyj78/dNuGCB5VSZg8l8L9nsT7dvDcLyWcoetOc
+         p6rB2F6ki3d47lxoouAgdidO8k3T6PYifYCEiFEjT+mUGNlCyZykyQxmvCYiqKJjiUl+
+         aweHwzN5aqI4PpSK42e4hYPJAmIAyB7b+ViI6snFTDeKY7meoNI/m9mc6qVQVmoyp4Gz
+         7stQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725262638; x=1725867438;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lFxf56tpsu9MCJOLHsalfoP4zZVv/tiIqwxHml+ydYU=;
+        b=ZiSXs5zccjjbI8DuZirHfPDKHt9rkoG0vfXtnHsjM0D7He+zReCvvCncltENiw0ehb
+         iNvofUOaoHzc7VWMqOvWBP6qf/aTsjGnoQVFDhIjM9F3KddaHKGh8rIYzcxIhTaYj/93
+         0J59SW8FYCwgAv9xU01ry9E7escVHuzmCoFB6M8x/DQE/w9+J6K7UWmHZGw5oQCS6J5v
+         C+0fTbTIPvvSy54vIqy0calpNN8EYpChAFHufArJ8sMzQ1N803gsfkISXxK62LzcPtl7
+         DtbT5tFeHW5PHew3fzoQEzKlENtwj0MOczzV1N5WRmsuGd9iIkYrrUMzuOTUGvCgJImy
+         zG1A==
+X-Forwarded-Encrypted: i=1; AJvYcCVVDJc8+cRjvFDIx3pKuuYoWNqDuFP1VOyBD54PY7nSIbDXMVh35q//DgJz65yXDBtK3OdapCoCrWTxJo2K@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVAlcz6h8CnAmDcEUp95V2kca36D1OKddnr86zUWdNIYXlUyPP
+	0a4msdB193XjqIVujtGx429ci3oZevnULO9+irmiOZd34iOTm97vrpoyCwQCVDQ=
+X-Google-Smtp-Source: AGHT+IH3Qcwv2NC2E574s+f0osfse5E8+QD0KTABLXftqeISTl0ZTPFa2vr6Y/cwqXkJEIRkULQ/NQ==
+X-Received: by 2002:a05:600c:1554:b0:428:18d9:9963 with SMTP id 5b1f17b1804b1-42bbb436e16mr71077435e9.22.1725262638228;
+        Mon, 02 Sep 2024 00:37:18 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6df7c5bsm128058675e9.23.2024.09.02.00.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2024 00:37:17 -0700 (PDT)
+Date: Mon, 2 Sep 2024 10:37:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Lorenzo Bianconi <lorenzo@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Felix Fietkau <nbd@nbd.name>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, upstream@airoha.com,
+	angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org, lorenzo.bianconi83@gmail.com,
+	ansuelsmth@gmail.com, Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: Re: [PATCH 4/7] clk: en7523: introduce chip_scu regmap
+Message-ID: <891de723-5e14-4540-8716-a465afd7a440@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,128 +74,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240902-rme-digiface-v1-2-6e88472a2744@asahilina.net>
+In-Reply-To: <20240831-clk-en7581-syscon-v1-4-5c2683541068@kernel.org>
 
-Hi Asahi,
+Hi Lorenzo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Asahi-Lina/ALSA-usb-audio-Add-quirk-for-RME-Digiface-USB/20240902-054004
-base:   8400291e289ee6b2bf9779ff1c83a291501f017b
-patch link:    https://lore.kernel.org/r/20240902-rme-digiface-v1-2-6e88472a2744%40asahilina.net
-patch subject: [PATCH 2/2] ALSA: usb-audio: Add mixer quirk for RME Digiface USB
-config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20240902/202409021549.DbXWdqGa-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021549.DbXWdqGa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-clock-airoha-update-reg-mapping-for-EN7581-SoC/20240831-152135
+base:   f0e992956eb617c8f16119944bfe101dea074147
+patch link:    https://lore.kernel.org/r/20240831-clk-en7581-syscon-v1-4-5c2683541068%40kernel.org
+patch subject: [PATCH 4/7] clk: en7523: introduce chip_scu regmap
+config: nios2-randconfig-r072-20240902 (https://download.01.org/0day-ci/archive/20240902/202409021114.11d1W3PJ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409021549.DbXWdqGa-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409021114.11d1W3PJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/clk/clk-en7523.c:471 en7581_register_clocks() error: uninitialized symbol 'hw'.
+drivers/clk/clk-en7523.c:471 en7581_register_clocks() warn: passing zero to 'PTR_ERR'
 
->> sound/usb/mixer_quirks.c:3000:42: warning: shift count >= width of type [-Wshift-count-overflow]
-           bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
-                                                   ^~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
-   #define RME_DIGIFACE_INVERT BIT(32)
-                               ^~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   sound/usb/mixer_quirks.c:3063:42: warning: shift count >= width of type [-Wshift-count-overflow]
-           bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
-                                                   ^~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
-   #define RME_DIGIFACE_INVERT BIT(32)
-                               ^~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   sound/usb/mixer_quirks.c:3160:4: warning: shift count >= width of type [-Wshift-count-overflow]
-                           RME_DIGIFACE_INVERT,
-                           ^~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
-   #define RME_DIGIFACE_INVERT BIT(32)
-                               ^~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   sound/usb/mixer_quirks.c:3185:4: warning: shift count >= width of type [-Wshift-count-overflow]
-                           RME_DIGIFACE_INVERT,
-                           ^~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
-   #define RME_DIGIFACE_INVERT BIT(32)
-                               ^~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   sound/usb/mixer_quirks.c:3210:4: warning: shift count >= width of type [-Wshift-count-overflow]
-                           RME_DIGIFACE_INVERT,
-                           ^~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
-   #define RME_DIGIFACE_INVERT BIT(32)
-                               ^~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   sound/usb/mixer_quirks.c:3235:4: warning: shift count >= width of type [-Wshift-count-overflow]
-                           RME_DIGIFACE_INVERT,
-                           ^~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
-   #define RME_DIGIFACE_INVERT BIT(32)
-                               ^~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   6 warnings generated.
+Old smatch warnings:
+drivers/clk/clk-en7523.c:478 en7581_register_clocks() error: uninitialized symbol 'hw'.
+drivers/clk/clk-en7523.c:478 en7581_register_clocks() warn: passing zero to 'PTR_ERR'
 
+vim +/hw +471 drivers/clk/clk-en7523.c
 
-vim +3000 sound/usb/mixer_quirks.c
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  459  static void en7581_register_clocks(struct device *dev, struct clk_hw_onecell_data *clk_data,
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  460  				   struct regmap *map, void __iomem *base)
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  461  {
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  462  	struct clk_hw *hw;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  463  	u32 rate;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  464  	int i;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  465  
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  466  	for (i = 0; i < ARRAY_SIZE(en7523_base_clks); i++) {
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  467  		const struct en_clk_desc *desc = &en7523_base_clks[i];
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  468  		u32 val, reg = desc->div_reg ? desc->div_reg : desc->base_reg;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  469  
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  470  		if (regmap_read(map, desc->base_reg, &val)) {
+f114fc7e44857f Lorenzo Bianconi 2024-08-31 @471  			pr_err("Failed reading fixed clk rate %s: %ld\n",
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  472  			       desc->name, PTR_ERR(hw));
+                                                                                                   ^^
+Uninitialized
 
-  2995	
-  2996	static int snd_rme_digiface_get_status_val(struct snd_kcontrol *kcontrol)
-  2997	{
-  2998		int err;
-  2999		u32 status[4];
-> 3000		bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
-  3001		u8 reg = kcontrol->private_value >> 16;
-  3002		u16 mask = kcontrol->private_value & 0xffff;
-  3003		u16 val;
-  3004	
-  3005		err = snd_rme_digiface_read_status(kcontrol, status);
-  3006		if (err < 0)
-  3007			return err;
-  3008	
-  3009		switch (reg) {
-  3010		/* Status register halfwords */
-  3011		case RME_DIGIFACE_STATUS_REG0L ... RME_DIGIFACE_STATUS_REG3H:
-  3012			break;
-  3013		case RME_DIGIFACE_CTL_REG1: /* Control register 1, present in halfword 3L */
-  3014			reg = RME_DIGIFACE_STATUS_REG3L;
-  3015			break;
-  3016		case RME_DIGIFACE_CTL_REG2: /* Control register 2, present in halfword 3H */
-  3017			reg = RME_DIGIFACE_STATUS_REG3H;
-  3018			break;
-  3019		default:
-  3020			return -EINVAL;
-  3021		}
-  3022	
-  3023		if (reg & 1)
-  3024			val = status[reg >> 1] >> 16;
-  3025		else
-  3026			val = status[reg >> 1] & 0xffff;
-  3027	
-  3028		if (invert)
-  3029			val ^= mask;
-  3030	
-  3031		return field_get(mask, val);
-  3032	}
-  3033	
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  473  			continue;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  474  		}
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  475  		rate = en7523_get_base_rate(desc, val);
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  476  
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  477  		if (regmap_read(map, reg, &val)) {
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  478  			pr_err("Failed reading fixed clk div %s: %ld\n",
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  479  			       desc->name, PTR_ERR(hw));
+                                                                                                   ^^
+Uniniitialized
+
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  480  			continue;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  481  		}
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  482  		rate /= en7523_get_div(desc, val);
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  483  
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  484  		hw = clk_hw_register_fixed_rate(dev, desc->name, NULL, 0, rate);
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  485  		if (IS_ERR(hw)) {
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  486  			pr_err("Failed to register clk %s: %ld\n",
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  487  			       desc->name, PTR_ERR(hw));
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  488  			continue;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  489  		}
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  490  
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  491  		clk_data->hws[desc->id] = hw;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  492  	}
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  493  
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  494  	hw = en7523_register_pcie_clk(dev, base);
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  495  	clk_data->hws[EN7523_CLK_PCIE] = hw;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  496  
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  497  	clk_data->num = EN7523_NUM_CLOCKS;
+f114fc7e44857f Lorenzo Bianconi 2024-08-31  498  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
