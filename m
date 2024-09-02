@@ -1,145 +1,86 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B024F29422
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 02:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E229C3BB22
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Sep 2024 03:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725244927; cv=none; b=PhL687MlyraIDe/L7RlKGmYuyAXD8jsa+7noSEpTMpEj27AiZWj5QAScQNxIEbz+sBLI3w+gt5bohfH57PNTtOlbYx8Hp04Lg2qqrJwGPIwMdVV3BZpnMQDPfXgQxus0/xkU7mg2FuQ1tcJYqvNmLr7cxAL3riNXiGEUL1AJY1c=
+	t=1725246760; cv=none; b=bNHtNowzTl6IuVECeqps4LuXCC7pa7D/jZ8aApv6uE9Lzac+QvePh3+O8pvatlESoWIhSmFDzsFAuwEY42c+p8dKRoeQk21FTxINCLH+E6VkekctI3/nG7qiqyGTx80iblOfb/GYoOAvlSVKOY29LZD381WNn20QjY0O+ln/wHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725244927; c=relaxed/simple;
-	bh=fRQBjGtlnvDAfBgkDPlHm5l+iboxelN7tPUpU9ILVL0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SCW3QBVFjMWuJsPTjEIzQhv1msq3nj+adRrtdtJxLSwJdNTOomZhsEPon8BP+oWG1HJ3Mz3aP7mk0oCWqkDSdXU3BIbbmbtliH3IwMgN9SR3KRCEtinYWFUYTxrNGuwHxMGoG+fWlbR46Cdj+LtaiaOluPtwloShDN6svqsxCTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AuEOlTWK; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725246760; c=relaxed/simple;
+	bh=HPPTbkJdcONTlDBJlH3MfZr/mcPf5dHy38cFBOnAOxE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jescwpU+IDL7yEK4rH1mDcqFm5MU51TsVC8xM/TtW8VTO+5y+j3/2Zq/WAhOKYIzazeGkAhKfVprfVoLu6j/iO5TsCN/IaZrGXU3jbrMjx+y9aVe4t39mfvk7n3hADD6UrJi4A8Mgh/aPb+4hTWRG76L9KUxzOZEGUvINef1NEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVs5KkkD; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AuEOlTWK"
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-39d4161c398so14354395ab.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Sep 2024 19:42:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725244925; x=1725849725; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vYVuWR+KJMOu7VVG8hiplGAK1TU6V31co4dLMl7opaY=;
-        b=AuEOlTWK0NgfUFKJ7i9M+lPfbnWOXCF9JLurt41tf3EYjxdPK8fg1Xx2QG9wtEy0eg
-         OBjuigVUP+QyNR65Eiq0+N0PQNm6q+A5bAGeJyinP15WRENidfBPp+mpCfCAcFfQJtB5
-         v1VvTTmOevRd3h/XhU5Ja4bFzSLEln3s2BzbB34uHkcNhZwPEKu4LwT3tnkttlcOC+GT
-         FrDmLFKCStxGHEQdljcGEuFlX4CN0C8Cup3noqkih1Fd3YTQcQIBUCDQQOpnRZ+iACuu
-         I25w9R/PKM8+rxhULdFJ83z9CbGE7PQfusZSJguBTrDC9k4pVRzrUegrtVPgns9TPpwN
-         1t+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725244925; x=1725849725;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vYVuWR+KJMOu7VVG8hiplGAK1TU6V31co4dLMl7opaY=;
-        b=QUbo+ezWEzHDSEVuUVVMrbOJMhCIv/NHW9t8BTpcwfY9YWciiNIW2NIMoXKkbwoPx2
-         D1JeWXG3kraLby/F7byk4gH8QwZR/MSqlJMW5BS0d1iaAO7vrE88DqeNaALShF8uhP5T
-         Bhj7eNiNIkRUCReM0HvreXt5/znvZYSLzSJRN4TuY8CtG9QGvAtugHTACibLK217c1hG
-         TpRiULQzNjosKM2sfrtAjNOp9n8ZAHI6VHGTThvNU48mXi4QYyhmiwtQOnam2Iv+nWe6
-         rZwNF+oZNeYD9FCkCfA53OJICjSWAGt8rXH1b2v3mCEu5MVhqyL2kyRq/l81BCQsNDMn
-         ETRg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4GoYFjQRwbxTcmkDbSyOrBQWwng7FfIIaTfYGtVyIySrctKc7Romng2zIgRIGh2eE01WDfc6wFYY1qG4e@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzs86XxJehDEiwoB+3+4VQDUOvrEr3142HObwS3WYrwf/rViuJN
-	AOpbdE3taMEfMUgeaWTkDZ3HQxax3rbgKyy9vtolpHaJ5kxxclZfQ1AhLzzeApj/7+jt+DSZ9Kt
-	VO74Ci7S9l4+l/oDzSvy6QACUOiY=
-X-Google-Smtp-Source: AGHT+IGU/4FmqbkrGxfuuIcBMSAIpnYMeDpJVcK8PuY2InxMEkx3irFDs6E+DBoWldDLN7taMAIn3PmFedOV+mIsj48=
-X-Received: by 2002:a92:b709:0:b0:37a:7662:7591 with SMTP id
- e9e14a558f8ab-39f4f516a8bmr61004735ab.6.1725244924702; Sun, 01 Sep 2024
- 19:42:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVs5KkkD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725246759; x=1756782759;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=HPPTbkJdcONTlDBJlH3MfZr/mcPf5dHy38cFBOnAOxE=;
+  b=hVs5KkkDHuNVvFqJxpXaT00UpVtr7zsRiWiaJWtcR2JHgpS14pI9JBvK
+   XG1iWhOSPjJH6yZTU3df8HVXqjBHacohJLzpacDKKUMdLTcznpMCLL3TX
+   R9vunYZ6/gUHsW1i78Dm95wpgxo0iq1+uhvoBcGZYSt1CtI+tl4STOEtJ
+   n6n5wDmCXlh7qgo+6+6z5QMi3KemiS8UKW+eFAPRkd7wLHs84NMhgl1yG
+   yGa0QpmRR2ViYbKzZFMSt/pmOq0AKMkOMyxiWmYKP6g38qZOdKSuxp0rv
+   SFs+UgtrjQJWqP4YFFo55fZiWpnAMB05Z3Zaq8u9Iarxt8OCmVE4hy2e8
+   g==;
+X-CSE-ConnectionGUID: vZ5IgTJ3TI24WU8DTVPU5A==
+X-CSE-MsgGUID: lNuut8wrRweZbmoNFx3JBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23971826"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="23971826"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 20:12:38 -0700
+X-CSE-ConnectionGUID: sKMt+NPJQd2RZoTtclkeeA==
+X-CSE-MsgGUID: TD3ltq3DSXmCJyRDufyaOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="65203568"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 01 Sep 2024 20:12:37 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1skxUY-00054s-0p;
+	Mon, 02 Sep 2024 03:12:34 +0000
+Date: Mon, 2 Sep 2024 11:12:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yenchia Chen <yenchia.chen@mediatek.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.15 1/1] PM: sleep: Restore asynchronous device resume
+ optimization
+Message-ID: <ZtUtCTTnGr1EU5_V@bcffd8c2c65a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240830153751.86895-3-kerneljasonxing@gmail.com> <ZtUZpPISIpChbcRq@rli9-mobl>
-In-Reply-To: <ZtUZpPISIpChbcRq@rli9-mobl>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Mon, 2 Sep 2024 10:41:28 +0800
-Message-ID: <CAL+tcoDg5rEQpx7mAvOxFg71iOT9gWBy0+NzjWV4r6JfhnOG0g@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/2] rxtimestamp.c: add the test for SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
-To: kernel test robot <lkp@intel.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, dsahern@kernel.org, willemb@google.com, 
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
-	Jason Xing <kernelxing@tencent.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240902031047.9865-2-yenchia.chen@mediatek.com>
 
-On Mon, Sep 2, 2024 at 9:49=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Jason,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-tim=
-estamp-filter-out-report-when-setting-SOF_TIMESTAMPING_SOFTWARE/20240830-23=
-4014
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20240830153751.86895-3-kerneljas=
-onxing%40gmail.com
-> patch subject: [PATCH net-next v3 2/2] rxtimestamp.c: add the test for SO=
-F_TIMESTAMPING_OPT_RX_SOFTWARE_FILTER
-> :::::: branch date: 2 days ago
-> :::::: commit date: 2 days ago
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a=
-15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240902/202409020124.YybQQDrP-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202409020124.YybQQDrP-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> rxtimestamp.c:102:6: error: use of undeclared identifier 'SOF_TIMESTAM=
-PING_OPT_RX_SOFTWARE_FILTER'
->      102 |                         | SOF_TIMESTAMPING_OPT_RX_SOFTWARE_FIL=
-TER },
->          |                           ^
-> >> rxtimestamp.c:373:20: error: invalid application of 'sizeof' to an inc=
-omplete type 'struct test_case[]'
->      373 |                         for (t =3D 0; t < ARRAY_SIZE(test_case=
-s); t++) {
->          |                                         ^~~~~~~~~~~~~~~~~~~~~~
->    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
->       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
->          |                                ^~~~~
->    rxtimestamp.c:380:13: error: invalid application of 'sizeof' to an inc=
-omplete type 'struct test_case[]'
->      380 |                         if (t >=3D ARRAY_SIZE(test_cases))
->          |                                  ^~~~~~~~~~~~~~~~~~~~~~
->    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
->       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
->          |                                ^~~~~
->    rxtimestamp.c:419:19: error: invalid application of 'sizeof' to an inc=
-omplete type 'struct test_case[]'
->      419 |                 for (t =3D 0; t < ARRAY_SIZE(test_cases); t++)=
- {
->          |                                 ^~~~~~~~~~~~~~~~~~~~~~
->    ./../kselftest.h:61:32: note: expanded from macro 'ARRAY_SIZE'
->       61 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
->          |                                ^~~~~
->    4 errors generated.
+Hi,
 
-I didn't get how it happened? I've already test it locally.
+Thanks for your patch.
 
-Is it because the test environment didn't update the header files by
-using the command like "make headers_install && cp -r
-usr/include/linux /usr/include/"?
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If the applications or some userspace tools try to use the new flag,
-it should update the header file to sync the uapi file first.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-Thanks,
-Jason
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 5.15 1/1] PM: sleep: Restore asynchronous device resume optimization
+Link: https://lore.kernel.org/stable/20240902031047.9865-2-yenchia.chen%40mediatek.com
+
+Please ignore this mail if the patch is not relevant for upstream.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
