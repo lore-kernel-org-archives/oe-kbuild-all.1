@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4B51C9849
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 12:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC031CA6BB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 13:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725365407; cv=none; b=dphFqExNVBC23fbwqJZ2eRFCBWQhdNL4RStV492r4hIqdfJHVoRcbMUjn5wfCckP8z7IdOFDqOaaDnf5dk0hnhzdPX7R8gND/cgEO30H/4l4Qf5dHuRyzPjgb4d9zhr1p0ZQ7XMdBeqm4NKURBYSgdanUtcDG0mZQ5eDQrVldKU=
+	t=1725369731; cv=none; b=hT1HiI+VvI4N0rqvtOXVWrE1S6QubKlLLsm+9W0jqB24FZN7tKC4NnQ9qU5feTdrHFURJUMIWgufQEgJtRLa+S8KhcF3XeqL4OJad2GBdjbEU+iaD6C5aUKwmaBBNnF/acFAnsMsowjZWwYw+ofy0iwZP6wyq83PZqKe4fwxS8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725365407; c=relaxed/simple;
-	bh=hlRlczCx4KAKGqc523VqJzYKf+XDB9KULoiILvI0T4E=;
+	s=arc-20240116; t=1725369731; c=relaxed/simple;
+	bh=XrvkYw+XAD3M+dUfiwFTxwodyabp8CHo8Jtj6r34uA0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Br9MgTvY/BsqcGPrN3qpLVKFyffoYgVO/i+HnoeAjKEK9Qg8yPTFBHIUoPcmN0wnlGHcWtsqXaGtQ3PktRpWcf0Wi+RoiVK4aA1ZDwlG2jERwrR0DhNKw025T6Kdcg+SFboKpBFGRkydk8jgmxMc3agQfTov111aioYhtnKYJM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAW7MOpM; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=IBY4QngaEs5Hch7cXSl2Izo90oXhK6W6wH2SIKHZKGmyCp7vbs5yd0T5MzJvZNZcyeu7DzLbyOKN47w6/hR9hXe/63lX/zI5mCOW/q6CaKrA5vwZ9qUK/Y3GDxYpImKDRcc8lebBWr7mjKY0syXzuySENH36FsOxRT20XeoVwqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yletz0yn; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAW7MOpM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yletz0yn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725365405; x=1756901405;
+  t=1725369730; x=1756905730;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hlRlczCx4KAKGqc523VqJzYKf+XDB9KULoiILvI0T4E=;
-  b=iAW7MOpMNSisnKWuxoX5Y0rpUIJdE64IFaD1A1Ouq+gtb/Wd9/3uknwO
-   GH+eteqAIfRi9e81puzbMtu77bG22AhBW5s4aZjNGxeSceawd7xdkRd4H
-   uOXAuWWz2z0B3Skop6ub96W55uyh/f6xjrdH52bTcPFkhIZCSddnQ7yMG
-   7vm1rl/CGoHF55vlbYnjnrEAuehkgeIyYy2JvCgCFooxbmJCFrZgl+YXw
-   ofM/LxMwypMQp+W1k3qLLi69ssLO4tW5f+AMIkvia5xpuW0Zm4Xmevc/p
-   LBcUhCiF9K7WQl3aNdUeq0cWSL8IB7ZeoZxcat43GAMjYxBvlOlpbdX0+
-   g==;
-X-CSE-ConnectionGUID: GSsfaHPfQeyp3UtCpZQJfQ==
-X-CSE-MsgGUID: CxhbORinSZGxaYYJLEx/ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="49363266"
+  bh=XrvkYw+XAD3M+dUfiwFTxwodyabp8CHo8Jtj6r34uA0=;
+  b=Yletz0ynP6GEycPi44o4MoXFu9garC22ndtvTWRLVKOfbRFKFL1nGUHH
+   NKPE0fIZ9pxFubDCB/3Q00sTlKCreWIjCv1xgSV38rw2QGHRlMGhMB0AG
+   V6U26m9fsBs49QqmIOrOObxF760Js7unMqPpmH7AywdR0Y1c6WcOc5MXp
+   Ag6YpZz9o28pm/YgTfoaLMWv0NIeFYgcwMnFufnyUb+C0fY0Px/RyJdb8
+   EOINdC+bKuhY7eBFin4vjNdJAAuIWY604lN+FdafjYsTASh6sbL89Owtr
+   5LoJp8nkW6PWwfHrZvMg/9n4sphFFCdOkpKbKvdK9XbbnOL/ACDs5vpQ3
+   Q==;
+X-CSE-ConnectionGUID: 0Atlnhs2QkybX0qRomjQcg==
+X-CSE-MsgGUID: J3XkJ/6iSQmECYzdAiY5sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24106653"
 X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="49363266"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 05:10:05 -0700
-X-CSE-ConnectionGUID: zdJV217qQneCadSowuTysA==
-X-CSE-MsgGUID: ljryug6tQ7uEqnIFJI9v9A==
+   d="scan'208";a="24106653"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 06:22:09 -0700
+X-CSE-ConnectionGUID: JkBViRWASzWBckwsz4z8ag==
+X-CSE-MsgGUID: IUeFywWiSV2apEAbXZHNiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="64912202"
+   d="scan'208";a="65116920"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Sep 2024 05:10:04 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 03 Sep 2024 06:22:06 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slSMD-0006c9-1N;
-	Tue, 03 Sep 2024 12:10:01 +0000
-Date: Tue, 3 Sep 2024 20:09:51 +0800
+	id 1slTTw-0006i2-1p;
+	Tue, 03 Sep 2024 13:22:04 +0000
+Date: Tue, 3 Sep 2024 21:21:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
-	Fabien Parent <fabien.parent@linaro.org>,
-	Philipp Stanner <pstanner@redhat.com>
-Subject: [rust:pr/1040 9/23] error[E0425]: cannot find function `iounmap` in
- crate `bindings`
-Message-ID: <202409032055.fbngUk9k-lkp@intel.com>
+To: Yehuda Yitschak <yehuday@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yonatan Nachum <ynachum@amazon.com>,
+	Michael Margolin <mrgolin@amazon.com>
+Subject: [linux-next:master 5282/8795]
+ drivers/infiniband/hw/efa/efa_main.c:444:30: sparse: sparse: incorrect type
+ in assignment (different base types)
+Message-ID: <202409032113.bvyVfsNp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,25 +66,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Rust-for-Linux/linux pr/1040
-head:   0abbabb92bb1a91f0e007fac2ab22c4817aea760
-commit: 179b3369bc25bb84ee74213e2b4fc5e3c1815375 [9/23] rust: add `io::Io` base type
-config: um-randconfig-r052-20240903 (https://download.01.org/0day-ci/archive/20240903/202409032055.fbngUk9k-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409032055.fbngUk9k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6804f0edbe7747774e6ae60f20cec4ee3ad7c187
+commit: 04e36fd27a2aebb03ef019debc4df247f2a427c6 [5282/8795] RDMA/efa: Add support for node guid
+config: loongarch-randconfig-r132-20240903 (https://download.01.org/0day-ci/archive/20240903/202409032113.bvyVfsNp-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240903/202409032113.bvyVfsNp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409032055.fbngUk9k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409032113.bvyVfsNp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/hw/efa/efa_main.c:444:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] node_guid @@     got unsigned long long [usertype] guid @@
+   drivers/infiniband/hw/efa/efa_main.c:444:30: sparse:     expected restricted __be64 [usertype] node_guid
+   drivers/infiniband/hw/efa/efa_main.c:444:30: sparse:     got unsigned long long [usertype] guid
 
->> error[E0425]: cannot find function `iounmap` in crate `bindings`
-   --> rust/doctests_kernel_generated.rs:2535:28
-   |
-   2535 |         unsafe { bindings::iounmap(self.0.base_addr() as _); };
-   |                            ^^^^^^^ not found in `bindings`
+vim +444 drivers/infiniband/hw/efa/efa_main.c
+
+   408	
+   409	static int efa_ib_device_add(struct efa_dev *dev)
+   410	{
+   411		struct efa_com_get_hw_hints_result hw_hints;
+   412		struct pci_dev *pdev = dev->pdev;
+   413		int err;
+   414	
+   415		efa_stats_init(dev);
+   416	
+   417		err = efa_com_get_device_attr(&dev->edev, &dev->dev_attr);
+   418		if (err)
+   419			return err;
+   420	
+   421		dev_dbg(&dev->pdev->dev, "Doorbells bar (%d)\n", dev->dev_attr.db_bar);
+   422		err = efa_request_doorbell_bar(dev);
+   423		if (err)
+   424			return err;
+   425	
+   426		err = efa_com_get_hw_hints(&dev->edev, &hw_hints);
+   427		if (err)
+   428			goto err_release_doorbell_bar;
+   429	
+   430		efa_update_hw_hints(dev, &hw_hints);
+   431	
+   432		/* Try to enable all the available aenq groups */
+   433		err = efa_com_set_aenq_config(&dev->edev, EFA_AENQ_ENABLED_GROUPS);
+   434		if (err)
+   435			goto err_release_doorbell_bar;
+   436	
+   437		err = efa_create_eqs(dev);
+   438		if (err)
+   439			goto err_release_doorbell_bar;
+   440	
+   441		efa_set_host_info(dev);
+   442	
+   443		dev->ibdev.node_type = RDMA_NODE_UNSPECIFIED;
+ > 444		dev->ibdev.node_guid = dev->dev_attr.guid;
+   445		dev->ibdev.phys_port_cnt = 1;
+   446		dev->ibdev.num_comp_vectors = dev->neqs ?: 1;
+   447		dev->ibdev.dev.parent = &pdev->dev;
+   448	
+   449		ib_set_device_ops(&dev->ibdev, &efa_dev_ops);
+   450	
+   451		dev->ibdev.driver_def = efa_uapi_defs;
+   452	
+   453		err = ib_register_device(&dev->ibdev, "efa_%d", &pdev->dev);
+   454		if (err)
+   455			goto err_destroy_eqs;
+   456	
+   457		ibdev_info(&dev->ibdev, "IB device registered\n");
+   458	
+   459		return 0;
+   460	
+   461	err_destroy_eqs:
+   462		efa_destroy_eqs(dev);
+   463	err_release_doorbell_bar:
+   464		efa_release_doorbell_bar(dev);
+   465		return err;
+   466	}
+   467	
 
 -- 
 0-DAY CI Kernel Test Service
