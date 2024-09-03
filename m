@@ -1,63 +1,59 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794561D7E48
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 19:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4F91D7E26
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 19:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725391927; cv=none; b=aMhl3pBu1kwWfSggcyT+odF/07lNdk7/GjzGnHgXogT9erFsG7FSHlNxrqSkQo/waqVCVSbMJVfg88z3ck2QBozm+EHQ3eoTFTTrJpdGP+pKJ6TY9gXN7sl4oqgCUBwoq9cWOW/6pOZE4KnOlWfpv9SpoILn/QZ6oF+Ld9FXmKE=
+	t=1725392079; cv=none; b=kbPjD7JAzgfag9DWJWG/SPkSsOlcA7/GVJBgkOH5pBtZ+iCVUeaDJ0I6ZZZ9lhZsIxqWTyPiDCOcaF1AOepMzROtQtfREjswAM/byOFQjnRTm08Jv6yMdTDab+1NVfSKvq5xyZJWSsaIuD9gtkMf+vgedPQzL6doPibIQHQMFkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725391927; c=relaxed/simple;
-	bh=2W8hwznFDZoXHvINBPmZvBk+WEJ0g4V7yTJYC3HD3Yg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DXjO9kOrg4weX5PgVv0reOF3VqllyJa+ap+7nC30HqgGx4Pg6TriTEaTbwZujLfFA7HxvntowHxVkf0HLLCSGb0tQ4KTV2vbVjL9g+Zd5aAHsJPEXisl8/+qVm6zHezqvXSKTpw4YQ2p4kYCbjc9Hj9z/XVXBj5gGUrbLyFXws4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PTtxfG20; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725392079; c=relaxed/simple;
+	bh=39b9O7q+kR3qkDl+dB6CSlhcuomrGDPE7Ar69fnE79M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=guhIRozNbxaY8C4jsc/jdEds/3A909EXBMdNa8iPkX37V8WzJJ16iPHR0ZP7Hy1A9ybS4otd8uqJvO0gncbyjUXQCB6RzDWvlT8FfDQwizmZ/ALkxKiu7RE1HEyiGKG7fKyyGN5/FNiJfw6t9IwkQ8ftmg3WoiY/gvBYtVXAY3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/ZQpr/u; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PTtxfG20"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-374ca65cafdso1243524f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Sep 2024 12:32:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725391924; x=1725996724; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LVzAyCpAybrQZZdn0DRcKq/aGvOZv6izq6VKEaiwBWA=;
-        b=PTtxfG20ALp4xs64phEqXq4EJ9Pxf11ZPdD2Mw4CbUjiL5ng9LvWXjyZMhso7HcN+t
-         xlpJQm1tFfbFiLzrScYMQ1TIsEDMGI5x0aPqj3ZUEBrV+siF0/ZxrxmKpib7ycbpvbxi
-         Fq2JJDeNAZVZIllIoaQA4BmlI1Q+Atq51yVhxE6g6BqXO1Sj485ZG5tavyc6cK9xCkC1
-         ru5svh3Y99hGRIRlIKejzBpijC4bEgpGXIIhQT/5ztutR64f6LuzSesgaiK/MC7Rv4Pi
-         n9I/8pGCcDlQUnOrovb0ZwFx3GERVwrViHTNLF0LLmYNS6M8Z7yQbphUNvx+SEotCuVb
-         ZhOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725391924; x=1725996724;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LVzAyCpAybrQZZdn0DRcKq/aGvOZv6izq6VKEaiwBWA=;
-        b=mf/cR/G5lyhM+dIflt1UJKXy1A5CUE757nntf6pUvL7Np8F5lRKekWpj5aUhm9G6Yy
-         iMQi/N0yUetXMXXOOrychEanRbjNNpsMuVSyldE/KCwY7DO5kbvrELXxqhJoQ9c97mcN
-         RC3dU98rAx0+k6Wzpl+zDkmyKHIXKSuNdvmBJp7538xoD2zqpBZXzgblfAbAVYOS4mlD
-         UEf/rZkFdjA/Albz0f+ySTS26reBc5Y3dIPGv9fk27skwiUvzxqFQGZYZJojqwn0bCzD
-         Ib+rAinxllXx9lJxu826Jo+1V1K/MvUdcSJiS7ZiGwQNXWYz43lU6d3IzwLp7tVfChRv
-         cg5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXPkPlUamYcA4KnAuObagp5iDrxdypXpVgr4cWoOw3lhMNCZu2qUPngJrrlVdIZPh4vkzEVM+NHnyYkUu2v@lists.linux.dev
-X-Gm-Message-State: AOJu0YzE0wWz/2OLAIxOc6Jy0tPbWRsGR1TNG3kZNpxXI8bllPhw7/iI
-	kdscnHBZUO7HbkrwyTTzq8BfGGRg/ZWBrj0vs5vq9Y9xwjDkpCItGOaxq4BDanw=
-X-Google-Smtp-Source: AGHT+IF9HQM1swDjMPfJ6RpIz5fscrjBfplQb4M7+zaGIxvVZXS3GsM/i7FjzDTG4TMaiHzVFGKe3A==
-X-Received: by 2002:adf:a351:0:b0:374:baeb:2fb with SMTP id ffacd0b85a97d-374baeb0c2amr7876635f8f.35.1725391923345;
-        Tue, 03 Sep 2024 12:32:03 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c39eacdfsm8843054f8f.42.2024.09.03.12.32.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 12:32:02 -0700 (PDT)
-Date: Tue, 3 Sep 2024 22:31:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, shuaijie wang <wangshuaijie@awinic.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [jic23-iio:testing 268/269] drivers/iio/proximity/aw96103.c:475
- aw96103_reg_version_comp() warn: iterator 'i' not incremented
-Message-ID: <97914f05-0881-4c33-9acb-117f89dba35c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/ZQpr/u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725392077; x=1756928077;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=39b9O7q+kR3qkDl+dB6CSlhcuomrGDPE7Ar69fnE79M=;
+  b=R/ZQpr/uyUJBbbBxko1Cc7TGm+LteohPqaGp2CFbzmYvhGceUT1bVaIB
+   wY7XmoFYIVKSU/853rGUztYfLah/oKvuoiC3/3bwtFQXz+dl4Mj+uAe0V
+   JMKZlpMYcVgKtVDkkGaTaUUcHKWQfBUw2bBcmQMGek1FT7HSXWAZOksFk
+   Plle+MgUOtxqy0Y2Rh8RDo/oJrnZY4dEG7IrcxAhEJNX/6r4QmaGtGHUE
+   sYhMPd+5oyt+9qcOL0w7/954KyLHh0M2nIG0oIa5XuU60kXXpMG6lT8dU
+   TZHlgyP1uNEd5kdCMshKoXuJpVlVFh4cwBVFQPDTjXwIz9FzwRm+W11mk
+   w==;
+X-CSE-ConnectionGUID: eDx7ERZRRW2QDQiFw/hAtg==
+X-CSE-MsgGUID: UT3zhi5tSZK+a4SMy8pu9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="23880887"
+X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
+   d="scan'208";a="23880887"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 12:34:28 -0700
+X-CSE-ConnectionGUID: GTql1d8wTumUPQKfy8GjJA==
+X-CSE-MsgGUID: aIqKD51FSTmvzog4ygQ+fg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
+   d="scan'208";a="69408530"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 03 Sep 2024 12:34:27 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1slZIH-00075E-0v;
+	Tue, 03 Sep 2024 19:34:25 +0000
+Date: Wed, 4 Sep 2024 03:33:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Drew Fustini <dfustini@tenstorrent.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
+Message-ID: <202409040328.ZqAuHw0k-lkp@intel.com>
+References: <20240902-th1520-pinctrl-v1-2-639bf83ef50a@tenstorrent.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,63 +62,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240902-th1520-pinctrl-v1-2-639bf83ef50a@tenstorrent.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   fa533227a89a1d8509a1ad4e93a35d683a77aa23
-commit: a369e1d1a10790f63b4b858dc74b53730146754f [268/269] iio: proximity: aw96103: Add support for aw96103/aw96105 proximity sensor
-config: riscv-randconfig-r072-20240901 (https://download.01.org/0day-ci/archive/20240904/202409040114.Rpkwt3gm-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 6f682c26b04f0b349c4c473756cb8625b4f37c6d)
+Hi Drew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5be63fc19fcaa4c236b307420483578a56986a37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Drew-Fustini/dt-bindings-pinctrl-Add-thead-th1520-pinctrl-bindings/20240903-121111
+base:   5be63fc19fcaa4c236b307420483578a56986a37
+patch link:    https://lore.kernel.org/r/20240902-th1520-pinctrl-v1-2-639bf83ef50a%40tenstorrent.com
+patch subject: [PATCH 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
+config: hexagon-randconfig-r073-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040328.ZqAuHw0k-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040328.ZqAuHw0k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409040114.Rpkwt3gm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040328.ZqAuHw0k-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/proximity/aw96103.c:475 aw96103_reg_version_comp() warn: iterator 'i' not incremented
+All warnings (new ones prefixed by >>):
 
-vim +/i +475 drivers/iio/proximity/aw96103.c
+   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/pinctrl/pinctrl-th1520.c:870:29: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     870 |                 return dev_err_probe(dev, ret, "unit address did not match any pad group\n");
+         |                                           ^~~
+   drivers/pinctrl/pinctrl-th1520.c:849:9: note: initialize the variable 'ret' to silence this warning
+     849 |         int ret;
+         |                ^
+         |                 = 0
+   7 warnings generated.
 
-a369e1d1a10790f shuaijie wang 2024-08-27  457  static int aw96103_reg_version_comp(struct aw96103 *aw96103,
-a369e1d1a10790f shuaijie wang 2024-08-27  458  				    struct aw_bin *aw_bin)
-a369e1d1a10790f shuaijie wang 2024-08-27  459  {
-a369e1d1a10790f shuaijie wang 2024-08-27  460  	u32 blfilt1_data, fw_ver;
-a369e1d1a10790f shuaijie wang 2024-08-27  461  	unsigned char i;
-a369e1d1a10790f shuaijie wang 2024-08-27  462  	int ret;
-a369e1d1a10790f shuaijie wang 2024-08-27  463  
-a369e1d1a10790f shuaijie wang 2024-08-27  464  	ret = regmap_read(aw96103->regmap, AW96103_REG_FWVER2, &fw_ver);
-a369e1d1a10790f shuaijie wang 2024-08-27  465  	if (ret)
-a369e1d1a10790f shuaijie wang 2024-08-27  466  		return ret;
-a369e1d1a10790f shuaijie wang 2024-08-27  467  	/*
-a369e1d1a10790f shuaijie wang 2024-08-27  468  	 * If the chip version is AW96103A and the loaded register
-a369e1d1a10790f shuaijie wang 2024-08-27  469  	 * configuration file is for AW96103, special handling of the
-a369e1d1a10790f shuaijie wang 2024-08-27  470  	 * AW96103_REG_BLRSTRNG_CH0 register is required.
-a369e1d1a10790f shuaijie wang 2024-08-27  471  	 */
-a369e1d1a10790f shuaijie wang 2024-08-27  472  	if ((fw_ver != AW96103A) || (aw_bin->chip_type[7] != '\0'))
-a369e1d1a10790f shuaijie wang 2024-08-27  473  		return 0;
-a369e1d1a10790f shuaijie wang 2024-08-27  474  
-a369e1d1a10790f shuaijie wang 2024-08-27 @475  	for (i = 0; i < aw96103->max_channels; i++) {
 
-This loop only iterates one time.
+vim +/ret +870 drivers/pinctrl/pinctrl-th1520.c
 
-a369e1d1a10790f shuaijie wang 2024-08-27  476  		ret = regmap_read(aw96103->regmap,
-a369e1d1a10790f shuaijie wang 2024-08-27  477  			AW96103_REG_BLFILT_CH0 + (AW96103_BLFILT_CH_STEP * i),
-a369e1d1a10790f shuaijie wang 2024-08-27  478  			&blfilt1_data);
-a369e1d1a10790f shuaijie wang 2024-08-27  479  		if (ret)
-a369e1d1a10790f shuaijie wang 2024-08-27  480  			return ret;
-a369e1d1a10790f shuaijie wang 2024-08-27  481  		if (FIELD_GET(AW96103_BLERRTRIG_MASK, blfilt1_data) != 1)
-a369e1d1a10790f shuaijie wang 2024-08-27  482  			return 0;
-a369e1d1a10790f shuaijie wang 2024-08-27  483  
-a369e1d1a10790f shuaijie wang 2024-08-27  484  		return regmap_update_bits(aw96103->regmap,
-a369e1d1a10790f shuaijie wang 2024-08-27  485  			AW96103_REG_BLRSTRNG_CH0 + (AW96103_BLFILT_CH_STEP * i),
-a369e1d1a10790f shuaijie wang 2024-08-27  486  			AW96103_BLRSTRNG_MASK, 1 << i);
-a369e1d1a10790f shuaijie wang 2024-08-27  487  	}
-a369e1d1a10790f shuaijie wang 2024-08-27  488  
-a369e1d1a10790f shuaijie wang 2024-08-27  489  	return 0;
-a369e1d1a10790f shuaijie wang 2024-08-27  490  }
+   841	
+   842	static int th1520_pinctrl_probe(struct platform_device *pdev)
+   843	{
+   844		struct device *dev = &pdev->dev;
+   845		const struct th1520_pad_group *group;
+   846		struct device_node *np = dev->of_node;
+   847		struct th1520_pinctrl *thp;
+   848		struct clk *clk;
+   849		int ret;
+   850	
+   851		thp = devm_kzalloc(dev, sizeof(*thp), GFP_KERNEL);
+   852		if (!thp)
+   853			return -ENOMEM;
+   854	
+   855		thp->base = devm_platform_ioremap_resource(pdev, 0);
+   856		if (IS_ERR(thp->base))
+   857			return PTR_ERR(thp->base);
+   858	
+   859		clk = devm_clk_get_enabled(dev, NULL);
+   860		if (IS_ERR(clk))
+   861			return dev_err_probe(dev, PTR_ERR(clk), "error getting clock\n");
+   862	
+   863		if (strcmp(np->full_name, TH1520_PAD_GROUP1) == 0)
+   864			group = &th1520_group1;
+   865		else if (strcmp(np->full_name, TH1520_PAD_GROUP2) == 0)
+   866			group = &th1520_group2;
+   867		else if (strcmp(np->full_name, TH1520_PAD_GROUP3) == 0)
+   868			group = &th1520_group3;
+   869		else
+ > 870			return dev_err_probe(dev, ret, "unit address did not match any pad group\n");
+   871	
+   872		thp->desc.name = group->name;
+   873		thp->desc.pins = group->pins;
+   874		thp->desc.npins = group->npins;
+   875		thp->desc.pctlops = &th1520_pinctrl_ops;
+   876		thp->desc.pmxops = &th1520_pinmux_ops;
+   877		thp->desc.confops = &th1520_pinconf_ops;
+   878		thp->desc.owner = THIS_MODULE;
+   879		mutex_init(&thp->mutex);
+   880		raw_spin_lock_init(&thp->lock);
+   881	
+   882		ret = devm_pinctrl_register_and_init(dev, &thp->desc, thp, &thp->pctl);
+   883		if (ret)
+   884			return dev_err_probe(dev, ret, "could not register pinctrl driver\n");
+   885	
+   886		return pinctrl_enable(thp->pctl);
+   887	}
+   888	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
