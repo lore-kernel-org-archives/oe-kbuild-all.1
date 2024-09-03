@@ -1,69 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDF71891DE
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 15:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B92A13F43E;
+	Tue,  3 Sep 2024 15:47:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725378440; cv=none; b=pHoo59RWNpO1Z/d0joWScnNYd74iKFiA8SiQUOvE/FP3m7MEayCTrGbAMOnN2CS+B7oSenQsbw04mWd8KMQ4BtljRhzHob0XBxnhedE4E/f188lVAFc+149HlOPgDS5oqpQo1vqRki1HpO8N0ITYTYhpDmhVDd1wLC0Xcamoyfs=
+	t=1725378441; cv=none; b=u4rIVnNrwi5+tMLkGpwVP/NZlM3Aw3X2X7XnB7Wq5Uo8KRpNC73tfSLzvikeQsIT8Bu4Ea6ub0VosR6yXeNlVI3ywcp0RMM01nsnqPJFEWqGDveuoi+g5+uRhvdlzAkQBCrQaenHe3TUNoG5vJomNsGl6Tv6qD0/FvkWA3Jz0eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725378440; c=relaxed/simple;
-	bh=7EcydActpMSaA+SPWxDp1h3wd9kMVHEG/yenpXVGaz4=;
+	s=arc-20240116; t=1725378441; c=relaxed/simple;
+	bh=MJh2V+auA/rLdCEOxa08zCix2D9oA5EOwctHljU9Vks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SSiOk5UbsrjVOaqgtANfty/vVrBUtu9i1ab+qzHj8u3Hpa1tG+aYgKPZCE5e4FvnGoFYf4QNhZNhO7+VbSgLUZaUz2ThDaJJa79PD+4Fk4skdW16FWBYIhZbARrlubwtj/l7Ob66L5+UUO9tPknk5EeGc5UrUhOpb+54eRJchk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxepmGAM; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5BmIjU/nqJGAN/GlTxJUoyGooRr47KKHhcn96+/Y0vpsz6FK/8ji11WmTt1fUFFYBAr1ItDCo5CsKlnMT8I5QM5Kh4z7/wdmQ7aeJILqmWoEAQ4AoRvi3CUR5R9ngoG8qffmHklSch2ne02PDRYRh8oVSIGovCzL1HVAmHpkbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPkKafTF; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxepmGAM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPkKafTF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1725378439; x=1756914439;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7EcydActpMSaA+SPWxDp1h3wd9kMVHEG/yenpXVGaz4=;
-  b=PxepmGAMXZJvnIjNb15yaqewdk+yohRbI91HWM4vPcttsYbfqwcf5mpo
-   wV5cCZtUuTGH+xq2TwEQKFC90qHtGIt6p+TRxzc6Nwx+xsNhPcd80bOfD
-   tJLqGA0IpaZCvqqLgGKouiqQMcwfNgqNQk5blbkYIXRPfRENktL1ofQRo
-   d+/5mG8dU2z9UUWcxWyDYu+4ZYF0A3I+hy7kWqaYkZonduW41wuineM6j
-   M+2I/SOvVmaAJgccI3rgMd8TN1PB8MIbj5MVTP7fIhab2/j3GSeZ4iTOR
-   /6Xx3UkOWlFmXkMIdODMGiRP7vXTFt2fDsg+GD8ASFTAe8yGjdkRuxUjA
+  bh=MJh2V+auA/rLdCEOxa08zCix2D9oA5EOwctHljU9Vks=;
+  b=KPkKafTFMJzbEk/6ta5xAkSvHN7U53LtLUnzkKBj9P9sxXyQz2l94W+H
+   9/TlUQwKSutuhZl3+KHxC70p+zwwbY09/hFmX/ugRQOF2UpajSTGZfNqH
+   MF4iY6YQMtwJg2bdLEF53STBwWheNDyZy4qJHAD3oX3BiiF9vqarRNucS
+   r7GxUmqkATpkrxdojRY9CCTl989XDNmnVZhTb7XW2Vestzk28YsD5M8wF
+   LehUrNS1gU75ZQvq5hlZ6H+vYS3POxtsn76kiZvXcuXE/NQtEENHVt9dK
+   ONAnSl/9F8tZjb46y8mf2X48w5E/kRUXa9SXj8/vlDmN+H/eGwvlMBN/h
    g==;
-X-CSE-ConnectionGUID: 0MXumJlZTBajA50TsskDEQ==
-X-CSE-MsgGUID: yVA/yh5ZRDivW3DUPKrMpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24176673"
+X-CSE-ConnectionGUID: +BMUEL7UROuXcwKAIHZLpg==
+X-CSE-MsgGUID: xnIqS5uZTcyqIZesRBFUXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24176665"
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="24176673"
+   d="scan'208";a="24176665"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 08:47:18 -0700
-X-CSE-ConnectionGUID: ect5Q1kXRmWAmR9WPo/Gdg==
-X-CSE-MsgGUID: vSr+q9uKQfKGWn/gw/DOuA==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 08:47:16 -0700
+X-CSE-ConnectionGUID: 7Jzz+qfgSwOZXceBWyl2cw==
+X-CSE-MsgGUID: nSO2torVToaMOlESOHRY7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="88202642"
+   d="scan'208";a="88202644"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 08:47:14 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slVkO-0006qw-1G;
+	id 1slVkO-0006qy-1L;
 	Tue, 03 Sep 2024 15:47:12 +0000
-Date: Tue, 3 Sep 2024 23:46:41 +0800
+Date: Tue, 3 Sep 2024 23:46:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Lanzano <lanzano.alex@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, christophe.jaillet@wanadoo.fr,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] drm/tiny: Add driver for Sharp Memory LCD
-Message-ID: <202409032359.jHPOaDBF-lkp@intel.com>
-References: <20240901201118.3179206-3-lanzano.alex@gmail.com>
+To: Hongbo Li <lihongbo22@huawei.com>, christophe.leroy@csgroup.eu
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	lihongbo22@huawei.com, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH -next] soc/fsl/qbman: make use of the helper function
+ kthread_run_on_cpu()
+Message-ID: <202409032300.9u9g0C8J-lkp@intel.com>
+References: <20240902133125.3089560-1-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,74 +65,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901201118.3179206-3-lanzano.alex@gmail.com>
+In-Reply-To: <20240902133125.3089560-1-lihongbo22@huawei.com>
 
-Hi Alex,
+Hi Hongbo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on drm-misc/drm-misc-next linus/master v6.11-rc6 next-20240903]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on next-20240902]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Lanzano/dt-bindings-display-Add-Sharp-Memory-LCD-bindings/20240902-041405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240901201118.3179206-3-lanzano.alex%40gmail.com
-patch subject: [PATCH v5 2/2] drm/tiny: Add driver for Sharp Memory LCD
-config: x86_64-randconfig-102-20240903 (https://download.01.org/0day-ci/archive/20240903/202409032359.jHPOaDBF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409032359.jHPOaDBF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/soc-fsl-qbman-make-use-of-the-helper-function-kthread_run_on_cpu/20240903-060257
+base:   next-20240902
+patch link:    https://lore.kernel.org/r/20240902133125.3089560-1-lihongbo22%40huawei.com
+patch subject: [PATCH -next] soc/fsl/qbman: make use of the helper function kthread_run_on_cpu()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240903/202409032300.9u9g0C8J-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409032300.9u9g0C8J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409032359.jHPOaDBF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409032300.9u9g0C8J-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/tiny/sharp-memory.c: In function 'sharp_memory_crtc_enable':
->> drivers/gpu/drm/tiny/sharp-memory.c:344:17: error: implicit declaration of function 'pwm_apply_state'; did you mean 'pwm_apply_args'? [-Werror=implicit-function-declaration]
-     344 |                 pwm_apply_state(smd->pwm_vcom_signal, &pwm_state);
-         |                 ^~~~~~~~~~~~~~~
-         |                 pwm_apply_args
-   cc1: some warnings being treated as errors
+>> drivers/soc/fsl/qbman/qman_test_stash.c:112:27: error: too many arguments to function call, expected 4, have 5
+     111 |                 struct task_struct *k = kthread_run_on_cpu(bstrap_fn, &bstrap,
+         |                                         ~~~~~~~~~~~~~~~~~~
+     112 |                                                 cpu, "hotpotato%d", cpu);
+         |                                                                     ^~~
+   include/linux/kthread.h:73:1: note: 'kthread_run_on_cpu' declared here
+      73 | kthread_run_on_cpu(int (*threadfn)(void *data), void *data,
+         | ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      74 |                         unsigned int cpu, const char *namefmt)
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [y]:
+   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 
-vim +344 drivers/gpu/drm/tiny/sharp-memory.c
+vim +112 drivers/soc/fsl/qbman/qman_test_stash.c
 
-   318	
-   319	static void sharp_memory_crtc_enable(struct drm_crtc *crtc,
-   320					     struct drm_atomic_state *state)
-   321	{
-   322		struct pwm_state pwm_state;
-   323		struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
-   324	
-   325		sharp_memory_clear_display(smd);
-   326	
-   327		if (smd->enable_gpio)
-   328			gpiod_set_value(smd->enable_gpio, 1);
-   329	
-   330		switch (smd->vcom_mode) {
-   331		case SHARP_MEMORY_SOFTWARE_VCOM:
-   332			smd->sw_vcom_signal = kthread_run(sharp_memory_sw_vcom_signal_thread,
-   333							  smd, "sw_vcom_signal");
-   334			break;
-   335	
-   336		case SHARP_MEMORY_EXTERNAL_VCOM:
-   337			break;
-   338	
-   339		case SHARP_MEMORY_PWM_VCOM:
-   340			pwm_get_state(smd->pwm_vcom_signal, &pwm_state);
-   341			pwm_state.period =    1000000000;
-   342			pwm_state.duty_cycle = 100000000;
-   343			pwm_state.enabled = true;
- > 344			pwm_apply_state(smd->pwm_vcom_signal, &pwm_state);
-   345			break;
-   346		}
-   347	}
-   348	
+    35	
+    36	/*
+    37	 * Algorithm:
+    38	 *
+    39	 * Each cpu will have HP_PER_CPU "handlers" set up, each of which incorporates
+    40	 * an rx/tx pair of FQ objects (both of which are stashed on dequeue). The
+    41	 * organisation of FQIDs is such that the HP_PER_CPU*NUM_CPUS handlers will
+    42	 * shuttle a "hot potato" frame around them such that every forwarding action
+    43	 * moves it from one cpu to another. (The use of more than one handler per cpu
+    44	 * is to allow enough handlers/FQs to truly test the significance of caching -
+    45	 * ie. when cache-expiries are occurring.)
+    46	 *
+    47	 * The "hot potato" frame content will be HP_NUM_WORDS*4 bytes in size, and the
+    48	 * first and last words of the frame data will undergo a transformation step on
+    49	 * each forwarding action. To achieve this, each handler will be assigned a
+    50	 * 32-bit "mixer", that is produced using a 32-bit LFSR. When a frame is
+    51	 * received by a handler, the mixer of the expected sender is XOR'd into all
+    52	 * words of the entire frame, which is then validated against the original
+    53	 * values. Then, before forwarding, the entire frame is XOR'd with the mixer of
+    54	 * the current handler. Apart from validating that the frame is taking the
+    55	 * expected path, this also provides some quasi-realistic overheads to each
+    56	 * forwarding action - dereferencing *all* the frame data, computation, and
+    57	 * conditional branching. There is a "special" handler designated to act as the
+    58	 * instigator of the test by creating an enqueuing the "hot potato" frame, and
+    59	 * to determine when the test has completed by counting HP_LOOPS iterations.
+    60	 *
+    61	 * Init phases:
+    62	 *
+    63	 * 1. prepare each cpu's 'hp_cpu' struct using on_each_cpu(,,1) and link them
+    64	 *    into 'hp_cpu_list'. Specifically, set processor_id, allocate HP_PER_CPU
+    65	 *    handlers and link-list them (but do no other handler setup).
+    66	 *
+    67	 * 2. scan over 'hp_cpu_list' HP_PER_CPU times, the first time sets each
+    68	 *    hp_cpu's 'iterator' to point to its first handler. With each loop,
+    69	 *    allocate rx/tx FQIDs and mixer values to the hp_cpu's iterator handler
+    70	 *    and advance the iterator for the next loop. This includes a final fixup,
+    71	 *    which connects the last handler to the first (and which is why phase 2
+    72	 *    and 3 are separate).
+    73	 *
+    74	 * 3. scan over 'hp_cpu_list' HP_PER_CPU times, the first time sets each
+    75	 *    hp_cpu's 'iterator' to point to its first handler. With each loop,
+    76	 *    initialise FQ objects and advance the iterator for the next loop.
+    77	 *    Moreover, do this initialisation on the cpu it applies to so that Rx FQ
+    78	 *    initialisation targets the correct cpu.
+    79	 */
+    80	
+    81	/*
+    82	 * helper to run something on all cpus (can't use on_each_cpu(), as that invokes
+    83	 * the fn from irq context, which is too restrictive).
+    84	 */
+    85	struct bstrap {
+    86		int (*fn)(void);
+    87		atomic_t started;
+    88	};
+    89	static int bstrap_fn(void *bs)
+    90	{
+    91		struct bstrap *bstrap = bs;
+    92		int err;
+    93	
+    94		atomic_inc(&bstrap->started);
+    95		err = bstrap->fn();
+    96		if (err)
+    97			return err;
+    98		while (!kthread_should_stop())
+    99			msleep(20);
+   100		return 0;
+   101	}
+   102	static int on_all_cpus(int (*fn)(void))
+   103	{
+   104		int cpu;
+   105	
+   106		for_each_cpu(cpu, cpu_online_mask) {
+   107			struct bstrap bstrap = {
+   108				.fn = fn,
+   109				.started = ATOMIC_INIT(0)
+   110			};
+   111			struct task_struct *k = kthread_run_on_cpu(bstrap_fn, &bstrap,
+ > 112							cpu, "hotpotato%d", cpu);
+   113			int ret;
+   114	
+   115			if (IS_ERR(k))
+   116				return -ENOMEM;
+   117			/*
+   118			 * If we call kthread_stop() before the "wake up" has had an
+   119			 * effect, then the thread may exit with -EINTR without ever
+   120			 * running the function. So poll until it's started before
+   121			 * requesting it to stop.
+   122			 */
+   123			while (!atomic_read(&bstrap.started))
+   124				msleep(20);
+   125			ret = kthread_stop(k);
+   126			if (ret)
+   127				return ret;
+   128		}
+   129		return 0;
+   130	}
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
