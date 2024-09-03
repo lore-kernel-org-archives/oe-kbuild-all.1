@@ -1,64 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ADC1D5CCA;
-	Tue,  3 Sep 2024 19:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E111D7E2B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 19:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725390872; cv=none; b=UE4DzzIkM1p1GU3lq4P8lUDK9uOqD6W2w+gGJmNiH2csmHCHtGpPD7/skII9W2En7SJYNBuCIldgH0CaNaDxmj/6DX7miKPC1u7sPZ4pGCUeete1Ofo1dI5Wai3Zmx9kbCaC8xh4RweeLEjGHOz+WDULnxb/HKnpGifVvMKaZHk=
+	t=1725391849; cv=none; b=JjCuRsaRn53sD5WnnnCV6GG93RxHf2UmaorDPsgw610O3A94A1yuRBuOoknOxN4Yy3grfKon0wr5j0Mwq4t43ZL+XgFHOTJwW5cw1s+dqvEcZGdYoeLyzZZn+cySuf6SvW9GqytLgDuDzY0dYhXvdZ5vdNabf2kyIZyuSpIDXQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725390872; c=relaxed/simple;
-	bh=or6X0wP8ozeFggLTdXEFslaB29MDKtBAB44XcYasXF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DmHChVCgvTYU5t3m7uCiEEqv2Ft5g2xQWTtxmFGA7tXEBKIIFGG7OZ6tsBXhe0EshbISle7fskpUnfI6jN1q7+uMhI9l185W50BA8Fa0N1/vgpJ6HbR11asstOUTmlJ2OJe8RNT6BICIgjxF/8N7V2EJCDsUlqQGAnxNqi8rMk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btG6/m82; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725391849; c=relaxed/simple;
+	bh=Y/SEZ4I8UHWHlSNigX7hDLaLKLrtAIdDnOtCtHx5lds=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Pxa7zCuP59Ts0uoTExfF7dgjj7cPHjdQkveoLndp29JLoajy9AnbECbQ6BQyBvVNQuwtljxERBGlpD2xuhJnv090OLJmmFk07cVZr8OCib7JB6+lScXTCsPdjeMAwArW7QGnEa0UAeDt9kziPrNJnhGos9GfYaDat/C0RliQUiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pSba6Dmy; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btG6/m82"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725390870; x=1756926870;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=or6X0wP8ozeFggLTdXEFslaB29MDKtBAB44XcYasXF8=;
-  b=btG6/m82J/LYRmEm3LRjHp8v5QYMmO2QOCMH/5xxp2NYfkWnTm+DrUGp
-   9iDf0mqyjPnZepiqcRgu5SUyZEvD7DNK77uywTIWo9wnSry07RP7pVWeC
-   zH0eh8K3lpnGMbzAamy7F3BmR2XmWe++vGZOF7kKc2UbzJSHCCD73UkMA
-   dvkBfOeUqJd06xcVqCK1WI+whpMWklzyjWYEezWLyEcqdNme2BhtfGefA
-   VZsxqWGfuNZmt5B1BTeMOPGCXp2p4YUou5kDwNL4/8cO+hzY8p7RdIKy1
-   EXUrO/e0A+wUgYL0AVN3wIFlO8R/mHhIXqOHrgckzb3WmGOFIhwy3UcTw
-   w==;
-X-CSE-ConnectionGUID: ENH2NyKHSSaamS7aTyGjlA==
-X-CSE-MsgGUID: WoV+4Qk/TmOdIesmB+8Pug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="35404409"
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="35404409"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 12:14:29 -0700
-X-CSE-ConnectionGUID: oS05bFeQT766fMIexoXYvw==
-X-CSE-MsgGUID: tDw2CiK5TbWhr9HnYR3D5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="95746745"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Sep 2024 12:14:28 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1slYyu-00074L-25;
-	Tue, 03 Sep 2024 19:14:24 +0000
-Date: Wed, 4 Sep 2024 03:13:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uros Bizjak <ubizjak@gmail.com>, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Uros Bizjak <ubizjak@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] longsoon/percpu: Simplify _percpu_read() and
- _percpu_write()
-Message-ID: <202409040319.2mRdIGd2-lkp@intel.com>
-References: <20240903102342.36957-1-ubizjak@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pSba6Dmy"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42bbe908380so35942735e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Sep 2024 12:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725391845; x=1725996645; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MZ5107DvLVPYmOTJ6mUPC5uTd95yXvVexG80jBPzhkA=;
+        b=pSba6Dmyg8QWZmGNnyWZtxRo6U0EIps9UoKC6bkwIgUZ1OLeUyuOR62GUvWBuAQBT+
+         aesr8nh6YruGMfscZwhTNuSkMiKpnN0r60wTot2tAPb9MrUa8mmhY/QqXeFE8YdWK6uw
+         /6gaMzBMOSQ96M8hj4/0lh7Nzlqat+za2zCmZZLK/D1bkeNTUCNMfjq00C0589Bu5bpg
+         7EVCIeyYTbzLQGHLynoxk3Uqx1rt/XGy45UrIPBZvN1gZrAATpOt9JzdyEKi7tciXMck
+         9UOhdIsyNV7C7GhiF+ikLwieu6pMsPZ/HBo1w3uf8bGkbPzWotkNMKSbZD48kK9qo1yz
+         sh9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725391845; x=1725996645;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MZ5107DvLVPYmOTJ6mUPC5uTd95yXvVexG80jBPzhkA=;
+        b=wEzvn43hjAdC4G7S4xl4r3Bq4cbXvsClRYE6+Kd2IIf6q4torOYMo9Nbziv1FMhaWR
+         kiLQTLAS/aMgoffUvFi+ozVMl/qUqJYxhO6W7IYKCi+owdnwwa+J48jIE9mgkrSFoifv
+         cHWk4LWkVlAWfyMYXTHJZ+37Ie4D7qrysO6o60x25aN6xGd57YSlgnuWBIR+Y7QhUhvT
+         Q4u2+Rfq758NLuZ1AN/0SCxhwqyhgbr8Q2DFFRFCB/GTpQXY0WQjqxSFGsLN6CvJvjJG
+         KqJq8t/mkRQdUl7+ncu6ES0UuxBvjQIjflq/JLc+9aVhfKUjS4fBE9Hi1uRDsbWK02cV
+         mhRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCNfkjgGXb6Fj4/TdBIDCDYbxYCSiQ00tFyee9mrZ1+GRglYH3oEciB+uyy3pjKF3UyYhw5AFQNShev5bl@lists.linux.dev
+X-Gm-Message-State: AOJu0YxBptdy/ZMYTtokjtJL26cSFDsYKOFb1A9W/+IguGSztJR9Ias5
+	C1J9wn8nV7a6yd7w/Xy6jt3wWY9U0RGBgsCkpUFyamdqYCd7i6ZlQTzFPrL9Dgs=
+X-Google-Smtp-Source: AGHT+IHvdpL/7K214Y4Dr3WCBKGqNURKk6/IKcCmvKnGpyo5eLeWljvQVDALtLLbUOLYR+LX6Hrptg==
+X-Received: by 2002:a05:600c:1c1a:b0:426:593c:935f with SMTP id 5b1f17b1804b1-42bd731ee1bmr73326245e9.1.1725391844532;
+        Tue, 03 Sep 2024 12:30:44 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba639671dsm217740435e9.5.2024.09.03.12.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 12:30:44 -0700 (PDT)
+Date: Tue, 3 Sep 2024 22:30:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Zhang Yi <yi.zhang@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [riteshharjani:notmuch-20240830073800.2131781-1-yi.zhang@huaweicloud.com
+ 8/10] fs/ext4/extents.c:4713 ext4_do_fallocate() error: uninitialized symbol
+ 'len_lblk'.
+Message-ID: <7a5bcc8a-b4fb-485e-9d96-423e3862e3c4@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,75 +67,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903102342.36957-1-ubizjak@gmail.com>
 
-Hi Uros,
+Hi Zhang,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on dennis-percpu/for-next]
-[also build test ERROR on linus/master v6.11-rc6 next-20240903]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/longsoon-percpu-Simplify-_percpu_read-and-_percpu_write/20240903-182524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dennis/percpu.git for-next
-patch link:    https://lore.kernel.org/r/20240903102342.36957-1-ubizjak%40gmail.com
-patch subject: [PATCH] longsoon/percpu: Simplify _percpu_read() and _percpu_write()
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240904/202409040319.2mRdIGd2-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040319.2mRdIGd2-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux notmuch-20240830073800.2131781-1-yi.zhang@huaweicloud.com
+head:   67214af3781b6c7fc5dcc524eb0826d638c39fdc
+commit: f265e7a5e7cd772107b3876f91035bc7ab72013c [8/10] ext4: factor out ext4_do_fallocate()
+config: riscv-randconfig-r072-20240901 (https://download.01.org/0day-ci/archive/20240903/202409032257.MlcGmpHd-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 6f682c26b04f0b349c4c473756cb8625b4f37c6d)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040319.2mRdIGd2-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409032257.MlcGmpHd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/ext4/extents.c:4713 ext4_do_fallocate() error: uninitialized symbol 'len_lblk'.
 
-   In file included from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2134,
-                    from arch/loongarch/kernel/asm-offsets.c:8:
-   include/linux/sched/mm.h: In function 'set_active_memcg':
->> arch/loongarch/include/asm/percpu.h:85:33: error: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
-      85 | #define __pcpu_cast_8(val)      (val)
-         |                                 ^
-   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
-      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
-         |                                   ^~~~~~~~~~~~
-   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
-     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
-         |                                    ^~~~~~~~~~~~~
-   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
-     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
-         |                         ^~~~
-   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
-     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
-     420 |                 this_cpu_write(int_active_memcg, memcg);
-         |                 ^~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1199: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +/len_lblk +4713 fs/ext4/extents.c
 
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4665  static long ext4_do_fallocate(struct file *file, loff_t offset,
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4666  			      loff_t len, int mode)
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4667  {
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4668  	struct inode *inode = file_inode(file);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4669  	loff_t end = offset + len;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4670  	loff_t new_size = 0;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4671  	ext4_lblk_t start_lblk, len_lblk;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4672  	int ret;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4673  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4674  	trace_ext4_fallocate_enter(inode, offset, len, mode);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4675  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4676  	inode_lock(inode);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4677  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4678  	/* We only support preallocation for extent-based files only. */
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4679  	if (!(ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))) {
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4680  		ret = -EOPNOTSUPP;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4681  		goto out;
 
-vim +85 arch/loongarch/include/asm/percpu.h
+goto
 
-    81	
-    82	#define __pcpu_cast_1(val)	(((unsigned long) val) & 0xff)
-    83	#define __pcpu_cast_2(val)	(((unsigned long) val) & 0xffff)
-    84	#define __pcpu_cast_4(val)	(((unsigned long) val) & 0xffffffff)
-  > 85	#define __pcpu_cast_8(val)	(val)
-    86	
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4682  	}
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4683  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4684  	if (!(mode & FALLOC_FL_KEEP_SIZE) &&
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4685  	    (end > inode->i_size || end > EXT4_I(inode)->i_disksize)) {
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4686  		new_size = end;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4687  		ret = inode_newsize_ok(inode, new_size);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4688  		if (ret)
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4689  			goto out;
+
+goto
+
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4690  	}
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4691  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4692  	/* Wait all existing dio workers, newcomers will block on i_rwsem */
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4693  	inode_dio_wait(inode);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4694  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4695  	ret = file_modified(file);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4696  	if (ret)
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4697  		goto out;
+
+goto
+
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4698  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4699  	start_lblk = offset >> inode->i_blkbits;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4700  	len_lblk = EXT4_MAX_BLOCKS(len, offset, inode->i_blkbits);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4701  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4702  	ret = ext4_alloc_file_blocks(file, start_lblk, len_lblk, new_size,
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4703  				     EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4704  	if (ret)
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4705  		goto out;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4706  
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4707  	if (file->f_flags & O_SYNC && EXT4_SB(inode->i_sb)->s_journal) {
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4708  		ret = ext4_fc_commit(EXT4_SB(inode->i_sb)->s_journal,
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4709  					EXT4_I(inode)->i_sync_tid);
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4710  	}
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4711  out:
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4712  	inode_unlock(inode);
+f265e7a5e7cd772 Zhang Yi      2024-08-30 @4713  	trace_ext4_fallocate_exit(inode, offset, len_lblk, ret);
+                                                                                                 ^^^^^^^^
+
+Uninitialized
+
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4714  	return ret;
+f265e7a5e7cd772 Zhang Yi      2024-08-30  4715  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
