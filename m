@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6656126BE8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 22:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F571D6DDB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 23:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725404322; cv=none; b=nfBeflYpcAHFMeLQmcZLk8Ko22p0wirffgZqG+Na8uHs8VN0NLHZIpis4RNsqkTarfhIGiNlMoVmwOf56EwX90n6foUxNv/tTf4BgHzictMemUW74Y4uSWPKFDBoLIgRl3ORmmluJmZFO91vKPmwNsO7g5lYVV/vct/1i8RO82w=
+	t=1725407983; cv=none; b=ZIsMDZmTYxCZQ/iTGmdLsSUPPT3inyf+gmSMr/G/QI5QoM3VlPL2lcWV+ZUv1tb65HsRO+oQX3pYLXqFgglKUYAuEFiwZvzOr3nsay73INQdTuOQK89zy6uyNvqO9rLEUTGadfTXRnebLltSybniefKBObaj1jdl8WM21yIWG4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725404322; c=relaxed/simple;
-	bh=8tGPpTsm8AtGkVQvPnWbCjJCpI8Gr4C8IotJmQm3KB0=;
+	s=arc-20240116; t=1725407983; c=relaxed/simple;
+	bh=oaLcChjDXY5eZrKRyZzo4oiiCbs+66+GS8sJkmx+8jU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=atbkGCz0lFz1kmcqMZ3uyBAzmae1TaNuqhtVe9JYVUnC0OLPCr6Fl+xJkAWD7oWqVf3yWhga+pKk62SJVCD92wAyt8UbLltdjzC5AB858jWuGnyuTWgV6FpY8RC8ODoF3ZOsXATyoG4ZUW/VhVl7a95WoYlfEWh5NY2Qc9Owg3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKr+mjjW; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Lm5oEIxQDz8wGtOELYJ8u6uGHpD2cP9mF/6V1RIz3hpwBeI6P3EYSqfKa2NyLVMrT6YlgT41PzfGJs0LvsUALw18gx2V2F9/aKxNkb/zxvFA2+EBwPXVjmvbaFyl85CxBjnssrOrcM3/4ELFlycY8tkVOsm7LwNrO+g0TL5dDAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6Bje4yZ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKr+mjjW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6Bje4yZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725404321; x=1756940321;
+  t=1725407982; x=1756943982;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8tGPpTsm8AtGkVQvPnWbCjJCpI8Gr4C8IotJmQm3KB0=;
-  b=TKr+mjjWFWTXKnNdlco/PpF1MfbgAedGvlXwCUJlD0+sN3TZebLtGfet
-   hE93tg3oi11K9NomHYeeS3v82lLxXDDWHck5Yiz09UJxUABgnvMmPwevb
-   d58NOc1pSiYSeLqkwMvHIFOv5GVix9F/0dah74/Ee9LRb183AFHsCmx2K
-   Tuvi66CWvvMVp6aafV2ooonY1PBsqAw+o67zKGpI6ijdkNXP9XY2PIjU5
-   FlC08otiEKT5Zn0lhTqFSOmX0PFDiMmsjBcgz8DaBqGNeC43mpartv+sB
-   VZb1g0mgDpTKJS0UHwJVLktLCwUsD08p6X2Xh2fXeIWLYmsZ//4qHT08v
-   Q==;
-X-CSE-ConnectionGUID: nZ/+la56R7yC8WblCvSbjw==
-X-CSE-MsgGUID: qHBzA3zBSP+my5ytBtrsTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="23549279"
+  bh=oaLcChjDXY5eZrKRyZzo4oiiCbs+66+GS8sJkmx+8jU=;
+  b=b6Bje4yZfn/Nop5L0jPvnlu7ozvnjW0xtUhMs39J1CgVPJXmWbzUJMk/
+   HR/PG7fub9mQ8LUwpq2gj6kAD81avMCJS4GVgpjeMFXFsbmLgqKC7iRrM
+   SYuNQESCA46A24y0iv2kYc8wq1yxu6DT0iiTde/4GPFL6LKD4Rj0EoAIA
+   7j2XGjJses62TouO4Ylh/ROJbjQFd5PWgHEJAltzYSEh4eMIvIiH2Y9R0
+   7SmSVXdl+yhQJW0o+OpWr6RGOOM574vZpOhmdidN2YM/o3lqgEF2qLZQf
+   DaoYjjBWiR6eXraj9Kky7OZllL4dhozmfPi0FiNutPEdBfNaPqW1iUoWg
+   g==;
+X-CSE-ConnectionGUID: hBfL/DSxRKK4T1Mk2BkX6g==
+X-CSE-MsgGUID: 1C6+U7i6Rk2Qkpp8xM3msQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="46567703"
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="23549279"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 15:58:40 -0700
-X-CSE-ConnectionGUID: g8uQlaRLSI+I4xbeHNnaFg==
-X-CSE-MsgGUID: 3ePe+lUdRiS8CJ17c/PK+Q==
+   d="scan'208";a="46567703"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 16:59:41 -0700
+X-CSE-ConnectionGUID: VNDKcA0OT7Gxj31d7OZQiQ==
+X-CSE-MsgGUID: q8ZdTsoBSeG0CB4UMJRUGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="65129621"
+   d="scan'208";a="88322505"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2024 15:58:38 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 16:59:40 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slcTs-0007Jc-1M;
-	Tue, 03 Sep 2024 22:58:36 +0000
-Date: Wed, 4 Sep 2024 06:57:39 +0800
+	id 1sldQw-0007M6-0N;
+	Tue, 03 Sep 2024 23:59:38 +0000
+Date: Wed, 4 Sep 2024 07:59:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hao Chen <970353908@qq.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 29716/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c:1195:5: warning: no
- previous prototype for function 'hclge_tm_vf_tc_dwrr_cfg'
-Message-ID: <202409040605.jzWfVsDp-lkp@intel.com>
+Subject: [android-common:android12-5.10-2024-05 4177/30000]
+ arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function
+ 'perf_num_counters'; did you mean 'dec_mm_counter'?
+Message-ID: <202409040753.jFltpYsd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,60 +63,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   b7bed6628b750ffd687d1da0a170dece4b0c08bd
-commit: 518ea89ec98b78c749c27d6ba7792e1bdb5779ed [29716/30000] net: hns3: add support for vf multiple tcs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240904/202409040605.jzWfVsDp-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040605.jzWfVsDp-lkp@intel.com/reproduce)
+Hi Marc,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2024-05
+head:   591df1b051947b5739a144969afb0fbfb2fc611d
+commit: 13dbdc0759fd4b89417f64d399ffa6a86fdc7caf [4177/30000] FROMGIT: KVM: arm64: Turn kvm_arm_support_pmu_v3() into a static key
+config: arm64-randconfig-003-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040753.jFltpYsd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040753.jFltpYsd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040605.jzWfVsDp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040753.jFltpYsd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c:1195:5: warning: no previous prototype for function 'hclge_tm_vf_tc_dwrr_cfg' [-Wmissing-prototypes]
-    1195 | int hclge_tm_vf_tc_dwrr_cfg(struct hclge_vport *vport)
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c:1195:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1195 | int hclge_tm_vf_tc_dwrr_cfg(struct hclge_vport *vport)
-         | ^
-         | static 
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c:2323:5: warning: no previous prototype for function 'hclge_mbx_set_vf_multi_tc' [-Wmissing-prototypes]
-    2323 | int hclge_mbx_set_vf_multi_tc(struct hclge_vport *vport,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c:2323:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2323 | int hclge_mbx_set_vf_multi_tc(struct hclge_vport *vport,
-         | ^
-         | static 
-   2 warnings generated.
+   arch/arm64/kvm/perf.c: In function 'kvm_perf_init':
+>> arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function 'perf_num_counters'; did you mean 'dec_mm_counter'? [-Werror=implicit-function-declaration]
+      58 |         if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
+         |                                           ^~~~~~~~~~~~~~~~~
+         |                                           dec_mm_counter
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
 
 
-vim +/hclge_tm_vf_tc_dwrr_cfg +1195 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c
+vim +58 arch/arm64/kvm/perf.c
 
-  1194	
-> 1195	int hclge_tm_vf_tc_dwrr_cfg(struct hclge_vport *vport)
-  1196	{
-  1197		struct hnae3_knic_private_info *kinfo = &vport->nic.kinfo;
-  1198		struct hclge_dev *hdev = vport->back;
-  1199		struct hclge_pg_info *pg_info;
-  1200		u8 dwrr;
-  1201		int ret;
-  1202		u32 i;
-  1203	
-  1204		for (i = 0; i < kinfo->tc_info.max_tc; i++) {
-  1205			pg_info = &hdev->tm_info.pg_info[hdev->tm_info.tc_info[i].pgid];
-  1206			dwrr = i < kinfo->tc_info.num_tc ? pg_info->tc_dwrr[i] : 0;
-  1207			ret = hclge_tm_qs_weight_cfg(hdev, vport->qs_offset + i, dwrr);
-  1208			if (ret)
-  1209				return ret;
-  1210		}
-  1211	
-  1212		return 0;
-  1213	}
-  1214	
+    50	
+    51	int kvm_perf_init(void)
+    52	{
+    53		/*
+    54		 * Check if HW_PERF_EVENTS are supported by checking the number of
+    55		 * hardware performance counters. This could ensure the presence of
+    56		 * a physical PMU and CONFIG_PERF_EVENT is selected.
+    57		 */
+  > 58		if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
+    59			static_branch_enable(&kvm_arm_pmu_available);
+    60	
+    61		return perf_register_guest_info_callbacks(&kvm_guest_cbs);
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
