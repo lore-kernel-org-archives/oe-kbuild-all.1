@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F41A18B46F;
-	Tue,  3 Sep 2024 18:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ADC1D5CCA;
+	Tue,  3 Sep 2024 19:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725389610; cv=none; b=q9mCO+pLqY/Iu2OI8tQn8XpSSrEaCxqVuor8JvkH1Hd7UC6Uu9x4TeuVuPnhjMZwjds0KCkeXYOW9EjqIoXsPiWJhuMrhECLMHD7WaqSq41zFQE/s+VTcJJBxqrFIrVI7jOGcf/LyirG7JIFXnpgdjxXXyWutP/zbCTO7ysHYto=
+	t=1725390872; cv=none; b=UE4DzzIkM1p1GU3lq4P8lUDK9uOqD6W2w+gGJmNiH2csmHCHtGpPD7/skII9W2En7SJYNBuCIldgH0CaNaDxmj/6DX7miKPC1u7sPZ4pGCUeete1Ofo1dI5Wai3Zmx9kbCaC8xh4RweeLEjGHOz+WDULnxb/HKnpGifVvMKaZHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725389610; c=relaxed/simple;
-	bh=T5Gx8WkcVyvzG3zrLRh+K6K1sDWsiptEf/Lb25i3JO0=;
+	s=arc-20240116; t=1725390872; c=relaxed/simple;
+	bh=or6X0wP8ozeFggLTdXEFslaB29MDKtBAB44XcYasXF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f96g9vk4LUJmMZ47ObKVYBQXHgN+Yf/YuNDIIWcxvP07PF+DTUepEDBVwXOCJMjmeKJglSVQ5yHp/Q+8LMYx4NfNH/lPAoFHXwwSB6gF4D2AzZv1l4yCzSXVSOyqZlXnjbPE1XKJMJcSl/1En3ubm/qYwj9vrhINYRLIrVw+Hug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGXKRyI8; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=DmHChVCgvTYU5t3m7uCiEEqv2Ft5g2xQWTtxmFGA7tXEBKIIFGG7OZ6tsBXhe0EshbISle7fskpUnfI6jN1q7+uMhI9l185W50BA8Fa0N1/vgpJ6HbR11asstOUTmlJ2OJe8RNT6BICIgjxF/8N7V2EJCDsUlqQGAnxNqi8rMk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btG6/m82; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGXKRyI8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btG6/m82"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725389609; x=1756925609;
+  t=1725390870; x=1756926870;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=T5Gx8WkcVyvzG3zrLRh+K6K1sDWsiptEf/Lb25i3JO0=;
-  b=jGXKRyI8bKx+DE0guKEGXjwfBV6q0cf+ruec2RcnhnXbEFQrozEL4FWs
-   sePQ2YkwD1A/hFMv9N9eY2a/vQG6AkN3v9LfF68FTRLxurywEnfGQ1Y1o
-   KF28JBrMnjVuJU3hNa6C+XHYFwLFFIhlsRoDXewrGN35km0AX0jsFP/dt
-   DB5oXj1eGOQ+gsyjh7Nr3j4fI4Y6QOiCkN0Tfv/eN3d/4X9qAP8k27uYm
-   8q8pryJyDm2qMdJKlyUdU21Z/5WkGCaXjRa7FSjffffvo4wUk/cxCxubs
-   sjZZj3GS1F8Ozh7xgthZFTTPTyjGQH50c1piC5PCmfMpbG6dNvqfXEkr1
+  bh=or6X0wP8ozeFggLTdXEFslaB29MDKtBAB44XcYasXF8=;
+  b=btG6/m82J/LYRmEm3LRjHp8v5QYMmO2QOCMH/5xxp2NYfkWnTm+DrUGp
+   9iDf0mqyjPnZepiqcRgu5SUyZEvD7DNK77uywTIWo9wnSry07RP7pVWeC
+   zH0eh8K3lpnGMbzAamy7F3BmR2XmWe++vGZOF7kKc2UbzJSHCCD73UkMA
+   dvkBfOeUqJd06xcVqCK1WI+whpMWklzyjWYEezWLyEcqdNme2BhtfGefA
+   VZsxqWGfuNZmt5B1BTeMOPGCXp2p4YUou5kDwNL4/8cO+hzY8p7RdIKy1
+   EXUrO/e0A+wUgYL0AVN3wIFlO8R/mHhIXqOHrgckzb3WmGOFIhwy3UcTw
    w==;
-X-CSE-ConnectionGUID: m6MiLp4XTZGAoeOBoXgSuw==
-X-CSE-MsgGUID: hehjfn4XTF6c2+yupL+47Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="23969509"
+X-CSE-ConnectionGUID: ENH2NyKHSSaamS7aTyGjlA==
+X-CSE-MsgGUID: WoV+4Qk/TmOdIesmB+8Pug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="35404409"
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="23969509"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 11:53:28 -0700
-X-CSE-ConnectionGUID: WqmH/QnmTXyYHeVgKMkDtQ==
-X-CSE-MsgGUID: qvGXtOOxT2imb2XTs+VgRQ==
+   d="scan'208";a="35404409"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 12:14:29 -0700
+X-CSE-ConnectionGUID: oS05bFeQT766fMIexoXYvw==
+X-CSE-MsgGUID: tDw2CiK5TbWhr9HnYR3D5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="65070889"
+   d="scan'208";a="95746745"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2024 11:53:26 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Sep 2024 12:14:28 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slYea-00073Y-0d;
-	Tue, 03 Sep 2024 18:53:24 +0000
-Date: Wed, 4 Sep 2024 02:52:57 +0800
+	id 1slYyu-00074L-25;
+	Tue, 03 Sep 2024 19:14:24 +0000
+Date: Wed, 4 Sep 2024 03:13:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Uros Bizjak <ubizjak@gmail.com>, loongarch@lists.linux.dev,
 	linux-kernel@vger.kernel.org
@@ -57,7 +57,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Uros Bizjak <ubizjak@gmail.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Subject: Re: [PATCH] longsoon/percpu: Simplify _percpu_read() and
  _percpu_write()
-Message-ID: <202409040211.HXF2MzXO-lkp@intel.com>
+Message-ID: <202409040319.2mRdIGd2-lkp@intel.com>
 References: <20240903102342.36957-1-ubizjak@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,32 +83,58 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/longsoon-perc
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/dennis/percpu.git for-next
 patch link:    https://lore.kernel.org/r/20240903102342.36957-1-ubizjak%40gmail.com
 patch subject: [PATCH] longsoon/percpu: Simplify _percpu_read() and _percpu_write()
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20240904/202409040211.HXF2MzXO-lkp@intel.com/config)
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240904/202409040319.2mRdIGd2-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040211.HXF2MzXO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040319.2mRdIGd2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040211.HXF2MzXO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040319.2mRdIGd2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   {standard input}: Assembler messages:
->> {standard input}:1503: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1519: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1548: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1642: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1658: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1687: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1889: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1906: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1920: Error: no match insn: stx.w	$r12 $r21,$r13
---
-   {standard input}: Assembler messages:
-   {standard input}:1178: Error: no match insn: stx.w	$r12 $r21,$r13
-   {standard input}:1971: Error: no match insn: stx.w	$r12 $r21,$r13
->> {standard input}:8812: Error: no match insn: stx.w	$r13 $r21,$r12
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:2134,
+                    from arch/loongarch/kernel/asm-offsets.c:8:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: error: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1199: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +85 arch/loongarch/include/asm/percpu.h
+
+    81	
+    82	#define __pcpu_cast_1(val)	(((unsigned long) val) & 0xff)
+    83	#define __pcpu_cast_2(val)	(((unsigned long) val) & 0xffff)
+    84	#define __pcpu_cast_4(val)	(((unsigned long) val) & 0xffffffff)
+  > 85	#define __pcpu_cast_8(val)	(val)
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
