@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8920A1B12E9
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 11:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CAE195
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 11:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725362288; cv=none; b=fJZfAThHGCQgaxCtpyPO6YmmEEVy2OeIToNseF6CRTE2cH03/1XdDQTIW7tMVfYfdDNZuO/YVYTshjc9MjCFdTmoz+E6k3hodXUKwpNZb1FXMLGJ+gd7QU7xwq8rHccxjzfSy3LvxSjoBXwS7Hl2QQWWlE5Jm2GWpmDdWDTM9K8=
+	t=1725362949; cv=none; b=csBxw38j74pMpDU4pwDmDjK+FvMdXOAyaxlkk+oR021x4aX6YW7ueX2lfpy1Bh/pKL0qWqA48CmpigLcEHqvfCbXQniraJdtTKo+gkHrWhz3zi2MnPTIgk2G9aEICUr3vDUahps4tiddYaxid+UntT8Ktj1sG+hO2s5GsLHoow4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725362288; c=relaxed/simple;
-	bh=K4Yrq/tuu9ykDRnblS45Hz/vYndsr9+Aaw9mdKSa/Tc=;
+	s=arc-20240116; t=1725362949; c=relaxed/simple;
+	bh=bi6h5SylwUO2iArB0eAQ7jh3H4qvqEZDTEmd2FGZpgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A3cMacuIKb5TfghPENXP2UJTJkcatobhNfld7KaTVpEz/wvwXocLaHb3mR4R6rYL8sgwyFs5zuMC+ojWqKoAw3fv5DmfmDQTonqZzflCrlJgsgsDYzegOED/yFeaD2q0uPo8uRwLOJT6y1YaWQcK5p/Hky0vsNXH3lQRsA9fVkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJ/qtJFS; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=hmJJ26cPIEer1ud/SrGmoA3MMYjahuixiz2+FITsfBPDjo3OcrBNRB4tjK/O7uKiN6spzSgF9Ra6rCHni2lGjvvgd3G8gKhR76G2fXaOAtwDPEt/FkxRSFgumS15uvJB4QOYHO/jQqzGVIqAZsLWorjLSxZh86illzyPwwQLTWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb7e+m4Z; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJ/qtJFS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb7e+m4Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725362286; x=1756898286;
+  t=1725362947; x=1756898947;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K4Yrq/tuu9ykDRnblS45Hz/vYndsr9+Aaw9mdKSa/Tc=;
-  b=AJ/qtJFSKCGuwrsgyJxvVIXsu/C2Hg09a7riy6lpiewSlt/aTYPMR/AH
-   w6ClZMHoIVBPEcT/Jpt6E/IsaXj/8xURh3tbq6lwadjHi7mFhQS31HxD1
-   2vbpyUJs4rB2ZGzz/Bd6sTDxTuJy7EKNC8vkd1mgVUenrn14Khgnk08Rx
-   PCyEYK8+mMsUQnucBLuhFb3TUzlnnpVr8b3i+GhIFAShA+4zQ0CtITd2q
-   e3JnjVoTvb+h/q4TcLBKVpj2M8G1mvlTn2pYU/69XiLzXGOs1aoW6MSY/
-   5wwZA+t3ySYe1cmrOdGMH6dy8U6AMUi1QNsvypodSYWu1AZkPbUXdDaGx
-   g==;
-X-CSE-ConnectionGUID: r0hzKy/eR9K75knczHE+3g==
-X-CSE-MsgGUID: ixjYdRsMSPylXbxzWljs+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="24106766"
+  bh=bi6h5SylwUO2iArB0eAQ7jh3H4qvqEZDTEmd2FGZpgE=;
+  b=Yb7e+m4ZyO3hIvqqWV5SfJOSsqFF1/urfXm86spW0UgqZK5WrmE1yAeZ
+   TKhDPHCXkYlUm+LeRTnx390LMHOIaMDUDL8egeRlrBtKsyhOOCuLvy3X1
+   8kZpOOZ4ft2JKL03rDP6rmhQcghzWhjcj4zSvsuIhtVtVEogC4hbbOVWP
+   DUR/y7K2gD4yTOKY9uwYcheFv3BCiPkqzSB1T+ekKHjkPS29ZjPswNxOx
+   Ez18ntrwDOJAUQvocIoBqjc/9F53loHdvX7GOZFav9rfH0idptQZ38inU
+   A+IjzN6RCgNdRDzedzY4G2bcamvxgKTSITU43ORdGV5pgdrp7F0e+t8Z0
+   w==;
+X-CSE-ConnectionGUID: HctfwEHeSJ+Z5vdfnMFbfQ==
+X-CSE-MsgGUID: uauEWVhbQVms84/VxclGwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="35112146"
 X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="24106766"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 04:18:05 -0700
-X-CSE-ConnectionGUID: ykD7Ig2gSnO9opK+NPbsaA==
-X-CSE-MsgGUID: nuAC8lAEToGp443l/kUXwg==
+   d="scan'208";a="35112146"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 04:29:06 -0700
+X-CSE-ConnectionGUID: I5yJZ+kRS2OCZd4q6DzHMw==
+X-CSE-MsgGUID: MlCa4hRDRGaEnSbLOwPHGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="88118253"
+   d="scan'208";a="69669365"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 04:17:58 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Sep 2024 04:29:00 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slRXo-0006Xw-2D;
-	Tue, 03 Sep 2024 11:17:56 +0000
-Date: Tue, 3 Sep 2024 19:17:55 +0800
+	id 1slRiT-0006ZO-1X;
+	Tue, 03 Sep 2024 11:28:57 +0000
+Date: Tue, 3 Sep 2024 19:28:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
 Cc: oe-kbuild-all@lists.linux.dev, kent.overstreet@linux.dev,
@@ -63,7 +63,7 @@ Cc: oe-kbuild-all@lists.linux.dev, kent.overstreet@linux.dev,
 	iamjoonsoo.kim@lge.com, rientjes@google.com
 Subject: Re: [PATCH v2 6/6] alloc_tag: config to store page allocation tag
  refs in page flags
-Message-ID: <202409031840.8bM58SRg-lkp@intel.com>
+Message-ID: <202409031928.8Eb27aSp-lkp@intel.com>
 References: <20240902044128.664075-7-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -85,123 +85,37 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/maple_
 base:   18d35b7e30d5a217ff1cc976bb819e1aa2873301
 patch link:    https://lore.kernel.org/r/20240902044128.664075-7-surenb%40google.com
 patch subject: [PATCH v2 6/6] alloc_tag: config to store page allocation tag refs in page flags
-config: hexagon-randconfig-r113-20240903 (https://download.01.org/0day-ci/archive/20240903/202409031840.8bM58SRg-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project dc19b59ea2502193c0e7bc16bb7d711c8053edcf)
-reproduce: (https://download.01.org/0day-ci/archive/20240903/202409031840.8bM58SRg-lkp@intel.com/reproduce)
+config: m68k-randconfig-r131-20240903 (https://download.01.org/0day-ci/archive/20240903/202409031928.8Eb27aSp-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240903/202409031928.8Eb27aSp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409031840.8bM58SRg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409031928.8Eb27aSp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:10:
-   In file included from include/linux/mm_types.h:18:
->> include/linux/page-flags-layout.h:112:2: error: "Not enough bits in page flags"
+   In file included from include/linux/mmzone.h:20,
+                    from include/linux/topology.h:33,
+                    from include/linux/irq.h:19,
+                    from include/asm-generic/hardirq.h:17,
+                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:8,
+                    from arch/m68k/kernel/asm-offsets.c:16:
+>> include/linux/page-flags-layout.h:112:2: error: #error "Not enough bits in page flags"
      112 | #error "Not enough bits in page flags"
-         |  ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |  ^~~~~
+   make[3]: *** [scripts/Makefile.build:117: arch/m68k/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1193: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
 vim +112 include/linux/page-flags-layout.h
