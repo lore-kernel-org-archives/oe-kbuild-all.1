@@ -1,184 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4F91D7E26
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 19:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CAF1DC720
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 19:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725392079; cv=none; b=kbPjD7JAzgfag9DWJWG/SPkSsOlcA7/GVJBgkOH5pBtZ+iCVUeaDJ0I6ZZZ9lhZsIxqWTyPiDCOcaF1AOepMzROtQtfREjswAM/byOFQjnRTm08Jv6yMdTDab+1NVfSKvq5xyZJWSsaIuD9gtkMf+vgedPQzL6doPibIQHQMFkM=
+	t=1725392972; cv=none; b=q1h6TXftyfzp6SG0CoKloP9fSqmcEYCZaVVqDI8XGp81G+F4difdPc8aezucJMhkVK/2IvCGPiEremJR3Fz9EKz2NN5E61RyZhohhPymEszR/DfmPrU8FhCHxTF1PLYUruDILS6MTyhJ0aYqcJGsK1x32YPX+S2gTiHjoDdOPt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725392079; c=relaxed/simple;
-	bh=39b9O7q+kR3qkDl+dB6CSlhcuomrGDPE7Ar69fnE79M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=guhIRozNbxaY8C4jsc/jdEds/3A909EXBMdNa8iPkX37V8WzJJ16iPHR0ZP7Hy1A9ybS4otd8uqJvO0gncbyjUXQCB6RzDWvlT8FfDQwizmZ/ALkxKiu7RE1HEyiGKG7fKyyGN5/FNiJfw6t9IwkQ8ftmg3WoiY/gvBYtVXAY3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/ZQpr/u; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725392972; c=relaxed/simple;
+	bh=q8yBaSCmEGOs0wi0p0eGVAK9EBu2hAh9q6JTrbF7T+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EsnnUzylTe06V6MN4tih+7H9MStP5UFEzjvls6LpAebIggTG+cq4hy3LUypq9AzXK2/XbF42Ep+cUVPbNHMvJfMi9oqeB71yKEZcchOm6eY47al0zY+fQDIwV6vp4opF3mqL/5gyQFQ36rUx98woo0NXbbDqxCK4jhm3kcknLhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=bMt+VGBf; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/ZQpr/u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725392077; x=1756928077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=39b9O7q+kR3qkDl+dB6CSlhcuomrGDPE7Ar69fnE79M=;
-  b=R/ZQpr/uyUJBbbBxko1Cc7TGm+LteohPqaGp2CFbzmYvhGceUT1bVaIB
-   wY7XmoFYIVKSU/853rGUztYfLah/oKvuoiC3/3bwtFQXz+dl4Mj+uAe0V
-   JMKZlpMYcVgKtVDkkGaTaUUcHKWQfBUw2bBcmQMGek1FT7HSXWAZOksFk
-   Plle+MgUOtxqy0Y2Rh8RDo/oJrnZY4dEG7IrcxAhEJNX/6r4QmaGtGHUE
-   sYhMPd+5oyt+9qcOL0w7/954KyLHh0M2nIG0oIa5XuU60kXXpMG6lT8dU
-   TZHlgyP1uNEd5kdCMshKoXuJpVlVFh4cwBVFQPDTjXwIz9FzwRm+W11mk
-   w==;
-X-CSE-ConnectionGUID: eDx7ERZRRW2QDQiFw/hAtg==
-X-CSE-MsgGUID: UT3zhi5tSZK+a4SMy8pu9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="23880887"
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="23880887"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 12:34:28 -0700
-X-CSE-ConnectionGUID: GTql1d8wTumUPQKfy8GjJA==
-X-CSE-MsgGUID: aIqKD51FSTmvzog4ygQ+fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="69408530"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Sep 2024 12:34:27 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1slZIH-00075E-0v;
-	Tue, 03 Sep 2024 19:34:25 +0000
-Date: Wed, 4 Sep 2024 03:33:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Drew Fustini <dfustini@tenstorrent.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
-Message-ID: <202409040328.ZqAuHw0k-lkp@intel.com>
-References: <20240902-th1520-pinctrl-v1-2-639bf83ef50a@tenstorrent.com>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="bMt+VGBf"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 0902C87C69;
+	Tue,  3 Sep 2024 21:49:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1725392968;
+	bh=k80mM0g+cG1lqDv5+YwQh2clUljbvr+bcihE+jbD3qg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bMt+VGBfBdzD/q2Iw/+JWyXvI8rUnHKHzeB4nB5aqJKmqXWdsbZzX4yZadK3hDQE9
+	 UW0gQ8VWJ1NXKdj9SIoxd+PRpU8a0rhjq3xX5BJt7ygt5kG/40x8Ff8zMgDSJILymO
+	 K7mMnBzQM/7tFT6GFHmzejHXEw8b7XLTLdiHqMHyRTNQy7z58+P0DraEVJQWIV9TAv
+	 S2cFhkT2oMUSWZ5F70qJwRJYzoPaV8hmL5Gcw3iCXgngp75omTG3aqSjia1yoankPH
+	 WcIeYSkEItX95vdTjHhY01RpJsMAYBDYJV4pPncBVDtEamIHcr6ygla4FpA1C1K7H5
+	 4/Bo3lCbAPvVQ==
+Message-ID: <0c8eda77-cc03-4ba5-921d-a1da4beed7d5@denx.de>
+Date: Tue, 3 Sep 2024 21:49:27 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240902-th1520-pinctrl-v1-2-639bf83ef50a@tenstorrent.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 5762/8400]
+ arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: ads7846@0:
+ ti,keep-vref-on: 'oneOf' conditional failed, one must be fixed:
+To: kernel test robot <lkp@intel.com>, Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ "Rob Herring (Arm)" <robh@kernel.org>
+References: <202409031302.xp1kb3Tl-lkp@intel.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <202409031302.xp1kb3Tl-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-Hi Drew,
+On 9/3/24 8:00 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   ecc768a84f0b8e631986f9ade3118fa37852fef0
+> commit: 45d6486d2a5ad4310c1379071fc39d02d6784cbe [5762/8400] dt-bindings: input: touchscreen: convert ads7846.txt to yaml
+> config: arm-randconfig-054-20240902 (https://download.01.org/0day-ci/archive/20240903/202409031302.xp1kb3Tl-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 6f682c26b04f0b349c4c473756cb8625b4f37c6d)
+> dtschema version: 2024.6.dev16+gc51125d
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409031302.xp1kb3Tl-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409031302.xp1kb3Tl-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/regulator-vusb1v8: failed to match any schema with compatible: ['ti,twl4030-vusb1v8']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/regulator-vusb3v1: failed to match any schema with compatible: ['ti,twl4030-vusb3v1']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/regulator-vpll1: failed to match any schema with compatible: ['ti,twl4030-vpll1']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/regulator-vpll2: failed to match any schema with compatible: ['ti,twl4030-vpll2']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/regulator-vsim: failed to match any schema with compatible: ['ti,twl4030-vsim']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/gpio: failed to match any schema with compatible: ['ti,twl4030-gpio']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/pwm: failed to match any schema with compatible: ['ti,twl4030-pwm']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl4030-pwmled']
+>     arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+>>> arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd43.dtb: ads7846@0: ti,keep-vref-on: 'oneOf' conditional failed, one must be fixed:
+>     	1 is not of type 'boolean'
+>     	True was expected
+>     	1 is not of type 'null'
+>     	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,ads7843.yaml#
 
-kernel test robot noticed the following build warnings:
+Seems this needs a fix like this:
 
-[auto build test WARNING on 5be63fc19fcaa4c236b307420483578a56986a37]
+diff --git a/arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd-common.dtsi 
+b/arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd-common.dtsi
+index a7f99ae0c1fe9..78c657429f641 100644
+--- a/arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd-common.dtsi
++++ b/arch/arm/boot/dts/ti/omap/omap3-devkit8000-lcd-common.dtsi
+@@ -65,7 +65,7 @@ ads7846@0 {
+                 ti,debounce-max = /bits/ 16 <10>;
+                 ti,debounce-tol = /bits/ 16 <5>;
+                 ti,debounce-rep = /bits/ 16 <1>;
+-               ti,keep-vref-on = <1>;
++               ti,keep-vref-on;
+                 ti,settle-delay-usec = /bits/ 16 <150>;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Drew-Fustini/dt-bindings-pinctrl-Add-thead-th1520-pinctrl-bindings/20240903-121111
-base:   5be63fc19fcaa4c236b307420483578a56986a37
-patch link:    https://lore.kernel.org/r/20240902-th1520-pinctrl-v1-2-639bf83ef50a%40tenstorrent.com
-patch subject: [PATCH 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
-config: hexagon-randconfig-r073-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040328.ZqAuHw0k-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040328.ZqAuHw0k-lkp@intel.com/reproduce)
+                 wakeup-source;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040328.ZqAuHw0k-lkp@intel.com/
+Frank, can you send the fix ?
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/pinctrl/pinctrl-th1520.c:870:29: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     870 |                 return dev_err_probe(dev, ret, "unit address did not match any pad group\n");
-         |                                           ^~~
-   drivers/pinctrl/pinctrl-th1520.c:849:9: note: initialize the variable 'ret' to silence this warning
-     849 |         int ret;
-         |                ^
-         |                 = 0
-   7 warnings generated.
-
-
-vim +/ret +870 drivers/pinctrl/pinctrl-th1520.c
-
-   841	
-   842	static int th1520_pinctrl_probe(struct platform_device *pdev)
-   843	{
-   844		struct device *dev = &pdev->dev;
-   845		const struct th1520_pad_group *group;
-   846		struct device_node *np = dev->of_node;
-   847		struct th1520_pinctrl *thp;
-   848		struct clk *clk;
-   849		int ret;
-   850	
-   851		thp = devm_kzalloc(dev, sizeof(*thp), GFP_KERNEL);
-   852		if (!thp)
-   853			return -ENOMEM;
-   854	
-   855		thp->base = devm_platform_ioremap_resource(pdev, 0);
-   856		if (IS_ERR(thp->base))
-   857			return PTR_ERR(thp->base);
-   858	
-   859		clk = devm_clk_get_enabled(dev, NULL);
-   860		if (IS_ERR(clk))
-   861			return dev_err_probe(dev, PTR_ERR(clk), "error getting clock\n");
-   862	
-   863		if (strcmp(np->full_name, TH1520_PAD_GROUP1) == 0)
-   864			group = &th1520_group1;
-   865		else if (strcmp(np->full_name, TH1520_PAD_GROUP2) == 0)
-   866			group = &th1520_group2;
-   867		else if (strcmp(np->full_name, TH1520_PAD_GROUP3) == 0)
-   868			group = &th1520_group3;
-   869		else
- > 870			return dev_err_probe(dev, ret, "unit address did not match any pad group\n");
-   871	
-   872		thp->desc.name = group->name;
-   873		thp->desc.pins = group->pins;
-   874		thp->desc.npins = group->npins;
-   875		thp->desc.pctlops = &th1520_pinctrl_ops;
-   876		thp->desc.pmxops = &th1520_pinmux_ops;
-   877		thp->desc.confops = &th1520_pinconf_ops;
-   878		thp->desc.owner = THIS_MODULE;
-   879		mutex_init(&thp->mutex);
-   880		raw_spin_lock_init(&thp->lock);
-   881	
-   882		ret = devm_pinctrl_register_and_init(dev, &thp->desc, thp, &thp->pctl);
-   883		if (ret)
-   884			return dev_err_probe(dev, ret, "could not register pinctrl driver\n");
-   885	
-   886		return pinctrl_enable(thp->pctl);
-   887	}
-   888	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you
