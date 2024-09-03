@@ -1,59 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997481891B9;
-	Tue,  3 Sep 2024 15:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDF71891DE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 15:47:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725378438; cv=none; b=uYeYmXDbNnfDVvr0t/+jsphXU7yr1VPDlUmBKvgBiIoV3/55QM9iK4NJq2zcIhUuCpQA55SZdovIHcI/NYFu/q9QOOULERc0AQ7B1w84EY4mJq2TImERWwsnpooO2Vq1Bhl8E51MxzKUu8u63fawr5E8BhW7Ljq1eC3i8tBdVSU=
+	t=1725378440; cv=none; b=pHoo59RWNpO1Z/d0joWScnNYd74iKFiA8SiQUOvE/FP3m7MEayCTrGbAMOnN2CS+B7oSenQsbw04mWd8KMQ4BtljRhzHob0XBxnhedE4E/f188lVAFc+149HlOPgDS5oqpQo1vqRki1HpO8N0ITYTYhpDmhVDd1wLC0Xcamoyfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725378438; c=relaxed/simple;
-	bh=MlL2ekpNBHWtNe30G+6JiHx0CcJvvFtMGonOwXzVqPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DJi1vbLCzRauQOcbtVzYCbDJudbGihe5/xvjlow6QhCwYcL0iczPkHlY4gcvBebGRYsXzAUtcW0ceHGt9BL7EM7LRfDwtJVABrsKaAG6m2DXz21t1RVxZA/2kiIb4EVM9roH95KDV/BLQtbubc+NWt/vUY4JC/auFJ2t5zxin6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lys3dDUz; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1725378440; c=relaxed/simple;
+	bh=7EcydActpMSaA+SPWxDp1h3wd9kMVHEG/yenpXVGaz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SSiOk5UbsrjVOaqgtANfty/vVrBUtu9i1ab+qzHj8u3Hpa1tG+aYgKPZCE5e4FvnGoFYf4QNhZNhO7+VbSgLUZaUz2ThDaJJa79PD+4Fk4skdW16FWBYIhZbARrlubwtj/l7Ob66L5+UUO9tPknk5EeGc5UrUhOpb+54eRJchk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxepmGAM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lys3dDUz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxepmGAM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725378437; x=1756914437;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MlL2ekpNBHWtNe30G+6JiHx0CcJvvFtMGonOwXzVqPM=;
-  b=Lys3dDUzW3daMZACwdCi7FONKvM0fSDQZU9aMYeSRJyRJeHkfTk3oK/h
-   R8c7KPa2D3egnbt5CJylHNzvymNP8vd4cANXRE2ws42Faog8bIptfdV+r
-   qhzuemZM5eE+h8kkatb9px+up3ED6T6HP0cfpExthzZV2xd8ZQ71D3Vnj
-   /mts7IkcC5z0XAeRp3wC7rRsahY0yK+P84TmSCf1zFA6SdP0lM2/cl21V
-   4kR6JCVexL7iW8vsfYKD0IRvVdsHwuPfxU2uJ/obvlQerDNP7uoG/JNS7
-   Hb2Afcz02j1BRwON63rVREDCdzVxA8+6Z1t1wHHrL2VLo5rpY9PE3qwGo
+  t=1725378439; x=1756914439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7EcydActpMSaA+SPWxDp1h3wd9kMVHEG/yenpXVGaz4=;
+  b=PxepmGAMXZJvnIjNb15yaqewdk+yohRbI91HWM4vPcttsYbfqwcf5mpo
+   wV5cCZtUuTGH+xq2TwEQKFC90qHtGIt6p+TRxzc6Nwx+xsNhPcd80bOfD
+   tJLqGA0IpaZCvqqLgGKouiqQMcwfNgqNQk5blbkYIXRPfRENktL1ofQRo
+   d+/5mG8dU2z9UUWcxWyDYu+4ZYF0A3I+hy7kWqaYkZonduW41wuineM6j
+   M+2I/SOvVmaAJgccI3rgMd8TN1PB8MIbj5MVTP7fIhab2/j3GSeZ4iTOR
+   /6Xx3UkOWlFmXkMIdODMGiRP7vXTFt2fDsg+GD8ASFTAe8yGjdkRuxUjA
    g==;
-X-CSE-ConnectionGUID: K6asfALxQrGpEXPAQYFpGQ==
-X-CSE-MsgGUID: T73FkqaQQ8iQzr77pz11wA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24176663"
+X-CSE-ConnectionGUID: 0MXumJlZTBajA50TsskDEQ==
+X-CSE-MsgGUID: yVA/yh5ZRDivW3DUPKrMpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24176673"
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="24176663"
+   d="scan'208";a="24176673"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 08:47:16 -0700
-X-CSE-ConnectionGUID: 4/SH70pWSlKtdRm9+Cg7hA==
-X-CSE-MsgGUID: u8jqcSDER2mouJk2ghCjhg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 08:47:18 -0700
+X-CSE-ConnectionGUID: ect5Q1kXRmWAmR9WPo/Gdg==
+X-CSE-MsgGUID: vSr+q9uKQfKGWn/gw/DOuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="88202643"
+   d="scan'208";a="88202642"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 08:47:14 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slVkO-0006r2-1T;
+	id 1slVkO-0006qw-1G;
 	Tue, 03 Sep 2024 15:47:12 +0000
-Date: Tue, 3 Sep 2024 23:46:31 +0800
+Date: Tue, 3 Sep 2024 23:46:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-crypt 37/37] fs/netfs/crypto.c:305:38: warning:
- format specifies type 'size_t' (aka 'unsigned int') but the argument has
- type 'unsigned long'
-Message-ID: <202409032337.cSEMj0gq-lkp@intel.com>
+To: Alex Lanzano <lanzano.alex@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mehdi Djait <mehdi.djait@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, christophe.jaillet@wanadoo.fr,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] drm/tiny: Add driver for Sharp Memory LCD
+Message-ID: <202409032359.jHPOaDBF-lkp@intel.com>
+References: <20240901201118.3179206-3-lanzano.alex@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,99 +72,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240901201118.3179206-3-lanzano.alex@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
-head:   3962f4beba4e7ffa6cfab018df8a612902a1d2c8
-commit: 3962f4beba4e7ffa6cfab018df8a612902a1d2c8 [37/37] netfs: Support decryption on ubuffered/DIO read
-config: i386-buildonly-randconfig-003-20240903 (https://download.01.org/0day-ci/archive/20240903/202409032337.cSEMj0gq-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409032337.cSEMj0gq-lkp@intel.com/reproduce)
+Hi Alex,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on drm-misc/drm-misc-next linus/master v6.11-rc6 next-20240903]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Lanzano/dt-bindings-display-Add-Sharp-Memory-LCD-bindings/20240902-041405
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240901201118.3179206-3-lanzano.alex%40gmail.com
+patch subject: [PATCH v5 2/2] drm/tiny: Add driver for Sharp Memory LCD
+config: x86_64-randconfig-102-20240903 (https://download.01.org/0day-ci/archive/20240903/202409032359.jHPOaDBF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409032359.jHPOaDBF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409032337.cSEMj0gq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409032359.jHPOaDBF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/netfs/crypto.c:305:38: warning: format specifies type 'size_t' (aka 'unsigned int') but the argument has type 'unsigned long' [-Wformat]
-     304 |         kdebug("type=%u nr=%zu type=%u nr=%zu",
-         |                            ~~~
-         |                            %lu
-     305 |                rreq->bounce.iter.iter_type, rreq->bounce.iter.nr_segs,
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/internal.h:443:43: note: expanded from macro 'kdebug'
-     443 | #define kdebug(FMT, ...) dbgprintk(FMT, ##__VA_ARGS__)
-         |                                    ~~~    ^~~~~~~~~~~
-   fs/netfs/internal.h:439:46: note: expanded from macro 'dbgprintk'
-     439 |         printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
-         |                           ~~~                       ^~~~~~~~~~~
-   include/linux/printk.h:465:60: note: expanded from macro 'printk'
-     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   fs/netfs/crypto.c:306:38: warning: format specifies type 'size_t' (aka 'unsigned int') but the argument has type 'unsigned long' [-Wformat]
-     304 |         kdebug("type=%u nr=%zu type=%u nr=%zu",
-         |                                           ~~~
-         |                                           %lu
-     305 |                rreq->bounce.iter.iter_type, rreq->bounce.iter.nr_segs,
-     306 |                rreq->buffer.iter.iter_type, rreq->buffer.iter.nr_segs);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/internal.h:443:43: note: expanded from macro 'kdebug'
-     443 | #define kdebug(FMT, ...) dbgprintk(FMT, ##__VA_ARGS__)
-         |                                    ~~~    ^~~~~~~~~~~
-   fs/netfs/internal.h:439:46: note: expanded from macro 'dbgprintk'
-     439 |         printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
-         |                           ~~~                       ^~~~~~~~~~~
-   include/linux/printk.h:465:60: note: expanded from macro 'printk'
-     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
->> fs/netfs/crypto.c:283:29: warning: variable 'skip' set but not used [-Wunused-but-set-variable]
-     283 |         size_t len, processed = 0, skip, bsize = 1UL << ctx->crypto_bshift;
-         |                                    ^
-   3 warnings generated.
+   drivers/gpu/drm/tiny/sharp-memory.c: In function 'sharp_memory_crtc_enable':
+>> drivers/gpu/drm/tiny/sharp-memory.c:344:17: error: implicit declaration of function 'pwm_apply_state'; did you mean 'pwm_apply_args'? [-Werror=implicit-function-declaration]
+     344 |                 pwm_apply_state(smd->pwm_vcom_signal, &pwm_state);
+         |                 ^~~~~~~~~~~~~~~
+         |                 pwm_apply_args
+   cc1: some warnings being treated as errors
 
 
-vim +305 fs/netfs/crypto.c
+vim +344 drivers/gpu/drm/tiny/sharp-memory.c
 
-   273	
-   274	/*
-   275	 * Decrypt the result of a DIO read request.
-   276	 */
-   277	void netfs_decrypt_dio(struct netfs_io_request *rreq)
-   278	{
-   279		struct netfs_inode *ctx = netfs_inode(rreq->inode);
-   280		struct scatterlist source_sg[16], dest_sg[16];
-   281		unsigned long long start;
-   282		unsigned int n_source;
- > 283		size_t len, processed = 0, skip, bsize = 1UL << ctx->crypto_bshift;
-   284		int ret;
-   285	
-   286		trace_netfs_rreq(rreq, netfs_rreq_trace_decrypt);
-   287		if (rreq->start >= rreq->i_size)
-   288			return;
-   289	
-   290		start = round_down(rreq->start, bsize);
-   291		skip = rreq->start - start;
-   292		len = round_down(rreq->transferred, bsize);
-   293	
-   294		if (rreq->buffer.iter.count < rreq->len)
-   295			iov_iter_revert(&rreq->buffer.iter, rreq->len - rreq->buffer.iter.count);
-   296		if (rreq->bounce.iter.count < len)
-   297			iov_iter_revert(&rreq->bounce.iter, len - rreq->bounce.iter.count);
-   298	
-   299		kdebug("DECRYPT %llx-%llx f=%lx %zx/%zx %zx/%llx",
-   300		       start, start + len - 1, rreq->flags,
-   301		       rreq->bounce.iter.count, len,
-   302		       rreq->buffer.iter.count, rreq->len);
-   303	
-   304		kdebug("type=%u nr=%zu type=%u nr=%zu",
- > 305		       rreq->bounce.iter.iter_type, rreq->bounce.iter.nr_segs,
+   318	
+   319	static void sharp_memory_crtc_enable(struct drm_crtc *crtc,
+   320					     struct drm_atomic_state *state)
+   321	{
+   322		struct pwm_state pwm_state;
+   323		struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
+   324	
+   325		sharp_memory_clear_display(smd);
+   326	
+   327		if (smd->enable_gpio)
+   328			gpiod_set_value(smd->enable_gpio, 1);
+   329	
+   330		switch (smd->vcom_mode) {
+   331		case SHARP_MEMORY_SOFTWARE_VCOM:
+   332			smd->sw_vcom_signal = kthread_run(sharp_memory_sw_vcom_signal_thread,
+   333							  smd, "sw_vcom_signal");
+   334			break;
+   335	
+   336		case SHARP_MEMORY_EXTERNAL_VCOM:
+   337			break;
+   338	
+   339		case SHARP_MEMORY_PWM_VCOM:
+   340			pwm_get_state(smd->pwm_vcom_signal, &pwm_state);
+   341			pwm_state.period =    1000000000;
+   342			pwm_state.duty_cycle = 100000000;
+   343			pwm_state.enabled = true;
+ > 344			pwm_apply_state(smd->pwm_vcom_signal, &pwm_state);
+   345			break;
+   346		}
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
