@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D701DFCB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 16:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E06D18BBA5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 16:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725380319; cv=none; b=ADvzcxlX531mIJkrwk82Pw2vPUwE3iWVmhOyPAreaZY1nFOPCx12RoIUTqvOtsBLLMN5BRSXpiVZKe6Xk1m+sNQEC5txHacxNcTRjo8vr1i0N4z1hmTsZ7/2kahlDWtOAoxVfW5j9nWxa1YEtFVzXt1niqu9fUCB+Gd6yYa1Pyw=
+	t=1725381564; cv=none; b=IhqwpGe5vCnt6dN0Qza1OROv1qEof1+fVoq3sOhgdPau+MxMEHbD3ZsvgDxiVFiBk+AE6Z5ILoeZH0iiOrVwY89zRFutaLKxgUT0LdHfJVG8sqDnsasy+va72/lRRE240ipko4sdoyZXwRoN3QIuvrOnFHZV17n87869SXPXkCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725380319; c=relaxed/simple;
-	bh=e+ztJAswj0zgxwfKO74jE9paujDwSwvONdxkFHmYZtQ=;
+	s=arc-20240116; t=1725381564; c=relaxed/simple;
+	bh=O4qJr+TVKyCC4UEwJBtP4mDrHLH62P5vv5tA1n4KB4M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bXjdPgnDgzEGNS1VckVaTZQznCioSB1wFn7T5KygmxM/HDuZ0zXE++OB0NYcstmpoFfXVoK+lbVmvkX6fsz2LQf6RTZN19Ds81uzPfwF4gqCe/nnGHOl+hXSH6GzgWv/gAUrxzsIJHoWqX8BVVLvdgNXFlvDssszkQYK9CqPHlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N3+G/wpZ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=ASkfB+nJyib1qrHjMBisYao4bbVWpbga/DzvaqnxkpbVJP9Bh+ofRqyhcb5pBySkSsKpVw0aWIYiIPu6Q/DCVa5MyN7h2w7lZBJTVYHXcv1tyttGzv4K90/lYVFgeDUSWcLj+fDMGf6EC9/xwdyCWxh1876YUtr1Ff4bCJO1UcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+o+K7eR; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N3+G/wpZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+o+K7eR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725380317; x=1756916317;
+  t=1725381561; x=1756917561;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=e+ztJAswj0zgxwfKO74jE9paujDwSwvONdxkFHmYZtQ=;
-  b=N3+G/wpZFF8fyKyHYXEVWP/1dj1LJXgUjkTs63G19OTwxUOTnaVWBuHY
-   zzSvwEM1vXZB/l7N9saGlftH4lStPRe2XhJfWwn8SDvQtedk8w44ADdu9
-   +lYsELbefoMziO4QJ3nXcaTCBCxPk4PVm4VRbJGJvVDGaJhUvKZ+4Uh+Y
-   DGuKezCij+XbFKUrso8djtnGhW3ZTwmy2YL0wotGNgmxc5oKbDUCmMOrf
-   4lng+ofBdFHvHbKLxUcs8zccbbm3QSlIILFTvWeMOaQ7g+iUP7ga1V9Px
-   1JcIWsoUZxeWvcRVHi09gsSMlPMeoLVvoCHnEzgY5WUuatinQoynqp4i7
-   w==;
-X-CSE-ConnectionGUID: oYYkYpZJSu28oYooh0hPTA==
-X-CSE-MsgGUID: /fxGtGUeR9uBUCjRjMLtTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="13350047"
+  bh=O4qJr+TVKyCC4UEwJBtP4mDrHLH62P5vv5tA1n4KB4M=;
+  b=c+o+K7eR8TBhQSEBsnfW4rYA12fTyqsKDITWPHJJatK2VfJtbevBi4d3
+   K3KRhIrKTK4fEkHU0ohnWLf4Iso/tP5fu04AfjSpDT7e6XBICzk24G5S4
+   g3ULAZ5YSbZen1pLtbQffRloIBAypOFlJDCyYJh/eJqGuj0fo0bNflH1y
+   1KH2mBoMKcfOaao0Hi9sKi7BPDbNKXB9s+6pHp+lvAlHskt/05WWqwb8W
+   gQUfW2kjn2wgyFwDlvwuDRQCaMlCBH1YYv2I+PmroQe+690Lf6xVt3CzD
+   67kynJ/PhyzBCV11LgK+/m6zHvyD5A2XgvSLOeiuKZsnh3BWtiaQgC0xj
+   g==;
+X-CSE-ConnectionGUID: K2lKxs4FR8KWjSWa2JjgBg==
+X-CSE-MsgGUID: VFli5tsHSVOtsCsM0P3yhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="41465937"
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="13350047"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 09:18:27 -0700
-X-CSE-ConnectionGUID: WLEjygFwQ62mC3ud2PgMXA==
-X-CSE-MsgGUID: zETu7SKwTqORrT/a8qb2dw==
+   d="scan'208";a="41465937"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 09:39:21 -0700
+X-CSE-ConnectionGUID: tU8LSY0VSsG6TjIpKgxXog==
+X-CSE-MsgGUID: pF3P06IjQfOMKXRVBY4TZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="69753081"
+   d="scan'208";a="65334473"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 03 Sep 2024 09:18:21 -0700
+  by orviesa006.jf.intel.com with ESMTP; 03 Sep 2024 09:39:19 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slWER-0006t0-2e;
-	Tue, 03 Sep 2024 16:18:15 +0000
-Date: Wed, 4 Sep 2024 00:17:35 +0800
+	id 1slWYn-0006uu-0J;
+	Tue, 03 Sep 2024 16:39:17 +0000
+Date: Wed, 4 Sep 2024 00:38:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	nirmal.patel@linux.intel.com, jonathan.derrick@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, acelan.kao@canonical.com,
-	lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	bhelgaas@google.com, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [PATCH] PCI: vmd: Delay interrupt handling on MTL VMD controller
-Message-ID: <202409040016.XGnUy9HW-lkp@intel.com>
-References: <20240903025544.286223-1-kai.heng.feng@canonical.com>
+To: "Kobayashi, Daisuke" <kobayashi.da-06@fujitsu.com>,
+	linux-cxl@vger.kernel.org, dan.j.williams@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, mj@ucw.cz,
+	"Kobayashi, Daisuke" <kobayashi.da-06@fujitsu.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v17 1/2] cxl/core/regs: Add rcd_pcie_cap initialization
+Message-ID: <202409040011.kaajNuCb-lkp@intel.com>
+References: <20240903025915.270521-2-kobayashi.da-06@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,57 +65,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903025544.286223-1-kai.heng.feng@canonical.com>
+In-Reply-To: <20240903025915.270521-2-kobayashi.da-06@fujitsu.com>
 
-Hi Kai-Heng,
+Hi Kobayashi,Daisuke,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.11-rc6 next-20240903]
+[auto build test ERROR on cxl/next]
+[also build test ERROR on linus/master cxl/pending v6.11-rc6 next-20240903]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kai-Heng-Feng/PCI-vmd-Delay-interrupt-handling-on-MTL-VMD-controller/20240903-110553
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240903025544.286223-1-kai.heng.feng%40canonical.com
-patch subject: [PATCH] PCI: vmd: Delay interrupt handling on MTL VMD controller
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240904/202409040016.XGnUy9HW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040016.XGnUy9HW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kobayashi-Daisuke/cxl-core-regs-Add-rcd_pcie_cap-initialization/20240903-110023
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
+patch link:    https://lore.kernel.org/r/20240903025915.270521-2-kobayashi.da-06%40fujitsu.com
+patch subject: [PATCH v17 1/2] cxl/core/regs: Add rcd_pcie_cap initialization
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240904/202409040011.kaajNuCb-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040011.kaajNuCb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040016.XGnUy9HW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040011.kaajNuCb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/controller/vmd.c:115: warning: Function parameter or struct member 'delay_irq' not described in 'vmd_irq'
+   drivers/cxl/pci.c: In function 'cxl_pci_setup_regs':
+>> drivers/cxl/pci.c:511:25: error: cleanup argument not a function
+     511 |                         cxl_pci_find_port(pdev, &dport);
+         |                         ^~~~~~~~~~~~~~~~~
 
 
-vim +115 drivers/pci/controller/vmd.c
+vim +511 drivers/cxl/pci.c
 
-7cdbc4e9cd808b5 drivers/pci/controller/vmd.c Kai-Heng Feng 2024-09-03   98  
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12   99  /**
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  100   * struct vmd_irq - private data to map driver IRQ to the VMD shared vector
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  101   * @node:	list item for parent traversal.
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  102   * @irq:	back pointer to parent.
-21c80c9fefc3db1 arch/x86/pci/vmd.c           Keith Busch   2016-08-23  103   * @enabled:	true if driver enabled IRQ
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  104   * @virq:	the virtual IRQ value provided to the requesting driver.
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  105   *
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  106   * Every MSI/MSI-X IRQ requested for a device in a VMD domain will be mapped to
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  107   * a VMD IRQ using this structure.
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  108   */
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  109  struct vmd_irq {
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  110  	struct list_head	node;
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  111  	struct vmd_irq_list	*irq;
-21c80c9fefc3db1 arch/x86/pci/vmd.c           Keith Busch   2016-08-23  112  	bool			enabled;
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  113  	unsigned int		virq;
-7cdbc4e9cd808b5 drivers/pci/controller/vmd.c Kai-Heng Feng 2024-09-03  114  	bool			delay_irq;
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12 @115  };
-185a383ada2e779 arch/x86/pci/vmd.c           Keith Busch   2016-01-12  116  
+   495	
+   496	static int cxl_pci_setup_regs(struct pci_dev *pdev, enum cxl_regloc_type type,
+   497				      struct cxl_register_map *map)
+   498	{
+   499		int rc;
+   500	
+   501		rc = cxl_find_regblock(pdev, type, map);
+   502	
+   503		/*
+   504		 * If the Register Locator DVSEC does not exist, check if it
+   505		 * is an RCH and try to extract the Component Registers from
+   506		 * an RCRB.
+   507		 */
+   508		if (rc && type == CXL_REGLOC_RBI_COMPONENT && is_cxl_restricted(pdev)) {
+   509			struct cxl_dport *dport;
+   510			struct cxl_port *port __free(put_cxl_port) =
+ > 511				cxl_pci_find_port(pdev, &dport);
+   512			if (!port)
+   513				return -EPROBE_DEFER;
+   514	
+   515			rc = cxl_rcrb_get_comp_regs(pdev, map, dport);
+   516			if (rc)
+   517				return rc;
+   518	
+   519			rc = cxl_dport_map_rcd_linkcap(pdev, dport);
+   520			if (rc)
+   521				return rc;
+   522	
+   523		} else if (rc) {
+   524			return rc;
+   525		}
+   526	
+   527		return cxl_setup_regs(map);
+   528	}
+   529	
 
 -- 
 0-DAY CI Kernel Test Service
