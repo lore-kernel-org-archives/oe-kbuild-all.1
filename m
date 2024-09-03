@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F571D6DDB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 23:59:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13E11D79A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 23:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725407983; cv=none; b=ZIsMDZmTYxCZQ/iTGmdLsSUPPT3inyf+gmSMr/G/QI5QoM3VlPL2lcWV+ZUv1tb65HsRO+oQX3pYLXqFgglKUYAuEFiwZvzOr3nsay73INQdTuOQK89zy6uyNvqO9rLEUTGadfTXRnebLltSybniefKBObaj1jdl8WM21yIWG4c=
+	t=1725407985; cv=none; b=HvC09RjzGWm13m+aXJOTEAijOvfxmODswxdN1uAMqNZhaa7eMxngiQCcg0V3tbOPxgknJrsFXSLIVgd0NLI80fwGx2py+lUS7hfUCUimrvm1d+qqbwQ8K+B+E/QD08jzS6SdftRqMh/YTm/Y2uYtW/ImFj8DNJ7IDmWn1rhvNhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725407983; c=relaxed/simple;
-	bh=oaLcChjDXY5eZrKRyZzo4oiiCbs+66+GS8sJkmx+8jU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lm5oEIxQDz8wGtOELYJ8u6uGHpD2cP9mF/6V1RIz3hpwBeI6P3EYSqfKa2NyLVMrT6YlgT41PzfGJs0LvsUALw18gx2V2F9/aKxNkb/zxvFA2+EBwPXVjmvbaFyl85CxBjnssrOrcM3/4ELFlycY8tkVOsm7LwNrO+g0TL5dDAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6Bje4yZ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1725407985; c=relaxed/simple;
+	bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UUDC0xb+POIPthU1w9ey8x6h5ow9Gck5KdWb2mZ914kOWbK6AYtBlB6cd1pHiT3lpw0QBISA+c1mJ8JVc76zFfBEJeAPWOhSBi0IhZeUPxaX19tstkfjTMy3lKzOVD5Xv9ywXHsUHEtMddK0MEFppwM6ReQU6VNZKamwwym9iqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fyXXTLWO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6Bje4yZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyXXTLWO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725407982; x=1756943982;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oaLcChjDXY5eZrKRyZzo4oiiCbs+66+GS8sJkmx+8jU=;
-  b=b6Bje4yZfn/Nop5L0jPvnlu7ozvnjW0xtUhMs39J1CgVPJXmWbzUJMk/
-   HR/PG7fub9mQ8LUwpq2gj6kAD81avMCJS4GVgpjeMFXFsbmLgqKC7iRrM
-   SYuNQESCA46A24y0iv2kYc8wq1yxu6DT0iiTde/4GPFL6LKD4Rj0EoAIA
-   7j2XGjJses62TouO4Ylh/ROJbjQFd5PWgHEJAltzYSEh4eMIvIiH2Y9R0
-   7SmSVXdl+yhQJW0o+OpWr6RGOOM574vZpOhmdidN2YM/o3lqgEF2qLZQf
-   DaoYjjBWiR6eXraj9Kky7OZllL4dhozmfPi0FiNutPEdBfNaPqW1iUoWg
-   g==;
-X-CSE-ConnectionGUID: hBfL/DSxRKK4T1Mk2BkX6g==
-X-CSE-MsgGUID: 1C6+U7i6Rk2Qkpp8xM3msQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="46567703"
+  t=1725407984; x=1756943984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
+  b=fyXXTLWOS78Nzi6ADndcPc4l5rdoZEZpuYYsGpC3K0KmBy9bOW3BxkYP
+   huUivygNyqHo5TOE5ix4BosIhMwlAuUhFAf6etab/ogbFOZMiHbcvbh1o
+   iC2K7DFCm41XElJs2F0hIyJBwET85f0HQIax8ij6foYHjpi7YsZirTx/I
+   hVBP9UX9djDQgYlVyqoleknbxV1VB7Ag7sEhFioTIgO6yNz3nIXo0yhXx
+   NtW+/2+FwEUzBUX8KeTjXFPLz8nVfINezPMUBP8OZ8pZHkEYwQhawoqU0
+   o9Wbb+3s4f/sWxuS+0PEWx/VRDyXEkvQamNaqkUdOlPhDK+qhZq9SPqLr
+   Q==;
+X-CSE-ConnectionGUID: FwbZ5VTJSmuHIoezJmhWyg==
+X-CSE-MsgGUID: niwNIIknTeW1Nr6gVaM4aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="46567704"
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="46567703"
+   d="scan'208";a="46567704"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 16:59:41 -0700
-X-CSE-ConnectionGUID: VNDKcA0OT7Gxj31d7OZQiQ==
-X-CSE-MsgGUID: q8ZdTsoBSeG0CB4UMJRUGg==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 16:59:42 -0700
+X-CSE-ConnectionGUID: EIQ2o7ltTYmSBGbjnTXtzQ==
+X-CSE-MsgGUID: ogmJn+noSt2qZsTJhNaZ+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="88322505"
+   d="scan'208";a="88322503"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 16:59:40 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sldQw-0007M6-0N;
+	id 1sldQw-0007M4-0J;
 	Tue, 03 Sep 2024 23:59:38 +0000
-Date: Wed, 4 Sep 2024 07:59:06 +0800
+Date: Wed, 4 Sep 2024 07:59:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10-2024-05 4177/30000]
- arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function
- 'perf_num_counters'; did you mean 'dec_mm_counter'?
-Message-ID: <202409040753.jFltpYsd-lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
+Message-ID: <202409040751.A1Dm1pgG-lkp@intel.com>
+References: <20240901211834.145186-3-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,75 +66,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240901211834.145186-3-hdegoede@redhat.com>
 
-Hi Marc,
+Hi Hans,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2024-05
-head:   591df1b051947b5739a144969afb0fbfb2fc611d
-commit: 13dbdc0759fd4b89417f64d399ffa6a86fdc7caf [4177/30000] FROMGIT: KVM: arm64: Turn kvm_arm_support_pmu_v3() into a static key
-config: arm64-randconfig-003-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040753.jFltpYsd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040753.jFltpYsd-lkp@intel.com/reproduce)
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240903]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l-Call-s_stream-on-VCM-when-it-is-called-on-the-associated-sensor/20240902-052000
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240901211834.145186-3-hdegoede%40redhat.com
+patch subject: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
+config: x86_64-randconfig-121-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040753.jFltpYsd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040751.A1Dm1pgG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/perf.c: In function 'kvm_perf_init':
->> arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function 'perf_num_counters'; did you mean 'dec_mm_counter'? [-Werror=implicit-function-declaration]
-      58 |         if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
-         |                                           ^~~~~~~~~~~~~~~~~
-         |                                           dec_mm_counter
+   drivers/media/i2c/ad5823.c: In function 'ad5823_probe':
+>> drivers/media/i2c/ad5823.c:203:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
+     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/i2c/ad5823.c:203:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+         |                        ^
    cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
 
+vim +/devm_cci_regmap_init_i2c +203 drivers/media/i2c/ad5823.c
 
-vim +58 arch/arm64/kvm/perf.c
-
-    50	
-    51	int kvm_perf_init(void)
-    52	{
-    53		/*
-    54		 * Check if HW_PERF_EVENTS are supported by checking the number of
-    55		 * hardware performance counters. This could ensure the presence of
-    56		 * a physical PMU and CONFIG_PERF_EVENT is selected.
-    57		 */
-  > 58		if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
-    59			static_branch_enable(&kvm_arm_pmu_available);
-    60	
-    61		return perf_register_guest_info_callbacks(&kvm_guest_cbs);
-    62	}
-    63	
+   193	
+   194	static int ad5823_probe(struct i2c_client *client)
+   195	{
+   196		struct ad5823_device *ad5823;
+   197		int ret;
+   198	
+   199		ad5823 = devm_kzalloc(&client->dev, sizeof(*ad5823), GFP_KERNEL);
+   200		if (!ad5823)
+   201			return -ENOMEM;
+   202	
+ > 203		ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+   204		if (IS_ERR(ad5823->regmap))
+   205			return PTR_ERR(ad5823->regmap);
+   206	
+   207		ad5823->arc_mode = AD5823_ARC_RES1;
+   208		ad5823->resonance_period = AD5823_RESONANCE_PERIOD;
+   209	
+   210		/* Optional indication of ARC mode select */
+   211		device_property_read_u32(&client->dev, "adi,arc-mode",
+   212					 &ad5823->arc_mode);
+   213	
+   214		/* Optional indication of VCM resonance period */
+   215		device_property_read_u32(&client->dev, "adi,resonance-period",
+   216					 &ad5823->resonance_period);
+   217	
+   218		ad5823->regulator = devm_regulator_get(&client->dev, "vdd");
+   219		if (IS_ERR(ad5823->regulator))
+   220			return dev_err_probe(&client->dev, PTR_ERR(ad5823->regulator),
+   221					     "getting regulator\n");
+   222	
+   223		v4l2_i2c_subdev_init(&ad5823->sd, client, &ad5823_ops);
+   224		ad5823->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+   225	
+   226		ret = ad5823_init_controls(ad5823);
+   227		if (ret)
+   228			return ret;
+   229	
+   230		ret = media_entity_pads_init(&ad5823->sd.entity, 0, NULL);
+   231		if (ret < 0)
+   232			goto err_free_ctrl_handler;
+   233	
+   234		ad5823->sd.entity.function = MEDIA_ENT_F_LENS;
+   235	
+   236		/*
+   237		 * We need the driver to work in the event that pm runtime is disable in
+   238		 * the kernel, so power up and verify the chip now. In the event that
+   239		 * runtime pm is disabled this will leave the chip on, so that the lens
+   240		 * will work.
+   241		 */
+   242	
+   243		ret = ad5823_power_up(ad5823, true);
+   244		if (ret)
+   245			goto err_cleanup_media;
+   246	
+   247		pm_runtime_set_active(&client->dev);
+   248		pm_runtime_get_noresume(&client->dev);
+   249		pm_runtime_enable(&client->dev);
+   250	
+   251		ret = v4l2_async_register_subdev(&ad5823->sd);
+   252		if (ret < 0)
+   253			goto err_pm_runtime;
+   254	
+   255		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+   256		pm_runtime_use_autosuspend(&client->dev);
+   257		pm_runtime_put_autosuspend(&client->dev);
+   258	
+   259		return ret;
+   260	
+   261	err_pm_runtime:
+   262		pm_runtime_disable(&client->dev);
+   263		pm_runtime_put_noidle(&client->dev);
+   264		ad5823_power_down(ad5823);
+   265	err_cleanup_media:
+   266		media_entity_cleanup(&ad5823->sd.entity);
+   267	err_free_ctrl_handler:
+   268		v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
+   269	
+   270		return ret;
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
