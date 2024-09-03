@@ -1,155 +1,413 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9656A1922CD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 21:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424D11A2C08;
+	Tue,  3 Sep 2024 21:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725399369; cv=none; b=S89hDf5XEoUCB8FsuGLZnho9Uv4hTzP1kTeQl7wFQ5U4xm9knzSOWEtGM29MCmn15SEaxifn/6hKkZfegE2F+gxLX0qIYhE5MASyyxXX7SMbEh1BrFKfl22W68OYCXNoB7wuMfiV9b0tl8GKAdHucq4Xb0wvbgMNtIFK9r7NlGI=
+	t=1725399398; cv=none; b=cWNxJCG0tQRKuAWcZJf4pklgXKMQH4HBUH0q16nRroPwszpnQ00ziRtEmBcYen5j7efBDsXbubqkwtOLtpjslqVpbT7mmwn7xmP30RRTqCA+CL4RRHX5P+Bb9cishdsroxkr35qIIAXid4EBJijp3GZRTg3QjyD7VqA3NP5odOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725399369; c=relaxed/simple;
-	bh=nCrFWGMDxQuMbZRItJMO0iz0Ov7WnSxq3I12lkjNzWU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mn0MEPdsb97fm5iYPkoEiBWQKAbNQSQdyxpYgr+gjmii5F9976gifGk+7I6vETfvHQYegSRZcfcJz6OMbs0VINNDmFirq1y/JDX6MsGlY66lqE9u8lWtw5K3hA2O9yMchhMMX4FauxydJwom49J1dAuQKitXuJDMmNxW6+zJGVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=L+qZLI8P; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1725399398; c=relaxed/simple;
+	bh=tcS3rnIaFXXmzrr6/T8DDKJoXnHxT9hQ8SPrgZrCsao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dM/ZBpUEYksgJ4LXNnmE8XoZtqCIf14amWZTvbhYGspigzgzYVaDwTIO76L7pp97WeVYXAyQI2mLZM/A4V/Q7jzRV2VQHeQAduQ3gzUprOV3W6iFDOpfUN6SB/YUIIRBNJut/nfGR478xy84PcovAfEZqnJPZlKhUWKpJ5eH+qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iI3Xs8P4; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L+qZLI8P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725399365;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QOYCBVVf7ZnRwicC9+NS20rvfNEeqfFLMvqFVIwv7T0=;
-	b=L+qZLI8PqvDCpHJPhkP4OT/4IAkScggGrEj9ES9lIx73Hn78KVDYUPsvIrI0mNh9D3mZSx
-	CK/BgmO9WVxQ/4wPF0pUWtsthZclRLG6oWCPSgoHkSi046jm0P/vFf91WGqYJHlqTrzOLV
-	bYd3Qdnvuq83HJy/MDrZSCZhVQF//dQ=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-113-2DQR6XbjOriGQ4opWpinow-1; Tue, 03 Sep 2024 17:36:04 -0400
-X-MC-Unique: 2DQR6XbjOriGQ4opWpinow-1
-Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-53445c8a9c8so1102334e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Sep 2024 14:36:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725399363; x=1726004163;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QOYCBVVf7ZnRwicC9+NS20rvfNEeqfFLMvqFVIwv7T0=;
-        b=fg/zTistei+mz3+iJhV3oVy24g9ggZ6JQ0g59SJTybhdoMbmvvbB3K1Gfqe4hMGouK
-         0Ldy2m3E4XiF56ypl5cfILEOcFZ8saFOSaYXiCfnkR3jFRD5S0RoisWY33dpcftY/PcH
-         xc7CUpsMvyDKuhKjhPEm/KmSEeasmXUmOOx9Fcj80H8TdIG4Aisjgw+NhpBJi5isDMyV
-         TfAzKNnLtcAySKQdQ8PmtLUSwJkS7iufE6y6VPYh/6Z1gSSuMW57cGqwoGpWMGyYvxhc
-         F16B2bUxKH3QQGqNiSBb4n7EyJV4tk7Y/xd6X6ScPPHBuU1ZLxa7ThgeAhgU75QZOpSt
-         fbGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWvch+OfYOaklv+Y/xo/JR0f0VbwuMx3tBGTpaf/zum99tSJPhT5bv9vTJggYDlnxKt50tTcwDFw8WDoDZL@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx52SjyVwo6FgWNgefuyy0wpTGKH+lZNMEO/8HWs/12ZNQ8LLEt
-	1o/+am0HAOFhI4E76aa0MCIRJATMxPAPggGncozxU/eudJscGdA3j7idRD716aUn7rgsyZ9fp+s
-	4N63qyjp6pP6JqA93KVvu+HUe4idYxQHTgEZEn721ti7YSVtILJhYI9mKOfGUyR8=
-X-Received: by 2002:a05:6512:2346:b0:52c:dc25:d706 with SMTP id 2adb3069b0e04-53546b9b8e8mr11462746e87.52.1725399362565;
-        Tue, 03 Sep 2024 14:36:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFhZun+wguHVObRsS5/SaDZQzDzbnPS8ajhxMp/REyeS+41joO/Fe23UQc5fc2KLSAPQPBrVQ==
-X-Received: by 2002:a05:6512:2346:b0:52c:dc25:d706 with SMTP id 2adb3069b0e04-53546b9b8e8mr11462726e87.52.1725399361950;
-        Tue, 03 Sep 2024 14:36:01 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c241fbceb6sm5164476a12.83.2024.09.03.14.36.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Sep 2024 14:36:01 -0700 (PDT)
-Message-ID: <d5e6a9b4-f9e2-4c6a-ac2d-bba1b12d7675@redhat.com>
-Date: Tue, 3 Sep 2024 23:36:00 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iI3Xs8P4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725399396; x=1756935396;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tcS3rnIaFXXmzrr6/T8DDKJoXnHxT9hQ8SPrgZrCsao=;
+  b=iI3Xs8P42TfJMLE7GunKzRciRg8EDwwcKlyx5x+VQQHPzuIzWTCDAZWA
+   Ix9IhKttbsrOTgDMKYuypk8rssVsARVaBJrU3LzOTKEEXCBLvezvJ38DE
+   WFM78NBaug+flLz0IljPabZY1aYt9B9Ewr943xKUTuqHuTKbHbT3JKsIk
+   iPMccqATOomhICC7c4F+h8jHGEtiS7PziPGaFBW9hXGvad2iVhPNjfwW1
+   CqJ6Um0dD1p3ovazijXzITMSZgdyKdPaO1OPSMUFBU8+ebngdKEC+N1ub
+   FkNaSv+GPBeFM21a1fMOOQLZ/zBX8kND+adbiGxLa9w09poXV9XxU/W92
+   Q==;
+X-CSE-ConnectionGUID: mx3JN7R1R6GtL3RFHDjw/w==
+X-CSE-MsgGUID: AGM0FtzuTuKw8x/Y+5YbTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24142742"
+X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
+   d="scan'208";a="24142742"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 14:36:36 -0700
+X-CSE-ConnectionGUID: US5dvX8aQ6KKTvTQgUzn1Q==
+X-CSE-MsgGUID: b8elATLOR3KJeiQlNaO/1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
+   d="scan'208";a="69916558"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 03 Sep 2024 14:36:33 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1slbCQ-00079s-0Z;
+	Tue, 03 Sep 2024 21:36:30 +0000
+Date: Wed, 4 Sep 2024 05:35:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uros Bizjak <ubizjak@gmail.com>, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Uros Bizjak <ubizjak@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] longsoon/percpu: Simplify _percpu_read() and
+ _percpu_write()
+Message-ID: <202409040542.OSJFk9k7-lkp@intel.com>
+References: <20240903102342.36957-1-ubizjak@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [daniel-lezcano:timers/drivers/next 4/9]
- drivers/platform/x86/intel/pmc/core.c:1213: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-To: =?UTF-8?Q?Marek_Ma=C5=9Blanka?= <mmaslanka@google.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- Daniel Lezcano <daniel.lezcano@linaro.org>, linux-doc@vger.kernel.org
-References: <202409031410.a9beukFc-lkp@intel.com>
- <f385b684-f6c3-4181-8386-68cb4e04358f@redhat.com>
- <CAGcaFA1RbfghBahot831C0ko3Nn2HegNTd0jtD4ajawcsJESdA@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAGcaFA1RbfghBahot831C0ko3Nn2HegNTd0jtD4ajawcsJESdA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240903102342.36957-1-ubizjak@gmail.com>
 
-Hi Marek,
+Hi Uros,
 
-On 9/3/24 11:32 PM, Marek Maślanka wrote:
-> Hello Hans,
-> Do I need to send the fixed patch v7 in response to the https://lore.kernel.org/lkml/e438d8c4-3c10-4674-916b-dd645d19f210@linaro.org/ <https://lore.kernel.org/lkml/e438d8c4-3c10-4674-916b-dd645d19f210@linaro.org/> to continue the thread?
+kernel test robot noticed the following build warnings:
 
-Since Daniel has already merged the patches the fix should be a new separate
-patch which only replaces the '/**' with '/*' on top of the:
+[auto build test WARNING on dennis-percpu/for-next]
+[also build test WARNING on linus/master v6.11-rc6 next-20240903]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-timers/drivers/next branch of  http://git.linaro.org/people/daniel.lezcano/linux.git:
+url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/longsoon-percpu-Simplify-_percpu_read-and-_percpu_write/20240903-182524
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dennis/percpu.git for-next
+patch link:    https://lore.kernel.org/r/20240903102342.36957-1-ubizjak%40gmail.com
+patch subject: [PATCH] longsoon/percpu: Simplify _percpu_read() and _percpu_write()
+config: loongarch-loongson3_defconfig (https://download.01.org/0day-ci/archive/20240904/202409040542.OSJFk9k7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040542.OSJFk9k7-lkp@intel.com/reproduce)
 
-http://git.linaro.org/people/daniel.lezcano/linux.git/log/?h=timers/drivers/next
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040542.OSJFk9k7-lkp@intel.com/
 
-Regards,
+All warnings (new ones prefixed by >>):
 
-Hans
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:2134,
+                    from arch/loongarch/kernel/asm-offsets.c:8:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+--
+   In file included from include/linux/percpu.h:13,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/interrupt.h:11,
+                    from kernel/panic.c:14:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   kernel/panic.c: In function '__warn':
+   kernel/panic.c:670:17: warning: function '__warn' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     670 |                 vprintk(args->fmt, args->args);
+         |                 ^~~~~~~
+--
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:2134,
+                    from include/linux/sched/mm.h:7,
+                    from kernel/cpu.c:6:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+   {standard input}:5077: Error: no match insn: stx.w	$r14 $r21,$r12
+   {standard input}:5084: Error: no match insn: stx.w	$r14 $r21,$r12
+--
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from kernel/audit.c:38:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   kernel/audit.c: In function 'audit_log_vformat':
+   kernel/audit.c:1979:9: warning: function 'audit_log_vformat' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1979 |         len = vsnprintf(skb_tail_pointer(skb), avail, fmt, args);
+         |         ^~~
+   kernel/audit.c:1988:17: warning: function 'audit_log_vformat' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1988 |                 len = vsnprintf(skb_tail_pointer(skb), avail, fmt, args2);
+         |                 ^~~
+--
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from kernel/relay.c:17:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   kernel/relay.c: In function 'relay_create_buf_file':
+   kernel/relay.c:357:42: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+     357 |         snprintf(tmpname, NAME_MAX, "%s%d", chan->base_filename, cpu);
+         |                                          ^
+   kernel/relay.c:357:9: note: 'snprintf' output between 2 and 266 bytes into a destination of size 255
+     357 |         snprintf(tmpname, NAME_MAX, "%s%d", chan->base_filename, cpu);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/slub.c:13:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   mm/slub.c: In function 'put_partials':
+   arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   mm/slub.c:2937:9: note: in expansion of macro 'this_cpu_write'
+    2937 |         this_cpu_write(s->cpu_slab->partial, NULL);
+         |         ^~~~~~~~~~~~~~
+   mm/slub.c: In function 'put_cpu_partial':
+   arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct slab *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   mm/slub.c:2992:9: note: in expansion of macro 'this_cpu_write'
+    2992 |         this_cpu_write(s->cpu_slab->partial, slab);
+         |         ^~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+   {standard input}:8207: Error: no match insn: stx.d	$r13 $r21,$r14
+   {standard input}:9031: Error: no match insn: stx.d	$r15 $r21,$r13
+--
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/blkdev.h:9,
+                    from mm/swapfile.c:9:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+   {standard input}:1338: Error: no match insn: stx.w	$r5 $r21,$r12
+--
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:2134,
+                    from include/linux/cgroup.h:12,
+                    from include/linux/memcontrol.h:13,
+                    from mm/memcontrol.c:29:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+   {standard input}:5759: Error: no match insn: stx.d	$r4 $r21,$r12
+   {standard input}:5781: Error: no match insn: stx.d	$r25 $r21,$r12
+--
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/rcupdate.h:26,
+                    from include/linux/rculist.h:11,
+                    from include/linux/sched/signal.h:5,
+                    from fs/buffer.c:23:
+   include/linux/sched/mm.h: In function 'set_active_memcg':
+>> arch/loongarch/include/asm/percpu.h:85:33: warning: initialization of 'long unsigned int' from 'struct mem_cgroup *' makes integer from pointer without a cast [-Wint-conversion]
+      85 | #define __pcpu_cast_8(val)      (val)
+         |                                 ^
+   arch/loongarch/include/asm/percpu.h:89:35: note: in expansion of macro '__pcpu_cast_8'
+      89 |         unsigned long __pcp_val = __pcpu_cast_##size(_val);             \
+         |                                   ^~~~~~~~~~~~
+   arch/loongarch/include/asm/percpu.h:171:36: note: in expansion of macro '_percpu_write'
+     171 | #define this_cpu_write_8(pcp, val) _percpu_write(8, pcp, val)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_write_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:490:41: note: in expansion of macro '__pcpu_size_call'
+     490 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:420:17: note: in expansion of macro 'this_cpu_write'
+     420 |                 this_cpu_write(int_active_memcg, memcg);
+         |                 ^~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+   {standard input}:1678: Error: no match insn: stx.d	$r13 $r21,$r12
+   {standard input}:1733: Error: no match insn: stx.d	$r28 $r21,$r12
+..
 
 
+vim +85 arch/loongarch/include/asm/percpu.h
 
+    81	
+    82	#define __pcpu_cast_1(val)	(((unsigned long) val) & 0xff)
+    83	#define __pcpu_cast_2(val)	(((unsigned long) val) & 0xffff)
+    84	#define __pcpu_cast_4(val)	(((unsigned long) val) & 0xffffffff)
+  > 85	#define __pcpu_cast_8(val)	(val)
+    86	
 
-
-> On Tue, Sep 3, 2024 at 10:31 AM Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com>> wrote:
-> 
->     Hi,
-> 
->     On 9/3/24 8:10 AM, kernel test robot wrote:
->     > tree:   http://git.linaro.org/people/daniel.lezcano/linux <http://git.linaro.org/people/daniel.lezcano/linux> timers/drivers/next
->     > head:   8f8b0349aa312eb7e67e623ed1f296a04126fe7f
->     > commit: 2d167560d43c809c66e6389b6cc651b77fcbf951 [4/9] platform/x86:intel/pmc: Enable the ACPI PM Timer to be turned off when suspended
->     > config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240903/202409031410.a9beukFc-lkp@intel.com/config <https://download.01.org/0day-ci/archive/20240903/202409031410.a9beukFc-lkp@intel.com/config>)
->     > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->     > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409031410.a9beukFc-lkp@intel.com/reproduce <https://download.01.org/0day-ci/archive/20240903/202409031410.a9beukFc-lkp@intel.com/reproduce>)
->     >
->     > If you fix the issue in a separate patch/commit (i.e. not just a new version of
->     > the same patch/commit), kindly add following tags
->     > | Reported-by: kernel test robot <lkp@intel.com <mailto:lkp@intel.com>>
->     > | Closes: https://lore.kernel.org/oe-kbuild-all/202409031410.a9beukFc-lkp@intel.com/ <https://lore.kernel.org/oe-kbuild-all/202409031410.a9beukFc-lkp@intel.com/>
->     >
->     > All warnings (new ones prefixed by >>):
->     >
->     >>> drivers/platform/x86/intel/pmc/core.c:1213: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->     >     * Enable or disable ACPI PM Timer
->     >
->     >
->     > vim +1213 drivers/platform/x86/intel/pmc/core.c
->     >
->     >   1211       
->     >   1212        /**
->     >> 1213  * Enable or disable ACPI PM Timer
->     >   1214         *
->     >   1215         * This function is intended to be a callback for ACPI PM suspend/resume event.
->     >   1216         * The ACPI PM Timer is enabled on resume only if it was enabled during suspend.
->     >   1217         */
-> 
->     Ok, so to fix this we just need to change the /** to /* .
-> 
->     Marek, can you please submit a patch for this to Daniel?
-> 
->     Since the commit introducing this problem is in Daniel's
->     linux/timers/drivers/next tree, the fix will need to be merged
->     there too.
-> 
->     Regards,
-> 
->     Hans
-> 
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
