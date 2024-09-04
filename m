@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13E11D79A0
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Sep 2024 23:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5EC7E1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 00:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725407985; cv=none; b=HvC09RjzGWm13m+aXJOTEAijOvfxmODswxdN1uAMqNZhaa7eMxngiQCcg0V3tbOPxgknJrsFXSLIVgd0NLI80fwGx2py+lUS7hfUCUimrvm1d+qqbwQ8K+B+E/QD08jzS6SdftRqMh/YTm/Y2uYtW/ImFj8DNJ7IDmWn1rhvNhE=
+	t=1725408644; cv=none; b=gX9npM7PqhPdVWyBVbVwH8gDZhMd8PtcXXwzgTRJLzdbgyLmetjLvGxgu3bHj+QCL6TAcvzyVQQc49cYeNpDe22bmKEYFpDswf7L73z3YVN5M5jE7z8REkZEmnsjNnmrDiJDpwgAJQwwvHxNcLHQiAfTl87zL4iAcMbYX2kAGTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725407985; c=relaxed/simple;
-	bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UUDC0xb+POIPthU1w9ey8x6h5ow9Gck5KdWb2mZ914kOWbK6AYtBlB6cd1pHiT3lpw0QBISA+c1mJ8JVc76zFfBEJeAPWOhSBi0IhZeUPxaX19tstkfjTMy3lKzOVD5Xv9ywXHsUHEtMddK0MEFppwM6ReQU6VNZKamwwym9iqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fyXXTLWO; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1725408644; c=relaxed/simple;
+	bh=bHf9D64rNYMSTvAlVdfccmMa9/2VMw375pXDSlJvlNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EdfFeypquoExA7nvDubQ4xMyj8/SKGqplHqeRXQ9wmmf2ueObXZoRYehy3BurArzJFuXU2jD9/cARLyAJWAiJ73ZV4Ev9wHlI5QT1s6l1aDCIfHtu5eZWrnuqqS4UhYhZokfUtNBHy8HkhQYDYmHGUNbDRq1w7quwuWpjea0oCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3CPhQ6R; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyXXTLWO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3CPhQ6R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725407984; x=1756943984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
-  b=fyXXTLWOS78Nzi6ADndcPc4l5rdoZEZpuYYsGpC3K0KmBy9bOW3BxkYP
-   huUivygNyqHo5TOE5ix4BosIhMwlAuUhFAf6etab/ogbFOZMiHbcvbh1o
-   iC2K7DFCm41XElJs2F0hIyJBwET85f0HQIax8ij6foYHjpi7YsZirTx/I
-   hVBP9UX9djDQgYlVyqoleknbxV1VB7Ag7sEhFioTIgO6yNz3nIXo0yhXx
-   NtW+/2+FwEUzBUX8KeTjXFPLz8nVfINezPMUBP8OZ8pZHkEYwQhawoqU0
-   o9Wbb+3s4f/sWxuS+0PEWx/VRDyXEkvQamNaqkUdOlPhDK+qhZq9SPqLr
-   Q==;
-X-CSE-ConnectionGUID: FwbZ5VTJSmuHIoezJmhWyg==
-X-CSE-MsgGUID: niwNIIknTeW1Nr6gVaM4aA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="46567704"
+  t=1725408643; x=1756944643;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bHf9D64rNYMSTvAlVdfccmMa9/2VMw375pXDSlJvlNg=;
+  b=P3CPhQ6RMVBCBYGeVjwmDGABY3DVOf4tatWicNLzV2s/4JEoB9xxfOpR
+   dErg37UIMMw0d2fb2ulSZuOvJiVSp9E+SYQh3lMAg90A8Mpf9HHrzr4vc
+   +21xbAl9ijaQG90lACn1U/0EFX8lkDMDBE7cTyjso7q2Il8sCmZzMz50f
+   2Xp8j/xQu1VhIyJ7WRC7pDCHlVvds1mwnm1pHr/q8KLd1+G5ri/W6/cNK
+   8j+7i2S4JMA9hQ1IvOSfg/2HzScRvg24ipk/kYxVm9R8w1RT+tBcZIjIl
+   wkauPZ705G3IP+KqkPOdMy+aXHX6F59pwRVmVmYR+ih22QxqzS09xmYQO
+   w==;
+X-CSE-ConnectionGUID: kscwPOowQ3mnqyrI6NY79w==
+X-CSE-MsgGUID: y+/G4vasQFeCNV8KkYzHbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24231605"
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="46567704"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 16:59:42 -0700
-X-CSE-ConnectionGUID: EIQ2o7ltTYmSBGbjnTXtzQ==
-X-CSE-MsgGUID: ogmJn+noSt2qZsTJhNaZ+w==
+   d="scan'208";a="24231605"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 17:10:42 -0700
+X-CSE-ConnectionGUID: i4tl3yHFTq+emvvww4RHlQ==
+X-CSE-MsgGUID: MxFLpF9+TDK0mUUHMMHp1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="88322503"
+   d="scan'208";a="95883441"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 16:59:40 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Sep 2024 17:10:41 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sldQw-0007M4-0J;
-	Tue, 03 Sep 2024 23:59:38 +0000
-Date: Wed, 4 Sep 2024 07:59:07 +0800
+	id 1sldbb-0007Ma-1E;
+	Wed, 04 Sep 2024 00:10:39 +0000
+Date: Wed, 4 Sep 2024 08:10:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-Message-ID: <202409040751.A1Dm1pgG-lkp@intel.com>
-References: <20240901211834.145186-3-hdegoede@redhat.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool-diff 29/31]
+ tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such
+ file or directory
+Message-ID: <202409040710.ZHyZWzdT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,126 +62,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901211834.145186-3-hdegoede@redhat.com>
 
-Hi Hans,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240903]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l-Call-s_stream-on-VCM-when-it-is-called-on-the-associated-sensor/20240902-052000
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240901211834.145186-3-hdegoede%40redhat.com
-patch subject: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-config: x86_64-randconfig-121-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
+head:   b99f69f0fc6671bbc510435aadcf25aacf016c38
+commit: ffe8cd49f291ab710573616ae1d9ff762405287e [29/31] objtool: Calculate function checksums
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240904/202409040710.ZHyZWzdT-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040710.ZHyZWzdT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040751.A1Dm1pgG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040710.ZHyZWzdT-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/ad5823.c: In function 'ad5823_probe':
->> drivers/media/i2c/ad5823.c:203:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
-     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/ad5823.c:203:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-         |                        ^
-   cc1: some warnings being treated as errors
+   check.c:11:10: fatal error: xxhash.h: No such file or directory
+      11 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from tools/objtool/include/objtool/arch.h:11,
+                    from tools/objtool/include/objtool/check.h:11,
+                    from tools/objtool/include/objtool/special.h:10,
+                    from special.c:16:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from tools/objtool/include/objtool/arch.h:11,
+                    from tools/objtool/include/objtool/check.h:11,
+                    from orc_gen.c:12:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from builtin-check.c:10:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from weak.c:10:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from orc_dump.c:8:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/check.o] Error 1
+   make[5]: *** Waiting for unfinished jobs....
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from tools/objtool/include/objtool/arch.h:11,
+                    from tools/objtool/include/objtool/check.h:11,
+                    from tools/objtool/include/objtool/special.h:10,
+                    from arch/x86/special.c:4:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from objtool.c:18:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from tools/objtool/include/objtool/arch.h:11,
+                    from tools/objtool/include/objtool/check.h:11,
+                    from arch/x86/orc.c:5:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   In file included from elf.c:23:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/special.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/builtin-check.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/orc_gen.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/orc_dump.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/weak.o] Error 1
+   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/special.o] Error 1
+   make[6]: *** Waiting for unfinished jobs....
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/objtool.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/elf.o] Error 1
+   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/orc.o] Error 1
+   In file included from tools/objtool/include/objtool/objtool.h:13,
+                    from tools/objtool/include/objtool/arch.h:11,
+                    from tools/objtool/include/objtool/check.h:11,
+                    from arch/x86/decode.c:18:
+>> tools/objtool/include/objtool/elf.h:16:10: fatal error: xxhash.h: No such file or directory
+      16 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/decode.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:158: arch/x86] Error 2
+   make[4]: *** [Makefile:73: tools/objtool/objtool-in.o] Error 2
+   make[3]: *** [Makefile:72: objtool] Error 2
+   make[2]: *** [Makefile:1369: tools/objtool] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/devm_cci_regmap_init_i2c +203 drivers/media/i2c/ad5823.c
+vim +16 tools/objtool/include/objtool/elf.h
 
-   193	
-   194	static int ad5823_probe(struct i2c_client *client)
-   195	{
-   196		struct ad5823_device *ad5823;
-   197		int ret;
-   198	
-   199		ad5823 = devm_kzalloc(&client->dev, sizeof(*ad5823), GFP_KERNEL);
-   200		if (!ad5823)
-   201			return -ENOMEM;
-   202	
- > 203		ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-   204		if (IS_ERR(ad5823->regmap))
-   205			return PTR_ERR(ad5823->regmap);
-   206	
-   207		ad5823->arc_mode = AD5823_ARC_RES1;
-   208		ad5823->resonance_period = AD5823_RESONANCE_PERIOD;
-   209	
-   210		/* Optional indication of ARC mode select */
-   211		device_property_read_u32(&client->dev, "adi,arc-mode",
-   212					 &ad5823->arc_mode);
-   213	
-   214		/* Optional indication of VCM resonance period */
-   215		device_property_read_u32(&client->dev, "adi,resonance-period",
-   216					 &ad5823->resonance_period);
-   217	
-   218		ad5823->regulator = devm_regulator_get(&client->dev, "vdd");
-   219		if (IS_ERR(ad5823->regulator))
-   220			return dev_err_probe(&client->dev, PTR_ERR(ad5823->regulator),
-   221					     "getting regulator\n");
-   222	
-   223		v4l2_i2c_subdev_init(&ad5823->sd, client, &ad5823_ops);
-   224		ad5823->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-   225	
-   226		ret = ad5823_init_controls(ad5823);
-   227		if (ret)
-   228			return ret;
-   229	
-   230		ret = media_entity_pads_init(&ad5823->sd.entity, 0, NULL);
-   231		if (ret < 0)
-   232			goto err_free_ctrl_handler;
-   233	
-   234		ad5823->sd.entity.function = MEDIA_ENT_F_LENS;
-   235	
-   236		/*
-   237		 * We need the driver to work in the event that pm runtime is disable in
-   238		 * the kernel, so power up and verify the chip now. In the event that
-   239		 * runtime pm is disabled this will leave the chip on, so that the lens
-   240		 * will work.
-   241		 */
-   242	
-   243		ret = ad5823_power_up(ad5823, true);
-   244		if (ret)
-   245			goto err_cleanup_media;
-   246	
-   247		pm_runtime_set_active(&client->dev);
-   248		pm_runtime_get_noresume(&client->dev);
-   249		pm_runtime_enable(&client->dev);
-   250	
-   251		ret = v4l2_async_register_subdev(&ad5823->sd);
-   252		if (ret < 0)
-   253			goto err_pm_runtime;
-   254	
-   255		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-   256		pm_runtime_use_autosuspend(&client->dev);
-   257		pm_runtime_put_autosuspend(&client->dev);
-   258	
-   259		return ret;
-   260	
-   261	err_pm_runtime:
-   262		pm_runtime_disable(&client->dev);
-   263		pm_runtime_put_noidle(&client->dev);
-   264		ad5823_power_down(ad5823);
-   265	err_cleanup_media:
-   266		media_entity_cleanup(&ad5823->sd.entity);
-   267	err_free_ctrl_handler:
-   268		v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
-   269	
-   270		return ret;
-   271	}
-   272	
+     8	
+     9	#include <stdio.h>
+    10	#include <gelf.h>
+    11	#include <linux/string.h>
+    12	#include <linux/list.h>
+    13	#include <linux/hashtable.h>
+    14	#include <linux/rbtree.h>
+    15	#include <linux/jhash.h>
+  > 16	#include <xxhash.h>
+    17	#include <arch/elf.h>
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
