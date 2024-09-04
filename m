@@ -1,58 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26740194C82
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 09:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DEC1CDFC8;
+	Wed,  4 Sep 2024 09:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725442630; cv=none; b=Pmj7Dz+ijoc3BDvLD+PcvPYFBITe2MhQ7E0WBJZMJQg0+nshkOrkcyDhnqPAlbqASZTZK1+PCV7CRhieGyUudsAblYM+EHsnOMMIR4v2SiWuY33bbxg4zvc0d1gXm0i6KVmPNCy/kzz8YVaQl/KwcpNKeoNgP6MS14OkWcYkQ00=
+	t=1725442632; cv=none; b=svgXhWYWDnHpJ/LyefpYRgp2CS5etoVbjfNAg9WpeMcIeJJMVa4AsIpddf1ryg4HYMvZehtRY4F6oXtJgceGM7RSGVbBl4ZQ+w22ll1t2K2kuuPDc/k+SZAY9eGJpvUE1lr7+SG+BnbfrB1G7U48fWDFB5c1Ut6Wgqt2/ylOlVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725442630; c=relaxed/simple;
-	bh=7Sv16vXmIGiUNO21for2OpgcX+UbGtQt0QP98OkNw90=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f09nXDhbpYo/E+itu9AEp776eg1gNBhFRcuCoUqP+zYHU5Cwee0ELEoQs/WyeUqx/cu7/F3RLNm8DI6zqe0xtSVbLp/XPMrPk/3j8CdEXm3wNHd+UNFOQLTbtiRlHg/Pi7o43wpv2AlbMprAUZ3YbHtyIhtAq/WgypWsc1AFdUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zk/DkpGf; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1725442632; c=relaxed/simple;
+	bh=MRI42CKgJTs+ilD0WptG4fiGcysSWtMrf69iJuwhEW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n1p6rk5L+J3UzKMKygiyph4+qzwipXztkGbgDZ/lvdcexrFfxFpthHC2Ooqh2v3ulFy6N5MSGUcT9ZSfeMjWE01hJfD/SKB1oW4wKtuA0zV514ME/GJdr6oaPpg58EZFJAJVgx9GVG+VzB+ZqwJWC43QSeKMWRtFOCTJc9imAxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1BovLor; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zk/DkpGf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1BovLor"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725442628; x=1756978628;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7Sv16vXmIGiUNO21for2OpgcX+UbGtQt0QP98OkNw90=;
-  b=Zk/DkpGfjZUuVGi5NUdualR6b8LIpFRn8/a5sUICRqdgi1HETJFrp4AJ
-   ozHuXO5uJqNgpTCdEs5xXuvQ5+PfQmOWM6iL128t3sUJe094+jmzpfZ+y
-   NUy5dUEgRiGer7Hqm/0w6MuuD02CncMBiy6p1s3HAhw6nDB4+3G6wVdLO
-   s6EO/YuEdeeIKTcbyNY6fPlra0+lfks6RWoqzraxa64wy/vjeDULHU0KS
-   iKBIaXFSH3PnuhtlIXyl++ExJlEPdBrnonCuHMkVUI675J7LMcQGW4Xjt
-   gk5kzeCmN06bDmNHxGDOm1Ou33EbrBa2vJ3A5bFoo6zlcy/MkhvpJXCcY
-   g==;
-X-CSE-ConnectionGUID: U0f6Y3LqRsCEI6msN4geWQ==
-X-CSE-MsgGUID: wNHUWNGcQee7WbK8X1rxvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24282231"
+  t=1725442631; x=1756978631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MRI42CKgJTs+ilD0WptG4fiGcysSWtMrf69iJuwhEW8=;
+  b=U1BovLorYNAIlxHWaPzbEfioLw5zo+znoeGcSh0YniNV5l5mkWxtrICv
+   IIWkQrC8M0LMI/5KVbO1sTwFiceQXg5kNV4ViWflMvuen1jHDuUyY8nQn
+   MCi3yu4OcB3vWptPfGcW7KeXD9vMWdhXIGfqPyS/5tcceUzQQQ7rK3hwP
+   nn5IPvvc8goul+W2126nShqW169pLDslrO4nWDJhzPyx6v/Adp7jQsUTb
+   qA0HO3VQ+07TjVB2hbBQm5bf9ZckPqiIQXfy/4uvrcOp45vXCiF0b87qD
+   uSYcSxmqxgn8pL6zwvG5/quw+rVT4mhpssD59Pt8lKSrdMNJsi8gqfQVl
+   Q==;
+X-CSE-ConnectionGUID: rCXqXbJhRP+XASCZPc3hcA==
+X-CSE-MsgGUID: saK0OdpaRMimwF+hSMwvxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24282243"
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="24282231"
+   d="scan'208";a="24282243"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 02:37:07 -0700
-X-CSE-ConnectionGUID: 32zsDYm7RfSvwrbWeDPZiA==
-X-CSE-MsgGUID: HYVg5+j+QImLeHHhmBJ2gQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 02:37:10 -0700
+X-CSE-ConnectionGUID: d0r+BYN8SpGJOZjq18N87w==
+X-CSE-MsgGUID: vdCyl8MJT2OrIqkJ7EljEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="70076394"
+   d="scan'208";a="70076393"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 04 Sep 2024 02:37:07 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slmRk-0007ok-1I;
+	id 1slmRk-0007oi-1D;
 	Wed, 04 Sep 2024 09:37:04 +0000
-Date: Wed, 4 Sep 2024 17:36:30 +0800
+Date: Wed, 4 Sep 2024 17:36:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/cleanup_smp_nmi_shootdown 1/2]
- arch/x86/kernel/reboot.c:596:48: error: 'crash_ipi_issued' undeclared
-Message-ID: <202409041705.kPz0aaCe-lkp@intel.com>
+To: Ashish Kalra <Ashish.Kalra@amd.com>, seanjc@google.com,
+	pbonzini@redhat.com, dave.hansen@linux.intel.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hpa@zytor.com,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	thomas.lendacky@amd.com, michael.roth@amd.com,
+	kexec@lists.infradead.org, linux-coco@lists.linux.dev
+Subject: Re: [PATCH v2] x86/sev: Fix host kdump support for SNP
+Message-ID: <202409041737.FSl6a7vH-lkp@intel.com>
+References: <20240903191033.28365-1-Ashish.Kalra@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,62 +67,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240903191033.28365-1-Ashish.Kalra@amd.com>
 
-Hi Sean,
+Hi Ashish,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/sean-jc/linux x86/cleanup_smp_nmi_shootdown
-head:   2d66e97505d0772d0ae26174538d4368541dfec7
-commit: c7de2d2c0cab7d890294b5437faf1bccb6bc978d [1/2] x86/reboot: Open code nmi_shootdown_cpus_on_restart() into its sole user
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240904/202409041705.kPz0aaCe-lkp@intel.com/config)
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on linus/master v6.11-rc6 next-20240904]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Kalra/x86-sev-Fix-host-kdump-support-for-SNP/20240904-031215
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20240903191033.28365-1-Ashish.Kalra%40amd.com
+patch subject: [PATCH v2] x86/sev: Fix host kdump support for SNP
+config: x86_64-randconfig-r073-20240904 (https://download.01.org/0day-ci/archive/20240904/202409041737.FSl6a7vH-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409041705.kPz0aaCe-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409041737.FSl6a7vH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409041705.kPz0aaCe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409041737.FSl6a7vH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/reboot.c: In function 'emergency_reboot_disable_virtualization':
->> arch/x86/kernel/reboot.c:596:48: error: 'crash_ipi_issued' undeclared (first use in this function)
-     596 |                 if (IS_ENABLED(CONFIG_SMP) && !crash_ipi_issued)
-         |                                                ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/reboot.c:596:48: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from arch/x86/kvm/kvm-asm-offsets.c:11:
+>> arch/x86/kvm/svm/svm.h:783:13: warning: 'sev_emergency_disable' defined but not used [-Wunused-function]
+     783 | static void sev_emergency_disable(void) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/crash_ipi_issued +596 arch/x86/kernel/reboot.c
+vim +/sev_emergency_disable +783 arch/x86/kvm/svm/svm.h
 
-   576	
-   577	static void emergency_reboot_disable_virtualization(void)
-   578	{
-   579		local_irq_disable();
-   580	
-   581		/*
-   582		 * Disable virtualization on all CPUs before rebooting to avoid hanging
-   583		 * the system, as VMX and SVM block INIT when running in the host.
-   584		 *
-   585		 * We can't take any locks and we may be on an inconsistent state, so
-   586		 * use NMIs as IPIs to tell the other CPUs to disable VMX/SVM and halt.
-   587		 *
-   588		 * Do the NMI shootdown even if virtualization is off on _this_ CPU, as
-   589		 * other CPUs may have virtualization enabled.
-   590		 */
-   591		if (rcu_access_pointer(cpu_emergency_virt_callback)) {
-   592			/* Safely force _this_ CPU out of VMX/SVM operation. */
-   593			cpu_emergency_disable_virtualization();
-   594	
-   595			/* Disable VMX/SVM and halt on other CPUs. */
- > 596			if (IS_ENABLED(CONFIG_SMP) && !crash_ipi_issued)
-   597				nmi_shootdown_cpus(NULL);
-   598		}
-   599	}
-   600	#else
-   601	static void emergency_reboot_disable_virtualization(void) { }
-   602	#endif /* CONFIG_KVM_INTEL || CONFIG_KVM_AMD */
-   603	
+   763	
+   764	static inline void sev_free_vcpu(struct kvm_vcpu *vcpu) {}
+   765	static inline void sev_vm_destroy(struct kvm *kvm) {}
+   766	static inline void __init sev_set_cpu_caps(void) {}
+   767	static inline void __init sev_hardware_setup(void) {}
+   768	static inline void sev_hardware_unsetup(void) {}
+   769	static inline int sev_cpu_init(struct svm_cpu_data *sd) { return 0; }
+   770	static inline int sev_dev_get_attr(u32 group, u64 attr, u64 *val) { return -ENXIO; }
+   771	#define max_sev_asid 0
+   772	static inline void sev_handle_rmp_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u64 error_code) {}
+   773	static inline void sev_snp_init_protected_guest_state(struct kvm_vcpu *vcpu) {}
+   774	static inline int sev_gmem_prepare(struct kvm *kvm, kvm_pfn_t pfn, gfn_t gfn, int max_order)
+   775	{
+   776		return 0;
+   777	}
+   778	static inline void sev_gmem_invalidate(kvm_pfn_t start, kvm_pfn_t end) {}
+   779	static inline int sev_private_max_mapping_level(struct kvm *kvm, kvm_pfn_t pfn)
+   780	{
+   781		return 0;
+   782	}
+ > 783	static void sev_emergency_disable(void) {}
+   784	#endif
+   785	
 
 -- 
 0-DAY CI Kernel Test Service
