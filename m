@@ -1,155 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE1F85654
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 17:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5581CF7AE;
+	Wed,  4 Sep 2024 17:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725469358; cv=none; b=Z8nrTR5vwu84SwV5ZcYT9ICeLJCGnf5kGlfPBWiH8KOjn+npl5B526VuqGjCkrTY2qUckGaBeKlwRF/skOCnEHgC9GvbwZ9/MQl6tZdj+4bet3f9mVYW1vZrFnMM0RPYDc3X/hCB6J4FJKelR4gwRKWKj+/xLYlFnKAeDeLjXG4=
+	t=1725470621; cv=none; b=EypjB2jc20VNgrnu4xdEpeu+bTa0hSr0bUjQ8o/qo/X9Mj0BF7kluLq2Qkljjd0vUINDYogpaFi7IIk/fblJ1gY4L25hMYuzlh+3KpTxYNlSp9M7ko042HG450cv2LkB5BG5EJvjfPDBXF2hpnFDGVyk75zDhEEwkX/oQwB6CfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725469358; c=relaxed/simple;
-	bh=US8Ynb10iF9xYswNwvpB7BFfvlXZRqfZaVbdnQchArQ=;
+	s=arc-20240116; t=1725470621; c=relaxed/simple;
+	bh=ILuonY5731KqpUyvDIpzSQYrE7kjsGqjXWSqJ8pp3+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PgFKvtPPYTK5YPoAX+ndAjANgOIYMwTBTm6l5UXx4DCe0lUWOKSrYIJ9jV2SnHufdX/jJBweuWXtuTBYC09EOiRqtDARB9KqlOGrCcHneVcDHKyNxppkSRdlnjB0fOJfO6aAOay3HSs5KkTzQhDeyoz5rOlMLhy8Vl11N45zPXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URq5BXoa; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ny6wffCHkq1r+GHQZYEHO+/1PzAtaOIV2WphGDQagc6SF33Z9awZlGZTqBar5Ib9jyPq9K/bEop7e0vOIrArDTyDIk59gWLBIQL9CRS3tCDFPa8cyc896qwnenlIwbYC8mB6evS9TMCo4G+8/drTJxmQ+eDC7ZwwYQYN8bPLGGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qm1uEBSn; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URq5BXoa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qm1uEBSn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725469356; x=1757005356;
+  t=1725470619; x=1757006619;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=US8Ynb10iF9xYswNwvpB7BFfvlXZRqfZaVbdnQchArQ=;
-  b=URq5BXoaEa40YvuTLPb41MsPhLnTTLpaIV1iNsKLkOwyJ5dKsKYFNTL1
-   7QWBWrk+rPvvkkVVP1/8ntZOrYbxQmCtoFjAh0hxuqtSvL4lt+Rup6DBh
-   cgLUclkfRmGVCJONBuBr+x3W5ZCbY605OPU6GqatIlDPFFFvhpm6ZCHuC
-   qCTM2cihYdq4+DCUeeEzJ2HT/EDduP1BC4O7vDIRw9RAosl6phlwMihzu
-   nSMN9TpFLehlIxb7Iu//4BGUUeSRDbHkBDacKyadI8rrE20Ich7ZOSm/p
-   +5TUtX35XFLgE/1q4Vn6NeNBusZRvgxDVr+tEqB1ApwWnmuCJdtZRblSX
+   mime-version:in-reply-to;
+  bh=ILuonY5731KqpUyvDIpzSQYrE7kjsGqjXWSqJ8pp3+g=;
+  b=Qm1uEBSnDPHOWDVx7+0a+rxKFadR68t+2Phbm1MYarl57FOcSJEF8Wb2
+   aZZup1tbqjaLQIhwufBRBovcNvPGgi90j3Wm/cP+Hni9fce2pRckRyaYP
+   zphgDGOv4Snqect2mPlBbzBc0vNN5QD+EgcUmbZNqkUx0NI0jhkzbAUMQ
+   gFZRggtbOH5eKnaMJ1uR7r4o5av9aKrDvGRTdy1aVYxjOhZrjsoaSEC8f
+   WKaSs1Bd19MhhJ+sdhAX2qh42N63C1rZoFmQxxVBDw8SxB9ptLaa5FnOF
+   x2Ys642sI39VbM4HNCcCpAI00OBtI1cIrLUH8OADzN5hq4Kk7zAHx5eq1
    g==;
-X-CSE-ConnectionGUID: 4f4IcAzUQEK8CjkES8QrTA==
-X-CSE-MsgGUID: v9g5180wSRaccEb8dR1Frg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="35533041"
+X-CSE-ConnectionGUID: RU3pyqTNQNa/1Bn/H7o2zA==
+X-CSE-MsgGUID: xYUQpXUQSMKkPS10dN8/sQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24340542"
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="35533041"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 10:02:35 -0700
-X-CSE-ConnectionGUID: FLcKVKEESdSxQg/aSf7D6A==
-X-CSE-MsgGUID: 0tp3ZtA7QuCfz06etye05w==
+   d="scan'208";a="24340542"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 10:23:38 -0700
+X-CSE-ConnectionGUID: 19/cCM0JQEuNh6FlCbvv3w==
+X-CSE-MsgGUID: 7/kbMBt0T8CdPYilquRsZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="65389153"
+   d="scan'208";a="65177629"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Sep 2024 10:02:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Sep 2024 10:23:34 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sltOn-0008Mj-0n;
-	Wed, 04 Sep 2024 17:02:29 +0000
-Date: Thu, 5 Sep 2024 01:02:01 +0800
+	id 1sltj8-0008OJ-1z;
+	Wed, 04 Sep 2024 17:23:30 +0000
+Date: Thu, 5 Sep 2024 01:23:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 1/4] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <202409050054.oRwtzLQ4-lkp@intel.com>
-References: <20240903202541.430225-2-adrian.larumbe@collabora.com>
+To: Mariel Tinaco <Mariel.Tinaco@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+	Dimitri Fedrau <dima.fedrau@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] iio: dac: support the ad8460 Waveform DAC
+Message-ID: <202409050100.CGStaazP-lkp@intel.com>
+References: <20240904023040.23352-3-Mariel.Tinaco@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240903202541.430225-2-adrian.larumbe@collabora.com>
+In-Reply-To: <20240904023040.23352-3-Mariel.Tinaco@analog.com>
 
-Hi Adrián,
+Hi Mariel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.11-rc6 next-20240904]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on c4b43d8336e52dce6d124e428aa3b71703e62647]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240904-042645
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240903202541.430225-2-adrian.larumbe%40collabora.com
-patch subject: [PATCH v5 1/4] drm/panthor: introduce job cycle and timestamp accounting
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240905/202409050054.oRwtzLQ4-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050054.oRwtzLQ4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mariel-Tinaco/dt-bindings-iio-dac-add-docs-for-ad8460/20240904-103413
+base:   c4b43d8336e52dce6d124e428aa3b71703e62647
+patch link:    https://lore.kernel.org/r/20240904023040.23352-3-Mariel.Tinaco%40analog.com
+patch subject: [PATCH v3 2/2] iio: dac: support the ad8460 Waveform DAC
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240905/202409050100.CGStaazP-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050100.CGStaazP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409050054.oRwtzLQ4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409050100.CGStaazP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function 'copy_instrs_to_ringbuf',
-       inlined from 'queue_run_job' at drivers/gpu/drm/panthor/panthor_sched.c:3089:2:
->> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_435' declared with attribute error: min(ringbuf_size - start, size) signedness error
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_sched.c:2882:19: note: in expansion of macro 'min'
-    2882 |         written = min(ringbuf_size - start, size);
-         |                   ^~~
+>> drivers/iio/dac/ad8460.c:165:9: error: call to undeclared function 'get_unaligned_le16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     165 |         *val = get_unaligned_le16(state->spi_tx_buf);
+         |                ^
+>> drivers/iio/dac/ad8460.c:172:2: error: call to undeclared function 'put_unaligned_le16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     172 |         put_unaligned_le16(FIELD_PREP(AD8460_DATA_BYTE_FULL_MSK, val),
+         |         ^
+   2 errors generated.
 
 
-vim +/__compiletime_assert_435 +510 include/linux/compiler_types.h
+vim +/get_unaligned_le16 +165 drivers/iio/dac/ad8460.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
+   155	
+   156	static int ad8460_get_hvdac_word(struct ad8460_state *state, int index, int *val)
+   157	{
+   158		int ret;
+   159	
+   160		ret = regmap_bulk_read(state->regmap, AD8460_HVDAC_DATA_WORD_LOW(index),
+   161				       &state->spi_tx_buf, AD8460_DATA_BYTE_WORD_LENGTH);
+   162		if (ret)
+   163			return ret;
+   164	
+ > 165		*val = get_unaligned_le16(state->spi_tx_buf);
+   166	
+   167		return ret;
+   168	}
+   169	
+   170	static int ad8460_set_hvdac_word(struct ad8460_state *state, int index, int val)
+   171	{
+ > 172		put_unaligned_le16(FIELD_PREP(AD8460_DATA_BYTE_FULL_MSK, val),
+   173					     &state->spi_tx_buf);
+   174	
+   175		return regmap_bulk_write(state->regmap, AD8460_HVDAC_DATA_WORD_LOW(index),
+   176					 state->spi_tx_buf, AD8460_DATA_BYTE_WORD_LENGTH);
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
