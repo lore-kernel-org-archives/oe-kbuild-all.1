@@ -1,181 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D072881723;
-	Wed,  4 Sep 2024 18:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378D21E410B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 19:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725476270; cv=none; b=aALrE1+hKUuvBDfsrIGktg5c37Y3NP2fnxVKlRpZTX7WjfmYrbNy+sNd+a5Hhi8zOFJjAjykYjBbfRnL/ov3HffBiLNUbKaORXG7CWJinOb76+9y3+NzLqOdLHjrv2HCnTilk3Grv+VrQGROjGHLwYcZ2IKTxOGCvfDwa2Oyfx0=
+	t=1725477131; cv=none; b=VQ7J2NEzVSSMgNfwnIAC6yPoMapaceF67Ru7tVAiS0yjFTJHB1XfXOFqBILWZ9Gnopt9kM3CJMJkPb+4/eyfTCu1U/7vkbVAjmLm48bTv7usrv1aGxRN8sq8AEdAIyej50Y0d8dN0XBqDITmAsde4ywHJDPr8t5rZ7nzzw54k54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725476270; c=relaxed/simple;
-	bh=OoEqLW799AEVLgmvj58oXxxpV/OHUTWALs1mrsKcDeo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TPxOj4iyf7iOTgX8VkD9Tet8eCw6PtIwBEPGZpkxfxWV2BbFXGDDK3YYPgrlekcky4B/CpZjxDjV6Q7Prxxn1mjJ7Xhlpr2MnVslCbLyh37VKhXjiL7L4sVqkNv/HiJwzr/aVO3T8TIsrFb4GSC1XxSOMwxyNt0Z+svXhsqaIos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ds4ycRNv; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725477131; c=relaxed/simple;
+	bh=ruLjwy2jFV+ghDFSNtgYsZSJsAG96sW8A464lo1E1rY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pKa+2k5flifFlrdkODMMDV/rFwP0KwMyVBRZjXUarm0vYqaqm+rHHbzz3LTuuhW0QH1yQV1hPt/DYDIVGUfXWfRqw//44jOJdWl+3IoahGHq4mO0ThHuOCvqRDmqPxcV8ryuweCmo4OGE6GpctvvijAqUW1fgYj3UDdVT3srGZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HJxp8/8g; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ds4ycRNv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725476268; x=1757012268;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OoEqLW799AEVLgmvj58oXxxpV/OHUTWALs1mrsKcDeo=;
-  b=Ds4ycRNvdpCGbZP+tk5W5JzTSOmklau0MGBTYW5biyygIiB9gitKZJ6s
-   o0dpIyPzIAC6sVI8NO0myw1lUN5RarKwCurwo4GFr0qCrpOwVNGnZ+XAs
-   YGU5kUJx4xdGEXSHselulBqYWOzLlacQvYrlURnZgr7e68nRtvdmA0YnP
-   PMP5gejwV4fg0cXTRHdbyKH/cK5Ng+ViclJiQ2Zy4s8bD0hntnx8JLeSF
-   0EYW/86fjPl6LAXWyqnbdpkJv5LAn10W1rYsZydUT9odZf+eCVDamYTG5
-   98cgYmZNu429C9Qj/z93Wi0UsrQOEzZ4bhirWUZyt64srvEFJGc7qUeRE
-   g==;
-X-CSE-ConnectionGUID: y6Cc7hkFQzmmqZHCxoVxwA==
-X-CSE-MsgGUID: xONIl2WOSsKW0H0bA/oekg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="27079379"
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="27079379"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 11:57:39 -0700
-X-CSE-ConnectionGUID: 7IakalsGTeWsi1GdLumIFg==
-X-CSE-MsgGUID: NNdjZf1bTeidrXqv+wBtkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="70254594"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Sep 2024 11:57:37 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1slvCA-0008Sq-3C;
-	Wed, 04 Sep 2024 18:57:34 +0000
-Date: Thu, 5 Sep 2024 02:56:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [driver-core:const_work 33/42]
- drivers/bus/fsl-mc/fsl-mc-bus.c:409:5: error: initializing 'struct
- device_type *' with an expression of type 'typeof (fsl_mc_bus_dprc_type) *'
- (aka 'const struct device_type *') discards qualifiers
-Message-ID: <202409050210.nvCQrlSB-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HJxp8/8g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1725477128;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tjS+J0To6FVRmBqGu5USy4NMnRdqHmPZWkcBkzToclI=;
+	b=HJxp8/8grXr4aQq+2JmU/IQPM4fX0GGbv9Gi/NYQPlTqRM2eWStj9gx/8Wa7gPvNev12Av
+	mFAqhx4oOFx0syGShzPs18BIWQhwZzOLwnEdBiecyLHdQdVGSnq51weOafKBxt6x104WSf
+	sSvyZloDAWmksrTG+JjAteCRSgUccrQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-26-Jnx4tPwoPHuKZ7PxeuHnww-1; Wed, 04 Sep 2024 15:12:06 -0400
+X-MC-Unique: Jnx4tPwoPHuKZ7PxeuHnww-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5c2465b7fc1so3589135a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Sep 2024 12:12:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725477125; x=1726081925;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tjS+J0To6FVRmBqGu5USy4NMnRdqHmPZWkcBkzToclI=;
+        b=JhRQARBvDT6eAzqXlHSk1u8aBuVm/Ba/hJsX15I76DXu7rCNEm8faOCwfTxfP8IyO5
+         lIj3MItV2WUp2mp2rcR5W7JgOgHsuDxLYmk4lpCGChZpfXQ3GVPhscD059M075/yHZek
+         qXwOhfObg2yxdNH3+8cXSkJjyyFrlbCickw4glGBjq23wqMguK4qeu57qMs9b7LmqE5/
+         YHOGxo+EsWf3sSxoym4angSQjDZ3Q5pbHf7h+e6sltl6Qdk/lybLQ9cKNOsjIfEdDWj6
+         u8jAQj0uhMLk+72zHHnefFk+OJEyKIymgyRKKko+BumgAM6Q4bdUxqFPfe0flF8tgHKg
+         8xmQ==
+X-Gm-Message-State: AOJu0YweonxgOdGNf+bySG4OQ0PSPNw/ae/bmsIS2v7uzwQh4aTCpieD
+	r42Q3rdFqr9DuU1fKRVRZ+w7Rtc/NZ6+o/jA9zyj1obJAiABqQWLKuOWmhTfY4V64VwSfkJvXaU
+	bYhaAu9lCmewbdtQ+vN+mAL0BisT8GRmldhe94ejGBCdh9MvmvW1fOR0gYItDQAKj0t/5sxc=
+X-Received: by 2002:a17:907:72c9:b0:a7a:83f8:cfd5 with SMTP id a640c23a62f3a-a897f83506cmr1728239866b.18.1725477124619;
+        Wed, 04 Sep 2024 12:12:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGyjKhNfCOaCxIiv6uycQna1F0qrwg+75CiwEi5Uhl0ou+4uRNnGGTQ5BozarWRqgiWs0NXBQ==
+X-Received: by 2002:a17:907:72c9:b0:a7a:83f8:cfd5 with SMTP id a640c23a62f3a-a897f83506cmr1728237166b.18.1725477124025;
+        Wed, 04 Sep 2024 12:12:04 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a623a68eesm25281566b.165.2024.09.04.12.12.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Sep 2024 12:12:03 -0700 (PDT)
+Message-ID: <dfbf0064-4b8b-49f8-89ef-19a028a359ca@redhat.com>
+Date: Wed, 4 Sep 2024 21:12:02 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
+To: kernel test robot <lkp@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+References: <20240901211834.145186-3-hdegoede@redhat.com>
+ <202409040751.A1Dm1pgG-lkp@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <202409040751.A1Dm1pgG-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git const_work
-head:   5cbf546e827388f992254ad1b5cd8ec56816dbd0
-commit: f4bff7444475c796c7dfb671cde4ef3c6def296f [33/42] bus: fsl-mc: constify the struct device_type usage
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240905/202409050210.nvCQrlSB-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050210.nvCQrlSB-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409050210.nvCQrlSB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/bus/fsl-mc/fsl-mc-bus.c:409:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     409 |                 { &fsl_mc_bus_dprc_type, "dprc" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:410:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpni_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     410 |                 { &fsl_mc_bus_dpni_type, "dpni" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:411:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpio_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     411 |                 { &fsl_mc_bus_dpio_type, "dpio" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:412:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpsw_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     412 |                 { &fsl_mc_bus_dpsw_type, "dpsw" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:413:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpbp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     413 |                 { &fsl_mc_bus_dpbp_type, "dpbp" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:414:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpcon_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     414 |                 { &fsl_mc_bus_dpcon_type, "dpcon" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:415:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmcp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     415 |                 { &fsl_mc_bus_dpmcp_type, "dpmcp" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:416:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmac_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     416 |                 { &fsl_mc_bus_dpmac_type, "dpmac" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:417:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprtc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     417 |                 { &fsl_mc_bus_dprtc_type, "dprtc" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:418:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpseci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     418 |                 { &fsl_mc_bus_dpseci_type, "dpseci" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:419:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmux_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     419 |                 { &fsl_mc_bus_dpdmux_type, "dpdmux" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:420:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdcei_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     420 |                 { &fsl_mc_bus_dpdcei_type, "dpdcei" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:421:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpaiop_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     421 |                 { &fsl_mc_bus_dpaiop_type, "dpaiop" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:422:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     422 |                 { &fsl_mc_bus_dpci_type, "dpci" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:423:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmai_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     423 |                 { &fsl_mc_bus_dpdmai_type, "dpdmai" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:424:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdbg_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     424 |                 { &fsl_mc_bus_dpdbg_type, "dpdbg" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   16 errors generated.
+On 9/4/24 1:59 AM, kernel test robot wrote:
+> Hi Hans,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on media-tree/master]
+> [also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240903]
+> [cannot apply to sailus-media-tree/streams]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l-Call-s_stream-on-VCM-when-it-is-called-on-the-associated-sensor/20240902-052000
+> base:   git://linuxtv.org/media_tree.git master
+> patch link:    https://lore.kernel.org/r/20240901211834.145186-3-hdegoede%40redhat.com
+> patch subject: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
+> config: x86_64-randconfig-121-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409040751.A1Dm1pgG-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    drivers/media/i2c/ad5823.c: In function 'ad5823_probe':
+>>> drivers/media/i2c/ad5823.c:203:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
+>      203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+>          |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+>>> drivers/media/i2c/ad5823.c:203:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+>          |                        ^
+>    cc1: some warnings being treated as errors
 
 
-vim +409 drivers/bus/fsl-mc/fsl-mc-bus.c
+This is caused by a missing "select V4L2_CCI_I2C" I have fixed this
+in my local tree and this fix will be included in v2 when I get
+around to posting v2 (which also depends on the discussion
+surrounding patch 1/2).
 
-e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08  402  
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  403  static struct device_type *fsl_mc_get_device_type(const char *type)
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  404  {
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  405  	static const struct {
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  406  		struct device_type *dev_type;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  407  		const char *type;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  408  	} dev_types[] = {
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @409  		{ &fsl_mc_bus_dprc_type, "dprc" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  410  		{ &fsl_mc_bus_dpni_type, "dpni" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @411  		{ &fsl_mc_bus_dpio_type, "dpio" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  412  		{ &fsl_mc_bus_dpsw_type, "dpsw" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @413  		{ &fsl_mc_bus_dpbp_type, "dpbp" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @414  		{ &fsl_mc_bus_dpcon_type, "dpcon" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  415  		{ &fsl_mc_bus_dpmcp_type, "dpmcp" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @416  		{ &fsl_mc_bus_dpmac_type, "dpmac" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @417  		{ &fsl_mc_bus_dprtc_type, "dprtc" },
-e9158b35ef9afb drivers/bus/fsl-mc/fsl-mc-bus.c         Horia Geantă    2018-09-12 @418  		{ &fsl_mc_bus_dpseci_type, "dpseci" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17  419  		{ &fsl_mc_bus_dpdmux_type, "dpdmux" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @420  		{ &fsl_mc_bus_dpdcei_type, "dpdcei" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @421  		{ &fsl_mc_bus_dpaiop_type, "dpaiop" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17  422  		{ &fsl_mc_bus_dpci_type, "dpci" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17  423  		{ &fsl_mc_bus_dpdmai_type, "dpdmai" },
-e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08 @424  		{ &fsl_mc_bus_dpdbg_type, "dpdbg" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  425  		{ NULL, NULL }
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  426  	};
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  427  	int i;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  428  
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  429  	for (i = 0; dev_types[i].dev_type; i++)
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  430  		if (!strcmp(dev_types[i].type, type))
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  431  			return dev_types[i].dev_type;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  432  
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  433  	return NULL;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  434  }
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  435  
+Regards,
 
-:::::: The code at line 409 was first introduced by commit
-:::::: 47433b630b7b30d0daa360c64308c0f4c9632986 staging: fsl-mc: add support for device type
+Hans
 
-:::::: TO: Laurentiu Tudor <laurentiu.tudor@nxp.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
