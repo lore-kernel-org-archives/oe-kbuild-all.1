@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F58D47F4A;
-	Wed,  4 Sep 2024 03:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04902F34
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 03:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725420355; cv=none; b=bE7hXr6i4pq65SC4qO3FG1IM71D9sVrweoaKFpj1RdZdAiXqFGolznfrvSpbJ1nc3pHhFTlb1Qq2FAamAcXs2c8Cp2qaJo0LKhrQZTV186cx6QYAMSFnlLTHPVlKzXUabC13Fe2Dq1sZ+j0xyeG0dyDHeWLLojnJ9OCndXGIGVU=
+	t=1725421881; cv=none; b=FLq/N0mx48FZOBPymVAooykn7m18rArpGVW0sJz98bYva4s5Tm1Mc/c6VacFCuh5sMIKkkpBltJlDaH8OtYW+1Z+B8iK+beBfWfN7ZBFIXsz3MaUNpyKF1T6epjW56d5qi4wNzVCLJTk6PhKcqTb6x85gCtbFhMiclBcV/Dl0d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725420355; c=relaxed/simple;
-	bh=VFmZjNj9FlfXxc/BAtwp8dUpXFJfe3cNnJiWpc58y3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDZsbj2V1RZ2HMyexgIJdhGM++W8xXoGx+fi7CEyefJqVUSmFUgGTK5EogKJqlrYx0rmt6ppfGA4uYGNOdSzf2S4EL8aHMUiuV2S4Dn8Mf2tC3qS0MrXHXFTiwnhEHlRQOoweISq8ijt8MbDfkCQiT6eyIa9WGtpVNxmwyZeFdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jM864UoA; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1725421881; c=relaxed/simple;
+	bh=wNFwOnAx9a1kvCT/RjPzcL4bamgzRSfaU7VayICQBJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q177dt+iX+sYiHZl5VSk07ehiTRvUll8qDBr5C1pBR7xcwlh4cVv6lYPlegAI08SievNK8O7JwxFzmo0iDDSxJGOeDjkZvECUWcXj7InGutrQIFBJE6NiMjaGNPOLtwd1TtavQo/ObonbnfHv8mTQld5OF+lOhPrlDS5whZq/YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4y3aXWL; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jM864UoA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4y3aXWL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725420354; x=1756956354;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VFmZjNj9FlfXxc/BAtwp8dUpXFJfe3cNnJiWpc58y3s=;
-  b=jM864UoA7u2HoR4UgfdC8v71z1aQUe2zssemIXN+5UeUCCRtEfLK5sEl
-   6rgU2EBZc53xsl2YMlQO+rwuNEtOrjqQjTKdzjj3PKGXZ3O2dAu/wy0BC
-   X5UGWibeCdtPcgFjDVQcYbNaR6UkazuMksZw4aLHIgnMCPcioWjYR20g/
-   VKMhiWOKlKXz8TUkvYN7V9zY+NFQVrVSifhgVpw1LVMc2jl2u5OXas3BT
-   2KI0EmWVQspmEyg3k3i8IkHOSEBhK6fSWe8aKVwzckeLVi1bv+n5YIzay
-   G90fR3sWQ0alrL44g0cKBbyeesf21EriB4AJGs/gEVrBmye/mKbbxagxV
-   Q==;
-X-CSE-ConnectionGUID: WBBh+0N+T8qjefUYDwNpEg==
-X-CSE-MsgGUID: qHyJamh+RxOwZE6ctlpvLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="46581773"
+  t=1725421880; x=1756957880;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wNFwOnAx9a1kvCT/RjPzcL4bamgzRSfaU7VayICQBJY=;
+  b=U4y3aXWLhvgaDHwwhHe3cdPL4ga+awvKRgJmlDcdZ56tVD4zcQ2yMsVH
+   SPCbTLa8TMN720T7LHbOrHW925MBW0AfXHABJBge4d/AOGN2djK2fLYk9
+   k1H7lRXhNZHxGf4McGwHyJp1dNkgYQdV4roy2LPT/ZNFMPj56Pi2PAEu3
+   Phap7kbj6EAZw7jHMnKC8IaTTdHKph10gjtq9FXfiKWf566D+74FDUNrv
+   cIp5ZI7Pa347QnFDGBgCe8D91sLr63kzTKDHdzi+MYjjsCrzCnGlh027p
+   arIMksnUMg8p53oJpYqCTyz3u9JjQ6ddeIMr26A7ZnpAA6KZdLic0dpyy
+   g==;
+X-CSE-ConnectionGUID: 1Han9dA2QimiISNxGuKlpA==
+X-CSE-MsgGUID: FOG+7d1PSSOV18bg6l28vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="26970079"
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="46581773"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 20:25:49 -0700
-X-CSE-ConnectionGUID: mxVgnmvJTliBLPlCIeQrew==
-X-CSE-MsgGUID: 1JLZf8SNTWGz9EGwQB6pRw==
+   d="scan'208";a="26970079"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 20:50:33 -0700
+X-CSE-ConnectionGUID: YohGMsdmQPeuyAlxAC+1zg==
+X-CSE-MsgGUID: CWk99jnqQgiIoDZ39ffiZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="69950089"
+   d="scan'208";a="65186585"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 03 Sep 2024 20:25:47 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2024 20:49:47 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slgeO-0007VA-2M;
-	Wed, 04 Sep 2024 03:25:44 +0000
-Date: Wed, 4 Sep 2024 11:25:40 +0800
+	id 1slh1d-0007W5-0v;
+	Wed, 04 Sep 2024 03:49:45 +0000
+Date: Wed, 4 Sep 2024 11:49:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-Message-ID: <202409041123.VAFdMjn2-lkp@intel.com>
-References: <20240901211834.145186-3-hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [mchehab-edac:edac-fixes 6/6] drivers/acpi/apei/ghes.c:574
+ ghes_handle_arm_hw_error() warn: inconsistent indenting
+Message-ID: <202409041147.fl53VURu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,125 +61,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901211834.145186-3-hdegoede@redhat.com>
 
-Hi Hans,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240903]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l-Call-s_stream-on-VCM-when-it-is-called-on-the-associated-sensor/20240902-052000
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240901211834.145186-3-hdegoede%40redhat.com
-patch subject: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-config: x86_64-randconfig-076-20240904 (https://download.01.org/0day-ci/archive/20240904/202409041123.VAFdMjn2-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409041123.VAFdMjn2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-edac.git edac-fixes
+head:   bd8a8958080eb6b4ba0d80fa822703b675aad933
+commit: bd8a8958080eb6b4ba0d80fa822703b675aad933 [6/6] apei/ghes: don't go past the ARM processor CPER record buffer
+config: x86_64-randconfig-161-20240904 (https://download.01.org/0day-ci/archive/20240904/202409041147.fl53VURu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409041123.VAFdMjn2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409041147.fl53VURu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/acpi/apei/ghes.c:574 ghes_handle_arm_hw_error() warn: inconsistent indenting
 
->> drivers/media/i2c/ad5823.c:203:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-         |                          ^
->> drivers/media/i2c/ad5823.c:203:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
-     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+vim +574 drivers/acpi/apei/ghes.c
 
-
-vim +/devm_cci_regmap_init_i2c +203 drivers/media/i2c/ad5823.c
-
-   193	
-   194	static int ad5823_probe(struct i2c_client *client)
-   195	{
-   196		struct ad5823_device *ad5823;
-   197		int ret;
-   198	
-   199		ad5823 = devm_kzalloc(&client->dev, sizeof(*ad5823), GFP_KERNEL);
-   200		if (!ad5823)
-   201			return -ENOMEM;
-   202	
- > 203		ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-   204		if (IS_ERR(ad5823->regmap))
-   205			return PTR_ERR(ad5823->regmap);
-   206	
-   207		ad5823->arc_mode = AD5823_ARC_RES1;
-   208		ad5823->resonance_period = AD5823_RESONANCE_PERIOD;
-   209	
-   210		/* Optional indication of ARC mode select */
-   211		device_property_read_u32(&client->dev, "adi,arc-mode",
-   212					 &ad5823->arc_mode);
-   213	
-   214		/* Optional indication of VCM resonance period */
-   215		device_property_read_u32(&client->dev, "adi,resonance-period",
-   216					 &ad5823->resonance_period);
-   217	
-   218		ad5823->regulator = devm_regulator_get(&client->dev, "vdd");
-   219		if (IS_ERR(ad5823->regulator))
-   220			return dev_err_probe(&client->dev, PTR_ERR(ad5823->regulator),
-   221					     "getting regulator\n");
-   222	
-   223		v4l2_i2c_subdev_init(&ad5823->sd, client, &ad5823_ops);
-   224		ad5823->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-   225	
-   226		ret = ad5823_init_controls(ad5823);
-   227		if (ret)
-   228			return ret;
-   229	
-   230		ret = media_entity_pads_init(&ad5823->sd.entity, 0, NULL);
-   231		if (ret < 0)
-   232			goto err_free_ctrl_handler;
-   233	
-   234		ad5823->sd.entity.function = MEDIA_ENT_F_LENS;
-   235	
-   236		/*
-   237		 * We need the driver to work in the event that pm runtime is disable in
-   238		 * the kernel, so power up and verify the chip now. In the event that
-   239		 * runtime pm is disabled this will leave the chip on, so that the lens
-   240		 * will work.
-   241		 */
-   242	
-   243		ret = ad5823_power_up(ad5823, true);
-   244		if (ret)
-   245			goto err_cleanup_media;
-   246	
-   247		pm_runtime_set_active(&client->dev);
-   248		pm_runtime_get_noresume(&client->dev);
-   249		pm_runtime_enable(&client->dev);
-   250	
-   251		ret = v4l2_async_register_subdev(&ad5823->sd);
-   252		if (ret < 0)
-   253			goto err_pm_runtime;
-   254	
-   255		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-   256		pm_runtime_use_autosuspend(&client->dev);
-   257		pm_runtime_put_autosuspend(&client->dev);
-   258	
-   259		return ret;
-   260	
-   261	err_pm_runtime:
-   262		pm_runtime_disable(&client->dev);
-   263		pm_runtime_put_noidle(&client->dev);
-   264		ad5823_power_down(ad5823);
-   265	err_cleanup_media:
-   266		media_entity_cleanup(&ad5823->sd.entity);
-   267	err_free_ctrl_handler:
-   268		v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
-   269	
-   270		return ret;
-   271	}
-   272	
+   530	
+   531	static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
+   532					     int sev, bool sync)
+   533	{
+   534		struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
+   535		int flags = sync ? MF_ACTION_REQUIRED : 0;
+   536		int length = gdata->error_data_length;
+   537		char error_type[120];
+   538		bool queued = false;
+   539		int sec_sev, i;
+   540		char *p;
+   541	
+   542		sec_sev = ghes_severity(gdata->error_severity);
+   543		log_arm_hw_error(err, sec_sev);
+   544		if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
+   545			return false;
+   546	
+   547		p = (char *)(err + 1);
+   548		length -= sizeof(err);
+   549	
+   550		for (i = 0; i < err->err_info_num; i++) {
+   551			if (length <= 0)
+   552				break;
+   553	
+   554			struct cper_arm_err_info *err_info = (struct cper_arm_err_info *)p;
+   555			bool is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
+   556			bool has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
+   557	
+   558			/*
+   559			 * The field (err_info->error_info & BIT(26)) is fixed to set to
+   560			 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
+   561			 * firmware won't mix corrected errors in an uncorrected section,
+   562			 * and don't filter out 'corrected' error here.
+   563			 */
+   564			if (is_cache && has_pa) {
+   565				length -= err_info->length;
+   566				if (length < 0)
+   567					break;
+   568				queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
+   569				p += err_info->length;
+   570	
+   571				continue;
+   572			}
+   573			length -= err_info->length;
+ > 574				if (length < 0)
+   575					break;
+   576	
+   577			cper_bits_to_str(error_type, sizeof(error_type),
+   578					 FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+   579					 cper_proc_error_type_strs,
+   580					 ARRAY_SIZE(cper_proc_error_type_strs));
+   581	
+   582			pr_warn_ratelimited(FW_WARN GHES_PFX
+   583					    "Unhandled processor error type 0x%02x: %s%s\n",
+   584					    err_info->type, error_type,
+   585					    (err_info->type & ~CPER_ARM_ERR_TYPE_MASK) ? " with reserved bit(s)" : "");
+   586			p += err_info->length;
+   587		}
+   588	
+   589		return queued;
+   590	}
+   591	
 
 -- 
 0-DAY CI Kernel Test Service
