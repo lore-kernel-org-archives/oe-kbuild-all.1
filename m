@@ -1,153 +1,123 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D47B1474B8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 07:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6CC1CCEC2;
+	Wed,  4 Sep 2024 08:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725436741; cv=none; b=Z8wokNs51+o6yk1Um3qeKooE8npU8zMvU4W2P7bABHE0koXXbNdNOg+iN4ONpwZHQ5HqRG5j1R7eIR37YSOEXOba9Pasng5MvczkRwCF2doASzfDnNHBNocxVEYWbQUzgwm4DeCxKROfGeCo+KPZOTV61z2vm92fggvD/fgIVnU=
+	t=1725438904; cv=none; b=E7q4eJ3ItY5zTMvKqsfdOkkxHPKJGh41zV8lvUnyslXF26CMfgn9HF388/g5HOJOj7U3VNpofK6YSr1sXqzbBLSr78hFb6aWAqJ/qzeHwJL3LgMcCy2Ummom/QwWNR4LWsw7nhT6BbNQ5b37D1OQ7abWr8OZbH2l/SVw0IOejbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725436741; c=relaxed/simple;
-	bh=c2jAvJRISFmKTJLAivo6CZeVFTI+zZ70Yr/35SjCgB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZuHn0zpqQp8r/ZZVgzQ4r1Z3UNNG9nUlcvtkIjFv2eo7JV1V47TeB3AMuT+VpHUnZdcOnPoNp4zlOifKkeTOXW1cBQYiQfynsw+21nLNic1lURuGJkorCcItBKDvcU96knapNcN8JSo8RkylRG9CYzehsoXXaExA09CzshWDY9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WyuHmc3n; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1725438904; c=relaxed/simple;
+	bh=R3wVcA9VHYHoeglK9f9HjbBFuZQCz+14TtUM16JKt48=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qRkgh5776xcm8SNaFwjIk7bLVJrbM97OMG8cZdtI9gxBLvBuxwiMmL7N52kvZfkn2R9g2ZFTZBp3gA6FBAmCuhwEsQoZgbQCiKBTCRGtv9XjxWPr0VaqiNGMKkYUiEJpxvJKmx6RDbqJeg4f/3r6dg55xj3/ASF9SyflC5WuCOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GL+Yg4NB; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WyuHmc3n"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c24c92f699so4061665a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Sep 2024 00:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725436738; x=1726041538; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o38ll/1shPkcH2c9qDR658TMHisQqMl2xPlWoUMdupM=;
-        b=WyuHmc3nOCTr1OazF1hu3c6LRbqy90864YgadX1Tdfce3w6zjc3tVnB8SwbkN7KTT1
-         PMY4+x9wwjqvPi+GLPnyfJxBgYelp08Aa0JyPu4n9JsQvaPiYVhTpB1Gy6LVQmXlSupv
-         bDTF+oAFsTVcOd4ruANfsOOwDXIEwB0tN0INBxctMJJQ2/G5b/T3E5Jkp4gxjI5h9yUd
-         o7/hyGK7IMNGQ8UzV2h4At+8nQmjYkLDhLX4D7FEWCDEuWTG6k1X3SqRY4fALPZ17Gl2
-         uxMBgT+o9QqC5Tu1Yz/xR503Namx4UjQb8nCOmbwPuQmM5zlbbu+9SLnMt0dPFvTX3BL
-         mKNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725436738; x=1726041538;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o38ll/1shPkcH2c9qDR658TMHisQqMl2xPlWoUMdupM=;
-        b=plmfzuTM65TfYbnHqxfqymxJJNi7aHx9NMGb2OPdlLmK37jKntfN6ekG28BRxiijvn
-         igCRNnJ1t9BwH8N4DfGRvGcfeXLk1/fGP+5c2cnEr6tYAcTIUeiAjtb2i7ktXdEqfZAs
-         JzcQ0qwhj/EpFJIyC9CEiKb/HzhgLO3xSWSJvlFW78AE2rzfPSEzjhVn17vPDU+k8VEw
-         He/so4AoOsEZkbZB3/ZHiyr0deLqYq+ICyGIljSE4RmV8FK8qo4osin5emqpw4htqq2W
-         0o4O0Ow8dupx/ZsmZ+UybTlVYgNJQ0RyIt4m8g75BM4/HIikLTiZS58+3b/s77HH6nZY
-         Wgvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXCoMxAR4mPBjBsqZneTV0MnMppBRBx7F55nQgSp7G8ZT65jIRd3uG+sLZGl1F/DbBt404lStIwtkJX9trf@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXgK78LDIwZahS3eeNaOE3258DXU4eTtJ5jBgKaWAWMPee74Wp
-	JbM30cRw2i0RT2/IlqydDLiLeF2pTz4uzRQhamK9/00psFoqVlEFe1Jc9XKDX5s=
-X-Google-Smtp-Source: AGHT+IHbXWBNh7i4cmQrik4TDTg1G8pCMakv2oa+Dk+9s51s/80FIoXVDzhEC95r4WGClTNuCsuPdA==
-X-Received: by 2002:a17:907:97d1:b0:a86:bb5f:ebbd with SMTP id a640c23a62f3a-a8a32fe029cmr183723666b.63.1725436737475;
-        Wed, 04 Sep 2024 00:58:57 -0700 (PDT)
-Received: from localhost (p5dc68f76.dip0.t-ipconnect.de. [93.198.143.118])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89892232c7sm768623066b.222.2024.09.04.00.58.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 00:58:56 -0700 (PDT)
-Date: Wed, 4 Sep 2024 09:58:55 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	David Lechner <dlechner@baylibre.com>, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] iio: adc: ad7625: add driver
-Message-ID: <mgsig2v65adwgfhofxk3snfbtibgjfeiqqj4iw5r2aquak22ve@3ssolag3ousl>
-References: <20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
- <202408201520.lFtco3eF-lkp@intel.com>
- <7658aca4-a408-480c-98b6-4637bb86b5ad@baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GL+Yg4NB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725438902; x=1756974902;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R3wVcA9VHYHoeglK9f9HjbBFuZQCz+14TtUM16JKt48=;
+  b=GL+Yg4NBrsvlDUE42rBtCGbHyIX7+6KO5GERbZ9yAiUhYcIEe0YIFCsG
+   pMDsbpjVVZwUsmOGthrPqASFCV2J+2NqGarO0XBFtdcn0tFcSKmFW7FRG
+   YG8pGk7xHaiNfFyPHXRJhKe7b+UAFNYX2fiFnbZ+4KwM8Mh42aqOnyvIL
+   2rzW5g3ro2WRGEmDO4svk5uYphpFBLHB7Zd6q1eJ5vzFM9Xzb1Q9KRr5y
+   ++QlBU6/6tgV5f+n8NdG/cZ6YoRNn81+ShBx0/kU5GKjlaPaJ5Xp/ahri
+   +gtYNtqeL+PlY68UhRL2qWrcBo2xX8Ah9mw9q1OoyLP2RymMTsUCG9SFL
+   g==;
+X-CSE-ConnectionGUID: +pdPCbN9TuykHuaYBGImbQ==
+X-CSE-MsgGUID: Ba5dqRkiTZag3ufxzGp+pQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24236102"
+X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
+   d="scan'208";a="24236102"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 01:35:01 -0700
+X-CSE-ConnectionGUID: H1kCEl9mQAGNrmexilwP1w==
+X-CSE-MsgGUID: 63BFkn3gQUqU46GqoJ59Ow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
+   d="scan'208";a="65718197"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 04 Sep 2024 01:35:00 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sllTe-0007is-0K;
+	Wed, 04 Sep 2024 08:34:58 +0000
+Date: Wed, 4 Sep 2024 16:34:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/cleanup_smp_nmi_shootdown 1/2]
+ arch/x86/kernel/reboot.c:596:34: error: use of undeclared identifier
+ 'crash_ipi_issued'
+Message-ID: <202409041652.pnFsMUJ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3yytpvatfhmknuuz"
-Content-Disposition: inline
-In-Reply-To: <7658aca4-a408-480c-98b6-4637bb86b5ad@baylibre.com>
-
-
---3yytpvatfhmknuuz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Trevor,
+Hi Sean,
 
-On Tue, Aug 20, 2024 at 05:07:27PM -0400, Trevor Gamblin wrote:
-> On 2024-08-20 3:19 a.m., kernel test robot wrote:
-> > Hi Trevor,
-> >=20
-> > kernel test robot noticed the following build errors:
-> >=20
-> > [auto build test ERROR on ac6a258892793f0a255fe7084ec2b612131c67fc]
-> >=20
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Trevor-Gamblin/d=
-t-bindings-iio-adc-add-AD762x-AD796x-ADCs/20240819-221425
-> > base:   ac6a258892793f0a255fe7084ec2b612131c67fc
-> > patch link:    https://lore.kernel.org/r/20240819-ad7625_r1-v3-2-75d521=
-7c76b5%40baylibre.com
-> > patch subject: [PATCH v3 2/3] iio: adc: ad7625: add driver
-> > config: alpha-randconfig-r132-20240820 (https://download.01.org/0day-ci=
-/archive/20240820/202408201520.lFtco3eF-lkp@intel.com/config)
-> > compiler: alpha-linux-gcc (GCC) 13.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20240820/2024082015=
-20.lFtco3eF-lkp@intel.com/reproduce)
-> Seems to be a problem with missing static inline definitions in pwm.h if
-> CONFIG_PWM isn't set. I've replied to the relevant series on the PWM mail=
-ing
-> list and will add "select PWM" to Kconfig for this driver.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-I'm not a big fan of the dummy static inlines. It seems to be a somewhat
-subjective thing, but I think that usually if a driver makes use of PWM
-functions it doesn't work at all if CONFIG_PWM=3Dn. Does your driver work
-with CONFIG_PWM=3Dn? If not, even if the dummy inline was there, I'd
-recommend at least a
+tree:   https://github.com/sean-jc/linux x86/cleanup_smp_nmi_shootdown
+head:   2d66e97505d0772d0ae26174538d4368541dfec7
+commit: c7de2d2c0cab7d890294b5437faf1bccb6bc978d [1/2] x86/reboot: Open code nmi_shootdown_cpus_on_restart() into its sole user
+config: i386-buildonly-randconfig-001-20240904 (https://download.01.org/0day-ci/archive/20240904/202409041652.pnFsMUJ8-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409041652.pnFsMUJ8-lkp@intel.com/reproduce)
 
-	depends on PWM || COMPILE_TEST
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409041652.pnFsMUJ8-lkp@intel.com/
 
-=2E (This is also the implicit recommendation to use "depends" and not
-"select". Currently all drivers needing PWM use "depends" and mixing
-yields strange effects in menuconfig.)
+All errors (new ones prefixed by >>):
 
-Currently there is only a single driver that uses "depends on PWM ||
-COMPILE_TEST" (i.e. SENSORS_PWM_FAN). I already considered changing that
-to plain "depends on PWM" and get rid of the dummy defines. While I
-didn't tackle that one yet, I'd like to not introduce dummys for the new
-waveform functions. So I suggest you either stick to
+>> arch/x86/kernel/reboot.c:596:34: error: use of undeclared identifier 'crash_ipi_issued'
+     596 |                 if (IS_ENABLED(CONFIG_SMP) && !crash_ipi_issued)
+         |                                                ^
+   1 error generated.
 
-	depends on PWM
 
-or try to convince me that these dummys are a good idea (and then
-probably use "... || COMPILE_TEST").
+vim +/crash_ipi_issued +596 arch/x86/kernel/reboot.c
 
-Best regards
-Uwe
+   576	
+   577	static void emergency_reboot_disable_virtualization(void)
+   578	{
+   579		local_irq_disable();
+   580	
+   581		/*
+   582		 * Disable virtualization on all CPUs before rebooting to avoid hanging
+   583		 * the system, as VMX and SVM block INIT when running in the host.
+   584		 *
+   585		 * We can't take any locks and we may be on an inconsistent state, so
+   586		 * use NMIs as IPIs to tell the other CPUs to disable VMX/SVM and halt.
+   587		 *
+   588		 * Do the NMI shootdown even if virtualization is off on _this_ CPU, as
+   589		 * other CPUs may have virtualization enabled.
+   590		 */
+   591		if (rcu_access_pointer(cpu_emergency_virt_callback)) {
+   592			/* Safely force _this_ CPU out of VMX/SVM operation. */
+   593			cpu_emergency_disable_virtualization();
+   594	
+   595			/* Disable VMX/SVM and halt on other CPUs. */
+ > 596			if (IS_ENABLED(CONFIG_SMP) && !crash_ipi_issued)
+   597				nmi_shootdown_cpus(NULL);
+   598		}
+   599	}
+   600	#else
+   601	static void emergency_reboot_disable_virtualization(void) { }
+   602	#endif /* CONFIG_KVM_INTEL || CONFIG_KVM_AMD */
+   603	
 
---3yytpvatfhmknuuz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbYEzwACgkQj4D7WH0S
-/k5SvQf+NO8vcbtNzPEQ93q8b0bUlyJ0RMbzu+c2gvXGTNCZfFrxMknBXCxauxnk
-NsFS69G2JzB3Q/LG/Lny6rguZd9gkvYDBVKSjid2wdf4Kekr/2cKXSbAkPaFVQHu
-QQndCDqL6XKMpug1f5f3ehcxFnL7LVw5ZMSWMqO19bzpYGa6zgEH1JJVTmpVPDa5
-ZoOJoTb3njfPDLqGjBgdaZVaI0dAgwkP7Nf8DUbzXKqdZEl7d50T8c2LoJOEpZ1I
-NP/Jl0xMi8oWc3KtVuLvslL87nmXyRsW8bGdDFOlg+i7tYO3bJlBO4zoJ+2Nm0tx
-pSJaiqTBJkyu0HmnLg2VtkcQBqwZzA==
-=Ps67
------END PGP SIGNATURE-----
-
---3yytpvatfhmknuuz--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
