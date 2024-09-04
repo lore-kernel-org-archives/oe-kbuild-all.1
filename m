@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD281D47D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 12:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49CB1D5893
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 12:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725451274; cv=none; b=b/kglZGNx7QIEqX8lW1F6fx50DaMrKFCiQB2+MC1oMhGihb7F4PpyLEKdW//Akfyk2/byAmFrNcILEKZ4dlCBF2l/C403nvP8fuO/p0IO8RWARJIFa9dQhHPkOTWkORdQB4zk/jbKt3E3RwIPpNHhz9ENRr3nen3yWLgqP+zdoQ=
+	t=1725452598; cv=none; b=gvgeOppk6e1ydCeNyGSSize8MfUdYZ03vJSl/4OIWnGA0gL/zgNj57EfJ7kz67nyxFPWWxvMAsIstgvKCTduavpLra9DKN5xt+vPBXd8NEOgDbfM8HdYE7TM3iNUfkm+4zTLAxKIySjrn2mVc2j3nbP58u/E+KIi047+8cNroms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725451274; c=relaxed/simple;
-	bh=UVeaKGlOXCwZ1NKpPz/lKsvnxIP7hZ4KnNa2YhLrSQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVKULkEAAy95rrM3Olo30Kxsp53OBcVikZTqxfWW2p+kFoqUMGfKcUeBARadLeMLbOnVxVQDR8ICHu1IhygV8ViDsKBZq03KWYb1ETgsKr8Lzfdha3Ix6WeFLBdr/Qeg0XgNS4JBCohyHJG4lRoLAmgK1nchbTTZW6E4r/qwuoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JxJc+3ZN; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1725452598; c=relaxed/simple;
+	bh=IUdSlEMBMojYAGKyXkfH9VR//PA6pfTuHW/iFtdm16I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PSFb6MSraZKJzlat276OigTAwgzUkDYDmLrC39FYBkZhXsidcjy/Lkv8Ch6Sbz3cDRz6dMz79f4CnOxf/DkuJQaQWudiwHu+ilTOals4Ray5Ve0slnfBmgHmBTLPlqK1HcitBs9zaM8mxjJn47mnLA0XpcvX9hlMQ7csLkqOcuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j+UOGhVn; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxJc+3ZN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+UOGhVn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725451272; x=1756987272;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UVeaKGlOXCwZ1NKpPz/lKsvnxIP7hZ4KnNa2YhLrSQA=;
-  b=JxJc+3ZNIW9D2Ebuk/7nlHD8P1z3QUnVcgglbtNMxMUe7NdicH70TxDs
-   HIwoFwTJgU2THfwD+8IlIxjOBiYGF/HMvUmHOh+plRXnejTDaSvdyz0FV
-   c6G7aaO+NWMtZtxoyV9MHt9Dw1e21Hag/AvyPdFpfBz6zFHD+XOEpLuGY
-   nKMH6UMEW6v+iVp1p78YcEKjvL3VYUSLmSng3t2zjGvg88/MTTzyPvwVI
-   djaQX6RD3mttB6j56Cvc74l4Kn/yaZRygCV50py/cDBa0Wc7jcDQ4AZr5
-   8oero0v2XceER8M3AWyvO8CapYA8v4A5nBfSL86wIRmFNblOCBpUzIq6M
-   Q==;
-X-CSE-ConnectionGUID: mqdWDs90QXK0O40DrrxcLg==
-X-CSE-MsgGUID: oGz+Cdl7TB6Co9KM9u5ATw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="35467440"
+  t=1725452597; x=1756988597;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IUdSlEMBMojYAGKyXkfH9VR//PA6pfTuHW/iFtdm16I=;
+  b=j+UOGhVnMN2nWKavjhDPVosJ27FVRtKO4+5fsgtAkrLOhbhgnE5ZaJeu
+   IflXYh4CA6FkPYlzj1NVdnG93st8PBy2gu7dLZJJA/tMpmaDIMDE+HBzH
+   oUaf0k7X2sSO/NrbuQIvQURLSx+ZRgvDkqDjjHsniEl2GeWkTXbaxs6Bj
+   fcK1HTidyQLulbtpTL+VHx/vUl9BZHkm4a7fnkealGo9YCNJaHWm0WAjp
+   ufvQPxuxwsLrwjVKKY59In2B8jw23ZOS4hJy/dtl8PNlSZ+yCiH+NIVd0
+   oSStw3BxGPzeXw6MtcNgM+Lp+/ggnXuwXQP23ntw0lS6Tc2VNUegNteNB
+   A==;
+X-CSE-ConnectionGUID: Lx7jvI+FTaamdTNY3jHcLA==
+X-CSE-MsgGUID: 6SxvYyD9TaegmqGcA6JWFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="27871258"
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="35467440"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 05:01:12 -0700
-X-CSE-ConnectionGUID: L6GhFLViThq6/ay370yMLQ==
-X-CSE-MsgGUID: ZdZPmY6DQgW1PL7V2BitlA==
+   d="scan'208";a="27871258"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 05:23:16 -0700
+X-CSE-ConnectionGUID: gnleR+6XTPabdBIEg0TtKw==
+X-CSE-MsgGUID: xWEW2gIFSoKuwMbtFha/fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="70061028"
+   d="scan'208";a="65493950"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Sep 2024 05:01:11 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 04 Sep 2024 05:23:15 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slohB-0007wP-06;
-	Wed, 04 Sep 2024 12:01:09 +0000
-Date: Wed, 4 Sep 2024 20:00:30 +0800
+	id 1slp2W-00082F-2z;
+	Wed, 04 Sep 2024 12:23:12 +0000
+Date: Wed, 4 Sep 2024 20:22:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kaixiong Yu <yukaixiong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 -next 09/15] fs: fs-writeback: move sysctl to its own
- file
-Message-ID: <202409041926.5vqwwXxo-lkp@intel.com>
-References: <20240903033011.2870608-10-yukaixiong@huawei.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 5413/9291] otx_cptvf_algs.c:undefined reference
+ to `crypto_authenc_extractkeys'
+Message-ID: <202409042013.gT2ZI4wR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903033011.2870608-10-yukaixiong@huawei.com>
 
-Hi Kaixiong,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20240902]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kaixiong-Yu/mm-vmstat-move-sysctls-to-its-own-files/20240903-113226
-base:   next-20240902
-patch link:    https://lore.kernel.org/r/20240903033011.2870608-10-yukaixiong%40huawei.com
-patch subject: [PATCH v2 -next 09/15] fs: fs-writeback: move sysctl to its own file
-config: x86_64-randconfig-121-20240903 (https://download.01.org/0day-ci/archive/20240904/202409041926.5vqwwXxo-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409041926.5vqwwXxo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fdadd93817f124fd0ea6ef251d4a1068b7feceba
+commit: 311eea7e37c4c0b44b557d0c100860a03b4eab65 [5413/9291] crypto: octeontx - Fix authenc setkey
+config: s390-randconfig-c004-20220327 (https://download.01.org/0day-ci/archive/20240904/202409042013.gT2ZI4wR-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042013.gT2ZI4wR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409041926.5vqwwXxo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409042013.gT2ZI4wR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/fs-writeback.c:68:14: sparse: sparse: symbol 'dirtytime_expire_interval' was not declared. Should it be static?
-   fs/fs-writeback.c:1943:17: sparse: sparse: context imbalance in 'writeback_sb_inodes' - unexpected unlock
-   fs/fs-writeback.c:2608:20: sparse: sparse: context imbalance in '__mark_inode_dirty' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +/dirtytime_expire_interval +68 fs/fs-writeback.c
-
-03ba3782e8dcc5 Jens Axboe    2009-09-09  57  
-a2f4870697a5bc Theodore Ts'o 2015-03-17  58  /*
-a2f4870697a5bc Theodore Ts'o 2015-03-17  59   * If an inode is constantly having its pages dirtied, but then the
-a2f4870697a5bc Theodore Ts'o 2015-03-17  60   * updates stop dirtytime_expire_interval seconds in the past, it's
-a2f4870697a5bc Theodore Ts'o 2015-03-17  61   * possible for the worst case time between when an inode has its
-a2f4870697a5bc Theodore Ts'o 2015-03-17  62   * timestamps updated and when they finally get written out to be two
-a2f4870697a5bc Theodore Ts'o 2015-03-17  63   * dirtytime_expire_intervals.  We set the default to 12 hours (in
-a2f4870697a5bc Theodore Ts'o 2015-03-17  64   * seconds), which means most of the time inodes will have their
-a2f4870697a5bc Theodore Ts'o 2015-03-17  65   * timestamps written to disk after 12 hours, but in the worst case a
-a2f4870697a5bc Theodore Ts'o 2015-03-17  66   * few inodes might not their timestamps updated for 24 hours.
-a2f4870697a5bc Theodore Ts'o 2015-03-17  67   */
-a2f4870697a5bc Theodore Ts'o 2015-03-17 @68  unsigned int dirtytime_expire_interval = 12 * 60 * 60;
-a2f4870697a5bc Theodore Ts'o 2015-03-17  69  
+   s390-linux-ld: drivers/crypto/marvell/octeontx/otx_cptvf_algs.o: in function `otx_cpt_aead_cbc_aes_sha_setkey':
+>> otx_cptvf_algs.c:(.text+0x1daa): undefined reference to `crypto_authenc_extractkeys'
+   s390-linux-ld: drivers/crypto/marvell/octeontx/otx_cptvf_algs.o: in function `otx_cpt_aead_ecb_null_sha_setkey':
+   otx_cptvf_algs.c:(.text+0x1e12): undefined reference to `crypto_authenc_extractkeys'
 
 -- 
 0-DAY CI Kernel Test Service
