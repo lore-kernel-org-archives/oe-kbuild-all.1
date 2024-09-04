@@ -1,69 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5581CF7AE;
-	Wed,  4 Sep 2024 17:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18CC6E619
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 17:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725470621; cv=none; b=EypjB2jc20VNgrnu4xdEpeu+bTa0hSr0bUjQ8o/qo/X9Mj0BF7kluLq2Qkljjd0vUINDYogpaFi7IIk/fblJ1gY4L25hMYuzlh+3KpTxYNlSp9M7ko042HG450cv2LkB5BG5EJvjfPDBXF2hpnFDGVyk75zDhEEwkX/oQwB6CfE=
+	t=1725471578; cv=none; b=ux5pVOx+BLAXCpl9nTRl9yp7hY3LAZHnNgMvU/yYofJ72j8skaaRsqxwmnS1lMoyVXJXHgnYX4XnXSAHMPyD6AjB49B0Mpbl5Y7FBtlaYoctWZVOPyIeVY/GcPkN+QrhPA6fuj742lY6hLpCwy9DD7e54TDs6rc9n7Lr8xaTKrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725470621; c=relaxed/simple;
-	bh=ILuonY5731KqpUyvDIpzSQYrE7kjsGqjXWSqJ8pp3+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ny6wffCHkq1r+GHQZYEHO+/1PzAtaOIV2WphGDQagc6SF33Z9awZlGZTqBar5Ib9jyPq9K/bEop7e0vOIrArDTyDIk59gWLBIQL9CRS3tCDFPa8cyc896qwnenlIwbYC8mB6evS9TMCo4G+8/drTJxmQ+eDC7ZwwYQYN8bPLGGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qm1uEBSn; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725471578; c=relaxed/simple;
+	bh=MN4zFPdgpZ+HXlLRG/9oBCwOqeGe13OMMnivn7krIpY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bYUoPjONF8oSvmMFxf8+GtKqcZ0JwQc11YCl94hXLrk5t+/vhwixP8R1T6c7I8Ucuc4Ksh9fNCypWWunEGa6mtjCAMOsdltvLqJLuxiDgVLOmS2uMZvBvGYsFrU1pjIrlAbaUbJTP6sbdQWusnWMqXojGckOeg5bO4vVV+LR368=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cbCsuxfz; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qm1uEBSn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725470619; x=1757006619;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ILuonY5731KqpUyvDIpzSQYrE7kjsGqjXWSqJ8pp3+g=;
-  b=Qm1uEBSnDPHOWDVx7+0a+rxKFadR68t+2Phbm1MYarl57FOcSJEF8Wb2
-   aZZup1tbqjaLQIhwufBRBovcNvPGgi90j3Wm/cP+Hni9fce2pRckRyaYP
-   zphgDGOv4Snqect2mPlBbzBc0vNN5QD+EgcUmbZNqkUx0NI0jhkzbAUMQ
-   gFZRggtbOH5eKnaMJ1uR7r4o5av9aKrDvGRTdy1aVYxjOhZrjsoaSEC8f
-   WKaSs1Bd19MhhJ+sdhAX2qh42N63C1rZoFmQxxVBDw8SxB9ptLaa5FnOF
-   x2Ys642sI39VbM4HNCcCpAI00OBtI1cIrLUH8OADzN5hq4Kk7zAHx5eq1
-   g==;
-X-CSE-ConnectionGUID: RU3pyqTNQNa/1Bn/H7o2zA==
-X-CSE-MsgGUID: xYUQpXUQSMKkPS10dN8/sQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24340542"
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="24340542"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 10:23:38 -0700
-X-CSE-ConnectionGUID: 19/cCM0JQEuNh6FlCbvv3w==
-X-CSE-MsgGUID: 7/kbMBt0T8CdPYilquRsZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="65177629"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 Sep 2024 10:23:34 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sltj8-0008OJ-1z;
-	Wed, 04 Sep 2024 17:23:30 +0000
-Date: Thu, 5 Sep 2024 01:23:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mariel Tinaco <Mariel.Tinaco@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-	Dimitri Fedrau <dima.fedrau@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] iio: dac: support the ad8460 Waveform DAC
-Message-ID: <202409050100.CGStaazP-lkp@intel.com>
-References: <20240904023040.23352-3-Mariel.Tinaco@analog.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cbCsuxfz"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-374ca65cafdso1840107f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Sep 2024 10:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725471575; x=1726076375; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CATkMIz4II/GBnal0jBOxPFSbThdRSagEuNLcNi0eZs=;
+        b=cbCsuxfzdlxsBjRGAlzkWTHh7Ipk3gYEpDRvoX0VXufUYwJyWrs6QKrs/CZzojhvfD
+         tfabchDGfUGVjDz2YXTqHv8z0NAVkp75bTxnMGvNC91iO80ZdxgpRgd3secNhNvNgc2D
+         /fNk4pSGzjb+C962j1teQJ3Qbq7vzauaThw0M4jwwD9yXUaVZ35i9zn653mKJfKdAQ3v
+         ZMK/XEUuuJ5p+FvvliuHQ/rF/HSZ3Vz8U/jAaR3BCul/i6nHkEVvCld5TEhPYN77pXun
+         hFSURehIlQbBi6G8fX/SAqS4jTi6e4zX3gxScqebcPyf/pf6gH3FBJ/psZ8RCSt8iUDL
+         TK2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725471575; x=1726076375;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CATkMIz4II/GBnal0jBOxPFSbThdRSagEuNLcNi0eZs=;
+        b=up23dlnrzdgfaqPnA+fbhl8gA/dHiOKPxzEdmkTqEpt+IMfaJ75woYeTC2h9XeJcUZ
+         1mV+jQxGF2QqEEU5dt2KcGGveDJNj5nIFzryodDD7XvIARm8m/MnZmcuhK7g05YQqj5C
+         oqwi9O2SdGqlatpkp4kgGuqy3ZuoTJeiZEZoYezU507n/rXVLAY3ULTE/K839nOHLw1O
+         O4bCddc/y39d3v87s/YOQ26iFSRk/V6nCEmv9sFM9dS/g9lqTuXug96Mfllh18cUrIb4
+         T0eREam+Iy9hIvUbHNapZ52LAztRPQczejQxN8Gj9jh5jT/GgPRa9I4GmbEqnva3FMiH
+         4yLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWU1YNTv+JwdDtaDwTWI5BtxrIJv/nZbYwX0H3CJGDLhcaBKlwzHQ2T8dO8I4x9/mFU0+nFBUW0p/hIOc3U@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUjua7GiPUzubjtnJLyKTq/BdJpFYRhUq4cfw40+0ZWoAwUlhe
+	h9uSC2PYmJFppr9c9Y5VHAwI6986tn5F4EvLnOlBNVPq7UnCSZkH0vY3uNEft6Q=
+X-Google-Smtp-Source: AGHT+IHOxL78H5no1Yx4ZYjtpCQJ82A2LWIBT6Ntm7D3MSDicRXtr9fyM/JKF1QwdfxyURJiimBLzw==
+X-Received: by 2002:adf:ce92:0:b0:374:bd48:fae9 with SMTP id ffacd0b85a97d-374bd48fda5mr7780555f8f.20.1725471574729;
+        Wed, 04 Sep 2024 10:39:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba641db07sm243543435e9.34.2024.09.04.10.39.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 10:39:34 -0700 (PDT)
+Date: Wed, 4 Sep 2024 20:39:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Baokun Li <libaokun1@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Subject: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
+ ext4_ext_clear_bb() error: double free of 'path'
+Message-ID: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,65 +67,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240904023040.23352-3-Mariel.Tinaco@analog.com>
 
-Hi Mariel,
+Hi Baokun,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on c4b43d8336e52dce6d124e428aa3b71703e62647]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mariel-Tinaco/dt-bindings-iio-dac-add-docs-for-ad8460/20240904-103413
-base:   c4b43d8336e52dce6d124e428aa3b71703e62647
-patch link:    https://lore.kernel.org/r/20240904023040.23352-3-Mariel.Tinaco%40analog.com
-patch subject: [PATCH v3 2/2] iio: dac: support the ad8460 Waveform DAC
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240905/202409050100.CGStaazP-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050100.CGStaazP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fdadd93817f124fd0ea6ef251d4a1068b7feceba
+commit: 92bbb922166cd7a829bf60d168372ffa1c54e81d [8348/9291] ext4: make some fast commit functions reuse extents path
+config: x86_64-randconfig-161-20240904 (https://download.01.org/0day-ci/archive/20240905/202409050044.EGobujzB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409050100.CGStaazP-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409050044.EGobujzB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/ext4/extents.c:6155 ext4_ext_clear_bb() error: double free of 'path'
 
->> drivers/iio/dac/ad8460.c:165:9: error: call to undeclared function 'get_unaligned_le16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     165 |         *val = get_unaligned_le16(state->spi_tx_buf);
-         |                ^
->> drivers/iio/dac/ad8460.c:172:2: error: call to undeclared function 'put_unaligned_le16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     172 |         put_unaligned_le16(FIELD_PREP(AD8460_DATA_BYTE_FULL_MSK, val),
-         |         ^
-   2 errors generated.
+vim +/path +6155 fs/ext4/extents.c
 
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6108  int ext4_ext_clear_bb(struct inode *inode)
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6109  {
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6110  	struct ext4_ext_path *path = NULL;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6111  	struct ext4_extent *ex;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6112  	ext4_lblk_t cur = 0, end;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6113  	int j, ret = 0;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6114  	struct ext4_map_blocks map;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6115  
+1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6116  	if (ext4_test_inode_flag(inode, EXT4_INODE_INLINE_DATA))
+1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6117  		return 0;
+1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6118  
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6119  	/* Determin the size of the file first */
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6120  	path = ext4_find_extent(inode, EXT_MAX_BLOCKS - 1, NULL,
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6121  					EXT4_EX_NOCACHE);
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6122  	if (IS_ERR(path))
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6123  		return PTR_ERR(path);
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6124  	ex = path[path->p_depth].p_ext;
+92bbb922166cd7 Baokun Li          2024-08-22  6125  	if (!ex)
+92bbb922166cd7 Baokun Li          2024-08-22  6126  		goto out;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6127  	end = le32_to_cpu(ex->ee_block) + ext4_ext_get_actual_len(ex);
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6128  
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6129  	cur = 0;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6130  	while (cur < end) {
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6131  		map.m_lblk = cur;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6132  		map.m_len = end - cur;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6133  		ret = ext4_map_blocks(NULL, inode, &map, 0);
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6134  		if (ret < 0)
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6135  			break;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6136  		if (ret > 0) {
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6137  			path = ext4_find_extent(inode, map.m_lblk, NULL, 0);
+b2e662cb86ca9f Li Zetao           2024-08-20  6138  			if (!IS_ERR(path)) {
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6139  				for (j = 0; j < path->p_depth; j++) {
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6140  					ext4_mb_mark_bb(inode->i_sb,
+d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6141  							path[j].p_block, 1, false);
+599ea31d13617c Xin Yin            2022-01-10  6142  					ext4_fc_record_regions(inode->i_sb, inode->i_ino,
+599ea31d13617c Xin Yin            2022-01-10  6143  							0, path[j].p_block, 1, 1);
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6144  				}
+7ff5fddaddf2cc Ye Bin             2022-09-24  6145  				ext4_free_ext_path(path);
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^
+Freed
 
-vim +/get_unaligned_le16 +165 drivers/iio/dac/ad8460.c
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6146  			}
+d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6147  			ext4_mb_mark_bb(inode->i_sb, map.m_pblk, map.m_len, false);
+599ea31d13617c Xin Yin            2022-01-10  6148  			ext4_fc_record_regions(inode->i_sb, inode->i_ino,
+599ea31d13617c Xin Yin            2022-01-10  6149  					map.m_lblk, map.m_pblk, map.m_len, 1);
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6150  		}
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6151  		cur = cur + map.m_len;
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6152  	}
+8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6153  
+92bbb922166cd7 Baokun Li          2024-08-22  6154  out:
+92bbb922166cd7 Baokun Li          2024-08-22 @6155  	ext4_free_ext_path(path);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+Double free
 
-   155	
-   156	static int ad8460_get_hvdac_word(struct ad8460_state *state, int index, int *val)
-   157	{
-   158		int ret;
-   159	
-   160		ret = regmap_bulk_read(state->regmap, AD8460_HVDAC_DATA_WORD_LOW(index),
-   161				       &state->spi_tx_buf, AD8460_DATA_BYTE_WORD_LENGTH);
-   162		if (ret)
-   163			return ret;
-   164	
- > 165		*val = get_unaligned_le16(state->spi_tx_buf);
-   166	
-   167		return ret;
-   168	}
-   169	
-   170	static int ad8460_set_hvdac_word(struct ad8460_state *state, int index, int val)
-   171	{
- > 172		put_unaligned_le16(FIELD_PREP(AD8460_DATA_BYTE_FULL_MSK, val),
-   173					     &state->spi_tx_buf);
-   174	
-   175		return regmap_bulk_write(state->regmap, AD8460_HVDAC_DATA_WORD_LOW(index),
-   176					 state->spi_tx_buf, AD8460_DATA_BYTE_WORD_LENGTH);
-   177	}
-   178	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
