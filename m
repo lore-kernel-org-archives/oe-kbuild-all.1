@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498EE1D79AC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 13:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4191DA2FD
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 14:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725455172; cv=none; b=g73pA8yn7Xj9rnvaP3ztnUxXkzqQl/nFYVZXXTyJfhKCiX/d1qp1EYTVuTOxhpMvd/0fSjCg2fMl5NiutVcDdFpB8Jo56Pz1Slk9pWGWpdcVsyqnzcmxx+02jzeO4Q8091wLjqEvBFbySLJIgejGj4oPM3eezovM4bv4bXNm1So=
+	t=1725461487; cv=none; b=kFfJDHbGifhACpUYOCaT6mml/03eOpLYLTtXQx0u8SUsiOEOZzEcXPhldrSuldn/b+fbWALP2NDWnJxkIE81Arn4HNcJpDNjE055U7RbwjpAluiFCmH1zgFrQZPOv0XfhXmJP5XnN30SeRqtx7ztMXrHs33wvPsBAE+UQcZEv/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725455172; c=relaxed/simple;
-	bh=mM1Ro031A08ZpqxLqSTFKpkQoEe2UZuBQXmTL877tWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3JSyGJxQS0EwzPWXRYToTKL2cBPLtKjkjy3vQ3zqavZaFd7ehQ9UKSzSmO1z85txrToChFnQUIXmSghemla817p1GUDfyRPSnmuWGzSEWdXwGCxsQUmAUe1WsepNNsXcX+XM2zjsEcFxwWWjw5YVccbACtfaadU/Pkwwd37jZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aMbw7i+/; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1725461487; c=relaxed/simple;
+	bh=FCAPqs4G05hrqJAmmykNRSLlAJ2YYbmgxj2kMs1AJ1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jjYOnfvAfMDu5tn1efrPvH/AXnsh/td4im1UDfgUQIKvamVC2smj3Oyj/D+5a8n75lc1VsnWZN6YBFl2HDm6L4pTGmA+smhu5nzZU8R4p32glYUSy9zsCPVNw3zul83nNgcvn4ox90SUJjJhDtphl5sH3wG3XpLsY1navNLvs8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNwMDw35; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMbw7i+/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNwMDw35"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725455170; x=1756991170;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mM1Ro031A08ZpqxLqSTFKpkQoEe2UZuBQXmTL877tWo=;
-  b=aMbw7i+/e7w3hV2fSqnVAFmwpwPDJUX8xnmCM+jmNkYxPCFIrNHtSAhj
-   PsA6zwcOYOZNDpAkQZLhk34VTlOjILVTzUC0scu7qNVJmXjw79cg0JTyn
-   SMafrvBjwQtuwqiZ2xHubUBzGNB5tr3SLR0ySqFmyuE8oizy5JCate9A9
-   EEg4Zvyvccwk8tO33DdBrD1+UJ0+bPC3lUkriy3On49GlI74W/4Lh2HzY
-   9tfVTtLlPuRgakhbgvfc8AMPiek2Cg3J9MdlZRdNPGvfSzR2Ke2Ll1at5
-   HNQA1NVOevrhkQTTEUTTnkIkDdGmYUGiPMhH3taqf+PkkDleTxP/09FA9
-   A==;
-X-CSE-ConnectionGUID: GxCB+YTfRhKnzoScf1BtAg==
-X-CSE-MsgGUID: xbhLMNDISny0xgQn09bREQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="41611953"
-X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="41611953"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:05:18 -0700
-X-CSE-ConnectionGUID: O5NtZppmScGRPLixhjd7kg==
-X-CSE-MsgGUID: jEMrTlcBR4qBKW9Pj0Tg9Q==
+  t=1725461485; x=1756997485;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=FCAPqs4G05hrqJAmmykNRSLlAJ2YYbmgxj2kMs1AJ1s=;
+  b=UNwMDw35iFWEy53mHIQ3STb6yyjRTfWkTUf4+vIOvJo1j4/hcWWa3B4p
+   YAGvcnAcMlXb5TRbcepEpuz3fV8/DiOvO9vFMs04myAC26OrDvH/uhVpq
+   dN06pfI1yZPvxEtcfYBluonKGHnFWWYjGfJOKo5iev9/z53RiB68GZV4V
+   b6cYfR57GeGcIH5Ay2SnrhzTMFnIVvYMpdxKZ24GUo7wZtPAX6WHNW0eC
+   zilsViJMTCzlvJ8b5hpnplDK6+368L6gewbaenMDl0h/Siqa4nZaDSCDX
+   BZZmzWw8UzURAcKBvZDSuGk+ixy2GiMn7p+ssa0cpTf0glLB2Pu1eA1dR
+   Q==;
+X-CSE-ConnectionGUID: Ihg0a02dQWGdHCtqqlaz2Q==
+X-CSE-MsgGUID: Ul1jZL9OQFWroo2kVcEltA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="28013822"
+X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
+   d="scan'208";a="28013822"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 07:51:24 -0700
+X-CSE-ConnectionGUID: P2ETf2G3SAaf4Pirp/QuFg==
+X-CSE-MsgGUID: LAT5FjN7Rs2XT0C+415cVQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="65308473"
+X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
+   d="scan'208";a="102712706"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Sep 2024 06:05:17 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 Sep 2024 07:51:23 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slphC-000863-2y;
-	Wed, 04 Sep 2024 13:05:14 +0000
-Date: Wed, 4 Sep 2024 21:04:30 +0800
+	id 1slrLt-0008E5-02;
+	Wed, 04 Sep 2024 14:51:21 +0000
+Date: Wed, 4 Sep 2024 22:50:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v1 2/3] pinctrl: baytrail: Replace ifdeffery by
- pm_sleep_ptr() macro
-Message-ID: <202409042054.YDMtnXfx-lkp@intel.com>
-References: <20240903170752.3564538-3-andriy.shevchenko@linux.intel.com>
+To: Alexandra Diupina <adiupina@astralinux.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.10] cifs: Fix freeing non heap memory in dup_vol()
+Message-ID: <Zthzrh91Z3w48KII@e904a05aed35>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,89 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903170752.3564538-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240904144832.28857-1-adiupina@astralinux.ru>
 
-Hi Andy,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.11-rc6 next-20240904]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-intel-Replace-ifdeffery-by-pm_sleep_ptr-macro/20240904-011041
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20240903170752.3564538-3-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 2/3] pinctrl: baytrail: Replace ifdeffery by pm_sleep_ptr() macro
-config: i386-buildonly-randconfig-002-20240904 (https://download.01.org/0day-ci/archive/20240904/202409042054.YDMtnXfx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042054.YDMtnXfx-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409042054.YDMtnXfx-lkp@intel.com/
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 5.10] cifs: Fix freeing non heap memory in dup_vol()
+Link: https://lore.kernel.org/stable/20240904144832.28857-1-adiupina%40astralinux.ru
 
-All warnings (new ones prefixed by >>):
-
-   drivers/pinctrl/intel/pinctrl-baytrail.c: In function 'byt_pinctrl_probe':
->> drivers/pinctrl/intel/pinctrl-baytrail.c:1610:49: warning: the address of 'byt_pinctrl_pm_init' will always evaluate as 'true' [-Waddress]
-    1610 |         ret = pm_sleep_ptr(byt_pinctrl_pm_init) ? byt_pinctrl_pm_init(vg) : 0;
-         |                                                 ^
-
-
-vim +1610 drivers/pinctrl/intel/pinctrl-baytrail.c
-
-  1587	
-  1588	static int byt_pinctrl_probe(struct platform_device *pdev)
-  1589	{
-  1590		const struct intel_pinctrl_soc_data *soc_data;
-  1591		struct device *dev = &pdev->dev;
-  1592		struct intel_pinctrl *vg;
-  1593		int ret;
-  1594	
-  1595		soc_data = intel_pinctrl_get_soc_data(pdev);
-  1596		if (IS_ERR(soc_data))
-  1597			return PTR_ERR(soc_data);
-  1598	
-  1599		vg = devm_kzalloc(dev, sizeof(*vg), GFP_KERNEL);
-  1600		if (!vg)
-  1601			return -ENOMEM;
-  1602	
-  1603		vg->dev = dev;
-  1604		ret = byt_set_soc_data(vg, soc_data);
-  1605		if (ret) {
-  1606			dev_err(dev, "failed to set soc data\n");
-  1607			return ret;
-  1608		}
-  1609	
-> 1610		ret = pm_sleep_ptr(byt_pinctrl_pm_init) ? byt_pinctrl_pm_init(vg) : 0;
-  1611		if (ret)
-  1612			return ret;
-  1613	
-  1614		vg->pctldesc		= byt_pinctrl_desc;
-  1615		vg->pctldesc.name	= dev_name(dev);
-  1616		vg->pctldesc.pins	= vg->soc->pins;
-  1617		vg->pctldesc.npins	= vg->soc->npins;
-  1618	
-  1619		vg->pctldev = devm_pinctrl_register(dev, &vg->pctldesc, vg);
-  1620		if (IS_ERR(vg->pctldev)) {
-  1621			dev_err(dev, "failed to register pinctrl driver\n");
-  1622			return PTR_ERR(vg->pctldev);
-  1623		}
-  1624	
-  1625		ret = byt_gpio_probe(vg);
-  1626		if (ret)
-  1627			return ret;
-  1628	
-  1629		platform_set_drvdata(pdev, vg);
-  1630	
-  1631		return 0;
-  1632	}
-  1633	
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
