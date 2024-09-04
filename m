@@ -1,62 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A1763C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13638646
 	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 01:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725413029; cv=none; b=PiJ5to/cokCCs22kIoMs1o3/vcQ/Q95vkpnoX36UEacBWEOGVYlUgT0geplyhHxg6pSlDvcbuhuwmSR6NT2xbeYJoJgV+DZi97bFqQED2RYI2+bTFZVCM8o99Hb0X3BuFy731Quh37czCoAk3PjYexkZH+hL1kXNf8KoB9dfgTY=
+	t=1725413030; cv=none; b=TkgVpUdIp6AqkwjBa70guSwEqey7WsNCTpMw/4UgONi++p+fIhYjjJvycKOSQViXgJO0HtSGB5W1U1xxHU2i1NKq3azWbgo6fIcsSrHdBeEAVVoSQLVdd1J547b/U+suiISuwCIMDI7FXI43I4cKRmMZ5ElwGmyJElq34UX4aSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725413029; c=relaxed/simple;
-	bh=lUuuxNNWrlYNSJ527a0KA/c54PV+R31myx1brEupaX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TP+T2AAZZrsbXcEmtKh0+VD39OOiRMlbKETbl8ReuwH1FHXYp4tFp9PHbeMBXUnrSPd/IX7g8i/ecHPsGIz5j5zywhHlamBBxmVgSUaWXjWEGRxI78F6CZ59jpy7epIOZtUen9kLjnWqMNW0fKBz6qci8hXH37yePiCPeBe5IMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCdK490B; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1725413030; c=relaxed/simple;
+	bh=ytbajlfPRQIsxRp3bqycC3PNNPUn4VnChiTQykosmko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WctlwzghHw1ALWvfW+97wfRhm5zFcgb159oabYWwXdDHg984p7Ul3FeolWjA8jgR0SHa+cRYgP4S48R+o52pINQOVP6hy2JaR3eC9o+O2znSY6+qzuq2Dd3Pen+dGJCByoAMWWbyVbvhp/jpS5g8femYjyZSTsGgm4CSNnaNgvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbPlwnZp; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCdK490B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dbPlwnZp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1725413028; x=1756949028;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lUuuxNNWrlYNSJ527a0KA/c54PV+R31myx1brEupaX8=;
-  b=fCdK490Bs/yzlVjP/8F5hGk11RFM9mYAY544/sRq8pFPoc5AHnmJ6HQa
-   Vx7EfzpV84vlAvqqWRlOAWvzMNzGp+EGapFTrWtajTTnNjSChqoztJ0cH
-   2WbrxzceNr/vWHsQZ0JaZij6e/thLl9w5vxls60TemirKHx41GD7sJHzH
-   +PQBVJXEc+DRr2zAMB7vJdXkHWO/8wNMVClXmCzivxfyO0yRp+QOzsV7n
-   3tI7+699zBVWEhnU9N59QG+wW/7PR6NJPYMscRCRNaN27z9zKmsVqIs+U
-   Q58IERjk81Qd6qaHfpVntMNqXtf/Xetas396ZGqSuTNuOWVlFXl2DCgVm
-   Q==;
-X-CSE-ConnectionGUID: 5MYk95KsQjmfpRvIAFeQGw==
-X-CSE-MsgGUID: K2jWDpctT1yvaiW+4VEuIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="23908514"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ytbajlfPRQIsxRp3bqycC3PNNPUn4VnChiTQykosmko=;
+  b=dbPlwnZpsoAtjtDwZvEFjIK4zcdDapsI7Z5SUHTLi3097onA+8Zd4eNs
+   yomb6vBdBbbH2Jhf+Jlsf9X+ASlG5ezNi3QeiHb20i88Miv4LjJtujiVW
+   UKbyHRPvrqjrP9LGsr9nyr2zvtZHHPqDEIMb2R+bMVLqzhuoe/2EDpQDP
+   a0HUfZVIORRYPIEAXBuYY7jyXd0DAiNktxXHaMRhkTlO5r8Kn3yniZaVJ
+   H0Eh6pxx6pmQBwYPxWRT8tYw1iAqU9TppEXPW2Qp+c6Gxf+q8sICBGgW6
+   tgzAGx/pjuMDCWONQYVRXL6Zx7WRaX6+pBAcJitLMKeoYOUa74nZcxyQw
+   w==;
+X-CSE-ConnectionGUID: JEk0vDIUR3iVkBDKZXePUA==
+X-CSE-MsgGUID: z3uGbvlFTpKdvZaKgRRZIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="26960896"
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="23908514"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 18:23:47 -0700
-X-CSE-ConnectionGUID: wDhuc6BVTwmj/biUgWVsOg==
-X-CSE-MsgGUID: QVkv+cy2Qse7gyJ+KgGUsA==
+   d="scan'208";a="26960896"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 18:23:47 -0700
+X-CSE-ConnectionGUID: hX+LpildTzO+r08PYUUHuw==
+X-CSE-MsgGUID: 62T6M5JbSM2WIObAlECFVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="95834696"
+   d="scan'208";a="102509598"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Sep 2024 18:23:45 -0700
+  by orviesa001.jf.intel.com with ESMTP; 03 Sep 2024 18:23:43 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slekH-0007Pa-0l;
+	id 1slekH-0007PY-0h;
 	Wed, 04 Sep 2024 01:23:41 +0000
-Date: Wed, 4 Sep 2024 09:22:47 +0800
+Date: Wed, 4 Sep 2024 09:22:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 35/48] include/linux/mmzone.h:1763:2: error:
- #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202409040939.f3kgP6r8-lkp@intel.com>
+To: Saeed Mahameed <saeed@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>, Gal Pressman <gal@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Yevgeny Kliteynik <kliteyn@nvidia.com>,
+	Erez Shitrit <erezsh@nvidia.com>
+Subject: Re: [net-next 15/15] net/mlx5: HWS, added API and enabled HWS support
+Message-ID: <202409040845.XQQRrH9v-lkp@intel.com>
+References: <20240903031948.78006-16-saeed@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,86 +70,201 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240903031948.78006-16-saeed@kernel.org>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   95e99651a23c1ccc103007c3b0532ff97d7c357d
-commit: 7015dd0470102719333d813a59f569b0922a53e5 [35/48] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-001-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040939.f3kgP6r8-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040939.f3kgP6r8-lkp@intel.com/reproduce)
+Hi Saeed,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Saeed-Mahameed/net-mlx5-Added-missing-definitions-in-preparation-for-HW-Steering/20240903-121951
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240903031948.78006-16-saeed%40kernel.org
+patch subject: [net-next 15/15] net/mlx5: HWS, added API and enabled HWS support
+config: i386-randconfig-063-20240903 (https://download.01.org/0day-ci/archive/20240904/202409040845.XQQRrH9v-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040845.XQQRrH9v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040939.f3kgP6r8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040845.XQQRrH9v-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_pat_arg.c:119:30: sparse: sparse: cast to restricted __be32
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_pat_arg.c:119:30: sparse: sparse: cast from restricted __be64
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_pat_arg.c:120:30: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_pat_arg.c:120:30: sparse: sparse: cast from restricted __be64
+--
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:516:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:516:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:516:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:517:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:517:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:517:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:518:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:518:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:518:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:672:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:672:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:672:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:673:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:673:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:673:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:674:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:674:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:674:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:834:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:834:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:834:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:835:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:835:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:835:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:836:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:836:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:836:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:837:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:837:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:837:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:838:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:838:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:838:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:839:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:839:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:839:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:840:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:840:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:840:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:846:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:846:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:846:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1031:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1031:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1031:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1032:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1032:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1032:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1033:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1033:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1033:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1105:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1105:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1105:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1106:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1106:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1106:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1107:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1107:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1107:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1108:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1108:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1108:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1336:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1336:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1336:13: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1386:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] res @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1386:13: sparse:     expected unsigned int [usertype] res
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1386:13: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1783:58: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_definer.c:1795:52: sparse: sparse: cast to restricted __be32
+--
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_send.c:1117:14: sparse: sparse: cast from restricted __be32
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_send.c:1117:14: sparse: sparse: restricted __be32 degrades to integer
+--
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:41:12: sparse: sparse: symbol 'mlx5hws_action_type_str' was not declared. Should it be static?
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1562:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1562:54: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1562:54: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1765:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1765:54: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1765:54: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1766:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1766:54: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:1766:54: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2165:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] vlan_hdr @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2165:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2165:52: sparse:     got restricted __be32 [usertype] vlan_hdr
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2183:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] stc_idx @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2183:17: sparse:     expected unsigned int [usertype] stc_idx
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2183:17: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2184:61: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned int [usertype] stc_idx @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2184:61: sparse:     expected restricted __be32
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2184:61: sparse:     got unsigned int [usertype] stc_idx
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2203:60: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2203:60: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2203:60: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2210:60: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2210:60: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2210:60: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2239:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2239:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2239:52: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2241:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] stc_idx @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2241:17: sparse:     expected unsigned int [usertype] stc_idx
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2241:17: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2242:61: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned int [usertype] stc_idx @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2242:61: sparse:     expected restricted __be32
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2242:61: sparse:     got unsigned int [usertype] stc_idx
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2270:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2270:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2270:52: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2272:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] stc_idx @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2272:17: sparse:     expected unsigned int [usertype] stc_idx
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2272:17: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2273:61: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned int [usertype] stc_idx @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2273:61: sparse:     expected restricted __be32
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2273:61: sparse:     got unsigned int [usertype] stc_idx
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2312:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2312:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2312:52: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2313:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2313:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2313:52: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2326:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2326:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2326:52: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2337:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2337:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2337:52: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2380:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2380:56: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_action.c:2380:56: sparse:     got restricted __be32 [usertype]
+--
+>> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_cmd.c:9:16: sparse: sparse: cast to restricted __be32
 
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
->> include/linux/mmzone.h:1763:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-    1763 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^~~~~
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     131 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     172 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     182 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     214 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     222 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     260 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:282:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
-     282 | void output_fgraph_ret_regs_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=214000465
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1209: prepare0] Error 2 shuffle=214000465
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:241: __sub-make] Error 2 shuffle=214000465
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:241: __sub-make] Error 2 shuffle=214000465
-   make: Target 'prepare' not remade because of errors.
+vim +119 drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_pat_arg.c
 
-
-vim +1763 include/linux/mmzone.h
-
-d41dee369bff3b Andy Whitcroft     2005-06-23  1758  
-835c134ec4dd75 Mel Gorman         2007-10-16  1759  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1760  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1761  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1762  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1763  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1764  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1765  
-
-:::::: The code at line 1763 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02   98  
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02   99  static bool mlx5hws_pat_compare_pattern(int cur_num_of_actions,
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  100  					__be64 cur_actions[],
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  101  					int num_of_actions,
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  102  					__be64 actions[])
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  103  {
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  104  	int i;
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  105  
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  106  	if (cur_num_of_actions != num_of_actions)
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  107  		return false;
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  108  
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  109  	for (i = 0; i < num_of_actions; i++) {
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  110  		u8 action_id =
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  111  			MLX5_GET(set_action_in, &actions[i], action_type);
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  112  
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  113  		if (action_id == MLX5_MODIFICATION_TYPE_COPY ||
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  114  		    action_id == MLX5_MODIFICATION_TYPE_ADD_FIELD) {
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  115  			if (actions[i] != cur_actions[i])
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  116  				return false;
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  117  		} else {
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  118  			/* Compare just the control, not the values */
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02 @119  			if ((__be32)actions[i] !=
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  120  			    (__be32)cur_actions[i])
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  121  				return false;
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  122  		}
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  123  	}
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  124  
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  125  	return true;
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  126  }
+fb3c1a8b875d02 Yevgeny Kliteynik 2024-09-02  127  
 
 -- 
 0-DAY CI Kernel Test Service
