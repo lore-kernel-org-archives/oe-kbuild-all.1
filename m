@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F171DFE1C;
-	Wed,  4 Sep 2024 16:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92A31E009E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 16:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725466894; cv=none; b=Fl2/CWeaIk+Y5870p4//69DFSH3L6Tu1HrCzego3H7scMb3FGOHQr5tV9UntsKSOFNcNhmRwHiV8IWgqMdUF/3cyTV5zVMQ+zg5QvaJeE2DhUcwT08TvuYqA0xwB9SKFxJAvbdpM0qIq7UcxvpFlK4+83aWcSizp7YxneTdL5hk=
+	t=1725468095; cv=none; b=G4yCx6ThWayetHl4ytAmbJvXeo+eBrbG9jzCCAO4m6ctgvtxuKV4mA0fbFJuxGR0+RHWBXWGgPIdb2jGBLHZQy1mgaCchlbTd/nJpodtg7eHQpMEdevvfmQzGQlDfdvu73QXVDfSZuTdWsQltAFIHG9EAXEQVtMxEwdLarS8qNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725466894; c=relaxed/simple;
-	bh=A5zwu4FYrlyGiAmGJyTVND7rU4XlLqBS2QrueIEJW5g=;
+	s=arc-20240116; t=1725468095; c=relaxed/simple;
+	bh=4Db/ImwLnXpeUW/xVwkUAniKVOiSFfoq+63dm+ODGmo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M0xUr+t0vnOIUcMSY6lFU7P+6GGUAtAsPo5EYC0tD4osw1VzJ6RusUX1NwFohgwsONQIjaYqxL+THFXLFg8j8vof1qGqeR6TaxhbnpQKMP28+N5qCR2uOnxoGA/35x1Bu2glL4+cMZNN+mUrS1MZEEJNV2ArLzfwugNQQLnbt90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXUuBw/8; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=mIpFMn2r7GizK3uxq8AIbCkpNcJBv/6m3N/sg8k/335SGmxb8Ppvp1xZC6GbVULHsmU8llIKFIIXpbVYPkQqk7nD+5dCI8guM1HooNGgPqop0X7V3/weKIuRSS/SFm6+ybfYDrccwvSXKyPqpvzY8H0FcxoUBzhCwZUDbru+r1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E21E5Bhu; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXUuBw/8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E21E5Bhu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725466892; x=1757002892;
+  t=1725468093; x=1757004093;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=A5zwu4FYrlyGiAmGJyTVND7rU4XlLqBS2QrueIEJW5g=;
-  b=SXUuBw/8ZCmOkq5D4Agw/uNf56fAMqGAM5j+1eVp60DsN4h4tyZO7v8S
-   m5TiVlSLrNrA8jwWLT/e9WDZdHwHLgDzrkA68dIuaygxd5LxI5CPuU8dP
-   YVuoHRJW5676L8IwpAdTJgjEb42siEtXvLipBCLKwCCGvuolt42fcn9W8
-   +DTo18NNqT2YE60Tb0iPvWbqmeaMZ0ugFBSiD8ujYWbB/gVsMPNr1tmRE
-   IXZctia+C13c02UYQkvt8Pz9KblZSdb6hU/+O4j2OEZ9Q2ctrQl3UzLNZ
-   bEXghENA/wDuPGKMF7zVCsAWIYDQs4L7iJXr7gnxqTgAMXTyCvQRwuBXw
-   g==;
-X-CSE-ConnectionGUID: jdFPIPYmTl2s1m2p9cTjUQ==
-X-CSE-MsgGUID: baYUzWj7RjiNHk9xt5ECIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="41641270"
+  bh=4Db/ImwLnXpeUW/xVwkUAniKVOiSFfoq+63dm+ODGmo=;
+  b=E21E5BhuM8fxToL1Bktwnf4CjNdCtUSUIZ959jZmgO1UiWYw5WHz1Bqh
+   DQvNck/pKGSeIPpbI8QRC2DiO4PXEGw4x/fkNr76/WedCY6Vly8PcM0Wi
+   h2NumJIQvzJ3ivSf8CC+vca7F7WxRXh3Pimp9I0oaqPLyWigfYMOR+5Ax
+   OFxQ4ZQW+jez7tIg561yrgMRRdMp5uUjoCIuPwahWi5XlLOf5ivDKd1RE
+   fnw0n4McqTI9/nJm1Y6VWQ93r4001AOMpSmNfs7XwI3NUNA0YC+Qj2/UA
+   Unp4mmG8riJJieqE2Ae/8tEShTrqhUKafQAMjTMBb/OtpShE3gmrJtczQ
+   Q==;
+X-CSE-ConnectionGUID: OVKNcoiqTtqfD3RqZ7aOIQ==
+X-CSE-MsgGUID: QP9iZtQGTsSWJpVm1yA6fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="46673576"
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="41641270"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 09:21:32 -0700
-X-CSE-ConnectionGUID: ZBMehz5qQqqwaLmPdRGgtg==
-X-CSE-MsgGUID: M6tDGGtyQP63oe5kI/XLnw==
+   d="scan'208";a="46673576"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 09:41:31 -0700
+X-CSE-ConnectionGUID: BqP0IcUcQr2pZ9bZ/iF+oQ==
+X-CSE-MsgGUID: mO4xEq/3TaWoMyNhER9VQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="70211918"
+   d="scan'208";a="70123600"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Sep 2024 09:21:29 -0700
+  by orviesa003.jf.intel.com with ESMTP; 04 Sep 2024 09:41:29 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slsl4-0008Jr-2X;
-	Wed, 04 Sep 2024 16:21:26 +0000
-Date: Thu, 5 Sep 2024 00:20:58 +0800
+	id 1slt4S-0008L9-0w;
+	Wed, 04 Sep 2024 16:41:28 +0000
+Date: Thu, 5 Sep 2024 00:41:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hongbo Li <lihongbo22@huawei.com>, adrian.hunter@intel.com,
-	ulf.hansson@linaro.org, kees@kernel.org, gustavoars@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-mmc@vger.kernel.org, linux-hardening@vger.kernel.org,
-	lihongbo22@huawei.com
-Subject: Re: [PATCH -next] mmc: sdhci-cadence: Annotate struct
- sdhci_cdns_phy_param with __counted_by()
-Message-ID: <202409042358.dwEQMShp-lkp@intel.com>
-References: <20240904014636.2033138-1-lihongbo22@huawei.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 2/3] cxl: Calculate region bandwidth of targets with
+ shared upstream link
+Message-ID: <202409050030.MPrmHP6n-lkp@intel.com>
+References: <20240904001316.1688225-3-dave.jiang@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,62 +63,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240904014636.2033138-1-lihongbo22@huawei.com>
+In-Reply-To: <20240904001316.1688225-3-dave.jiang@intel.com>
 
-Hi Hongbo,
+Hi Dave,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20240903]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.11-rc6 next-20240904]
+[cannot apply to cxl/next cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/mmc-sdhci-cadence-Annotate-struct-sdhci_cdns_phy_param-with-__counted_by/20240904-094207
-base:   next-20240903
-patch link:    https://lore.kernel.org/r/20240904014636.2033138-1-lihongbo22%40huawei.com
-patch subject: [PATCH -next] mmc: sdhci-cadence: Annotate struct sdhci_cdns_phy_param with __counted_by()
-config: arm-randconfig-003-20240904 (https://download.01.org/0day-ci/archive/20240904/202409042358.dwEQMShp-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042358.dwEQMShp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Jiang/cxl-Preserve-the-CDAT-access_coordinate-for-an-endpoint/20240904-081534
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240904001316.1688225-3-dave.jiang%40intel.com
+patch subject: [PATCH v8 2/3] cxl: Calculate region bandwidth of targets with shared upstream link
+config: loongarch-randconfig-r071-20240904 (https://download.01.org/0day-ci/archive/20240905/202409050030.MPrmHP6n-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050030.MPrmHP6n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409042358.dwEQMShp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409050030.MPrmHP6n-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/mmc/host/sdhci-cadence.c:11:
-   In file included from include/linux/mmc/host.h:19:
-   In file included from include/linux/blk-crypto-profile.h:9:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2202:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/mmc/host/sdhci-cadence.c:76:56: error: use of undeclared identifier 'count'
-      76 |         struct sdhci_cdns_phy_param phy_params[] __counted_by(count);
-         |                                                               ^
-   1 warning and 1 error generated.
+>> drivers/cxl/core/cdat.c:975: warning: Function parameter or struct member 'cxlr' not described in 'cxl_region_shared_upstream_bandwidth_update'
+>> drivers/cxl/core/cdat.c:975: warning: expecting prototype for cxl_region_shared_upstream_perf_update(). Prototype was for cxl_region_shared_upstream_bandwidth_update() instead
 
 
-vim +/count +76 drivers/mmc/host/sdhci-cadence.c
+vim +975 drivers/cxl/core/cdat.c
 
-    67	
-    68	struct sdhci_cdns_priv {
-    69		void __iomem *hrs_addr;
-    70		void __iomem *ctl_addr;	/* write control */
-    71		spinlock_t wrlock;	/* write lock */
-    72		bool enhanced_strobe;
-    73		void (*priv_writel)(struct sdhci_cdns_priv *priv, u32 val, void __iomem *reg);
-    74		struct reset_control *rst_hw;
-    75		unsigned int nr_phy_params;
-  > 76		struct sdhci_cdns_phy_param phy_params[] __counted_by(count);
-    77	};
-    78	
+   965	
+   966	/**
+   967	 * cxl_region_shared_upstream_perf_update - Recalculate the bandwidth for the region
+   968	 * @cxl_region: the cxl region to recalculate
+   969	 *
+   970	 * The function walks the topology from bottom up and calculates the bandwidth. It
+   971	 * starts at the endpoints, processes at the switches if any, processes at the rootport
+   972	 * level, at the host bridge level, and finally aggregates at the region.
+   973	 */
+   974	void cxl_region_shared_upstream_bandwidth_update(struct cxl_region *cxlr)
+ > 975	{
+   976		struct xarray *working_xa;
+   977		int root_count = 0;
+   978		bool is_root;
+   979		int rc;
+   980	
+   981		lockdep_assert_held(&cxl_dpa_rwsem);
+   982	
+   983		struct xarray *usp_xa __free(free_perf_xa) =
+   984			kzalloc(sizeof(*usp_xa), GFP_KERNEL);
+   985	
+   986		if (!usp_xa)
+   987			return;
+   988	
+   989		xa_init(usp_xa);
+   990	
+   991		/* Collect bandwidth data from all the endpoints. */
+   992		for (int i = 0; i < cxlr->params.nr_targets; i++) {
+   993			struct cxl_endpoint_decoder *cxled = cxlr->params.targets[i];
+   994	
+   995			is_root = false;
+   996			rc = cxl_endpoint_gather_bandwidth(cxlr, cxled, usp_xa, &is_root);
+   997			if (rc)
+   998				return;
+   999			root_count += is_root;
+  1000		}
+  1001	
+  1002		/* Detect asymmetric hierachy with some direct attached endpoints. */
+  1003		if (root_count && root_count != cxlr->params.nr_targets) {
+  1004			dev_dbg(&cxlr->dev,
+  1005				"Asymmetric hierachy detected, bandwidth not updated\n");
+  1006			return;
+  1007		}
+  1008	
+  1009		/*
+  1010		 * Walk up one or more switches to deal with the bandwidth of the
+  1011		 * switches if they exist. Endpoints directly attached to RPs skip
+  1012		 * over this part.
+  1013		 */
+  1014		if (!root_count) {
+  1015			do {
+  1016				working_xa = cxl_switch_gather_bandwidth(cxlr, usp_xa,
+  1017									 &is_root);
+  1018				if (IS_ERR(working_xa))
+  1019					return;
+  1020				free_perf_xa(usp_xa);
+  1021				usp_xa = working_xa;
+  1022			} while (!is_root);
+  1023		}
+  1024	
+  1025		/* Handle the bandwidth at the root port of the hierachy */
+  1026		working_xa = cxl_rp_gather_bandwidth(usp_xa);
+  1027		if (IS_ERR(working_xa))
+  1028			return;
+  1029		free_perf_xa(usp_xa);
+  1030		usp_xa = working_xa;
+  1031	
+  1032		/* Handle the bandwidth at the host bridge of the hierachy */
+  1033		working_xa = cxl_hb_gather_bandwidth(usp_xa);
+  1034		if (IS_ERR(working_xa))
+  1035			return;
+  1036		free_perf_xa(usp_xa);
+  1037		usp_xa = working_xa;
+  1038	
+  1039		/*
+  1040		 * Aggregate all the bandwidth collected per CFMWS (ACPI0017) and
+  1041		 * update the region bandwidth with the final calculated values.
+  1042		 */
+  1043		cxl_region_update_bandwidth(cxlr, usp_xa);
+  1044	}
+  1045	
 
 -- 
 0-DAY CI Kernel Test Service
