@@ -1,180 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31121CCEE3;
-	Wed,  4 Sep 2024 09:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A531D0DD8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 11:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725443891; cv=none; b=Y5bGND/Zz02D2o3fndlMyJO0L+e8TR/N0ovfe3Du5A7GDUWbQqNhC2TS2EW2+ERt2ZXSD/4wrR1WzrfiXS/lZMHxndZhMTQtplWMCymjMC272BJtJoxRFRLSlVxZ29OQ/uUHrSxQaVD4qA6PF/y/krT1oOI1B0slROQuJv+rTVc=
+	t=1725449354; cv=none; b=Gw/h77Ssutn2K+Fbh6nO6BoyZfn5DrhM3IjZSIsELDhqLUkj5SxQ8UPKMYjmP4ecy2+fgk/rC6nClvoOr/Q25rpAtDNEGcA2K+Oe7MQWVZBjNbdS1cj5Q3mm37kCf3t7UBM2WcOaKnGmW4Ac8oGjImo8VzChNhEcEw20XUazGgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725443891; c=relaxed/simple;
-	bh=K3XRxhgvvaJuzWtw7fw9RYQGpCxvwFPd0ZFjfLVadAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WmtU224+HX+azZ4dzYdykpvmTnLC3DDI//wP9/s7/gt8G5fV4r/dRzTPFjVfvggtS/d8JNQ4Du5r/2TVy3n4XMjXWiBSK1RzLzSLmKFh274+rjat75RjpFK3ixQHkQTuCl0Qk+wjWy/sPmwFOVPi8xPHT52bxZ28NZeg2MFcAgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DM4rbP5T; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1725449354; c=relaxed/simple;
+	bh=UcJbtajtAu7xfO2C1En1yneSh/P4qUKun2eqY0A5TJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4x/gV9eAJvV1lEFI7XrT5lqtP4VPawOepleijVZqc9qBoL+vjbeD3ydmXvYowURShznsKCpINaZQoumvAnB2rkiJecwM1ZNHVncrZBtneeFw3vpIT5Vd0v+7uP251UsRiGJqKJgiBrjajaHCQPpxV+tZlxaDa001XxAebzd32Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2nCEo0t; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DM4rbP5T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2nCEo0t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725443890; x=1756979890;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=K3XRxhgvvaJuzWtw7fw9RYQGpCxvwFPd0ZFjfLVadAs=;
-  b=DM4rbP5T/7OeV6DkDLbdqvaLOowyiAOSQW9YfdrAFHnZMG14RCQRIzvy
-   QFMP8H0DEO4RWSuMCBOdZy6LuDKLlnQ33QsEH0qJJKVF0MihVRcVzV+GH
-   bNiugb6t826xxNdb0FMTYn4ucbo+Qiuw0drF9jMjvqfcmMK1iq+EO7Pa1
-   34t2U8/KnpIGrrnAgBoORQOvSZrQswbSu3Y4OwtWmXc0usgORTey9k6HO
-   gJWQNySRMZrkYnd8jvhXfmFEcS1obzYQUGDvT++KApMdAhcOviBHSlpxh
-   deb2nJ97OnzIYdMMZo2Js3iLjMXyC706TOCE0mExqNBxigdPsQHxlJZI8
-   w==;
-X-CSE-ConnectionGUID: rC5adF5MRTmig1W88JXkaQ==
-X-CSE-MsgGUID: ZrurWJ4qQAiIKpUphYSBZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="27854930"
+  t=1725449352; x=1756985352;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UcJbtajtAu7xfO2C1En1yneSh/P4qUKun2eqY0A5TJ8=;
+  b=T2nCEo0tbXf8VEFO9mpxWFZLnDTQ0tBXJdRehI59oouNDgB45trX4t9g
+   5xre0mcucvS8ckTkwEhNUTJ784EDbjvi5Xxy0oZ3MSJbCKXrEIC1ikxdB
+   qp1tTfnOl58Pu5yLZ958S4eWfx7MIclgi+izyKysifSKFsQCHiIIMOLOq
+   oE6Fbo+qqev7Ec8NO438ODCTJ75/Hz2gf6PNNlDe/4F/6ZMBnifd/VKUW
+   vH+L3NTJyEUlKmmZ2Iud0CFFIJZVNriZ/RkSBbfV3uGFDNQI37IBS7GXO
+   jt/+TFjBFzmPZiG28SYWPm66N38INYnE7aBwDWbTc7dGXZG/Nms+kcbl9
+   g==;
+X-CSE-ConnectionGUID: 5KePxEPvSZKYHKbxp9eAhA==
+X-CSE-MsgGUID: IUL2/sHKQjKKa9FcDRbRlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24212043"
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="27854930"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 02:58:10 -0700
-X-CSE-ConnectionGUID: 39+CWM22SpysaoMoNPrIfw==
-X-CSE-MsgGUID: Evx1CLRsQjKdayKCAKstIw==
+   d="scan'208";a="24212043"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 04:29:12 -0700
+X-CSE-ConnectionGUID: qqmtXCO0Qzi35QItXG8XtQ==
+X-CSE-MsgGUID: cXKirvEwS7qMLbZ5Zt3WPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="64901217"
+   d="scan'208";a="69405163"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Sep 2024 02:58:08 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 04 Sep 2024 04:29:10 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slmm5-0007qA-0z;
-	Wed, 04 Sep 2024 09:58:05 +0000
-Date: Wed, 4 Sep 2024 17:57:08 +0800
+	id 1sloCB-0007uI-2x;
+	Wed, 04 Sep 2024 11:29:07 +0000
+Date: Wed, 4 Sep 2024 19:28:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [driver-core:class_cleanup 33/42]
- drivers/bus/fsl-mc/fsl-mc-bus.c:412:5: error: initializing 'struct
- device_type *' with an expression of type 'typeof (fsl_mc_bus_dpsw_type) *'
- (aka 'const struct device_type *') discards qualifiers
-Message-ID: <202409041701.8NfSraMa-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v1 3/3] pinctrl: cherryview: Replace ifdeffery by
+ pm_sleep_ptr() macro
+Message-ID: <202409041939.VrJGEW4H-lkp@intel.com>
+References: <20240903170752.3564538-4-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240903170752.3564538-4-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git class_cleanup
-head:   95b7bd9f5490de7ff7cfb0c4137a3c22cf3de1bf
-commit: c191af695e7dd0aac49c5b70e0bdfd0cfaac5a24 [33/42] bus: fsl-mc: constify the struct device_type usage
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240904/202409041701.8NfSraMa-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409041701.8NfSraMa-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next linus/master v6.11-rc6 next-20240904]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-intel-Replace-ifdeffery-by-pm_sleep_ptr-macro/20240904-011041
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20240903170752.3564538-4-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 3/3] pinctrl: cherryview: Replace ifdeffery by pm_sleep_ptr() macro
+config: x86_64-randconfig-r073-20240904 (https://download.01.org/0day-ci/archive/20240904/202409041939.VrJGEW4H-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409041939.VrJGEW4H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409041701.8NfSraMa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409041939.VrJGEW4H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/bus/fsl-mc/fsl-mc-bus.c:409:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     409 |                 { &fsl_mc_bus_dprc_type, "dprc" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:410:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpni_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     410 |                 { &fsl_mc_bus_dpni_type, "dpni" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:411:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpio_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     411 |                 { &fsl_mc_bus_dpio_type, "dpio" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:412:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpsw_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     412 |                 { &fsl_mc_bus_dpsw_type, "dpsw" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:413:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpbp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     413 |                 { &fsl_mc_bus_dpbp_type, "dpbp" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:414:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpcon_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     414 |                 { &fsl_mc_bus_dpcon_type, "dpcon" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:415:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmcp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     415 |                 { &fsl_mc_bus_dpmcp_type, "dpmcp" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:416:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmac_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     416 |                 { &fsl_mc_bus_dpmac_type, "dpmac" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:417:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprtc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     417 |                 { &fsl_mc_bus_dprtc_type, "dprtc" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:418:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpseci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     418 |                 { &fsl_mc_bus_dpseci_type, "dpseci" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:419:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmux_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     419 |                 { &fsl_mc_bus_dpdmux_type, "dpdmux" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:420:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdcei_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     420 |                 { &fsl_mc_bus_dpdcei_type, "dpdcei" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:421:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpaiop_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     421 |                 { &fsl_mc_bus_dpaiop_type, "dpaiop" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:422:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     422 |                 { &fsl_mc_bus_dpci_type, "dpci" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:423:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmai_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     423 |                 { &fsl_mc_bus_dpdmai_type, "dpdmai" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:424:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdbg_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     424 |                 { &fsl_mc_bus_dpdbg_type, "dpdbg" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   16 errors generated.
+   drivers/pinctrl/intel/pinctrl-cherryview.c: In function 'chv_pinctrl_probe':
+>> drivers/pinctrl/intel/pinctrl-cherryview.c:1657:49: warning: the address of 'chv_pinctrl_pm_init' will always evaluate as 'true' [-Waddress]
+    1657 |         ret = pm_sleep_ptr(chv_pinctrl_pm_init) ? chv_pinctrl_pm_init(pctrl) : 0;
+         |                                                 ^
 
 
-vim +412 drivers/bus/fsl-mc/fsl-mc-bus.c
+vim +1657 drivers/pinctrl/intel/pinctrl-cherryview.c
 
-e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08  402  
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  403  static struct device_type *fsl_mc_get_device_type(const char *type)
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  404  {
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  405  	static const struct {
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  406  		struct device_type *dev_type;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  407  		const char *type;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  408  	} dev_types[] = {
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  409  		{ &fsl_mc_bus_dprc_type, "dprc" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  410  		{ &fsl_mc_bus_dpni_type, "dpni" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  411  		{ &fsl_mc_bus_dpio_type, "dpio" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @412  		{ &fsl_mc_bus_dpsw_type, "dpsw" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @413  		{ &fsl_mc_bus_dpbp_type, "dpbp" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @414  		{ &fsl_mc_bus_dpcon_type, "dpcon" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @415  		{ &fsl_mc_bus_dpmcp_type, "dpmcp" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  416  		{ &fsl_mc_bus_dpmac_type, "dpmac" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  417  		{ &fsl_mc_bus_dprtc_type, "dprtc" },
-e9158b35ef9afb drivers/bus/fsl-mc/fsl-mc-bus.c         Horia Geantă    2018-09-12  418  		{ &fsl_mc_bus_dpseci_type, "dpseci" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @419  		{ &fsl_mc_bus_dpdmux_type, "dpdmux" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17  420  		{ &fsl_mc_bus_dpdcei_type, "dpdcei" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17  421  		{ &fsl_mc_bus_dpaiop_type, "dpaiop" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17  422  		{ &fsl_mc_bus_dpci_type, "dpci" },
-a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @423  		{ &fsl_mc_bus_dpdmai_type, "dpdmai" },
-e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08  424  		{ &fsl_mc_bus_dpdbg_type, "dpdbg" },
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  425  		{ NULL, NULL }
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  426  	};
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  427  	int i;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  428  
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  429  	for (i = 0; dev_types[i].dev_type; i++)
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  430  		if (!strcmp(dev_types[i].type, type))
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  431  			return dev_types[i].dev_type;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  432  
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  433  	return NULL;
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  434  }
-47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  435  
-
-:::::: The code at line 412 was first introduced by commit
-:::::: 47433b630b7b30d0daa360c64308c0f4c9632986 staging: fsl-mc: add support for device type
-
-:::::: TO: Laurentiu Tudor <laurentiu.tudor@nxp.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  1620	
+  1621	static int chv_pinctrl_probe(struct platform_device *pdev)
+  1622	{
+  1623		const struct intel_pinctrl_soc_data *soc_data;
+  1624		struct intel_community_context *cctx;
+  1625		struct intel_community *community;
+  1626		struct device *dev = &pdev->dev;
+  1627		struct intel_pinctrl *pctrl;
+  1628		acpi_status status;
+  1629		unsigned int i;
+  1630		int ret, irq;
+  1631	
+  1632		soc_data = intel_pinctrl_get_soc_data(pdev);
+  1633		if (IS_ERR(soc_data))
+  1634			return PTR_ERR(soc_data);
+  1635	
+  1636		pctrl = devm_kzalloc(dev, sizeof(*pctrl), GFP_KERNEL);
+  1637		if (!pctrl)
+  1638			return -ENOMEM;
+  1639	
+  1640		pctrl->dev = dev;
+  1641		pctrl->soc = soc_data;
+  1642	
+  1643		pctrl->ncommunities = pctrl->soc->ncommunities;
+  1644		pctrl->communities = devm_kmemdup(dev, pctrl->soc->communities,
+  1645						  pctrl->ncommunities * sizeof(*pctrl->communities),
+  1646						  GFP_KERNEL);
+  1647		if (!pctrl->communities)
+  1648			return -ENOMEM;
+  1649	
+  1650		community = &pctrl->communities[0];
+  1651		community->regs = devm_platform_ioremap_resource(pdev, 0);
+  1652		if (IS_ERR(community->regs))
+  1653			return PTR_ERR(community->regs);
+  1654	
+  1655		community->pad_regs = community->regs + FAMILY_PAD_REGS_OFF;
+  1656	
+> 1657		ret = pm_sleep_ptr(chv_pinctrl_pm_init) ? chv_pinctrl_pm_init(pctrl) : 0;
+  1658		if (ret)
+  1659			return ret;
+  1660	
+  1661		pctrl->context.communities = devm_kcalloc(dev, pctrl->soc->ncommunities,
+  1662							  sizeof(*pctrl->context.communities),
+  1663							  GFP_KERNEL);
+  1664		if (!pctrl->context.communities)
+  1665			return -ENOMEM;
+  1666	
+  1667		cctx = &pctrl->context.communities[0];
+  1668		for (i = 0; i < ARRAY_SIZE(cctx->intr_lines); i++)
+  1669			cctx->intr_lines[i] = CHV_INVALID_HWIRQ;
+  1670	
+  1671		irq = platform_get_irq(pdev, 0);
+  1672		if (irq < 0)
+  1673			return irq;
+  1674	
+  1675		pctrl->pctldesc = chv_pinctrl_desc;
+  1676		pctrl->pctldesc.name = dev_name(dev);
+  1677		pctrl->pctldesc.pins = pctrl->soc->pins;
+  1678		pctrl->pctldesc.npins = pctrl->soc->npins;
+  1679	
+  1680		pctrl->pctldev = devm_pinctrl_register(dev, &pctrl->pctldesc, pctrl);
+  1681		if (IS_ERR(pctrl->pctldev)) {
+  1682			dev_err(dev, "failed to register pinctrl driver\n");
+  1683			return PTR_ERR(pctrl->pctldev);
+  1684		}
+  1685	
+  1686		ret = chv_gpio_probe(pctrl, irq);
+  1687		if (ret)
+  1688			return ret;
+  1689	
+  1690		status = acpi_install_address_space_handler(ACPI_HANDLE(dev),
+  1691						community->acpi_space_id,
+  1692						chv_pinctrl_mmio_access_handler,
+  1693						NULL, pctrl);
+  1694		if (ACPI_FAILURE(status))
+  1695			dev_err(dev, "failed to install ACPI addr space handler\n");
+  1696	
+  1697		platform_set_drvdata(pdev, pctrl);
+  1698	
+  1699		return 0;
+  1700	}
+  1701	
 
 -- 
 0-DAY CI Kernel Test Service
