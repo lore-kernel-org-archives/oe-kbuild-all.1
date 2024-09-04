@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49CB1D5893
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 12:23:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987671D79B9;
+	Wed,  4 Sep 2024 12:23:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725452598; cv=none; b=gvgeOppk6e1ydCeNyGSSize8MfUdYZ03vJSl/4OIWnGA0gL/zgNj57EfJ7kz67nyxFPWWxvMAsIstgvKCTduavpLra9DKN5xt+vPBXd8NEOgDbfM8HdYE7TM3iNUfkm+4zTLAxKIySjrn2mVc2j3nbP58u/E+KIi047+8cNroms=
+	t=1725452600; cv=none; b=IGw2sWeqJHe4Ak4rwf0VDK9OTNddASUwjO2AnF07w9pdBpJ+r+REgugZelBaASjWJakuRSy+9+Z8SUAaw5htBDQ7T4r2GimUpmjTQ8or/azhgRtOGiUoUO3mFgrwT7vjRPvFyGXcY8G1DQQtgWepiOqnelA9+Qrfm839mFmKUBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725452598; c=relaxed/simple;
-	bh=IUdSlEMBMojYAGKyXkfH9VR//PA6pfTuHW/iFtdm16I=;
+	s=arc-20240116; t=1725452600; c=relaxed/simple;
+	bh=M0ozf0vKJvzW1V6zA+R28xNbf6MevKQfKnn5b3I10PQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PSFb6MSraZKJzlat276OigTAwgzUkDYDmLrC39FYBkZhXsidcjy/Lkv8Ch6Sbz3cDRz6dMz79f4CnOxf/DkuJQaQWudiwHu+ilTOals4Ray5Ve0slnfBmgHmBTLPlqK1HcitBs9zaM8mxjJn47mnLA0XpcvX9hlMQ7csLkqOcuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j+UOGhVn; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=qooB4+7h1az7GPuzaaUSn/dT/yfeS1Ei93B10pwjU/KJ9RHM45fU8IWwZ47MQnZyW3WbvJ93i6vsA5la2bT3S8GZESRsesqfHOvqyBkVNnb1LmgZ7aeRpWsgWqNI4SL3acnxY19sfc+Z1DwvcwOqoa9ihEbcpiao1bPnLpLRwkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtxYHtCl; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+UOGhVn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtxYHtCl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725452597; x=1756988597;
+  t=1725452599; x=1756988599;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IUdSlEMBMojYAGKyXkfH9VR//PA6pfTuHW/iFtdm16I=;
-  b=j+UOGhVnMN2nWKavjhDPVosJ27FVRtKO4+5fsgtAkrLOhbhgnE5ZaJeu
-   IflXYh4CA6FkPYlzj1NVdnG93st8PBy2gu7dLZJJA/tMpmaDIMDE+HBzH
-   oUaf0k7X2sSO/NrbuQIvQURLSx+ZRgvDkqDjjHsniEl2GeWkTXbaxs6Bj
-   fcK1HTidyQLulbtpTL+VHx/vUl9BZHkm4a7fnkealGo9YCNJaHWm0WAjp
-   ufvQPxuxwsLrwjVKKY59In2B8jw23ZOS4hJy/dtl8PNlSZ+yCiH+NIVd0
-   oSStw3BxGPzeXw6MtcNgM+Lp+/ggnXuwXQP23ntw0lS6Tc2VNUegNteNB
-   A==;
-X-CSE-ConnectionGUID: Lx7jvI+FTaamdTNY3jHcLA==
-X-CSE-MsgGUID: 6SxvYyD9TaegmqGcA6JWFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="27871258"
+  bh=M0ozf0vKJvzW1V6zA+R28xNbf6MevKQfKnn5b3I10PQ=;
+  b=QtxYHtClIkIsgACi6ZxXTqLQ3fpVQUaUUgiZjb6DdbFJ/6fEjWcgm12b
+   6veA2rtVmqPiECS9s82h3ks+K1H2eNexceL+n8eqRQ2bSLTLIMFz08CGO
+   t21CWlvrt7vrNoEuvmDEdxUi/X0PQ/WMZ8/Jsjj92guwZUMf+JJd9l/9H
+   /5g/WTwyBQ0H8V66XxNZE9l2pLbUZ107JSJKaPIwIrtZic0QxcA4G8+eN
+   0g1b0e6Vob5X7fqrMOXLISAzCi5xpJ+XJfMNaR9dI/5Lqij/QKAgeDE4i
+   teadnMBgk8tTMqNt/X2lxn+sQ3AqU3mBzqYfEL2nnFwA91PPnsYH+iqCI
+   Q==;
+X-CSE-ConnectionGUID: z2ZQFeFLQWq2Bap27iL6Uw==
+X-CSE-MsgGUID: CGbQhKNBTKezKRfFKVJkzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="27871261"
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="27871258"
+   d="scan'208";a="27871261"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 05:23:16 -0700
-X-CSE-ConnectionGUID: gnleR+6XTPabdBIEg0TtKw==
-X-CSE-MsgGUID: xWEW2gIFSoKuwMbtFha/fg==
+X-CSE-ConnectionGUID: SVpZyUpsRjSdVF0JCxSe3A==
+X-CSE-MsgGUID: xPXxVzE4TIuTNYjB/7L3Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; 
-   d="scan'208";a="65493950"
+   d="scan'208";a="65493951"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 04 Sep 2024 05:23:15 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slp2W-00082F-2z;
+	id 1slp2W-00082B-2r;
 	Wed, 04 Sep 2024 12:23:12 +0000
-Date: Wed, 4 Sep 2024 20:22:57 +0800
+Date: Wed, 4 Sep 2024 20:22:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 5413/9291] otx_cptvf_algs.c:undefined reference
- to `crypto_authenc_extractkeys'
-Message-ID: <202409042013.gT2ZI4wR-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:execmem/x86-rox/v2 3/8]
+ arch/powerpc/mm/nohash/tlb_64e.c:27:10: fatal error: 'asm/code-patching.h'
+ file not found
+Message-ID: <202409042059.ifQeFXpV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +64,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fdadd93817f124fd0ea6ef251d4a1068b7feceba
-commit: 311eea7e37c4c0b44b557d0c100860a03b4eab65 [5413/9291] crypto: octeontx - Fix authenc setkey
-config: s390-randconfig-c004-20220327 (https://download.01.org/0day-ci/archive/20240904/202409042013.gT2ZI4wR-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042013.gT2ZI4wR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/x86-rox/v2
+head:   8fdab5dd4adef6cc89ea5a5e1c585379cfb8a69c
+commit: 1cdd83654dac8e8085ba0a5822a54027fb9fa6de [3/8] asm-generic: introduce text-patching.h
+config: powerpc64-randconfig-003-20240904 (https://download.01.org/0day-ci/archive/20240904/202409042059.ifQeFXpV-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042059.ifQeFXpV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409042013.gT2ZI4wR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409042059.ifQeFXpV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/crypto/marvell/octeontx/otx_cptvf_algs.o: in function `otx_cpt_aead_cbc_aes_sha_setkey':
->> otx_cptvf_algs.c:(.text+0x1daa): undefined reference to `crypto_authenc_extractkeys'
-   s390-linux-ld: drivers/crypto/marvell/octeontx/otx_cptvf_algs.o: in function `otx_cpt_aead_ecb_null_sha_setkey':
-   otx_cptvf_algs.c:(.text+0x1e12): undefined reference to `crypto_authenc_extractkeys'
+   In file included from arch/powerpc/mm/nohash/tlb_64e.c:19:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/mm/nohash/tlb_64e.c:27:10: fatal error: 'asm/code-patching.h' file not found
+      27 | #include <asm/code-patching.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   4 warnings and 1 error generated.
+
+
+vim +27 arch/powerpc/mm/nohash/tlb_64e.c
+
+a898530eea3d0b Michael Ellerman 2024-07-02  23  
+a898530eea3d0b Michael Ellerman 2024-07-02  24  #include <asm/pgalloc.h>
+a898530eea3d0b Michael Ellerman 2024-07-02  25  #include <asm/tlbflush.h>
+a898530eea3d0b Michael Ellerman 2024-07-02  26  #include <asm/tlb.h>
+a898530eea3d0b Michael Ellerman 2024-07-02 @27  #include <asm/code-patching.h>
+a898530eea3d0b Michael Ellerman 2024-07-02  28  #include <asm/cputhreads.h>
+a898530eea3d0b Michael Ellerman 2024-07-02  29  
+
+:::::: The code at line 27 was first introduced by commit
+:::::: a898530eea3d0ba08c17a60865995a3bb468d1bc powerpc/64e: split out nohash Book3E 64-bit code
+
+:::::: TO: Michael Ellerman <mpe@ellerman.id.au>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
