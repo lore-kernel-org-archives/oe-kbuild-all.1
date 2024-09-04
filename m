@@ -1,148 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11711DFE0A;
-	Wed,  4 Sep 2024 15:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEED1DFE32
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Sep 2024 15:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725463169; cv=none; b=h7JAYg3pNwDHy6SLb7NTB51DWqRKyKa/koGKACB6ozjVgiDNKcn/xR3p+i2kTMYf8y+xLZ/6nz1lsOeAzQKfLCKbioUjjRSKNZ6GaBsXNWhUg8OtGtX1Qfm9C9xIQrMDu6CHAUGaGGXAdN1lmQItz9a+6yYckC3UBc+x9W5ZcWQ=
+	t=1725465031; cv=none; b=K6+RD/1zbuWKB/0NGWIjUUftQK2ptFUdc4SVBywoIgKNGqVW780Kpec3NPX7pLBE0h39fMHjDdirKRcPKIDAzDj80qkHjQjKp83YLgVdW/xwvgWqCWDkHcaj+qfMsrscyXNdmN4fHqgR//s2IQeFIs1h29ArN+ymMdBK3r4/hGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725463169; c=relaxed/simple;
-	bh=gSq7vb9u4cJxaHzBIHobaINd3seRBAaJwCchcacHiwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NOZZ9s2PDr3Y7LLFR4KplmqWENlFHckTuHkm5MN2/UUslMHB5a1VNdCUK+kDENlzdrKTJQiuk6RMnOOfIE9HvJhOaqiHwUuTvgJzd/wTqhUlvlhvNtWGs12MqOXZbdxe4KP4Q2JCleGXXFULklmcOovM+iJANN6xoYQ9ZPMqCm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+0iyzom; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1725465031; c=relaxed/simple;
+	bh=qwDHvWtGidi6YhwcnUq01LvlP4dVDYDAJ3vzEEDQ/qc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LW3JhXMAqakPGpVY/gKd7a1i5pMIrAOCdKM5pVDZoPMdLqkd3ZgIME7HdlsKjh638hpKLdJH4Oy2bkW2TicvVMKipHs6wajBR9gCs43bPJDlZ3faF5xrJs5LmKZDPPUlKUIa/7QSz0XMppXiDuMbzxXIoPs1YHF4IfavHGHje7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SH3uwh+O; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+0iyzom"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SH3uwh+O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725463168; x=1756999168;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gSq7vb9u4cJxaHzBIHobaINd3seRBAaJwCchcacHiwc=;
-  b=i+0iyzomR7TWq/iyxCaB5QSJM06FRAgkINveLf8iU6GrDMJmgDggdMiA
-   B+ldabLhkd1olNKdBp2TuP9ZQLIh2PdrcQer22nxMdKH2Nol/At00/Mf3
-   OSQmGoQvMftWqHhiuJmRUps+81y68Qw3eASSlmnilvbOS99MCyl97e9Dx
-   y/Z/9EMl5/OYmjdayteUbdflPcbr0ZZci/8AQIP8hRizL/CsB/TK2KNaC
-   atrPyyXRC7TqK+KR3ZvHsDGMVimqhUeiWEKXlLhE1tgZcXCdKsWubI8ba
-   SnKJ4d5GW1j9CxSX1HnC5DUl1ozNjd3hA44XJLymKMTep4YKmfJioEVvy
-   g==;
-X-CSE-ConnectionGUID: H8JwbiBxRn2OlFuhY16pLg==
-X-CSE-MsgGUID: DQreXhztTXGShGL/ybjBLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24275858"
+  t=1725465029; x=1757001029;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qwDHvWtGidi6YhwcnUq01LvlP4dVDYDAJ3vzEEDQ/qc=;
+  b=SH3uwh+O+wWaFS+/JTw1EzNDBOgwUxFRs/f2SDXb48skGpG7QjMfzHyy
+   MWNRMGG/15f1AxWj6ud2ge4pUM9TGGvsDovg44VNvcHhgD4g3y5yO/iHz
+   n9VRpl0Jv4MQebs8xv5GXThhxHN1tFQsJjeFwFJJM4lCp/ICosct2YeYn
+   M/zvE0mW4atdeujeRbrzbKQdbyOMcxAp952RDiZ1hLRxUhcJ+mdXgw8Sw
+   40/AZRoKZK9dJU6uOnMdd8I3D/uBQrMOpTzdZxmbKWyy0kHcMaVX01Byl
+   X035tWw0bJ6ZVzQlvEKEMtPskUyLTdZrvVTMpK3kL0epFYmlb1jtw+z0M
+   Q==;
+X-CSE-ConnectionGUID: A2yD9UnxRnu0NUOqBi5keA==
+X-CSE-MsgGUID: I1GCfKVoQASp8d5WlCuZhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="41610191"
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="24275858"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 08:19:27 -0700
-X-CSE-ConnectionGUID: u3zG7jDOTxqTflRbOjvuRg==
-X-CSE-MsgGUID: MggbZ93rSCGjKXuyB/RoxQ==
+   d="scan'208";a="41610191"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 08:50:29 -0700
+X-CSE-ConnectionGUID: XtYPKgLFTxaZ66jBnCFSLg==
+X-CSE-MsgGUID: Bbz/TEkNRPidB7QjsTXrVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="65823709"
+   d="scan'208";a="69475698"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Sep 2024 08:19:24 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 04 Sep 2024 08:50:25 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slrn0-0008Fr-1Y;
-	Wed, 04 Sep 2024 15:19:22 +0000
-Date: Wed, 4 Sep 2024 23:19:14 +0800
+	id 1slsH1-0008HL-0j;
+	Wed, 04 Sep 2024 15:50:23 +0000
+Date: Wed, 4 Sep 2024 23:50:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/200-dcp 230/238]
- drivers/gpu/drm/apple/audio.c:212:16: error: call to undeclared function
- 'snd_interval_rate_bits'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202409042355.WqksqtFY-lkp@intel.com>
+To: Mariel Tinaco <Mariel.Tinaco@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+	Dimitri Fedrau <dima.fedrau@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] iio: dac: support the ad8460 Waveform DAC
+Message-ID: <202409042318.7nwvZc3c-lkp@intel.com>
+References: <20240904023040.23352-3-Mariel.Tinaco@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240904023040.23352-3-Mariel.Tinaco@analog.com>
 
-Hi Janne,
+Hi Mariel,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/AsahiLinux/linux bits/200-dcp
-head:   8cd704aefe491d6d33806aa46f191536e926a26f
-commit: 736e62fb8d3925cd950bff001e604faed1defafc [230/238] fixup! WIP: add header test target copied from i915
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240904/202409042355.WqksqtFY-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042355.WqksqtFY-lkp@intel.com/reproduce)
+[auto build test ERROR on c4b43d8336e52dce6d124e428aa3b71703e62647]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mariel-Tinaco/dt-bindings-iio-dac-add-docs-for-ad8460/20240904-103413
+base:   c4b43d8336e52dce6d124e428aa3b71703e62647
+patch link:    https://lore.kernel.org/r/20240904023040.23352-3-Mariel.Tinaco%40analog.com
+patch subject: [PATCH v3 2/2] iio: dac: support the ad8460 Waveform DAC
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240904/202409042318.7nwvZc3c-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042318.7nwvZc3c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409042355.WqksqtFY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409042318.7nwvZc3c-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/apple/audio.c:17:
-   In file included from include/linux/of_dma.h:14:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/apple/audio.c:212:16: error: call to undeclared function 'snd_interval_rate_bits'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     212 |         return snd_interval_rate_bits(r, hits.rates);
-         |                ^
-   drivers/gpu/drm/apple/audio.c:448:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     448 |         int ret;
-         |             ^
-   6 warnings and 1 error generated.
+   drivers/iio/dac/ad8460.c: In function 'ad8460_get_hvdac_word':
+>> drivers/iio/dac/ad8460.c:165:16: error: implicit declaration of function 'get_unaligned_le16' [-Wimplicit-function-declaration]
+     165 |         *val = get_unaligned_le16(state->spi_tx_buf);
+         |                ^~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ad8460.c: In function 'ad8460_set_hvdac_word':
+>> drivers/iio/dac/ad8460.c:172:9: error: implicit declaration of function 'put_unaligned_le16' [-Wimplicit-function-declaration]
+     172 |         put_unaligned_le16(FIELD_PREP(AD8460_DATA_BYTE_FULL_MSK, val),
+         |         ^~~~~~~~~~~~~~~~~~
 
 
-vim +/snd_interval_rate_bits +212 drivers/gpu/drm/apple/audio.c
+vim +/get_unaligned_le16 +165 drivers/iio/dac/ad8460.c
 
-5e64cc3dc97a4d Martin Povišer 2023-02-23  201  
-5e64cc3dc97a4d Martin Povišer 2023-02-23  202  static int dcpaud_rule_rate(struct snd_pcm_hw_params *params,
-5e64cc3dc97a4d Martin Povišer 2023-02-23  203                               struct snd_pcm_hw_rule *rule)
-5e64cc3dc97a4d Martin Povišer 2023-02-23  204  {
-5e64cc3dc97a4d Martin Povišer 2023-02-23  205  	struct dcp_audio *dcpaud = rule->private;
-5e64cc3dc97a4d Martin Povišer 2023-02-23  206  	struct snd_interval *r = hw_param_interval(params,
-5e64cc3dc97a4d Martin Povišer 2023-02-23  207  				SNDRV_PCM_HW_PARAM_RATE);
-5e64cc3dc97a4d Martin Povišer 2023-02-23  208  	struct dcp_sound_format_mask hits;
-5e64cc3dc97a4d Martin Povišer 2023-02-23  209  
-5e64cc3dc97a4d Martin Povišer 2023-02-23  210          dcpaud_consult_elements(dcpaud, params, &hits);
-5e64cc3dc97a4d Martin Povišer 2023-02-23  211  
-5e64cc3dc97a4d Martin Povišer 2023-02-23 @212          return snd_interval_rate_bits(r, hits.rates);
-5e64cc3dc97a4d Martin Povišer 2023-02-23  213  }
-5e64cc3dc97a4d Martin Povišer 2023-02-23  214  
-
-:::::: The code at line 212 was first introduced by commit
-:::::: 5e64cc3dc97a4d727f98515c49478ffab19b3da5 gpu: drm: apple: Add DCP audio driver
-
-:::::: TO: Martin Povišer <povik+lin@cutebit.org>
-:::::: CC: Janne Grunau <j@jannau.net>
+   155	
+   156	static int ad8460_get_hvdac_word(struct ad8460_state *state, int index, int *val)
+   157	{
+   158		int ret;
+   159	
+   160		ret = regmap_bulk_read(state->regmap, AD8460_HVDAC_DATA_WORD_LOW(index),
+   161				       &state->spi_tx_buf, AD8460_DATA_BYTE_WORD_LENGTH);
+   162		if (ret)
+   163			return ret;
+   164	
+ > 165		*val = get_unaligned_le16(state->spi_tx_buf);
+   166	
+   167		return ret;
+   168	}
+   169	
+   170	static int ad8460_set_hvdac_word(struct ad8460_state *state, int index, int val)
+   171	{
+ > 172		put_unaligned_le16(FIELD_PREP(AD8460_DATA_BYTE_FULL_MSK, val),
+   173					     &state->spi_tx_buf);
+   174	
+   175		return regmap_bulk_write(state->regmap, AD8460_HVDAC_DATA_WORD_LOW(index),
+   176					 state->spi_tx_buf, AD8460_DATA_BYTE_WORD_LENGTH);
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
