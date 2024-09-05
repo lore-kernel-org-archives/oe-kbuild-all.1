@@ -1,168 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874432107
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 09:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673B4192D73
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 09:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725529167; cv=none; b=uRNLaW+zd8N2Y/SS9C4XMpKQ/xqAIF2tsI2q8Rj3/3ODhSZyQckqi8B6dSDucXZ4otb9//J+S+77U3io5XaXAtA+tJg+4lPZNoIOM/XiGihIKQ0Hh9hJKnE36Mxw6mulfEfPKapnItNVEhDzZ0pHPd/Cs4DhFrz2tR3Ghhu16YM=
+	t=1725530199; cv=none; b=JksCIgcIWS6lsIvzrSIYYoLTMYhHrA+mXPyHA5jhLm56DppHagwgSYtcixdT9ahkp7wHUMcR10yQDqfgKkdfKS4Lw19oPkPTkb0vztP4+pbjw7lfOr9JuoFVVpZ8kTvfZHIcUOs/ipGuz6T4FHfsEzqbu2f+opKaTEiCPdvKouM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725529167; c=relaxed/simple;
-	bh=LJkQOZkZyeks+VvqKT7l0uwJK0ntC6MTmdlckrHGhHo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y6SJpaU3VlCobIfqrbTlk6pzRYZOAUnRipGOHa/yWho8YpBEwJ25zL0MAgoosJWHarjs2INq280BuxFRjb95iDaeKtVtAMAD+IGKRml7o1x6Yb7bCkDxDa4mPzPMkh2Ye+1RLjjddA709R1khbURBZQRI3C/+a/hoPl9rxkHP5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IdwQ02fz; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725530199; c=relaxed/simple;
+	bh=Hzz2twul5J5zhZNCAGX+lWkNskeCMNj/ZBdlAjXyJOQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=BO+NWUtuJgnlWopSJ83bWWZ+gq63mquYx8xY+ajx/C2KZYdoKZfgPa53uxiqgeLN21Y3dxl87NLFYB3F8jq3IpjLCj+RoQaFL/kX8vXa3hsvmwZlXE1aR1jBQOYaZjTxSMk92cXmw5xNyGAnjMWK2CyDCGSJgz2MP8wtTt9OUuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=xH90HT2i; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iadQwMJ7; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IdwQ02fz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725529166; x=1757065166;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LJkQOZkZyeks+VvqKT7l0uwJK0ntC6MTmdlckrHGhHo=;
-  b=IdwQ02fzFqDoNnbQUCrju/PrsN2Hs/ccBudlKp55MvGG6hoOgoZPlCwn
-   FqCBFHoSFdnfTi9fCg2DQn3BF7hf9hhbKMum34ARWj2wJLHaEi9NIChjC
-   JYSmB94KEUhOtll99otxdnmLCPwj/qzwJ+444LQ4qzr/DNobe5IouOxIa
-   3Rigonbh4kBAYm3or2+E/n4vqJrojck2f5Lt5n+XHeUS1TrTTnqIoB055
-   trul7f8NJklPRJKZ9lyZFyzORpppHYGaajf/nRpSaswrfFL29SsBaeNOG
-   zxsclrvu2E5Cf9vZVe7y0zWeW64M5ipMKr1Ya6yp84616rU+GE/KP2x/P
-   w==;
-X-CSE-ConnectionGUID: FaeYhdPTRaG1+qhfHDG7Cg==
-X-CSE-MsgGUID: gOCZCjeKREq9B+wEaMTdcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24395939"
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="24395939"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 02:39:25 -0700
-X-CSE-ConnectionGUID: Dz9qirrKTGm2D9x5QPmJIw==
-X-CSE-MsgGUID: V41y5R4iSNK0OsPD72Trpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="69977299"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Sep 2024 02:39:22 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sm8xU-0009BZ-21;
-	Thu, 05 Sep 2024 09:39:20 +0000
-Date: Thu, 5 Sep 2024 17:39:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	Sanket.Goswami@amd.com, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 3/5] i2c: piix4: Add ACPI support for ASF SMBus device
-Message-ID: <202409051743.1sRmenx6-lkp@intel.com>
-References: <20240904105731.2246235-4-Shyam-sundar.S-k@amd.com>
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="xH90HT2i";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iadQwMJ7"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 7C5EB138030C;
+	Thu,  5 Sep 2024 05:56:36 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-05.internal (MEProxy); Thu, 05 Sep 2024 05:56:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1725530196;
+	 x=1725616596; bh=fpvXW45cCFPUgOD1UbFx3JsvBCsvIRuOMB9z0xPbXo0=; b=
+	xH90HT2ihv337ZTOdSoekBd0rTQjMIirKJmltllKuRZUJTbWNLRF8jnNoGgrnKpB
+	86k40oXh8nHhWqp+kBgPf4NGnv9ITmKQTMnW0MIDVVYTk4zjNycXe9RGJxTbuqfW
+	Q2vdv45fOsgZzBV1rRxoImHH3tZS5WCGgjCSw+CwmJjEFrOWf+HzTQKrkHYZ0u7W
+	7VmRUWtWwi/DlNQgXNRQp4TeIjHcl+6SPXo9C60nwdGmc0P0f1WJ63SI8ZJNBKxb
+	4Z6E+AIcV+8xpKom+OOSOithfTorQWZu6upFLsbV5RjC3kA8EeenLN1GyqWfuNly
+	Lp7ymjCmXKR6YBymkZbKaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725530196; x=
+	1725616596; bh=fpvXW45cCFPUgOD1UbFx3JsvBCsvIRuOMB9z0xPbXo0=; b=i
+	adQwMJ7bCR9L7mBRpnUZfn+kJYI9K835jSrJm22P060khYlnbvmbTJzzvadb5v65
+	/ZGfMy6qQhnfXuhLwt5y0mHJSwVh8OEbfx1lVTosu60CZVt+mWSOwPgBnLiEAfX5
+	D7xjA1XPdqTurrtRkVus8ZN4S+uVEzfCH4Zg4eWXyzrv9x2TcyWRMIcx37MOJKsB
+	u/apcWr+Nr3UueCOWEzEuLh6Ifr+xgbTtdaJXcPKjJOBD0cWcqODaz8pjhH2BSrQ
+	mW45nR7LvgH7Q8QLf9rjvHlg10FCFht+H+nnCP+elt/CBZdAk+TikSgzvcpUzOe/
+	iNIKPFn9ZjeeYOJfSjLcg==
+X-ME-Sender: <xms:U4DZZlJKRNK1Myy3fi7pUqfwtgTcsUjgvZnPO6ypnM1-bS1IW8Z2GQ>
+    <xme:U4DZZhJtZ8m6cftICVM0SAYW4BtDTZ3SHLYdVx0B6aTr9a4z5KVHE0Sbh5ES6A5NP
+    vc-Mi81aV0ApTSH1wg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehledgvdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+    necuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfh
+    hlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepvdfhtdelleeggeefudejveef
+    feejhfektdeilefhhfeigfdugfffgfeiuddvteelnecuffhomhgrihhnpehkvghrnhgvlh
+    drohhrghdptddurdhorhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
+    horghtrdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehtshgsohhgvghnugesrghlphhhrgdrfhhrrghnkhgvnhdruggvpdhrtghpth
+    htoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgr
+    lhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrtghrohesohhrtg
+    grmhdrmhgvrdhukhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhk
+    vghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:U4DZZtv0_8zGN_cz6V665UB4jA6k7eWUOMf7mPmIJ-ElbKAbqSZAmg>
+    <xmx:U4DZZmZvvyegcSyX6RfmDcCw9SAn5lAMwaA9DlmW24SJ1R4ES1J47Q>
+    <xmx:U4DZZsbW40yh3ymnfi-IUEWCKFA4wxCVrayIHAOg_T1Ls5dASUrRkQ>
+    <xmx:U4DZZqDyZqNWeKhfSKoLnxkAam9jMG4tBD7VvzVkZnlWWkpSUoYAzw>
+    <xmx:VIDZZjU92oN8nFXLzZxbjAExBc-erMcR7cLl_cO2KoAIe3UOS_XlaLXn>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C99551C207BB; Thu,  5 Sep 2024 05:56:35 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240904105731.2246235-4-Shyam-sundar.S-k@amd.com>
-
-Hi Shyam,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on linus/master v6.11-rc6 next-20240904]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/i2c-piix4-Allow-more-than-two-algo-selection-for-SMBus/20240904-190034
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240904105731.2246235-4-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH v2 3/5] i2c: piix4: Add ACPI support for ASF SMBus device
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240905/202409051743.1sRmenx6-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051743.1sRmenx6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409051743.1sRmenx6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/i2c/busses/i2c-piix4.c: In function 'sb800_asf_add_adap':
-   drivers/i2c/busses/i2c-piix4.c:1318:16: error: implicit declaration of function 'acpi_fetch_acpi_dev'; did you mean 'acpi_match_acpi_device'? [-Wimplicit-function-declaration]
-    1318 |         adev = acpi_fetch_acpi_dev(handle);
-         |                ^~~~~~~~~~~~~~~~~~~
-         |                acpi_match_acpi_device
->> drivers/i2c/busses/i2c-piix4.c:1318:14: error: assignment to 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1318 |         adev = acpi_fetch_acpi_dev(handle);
-         |              ^
-   drivers/i2c/busses/i2c-piix4.c:1322:15: error: implicit declaration of function 'acpi_dev_get_resources'; did you mean 'acpi_get_event_resources'? [-Wimplicit-function-declaration]
-    1322 |         ret = acpi_dev_get_resources(adev, &res_list, sb800_asf_acpi_resource_cb, &data);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-         |               acpi_get_event_resources
-   drivers/i2c/busses/i2c-piix4.c:1328:9: error: implicit declaration of function 'acpi_dev_free_resource_list'; did you mean 'pci_free_resource_list'? [-Wimplicit-function-declaration]
-    1328 |         acpi_dev_free_resource_list(&res_list);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         pci_free_resource_list
+Date: Thu, 05 Sep 2024 10:56:15 +0100
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>,
+ "kernel test robot" <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
+Message-Id: <f661ed7e-5d69-403c-bfc8-7581eb8a6e76@app.fastmail.com>
+In-Reply-To: <alpine.DEB.2.21.2409051011570.1802@angie.orcam.me.uk>
+References: <202408310705.y2OPq3Xs-lkp@intel.com>
+ <alpine.DEB.2.21.2409051011570.1802@angie.orcam.me.uk>
+Subject: Re: error: ABI 'o32' is not supported on CPU 'mips64'
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
-vim +1318 drivers/i2c/busses/i2c-piix4.c
 
-  1303	
-  1304	static int sb800_asf_add_adap(struct pci_dev *dev)
-  1305	{
-  1306		struct i2c_piix4_adapdata *adapdata;
-  1307		struct sb800_asf_data data;
-  1308		struct acpi_device *adev;
-  1309		LIST_HEAD(res_list);
-  1310		acpi_status status;
-  1311		acpi_handle handle;
-  1312		int ret;
-  1313	
-  1314		status = acpi_get_handle(NULL, SB800_ASF_ACPI_PATH, &handle);
-  1315		if (ACPI_FAILURE(status))
-  1316			return -ENODEV;
-  1317	
-> 1318		adev = acpi_fetch_acpi_dev(handle);
-  1319		if (!adev)
-  1320			return -ENODEV;
-  1321	
-  1322		ret = acpi_dev_get_resources(adev, &res_list, sb800_asf_acpi_resource_cb, &data);
-  1323		if (ret < 0) {
-  1324			dev_err(&dev->dev, "Error getting ASF ACPI resource: %d\n", ret);
-  1325			return ret;
-  1326		}
-  1327	
-  1328		acpi_dev_free_resource_list(&res_list);
-  1329		ret = piix4_add_adapter(dev, data.addr, SMBUS_ASF, piix4_adapter_count, false, 0,
-  1330					piix4_main_port_names_sb800[piix4_adapter_count],
-  1331					&piix4_main_adapters[piix4_adapter_count]);
-  1332		if (ret) {
-  1333			dev_err(&dev->dev, "Failed to add ASF adapter: %d\n", ret);
-  1334			return -ENODEV;
-  1335		}
-  1336	
-  1337		adapdata = i2c_get_adapdata(piix4_main_adapters[piix4_adapter_count]);
-  1338		ret = devm_request_irq(&dev->dev, data.irq, sb800_asf_irq_handler, IRQF_SHARED,
-  1339				       "sb800_smbus_asf", adapdata);
-  1340		if (ret) {
-  1341			dev_err(&dev->dev, "Unable to request irq: %d for use\n", data.irq);
-  1342			return ret;
-  1343		}
-  1344	
-  1345		INIT_DELAYED_WORK(&adapdata->work_buf, sb800_asf_process_slave);
-  1346		adapdata->is_asf = true;
-  1347		/* Increment the adapter count by 1 as ASF is added to the list */
-  1348		piix4_adapter_count += 1;
-  1349		return 1;
-  1350	}
-  1351	
+=E5=9C=A82024=E5=B9=B49=E6=9C=885=E6=97=A5=E4=B9=9D=E6=9C=88 =E4=B8=8A=E5=
+=8D=8810:22=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
+> On Sat, 31 Aug 2024, kernel test robot wrote:
+>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git master
+>> head:   fb24560f31f9dff2c97707cfed6029bfebebaf1c
+>> commit: 2326c8f2022636a1e47402ffd09a3b28f737275f MIPS: Fix fallback m=
+arch for SB1
+>> date:   7 weeks ago
+>> config: mips-randconfig-r121-20240830 (https://download.01.org/0day-c=
+i/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/config)
+>> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project =
+8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+>> reproduce: (https://download.01.org/0day-ci/archive/20240831/20240831=
+0705.y2OPq3Xs-lkp@intel.com/reproduce)
+>>=20
+>> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202408310705.y2OPq3Xs=
+-lkp@intel.com/
+>>=20
+>> All errors (new ones prefixed by >>):
+>>=20
+>> >> error: ABI 'o32' is not supported on CPU 'mips64'
+>> >> error: error: ABI 'o32' is not supported on CPU 'mips64'
+>>    ABI 'o32' is not supported on CPU 'mips64'
+>>    make[3]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-=
+offsets.s] Error 1
+>>    make[3]: *** [scripts/Makefile.build:244: scripts/mod/empty.o] Err=
+or 1
+>>    make[3]: Target 'scripts/mod/' not remade because of errors.
+>>    make[2]: *** [Makefile:1207: prepare0] Error 2
+>>    make[2]: Target 'prepare' not remade because of errors.
+>>    make[1]: *** [Makefile:240: __sub-make] Error 2
+>>    make[1]: Target 'prepare' not remade because of errors.
+>>    make: *** [Makefile:240: __sub-make] Error 2
+>>    make: Target 'prepare' not remade because of errors.
+>
+>  This is a compiler bug.  The MIPS64 ISA does certainly support the o3=
+2=20
+> ABI, so they need to fix their "CPU 'mips64'" definition.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Just for record, this has been fixed in LLVM-17 [1], while the bit is st=
+ill
+on LLVM 15.
+
+Thanks
+[1]: https://github.com/llvm/llvm-project/commit/7983f8aca82e258174849f1=
+cc6a70029353e9887
+
+>
+>   Maciej
+
+--=20
+- Jiaxun
