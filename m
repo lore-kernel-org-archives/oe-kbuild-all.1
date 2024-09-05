@@ -1,52 +1,58 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6925B19DF68
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 14:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766FD188A1F;
+	Thu,  5 Sep 2024 14:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725545261; cv=none; b=aySsSFEMgpg589y+DE/77IpWjsVx6JTjUMQzNZjjRcz9S0PXq5BvVxUSqzvaz0YWqc94rDSMVkR5JrjB4Rhr9FASiMXpNxP8d/C88hT0w2pq/k42yLMljnot9mDLJ/2/CJVT4kSunksArpl5Q5drFgQRBRokUV6pvNUXT5E84R8=
+	t=1725545288; cv=none; b=Dw6MJ/VvfsxO2PfdUNEKZCN89MoAn7oJBEwbn6UvoxhC/dtP+7KjDh+rt2OpGuzAx/hUnXW3jYRK1Q29nsiHUc2vgLTHoWELg9YWvbr2ztho7OJvd4GHMxvbv4QBDcz1C+6+hZ53p+xyfs6piSwd+vjxC7bDkjqOQREGAruvux4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725545261; c=relaxed/simple;
-	bh=Q/gKMV4/3BBHIpoB2D+a3mIXcjuYlkjt87RtE+rrgEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jFxWMKeN4+aVaq8h5Opalur1cfRbzRF2cKqsvfj/O+qOy2LSKdKzcumVTMb43CeVJAQSoOm6faI88vhc0zgxP2JadHn3BJg35/IVKBanBxfaor+fXLtfsTDnK6vKCG6nf5YSo+xNCD5b/J77UOVcH/KioLGrzLKEqsteSo8KhFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=J4yEaG8H; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1725545288; c=relaxed/simple;
+	bh=SaP2DLtG6QLANpN8FihdRu/xFHhH8ZHMcHCsizv0D0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FJbsheTSWambP+PuqjivFfDqtMnvGrtpRatmcrIpllidMVfUvpB6H47P1F91nGGfSwqPi3tYqaC8puiIv4rsY24sI2pVd88u6YjtMzEzTpP8HlYeK4xTfkBgYhUIEAUOGU6cn7o64uMLlfF6S0+XcaSdTrNXXZPyDWjXX2HKBZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d1e4+giY; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="J4yEaG8H"
-Received: from cwcc.thunk.org (pool-173-48-102-194.bstnma.fios.verizon.net [173.48.102.194])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 485E7FAs007431
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Sep 2024 10:07:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1725545238; bh=Ti9jiaZGhhMUDDsYk9GbJj4/hK2lo0lUfTXW+pqZIsQ=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=J4yEaG8HqWKFVX1s+Gb9AOET79kFgjw7RAcApdYyN+jBeNfSSz66MiMXepqWfdfi4
-	 VeuxS4spvwnpD1HUFP6jwFqIEdPlAzy43Guki+JIFSeI1qBqAKIVYJgQwGgbHFwYkM
-	 +4zJzq023wbrkdfIwQerNeuLMEFlJCsjzfXxfRiZbN4H3Ebwl3mEe2ud3ZAaeUkdbC
-	 lPEgnJCOSaM11PP/467djbD7Dn5mAUCUdL65z/4IdSw2sH/0s72nUsqRlG4HrZ9vIE
-	 xorcZPsZ7D2BknzGodsdiRlkFBsP2M358JZu2kpbaH9mVfQtrEQAoNxfGuNBwVA4ov
-	 F9ZGCIpgDCuvw==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-	id 50F7F15C02C6; Thu, 05 Sep 2024 10:07:15 -0400 (EDT)
-Date: Thu, 5 Sep 2024 10:07:15 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Baokun Li <libaokun1@huawei.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
-        oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>,
-        oe-kbuild@lists.linux.dev, Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-        Yang Erkun <yangerkun@huawei.com>
-Subject: Re: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
- ext4_ext_clear_bb() error: double free of 'path'
-Message-ID: <20240905140715.GV9627@mit.edu>
-References: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
- <c2711f3d-6bee-414c-952f-5c33da315a1a@huawei.com>
- <20240905132335.GT9627@mit.edu>
- <2e4f662b-2c52-4148-afea-0f7d09d2776b@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d1e4+giY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725545287; x=1757081287;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SaP2DLtG6QLANpN8FihdRu/xFHhH8ZHMcHCsizv0D0w=;
+  b=d1e4+giY7ykZ0HP6JJyhALg3c8yo7fftN2fGyBXl4ZWkVNxRzlM4jse4
+   Dc/UdD+7o8bORDEXjDTzMyDFTw7NsU9C99eideNYRi1CwiHZulT1f1WSf
+   2SWIepSVpzDxljSLwPwQw23ztRT0mzDkqGu0z6xwvt8uOszfavZpj8dUk
+   pWM83OjgQ70j3e6fFltY5OCnEUgZKX08geEcBALp6s33OZLAqg5EoO/a5
+   vFCCVu3giWrBPyarTOrasUMgqGSCqnSdeChGzZA6iso1pX6SBebu0lYen
+   2dDRk4o6el0WhJR4R2v/4tEHpyUW17cQVOidZdAGyqCfMR1JCTcjI3k6U
+   A==;
+X-CSE-ConnectionGUID: H4OslG3jSNqk2bZQWr/BDw==
+X-CSE-MsgGUID: JgZVRWfyR2qldqEGQIAzww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="23819136"
+X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; 
+   d="scan'208";a="23819136"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 07:08:06 -0700
+X-CSE-ConnectionGUID: 283INFcvS76+XaiKrYlnAg==
+X-CSE-MsgGUID: 4J+hTV8dQEyIFPKEMu4zbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; 
+   d="scan'208";a="65476453"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 05 Sep 2024 07:08:05 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1smD9V-0009yx-31;
+	Thu, 05 Sep 2024 14:08:01 +0000
+Date: Thu, 5 Sep 2024 22:07:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.11-rc6-esp32 50/53]
+ kernel/events/core.c:6491:15: warning: variable 'flags' set but not used
+Message-ID: <202409052131.g8vVGvnj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,104 +61,220 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e4f662b-2c52-4148-afea-0f7d09d2776b@huawei.com>
 
-On Thu, Sep 05, 2024 at 09:31:35PM +0800, Baokun Li wrote:
-> > > Ted, could you please help push the corrected commit to the next branch?
-> > The next branch gets automatically refreshed every day (Mondays
-> > through Friday).  In the case of the ext4 tree, it gets picked up from
-> > the dev branch.  So it should be fixed in the upcoming fs-next and
-> > linux-next branch.
-> > 
-> > Cheers,
-> > 
-> > 					- Ted
-> > 
-> OK, I didn't know it was pulling automatically, thanks for the explanation!
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.11-rc6-esp32
+head:   4a9ffb44ce4c24e9dcd4a5f06beeb3dded85319a
+commit: 32453b48969a9a1bb7026e6035c13ce6e1245455 [50/53] WIP: perf: support mmapping event on noMMU
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240905/202409052131.g8vVGvnj-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409052131.g8vVGvnj-lkp@intel.com/reproduce)
 
-Yep, and some of us have automated test systems that run whenever
-fs-next is updated.  :-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409052131.g8vVGvnj-lkp@intel.com/
 
-For example, see attached.  (I have been planning to get this
-published someplace, such as a linux.linux.dev list, but I've been too
-busy finish up making it be fully robust and not subject to rare
-failures that require manual interventions, and I need to complete
-some negotiations with Konstantin.  Probably after the Linux Plumbers
-Conference and I have a bit more free time...)
+All warnings (new ones prefixed by >>):
 
-						- Ted
+>> kernel/events/core.c:6491:15: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
+    6491 |         int ret = 0, flags = 0;
+         |                      ^
+>> kernel/events/core.c:6702:15: warning: no previous prototype for function 'perf_get_unmapped_area' [-Wmissing-prototypes]
+    6702 | unsigned long perf_get_unmapped_area(struct file *file,
+         |               ^
+   kernel/events/core.c:6702:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    6702 | unsigned long perf_get_unmapped_area(struct file *file,
+         | ^
+         | static 
+   kernel/events/core.c:6758:17: warning: unused function 'perf_mmap_capabilities' [-Wunused-function]
+    6758 | static unsigned perf_mmap_capabilities(struct file *file)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:9745:19: warning: unused function 'perf_event_set_bpf_handler' [-Wunused-function]
+    9745 | static inline int perf_event_set_bpf_handler(struct perf_event *event,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:9752:20: warning: unused function 'perf_event_free_bpf_handler' [-Wunused-function]
+    9752 | static inline void perf_event_free_bpf_handler(struct perf_event *event)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings generated.
 
-TESTRUNID: ltm-20240729133952-0028
-KERNEL:    kernel 6.11.0-rc6-xfstests-00781-g8d32ae66515d #1 SMP PREEMPT_DYNAMIC Wed Sep  4 21:56:52 EDT 2024 x86_64
-CMDLINE:   -c ext4/all,xfs/all,btrfs/all,f2fs/all -g auto --repo https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next --watch fs-next
-CPUS:      2
-MEM:       7680
 
-ext4/4k: 570 tests, 2 failures, 51 skipped, 5668 seconds
-  Flaky: generic/234: 20% (1/5)   generic/277: 20% (1/5)
-ext4/1k: 564 tests, 2 failures, 54 skipped, 6139 seconds
-  Failures: generic/627 generic/750
-ext4/ext3: 562 tests, 144 skipped, 4388 seconds
-ext4/encrypt: 545 tests, 167 skipped, 3169 seconds
-ext4/nojournal: 562 tests, 122 skipped, 4013 seconds
-ext4/ext3conv: 567 tests, 53 skipped, 5500 seconds
-ext4/adv: 563 tests, 2 failures, 59 skipped, 5186 seconds
-  Flaky: generic/047: 20% (1/5)   generic/547: 20% (1/5)
-ext4/dioread_nolock: 568 tests, 51 skipped, 5108 seconds
-ext4/data_journal: 563 tests, 127 skipped, 4489 seconds
-ext4/bigalloc_4k: 541 tests, 1 failures, 55 skipped, 4766 seconds
-  Flaky: generic/320: 60% (3/5)
-ext4/bigalloc_1k: 542 tests, 64 skipped, 4814 seconds
-ext4/dax: 556 tests, 157 skipped, 3022 seconds
-xfs/4k: 1142 tests, 2 failures, 180 skipped, 10178 seconds
-  Failures: generic/754 xfs/432
-xfs/1k: 1142 tests, 3 failures, 167 skipped, 14218 seconds
-  Failures: generic/627 generic/754 xfs/432
-xfs/v4: 1141 tests, 2 failures, 474 skipped, 8851 seconds
-  Failures: generic/754 xfs/432
-xfs/adv: 1142 tests, 2 failures, 166 skipped, 10238 seconds
-  Failures: generic/754 xfs/432
-xfs/quota: 1142 tests, 2 failures, 165 skipped, 11276 seconds
-  Failures: generic/754 xfs/432
-xfs/quota_1k: 1142 tests, 3 failures, 167 skipped, 13616 seconds
-  Failures: generic/627 generic/754 xfs/432
-xfs/dirblock_8k: 1142 tests, 2 failures, 165 skipped, 11244 seconds
-  Failures: generic/754 xfs/432
-xfs/realtime: 1141 tests, 4 failures, 518 skipped, 8342 seconds
-  Failures: generic/260 generic/455 generic/754 xfs/432
-xfs/realtime_28k_logdev: 1141 tests, 4 failures, 600 skipped, 12882 seconds
-  Failures: generic/260 generic/754 xfs/432 xfs/598
-xfs/realtime_logdev: 1141 tests, 4 failures, 572 skipped, 13036 seconds
-  Failures: generic/260 generic/754 xfs/432 xfs/598
-xfs/logdev: 1142 tests, 3 failures, 235 skipped, 17787 seconds
-  Failures: generic/754 xfs/432 xfs/598
-xfs/dax: 1152 tests, 1 failures, 551 skipped, 5930 seconds
-  Failures: generic/754
-btrfs/default: 1038 tests, 4 failures, 278 skipped, 9576 seconds
-  Failures: btrfs/012 btrfs/277
-  Flaky: generic/418: 20% (1/5)   generic/746: 40% (2/5)
-f2fs/default: 720 tests, 7 failures, 245 skipped, 5432 seconds
-  Failures: generic/050 generic/064 generic/252 generic/563 generic/735
-  Flaky: f2fs/004: 20% (1/5)   generic/475: 40% (2/5)
-f2fs/encrypt: 702 tests, 4 failures, 352 skipped, 3064 seconds
-  Failures: generic/050 generic/563 generic/635
-  Flaky: generic/475: 20% (1/5)
-Totals: 23089 tests, 5942 skipped, 234 failures, 0 errors, 197866s
+vim +/flags +6491 kernel/events/core.c
 
-FSTESTIMG: gce-xfstests/xfstests-amd64-202408121130
-FSTESTPRJ: gce-xfstests
-FSTESTVER: blktests f043065 (Thu, 20 Jun 2024 16:26:22 +0900)
-FSTESTVER: fio  fio-3.36 (Fri, 20 Oct 2023 04:30:43 -0600)
-FSTESTVER: fsverity v1.6 (Wed, 20 Mar 2024 21:21:46 -0700)
-FSTESTVER: ima-evm-utils v1.5 (Mon, 6 Mar 2023 07:40:07 -0500)
-FSTESTVER: libaio   libaio-0.3.108-82-gb8eadc9 (Thu, 2 Jun 2022 13:33:11 +0200)
-FSTESTVER: ltp  20240524-131-gdfb293ee0 (Mon, 29 Jul 2024 09:57:32 +0200)
-FSTESTVER: nvme-cli v1.16 (Thu, 11 Nov 2021 13:09:06 -0800)
-FSTESTVER: quota  v4.05-67-g8254bec (Mon, 29 Jul 2024 12:24:36 -0400)
-FSTESTVER: util-linux v2.40 (Wed, 27 Mar 2024 12:46:59 +0100)
-FSTESTVER: xfsprogs v6.9.0 (Mon, 22 Jul 2024 11:05:03 +0200)
-FSTESTVER: xfstests-bld 8456529b (Wed, 31 Jul 2024 22:17:54 -0400)
-FSTESTVER: xfstests v2024.08.11-7-gc3fc1ccce-dirty (Mon, 12 Aug 2024 11:25:51 -0400)
-FSTESTVER: zz_build-distro bookworm
-FSTESTSET: -g auto
-FSTESTOPT: aex
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6480  
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6481  static int perf_mmap(struct file *file, struct vm_area_struct *vma)
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6482  {
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6483  	struct perf_event *event = file->private_data;
+22a4f650d686ee kernel/perf_counter.c Ingo Molnar             2009-06-01  6484  	unsigned long user_locked, user_lock_limit;
+789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6485  	struct user_struct *user = current_user();
+56de4e8f914668 kernel/events/core.c  Steven Rostedt (VMware  2019-12-13  6486) 	struct perf_buffer *rb = NULL;
+22a4f650d686ee kernel/perf_counter.c Ingo Molnar             2009-06-01  6487  	unsigned long locked, lock_limit;
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6488  	unsigned long vma_size;
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6489  	unsigned long nr_pages;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6490  	long user_extra = 0, extra = 0;
+d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28 @6491  	int ret = 0, flags = 0;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6492  
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6493  	/*
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6494  	 * Don't allow mmap() of inherited per-task counters. This would
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6495  	 * create a performance issue due to all children writing to the
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6496  	 * same rb.
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6497  	 */
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6498  	if (event->cpu == -1 && event->attr.inherit)
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6499  		return -EINVAL;
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6500  
+43a21ea81a2400 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6501  	if (!(vma->vm_flags & VM_SHARED))
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6502  		return -EINVAL;
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6503  
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6504) 	ret = security_perf_event_read(event);
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6505) 	if (ret)
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6506) 		return ret;
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6507) 
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6508  	vma_size = vma->vm_end - vma->vm_start;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6509  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6510  	if (vma->vm_pgoff == 0) {
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6511  		nr_pages = (vma_size / PAGE_SIZE) - 1;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6512  	} else {
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6513  		/*
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6514  		 * AUX area mapping: if rb->aux_nr_pages != 0, it's already
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6515  		 * mapped, all subsequent mappings should have the same size
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6516  		 * and offset. Must be above the normal perf buffer.
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6517  		 */
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6518  		u64 aux_offset, aux_size;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6519  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6520  		if (!event->rb)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6521  			return -EINVAL;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6522  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6523  		nr_pages = vma_size / PAGE_SIZE;
+dbc48c8f41c208 kernel/events/core.c  Adrian Hunter           2024-06-24  6524  		if (nr_pages > INT_MAX)
+dbc48c8f41c208 kernel/events/core.c  Adrian Hunter           2024-06-24  6525  			return -ENOMEM;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6526  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6527  		mutex_lock(&event->mmap_mutex);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6528  		ret = -EINVAL;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6529  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6530  		rb = event->rb;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6531  		if (!rb)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6532  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6533  
+6aa7de059173a9 kernel/events/core.c  Mark Rutland            2017-10-23  6534  		aux_offset = READ_ONCE(rb->user_page->aux_offset);
+6aa7de059173a9 kernel/events/core.c  Mark Rutland            2017-10-23  6535  		aux_size = READ_ONCE(rb->user_page->aux_size);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6536  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6537  		if (aux_offset < perf_data_size(rb) + PAGE_SIZE)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6538  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6539  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6540  		if (aux_offset != vma->vm_pgoff << PAGE_SHIFT)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6541  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6542  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6543  		/* already mapped with a different offset */
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6544  		if (rb_has_aux(rb) && rb->aux_pgoff != vma->vm_pgoff)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6545  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6546  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6547  		if (aux_size != vma_size || aux_size != nr_pages * PAGE_SIZE)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6548  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6549  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6550  		/* already mapped with a different size */
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6551  		if (rb_has_aux(rb) && rb->aux_nr_pages != nr_pages)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6552  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6553  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6554  		if (!is_power_of_2(nr_pages))
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6555  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6556  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6557  		if (!atomic_inc_not_zero(&rb->mmap_count))
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6558  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6559  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6560  		if (rb_has_aux(rb)) {
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6561  			atomic_inc(&rb->aux_mmap_count);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6562  			ret = 0;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6563  			goto unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6564  		}
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6565  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6566  		atomic_set(&rb->aux_mmap_count, 1);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6567  		user_extra = nr_pages;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6568  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6569  		goto accounting;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6570  	}
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6571  
+7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6572  	/*
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6573  	 * If we have rb pages ensure they're a power-of-two number, so we
+7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6574  	 * can do bitmasks instead of modulo.
+7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6575  	 */
+2ed11312eb1950 kernel/events/core.c  Kan Liang               2015-03-02  6576  	if (nr_pages != 0 && !is_power_of_2(nr_pages))
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6577  		return -EINVAL;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6578  
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6579  	if (vma_size != PAGE_SIZE * (1 + nr_pages))
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6580  		return -EINVAL;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6581  
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6582  	WARN_ON_ONCE(event->ctx->parent_ctx);
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6583  again:
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6584  	mutex_lock(&event->mmap_mutex);
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6585  	if (event->rb) {
+60490e7966659b kernel/events/core.c  Zhipeng Xie             2022-02-09  6586  		if (data_page_nr(event->rb) != nr_pages) {
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6587  			ret = -EINVAL;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6588  			goto unlock;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6589  		}
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6590  
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6591  		if (!atomic_inc_not_zero(&event->rb->mmap_count)) {
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6592  			/*
+68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6593  			 * Raced against perf_mmap_close(); remove the
+68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6594  			 * event and try again.
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6595  			 */
+68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6596  			ring_buffer_attach(event, NULL);
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6597  			mutex_unlock(&event->mmap_mutex);
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6598  			goto again;
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6599  		}
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6600  
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6601  		goto unlock;
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6602  	}
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6603  
+789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6604  	user_extra = nr_pages + 1;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6605  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6606  accounting:
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6607  	user_lock_limit = sysctl_perf_event_mlock >> (PAGE_SHIFT - 10);
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6608  
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6609  	/*
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6610  	 * Increase the limit linearly with more CPUs:
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6611  	 */
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6612  	user_lock_limit *= num_online_cpus();
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6613  
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6614  	user_locked = atomic_long_read(&user->locked_vm);
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6615  
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6616  	/*
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6617  	 * sysctl_perf_event_mlock may have changed, so that
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6618  	 *     user->locked_vm > user_lock_limit
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6619  	 */
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6620  	if (user_locked > user_lock_limit)
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6621  		user_locked = user_lock_limit;
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6622  	user_locked += user_extra;
+c5078f78b455fb kernel/perf_counter.c Peter Zijlstra          2009-05-05  6623  
+c4b75479741c9c kernel/events/core.c  Alexander Shishkin      2019-11-20  6624  	if (user_locked > user_lock_limit) {
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6625  		/*
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6626  		 * charge locked_vm until it hits user_lock_limit;
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6627  		 * charge the rest from pinned_vm
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6628  		 */
+789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6629  		extra = user_locked - user_lock_limit;
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6630  		user_extra -= extra;
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6631  	}
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6632  
+78d7d407b62a02 kernel/perf_event.c   Jiri Slaby              2010-03-05  6633  	lock_limit = rlimit(RLIMIT_MEMLOCK);
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6634  	lock_limit >>= PAGE_SHIFT;
+70f8a3ca68d3e1 kernel/events/core.c  Davidlohr Bueso         2019-02-06  6635  	locked = atomic64_read(&vma->vm_mm->pinned_vm) + extra;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6636  
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6637) 	if ((locked > lock_limit) && perf_is_paranoid() &&
+459ec28ab404d7 kernel/perf_counter.c Ingo Molnar             2009-09-13  6638  		!capable(CAP_IPC_LOCK)) {
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6639  		ret = -EPERM;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6640  		goto unlock;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6641  	}
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6642  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6643  	WARN_ON(!rb && event->rb);
+906010b2134e14 kernel/perf_event.c   Peter Zijlstra          2009-09-21  6644  
+d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28  6645  	if (vma->vm_flags & VM_WRITE)
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6646  		flags |= RING_BUFFER_WRITABLE;
+d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28  6647  
+
+:::::: The code at line 6491 was first introduced by commit
+:::::: d57e34fdd60be7ffd0b1d86bfa1a553df86b7172 perf: Simplify the ring-buffer logic: make perf_buffer_alloc() do everything needed
+
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
