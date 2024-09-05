@@ -1,75 +1,99 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AC51E487;
-	Thu,  5 Sep 2024 13:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAB31E487
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 13:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725543104; cv=none; b=n8FGuF1Hoh545GR38kkNp1jH6F8HQULzHo0OnHtDn6uLEJ1ABSChDAad6ZoM74lei7WCbBvihUnhRVrpHCpgqIb+1oD+6kIhfGM7kf0lesDM2ifs6qMvUkvV3DDZnK9JnT60ookbXnyXxPdRGD8Xz0UIDefS8DTUDiB4QuI2ikU=
+	t=1725543364; cv=none; b=eDdj/yMUthgxCRhQRVqiYH7mzgyY04GGTszKGRuPx/GoaNdALmojfYsclnbapd3zgHMmkE7cQ1DTOIrJCUtqgzanZHnK22W9Ex8dzpdAwzn4M4SfP6Qi9dWhhhTSMpgaQlYhTKAubzyTROU36rCFpizssFdwavGvtAi7Y/fQRhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725543104; c=relaxed/simple;
-	bh=AYgkrnLf7jWJv41+MDXPw9aj5ueMdlt1G/LPf/ND1b0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=LSiP3RvCDF6ehTbhLQ6+XedZ9Fop1TCZdCizgiRgp8/MZTpnnkksV4OnLvWD1cDWvDKMDpDOKvGkw7rABEDm8YxBnDnReKlwbNeuSUmPkA8/IYXuytkABKLWpaZLP5EL9I3m26/OkudVV5fXsHlJyEr+rBaWpCsmNok9FQizp4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X00Zt2PcCzpVL2;
-	Thu,  5 Sep 2024 21:29:42 +0800 (CST)
-Received: from dggpeml100021.china.huawei.com (unknown [7.185.36.148])
-	by mail.maildlp.com (Postfix) with ESMTPS id A80E81800FE;
-	Thu,  5 Sep 2024 21:31:36 +0800 (CST)
-Received: from [127.0.0.1] (10.174.177.174) by dggpeml100021.china.huawei.com
- (7.185.36.148) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 5 Sep
- 2024 21:31:36 +0800
-Message-ID: <2e4f662b-2c52-4148-afea-0f7d09d2776b@huawei.com>
-Date: Thu, 5 Sep 2024 21:31:35 +0800
+	s=arc-20240116; t=1725543364; c=relaxed/simple;
+	bh=Y+P2j2qrwSnMDqeWUSlId8+yFQS3DtwH7Wxq2ewUubE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pAEqoB76MBCc5U+vDGNYkOju6A0VVR51eAxFyXI6lQpuHWvR1dUEvkU0A7igr5xsn2X6PU/Z0Q3f5iofliiFo/j8k/ScUnNuEIuwPWg112ocbeFzUgZ/KE98V7JeBnL2GdzbxVL47nsPDaowklD6J4HxnGTzAWi7M2XJf+HHDFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqNtYyoo; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqNtYyoo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725543363; x=1757079363;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Y+P2j2qrwSnMDqeWUSlId8+yFQS3DtwH7Wxq2ewUubE=;
+  b=lqNtYyooj1EHdeTeCkUWVfK5XNLPJA6r3ZHNBbUgwlm2GvnkhwE648NF
+   7UgoEyShLNDTYeaCLQ6KWQ9jICLNE+lsonrPVOGnhzT7MvFPuFKS/svsj
+   zDhHRhGsLZ+xrFOnQIdoMPFtfvbrlPZBx7OyGac2bAW+RHGVaYp581Z3r
+   EZ4+gfPjls6lnewXW/QU5IJHinYzVslK+yRIeC02eZLtbK7jacCCEPuYX
+   sOLR4CuzZ/KzyHVbHOGGBcn0l7d6xK0aEXVJofPEiGXTpDi2gP0ngd6bi
+   8MjreZPZY8mI3B86QuIEJdiD3Pf8TxCgBu2M+X0wIJMh/KwPniuIVvu5p
+   w==;
+X-CSE-ConnectionGUID: dp1CEHHYTRqe823+w42uYQ==
+X-CSE-MsgGUID: fujm5n1eQHymyVZXtljhxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="28049271"
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="28049271"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 06:36:02 -0700
+X-CSE-ConnectionGUID: jZDU/06vS5eHmtiyiZBExQ==
+X-CSE-MsgGUID: DRKUsx1rSJG5TEkPiQ+n1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="65324357"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Sep 2024 06:36:00 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1smCeU-0009wK-1z;
+	Thu, 05 Sep 2024 13:35:58 +0000
+Date: Thu, 5 Sep 2024 21:35:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-can@vger.kernel.org
+Subject: [mkl-can-next:rockchip-canfd-downstream 28/32]
+ drivers/net/can/rockchip/rockchip_canfd.c:29:10: fatal error:
+ linux/rockchip/cpu.h: No such file or directory
+Message-ID: <202409052113.UCbJ9FFA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
- ext4_ext_clear_bb() error: double free of 'path'
-To: Theodore Ts'o <tytso@mit.edu>
-CC: Dan Carpenter <dan.carpenter@linaro.org>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, Jan Kara <jack@suse.cz>,
-	<oe-kbuild@lists.linux.dev>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Yang
- Erkun <yangerkun@huawei.com>, Baokun Li <libaokun1@huawei.com>
-References: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
- <c2711f3d-6bee-414c-952f-5c33da315a1a@huawei.com>
- <20240905132335.GT9627@mit.edu>
-Content-Language: en-US
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <20240905132335.GT9627@mit.edu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml100021.china.huawei.com (7.185.36.148)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2024/9/5 21:23, Theodore Ts'o wrote:
-> On Thu, Sep 05, 2024 at 09:30:37AM +0800, Baokun Li wrote:
->> Now Ted has fixed this problem in his branch:
->> https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/commit/?h=dev&id=2352e3e461926b59f01c1e39fbb0494891cff997
->>
->> Ted, could you please help push the corrected commit to the next branch?
-> The next branch gets automatically refreshed every day (Mondays
-> through Friday).  In the case of the ext4 tree, it gets picked up from
-> the dev branch.  So it should be fixed in the upcoming fs-next and
-> linux-next branch.
->
-> Cheers,
->
-> 					- Ted
->
-OK, I didn't know it was pulling automatically, thanks for the explanation!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git rockchip-canfd-downstream
+head:   57a1d7b3fcdc3ccf99336327347d54ad630a4485
+commit: 4e81d160c560ca2fea7805dee1c5262965268d93 [28/32] can: rockchip_canfd: remove obsolete CAN LED support
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240905/202409052113.UCbJ9FFA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409052113.UCbJ9FFA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409052113.UCbJ9FFA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/net/can/rockchip/rockchip_canfd.c:29:10: fatal error: linux/rockchip/cpu.h: No such file or directory
+      29 | #include <linux/rockchip/cpu.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-Cheers,
-Baokun
+vim +29 drivers/net/can/rockchip/rockchip_canfd.c
 
+b532c83f2c336c Elaine Zhang 2023-07-28 @29  #include <linux/rockchip/cpu.h>
+4a0161b0041f1c Elaine Zhang 2020-07-13  30  
 
+:::::: The code at line 29 was first introduced by commit
+:::::: b532c83f2c336c54747f77f90831bd498505dbf4 can: rockchip_canfd: support rk3568 can v2
+
+:::::: TO: Elaine Zhang <zhangqing@rock-chips.com>
+:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
