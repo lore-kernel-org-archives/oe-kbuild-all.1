@@ -1,145 +1,144 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1D6C13D;
-	Thu,  5 Sep 2024 01:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1641B8F6E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 01:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725499843; cv=none; b=PXf6ZdWZ4y9jy9YqYYhckRU3FXRsz5Asyum1hBTMZNgdfmKGrL6uWtllEHGydZ16DzodWxPGNAKcSNA/enDLOjrVK36719o4oFwj3ZLy4OGdPwTufJS0nuqmHBaJoEt46MlFTi3Z061o9a5FJYmoiBWyfM9ByO9b2ZPJJ3X7/ps=
+	t=1725500722; cv=none; b=icN11OVCC04MpkSIUZJUefN+ivEZxqB0HYAKb7VyPDxtbiMkqYEfUXSuYocbzEOBfJ30q/QDvhX0UfQBvgFZu0XY7uGo72lVJxzrZnOEb5vhbF3sA0rgmQt+Js3w8EFRRgSD3FTzOY1BTm7neKpQOr9PWVQq0R6ozCYETFWhmPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725499843; c=relaxed/simple;
-	bh=vdH827GExo+/8gFunl3W5hr33UzB/PVnFjxuY+ZGU7E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Mbtx7tGzBpmMAwLx1EM5QPfb7r62BKby5HNBioz8Mp+gvE9OuEZqawL7F9B/Ai1OCOkjpIvUSZi8MMGZelD+b6u4ZAuMxmGEjKjO78blZf/kuL2ywZqGF6KV3HlT67IeqECCtk5ikeMb1gxyO+1xBnpjMyIHr7FdqT6tN9zlcWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wzhcn1NKCz2DbjD;
-	Thu,  5 Sep 2024 09:30:17 +0800 (CST)
-Received: from dggpeml100021.china.huawei.com (unknown [7.185.36.148])
-	by mail.maildlp.com (Postfix) with ESMTPS id 53467180042;
-	Thu,  5 Sep 2024 09:30:38 +0800 (CST)
-Received: from [127.0.0.1] (10.174.177.174) by dggpeml100021.china.huawei.com
- (7.185.36.148) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 5 Sep
- 2024 09:30:37 +0800
-Message-ID: <c2711f3d-6bee-414c-952f-5c33da315a1a@huawei.com>
-Date: Thu, 5 Sep 2024 09:30:37 +0800
+	s=arc-20240116; t=1725500722; c=relaxed/simple;
+	bh=F+485MBdfdbS3Ebd0eJMTvH3SywNcQPEg6fAC9X4FmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IvZYkPupMtgW0kjRIzx2b45Ix5aL6QVd414nanUGYqxqG27YnP83L+OqUDAJcwkXrE1aDjfxhjBlrK/wU9EGJqtXKj7xJ5D0zRjc7YP3ujzqM4ySuaC06kqflmINAGrCbBWA5Eh/4/qcYVcG5VxkH3xzpYI0zCXSKSACnN8jBpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CXnPDc30; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXnPDc30"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725500720; x=1757036720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F+485MBdfdbS3Ebd0eJMTvH3SywNcQPEg6fAC9X4FmI=;
+  b=CXnPDc30IlJ2fz7ZhrLMAd2k/6VWvcp6I0s7v9x9EPaxb0icaODumOvJ
+   cpJkb6cGuuCy6+gMXGuUP5yaUEuG03n4I6iuEewLsvc3abOQ2CiZtNxsZ
+   1XGT7MVt+J8IZkhGTjlZIlup8vCKGU3r3qPz9rBIQyiPaQRMb5pU2Imx7
+   JdUUJygo/tfubvy0Nu0sYxB+rdbS6OVqPyRSLtimGfpBFtD1y+bsNCmXm
+   wHL830Pqy2KrOpIv1frA0eFIjhUITIqgX7gFCZ3pQ+9oGM72USgQbcKko
+   BXJzgF0lFISYd96+nxUqPb1bG7wwhSoDiezpvLkA+qHofNDPAmnOkZGbQ
+   g==;
+X-CSE-ConnectionGUID: 328UHyFKRQOqsR29uk47PQ==
+X-CSE-MsgGUID: YlIXn3LqSX6RFTmhROreHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="34795305"
+X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
+   d="scan'208";a="34795305"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 18:45:19 -0700
+X-CSE-ConnectionGUID: v4gfml03SkOZiMGeZELrKg==
+X-CSE-MsgGUID: 12Jk1h9iQwGDBWOVkIpPmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
+   d="scan'208";a="70262559"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 04 Sep 2024 18:45:19 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sm1Yi-0008mv-1W;
+	Thu, 05 Sep 2024 01:45:16 +0000
+Date: Thu, 5 Sep 2024 09:45:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 4/8] openat2: add CHECK_FIELDS flag to usize argument
+Message-ID: <202409050953.ufxyN6ku-lkp@intel.com>
+References: <20240902-extensible-structs-check_fields-v1-4-545e93ede2f2@cyphar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
- ext4_ext_clear_bb() error: double free of 'path'
-To: Dan Carpenter <dan.carpenter@linaro.org>, Theodore Ts'o <tytso@mit.edu>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Jan Kara <jack@suse.cz>,
-	<oe-kbuild@lists.linux.dev>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Yang
- Erkun <yangerkun@huawei.com>
-References: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
-Content-Language: en-US
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml100021.china.huawei.com (7.185.36.148)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240902-extensible-structs-check_fields-v1-4-545e93ede2f2@cyphar.com>
 
-On 2024/9/5 1:39, Dan Carpenter wrote:
-> Hi Baokun,
->
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   fdadd93817f124fd0ea6ef251d4a1068b7feceba
-> commit: 92bbb922166cd7a829bf60d168372ffa1c54e81d [8348/9291] ext4: make some fast commit functions reuse extents path
-> config: x86_64-randconfig-161-20240904 (https://download.01.org/0day-ci/archive/20240905/202409050044.EGobujzB-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202409050044.EGobujzB-lkp@intel.com/
+Hi Aleksa,
 
-Thanks for the report!
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-We've identified this issue before, and this is a regression introduced
-by Ted when resolving patch conflicts.
-For more details, please see:
-https://lore.kernel.org/all/7480a81b-4b95-45cc-bf4e-da34ff148790@huawei.com/
+[auto build test ERROR on 431c1646e1f86b949fa3685efc50b660a364c2b6]
 
-Now Ted has fixed this problem in his branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/commit/?h=dev&id=2352e3e461926b59f01c1e39fbb0494891cff997
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Sarai/uaccess-add-copy_struct_to_user-helper/20240902-151229
+base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+patch link:    https://lore.kernel.org/r/20240902-extensible-structs-check_fields-v1-4-545e93ede2f2%40cyphar.com
+patch subject: [PATCH RFC 4/8] openat2: add CHECK_FIELDS flag to usize argument
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240905/202409050953.ufxyN6ku-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050953.ufxyN6ku-lkp@intel.com/reproduce)
 
-Ted, could you please help push the corrected commit to the next branch?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409050953.ufxyN6ku-lkp@intel.com/
 
-Thanks,
-Baokun
-> smatch warnings:
-> fs/ext4/extents.c:6155 ext4_ext_clear_bb() error: double free of 'path'
->
-> vim +/path +6155 fs/ext4/extents.c
->
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6108  int ext4_ext_clear_bb(struct inode *inode)
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6109  {
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6110  	struct ext4_ext_path *path = NULL;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6111  	struct ext4_extent *ex;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6112  	ext4_lblk_t cur = 0, end;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6113  	int j, ret = 0;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6114  	struct ext4_map_blocks map;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6115
-> 1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6116  	if (ext4_test_inode_flag(inode, EXT4_INODE_INLINE_DATA))
-> 1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6117  		return 0;
-> 1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6118
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6119  	/* Determin the size of the file first */
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6120  	path = ext4_find_extent(inode, EXT_MAX_BLOCKS - 1, NULL,
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6121  					EXT4_EX_NOCACHE);
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6122  	if (IS_ERR(path))
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6123  		return PTR_ERR(path);
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6124  	ex = path[path->p_depth].p_ext;
-> 92bbb922166cd7 Baokun Li          2024-08-22  6125  	if (!ex)
-> 92bbb922166cd7 Baokun Li          2024-08-22  6126  		goto out;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6127  	end = le32_to_cpu(ex->ee_block) + ext4_ext_get_actual_len(ex);
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6128
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6129  	cur = 0;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6130  	while (cur < end) {
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6131  		map.m_lblk = cur;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6132  		map.m_len = end - cur;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6133  		ret = ext4_map_blocks(NULL, inode, &map, 0);
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6134  		if (ret < 0)
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6135  			break;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6136  		if (ret > 0) {
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6137  			path = ext4_find_extent(inode, map.m_lblk, NULL, 0);
-> b2e662cb86ca9f Li Zetao           2024-08-20  6138  			if (!IS_ERR(path)) {
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6139  				for (j = 0; j < path->p_depth; j++) {
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6140  					ext4_mb_mark_bb(inode->i_sb,
-> d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6141  							path[j].p_block, 1, false);
-> 599ea31d13617c Xin Yin            2022-01-10  6142  					ext4_fc_record_regions(inode->i_sb, inode->i_ino,
-> 599ea31d13617c Xin Yin            2022-01-10  6143  							0, path[j].p_block, 1, 1);
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6144  				}
-> 7ff5fddaddf2cc Ye Bin             2022-09-24  6145  				ext4_free_ext_path(path);
->                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^
-> Freed
->
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6146  			}
-> d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6147  			ext4_mb_mark_bb(inode->i_sb, map.m_pblk, map.m_len, false);
-> 599ea31d13617c Xin Yin            2022-01-10  6148  			ext4_fc_record_regions(inode->i_sb, inode->i_ino,
-> 599ea31d13617c Xin Yin            2022-01-10  6149  					map.m_lblk, map.m_pblk, map.m_len, 1);
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6150  		}
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6151  		cur = cur + map.m_len;
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6152  	}
-> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6153
-> 92bbb922166cd7 Baokun Li          2024-08-22  6154  out:
-> 92bbb922166cd7 Baokun Li          2024-08-22 @6155  	ext4_free_ext_path(path);
->                                                          ^^^^^^^^^^^^^^^^^^^^^^^^
-> Double free
->
->
+All errors (new ones prefixed by >>):
+
+   fs/open.c: In function '__do_sys_openat2':
+>> fs/open.c:1473:32: error: 'EEXTSYS_NOOP' undeclared (first use in this function)
+    1473 |                 return err ?: -EEXTSYS_NOOP;
+         |                                ^~~~~~~~~~~~
+   fs/open.c:1473:32: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/EEXTSYS_NOOP +1473 fs/open.c
+
+  1449	
+  1450	SYSCALL_DEFINE4(openat2, int, dfd, const char __user *, filename,
+  1451			struct open_how __user *, how, size_t, usize)
+  1452	{
+  1453		int err;
+  1454		struct open_how tmp;
+  1455	
+  1456		BUILD_BUG_ON(sizeof(struct open_how) < OPEN_HOW_SIZE_VER0);
+  1457		BUILD_BUG_ON(sizeof(struct open_how) != OPEN_HOW_SIZE_LATEST);
+  1458	
+  1459		if (unlikely(usize < OPEN_HOW_SIZE_VER0))
+  1460			return -EINVAL;
+  1461	
+  1462		if (unlikely(usize & CHECK_FIELDS)) {
+  1463			usize &= ~CHECK_FIELDS;
+  1464	
+  1465			memset(&tmp, 0, sizeof(tmp));
+  1466			tmp = (struct open_how) {
+  1467				.flags = VALID_OPEN_FLAGS,
+  1468				.mode = S_IALLUGO,
+  1469				.resolve = VALID_RESOLVE_FLAGS,
+  1470			};
+  1471	
+  1472			err = copy_struct_to_user(how, usize, &tmp, sizeof(tmp), NULL);
+> 1473			return err ?: -EEXTSYS_NOOP;
+  1474		}
+  1475	
+  1476		if (unlikely(usize > PAGE_SIZE))
+  1477			return -E2BIG;
+  1478	
+  1479		err = copy_struct_from_user(&tmp, sizeof(tmp), how, usize);
+  1480		if (err)
+  1481			return err;
+  1482	
+  1483		audit_openat2_how(&tmp);
+  1484	
+  1485		/* O_LARGEFILE is only allowed for non-O_PATH. */
+  1486		if (!(tmp.flags & O_PATH) && force_o_largefile())
+  1487			tmp.flags |= O_LARGEFILE;
+  1488	
+  1489		return do_sys_openat2(dfd, filename, &tmp);
+  1490	}
+  1491	
+
 -- 
-With Best Regards,
-Baokun Li
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
