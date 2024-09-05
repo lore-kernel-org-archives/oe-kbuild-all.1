@@ -1,120 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E12194C73
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 08:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0897195803
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 09:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725526705; cv=none; b=fxBxrCzomLdGe8hTkNbEE6n+E1HSyVJaNpxJ/o6unBZabMGwuBVTCXWslm2lIhVhCoA4Tg9S1qyCW9KnY7boILmIMiAMXCANygd+W96uMoucOvKHQBKan5GB8ZmcXEiOnxWcOE/i8rGiCCmaESC7G7xsKJAw3ZT7E9prP0sl/3s=
+	t=1725528180; cv=none; b=sZPf3ypUopnuI4he08bj21gzPsfsbWLUIxkxsWs15AHpKXlLSnavmwCvKFKmv1R81PVZ7sESR3Xph1eefm8Wt+P/jIAX5HEV8Mt+2XK37w9pQt1bx5XS3GyNh1bbtlCqxFJx5a4sgKBnXaiC0s3/MunzPZVUtnaNGUEMBYTu9xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725526705; c=relaxed/simple;
-	bh=gtASPCCOLpt9xwZw3BP2/0cX0MaF3P8nY6xQev3A9po=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cvO9lVJmkeVlEq8nLSN8teiPnJ6t0GPnHJYe27a+vf1k0vdOKIGzoY7NGnJ0dgBj/2tslliOysUlxoFzLZAQjGpozyQFjg1fD7G4YULxZpCJfjQOZurFHEA8hrUZwmD6x9Q2uLlPAzk8F0Ob1C15uIJTzkHX2a2Dklfpl8Y3utE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdUPKyIj; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdUPKyIj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725526704; x=1757062704;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gtASPCCOLpt9xwZw3BP2/0cX0MaF3P8nY6xQev3A9po=;
-  b=FdUPKyIjk4U3PIzCOp9mIRiSGsb+hT6AQq0lFnHB3M53tiUhZP9uFgvY
-   e8erTMfzOhK2oHhdZTqeAJU13/u59Ti8R47KxM7J7CjMYq4h9CZGudws0
-   hh1Rdlu7UtE5DuUQ4tFongHKjsWxp+tGrhLVhmhVMRpzAWoF0yDupdzLM
-   qbAOIQqraRdSHBLirGOv7HWa8HlietAjRe2RL28cJLnXYbj41AAUG1YYy
-   N18dg4odO1mlSqvNjEot+G4WRlhrF42VeoXIiuZcA0Al+Bfw8836FIeiq
-   kktFGZD42i3aPQ2A/209WRT+9CTGwhBJSGDp7e/EBN964YyDl401nEfa5
-   A==;
-X-CSE-ConnectionGUID: lA3nwei4SwSEA6MWDcEsTw==
-X-CSE-MsgGUID: p7nk7X28TVeblAnac4vufA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="13383347"
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="13383347"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 01:58:24 -0700
-X-CSE-ConnectionGUID: NH9v33D9RO65q6VCwKNZFw==
-X-CSE-MsgGUID: BJo+7ka/QKCFaF62TQOahQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="70356682"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Sep 2024 01:58:19 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sm8Jl-00098x-2K;
-	Thu, 05 Sep 2024 08:58:17 +0000
-Date: Thu, 5 Sep 2024 16:58:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sven Schnelle <svens@linux.ibm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/7] x86/tracing: pass ftrace_regs to
- function_graph_enter()
-Message-ID: <202409051620.5YBbYREt-lkp@intel.com>
-References: <20240904065908.1009086-3-svens@linux.ibm.com>
+	s=arc-20240116; t=1725528180; c=relaxed/simple;
+	bh=N4iC40EzEPc13bQ576OAMKyjKURS6QAGYI+Q/cUFnok=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ptotH4uNDGa5MuiNueE2q0NswgEhu/z+6iWJQhA/ykxwotohVWt7pzO2R0vMfwoOZ3A+ZIvQ+BetI0xMeh/j9oPMTY+CC7GLwvnisTENkNl8ApCcAdBe2THZhvyt8QTNGeMY/73a10hMkXepnn7Y9A2oNNBoW4YZ2iIVwf/gJLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 5F88392009C; Thu,  5 Sep 2024 11:22:49 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 58DAA92009B;
+	Thu,  5 Sep 2024 10:22:49 +0100 (BST)
+Date: Thu, 5 Sep 2024 10:22:49 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: kernel test robot <lkp@intel.com>
+cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, oe-kbuild-all@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: Re: error: ABI 'o32' is not supported on CPU 'mips64'
+In-Reply-To: <202408310705.y2OPq3Xs-lkp@intel.com>
+Message-ID: <alpine.DEB.2.21.2409051011570.1802@angie.orcam.me.uk>
+References: <202408310705.y2OPq3Xs-lkp@intel.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240904065908.1009086-3-svens@linux.ibm.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Sven,
+On Sat, 31 Aug 2024, kernel test robot wrote:
 
-kernel test robot noticed the following build warnings:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   fb24560f31f9dff2c97707cfed6029bfebebaf1c
+> commit: 2326c8f2022636a1e47402ffd09a3b28f737275f MIPS: Fix fallback march for SB1
+> date:   7 weeks ago
+> config: mips-randconfig-r121-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce: (https://download.01.org/0day-ci/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408310705.y2OPq3Xs-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> error: ABI 'o32' is not supported on CPU 'mips64'
+> >> error: error: ABI 'o32' is not supported on CPU 'mips64'
+>    ABI 'o32' is not supported on CPU 'mips64'
+>    make[3]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
+>    make[3]: *** [scripts/Makefile.build:244: scripts/mod/empty.o] Error 1
+>    make[3]: Target 'scripts/mod/' not remade because of errors.
+>    make[2]: *** [Makefile:1207: prepare0] Error 2
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:240: __sub-make] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:240: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
 
-[auto build test WARNING on s390/features]
-[also build test WARNING on tip/x86/core linus/master v6.11-rc6 next-20240904]
-[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ This is a compiler bug.  The MIPS64 ISA does certainly support the o32 
+ABI, so they need to fix their "CPU 'mips64'" definition.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Schnelle/tracing-add-ftrace_regs-to-function_graph_enter/20240904-150232
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/20240904065908.1009086-3-svens%40linux.ibm.com
-patch subject: [PATCH 2/7] x86/tracing: pass ftrace_regs to function_graph_enter()
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240905/202409051620.5YBbYREt-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051620.5YBbYREt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409051620.5YBbYREt-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/ftrace.h:23,
-                    from include/linux/kprobes.h:28,
-                    from arch/x86/kernel/process_64.c:35:
->> arch/x86/include/asm/ftrace.h:108:64: warning: 'struct ftrace_regs' declared inside parameter list will not be visible outside of this definition or declaration
-     108 |                            unsigned long frame_pointer, struct ftrace_regs *regs);
-         |                                                                ^~~~~~~~~~~
-
-
-vim +108 arch/x86/include/asm/ftrace.h
-
-   106	
-   107	void prepare_ftrace_return(unsigned long ip, unsigned long *parent,
- > 108				   unsigned long frame_pointer, struct ftrace_regs *regs);
-   109	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  Maciej
