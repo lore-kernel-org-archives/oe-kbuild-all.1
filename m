@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51B4188A32;
-	Thu,  5 Sep 2024 05:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5EB2BB15
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 06:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725514921; cv=none; b=CfJRP90OTaLt2wdRu6OR84AK4hqGAqt5fdthTM9vyqB2YhOvdppXjRqEaY0i76dh62GPWeC4SlJIgbJCIGjTi7URxpKpw8tTUk6YsMgmqaQwaS9lWzAei969gR149tBjEM4iaGc3bFHUhZlLfpdIg7AuYgzd3B21c6zUADGUzGE=
+	t=1725517380; cv=none; b=DeV/mJAg082mnjvvobjb5LBD+TSqMtvId+YLUGTjr1Qf16Ok7c1unHtpdDmxoQ0Dz0IyGdbAqKK7SceTs1Gl0iLcrwAagYu0WNYfoX//2QXrtPKMTciSNRY+7rrbj0MBbMgcxdfaOHP0Zmy9XgoyvLLrhMWFBYb7F6FOuX13JTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725514921; c=relaxed/simple;
-	bh=1bcPxobkNwMKDftQcBwUkHKfb/H/2K0+hr8VNa5lgwU=;
+	s=arc-20240116; t=1725517380; c=relaxed/simple;
+	bh=f1LWhimz2UBbLV/EoSNso4y9Ig1HNZjzqmPZciwieiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YRZhMvzk4Gv/V4igySA/gt7Y47+r7NLe+z+mgRyyFDckCinvsqwWTkyei/S+uWo+y0FPykscqWA3aOff0xa+FZiG1zYyhAE9YkN4OnGn3M1xWVxuSG6gpdEoPiWNDsnqkfp1sy/wKAn0HmRYY3UKHZpiafqS8d7VvS57XTUR8NQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4XYV4y0; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=VYXQ7xyurwFQ2B6fSbYpJQooO8XUFwM+Uk6wW+AgPdSaAp8ZYL8NWyHlK7n8PcrJYivYAVAatHITss0p1/omK+P0HoP5N/APa7TXFcX2k86MtnS53SCAiL5C3s7RCKWPeE6Lv4/mlMS2yzSad/VZzpyHLeleKseVQIfjQZJ3NcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DFaeFTwV; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4XYV4y0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DFaeFTwV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725514919; x=1757050919;
+  t=1725517379; x=1757053379;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1bcPxobkNwMKDftQcBwUkHKfb/H/2K0+hr8VNa5lgwU=;
-  b=c4XYV4y0wVeKWe66QCmrDcga61ogtTZ3nyFs6IiFfJeRoc9fJpwj7iuw
-   BZEtlEWhmxmFRRiTDZg6EEEH0M0ozPDA3Ll6zSaPVk3peg5YFVdnSs8eP
-   Yvxa2BLBqAyAe08zTqYYs53voAUweoYm1X8ydYrC4mm98eD3AvZw7ArIz
-   Na3S4hI9zhVTvs8nOiAdeNLzYNsKsckOmYYw8RoZWb89s+rT+rzULk7sN
-   9+ehMbS0wvoH87jSYqjOtM0RTpvD8/GKALzSweA9eB1fR13jAzIxUxOod
-   Jcyi9aOwAxo/gC3Abmk3qD+R70dzmUoVerCZxYrrFoy8KIydzfJW47CIB
+  bh=f1LWhimz2UBbLV/EoSNso4y9Ig1HNZjzqmPZciwieiI=;
+  b=DFaeFTwVXFH5gMAWf+XJ/lMVM73EnV3WRRbBa6ZTsIh67qXQB73wJmWg
+   YnmvcPvkXClRAp+2REl5aQlQ1gJaoPgs1xi8/gimrV/gOUIGimTA2y5FR
+   lCG7qVpAbn957OyZPMYHi8KQ+xIV8Px2FnCOy0Y9PQWr5zkzIEMAkUw6i
+   xmqs4YmwLhSB4ttJsQsxkmdGTltTs7pCv0L50hHvcMz6naKYVOjJWyQ3e
+   p7zV74v440nbTs+tzSvXs564OUV1HUuwXQc+IJYIwy8xByVQ2O2tspwX+
+   NNkNA+sgnDNkhT5tivvsC5C6ByEhdj+lH12W88uRQXxw6ZXWvkiHluZNq
    A==;
-X-CSE-ConnectionGUID: pjWr1ssGTbayGfnS5nYCgQ==
-X-CSE-MsgGUID: VoIMa5L/TriUWxznv3qT9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="34873059"
+X-CSE-ConnectionGUID: pYdk1VcTSui0u5orZYEBOw==
+X-CSE-MsgGUID: 7ujJITCIQdWcK2rfC3L2Zw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="27134915"
 X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="34873059"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 22:41:58 -0700
-X-CSE-ConnectionGUID: gK/lmMJHR2S8MzhqR+d5yQ==
-X-CSE-MsgGUID: 3AeN9hrARmS4GSFrkoc4Ig==
+   d="scan'208";a="27134915"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 23:22:58 -0700
+X-CSE-ConnectionGUID: IjnysbzvSKeOM1ulyK7N1A==
+X-CSE-MsgGUID: 5PUti+rXRlezqBR8EZ0prQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="65823109"
+   d="scan'208";a="96311567"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Sep 2024 22:41:56 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 Sep 2024 23:22:57 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sm5Fh-0008yh-2c;
-	Thu, 05 Sep 2024 05:41:53 +0000
-Date: Thu, 5 Sep 2024 13:41:43 +0800
+	id 1sm5tO-00090R-2n;
+	Thu, 05 Sep 2024 06:22:54 +0000
+Date: Thu, 5 Sep 2024 14:22:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wende Tan <twd2.me@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: ld.lld: error: Function Import: link error: linking module flags
- 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)'
- and 'vmlinux.a(smartpqi_init.o at 1171352)'
-Message-ID: <202409051341.lmvIzCrZ-lkp@intel.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	arm@kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: [soc:soc/drivers 125/151] ERROR: modpost:
+ "ucc_mux_set_grant_tsa_bkpt" [drivers/soc/fsl/qe/tsa.ko] undefined!
+Message-ID: <202409051409.fszn8rEo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,42 +63,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c763c43396883456ef57e5e78b64d3c259c4babc
-commit: 021d23428bdbae032294e8f4a29cb53cb50ae71c RISC-V: build: Allow LTO to be selected
-date:   8 months ago
-config: riscv-randconfig-002-20240905 (https://download.01.org/0day-ci/archive/20240905/202409051341.lmvIzCrZ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051341.lmvIzCrZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git soc/drivers
+head:   a0e199ecf93575cc9314a7b7a555594ee346f786
+commit: 7ac947021d9d002d207ba9c376b4fe498926ea8d [125/151] soc: fsl: cpm1: tsa: Add support for QUICC Engine (QE) implementation
+config: arm-randconfig-r064-20240905 (https://download.01.org/0day-ci/archive/20240905/202409051409.fszn8rEo-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051409.fszn8rEo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409051341.lmvIzCrZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409051409.fszn8rEo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(smartpqi_init.o at 1171352)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(memcontrol.o at 1089572)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(skbuff.o at 1212272)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(hpsa.o at 1171292)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(bnx2.o at 1179752)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(segment.o at 1119272)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(super.o at 1113572)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(trace.o at 1082912)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(mballoc.o at 1101512)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(filter.o at 1213352)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(slub.o at 1089332)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(volumes.o at 1114712)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(tcp.o at 1217312)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(raid5.o at 1203572)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(inode.o at 1114172)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(ixgbe_main.o at 1181852)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(core.o at 1086812)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(igc_main.o at 1181132)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(md.o at 1203752)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1073432)' and 'vmlinux.a(target_core_transport.o at 1174232)'
-   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+>> ERROR: modpost: "ucc_mux_set_grant_tsa_bkpt" [drivers/soc/fsl/qe/tsa.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
