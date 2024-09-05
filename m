@@ -1,157 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6181991B0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 11:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB69199225;
+	Thu,  5 Sep 2024 11:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725537222; cv=none; b=KDgZCEtOrWontkD8qy17t0D2MPyN0J3617RtrO6XEq9wWuWXjT+wH+0uKT6X3vpdMiRCiOVuicZ5fK1KgPKBbqQiaRoLTQfxqzesujW/UHLhtAexVA7NcZlssFsw6xw2z9PTYQ1Lb+EDexKQQiMwZYr6F3Evq7MvuDjUJkIERcY=
+	t=1725537224; cv=none; b=KTgJfaVVyitcXpYQSU2r+eMQxCW83h6Jm6q70e3qh3W8sxJ/NhhYUb2nFG0yasIuv30xLF5LUy6BKKi2OIwjlPz3BNSq60nKFmevqKJvSrTQXGbNs8m+8IDQBEivO+Qg+BcmHpOTxIJ3aXfKpbqSqdDkbLmf9EDG6YykTJh0btY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725537222; c=relaxed/simple;
-	bh=y2IK+HEcBB/ZWqPaVkHAlLN6h8/RBN3tp0brL+cgAcc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O2TwOGXy4+Jfo1+TCwAwb1M/giXCQcadOO08OcW5F7vHXaFz8+7As0Np3UNyGuHLJegM/pGSkkawnuCL8eNdiKhpWB7w4DX75jLhMLc8u+xSeY2hMDEye7mEhwyKlhiAnFCWFA19bqF1KMwPdCuU9xj5Dl5zzwGRccB0imSotZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/7kuzp6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1725537224; c=relaxed/simple;
+	bh=x266MoN0XRzRxav9cY5RfKQfTkJHTT/H29UUQ2jj11w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nEhxQt+rTFKDbHDC9zOlojx413BcmGCIQ22B6BDHBMQ3smgTwixkANGqibMxBZzN8ZknZgWbnl7FLbGaCFMI+uuUutMY9KWW6T8PfhLejpcZoziDNMdgI3caTmYZrV0fDdBhXBdyS4tpQsXmDh2Ugx8UdPNZSSZvfUBGR7tMoyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mr/nJ2di; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/7kuzp6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mr/nJ2di"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725537220; x=1757073220;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y2IK+HEcBB/ZWqPaVkHAlLN6h8/RBN3tp0brL+cgAcc=;
-  b=J/7kuzp6WPGlD64WPczpWw13I9RjJTpWQgD+K3C5z5ei4RFYdwgmXuou
-   1HylQbMsX4t6fbOaSsduF9qX3swF3E9VrcYEJRKFD8WxWjBZttQeI/Qvn
-   7bU3tyfPKzE1zhmc7K4O9iRlOtgBPdPXolgHUSsYvwXxw87CYO08ryKxp
-   aLZh+v8S2DNgfyAsKq1v1EggHGBAbRYqHZ/P1UtgCLNcKhHuEL3ObRPuG
-   kQkhn63de/HbmxIN+yxe7bpB6LIPnSHJCjpO0v7/MmBS2jSPmFLQMA160
-   iRiv/CU+DHqDhlGywjjilsdtsPf+FdkslYKAhyaqkB4w866/skCVKzLpO
-   Q==;
-X-CSE-ConnectionGUID: ZCujvwDpRICes3iu9RW6Ww==
-X-CSE-MsgGUID: lTp2/KJFTK6UNb3rjLF4qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="35633464"
+  t=1725537223; x=1757073223;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=x266MoN0XRzRxav9cY5RfKQfTkJHTT/H29UUQ2jj11w=;
+  b=Mr/nJ2diyPog/G3R1yssiaa14g8fh2MoXMtDPTdoJcASr74cIbsiWhI8
+   gduqLwhH88ZpPN3EIUJvqitXMWWzpHnz3E1iLAD80Nv+oTSLwzD1ecFac
+   vEsJJ/lRduPgfwSzpBIzfuX8yOqGVC/sxbAT/3bTSqFlXLb5hMRylXpdu
+   wNdSJaHFXRfos2JRaUr4eO14KU8copqOS4D6bpKq9nFGpZoXuwA1drvcx
+   aqbLe/ttXJKSy7YZ0H3LpaVN2LX81+/l8TCRIKYDy6bgQm3EXHlL2/D6q
+   xq+GHX6MU94zmZaDcbUqRpKhPnhRdqbWTjzlFNhUU1U4YNwxoUaIUiFv0
+   w==;
+X-CSE-ConnectionGUID: hEWXAlsWTN2H9T82qUzPcw==
+X-CSE-MsgGUID: bGp97o21R8m42fsziBouyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24406143"
 X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="35633464"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 04:53:39 -0700
-X-CSE-ConnectionGUID: duvvsZ+BR6ew3ciPJuhNmA==
-X-CSE-MsgGUID: ZhKTczjBTJSpA0tHd4SEcw==
+   d="scan'208";a="24406143"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 04:53:42 -0700
+X-CSE-ConnectionGUID: 7tTwUzIFSZSpbSu5e082hw==
+X-CSE-MsgGUID: GxrgnUfmQRmzcypMHIZRSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="65611132"
+   d="scan'208";a="65582612"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Sep 2024 04:53:39 -0700
+  by orviesa009.jf.intel.com with ESMTP; 05 Sep 2024 04:53:39 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smB3Q-0009nB-1K;
+	id 1smB3Q-0009n9-1E;
 	Thu, 05 Sep 2024 11:53:36 +0000
 Date: Thu, 5 Sep 2024 19:53:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13795/13866] mm/shmem.c:1641:57: error: call to
- '__compiletime_assert_745' declared with 'error' attribute: BUILD_BUG failed
-Message-ID: <202409051939.TTEs2Xg7-lkp@intel.com>
+To: Jiawei Ye <jiawei.ye@foxmail.com>, pablo@netfilter.org,
+	kadlec@netfilter.org, davem@davemloft.net, dsahern@kernel.org,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	fw@strlen.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] netfilter: tproxy: Add RCU protection in nf_tproxy_laddr4
+Message-ID: <202409051900.8A3Mf8i7-lkp@intel.com>
+References: <tencent_DE4D2D0FE82F3CA9294AEEB3A949A44F6008@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <tencent_DE4D2D0FE82F3CA9294AEEB3A949A44F6008@qq.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   552667f6edabe9e4bc2c86f990f53749bebfcbed
-commit: c7fcbe1041758d0dedc32502609a73a22884d7b8 [13795/13866] mm: shmem: Merge shmem_alloc_hugefolio() with shmem_alloc_folio()
-config: x86_64-randconfig-014-20240905 (https://download.01.org/0day-ci/archive/20240905/202409051939.TTEs2Xg7-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051939.TTEs2Xg7-lkp@intel.com/reproduce)
+Hi Jiawei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on netfilter-nf/main]
+[also build test WARNING on linus/master v6.11-rc6 next-20240904]
+[cannot apply to nf-next/master horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiawei-Ye/netfilter-tproxy-Add-RCU-protection-in-nf_tproxy_laddr4/20240904-202126
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/tencent_DE4D2D0FE82F3CA9294AEEB3A949A44F6008%40qq.com
+patch subject: [PATCH] netfilter: tproxy: Add RCU protection in nf_tproxy_laddr4
+config: arm-randconfig-001-20240905 (https://download.01.org/0day-ci/archive/20240905/202409051900.8A3Mf8i7-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051900.8A3Mf8i7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409051939.TTEs2Xg7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409051900.8A3Mf8i7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/shmem.c:1660:6: warning: variable 'folio' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1660 |         if (!shmem_prepare_alloc(&gfp))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/shmem.c:1688:7: note: uninitialized use occurs here
-    1688 |         if (!folio)
-         |              ^~~~~
-   mm/shmem.c:1660:2: note: remove the 'if' if its condition is always false
-    1660 |         if (!shmem_prepare_alloc(&gfp))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1661 |                 goto no_mem;
-         |                 ~~~~~~~~~~~
-   mm/shmem.c:1653:21: note: initialize the variable 'folio' to silence this warning
-    1653 |         struct folio *folio;
-         |                            ^
-         |                             = NULL
->> mm/shmem.c:1641:57: error: call to '__compiletime_assert_745' declared with 'error' attribute: BUILD_BUG failed
-    1641 |         folio = vma_alloc_folio(gfp, order, &pvma, 0, order == HPAGE_PMD_ORDER);
-         |                                                                ^
-   include/linux/huge_mm.h:110:26: note: expanded from macro 'HPAGE_PMD_ORDER'
-     110 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:106:28: note: expanded from macro 'HPAGE_PMD_SHIFT'
-     106 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:439:2: note: expanded from macro '_compiletime_assert'
-     439 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:432:4: note: expanded from macro '__compiletime_assert'
-     432 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:61:1: note: expanded from here
-      61 | __compiletime_assert_745
-         | ^
->> mm/shmem.c:1641:57: error: call to '__compiletime_assert_745' declared with 'error' attribute: BUILD_BUG failed
-   include/linux/huge_mm.h:110:26: note: expanded from macro 'HPAGE_PMD_ORDER'
-     110 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:106:28: note: expanded from macro 'HPAGE_PMD_SHIFT'
-     106 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:439:2: note: expanded from macro '_compiletime_assert'
-     439 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:432:4: note: expanded from macro '__compiletime_assert'
-     432 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:61:1: note: expanded from here
-      61 | __compiletime_assert_745
-         | ^
-   1 warning and 2 errors generated.
+>> net/ipv4/netfilter/nf_tproxy_ipv4.c:64:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+                   return daddr;
+                   ^
+   net/ipv4/netfilter/nf_tproxy_ipv4.c:62:2: note: previous statement is here
+           if (!indev)
+           ^
+   1 warning generated.
 
 
-vim +1641 mm/shmem.c
+vim +/if +64 net/ipv4/netfilter/nf_tproxy_ipv4.c
 
-  1633	
-  1634	static struct folio *shmem_alloc_folio(gfp_t gfp, int order,
-  1635			struct shmem_inode_info *info, pgoff_t index)
-  1636	{
-  1637		struct vm_area_struct pvma;
-  1638		struct folio *folio;
-  1639	
-  1640		shmem_pseudo_vma_init(&pvma, info, index);
-> 1641		folio = vma_alloc_folio(gfp, order, &pvma, 0, order == HPAGE_PMD_ORDER);
-  1642		shmem_pseudo_vma_destroy(&pvma);
-  1643	
-  1644		return folio;
-  1645	}
-  1646	
+45ca4e0cf2734f Máté Eckl        2018-06-01  49  
+45ca4e0cf2734f Máté Eckl        2018-06-01  50  __be32 nf_tproxy_laddr4(struct sk_buff *skb, __be32 user_laddr, __be32 daddr)
+45ca4e0cf2734f Máté Eckl        2018-06-01  51  {
+b8d19572367bb0 Florian Westphal 2019-05-31  52  	const struct in_ifaddr *ifa;
+45ca4e0cf2734f Máté Eckl        2018-06-01  53  	struct in_device *indev;
+45ca4e0cf2734f Máté Eckl        2018-06-01  54  	__be32 laddr;
+45ca4e0cf2734f Máté Eckl        2018-06-01  55  
+45ca4e0cf2734f Máté Eckl        2018-06-01  56  	if (user_laddr)
+45ca4e0cf2734f Máté Eckl        2018-06-01  57  		return user_laddr;
+45ca4e0cf2734f Máté Eckl        2018-06-01  58  
+45ca4e0cf2734f Máté Eckl        2018-06-01  59  	laddr = 0;
+2729675b33a93a Jiawei Ye        2024-09-04  60  	rcu_read_lock();
+45ca4e0cf2734f Máté Eckl        2018-06-01  61  	indev = __in_dev_get_rcu(skb->dev);
+21a673bddc8fd4 Florian Westphal 2024-05-13  62  	if (!indev)
+2729675b33a93a Jiawei Ye        2024-09-04  63  		rcu_read_unlock();
+21a673bddc8fd4 Florian Westphal 2024-05-13 @64  		return daddr;
+b8d19572367bb0 Florian Westphal 2019-05-31  65  
+b8d19572367bb0 Florian Westphal 2019-05-31  66  	in_dev_for_each_ifa_rcu(ifa, indev) {
+b8d19572367bb0 Florian Westphal 2019-05-31  67  		if (ifa->ifa_flags & IFA_F_SECONDARY)
+b8d19572367bb0 Florian Westphal 2019-05-31  68  			continue;
+b8d19572367bb0 Florian Westphal 2019-05-31  69  
+45ca4e0cf2734f Máté Eckl        2018-06-01  70  		laddr = ifa->ifa_local;
+45ca4e0cf2734f Máté Eckl        2018-06-01  71  		break;
+b8d19572367bb0 Florian Westphal 2019-05-31  72  	}
+2729675b33a93a Jiawei Ye        2024-09-04  73  	rcu_read_unlock();
+45ca4e0cf2734f Máté Eckl        2018-06-01  74  
+45ca4e0cf2734f Máté Eckl        2018-06-01  75  	return laddr ? laddr : daddr;
+45ca4e0cf2734f Máté Eckl        2018-06-01  76  }
+45ca4e0cf2734f Máté Eckl        2018-06-01  77  EXPORT_SYMBOL_GPL(nf_tproxy_laddr4);
+45ca4e0cf2734f Máté Eckl        2018-06-01  78  
 
 -- 
 0-DAY CI Kernel Test Service
