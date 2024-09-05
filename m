@@ -1,155 +1,168 @@
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673B4192D73
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 09:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE4483CC8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 09:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725530199; cv=none; b=JksCIgcIWS6lsIvzrSIYYoLTMYhHrA+mXPyHA5jhLm56DppHagwgSYtcixdT9ahkp7wHUMcR10yQDqfgKkdfKS4Lw19oPkPTkb0vztP4+pbjw7lfOr9JuoFVVpZ8kTvfZHIcUOs/ipGuz6T4FHfsEzqbu2f+opKaTEiCPdvKouM=
+	t=1725530387; cv=none; b=UR9jZKpKNSY1UMcS8khydpba2FiKKvvc/2q2LVmbZ3qKdSTPax4IWwjsvUehJ39ueYCbEK4v+a/PJKXHrMCnkx5TbbWlTyfMn3In/4jGSF4xBbSI7jSRI/TRp7DpgD/f7ZiAuu8I5S1oTDbQ0yuHYZI2FwBnzfPPu/APK2i2FJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725530199; c=relaxed/simple;
-	bh=Hzz2twul5J5zhZNCAGX+lWkNskeCMNj/ZBdlAjXyJOQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=BO+NWUtuJgnlWopSJ83bWWZ+gq63mquYx8xY+ajx/C2KZYdoKZfgPa53uxiqgeLN21Y3dxl87NLFYB3F8jq3IpjLCj+RoQaFL/kX8vXa3hsvmwZlXE1aR1jBQOYaZjTxSMk92cXmw5xNyGAnjMWK2CyDCGSJgz2MP8wtTt9OUuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=xH90HT2i; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iadQwMJ7; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
+	s=arc-20240116; t=1725530387; c=relaxed/simple;
+	bh=Eodmu75+XuEr3W/HICK+TMv0O0vNw3dwe/8NCNmobu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AiucSpXu9Mb1L558puWGvlun8EvKYBZ5HGDzpk8fGyMX72ukBLh31Aqb/xAFT0It5+RaiIZHoQo+z0QW2PCswwguKtH8MiKzO/SAxuhvtNJIYEIMgeB6YE470Ro67kjvYNzabRT6EcODL709snxAAv8ZR4tT3zhlVYOuXM8H9Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P4xcxUrE; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="xH90HT2i";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iadQwMJ7"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 7C5EB138030C;
-	Thu,  5 Sep 2024 05:56:36 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-05.internal (MEProxy); Thu, 05 Sep 2024 05:56:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1725530196;
-	 x=1725616596; bh=fpvXW45cCFPUgOD1UbFx3JsvBCsvIRuOMB9z0xPbXo0=; b=
-	xH90HT2ihv337ZTOdSoekBd0rTQjMIirKJmltllKuRZUJTbWNLRF8jnNoGgrnKpB
-	86k40oXh8nHhWqp+kBgPf4NGnv9ITmKQTMnW0MIDVVYTk4zjNycXe9RGJxTbuqfW
-	Q2vdv45fOsgZzBV1rRxoImHH3tZS5WCGgjCSw+CwmJjEFrOWf+HzTQKrkHYZ0u7W
-	7VmRUWtWwi/DlNQgXNRQp4TeIjHcl+6SPXo9C60nwdGmc0P0f1WJ63SI8ZJNBKxb
-	4Z6E+AIcV+8xpKom+OOSOithfTorQWZu6upFLsbV5RjC3kA8EeenLN1GyqWfuNly
-	Lp7ymjCmXKR6YBymkZbKaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725530196; x=
-	1725616596; bh=fpvXW45cCFPUgOD1UbFx3JsvBCsvIRuOMB9z0xPbXo0=; b=i
-	adQwMJ7bCR9L7mBRpnUZfn+kJYI9K835jSrJm22P060khYlnbvmbTJzzvadb5v65
-	/ZGfMy6qQhnfXuhLwt5y0mHJSwVh8OEbfx1lVTosu60CZVt+mWSOwPgBnLiEAfX5
-	D7xjA1XPdqTurrtRkVus8ZN4S+uVEzfCH4Zg4eWXyzrv9x2TcyWRMIcx37MOJKsB
-	u/apcWr+Nr3UueCOWEzEuLh6Ifr+xgbTtdaJXcPKjJOBD0cWcqODaz8pjhH2BSrQ
-	mW45nR7LvgH7Q8QLf9rjvHlg10FCFht+H+nnCP+elt/CBZdAk+TikSgzvcpUzOe/
-	iNIKPFn9ZjeeYOJfSjLcg==
-X-ME-Sender: <xms:U4DZZlJKRNK1Myy3fi7pUqfwtgTcsUjgvZnPO6ypnM1-bS1IW8Z2GQ>
-    <xme:U4DZZhJtZ8m6cftICVM0SAYW4BtDTZ3SHLYdVx0B6aTr9a4z5KVHE0Sbh5ES6A5NP
-    vc-Mi81aV0ApTSH1wg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehledgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
-    necuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfh
-    hlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepvdfhtdelleeggeefudejveef
-    feejhfektdeilefhhfeigfdugfffgfeiuddvteelnecuffhomhgrihhnpehkvghrnhgvlh
-    drohhrghdptddurdhorhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigv
-    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
-    horghtrdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehtshgsohhgvghnugesrghlphhhrgdrfhhrrghnkhgvnhdruggvpdhrtghpth
-    htoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgr
-    lhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrtghrohesohhrtg
-    grmhdrmhgvrdhukhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhk
-    vghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:U4DZZtv0_8zGN_cz6V665UB4jA6k7eWUOMf7mPmIJ-ElbKAbqSZAmg>
-    <xmx:U4DZZmZvvyegcSyX6RfmDcCw9SAn5lAMwaA9DlmW24SJ1R4ES1J47Q>
-    <xmx:U4DZZsbW40yh3ymnfi-IUEWCKFA4wxCVrayIHAOg_T1Ls5dASUrRkQ>
-    <xmx:U4DZZqDyZqNWeKhfSKoLnxkAam9jMG4tBD7VvzVkZnlWWkpSUoYAzw>
-    <xmx:VIDZZjU92oN8nFXLzZxbjAExBc-erMcR7cLl_cO2KoAIe3UOS_XlaLXn>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C99551C207BB; Thu,  5 Sep 2024 05:56:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4xcxUrE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725530385; x=1757066385;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Eodmu75+XuEr3W/HICK+TMv0O0vNw3dwe/8NCNmobu0=;
+  b=P4xcxUrElCziY3Rb9X/sCm6A0h/nsiBFPnX4dn7qhPqMxGNzU7JjM7zB
+   faPwvvX6PGY54bnbcmp9Ig2hMMt8Q1tvXghDJskshbN4dwJPwJkKSUC2M
+   4bU6irW14VyXOvHW77LK/WvEK2pqWiA6Vkxa1egno9iykxYtNQ4UqvCom
+   VkcowYR8NUzNxiK69BBCNl4ZeOUTx3kGShUOiC1cjPz8w/asEhBhCBkR5
+   oD4MLV7EArK2h+/NW3TsVMfQU9F2MMAlj9Z2pfsPNvTp2cqgYiTKcG7S0
+   Ad4LwqEog7gHBTnUkMjUry4s6TTKSBrkfOEQWbIm+ILvUUnDImj9IeHsY
+   Q==;
+X-CSE-ConnectionGUID: VYCEIlAeSl+ykq2CTCj9Yg==
+X-CSE-MsgGUID: 66nmvqtBSDWJlA3WbMD4Fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="46767278"
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="46767278"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 02:59:45 -0700
+X-CSE-ConnectionGUID: 6a3zcqtuTWu+NLUd6CiOiQ==
+X-CSE-MsgGUID: diU0Qd78TH+bBGcN7QLkSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="103032355"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 05 Sep 2024 02:59:44 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sm9HB-0009Vv-1H;
+	Thu, 05 Sep 2024 09:59:41 +0000
+Date: Thu, 5 Sep 2024 17:59:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kalle Valo <kvalo@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 8636/9291]
+ arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: wifi@1:
+ marvell,caldata-txpwrlimit-2g: [1, 0, 6, 0, 8, 2, 137, 1, 36, 0, 103, 9, 20,
+ 1, 0, 15, 1, 12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10,
+ 12, 11, 12, 12, 12, 13, 9, 14, 9, 15, 9, 137...
+Message-ID: <202409051754.CkMRYhcd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 05 Sep 2024 10:56:15 +0100
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>,
- "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
-Message-Id: <f661ed7e-5d69-403c-bfc8-7581eb8a6e76@app.fastmail.com>
-In-Reply-To: <alpine.DEB.2.21.2409051011570.1802@angie.orcam.me.uk>
-References: <202408310705.y2OPq3Xs-lkp@intel.com>
- <alpine.DEB.2.21.2409051011570.1802@angie.orcam.me.uk>
-Subject: Re: error: ABI 'o32' is not supported on CPU 'mips64'
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   fdadd93817f124fd0ea6ef251d4a1068b7feceba
+commit: 25f855413885bbce8a0dd5d7dea670a0da1cdbe5 [8636/9291] dt-bindings: n=
+et: wireless: convert marvel-8xxx.txt to yaml format
+config: arm-randconfig-052-20240904 (https://download.01.org/0day-ci/archiv=
+e/20240905/202409051754.CkMRYhcd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev16+gc51125d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240905/202409051754.CkMRYhcd-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409051754.CkMRYhcd-lkp@i=
+ntel.com/
 
-=E5=9C=A82024=E5=B9=B49=E6=9C=885=E6=97=A5=E4=B9=9D=E6=9C=88 =E4=B8=8A=E5=
-=8D=8810:22=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
-> On Sat, 31 Aug 2024, kernel test robot wrote:
->
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
-x.git master
->> head:   fb24560f31f9dff2c97707cfed6029bfebebaf1c
->> commit: 2326c8f2022636a1e47402ffd09a3b28f737275f MIPS: Fix fallback m=
-arch for SB1
->> date:   7 weeks ago
->> config: mips-randconfig-r121-20240830 (https://download.01.org/0day-c=
-i/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/config)
->> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project =
-8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
->> reproduce: (https://download.01.org/0day-ci/archive/20240831/20240831=
-0705.y2OPq3Xs-lkp@intel.com/reproduce)
->>=20
->> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202408310705.y2OPq3Xs=
--lkp@intel.com/
->>=20
->> All errors (new ones prefixed by >>):
->>=20
->> >> error: ABI 'o32' is not supported on CPU 'mips64'
->> >> error: error: ABI 'o32' is not supported on CPU 'mips64'
->>    ABI 'o32' is not supported on CPU 'mips64'
->>    make[3]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-=
-offsets.s] Error 1
->>    make[3]: *** [scripts/Makefile.build:244: scripts/mod/empty.o] Err=
-or 1
->>    make[3]: Target 'scripts/mod/' not remade because of errors.
->>    make[2]: *** [Makefile:1207: prepare0] Error 2
->>    make[2]: Target 'prepare' not remade because of errors.
->>    make[1]: *** [Makefile:240: __sub-make] Error 2
->>    make[1]: Target 'prepare' not remade because of errors.
->>    make: *** [Makefile:240: __sub-make] Error 2
->>    make: Target 'prepare' not remade because of errors.
->
->  This is a compiler bug.  The MIPS64 ISA does certainly support the o3=
-2=20
-> ABI, so they need to fix their "CPU 'mips64'" definition.
-
-Just for record, this has been fixed in LLVM-17 [1], while the bit is st=
-ill
-on LLVM 15.
-
-Thanks
-[1]: https://github.com/llvm/llvm-project/commit/7983f8aca82e258174849f1=
-cc6a70029353e9887
-
->
->   Maciej
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_a=
+ddress_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/rockchip/rk3288.dtsi:1233.20-1235.6: Warning (graph_ch=
+ild_address): /dp@ff970000/ports/port@1: graph node has single child node '=
+endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: /: memory: False sch=
+ema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648=
+]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: wifi@1: marvell,cald=
+ata-txpwrlimit-2g: [1, 0, 6, 0, 8, 2, 137, 1, 36, 0, 103, 9, 20, 1, 0, 15, =
+1, 12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12,=
+ 12, 12, 13, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20, 2, 0, 15, 1, 12, 2=
+, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12, 12,=
+ 13, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20, 3, 0, 15, 1, 12, 2, 12, 3,=
+ 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12, 12, 13, 9, =
+14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20, 4, 0, 15, 1, 12, 2, 12, 3, 12, 4, =
+12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12, 12, 13, 9, 14, 9, 1=
+5, 9, 137, 1, 36, 0, 103, 9, 20, 5, 0, 15, 1, 12, 2, 12, 3, 12, 4, 12, 5, 1=
+2, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12, 12, 13, 9, 14, 9, 15, 9, 13=
+7, 1, 36, 0, 103, 9, 20, 6, 0, 15, 1, 12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12=
+, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12, 12, 13, 9, 14, 9, 15, 9, 137, 1, 36=
+, 0, 103, 9, 20, 7, 0, 15, 1, 12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, =
+8, 9, 9, 9, 10, 12, 11, 12, 12, 12, 13, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103=
+, 9, 20, 8, 0, 15, 1, 12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9,=
+ 9, 10, 12, 11, 12, 12, 12, 13, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20,=
+ 9, 0, 15, 1, 12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, =
+12, 11, 12, 12, 12, 13, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20, 10, 0, =
+15, 1, 12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11,=
+ 12, 12, 12, 13, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20, 11, 0, 15, 1, =
+12, 2, 12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12=
+, 12, 13, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20, 12, 0, 15, 1, 12, 2, =
+12, 3, 12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12, 12, 1=
+3, 9, 14, 9, 15, 9, 137, 1, 36, 0, 103, 9, 20, 13, 0, 15, 1, 12, 2, 12, 3, =
+12, 4, 12, 5, 12, 6, 12, 7, 9, 8, 9, 9, 9, 10, 12, 11, 12, 12, 12, 13, 9, 1=
+4, 9, 15, 9] is too short
+   	from schema $id: http://devicetree.org/schemas/net/wireless/marvell,sd8=
+787.yaml#
+>> arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: wifi@1: marvell,cald=
+ata-txpwrlimit-5g-sub2: [1, 0, 6, 0, 54, 1, 137, 1, 58, 0, 136, 19, 20, 149=
+, 1, 11, 2, 11, 3, 11, 4, 10, 5, 10, 6, 10, 7, 8, 8, 8, 9, 8, 10, 10, 11, 1=
+0, 12, 10, 13, 8, 14, 8, 15, 8, 16, 4, 17, 4, 18, 5, 19, 5, 20, 5, 21, 5, 2=
+2, 4, 23, 4, 24, 5, 25, 5, 26, 5, 27, 5, 137, 1, 58, 0, 136, 19, 20, 153, 1=
+, 11, 2, 11, 3, 11, 4, 10, 5, 10, 6, 10, 7, 8, 8, 8, 9, 8, 10, 10, 11, 10, =
+12, 10, 13, 8, 14, 8, 15, 8, 16, 4, 17, 4, 18, 5, 19, 5, 20, 5, 21, 5, 22, =
+4, 23, 4, 24, 5, 25, 5, 26, 5, 27, 5, 137, 1, 58, 0, 136, 19, 20, 157, 1, 1=
+1, 2, 11, 3, 11, 4, 10, 5, 10, 6, 10, 7, 8, 8, 8, 9, 8, 10, 10, 11, 10, 12,=
+ 10, 13, 8, 14, 8, 15, 8, 16, 4, 17, 4, 18, 5, 19, 5, 20, 5, 21, 5, 22, 4, =
+23, 4, 24, 5, 25, 5, 26, 5, 27, 5, 137, 1, 58, 0, 136, 19, 20, 161, 1, 11, =
+2, 11, 3, 11, 4, 10, 5, 10, 6, 10, 7, 8, 8, 8, 9, 8, 10, 10, 11, 10, 12, 10=
+, 13, 8, 14, 8, 15, 8, 16, 4, 17, 4, 18, 5, 19, 5, 20, 5, 21, 5, 22, 4, 23,=
+ 4, 24, 5, 25, 5, 26, 5, 27, 5, 137, 1, 58, 0, 136, 19, 20, 165, 1, 11, 2, =
+11, 3, 11, 4, 10, 5, 10, 6, 10, 7, 8, 8, 8, 9, 8, 10, 10, 11, 10, 12, 10, 1=
+3, 8, 14, 8, 15, 8, 16, 4, 17, 4, 18, 5, 19, 5, 20, 5, 21, 5, 22, 4, 23, 4,=
+ 24, 5, 25, 5, 26, 5, 27, 5] is too short
+   	from schema $id: http://devicetree.org/schemas/net/wireless/marvell,sd8=
+787.yaml#
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: trackpad@2c: 'vcc-su=
+pply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: power-controller: 'a=
+ssigned-clock-parents', 'assigned-clocks' do not match any of the regexes: =
+'^power-domain@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-con=
+troller.yaml#
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: power-controller: 'a=
+nyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jerry.dtb: /sound: failed to ma=
+tch any schema with compatible: ['rockchip,rockchip-audio-max98090']
 
 --=20
-- Jiaxun
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
