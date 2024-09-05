@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AE013A250
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 02:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C0813B293
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Sep 2024 03:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725504449; cv=none; b=TnCsn9KJpJOu4/tHaH0qs1QieW8Ha7SKcdIQOytOqnalC/jOCUIPchiMeKHBwQrlXlYTtuQBCU+yvdcU4cAXnj0wNl1N6wGX1vsYv6X0jo9A4aU9h5l6S8sQ9CwsaRVurF089TXsXFizHwrAtd61Sra13sj0NxmGaSEZrvceLOU=
+	t=1725505654; cv=none; b=NEv5ijlMq+EhwTdcbXDFsXrpj5eEeZNYHl58GVSZ+SM/jm897IF1IPWr7yr5s85qSm4Tv52ruCEuxeuNNoxoN/8P9af+jPjTcJahI43gSXLPpqDIcSwXoBB0VJi/alkKMuqEH9oWzJufW+f/lNl7xpdj/i1HB/BJQl8p/aBghWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725504449; c=relaxed/simple;
-	bh=fjYqVUh9lywIgj1PKuD+GzJa8OjFZmrn4BR0uh9P7Ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=on+fl3vbqz3F0vzOIQaCGZKBgeWZRU+ywK7oTkDhfEnivNyKAf+0Fn0PmSQL3wku50Msfb28SB/phba3euzL5ksz5D1xpXRAHTcWF0XEc6owMIdK2RiA7COGT+qkJ2Dr50WQwo12HQZ1z3zzJuF+7+NhqIfOGLPkNjYJh9jWVxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VaD1tO1j; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1725505654; c=relaxed/simple;
+	bh=dbUjRR00lyc7nH95/wNV5DAC/xcHzJ2Z/6P2VtTAvyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ms8G0ynP/kFUB5wm5Fc41mD2k+uL1CPpsc21P85/ZHW0MeI1Xkc6c/r8XseWFwNZLiyfQR0T2jd5po1ecCKRj1fLZKsGZbKGRpBqHlx+1esKXXrwdsr2ZFW3b6PQneyXmPSeZhGGf6iMcB20PCnUZSUHrG6uIaMQM2oKM1gPp9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ItuHLx0E; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VaD1tO1j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ItuHLx0E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725504447; x=1757040447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fjYqVUh9lywIgj1PKuD+GzJa8OjFZmrn4BR0uh9P7Ss=;
-  b=VaD1tO1jt5C/NZoX2GK10LiORxkrMiywqnIOifsNlpiEpCrk9q1Dm5WC
-   LGStVvR6gR9MMWIJtHWTvAMcqO06QAKxKzI2vD4ND+ulXUQAowMKK8udV
-   0XouOO7SSnbVca+lJ2X5yCOi+3oeZDkV7dtM5ZO6Kp6kdB2oIfci2zPO/
-   DPMkAW1+YHo0ey6gols3idG6T3tBk7GuRRvxVpnNaE1wh1j8EMGkzbFuI
-   tEn2ARI2Z/SwapUdUy3ZXBE+FVorN9kVykgvZJXI8esAybdmw4910L29L
-   VU2m7DSCWYSL30aRkPQ3Sr/BNnokYhDVfdm/sfN3A00ycN7I0mAMd04kd
-   Q==;
-X-CSE-ConnectionGUID: 6rboNTneR1CdgLJ0aKmU+w==
-X-CSE-MsgGUID: K9BfXvTtQumqAsF8rtcYKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24391709"
+  t=1725505652; x=1757041652;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dbUjRR00lyc7nH95/wNV5DAC/xcHzJ2Z/6P2VtTAvyM=;
+  b=ItuHLx0EeY6g3dv/ZF570yUlv/CcyPzoKRLjtMPf22SlVevrs8uUa+mm
+   S2tnnRgJS59nU1FXY+gdq80AMhg5QM40QVfvYd/gFApQtJkcmNPIGIO/5
+   KmkjHKBYYy3r5dA9tR45Mg+BqtDY1gNM/3djG35ePeQu62wg7VTxe5YBs
+   stVJ3il9WFOkVhxeaCcOlTcrRoOm+7N/C7MCAU4b4NTLjXzNAvqojX3Sr
+   i+PL/6gcSHIohLh66Y44vQxL8EnETZE5UUoJttmuZThqhOQb0nLXSO7Tg
+   dDRsYksWCXqlz3TgMdppaxPbLXLFKZfAbxyU1fZk8coAYPaJlaU8ae/kL
+   g==;
+X-CSE-ConnectionGUID: y3H7jhQzQmW2jw74/ZGlkQ==
+X-CSE-MsgGUID: awVP+cUoRHe0nqR61F6gBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="35554691"
 X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="24391709"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 19:47:25 -0700
-X-CSE-ConnectionGUID: myPaLLdyR6OotFnU8FKjRA==
-X-CSE-MsgGUID: Ab5iAA5cQZ+bIE8HSOtgAQ==
+   d="scan'208";a="35554691"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 20:07:30 -0700
+X-CSE-ConnectionGUID: khsdNiOBQV+eowNjm56E5w==
+X-CSE-MsgGUID: esK0O9yySPyxR+Q8A0iEYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="70273222"
+   d="scan'208";a="66001296"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Sep 2024 19:47:24 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Sep 2024 20:07:29 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sm2Wn-0008q3-0l;
-	Thu, 05 Sep 2024 02:47:21 +0000
-Date: Thu, 5 Sep 2024 10:46:27 +0800
+	id 1sm2qE-0008qz-2m;
+	Thu, 05 Sep 2024 03:07:26 +0000
+Date: Thu, 5 Sep 2024 11:07:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aleksa Sarai <cyphar@cyphar.com>
+To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 5/8] clone3: add CHECK_FIELDS flag to usize argument
-Message-ID: <202409051059.P2pkqK2s-lkp@intel.com>
-References: <20240902-extensible-structs-check_fields-v1-5-545e93ede2f2@cyphar.com>
+Subject: [openeuler:openEuler-1.0-LTS 23675/23694]
+ block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for
+ function '__bio_stage_hierarchy_start'
+Message-ID: <202409051155.tjBfzaXC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,132 +62,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240902-extensible-structs-check_fields-v1-5-545e93ede2f2@cyphar.com>
 
-Hi Aleksa,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 431c1646e1f86b949fa3685efc50b660a364c2b6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Sarai/uaccess-add-copy_struct_to_user-helper/20240902-151229
-base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-patch link:    https://lore.kernel.org/r/20240902-extensible-structs-check_fields-v1-5-545e93ede2f2%40cyphar.com
-patch subject: [PATCH RFC 5/8] clone3: add CHECK_FIELDS flag to usize argument
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240905/202409051059.P2pkqK2s-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051059.P2pkqK2s-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   bd317843995067c2f78bd884340fcd0a27acab8d
+commit: ac91631e9ef7b530c02e40d10085072c08fb4a0a [23675/23694] blk-io-hierarchy: support new stage for bio lifetime
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240905/202409051155.tjBfzaXC-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051155.tjBfzaXC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409051059.P2pkqK2s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409051155.tjBfzaXC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/fork.c: In function 'copy_clone_args_from_user':
->> kernel/fork.c:2969:32: error: 'EEXTSYS_NOOP' undeclared (first use in this function)
-    2969 |                 return err ?: -EEXTSYS_NOOP;
-         |                                ^~~~~~~~~~~~
-   kernel/fork.c:2969:32: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from block/blk-io-hierarchy/iodump.c:15:
+   In file included from include/linux/blktrace_api.h:5:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for function '__bio_stage_hierarchy_start' [-Wmissing-prototypes]
+     571 | void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
+         |       ^
+   block/blk-io-hierarchy/iodump.c:571:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     571 | void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/EEXTSYS_NOOP +2969 kernel/fork.c
+vim +/__bio_stage_hierarchy_start +571 block/blk-io-hierarchy/iodump.c
 
-  2930	
-  2931	noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
-  2932						      struct clone_args __user *uargs,
-  2933						      size_t usize)
-  2934	{
-  2935		int err;
-  2936		struct clone_args args;
-  2937		pid_t *kset_tid = kargs->set_tid;
-  2938	
-  2939		BUILD_BUG_ON(offsetofend(struct clone_args, tls) !=
-  2940			     CLONE_ARGS_SIZE_VER0);
-  2941		BUILD_BUG_ON(offsetofend(struct clone_args, set_tid_size) !=
-  2942			     CLONE_ARGS_SIZE_VER1);
-  2943		BUILD_BUG_ON(offsetofend(struct clone_args, cgroup) !=
-  2944			     CLONE_ARGS_SIZE_VER2);
-  2945		BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER2);
-  2946	
-  2947		if (unlikely(usize < CLONE_ARGS_SIZE_VER0))
-  2948			return -EINVAL;
-  2949	
-  2950		if (unlikely(usize & CHECK_FIELDS)) {
-  2951			usize &= ~CHECK_FIELDS;
-  2952	
-  2953			memset(&args, 0, sizeof(args));
-  2954			args = (struct clone_args) {
-  2955				.flags = CLONE3_VALID_FLAGS,
-  2956				.pidfd = 0xFFFFFFFFFFFFFFFF,
-  2957				.child_tid = 0xFFFFFFFFFFFFFFFF,
-  2958				.parent_tid = 0xFFFFFFFFFFFFFFFF,
-  2959				.exit_signal = (u64) CSIGNAL,
-  2960				.stack = 0xFFFFFFFFFFFFFFFF,
-  2961				.stack_size = 0xFFFFFFFFFFFFFFFF,
-  2962				.tls = 0xFFFFFFFFFFFFFFFF,
-  2963				.set_tid = 0xFFFFFFFFFFFFFFFF,
-  2964				.set_tid_size = 0xFFFFFFFFFFFFFFFF,
-  2965				.cgroup = 0xFFFFFFFFFFFFFFFF,
-  2966			};
-  2967	
-  2968			err = copy_struct_to_user(uargs, usize, &args, sizeof(args), NULL);
-> 2969			return err ?: -EEXTSYS_NOOP;
-  2970		}
-  2971	
-  2972		if (unlikely(usize > PAGE_SIZE))
-  2973			return -E2BIG;
-  2974	
-  2975		err = copy_struct_from_user(&args, sizeof(args), uargs, usize);
-  2976		if (err)
-  2977			return err;
-  2978	
-  2979		if (unlikely(args.set_tid_size > MAX_PID_NS_LEVEL))
-  2980			return -EINVAL;
-  2981	
-  2982		if (unlikely(!args.set_tid && args.set_tid_size > 0))
-  2983			return -EINVAL;
-  2984	
-  2985		if (unlikely(args.set_tid && args.set_tid_size == 0))
-  2986			return -EINVAL;
-  2987	
-  2988		/*
-  2989		 * Verify that higher 32bits of exit_signal are unset and that
-  2990		 * it is a valid signal
-  2991		 */
-  2992		if (unlikely((args.exit_signal & ~((u64)CSIGNAL)) ||
-  2993			     !valid_signal(args.exit_signal)))
-  2994			return -EINVAL;
-  2995	
-  2996		if ((args.flags & CLONE_INTO_CGROUP) &&
-  2997		    (args.cgroup > INT_MAX || usize < CLONE_ARGS_SIZE_VER2))
-  2998			return -EINVAL;
-  2999	
-  3000		*kargs = (struct kernel_clone_args){
-  3001			.flags		= args.flags,
-  3002			.pidfd		= u64_to_user_ptr(args.pidfd),
-  3003			.child_tid	= u64_to_user_ptr(args.child_tid),
-  3004			.parent_tid	= u64_to_user_ptr(args.parent_tid),
-  3005			.exit_signal	= args.exit_signal,
-  3006			.stack		= args.stack,
-  3007			.stack_size	= args.stack_size,
-  3008			.tls		= args.tls,
-  3009			.set_tid_size	= args.set_tid_size,
-  3010			.cgroup		= args.cgroup,
-  3011		};
-  3012	
-  3013		if (args.set_tid &&
-  3014			copy_from_user(kset_tid, u64_to_user_ptr(args.set_tid),
-  3015				(kargs->set_tid_size * sizeof(pid_t))))
-  3016			return -EFAULT;
-  3017	
-  3018		kargs->set_tid = kset_tid;
-  3019	
-  3020		return 0;
-  3021	}
-  3022	
+   570	
+ > 571	void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
+   572					 loff_t *pos)
+   573	{
+   574		struct pos_data *pdata = &bstage_ddata->pdata;
+   575		struct rq_dump_data *rq_ddata = &bstage_ddata->rq_ddata;
+   576	
+   577	retry:
+   578		if (stage_is_bio(pdata->stage)) {
+   579			struct list_head *list;
+   580			struct bio_dump_data *bio_ddata =
+   581				get_bio_stage_ddata(rq_ddata->q, pdata->stage);
+   582	
+   583			if (!bio_ddata) {
+   584				bio_stage_start_next_stage(bstage_ddata, pos);
+   585				goto retry;
+   586			}
+   587	
+   588			spin_lock_irq(&bio_ddata->lock);
+   589			list = seq_list_start(&bio_ddata->head, pdata->count);
+   590			if (list)
+   591				return list;
+   592	
+   593			spin_unlock_irq(&bio_ddata->lock);
+   594			bio_stage_start_next_stage(bstage_ddata, pos);
+   595			goto retry;
+   596		}
+   597	
+   598		if (pdata->stage == STAGE_BIO &&
+   599		    __rq_hierarchy_start(rq_ddata, pdata->count))
+   600			return bstage_ddata;
+   601	
+   602		return NULL;
+   603	}
+   604	
 
 -- 
 0-DAY CI Kernel Test Service
