@@ -1,60 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97E5374F1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 03:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDE53A8F7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 03:24:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725593045; cv=none; b=HjwtuWM2qPeoH6p8Fk/FEuZncsnUKV84QqbWeVeclBNIVTeErFfmVhF/eV79QzALmJf4Jgqii+2OOkw/23MsN91n5fQrScCfBAOEAKz5UXkElzZrsRRNv29bPgdCRidTOWQTzf3LM9QItcQIKvGkyLPVr9dn2HgpQfLLB6L96C8=
+	t=1725593046; cv=none; b=MUiAV8RdplC6QmrPHDdtBAq6r1zoJEGladfiWCa8ct7xUMORz3rwPYK/AZvGb7OkP8a5oc/VB05gyOpStXB6WaisnOvHKF8cvP6AgbHEiuV791zhd3amWBOp8xzhGzvZ4iRzf8McXShbjGoqDgOORwY6126VCA8ifilaKN597G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725593045; c=relaxed/simple;
-	bh=URaHe0e3oCUswbzSHE30Z+p21eOH9W8TA76/Eh7jbk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XOOiqoAbeUREJ1L8CB9xfLK1AuaIcYoLCFYw8Cd1A8yaj0PGg+j7AcfZSrEnP3A+CvE8LTzq1Z2o6U3xTiCSk3Ps82fbHGzWMYHHX1ITuCqzdvgZFi5Vkg6axh74JGylgDUJ3PD2jVP1ZGfkhtCfv1WouxEITDa2pL+vu/omznM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gx6zyAR9; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1725593046; c=relaxed/simple;
+	bh=RH6TZLZQD54kymWTWzrD/ChEmeUBlBEentXZxNOU++s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T6ctwSKXfv1Q9TtVxu1qP8LJ/5HtddJec/phJFtS8dyWk8ZB4oOtnMzAjQF+w7BZA9lQaAeed7sryKyqq3rps9kYRMrrBVHj7PQgKol28SXkp6SmrH9e1d8QRDcbYM7GKnF1rt9jiGnEYOCXlhAkXWbe3IHzZ8YYuCvvYYtUf7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dr5tHRHO; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gx6zyAR9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dr5tHRHO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725593044; x=1757129044;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=URaHe0e3oCUswbzSHE30Z+p21eOH9W8TA76/Eh7jbk0=;
-  b=Gx6zyAR9onwXAsAdu6o57dfwifndWkHY0YXlRcUfs4cgO4TQ8wDAZkfo
-   7Ek43oYTW22iw81LKUxf/NYggEU9hwkFY/HRUaRob1+Vz3iFN3qDxmBGt
-   c98axY3UCEH8M8LpekwLCwu/3gCTPEnuabKarfUfEY6NMI9eEbuUUigr8
-   aFmTG6gZCs2uHoZemhdK9nUaINFuiwPa/RjJj8R4wOJStkYrXLuCLQZ2A
-   gGep9MzZ2suu3oGX0DnpSqchzQfg9oZlJ2OnlQbFwCERr9XQGeVykrqiS
-   ybo85yNywrNoC6EOFm1dRrGFdKDche3KCTT5O3Cq77RvCV4v0TWm3+tVr
-   A==;
-X-CSE-ConnectionGUID: MTWRpNPGTFacyYXxcfrD6g==
-X-CSE-MsgGUID: 7Jx3EG3oTsuwxslglD+k3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="35012708"
+  t=1725593045; x=1757129045;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RH6TZLZQD54kymWTWzrD/ChEmeUBlBEentXZxNOU++s=;
+  b=Dr5tHRHOqFHkAS9C5fSrkSInG6gkIUNUw8vaqnkFfKbMGE9P+y3OdnAn
+   GmFO39v3LICBA+UrO7iTBNFe/WeyNw8PBmWGOXuQoDmXJ9E0sh8bNj6v3
+   acZ8bEJFjWdYF/ZjWkn8EUiqaD/H16TEu1HigPgf5BUufxzSmhnLvbLPZ
+   t8e7HQ/bHrsPOp/QT9dBykQFA54NDBriuLxZKflUW4AqzEdM5pb+OjUqQ
+   wkfxCsWzjWFpPBbJ3uF1DmcW3XZwit0+kJwxQRfYBoDNNb6bsrS7RgtZL
+   kW+tO4xu/vJVnip4EfY3EMWw/EXh9NEwdqQRfuVJqQbETzstjCyY5o8iF
+   w==;
+X-CSE-ConnectionGUID: IbsB3iw5T9ixeGjOAuX7jQ==
+X-CSE-MsgGUID: YXtj5EYuTTmztJDY70y5pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="35012713"
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="35012708"
+   d="scan'208";a="35012713"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 20:24:02 -0700
-X-CSE-ConnectionGUID: fsrzDmoOSPOinHRWAG3ueA==
-X-CSE-MsgGUID: EbENz9GhTQa05moNviNWvQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 20:24:03 -0700
+X-CSE-ConnectionGUID: cA6JjpjfQZqIGy6c+qY9hA==
+X-CSE-MsgGUID: fFkCuXrFRICuRwwqMHvuJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="70393845"
+   d="scan'208";a="70393846"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 05 Sep 2024 20:24:01 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smPZm-000AZ5-26;
+	id 1smPZm-000AZ2-21;
 	Fri, 06 Sep 2024 03:23:58 +0000
-Date: Fri, 6 Sep 2024 11:23:07 +0800
+Date: Fri, 6 Sep 2024 11:23:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 9594/9692]
- drivers/gpu/drm/imx/ipuv3/parallel-display.c:208:undefined reference to
- `drm_bridge_connector_init'
-Message-ID: <202409061140.O8nNP5tG-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	asml.silence@gmail.com, Conrad Meyer <conradmeyer@meta.com>,
+	linux-block@vger.kernel.org, linux-mm@kvack.org,
+	Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v3 7/8] block: add nowait flag for
+ __blkdev_issue_zero_pages
+Message-ID: <202409061126.hKdAymJK-lkp@intel.com>
+References: <292fa1c611adb064efe16ab741aad65c2128ada8.1725459175.git.asml.silence@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +66,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <292fa1c611adb064efe16ab741aad65c2128ada8.1725459175.git.asml.silence@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ad40aff1edffeccc412cde93894196dca7bc739e
-commit: 98b20ebb0ca8b62a9d0ee4bfe00a13887046b618 [9594/9692] Merge branch 'for-linux-next' of https://gitlab.freedesktop.org/drm/misc/kernel.git
-config: s390-randconfig-r011-20220418 (https://download.01.org/0day-ci/archive/20240906/202409061140.O8nNP5tG-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061140.O8nNP5tG-lkp@intel.com/reproduce)
+Hi Pavel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on akpm-mm/mm-everything linus/master v6.11-rc6 next-20240905]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Begunkov/io_uring-cmd-expose-iowq-to-cmds/20240904-222012
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/292fa1c611adb064efe16ab741aad65c2128ada8.1725459175.git.asml.silence%40gmail.com
+patch subject: [PATCH v3 7/8] block: add nowait flag for __blkdev_issue_zero_pages
+config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061126.hKdAymJK-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061126.hKdAymJK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409061140.O8nNP5tG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409061126.hKdAymJK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/gpu/drm/imx/ipuv3/parallel-display.o: in function `imx_pd_bind':
->> drivers/gpu/drm/imx/ipuv3/parallel-display.c:208:(.text+0x2c4): undefined reference to `drm_bridge_connector_init'
-   s390-linux-ld: drivers/gpu/drm/imx/ipuv3/parallel-display.o: in function `imx_pd_probe':
-   drivers/gpu/drm/imx/ipuv3/parallel-display.c:237:(.text+0x402): undefined reference to `devm_imx_drm_legacy_bridge'
+>> block/blk-lib.c:200:12: warning: variable 'opf' set but not used [-Wunused-but-set-variable]
+     200 |         blk_opf_t opf = REQ_OP_WRITE;
+         |                   ^
+   1 warning generated.
 
 
-vim +208 drivers/gpu/drm/imx/ipuv3/parallel-display.c
+vim +/opf +200 block/blk-lib.c
 
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  181  
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  182  static int imx_pd_bind(struct device *dev, struct device *master, void *data)
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  183  {
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  184  	struct drm_device *drm = data;
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  185  	struct imx_parallel_display *imxpd = dev_get_drvdata(dev);
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  186  	struct imx_parallel_display_encoder *imxpd_encoder;
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  187  	struct drm_connector *connector;
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  188  	struct drm_encoder *encoder;
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  189  	struct drm_bridge *bridge;
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  190  	int ret;
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  191  
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  192  	imxpd_encoder = drmm_simple_encoder_alloc(drm, struct imx_parallel_display_encoder,
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  193  						  encoder, DRM_MODE_ENCODER_NONE);
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  194  	if (IS_ERR(imxpd_encoder))
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  195  		return PTR_ERR(imxpd_encoder);
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  196  
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  197  	imxpd_encoder->pd = imxpd;
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  198  	encoder = &imxpd_encoder->encoder;
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  199  	bridge = &imxpd_encoder->bridge;
-495590c65942d0 drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  200  
-49f98bc4d44a4e drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2016-07-06  201  	ret = imx_drm_encoder_parse_of(drm, encoder, imxpd->dev->of_node);
-1b3f7675663384 drivers/staging/imx-drm/parallel-display.c   Russell King     2013-11-03  202  	if (ret)
-1b3f7675663384 drivers/staging/imx-drm/parallel-display.c   Russell King     2013-11-03  203  		return ret;
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  204  
-5145fe5bed7cdd drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  205  	bridge->funcs = &imx_pd_bridge_funcs;
-f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02  206  	drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-fe141cedc4333e drivers/gpu/drm/imx/parallel-display.c       Boris Brezillon  2020-01-28  207  
-f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02 @208  	connector = drm_bridge_connector_init(drm, encoder);
-f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02  209  	if (IS_ERR(connector))
-f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02  210  		return PTR_ERR(connector);
-c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  211  
-5145fe5bed7cdd drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  212  	drm_connector_attach_encoder(connector, encoder);
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  213  
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  214  	return 0;
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  215  }
-19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  216  
-
-:::::: The code at line 208 was first introduced by commit
-:::::: f94b9707a1c91292c32f82847aa00d66472c0c62 drm/imx: parallel-display: switch to imx_legacy_bridge / drm_bridge_connector
-
-:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+   195	
+   196	int blkdev_issue_zero_pages_bio(struct block_device *bdev,
+   197			sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
+   198			struct bio **biop, unsigned int flags)
+   199	{
+ > 200		blk_opf_t opf = REQ_OP_WRITE;
+   201	
+   202		if (flags & BLKDEV_ZERO_PAGES_NOWAIT) {
+   203			sector_t max_bio_sectors = BIO_MAX_VECS << PAGE_SECTORS_SHIFT;
+   204	
+   205			if (nr_sects > max_bio_sectors)
+   206				return -EAGAIN;
+   207			opf |= REQ_NOWAIT;
+   208		}
+   209	
+   210		while (nr_sects) {
+   211			unsigned int nr_vecs = __blkdev_sectors_to_bio_pages(nr_sects);
+   212			struct bio *bio;
+   213	
+   214			bio = bio_alloc(bdev, nr_vecs, REQ_OP_WRITE, gfp_mask);
+   215			if (!bio)
+   216				return -ENOMEM;
+   217			bio->bi_iter.bi_sector = sector;
+   218	
+   219			if ((flags & BLKDEV_ZERO_KILLABLE) &&
+   220			    fatal_signal_pending(current))
+   221				return -EINTR;
+   222	
+   223			do {
+   224				unsigned int len, added;
+   225	
+   226				len = min_t(sector_t,
+   227					PAGE_SIZE, nr_sects << SECTOR_SHIFT);
+   228				added = bio_add_page(bio, ZERO_PAGE(0), len, 0);
+   229				if (added < len)
+   230					break;
+   231				nr_sects -= added >> SECTOR_SHIFT;
+   232				sector += added >> SECTOR_SHIFT;
+   233			} while (nr_sects);
+   234	
+   235			*biop = bio_chain_and_submit(*biop, bio);
+   236			cond_resched();
+   237		}
+   238	
+   239		return 0;
+   240	}
+   241	
 
 -- 
 0-DAY CI Kernel Test Service
