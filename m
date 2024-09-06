@@ -1,131 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455771401C;
-	Fri,  6 Sep 2024 01:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64831BE6C;
+	Fri,  6 Sep 2024 01:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725584920; cv=none; b=KzZDiYs3q1qcrKUnTprJQhIiby25uAYsB+Z3hfcyxqfFrRQh2O8ecjs4+3hvtW83ZLqgLAsU2S6oVEWQ2yqP6VTFqxkGr+PXQxzhlUk1u1qNVKlroleUfT1Z1jGGKRJ8ENxRreJP2Z6DJo3agjOzu/Z7Z3tC4rmSyJDELLa0gKw=
+	t=1725586023; cv=none; b=IzmlQ/1/qpuV8bETySg+U7T1Izd5JzcnMqWQluGO5qhINiBJJWSSiHFcvDie0PkGoxdCQVoKM0dBqbK1hXbwRcjB93/DymDM1Cpae931682h7VY8U0icLZ8y5JPrjbwFKlCLEvh6t54weIPJwoFQC8YT2np8vMD1msVQ+5IuGSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725584920; c=relaxed/simple;
-	bh=9pan4tYDMpwflzlvEiNlU/CmxyFNsYISO5mIYewLskk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FvvPOV0IjIG4GFGOSNeFqify9CYPtfciDD9VTzrENItiS7pUDsBTMUJQkagkKvjNiVZDBZuIuWLBWk71v64gXSEzzVyXQD0EUE1rk7ezyG5WrMjL1FeZOXt9+fJ0mSm9aSB5/E9zJxbJh7xP0vVuRn8Um1++IXuTOJ2ERex7uOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qq4qQnaM; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qq4qQnaM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725584918; x=1757120918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9pan4tYDMpwflzlvEiNlU/CmxyFNsYISO5mIYewLskk=;
-  b=Qq4qQnaMgUQWYQrM17L+z6rW88oZRj29CS/gXeXS2vhUMmNArg5YeY+q
-   shKstTEIe8LEETi3aMgMBV6J9Y5KqzjisRtBLEFDa+LrCiSHg1FXQ92Mr
-   X/sH9HGhcHsTrHfWA97aNQbMhs8EK9KRX0wQ5D3DAxplIZsDoUABRMKid
-   Werf88kA6h5MMRS7bIRh7TxiJcAdsxjEb+v+dMqZSdXMOkCrH1vlMnZ/2
-   kOMp1QTE2sk5yOmUx0nzw9sCEFFFDQCD6Ew3H9oexdCozveE0OcRoSjmm
-   i/FpRx2h7ZK9EJQqhgJFNzBzd8HhXA3hMT5V9Ymlt8n813Dx5wtFMosX1
-   g==;
-X-CSE-ConnectionGUID: 6Fbg9Yb7T8uxDF9N1OHsrw==
-X-CSE-MsgGUID: 4RitijyyQFm/PVn66b54jw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="28217710"
-X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="28217710"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 18:08:37 -0700
-X-CSE-ConnectionGUID: k5u21ZQISRWcbhEsxyoPNQ==
-X-CSE-MsgGUID: JD0YrFvqRuCa+UruNd9DCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="65850260"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Sep 2024 18:08:34 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1smNSh-000ATX-2t;
-	Fri, 06 Sep 2024 01:08:31 +0000
-Date: Fri, 6 Sep 2024 09:08:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev
-Subject: Re: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as
- platform device
-Message-ID: <202409060840.Rm0gPgE4-lkp@intel.com>
-References: <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
+	s=arc-20240116; t=1725586023; c=relaxed/simple;
+	bh=pFAKY59pQsiBwAmO+ju5ZeM4/707OjnJLXQ6unjn04s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Nn3+VuefWtReg4AD0wjM1gHVuRLXAGqO5ojVoDVk4xsT1lIaMHSZdVaB/Wp9FKWHy44wckWl0rgDT/gAMk8/DN5QmaqhsrkKP5s0Ot9RarGtpR9cClo9ucwfz2FKN7+Rc0/mDi/1l2FFKALmrWgNysQYy+FPxotrBRci55Du0iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.105])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X0JSG2TCqzpVQx;
+	Fri,  6 Sep 2024 09:25:02 +0800 (CST)
+Received: from dggpeml100021.china.huawei.com (unknown [7.185.36.148])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7055D14011A;
+	Fri,  6 Sep 2024 09:26:57 +0800 (CST)
+Received: from [127.0.0.1] (10.174.177.174) by dggpeml100021.china.huawei.com
+ (7.185.36.148) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 6 Sep
+ 2024 09:26:56 +0800
+Message-ID: <bf7ac6b8-9ce7-488b-8bae-ab859cdd75d3@huawei.com>
+Date: Fri, 6 Sep 2024 09:26:56 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
+ ext4_ext_clear_bb() error: double free of 'path'
+To: Theodore Ts'o <tytso@mit.edu>
+CC: Dan Carpenter <dan.carpenter@linaro.org>, <lkp@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, Jan Kara <jack@suse.cz>,
+	<oe-kbuild@lists.linux.dev>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Yang
+ Erkun <yangerkun@huawei.com>, Baokun Li <libaokun1@huawei.com>
+References: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
+ <c2711f3d-6bee-414c-952f-5c33da315a1a@huawei.com>
+ <20240905132335.GT9627@mit.edu>
+ <2e4f662b-2c52-4148-afea-0f7d09d2776b@huawei.com>
+ <20240905140715.GV9627@mit.edu>
+Content-Language: en-US
+From: Baokun Li <libaokun1@huawei.com>
+In-Reply-To: <20240905140715.GV9627@mit.edu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml100021.china.huawei.com (7.185.36.148)
 
-Hi Binbin,
+On 2024/9/5 22:07, Theodore Ts'o wrote:
+> On Thu, Sep 05, 2024 at 09:31:35PM +0800, Baokun Li wrote:
+>>>> Ted, could you please help push the corrected commit to the next branch?
+>>> The next branch gets automatically refreshed every day (Mondays
+>>> through Friday).  In the case of the ext4 tree, it gets picked up from
+>>> the dev branch.  So it should be fixed in the upcoming fs-next and
+>>> linux-next branch.
+>>>
+>>> Cheers,
+>>>
+>>> 					- Ted
+>>>
+>> OK, I didn't know it was pulling automatically, thanks for the explanation!
+> Yep, and some of us have automated test systems that run whenever
+> fs-next is updated.  :-)
+>
+> For example, see attached.  (I have been planning to get this
+> published someplace, such as a linux.linux.dev list, but I've been too
+> busy finish up making it be fully robust and not subject to rare
+> failures that require manual interventions, and I need to complete
+> some negotiations with Konstantin.  Probably after the Linux Plumbers
+> Conference and I have a bit more free time...)
+>
+> 						- Ted
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 097a44db5747403b19d05a9664e8ec6adba27e3b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240905-150958
-base:   097a44db5747403b19d05a9664e8ec6adba27e3b
-patch link:    https://lore.kernel.org/r/282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as platform device
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240906/202409060840.Rm0gPgE4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409060840.Rm0gPgE4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409060840.Rm0gPgE4-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> sound/soc/loongson/loongson_i2s_pci.c:157:1: warning: data definition has no type or storage class
-     157 | module_pci_driver(loongson_i2s_driver);
-         | ^~~~~~~~~~~~~~~~~
->> sound/soc/loongson/loongson_i2s_pci.c:157:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
->> sound/soc/loongson/loongson_i2s_pci.c:157:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
->> sound/soc/loongson/loongson_i2s_pci.c:149:26: warning: 'loongson_i2s_driver' defined but not used [-Wunused-variable]
-     149 | static struct pci_driver loongson_i2s_driver = {
-         |                          ^~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_I2S_PCI
-   Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && (LOONGARCH || COMPILE_TEST [=y]) && PCI [=n]
-   Selected by [m]:
-   - SND_SOC_LOONGSON_CARD [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && (LOONGARCH || COMPILE_TEST [=y])
+This one looks awesome! Looking forward to it going live officially.
 
 
-vim +/loongson_i2s_driver +149 sound/soc/loongson/loongson_i2s_pci.c
-
-d84881e06836dc1 Yingkun Meng 2023-06-15  148  
-d84881e06836dc1 Yingkun Meng 2023-06-15 @149  static struct pci_driver loongson_i2s_driver = {
-d84881e06836dc1 Yingkun Meng 2023-06-15  150  	.name = "loongson-i2s-pci",
-d84881e06836dc1 Yingkun Meng 2023-06-15  151  	.id_table = loongson_i2s_ids,
-d84881e06836dc1 Yingkun Meng 2023-06-15  152  	.probe = loongson_i2s_pci_probe,
-d84881e06836dc1 Yingkun Meng 2023-06-15  153  	.driver = {
-d84881e06836dc1 Yingkun Meng 2023-06-15  154  		.pm = pm_sleep_ptr(&loongson_i2s_pm),
-d84881e06836dc1 Yingkun Meng 2023-06-15  155  	},
-d84881e06836dc1 Yingkun Meng 2023-06-15  156  };
-d84881e06836dc1 Yingkun Meng 2023-06-15 @157  module_pci_driver(loongson_i2s_driver);
-d84881e06836dc1 Yingkun Meng 2023-06-15  158  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Baokun
+>
+> TESTRUNID: ltm-20240729133952-0028
+> KERNEL:    kernel 6.11.0-rc6-xfstests-00781-g8d32ae66515d #1 SMP PREEMPT_DYNAMIC Wed Sep  4 21:56:52 EDT 2024 x86_64
+> CMDLINE:   -c ext4/all,xfs/all,btrfs/all,f2fs/all -g auto --repo https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next --watch fs-next
+> CPUS:      2
+> MEM:       7680
+>
+> ext4/4k: 570 tests, 2 failures, 51 skipped, 5668 seconds
+>    Flaky: generic/234: 20% (1/5)   generic/277: 20% (1/5)
+> ext4/1k: 564 tests, 2 failures, 54 skipped, 6139 seconds
+>    Failures: generic/627 generic/750
+> ext4/ext3: 562 tests, 144 skipped, 4388 seconds
+> ext4/encrypt: 545 tests, 167 skipped, 3169 seconds
+> ext4/nojournal: 562 tests, 122 skipped, 4013 seconds
+> ext4/ext3conv: 567 tests, 53 skipped, 5500 seconds
+> ext4/adv: 563 tests, 2 failures, 59 skipped, 5186 seconds
+>    Flaky: generic/047: 20% (1/5)   generic/547: 20% (1/5)
+> ext4/dioread_nolock: 568 tests, 51 skipped, 5108 seconds
+> ext4/data_journal: 563 tests, 127 skipped, 4489 seconds
+> ext4/bigalloc_4k: 541 tests, 1 failures, 55 skipped, 4766 seconds
+>    Flaky: generic/320: 60% (3/5)
+> ext4/bigalloc_1k: 542 tests, 64 skipped, 4814 seconds
+> ext4/dax: 556 tests, 157 skipped, 3022 seconds
+> xfs/4k: 1142 tests, 2 failures, 180 skipped, 10178 seconds
+>    Failures: generic/754 xfs/432
+> xfs/1k: 1142 tests, 3 failures, 167 skipped, 14218 seconds
+>    Failures: generic/627 generic/754 xfs/432
+> xfs/v4: 1141 tests, 2 failures, 474 skipped, 8851 seconds
+>    Failures: generic/754 xfs/432
+> xfs/adv: 1142 tests, 2 failures, 166 skipped, 10238 seconds
+>    Failures: generic/754 xfs/432
+> xfs/quota: 1142 tests, 2 failures, 165 skipped, 11276 seconds
+>    Failures: generic/754 xfs/432
+> xfs/quota_1k: 1142 tests, 3 failures, 167 skipped, 13616 seconds
+>    Failures: generic/627 generic/754 xfs/432
+> xfs/dirblock_8k: 1142 tests, 2 failures, 165 skipped, 11244 seconds
+>    Failures: generic/754 xfs/432
+> xfs/realtime: 1141 tests, 4 failures, 518 skipped, 8342 seconds
+>    Failures: generic/260 generic/455 generic/754 xfs/432
+> xfs/realtime_28k_logdev: 1141 tests, 4 failures, 600 skipped, 12882 seconds
+>    Failures: generic/260 generic/754 xfs/432 xfs/598
+> xfs/realtime_logdev: 1141 tests, 4 failures, 572 skipped, 13036 seconds
+>    Failures: generic/260 generic/754 xfs/432 xfs/598
+> xfs/logdev: 1142 tests, 3 failures, 235 skipped, 17787 seconds
+>    Failures: generic/754 xfs/432 xfs/598
+> xfs/dax: 1152 tests, 1 failures, 551 skipped, 5930 seconds
+>    Failures: generic/754
+> btrfs/default: 1038 tests, 4 failures, 278 skipped, 9576 seconds
+>    Failures: btrfs/012 btrfs/277
+>    Flaky: generic/418: 20% (1/5)   generic/746: 40% (2/5)
+> f2fs/default: 720 tests, 7 failures, 245 skipped, 5432 seconds
+>    Failures: generic/050 generic/064 generic/252 generic/563 generic/735
+>    Flaky: f2fs/004: 20% (1/5)   generic/475: 40% (2/5)
+> f2fs/encrypt: 702 tests, 4 failures, 352 skipped, 3064 seconds
+>    Failures: generic/050 generic/563 generic/635
+>    Flaky: generic/475: 20% (1/5)
+> Totals: 23089 tests, 5942 skipped, 234 failures, 0 errors, 197866s
+>
+> FSTESTIMG: gce-xfstests/xfstests-amd64-202408121130
+> FSTESTPRJ: gce-xfstests
+> FSTESTVER: blktests f043065 (Thu, 20 Jun 2024 16:26:22 +0900)
+> FSTESTVER: fio  fio-3.36 (Fri, 20 Oct 2023 04:30:43 -0600)
+> FSTESTVER: fsverity v1.6 (Wed, 20 Mar 2024 21:21:46 -0700)
+> FSTESTVER: ima-evm-utils v1.5 (Mon, 6 Mar 2023 07:40:07 -0500)
+> FSTESTVER: libaio   libaio-0.3.108-82-gb8eadc9 (Thu, 2 Jun 2022 13:33:11 +0200)
+> FSTESTVER: ltp  20240524-131-gdfb293ee0 (Mon, 29 Jul 2024 09:57:32 +0200)
+> FSTESTVER: nvme-cli v1.16 (Thu, 11 Nov 2021 13:09:06 -0800)
+> FSTESTVER: quota  v4.05-67-g8254bec (Mon, 29 Jul 2024 12:24:36 -0400)
+> FSTESTVER: util-linux v2.40 (Wed, 27 Mar 2024 12:46:59 +0100)
+> FSTESTVER: xfsprogs v6.9.0 (Mon, 22 Jul 2024 11:05:03 +0200)
+> FSTESTVER: xfstests-bld 8456529b (Wed, 31 Jul 2024 22:17:54 -0400)
+> FSTESTVER: xfstests v2024.08.11-7-gc3fc1ccce-dirty (Mon, 12 Aug 2024 11:25:51 -0400)
+> FSTESTVER: zz_build-distro bookworm
+> FSTESTSET: -g auto
+> FSTESTOPT: aex
+>
