@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320F613AD2A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 11:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCA31552FA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 12:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725621361; cv=none; b=RHaerMk0CjQrf1vpEvc4+8+volGhhG8keNz/Phgphviuptg5T6CcfYskfoZ2aOGpArbrgUl9hNz3E0nqKirNaiYLI/bY3GnBxzGBFXt38nyKBh4zDe1JPYXCTao+vwX4RYB7GciMbGIZygeQkQip24E0DmiEiTpvaYZTLy/tZjY=
+	t=1725625034; cv=none; b=tgB9YN720rv5FLLNlMEH5P2grJAnwbKKFDT5+W3Ysf7idpf//zU3gIC+DBfAK6gusdKrcA4d1b7TxG/uaU+vWNsP/KBwIRMZjT3NJSRaLJ+X69UGuyLlrYtzgc1DkJU0ZJUedcF5APc6/Aeggg+cNLtMOX2QI6esSAR3Ad+Ag4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725621361; c=relaxed/simple;
-	bh=FxefykgqQEgzAjBOYYDYcdGD/zj81Mh3ubxAU6b1P6o=;
+	s=arc-20240116; t=1725625034; c=relaxed/simple;
+	bh=+Qx4z5FNs7SHBiPalSVFSCl7p9NSu6qf9umFOCaZvA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ty5wxRggzcQKiIDHib+RcZWtBV2Y4RA6WgpxTGCDJpRkbovUun3noawhKhx+0DpmA6WXZ/ho6ftBi7cCjvcDo1zHdbblwgmsDZIy/cR5jNdWskJvNTa+vItBda5uhCCZs5ewUX4hWvqn8zuSVdLFhj+fn/s//5oY94FOr6E6MwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJE0RxM9; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=iehqby856kYCgT8WixvgsSxI/Y5EtsbIqLKIYekXFJzQgdqRJN82S4eyX14I11rHMSGqOxCpstc+F51Q0lVnkI+RGrasm36nl8NrF56dVBO4Zlembp9Xs68uNt2RmPeuKJrPriow47OkzVUjQtkO0ki/huvBR/IIRnHxTppf4fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TyC0cktZ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJE0RxM9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TyC0cktZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725621359; x=1757157359;
+  t=1725625032; x=1757161032;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FxefykgqQEgzAjBOYYDYcdGD/zj81Mh3ubxAU6b1P6o=;
-  b=GJE0RxM9MZTFWf0+YVxN267s4CMZsuPv4mlk98i4S8+warVbyBHWyAtS
-   3qVP37RI1lTvur7LJvW5KLJJMlu2NKnUHrIjECYPdUkHf7E5jyHwA/GQr
-   P7tILHY1/C8AUGWJ0pPIUvZtKd0MDnJYTwaZm19eT/oHHUIuy4J+j4o7v
-   TfABup+mWeS4+mN11f/P9Aijg7w8upjXDJpBXHF0AQzSXrKEubEN8S9K/
-   StoLBA9gi5dyH2BGrGL7ATxuwyhIHzN5i5Q1AbxRzR6iUo5BKinGHgNa2
-   nITMUkCKRWtgxUJ199nexvN1ZKzMONGChmapL7S6ZPjolZzi+D2mKuFU6
-   Q==;
-X-CSE-ConnectionGUID: 9drjX86HQyGyqTCufnh95Q==
-X-CSE-MsgGUID: yPaa8QPoQIqL9dG4Sm4Pfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24486538"
+  bh=+Qx4z5FNs7SHBiPalSVFSCl7p9NSu6qf9umFOCaZvA8=;
+  b=TyC0cktZxu0IoufPNby5UHl14cC9YVRNT9/Xgo8TvKb+iuR4mknedg0p
+   uG+N98NbbyJ+0A2DQk7HExwxmytadOKnAbItC3nRT/TKJeJRp+NQWeXYO
+   OCxKMTf0G50kO2B3iPSSW+R0Z9Omb4HkVXKL2MxrB+HWZH+ZmNmujkxUN
+   06mRZDQm7++1hxIUFCoW5q3Eakh/zV+m58TkdeCuO6lenW2KBQZ1Sl748
+   hoSjamrgrywGhMoSCCDayRFINWQFf/bRzZ/629gPBCLHH0Bh1wNxGVQHm
+   s+fEBAoYUYWu8lmgPy0IaGOaq1lMnSaqWK7kYjdCrzp5u5+uDBQ5yHOFH
+   g==;
+X-CSE-ConnectionGUID: ocbMc8qtR3a56VxxCmk41g==
+X-CSE-MsgGUID: 5pt8vt4AQbi2dq28IlaSHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="28130053"
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="24486538"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 04:15:58 -0700
-X-CSE-ConnectionGUID: +0Nhiln5Qo6Xkdl6Vn6RwQ==
-X-CSE-MsgGUID: e6kmbT1kR4mYNuNkYROZsw==
+   d="scan'208";a="28130053"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 05:17:11 -0700
+X-CSE-ConnectionGUID: 2s0dMdOKQhuCdhQ19s4qSA==
+X-CSE-MsgGUID: U/fhRrS5RjeJa343gnjBCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="66267422"
+   d="scan'208";a="70733574"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 06 Sep 2024 04:15:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 06 Sep 2024 05:17:11 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smWwV-000B5f-1H;
-	Fri, 06 Sep 2024 11:15:55 +0000
-Date: Fri, 6 Sep 2024 19:15:43 +0800
+	id 1smXtk-000BAW-0a;
+	Fri, 06 Sep 2024 12:17:08 +0000
+Date: Fri, 6 Sep 2024 20:17:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-crypt 18/18] fs/afs/write.c:301:13: warning:
- 'netfs_dump_sg' defined but not used
-Message-ID: <202409061919.AF17NvI1-lkp@intel.com>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: error: ABI 'o32' is not supported on CPU 'mips3'
+Message-ID: <202409062003.wDQ7fEq1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +62,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
-head:   37dc5e4ef4e9c14fb549da5a6ba83fd304a5b88f
-commit: 37dc5e4ef4e9c14fb549da5a6ba83fd304a5b88f [18/18] afs: [DON'T MERGE] Implement trivial content crypto for testing purposes
-config: arm-randconfig-002-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061919.AF17NvI1-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061919.AF17NvI1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+commit: bfc0a330c1b4526b88f6f9e711484b342cb00fb5 MIPS: Fallback CPU -march flag to ISA level if unsupported
+date:   7 months ago
+config: mips-randconfig-r111-20240906 (https://download.01.org/0day-ci/archive/20240906/202409062003.wDQ7fEq1-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20240906/202409062003.wDQ7fEq1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409061919.AF17NvI1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409062003.wDQ7fEq1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/afs/write.c:301:13: warning: 'netfs_dump_sg' defined but not used [-Wunused-function]
-     301 | static void netfs_dump_sg(const char *prefix, struct scatterlist *sg, unsigned int n_sg)
-         |             ^~~~~~~~~~~~~
-
-
-vim +/netfs_dump_sg +301 fs/afs/write.c
-
-   300	
- > 301	static void netfs_dump_sg(const char *prefix, struct scatterlist *sg, unsigned int n_sg)
-   302	{
-   303		unsigned int i;
-   304	
-   305		for (i = 0; i < n_sg; i++) {
-   306			void *p = kmap_local_page(sg_page(sg));
-   307			unsigned int l = min_t(size_t, sg->length, 16);
-   308	
-   309			printk("%s[%x] %016lx %04x %04x %*phN\n",
-   310			       prefix, i, sg->page_link, sg->offset, sg->length,
-   311			       l, p + sg->offset);
-   312			kunmap_local(p);
-   313			sg++;
-   314		}
-   315	}
-   316	
+>> error: ABI 'o32' is not supported on CPU 'mips3'
+>> error: ABI 'o32' is not supported on CPU 'mips3'
+>> error: ABI 'o32' is not supported on CPU 'mips3'
+   make[3]: *** [scripts/Makefile.build:116: scripts/mod/devicetable-offsets.s] Error 1
+   make[3]: *** [scripts/Makefile.build:243: scripts/mod/empty.o] Error 1
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1198: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
