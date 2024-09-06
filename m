@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A87A17BA0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97E5374F1
 	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 03:24:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725593045; cv=none; b=lqmoEbiRbHtbubtExY9icQfkjFZtgiMXDGLaL7yAt9zCvEVov+uZdeEuscGsosEU+MlBugviAyanim3rLAnOOxDQeHj8MjOytlIiurv6J9VcPRebAxm5urCqbElJ6wzyXFsJe2X6C4Kju8Hcaoxq346EhalC9rWInpbRN4zDpVk=
+	t=1725593045; cv=none; b=HjwtuWM2qPeoH6p8Fk/FEuZncsnUKV84QqbWeVeclBNIVTeErFfmVhF/eV79QzALmJf4Jgqii+2OOkw/23MsN91n5fQrScCfBAOEAKz5UXkElzZrsRRNv29bPgdCRidTOWQTzf3LM9QItcQIKvGkyLPVr9dn2HgpQfLLB6L96C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725593045; c=relaxed/simple;
-	bh=7CBDtjfjxfRFJVY+Fy64TTXcf5IVaNVNNTGVHMl9cNo=;
+	bh=URaHe0e3oCUswbzSHE30Z+p21eOH9W8TA76/Eh7jbk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RG7/0ZRTmrWRnqJ8djXapCVeRq2h8gZGQ6yK+C0Tp6eDjZQ87/OEp8ouq6zGb9ULJMPp5NjWuukM2tIx4X50Re+f0Brfs6jXCZkiM6eAjG+cDkYEfmuB/0bjUrRfxYi9NhhWuvBUtD2E3dlfusBsmyyTO5u37NfqGeeldMjI54g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDU6ej+8; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=XOOiqoAbeUREJ1L8CB9xfLK1AuaIcYoLCFYw8Cd1A8yaj0PGg+j7AcfZSrEnP3A+CvE8LTzq1Z2o6U3xTiCSk3Ps82fbHGzWMYHHX1ITuCqzdvgZFi5Vkg6axh74JGylgDUJ3PD2jVP1ZGfkhtCfv1WouxEITDa2pL+vu/omznM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gx6zyAR9; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDU6ej+8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gx6zyAR9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1725593044; x=1757129044;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7CBDtjfjxfRFJVY+Fy64TTXcf5IVaNVNNTGVHMl9cNo=;
-  b=HDU6ej+8H6/j5x6Kz0KOgKnwXcTKS98wVht5H1+cm7Fy8QSIPe7zu0Mr
-   LmzU3o1AHZEnZ3+8GoI7Z1rlB+ZRoZdZ5KiwQewtOCcxLiNzXIm5zyQQQ
-   BXD30jddfAnNWZjdmvNNeYjxYOEZwBTKW/zu2QNdKO+3cFGvICrUO+SyO
-   RbxgUXirFGgFUzG84sz7G3clmDD7iBd8w0D7dhguQ2Xl7dRjKv/ceKU6Y
-   Sogi6dq6iM0D9KMbIJt07CxBjo9nelTyO1GKDhg/3waLyjruXhkuLZtTR
-   6vNNCiOLgAXzb3zMmUGr0IDPjldVmm9eQyRY8q8rxDJfORLc2V6BEvlAL
+  bh=URaHe0e3oCUswbzSHE30Z+p21eOH9W8TA76/Eh7jbk0=;
+  b=Gx6zyAR9onwXAsAdu6o57dfwifndWkHY0YXlRcUfs4cgO4TQ8wDAZkfo
+   7Ek43oYTW22iw81LKUxf/NYggEU9hwkFY/HRUaRob1+Vz3iFN3qDxmBGt
+   c98axY3UCEH8M8LpekwLCwu/3gCTPEnuabKarfUfEY6NMI9eEbuUUigr8
+   aFmTG6gZCs2uHoZemhdK9nUaINFuiwPa/RjJj8R4wOJStkYrXLuCLQZ2A
+   gGep9MzZ2suu3oGX0DnpSqchzQfg9oZlJ2OnlQbFwCERr9XQGeVykrqiS
+   ybo85yNywrNoC6EOFm1dRrGFdKDche3KCTT5O3Cq77RvCV4v0TWm3+tVr
    A==;
-X-CSE-ConnectionGUID: M0984zTCQQCEJ8dPRijAPw==
-X-CSE-MsgGUID: DVYZxOGtSKupW/Cixa0Hjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="35012705"
+X-CSE-ConnectionGUID: MTWRpNPGTFacyYXxcfrD6g==
+X-CSE-MsgGUID: 7Jx3EG3oTsuwxslglD+k3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="35012708"
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="35012705"
+   d="scan'208";a="35012708"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 20:24:02 -0700
-X-CSE-ConnectionGUID: 4xeFldRxRfKi/jvzt353oA==
-X-CSE-MsgGUID: hYeDsjQ0RqyqgIF7/zSCDA==
+X-CSE-ConnectionGUID: fsrzDmoOSPOinHRWAG3ueA==
+X-CSE-MsgGUID: EbENz9GhTQa05moNviNWvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="70393844"
+   d="scan'208";a="70393845"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 05 Sep 2024 20:24:01 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smPZm-000AYx-1s;
+	id 1smPZm-000AZ5-26;
 	Fri, 06 Sep 2024 03:23:58 +0000
-Date: Fri, 6 Sep 2024 11:23:18 +0800
+Date: Fri, 6 Sep 2024 11:23:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-TDM-spit-2024-09-05 8/15]
- drivers/video/fbdev/omap2/omapfb/dss/dss.c:954:23: error: lvalue required as
- left operand of assignment
-Message-ID: <202409061145.Uo6OnWLs-lkp@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 9594/9692]
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c:208:undefined reference to
+ `drm_bridge_connector_init'
+Message-ID: <202409061140.O8nNP5tG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,117 +64,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux sound-TDM-spit-2024-09-05
-head:   f2dc6deeba0553cf79ecb30e76e88ea593f3124b
-commit: 1c1a800fff8c02ad62ff43ab15e3c14bfa9366d4 [8/15] fbdev: omapfb: use new of_graph functions
-config: arc-randconfig-001-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061145.Uo6OnWLs-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061145.Uo6OnWLs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ad40aff1edffeccc412cde93894196dca7bc739e
+commit: 98b20ebb0ca8b62a9d0ee4bfe00a13887046b618 [9594/9692] Merge branch 'for-linux-next' of https://gitlab.freedesktop.org/drm/misc/kernel.git
+config: s390-randconfig-r011-20220418 (https://download.01.org/0day-ci/archive/20240906/202409061140.O8nNP5tG-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061140.O8nNP5tG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409061145.Uo6OnWLs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409061140.O8nNP5tG-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_init_ports':
->> drivers/video/fbdev/omap2/omapfb/dss/dss.c:954:23: error: lvalue required as left operand of assignment
-     954 |                  port = of_graph_get_next_port(parent, port));
-         |                       ^
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_uninit_ports':
->> drivers/video/fbdev/omap2/omapfb/dss/dss.c:998:18: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
-     998 |         } while (port = of_graph_get_next_port(parent, port));
-         |                  ^~~~
+   s390-linux-ld: drivers/gpu/drm/imx/ipuv3/parallel-display.o: in function `imx_pd_bind':
+>> drivers/gpu/drm/imx/ipuv3/parallel-display.c:208:(.text+0x2c4): undefined reference to `drm_bridge_connector_init'
+   s390-linux-ld: drivers/gpu/drm/imx/ipuv3/parallel-display.o: in function `imx_pd_probe':
+   drivers/gpu/drm/imx/ipuv3/parallel-display.c:237:(.text+0x402): undefined reference to `devm_imx_drm_legacy_bridge'
 
 
-vim +954 drivers/video/fbdev/omap2/omapfb/dss/dss.c
+vim +208 drivers/gpu/drm/imx/ipuv3/parallel-display.c
 
-   916	
-   917	static int dss_init_ports(struct platform_device *pdev)
-   918	{
-   919		struct device_node *parent = pdev->dev.of_node;
-   920		struct device_node *port;
-   921		int r, ret = 0;
-   922	
-   923		port = of_graph_get_next_port(parent, NULL);
-   924		if (!port)
-   925			return 0;
-   926	
-   927		if (dss.feat->num_ports == 0)
-   928			return 0;
-   929	
-   930		do {
-   931			enum omap_display_type port_type;
-   932			u32 reg;
-   933	
-   934			r = of_property_read_u32(port, "reg", &reg);
-   935			if (r)
-   936				reg = 0;
-   937	
-   938			if (reg >= dss.feat->num_ports)
-   939				continue;
-   940	
-   941			port_type = dss.feat->ports[reg];
-   942	
-   943			switch (port_type) {
-   944			case OMAP_DISPLAY_TYPE_DPI:
-   945				ret = dpi_init_port(pdev, port);
-   946				break;
-   947			case OMAP_DISPLAY_TYPE_SDI:
-   948				ret = sdi_init_port(pdev, port);
-   949				break;
-   950			default:
-   951				break;
-   952			}
-   953		} while (!ret &&
- > 954			 port = of_graph_get_next_port(parent, port));
-   955	
-   956		if (ret)
-   957			dss_uninit_ports(pdev);
-   958	
-   959		return ret;
-   960	}
-   961	
-   962	static void dss_uninit_ports(struct platform_device *pdev)
-   963	{
-   964		struct device_node *parent = pdev->dev.of_node;
-   965		struct device_node *port;
-   966	
-   967		port = of_graph_get_next_port(parent, NULL);
-   968		if (!port)
-   969			return;
-   970	
-   971		if (dss.feat->num_ports == 0)
-   972			return;
-   973	
-   974		do {
-   975			enum omap_display_type port_type;
-   976			u32 reg;
-   977			int r;
-   978	
-   979			r = of_property_read_u32(port, "reg", &reg);
-   980			if (r)
-   981				reg = 0;
-   982	
-   983			if (reg >= dss.feat->num_ports)
-   984				continue;
-   985	
-   986			port_type = dss.feat->ports[reg];
-   987	
-   988			switch (port_type) {
-   989			case OMAP_DISPLAY_TYPE_DPI:
-   990				dpi_uninit_port(port);
-   991				break;
-   992			case OMAP_DISPLAY_TYPE_SDI:
-   993				sdi_uninit_port(port);
-   994				break;
-   995			default:
-   996				break;
-   997			}
- > 998		} while (port = of_graph_get_next_port(parent, port));
-   999	}
-  1000	
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  181  
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  182  static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  183  {
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  184  	struct drm_device *drm = data;
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  185  	struct imx_parallel_display *imxpd = dev_get_drvdata(dev);
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  186  	struct imx_parallel_display_encoder *imxpd_encoder;
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  187  	struct drm_connector *connector;
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  188  	struct drm_encoder *encoder;
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  189  	struct drm_bridge *bridge;
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  190  	int ret;
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  191  
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  192  	imxpd_encoder = drmm_simple_encoder_alloc(drm, struct imx_parallel_display_encoder,
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  193  						  encoder, DRM_MODE_ENCODER_NONE);
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  194  	if (IS_ERR(imxpd_encoder))
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  195  		return PTR_ERR(imxpd_encoder);
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  196  
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  197  	imxpd_encoder->pd = imxpd;
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  198  	encoder = &imxpd_encoder->encoder;
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  199  	bridge = &imxpd_encoder->bridge;
+495590c65942d0 drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  200  
+49f98bc4d44a4e drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2016-07-06  201  	ret = imx_drm_encoder_parse_of(drm, encoder, imxpd->dev->of_node);
+1b3f7675663384 drivers/staging/imx-drm/parallel-display.c   Russell King     2013-11-03  202  	if (ret)
+1b3f7675663384 drivers/staging/imx-drm/parallel-display.c   Russell King     2013-11-03  203  		return ret;
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  204  
+5145fe5bed7cdd drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  205  	bridge->funcs = &imx_pd_bridge_funcs;
+f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02  206  	drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+fe141cedc4333e drivers/gpu/drm/imx/parallel-display.c       Boris Brezillon  2020-01-28  207  
+f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02 @208  	connector = drm_bridge_connector_init(drm, encoder);
+f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02  209  	if (IS_ERR(connector))
+f94b9707a1c912 drivers/gpu/drm/imx/ipuv3/parallel-display.c Dmitry Baryshkov 2024-06-02  210  		return PTR_ERR(connector);
+c0ad88a9d8e53d drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  211  
+5145fe5bed7cdd drivers/gpu/drm/imx/parallel-display.c       Philipp Zabel    2020-12-10  212  	drm_connector_attach_encoder(connector, encoder);
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  213  
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  214  	return 0;
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  215  }
+19022aaae677df drivers/staging/imx-drm/parallel-display.c   Sascha Hauer     2012-09-21  216  
+
+:::::: The code at line 208 was first introduced by commit
+:::::: f94b9707a1c91292c32f82847aa00d66472c0c62 drm/imx: parallel-display: switch to imx_legacy_bridge / drm_bridge_connector
+
+:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
