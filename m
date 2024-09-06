@@ -1,63 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDE53A8F7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 03:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657761B969;
+	Fri,  6 Sep 2024 03:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725593046; cv=none; b=MUiAV8RdplC6QmrPHDdtBAq6r1zoJEGladfiWCa8ct7xUMORz3rwPYK/AZvGb7OkP8a5oc/VB05gyOpStXB6WaisnOvHKF8cvP6AgbHEiuV791zhd3amWBOp8xzhGzvZ4iRzf8McXShbjGoqDgOORwY6126VCA8ifilaKN597G4=
+	t=1725593706; cv=none; b=Isqd+/aL88JmerpdAJNE10f6vLnWzgvpypUa8DRlJ8zBmL7yWkeaMacJjbI7kUbL7QvHMREUwS/L+pczvxgCQUFk/G+5VCxYQTEOdU0Pj3GS703Ps/DLZHsQmRbPghucIJvpRR5/m002/I9Af+BjQyNEyoUJw7ZlJvkRnydiwiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725593046; c=relaxed/simple;
-	bh=RH6TZLZQD54kymWTWzrD/ChEmeUBlBEentXZxNOU++s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6ctwSKXfv1Q9TtVxu1qP8LJ/5HtddJec/phJFtS8dyWk8ZB4oOtnMzAjQF+w7BZA9lQaAeed7sryKyqq3rps9kYRMrrBVHj7PQgKol28SXkp6SmrH9e1d8QRDcbYM7GKnF1rt9jiGnEYOCXlhAkXWbe3IHzZ8YYuCvvYYtUf7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dr5tHRHO; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1725593706; c=relaxed/simple;
+	bh=75PGzrP4a2+hRp+fRcLyHWZtHWIyhb1pvOJ9n+hZTaw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=te9/uXtdJadz5pBxIBBLkRyce5CUKVzvhUO6n41BrcvW8ffJ2wFdgkpbzjQIzlvCrZOOdnhNZ7RoUAwjO7CJc0kfB9v17jW0kv2ueIguL2Az7SqUscLXcXM2UmLq8kFzoQ54o4Km/G7Qlu0JYWKXiBg+jLmW8982ACi6qXpPGKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DhWj8AYb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dr5tHRHO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhWj8AYb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725593045; x=1757129045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RH6TZLZQD54kymWTWzrD/ChEmeUBlBEentXZxNOU++s=;
-  b=Dr5tHRHOqFHkAS9C5fSrkSInG6gkIUNUw8vaqnkFfKbMGE9P+y3OdnAn
-   GmFO39v3LICBA+UrO7iTBNFe/WeyNw8PBmWGOXuQoDmXJ9E0sh8bNj6v3
-   acZ8bEJFjWdYF/ZjWkn8EUiqaD/H16TEu1HigPgf5BUufxzSmhnLvbLPZ
-   t8e7HQ/bHrsPOp/QT9dBykQFA54NDBriuLxZKflUW4AqzEdM5pb+OjUqQ
-   wkfxCsWzjWFpPBbJ3uF1DmcW3XZwit0+kJwxQRfYBoDNNb6bsrS7RgtZL
-   kW+tO4xu/vJVnip4EfY3EMWw/EXh9NEwdqQRfuVJqQbETzstjCyY5o8iF
-   w==;
-X-CSE-ConnectionGUID: IbsB3iw5T9ixeGjOAuX7jQ==
-X-CSE-MsgGUID: YXtj5EYuTTmztJDY70y5pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="35012713"
+  t=1725593705; x=1757129705;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=75PGzrP4a2+hRp+fRcLyHWZtHWIyhb1pvOJ9n+hZTaw=;
+  b=DhWj8AYbQxpfoiaFHe5d/WciyXBqxctzSjQBvMLVo5YSwoRAHoskUx1A
+   +j+m60O+VRkDfBP977l/gTdDI0AM/0c6iGBs9BhyFUnyUDfRJmpG22zDH
+   vEF6dXt/to1UNckKp6Z7kCTZ3CAWhJz1i1jU29saMxmcZzNLtTVUx4040
+   m8fN4SMjUfEAtHza28Q+DAHbaPM3SZfd+NUPG/yV9ir7H3ZVTjvzRITC1
+   ZB9qyIm0VDmUHUuSAdK1COcEYhnCnxivSRnvyd32ICvqEugqaRxbjQhRz
+   sZcbybzhUUE4D0lI3ZdPh0FI0NcwwB3Tz+Z9fxPOzONvmO3WkLLQ1yRcx
+   A==;
+X-CSE-ConnectionGUID: 7NPmN7nISj+RppXes31kpQ==
+X-CSE-MsgGUID: G6vsGnnlQo6rkohnB7xrDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="35013223"
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="35012713"
+   d="scan'208";a="35013223"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 20:24:03 -0700
-X-CSE-ConnectionGUID: cA6JjpjfQZqIGy6c+qY9hA==
-X-CSE-MsgGUID: fFkCuXrFRICuRwwqMHvuJw==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 20:35:04 -0700
+X-CSE-ConnectionGUID: GRuZ7xngTcaIn//569oOWA==
+X-CSE-MsgGUID: CQTY69YBRZCID/xFk//ybA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="70393846"
+   d="scan'208";a="70395440"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Sep 2024 20:24:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Sep 2024 20:35:01 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smPZm-000AZ2-21;
-	Fri, 06 Sep 2024 03:23:58 +0000
-Date: Fri, 6 Sep 2024 11:23:09 +0800
+	id 1smPkQ-000AZP-2g;
+	Fri, 06 Sep 2024 03:34:58 +0000
+Date: Fri, 6 Sep 2024 11:34:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
-	asml.silence@gmail.com, Conrad Meyer <conradmeyer@meta.com>,
-	linux-block@vger.kernel.org, linux-mm@kvack.org,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v3 7/8] block: add nowait flag for
- __blkdev_issue_zero_pages
-Message-ID: <202409061126.hKdAymJK-lkp@intel.com>
-References: <292fa1c611adb064efe16ab741aad65c2128ada8.1725459175.git.asml.silence@gmail.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-TDM-spit-2024-09-05 13/15]
+ sound/soc/generic/simple-card-utils.c:1090:2: warning: label followed by a
+ declaration is a C23 extension
+Message-ID: <202409061121.oggHCMje-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,88 +62,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <292fa1c611adb064efe16ab741aad65c2128ada8.1725459175.git.asml.silence@gmail.com>
 
-Hi Pavel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on akpm-mm/mm-everything linus/master v6.11-rc6 next-20240905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Begunkov/io_uring-cmd-expose-iowq-to-cmds/20240904-222012
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/292fa1c611adb064efe16ab741aad65c2128ada8.1725459175.git.asml.silence%40gmail.com
-patch subject: [PATCH v3 7/8] block: add nowait flag for __blkdev_issue_zero_pages
-config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061126.hKdAymJK-lkp@intel.com/config)
+tree:   https://github.com/morimoto/linux sound-TDM-spit-2024-09-05
+head:   f2dc6deeba0553cf79ecb30e76e88ea593f3124b
+commit: 8c7603aac45dda53bd582adf8e220cc959fc391b [13/15] ASoC: simple-card-utils: cleanup graph_get_dai_id()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240906/202409061121.oggHCMje-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061126.hKdAymJK-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061121.oggHCMje-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409061126.hKdAymJK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409061121.oggHCMje-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/blk-lib.c:200:12: warning: variable 'opf' set but not used [-Wunused-but-set-variable]
-     200 |         blk_opf_t opf = REQ_OP_WRITE;
-         |                   ^
+>> sound/soc/generic/simple-card-utils.c:1090:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+    1090 |         struct device_node *node __free(device_node) = of_graph_get_port_parent(ep);
+         |         ^
    1 warning generated.
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [y]:
+   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
-vim +/opf +200 block/blk-lib.c
 
-   195	
-   196	int blkdev_issue_zero_pages_bio(struct block_device *bdev,
-   197			sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
-   198			struct bio **biop, unsigned int flags)
-   199	{
- > 200		blk_opf_t opf = REQ_OP_WRITE;
-   201	
-   202		if (flags & BLKDEV_ZERO_PAGES_NOWAIT) {
-   203			sector_t max_bio_sectors = BIO_MAX_VECS << PAGE_SECTORS_SHIFT;
-   204	
-   205			if (nr_sects > max_bio_sectors)
-   206				return -EAGAIN;
-   207			opf |= REQ_NOWAIT;
-   208		}
-   209	
-   210		while (nr_sects) {
-   211			unsigned int nr_vecs = __blkdev_sectors_to_bio_pages(nr_sects);
-   212			struct bio *bio;
-   213	
-   214			bio = bio_alloc(bdev, nr_vecs, REQ_OP_WRITE, gfp_mask);
-   215			if (!bio)
-   216				return -ENOMEM;
-   217			bio->bi_iter.bi_sector = sector;
-   218	
-   219			if ((flags & BLKDEV_ZERO_KILLABLE) &&
-   220			    fatal_signal_pending(current))
-   221				return -EINTR;
-   222	
-   223			do {
-   224				unsigned int len, added;
-   225	
-   226				len = min_t(sector_t,
-   227					PAGE_SIZE, nr_sects << SECTOR_SHIFT);
-   228				added = bio_add_page(bio, ZERO_PAGE(0), len, 0);
-   229				if (added < len)
-   230					break;
-   231				nr_sects -= added >> SECTOR_SHIFT;
-   232				sector += added >> SECTOR_SHIFT;
-   233			} while (nr_sects);
-   234	
-   235			*biop = bio_chain_and_submit(*biop, bio);
-   236			cond_resched();
-   237		}
-   238	
-   239		return 0;
-   240	}
-   241	
+vim +1090 sound/soc/generic/simple-card-utils.c
+
+  1027	
+  1028	static int graph_get_dai_id(struct device_node *ep)
+  1029	{
+  1030		int i, id;
+  1031		int ret;
+  1032	
+  1033		/*
+  1034		 * For example HDMI case, it has video/sound ports,
+  1035		 * thus ALSA SoC need to adjust for it.
+  1036		 *
+  1037		 * HDMI-Sound driver should support .of_xlate_dai_id callback,
+  1038		 * and indicate specified DAI ID
+  1039		 */
+  1040		ret = snd_soc_get_dai_id(ep);
+  1041		if (ret != -ENOTSUPP)
+  1042			return ret;
+  1043	
+  1044		/*
+  1045		 * [snd_soc_dai_driver] and [Of-Graph port] relationship
+  1046		 *
+  1047		 * static struct snd_soc_dai_driver xxx_dais[] = {
+  1048		 *	{
+  1049		 *		this DAI is handled as "port@0"
+  1050		 *	},
+  1051		 *	{
+  1052		 *		this DAI is handled as "port@1"
+  1053		 *	},
+  1054		 *	...
+  1055		 * };
+  1056		 *
+  1057		 * driver {
+  1058		 *	ports {
+  1059		 *		port@0 {
+  1060		 *			reg = <0>;
+  1061		 *			...
+  1062		 *		};
+  1063		 *		port@1 {
+  1064		 *			reg = <1>;
+  1065		 *			...
+  1066		 *		};
+  1067		 *		...
+  1068		 *	};
+  1069		 * };
+  1070		 */
+  1071	
+  1072		/*
+  1073		 * Because having "reg" was not so strict requested before on DT, some DT might not have it.
+  1074		 * Let's check and use it if exist, otherwise it will count "port".
+  1075		 */
+  1076		struct device_node *port __free(device_node) = of_get_parent(ep);
+  1077	
+  1078		ret = of_property_present(port, "reg");
+  1079		if (!ret)
+  1080			goto count_port;
+  1081	
+  1082		of_property_read_u32(port, "reg", &id);
+  1083	
+  1084		return id;
+  1085	
+  1086	count_port:
+  1087		/*
+  1088		 * Non HDMI sound case, counting port on its DT is enough. Let's count it.
+  1089		 */
+> 1090		struct device_node *node __free(device_node) = of_graph_get_port_parent(ep);
+  1091		i = 0;
+  1092		id = -ENODEV;
+  1093		for_each_of_graph_port(node, port) {
+  1094			for_each_of_graph_port_endpoint(port, endpoint) {
+  1095				if (endpoint == ep) {
+  1096					id = i;
+  1097					goto end_of_loop;
+  1098				}
+  1099			}
+  1100			i++;
+  1101		}
+  1102	end_of_loop:
+  1103	
+  1104		return id;
+  1105	}
+  1106	
 
 -- 
 0-DAY CI Kernel Test Service
