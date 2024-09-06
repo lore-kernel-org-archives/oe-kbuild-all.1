@@ -1,177 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657761B969;
-	Fri,  6 Sep 2024 03:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725593706; cv=none; b=Isqd+/aL88JmerpdAJNE10f6vLnWzgvpypUa8DRlJ8zBmL7yWkeaMacJjbI7kUbL7QvHMREUwS/L+pczvxgCQUFk/G+5VCxYQTEOdU0Pj3GS703Ps/DLZHsQmRbPghucIJvpRR5/m002/I9Af+BjQyNEyoUJw7ZlJvkRnydiwiw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725593706; c=relaxed/simple;
-	bh=75PGzrP4a2+hRp+fRcLyHWZtHWIyhb1pvOJ9n+hZTaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=te9/uXtdJadz5pBxIBBLkRyce5CUKVzvhUO6n41BrcvW8ffJ2wFdgkpbzjQIzlvCrZOOdnhNZ7RoUAwjO7CJc0kfB9v17jW0kv2ueIguL2Az7SqUscLXcXM2UmLq8kFzoQ54o4Km/G7Qlu0JYWKXiBg+jLmW8982ACi6qXpPGKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DhWj8AYb; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FACFD2FF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 03:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725594168; cv=fail; b=qUtltnvRt5TkbfU4RTOc7AF32c/IOJiiU5Rfs21UFQXGECeWHL0tvBm+bsuVQBI3/iRI8Qpuby08QJLN4gnmdcEuVheSBZEs2ORfhusIWSc1y4LKnUwIExW+7JHgYOwEs0R9EG85W8WqDemaiMSKt5lxo9+HIF0/FPA4qmrBNyM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725594168; c=relaxed/simple;
+	bh=HO010lRDT3VPfFqVLPIHgd0gLqRu+lJMsnWYXalPkvo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=P1JF2zUR7bVfNwrlyKdqu0mGE0WPDb70n6GiAWJbo+BngGjimJvXDubfSOt9jaWrLMwYzx90yyvvL9o6IO6FJJAPArc+JvGY8ukhKCIpnEF5OJ5HQ1B7op3RYo+gkbK0xAqIRJjOPZpZ+lCl81aX3IwZ6yXP8HmVGMQhyR4y3jE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBYSUAfW; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhWj8AYb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBYSUAfW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725593705; x=1757129705;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=75PGzrP4a2+hRp+fRcLyHWZtHWIyhb1pvOJ9n+hZTaw=;
-  b=DhWj8AYbQxpfoiaFHe5d/WciyXBqxctzSjQBvMLVo5YSwoRAHoskUx1A
-   +j+m60O+VRkDfBP977l/gTdDI0AM/0c6iGBs9BhyFUnyUDfRJmpG22zDH
-   vEF6dXt/to1UNckKp6Z7kCTZ3CAWhJz1i1jU29saMxmcZzNLtTVUx4040
-   m8fN4SMjUfEAtHza28Q+DAHbaPM3SZfd+NUPG/yV9ir7H3ZVTjvzRITC1
-   ZB9qyIm0VDmUHUuSAdK1COcEYhnCnxivSRnvyd32ICvqEugqaRxbjQhRz
-   sZcbybzhUUE4D0lI3ZdPh0FI0NcwwB3Tz+Z9fxPOzONvmO3WkLLQ1yRcx
+  t=1725594166; x=1757130166;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=HO010lRDT3VPfFqVLPIHgd0gLqRu+lJMsnWYXalPkvo=;
+  b=QBYSUAfWYPfNgb1lakyke4ey7QfEZsqCxBgfcMyzn0iXgITnDsV2A5zW
+   vcZJdGfi9Cw9zm/jKLi2N9Q8okj1O2nCXuQWVMIFx05vpdVTvgu8M/Jf4
+   WvUd5i9JxxR2aJPUJRxY+oJkv1k7Mi9WaK06dT5vtPwN8fIIlrdZ/2Uio
+   tmKY5J5EPpatWSCd9BVrNwXTOiH2+qwnVi16ClDPXFt3oazP3fQpfzfjW
+   hVeBxekLe2Dx4JKOYdKyHdqKyrExYGSXVKfbowX22VqC20w87hhK/l/Qi
+   h6c3FR3HxDjiSqW8tOghCDGgDqmO5vxtJfSvM7bT3kmKy9k6Eq/wdf0AX
    A==;
-X-CSE-ConnectionGUID: 7NPmN7nISj+RppXes31kpQ==
-X-CSE-MsgGUID: G6vsGnnlQo6rkohnB7xrDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="35013223"
+X-CSE-ConnectionGUID: 2Jwahf01TgiOUxQWlwUvhw==
+X-CSE-MsgGUID: M8oppBqrQ26cFjevYFVaSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24215608"
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="35013223"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 20:35:04 -0700
-X-CSE-ConnectionGUID: GRuZ7xngTcaIn//569oOWA==
-X-CSE-MsgGUID: CQTY69YBRZCID/xFk//ybA==
+   d="scan'208";a="24215608"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 20:42:45 -0700
+X-CSE-ConnectionGUID: 1hk3t/KgT1KHkx+B4k6dPA==
+X-CSE-MsgGUID: +gS25unLSaawmNkvxJMRSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="70395440"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Sep 2024 20:35:01 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1smPkQ-000AZP-2g;
-	Fri, 06 Sep 2024 03:34:58 +0000
-Date: Fri, 6 Sep 2024 11:34:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-TDM-spit-2024-09-05 13/15]
- sound/soc/generic/simple-card-utils.c:1090:2: warning: label followed by a
- declaration is a C23 extension
-Message-ID: <202409061121.oggHCMje-lkp@intel.com>
+   d="scan'208";a="66163465"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Sep 2024 20:42:46 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 5 Sep 2024 20:42:44 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 5 Sep 2024 20:42:44 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.49) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 5 Sep 2024 20:42:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M+qX1LevmrKEg3oSYPtHsgQbGH4cgkSwMCCicHw4HCoYVyI3B1VTWNAVOcbqHyCMOwjqzvG8ltaxsb8xZVpLzc1d2WK2g+zQN/mft9I1nyX/hq9o71f5nF5+O7FoNzRkQVv2UNSoENU+kAas3wGbF549sxCTPkW0rSPWzpY9+WuN6PEbd4WAsE/mkVvQjSo7HEaomhzhwZ+nbaoaaTkz25GQBJ6TT4L2x0XV62Jwf2eCHwgtF7p1PdkLFjTNnBwZ4UG5ZnxDKlXIR3Nl928BqOIJdT5C9MliDeMCXI9fPbIxiZhAON+1qBr9hWO90uQxxbosGqxVLwDvKLAa1zuDvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VvSh/q+OM3ukFndPLtWRJA7VorgJctrnz4v+tGM20Q0=;
+ b=bXVtPbaQ/tLaEN3vDol244DWgWKxMNhODf8W57dBn4cr7e0aw7+VqwAf5PHXwfuafpgFOHhSHGsufPw2ym9d8S07H8MSYYERRUE7jgWYY7nmZryDPO9TWxycHUWREmn/1wQL8XLa/QC6CpLTyOPBlfIcEXhBDV+vPOnWvR7tkhZSmIYt2fOsBhsAYaImt6aY50AZPqGbfGo04prULOeiQqBCrSJ3GY4hyqH442noU2Cn7zFdQRKIqtdoPhSJzqUvjIvuKVhVV6aADSyvrki8SbGC9PdjV4ulMUEPu74U7cJV4DxRWXEB+kg/+QOF+23shfuPc45/Vm6WZxPbe2y2kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by CY8PR11MB7777.namprd11.prod.outlook.com (2603:10b6:930:71::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Fri, 6 Sep
+ 2024 03:42:43 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7918.024; Fri, 6 Sep 2024
+ 03:42:42 +0000
+Date: Fri, 6 Sep 2024 11:42:34 +0800
+From: Philip Li <philip.li@intel.com>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+CC: "Maciej W. Rozycki" <macro@orcam.me.uk>, kernel test robot
+	<lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>
+Subject: Re: error: ABI 'o32' is not supported on CPU 'mips64'
+Message-ID: <Ztp6Khar6h3T4RSI@rli9-mobl>
+References: <202408310705.y2OPq3Xs-lkp@intel.com>
+ <alpine.DEB.2.21.2409051011570.1802@angie.orcam.me.uk>
+ <f661ed7e-5d69-403c-bfc8-7581eb8a6e76@app.fastmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f661ed7e-5d69-403c-bfc8-7581eb8a6e76@app.fastmail.com>
+X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|CY8PR11MB7777:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd512c3f-83f6-41dc-2645-08dcce25f686
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SnoxSUtnWXNCNTlOWHJUNjBmbTFSZ3ptWmJZQVU5aFNRcGxnblVRRHJZVHF1?=
+ =?utf-8?B?YmpmUDZ0M29EM09aWmZxdzFDRG5udHV2QTlIZXR3dHRLcWEzaE91UzZIQmwv?=
+ =?utf-8?B?Y0VyWk5Mdm1zMlFsbVVWcHowNUU1RVFWeXFxYmY1Zlc4VEFCc1NPcVVScytR?=
+ =?utf-8?B?RnUyRkt5cWpSU2hRMmlWL3d5cmZ4YnZEcFlpOGZwSVJIY1NGNzlybmNYbWxi?=
+ =?utf-8?B?cHB6U25hUjcrS3ptOS9wQmJ4dFpodmwyY21oU0VZeXc1K0FOWWplbWYwVDJX?=
+ =?utf-8?B?QVlJTStDSTkxU0ZEd290WWF6dWlnWFZYaE9DZk13YmtTYU9JTzcyQWVkaCts?=
+ =?utf-8?B?UUo4NitremNZZXI4Y0xDMHhBdE5sRS9LZFFzTFhzV1h4amdYUGlLbWVoTmUx?=
+ =?utf-8?B?UEg5dDVTcm9QUitPVnUrVTRaUnowcTlwTWRETzJsc2JNOU9KdXpOdnRBUWsw?=
+ =?utf-8?B?Z0EvbnFscFk1bEFsUTRmamlDWTdWNThTR3VwM2xERnVhYmNZb2QxWGZQVGhI?=
+ =?utf-8?B?d09QenMxOVQwYUdRaG1wK3ZXV25hZXRHNGRtQjdQNjlIcWhRRk9YeGkyOXFx?=
+ =?utf-8?B?eU55MDg4VzN4cFlJZXJXUFRXVXhHOXRraUNJaHJRWnZEZWpPR0MxaDhBZ1VH?=
+ =?utf-8?B?bGNSUmRnV1B0WExCTEgzTmZid1MzbTZvVEo0eloyVFgreGNhNzRSY1RlK3ps?=
+ =?utf-8?B?UVdTZ3ZIQ2dvZWwzZUp5OVJHWWNZeDd3VkkwYUNvemR6THNpbC9LSFFrdzlV?=
+ =?utf-8?B?TkhjdEhpVk9CZ05kVW9HSTdRQkl6Vk9YZERBZWdVZ1Z5WDdVMTdRL1VGM1F5?=
+ =?utf-8?B?Yzc3eERSWktmR0IvQ1pKSGVTYnVVUnZ5TjhSVXNhSmt3TlBacXltdGREdHo5?=
+ =?utf-8?B?eDlydUJCQ0ErZnVlOWNqdWhPK29LNkMrTEo3M09sRnJLMDB5MDZ6MTRGdkxC?=
+ =?utf-8?B?OXg0RlNRdk0rYWh1RFJBVG5oZ3l0U3dUYXZhSEx6c0NnRVdqdFd4UEdXL2tZ?=
+ =?utf-8?B?b05VNW9IcnFXU3pvanNMbUxQdFNaK29WVmVaU2doa0JzWXJYR3J4elo0SFdC?=
+ =?utf-8?B?ZzdOUGNEcU9aUlNiT3hQM0hFNmo2cm1lN3ozcFV0akk2UWp4QmMwcDdEcHN4?=
+ =?utf-8?B?SzJvbE5YWG4vQVRPWGpveWJPVGZGWUwvUUFybDd6cTJjYjVkTnNtZHhack9O?=
+ =?utf-8?B?MnAxSDMrS2ZwcHlYaEMzOFhBaDJzSWh3bzNwU0lpZGJ6WjQrZHV4Tis0TEVs?=
+ =?utf-8?B?L0o5TElYL0lUUnJwRWdydEtUL21ndjJwR2IwRXg2bXdGenlFcUgrcEgrcmx1?=
+ =?utf-8?B?RUZXTDhCem04RjVLS21nRDFGTUVMZXk0UFhLRjFiU2kwUnhKSE92Q0hWRFhB?=
+ =?utf-8?B?ZUw5SHorV0VCWkdzR3UyYzVPRld2d0RTaGNTRUI2QU91aXBIUHFDTDJNTzBG?=
+ =?utf-8?B?R2JZb1JLNFVya3RibDEva2haZ1lqeEVGaTFNbnc4Y3RwVms2MkhJQlBRd012?=
+ =?utf-8?B?K1g0clVMWnVhaTdYcHduUWMzU2NkbGtiUmk5eW1yM0V6WkY1RUdlbmhWOVB6?=
+ =?utf-8?B?WEFFYmVRa0lGN0lnOG5KMUJoKzA3TTNld05qdTVaNWN6WmdYaHkyMVhSL0tN?=
+ =?utf-8?B?YkhHU2ZSMUFvU1M4cEZiSVVLeG8wdlpVa2FvN3VwNVBtdFF0SzM4MWF0NFJG?=
+ =?utf-8?B?ZnhHVGpWM0ZobVQ4dkRxc1ZPQ0dleHNJeXdyRlhoUVF4TVRmN1h4VDdVY2po?=
+ =?utf-8?B?UHoyZC9Ba3BvaFl5aHdrVkh6QnloZlFGU1lFcGpjbndVNlpwcTdWVUNlOUZ4?=
+ =?utf-8?Q?4TOipstQRW0lsRdDY0y49oW//KN5sxdfEfNC4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXBFR1k0SytPZ1Rac25NSmVQNWZ3RnlmZlV4QlRxV01iWmlPSzhnaUs3c1Jl?=
+ =?utf-8?B?WkZOM1g3YjBiTm1kcU04OVpxU0xRTDZZbStqcDZzaXJ0eWlRWm1SUytyby9O?=
+ =?utf-8?B?Q3R6dTVOa29jdlJDSmZieG5wam83eWM4cjVoMlRzdWpvcXZyLzZqREhWcTNR?=
+ =?utf-8?B?cVZSMDZ5cEdveVByWGVNYTd5WDRGbDUyMUJBOGFpbFplWlMva2dzTHpoNXRs?=
+ =?utf-8?B?UDZNM2kwMEJ3NVJ0WDlwOVVIaWMrNzBsQVZ0OWVyWjZWKzVIWVZrUlprT0Fu?=
+ =?utf-8?B?b1U1SnFJTHJDd0JzSWRBdkR0U1JEUHl1RUhuTkhvbkk5SFBZa05DSkxVWDlh?=
+ =?utf-8?B?SjBzL0QvVDk2bEFTZEVGYlpzRkFFaVc1T2k4WTdORVduVEZsY0NrdzBjTDhK?=
+ =?utf-8?B?dnIxOXBSdkdmb0dSQy9qOUJ0VGdRVG52M2VkTW4vUFhIMnhUSU9USUU4U1do?=
+ =?utf-8?B?NXZhWGwwLzR1V0QwUSsrQTAzVFF2K2greVlyT1dINEY4V05zQXVkZVRIdDlE?=
+ =?utf-8?B?amFYZzA1S3JjRXJIc09KSXFBT2JueTFTTHhIVDdWQS9NcTFISitYMVEvK3ls?=
+ =?utf-8?B?QzhTcWorT1hnemsraWtoMnI2a1VvaWZXTktldUcwdGJVWFlWcUV6bHg4N2Mv?=
+ =?utf-8?B?UGNjdGFPTWdCVmNVTG14d0VjTzdwRkRKMzdoZDNJVE5iTUpyNnZtRkFKUTd0?=
+ =?utf-8?B?QzhhRHQ4UHZReXJIUlc3NHNEeTdqTzNQL0kzVkFPRGtvLzlBSU9IYjJzRzRG?=
+ =?utf-8?B?Rmtsc1YxNjBabW5HVEVFc0NNcnlkK3VIMXdTYnBDK0M4SlQ3a2hTWHhqcE1r?=
+ =?utf-8?B?YWxCMEI2YlRKUkdQaU1EZS9Mbm5LalhPNURvWmhIS25nOEQ1UkJiSmxiRzBv?=
+ =?utf-8?B?d0p4M1lFa0I1YmtkNnRGQjdiR0JrMDFVOGdKbml0b0pSYXppN3hBVlNiV2Rm?=
+ =?utf-8?B?MGdUKzRYbmxEYXc4UE1sTmg0SUxDSFQrNVRCdXllN3QzajFWRVBvLzh5TCtu?=
+ =?utf-8?B?ejAxSTVBZU15L20rNk05V2xpeUp5ejNCbWZlQ2FmcUpuNWJMeHFhUGR0eW5W?=
+ =?utf-8?B?dENUNlVhbnNiRU05S1JadGQ4dysrcXcwZjh5L1JTd1d2SGpIREdKM2M4ZVdE?=
+ =?utf-8?B?MForTklKVnJ6ZFNvays3eGo2L1ZsQUkxOEUvNEY3WFRFUkFVVkIwUmFjVVdU?=
+ =?utf-8?B?L3NaQzl0R000NXliYjBlQTR1bDUyT3hTcDlnSjFrZ3dSK1BOeVVqd1ZqZ0tT?=
+ =?utf-8?B?amE0TmZOWFhUY2FtaklHc1FOZlFuSU5oSTJZZTNQYks3SjhlbENsSCtMV2Ji?=
+ =?utf-8?B?SUUwYU5vcjZGZkNHZDF5a1kvdGxETDBTUTdpR0FyQnJSSEpiMGRMdnFPejdC?=
+ =?utf-8?B?MjVabktnbHYxc3hsMWVESHJnaU1MTStBa0NFVVFJWHJheUFULy9HNE5id0Nn?=
+ =?utf-8?B?MUF5bGNjeWVLNlRuZmtIdmwycjhtWGt2MzR1KzE5b2FvQVFFblNWcXhzaEtZ?=
+ =?utf-8?B?cExOTEl5djlSYmYydWVDeGgzcVgyTW9pSWtDZTd4cHFyT2hwdUZaUE1lZXZq?=
+ =?utf-8?B?eEVMZzF5VTFuSDBzVDhPdG4zamMvTWVPd05NelBmTEIxd0wwTEFSaEhsQzcv?=
+ =?utf-8?B?S2kvdE5CUGlPMFBLZndyNERGNHFwRGJtKzR4aFl5Y2tYcVRoS1RWNWhlaVRL?=
+ =?utf-8?B?MUt2dGVvY3dQdVd1ZUtiUE03eVF4bEY3MkpxSEpYK24xLzNjUk9HaUZzRW93?=
+ =?utf-8?B?Qy9CNnVQQWt3LzRlclVkMkVyUEhIM29wNVdvaUxBWU51aWpuKzFLd2hXZDc0?=
+ =?utf-8?B?U0JvVXVhVkR0dEpGK0ZUVlJxa0xWSy8rWVpmM0E5ZFFBcDhDamU5ZFUvbncy?=
+ =?utf-8?B?bzRIRUxHRWRqaWUzUk1EdVV0YnBZcTdhSFczZ245SGxncHNGYXZzZERzZTNa?=
+ =?utf-8?B?ZS81U3dBZFF4c3RtaXR6TFNPRUNod0VDOC9rcWNNZkdrYmFMRFZCU0VjT2lX?=
+ =?utf-8?B?S3U4REtER0FEQ1d5VEkyTzlMQ1NUazBoekRGZDhVejdNT3cwdk5EeDNGWitx?=
+ =?utf-8?B?Tm04SHNramJGYlFVLy92a2FjWmlYNDRreStnMzdETUFwZEVxcW5ZNFUvNUZI?=
+ =?utf-8?Q?+NVkt69ntp2GjO+BACwe1MHVy?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd512c3f-83f6-41dc-2645-08dcce25f686
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 03:42:42.6844
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: asEQ6TuBsCJ0hOE4VQHNGg1B8sfiiFRvx6bFBwaj5cFd0s/e7dgB4ujTMU+ndNizADEu3lOtVc97Vm5bE0jF9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7777
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/morimoto/linux sound-TDM-spit-2024-09-05
-head:   f2dc6deeba0553cf79ecb30e76e88ea593f3124b
-commit: 8c7603aac45dda53bd582adf8e220cc959fc391b [13/15] ASoC: simple-card-utils: cleanup graph_get_dai_id()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240906/202409061121.oggHCMje-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061121.oggHCMje-lkp@intel.com/reproduce)
+On Thu, Sep 05, 2024 at 10:56:15AM +0100, Jiaxun Yang wrote:
+> 
+> 
+> 在2024年9月5日九月 上午10:22，Maciej W. Rozycki写道：
+> > On Sat, 31 Aug 2024, kernel test robot wrote:
+> >
+> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> >> head:   fb24560f31f9dff2c97707cfed6029bfebebaf1c
+> >> commit: 2326c8f2022636a1e47402ffd09a3b28f737275f MIPS: Fix fallback march for SB1
+> >> date:   7 weeks ago
+> >> config: mips-randconfig-r121-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/config)
+> >> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> >> reproduce: (https://download.01.org/0day-ci/archive/20240831/202408310705.y2OPq3Xs-lkp@intel.com/reproduce)
+> >> 
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202408310705.y2OPq3Xs-lkp@intel.com/
+> >> 
+> >> All errors (new ones prefixed by >>):
+> >> 
+> >> >> error: ABI 'o32' is not supported on CPU 'mips64'
+> >> >> error: error: ABI 'o32' is not supported on CPU 'mips64'
+> >>    ABI 'o32' is not supported on CPU 'mips64'
+> >>    make[3]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
+> >>    make[3]: *** [scripts/Makefile.build:244: scripts/mod/empty.o] Error 1
+> >>    make[3]: Target 'scripts/mod/' not remade because of errors.
+> >>    make[2]: *** [Makefile:1207: prepare0] Error 2
+> >>    make[2]: Target 'prepare' not remade because of errors.
+> >>    make[1]: *** [Makefile:240: __sub-make] Error 2
+> >>    make[1]: Target 'prepare' not remade because of errors.
+> >>    make: *** [Makefile:240: __sub-make] Error 2
+> >>    make: Target 'prepare' not remade because of errors.
+> >
+> >  This is a compiler bug.  The MIPS64 ISA does certainly support the o32 
+> > ABI, so they need to fix their "CPU 'mips64'" definition.
+> 
+> Just for record, this has been fixed in LLVM-17 [1], while the bit is still
+> on LLVM 15.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409061121.oggHCMje-lkp@intel.com/
+Thanks for the info, the bot will ignore the issue on clang-15/16 in future.
 
-All warnings (new ones prefixed by >>):
-
->> sound/soc/generic/simple-card-utils.c:1090:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1090 |         struct device_node *node __free(device_node) = of_graph_get_port_parent(ep);
-         |         ^
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [y]:
-   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
-
-
-vim +1090 sound/soc/generic/simple-card-utils.c
-
-  1027	
-  1028	static int graph_get_dai_id(struct device_node *ep)
-  1029	{
-  1030		int i, id;
-  1031		int ret;
-  1032	
-  1033		/*
-  1034		 * For example HDMI case, it has video/sound ports,
-  1035		 * thus ALSA SoC need to adjust for it.
-  1036		 *
-  1037		 * HDMI-Sound driver should support .of_xlate_dai_id callback,
-  1038		 * and indicate specified DAI ID
-  1039		 */
-  1040		ret = snd_soc_get_dai_id(ep);
-  1041		if (ret != -ENOTSUPP)
-  1042			return ret;
-  1043	
-  1044		/*
-  1045		 * [snd_soc_dai_driver] and [Of-Graph port] relationship
-  1046		 *
-  1047		 * static struct snd_soc_dai_driver xxx_dais[] = {
-  1048		 *	{
-  1049		 *		this DAI is handled as "port@0"
-  1050		 *	},
-  1051		 *	{
-  1052		 *		this DAI is handled as "port@1"
-  1053		 *	},
-  1054		 *	...
-  1055		 * };
-  1056		 *
-  1057		 * driver {
-  1058		 *	ports {
-  1059		 *		port@0 {
-  1060		 *			reg = <0>;
-  1061		 *			...
-  1062		 *		};
-  1063		 *		port@1 {
-  1064		 *			reg = <1>;
-  1065		 *			...
-  1066		 *		};
-  1067		 *		...
-  1068		 *	};
-  1069		 * };
-  1070		 */
-  1071	
-  1072		/*
-  1073		 * Because having "reg" was not so strict requested before on DT, some DT might not have it.
-  1074		 * Let's check and use it if exist, otherwise it will count "port".
-  1075		 */
-  1076		struct device_node *port __free(device_node) = of_get_parent(ep);
-  1077	
-  1078		ret = of_property_present(port, "reg");
-  1079		if (!ret)
-  1080			goto count_port;
-  1081	
-  1082		of_property_read_u32(port, "reg", &id);
-  1083	
-  1084		return id;
-  1085	
-  1086	count_port:
-  1087		/*
-  1088		 * Non HDMI sound case, counting port on its DT is enough. Let's count it.
-  1089		 */
-> 1090		struct device_node *node __free(device_node) = of_graph_get_port_parent(ep);
-  1091		i = 0;
-  1092		id = -ENODEV;
-  1093		for_each_of_graph_port(node, port) {
-  1094			for_each_of_graph_port_endpoint(port, endpoint) {
-  1095				if (endpoint == ep) {
-  1096					id = i;
-  1097					goto end_of_loop;
-  1098				}
-  1099			}
-  1100			i++;
-  1101		}
-  1102	end_of_loop:
-  1103	
-  1104		return id;
-  1105	}
-  1106	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Thanks
+> [1]: https://github.com/llvm/llvm-project/commit/7983f8aca82e258174849f1cc6a70029353e9887
+> 
+> >
+> >   Maciej
+> 
+> -- 
+> - Jiaxun
+> 
