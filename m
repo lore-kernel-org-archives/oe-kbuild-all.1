@@ -1,161 +1,290 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64831BE6C;
-	Fri,  6 Sep 2024 01:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88E718E0E;
+	Fri,  6 Sep 2024 01:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725586023; cv=none; b=IzmlQ/1/qpuV8bETySg+U7T1Izd5JzcnMqWQluGO5qhINiBJJWSSiHFcvDie0PkGoxdCQVoKM0dBqbK1hXbwRcjB93/DymDM1Cpae931682h7VY8U0icLZ8y5JPrjbwFKlCLEvh6t54weIPJwoFQC8YT2np8vMD1msVQ+5IuGSs=
+	t=1725586212; cv=none; b=ldhkOuj7odjLoBnEga7K2iZBQhMclmV4zKWzcxlp/R2bkHxen03CUlfSPPDPv2wPD4sxKBOeWI8arCL88FfI3g1aRX+GExSWP2cIYsZ+ZUDjW3hazh+QDUVdIQmrbe4QbkRo2BosYxRUHgWXKx68asaIRBXdHubJMgWFDWiQaIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725586023; c=relaxed/simple;
-	bh=pFAKY59pQsiBwAmO+ju5ZeM4/707OjnJLXQ6unjn04s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Nn3+VuefWtReg4AD0wjM1gHVuRLXAGqO5ojVoDVk4xsT1lIaMHSZdVaB/Wp9FKWHy44wckWl0rgDT/gAMk8/DN5QmaqhsrkKP5s0Ot9RarGtpR9cClo9ucwfz2FKN7+Rc0/mDi/1l2FFKALmrWgNysQYy+FPxotrBRci55Du0iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X0JSG2TCqzpVQx;
-	Fri,  6 Sep 2024 09:25:02 +0800 (CST)
-Received: from dggpeml100021.china.huawei.com (unknown [7.185.36.148])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7055D14011A;
-	Fri,  6 Sep 2024 09:26:57 +0800 (CST)
-Received: from [127.0.0.1] (10.174.177.174) by dggpeml100021.china.huawei.com
- (7.185.36.148) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 6 Sep
- 2024 09:26:56 +0800
-Message-ID: <bf7ac6b8-9ce7-488b-8bae-ab859cdd75d3@huawei.com>
-Date: Fri, 6 Sep 2024 09:26:56 +0800
+	s=arc-20240116; t=1725586212; c=relaxed/simple;
+	bh=HtG6uSXXWRog7nKDfiC6YaFPLPvrPqv+rZ6AdW7RDIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xw8s4cRH/BVyYDzrVQgvphx82KMuY9HnaQg6n10EUwa3h6m2m6itSbva6MVmgWVMO6YPhV02gJWDWIVBZ8Y3sKq4KC9BSU/85Js7uSbo6NIxWDFI3vqiaTDLPE2BTmr/btzZG3jHKV8OXfvO4H81XQvcUCl8ROLTP/uSy6YAzq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j4+oBLEV; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j4+oBLEV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725586210; x=1757122210;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HtG6uSXXWRog7nKDfiC6YaFPLPvrPqv+rZ6AdW7RDIw=;
+  b=j4+oBLEVOpGJmHrZj7DzMpwbTih03DdXnHq5Lk6rwDYYYCm8lXKQdo8H
+   CoCbOz97mPKKlHGEilGMB5XEgqwCgmGtBeEy2tMhEYBYwn8NGdB6tfyQg
+   z9KfsdeeL91NfOEVYGuQ5fSXdZYT+OLrUnbX3oV6Q6kfuERCAOSgepBxC
+   6S3lkiJ5pShUgHDxwzGY/8EK8UKXivsIFSCKLioMCk3pYVPH8DuLz2CfZ
+   3r1xa6MRy/mtbtUbrUjtO7MPk0V9IJDF/EzMYB5dEngXGwbsmuOLvUxnx
+   95mq+XFCyDcWRRgtEDU4ro2OXZIRfHxH/JW6+Kw2mf/G3UIcteXF2dvEF
+   w==;
+X-CSE-ConnectionGUID: 1mGEU3v0T9WaHI2V3Heodg==
+X-CSE-MsgGUID: RAMqsmfaT6aG47Z1QWuzGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="23841735"
+X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
+   d="scan'208";a="23841735"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 18:30:09 -0700
+X-CSE-ConnectionGUID: lCQSG0QLS3aTdWCbRx7DkA==
+X-CSE-MsgGUID: ACObBSwGQW2FqcqMnRscJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
+   d="scan'208";a="66347794"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 05 Sep 2024 18:30:07 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1smNnZ-000AUB-1F;
+	Fri, 06 Sep 2024 01:30:05 +0000
+Date: Fri, 6 Sep 2024 09:29:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.11-rc6-esp32 20/53]
+ drivers/misc/esp32-ipc.c:152:13: warning: cast to 'void *' from smaller
+ integer type 'u32' (aka 'unsigned int')
+Message-ID: <202409060915.Nh4xNgvG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
- ext4_ext_clear_bb() error: double free of 'path'
-To: Theodore Ts'o <tytso@mit.edu>
-CC: Dan Carpenter <dan.carpenter@linaro.org>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, Jan Kara <jack@suse.cz>,
-	<oe-kbuild@lists.linux.dev>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Yang
- Erkun <yangerkun@huawei.com>, Baokun Li <libaokun1@huawei.com>
-References: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
- <c2711f3d-6bee-414c-952f-5c33da315a1a@huawei.com>
- <20240905132335.GT9627@mit.edu>
- <2e4f662b-2c52-4148-afea-0f7d09d2776b@huawei.com>
- <20240905140715.GV9627@mit.edu>
-Content-Language: en-US
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <20240905140715.GV9627@mit.edu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml100021.china.huawei.com (7.185.36.148)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2024/9/5 22:07, Theodore Ts'o wrote:
-> On Thu, Sep 05, 2024 at 09:31:35PM +0800, Baokun Li wrote:
->>>> Ted, could you please help push the corrected commit to the next branch?
->>> The next branch gets automatically refreshed every day (Mondays
->>> through Friday).  In the case of the ext4 tree, it gets picked up from
->>> the dev branch.  So it should be fixed in the upcoming fs-next and
->>> linux-next branch.
->>>
->>> Cheers,
->>>
->>> 					- Ted
->>>
->> OK, I didn't know it was pulling automatically, thanks for the explanation!
-> Yep, and some of us have automated test systems that run whenever
-> fs-next is updated.  :-)
->
-> For example, see attached.  (I have been planning to get this
-> published someplace, such as a linux.linux.dev list, but I've been too
-> busy finish up making it be fully robust and not subject to rare
-> failures that require manual interventions, and I need to complete
-> some negotiations with Konstantin.  Probably after the Linux Plumbers
-> Conference and I have a bit more free time...)
->
-> 						- Ted
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.11-rc6-esp32
+head:   4a9ffb44ce4c24e9dcd4a5f06beeb3dded85319a
+commit: 9aee3c117c9d9b9481c339d9ac7b47e6c949bdac [20/53] misc/esp32-ipc: introduce generic IPC for ESP32
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240906/202409060915.Nh4xNgvG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409060915.Nh4xNgvG-lkp@intel.com/reproduce)
 
-This one looks awesome! Looking forward to it going live officially.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409060915.Nh4xNgvG-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/misc/esp32-ipc.c:5:
+   In file included from include/linux/interrupt.h:22:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/misc/esp32-ipc.c:152:13: warning: cast to 'void *' from smaller integer type 'u32' (aka 'unsigned int') [-Wint-to-void-pointer-cast]
+     152 |         hw->hw_q = (void *)readl(p);
+         |                    ^~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-Cheers,
-Baokun
->
-> TESTRUNID: ltm-20240729133952-0028
-> KERNEL:    kernel 6.11.0-rc6-xfstests-00781-g8d32ae66515d #1 SMP PREEMPT_DYNAMIC Wed Sep  4 21:56:52 EDT 2024 x86_64
-> CMDLINE:   -c ext4/all,xfs/all,btrfs/all,f2fs/all -g auto --repo https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next --watch fs-next
-> CPUS:      2
-> MEM:       7680
->
-> ext4/4k: 570 tests, 2 failures, 51 skipped, 5668 seconds
->    Flaky: generic/234: 20% (1/5)   generic/277: 20% (1/5)
-> ext4/1k: 564 tests, 2 failures, 54 skipped, 6139 seconds
->    Failures: generic/627 generic/750
-> ext4/ext3: 562 tests, 144 skipped, 4388 seconds
-> ext4/encrypt: 545 tests, 167 skipped, 3169 seconds
-> ext4/nojournal: 562 tests, 122 skipped, 4013 seconds
-> ext4/ext3conv: 567 tests, 53 skipped, 5500 seconds
-> ext4/adv: 563 tests, 2 failures, 59 skipped, 5186 seconds
->    Flaky: generic/047: 20% (1/5)   generic/547: 20% (1/5)
-> ext4/dioread_nolock: 568 tests, 51 skipped, 5108 seconds
-> ext4/data_journal: 563 tests, 127 skipped, 4489 seconds
-> ext4/bigalloc_4k: 541 tests, 1 failures, 55 skipped, 4766 seconds
->    Flaky: generic/320: 60% (3/5)
-> ext4/bigalloc_1k: 542 tests, 64 skipped, 4814 seconds
-> ext4/dax: 556 tests, 157 skipped, 3022 seconds
-> xfs/4k: 1142 tests, 2 failures, 180 skipped, 10178 seconds
->    Failures: generic/754 xfs/432
-> xfs/1k: 1142 tests, 3 failures, 167 skipped, 14218 seconds
->    Failures: generic/627 generic/754 xfs/432
-> xfs/v4: 1141 tests, 2 failures, 474 skipped, 8851 seconds
->    Failures: generic/754 xfs/432
-> xfs/adv: 1142 tests, 2 failures, 166 skipped, 10238 seconds
->    Failures: generic/754 xfs/432
-> xfs/quota: 1142 tests, 2 failures, 165 skipped, 11276 seconds
->    Failures: generic/754 xfs/432
-> xfs/quota_1k: 1142 tests, 3 failures, 167 skipped, 13616 seconds
->    Failures: generic/627 generic/754 xfs/432
-> xfs/dirblock_8k: 1142 tests, 2 failures, 165 skipped, 11244 seconds
->    Failures: generic/754 xfs/432
-> xfs/realtime: 1141 tests, 4 failures, 518 skipped, 8342 seconds
->    Failures: generic/260 generic/455 generic/754 xfs/432
-> xfs/realtime_28k_logdev: 1141 tests, 4 failures, 600 skipped, 12882 seconds
->    Failures: generic/260 generic/754 xfs/432 xfs/598
-> xfs/realtime_logdev: 1141 tests, 4 failures, 572 skipped, 13036 seconds
->    Failures: generic/260 generic/754 xfs/432 xfs/598
-> xfs/logdev: 1142 tests, 3 failures, 235 skipped, 17787 seconds
->    Failures: generic/754 xfs/432 xfs/598
-> xfs/dax: 1152 tests, 1 failures, 551 skipped, 5930 seconds
->    Failures: generic/754
-> btrfs/default: 1038 tests, 4 failures, 278 skipped, 9576 seconds
->    Failures: btrfs/012 btrfs/277
->    Flaky: generic/418: 20% (1/5)   generic/746: 40% (2/5)
-> f2fs/default: 720 tests, 7 failures, 245 skipped, 5432 seconds
->    Failures: generic/050 generic/064 generic/252 generic/563 generic/735
->    Flaky: f2fs/004: 20% (1/5)   generic/475: 40% (2/5)
-> f2fs/encrypt: 702 tests, 4 failures, 352 skipped, 3064 seconds
->    Failures: generic/050 generic/563 generic/635
->    Flaky: generic/475: 20% (1/5)
-> Totals: 23089 tests, 5942 skipped, 234 failures, 0 errors, 197866s
->
-> FSTESTIMG: gce-xfstests/xfstests-amd64-202408121130
-> FSTESTPRJ: gce-xfstests
-> FSTESTVER: blktests f043065 (Thu, 20 Jun 2024 16:26:22 +0900)
-> FSTESTVER: fio  fio-3.36 (Fri, 20 Oct 2023 04:30:43 -0600)
-> FSTESTVER: fsverity v1.6 (Wed, 20 Mar 2024 21:21:46 -0700)
-> FSTESTVER: ima-evm-utils v1.5 (Mon, 6 Mar 2023 07:40:07 -0500)
-> FSTESTVER: libaio   libaio-0.3.108-82-gb8eadc9 (Thu, 2 Jun 2022 13:33:11 +0200)
-> FSTESTVER: ltp  20240524-131-gdfb293ee0 (Mon, 29 Jul 2024 09:57:32 +0200)
-> FSTESTVER: nvme-cli v1.16 (Thu, 11 Nov 2021 13:09:06 -0800)
-> FSTESTVER: quota  v4.05-67-g8254bec (Mon, 29 Jul 2024 12:24:36 -0400)
-> FSTESTVER: util-linux v2.40 (Wed, 27 Mar 2024 12:46:59 +0100)
-> FSTESTVER: xfsprogs v6.9.0 (Mon, 22 Jul 2024 11:05:03 +0200)
-> FSTESTVER: xfstests-bld 8456529b (Wed, 31 Jul 2024 22:17:54 -0400)
-> FSTESTVER: xfstests v2024.08.11-7-gc3fc1ccce-dirty (Mon, 12 Aug 2024 11:25:51 -0400)
-> FSTESTVER: zz_build-distro bookworm
-> FSTESTSET: -g auto
-> FSTESTOPT: aex
->
+vim +152 drivers/misc/esp32-ipc.c
+
+     2	
+     3	#include <linux/esp32-ipc-api.h>
+     4	#include <linux/delay.h>
+   > 5	#include <linux/interrupt.h>
+     6	#include <linux/mutex.h>
+     7	#include <linux/of.h>
+     8	#include <linux/of_address.h>
+     9	#include <linux/of_device.h>
+    10	#include <linux/of_platform.h>
+    11	#include <linux/platform_device.h>
+    12	#include <linux/spinlock.h>
+    13	
+    14	#include "esp32-ipc.h"
+    15	
+    16	#define ESP32_IPC_IRQ_FROM_FW_REG	0
+    17	#define ESP32_IPC_IRQ_TO_FW_REG		4
+    18	
+    19	#define ESP32_IPC_READ_HW_Q		0
+    20	#define ESP32_IPC_WRITE_HW_Q		1
+    21	
+    22	#define ESP32_IPC_CLIENTS_MAX		4
+    23	
+    24	struct esp32_ipc_client {
+    25		void *p;
+    26		int (*rx)(void *p, void *data);
+    27		void (*rx_batch_done)(void *p, u32 tag);
+    28	};
+    29	
+    30	struct esp32_ipc {
+    31		void __iomem *regs;
+    32		int irq;
+    33		struct esp32_ipc_queue *hw_q;
+    34		spinlock_t lock;
+    35		struct esp32_ipc_client client[ESP32_IPC_CLIENTS_MAX];
+    36	};
+    37	
+    38	int esp32_ipc_register_rx(void *ipc, u32 addr, void *p,
+    39				int (*rx)(void *p, void *data),
+    40				void (*rx_batch_done)(void *p, u32 tag))
+    41	{
+    42		struct esp32_ipc *hw = ipc;
+    43	
+    44		if (addr < ESP32_IPC_CLIENTS_MAX) {
+    45			hw->client[addr].p = p;
+    46			hw->client[addr].rx = rx;
+    47			hw->client[addr].rx_batch_done = rx_batch_done;
+    48			return 0;
+    49		}
+    50		return -EINVAL;
+    51	}
+    52	EXPORT_SYMBOL(esp32_ipc_register_rx);
+    53	
+    54	int esp32_ipc_tx(void *ipc, u32 addr, void *info, u32 *tag)
+    55	{
+    56		struct esp32_ipc *hw = ipc;
+    57		struct esp32_ipc_queue *q = hw->hw_q + ESP32_IPC_WRITE_HW_Q;
+    58		struct esp32_ipc_queue_entry *data = (void *)hw->hw_q + q->offset;
+    59		unsigned long flags;
+    60		u32 r, w;
+    61	
+    62		spin_lock_irqsave(&hw->lock, flags);
+    63		r = READ_ONCE(q->read);
+    64		w = READ_ONCE(q->write);
+    65		rmb();
+    66		pr_debug("%s: q->read = %d, q->write = %d\n", __func__, r, w);
+    67		if (w - r == q->mask) {
+    68			spin_unlock_irqrestore(&hw->lock, flags);
+    69			pr_debug("%s: write queue full\n", __func__);
+    70			return -EBUSY;
+    71		}
+    72	
+    73		WRITE_ONCE(data[w & q->mask].addr, addr);
+    74		WRITE_ONCE(data[w & q->mask].info, info);
+    75		wmb();
+    76		if (tag)
+    77			*tag = w;
+    78		++w;
+    79		WRITE_ONCE(q->write, w);
+    80		spin_unlock_irqrestore(&hw->lock, flags);
+    81		wmb();
+    82		writel(1, hw->regs + ESP32_IPC_IRQ_TO_FW_REG);
+    83		return 0;
+    84	}
+    85	EXPORT_SYMBOL(esp32_ipc_tx);
+    86	
+    87	static irqreturn_t esp32_ipc_irq_handler(int irq, void *dev)
+    88	{
+    89		struct esp32_ipc *hw = dev;
+    90	
+    91		if (hw->hw_q) {
+    92			writel(0, hw->regs + ESP32_IPC_IRQ_FROM_FW_REG);
+    93			return IRQ_WAKE_THREAD;
+    94		}
+    95		return IRQ_NONE;
+    96	}
+    97	
+    98	static irqreturn_t esp32_ipc_thread_handler(int irq, void *dev)
+    99	{
+   100		struct esp32_ipc *hw = dev;
+   101		struct esp32_ipc_queue *q = hw->hw_q + ESP32_IPC_READ_HW_Q;
+   102		struct esp32_ipc_queue_entry *data = (void *)hw->hw_q + q->offset;
+   103		bool rx_done[ESP32_IPC_CLIENTS_MAX] = {0};
+   104		u32 w, r;
+   105		int i;
+   106	
+   107		for (;;) {
+   108			w = READ_ONCE(q->write);
+   109			r = READ_ONCE(q->read);
+   110			rmb();
+   111			if (r == w) {
+   112				break;
+   113			} else {
+   114				u32 addr = READ_ONCE(data[r & q->mask].addr);
+   115				void *info = READ_ONCE(data[r & q->mask].info);
+   116	
+   117				pr_debug("%s: read queue: r = %d, w = %d\n", __func__, r, w);
+   118				if (addr < ESP32_IPC_CLIENTS_MAX && hw->client[addr].rx) {
+   119					if (hw->client[addr].rx(hw->client[addr].p, info))
+   120						rx_done[addr] = true;
+   121				} else {
+   122					pr_warn("%s: got message for addr = %d, no handler\n",
+   123						__func__, addr);
+   124				}
+   125				++r;
+   126				wmb();
+   127				WRITE_ONCE(q->read, r);
+   128			}
+   129		}
+   130	
+   131		q = hw->hw_q + ESP32_IPC_WRITE_HW_Q;
+   132		r = READ_ONCE(q->read);
+   133		rmb();
+   134	
+   135		/* postprocessing calls */
+   136	
+   137		for (i = 0; i < ESP32_IPC_CLIENTS_MAX; ++i) {
+   138			if (rx_done[i] && hw->client[i].rx_batch_done)
+   139				hw->client[i].rx_batch_done(hw->client[i].p, r);
+   140		}
+   141	
+   142		return IRQ_HANDLED;
+   143	}
+   144	
+   145	static int init_hw(struct platform_device *pdev, struct esp32_ipc *hw)
+   146	{
+   147		void __iomem *p;
+   148	
+   149		p = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
+   150		if (IS_ERR(p))
+   151			return PTR_ERR(p);
+ > 152		hw->hw_q = (void *)readl(p);
+   153		devm_iounmap(&pdev->dev, p);
+   154	
+   155		hw->regs = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 1, NULL);
+   156		if (IS_ERR(hw->regs))
+   157			return PTR_ERR(hw->regs);
+   158	
+   159		dev_dbg(&pdev->dev, "%s: regs = %p, queues = %p\n",
+   160			__func__, hw->regs, hw->hw_q);
+   161		if (hw->hw_q) {
+   162			u32 i;
+   163	
+   164			for (i = 0; i < 2; ++i) {
+   165				dev_dbg(&pdev->dev, "%s: queue %d: offset = %d, mask = %x\n",
+   166					__func__, i,
+   167					hw->hw_q[i].offset,
+   168					hw->hw_q[i].mask);
+   169			}
+   170		} else {
+   171			return -ENODEV;
+   172		}
+   173	
+   174		hw->irq = platform_get_irq(pdev, 0);
+   175		if (hw->irq >= 0) {
+   176			int ret;
+   177	
+   178			ret = devm_request_threaded_irq(&pdev->dev, hw->irq,
+   179							esp32_ipc_irq_handler,
+   180							esp32_ipc_thread_handler,
+   181							IRQF_SHARED, pdev->name, hw);
+   182			if (ret < 0) {
+   183				dev_err(&pdev->dev, "request_irq %d failed\n", hw->irq);
+   184				return ret;
+   185			}
+   186		} else {
+   187			dev_err(&pdev->dev, "missing IRQ property\n");
+   188			return -ENODEV;
+   189		}
+   190	
+   191		return 0;
+   192	}
+   193	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
