@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAD212F5A5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 13:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26846150990
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 13:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725628824; cv=none; b=nz8REyBLEY07TJm3alwDy3QWoR3jhMQJ8H2lwUxyz3k8UURiT09Og8oAoPpaI3goTnSbKtb209DDsl4gfp5mPDflvkNw4cQLv/3+kMhnUsGPeVA7J/mF/c2k/OQFVEoKPZD/syJe/ZOsUiSipxdjnhIa/wVHTOd09jlhodSoTRc=
+	t=1725629428; cv=none; b=ogo1aoYa5RID/C122pgUU8ln1wgyZUDbC3FE0OF8SOvIovu08Y8ZkTNPxXy5OYDL7Z6CfR4fH2c6kbC0Kv3k4MJC/3bHdndt69/Z2Li7lY6wIsTyUgqQ/gK4BnjrkWF9t0lUsph5BwXKPtXSf6XhBeRPmhFlcfplhV/17Pxjs0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725628824; c=relaxed/simple;
-	bh=XAw4ja2bno9rHp+TBnD0Jeuz5rspo2vqAC1lYyD2Iu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mF4ul1mERM/CKGWJoP7CXIQhyy2Q1sR66yS0oakQNaiAom8kjREuu3xiu629GHB1Ah2rFjm9R4fCUIQBG78Zj0XzqhvXBFocVcYih6fz01H6TGGl1/c2Ncy51Q2Yoj0yKZDjFXTJmysu/wUKNzr4ot+y98xXMhnG3PUD8zZUvNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gf78Q/qW; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1725629428; c=relaxed/simple;
+	bh=FedVqIxcJdJe6q0+Ov0foEGRNgWCuLn+aN+bi+wlCfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AkWTdILezqBgthopkiJhtLpftI6kfufkw6123WIOJDKPkawNwqZ+a+KFef4qvAh9b2dNWeluzE93Wytju4vVwGUXtqN1atj0v3Sjtxjeh0q1RXXNhgwfa1WxanDJ8e4TRW54KQc1zpDnlQBxAg8aT7rjw9lt1vyLxDxORUh9zy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=inf6V/7d; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gf78Q/qW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="inf6V/7d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725628822; x=1757164822;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XAw4ja2bno9rHp+TBnD0Jeuz5rspo2vqAC1lYyD2Iu4=;
-  b=Gf78Q/qWpk++cZCUy/o9Fshz9+zysQ8Pbv13jEjK45Rj++xU1iIAfffX
-   WG6sGiAuZDJG3Z5wOK/ALU/wHDa6b90Vvuyniq2OM19CcJ2/2RwiyMzjE
-   ub/ErBw/pOoRW92Bem5b0c+sIeYc6NDic6eklwwAUm6IkfRmOb0BRs3ys
-   25y7dExBeib0ppS6OPpxt1yZYRT6DfIuraNE5ZiCNijkXpXjq37gIdNDS
-   dxZDaRnR8VModCfq08OJ6MuyPxT0cW0pwDplzx7h/ybkNHR81JQ961hcz
-   SujtmISeWBpckpXzqmHSvxZe3cINASAEvFw5ty8WZj0anH84MSbwo+SIc
-   w==;
-X-CSE-ConnectionGUID: OTsLFf4VQAOU2JI+opAZrw==
-X-CSE-MsgGUID: bMEsc2lkQGS2u6xOBDIw4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="23943625"
+  t=1725629425; x=1757165425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FedVqIxcJdJe6q0+Ov0foEGRNgWCuLn+aN+bi+wlCfM=;
+  b=inf6V/7dsxBq/TO1gWnEY5WzfgSwgIwvxyiNC7XFGyYGweSb2gzpz/4C
+   /mdGkMWOEoh3N2mBBIIr+lFKu5ld8HTL6nqoXXWZUqg/smRvwP8XOf8N6
+   iLTUaUSUJMozVDpkHDLAh8DCG3ziRr1g4Ha82W9mNCJaA9Dk6qB+XUC/w
+   svd/IfID6NlKbVOGEGLH8iUvEEuumdKlycuz4pUmH4iA1MV2ds9QiJSK8
+   cfTuuxbzmxcm6gO8udQZAN7Sm7CTF3Mzrkq6Zkj8tkIIWIsvbfgMcQaMH
+   VmEOsH3d1FR0LHzPjWPLHb5qhqb1BNrt8XePUCEK0z9zhv5ZZqAZQ0Xv3
+   Q==;
+X-CSE-ConnectionGUID: KgVGKSl7RYCV5JzYFAHi5Q==
+X-CSE-MsgGUID: MJlLybaGTcybvRO7rl68bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="28175523"
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="23943625"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 06:20:21 -0700
-X-CSE-ConnectionGUID: D58vD4xdRwKIqMdcfBxu/A==
-X-CSE-MsgGUID: Vaue+7zDTnSq/IqowPQyQg==
+   d="scan'208";a="28175523"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 06:30:24 -0700
+X-CSE-ConnectionGUID: ATQWyoeuQ5qf2SbOG1AoXw==
+X-CSE-MsgGUID: FN8pcpVUTcy6oEwz5KYSxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="103427759"
+   d="scan'208";a="70754969"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Sep 2024 06:20:20 -0700
+  by orviesa005.jf.intel.com with ESMTP; 06 Sep 2024 06:30:21 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smYss-000BHz-1n;
-	Fri, 06 Sep 2024 13:20:18 +0000
-Date: Fri, 6 Sep 2024 21:19:50 +0800
+	id 1smZ2Y-000BIN-2x;
+	Fri, 06 Sep 2024 13:30:18 +0000
+Date: Fri, 6 Sep 2024 21:30:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 1/1] vmlinux.o: warning:
- objtool: exc_page_fault()+0x109: call to task_pid_nr() leaves .noinstr.text
- section
-Message-ID: <202409062146.qslrgFBP-lkp@intel.com>
+To: Uros Bizjak <ubizjak@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Uros Bizjak <ubizjak@gmail.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH 17/18] random: Do not include <linux/prandom.h>
+Message-ID: <202409062005.ue7L87dN-lkp@intel.com>
+References: <20240905122020.872466-18-ubizjak@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,115 +64,857 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240905122020.872466-18-ubizjak@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   1e681c75dd11e34d417d6430042918fcf66ac8d2
-commit: e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf [1/1] ANDROID: Add kiwi_fault_logging kernel parameter
-config: x86_64-buildonly-randconfig-003-20240906 (https://download.01.org/0day-ci/archive/20240906/202409062146.qslrgFBP-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409062146.qslrgFBP-lkp@intel.com/reproduce)
+Hi Uros,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on mtd/mtd/next mtd/mtd/fixes linus/master v6.11-rc6 next-20240906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/x86-kaslr-Include-linux-prandom-h-instead-of-linux-random-h/20240905-202710
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20240905122020.872466-18-ubizjak%40gmail.com
+patch subject: [PATCH 17/18] random: Do not include <linux/prandom.h>
+config: arm-randconfig-002-20240906 (https://download.01.org/0day-ci/archive/20240906/202409062005.ue7L87dN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409062005.ue7L87dN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409062146.qslrgFBP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409062005.ue7L87dN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: sync_regs()+0x20: call to memcpy() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret()+0x1f: call to memset() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: exc_page_fault()+0x109: call to task_pid_nr() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: lock_is_held_type()+0xf4: call to native_restore_fl() leaves .noinstr.text section
+>> crypto/testmgr.c:881:42: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     881 | static inline void init_rnd_state(struct rnd_state *rng)
+         |                                          ^~~~~~~~~
+   crypto/testmgr.c: In function 'init_rnd_state':
+>> crypto/testmgr.c:883:9: error: implicit declaration of function 'prandom_seed_state' [-Wimplicit-function-declaration]
+     883 |         prandom_seed_state(rng, get_random_u64());
+         |         ^~~~~~~~~~~~~~~~~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:886:36: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     886 | static inline u8 prandom_u8(struct rnd_state *rng)
+         |                                    ^~~~~~~~~
+   crypto/testmgr.c: In function 'prandom_u8':
+>> crypto/testmgr.c:888:16: error: implicit declaration of function 'prandom_u32_state' [-Wimplicit-function-declaration]
+     888 |         return prandom_u32_state(rng);
+         |                ^~~~~~~~~~~~~~~~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:891:44: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                            ^~~~~~~~~
+   crypto/testmgr.c:900:40: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                        ^~~~~~~~~
+   crypto/testmgr.c: In function 'prandom_bool':
+>> crypto/testmgr.c:902:34: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     902 |         return prandom_u32_below(rng, 2);
+         |                                  ^~~
+         |                                  |
+         |                                  struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:905:48: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     905 | static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
+         |                                                ^~~~~~~~~
+   crypto/testmgr.c: In function 'prandom_u32_inclusive':
+   crypto/testmgr.c:908:42: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     908 |         return floor + prandom_u32_below(rng, ceil - floor + 1);
+         |                                          ^~~
+         |                                          |
+         |                                          struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:912:51: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     912 | static unsigned int generate_random_length(struct rnd_state *rng,
+         |                                                   ^~~~~~~~~
+   crypto/testmgr.c: In function 'generate_random_length':
+   crypto/testmgr.c:915:46: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     915 |         unsigned int len = prandom_u32_below(rng, max_len + 1);
+         |                                              ^~~
+         |                                              |
+         |                                              struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:917:35: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     917 |         switch (prandom_u32_below(rng, 4)) {
+         |                                   ^~~
+         |                                   |
+         |                                   struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:930:38: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     930 |         if (len && prandom_u32_below(rng, 4) == 0)
+         |                                      ^~~
+         |                                      |
+         |                                      struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:936:36: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     936 | static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
+         |                                    ^~~~~~~~~
+   crypto/testmgr.c: In function 'flip_random_bit':
+   crypto/testmgr.c:940:36: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     940 |         bitpos = prandom_u32_below(rng, size * 8);
+         |                                    ^~~
+         |                                    |
+         |                                    struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:945:37: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     945 | static void flip_random_byte(struct rnd_state *rng, u8 *buf, size_t size)
+         |                                     ^~~~~~~~~
+   crypto/testmgr.c: In function 'flip_random_byte':
+   crypto/testmgr.c:947:31: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     947 |         buf[prandom_u32_below(rng, size)] ^= 0xff;
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:951:34: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     951 | static void mutate_buffer(struct rnd_state *rng, u8 *buf, size_t size)
+         |                                  ^~~~~~~~~
+   crypto/testmgr.c: In function 'mutate_buffer':
+   crypto/testmgr.c:957:31: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     957 |         if (prandom_u32_below(rng, 4) == 0) {
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   In file included from include/linux/kernel.h:28,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from include/crypto/aead.h:13,
+                    from crypto/testmgr.c:19:
+   crypto/testmgr.c:958:66: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     958 |                 num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8),
+         |                                                                  ^~~
+         |                                                                  |
+         |                                                                  struct rnd_state *
+   include/linux/minmax.h:93:23: note: in definition of macro '__cmp_once_unique'
+      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                       ^
+   include/linux/minmax.h:213:27: note: in expansion of macro '__cmp_once'
+     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ^~~~~~~~~~
+   crypto/testmgr.c:958:29: note: in expansion of macro 'min_t'
+     958 |                 num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8),
+         |                             ^~~~~
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:961:41: error: passing argument 1 of 'flip_random_bit' from incompatible pointer type [-Wincompatible-pointer-types]
+     961 |                         flip_random_bit(rng, buf, size);
+         |                                         ^~~
+         |                                         |
+         |                                         struct rnd_state *
+   crypto/testmgr.c:936:47: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     936 | static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:965:31: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     965 |         if (prandom_u32_below(rng, 4) == 0) {
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:966:66: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     966 |                 num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8), size);
+         |                                                                  ^~~
+         |                                                                  |
+         |                                                                  struct rnd_state *
+   include/linux/minmax.h:93:23: note: in definition of macro '__cmp_once_unique'
+      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                       ^
+   include/linux/minmax.h:213:27: note: in expansion of macro '__cmp_once'
+     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ^~~~~~~~~~
+   crypto/testmgr.c:966:29: note: in expansion of macro 'min_t'
+     966 |                 num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8), size);
+         |                             ^~~~~
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:968:42: error: passing argument 1 of 'flip_random_byte' from incompatible pointer type [-Wincompatible-pointer-types]
+     968 |                         flip_random_byte(rng, buf, size);
+         |                                          ^~~
+         |                                          |
+         |                                          struct rnd_state *
+   crypto/testmgr.c:945:48: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     945 | static void flip_random_byte(struct rnd_state *rng, u8 *buf, size_t size)
+         |                              ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:973:42: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+     973 | static void generate_random_bytes(struct rnd_state *rng, u8 *buf, size_t count)
+         |                                          ^~~~~~~~~
+   crypto/testmgr.c: In function 'generate_random_bytes':
+   crypto/testmgr.c:982:35: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     982 |         switch (prandom_u32_below(rng, 8)) { /* Choose a generation strategy */
+         |                                   ^~~
+         |                                   |
+         |                                   struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:986:43: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+     986 |                 switch (prandom_u32_below(rng, 4)) {
+         |                                           ^~~
+         |                                           |
+         |                                           struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:994:40: error: passing argument 1 of 'prandom_u8' from incompatible pointer type [-Wincompatible-pointer-types]
+     994 |                         b = prandom_u8(rng);
+         |                                        ^~~
+         |                                        |
+         |                                        struct rnd_state *
+   crypto/testmgr.c:886:47: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     886 | static inline u8 prandom_u8(struct rnd_state *rng)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:998:31: error: passing argument 1 of 'mutate_buffer' from incompatible pointer type [-Wincompatible-pointer-types]
+     998 |                 mutate_buffer(rng, buf, count);
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:951:45: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     951 | static void mutate_buffer(struct rnd_state *rng, u8 *buf, size_t size)
+         |                           ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1002:40: error: passing argument 1 of 'prandom_u8' from incompatible pointer type [-Wincompatible-pointer-types]
+    1002 |                 increment = prandom_u8(rng);
+         |                                        ^~~
+         |                                        |
+         |                                        struct rnd_state *
+   crypto/testmgr.c:886:47: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     886 | static inline u8 prandom_u8(struct rnd_state *rng)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1003:32: error: passing argument 1 of 'prandom_u8' from incompatible pointer type [-Wincompatible-pointer-types]
+    1003 |                 b = prandom_u8(rng);
+         |                                ^~~
+         |                                |
+         |                                struct rnd_state *
+   crypto/testmgr.c:886:47: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     886 | static inline u8 prandom_u8(struct rnd_state *rng)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1006:31: error: passing argument 1 of 'mutate_buffer' from incompatible pointer type [-Wincompatible-pointer-types]
+    1006 |                 mutate_buffer(rng, buf, count);
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:951:45: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     951 | static void mutate_buffer(struct rnd_state *rng, u8 *buf, size_t size)
+         |                           ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:1010:17: error: implicit declaration of function 'prandom_bytes_state' [-Wimplicit-function-declaration]
+    1010 |                 prandom_bytes_state(rng, buf, count);
+         |                 ^~~~~~~~~~~~~~~~~~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:1014:51: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+    1014 | static char *generate_random_sgl_divisions(struct rnd_state *rng,
+         |                                                   ^~~~~~~~~
+   crypto/testmgr.c: In function 'generate_random_sgl_divisions':
+>> crypto/testmgr.c:1026:64: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1026 |                 if (div == &divs[max_divs - 1] || prandom_bool(rng))
+         |                                                                ^~~
+         |                                                                |
+         |                                                                struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1028:44: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1028 |                 else if (prandom_u32_below(rng, 4) == 0)
+         |                                            ^~~
+         |                                            |
+         |                                            struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:1031:58: error: passing argument 1 of 'prandom_u32_inclusive' from incompatible pointer type [-Wincompatible-pointer-types]
+    1031 |                         this_len = prandom_u32_inclusive(rng, 1, remaining);
+         |                                                          ^~~
+         |                                                          |
+         |                                                          struct rnd_state *
+   crypto/testmgr.c:905:59: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     905 | static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
+         |                                         ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1034:39: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1034 |                 if (prandom_u32_below(rng, 4) == 0)
+         |                                       ^~~
+         |                                       |
+         |                                       struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1035:61: error: passing argument 1 of 'prandom_u32_inclusive' from incompatible pointer type [-Wincompatible-pointer-types]
+    1035 |                         div->offset = prandom_u32_inclusive(rng,
+         |                                                             ^~~
+         |                                                             |
+         |                                                             struct rnd_state *
+   crypto/testmgr.c:905:59: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     905 | static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
+         |                                         ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1038:39: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1038 |                 else if (prandom_bool(rng))
+         |                                       ^~~
+         |                                       |
+         |                                       struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1039:57: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1039 |                         div->offset = prandom_u32_below(rng, 32);
+         |                                                         ^~~
+         |                                                         |
+         |                                                         struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1041:57: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1041 |                         div->offset = prandom_u32_below(rng, PAGE_SIZE);
+         |                                                         ^~~
+         |                                                         |
+         |                                                         struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1042:39: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1042 |                 if (prandom_u32_below(rng, 8) == 0)
+         |                                       ^~~
+         |                                       |
+         |                                       struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1047:51: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1047 |                         switch (prandom_u32_below(rng, 4)) {
+         |                                                   ^~~
+         |                                                   |
+         |                                                   struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1059:34: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1059 |                     prandom_bool(rng))
+         |                                  ^~~
+         |                                  |
+         |                                  struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:1094:51: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+    1094 | static void generate_random_testvec_config(struct rnd_state *rng,
+         |                                                   ^~~~~~~~~
+   crypto/testmgr.c: In function 'generate_random_testvec_config':
+   crypto/testmgr.c:1107:35: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1107 |         switch (prandom_u32_below(rng, 4)) {
+         |                                   ^~~
+         |                                   |
+         |                                   struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1122:26: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1122 |         if (prandom_bool(rng)) {
+         |                          ^~~
+         |                          |
+         |                          struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1127:35: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1127 |         switch (prandom_u32_below(rng, 4)) {
+         |                                   ^~~
+         |                                   |
+         |                                   struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1143:34: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1143 |                 if (prandom_bool(rng)) {
+         |                                  ^~~
+         |                                  |
+         |                                  struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1147:34: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1147 |                 if (prandom_bool(rng)) {
+         |                                  ^~~
+         |                                  |
+         |                                  struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:1154:43: error: passing argument 1 of 'generate_random_sgl_divisions' from incompatible pointer type [-Wincompatible-pointer-types]
+    1154 |         p = generate_random_sgl_divisions(rng, cfg->src_divs,
+         |                                           ^~~
+         |                                           |
+         |                                           struct rnd_state *
+   crypto/testmgr.c:1014:62: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+    1014 | static char *generate_random_sgl_divisions(struct rnd_state *rng,
+         |                                            ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1161:63: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1161 |         if (cfg->inplace_mode == OUT_OF_PLACE && prandom_bool(rng)) {
+         |                                                               ^~~
+         |                                                               |
+         |                                                               struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1163:51: error: passing argument 1 of 'generate_random_sgl_divisions' from incompatible pointer type [-Wincompatible-pointer-types]
+    1163 |                 p = generate_random_sgl_divisions(rng, cfg->dst_divs,
+         |                                                   ^~~
+         |                                                   |
+         |                                                   struct rnd_state *
+   crypto/testmgr.c:1014:62: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+    1014 | static char *generate_random_sgl_divisions(struct rnd_state *rng,
+         |                                            ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1170:26: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1170 |         if (prandom_bool(rng)) {
+         |                          ^~~
+         |                          |
+         |                          struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1171:56: error: passing argument 1 of 'prandom_u32_inclusive' from incompatible pointer type [-Wincompatible-pointer-types]
+    1171 |                 cfg->iv_offset = prandom_u32_inclusive(rng, 1,
+         |                                                        ^~~
+         |                                                        |
+         |                                                        struct rnd_state *
+   crypto/testmgr.c:905:59: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     905 | static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
+         |                                         ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1176:26: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    1176 |         if (prandom_bool(rng)) {
+         |                          ^~~
+         |                          |
+         |                          struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1177:57: error: passing argument 1 of 'prandom_u32_inclusive' from incompatible pointer type [-Wincompatible-pointer-types]
+    1177 |                 cfg->key_offset = prandom_u32_inclusive(rng, 1,
+         |                                                         ^~~
+         |                                                         |
+         |                                                         struct rnd_state *
+   crypto/testmgr.c:905:59: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     905 | static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
+         |                                         ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: In function 'test_hash_vec':
+>> crypto/testmgr.c:1689:34: error: storage size of 'rng' isn't known
+    1689 |                 struct rnd_state rng;
+         |                                  ^~~
+>> crypto/testmgr.c:1689:34: warning: unused variable 'rng' [-Wunused-variable]
+   crypto/testmgr.c: At top level:
+   crypto/testmgr.c:1714:49: warning: 'struct rnd_state' declared inside parameter list will not be visible outside of this definition or declaration
+    1714 | static void generate_random_hash_testvec(struct rnd_state *rng,
+         |                                                 ^~~~~~~~~
+   crypto/testmgr.c: In function 'generate_random_hash_testvec':
+>> crypto/testmgr.c:1722:45: error: passing argument 1 of 'generate_random_length' from incompatible pointer type [-Wincompatible-pointer-types]
+    1722 |         vec->psize = generate_random_length(rng, maxdatasize);
+         |                                             ^~~
+         |                                             |
+         |                                             struct rnd_state *
+   crypto/testmgr.c:912:62: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     912 | static unsigned int generate_random_length(struct rnd_state *rng,
+         |                                            ~~~~~~~~~~~~~~~~~~^~~
+>> crypto/testmgr.c:1723:31: error: passing argument 1 of 'generate_random_bytes' from incompatible pointer type [-Wincompatible-pointer-types]
+    1723 |         generate_random_bytes(rng, (u8 *)vec->plaintext, vec->psize);
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:973:53: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     973 | static void generate_random_bytes(struct rnd_state *rng, u8 *buf, size_t count)
+         |                                   ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1733:39: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    1733 |                 if (prandom_u32_below(rng, 4) == 0)
+         |                                       ^~~
+         |                                       |
+         |                                       struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1734:60: error: passing argument 1 of 'prandom_u32_inclusive' from incompatible pointer type [-Wincompatible-pointer-types]
+    1734 |                         vec->ksize = prandom_u32_inclusive(rng, 1, maxkeysize);
+         |                                                            ^~~
+         |                                                            |
+         |                                                            struct rnd_state *
+   crypto/testmgr.c:905:59: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     905 | static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
+         |                                         ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:1735:39: error: passing argument 1 of 'generate_random_bytes' from incompatible pointer type [-Wincompatible-pointer-types]
+    1735 |                 generate_random_bytes(rng, (u8 *)vec->key, vec->ksize);
+         |                                       ^~~
+         |                                       |
+         |                                       struct rnd_state *
+   crypto/testmgr.c:973:53: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     973 | static void generate_random_bytes(struct rnd_state *rng, u8 *buf, size_t count)
+         |                                   ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: In function 'test_hash_vs_generic_impl':
+   crypto/testmgr.c:1769:26: error: storage size of 'rng' isn't known
+    1769 |         struct rnd_state rng;
+         |                          ^~~
+   crypto/testmgr.c:1769:26: warning: unused variable 'rng' [-Wunused-variable]
+   crypto/testmgr.c: In function 'test_aead_vec':
+   crypto/testmgr.c:2259:34: error: storage size of 'rng' isn't known
+    2259 |                 struct rnd_state rng;
+         |                                  ^~~
+   crypto/testmgr.c:2259:34: warning: unused variable 'rng' [-Wunused-variable]
+   crypto/testmgr.c: At top level:
+>> crypto/testmgr.c:2282:26: error: field 'rng' has incomplete type
+    2282 |         struct rnd_state rng;
+         |                          ^~~
+   crypto/testmgr.c: In function 'mutate_aead_message':
+   crypto/testmgr.c:2308:26: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    2308 |         if (prandom_bool(rng) && vec->alen > aad_tail_size) {
+         |                          ^~~
+         |                          |
+         |                          struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2310:33: error: passing argument 1 of 'flip_random_bit' from incompatible pointer type [-Wincompatible-pointer-types]
+    2310 |                 flip_random_bit(rng, (u8 *)vec->assoc,
+         |                                 ^~~
+         |                                 |
+         |                                 struct rnd_state *
+   crypto/testmgr.c:936:47: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     936 | static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2312:34: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    2312 |                 if (prandom_bool(rng))
+         |                                  ^~~
+         |                                  |
+         |                                  struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2315:26: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    2315 |         if (prandom_bool(rng)) {
+         |                          ^~~
+         |                          |
+         |                          struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2317:33: error: passing argument 1 of 'flip_random_bit' from incompatible pointer type [-Wincompatible-pointer-types]
+    2317 |                 flip_random_bit(rng, (u8 *)vec->ctext + vec->plen, authsize);
+         |                                 ^~~
+         |                                 |
+         |                                 struct rnd_state *
+   crypto/testmgr.c:936:47: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     936 | static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2320:33: error: passing argument 1 of 'flip_random_bit' from incompatible pointer type [-Wincompatible-pointer-types]
+    2320 |                 flip_random_bit(rng, (u8 *)vec->ctext, vec->clen);
+         |                                 ^~~
+         |                                 |
+         |                                 struct rnd_state *
+   crypto/testmgr.c:936:47: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     936 | static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: In function 'generate_aead_message':
+   crypto/testmgr.c:2342:53: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    2342 |                                   prandom_u32_below(rng, 4) == 0);
+         |                                                     ^~~
+         |                                                     |
+         |                                                     struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+         |                                     ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2345:31: error: passing argument 1 of 'generate_random_bytes' from incompatible pointer type [-Wincompatible-pointer-types]
+    2345 |         generate_random_bytes(rng, (u8 *)vec->assoc, vec->alen);
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:973:53: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     973 | static void generate_random_bytes(struct rnd_state *rng, u8 *buf, size_t count)
+         |                                   ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2350:41: error: passing argument 1 of 'prandom_bool' from incompatible pointer type [-Wincompatible-pointer-types]
+    2350 |         if (inauthentic && prandom_bool(rng)) {
+         |                                         ^~~
+         |                                         |
+         |                                         struct rnd_state *
+   crypto/testmgr.c:900:51: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     900 | static inline bool prandom_bool(struct rnd_state *rng)
+         |                                 ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2352:39: error: passing argument 1 of 'generate_random_bytes' from incompatible pointer type [-Wincompatible-pointer-types]
+    2352 |                 generate_random_bytes(rng, (u8 *)vec->ctext, vec->clen);
+         |                                       ^~~
+         |                                       |
+         |                                       struct rnd_state *
+   crypto/testmgr.c:973:53: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     973 | static void generate_random_bytes(struct rnd_state *rng, u8 *buf, size_t count)
+         |                                   ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c:2364:47: error: passing argument 1 of 'generate_random_bytes' from incompatible pointer type [-Wincompatible-pointer-types]
+    2364 |                         generate_random_bytes(rng, (u8 *)vec->ptext, vec->plen);
+         |                                               ^~~
+         |                                               |
+         |                                               struct rnd_state *
+   crypto/testmgr.c:973:53: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     973 | static void generate_random_bytes(struct rnd_state *rng, u8 *buf, size_t count)
+         |                                   ~~~~~~~~~~~~~~~~~~^~~
+   crypto/testmgr.c: In function 'generate_random_aead_testvec':
+   crypto/testmgr.c:2415:31: error: passing argument 1 of 'prandom_u32_below' from incompatible pointer type [-Wincompatible-pointer-types]
+    2415 |         if (prandom_u32_below(rng, 4) == 0)
+         |                               ^~~
+         |                               |
+         |                               struct rnd_state *
+   crypto/testmgr.c:891:55: note: expected 'struct rnd_state *' but argument is of type 'struct rnd_state *'
+     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
 
 
-objdump-func vmlinux.o exc_page_fault:
-0000 0000000000001df0 <exc_page_fault>:
-0000     1df0:	55                   	push   %rbp
-0001     1df1:	41 57                	push   %r15
-0003     1df3:	41 56                	push   %r14
-0005     1df5:	41 54                	push   %r12
-0007     1df7:	53                   	push   %rbx
-0008     1df8:	50                   	push   %rax
-0009     1df9:	41 0f 20 d6          	mov    %cr2,%r14
-000d     1dfd:	44 0f b6 25 00 00 00 00 	movzbl 0x0(%rip),%r12d        # 1e05 <exc_page_fault+0x15>	1e01: R_X86_64_PC32	kiwi_fault_logging-0x4
-0015     1e05:	49 89 f7             	mov    %rsi,%r15
-0018     1e08:	48 89 fb             	mov    %rdi,%rbx
-001b     1e0b:	49 83 fc 02          	cmp    $0x2,%r12
-001f     1e0f:	0f 83 bc 00 00 00    	jae    1ed1 <exc_page_fault+0xe1>
-0025     1e15:	41 f6 c4 01          	test   $0x1,%r12b
-0029     1e19:	0f 85 cb 00 00 00    	jne    1eea <exc_page_fault+0xfa>
-002f     1e1f:	65 48 8b 05 00 00 00 00 	mov    %gs:0x0(%rip),%rax        # 1e27 <exc_page_fault+0x37>	1e23: R_X86_64_PC32	current_task-0x4
-0037     1e27:	48 89 df             	mov    %rbx,%rdi
-003a     1e2a:	48 8b 80 00 03 00 00 	mov    0x300(%rax),%rax
-0041     1e31:	0f 18 88 c0 00 00 00 	prefetcht0 0xc0(%rax)
-0048     1e38:	e8 00 00 00 00       	call   1e3d <exc_page_fault+0x4d>	1e39: R_X86_64_PLT32	irqentry_enter-0x4
-004d     1e3d:	90                   	nop
-004e     1e3e:	89 c5                	mov    %eax,%ebp
-0050     1e40:	83 3d 00 00 00 00 00 	cmpl   $0x0,0x0(%rip)        # 1e47 <exc_page_fault+0x57>	1e42: R_X86_64_PC32	trace_pagefault_key-0x5
-0057     1e47:	7f 55                	jg     1e9e <exc_page_fault+0xae>
-0059     1e49:	4c 89 f7             	mov    %r14,%rdi
-005c     1e4c:	e8 00 00 00 00       	call   1e51 <exc_page_fault+0x61>	1e4d: R_X86_64_PLT32	fault_in_kernel_space-0x4
-0061     1e51:	48 89 df             	mov    %rbx,%rdi
-0064     1e54:	4c 89 fe             	mov    %r15,%rsi
-0067     1e57:	4c 89 f2             	mov    %r14,%rdx
-006a     1e5a:	84 c0                	test   %al,%al
-006c     1e5c:	75 59                	jne    1eb7 <exc_page_fault+0xc7>
-006e     1e5e:	e8 00 00 00 00       	call   1e63 <exc_page_fault+0x73>	1e5f: R_X86_64_PC32	.text+0x6c79c
-0073     1e63:	48 c7 04 24 00 00 00 00 	movq   $0x0,(%rsp)
-007b     1e6b:	9c                   	pushf
-007c     1e6c:	8f 04 24             	pop    (%rsp)
-007f     1e6f:	8b 04 24             	mov    (%rsp),%eax
-0082     1e72:	fa                   	cli
-0083     1e73:	a9 00 02 00 00       	test   $0x200,%eax
-0088     1e78:	74 05                	je     1e7f <exc_page_fault+0x8f>
-008a     1e7a:	e8 00 00 00 00       	call   1e7f <exc_page_fault+0x8f>	1e7b: R_X86_64_PLT32	trace_hardirqs_off-0x4
-008f     1e7f:	90                   	nop
-0090     1e80:	40 0f b6 f5          	movzbl %bpl,%esi
-0094     1e84:	48 89 df             	mov    %rbx,%rdi
-0097     1e87:	e8 00 00 00 00       	call   1e8c <exc_page_fault+0x9c>	1e88: R_X86_64_PLT32	irqentry_exit-0x4
-009c     1e8c:	48 8d 64 24 08       	lea    0x8(%rsp),%rsp
-00a1     1e91:	5b                   	pop    %rbx
-00a2     1e92:	41 5c                	pop    %r12
-00a4     1e94:	41 5e                	pop    %r14
-00a6     1e96:	41 5f                	pop    %r15
-00a8     1e98:	5d                   	pop    %rbp
-00a9     1e99:	e9 00 00 00 00       	jmp    1e9e <exc_page_fault+0xae>	1e9a: R_X86_64_PLT32	__x86_return_thunk-0x4
-00ae     1e9e:	f6 83 88 00 00 00 03 	testb  $0x3,0x88(%rbx)
-00b5     1ea5:	74 17                	je     1ebe <exc_page_fault+0xce>
-00b7     1ea7:	4c 89 f7             	mov    %r14,%rdi
-00ba     1eaa:	48 89 de             	mov    %rbx,%rsi
-00bd     1ead:	4c 89 fa             	mov    %r15,%rdx
-00c0     1eb0:	e8 00 00 00 00       	call   1eb5 <exc_page_fault+0xc5>	1eb1: R_X86_64_PC32	.text+0x6cbcc
-00c5     1eb5:	eb 92                	jmp    1e49 <exc_page_fault+0x59>
-00c7     1eb7:	e8 00 00 00 00       	call   1ebc <exc_page_fault+0xcc>	1eb8: R_X86_64_PC32	.text+0x6c74c
-00cc     1ebc:	eb c1                	jmp    1e7f <exc_page_fault+0x8f>
-00ce     1ebe:	4c 89 f7             	mov    %r14,%rdi
-00d1     1ec1:	48 89 de             	mov    %rbx,%rsi
-00d4     1ec4:	4c 89 fa             	mov    %r15,%rdx
-00d7     1ec7:	e8 00 00 00 00       	call   1ecc <exc_page_fault+0xdc>	1ec8: R_X86_64_PC32	.text+0x6ccac
-00dc     1ecc:	e9 78 ff ff ff       	jmp    1e49 <exc_page_fault+0x59>
-00e1     1ed1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	1ed4: R_X86_64_32S	.data+0x58a20
-00e8     1ed8:	4c 89 e6             	mov    %r12,%rsi
-00eb     1edb:	e8 00 00 00 00       	call   1ee0 <exc_page_fault+0xf0>	1edc: R_X86_64_PLT32	__ubsan_handle_load_invalid_value-0x4
-00f0     1ee0:	41 f6 c4 01          	test   $0x1,%r12b
-00f4     1ee4:	0f 84 35 ff ff ff    	je     1e1f <exc_page_fault+0x2f>
-00fa     1eea:	65 48 8b 3d 00 00 00 00 	mov    %gs:0x0(%rip),%rdi        # 1ef2 <exc_page_fault+0x102>	1eee: R_X86_64_PC32	current_task-0x4
-0102     1ef2:	4c 8d a7 c0 06 00 00 	lea    0x6c0(%rdi),%r12
-0109     1ef9:	e8 00 00 00 00       	call   1efe <exc_page_fault+0x10e>	1efa: R_X86_64_PC32	.text+0x6c68c
-010e     1efe:	4c 8b 83 80 00 00 00 	mov    0x80(%rbx),%r8
-0115     1f05:	4c 8b 8b 98 00 00 00 	mov    0x98(%rbx),%r9
-011c     1f0c:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	1f0f: R_X86_64_32S	.rodata+0x31d40
-0123     1f13:	4c 89 e6             	mov    %r12,%rsi
-0126     1f16:	89 c2                	mov    %eax,%edx
-0128     1f18:	4c 89 f1             	mov    %r14,%rcx
-012b     1f1b:	41 57                	push   %r15
-012d     1f1d:	e8 00 00 00 00       	call   1f22 <exc_page_fault+0x132>	1f1e: R_X86_64_PLT32	printk-0x4
-0132     1f22:	48 8d 64 24 08       	lea    0x8(%rsp),%rsp
-0137     1f27:	e9 f3 fe ff ff       	jmp    1e1f <exc_page_fault+0x2f>
-013c     1f2c:	cc                   	int3
-013d     1f2d:	cc                   	int3
-013e     1f2e:	cc                   	int3
-013f     1f2f:	cc                   	int3
+vim +/prandom_seed_state +883 crypto/testmgr.c
+
+f2bb770ae89641 Eric Biggers 2019-04-11   873  
+f900fde2888360 Eric Biggers 2023-02-27   874  /*
+f900fde2888360 Eric Biggers 2023-02-27   875   * The fuzz tests use prandom instead of the normal Linux RNG since they don't
+f900fde2888360 Eric Biggers 2023-02-27   876   * need cryptographically secure random numbers.  This greatly improves the
+f900fde2888360 Eric Biggers 2023-02-27   877   * performance of these tests, especially if they are run before the Linux RNG
+f900fde2888360 Eric Biggers 2023-02-27   878   * has been initialized or if they are run on a lockdep-enabled kernel.
+f900fde2888360 Eric Biggers 2023-02-27   879   */
+f900fde2888360 Eric Biggers 2023-02-27   880  
+f900fde2888360 Eric Biggers 2023-02-27  @881  static inline void init_rnd_state(struct rnd_state *rng)
+f900fde2888360 Eric Biggers 2023-02-27   882  {
+f900fde2888360 Eric Biggers 2023-02-27  @883  	prandom_seed_state(rng, get_random_u64());
+f900fde2888360 Eric Biggers 2023-02-27   884  }
+f900fde2888360 Eric Biggers 2023-02-27   885  
+f900fde2888360 Eric Biggers 2023-02-27   886  static inline u8 prandom_u8(struct rnd_state *rng)
+f900fde2888360 Eric Biggers 2023-02-27   887  {
+f900fde2888360 Eric Biggers 2023-02-27  @888  	return prandom_u32_state(rng);
+f900fde2888360 Eric Biggers 2023-02-27   889  }
+f900fde2888360 Eric Biggers 2023-02-27   890  
+f900fde2888360 Eric Biggers 2023-02-27  @891  static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
+f900fde2888360 Eric Biggers 2023-02-27   892  {
+f900fde2888360 Eric Biggers 2023-02-27   893  	/*
+f900fde2888360 Eric Biggers 2023-02-27   894  	 * This is slightly biased for non-power-of-2 values of 'ceil', but this
+f900fde2888360 Eric Biggers 2023-02-27   895  	 * isn't important here.
+f900fde2888360 Eric Biggers 2023-02-27   896  	 */
+f900fde2888360 Eric Biggers 2023-02-27   897  	return prandom_u32_state(rng) % ceil;
+f900fde2888360 Eric Biggers 2023-02-27   898  }
+f900fde2888360 Eric Biggers 2023-02-27   899  
+f900fde2888360 Eric Biggers 2023-02-27   900  static inline bool prandom_bool(struct rnd_state *rng)
+f900fde2888360 Eric Biggers 2023-02-27   901  {
+f900fde2888360 Eric Biggers 2023-02-27  @902  	return prandom_u32_below(rng, 2);
+f900fde2888360 Eric Biggers 2023-02-27   903  }
+f900fde2888360 Eric Biggers 2023-02-27   904  
+f900fde2888360 Eric Biggers 2023-02-27  @905  static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
+f900fde2888360 Eric Biggers 2023-02-27   906  					u32 floor, u32 ceil)
+f900fde2888360 Eric Biggers 2023-02-27   907  {
+f900fde2888360 Eric Biggers 2023-02-27   908  	return floor + prandom_u32_below(rng, ceil - floor + 1);
+f900fde2888360 Eric Biggers 2023-02-27   909  }
+f900fde2888360 Eric Biggers 2023-02-27   910  
+f2bb770ae89641 Eric Biggers 2019-04-11   911  /* Generate a random length in range [0, max_len], but prefer smaller values */
+f900fde2888360 Eric Biggers 2023-02-27   912  static unsigned int generate_random_length(struct rnd_state *rng,
+f900fde2888360 Eric Biggers 2023-02-27   913  					   unsigned int max_len)
+f2bb770ae89641 Eric Biggers 2019-04-11   914  {
+f900fde2888360 Eric Biggers 2023-02-27   915  	unsigned int len = prandom_u32_below(rng, max_len + 1);
+f2bb770ae89641 Eric Biggers 2019-04-11   916  
+f900fde2888360 Eric Biggers 2023-02-27   917  	switch (prandom_u32_below(rng, 4)) {
+f2bb770ae89641 Eric Biggers 2019-04-11   918  	case 0:
+101e99c23af946 Eric Biggers 2024-07-03   919  		len %= 64;
+101e99c23af946 Eric Biggers 2024-07-03   920  		break;
+f2bb770ae89641 Eric Biggers 2019-04-11   921  	case 1:
+101e99c23af946 Eric Biggers 2024-07-03   922  		len %= 256;
+101e99c23af946 Eric Biggers 2024-07-03   923  		break;
+f2bb770ae89641 Eric Biggers 2019-04-11   924  	case 2:
+101e99c23af946 Eric Biggers 2024-07-03   925  		len %= 1024;
+101e99c23af946 Eric Biggers 2024-07-03   926  		break;
+f2bb770ae89641 Eric Biggers 2019-04-11   927  	default:
+101e99c23af946 Eric Biggers 2024-07-03   928  		break;
+f2bb770ae89641 Eric Biggers 2019-04-11   929  	}
+101e99c23af946 Eric Biggers 2024-07-03   930  	if (len && prandom_u32_below(rng, 4) == 0)
+101e99c23af946 Eric Biggers 2024-07-03   931  		len = rounddown_pow_of_two(len);
+101e99c23af946 Eric Biggers 2024-07-03   932  	return len;
+f2bb770ae89641 Eric Biggers 2019-04-11   933  }
+f2bb770ae89641 Eric Biggers 2019-04-11   934  
+49763fc6b1af42 Eric Biggers 2019-12-01   935  /* Flip a random bit in the given nonempty data buffer */
+f900fde2888360 Eric Biggers 2023-02-27   936  static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
+49763fc6b1af42 Eric Biggers 2019-12-01   937  {
+49763fc6b1af42 Eric Biggers 2019-12-01   938  	size_t bitpos;
+49763fc6b1af42 Eric Biggers 2019-12-01   939  
+f900fde2888360 Eric Biggers 2023-02-27   940  	bitpos = prandom_u32_below(rng, size * 8);
+49763fc6b1af42 Eric Biggers 2019-12-01   941  	buf[bitpos / 8] ^= 1 << (bitpos % 8);
+49763fc6b1af42 Eric Biggers 2019-12-01   942  }
+49763fc6b1af42 Eric Biggers 2019-12-01   943  
+49763fc6b1af42 Eric Biggers 2019-12-01   944  /* Flip a random byte in the given nonempty data buffer */
+f900fde2888360 Eric Biggers 2023-02-27   945  static void flip_random_byte(struct rnd_state *rng, u8 *buf, size_t size)
+49763fc6b1af42 Eric Biggers 2019-12-01   946  {
+f900fde2888360 Eric Biggers 2023-02-27   947  	buf[prandom_u32_below(rng, size)] ^= 0xff;
+49763fc6b1af42 Eric Biggers 2019-12-01   948  }
+49763fc6b1af42 Eric Biggers 2019-12-01   949  
+49763fc6b1af42 Eric Biggers 2019-12-01   950  /* Sometimes make some random changes to the given nonempty data buffer */
+f900fde2888360 Eric Biggers 2023-02-27   951  static void mutate_buffer(struct rnd_state *rng, u8 *buf, size_t size)
+f2bb770ae89641 Eric Biggers 2019-04-11   952  {
+f2bb770ae89641 Eric Biggers 2019-04-11   953  	size_t num_flips;
+f2bb770ae89641 Eric Biggers 2019-04-11   954  	size_t i;
+f2bb770ae89641 Eric Biggers 2019-04-11   955  
+f2bb770ae89641 Eric Biggers 2019-04-11   956  	/* Sometimes flip some bits */
+f900fde2888360 Eric Biggers 2023-02-27   957  	if (prandom_u32_below(rng, 4) == 0) {
+f900fde2888360 Eric Biggers 2023-02-27  @958  		num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8),
+f900fde2888360 Eric Biggers 2023-02-27   959  				  size * 8);
+49763fc6b1af42 Eric Biggers 2019-12-01   960  		for (i = 0; i < num_flips; i++)
+f900fde2888360 Eric Biggers 2023-02-27  @961  			flip_random_bit(rng, buf, size);
+f2bb770ae89641 Eric Biggers 2019-04-11   962  	}
+f2bb770ae89641 Eric Biggers 2019-04-11   963  
+f2bb770ae89641 Eric Biggers 2019-04-11   964  	/* Sometimes flip some bytes */
+f900fde2888360 Eric Biggers 2023-02-27   965  	if (prandom_u32_below(rng, 4) == 0) {
+f900fde2888360 Eric Biggers 2023-02-27  @966  		num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8), size);
+f2bb770ae89641 Eric Biggers 2019-04-11   967  		for (i = 0; i < num_flips; i++)
+f900fde2888360 Eric Biggers 2023-02-27  @968  			flip_random_byte(rng, buf, size);
+f2bb770ae89641 Eric Biggers 2019-04-11   969  	}
+f2bb770ae89641 Eric Biggers 2019-04-11   970  }
+f2bb770ae89641 Eric Biggers 2019-04-11   971  
+f2bb770ae89641 Eric Biggers 2019-04-11   972  /* Randomly generate 'count' bytes, but sometimes make them "interesting" */
+f900fde2888360 Eric Biggers 2023-02-27   973  static void generate_random_bytes(struct rnd_state *rng, u8 *buf, size_t count)
+f2bb770ae89641 Eric Biggers 2019-04-11   974  {
+f2bb770ae89641 Eric Biggers 2019-04-11   975  	u8 b;
+f2bb770ae89641 Eric Biggers 2019-04-11   976  	u8 increment;
+f2bb770ae89641 Eric Biggers 2019-04-11   977  	size_t i;
+f2bb770ae89641 Eric Biggers 2019-04-11   978  
+f2bb770ae89641 Eric Biggers 2019-04-11   979  	if (count == 0)
+f2bb770ae89641 Eric Biggers 2019-04-11   980  		return;
+f2bb770ae89641 Eric Biggers 2019-04-11   981  
+f900fde2888360 Eric Biggers 2023-02-27   982  	switch (prandom_u32_below(rng, 8)) { /* Choose a generation strategy */
+f2bb770ae89641 Eric Biggers 2019-04-11   983  	case 0:
+f2bb770ae89641 Eric Biggers 2019-04-11   984  	case 1:
+f2bb770ae89641 Eric Biggers 2019-04-11   985  		/* All the same byte, plus optional mutations */
+f900fde2888360 Eric Biggers 2023-02-27  @986  		switch (prandom_u32_below(rng, 4)) {
+f2bb770ae89641 Eric Biggers 2019-04-11   987  		case 0:
+f2bb770ae89641 Eric Biggers 2019-04-11   988  			b = 0x00;
+f2bb770ae89641 Eric Biggers 2019-04-11   989  			break;
+f2bb770ae89641 Eric Biggers 2019-04-11   990  		case 1:
+f2bb770ae89641 Eric Biggers 2019-04-11   991  			b = 0xff;
+f2bb770ae89641 Eric Biggers 2019-04-11   992  			break;
+f2bb770ae89641 Eric Biggers 2019-04-11   993  		default:
+f900fde2888360 Eric Biggers 2023-02-27  @994  			b = prandom_u8(rng);
+f2bb770ae89641 Eric Biggers 2019-04-11   995  			break;
+f2bb770ae89641 Eric Biggers 2019-04-11   996  		}
+f2bb770ae89641 Eric Biggers 2019-04-11   997  		memset(buf, b, count);
+f900fde2888360 Eric Biggers 2023-02-27  @998  		mutate_buffer(rng, buf, count);
+f2bb770ae89641 Eric Biggers 2019-04-11   999  		break;
+f2bb770ae89641 Eric Biggers 2019-04-11  1000  	case 2:
+f2bb770ae89641 Eric Biggers 2019-04-11  1001  		/* Ascending or descending bytes, plus optional mutations */
+f900fde2888360 Eric Biggers 2023-02-27  1002  		increment = prandom_u8(rng);
+f900fde2888360 Eric Biggers 2023-02-27  1003  		b = prandom_u8(rng);
+f2bb770ae89641 Eric Biggers 2019-04-11  1004  		for (i = 0; i < count; i++, b += increment)
+f2bb770ae89641 Eric Biggers 2019-04-11  1005  			buf[i] = b;
+f900fde2888360 Eric Biggers 2023-02-27 @1006  		mutate_buffer(rng, buf, count);
+f2bb770ae89641 Eric Biggers 2019-04-11  1007  		break;
+f2bb770ae89641 Eric Biggers 2019-04-11  1008  	default:
+f2bb770ae89641 Eric Biggers 2019-04-11  1009  		/* Fully random bytes */
+f900fde2888360 Eric Biggers 2023-02-27 @1010  		prandom_bytes_state(rng, buf, count);
+f2bb770ae89641 Eric Biggers 2019-04-11  1011  	}
+f2bb770ae89641 Eric Biggers 2019-04-11  1012  }
+f2bb770ae89641 Eric Biggers 2019-04-11  1013  
+f900fde2888360 Eric Biggers 2023-02-27  1014  static char *generate_random_sgl_divisions(struct rnd_state *rng,
+f900fde2888360 Eric Biggers 2023-02-27  1015  					   struct test_sg_division *divs,
+25f9dddb928aee Eric Biggers 2019-01-31  1016  					   size_t max_divs, char *p, char *end,
+6570737c7fa047 Eric Biggers 2019-03-12  1017  					   bool gen_flushes, u32 req_flags)
+25f9dddb928aee Eric Biggers 2019-01-31  1018  {
+25f9dddb928aee Eric Biggers 2019-01-31  1019  	struct test_sg_division *div = divs;
+25f9dddb928aee Eric Biggers 2019-01-31  1020  	unsigned int remaining = TEST_SG_TOTAL;
+25f9dddb928aee Eric Biggers 2019-01-31  1021  
+25f9dddb928aee Eric Biggers 2019-01-31  1022  	do {
+25f9dddb928aee Eric Biggers 2019-01-31  1023  		unsigned int this_len;
+6570737c7fa047 Eric Biggers 2019-03-12  1024  		const char *flushtype_str;
+25f9dddb928aee Eric Biggers 2019-01-31  1025  
+f900fde2888360 Eric Biggers 2023-02-27 @1026  		if (div == &divs[max_divs - 1] || prandom_bool(rng))
+25f9dddb928aee Eric Biggers 2019-01-31  1027  			this_len = remaining;
+101e99c23af946 Eric Biggers 2024-07-03 @1028  		else if (prandom_u32_below(rng, 4) == 0)
+101e99c23af946 Eric Biggers 2024-07-03  1029  			this_len = (remaining + 1) / 2;
+25f9dddb928aee Eric Biggers 2019-01-31  1030  		else
+f900fde2888360 Eric Biggers 2023-02-27 @1031  			this_len = prandom_u32_inclusive(rng, 1, remaining);
+25f9dddb928aee Eric Biggers 2019-01-31  1032  		div->proportion_of_total = this_len;
+25f9dddb928aee Eric Biggers 2019-01-31  1033  
+f900fde2888360 Eric Biggers 2023-02-27  1034  		if (prandom_u32_below(rng, 4) == 0)
+f900fde2888360 Eric Biggers 2023-02-27  1035  			div->offset = prandom_u32_inclusive(rng,
+f900fde2888360 Eric Biggers 2023-02-27  1036  							    PAGE_SIZE - 128,
+f900fde2888360 Eric Biggers 2023-02-27  1037  							    PAGE_SIZE - 1);
+f900fde2888360 Eric Biggers 2023-02-27  1038  		else if (prandom_bool(rng))
+f900fde2888360 Eric Biggers 2023-02-27  1039  			div->offset = prandom_u32_below(rng, 32);
+25f9dddb928aee Eric Biggers 2019-01-31  1040  		else
+f900fde2888360 Eric Biggers 2023-02-27  1041  			div->offset = prandom_u32_below(rng, PAGE_SIZE);
+f900fde2888360 Eric Biggers 2023-02-27  1042  		if (prandom_u32_below(rng, 8) == 0)
+25f9dddb928aee Eric Biggers 2019-01-31  1043  			div->offset_relative_to_alignmask = true;
+25f9dddb928aee Eric Biggers 2019-01-31  1044  
+25f9dddb928aee Eric Biggers 2019-01-31  1045  		div->flush_type = FLUSH_TYPE_NONE;
+25f9dddb928aee Eric Biggers 2019-01-31  1046  		if (gen_flushes) {
+f900fde2888360 Eric Biggers 2023-02-27  1047  			switch (prandom_u32_below(rng, 4)) {
+25f9dddb928aee Eric Biggers 2019-01-31  1048  			case 0:
+25f9dddb928aee Eric Biggers 2019-01-31  1049  				div->flush_type = FLUSH_TYPE_REIMPORT;
+25f9dddb928aee Eric Biggers 2019-01-31  1050  				break;
+25f9dddb928aee Eric Biggers 2019-01-31  1051  			case 1:
+25f9dddb928aee Eric Biggers 2019-01-31  1052  				div->flush_type = FLUSH_TYPE_FLUSH;
+25f9dddb928aee Eric Biggers 2019-01-31  1053  				break;
+25f9dddb928aee Eric Biggers 2019-01-31  1054  			}
+25f9dddb928aee Eric Biggers 2019-01-31  1055  		}
+25f9dddb928aee Eric Biggers 2019-01-31  1056  
+6570737c7fa047 Eric Biggers 2019-03-12  1057  		if (div->flush_type != FLUSH_TYPE_NONE &&
+6570737c7fa047 Eric Biggers 2019-03-12  1058  		    !(req_flags & CRYPTO_TFM_REQ_MAY_SLEEP) &&
+f900fde2888360 Eric Biggers 2023-02-27  1059  		    prandom_bool(rng))
+6570737c7fa047 Eric Biggers 2019-03-12  1060  			div->nosimd = true;
+6570737c7fa047 Eric Biggers 2019-03-12  1061  
+6570737c7fa047 Eric Biggers 2019-03-12  1062  		switch (div->flush_type) {
+6570737c7fa047 Eric Biggers 2019-03-12  1063  		case FLUSH_TYPE_FLUSH:
+6570737c7fa047 Eric Biggers 2019-03-12  1064  			if (div->nosimd)
+6570737c7fa047 Eric Biggers 2019-03-12  1065  				flushtype_str = "<flush,nosimd>";
+6570737c7fa047 Eric Biggers 2019-03-12  1066  			else
+6570737c7fa047 Eric Biggers 2019-03-12  1067  				flushtype_str = "<flush>";
+6570737c7fa047 Eric Biggers 2019-03-12  1068  			break;
+6570737c7fa047 Eric Biggers 2019-03-12  1069  		case FLUSH_TYPE_REIMPORT:
+6570737c7fa047 Eric Biggers 2019-03-12  1070  			if (div->nosimd)
+6570737c7fa047 Eric Biggers 2019-03-12  1071  				flushtype_str = "<reimport,nosimd>";
+6570737c7fa047 Eric Biggers 2019-03-12  1072  			else
+6570737c7fa047 Eric Biggers 2019-03-12  1073  				flushtype_str = "<reimport>";
+6570737c7fa047 Eric Biggers 2019-03-12  1074  			break;
+6570737c7fa047 Eric Biggers 2019-03-12  1075  		default:
+6570737c7fa047 Eric Biggers 2019-03-12  1076  			flushtype_str = "";
+6570737c7fa047 Eric Biggers 2019-03-12  1077  			break;
+6570737c7fa047 Eric Biggers 2019-03-12  1078  		}
+6570737c7fa047 Eric Biggers 2019-03-12  1079  
+25f9dddb928aee Eric Biggers 2019-01-31  1080  		BUILD_BUG_ON(TEST_SG_TOTAL != 10000); /* for "%u.%u%%" */
+6570737c7fa047 Eric Biggers 2019-03-12  1081  		p += scnprintf(p, end - p, "%s%u.%u%%@%s+%u%s", flushtype_str,
+25f9dddb928aee Eric Biggers 2019-01-31  1082  			       this_len / 100, this_len % 100,
+25f9dddb928aee Eric Biggers 2019-01-31  1083  			       div->offset_relative_to_alignmask ?
+25f9dddb928aee Eric Biggers 2019-01-31  1084  					"alignmask" : "",
+25f9dddb928aee Eric Biggers 2019-01-31  1085  			       div->offset, this_len == remaining ? "" : ", ");
+25f9dddb928aee Eric Biggers 2019-01-31  1086  		remaining -= this_len;
+25f9dddb928aee Eric Biggers 2019-01-31  1087  		div++;
+25f9dddb928aee Eric Biggers 2019-01-31  1088  	} while (remaining);
+25f9dddb928aee Eric Biggers 2019-01-31  1089  
+25f9dddb928aee Eric Biggers 2019-01-31  1090  	return p;
+25f9dddb928aee Eric Biggers 2019-01-31  1091  }
+25f9dddb928aee Eric Biggers 2019-01-31  1092  
 
 -- 
 0-DAY CI Kernel Test Service
