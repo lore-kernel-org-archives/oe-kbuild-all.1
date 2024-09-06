@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604B617991
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 00:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455771401C;
+	Fri,  6 Sep 2024 01:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725584371; cv=none; b=tlYm1ySkPymfCqBINcRLmC4K77svx5+mSqBNw70wPG+ZUxmHykmtRYMbyBX3+Z6A2z4YaDd6SO3WdyXZ3npWY6N1uobLylM0SBhkKMXxfjog6f6s8Hx06qqCKX+il8T1sHmRIjPwpIJReGa3VC5uv0fKa28RSsW+ihCrlmpxm/U=
+	t=1725584920; cv=none; b=KzZDiYs3q1qcrKUnTprJQhIiby25uAYsB+Z3hfcyxqfFrRQh2O8ecjs4+3hvtW83ZLqgLAsU2S6oVEWQ2yqP6VTFqxkGr+PXQxzhlUk1u1qNVKlroleUfT1Z1jGGKRJ8ENxRreJP2Z6DJo3agjOzu/Z7Z3tC4rmSyJDELLa0gKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725584371; c=relaxed/simple;
-	bh=EpqbIJMquSU+0fJf7pI/5fFFwwTNrtLP8Zzy4UeCLD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IFPf88qponMW04MzqvcxKuE/OK9kMmfX4xFFBs8fChvMCzj3mTY7NZnfP2XuKOcYUJ/Tqn2CNoowrNjyxj1B+DMfCHggIQHxRUqzSOYG8f6MFxBWvsnN/8jKJgyc3cE++YBfuX03/B60gDebJyqbXRoURqY5vVUl4dNn8WmaITQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMB5I7Hh; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1725584920; c=relaxed/simple;
+	bh=9pan4tYDMpwflzlvEiNlU/CmxyFNsYISO5mIYewLskk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FvvPOV0IjIG4GFGOSNeFqify9CYPtfciDD9VTzrENItiS7pUDsBTMUJQkagkKvjNiVZDBZuIuWLBWk71v64gXSEzzVyXQD0EUE1rk7ezyG5WrMjL1FeZOXt9+fJ0mSm9aSB5/E9zJxbJh7xP0vVuRn8Um1++IXuTOJ2ERex7uOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qq4qQnaM; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMB5I7Hh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qq4qQnaM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725584369; x=1757120369;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=EpqbIJMquSU+0fJf7pI/5fFFwwTNrtLP8Zzy4UeCLD8=;
-  b=OMB5I7HhAMDZYH+FehBnM7LgkdKLM7uJ0VHmOeSqnQ29QvLtLMgpVVAn
-   pqo6a9nyKTMTA2Ga1cy1rBlvikJFLw5g/2zoAxr1PUw9S2pBq+JjqnXAG
-   VxajCAgLn8SaHYqvIDFLCW3aOsIrNMPFX310UXp3gE52J+6E7iJKnd7fF
-   xuWq8SFq7Ry3AdPJdiuKhg6DXB4DaIuy3CAGs7iMoLEPYybM4MGL5+t7m
-   1BNmEJXOdfwUmDMe3LRjxKjpD7m3LIJqzSSY0VH9udPgpNYg2vYayIcJL
-   zn+k0L3SmXTPXLJfEF5C9uc41c5elEiwLXDR2+S6xi6pvmyAad5nP6QdY
-   w==;
-X-CSE-ConnectionGUID: RTkzqyXzTEm2OvXZQL6XzA==
-X-CSE-MsgGUID: JuRQSByMR+WCnAepUkDzGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="13399607"
+  t=1725584918; x=1757120918;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9pan4tYDMpwflzlvEiNlU/CmxyFNsYISO5mIYewLskk=;
+  b=Qq4qQnaMgUQWYQrM17L+z6rW88oZRj29CS/gXeXS2vhUMmNArg5YeY+q
+   shKstTEIe8LEETi3aMgMBV6J9Y5KqzjisRtBLEFDa+LrCiSHg1FXQ92Mr
+   X/sH9HGhcHsTrHfWA97aNQbMhs8EK9KRX0wQ5D3DAxplIZsDoUABRMKid
+   Werf88kA6h5MMRS7bIRh7TxiJcAdsxjEb+v+dMqZSdXMOkCrH1vlMnZ/2
+   kOMp1QTE2sk5yOmUx0nzw9sCEFFFDQCD6Ew3H9oexdCozveE0OcRoSjmm
+   i/FpRx2h7ZK9EJQqhgJFNzBzd8HhXA3hMT5V9Ymlt8n813Dx5wtFMosX1
+   g==;
+X-CSE-ConnectionGUID: 6Fbg9Yb7T8uxDF9N1OHsrw==
+X-CSE-MsgGUID: 4RitijyyQFm/PVn66b54jw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="28217710"
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="13399607"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 17:59:29 -0700
-X-CSE-ConnectionGUID: r+yeBAAKR7KesFDvhfZJ3g==
-X-CSE-MsgGUID: D+RmDDQoSPm8Ucxz/8TsXg==
+   d="scan'208";a="28217710"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 18:08:37 -0700
+X-CSE-ConnectionGUID: k5u21ZQISRWcbhEsxyoPNQ==
+X-CSE-MsgGUID: JD0YrFvqRuCa+UruNd9DCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="65798450"
+   d="scan'208";a="65850260"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Sep 2024 17:59:27 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Sep 2024 18:08:34 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smNJt-000ARo-2g;
-	Fri, 06 Sep 2024 00:59:25 +0000
-Date: Fri, 6 Sep 2024 08:58:43 +0800
+	id 1smNSh-000ATX-2t;
+	Fri, 06 Sep 2024 01:08:31 +0000
+Date: Fri, 6 Sep 2024 09:08:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksandr Tymoshenko <ovt@google.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] NFSv4: fix a mount deadlock in NFS v4.1 client
-Message-ID: <ZtpTw89laKyzfJNM@6629791d1ab8>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev
+Subject: Re: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as
+ platform device
+Message-ID: <202409060840.Rm0gPgE4-lkp@intel.com>
+References: <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +73,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240906-nfs-mount-deadlock-fix-v1-1-ea1aef533f9c@google.com>
+In-Reply-To: <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
 
-Hi,
+Hi Binbin,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on 097a44db5747403b19d05a9664e8ec6adba27e3b]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240905-150958
+base:   097a44db5747403b19d05a9664e8ec6adba27e3b
+patch link:    https://lore.kernel.org/r/282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as platform device
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240906/202409060840.Rm0gPgE4-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409060840.Rm0gPgE4-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] NFSv4: fix a mount deadlock in NFS v4.1 client
-Link: https://lore.kernel.org/stable/20240906-nfs-mount-deadlock-fix-v1-1-ea1aef533f9c%40google.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409060840.Rm0gPgE4-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> sound/soc/loongson/loongson_i2s_pci.c:157:1: warning: data definition has no type or storage class
+     157 | module_pci_driver(loongson_i2s_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> sound/soc/loongson/loongson_i2s_pci.c:157:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
+>> sound/soc/loongson/loongson_i2s_pci.c:157:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>> sound/soc/loongson/loongson_i2s_pci.c:149:26: warning: 'loongson_i2s_driver' defined but not used [-Wunused-variable]
+     149 | static struct pci_driver loongson_i2s_driver = {
+         |                          ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_I2S_PCI
+   Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && (LOONGARCH || COMPILE_TEST [=y]) && PCI [=n]
+   Selected by [m]:
+   - SND_SOC_LOONGSON_CARD [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && (LOONGARCH || COMPILE_TEST [=y])
+
+
+vim +/loongson_i2s_driver +149 sound/soc/loongson/loongson_i2s_pci.c
+
+d84881e06836dc1 Yingkun Meng 2023-06-15  148  
+d84881e06836dc1 Yingkun Meng 2023-06-15 @149  static struct pci_driver loongson_i2s_driver = {
+d84881e06836dc1 Yingkun Meng 2023-06-15  150  	.name = "loongson-i2s-pci",
+d84881e06836dc1 Yingkun Meng 2023-06-15  151  	.id_table = loongson_i2s_ids,
+d84881e06836dc1 Yingkun Meng 2023-06-15  152  	.probe = loongson_i2s_pci_probe,
+d84881e06836dc1 Yingkun Meng 2023-06-15  153  	.driver = {
+d84881e06836dc1 Yingkun Meng 2023-06-15  154  		.pm = pm_sleep_ptr(&loongson_i2s_pm),
+d84881e06836dc1 Yingkun Meng 2023-06-15  155  	},
+d84881e06836dc1 Yingkun Meng 2023-06-15  156  };
+d84881e06836dc1 Yingkun Meng 2023-06-15 @157  module_pci_driver(loongson_i2s_driver);
+d84881e06836dc1 Yingkun Meng 2023-06-15  158  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
