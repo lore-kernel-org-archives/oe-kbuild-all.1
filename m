@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF5E1D5CDB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 20:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5FB1B85F7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 21:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725654116; cv=none; b=nG3UH7j/dkkhD4+cBTbKp37kpyI6flpwlhX/nsIWqjjIX7uZ6zcUYua+Navua++FNCvdFAoUN8M/DBmMz7XdJrg/HcJJ6Zv/vfmAE3opuTlzSz6zouXTWaXzhI2UcQOEmQQ5NmEfvYPeXS6aiMvPvekBoiqEGlqinNRGcmH/qto=
+	t=1725657181; cv=none; b=EIvJ+QiAYcWp3gm1JKmzthMzOrK81/zgDxIVnOcjxtgVh6ud6TX5s/2bIUdGfA4cL66V24wOFezhPsSajPv4nDxE1m47H8ASvVmVr5gpZidSVHiGtIiESb/mPcfc/JiO0MPExNS1D+N03wv+mn6Y5jVsn7zv2TRx5Oi+E4YmW+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725654116; c=relaxed/simple;
-	bh=Z0faJocwXpaa07ctahBkmuiWBOl1Ec3JVsHkN4X5lOo=;
+	s=arc-20240116; t=1725657181; c=relaxed/simple;
+	bh=WVFe5rCVDxVLWSKRpm45H1RTLtZcqPG8TVga5oiDHEk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oXj1oTb2sMOb6Rddz7zeR+EiMMunh3hg0XkbZOAV6DKqM4oWr9JSDRdsBwWE+P9KAy226VqiRxgF2zlyP0OaoyPKUufpqUSk7BxPTh9dn3nRXOVvoUGf8Psy91NFgNOLs7x4SThbu4jhrxlSIxQNU4tdU27kLqEjfJ+QhdIvYE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7yagB77; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=OXz1C+Qgj9zDiN4zkMbv3cn04oKZtipfGg1OYv4XO4DJRY93blltCMSzL/kIUm/qgvSfkQ47zQnAMWVKZpNxmxusY04WHSM21yoA5GO1N/8Z2DuKQmaTeJ3fQ/sAUhdfFpQVV1d8bRuIZPc/vtgbyibHyV7UyHP0Uui9dEzVpk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZuvWlqI9; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7yagB77"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuvWlqI9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725654116; x=1757190116;
+  t=1725657180; x=1757193180;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z0faJocwXpaa07ctahBkmuiWBOl1Ec3JVsHkN4X5lOo=;
-  b=H7yagB77CbEp6iUVR9cdb/F6GoEzTRWNe24CVHaLn8i40VhKw5/nn1ul
-   Ie+1LiGjUx2YDZEtM+96yDYk7w0VgW/6TlZpcR7T5Rvqc2rSw7e1v4CXr
-   G6xXPyXu06HEK3Jm30TmMPsVlQMFYdCLRzAkpLh2r6+GFgn1WThqjZBh4
-   UMvGRAgTQTiz7gsJl45CP2Zefl+2e7DBKxXHkxRSmgEiu9qrputoaXmf+
-   pvRUfegLt4ulo+T2xmLl24M686JC5Y/gQ7I1IC1Rt2ED0yI708CtvQj8U
-   OLySLBBhTLPJGz2jK/JSCBwtix9FgGkVuYk7j5j1WkT/ZP0aV93sRyoAL
-   A==;
-X-CSE-ConnectionGUID: n7T0jBR6SdC3jWcwK/WdXw==
-X-CSE-MsgGUID: WV2vimZyTRSjn7gxgLuSsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="46951373"
+  bh=WVFe5rCVDxVLWSKRpm45H1RTLtZcqPG8TVga5oiDHEk=;
+  b=ZuvWlqI9HgnkbFRxr5Uevfhti1tqoTXzegRjCfbDe/C/nRxPr809I9vz
+   uniRgxe4gZezUckMrXvfCd+cWr6jBaq4szDThQGgBsedIWuRsL/mC4NN1
+   5DawO9Ilex1kbaQn4BFwQgMlVSJZybKtAAK55w+iRFmnxVwisoPP67djp
+   pzPWGvWzZFQP+qHSDtjgCzWkd3qqggPr9uefXlycRMAptWFhQXIF0jr/o
+   fr6SqhspKeh3NZbbZCbpKWz6/OCrpBczB+WD9Hc6O6kc8xYZ1MifHK4R0
+   LYFl5CDQZZPA0LYsRk7pNpwzDlJEa7KlR4KFzckB0MZoSfFXmXjY2xoIY
+   g==;
+X-CSE-ConnectionGUID: NYGCxBR/TsyYPTcR1JvH2w==
+X-CSE-MsgGUID: fTgvg0x0Qlept+akcSmezg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="35004492"
 X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="46951373"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 13:21:55 -0700
-X-CSE-ConnectionGUID: rYFXymkkTF2dJ87q2mrc+w==
-X-CSE-MsgGUID: RnhK9HN8RuqrYxwZKheaXw==
+   d="scan'208";a="35004492"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 14:12:59 -0700
+X-CSE-ConnectionGUID: jMZ9ekfPTjKfTlyQnIgy/g==
+X-CSE-MsgGUID: sZAQgdsnTsmvdGEfW8De3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="70847751"
+   d="scan'208";a="65758337"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Sep 2024 13:21:54 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Sep 2024 14:12:58 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smfSp-000BgJ-08;
-	Fri, 06 Sep 2024 20:21:51 +0000
-Date: Sat, 7 Sep 2024 04:20:51 +0800
+	id 1smgGF-000Bjr-2d;
+	Fri, 06 Sep 2024 21:12:55 +0000
+Date: Sat, 7 Sep 2024 05:12:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: {standard input}:4719: Error: opcode not supported on this
- processor: mips32r6 (mips32r6) `dmfgc0 $6,$9,7'
-Message-ID: <202409070438.79SGqcTc-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.10 1/1] ld.lld: error: undefined symbol:
+ __tracepoint_cros_vfs_utimes_enter
+Message-ID: <202409070552.VjMjR072-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +62,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b831f83e40a24f07c8dcba5be408d93beedc820f
-commit: a640d6762a7d404644201ebf6d2a078e8dc84f97 MIPS: mipsregs: Set proper ISA level for virt extensions
-date:   7 months ago
-config: mips-randconfig-r111-20240819 (https://download.01.org/0day-ci/archive/20240907/202409070438.79SGqcTc-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409070438.79SGqcTc-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
+head:   7a2db0b3dc3443a34101113d7dc52832fb044a17
+commit: 7a2db0b3dc3443a34101113d7dc52832fb044a17 [1/1] CHROMIUM: add cros file tracepoints for bpf
+config: i386-buildonly-randconfig-003-20240906 (https://download.01.org/0day-ci/archive/20240907/202409070552.VjMjR072-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409070552.VjMjR072-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409070438.79SGqcTc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409070552.VjMjR072-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   {standard input}: Assembler messages:
->> {standard input}:4719: Error: opcode not supported on this processor: mips32r6 (mips32r6) `dmfgc0 $6,$9,7'
->> {standard input}:4731: Error: opcode not supported on this processor: mips32r6 (mips32r6) `dmtgc0 $2,$9,7'
+>> ld.lld: error: undefined symbol: __tracepoint_cros_vfs_utimes_enter
+   >>> referenced by utimes.c
+   >>>               utimes.o:(vfs_utimes) in archive fs/built-in.a
+   >>> referenced by utimes.c
+   >>>               utimes.o:(__jump_table+0x8) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __SCT__tp_func_cros_vfs_utimes_enter
+   >>> referenced by utimes.c
+   >>>               utimes.o:(vfs_utimes) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __tracepoint_cros_chmod_common_enter
+   >>> referenced by open.c
+   >>>               open.o:(chmod_common) in archive fs/built-in.a
+   >>> referenced by open.c
+   >>>               open.o:(__jump_table+0x8) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __SCT__tp_func_cros_chmod_common_enter
+   >>> referenced by open.c
+   >>>               open.o:(chmod_common) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __tracepoint_cros_chmod_common_exit
+   >>> referenced by open.c
+   >>>               open.o:(trace_cros_chmod_common_exit) in archive fs/built-in.a
+   >>> referenced by open.c
+   >>>               open.o:(__jump_table+0x14) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __SCT__tp_func_cros_chmod_common_exit
+   >>> referenced by open.c
+   >>>               open.o:(trace_cros_chmod_common_exit) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __tracepoint_cros_chown_common_enter
+   >>> referenced by open.c
+   >>>               open.o:(chown_common) in archive fs/built-in.a
+   >>> referenced by open.c
+   >>>               open.o:(__jump_table+0x20) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __SCT__tp_func_cros_chown_common_enter
+   >>> referenced by open.c
+   >>>               open.o:(chown_common) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __tracepoint_cros_chown_common_exit
+   >>> referenced by open.c
+   >>>               open.o:(chown_common) in archive fs/built-in.a
+   >>> referenced by open.c
+   >>>               open.o:(__jump_table+0x2C) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __SCT__tp_func_cros_chown_common_exit
+   >>> referenced by open.c
+   >>>               open.o:(chown_common) in archive fs/built-in.a
+--
+>> ld.lld: error: undefined symbol: __tracepoint_cros_filp_close_exit
+   >>> referenced by open.c
+   >>>               open.o:(filp_close) in archive fs/built-in.a
+   >>> referenced by open.c
+   >>>               open.o:(__jump_table+0x44) in archive fs/built-in.a
+..
 
 -- 
 0-DAY CI Kernel Test Service
