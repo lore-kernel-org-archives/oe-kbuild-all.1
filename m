@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81C61EEF9;
-	Fri,  6 Sep 2024 14:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E14B1D04A4
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Sep 2024 14:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725632551; cv=none; b=AUv00UADCwKBl6isFAf2qHAp4nmlHClQziKkAzfrhUoMo31ZNWpo+OlYwBADmj4sjsm4UI+fQ8Osjoq1PYjjB/UpGtn3s+vkBTaFcjTClf9d8YZtagt/v43pej2XryUXk6wketWoGKpPgQwEfUfy3ImeOFJKQ5xv4ed/0Uy0644=
+	t=1725634412; cv=none; b=d9869CELhc3hdBKDDRkEwxtWBgZ1qo5ioL4eIiJ82it16Xec9hj2G+36oS4dsZu/t0/GhxBZsEohPXfCaxkpGf6Zm//Npfu/jR1WoREdJaIQwA+lJWZGYBnLLZEHoMPuuIp66qkkG6nQHrJadTO0Uyc8EVJMVYilO30Awhxaxog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725632551; c=relaxed/simple;
-	bh=sRgeBNcKFgMqqkW9Yo1Gps/THyaCysW2AxD8cIFBghU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aOErg8wf8dqEPaM5HiIIREvw08BlKHSczoufPUGg3i96TJNwc36UALqVlOFUsCCX+KUKT33VPB3+dKP9NqLgEZL6FuJRqj5PP0MHCUtzDV4g+0pRA8McTuL+jrm/rz3oCvLtwbsed4r7gumwuNHGa+4Cx3Vvv5u6y8ssaZTRrbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZQI2tg0; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1725634412; c=relaxed/simple;
+	bh=HKWIgQv8HqWYd5RDlOgeqG7IXjwQSPaVcs5JOvIqNPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kWKvVkdpC4hoqauSH783Rfo5iXaf9lhzg2PJPP/oNpFh3tu0sZFxcxgTZIHSi9hi7f8XQpW/2XKXge7HwZKyzNB/jrCcktguIRymNV+Chobv9kUSS4qil4XpCDpC/8AWWuCl73kp9q+SJXVhi5GXM7am7GIdx8y5lawdhvWXMaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WadhTEMX; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZQI2tg0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WadhTEMX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725632549; x=1757168549;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sRgeBNcKFgMqqkW9Yo1Gps/THyaCysW2AxD8cIFBghU=;
-  b=IZQI2tg0ohIBC9seq9Y6v/+bcm6Nafwll6XMaQD+dUn3vaXnrDMfas7u
-   yzZtlYYYuZG7RaIXKldknu8KkE6rsUWsHVPbxw1dhAH0cnTMh0XJ9B8mW
-   Fofr5hXBYUjhwDxYSE20wyLWSsf00+OAnAO6B4jmvfmvMT02MWDaXuT1d
-   2lE2rNvusEWkjqmI+K4h1wxlKMeZrOXUSfjyJfeTuL3mLCg0+mg6QZjYz
-   9jtWIclE60P9IbVYCCfeRW/VETqI3o1umk4ualBsX3BR5GxDBlMzM5Miw
-   oWeap7kFuOHWcLi7JLwElEzSTSC4y98r5M+aVmf1ldCfIMVkDsDhkBRnD
-   Q==;
-X-CSE-ConnectionGUID: YoBHixizRoq/itOydKhP/Q==
-X-CSE-MsgGUID: 5RauaQFyRSmAUVyup0wFaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="41901897"
+  t=1725634409; x=1757170409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HKWIgQv8HqWYd5RDlOgeqG7IXjwQSPaVcs5JOvIqNPQ=;
+  b=WadhTEMXKedDAum/v+RHKjn8VaD/eij89ODoBlbgfj537CQrX4bZu00R
+   BQEe54ZC5AsNU3NtcKbsRi5VqbbzV1wdtxySqmKkO95TK/fhHRpMxPPJZ
+   t2Rw43svQQ6gjm+vfxulhc8MjpUqEvm082DuKi5YsG2ejxGG4+wEERQTi
+   mwgZhGyLaqWvHXsMlOnwGZjPRBOSNplGbYhmyyUO8KQgdxJKRmyxrqErB
+   6O+BRYslqupKiaVquVdSMmC13/rqpm2LTXfpmlJA9SX61U2X/fVirbvCd
+   37fyDKmIBVoaTk+cYL1W/2ezT11TtDl43HA8Ob4wzj5xrMlmx0NXJogqK
+   A==;
+X-CSE-ConnectionGUID: fERwhpbRSj2cEXjqmIa92w==
+X-CSE-MsgGUID: 69+xrAgrQBWT8jgJVamrzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="23900359"
 X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="41901897"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 07:22:28 -0700
-X-CSE-ConnectionGUID: CdYiCZJrQL2Jf21xiloMmg==
-X-CSE-MsgGUID: vpXNwx25Rbeuq4YAUidMsw==
+   d="scan'208";a="23900359"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 07:53:29 -0700
+X-CSE-ConnectionGUID: qaZVZ49MTFWtd86xWeZHwA==
+X-CSE-MsgGUID: ZPqBFTTBQQeZkCaydsFNqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="66717890"
+   d="scan'208";a="65952825"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 06 Sep 2024 07:22:25 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 Sep 2024 07:53:27 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smZqx-000BLX-28;
-	Fri, 06 Sep 2024 14:22:23 +0000
-Date: Fri, 6 Sep 2024 22:21:24 +0800
+	id 1smaKz-000BNu-0H;
+	Fri, 06 Sep 2024 14:53:25 +0000
+Date: Fri, 6 Sep 2024 22:52:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uros Bizjak <ubizjak@gmail.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Uros Bizjak <ubizjak@gmail.com>, Theodore Ts'o <tytso@mit.edu>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH 17/18] random: Do not include <linux/prandom.h>
-Message-ID: <202409062123.F3r9hB9z-lkp@intel.com>
-References: <20240905122020.872466-18-ubizjak@gmail.com>
+To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 23675/23701]
+ block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for
+ '__bio_stage_hierarchy_start'
+Message-ID: <202409062219.DDwu0HG6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,248 +62,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240905122020.872466-18-ubizjak@gmail.com>
 
-Hi Uros,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on mtd/mtd/next mtd/mtd/fixes linus/master v6.11-rc6 next-20240906]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/x86-kaslr-Include-linux-prandom-h-instead-of-linux-random-h/20240905-202710
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20240905122020.872466-18-ubizjak%40gmail.com
-patch subject: [PATCH 17/18] random: Do not include <linux/prandom.h>
-config: um-randconfig-002-20240906 (https://download.01.org/0day-ci/archive/20240906/202409062123.F3r9hB9z-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409062123.F3r9hB9z-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   13b424f97ef548612c760cfd0892f96de96707e0
+commit: ac91631e9ef7b530c02e40d10085072c08fb4a0a [23675/23701] blk-io-hierarchy: support new stage for bio lifetime
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240906/202409062219.DDwu0HG6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409062219.DDwu0HG6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409062123.F3r9hB9z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409062219.DDwu0HG6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from crypto/testmgr.c:27:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from crypto/testmgr.c:27:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from crypto/testmgr.c:27:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from crypto/testmgr.c:27:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> crypto/testmgr.c:881:42: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     881 | static inline void init_rnd_state(struct rnd_state *rng)
-         |                                          ^
->> crypto/testmgr.c:883:2: error: call to undeclared function 'prandom_seed_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     883 |         prandom_seed_state(rng, get_random_u64());
-         |         ^
-   crypto/testmgr.c:886:36: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     886 | static inline u8 prandom_u8(struct rnd_state *rng)
-         |                                    ^
->> crypto/testmgr.c:888:9: error: call to undeclared function 'prandom_u32_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     888 |         return prandom_u32_state(rng);
-         |                ^
-   crypto/testmgr.c:891:44: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                            ^
-   crypto/testmgr.c:897:9: error: call to undeclared function 'prandom_u32_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     897 |         return prandom_u32_state(rng) % ceil;
-         |                ^
-   crypto/testmgr.c:900:40: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     900 | static inline bool prandom_bool(struct rnd_state *rng)
-         |                                        ^
->> crypto/testmgr.c:902:27: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     902 |         return prandom_u32_below(rng, 2);
-         |                                  ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:905:48: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     905 | static inline u32 prandom_u32_inclusive(struct rnd_state *rng,
-         |                                                ^
-   crypto/testmgr.c:908:35: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     908 |         return floor + prandom_u32_below(rng, ceil - floor + 1);
-         |                                          ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:912:51: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     912 | static unsigned int generate_random_length(struct rnd_state *rng,
-         |                                                   ^
-   crypto/testmgr.c:915:39: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     915 |         unsigned int len = prandom_u32_below(rng, max_len + 1);
-         |                                              ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:917:28: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     917 |         switch (prandom_u32_below(rng, 4)) {
-         |                                   ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:930:31: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     930 |         if (len && prandom_u32_below(rng, 4) == 0)
-         |                                      ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:936:36: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     936 | static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
-         |                                    ^
-   crypto/testmgr.c:940:29: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     940 |         bitpos = prandom_u32_below(rng, size * 8);
-         |                                    ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:945:37: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     945 | static void flip_random_byte(struct rnd_state *rng, u8 *buf, size_t size)
-         |                                     ^
-   crypto/testmgr.c:947:24: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     947 |         buf[prandom_u32_below(rng, size)] ^= 0xff;
-         |                               ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:951:34: warning: declaration of 'struct rnd_state' will not be visible outside of this function [-Wvisibility]
-     951 | static void mutate_buffer(struct rnd_state *rng, u8 *buf, size_t size)
-         |                                  ^
-   crypto/testmgr.c:957:24: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     957 |         if (prandom_u32_below(rng, 4) == 0) {
-         |                               ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:958:52: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     958 |                 num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8),
-         |                                                                  ^~~
-   include/linux/minmax.h:213:49: note: expanded from macro 'min_t'
-     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
-         |                                                 ^
-   include/linux/minmax.h:96:30: note: expanded from macro '__cmp_once'
-      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                     ^
-   include/linux/minmax.h:93:16: note: expanded from macro '__cmp_once_unique'
-      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-         |                       ^
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:961:20: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     961 |                         flip_random_bit(rng, buf, size);
-         |                                         ^~~
-   crypto/testmgr.c:936:47: note: passing argument to parameter 'rng' here
-     936 | static void flip_random_bit(struct rnd_state *rng, u8 *buf, size_t size)
-         |                                               ^
-   crypto/testmgr.c:965:24: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     965 |         if (prandom_u32_below(rng, 4) == 0) {
-         |                               ^~~
-   crypto/testmgr.c:891:55: note: passing argument to parameter 'rng' here
-     891 | static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-         |                                                       ^
-   crypto/testmgr.c:966:52: error: incompatible pointer types passing 'struct rnd_state *' to parameter of type 'struct rnd_state *' [-Werror,-Wincompatible-pointer-types]
-     966 |                 num_flips = min_t(size_t, 1 << prandom_u32_below(rng, 8), size);
-         |                                                                  ^~~
-   include/linux/minmax.h:213:49: note: expanded from macro 'min_t'
-     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
-         |                                                 ^
-   include/linux/minmax.h:96:30: note: expanded from macro '__cmp_once'
-      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                     ^
-   include/linux/minmax.h:93:16: note: expanded from macro '__cmp_once_unique'
-      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+>> block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for '__bio_stage_hierarchy_start' [-Wmissing-prototypes]
+     571 | void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/preempt.h:5,
+                    from ./arch/arm64/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:81,
+                    from include/linux/spinlock.h:51,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7,
+                    from include/linux/seq_file.h:11,
+                    from block/blk-io-hierarchy/iodump.c:14:
+   In function 'check_object_size',
+       inlined from 'check_copy_size' at include/linux/thread_info.h:90:2,
+       inlined from 'copy_from_user' at include/linux/uaccess.h:143:6,
+       inlined from 'threshold_store' at block/blk-io-hierarchy/iodump.c:273:6:
+   include/linux/thread_info.h:59:17: warning: 'b' may be used uninitialized [-Wmaybe-uninitialized]
+      59 |                 __check_object_size(ptr, n, to_user);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/thread_info.h: In function 'threshold_store':
+   include/linux/thread_info.h:52:13: note: by argument 1 of type 'const void *' to '__check_object_size' declared here
+      52 | extern void __check_object_size(const void *ptr, unsigned long n,
+         |             ^~~~~~~~~~~~~~~~~~~
+   block/blk-io-hierarchy/iodump.c:267:14: note: 'b' declared here
+     267 |         char b[MAX_BUF_LEN + 1];
+         |              ^
 
 
-vim +/prandom_seed_state +883 crypto/testmgr.c
+vim +/__bio_stage_hierarchy_start +571 block/blk-io-hierarchy/iodump.c
 
-f2bb770ae89641 Eric Biggers 2019-04-11  873  
-f900fde2888360 Eric Biggers 2023-02-27  874  /*
-f900fde2888360 Eric Biggers 2023-02-27  875   * The fuzz tests use prandom instead of the normal Linux RNG since they don't
-f900fde2888360 Eric Biggers 2023-02-27  876   * need cryptographically secure random numbers.  This greatly improves the
-f900fde2888360 Eric Biggers 2023-02-27  877   * performance of these tests, especially if they are run before the Linux RNG
-f900fde2888360 Eric Biggers 2023-02-27  878   * has been initialized or if they are run on a lockdep-enabled kernel.
-f900fde2888360 Eric Biggers 2023-02-27  879   */
-f900fde2888360 Eric Biggers 2023-02-27  880  
-f900fde2888360 Eric Biggers 2023-02-27 @881  static inline void init_rnd_state(struct rnd_state *rng)
-f900fde2888360 Eric Biggers 2023-02-27  882  {
-f900fde2888360 Eric Biggers 2023-02-27 @883  	prandom_seed_state(rng, get_random_u64());
-f900fde2888360 Eric Biggers 2023-02-27  884  }
-f900fde2888360 Eric Biggers 2023-02-27  885  
-f900fde2888360 Eric Biggers 2023-02-27  886  static inline u8 prandom_u8(struct rnd_state *rng)
-f900fde2888360 Eric Biggers 2023-02-27  887  {
-f900fde2888360 Eric Biggers 2023-02-27 @888  	return prandom_u32_state(rng);
-f900fde2888360 Eric Biggers 2023-02-27  889  }
-f900fde2888360 Eric Biggers 2023-02-27  890  
-f900fde2888360 Eric Biggers 2023-02-27 @891  static inline u32 prandom_u32_below(struct rnd_state *rng, u32 ceil)
-f900fde2888360 Eric Biggers 2023-02-27  892  {
-f900fde2888360 Eric Biggers 2023-02-27  893  	/*
-f900fde2888360 Eric Biggers 2023-02-27  894  	 * This is slightly biased for non-power-of-2 values of 'ceil', but this
-f900fde2888360 Eric Biggers 2023-02-27  895  	 * isn't important here.
-f900fde2888360 Eric Biggers 2023-02-27  896  	 */
-f900fde2888360 Eric Biggers 2023-02-27  897  	return prandom_u32_state(rng) % ceil;
-f900fde2888360 Eric Biggers 2023-02-27  898  }
-f900fde2888360 Eric Biggers 2023-02-27  899  
-f900fde2888360 Eric Biggers 2023-02-27  900  static inline bool prandom_bool(struct rnd_state *rng)
-f900fde2888360 Eric Biggers 2023-02-27  901  {
-f900fde2888360 Eric Biggers 2023-02-27 @902  	return prandom_u32_below(rng, 2);
-f900fde2888360 Eric Biggers 2023-02-27  903  }
-f900fde2888360 Eric Biggers 2023-02-27  904  
+   570	
+ > 571	void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
+   572					 loff_t *pos)
+   573	{
+   574		struct pos_data *pdata = &bstage_ddata->pdata;
+   575		struct rq_dump_data *rq_ddata = &bstage_ddata->rq_ddata;
+   576	
+   577	retry:
+   578		if (stage_is_bio(pdata->stage)) {
+   579			struct list_head *list;
+   580			struct bio_dump_data *bio_ddata =
+   581				get_bio_stage_ddata(rq_ddata->q, pdata->stage);
+   582	
+   583			if (!bio_ddata) {
+   584				bio_stage_start_next_stage(bstage_ddata, pos);
+   585				goto retry;
+   586			}
+   587	
+   588			spin_lock_irq(&bio_ddata->lock);
+   589			list = seq_list_start(&bio_ddata->head, pdata->count);
+   590			if (list)
+   591				return list;
+   592	
+   593			spin_unlock_irq(&bio_ddata->lock);
+   594			bio_stage_start_next_stage(bstage_ddata, pos);
+   595			goto retry;
+   596		}
+   597	
+   598		if (pdata->stage == STAGE_BIO &&
+   599		    __rq_hierarchy_start(rq_ddata, pdata->count))
+   600			return bstage_ddata;
+   601	
+   602		return NULL;
+   603	}
+   604	
 
 -- 
 0-DAY CI Kernel Test Service
