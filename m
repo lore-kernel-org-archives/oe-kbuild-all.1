@@ -1,63 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1F13FE4A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 03:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2551838F83
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 03:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725679887; cv=none; b=DGNzlzGZJI/zIat8IG6bkNCDaIKnQfcqsl+q7mwWMmB4Og59nJFzUNSOo2zIV7u8JkJPYBs8porp4Qc4tg2GvtORMf3zvnXkNuVuxZqBUl8XXcOgRBjB6RHmojsbEngSGwidIEv3BPn4fPrsqnmtUSh50Ok1XscVAIcOyL2QR6Y=
+	t=1725680479; cv=none; b=c4L1KanPOFNTotSkccGIWjDlDispt4z1GqFajL/3XLy55PzL2yP3EK6AA0gU9V9z/JwNO8PwNSmB3PVtwEyRSlcPIhfpIFPb8bM0mknoJbrR/6yP7lX9EH+ghNovjmuacHGbHG1Cy9fxklBK/iBxP2riBe9X/oMAs/GM1MnxRmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725679887; c=relaxed/simple;
-	bh=hEGaHKODjVXh1NimtLs72WsXNCmMTIIkMZXiMa9laZQ=;
+	s=arc-20240116; t=1725680479; c=relaxed/simple;
+	bh=0LSYRiNjmglzvSSKKJd8bsXrxePN9geo+SOIsVqs/EM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I5IHuT5E3UU09XN/q8H2EqLujSYz60US9jxAi7qlaziLSsrfs/jyKLQ62naF5yvrF0NU8oYqIC12nAodbsz2BsgDCKeGifRiMbmpvjiVdhat0tvAd771J1oOuFukukk+Xx1NAgcDHkFGTXH5tsQigRSYdd3ym+6ZKTnkFYqAKmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OArpqpUw; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nw3rkxR4rlQeXKo8/4ffSkiArQ/ytxZjMqkFWg2rNNSSvvo5+AkIFfCAFkGmATX+hSvwflpAIyI4elmkr2imwr8cSu/qKzClZPz1d/vUny2II7/XCxmcSY4V3F0UXBjouUBAQz7DAmmT1khPr0WzFir8WYVSp3opSCQTTojcq2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWiTEwcr; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OArpqpUw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWiTEwcr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725679883; x=1757215883;
+  t=1725680477; x=1757216477;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hEGaHKODjVXh1NimtLs72WsXNCmMTIIkMZXiMa9laZQ=;
-  b=OArpqpUwU2d8iflGywQ2NpjdqcW1awU534SOLnLOrEUygdswOfgkHwoo
-   GMGyj6VvVj2+X6PkdUY/R18knOy1/Ak9kmiUH3Ao8k48Y4Z7bzZDLgXux
-   M+LlKHajnpK7B1Hqug0qv5d+UVCC1JzaCYTrbbTl6ELiJR2iYuBv3CQcz
-   tix5KlagjfckzZ/GZEtzSrI3kI/ysE6wpAECsBVo6rLrGT5TRlSoUjflz
-   chUTJ8M2uDaZ3XIW6mvgrZdOxVgCa6C7rvZR5tptWpusoAyZhPBLbF47z
-   oNGr5Q7nb0yRUq06TkWm6/sI7g9vVafk+XK0VoGf6Us0x9U8SCnw8KGDF
-   Q==;
-X-CSE-ConnectionGUID: mMI8xjTmRqWeFq0/hzvM6Q==
-X-CSE-MsgGUID: pVK7LQmjTiK7YrZSvBn4SQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="35115593"
+  bh=0LSYRiNjmglzvSSKKJd8bsXrxePN9geo+SOIsVqs/EM=;
+  b=OWiTEwcr06jlVUHSl5uLs5mDBsUU7+T4jibGEPVR+uVr58KtMXOW0xOK
+   mtRc/983nWvI0MbMWObxgopSvcLs4SSzKFHflnqr/mhWVDDrDfNPAcH6i
+   EGOU78AHd5XXzAb3RhkTK0fAH5s7NQNGVMjSURpW4cmLwhgUlmC8Cp1ho
+   vzLFjWJIrQPkaMYAjrMP2Cp1PxT8CUJ5nF8gMWeW4At2dNaPsuf/m+5MI
+   PbVqvvmwhiGjQKzkxM8W/w+niuFSNIltpSaKD8oTyyWuMDpKapX0rd9er
+   PYeSMD5FDL2LywBmOea/sEvKdAl7vyyY5W55rz6meKl1xuK4tB0Jxc0yY
+   w==;
+X-CSE-ConnectionGUID: Q9nwOaTaT22zwBkLRG/ZUQ==
+X-CSE-MsgGUID: LabddwZQQ+2ltNbIm5CDow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="13418139"
 X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="35115593"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 20:31:17 -0700
-X-CSE-ConnectionGUID: YcjMdzw1SKGwwAHhN3ztFg==
-X-CSE-MsgGUID: aDYgvrRLQsGKPCVLdQexNg==
+   d="scan'208";a="13418139"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 20:41:16 -0700
+X-CSE-ConnectionGUID: XnhtZTm7SQyMqKvtjyblEA==
+X-CSE-MsgGUID: X8TlA47bShm85sIffjCqmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="70928207"
+   d="scan'208";a="70717146"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Sep 2024 20:31:14 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 06 Sep 2024 20:41:13 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smmAJ-000C5q-0J;
-	Sat, 07 Sep 2024 03:31:11 +0000
-Date: Sat, 7 Sep 2024 11:30:21 +0800
+	id 1smmJz-000C67-1v;
+	Sat, 07 Sep 2024 03:41:11 +0000
+Date: Sat, 7 Sep 2024 11:40:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: KobaK <kobak@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	James Morse <james.morse@arm.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH V3] acpi/prmt: find block with specific type
-Message-ID: <202409071110.LWdX8txQ-lkp@intel.com>
-References: <20240905124950.512973-1-kobak@nvidia.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Ville Syrjala <syrjala@sci.fi>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	Andrey Moiseev <o2g.org.ru@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Jeff LaBundy <jeff@labundy.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 20/22] Input: regulator-haptic - use guard notation when
+ acquiring mutex
+Message-ID: <202409071004.IhekZKbM-lkp@intel.com>
+References: <20240904044922.1049488-1-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,80 +72,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240905124950.512973-1-kobak@nvidia.com>
+In-Reply-To: <20240904044922.1049488-1-dmitry.torokhov@gmail.com>
 
-Hi KobaK,
+Hi Dmitry,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.11-rc6 next-20240906]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.11-rc6 next-20240906]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/KobaK/acpi-prmt-find-block-with-specific-type/20240905-205316
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240905124950.512973-1-kobak%40nvidia.com
-patch subject: [PATCH V3] acpi/prmt: find block with specific type
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240907/202409071110.LWdX8txQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071110.LWdX8txQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Torokhov/Input-ad714x-use-guard-notation-when-acquiring-mutex/20240905-085752
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240904044922.1049488-1-dmitry.torokhov%40gmail.com
+patch subject: [PATCH 20/22] Input: regulator-haptic - use guard notation when acquiring mutex
+config: x86_64-buildonly-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240907/202409071004.IhekZKbM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071004.IhekZKbM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409071110.LWdX8txQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409071004.IhekZKbM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:31,
-                    from drivers/acpi/prmt.c:17:
-   drivers/acpi/prmt.c: In function 'acpi_parse_prmt':
->> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 2 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:437:25: note: in definition of macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:518:9: note: in expansion of macro 'printk'
-     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:518:16: note: in expansion of macro 'KERN_WARNING'
-     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/acpi/prmt.c:161:25: note: in expansion of macro 'pr_warn'
-     161 |                         pr_warn(
-         |                         ^~~~~~~
->> include/linux/kern_levels.h:5:25: warning: format '%llx' expects a matching 'long long unsigned int' argument [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:437:25: note: in definition of macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:518:9: note: in expansion of macro 'printk'
-     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:518:16: note: in expansion of macro 'KERN_WARNING'
-     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/acpi/prmt.c:161:25: note: in expansion of macro 'pr_warn'
-     161 |                         pr_warn(
-         |                         ^~~~~~~
+   drivers/input/misc/regulator-haptic.c: In function 'regulator_haptic_suspend':
+>> drivers/input/misc/regulator-haptic.c:206:13: warning: unused variable 'error' [-Wunused-variable]
+     206 |         int error;
+         |             ^~~~~
 
 
-vim +5 include/linux/kern_levels.h
+vim +/error +206 drivers/input/misc/regulator-haptic.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+d64cb71bede87d Jaewon Kim       2014-12-17  201  
+1a3e6c1ee47d00 Jonathan Cameron 2023-01-02  202  static int regulator_haptic_suspend(struct device *dev)
+d64cb71bede87d Jaewon Kim       2014-12-17  203  {
+d64cb71bede87d Jaewon Kim       2014-12-17  204  	struct platform_device *pdev = to_platform_device(dev);
+d64cb71bede87d Jaewon Kim       2014-12-17  205  	struct regulator_haptic *haptic = platform_get_drvdata(pdev);
+d64cb71bede87d Jaewon Kim       2014-12-17 @206  	int error;
+d64cb71bede87d Jaewon Kim       2014-12-17  207  
+aaa0758ff6b5c4 Dmitry Torokhov  2024-09-03  208  	scoped_guard(mutex_intr, &haptic->mutex) {
+d64cb71bede87d Jaewon Kim       2014-12-17  209  		regulator_haptic_set_voltage(haptic, 0);
+d64cb71bede87d Jaewon Kim       2014-12-17  210  		haptic->suspended = true;
+d64cb71bede87d Jaewon Kim       2014-12-17  211  
+d64cb71bede87d Jaewon Kim       2014-12-17  212  		return 0;
+d64cb71bede87d Jaewon Kim       2014-12-17  213  	}
+d64cb71bede87d Jaewon Kim       2014-12-17  214  
+aaa0758ff6b5c4 Dmitry Torokhov  2024-09-03  215  	return -EINTR;
+aaa0758ff6b5c4 Dmitry Torokhov  2024-09-03  216  }
+aaa0758ff6b5c4 Dmitry Torokhov  2024-09-03  217  
 
 -- 
 0-DAY CI Kernel Test Service
