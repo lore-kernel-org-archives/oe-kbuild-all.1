@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFD5158558
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 10:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044B05C603
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 11:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725703346; cv=none; b=oPUuXfNZsRmSU85P99iBOApVPWQhRZA0n5dhULNXSfG0w+DCFd6nQMHcBLYv5H9y6stgY1Wu5nd2kjgX9CNQgqC6Gq2JMCAgDkEmprQVw369FUwuMRF62GV2bndRu+LYjc+vBkBLpwLNt7Qn1LY2kTz/5qlcp5/x68i6gJBUnKU=
+	t=1725708876; cv=none; b=j6K87hd4KjvAj+jUZCgqtvxT/Beu4WE4WKk18hWC4UEWp7l3ydKxvnFZjIy78+lYavx+UslaWq4gwK1F/2ZMQminSfOdGOt/F0xRNBmPTbGS8PVJj6M/XHEeD42fnMdaJn1MYguXN6EFwGhrY0wMzzLwpnT9Kdx827VT4azhytY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725703346; c=relaxed/simple;
-	bh=+8ndftcpr710lyIszgV8c95AAh8cy/KDHvOC47Z5jY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cMLdCaf0F0HuGHrpegeVjXO6M2Vy7dHvlSJXux16uOB+plQW8jLlEPdgpq+EVtYDMCxYMjbRz2mEUz6dXOM/DIzPuW4Od4QdYFKejODcFQCvcZxeFlAhrdBaIYsQPYbGE6vzPPficDnPL6SqvI4X2IsI2UI6+x1EGzuA4g0YM3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAAa+Aeo; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1725708876; c=relaxed/simple;
+	bh=p8z5+cQsI4uIXLljFwqpBkZTFVit607aFGqxeHWxPCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bzy6DW5hP2bR48FokzmrxADIo8XyDRFA6oOkRh9d9VmByUNeRjYmD7i0nxv37UrzOqI4AvoWBw4RulZU+U1MKDxIEO3/OkLZfYd1T6HglJ3plbFZ2zZTTtwaPtKesw6CEXcV0OXOVhSn660oV5qp2HAJk/gQwQp/8WjVpWPpu7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOAYpejN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAAa+Aeo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOAYpejN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725703345; x=1757239345;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+8ndftcpr710lyIszgV8c95AAh8cy/KDHvOC47Z5jY8=;
-  b=gAAa+Aeo3+EXNAmpdGVC0mMhglxAKUX1kbfa9j7JwuCwQdlZwPOtwHE5
-   Dv6QESX5F8LJQNr4skRzmDHVYqpccRYbyESR44Ra9irzeTbdGmKVw4iG+
-   5QFKwDp/pQLjvqsQg219EmdRZM35qlJwlB+8s61rz8r9WajXjNXuzA6Um
-   o3ksnFYvCr281SsfiAmzH0NBxHPSvOee9uTnWoovX0GNkdJDEU0VwWTGO
-   FBdLwrntWzmuuLCexgUbJm5Dcorhn1tN6XujLuoAIbj3ne6ft8NI8tEoE
-   5yxvchkpZHe18ZZROg4lY3Ch7/cBnVGzgj4T48cUTIOf6z9H7vDhAA7Wx
+  t=1725708875; x=1757244875;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p8z5+cQsI4uIXLljFwqpBkZTFVit607aFGqxeHWxPCA=;
+  b=WOAYpejNto5rpAqge9+Zy4sMNaghEPKgACk3/qyBCTU9jd8GwmaAXuxz
+   jaXAIjy0gjB7U/LaHeYL3Si+kviVJrOyUh/s2MM8rh7ZYelk29OGv7+GH
+   kUjyCSVzXzFpHEGPhX/01JLzySLsBtzlIKOQhbqTZDq+x19Xwt+2htPZG
+   r+nDBVf5Pt+einA91qKGOroFXSZKOG2TdZXYjljQ3MuHKdrJfdCW2Gmsf
+   5kq/lFaoqrB2f9kawy/xnbbp3qJ9Ms5ubK4LVgC0qzSL8RAPbq7TtyTY7
+   cLv5DSH6JlT0z1j3+719oQ4036dAz7aL+STAhpABO6nPGhtyPwkWTzmfP
    g==;
-X-CSE-ConnectionGUID: T34UupN4SaaF2ZU3nD00Vg==
-X-CSE-MsgGUID: B97MrWRNT1uRZZ3iMZf6lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="24323051"
+X-CSE-ConnectionGUID: CsR7EK1lQXWM6m5tQnmlpQ==
+X-CSE-MsgGUID: TsOjdeh8TQ+jBjvfQDUCbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="49871782"
 X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="24323051"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 03:02:24 -0700
-X-CSE-ConnectionGUID: /y7E0xneQa+1lRbk+cY5dw==
-X-CSE-MsgGUID: 5pZQbW8lSiai6JaiI7i3Sg==
+   d="scan'208";a="49871782"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 04:34:34 -0700
+X-CSE-ConnectionGUID: C/eLeD5eTpimmG57LbjQpw==
+X-CSE-MsgGUID: TIRFt8O2SW6U0h1q5OPESw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="103648425"
+   d="scan'208";a="96989902"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Sep 2024 03:02:20 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 07 Sep 2024 04:34:33 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smsGn-000CPb-2j;
-	Sat, 07 Sep 2024 10:02:17 +0000
-Date: Sat, 7 Sep 2024 18:01:24 +0800
+	id 1smti2-000CW3-26;
+	Sat, 07 Sep 2024 11:34:30 +0000
+Date: Sat, 7 Sep 2024 19:33:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thippeswamy Havalige <thippesw@amd.com>,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	linux-pci@vger.kernel.org, bhelgaas@google.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bharat.kumar.gogada@amd.com,
-	michal.simek@amd.com, lpieralisi@kernel.org, kw@linux.com,
-	Thippeswamy Havalige <thippesw@amd.com>
-Subject: Re: [PATCH 2/2] PCI: xilinx-cpm: Add support for Versal CPM5 Root
- Port controller-1
-Message-ID: <202409071713.wrAI0UuK-lkp@intel.com>
-References: <20240906093148.830452-3-thippesw@amd.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.4.y-st 1771/2602]
+ drivers/net/ethernet/qualcomm/qca_spi.c:547:49: error: 'struct
+ qcafrm_handle' has no member named 'init'
+Message-ID: <202409071954.kaoWmllZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,68 +63,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240906093148.830452-3-thippesw@amd.com>
 
-Hi Thippeswamy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus mani-mhi/mhi-next robh/for-next linus/master v6.11-rc6 next-20240906]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thippeswamy-Havalige/dt-bindings-PCI-xilinx-cpm-Add-compatible-string-for-CPM5-controller-1/20240906-173446
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240906093148.830452-3-thippesw%40amd.com
-patch subject: [PATCH 2/2] PCI: xilinx-cpm: Add support for Versal CPM5 Root Port controller-1
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240907/202409071713.wrAI0UuK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071713.wrAI0UuK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st
+head:   c18783f114b390babddc2dde4162ae03709497b2
+commit: 9e3318db0fff49ffdec37a733fd4b75efbacc1ef [1771/2602] qca_spi: Fix reset behavior
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240907/202409071954.kaoWmllZ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071954.kaoWmllZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409071713.wrAI0UuK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409071954.kaoWmllZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/pcie-xilinx-cpm.c: In function 'xilinx_cpm_pcie_event_flow':
-   drivers/pci/controller/pcie-xilinx-cpm.c:292:44: error: 'CPM5_HOST1' undeclared (first use in this function)
-     292 |         else if (port->variant->version == CPM5_HOST1) {
-         |                                            ^~~~~~~~~~
-   drivers/pci/controller/pcie-xilinx-cpm.c:292:44: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/pci/controller/pcie-xilinx-cpm.c: In function 'xilinx_cpm_pcie_init_port':
-   drivers/pci/controller/pcie-xilinx-cpm.c:504:44: error: 'CPM5_HOST1' undeclared (first use in this function)
-     504 |         else if (port->variant->version == CPM5_HOST1) {
-         |                                            ^~~~~~~~~~
-   drivers/pci/controller/pcie-xilinx-cpm.c: At top level:
-   drivers/pci/controller/pcie-xilinx-cpm.c:635:40: error: redefinition of 'cpm5_host'
-     635 | static const struct xilinx_cpm_variant cpm5_host = {
-         |                                        ^~~~~~~~~
-   drivers/pci/controller/pcie-xilinx-cpm.c:631:40: note: previous definition of 'cpm5_host' with type 'const struct xilinx_cpm_variant'
-     631 | static const struct xilinx_cpm_variant cpm5_host = {
-         |                                        ^~~~~~~~~
-   drivers/pci/controller/pcie-xilinx-cpm.c:636:20: error: 'CPM5_HOST1' undeclared here (not in a function)
-     636 |         .version = CPM5_HOST1,
-         |                    ^~~~~~~~~~
-   drivers/pci/controller/pcie-xilinx-cpm.c:650:26: error: 'cpm5_host1' undeclared here (not in a function); did you mean 'cpm5_host'?
-     650 |                 .data = &cpm5_host1,
-         |                          ^~~~~~~~~~
-         |                          cpm5_host
->> drivers/pci/controller/pcie-xilinx-cpm.c:631:40: warning: 'cpm5_host' defined but not used [-Wunused-const-variable=]
-     631 | static const struct xilinx_cpm_variant cpm5_host = {
-         |                                        ^~~~~~~~~
+   drivers/net/ethernet/qualcomm/qca_spi.c: In function 'qcaspi_spi_thread':
+>> drivers/net/ethernet/qualcomm/qca_spi.c:547:49: error: 'struct qcafrm_handle' has no member named 'init'
+        if (qca->frm_handle.state != qca->frm_handle.init)
+                                                    ^
+>> drivers/net/ethernet/qualcomm/qca_spi.c:550:5: error: implicit declaration of function 'qcafrm_fsm_init_spi'; did you mean 'qcafrm_fsm_init'? [-Werror=implicit-function-declaration]
+        qcafrm_fsm_init_spi(&qca->frm_handle);
+        ^~~~~~~~~~~~~~~~~~~
+        qcafrm_fsm_init
+   cc1: some warnings being treated as errors
 
 
-vim +/cpm5_host +631 drivers/pci/controller/pcie-xilinx-cpm.c
+vim +547 drivers/net/ethernet/qualcomm/qca_spi.c
 
-51f1ffc00d95e3 Bharat Kumar Gogada 2022-07-05  630  
-51f1ffc00d95e3 Bharat Kumar Gogada 2022-07-05 @631  static const struct xilinx_cpm_variant cpm5_host = {
-51f1ffc00d95e3 Bharat Kumar Gogada 2022-07-05  632  	.version = CPM5,
-51f1ffc00d95e3 Bharat Kumar Gogada 2022-07-05  633  };
-51f1ffc00d95e3 Bharat Kumar Gogada 2022-07-05  634  
+   508	
+   509	static int
+   510	qcaspi_spi_thread(void *data)
+   511	{
+   512		struct qcaspi *qca = data;
+   513		u16 intr_cause = 0;
+   514	
+   515		netdev_info(qca->net_dev, "SPI thread created\n");
+   516		while (!kthread_should_stop()) {
+   517			set_current_state(TASK_INTERRUPTIBLE);
+   518			if ((qca->intr_req == qca->intr_svc) &&
+   519			    !qca->txr.skb[qca->txr.head])
+   520				schedule();
+   521	
+   522			set_current_state(TASK_RUNNING);
+   523	
+   524			netdev_dbg(qca->net_dev, "have work to do. int: %d, tx_skb: %p\n",
+   525				   qca->intr_req - qca->intr_svc,
+   526				   qca->txr.skb[qca->txr.head]);
+   527	
+   528			qcaspi_qca7k_sync(qca, QCASPI_EVENT_UPDATE);
+   529	
+   530			if (qca->sync != QCASPI_SYNC_READY) {
+   531				netdev_dbg(qca->net_dev, "sync: not ready %u, turn off carrier and flush\n",
+   532					   (unsigned int)qca->sync);
+   533				netif_stop_queue(qca->net_dev);
+   534				netif_carrier_off(qca->net_dev);
+   535				qcaspi_flush_tx_ring(qca);
+   536				msleep(QCASPI_QCA7K_REBOOT_TIME_MS);
+   537			}
+   538	
+   539			if (qca->intr_svc != qca->intr_req) {
+   540				qca->intr_svc = qca->intr_req;
+   541				start_spi_intr_handling(qca, &intr_cause);
+   542	
+   543				if (intr_cause & SPI_INT_CPU_ON) {
+   544					qcaspi_qca7k_sync(qca, QCASPI_EVENT_CPUON);
+   545	
+   546					/* Frame decoding in progress */
+ > 547					if (qca->frm_handle.state != qca->frm_handle.init)
+   548						qca->net_dev->stats.rx_dropped++;
+   549	
+ > 550					qcafrm_fsm_init_spi(&qca->frm_handle);
+   551					qca->stats.device_reset++;
+   552	
+   553					/* not synced. */
+   554					if (qca->sync != QCASPI_SYNC_READY)
+   555						continue;
+   556	
+   557					netif_wake_queue(qca->net_dev);
+   558					netif_carrier_on(qca->net_dev);
+   559				}
+   560	
+   561				if (intr_cause & SPI_INT_RDBUF_ERR) {
+   562					/* restart sync */
+   563					netdev_dbg(qca->net_dev, "===> rdbuf error!\n");
+   564					qca->stats.read_buf_err++;
+   565					qca->sync = QCASPI_SYNC_UNKNOWN;
+   566					continue;
+   567				}
+   568	
+   569				if (intr_cause & SPI_INT_WRBUF_ERR) {
+   570					/* restart sync */
+   571					netdev_dbg(qca->net_dev, "===> wrbuf error!\n");
+   572					qca->stats.write_buf_err++;
+   573					qca->sync = QCASPI_SYNC_UNKNOWN;
+   574					continue;
+   575				}
+   576	
+   577				/* can only handle other interrupts
+   578				 * if sync has occurred
+   579				 */
+   580				if (qca->sync == QCASPI_SYNC_READY) {
+   581					if (intr_cause & SPI_INT_PKT_AVLBL)
+   582						qcaspi_receive(qca);
+   583				}
+   584	
+   585				end_spi_intr_handling(qca, intr_cause);
+   586			}
+   587	
+   588			if (qca->sync == QCASPI_SYNC_READY)
+   589				qcaspi_transmit(qca);
+   590		}
+   591		set_current_state(TASK_RUNNING);
+   592		netdev_info(qca->net_dev, "SPI thread exit\n");
+   593	
+   594		return 0;
+   595	}
+   596	
 
 -- 
 0-DAY CI Kernel Test Service
