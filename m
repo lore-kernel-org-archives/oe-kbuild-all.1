@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117CD25632;
-	Sat,  7 Sep 2024 22:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4623A1586C7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 22:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725747635; cv=none; b=BtbQ57O1eTjsWrYiQKoSsjlJJ1Ry6Je42DjWJy7I7kEhEndRvXuuPFfkF/29Gsm9JGeV+ZT42qFJLIHwObdhey9vaqABRGETck+ORBgxVLZ9PjP5WXQVq5GKnf8Wih/DFi3Sqy3WsgQk1UezKAodpmfbFnF/Ke0iIrY6yr2fXiQ=
+	t=1725748234; cv=none; b=NHXxrGlJMQeuHsTEJsKQWIcMyPzWWNosnASAqQe5KCSh5O9WpbpC7sf1KdVGnBBS5pEq9sx+mDl8O3hr6twxYV7khyFS1R2rs7ji8ucVhbA7S3STgFhNonoAlBqOBT3SsvyU5726Bi9+PPSW2vBXeUVAi6PyeT8/I1PMoPiMkIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725747635; c=relaxed/simple;
-	bh=18QHyOowCoerOI8GyYR6ejC+zvs3qPUSNSXla/8mTQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C3XQlajCv7HJsdiehywMkjIjYBhPXucKldNRh8ZnsTpCmabc7J5zScqlEdYdJElpYwI7d+Cb8PXmoS7ybwcNqR0iaFC7BN5khJuwHQ8RMPpJjqM13N9n8wathA1NEE72VNFGfNhMMhV0uMH+f87BQCvRfgPJsnOTgYIHWzEnE2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ASUqeBMf; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1725748234; c=relaxed/simple;
+	bh=XGJqb6HC4iaeuEdA5n6cYu9SrUFHw61FrYM1LhbHtQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KEJREkCVien9ofA3qfOqnS/9+gr0eXloqrGJQfEBP5XqHqFexLjfY4Tgv23UsBC8IwDV2gk8Fop9+R8keJyGOqRrXfCEwEcE5LJVpAU5pp7r2N+xMqUxBz2eNaSDGM22A8+lAepXzEltGGbCfvPqQVdQM0I/scbBaiE7nwd+JHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKXWKffS; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ASUqeBMf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKXWKffS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725747633; x=1757283633;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=18QHyOowCoerOI8GyYR6ejC+zvs3qPUSNSXla/8mTQQ=;
-  b=ASUqeBMfqSil6jOyEL/B2gMoJPy5FtrlBZU/b0ic47gJzm/GRuEgF3zj
-   yO6K7H5DZTw0e+TrfLIwN2QtqocIC2j7DQhQ33+3IjXMXHC9KC3Egqzge
-   Y8nBG2Cfhs2oDQJuem/vjVwGM/tOGT3nb6i6MPrhjfcnjz4RI51YsLUDD
-   fqSPfCAEZXx16ZZmZ+BAosgbnkpK6OLXPhc+eHf62bLIb8UyeBkcm2IGG
-   q5SeUUt3Ba8kzl1MT2Dd3OdQhrHqOJqUYlWENsSRAEg0IzS3v4iVJj48Y
-   ZoUA6uoqVEIcJQJ0P+8je4N61JU10gq7bXxIRsI97vXnLk35tWk+p0n48
+  t=1725748231; x=1757284231;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XGJqb6HC4iaeuEdA5n6cYu9SrUFHw61FrYM1LhbHtQM=;
+  b=bKXWKffSvNuhQCnePf5pDFr824soX/5ms/xtR5mgj4nQVBOWgkZYT+Jg
+   tdN/NwgE6Pa6hJ7bPLaLy8QURW6CJ/gzuG3tx+jdhN+Gcv4pgde9h8sLV
+   IUBGf0E1reSWJrWlfZuu1f7n5qXbTiKCEqZcwqWb85wLpGRz+/WrK/CJd
+   i+Lo7pz2MfDsKT8UtyJFu38ajNaehf4ZNRYOGjkdSv6faIlHra+oY7RcD
+   5Sw9egJx+lliOawiLtgdA1pAUsyzg7J+6qKpPy6qH2jwJOTVP9qbGSDnY
+   9VR4um6hx9TW8l/blWynGRD4A9SFSyxu6UHces0ZpjpN5iESL3Kpng7XG
    w==;
-X-CSE-ConnectionGUID: jkCq5CXGTbSlttxfKRsJJQ==
-X-CSE-MsgGUID: AtrpW1PSQmKaMedafmTC6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="27398000"
+X-CSE-ConnectionGUID: eFNBu/OdR9y+qqX4NxUCbg==
+X-CSE-MsgGUID: 9kt+V/JETBGIowTapQJiTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24620125"
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="27398000"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 15:20:32 -0700
-X-CSE-ConnectionGUID: 0o2KY8N/R/OI7fU2DO3w6Q==
-X-CSE-MsgGUID: gFO3pKwNQD26MyxnmRlHxQ==
+   d="scan'208";a="24620125"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 15:30:30 -0700
+X-CSE-ConnectionGUID: /nyVoW6aQZaxBbbhxFVMhA==
+X-CSE-MsgGUID: rrn40a26RDON9snzMjjswA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="103750126"
+   d="scan'208";a="97000816"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Sep 2024 15:20:29 -0700
+  by orviesa002.jf.intel.com with ESMTP; 07 Sep 2024 15:30:29 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sn3n8-000D3Q-2V;
-	Sat, 07 Sep 2024 22:20:26 +0000
-Date: Sun, 8 Sep 2024 06:19:57 +0800
+	id 1sn3wp-000D3v-0I;
+	Sat, 07 Sep 2024 22:30:27 +0000
+Date: Sun, 8 Sep 2024 06:30:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chunhui Li <chunhui.li@mediatek.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, wsd_upstream@mediatek.com,
-	Chunhui Li <chunhui.li@mediatek.com>,
-	Petr Pavlu <petr.pavlu@suse.com>, kernel test robot <lkp@intel.com>,
-	Xion Wang <xion.wang@mediatek.com>
-Subject: Re: [PATCH v3 1/1] module: abort module loading when sysfs setup
- suffer errors
-Message-ID: <202409080534.y2m1URF1-lkp@intel.com>
-References: <20240906115748.5367-2-chunhui.li@mediatek.com>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Martin Krastev <martin.krastev@broadcom.com>
+Subject: drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:533:2-8: WARNING: NULL check
+ before some freeing functions is not needed.
+Message-ID: <202409080613.QLumunSL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,52 +62,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240906115748.5367-2-chunhui.li@mediatek.com>
 
-Hi Chunhui,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mcgrof/modules-next]
-[also build test WARNING on linus/master v6.11-rc6 next-20240906]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chunhui-Li/module-abort-module-loading-when-sysfs-setup-suffer-errors/20240907-000002
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-patch link:    https://lore.kernel.org/r/20240906115748.5367-2-chunhui.li%40mediatek.com
-patch subject: [PATCH v3 1/1] module: abort module loading when sysfs setup suffer errors
-config: powerpc-asp8347_defconfig (https://download.01.org/0day-ci/archive/20240908/202409080534.y2m1URF1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080534.y2m1URF1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b31c4492884252a8360f312a0ac2049349ddf603
+commit: b32233accefff1338806f064fb9b62cf5bc0609f drm/vmwgfx: Fix prime import/export
+date:   5 months ago
+config: i386-randconfig-054-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080613.QLumunSL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409080534.y2m1URF1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409080613.QLumunSL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:533:2-8: WARNING: NULL check before some freeing functions is not needed.
+   drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:535:2-8: WARNING: NULL check before some freeing functions is not needed.
 
->> kernel/module/sysfs.c:232:86: warning: non-void function does not return a value [-Wreturn-type]
-     232 | static inline int add_sect_attrs(struct module *mod, const struct load_info *info) { }
-         |                                                                                      ^
-   kernel/module/sysfs.c:234:87: warning: non-void function does not return a value [-Wreturn-type]
-     234 | static inline int add_notes_attrs(struct module *mod, const struct load_info *info) { }
-         |                                                                                       ^
-   2 warnings generated.
+vim +533 drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
 
-
-vim +232 kernel/module/sysfs.c
-
-   230	
-   231	#else /* !CONFIG_KALLSYMS */
- > 232	static inline int add_sect_attrs(struct module *mod, const struct load_info *info) { }
-   233	static inline void remove_sect_attrs(struct module *mod) { }
-   234	static inline int add_notes_attrs(struct module *mod, const struct load_info *info) { }
-   235	static inline void remove_notes_attrs(struct module *mod) { }
-   236	#endif /* CONFIG_KALLSYMS */
-   237	
+   422	
+   423	/**
+   424	 * vmw_bo_cpu_blit - in-kernel cpu blit.
+   425	 *
+   426	 * @dst: Destination buffer object.
+   427	 * @dst_offset: Destination offset of blit start in bytes.
+   428	 * @dst_stride: Destination stride in bytes.
+   429	 * @src: Source buffer object.
+   430	 * @src_offset: Source offset of blit start in bytes.
+   431	 * @src_stride: Source stride in bytes.
+   432	 * @w: Width of blit.
+   433	 * @h: Height of blit.
+   434	 * @diff: The struct vmw_diff_cpy used to track the modified bounding box.
+   435	 * return: Zero on success. Negative error value on failure. Will print out
+   436	 * kernel warnings on caller bugs.
+   437	 *
+   438	 * Performs a CPU blit from one buffer object to another avoiding a full
+   439	 * bo vmap which may exhaust- or fragment vmalloc space.
+   440	 * On supported architectures (x86), we're using kmap_atomic which avoids
+   441	 * cross-processor TLB- and cache flushes and may, on non-HIGHMEM systems
+   442	 * reference already set-up mappings.
+   443	 *
+   444	 * Neither of the buffer objects may be placed in PCI memory
+   445	 * (Fixed memory in TTM terminology) when using this function.
+   446	 */
+   447	int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
+   448			    u32 dst_offset, u32 dst_stride,
+   449			    struct ttm_buffer_object *src,
+   450			    u32 src_offset, u32 src_stride,
+   451			    u32 w, u32 h,
+   452			    struct vmw_diff_cpy *diff)
+   453	{
+   454		struct ttm_operation_ctx ctx = {
+   455			.interruptible = false,
+   456			.no_wait_gpu = false
+   457		};
+   458		u32 j, initial_line = dst_offset / dst_stride;
+   459		struct vmw_bo_blit_line_data d = {0};
+   460		int ret = 0;
+   461		struct page **dst_pages = NULL;
+   462		struct page **src_pages = NULL;
+   463	
+   464		/* Buffer objects need to be either pinned or reserved: */
+   465		if (!(dst->pin_count))
+   466			dma_resv_assert_held(dst->base.resv);
+   467		if (!(src->pin_count))
+   468			dma_resv_assert_held(src->base.resv);
+   469	
+   470		if (!ttm_tt_is_populated(dst->ttm)) {
+   471			ret = dst->bdev->funcs->ttm_tt_populate(dst->bdev, dst->ttm, &ctx);
+   472			if (ret)
+   473				return ret;
+   474		}
+   475	
+   476		if (!ttm_tt_is_populated(src->ttm)) {
+   477			ret = src->bdev->funcs->ttm_tt_populate(src->bdev, src->ttm, &ctx);
+   478			if (ret)
+   479				return ret;
+   480		}
+   481	
+   482		if (!src->ttm->pages && src->ttm->sg) {
+   483			src_pages = kvmalloc_array(src->ttm->num_pages,
+   484						   sizeof(struct page *), GFP_KERNEL);
+   485			if (!src_pages)
+   486				return -ENOMEM;
+   487			ret = drm_prime_sg_to_page_array(src->ttm->sg, src_pages,
+   488							 src->ttm->num_pages);
+   489			if (ret)
+   490				goto out;
+   491		}
+   492		if (!dst->ttm->pages && dst->ttm->sg) {
+   493			dst_pages = kvmalloc_array(dst->ttm->num_pages,
+   494						   sizeof(struct page *), GFP_KERNEL);
+   495			if (!dst_pages) {
+   496				ret = -ENOMEM;
+   497				goto out;
+   498			}
+   499			ret = drm_prime_sg_to_page_array(dst->ttm->sg, dst_pages,
+   500							 dst->ttm->num_pages);
+   501			if (ret)
+   502				goto out;
+   503		}
+   504	
+   505		d.mapped_dst = 0;
+   506		d.mapped_src = 0;
+   507		d.dst_addr = NULL;
+   508		d.src_addr = NULL;
+   509		d.dst_pages = dst->ttm->pages ? dst->ttm->pages : dst_pages;
+   510		d.src_pages = src->ttm->pages ? src->ttm->pages : src_pages;
+   511		d.dst_num_pages = PFN_UP(dst->resource->size);
+   512		d.src_num_pages = PFN_UP(src->resource->size);
+   513		d.dst_prot = ttm_io_prot(dst, dst->resource, PAGE_KERNEL);
+   514		d.src_prot = ttm_io_prot(src, src->resource, PAGE_KERNEL);
+   515		d.diff = diff;
+   516	
+   517		for (j = 0; j < h; ++j) {
+   518			diff->line = j + initial_line;
+   519			diff->line_offset = dst_offset % dst_stride;
+   520			ret = vmw_bo_cpu_blit_line(&d, dst_offset, src_offset, w);
+   521			if (ret)
+   522				goto out;
+   523	
+   524			dst_offset += dst_stride;
+   525			src_offset += src_stride;
+   526		}
+   527	out:
+   528		if (d.src_addr)
+   529			kunmap_atomic(d.src_addr);
+   530		if (d.dst_addr)
+   531			kunmap_atomic(d.dst_addr);
+   532		if (src_pages)
+ > 533			kvfree(src_pages);
 
 -- 
 0-DAY CI Kernel Test Service
