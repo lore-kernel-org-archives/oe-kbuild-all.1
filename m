@@ -1,111 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D2A15F41B
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 17:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161362E634
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 18:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725731954; cv=none; b=dKBEfb+YssILcVGDpq/Rmw/PrW2WtNs1QdgwiT94xk7pGWWfO+9BNtvmus7wlVcbefhTT5/G6/I7gyDQTVtB8KDqlCQht8X85zuVbRrF4pDp0pKqZaEoLTpgwsrUe7eB2Y3BCkm0FIw9o4svDL1UKVP/JwDli8bdyde0GVbl5HA=
+	t=1725732515; cv=none; b=OcP6x1KN+ZxVH3JFiFbeEXO0x4SOtxOhsZEKLw89/mcmk9tAvhc0lHxoSw8QHT16VCQ40SUd3aHeuAhWrZy/w3lbWl/66e3PhWoq63NBBXwslRyDr1mTxxyiuwnYMe+BWTJ+kaWqT1wCPvpzqYxmZ5K/vySjvMRMjFXwEdWgLCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725731954; c=relaxed/simple;
-	bh=7W+Y2WI2P8yRIyWHBY18RxuM3cQNL1ZRi9/hscrP9ew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MpzjtZ18onq10YAuuDa2/Tz1+5VaexELsJ4DwNv0CGr+AYNlx1qi0pRqKcKBvhp1oZl0VHgaoIhBuPj4QsGZzI964rFoYVGaweczq7Ppw7n77xdJ0qjSkh/p93Bd1qOZkhm2J+9ztHX0aW418Giq+XxGg7zM1kTn/jseuHCEqpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HU+k8Ci4; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725732515; c=relaxed/simple;
+	bh=bSssqU8hRA8Xp569RnIe4v2HFu3n/oClBhAIrX+W9ig=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YtJFMbZqFJvmGjzGs5S4vIo/J5yNh+/+PfDjljLy/+zweqDW3e10KTTdEA5IHCUM0D2qwfKOwFfve8Utm1gnXwtJDTx8ZXgB+J6I9X1qEDWCfZPSpBnMY24D95042E34Q7IlO++5G4XxPHZpuV7T3ehiSN6hVTp0fFWwGSMM2+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZpFZ9G9p; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HU+k8Ci4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725731952; x=1757267952;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7W+Y2WI2P8yRIyWHBY18RxuM3cQNL1ZRi9/hscrP9ew=;
-  b=HU+k8Ci4PmdmW9tKa/2QAX73BHncSHCMYiB7JiJ3MlKrZ8rah/SegcuS
-   hGP+yLfgPYAoAjj1eR8G26ykysDkzwLxouwkh4/yP1fbqiRJLjfGpc6Wq
-   Q8wI2g1hmqUpBoFOl8DhAFywya8thJV4nrx/tvv8SU8aD04eJDtY4cTb+
-   QgCaktjhUuoCA9IOlOpLazLjj5tGFPoLyxtYNJWNnUaAPlCKmfbwtB4cQ
-   qwEeM/06m6+B30p8e+3oYxUV3wcj8HkUToZsOsfz+xh1OM/7j16n9DF13
-   Fi5JuBbWh6rcJ0CPx077iOZX96SRYhDoPs2iA1o3hOoHoMx98qZlCzsAM
-   Q==;
-X-CSE-ConnectionGUID: 5/lm6CN+TsO3uvwpDHlEQA==
-X-CSE-MsgGUID: FZHoHtUPS7+mP+qxJH+UIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="49882570"
-X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="49882570"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 10:59:11 -0700
-X-CSE-ConnectionGUID: l8Vfll+VRQ+MA6fVyOu7BA==
-X-CSE-MsgGUID: 6UhShR+JQPmdIVXJXH/Kjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="66041591"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Sep 2024 10:59:08 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1smziD-000Cot-1z;
-	Sat, 07 Sep 2024 17:59:05 +0000
-Date: Sun, 8 Sep 2024 01:58:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chen Wang <unicornxw@gmail.com>, ukleinek@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, unicorn_wang@outlook.com,
-	inochiama@outlook.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, chao.wei@sophgo.com,
-	haijiao.liu@sophgo.com, xiaoguang.xing@sophgo.com,
-	chunzhi.lin@sophgo.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] pwm: sophgo: add driver for Sophgo SG2042 PWM
-Message-ID: <202409080100.h6lX5Asm-lkp@intel.com>
-References: <3985690b29340982a45314bdcc914c554621e909.1725536870.git.unicorn_wang@outlook.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZpFZ9G9p"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2f761cfa5d8so1266831fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 07 Sep 2024 11:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725732512; x=1726337312; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NR1R1SW0Q1t+dKgEa9wUl4Z4VxRv8lTW2dHgKzL1NU8=;
+        b=ZpFZ9G9pixwJ3akhgL3oR4rQKwWnxQAs8D5BUkfoLnS6lPAYG3NjHUu5N2C8yD+oPq
+         0vDUmW9QOU6uDOWr7ASys9SUmDwywsfla7pG9CKO4acLiMI6tjiWBJPF2qBPeNlnWxIn
+         c7GNBcWgG+MI0yYXSAxXcv/qX8wAadWuGKrg80PDXuqF3w+2uNcQg61gSsq670gXZGIi
+         0p/uXdiYa3cIrvn/JJT+bJepmTB+XsWqqFOIN6DmVPQtBr2kgTmDShJP8+hOKiGsPle9
+         XT8SB9HxFf8WbQX9CF7s3ByaS8R3uOYtSiDBXx78pLlMB4vryRu01VOTeuCuQoXbw2pJ
+         LpuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725732512; x=1726337312;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NR1R1SW0Q1t+dKgEa9wUl4Z4VxRv8lTW2dHgKzL1NU8=;
+        b=uSHNJ1jsPDk7FCwzbn6uEYYjs4dVnkiY20jI9cnTior+T5R8LATi6b34Z8NtqrfNDj
+         P8ilFxj7hlGp4HuYliFKT++wry3QgFJyRVo5YRikIxCdzmsg/T9Og9zsXB8//KSMeT67
+         Jj9lVOuXwiXZmQcTJ88HafuzLi01JNX3eBswUpurCISakpjxn+E5GwChdpgDtd0JEQ3o
+         ljfpwqJkQdYOG1BtSU1GtPwxyOS5yzj7eKB/9f5OPpXLpu4qHDVwHF8wZoqnOolmTOXH
+         YIGLUYRlDtSfvsQIyBzq6ebjbWXlppyCgjQ3WqqdWY/SDKPf/n18zjk7bTO1RmpVfTf2
+         Wfhg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7spq6UktuS7a5OXq2SA9hSPsBAnb7KIv54h/XgLMR4uEqJB7LCSG6Wvd3U8EAlOBNnkwuaCtWnJTNn9GU@lists.linux.dev
+X-Gm-Message-State: AOJu0YxF/jFMFvPmEfRILvHy2kYGcV8XUvfLSXkVk+LfVKV2fq7RnTK3
+	hSyOJWyf0LMo1xOQVsIQ09y0w72S5aORHJR7Us20l2HesLiNcDcIEUGKVcu3Ot+skm5bchg0qsG
+	paKdKnmsxUZxYTr4l2O1gcc+k+hAxmJ9i+5Wp
+X-Google-Smtp-Source: AGHT+IFlR+1Qb+YTXq4EPxW+1FiKjp0zNBiV9mnQiZoTet9W71LwaLzLvilcxnkCmHKxZxs6hT+FaV7+A8NNXe0Kr8g=
+X-Received: by 2002:a05:6512:39ce:b0:536:54df:bff2 with SMTP id
+ 2adb3069b0e04-53658812f84mr4351889e87.54.1725732511471; Sat, 07 Sep 2024
+ 11:08:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3985690b29340982a45314bdcc914c554621e909.1725536870.git.unicorn_wang@outlook.com>
+References: <202409080151.fMmh2yu4-lkp@intel.com>
+In-Reply-To: <202409080151.fMmh2yu4-lkp@intel.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Sat, 7 Sep 2024 11:07:55 -0700
+Message-ID: <CAJD7tkZy6dwq9-EdVUyJqmbKncrp84wPzxddjWUBAx_x37RhKA@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-unstable 149/155] kismet: WARNING: unmet direct
+ dependencies detected for Z3FOLD when selected by ZSWAP_ZPOOL_DEFAULT_Z3FOLD
+To: kernel test robot <lkp@intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>, 
+	oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Chen,
+On Sat, Sep 7, 2024 at 10:27=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-un=
+stable
+> head:   e8d9739d326fade1f58bc90726d2f9ebe35ae708
+> commit: 4f6a358be27cd25e5e808031cc1715c2b6a0ef6f [149/155] mm: z3fold: de=
+precate CONFIG_Z3FOLD
+> config: x86_64-kismet-CONFIG_Z3FOLD-CONFIG_ZSWAP_ZPOOL_DEFAULT_Z3FOLD-0-0=
+ (https://download.01.org/0day-ci/archive/20240908/202409080151.fMmh2yu4-lk=
+p@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20240908/202409080151=
+.fMmh2yu4-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409080151.fMmh2yu4-lkp=
+@intel.com/
+>
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for Z3FOLD when se=
+lected by ZSWAP_ZPOOL_DEFAULT_Z3FOLD
+>    WARNING: unmet direct dependencies detected for Z3FOLD
+>      Depends on [n]: Z3FOLD_DEPRECATED [=3Dn]
+>      Selected by [y]:
+>      - ZSWAP_ZPOOL_DEFAULT_Z3FOLD [=3Dy] && ZSWAP [=3Dy]
 
-kernel test robot noticed the following build warnings:
+This seems to be working as intended, we cannot enable CONFIG_
+ZSWAP_ZPOOL_DEFAULT_Z3FOLD unless CONFIG_ Z3FOLD_DEPRECATED is
+explicitly enabled. Maybe this isn't the correct way to do it? Should
+I make CONFIG_ ZSWAP_ZPOOL_DEFAULT_Z3FOLD depend on CONFIG_Z3FOLD
+instead of selecting it?
 
-[auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Wang/dt-bindings-pwm-sophgo-add-bindings-for-sg2042/20240905-201303
-base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-patch link:    https://lore.kernel.org/r/3985690b29340982a45314bdcc914c554621e909.1725536870.git.unicorn_wang%40outlook.com
-patch subject: [PATCH 2/2] pwm: sophgo: add driver for Sophgo SG2042 PWM
-config: m68k-randconfig-r133-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080100.h6lX5Asm-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240908/202409080100.h6lX5Asm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409080100.h6lX5Asm-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/pwm/pwm-sophgo-sg2042.c:99:34: warning: 'sg2042_pwm_match' defined but not used [-Wunused-const-variable=]
-      99 | static const struct of_device_id sg2042_pwm_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~
-
-
-vim +/sg2042_pwm_match +99 drivers/pwm/pwm-sophgo-sg2042.c
-
-    98	
-  > 99	static const struct of_device_id sg2042_pwm_match[] = {
-   100		{ .compatible = "sophgo,sg2042-pwm" },
-   101		{ },
-   102	};
-   103	MODULE_DEVICE_TABLE(of, sg2042_pwm_match);
-   104	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
