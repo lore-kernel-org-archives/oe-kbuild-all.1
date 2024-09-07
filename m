@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E119A4689
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 01:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A1412B8B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 02:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725671791; cv=none; b=Pi4owiC22uxZ4rY3bkHWNQJKFnWJ8Gh7CsE5HzDNAidTIG4Lioq/uPyBTWlxNTzwJOUlO/r0dgFouvcGyQz3vEhXHVsctxwYXSM8foBiM98PtL4l9+L1vsYtGBBj7FEjW4wtAYHlv6yKsewy2oMyVu8en6HMh/E73nOKWY3LSMI=
+	t=1725674925; cv=none; b=uey4CX8d5xVXm55JffecesslhbsHZQYNtDb7JHzwZk5ZBCoLgC2ZfHq/pri1hzdgKkEb+CSrekfl7+zPLwpLoUUuFvYsAltpITda9d2WIMLzwP+jXm+Mj3MNickkBzsFCU5ua1Xo3cvf0yw4dgrjKPMry266TpviOI1ng9iT22o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725671791; c=relaxed/simple;
-	bh=zZbzJQfq3GNR6Hjr81wQT2rmOTznbLm/yBw1WiFV3SE=;
+	s=arc-20240116; t=1725674925; c=relaxed/simple;
+	bh=IQu2Zo0elrsu4zOFZg4d1UcPIDvQmTXiNDGpukW/CxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hSewBQAZ24KXHoXcoil7UWunDq3yJIFHWhbGK9JadiLcDEOAtc6WjdImMHO9ZKBGzh2+jqKTaLkxdI1SM3FWbExq/35KAobGTnkCeGZrPbiVHN0yUxS2Xk9fW14w1sXBCjad3n6Q+O/PVQzvQPxQfN1a6rp9kElwUmyxPJ1qREg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZZ+a6YEx; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Z6vBVASjzpeXfHKR0DNmCj3m2/3X5LJREioyr0XtJCL5tBFcGssgm4NI+4M5LKwiXMk4/okTiA1qM165PeosEhn8qR3t/6AZ1u3qUx996cOLBsbjHj/tURhy/rnsQPFhOZ9uyR224s2htPUObb8hp7dTzAQ1tg9+f4FnrAFTeB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oAAl+w2b; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZZ+a6YEx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oAAl+w2b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725671790; x=1757207790;
+  t=1725674924; x=1757210924;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zZbzJQfq3GNR6Hjr81wQT2rmOTznbLm/yBw1WiFV3SE=;
-  b=ZZ+a6YExIG5fMoZCCbHMqesqtvjABbLxCvNdTUmMkrxUQtObkx1dyIux
-   4lBQnjvLNIzvA7gOKfmWI+5nKeDI88zwsYeOhkrVYLta/dgtpgW6KKOBA
-   SHxeLHqDOIPncZ4z0m0nyOdO2QtwW4FkvGpql67O5SvtVm7CwSomcj+ds
-   rVH/qeHtbPteDPn7BOsHbouPLpnLTA21quBXhpKLvuLOsUw9d03e5RUoC
-   Rol0MA7fxOd5UL5tx+95V5QrDqCv6hdakAyQJ8D28zwSg0KJYBviVVqf5
-   MqHcKgBGlx1hzwa1Ljaz7qj2KYCvCgBTi3WNZ4+IF4+N74v+lzcfR2BFS
-   A==;
-X-CSE-ConnectionGUID: p5iO2vKjSh6QdJqHF0H4PQ==
-X-CSE-MsgGUID: ZXeLkG2qShSnEKOsJyAxQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="23949301"
+  bh=IQu2Zo0elrsu4zOFZg4d1UcPIDvQmTXiNDGpukW/CxA=;
+  b=oAAl+w2b8eDRDIEvycjKpbEeZNbMo+uaFj/9Sm6S0oGJIBoYU3qTQUws
+   N4NnIcBo8wsLX5qAf8mora3XSC2e7h9i6S0PaBW0HY0/l124EubxmvxsY
+   RskkGzQSQF7ucIZf4/jg5hWgMP45/dhHu4ztt426d6ZF0+gDENMPoFqlz
+   kQfvyQ9nBxHXN2bmsHKkiJXpY3vFVeMC7w4lKafKeCtMEYufZaJeKNl5k
+   reUmsuuhzl1NzzdLEcC+fAAWE/IiBcm1GGfTTueuDJlwlm/EIQTDSt3QF
+   tX+UO2K/43yxdFFxp0gK3ADOsDFKqS+WuZzt9l8ZFud+wyBLrA9PQKF7j
+   Q==;
+X-CSE-ConnectionGUID: iDxnOAsJQXCqJ5imaY9udA==
+X-CSE-MsgGUID: +feYSI6dSKmtsYIXn/uGyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="27371795"
 X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="23949301"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 18:16:27 -0700
-X-CSE-ConnectionGUID: LIlBMxx+QxWDoGeAZI9irQ==
-X-CSE-MsgGUID: wfFYbuYTT++ESGOaEcEpRg==
+   d="scan'208";a="27371795"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 19:08:43 -0700
+X-CSE-ConnectionGUID: hVjccbRvTkCuuv/CqmcUGg==
+X-CSE-MsgGUID: feKfe51eSZyB3/MeD8ucTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="89386951"
+   d="scan'208";a="70917909"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Sep 2024 18:16:26 -0700
+  by orviesa003.jf.intel.com with ESMTP; 06 Sep 2024 19:08:42 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smk3s-000C0T-0l;
-	Sat, 07 Sep 2024 01:16:24 +0000
-Date: Sat, 7 Sep 2024 09:16:20 +0800
+	id 1smksR-000C2B-1c;
+	Sat, 07 Sep 2024 02:08:39 +0000
+Date: Sat, 7 Sep 2024 10:07:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.10 1/1] open.c:undefined reference to
- `__tracepoint_cros_filp_close_exit'
-Message-ID: <202409070952.G1agzPeI-lkp@intel.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>
+Subject: [linux-next:master 9848/10296] fs/xfs/xfs_file.c:1286:undefined
+ reference to `filemap_fsnotify_fault'
+Message-ID: <202409071013.bbWWqWwI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,92 +64,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
-head:   7a2db0b3dc3443a34101113d7dc52832fb044a17
-commit: 7a2db0b3dc3443a34101113d7dc52832fb044a17 [1/1] CHROMIUM: add cros file tracepoints for bpf
-config: arm64-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240907/202409070952.G1agzPeI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409070952.G1agzPeI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9aaeb87ce1e966169a57f53a02ba05b30880ffb8
+commit: 436df5326f579750c9a03b986e81132c4bab46f6 [9848/10296] xfs: add pre-content fsnotify hook for write faults
+config: arm-randconfig-r031-20230101 (https://download.01.org/0day-ci/archive/20240907/202409071013.bbWWqWwI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071013.bbWWqWwI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409070952.G1agzPeI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409071013.bbWWqWwI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: fs/open.o: in function `trace_cros_filp_close_exit':
->> open.c:(.text+0x106c): undefined reference to `__tracepoint_cros_filp_close_exit'
-   aarch64-linux-ld: fs/open.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_filp_close_exit' which may bind externally can not be used when making a shared object; recompile with -fPIC
->> open.c:(.text+0x106c): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: open.c:(.text+0x1070): undefined reference to `__tracepoint_cros_filp_close_exit'
->> aarch64-linux-ld: open.c:(.text+0x108c): undefined reference to `__traceiter_cros_filp_close_exit'
-   aarch64-linux-ld: fs/open.o: in function `trace_cros_chmod_common_enter':
->> open.c:(.text+0x11a8): undefined reference to `__tracepoint_cros_chmod_common_enter'
-   aarch64-linux-ld: fs/open.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_chmod_common_enter' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   open.c:(.text+0x11a8): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: open.c:(.text+0x11ac): undefined reference to `__tracepoint_cros_chmod_common_enter'
->> aarch64-linux-ld: open.c:(.text+0x11c8): undefined reference to `__traceiter_cros_chmod_common_enter'
-   aarch64-linux-ld: fs/open.o: in function `trace_cros_chmod_common_exit':
->> open.c:(.text+0x12e8): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   aarch64-linux-ld: fs/open.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_chmod_common_exit' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   open.c:(.text+0x12e8): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: open.c:(.text+0x12ec): undefined reference to `__tracepoint_cros_chmod_common_exit'
->> aarch64-linux-ld: open.c:(.text+0x130c): undefined reference to `__traceiter_cros_chmod_common_exit'
-   aarch64-linux-ld: fs/open.o: in function `trace_cros_chown_common_enter':
->> open.c:(.text+0x142c): undefined reference to `__tracepoint_cros_chown_common_enter'
-   aarch64-linux-ld: fs/open.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_chown_common_enter' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   open.c:(.text+0x142c): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: open.c:(.text+0x1430): undefined reference to `__tracepoint_cros_chown_common_enter'
->> aarch64-linux-ld: open.c:(.text+0x144c): undefined reference to `__traceiter_cros_chown_common_enter'
-   aarch64-linux-ld: fs/open.o: in function `chown_common':
->> open.c:(.text+0x2850): undefined reference to `__tracepoint_cros_chown_common_exit'
-   aarch64-linux-ld: fs/open.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_chown_common_exit' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   open.c:(.text+0x2850): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: open.c:(.text+0x2854): undefined reference to `__tracepoint_cros_chown_common_exit'
->> aarch64-linux-ld: open.c:(.text+0x2874): undefined reference to `__traceiter_cros_chown_common_exit'
->> aarch64-linux-ld: fs/open.o:(__jump_table+0x148): undefined reference to `__tracepoint_cros_filp_close_exit'
->> aarch64-linux-ld: fs/open.o:(__jump_table+0x158): undefined reference to `__tracepoint_cros_chmod_common_enter'
->> aarch64-linux-ld: fs/open.o:(__jump_table+0x168): undefined reference to `__tracepoint_cros_chmod_common_exit'
->> aarch64-linux-ld: fs/open.o:(__jump_table+0x178): undefined reference to `__tracepoint_cros_chown_common_enter'
-   aarch64-linux-ld: fs/open.o:(__jump_table+0x1d8): undefined reference to `__tracepoint_cros_chown_common_exit'
-   aarch64-linux-ld: fs/namespace.o: in function `trace_cros_path_umount_entry':
-   namespace.c:(.text+0x1da0): undefined reference to `__tracepoint_cros_path_umount_entry'
-   aarch64-linux-ld: fs/namespace.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_path_umount_entry' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   namespace.c:(.text+0x1da0): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: namespace.c:(.text+0x1da4): undefined reference to `__tracepoint_cros_path_umount_entry'
-   aarch64-linux-ld: namespace.c:(.text+0x1dbc): undefined reference to `__traceiter_cros_path_umount_entry'
-   aarch64-linux-ld: fs/namespace.o: in function `trace_cros_path_umount_exit':
-   namespace.c:(.text+0x1ecc): undefined reference to `__tracepoint_cros_path_umount_exit'
-   aarch64-linux-ld: fs/namespace.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_path_umount_exit' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   namespace.c:(.text+0x1ecc): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: namespace.c:(.text+0x1ed0): undefined reference to `__tracepoint_cros_path_umount_exit'
-   aarch64-linux-ld: namespace.c:(.text+0x1eec): undefined reference to `__traceiter_cros_path_umount_exit'
-   aarch64-linux-ld: fs/namespace.o: in function `trace_cros_path_mount_exit':
-   namespace.c:(.text+0x2028): undefined reference to `__tracepoint_cros_path_mount_exit'
-   aarch64-linux-ld: fs/namespace.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_path_mount_exit' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   namespace.c:(.text+0x2028): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: namespace.c:(.text+0x202c): undefined reference to `__tracepoint_cros_path_mount_exit'
-   aarch64-linux-ld: namespace.c:(.text+0x2054): undefined reference to `__traceiter_cros_path_mount_exit'
-   aarch64-linux-ld: fs/namespace.o:(__jump_table+0xc8): undefined reference to `__tracepoint_cros_path_umount_entry'
-   aarch64-linux-ld: fs/namespace.o:(__jump_table+0xd8): undefined reference to `__tracepoint_cros_path_umount_exit'
-   aarch64-linux-ld: fs/namespace.o:(__jump_table+0xe8): undefined reference to `__tracepoint_cros_path_mount_exit'
-   aarch64-linux-ld: fs/utimes.o: in function `trace_cros_vfs_utimes_exit':
-   utimes.c:(.text+0x154): undefined reference to `__tracepoint_cros_vfs_utimes_exit'
-   aarch64-linux-ld: fs/utimes.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_vfs_utimes_exit' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   utimes.c:(.text+0x154): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: utimes.c:(.text+0x158): undefined reference to `__tracepoint_cros_vfs_utimes_exit'
-   aarch64-linux-ld: utimes.c:(.text+0x174): undefined reference to `__traceiter_cros_vfs_utimes_exit'
-   aarch64-linux-ld: fs/utimes.o: in function `trace_cros_vfs_utimes_enter':
-   utimes.c:(.text+0x2b0): undefined reference to `__tracepoint_cros_vfs_utimes_enter'
-   aarch64-linux-ld: fs/utimes.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__tracepoint_cros_vfs_utimes_enter' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   utimes.c:(.text+0x2b0): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: utimes.c:(.text+0x2b4): undefined reference to `__tracepoint_cros_vfs_utimes_enter'
-   aarch64-linux-ld: utimes.c:(.text+0x2d0): undefined reference to `__traceiter_cros_vfs_utimes_enter'
-   aarch64-linux-ld: fs/utimes.o:(__jump_table+0x48): undefined reference to `__tracepoint_cros_vfs_utimes_exit'
-   aarch64-linux-ld: fs/utimes.o:(__jump_table+0x58): undefined reference to `__tracepoint_cros_vfs_utimes_enter'
+   arm-linux-gnueabi-ld: fs/xfs/xfs_file.o: in function `xfs_write_fault':
+>> fs/xfs/xfs_file.c:1286:(.text+0xd5a): undefined reference to `filemap_fsnotify_fault'
+
+
+vim +1286 fs/xfs/xfs_file.c
+
+  1275	
+  1276	static vm_fault_t
+  1277	xfs_write_fault(
+  1278		struct vm_fault		*vmf,
+  1279		unsigned int		order)
+  1280	{
+  1281		struct inode		*inode = file_inode(vmf->vma->vm_file);
+  1282		struct xfs_inode	*ip = XFS_I(inode);
+  1283		unsigned int		lock_mode = XFS_MMAPLOCK_SHARED;
+  1284		vm_fault_t		ret;
+  1285	
+> 1286		ret = filemap_fsnotify_fault(vmf);
+  1287		if (unlikely(ret))
+  1288			return ret;
+  1289	
+  1290		sb_start_pagefault(inode->i_sb);
+  1291		file_update_time(vmf->vma->vm_file);
+  1292	
+  1293		/*
+  1294		 * Normally we only need the shared mmaplock, but if a reflink remap is
+  1295		 * in progress we take the exclusive lock to wait for the remap to
+  1296		 * finish before taking a write fault.
+  1297		 */
+  1298		xfs_ilock(ip, XFS_MMAPLOCK_SHARED);
+  1299		if (xfs_iflags_test(ip, XFS_IREMAPPING)) {
+  1300			xfs_iunlock(ip, XFS_MMAPLOCK_SHARED);
+  1301			xfs_ilock(ip, XFS_MMAPLOCK_EXCL);
+  1302			lock_mode = XFS_MMAPLOCK_EXCL;
+  1303		}
+  1304	
+  1305		if (IS_DAX(inode))
+  1306			ret = xfs_dax_fault_locked(vmf, order, true);
+  1307		else
+  1308			ret = iomap_page_mkwrite(vmf, &xfs_page_mkwrite_iomap_ops);
+  1309		xfs_iunlock(ip, lock_mode);
+  1310	
+  1311		sb_end_pagefault(inode->i_sb);
+  1312		return ret;
+  1313	}
+  1314	
 
 -- 
 0-DAY CI Kernel Test Service
