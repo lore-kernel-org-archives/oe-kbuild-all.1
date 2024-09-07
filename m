@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0084D15AAC8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 11:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4761F5F6;
+	Sat,  7 Sep 2024 12:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725710083; cv=none; b=Y+3rFRd0Wqa1p4ccidj5RTyHlO09ke8eqh5v42fKLN6yFeyBPaECJfDuWInz3/PMn1pyguWzRsdcanAOD3UO9dzTtyeYpK0qUzh6wD8tVvp13us/R6JyYuVVKGvhFHsY/8ois4E+kw5DU1F90WQ9L3xa1OigSTpb3g2DRa4eIuk=
+	t=1725710740; cv=none; b=cPgf2hbAuF8m0kv0LGAzBZ+ZrNA8qSYxCKFLZZqRjFiLZW8K7QFW5mqZ9/Mug7TK+lN6JrTbQPFmp0tSbabLiW7vH4/W7G9dER+xAPW2FlFaurU/qagqeL1MMPGr0yJjKgPjAdoFoQKdCpUYZXbtQTSyoPjpStsgGh1lO0MuKYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725710083; c=relaxed/simple;
-	bh=oKUuD8qnV6UQNSRtJGOrX7urbL8PTisqqeONlThkFLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fpk+wlOGTQJCTkkNKjgwIwMKuMGJRH+U3+ZTajZ0trn3iQj4+J/nastGuZpGK9GGP69QiiGZKuV6HgqAmRXIYSE2jtmD88N9usHSto87rY1d2hEZBPNzJSHy4QajwT09sUMTUKoc6qQ/HOV6gpG09GlJQbkYk6nA22WoUYztNI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lyxaLxkm; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1725710740; c=relaxed/simple;
+	bh=/UwRberGvU2t1niULN5i19QH04zEg8OqI0wfV+JSEMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XP+GuSfunLO0ayseiNy/VajQzPs7oLZGZ3iNlyLxGO41ZcdlJWsGKoSaA8QA986rCYgFunynWvmc03p+9BYsN5aeT0RJxApA5s1CR/hZIzz66Iu/VRzCgPPn5kKf3zwxDF8h4AxnQpDRVtt7hL8ZyvkxnL7fePHJOiSh3fpUxeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bs7Wb2eS; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lyxaLxkm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bs7Wb2eS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725710081; x=1757246081;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oKUuD8qnV6UQNSRtJGOrX7urbL8PTisqqeONlThkFLQ=;
-  b=lyxaLxkmWXrCgw+wgD2oSB204Cg2NUuGIH/Iw1frHW6z6lj7Vz+hgbuY
-   NCwCiV4saatth8sx8wJKyytJBLr60g3Hu0I2Mc2zbGnZ2mtjkOav215Y1
-   2a+Dp/2ue6xybsXtvGnjwLkPhJrLV9WikW5SGiYJZ3TgJroKK2aJm3I7e
-   idA/t+/n95bKeoN/0qb12tqkDVYV5QKPPHuh3qILXYntdSnaTG0GGT3bq
-   6MpC6u1P4aJpPZiwVdax7gVQzICFSoMGqfO+t90yRTlfiJs7T1DBq0O7c
-   r/i596DSTqwzDaGWffAP8rDFhln7yJ2UC3aHQcG6O23fBa2oKR4+u0gs+
-   w==;
-X-CSE-ConnectionGUID: s0MhdZPQR6upHA52/tPLaQ==
-X-CSE-MsgGUID: ljusGh+HS1W7QgS0kHPUTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="28202415"
+  t=1725710738; x=1757246738;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/UwRberGvU2t1niULN5i19QH04zEg8OqI0wfV+JSEMI=;
+  b=bs7Wb2eSPvCrqT150SrRAZ1kb2Plpjby1Fzo6F9LKitD0w6H8McyGteT
+   CaJAEmaEAm1GQCpn4BF1469Lt3NnmrweB/9AcDMbZOHwMwsIiDgko2mTI
+   ZIykoOriWOKFo0yEBtfY+5OAFGvGoDBhg8FgCsO4b9OmOrpWXddIhi+fF
+   TCStIAX+sQ6f+0O8EJEqDA2Wile1jj/IqgpGnq7nM2a/+iuDrm3AiJRdw
+   6tPbck8rdxQs3TXlEQ8qVdkzs4hwuEF4uA67iV85YkbMegeqtPRoAyDwr
+   BQyeX70VvGVpzZDuKdi2oL/F9+oJ+WkH1CFcR/ZUz6PyiMKaAgwIXX6sl
+   A==;
+X-CSE-ConnectionGUID: ED4SFKkpROSNbLRYwRx9XA==
+X-CSE-MsgGUID: UoL/7PWbT8y7GKfFY8VnGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="49872522"
 X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="28202415"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 04:54:38 -0700
-X-CSE-ConnectionGUID: 64+fxmCNQYu9I/Fj1QxxAA==
-X-CSE-MsgGUID: 3W6+UBdtRaWqUNfp3Nkj4g==
+   d="scan'208";a="49872522"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 05:05:37 -0700
+X-CSE-ConnectionGUID: s5q6p47wSIucd5YEsDyslw==
+X-CSE-MsgGUID: mizN2WkKTySES/SuflFAgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="71013917"
+   d="scan'208";a="70322272"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Sep 2024 04:54:37 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Sep 2024 05:05:37 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smu1S-000CWn-0K;
-	Sat, 07 Sep 2024 11:54:34 +0000
-Date: Sat, 7 Sep 2024 19:54:29 +0800
+	id 1smuC6-000CXF-1K;
+	Sat, 07 Sep 2024 12:05:34 +0000
+Date: Sat, 7 Sep 2024 20:04:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:virtio-mem-logically-offline 7/9]
- mm/page_alloc.c:6895:25: error: implicit declaration of function
- 'generic_online_page'; did you mean 'pfn_to_online_page'?
-Message-ID: <202409071911.2sufM1Dl-lkp@intel.com>
+To: Anthony Yznaga <anthony.yznaga@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 08/10] mm/mshare: Add basic page table sharing
+ support
+Message-ID: <202409071904.cD6tLY7d-lkp@intel.com>
+References: <20240903232241.43995-9-anthony.yznaga@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,106 +63,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240903232241.43995-9-anthony.yznaga@oracle.com>
 
-tree:   https://github.com/davidhildenbrand/linux virtio-mem-logically-offline
-head:   8dabc06448d534cfa588184f76bef6ecbc06458a
-commit: 0860b7bf763a2d4726b86810b14aae75e09c23fc [7/9] mm: factor out code to logically offlining+online page ranges from virtio-mem
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240907/202409071911.2sufM1Dl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071911.2sufM1Dl-lkp@intel.com/reproduce)
+Hi Anthony,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11-rc6 next-20240906]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anthony-Yznaga/mm-Add-msharefs-filesystem/20240904-072513
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240903232241.43995-9-anthony.yznaga%40oracle.com
+patch subject: [RFC PATCH v3 08/10] mm/mshare: Add basic page table sharing support
+config: powerpc64-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240907/202409071904.cD6tLY7d-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071904.cD6tLY7d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409071911.2sufM1Dl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409071904.cD6tLY7d-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/page_alloc.c: In function 'online_logically_offline_pages':
->> mm/page_alloc.c:6895:25: error: implicit declaration of function 'generic_online_page'; did you mean 'pfn_to_online_page'? [-Werror=implicit-function-declaration]
-    6895 |                         generic_online_page(page, order);
-         |                         ^~~~~~~~~~~~~~~~~~~
-         |                         pfn_to_online_page
-   cc1: some warnings being treated as errors
+>> mm/mshare.c:52:3: error: call to undeclared function 'set_p4d'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   set_pgd(guest_pgd, *pgd);
+                   ^
+   include/asm-generic/pgtable-nop4d.h:33:33: note: expanded from macro 'set_pgd'
+   #define set_pgd(pgdptr, pgdval) set_p4d((p4d_t *)(pgdptr), (p4d_t) { pgdval })
+                                   ^
+   1 error generated.
 
 
-vim +6895 mm/page_alloc.c
+vim +/set_p4d +52 mm/mshare.c
 
-  6837	
-  6838	/**
-  6839	 * online_logically_offline_pages: online logically offline pages in online
-  6840	 *				   memory sections
-  6841	 * @pfn: the start PFN specifying the first logically offline page to online
-  6842	 * @pages: the number of logically offline pages to online
-  6843	 *
-  6844	 * Online all pages in the range, releasing them to the buddy.
-  6845	 *
-  6846	 * The pages must be logically offline, either because (a) they were kept
-  6847	 * logically offline when the memory section was onlined using the
-  6848	 * online_page_callback; or (b) because they were logically offlined using
-  6849	 * logically_offline_online_pages(). The range may contain a mixture of
-  6850	 * both types (on pageblock granularity, which is implied).
-  6851	 *
-  6852	 * The caller must make sure that all pages are within the same zone, that
-  6853	 * all memory sections are online, and that the memory sections cannot get
-  6854	 * offlined concurrently.
-  6855	 *
-  6856	 * The range must cover full pageblocks.
-  6857	 *
-  6858	 * Note: there is no requirement regarding the page ranges passed to
-  6859	 * this function and the page ranges passed to logically_offline_online_pages().
-  6860	 * For example, it is valid to call logically_offline_online_pages() on to
-  6861	 * adjacent page ranges and have a single online_logically_offline_pages()
-  6862	 * call that spans the whole page range.
-  6863	 */
-  6864	void online_logically_offline_pages(unsigned long pfn, unsigned long nr_pages)
-  6865	{
-  6866		if (WARN_ON_ONCE(!IS_ALIGNED(pfn | nr_pages, pageblock_nr_pages)))
-  6867			return;
-  6868	
-  6869		while (nr_pages) {
-  6870			struct page *page = pfn_to_page(pfn);
-  6871			int order = MAX_PAGE_ORDER;
-  6872			unsigned long i;
-  6873			bool dirty;
-  6874	
-  6875			/* Try to free in largest granularity possible. */
-  6876			while (!IS_ALIGNED(pfn, 1 << order) || nr_pages < (1 << order))
-  6877				order--;
-  6878	
-  6879			/*
-  6880			 * If the page is not PageDirty(), it was kept logically offline
-  6881			 * when onlining the memory block. Otherwise, it was allocated
-  6882			 * using alloc_contig_range(). All pages in a pageblock are
-  6883			 * alike, but we might get called on ranges where individual
-  6884			 * pageblocks differ.
-  6885			 */
-  6886			dirty = PageDirty(page);
-  6887			for (i = pageblock_nr_pages; i < (1 << order); i += pageblock_nr_pages) {
-  6888				if (dirty ^ !!PageDirty(pfn_to_page(pfn + i))) {
-  6889					order = pageblock_order;
-  6890					break;
-  6891				}
-  6892			}
-  6893	
-  6894			if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG) && !dirty) {
-> 6895				generic_online_page(page, order);
-  6896			} else {
-  6897				VM_WARN_ON_ONCE(!dirty);
-  6898				for (i = 0; i < (1 << order); i++)
-  6899					/* No need to clear PageDirty(). */
-  6900					__ClearPageOffline(pfn_to_page(pfn + i));
-  6901				adjust_managed_page_count(page, 1 << order);
-  6902				free_contig_range(pfn, 1 << order);
-  6903			}
-  6904	
-  6905			pfn += 1 << order;
-  6906			nr_pages -= 1 << order;
-  6907		}
-  6908	}
-  6909	EXPORT_SYMBOL_GPL(online_logically_offline_pages);
-  6910	#endif /* CONFIG_CONTIG_ALLOC */
-  6911	
+    36	
+    37	/* Returns holding the host mm's lock for read.  Caller must release. */
+    38	vm_fault_t
+    39	find_shared_vma(struct vm_area_struct **vmap, unsigned long *addrp)
+    40	{
+    41		struct vm_area_struct *vma, *guest = *vmap;
+    42		struct mshare_data *m_data = guest->vm_private_data;
+    43		struct mm_struct *host_mm = m_data->mm;
+    44		unsigned long host_addr;
+    45		pgd_t *pgd, *guest_pgd;
+    46	
+    47		mmap_read_lock(host_mm);
+    48		host_addr = *addrp - guest->vm_start + host_mm->mmap_base;
+    49		pgd = pgd_offset(host_mm, host_addr);
+    50		guest_pgd = pgd_offset(guest->vm_mm, *addrp);
+    51		if (!pgd_same(*guest_pgd, *pgd)) {
+  > 52			set_pgd(guest_pgd, *pgd);
+    53			mmap_read_unlock(host_mm);
+    54			return VM_FAULT_NOPAGE;
+    55		}
+    56	
+    57		*addrp = host_addr;
+    58		vma = find_vma(host_mm, host_addr);
+    59	
+    60		/* XXX: expand stack? */
+    61		if (vma && vma->vm_start > host_addr)
+    62			vma = NULL;
+    63	
+    64		*vmap = vma;
+    65	
+    66		/*
+    67		 * release host mm lock unless a matching vma is found
+    68		 */
+    69		if (!vma)
+    70			mmap_read_unlock(host_mm);
+    71		return 0;
+    72	}
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
