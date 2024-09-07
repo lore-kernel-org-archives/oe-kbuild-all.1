@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7557B208D1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 05:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145234D8CF;
+	Sat,  7 Sep 2024 05:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725686063; cv=none; b=c4Gp4gA347tc53ZSLy6/dQEi9vGXDVslBs7rhW4nL+AF+PqnOY9b5AF8cXr0pZ33HUpPVcu07BL+88V6mJ+bG0kt+ldg1em26RNfMJKjySDTIpD3j8cFpj2He7Gjbvfl4733ABi/hOiksLqCTvt7QmB2T6tGlZo2wGaBqplqTq8=
+	t=1725686663; cv=none; b=bLbVeAdZ8oSfM1cbD7Wz85pUdElnjtX+A6tLG0jQDmpvGCEivMK1BCzsjyGCMP8w+SQ6SxF0K/x/JBfL9G04xQQRYeRZKU0uhbDupiyxiXTcx/dE02MH/3xhReR2aiKnBW3T858MLCOZ/shQuj+c7aL0lWvYzKUWKGFVMjrk5c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725686063; c=relaxed/simple;
-	bh=dZxDuBicAxgvgmn4wHFSZCYA1KCdN7DlmbppagXZoZ0=;
+	s=arc-20240116; t=1725686663; c=relaxed/simple;
+	bh=2F5ZvEBzkWr2lpMxRtDtFxfq2FqVyGMrHpXkOoW747o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kaq3P1FMcZ5Ura8uVsnJN/z2yakBib7Z9CpiW7NuIMnsElv2uRdBp4322SxdYtZApfY0V5UlLtyBIVvJISYepkr8WEJauQoc9uj5IMgeDkpx+5/obMHv17E4P5EcWpkxc1zo7xG7pz+i0hxf9R9ovhVOOa7xcRUTlPFsoVCZ33M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GL9ZKfjQ; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=h+AMVLIIzKFK9D0FBo4+hj2d2eMn0bvUfeBndGFFIYioyXIOKnmGKv/1eSTeVHsmeKGdgA8rKhya8cs09w2OyZJZznyn/YogwkWHix8z5De9Q2xrdUa5SbOcC16moerpBeuFcdFigvYJo1evPTJaDrfVe2IpNqvLHnhIX1rnPVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lRlbXeSi; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GL9ZKfjQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lRlbXeSi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725686061; x=1757222061;
+  t=1725686662; x=1757222662;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dZxDuBicAxgvgmn4wHFSZCYA1KCdN7DlmbppagXZoZ0=;
-  b=GL9ZKfjQEsh9KOsF9wOrUiEAhjR/NKsKBLNlYaQPRGuURsodfWVTyA8k
-   6yMPJ1vkgW1wHYqFcYJBPMTK/HvXSaVWDruiCSe6+EfhO2bAUYZHha0vB
-   wr0EVO2Aeny6MACcEXyhZtRqhkVFERfrGc0SCedMsMYHp5x8xijeXr+Bu
-   MYCNWEvoVGdE6tWSyZbSF4OBL8tNhRn63/JBl6rQSYI/f/RTRf7bxcp1J
-   BG61/0u3jsVOxdGFIFKLrDco4IowUgjzmca6Gn/qsuPEgdxgFX0dnnJ3j
-   1NQ+Ef41yJxy8U9u6T9MlOfQgr/ZOAiykgi7wZtApJtiqHWBnwOjDIsa4
+  bh=2F5ZvEBzkWr2lpMxRtDtFxfq2FqVyGMrHpXkOoW747o=;
+  b=lRlbXeSiYBOqYznNw4pcT2OXgjkR3Yhel0hdKR8newzuTd7CPaPnIuZa
+   2/nahj3K0tQk1Fk0RgwL8S16dRPUQyChTwyl6t3/UOetUAnoby/dZ3iKY
+   pSTX5ZVXIHKZfHCm0hqleQajGWb5JxwqaiK7P9qNkv1BZFqYT1B+3JDgW
+   zDE8cw3LDZfU2JAk5T7KsXLCPkJf2FNtsC2t12oIT4i/KXuanhUzvjrnK
+   2KT+YAkwcpSY4r0ae0ysQMYo8fkUSa/zyWZBjTRozx39RZzt8pqi7kDNi
+   t8Mtz1ck5Xs5abu6TMzKd/pihaviTAUABp2cgY+HIu6CZ2DpwD4ytP+Zj
    w==;
-X-CSE-ConnectionGUID: w0YlqIkWT8CvKqlKiBpeTQ==
-X-CSE-MsgGUID: rb6T7P3XTlGh0ob9n6C7mQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="24561845"
+X-CSE-ConnectionGUID: ZS5Mmw2sQvap+VcphYLBCw==
+X-CSE-MsgGUID: VSawRcfqQxaXBrWlN+LE5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="24597255"
 X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="24561845"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 22:14:21 -0700
-X-CSE-ConnectionGUID: u0lgZIUcQ26OZfk/4odYdA==
-X-CSE-MsgGUID: AWtbBfRHTNqhmE8pSzVI/A==
+   d="scan'208";a="24597255"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 22:24:21 -0700
+X-CSE-ConnectionGUID: EwlRnuEWRA+Ii7R7hdulhQ==
+X-CSE-MsgGUID: cdameIxKQPiUsB+yDRUBWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="70555306"
+   d="scan'208";a="65782887"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Sep 2024 22:14:19 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 06 Sep 2024 22:24:20 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smnm5-000C8l-1V;
-	Sat, 07 Sep 2024 05:14:17 +0000
-Date: Sat, 7 Sep 2024 13:13:33 +0800
+	id 1smnvl-000C97-20;
+	Sat, 07 Sep 2024 05:24:17 +0000
+Date: Sat, 7 Sep 2024 13:23:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13801/13880]
- include/linux/compiler_types.h:451:45: error: call to
- '__compiletime_assert_465' declared with attribute error: BUILD_BUG failed
-Message-ID: <202409071355.c5MmsI6J-lkp@intel.com>
+To: Tony Lindgren <tony.lindgren@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>
+Subject: ERROR: modpost: "match_devname_and_update_preferred_console"
+ [drivers/tty/serial/serial_base.ko] undefined!
+Message-ID: <202409071312.qlwtTOS1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +63,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   10e0ea7796b38b1d35a6969966016d7a42d77b7f
-commit: c7fcbe1041758d0dedc32502609a73a22884d7b8 [13801/13880] mm: shmem: Merge shmem_alloc_hugefolio() with shmem_alloc_folio()
-config: arm64-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240907/202409071355.c5MmsI6J-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071355.c5MmsI6J-lkp@intel.com/reproduce)
+Hi Tony,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b31c4492884252a8360f312a0ac2049349ddf603
+commit: 12c91cec3155f79216641162a32e04a59abb6e37 serial: core: Add serial_base_match_and_update_preferred_console()
+date:   9 weeks ago
+config: i386-buildonly-randconfig-004-20240907 (https://download.01.org/0day-ci/archive/20240907/202409071312.qlwtTOS1-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071312.qlwtTOS1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409071355.c5MmsI6J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409071312.qlwtTOS1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <command-line>:
-   mm/shmem.c: In function 'shmem_alloc_folio.constprop.isra':
->> include/linux/compiler_types.h:451:45: error: call to '__compiletime_assert_465' declared with attribute error: BUILD_BUG failed
-     451 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:432:25: note: in definition of macro '__compiletime_assert'
-     432 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:451:9: note: in expansion of macro '_compiletime_assert'
-     451 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   include/linux/huge_mm.h:106:28: note: in expansion of macro 'BUILD_BUG'
-     106 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^~~~~~~~~
-   include/linux/huge_mm.h:110:26: note: in expansion of macro 'HPAGE_PMD_SHIFT'
-     110 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-         |                          ^~~~~~~~~~~~~~~
-   mm/shmem.c:1641:64: note: in expansion of macro 'HPAGE_PMD_ORDER'
-    1641 |         folio = vma_alloc_folio(gfp, order, &pvma, 0, order == HPAGE_PMD_ORDER);
-         |                                                                ^~~~~~~~~~~~~~~
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/crypto/crc32-pclmul.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/test_udelay.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/crypto_simd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/platform_profile.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/ati-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/amd-k7-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/amd64-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/nvidia-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/sis-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/via-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/dtlk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/simple/simatic-ipc-leds.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/simple/simatic-ipc-leds-gpio-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/simple/simatic-ipc-leds-gpio-apollolake.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/asus_atk0110.o
+>> ERROR: modpost: "match_devname_and_update_preferred_console" [drivers/tty/serial/serial_base.ko] undefined!
 
-
-vim +/__compiletime_assert_465 +451 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  437  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  438  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  439  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  440  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  441  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  442   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  443   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  444   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  445   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  446   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  447   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  448   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  449   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  450  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @451  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  452  
-
-:::::: The code at line 451 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
 
 -- 
 0-DAY CI Kernel Test Service
