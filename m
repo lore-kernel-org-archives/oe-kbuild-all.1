@@ -1,308 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A54D15F323
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 18:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5799614EC5D;
+	Sat,  7 Sep 2024 18:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725733767; cv=none; b=mKUnuoSQfFS4/v9wVsUO2o3uh+gn5gepd3O9cWBLn9Jt+e+ZtjgU0snc3xtDqfVh/OCCnQGF4NANK/Jl7g4lbqwOcJAuWo5eR35c9n9X7Ysxdg9eyE3RVIsrGOalcGUOf4SKSStx+ZRq7zQ7O6APX+lTL0c0aD3yXV/WvzivH4Y=
+	t=1725734483; cv=none; b=GAzyOJsjHlOoDRnlqwKG4M5dL52gYWCEN6SZ2MaMwnvL6wJrawGhZ4SrgIFcd6+e5L7veQit9apI3LGMVuIHmknWLPJUypjwzw1B0jB+rBnYbPMomNhkSrK4wxLBWvPFuHJNKf/sea21s/TOwop7ee66989nBZMsGoE+WTwcwps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725733767; c=relaxed/simple;
-	bh=QZawVtui7YTRUb8X2T1vaEY4R0nms0AnJSrpvSHSfoE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wtxsig4yw9TkF+NBJCQyHVTrt7OqxXqEIIpuhu8Him1DDHfaHYLtxtd53NVSOQ+/BBcpm9rQM5AG/5HlV8esfPyvLgQKd8fFYNP9S0KxURIt9/c3u+PMi1HvRmzj2V1sZcdmlKjCknpuVAh2LLqdKn/DRHiwXykYdrGODUv2mk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4/G8oar; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1725734483; c=relaxed/simple;
+	bh=QzLPxJNpW0ummtXfm/a7SXko0h0avC25mylKyRU7lT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RSRSb8ektpIQOMm8gluL+VzkSD+iA0x+74iYaUiWMGUi5o2/F5UIy1J+aS4MUmxNCRFn3b0GkPmpVv8zGr3UPOit31mg8i+ZgpEywpRUDsChRZQuVuN9K+qCw6OCmLDzcmN3jkL9k1aTVrpUR0uFfbTaim3/+LfkgZ0lKD1cRf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXWaFZsn; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4/G8oar"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXWaFZsn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725733764; x=1757269764;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=QZawVtui7YTRUb8X2T1vaEY4R0nms0AnJSrpvSHSfoE=;
-  b=g4/G8oarOuebsmAccp4R2rxzPdBRNyQTFJbdf76YNy9r9u71D6haB4f1
-   YLKOKrWy1LCzKSrnqHUOl//c55SB/yVSVtCrCQABdX4tU2hF1dhZgZXmp
-   i9Im7nfNPo4D4EMXCWXUSMs+0hx38ymvgk0KPBnUZ3TrM4Db3kCFpVpWg
-   TzEgjdEIWIDYzrJGE+yn0iKf1LOeEX2pgaN8O8CcqeUfKmMiRz3K34DFh
-   Nq114nSdAHxRBeAbls0eUYeH7XlL+OgIwUnXcUGJu/Tnl+TSlj58rynfB
-   fvUUTAWWNWn7g8XCs1aTO0xAcraxoQRsCs1SBTnApM/DtPrwpjVox98Yg
-   Q==;
-X-CSE-ConnectionGUID: NOWwhaW4SWaajyr0tb45PQ==
-X-CSE-MsgGUID: BXi62KUAQMWk8iZiZ7enqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="35138090"
+  t=1725734481; x=1757270481;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QzLPxJNpW0ummtXfm/a7SXko0h0avC25mylKyRU7lT8=;
+  b=mXWaFZsnu3mwvX/13LaGRoQFz/z+LtclV56vcqEqkpXGpUTgPTyb5HOw
+   bfd3CWefp+SkPnBhm9UyAH4ynYOM0jV56odsNgBOl8HXizAVSe5kHhvXJ
+   kPX24TaPygg9zYa5s8agYM9GGDwy70jW9FJV+s7hkZs6wjPKkweWi+EaE
+   6SNaQPssuJO6G+zlZYh6ZUYgslgl30Ep9ekqytKzef2F9ihvS364JhCIk
+   uP9xnIIcRIFpdXTcDB1Cu191LADyXyzGT6XlqLjmPyja4FC8UpE4cucCM
+   ynHP1VdpQ4iS8vblVkALJmoR0jISG3JoVv3GuU/BVM9QrWtEy9t6NJMjm
+   A==;
+X-CSE-ConnectionGUID: 9KJXcz0JT4qTOw+8gRz8uQ==
+X-CSE-MsgGUID: 9g2BLALXRCqKIyOxb+2wmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24345826"
 X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="35138090"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 11:29:23 -0700
-X-CSE-ConnectionGUID: 9iJY8h3gSjK57VmVCAVpMA==
-X-CSE-MsgGUID: nFTcfgY2Sw+AV03qxS0ULw==
+   d="scan'208";a="24345826"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 11:41:21 -0700
+X-CSE-ConnectionGUID: x5M4F/EDSsC4fViRyX95VA==
+X-CSE-MsgGUID: jinmvRcfQUaqNgf48CmYjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
-   d="scan'208";a="66476984"
+   d="scan'208";a="66239957"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Sep 2024 11:29:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Sep 2024 11:41:19 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sn0BR-000Cqz-0x;
-	Sat, 07 Sep 2024 18:29:17 +0000
-Date: Sun, 8 Sep 2024 02:29:12 +0800
+	id 1sn0N3-000CrP-1c;
+	Sat, 07 Sep 2024 18:41:17 +0000
+Date: Sun, 8 Sep 2024 02:40:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, linux-kernel@vger.kernel.org,
-	jacob.e.keller@intel.com, horms@kernel.org, sd@queasysnail.net,
-	chunkeey@gmail.com
-Subject: Re: [PATCHv3 net-next 9/9] net: ibm: emac: get rid of wol_irq
-Message-ID: <202409080218.RmYLjpwK-lkp@intel.com>
-References: <20240905201506.12679-10-rosenp@gmail.com>
+To: Steve Jeong <how2soft@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.6.y 41/82] drivers/char/aml-gpiomem.c:129:22:
+ error: call to undeclared function 'phys_mem_access_prot'; ISO C99 and later
+ do not support implicit function declarations
+Message-ID: <202409080228.5faeeBw8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240905201506.12679-10-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-ibm-emac-use-devm-for-alloc_etherdev/20240906-042738
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240905201506.12679-10-rosenp%40gmail.com
-patch subject: [PATCHv3 net-next 9/9] net: ibm: emac: get rid of wol_irq
-config: powerpc-redwood_defconfig (https://download.01.org/0day-ci/archive/20240908/202409080218.RmYLjpwK-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080218.RmYLjpwK-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   c970a63609188f53cf758a3dcd395e777150a29a
+commit: 5e7a0fcf547e3b4f54e37972019abef8e78192a7 [41/82] ODROID-N2/C4: char: Add /dev/gpiomem device
+config: s390-randconfig-002-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080228.5faeeBw8-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080228.5faeeBw8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409080218.RmYLjpwK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409080228.5faeeBw8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/ibm/emac/core.c: In function 'emac_probe':
->> drivers/net/ethernet/ibm/emac/core.c:3060:17: error: label 'err_irq_unmap' used but not defined
-    3060 |                 goto err_irq_unmap;
-         |                 ^~~~
+   In file included from drivers/char/aml-gpiomem.c:55:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/char/aml-gpiomem.c:55:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/char/aml-gpiomem.c:55:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/char/aml-gpiomem.c:129:22: error: call to undeclared function 'phys_mem_access_prot'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+                               ^
+   drivers/char/aml-gpiomem.c:129:20: error: assigning to 'pgprot_t' from incompatible type 'int'
+           vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 warnings and 2 errors generated.
 
 
-vim +/err_irq_unmap +3060 drivers/net/ethernet/ibm/emac/core.c
+vim +/phys_mem_access_prot +129 drivers/char/aml-gpiomem.c
 
-15efc02b2625f1 drivers/net/ibm_newemac/core.c       Alexander Beregalov 2009-04-09  2988  
-fe17dc1e2bae85 drivers/net/ethernet/ibm/emac/core.c Bill Pemberton      2012-12-03  2989  static int emac_probe(struct platform_device *ofdev)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  2990  {
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  2991  	struct net_device *ndev;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  2992  	struct emac_instance *dev;
-61c7a080a5a061 drivers/net/ibm_newemac/core.c       Grant Likely        2010-04-13  2993  	struct device_node *np = ofdev->dev.of_node;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  2994  	struct device_node **blist = NULL;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  2995  	int err, i;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  2996  
-be63c09afe9153 drivers/net/ibm_newemac/core.c       Josh Boyer          2008-04-22  2997  	/* Skip unused/unwired EMACS.  We leave the check for an unused
-be63c09afe9153 drivers/net/ibm_newemac/core.c       Josh Boyer          2008-04-22  2998  	 * property here for now, but new flat device trees should set a
-be63c09afe9153 drivers/net/ibm_newemac/core.c       Josh Boyer          2008-04-22  2999  	 * status property to "disabled" instead.
-be63c09afe9153 drivers/net/ibm_newemac/core.c       Josh Boyer          2008-04-22  3000  	 */
-1a87e641d8a50c drivers/net/ethernet/ibm/emac/core.c Rob Herring         2023-03-14  3001  	if (of_property_read_bool(np, "unused") || !of_device_is_available(np))
-3d722562d73483 drivers/net/ibm_newemac/core.c       Hugh Blemings       2007-12-05  3002  		return -ENODEV;
-3d722562d73483 drivers/net/ibm_newemac/core.c       Hugh Blemings       2007-12-05  3003  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3004  	/* Find ourselves in the bootlist if we are there */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3005  	for (i = 0; i < EMAC_BOOT_LIST_SIZE; i++)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3006  		if (emac_boot_list[i] == np)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3007  			blist = &emac_boot_list[i];
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3008  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3009  	/* Allocate our net_device structure */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3010  	err = -ENOMEM;
-c7de481bca2013 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3011  	ndev = devm_alloc_etherdev(&ofdev->dev, sizeof(struct emac_instance));
-41de8d4cff21a2 drivers/net/ethernet/ibm/emac/core.c Joe Perches         2012-01-29  3012  	if (!ndev)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3013  		goto err_gone;
-41de8d4cff21a2 drivers/net/ethernet/ibm/emac/core.c Joe Perches         2012-01-29  3014  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3015  	dev = netdev_priv(ndev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3016  	dev->ndev = ndev;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3017  	dev->ofdev = ofdev;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3018  	dev->blist = blist;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3019  	SET_NETDEV_DEV(ndev, &ofdev->dev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3020  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3021  	/* Initialize some embedded data structures */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3022  	mutex_init(&dev->mdio_lock);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3023  	mutex_init(&dev->link_lock);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3024  	spin_lock_init(&dev->lock);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3025  	INIT_WORK(&dev->reset_work, emac_reset_work);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3026  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3027  	/* Init various config data based on device-tree */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3028  	err = emac_init_config(dev);
-138b57f0f89387 drivers/net/ethernet/ibm/emac/core.c Christophe Jaillet  2017-08-20  3029  	if (err)
-c7de481bca2013 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3030  		goto err_gone;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3031  
-cabb2424d4d5d4 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3032  	/* Get interrupts. EMAC irq is mandatory */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3033  	dev->emac_irq = irq_of_parse_and_map(np, 0);
-99c1790e5bbd31 drivers/net/ethernet/ibm/emac/core.c Michael Ellerman    2016-09-10  3034  	if (!dev->emac_irq) {
-f7ce91038d5278 drivers/net/ethernet/ibm/emac/core.c Rob Herring         2017-07-18  3035  		printk(KERN_ERR "%pOF: Can't map main interrupt\n", np);
-138b57f0f89387 drivers/net/ethernet/ibm/emac/core.c Christophe Jaillet  2017-08-20  3036  		err = -ENODEV;
-c7de481bca2013 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3037  		goto err_gone;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3038  	}
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3039  
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3040  	/* Setup error IRQ handler */
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3041  	err = devm_request_irq(&ofdev->dev, dev->emac_irq, emac_irq, 0, "EMAC", dev);
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3042  	if (err) {
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3043  		dev_err_probe(&ofdev->dev, err, "failed to request IRQ %d", dev->emac_irq);
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3044  		goto err_gone;
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3045  	}
-55b3f1525a5443 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3046  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3047  	ndev->irq = dev->emac_irq;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3048  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3049  	/* Map EMAC regs */
-138b57f0f89387 drivers/net/ethernet/ibm/emac/core.c Christophe Jaillet  2017-08-20  3050  	// TODO : platform_get_resource() and devm_ioremap_resource()
-154cc24d587dd8 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3051  	dev->emacp = devm_of_iomap(&ofdev->dev, np, 0, NULL);
-154cc24d587dd8 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3052  	if (!dev->emacp) {
-154cc24d587dd8 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3053  		err = dev_err_probe(&ofdev->dev, -ENOMEM, "can't map device registers");
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3054  		goto err_irq_unmap;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3055  	}
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3056  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3057  	/* Wait for dependent devices */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3058  	err = emac_wait_deps(dev);
-b941327b6eb37f drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3059  	if (err)
-154cc24d587dd8 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05 @3060  		goto err_irq_unmap;
-bc353832565635 drivers/net/ethernet/ibm/emac/core.c Jingoo Han          2013-09-02  3061  	dev->mal = platform_get_drvdata(dev->mal_dev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3062  	if (dev->mdio_dev != NULL)
-bc353832565635 drivers/net/ethernet/ibm/emac/core.c Jingoo Han          2013-09-02  3063  		dev->mdio_instance = platform_get_drvdata(dev->mdio_dev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3064  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3065  	/* Register with MAL */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3066  	dev->commac.ops = &emac_commac_ops;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3067  	dev->commac.dev = dev;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3068  	dev->commac.tx_chan_mask = MAL_CHAN_MASK(dev->mal_tx_chan);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3069  	dev->commac.rx_chan_mask = MAL_CHAN_MASK(dev->mal_rx_chan);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3070  	err = mal_register_commac(dev->mal, &dev->commac);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3071  	if (err) {
-f7ce91038d5278 drivers/net/ethernet/ibm/emac/core.c Rob Herring         2017-07-18  3072  		printk(KERN_ERR "%pOF: failed to register with mal %pOF!\n",
-f7ce91038d5278 drivers/net/ethernet/ibm/emac/core.c Rob Herring         2017-07-18  3073  		       np, dev->mal_dev->dev.of_node);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3074  		goto err_rel_deps;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3075  	}
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3076  	dev->rx_skb_size = emac_rx_skb_size(ndev->mtu);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3077  	dev->rx_sync_size = emac_rx_sync_size(ndev->mtu);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3078  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3079  	/* Get pointers to BD rings */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3080  	dev->tx_desc =
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3081  	    dev->mal->bd_virt + mal_tx_bd_offset(dev->mal, dev->mal_tx_chan);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3082  	dev->rx_desc =
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3083  	    dev->mal->bd_virt + mal_rx_bd_offset(dev->mal, dev->mal_rx_chan);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3084  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3085  	DBG(dev, "tx_desc %p" NL, dev->tx_desc);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3086  	DBG(dev, "rx_desc %p" NL, dev->rx_desc);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3087  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3088  	/* Clean rings */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3089  	memset(dev->tx_desc, 0, NUM_TX_BUFF * sizeof(struct mal_descriptor));
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3090  	memset(dev->rx_desc, 0, NUM_RX_BUFF * sizeof(struct mal_descriptor));
-ab9b30cc3ec868 drivers/net/ibm_newemac/core.c       Sathya Narayanan    2008-07-01  3091  	memset(dev->tx_skb, 0, NUM_TX_BUFF * sizeof(struct sk_buff *));
-ab9b30cc3ec868 drivers/net/ibm_newemac/core.c       Sathya Narayanan    2008-07-01  3092  	memset(dev->rx_skb, 0, NUM_RX_BUFF * sizeof(struct sk_buff *));
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3093  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3094  	/* Attach to ZMII, if needed */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3095  	if (emac_has_feature(dev, EMAC_FTR_HAS_ZMII) &&
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3096  	    (err = zmii_attach(dev->zmii_dev, dev->zmii_port, &dev->phy_mode)) != 0)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3097  		goto err_unreg_commac;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3098  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3099  	/* Attach to RGMII, if needed */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3100  	if (emac_has_feature(dev, EMAC_FTR_HAS_RGMII) &&
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3101  	    (err = rgmii_attach(dev->rgmii_dev, dev->rgmii_port, dev->phy_mode)) != 0)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3102  		goto err_detach_zmii;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3103  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3104  	/* Attach to TAH, if needed */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3105  	if (emac_has_feature(dev, EMAC_FTR_HAS_TAH) &&
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3106  	    (err = tah_attach(dev->tah_dev, dev->tah_port)) != 0)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3107  		goto err_detach_rgmii;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3108  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3109  	/* Set some link defaults before we can find out real parameters */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3110  	dev->phy.speed = SPEED_100;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3111  	dev->phy.duplex = DUPLEX_FULL;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3112  	dev->phy.autoneg = AUTONEG_DISABLE;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3113  	dev->phy.pause = dev->phy.asym_pause = 0;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3114  	dev->stop_timeout = STOP_TIMEOUT_100;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3115  	INIT_DELAYED_WORK(&dev->link_work, emac_link_timer);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3116  
-ae5d33723e3253 drivers/net/ethernet/ibm/emac/core.c Duc Dang            2012-03-05  3117  	/* Some SoCs like APM821xx does not support Half Duplex mode. */
-ae5d33723e3253 drivers/net/ethernet/ibm/emac/core.c Duc Dang            2012-03-05  3118  	if (emac_has_feature(dev, EMAC_FTR_APM821XX_NO_HALF_DUPLEX)) {
-ae5d33723e3253 drivers/net/ethernet/ibm/emac/core.c Duc Dang            2012-03-05  3119  		dev->phy_feat_exc = (SUPPORTED_1000baseT_Half |
-ae5d33723e3253 drivers/net/ethernet/ibm/emac/core.c Duc Dang            2012-03-05  3120  				     SUPPORTED_100baseT_Half |
-ae5d33723e3253 drivers/net/ethernet/ibm/emac/core.c Duc Dang            2012-03-05  3121  				     SUPPORTED_10baseT_Half);
-ae5d33723e3253 drivers/net/ethernet/ibm/emac/core.c Duc Dang            2012-03-05  3122  	}
-ae5d33723e3253 drivers/net/ethernet/ibm/emac/core.c Duc Dang            2012-03-05  3123  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3124  	/* Find PHY if any */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3125  	err = emac_init_phy(dev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3126  	if (err != 0)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3127  		goto err_detach_tah;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3128  
-5e4011e2b8032c drivers/net/ibm_newemac/core.c       Michał Mirosław     2011-04-17  3129  	if (dev->tah_dev) {
-5e4011e2b8032c drivers/net/ibm_newemac/core.c       Michał Mirosław     2011-04-17  3130  		ndev->hw_features = NETIF_F_IP_CSUM | NETIF_F_SG;
-5e4011e2b8032c drivers/net/ibm_newemac/core.c       Michał Mirosław     2011-04-17  3131  		ndev->features |= ndev->hw_features | NETIF_F_RXCSUM;
-5e4011e2b8032c drivers/net/ibm_newemac/core.c       Michał Mirosław     2011-04-17  3132  	}
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3133  	ndev->watchdog_timeo = 5 * HZ;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3134  	if (emac_phy_supports_gige(dev->phy_mode)) {
-15efc02b2625f1 drivers/net/ibm_newemac/core.c       Alexander Beregalov 2009-04-09  3135  		ndev->netdev_ops = &emac_gige_netdev_ops;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3136  		dev->commac.ops = &emac_commac_sg_ops;
-15efc02b2625f1 drivers/net/ibm_newemac/core.c       Alexander Beregalov 2009-04-09  3137  	} else
-15efc02b2625f1 drivers/net/ibm_newemac/core.c       Alexander Beregalov 2009-04-09  3138  		ndev->netdev_ops = &emac_netdev_ops;
-7ad24ea4bf620a drivers/net/ethernet/ibm/emac/core.c Wilfried Klaebe     2014-05-11  3139  	ndev->ethtool_ops = &emac_ethtool_ops;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3140  
-3d5d96acfeb9dd drivers/net/ethernet/ibm/emac/core.c Jarod Wilson        2016-10-17  3141  	/* MTU range: 46 - 1500 or whatever is in OF */
-3d5d96acfeb9dd drivers/net/ethernet/ibm/emac/core.c Jarod Wilson        2016-10-17  3142  	ndev->min_mtu = EMAC_MIN_MTU;
-3d5d96acfeb9dd drivers/net/ethernet/ibm/emac/core.c Jarod Wilson        2016-10-17  3143  	ndev->max_mtu = dev->max_mtu;
-3d5d96acfeb9dd drivers/net/ethernet/ibm/emac/core.c Jarod Wilson        2016-10-17  3144  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3145  	netif_carrier_off(ndev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3146  
-19245845d17958 drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3147  	err = devm_register_netdev(&ofdev->dev, ndev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3148  	if (err) {
-f7ce91038d5278 drivers/net/ethernet/ibm/emac/core.c Rob Herring         2017-07-18  3149  		printk(KERN_ERR "%pOF: failed to register net device (%d)!\n",
-f7ce91038d5278 drivers/net/ethernet/ibm/emac/core.c Rob Herring         2017-07-18  3150  		       np, err);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3151  		goto err_detach_tah;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3152  	}
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3153  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3154  	/* Set our drvdata last as we don't want them visible until we are
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3155  	 * fully initialized
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3156  	 */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3157  	wmb();
-bc353832565635 drivers/net/ethernet/ibm/emac/core.c Jingoo Han          2013-09-02  3158  	platform_set_drvdata(ofdev, dev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3159  
-f7ce91038d5278 drivers/net/ethernet/ibm/emac/core.c Rob Herring         2017-07-18  3160  	printk(KERN_INFO "%s: EMAC-%d %pOF, MAC %pM\n",
-f7ce91038d5278 drivers/net/ethernet/ibm/emac/core.c Rob Herring         2017-07-18  3161  	       ndev->name, dev->cell_index, np, ndev->dev_addr);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3162  
-78b69921a12568 drivers/net/ethernet/ibm/emac/core.c Christian Lamparter 2017-12-20  3163  	if (dev->phy_mode == PHY_INTERFACE_MODE_SGMII)
-9e3cb29497561c drivers/net/ibm_newemac/core.c       Victor Gallardo     2008-10-01  3164  		printk(KERN_NOTICE "%s: in SGMII mode\n", ndev->name);
-9e3cb29497561c drivers/net/ibm_newemac/core.c       Victor Gallardo     2008-10-01  3165  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3166  	if (dev->phy.address >= 0)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3167  		printk("%s: found %s PHY (0x%02x)\n", ndev->name,
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3168  		       dev->phy.def->name, dev->phy.address);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3169  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3170  	/* Life is good */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3171  	return 0;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3172  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3173  	/* I have a bad feeling about this ... */
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3174  
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3175   err_detach_tah:
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3176  	if (emac_has_feature(dev, EMAC_FTR_HAS_TAH))
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3177  		tah_detach(dev->tah_dev, dev->tah_port);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3178   err_detach_rgmii:
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3179  	if (emac_has_feature(dev, EMAC_FTR_HAS_RGMII))
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3180  		rgmii_detach(dev->rgmii_dev, dev->rgmii_port);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3181   err_detach_zmii:
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3182  	if (emac_has_feature(dev, EMAC_FTR_HAS_ZMII))
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3183  		zmii_detach(dev->zmii_dev, dev->zmii_port);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3184   err_unreg_commac:
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3185  	mal_unregister_commac(dev->mal, &dev->commac);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3186   err_rel_deps:
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3187  	emac_put_deps(dev);
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3188   err_gone:
-b941327b6eb37f drivers/net/ethernet/ibm/emac/core.c Rosen Penev         2024-09-05  3189  	if (blist)
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3190  		*blist = NULL;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3191  	return err;
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3192  }
-1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson        2007-08-23  3193  
+   112	
+   113	static int aml_gpiomem_mmap(struct file *file, struct vm_area_struct *vma)
+   114	{
+   115		int gpio_area = 0;
+   116		unsigned long start = vma->vm_pgoff << PAGE_SHIFT;
+   117		unsigned long end   = start + vma->vm_end - vma->vm_start;
+   118	
+   119		while (gpio_area < inst->gpio_area_count) {
+   120			if ((inst->gpio_regs_phys[gpio_area].start >= start) &&
+   121			    (inst->gpio_regs_phys[gpio_area].end   <= end))
+   122				goto found;
+   123			gpio_area++;
+   124		}
+   125	
+   126		return -EACCES;
+   127	
+   128	found:
+ > 129		vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+   130				vma->vm_end - vma->vm_start,
+   131				vma->vm_page_prot);
+   132	
+   133		vma->vm_ops = &aml_gpiomem_vm_ops;
+   134	
+   135		if (remap_pfn_range(vma, vma->vm_start,
+   136					vma->vm_pgoff,
+   137					vma->vm_end - vma->vm_start,
+   138					vma->vm_page_prot)) {
+   139			return -EAGAIN;
+   140		}
+   141	
+   142		return 0;
+   143	}
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
