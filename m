@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BC3175D4C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 20:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D616C12B17C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 21:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725828223; cv=none; b=owDhfL+CDvMmDRgONFz4FUZoohZRddFq3xTTWE9WabFTxWaTOoJ3N4cbrnlOI8qfsWwcv9nvd0fxor4V6p6EEQL0JnOaM+MyVvOrwAY/x1z8o0k3BQmAcPy3hpJytP2dby30X1Xz3FmfU+Ige4H7YbFx1aKD50Pwy3YckcsaYWk=
+	t=1725830084; cv=none; b=sRLxcGy2XClROpVs835FnFU26IIhiJ00gTNDRJv4oiAjBLTd70ncjQ0hh0kaLTUNiRN5zPj8k2xetc0+pGp6HmApwnt42q+RS6jgDvL+XWpZSi0lW1TPnKORfgHHuRQ4YqIQY6sMOEOVVt6W3ZnJfZ/XOavnB7HgfIHOD4K0qsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725828223; c=relaxed/simple;
-	bh=wIT+rER6pHJKu7Key9x5ftUsxF+D/o+8tVRYJSIvHOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=La3qoNNRoIgEyRHlK6eVpwqF2pmPgLA7I5GWZ/06m5RL030VQagDHrZiSs320RvML3svRWTd6jcX2yZSjoshus1ntkoOU3OueHBq2tJYbEEI/liKp9Bl40FXCTHH56ioUZsBEQ7c0LSJQQ8o4Jvm65JVCALkUXVj58UrB3ejDBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dfDOvPke; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1725830084; c=relaxed/simple;
+	bh=1Xk73ax5oKiABCWAg8O8BkxKn6moOYWL1M5Oju+iytE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XRNJ9MsBWHsUZTY3KhOCOLakknpcvaSR0lf8VGW5f0XcoCwUW/TI/XcyyZvq8WFo7QsZRp3RWpGWaUzfK4rbCJzl0ryHNgTWk/INUWwfS4EuZJpFs1v22QaAav3XCgtKABoqEefM23Zh0R3mubBQGvjECwuc1dB2j1G0jRpvZB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cmq+zEDX; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dfDOvPke"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cmq+zEDX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725828222; x=1757364222;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wIT+rER6pHJKu7Key9x5ftUsxF+D/o+8tVRYJSIvHOo=;
-  b=dfDOvPkesfMhoYEgA3pyt4h5U8SCsvVb3HcqUZRSNqvvbODrgnvA83oT
-   xNHWHF/4ijVNwE6Ol4gs5DmfgyirkB30MgSa1AyDcIymre1UJ7kwO1nyT
-   BH+jbUXxa2d0/Qg+/L3ZGT6ybXt5XUyWCmdm57SfqwL5AxXm5zXaSwLHM
-   L2ZtZogeBBYXFclDv2t2nnz5B1UvjVM5oNNcjMJ3w+4DHz3X3fxYlNXxd
-   bYcO9xhmlSH1hia9SS/QRYgzifCSnvtZRIw3txgXYkHzJlng/nRmcic54
-   j/1FufeW0Ipl6/OztBdRmla+XCNFHS54M3eb2PLD3CNiQLG1HmAa6JQEg
-   A==;
-X-CSE-ConnectionGUID: 8xnbTVn7R8yEclzkDPxh2w==
-X-CSE-MsgGUID: 5dMpnYVnS4ClVcH2BZp70A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24653836"
+  t=1725830082; x=1757366082;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1Xk73ax5oKiABCWAg8O8BkxKn6moOYWL1M5Oju+iytE=;
+  b=Cmq+zEDX1A+XsjGFQGVTiR97sXJf08Dzxf1wZuRtcvCBP9aS8iLVTM5r
+   hv5Fz1YwWl9aSFNftWHNJLsa59rP8K8MAQBrWnsJr2RmNCRqIjq4Nc8ac
+   mfCls6xnchDhnu0uubIQI/Lht30FK9m8ZZaqQNErerqKKZUaWaEGVH2OS
+   vHHTHDFS2rUilkLeOk+lhnv9G9ngafa1Ma6eo2cDcixj1BmaB2V6ZwwqD
+   TadmpiSh3f3WctLYBkf3x4HNOKpyjtcdpmQtCMuh2qoX3RN40lw4mKuZ+
+   WmVLk3K+qYlXA8mgcohl0omBFQh6qvtw7iyK6mOseQ39sIdr/p5ETEY30
+   Q==;
+X-CSE-ConnectionGUID: 4lSeB8suQT6z18hx3Nd2EQ==
+X-CSE-MsgGUID: xkqAxaQKRruLcCiV/UrJ4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35888282"
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="24653836"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 13:43:41 -0700
-X-CSE-ConnectionGUID: eWj3wzlJRDS9whsdOO0dTw==
-X-CSE-MsgGUID: O3qkdLX4RzKc4hz194nhxQ==
+   d="scan'208";a="35888282"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 14:14:41 -0700
+X-CSE-ConnectionGUID: ANTTFDpeQpSfPDSwFj96AA==
+X-CSE-MsgGUID: MEfXHuPzQ9yESG7SKZ5iYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="71426199"
+   d="scan'208";a="67203519"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Sep 2024 13:43:39 -0700
+  by orviesa008.jf.intel.com with ESMTP; 08 Sep 2024 14:14:40 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snOky-000Dxj-2x;
-	Sun, 08 Sep 2024 20:43:36 +0000
-Date: Mon, 9 Sep 2024 04:43:31 +0800
+	id 1snPEz-000Dyb-2R;
+	Sun, 08 Sep 2024 21:14:37 +0000
+Date: Mon, 9 Sep 2024 05:14:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [linux-next:master 8222/10296]
- arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: isp@fed00000: compatible:
- ['renesas,r8a779a0-isp', 'renesas,rcar-gen4-isp'] is too long
-Message-ID: <202409090429.0RWCQov3-lkp@intel.com>
+To: Cedric Xing <cedric.xing@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 1/3] tsm: Add TVM Measurement Register Support
+Message-ID: <202409090445.njWQqnOA-lkp@intel.com>
+References: <20240907-tsm-rtmr-v1-1-12fc4d43d4e7@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,43 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240907-tsm-rtmr-v1-1-12fc4d43d4e7@intel.com>
 
-Hi Niklas,
+Hi Cedric,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9aaeb87ce1e966169a57f53a02ba05b30880ffb8
-commit: af9e91cb97923b79dc4be6f9eb8359c6bb98be52 [8222/10296] arm64: dts: renesas: r8a779a0: Add family fallback for CSISP IP
-config: arm64-randconfig-053-20240904 (https://download.01.org/0day-ci/archive/20240909/202409090429.0RWCQov3-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-dtschema version: 2024.6.dev16+gc51125d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090429.0RWCQov3-lkp@intel.com/reproduce)
+[auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Xing/tsm-Add-TVM-Measurement-Register-Support/20240908-142434
+base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+patch link:    https://lore.kernel.org/r/20240907-tsm-rtmr-v1-1-12fc4d43d4e7%40intel.com
+patch subject: [PATCH RFC 1/3] tsm: Add TVM Measurement Register Support
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240909/202409090445.njWQqnOA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090445.njWQqnOA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409090429.0RWCQov3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409090445.njWQqnOA-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: video@e6ede000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,vin-r8a779a0', 'renesas,rcar-gen4-vin'] is too long
-   	'renesas,vin-r8a779a0' is not one of ['renesas,vin-r8a7742', 'renesas,vin-r8a7743', 'renesas,vin-r8a7744', 'renesas,vin-r8a7745', 'renesas,vin-r8a77470', 'renesas,vin-r8a7790', 'renesas,vin-r8a7791', 'renesas,vin-r8a7792', 'renesas,vin-r8a7793', 'renesas,vin-r8a7794']
-   	'renesas,rcar-gen2-vin' was expected
-   	from schema $id: http://devicetree.org/schemas/media/renesas,vin.yaml#
-   arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: video@e6edf000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,vin-r8a779a0', 'renesas,rcar-gen4-vin'] is too long
-   	'renesas,vin-r8a779a0' is not one of ['renesas,vin-r8a7742', 'renesas,vin-r8a7743', 'renesas,vin-r8a7744', 'renesas,vin-r8a7745', 'renesas,vin-r8a77470', 'renesas,vin-r8a7790', 'renesas,vin-r8a7791', 'renesas,vin-r8a7792', 'renesas,vin-r8a7793', 'renesas,vin-r8a7794']
-   	'renesas,rcar-gen2-vin' was expected
-   	from schema $id: http://devicetree.org/schemas/media/renesas,vin.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: isp@fed00000: compatible: ['renesas,r8a779a0-isp', 'renesas,rcar-gen4-isp'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: isp@fed20000: compatible: ['renesas,r8a779a0-isp', 'renesas,rcar-gen4-isp'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: isp@fed30000: compatible: ['renesas,r8a779a0-isp', 'renesas,rcar-gen4-isp'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: isp@fed40000: compatible: ['renesas,r8a779a0-isp', 'renesas,rcar-gen4-isp'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:374,
+                    from include/linux/uuid.h:11,
+                    from include/linux/tsm.h:7,
+                    from drivers/virt/coco/tsm.c:4:
+   drivers/virt/coco/tsm.c: In function '_mr_write':
+>> include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'ssize_t' {aka 'int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:437:25: note: in definition of macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:518:9: note: in expansion of macro 'printk'
+     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:518:16: note: in expansion of macro 'KERN_WARNING'
+     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/virt/coco/tsm.c:632:17: note: in expansion of macro 'pr_warn'
+     632 |                 pr_warn(KBUILD_MODNAME ": extending %s/%s failed with %ld\n",
+         |                 ^~~~~~~
+
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
