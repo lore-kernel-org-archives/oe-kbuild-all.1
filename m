@@ -1,72 +1,205 @@
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81511145FE5
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 21:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7409139CF2
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 22:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725831265; cv=none; b=VB2/CYfnWANkTMo1K/VCxNcwSdzD3OwtfsXeCoGy6If75+vRfBmKBFt/dDOtjY8AANofQXCCh8tv8OCO3XwtopCG9OXeBRUKBZ7Bd4PTYpw6J86FwUMNzYAquai9y3D7EwIyEoYOdv6nv6hgkMeeK1MMaH/WQK6SRUerOft2LHw=
+	t=1725833208; cv=none; b=qcyW48x5NGHnCr6m+lsL80wUBmT2R1q0/gQW84c8jnx8tram0EQLlQQU+Hd/Zc+pEZB8cwinSKbp90R5DwDU+BdpczRfJB6XaxK63j4u+2apdmX7d9IW8q5Css5bVQfgPBt16W5tf9Xc7ARhVckDVnHyRXe9LRLHFH3sd2mxCgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725831265; c=relaxed/simple;
-	bh=LhtuifP5IpdNvKQRLUnCHialW7Brlt+b4DPn+TFoBKM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=MJydijC2ePg3GrnR38s3Hp3MvYQinlKPY+wNJJV6iUPe1PNnovMeMRI3n3glKbNlHD7eh0uc8/HtqJ8f1BBrbABfWFq+6uczp6ZDQsxp7niIFZldzGaKSunioVF+1z+vxoR67MfvlPSoV5gpHD/EZ6Y5AFcBZv8wS7a1r1u9zZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id D34F092009C; Sun,  8 Sep 2024 23:34:21 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id C30B492009B;
-	Sun,  8 Sep 2024 22:34:21 +0100 (BST)
-Date: Sun, 8 Sep 2024 22:34:21 +0100 (BST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: kernel test robot <lkp@intel.com>
-cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, oe-kbuild-all@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, 
-    Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: Re: error: ABI 'o32' is not supported on CPU 'mips3'
-In-Reply-To: <202409062003.wDQ7fEq1-lkp@intel.com>
-Message-ID: <alpine.DEB.2.21.2409082231560.60835@angie.orcam.me.uk>
-References: <202409062003.wDQ7fEq1-lkp@intel.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1725833208; c=relaxed/simple;
+	bh=yMvbJrdG/eRqX0y+LUU4/2HoWT+850ytYqRqo8ShUws=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LwMXbobuARa0WIDfOgYJMCv0L44Zkonla6RDbkpoas++HKo8RjohfEZfCB03IUIA6PeV7MlcDqhmzG00eVSCO/4JLnNljfFzvodBKeLbq8cKawNWIVIdpfW+Nbv64ys/G5TinTlNqaJiNx1AhoU/KNohL4q/OEbKe8VAum5ETCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWqIRWIp; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWqIRWIp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725833206; x=1757369206;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yMvbJrdG/eRqX0y+LUU4/2HoWT+850ytYqRqo8ShUws=;
+  b=eWqIRWIpY9DN3TM0miyo9jL3YqmLdTSE2q/S3aJSHHG2Yh0tZ9yBCEfn
+   YKRb7FB+HfadhjEvHhwwhelIDMzC998Y5x5FPMUnMpSGk6Nq+g+er1wc8
+   CIPYinfqnJ1Ed8n9N6LWn98UFXw8Pi7zNmIeXAHQNFW00G4jGlFpgQE8W
+   uK5MsQA0UG2OAPnWTN66YZMVw4L7vtR0gVJFmAE/CwvYmtIuj+DP5vKex
+   xmfWPS5iiybYstJBKtyuhQxN3e0AU3tEkjrAtGtPbdCq1BSaLboe4I3xS
+   eX1YST7UIC9iffwd9dZ37ctgbAghugnBZZwQpuELYqF2/gSlcWMWQLZwG
+   Q==;
+X-CSE-ConnectionGUID: T8VSON4jQsu3pMc9+jN/Mw==
+X-CSE-MsgGUID: gGBPhPf1QNi/lwwasy01rA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35085478"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="35085478"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 15:06:45 -0700
+X-CSE-ConnectionGUID: UjdGQpHMQy2rLsn3/MEUDA==
+X-CSE-MsgGUID: Zcss6zRQRg2roYzO94FGpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="67208676"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 08 Sep 2024 15:06:44 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snQ3N-000E1X-28;
+	Sun, 08 Sep 2024 22:06:41 +0000
+Date: Mon, 9 Sep 2024 06:05:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer
+ types passing 'struct user_pt_regs *' to parameter of type 'struct
+ kvm_cpu_context *'
+Message-ID: <202409090626.BppVJ37e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 6 Sep 2024, kernel test robot wrote:
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   73613a1daf068f5a55ff6323171266d9af1d4403
+commit: 718bf2535e3912862e7f3aedb4a04f7377e7af3b [2/2] ANDROID: KVM: arm64: Fix missing mask for custom hypercall handling
+config: arm64-randconfig-r062-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090626.BppVJ37e-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090626.BppVJ37e-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   b831f83e40a24f07c8dcba5be408d93beedc820f
-> commit: bfc0a330c1b4526b88f6f9e711484b342cb00fb5 MIPS: Fallback CPU -march flag to ISA level if unsupported
-> date:   7 months ago
-> config: mips-randconfig-r111-20240906 (https://download.01.org/0day-ci/archive/20240906/202409062003.wDQ7fEq1-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce: (https://download.01.org/0day-ci/archive/20240906/202409062003.wDQ7fEq1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409062003.wDQ7fEq1-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> error: ABI 'o32' is not supported on CPU 'mips3'
-> >> error: ABI 'o32' is not supported on CPU 'mips3'
-> >> error: ABI 'o32' is not supported on CPU 'mips3'
->    make[3]: *** [scripts/Makefile.build:116: scripts/mod/devicetable-offsets.s] Error 1
->    make[3]: *** [scripts/Makefile.build:243: scripts/mod/empty.o] Error 1
->    make[3]: Target 'scripts/mod/' not remade because of errors.
->    make[2]: *** [Makefile:1198: prepare0] Error 2
->    make[2]: Target 'prepare' not remade because of errors.
->    make[1]: *** [Makefile:240: __sub-make] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:240: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409090626.BppVJ37e-lkp@intel.com/
 
- This is analogous to the same failure for "CPU 'mips64'", and presumably 
-also addressed in newer LLVM.
+All errors (new ones prefixed by >>):
 
-  Maciej
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:7:
+   In file included from include/kvm/arm_hypercalls.h:7:
+   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2180:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:22:
+   In file included from arch/arm64/kvm/hyp/include/nvhe/iommu.h:9:
+   In file included from include/linux/io-pgtable-arm.h:167:
+   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9:
+   arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:15: error: expected string literal in 'asm'
+      35 |         asm volatile(__LSE_PREAMBLE
+         |                      ^
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
+      88 | void __pkvm_unmask_serror(void)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      88 | void __pkvm_unmask_serror(void)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:796:8: warning: unused variable 'vq_len' [-Wunused-variable]
+     796 |                         u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
+         |                             ^~~~~~
+>> arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer types passing 'struct user_pt_regs *' to parameter of type 'struct kvm_cpu_context *' [-Werror,-Wincompatible-pointer-types]
+    1652 |         if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+         |                                       ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:25:51: note: passing argument to parameter 'host_ctxt' here
+      25 | handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+         |                                                   ^
+   3 warnings and 2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+
+
+vim +1652 arch/arm64/kvm/hyp/nvhe/hyp-main.c
+
+  1630	
+  1631	static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
+  1632	{
+  1633		DECLARE_REG(unsigned long, id, host_ctxt, 0);
+  1634		unsigned long hcall_min = 0;
+  1635		hcall_t hfn;
+  1636	
+  1637		/*
+  1638		 * If pKVM has been initialised then reject any calls to the
+  1639		 * early "privileged" hypercalls. Note that we cannot reject
+  1640		 * calls to __pkvm_prot_finalize for two reasons: (1) The static
+  1641		 * key used to determine initialisation must be toggled prior to
+  1642		 * finalisation and (2) finalisation is performed on a per-CPU
+  1643		 * basis. This is all fine, however, since __pkvm_prot_finalize
+  1644		 * returns -EPERM after the first call for a given CPU.
+  1645		 */
+  1646		if (static_branch_unlikely(&kvm_protected_mode_initialized))
+  1647			hcall_min = __KVM_HOST_SMCCC_FUNC___pkvm_prot_finalize;
+  1648	
+  1649		id &= ~ARM_SMCCC_CALL_HINTS;
+  1650		id -= KVM_HOST_SMCCC_ID(0);
+  1651	
+> 1652		if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+  1653			goto end;
+  1654	
+  1655		if (unlikely(id < hcall_min || id >= ARRAY_SIZE(host_hcall)))
+  1656			goto inval;
+  1657	
+  1658		hfn = host_hcall[id];
+  1659		if (unlikely(!hfn))
+  1660			goto inval;
+  1661	
+  1662		cpu_reg(host_ctxt, 0) = SMCCC_RET_SUCCESS;
+  1663		hfn(host_ctxt);
+  1664	end:
+  1665		trace_host_hcall(id, 0);
+  1666	
+  1667		return;
+  1668	inval:
+  1669		trace_host_hcall(id, 1);
+  1670		cpu_reg(host_ctxt, 0) = SMCCC_RET_NOT_SUPPORTED;
+  1671	}
+  1672	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
