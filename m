@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B90C14D2B2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 12:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E9618C22
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 12:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725797354; cv=none; b=W5dpJZC3d+pNaiEUwU3fuw3Z31ZIVNAjyUW7MGHdSYP5n9ITUSOffddwIulOvJ0fhPlT0xNy/gKvPN0RIfDK6vajaolwlNgUgh0a5tYofbGYmz3qvUYIFm3D3ua94i/WOnrjrMiehMsoRfYnksVRDcesKU4z+edy8ipbXT6T6fk=
+	t=1725797412; cv=none; b=CFUrgXoyMcWdj4l5mDlON4jfal74SYHVRq3rIemVmOgp98YQfBc1jF1+iGtjMkozVjQzP5XmVYscBE78fRg2+KCHJJc7LW1HJWnTes4AD32y3L0okYTJVG28ZeHVyKovRWbsUzVJTPn7zsrBZnHucvLGsYyC26z63XssT0vhPxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725797354; c=relaxed/simple;
-	bh=7aTt9deB0bUQjGqPFdnilBucNJk3412JATnOJJ0rKCo=;
+	s=arc-20240116; t=1725797412; c=relaxed/simple;
+	bh=AgmGOqrF1fmyBRsVlFcYwRPNoipuKzdVtJdNQ5cO+8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RrcJGaD1m+mgxuqls1qnxuB2yT/AuYR+4jxPPKMnszFskF1PE/AZ/CqEkBN++stn8QxFX91V5Hyaht2S0B2pFlq2cQ/ccOMtOhTRCPrTYNqIW+W9/Siqm93KJPEnBaybix4S3XUxwfhbiguMZZGKjteLBskxnjBA2XHFWppBhq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACK8BkQ6; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=QE0W0ToNEN7yG3/NvB4qy1ovXC7n+98ON8YG8iuII+8i45BbAYalwja4KFAZ6VcL92iRfSuJz7zxDYbneKapd49Zd4UAmuwRIalbc5KbIIwKKjpN0sdwHXA5eENQDlxvNWXf6TKsOBE7YpadTv+vb1Pe3WQZmRDhU17KYdC9tCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L7BV7tfy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACK8BkQ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L7BV7tfy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725797351; x=1757333351;
+  t=1725797411; x=1757333411;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7aTt9deB0bUQjGqPFdnilBucNJk3412JATnOJJ0rKCo=;
-  b=ACK8BkQ6rhHtIVaiDWDp0WIpbUMgc0KGjzoa3uIIf4wkQ9cQVA+w/+dd
-   LmzywWRe6u4F2RmmLQplFJsRTnAkctUk2lU2Vy0sRMWl0pmAZADYt76GR
-   XxbvQFOu3Qk22g1ruxbRE5VFdtcnJaP+F0WtjfSM5QTquTIYZ+HFx4Ve5
-   V67F7WtOYyOlRIgjoK1QHp/VfNzKLR9f3JKodKa86NfHmN9zdYa0nGanM
-   akjrjNCRoNg6JypnKRlJQh8VVOdnKLSWPoaldxZ8Ytc5f333+rdmA6fLA
-   ksadujT0Op6JS8I6SjV0jdnOToyc4nprrCZl/mND3xUOoqQvWgAR6KXL0
+  bh=AgmGOqrF1fmyBRsVlFcYwRPNoipuKzdVtJdNQ5cO+8I=;
+  b=L7BV7tfylJvOEykM9sY7FmeR5ICFOh89rf0QQoi1+xIvdGWUamDzaB70
+   ntUSVyDMDpK6O3DC0eA8RStucxqwD0zoAGgaJuON+ybXksWiW0VV50lvW
+   /Jcx9kFjcsoEYALkhBEDDom1oEXSklzxC22lNlVttP7X1QPsi8O9y48fX
+   HWsZVPFOcUar6PPd24TVBUdc15UtP6/oY2Q0wXZvPOkPjp3Wu1h6lEfAC
+   3aElE/StjhHi9tZWiGVj6Y2ypoO3yS3VPN/6SYCwMiQExbTFD8//lVeAe
+   0Zwi6s779cW0v21w1VUzzWy9z8NgtoxKR4SLoPSiYOt/pb47cRnjUFZad
    g==;
-X-CSE-ConnectionGUID: IkUsfgftSiu5z6y18n2yZg==
-X-CSE-MsgGUID: 9FAfMpmwS9uv8nKVNSq7PQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="27419417"
+X-CSE-ConnectionGUID: BiZdntMcQoaqXL3hMqX51g==
+X-CSE-MsgGUID: n72XyC/yQaGVKqxxyEWc9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="27419470"
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="27419417"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 05:09:10 -0700
-X-CSE-ConnectionGUID: O449ENtnT0OGSvyVHZkglg==
-X-CSE-MsgGUID: W0fnMHhwSFuOgCkA1SpxWA==
+   d="scan'208";a="27419470"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 05:10:10 -0700
+X-CSE-ConnectionGUID: VdLX9VpjSH2076PTlg8g5w==
+X-CSE-MsgGUID: fnXHF70hQWOrXunqpGQIlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="89671565"
+   d="scan'208";a="103860738"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Sep 2024 05:09:10 -0700
+  by orviesa001.jf.intel.com with ESMTP; 08 Sep 2024 05:10:10 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snGj5-000DVH-21;
-	Sun, 08 Sep 2024 12:09:07 +0000
+	id 1snGk3-000DVP-2A;
+	Sun, 08 Sep 2024 12:10:07 +0000
 Date: Sun, 8 Sep 2024 20:09:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/eventfd.c:80:5-24: WARNING: atomic_dec_and_test variation
- before object free at line 81.
-Message-ID: <202409082039.hnsaIJ3X-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.11-rc1 43/129] fs/resctrl/internal.h:
+ linux/resctrl.h is included more than once.
+Message-ID: <202409082051.0DRBOfzn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +62,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d1f2d51b711a3b7f1ae1b46701c769c1d580fa7f
-commit: 200f3abd14db55f9aadcb74f4e7a678f1c469ba1 io_uring/eventfd: move eventfd handling to separate file
-date:   3 months ago
-config: hexagon-randconfig-r054-20240908 (https://download.01.org/0day-ci/archive/20240908/202409082039.hnsaIJ3X-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.11-rc1
+head:   a3cc1ee01f0d935f82db885e4ec4772dc6032efa
+commit: 2f205b6692deba18059565550f6183cfa016c592 [43/129] AUTO SPLIT
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409082039.hnsaIJ3X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409082051.0DRBOfzn-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> io_uring/eventfd.c:80:5-24: WARNING: atomic_dec_and_test variation before object free at line 81.
-   io_uring/eventfd.c:154:6-25: WARNING: atomic_dec_and_test variation before object free at line 155.
+includecheck warnings: (new ones prefixed by >>)
+>> fs/resctrl/internal.h: linux/resctrl.h is included more than once.
 
-vim +80 io_uring/eventfd.c
+vim +5 fs/resctrl/internal.h
 
-    43	
-    44	void io_eventfd_signal(struct io_ring_ctx *ctx)
-    45	{
-    46		struct io_ev_fd *ev_fd = NULL;
-    47	
-    48		if (READ_ONCE(ctx->rings->cq_flags) & IORING_CQ_EVENTFD_DISABLED)
-    49			return;
-    50	
-    51		guard(rcu)();
-    52	
-    53		/*
-    54		 * rcu_dereference ctx->io_ev_fd once and use it for both for checking
-    55		 * and eventfd_signal
-    56		 */
-    57		ev_fd = rcu_dereference(ctx->io_ev_fd);
-    58	
-    59		/*
-    60		 * Check again if ev_fd exists incase an io_eventfd_unregister call
-    61		 * completed between the NULL check of ctx->io_ev_fd at the start of
-    62		 * the function and rcu_read_lock.
-    63		 */
-    64		if (unlikely(!ev_fd))
-    65			return;
-    66		if (!atomic_inc_not_zero(&ev_fd->refs))
-    67			return;
-    68		if (ev_fd->eventfd_async && !io_wq_current_is_worker())
-    69			goto out;
-    70	
-    71		if (likely(eventfd_signal_allowed())) {
-    72			eventfd_signal_mask(ev_fd->cq_ev_fd, EPOLL_URING_WAKE);
-    73		} else {
-    74			if (!atomic_fetch_or(BIT(IO_EVENTFD_OP_SIGNAL_BIT), &ev_fd->ops)) {
-    75				call_rcu_hurry(&ev_fd->rcu, io_eventfd_do_signal);
-    76				return;
-    77			}
-    78		}
-    79	out:
-  > 80		if (atomic_dec_and_test(&ev_fd->refs))
-  > 81			call_rcu(&ev_fd->rcu, io_eventfd_free);
-    82	}
-    83	
+     4	
+   > 5	#include <linux/resctrl.h>
+     6	#include <linux/sched.h>
+     7	#include <linux/kernfs.h>
+     8	#include <linux/fs_context.h>
+     9	#include <linux/jump_label.h>
+  > 10	#include <linux/resctrl.h>
+    11	#include <linux/tick.h>
+    12	
 
 -- 
 0-DAY CI Kernel Test Service
