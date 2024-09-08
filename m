@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313C6290F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 01:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2770679CD
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 01:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725758741; cv=none; b=eCeikkkYB52SqLNNVik4i/cYV/sj36PF4W+RBVxiZ3yGnOdS6KPtt1PjxnL3bUl5vREuHaz9J7rDiVEs1vi4TSmC/SjNDXGPOxoZbXOqhvB+xs6aLsYMwg6qdu0t2WsgDaNC+VfIjIcy9YsoLQtgWCLdOIPrW3oZueem8ndVDP0=
+	t=1725758742; cv=none; b=rQWR1BsORvMTBw66vOKOxfQYNwawuBZj5Jx2SpdZoHF3VDSbzy2pnOKfTH84jcD/KWvi8G7FUsDXYzcMbchYcdb99zEIbLk/r3a0xoEixuHR5dVqx/joP7xZhTOPh8MXI993vCnSWJbABZFG3BIz9mbP5RHqgwoA1HOe6W3fPkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725758741; c=relaxed/simple;
-	bh=uR9HWPrpk8IMqW2i4OQtaSHLxVVN9HoXtwdQo/hUVCA=;
+	s=arc-20240116; t=1725758742; c=relaxed/simple;
+	bh=PipYox8BhFhnE7Vep9ixjZNt2WP5hRfoNQKDR48Jr4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nq2jaAiZJO/AxOwadNM45LcrITZycP/V4J8VhOSaePakv9V3xBENNWZ4wkreHn1jourE3flLcomjXeoQInonnQYm67X7jTHbX2kyxdMERc+294Is6o/a1rTlM1d/kQS8piXQeXN9CGqGn0W/yxCfzvLO91mtE/qlqtiEeYlXfiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsMrkKhJ; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=p37DjJkO9gSML4pZQUrgmE8IwIq/4zAf0uNSstbU0HvU6qmNNpe5+tO+wwFeiR3zbYcbL+3WCs4QVhI6fLjscL+KGzUOy2vHE1kcIGO7TTZuiOddH/vADJozFUfduwuAeA+4t5dUzsD6WAufNgl//bZRlv4pxVxzgdiuu8n+UXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4AG2YeC; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsMrkKhJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4AG2YeC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725758739; x=1757294739;
+  t=1725758740; x=1757294740;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uR9HWPrpk8IMqW2i4OQtaSHLxVVN9HoXtwdQo/hUVCA=;
-  b=DsMrkKhJFvz+w5imsUBy3oCuLMOfc78tgBVSbQu97e4MkMHoRuY9rj2P
-   VgAci7WlYOnjsUhDnqgTONiIrlgUiWqn/zLvPbH1rMh8keGtsCixvQ/IA
-   QmkNbDEirNmyjIYtBumBEhfITH8UBF5eBrtBWyp8sVftFV+B3RA4gSwCR
-   4C6M/MRdvSk0O0xMmK0UkZntksMPu2jooeDjZWgix4SAyAXzkd6aGgBGF
-   ufnyGsWoYgJiSwQaXCae7R+5FHE3rB4qX+K/yUTst21aaXWI96z2U3pUS
-   6T/dxme6RSMe1y3eSZWIuR6WHk+WNYLQXJ6q+/wCKG+5qpWm92llLz7yL
-   g==;
-X-CSE-ConnectionGUID: PC+end/yQvWig8ADNxp3BA==
-X-CSE-MsgGUID: 9ZjctmKDShCBf7cb2yQU/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24675793"
+  bh=PipYox8BhFhnE7Vep9ixjZNt2WP5hRfoNQKDR48Jr4Y=;
+  b=G4AG2YeCwuVJXtqPUUKimupZumtCMlM1nZII5iH6WFER5iW+hfzFz9W2
+   ZJgoqJI5nQpXXp6T73lfE6dMIw5VyIASjIho7qp8a8x6cJOXpoquypKJI
+   yKYeMS1MSCdFwdSxNVOu/qrHFvtvTvL9Q3kK10+eDGzRBMzKVlKZPAMcC
+   Ps/eQzybeus/i/Ia/DfV4zPyI9p6wapAr6aD63Au9HYFxTT++YdjeV5Wz
+   uFUnmJnTQPnV/l0kH2IQz74Hqd3c6PTWbnljuKloi5fH9zeEMIC7z/yG8
+   9MMiUOVd41mJepdgyDSXjpOTzmzlXgHWc/7+rTrMn6S05qJ9bwJgF7P/0
+   A==;
+X-CSE-ConnectionGUID: DjMAo3E6QmSwfEdpTmsZlA==
+X-CSE-MsgGUID: c9CK3NJYR0y5ddjQT0mOBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24642137"
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="24675793"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 18:25:38 -0700
-X-CSE-ConnectionGUID: w4QrBZNXRuaJVLDg4IHWhQ==
-X-CSE-MsgGUID: 8VeEXSBBRB+uUV7JUBhnsQ==
+   d="scan'208";a="24642137"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 18:25:39 -0700
+X-CSE-ConnectionGUID: FCJMMP9hT3+LhEexE6ifjA==
+X-CSE-MsgGUID: aNRbv5fFT7e7WoQ0R39ihA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="66554282"
+   d="scan'208";a="71122595"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Sep 2024 18:25:38 -0700
+  by orviesa005.jf.intel.com with ESMTP; 07 Sep 2024 18:25:38 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sn6gJ-000DBK-2f;
+	id 1sn6gJ-000DBH-2R;
 	Sun, 08 Sep 2024 01:25:35 +0000
-Date: Sun, 8 Sep 2024 09:24:41 +0800
+Date: Sun, 8 Sep 2024 09:24:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dongjin Kim <tobetter@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tobetter:odroid-6.6.y 49/82]
- arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts:706.27-717.4: Warning
- (i2c_bus_reg): /i2c@fe5b0000/touchscreen: missing or empty reg property
-Message-ID: <202409080929.Tk7HgnHy-lkp@intel.com>
+To: Frank Rowand <frowand.list@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>
+Subject: arch/mips/include/asm/page.h:189:24: sparse: sparse: cast truncates
+ bits from constant value (a800000000000000 becomes 0)
+Message-ID: <202409080945.M1Oqo4Ou-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +63,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/tobetter/linux odroid-6.6.y
-head:   c970a63609188f53cf758a3dcd395e777150a29a
-commit: 80809145e0b3da448b457a4048c7dcad0a4d24da [49/82] ODROID-M1S: arm64/dts: add support MIPI interface with touch screen
-config: arm64-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080929.Tk7HgnHy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080929.Tk7HgnHy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d1f2d51b711a3b7f1ae1b46701c769c1d580fa7f
+commit: 7b937cc243e5b1df8780a0aa743ce800df6c68d1 of: Create of_root if no dtb provided by firmware
+date:   6 months ago
+config: mips-randconfig-r111-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080945.M1Oqo4Ou-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240908/202409080945.M1Oqo4Ou-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409080929.Tk7HgnHy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409080945.M1Oqo4Ou-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts:706.27-717.4: Warning (i2c_bus_reg): /i2c@fe5b0000/touchscreen: missing or empty reg property
->> arch/arm64/boot/dts/rockchip/rk356x.dtsi:1216.21-1227.4: Warning (avoid_unnecessary_addr_size): /i2c@fe5b0000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+sparse warnings: (new ones prefixed by >>)
+   drivers/of/fdt.c: note: in included file (through include/linux/mm_types_task.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+>> arch/mips/include/asm/page.h:189:24: sparse: sparse: cast truncates bits from constant value (a800000000000000 becomes 0)
 
-vim +706 arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts
+vim +189 arch/mips/include/asm/page.h
 
-   697	
-   698	&i2c2 {
-   699		status = "disabled";
-   700	
-   701		pinctrl-names = "default";
-   702		pinctrl-0 = <&i2c2m1_xfer>;
-   703	
-   704		clock-frequency = <400000>;
-   705	
- > 706		touchscreen: touchscreen {
-   707			status = "disabled";
-   708	
-   709			pinctrl-names = "default";
-   710			pinctrl-0 = <&touch_gpios>;
-   711	
-   712			interrupt-parent = <&gpio0>;
-   713			interrupts = <RK_PC4 IRQ_TYPE_LEVEL_LOW>;
-   714	
-   715			irq-gpios = <&gpio0 RK_PC4 IRQ_TYPE_LEVEL_LOW>;
-   716			reset-gpios = <&gpio4 RK_PB2 GPIO_ACTIVE_LOW>;
-   717		};
-   718	};
-   719	
+c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle    2005-02-10  167  
+6f284a2ce7b8bc include/asm-mips/page.h      Franck Bui-Huu  2007-01-10  168  /*
+6f284a2ce7b8bc include/asm-mips/page.h      Franck Bui-Huu  2007-01-10  169   * __pa()/__va() should be used only during mem init.
+6f284a2ce7b8bc include/asm-mips/page.h      Franck Bui-Huu  2007-01-10  170   */
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  171  static inline unsigned long ___pa(unsigned long x)
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  172  {
+a5ff1b34e16c20 arch/mips/include/asm/page.h Masahiro Yamada 2016-08-25  173  	if (IS_ENABLED(CONFIG_64BIT)) {
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  174  		/*
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  175  		 * For MIPS64 the virtual address may either be in one of
+2f9060b1db4aa2 arch/mips/include/asm/page.h Bjorn Helgaas   2024-01-03  176  		 * the compatibility segments ckseg0 or ckseg1, or it may
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  177  		 * be in xkphys.
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  178  		 */
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  179  		return x < CKSEG0 ? XPHYSADDR(x) : CPHYSADDR(x);
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  180  	}
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  181  
+a5ff1b34e16c20 arch/mips/include/asm/page.h Masahiro Yamada 2016-08-25  182  	if (!IS_ENABLED(CONFIG_EVA)) {
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  183  		/*
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  184  		 * We're using the standard MIPS32 legacy memory map, ie.
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  185  		 * the address x is going to be in kseg0 or kseg1. We can
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  186  		 * handle either case by masking out the desired bits using
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  187  		 * CPHYSADDR.
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  188  		 */
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02 @189  		return CPHYSADDR(x);
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  190  	}
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  191  
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  192  	/*
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  193  	 * EVA is in use so the memory map could be anything, making it not
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  194  	 * safe to just mask out bits.
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  195  	 */
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  196  	return x - PAGE_OFFSET + PHYS_OFFSET;
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  197  }
+0d8d83d0447deb arch/mips/include/asm/page.h Paul Burton     2016-08-02  198  #define __pa(x)		___pa((unsigned long)(x))
+6f284a2ce7b8bc include/asm-mips/page.h      Franck Bui-Huu  2007-01-10  199  #define __va(x)		((void *)((unsigned long)(x) + PAGE_OFFSET - PHYS_OFFSET))
+49c426ba445f83 arch/mips/include/asm/page.h David Daney     2013-05-07  200  #include <asm/io.h>
+5707bf6bcecd85 arch/mips/include/asm/page.h Ralf Baechle    2010-08-17  201  
+
+:::::: The code at line 189 was first introduced by commit
+:::::: 0d8d83d0447deb526c3125250eb391b5d76a3472 MIPS: Use CPHYSADDR to implement mips32 __pa
+
+:::::: TO: Paul Burton <paul.burton@imgtec.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
