@@ -1,69 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7FC148828;
-	Sun,  8 Sep 2024 16:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5414436E;
+	Sun,  8 Sep 2024 17:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725814652; cv=none; b=HUvTCFyUGMPcimWa6uJCCDkBFJFl4mOo3NNUgtv18t9VVSgpGfbGgpG5v8jdC2LKgldrpnMU22OCKgTDVGAnQEM8OBxBeat45GS0U2z5Oq5Ed1B6wVsBefvrEB2DqRprA0UfHZwmpW7Mn01okuduAi/x+g/nIRqLMvK/eiPqrvA=
+	t=1725815250; cv=none; b=oHRac5S87oybYLCnZWgMSN6X63R3zkQEFQjzMMNmCU0JFeQRhDJZrHPx3eypb/juIDYOwDdDJ/ZQ9j0bSvXD3ZN3A8fsq6nUewQ70GC7CnySJOxKYD5OzSw0Uv57lAvSmwDBQZcK6nz9P6oxT4QVTsmKz5I7CiQqVjkl0D//pSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725814652; c=relaxed/simple;
-	bh=gFpZpGEkhVcZmvpYlYMlw1TLTYXTJ+SJ6Et27zpaRkE=;
+	s=arc-20240116; t=1725815250; c=relaxed/simple;
+	bh=P2/0U6lW5ks2HD0ZSmhZupVFrPU9sUMaH9Nid6z7tdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EnwjEeFg4742/6sxw5zNC7+oaZ/QPx5JOy+qulJVodvNjBoJtxjvzjHBYRQVGDgOmO4eifqr9FfevXHWBhYcf8TM0XHV74zgZko1HBZzxNoI9LEbBhcpmrXEmr+8BITAbWVAfuXmstTTpKjRaYpvj7EMe22yE4PCjIbq9vax+yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqJpxSrF; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=uE+qTt3ebdLeFMzzHL+jMUktWubb12KMfCjCVGLzz7ibiHcXPqeqDaFPdBtxoLLJF4HxkF0A/Cvg7sNTTwcX8QS6pU54M9iYn9+bjQqi2VHmNwJvrgL5M7wYYut5L0JHWpL4eLD/Ask2505v+zCsK5nRvOmHRxv4rw4wV9Gquw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MsGFvEAy; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqJpxSrF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MsGFvEAy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725814651; x=1757350651;
+  t=1725815249; x=1757351249;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gFpZpGEkhVcZmvpYlYMlw1TLTYXTJ+SJ6Et27zpaRkE=;
-  b=CqJpxSrF1+yRVTUN571v6kg5lxYESL8X/X/3Or3qjVG4eGcCMQHuQ4Er
-   6SLVkHZrX2iEzTDf5GKkKtXBMPaorgOfR/vh2OZXprY5xoXs19zNSXyoD
-   qB69YU8B6wQ3HdpZhqnY6WhhXVMp5eJGW2iQSXG1pJH9Acxncd7yy4nn8
-   +6+H0kmaF+E4aSdvvQ4ueh4Icei8Lq7mz4SwXEAZRFDK0/nCG+8YXTVsw
-   2ura7t76wIyYy8UonZX/T6uM8tMYIiHTzBRpMr7zIj8AMTg79p/bDscDq
-   dmAewWR4GTskkiyQ7BA3Bp/JVR4grEYOMKkdpnxNAmkq058kwXs4PpUyJ
-   A==;
-X-CSE-ConnectionGUID: sHfrUSAjQNW2B105PWRRQw==
-X-CSE-MsgGUID: lj7n4SQVSOaY9KDUQFX8dA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24006794"
+  bh=P2/0U6lW5ks2HD0ZSmhZupVFrPU9sUMaH9Nid6z7tdw=;
+  b=MsGFvEAyAuY1CV3U6HTfdv3yVYPSP1r50YayOnzGIbSVOh1CQ3ODWvpM
+   qO+mgzhHJuME1br5/sgC46XymZjE43Cr/PTyD7eqs5rAP+uyt4JbWzpEc
+   MnOi+sS4s2C4zoed/WsMWgu8RvIyW6xVqSy8fk6F/mtOGWB6G7ShmUdXq
+   GwuFX3UMawNDA6I91n+wfmRLv2R7OsFhACQP51j6RifKULSU9E+jYt8Xt
+   TQ7bWMUh5xiJ41W/JiFJMfc5LVgzmXv4RKEBP4qot7DrNsyQTeJFrsxyl
+   ++dyKQAiZXXuO2hIQuf4wHvhQ6zJe/KhhRirAc/T7edJ/oSA3dHTzf0/x
+   w==;
+X-CSE-ConnectionGUID: D1nKYJqMTie7vEDLCXAgZA==
+X-CSE-MsgGUID: 3JPA04nGQJWj5AlLkG1QEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="47028569"
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="24006794"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 09:57:29 -0700
-X-CSE-ConnectionGUID: /aVMb7qWTuSucpJIB32DwA==
-X-CSE-MsgGUID: 0EMBbu5/TJGp7yLL1NeXfA==
+   d="scan'208";a="47028569"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 10:07:28 -0700
+X-CSE-ConnectionGUID: iZ83Dsn3QYS6/GzGz2KYGw==
+X-CSE-MsgGUID: Ta/qcRvVSWmtx+Bm2/kzRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="67173237"
+   d="scan'208";a="66478878"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 Sep 2024 09:57:26 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 08 Sep 2024 10:07:26 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snLE3-000Dk7-2l;
-	Sun, 08 Sep 2024 16:57:23 +0000
-Date: Mon, 9 Sep 2024 00:56:34 +0800
+	id 1snLNk-000Dkl-0t;
+	Sun, 08 Sep 2024 17:07:24 +0000
+Date: Mon, 9 Sep 2024 01:06:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-mips@vger.kernel.org, kvm@vger.kernel.org,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH 4/5] LoongArch: Extract IOCSR definitions to standalone
- header
-Message-ID: <202409090054.D3vEaTqr-lkp@intel.com>
-References: <20240907-iocsr-v1-4-0c99b3334444@flygoat.com>
+To: Florian Westphal <fw@strlen.de>, netfilter-devel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Florian Westphal <fw@strlen.de>, cgroups@vger.kernel.org,
+	Nadia Pinaeva <n.m.pinaeva@gmail.com>
+Subject: Re: [PATCH nf 2/2] netfilter: nft_socket: make cgroupsv2 matching
+ work with namespaces
+Message-ID: <202409090022.jxFbbVYj-lkp@intel.com>
+References: <20240905105451.28857-2-fw@strlen.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,123 +65,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240907-iocsr-v1-4-0c99b3334444@flygoat.com>
+In-Reply-To: <20240905105451.28857-2-fw@strlen.de>
 
-Hi Jiaxun,
+Hi Florian,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 9aaeb87ce1e966169a57f53a02ba05b30880ffb8]
+[auto build test ERROR on netfilter-nf/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/LoongArch-Rename-cpu_has_csr-as-cpu_has_iocsr/20240907-181959
-base:   9aaeb87ce1e966169a57f53a02ba05b30880ffb8
-patch link:    https://lore.kernel.org/r/20240907-iocsr-v1-4-0c99b3334444%40flygoat.com
-patch subject: [PATCH 4/5] LoongArch: Extract IOCSR definitions to standalone header
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240909/202409090054.D3vEaTqr-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090054.D3vEaTqr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilter-nft_socket-make-cgroupsv2-matching-work-with-namespaces/20240908-025647
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20240905105451.28857-2-fw%40strlen.de
+patch subject: [PATCH nf 2/2] netfilter: nft_socket: make cgroupsv2 matching work with namespaces
+config: i386-randconfig-006-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090022.jxFbbVYj-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090022.jxFbbVYj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409090054.D3vEaTqr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409090022.jxFbbVYj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/loongarch/include/asm/cpu-info.h:11,
-                    from arch/loongarch/include/asm/processor.h:13,
-                    from arch/loongarch/include/asm/thread_info.h:15,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/loongarch/include/generated/asm/current.h:1,
-                    from include/linux/mutex.h:14,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from include/linux/cpufreq.h:11,
-                    from drivers/cpufreq/loongson3_cpufreq.c:10:
-   drivers/cpufreq/loongson3_cpufreq.c: In function 'do_service_request':
->> drivers/cpufreq/loongson3_cpufreq.c:185:35: error: 'LOONGSON_IOCSR_SMCMBX' undeclared (first use in this function)
-     185 |         last.value = iocsr_read32(LOONGSON_IOCSR_SMCMBX);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/loongson3_cpufreq.c:185:22: note: in expansion of macro 'iocsr_read32'
-     185 |         last.value = iocsr_read32(LOONGSON_IOCSR_SMCMBX);
-         |                      ^~~~~~~~~~~~
-   drivers/cpufreq/loongson3_cpufreq.c:185:35: note: each undeclared identifier is reported only once for each function it appears in
-     185 |         last.value = iocsr_read32(LOONGSON_IOCSR_SMCMBX);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/loongson3_cpufreq.c:185:22: note: in expansion of macro 'iocsr_read32'
-     185 |         last.value = iocsr_read32(LOONGSON_IOCSR_SMCMBX);
-         |                      ^~~~~~~~~~~~
->> drivers/cpufreq/loongson3_cpufreq.c:199:36: error: 'LOONGSON_IOCSR_MISC_FUNC' undeclared (first use in this function)
-     199 |         iocsr_write32(iocsr_read32(LOONGSON_IOCSR_MISC_FUNC) | IOCSR_MISC_FUNC_SOFT_INT,
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/include/asm/loongarch.h:187:45: note: in definition of macro 'iocsr_write32'
-     187 | #define iocsr_write32(val, reg) __iocsrwr_w(val, reg)
-         |                                             ^~~
-   drivers/cpufreq/loongson3_cpufreq.c:199:23: note: in expansion of macro 'iocsr_read32'
-     199 |         iocsr_write32(iocsr_read32(LOONGSON_IOCSR_MISC_FUNC) | IOCSR_MISC_FUNC_SOFT_INT,
-         |                       ^~~~~~~~~~~~
->> drivers/cpufreq/loongson3_cpufreq.c:199:64: error: 'IOCSR_MISC_FUNC_SOFT_INT' undeclared (first use in this function)
-     199 |         iocsr_write32(iocsr_read32(LOONGSON_IOCSR_MISC_FUNC) | IOCSR_MISC_FUNC_SOFT_INT,
-         |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/include/asm/loongarch.h:187:45: note: in definition of macro 'iocsr_write32'
-     187 | #define iocsr_write32(val, reg) __iocsrwr_w(val, reg)
-         |                                             ^~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [m]:
-   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+>> net/netfilter/nft_socket.c:212:9: error: call to undeclared function 'nft_socket_cgroup_subtree_level'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     212 |                 err = nft_socket_cgroup_subtree_level();
+         |                       ^
+   1 error generated.
 
 
-vim +/LOONGSON_IOCSR_SMCMBX +185 drivers/cpufreq/loongson3_cpufreq.c
+vim +/nft_socket_cgroup_subtree_level +212 net/netfilter/nft_socket.c
 
-   175	
-   176	static inline int do_service_request(u32 id, u32 info, u32 cmd, u32 val, u32 extra)
-   177	{
-   178		int retries;
-   179		unsigned int cpu = raw_smp_processor_id();
-   180		unsigned int package = cpu_data[cpu].package;
-   181		union smc_message msg, last;
-   182	
-   183		mutex_lock(&cpufreq_mutex[package]);
-   184	
- > 185		last.value = iocsr_read32(LOONGSON_IOCSR_SMCMBX);
-   186		if (!last.complete) {
-   187			mutex_unlock(&cpufreq_mutex[package]);
-   188			return -EPERM;
+   169	
+   170	static int nft_socket_init(const struct nft_ctx *ctx,
+   171				   const struct nft_expr *expr,
+   172				   const struct nlattr * const tb[])
+   173	{
+   174		struct nft_socket *priv = nft_expr_priv(expr);
+   175		unsigned int len;
+   176	
+   177		if (!tb[NFTA_SOCKET_DREG] || !tb[NFTA_SOCKET_KEY])
+   178			return -EINVAL;
+   179	
+   180		switch(ctx->family) {
+   181		case NFPROTO_IPV4:
+   182	#if IS_ENABLED(CONFIG_NF_TABLES_IPV6)
+   183		case NFPROTO_IPV6:
+   184	#endif
+   185		case NFPROTO_INET:
+   186			break;
+   187		default:
+   188			return -EOPNOTSUPP;
    189		}
    190	
-   191		msg.id		= id;
-   192		msg.info	= info;
-   193		msg.cmd		= cmd;
-   194		msg.val		= val;
-   195		msg.extra	= extra;
-   196		msg.complete	= 0;
-   197	
-   198		iocsr_write32(msg.value, LOONGSON_IOCSR_SMCMBX);
- > 199		iocsr_write32(iocsr_read32(LOONGSON_IOCSR_MISC_FUNC) | IOCSR_MISC_FUNC_SOFT_INT,
-   200			      LOONGSON_IOCSR_MISC_FUNC);
-   201	
-   202		for (retries = 0; retries < 10000; retries++) {
-   203			msg.value = iocsr_read32(LOONGSON_IOCSR_SMCMBX);
-   204			if (msg.complete)
-   205				break;
-   206	
-   207			usleep_range(8, 12);
-   208		}
-   209	
-   210		if (!msg.complete || msg.cmd != CMD_OK) {
-   211			mutex_unlock(&cpufreq_mutex[package]);
-   212			return -EPERM;
-   213		}
-   214	
-   215		mutex_unlock(&cpufreq_mutex[package]);
-   216	
-   217		return msg.val;
-   218	}
-   219	
+   191		priv->key = ntohl(nla_get_be32(tb[NFTA_SOCKET_KEY]));
+   192		switch(priv->key) {
+   193		case NFT_SOCKET_TRANSPARENT:
+   194		case NFT_SOCKET_WILDCARD:
+   195			len = sizeof(u8);
+   196			break;
+   197		case NFT_SOCKET_MARK:
+   198			len = sizeof(u32);
+   199			break;
+   200	#ifdef CONFIG_CGROUPS
+   201		case NFT_SOCKET_CGROUPV2: {
+   202			unsigned int level;
+   203			int err;
+   204	
+   205			if (!tb[NFTA_SOCKET_LEVEL])
+   206				return -EINVAL;
+   207	
+   208			level = ntohl(nla_get_be32(tb[NFTA_SOCKET_LEVEL]));
+   209			if (level > 255)
+   210				return -EOPNOTSUPP;
+   211	
+ > 212			err = nft_socket_cgroup_subtree_level();
+   213			if (err < 0)
+   214				return err;
+   215	
+   216			priv->level_user = level;
+   217	
+   218			level += err;
+   219			/* Implies a giant cgroup tree */
+   220			if (WARN_ON_ONCE(level > 255))
+   221				return -EOPNOTSUPP;
+   222	
+   223			priv->level = level;
+   224			len = sizeof(u64);
+   225			break;
+   226		}
+   227	#endif
+   228		default:
+   229			return -EOPNOTSUPP;
+   230		}
+   231	
+   232		priv->len = len;
+   233		return nft_parse_register_store(ctx, tb[NFTA_SOCKET_DREG], &priv->dreg,
+   234						NULL, NFT_DATA_VALUE, len);
+   235	}
+   236	
 
 -- 
 0-DAY CI Kernel Test Service
