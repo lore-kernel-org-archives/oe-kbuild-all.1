@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7409139CF2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 22:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AA713A261
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 22:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725833208; cv=none; b=qcyW48x5NGHnCr6m+lsL80wUBmT2R1q0/gQW84c8jnx8tram0EQLlQQU+Hd/Zc+pEZB8cwinSKbp90R5DwDU+BdpczRfJB6XaxK63j4u+2apdmX7d9IW8q5Css5bVQfgPBt16W5tf9Xc7ARhVckDVnHyRXe9LRLHFH3sd2mxCgo=
+	t=1725835021; cv=none; b=YevsrB6203If5bBaedbIAMhggthOJTIFR/lSkU5ro0lOB5NCZApnmb5XEnjge3K0HkyZLiGw0ek97zixafrOOpnywpzR5Wk7zwbBzyLAJc200j5aNOCNu7/yWcXQilBYpp6hK+ZmkFhFEZaltD12GMLvzc6LXyeCEf2xKBi7HjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725833208; c=relaxed/simple;
-	bh=yMvbJrdG/eRqX0y+LUU4/2HoWT+850ytYqRqo8ShUws=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LwMXbobuARa0WIDfOgYJMCv0L44Zkonla6RDbkpoas++HKo8RjohfEZfCB03IUIA6PeV7MlcDqhmzG00eVSCO/4JLnNljfFzvodBKeLbq8cKawNWIVIdpfW+Nbv64ys/G5TinTlNqaJiNx1AhoU/KNohL4q/OEbKe8VAum5ETCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWqIRWIp; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1725835021; c=relaxed/simple;
+	bh=F5TVvHUx7zoriXqpn/BD6MCVwD7y5Ziw0jblH4FdOeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K1urLUO7omvz+uRGqSki3B5gL3aaM469JBRDeclkZZyGe150M+uKg+7gOP6ToFs7NpPJxeJbM+yqZMmBeYRc9BgQE4bEVBV9bvqHhsQ7qwF2k+m5qFf0jbiuZHvIPzdOaJTbIPhmFGJG3i/VRU9NCYnJ7pV/gOff7gusvNfeWEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=es5bWOtU; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWqIRWIp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="es5bWOtU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725833206; x=1757369206;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yMvbJrdG/eRqX0y+LUU4/2HoWT+850ytYqRqo8ShUws=;
-  b=eWqIRWIpY9DN3TM0miyo9jL3YqmLdTSE2q/S3aJSHHG2Yh0tZ9yBCEfn
-   YKRb7FB+HfadhjEvHhwwhelIDMzC998Y5x5FPMUnMpSGk6Nq+g+er1wc8
-   CIPYinfqnJ1Ed8n9N6LWn98UFXw8Pi7zNmIeXAHQNFW00G4jGlFpgQE8W
-   uK5MsQA0UG2OAPnWTN66YZMVw4L7vtR0gVJFmAE/CwvYmtIuj+DP5vKex
-   xmfWPS5iiybYstJBKtyuhQxN3e0AU3tEkjrAtGtPbdCq1BSaLboe4I3xS
-   eX1YST7UIC9iffwd9dZ37ctgbAghugnBZZwQpuELYqF2/gSlcWMWQLZwG
-   Q==;
-X-CSE-ConnectionGUID: T8VSON4jQsu3pMc9+jN/Mw==
-X-CSE-MsgGUID: gGBPhPf1QNi/lwwasy01rA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35085478"
+  t=1725835020; x=1757371020;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F5TVvHUx7zoriXqpn/BD6MCVwD7y5Ziw0jblH4FdOeU=;
+  b=es5bWOtUWvZMSwYZYyKpiLOyC7rNSKOJHynMA8Phq2o7xbJw8F84VDk8
+   7Xc1g+IhTA4aUT5oXJxrH8bpVBVXCN2SNyd6WAjeXhQz24+TcR2LjIk5t
+   8MZ6h0HTrfj0BZWUR0Kzs0rWbKveCwQ699HUdmNSmalQmqJFYlNNyrQ3y
+   /ZIVn2Bn0vMS/c4UPU9GBDNtpvmL+tF/BWTrcJlQ62TZ7SUV99k4Jrcaw
+   FIz62mdIrMUze7+SL/IET14o7Xuoe3aoXi6F8JYsya+OVWCt+lCqoskd4
+   yt2XtOy3EkApY77ED7Q3fV0uKAKWQBSq9uMNAY8p8pUeJgU7UXvoEFNWG
+   A==;
+X-CSE-ConnectionGUID: iN3G2sHKSTOyA0p44ZG9Xg==
+X-CSE-MsgGUID: 0rVit4KDSmGYmbjFSRP/+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="28296335"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="35085478"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 15:06:45 -0700
-X-CSE-ConnectionGUID: UjdGQpHMQy2rLsn3/MEUDA==
-X-CSE-MsgGUID: Zcss6zRQRg2roYzO94FGpg==
+   d="scan'208";a="28296335"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 15:36:59 -0700
+X-CSE-ConnectionGUID: vpbGgcrtSWW16EeUKEFMMQ==
+X-CSE-MsgGUID: WvvD8HiRSwuTrRwmLJ3Q9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="67208676"
+   d="scan'208";a="97273515"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 Sep 2024 15:06:44 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 08 Sep 2024 15:36:58 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snQ3N-000E1X-28;
-	Sun, 08 Sep 2024 22:06:41 +0000
-Date: Mon, 9 Sep 2024 06:05:44 +0800
+	id 1snQWd-000E2t-16;
+	Sun, 08 Sep 2024 22:36:55 +0000
+Date: Mon, 9 Sep 2024 06:36:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Cedric Xing <cedric.xing@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer
- types passing 'struct user_pt_regs *' to parameter of type 'struct
- kvm_cpu_context *'
-Message-ID: <202409090626.BppVJ37e-lkp@intel.com>
+Subject: Re: [PATCH RFC 2/3] tsm: Add RTMR event logging
+Message-ID: <202409090621.osV2pgtW-lkp@intel.com>
+References: <20240907-tsm-rtmr-v1-2-12fc4d43d4e7@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,142 +62,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240907-tsm-rtmr-v1-2-12fc4d43d4e7@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   73613a1daf068f5a55ff6323171266d9af1d4403
-commit: 718bf2535e3912862e7f3aedb4a04f7377e7af3b [2/2] ANDROID: KVM: arm64: Fix missing mask for custom hypercall handling
-config: arm64-randconfig-r062-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090626.BppVJ37e-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090626.BppVJ37e-lkp@intel.com/reproduce)
+Hi Cedric,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Xing/tsm-Add-TVM-Measurement-Register-Support/20240908-142434
+base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+patch link:    https://lore.kernel.org/r/20240907-tsm-rtmr-v1-2-12fc4d43d4e7%40intel.com
+patch subject: [PATCH RFC 2/3] tsm: Add RTMR event logging
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240909/202409090621.osV2pgtW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090621.osV2pgtW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409090626.BppVJ37e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409090621.osV2pgtW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:7:
-   In file included from include/kvm/arm_hypercalls.h:7:
-   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2180:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:22:
-   In file included from arch/arm64/kvm/hyp/include/nvhe/iommu.h:9:
-   In file included from include/linux/io-pgtable-arm.h:167:
-   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9:
-   arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:15: error: expected string literal in 'asm'
-      35 |         asm volatile(__LSE_PREAMBLE
-         |                      ^
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
-      88 | void __pkvm_unmask_serror(void)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      88 | void __pkvm_unmask_serror(void)
-         | ^
-         | static 
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:796:8: warning: unused variable 'vq_len' [-Wunused-variable]
-     796 |                         u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
-         |                             ^~~~~~
->> arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer types passing 'struct user_pt_regs *' to parameter of type 'struct kvm_cpu_context *' [-Werror,-Wincompatible-pointer-types]
-    1652 |         if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
-         |                                       ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/modules.h:25:51: note: passing argument to parameter 'host_ctxt' here
-      25 | handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
-         |                                                   ^
-   3 warnings and 2 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:374,
+                    from include/linux/uuid.h:11,
+                    from include/linux/tsm.h:7,
+                    from drivers/virt/coco/tsm.c:4:
+   drivers/virt/coco/tsm.c: In function '_mr_write':
+   include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'ssize_t' {aka 'int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:437:25: note: in definition of macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:518:9: note: in expansion of macro 'printk'
+     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:518:16: note: in expansion of macro 'KERN_WARNING'
+     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/virt/coco/tsm.c:735:17: note: in expansion of macro 'pr_warn'
+     735 |                 pr_warn(KBUILD_MODNAME ": extending %s/%s failed with %ld\n",
+         |                 ^~~~~~~
+   In file included from <command-line>:
+   drivers/virt/coco/tsm.c: In function '_log_read':
+>> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_363' declared with attribute error: min(count, attr->size - off) signedness error
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
+     491 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/virt/coco/tsm.c:755:17: note: in expansion of macro 'min'
+     755 |         count = min(count, attr->size - off);
+         |                 ^~~
 
 
-vim +1652 arch/arm64/kvm/hyp/nvhe/hyp-main.c
+vim +/__compiletime_assert_363 +510 include/linux/compiler_types.h
 
-  1630	
-  1631	static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
-  1632	{
-  1633		DECLARE_REG(unsigned long, id, host_ctxt, 0);
-  1634		unsigned long hcall_min = 0;
-  1635		hcall_t hfn;
-  1636	
-  1637		/*
-  1638		 * If pKVM has been initialised then reject any calls to the
-  1639		 * early "privileged" hypercalls. Note that we cannot reject
-  1640		 * calls to __pkvm_prot_finalize for two reasons: (1) The static
-  1641		 * key used to determine initialisation must be toggled prior to
-  1642		 * finalisation and (2) finalisation is performed on a per-CPU
-  1643		 * basis. This is all fine, however, since __pkvm_prot_finalize
-  1644		 * returns -EPERM after the first call for a given CPU.
-  1645		 */
-  1646		if (static_branch_unlikely(&kvm_protected_mode_initialized))
-  1647			hcall_min = __KVM_HOST_SMCCC_FUNC___pkvm_prot_finalize;
-  1648	
-  1649		id &= ~ARM_SMCCC_CALL_HINTS;
-  1650		id -= KVM_HOST_SMCCC_ID(0);
-  1651	
-> 1652		if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
-  1653			goto end;
-  1654	
-  1655		if (unlikely(id < hcall_min || id >= ARRAY_SIZE(host_hcall)))
-  1656			goto inval;
-  1657	
-  1658		hfn = host_hcall[id];
-  1659		if (unlikely(!hfn))
-  1660			goto inval;
-  1661	
-  1662		cpu_reg(host_ctxt, 0) = SMCCC_RET_SUCCESS;
-  1663		hfn(host_ctxt);
-  1664	end:
-  1665		trace_host_hcall(id, 0);
-  1666	
-  1667		return;
-  1668	inval:
-  1669		trace_host_hcall(id, 1);
-  1670		cpu_reg(host_ctxt, 0) = SMCCC_RET_NOT_SUPPORTED;
-  1671	}
-  1672	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
 
 -- 
 0-DAY CI Kernel Test Service
