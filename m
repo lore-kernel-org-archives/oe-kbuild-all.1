@@ -1,51 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001A615D5BB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CA9158207
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 12:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725799215; cv=none; b=TypwbmACTy8O0crfk3AwoQlFv2X+XEPGXNQL6+I94uBZLyyha2e3oGXyZBSA8uD/G7MH6iKKXliiBH1ajeQyUG7WHpop3rYb3WADoGdrCEYUWmbjE99dOc3hp/y2/ChSZUnNir5jHIMsNo01SZxGuKqWpQz/QusR/P762gFDmnY=
+	t=1725799215; cv=none; b=rbj1qROBzW1wVbAQeBcAR173y0Wm2qqO8vCKv3cwJfZA+H4ZgWexwdQoJ3gkgCDB44KgmX4JcoU7SxeLaUnYuasMDxV5uwMRylzOYNsLtSsK9p/nOx/z3Gbs+Qi72aiibTxdwlHXWpawB4pUdcYmYdiqX3Dyd6sy7GBSiPQIsOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725799215; c=relaxed/simple;
-	bh=xUXOP8Rj65fJ1yAjIYiFeZRluNvMOjmFvRZMW5xhRzs=;
+	bh=U/gnItvYg0poSy1cgGIDuhrkLFowImdZK9c8yAHZPbs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q/eMZ/ehRoVHc8F2n8oUvnKD4fgGGdaIwiQenHBd0Czk1YIV7siulXBJk+YERulQcjOqQ2rq0RMTVS/aLOyhmmKB0wz7prlS0n+2rlhV9vy7D75cqT/ufHnMfbO5vZiAxsWtrjzWPO99HSiB7ipHx0duI1nkS3KfP718kDNAFk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=laXxMtBu; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=eW1R1hq6/g9NnBdqB6chEEELaVG9chFpOiUe8EIJP710gh4P+UeZwwKM82y0mdb3cPFQkRryCyC9t4sj4Gtzmskj50aQaranMXsn2SPR3xKf155KWHb15DtHK707YIKyLa3UKE6dixm4IV/2nhq543mnxRudBhc386rJSkX3l04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtrGSfD4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="laXxMtBu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtrGSfD4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1725799213; x=1757335213;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xUXOP8Rj65fJ1yAjIYiFeZRluNvMOjmFvRZMW5xhRzs=;
-  b=laXxMtBu9KIUOidn88HA6dNNK5WeKaCDxwOf4sq2XErv/yl4po8k8PiO
-   Gc+W0Jvi4pt61lAmD0ih0awmlZKoDdkZfbiJYNUzzLtx6oWcwuGwS0IJJ
-   CiZwOTCjUGKzaZF4MsQ9XsfAuAXjswVMhjGKZswHNikxB6sj9IxEk8x06
-   /Lk0bm9if7mg4MAl0IapZrI8pGag5M3SqzwB5snyfQ372xKGRK7tL6eEy
-   uBENTaUUejyTQ50aG51m/PZpjCEB9PRpcm0/TW7vC6v128wx4hfxKth/K
-   uVp3rK/Q8ugKZSp9MnoDSrggVIMF/YO926P7beIuDqBi0HKwmBsgE/va5
+  bh=U/gnItvYg0poSy1cgGIDuhrkLFowImdZK9c8yAHZPbs=;
+  b=JtrGSfD4w0xdBa0mHQc4Lqs7rrqaKambdQHqBtyDqOWR/liLqhUS90AV
+   hMMpRfjIJnWd/oD2Ps8Zr1jyw15YmTP5pDtm+hs5+Fi4J5xjjGcw270/C
+   hZ84T0a29ySS0w+BfRKmGN7Yd73519PoMUfjicigr9uJzRmfVEVq8ZH1x
+   8puqYrgF3TbgGSU2dmulkUy/BEF20sD9KtW9GAW2BEGC4k8GKwbhPvAL3
+   pGh5mIZNVoqVemUAKBdWVz9hHzQVsSKw+q8Ky1JTuvRwV4Fpez7ipqL2r
+   6YNe7UAcFvgJsL2luQsUuSEFl9gDiOLeGKv1vgN2nrVoWItnRMEKXgS3F
    Q==;
-X-CSE-ConnectionGUID: lk3R/ucyRWSA81aEJTUBdg==
-X-CSE-MsgGUID: Mq1iXG5XQqu6u3XhRpFxog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="49909234"
+X-CSE-ConnectionGUID: hjnPu+56SXKKMKrZ7HT9/w==
+X-CSE-MsgGUID: GHRFPzgHTCqKgal3Y4beaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="13428434"
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="49909234"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 05:40:12 -0700
-X-CSE-ConnectionGUID: cFp1zChKSTiD1k9noA0AUg==
-X-CSE-MsgGUID: 1whzZMtfSg6NypvOaO2VOQ==
+   d="scan'208";a="13428434"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 05:40:12 -0700
+X-CSE-ConnectionGUID: XSKis/wHTbmgxj1Qw+7iTQ==
+X-CSE-MsgGUID: xUf6f1kjSZCALNtS7Scqpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="71363066"
+   d="scan'208";a="66397008"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Sep 2024 05:40:10 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2024 05:40:10 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snHD6-000DWX-1F;
+	id 1snHD6-000DWV-1A;
 	Sun, 08 Sep 2024 12:40:08 +0000
 Date: Sun, 8 Sep 2024 20:39:54 +0800
 From: kernel test robot <lkp@intel.com>
@@ -55,7 +55,7 @@ Cc: oe-kbuild-all@lists.linux.dev, sboyd@kernel.org,
 	linux-kernel@vger.kernel.org, Benjamin ROBIN <dev@benjarobin.fr>
 Subject: Re: [PATCH] ntp: Make sure RTC is synchronized when time goes
  backwards
-Message-ID: <202409082049.yA7d6Zmw-lkp@intel.com>
+Message-ID: <202409082008.BODTFEfx-lkp@intel.com>
 References: <20240907190900.55421-1-dev@benjarobin.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,26 +81,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-ROBIN/ntp-Make-s
 base:   tip/timers/core
 patch link:    https://lore.kernel.org/r/20240907190900.55421-1-dev%40benjarobin.fr
 patch subject: [PATCH] ntp: Make sure RTC is synchronized when time goes backwards
-config: arm-randconfig-r071-20240908 (https://download.01.org/0day-ci/archive/20240908/202409082049.yA7d6Zmw-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409082049.yA7d6Zmw-lkp@intel.com/reproduce)
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240908/202409082008.BODTFEfx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409082008.BODTFEfx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409082049.yA7d6Zmw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409082008.BODTFEfx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/time/ntp.c:17:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/time/ntp.c:757:19: error: use of undeclared identifier 'sync_hrtimer'
+   kernel/time/ntp.c: In function 'process_adjtimex_modes':
+>> kernel/time/ntp.c:757:33: error: 'sync_hrtimer' undeclared (first use in this function)
      757 |                 hrtimer_cancel(&sync_hrtimer);
-         |                                 ^
-   1 warning and 1 error generated.
+         |                                 ^~~~~~~~~~~~
+   kernel/time/ntp.c:757:33: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/sync_hrtimer +757 kernel/time/ntp.c
