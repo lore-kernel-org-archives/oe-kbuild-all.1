@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CD06CDBA
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 08:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F9E1CA81;
+	Sun,  8 Sep 2024 08:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725783821; cv=none; b=GGoeXVtqQ3R4BwPbikuaDr0VqHFI6j79uBTjHVwwZ7c0yEMiEFZB1uSrojXgLu0NETC9f7JNT8hbmI/5MaDPkGAXF+kQSEFZ9nkiP8/ePsUIohrxPxvefMOza4h34pJHpAQA92hqqBfebdpo4/DYVopwB/y9OjToiP/X8MIwQhE=
+	t=1725783822; cv=none; b=KHrcnYS4JyGcRR4ZviTSIJwrcbZ5J/ogSdKE4nrTg1mvrjEjBY7Vshhf48CcsVZDBEywWJ9f1Ymr+qSx30BFmjq2Dp6ZR3AduxN7c2If55FhYLqWBtqVRFhuNWYGXng67KzhDkVIdokoHNzFG9r8NqUq5hxVWood/+Lo2FsmJcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725783821; c=relaxed/simple;
-	bh=4jVQuNrvrHL4Em2E5EX9KWHyAjwK/tI/w7ZA9+WVT20=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tclu28YfrWuoP/3zQx3qm5KT5hzMnsonidvMuRHKKhPts/cJe0FnHfGiYBVLcDxlboFSFwGPNImSXbrmUUqz386kZmc5b8hGbT5jca5ih23iIwHXYJI4j+9rh65xyjyxMFDzel8wKxgvV8eHPHy/R5aYQoJaWWdWMMAX9QStLwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AR4u9RyR; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1725783822; c=relaxed/simple;
+	bh=CS8TPU9h4Zcfsx0T2yCnIV7BAoo30S/6YenmxXnsGvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l1YC+gA5dfFzKabe32rQWhtgfcRUogjVMXSSGJ8++uJZ7Ou5FwgXVs6oCeXlEc1rss/70lEMfyivODeG+pgVFa/bNCNGJJQpVxaBJfSECTPN34W9kNxMI2u/KwkFJNOGzIFMxdtBI884ziGz25TZQLfQYXlYdFqV7j0UhOFhSVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ci+yzc6c; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AR4u9RyR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ci+yzc6c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725783820; x=1757319820;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4jVQuNrvrHL4Em2E5EX9KWHyAjwK/tI/w7ZA9+WVT20=;
-  b=AR4u9RyRjLAlKUrRvT85jsCteCDTQy5VnqNsKMi4lsiT2feiDsk+aW8r
-   CFZ31i1u6GeDT9gstYnQl1EXBD49Nnz85hFjYyPz8Z3LsAUmQame+3ed7
-   nYPxA7EBy1yWQcmu8LqaPCjL2nfQYYDzI6JGjhoayz5IDl9IK5jW7ZkL6
-   TBiekq2joz29CsUyiGkuCIw3GyBk+6XcS5AU7Rtey7eNuKJBqr3pJ3VAl
-   ttxIhBzp/N5OvQxyvGL4LH64/dzL4fJIrqggux+ndCgF+WPe8/KWMWNvw
-   MXXnapLQZENhJQD0z0icwogX8d+R2iROana7J/R7yQBf0ZzAeRG+A+pG3
-   g==;
-X-CSE-ConnectionGUID: 5U2wuDLRS0Wd4BOMclClBw==
-X-CSE-MsgGUID: hAb3AYjtT8qz0juBg7i2xw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="47014268"
+  t=1725783821; x=1757319821;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CS8TPU9h4Zcfsx0T2yCnIV7BAoo30S/6YenmxXnsGvo=;
+  b=Ci+yzc6cY/VbtO1a5Ez3REhf0RJFoqUMyMrfuu8V7bVFyP67VNo1AIrU
+   9gBso5YXGS5/q9qz7AKg5BNi7B8FilmEgh7skLBf450du8QtvHfES2QAV
+   JM94kM3Ynh7rmAnepepmtaka67qo6EqcmDQj3oJWd43clWJnSVmvpSLvw
+   M7g3EThWXIg2XfL9LzbxrE9Z87WbfDL9hcWsCzqP2VzSfSTpcyBN0r6FJ
+   94TTBHSgNAsToB6YToZ2W2dLOx7HxZzRd3tm1nGxjrDpKz2GpkFt6rU1D
+   rhl3+9hwnm+ghEErEJnk0rF6SPDD54T1cGuY5qNtDEfv5cx1Uq7KN+J34
+   A==;
+X-CSE-ConnectionGUID: 4fShWk41ScuxlSi7tyYECQ==
+X-CSE-MsgGUID: sTCehd3cQyWW1E70RlLOWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24354252"
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="47014268"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 01:23:37 -0700
-X-CSE-ConnectionGUID: KEUmPngmRdyqMCxSs7jY/Q==
-X-CSE-MsgGUID: 0cY7+KxnR3uDh6K7vVkiTQ==
+   d="scan'208";a="24354252"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 01:23:41 -0700
+X-CSE-ConnectionGUID: 6oAA7FJbSruiYJPpsZmMzw==
+X-CSE-MsgGUID: G7OGkTdsTTy5SmlzG5AKaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="103822395"
+   d="scan'208";a="71175839"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 Sep 2024 01:23:35 -0700
+  by orviesa005.jf.intel.com with ESMTP; 08 Sep 2024 01:23:36 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snDCm-000DKZ-3C;
-	Sun, 08 Sep 2024 08:23:32 +0000
-Date: Sun, 8 Sep 2024 16:22:38 +0800
+	id 1snDCn-000DKi-1v;
+	Sun, 08 Sep 2024 08:23:33 +0000
+Date: Sun, 8 Sep 2024 16:22:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Weston Andros Adamson <dros@primarydata.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	NeilBrown <neilb@suse.de>
-Subject: [snitzer:nfs-localio-for-next.v15 16/26] fs/nfsd/localio.c:77:15:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202409081600.TNWiIK6G-lkp@intel.com>
+To: Heiko Stuebner <heiko@sntech.de>, lee@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, jdelvare@suse.com,
+	linux@roeck-us.net, heiko@sntech.de, dmitry.torokhov@gmail.com,
+	pavel@ucw.cz, ukleinek@debian.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v7 1/8] mfd: core: make platform_data pointer const in
+ struct mfd_cell
+Message-ID: <202409081514.inB0qj3o-lkp@intel.com>
+References: <20240905185232.2899464-2-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,70 +70,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240905185232.2899464-2-heiko@sntech.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next.v15
-head:   494f1a380b0adbc0fd4ba61103b456a1487c73c1
-commit: 4af4178cf1b7796fcd5a1a25d6d3453291c294e1 [16/26] nfsd: add LOCALIO support
-config: sh-randconfig-r113-20240908 (https://download.01.org/0day-ci/archive/20240908/202409081600.TNWiIK6G-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240908/202409081600.TNWiIK6G-lkp@intel.com/reproduce)
+Hi Heiko,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240905]
+[also build test ERROR on v6.11-rc6]
+[cannot apply to lee-mfd/for-mfd-next groeck-staging/hwmon-next lee-leds/for-leds-next linus/master lee-mfd/for-mfd-fixes v6.11-rc6 v6.11-rc5 v6.11-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/mfd-core-make-platform_data-pointer-const-in-struct-mfd_cell/20240906-025553
+base:   next-20240905
+patch link:    https://lore.kernel.org/r/20240905185232.2899464-2-heiko%40sntech.de
+patch subject: [PATCH v7 1/8] mfd: core: make platform_data pointer const in struct mfd_cell
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240908/202409081514.inB0qj3o-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409081514.inB0qj3o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409081600.TNWiIK6G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409081514.inB0qj3o-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfsd/localio.c:77:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/nfsd/localio.c:77:15: sparse:    struct net [noderef] __rcu *
-   fs/nfsd/localio.c:77:15: sparse:    struct net *
+All errors (new ones prefixed by >>):
 
-vim +77 fs/nfsd/localio.c
+   In file included from drivers/hid/hid-sensor-hub.c:8:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:21:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2206:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/hid/hid-sensor-hub.c:8:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/hid/hid-sensor-hub.c:8:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/hid/hid-sensor-hub.c:8:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/hid/hid-sensor-hub.c:744:33: error: initializing 'struct hid_sensor_hub_device *' with an expression of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     744 |                 struct hid_sensor_hub_device *hsdev =
+         |                                               ^
+     745 |                         data->hid_sensor_hub_client_devs[i].platform_data;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   7 warnings and 1 error generated.
 
-    34	
-    35	/**
-    36	 * nfsd_open_local_fh - lookup a local filehandle @nfs_fh and map to nfsd_file
-    37	 *
-    38	 * @uuid: nfs_uuid_t which provides the 'struct net' to get the proper nfsd_net
-    39	 *        and the 'struct auth_domain' required for LOCALIO access
-    40	 * @rpc_clnt: rpc_clnt that the client established, used for sockaddr and cred
-    41	 * @cred: cred that the client established
-    42	 * @nfs_fh: filehandle to lookup
-    43	 * @fmode: fmode_t to use for open
-    44	 *
-    45	 * This function maps a local fh to a path on a local filesystem.
-    46	 * This is useful when the nfs client has the local server mounted - it can
-    47	 * avoid all the NFS overhead with reads, writes and commits.
-    48	 *
-    49	 * On successful return, returned nfsd_file will have its nf_net member
-    50	 * set. Caller (NFS client) is responsible for calling nfsd_serv_put and
-    51	 * nfsd_file_put (via nfs_to.nfsd_file_put_local).
-    52	 */
-    53	struct nfsd_file *
-    54	nfsd_open_local_fh(nfs_uuid_t *uuid,
-    55			   struct rpc_clnt *rpc_clnt, const struct cred *cred,
-    56			   const struct nfs_fh *nfs_fh, const fmode_t fmode)
-    57		__must_hold(rcu)
-    58	{
-    59		int mayflags = NFSD_MAY_LOCALIO;
-    60		struct nfsd_net *nn = NULL;
-    61		struct net *net;
-    62		struct svc_cred rq_cred;
-    63		struct svc_fh fh;
-    64		struct nfsd_file *localio;
-    65		__be32 beres;
-    66	
-    67		if (nfs_fh->size > NFS4_FHSIZE)
-    68			return ERR_PTR(-EINVAL);
-    69	
-    70		/*
-    71		 * Not running in nfsd context, so must safely get reference on nfsd_serv.
-    72		 * But the server may already be shutting down, if so disallow new localio.
-    73		 * uuid->net is NOT a counted reference, but caller's rcu_read_lock() ensures
-    74		 * that if uuid->net is not NULL, then calling nfsd_serv_try_get() is safe
-    75		 * and if it succeeds we will have an implied reference to the net.
-    76		 */
-  > 77		net = rcu_dereference(uuid->net);
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [m]:
+   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+
+
+vim +744 drivers/hid/hid-sensor-hub.c
+
+401ca24fb34aee srinivas pandruvada 2012-09-05  732  
+401ca24fb34aee srinivas pandruvada 2012-09-05  733  static void sensor_hub_remove(struct hid_device *hdev)
+401ca24fb34aee srinivas pandruvada 2012-09-05  734  {
+401ca24fb34aee srinivas pandruvada 2012-09-05  735  	struct sensor_hub_data *data = hid_get_drvdata(hdev);
+401ca24fb34aee srinivas pandruvada 2012-09-05  736  	unsigned long flags;
+e651a1da442ae0 Srinivas Pandruvada 2015-02-19  737  	int i;
+401ca24fb34aee srinivas pandruvada 2012-09-05  738  
+401ca24fb34aee srinivas pandruvada 2012-09-05  739  	hid_dbg(hdev, " hardware removed\n");
+401ca24fb34aee srinivas pandruvada 2012-09-05  740  	hid_hw_close(hdev);
+f2f13a68c37c13 Axel Lin            2012-09-19  741  	hid_hw_stop(hdev);
+401ca24fb34aee srinivas pandruvada 2012-09-05  742  	spin_lock_irqsave(&data->lock, flags);
+e651a1da442ae0 Srinivas Pandruvada 2015-02-19  743  	for (i = 0; i < data->hid_sensor_client_cnt; ++i) {
+e651a1da442ae0 Srinivas Pandruvada 2015-02-19 @744  		struct hid_sensor_hub_device *hsdev =
+e651a1da442ae0 Srinivas Pandruvada 2015-02-19  745  			data->hid_sensor_hub_client_devs[i].platform_data;
+e651a1da442ae0 Srinivas Pandruvada 2015-02-19  746  		if (hsdev->pending.status)
+e651a1da442ae0 Srinivas Pandruvada 2015-02-19  747  			complete(&hsdev->pending.ready);
+e651a1da442ae0 Srinivas Pandruvada 2015-02-19  748  	}
+401ca24fb34aee srinivas pandruvada 2012-09-05  749  	spin_unlock_irqrestore(&data->lock, flags);
+401ca24fb34aee srinivas pandruvada 2012-09-05  750  	mfd_remove_devices(&hdev->dev);
+401ca24fb34aee srinivas pandruvada 2012-09-05  751  	mutex_destroy(&data->mutex);
+401ca24fb34aee srinivas pandruvada 2012-09-05  752  }
+401ca24fb34aee srinivas pandruvada 2012-09-05  753  
 
 -- 
 0-DAY CI Kernel Test Service
