@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0B31843
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 00:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313C6290F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 01:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725754477; cv=none; b=Xmp5tXud/yrORxnj5DGEb+DpHd1coUsQHNxAKDvppjlxILc/9+/O/Yse81Wzzd9KGoyp6Quu8L1jPI/7bdQd19K0mjRVh85j1cReeIibBaGyqaQ0ljWkCwtaEcile0t+lNccqqnjtS6NnJOZdexagNHBltjhfkphkMa3NPxGB9M=
+	t=1725758741; cv=none; b=eCeikkkYB52SqLNNVik4i/cYV/sj36PF4W+RBVxiZ3yGnOdS6KPtt1PjxnL3bUl5vREuHaz9J7rDiVEs1vi4TSmC/SjNDXGPOxoZbXOqhvB+xs6aLsYMwg6qdu0t2WsgDaNC+VfIjIcy9YsoLQtgWCLdOIPrW3oZueem8ndVDP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725754477; c=relaxed/simple;
-	bh=DvLAcIAMeWc83lJk5vdANeFx3o5uR0eMOtZ/AGAxWmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L8u153NtGS/JQ4kwI+dcRRBb1ip/m29Hoy/brJpmc5vhv1sws4YcrobKJDuv4+C1tPwRbBXagft5X3PELwqxiuMxlDpLpVnrYBa5d0KfPrVP1Jb9SpGcxGI/Phqgifcxy28Np5HrC86iOFOJjD3ssEr0hN7mUYr/Y0KyZpUc3Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4uKPSGB; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1725758741; c=relaxed/simple;
+	bh=uR9HWPrpk8IMqW2i4OQtaSHLxVVN9HoXtwdQo/hUVCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nq2jaAiZJO/AxOwadNM45LcrITZycP/V4J8VhOSaePakv9V3xBENNWZ4wkreHn1jourE3flLcomjXeoQInonnQYm67X7jTHbX2kyxdMERc+294Is6o/a1rTlM1d/kQS8piXQeXN9CGqGn0W/yxCfzvLO91mtE/qlqtiEeYlXfiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsMrkKhJ; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4uKPSGB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsMrkKhJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725754475; x=1757290475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DvLAcIAMeWc83lJk5vdANeFx3o5uR0eMOtZ/AGAxWmY=;
-  b=H4uKPSGB8c9fIBaIWsz9bgPBoda64sXoJpDEvdrJWPK/gFa3RzgoFkDJ
-   MGosQVetYMkwhCsLKhDPuN7MsDz4TKZM3oOZ4rVSjNAO7WtYvXrPO4TPz
-   O2avcd50faxGmrLPETe2i845HitQ5KfTruBusf9sVcTj0vxIfBjbNvFHf
-   Hp+vdkNRc/O0lMNc7noiQJdl9I8NXEp4j9dfhR/Luk0ZrMbxTOt6iwEdX
-   3X7Hy7ihlPDj4OK9Sx28ahgD/Fsv874si+bT5D2lMzg3RlrvWxi/sdD0T
-   i4cOwonjDdT/3qftQI39du+zlxW102emP7pkCWTCLH6PCqHW5xPx42e9j
-   Q==;
-X-CSE-ConnectionGUID: LFaxFKb7R7KCOv8/1LDHtA==
-X-CSE-MsgGUID: A17ttZQIRYWaTK78J33iNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="35073026"
+  t=1725758739; x=1757294739;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uR9HWPrpk8IMqW2i4OQtaSHLxVVN9HoXtwdQo/hUVCA=;
+  b=DsMrkKhJFvz+w5imsUBy3oCuLMOfc78tgBVSbQu97e4MkMHoRuY9rj2P
+   VgAci7WlYOnjsUhDnqgTONiIrlgUiWqn/zLvPbH1rMh8keGtsCixvQ/IA
+   QmkNbDEirNmyjIYtBumBEhfITH8UBF5eBrtBWyp8sVftFV+B3RA4gSwCR
+   4C6M/MRdvSk0O0xMmK0UkZntksMPu2jooeDjZWgix4SAyAXzkd6aGgBGF
+   ufnyGsWoYgJiSwQaXCae7R+5FHE3rB4qX+K/yUTst21aaXWI96z2U3pUS
+   6T/dxme6RSMe1y3eSZWIuR6WHk+WNYLQXJ6q+/wCKG+5qpWm92llLz7yL
+   g==;
+X-CSE-ConnectionGUID: PC+end/yQvWig8ADNxp3BA==
+X-CSE-MsgGUID: 9ZjctmKDShCBf7cb2yQU/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24675793"
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="35073026"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 17:14:34 -0700
-X-CSE-ConnectionGUID: iwdmQux6Rs+OivTbtlYUEg==
-X-CSE-MsgGUID: FuVCWA8KRpi5rDntSMR82Q==
+   d="scan'208";a="24675793"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 18:25:38 -0700
+X-CSE-ConnectionGUID: w4QrBZNXRuaJVLDg4IHWhQ==
+X-CSE-MsgGUID: 8VeEXSBBRB+uUV7JUBhnsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="71112563"
+   d="scan'208";a="66554282"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Sep 2024 17:14:33 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 07 Sep 2024 18:25:38 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sn5ZW-000D8R-3D;
-	Sun, 08 Sep 2024 00:14:30 +0000
-Date: Sun, 8 Sep 2024 08:13:40 +0800
+	id 1sn6gJ-000DBK-2f;
+	Sun, 08 Sep 2024 01:25:35 +0000
+Date: Sun, 8 Sep 2024 09:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
+To: Dongjin Kim <tobetter@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 09/12] media: i2c: ov5645: Add internal image sink pad
-Message-ID: <202409080734.5pW5y2eJ-lkp@intel.com>
-References: <20240904210719.52466-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [tobetter:odroid-6.6.y 49/82]
+ arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts:706.27-717.4: Warning
+ (i2c_bus_reg): /i2c@fe5b0000/touchscreen: missing or empty reg property
+Message-ID: <202409080929.Tk7HgnHy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,243 +62,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240904210719.52466-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Prabhakar,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240906]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/media-i2c-ov5645-Add-V4L2_SUBDEV_FL_HAS_EVENTS-and-subscribe-hooks/20240905-051300
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240904210719.52466-10-prabhakar.mahadev-lad.rj%40bp.renesas.com
-patch subject: [RFC PATCH 09/12] media: i2c: ov5645: Add internal image sink pad
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240908/202409080734.5pW5y2eJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080734.5pW5y2eJ-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   c970a63609188f53cf758a3dcd395e777150a29a
+commit: 80809145e0b3da448b457a4048c7dcad0a4d24da [49/82] ODROID-M1S: arm64/dts: add support MIPI interface with touch screen
+config: arm64-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080929.Tk7HgnHy-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080929.Tk7HgnHy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409080734.5pW5y2eJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409080929.Tk7HgnHy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts:706.27-717.4: Warning (i2c_bus_reg): /i2c@fe5b0000/touchscreen: missing or empty reg property
+>> arch/arm64/boot/dts/rockchip/rk356x.dtsi:1216.21-1227.4: Warning (avoid_unnecessary_addr_size): /i2c@fe5b0000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-   drivers/media/i2c/ov5645.c: In function 'ov5645_probe':
->> drivers/media/i2c/ov5645.c:1167:68: error: 'MEDIA_PAD_FL_INTERNAL' undeclared (first use in this function); did you mean 'MEDIA_PAD_FL_SINK'?
-    1167 |         ov5645->pads[OV5645_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-         |                                                                    ^~~~~~~~~~~~~~~~~~~~~
-         |                                                                    MEDIA_PAD_FL_SINK
-   drivers/media/i2c/ov5645.c:1167:68: note: each undeclared identifier is reported only once for each function it appears in
+vim +706 arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts
 
-
-vim +1167 drivers/media/i2c/ov5645.c
-
-  1057	
-  1058	static int ov5645_probe(struct i2c_client *client)
-  1059	{
-  1060		struct device *dev = &client->dev;
-  1061		struct device_node *endpoint;
-  1062		struct ov5645 *ov5645;
-  1063		u8 chip_id_high, chip_id_low;
-  1064		unsigned int i;
-  1065		u32 xclk_freq;
-  1066		int ret;
-  1067	
-  1068		ov5645 = devm_kzalloc(dev, sizeof(struct ov5645), GFP_KERNEL);
-  1069		if (!ov5645)
-  1070			return -ENOMEM;
-  1071	
-  1072		ov5645->i2c_client = client;
-  1073		ov5645->dev = dev;
-  1074	
-  1075		endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-  1076		if (!endpoint)
-  1077			return dev_err_probe(dev, -EINVAL, "endpoint node not found\n");
-  1078	
-  1079		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint),
-  1080						 &ov5645->ep);
-  1081	
-  1082		of_node_put(endpoint);
-  1083	
-  1084		if (ret < 0)
-  1085			return dev_err_probe(dev, ret, "parsing endpoint node failed\n");
-  1086	
-  1087		if (ov5645->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
-  1088			return dev_err_probe(dev, -EINVAL, "invalid bus type, must be CSI2\n");
-  1089	
-  1090		/* get system clock (xclk) */
-  1091		ov5645->xclk = devm_clk_get(dev, NULL);
-  1092		if (IS_ERR(ov5645->xclk))
-  1093			return dev_err_probe(dev, PTR_ERR(ov5645->xclk), "could not get xclk");
-  1094	
-  1095		ret = of_property_read_u32(dev->of_node, "clock-frequency", &xclk_freq);
-  1096		if (ret)
-  1097			return dev_err_probe(dev, ret, "could not get xclk frequency\n");
-  1098	
-  1099		/* external clock must be 24MHz, allow 1% tolerance */
-  1100		if (xclk_freq < 23760000 || xclk_freq > 24240000)
-  1101			return dev_err_probe(dev, -EINVAL, "external clock frequency %u is not supported\n",
-  1102					     xclk_freq);
-  1103	
-  1104		ret = clk_set_rate(ov5645->xclk, xclk_freq);
-  1105		if (ret)
-  1106			return dev_err_probe(dev, ret, "could not set xclk frequency\n");
-  1107	
-  1108		for (i = 0; i < OV5645_NUM_SUPPLIES; i++)
-  1109			ov5645->supplies[i].supply = ov5645_supply_name[i];
-  1110	
-  1111		ret = devm_regulator_bulk_get(dev, OV5645_NUM_SUPPLIES,
-  1112					      ov5645->supplies);
-  1113		if (ret < 0)
-  1114			return ret;
-  1115	
-  1116		ov5645->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
-  1117		if (IS_ERR(ov5645->enable_gpio))
-  1118			return dev_err_probe(dev, PTR_ERR(ov5645->enable_gpio), "cannot get enable gpio\n");
-  1119	
-  1120		ov5645->rst_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-  1121		if (IS_ERR(ov5645->rst_gpio))
-  1122			return dev_err_probe(dev, PTR_ERR(ov5645->rst_gpio), "cannot get reset gpio\n");
-  1123	
-  1124		v4l2_ctrl_handler_init(&ov5645->ctrls, 9);
-  1125		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
-  1126				  V4L2_CID_SATURATION, -4, 4, 1, 0);
-  1127		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
-  1128				  V4L2_CID_HFLIP, 0, 1, 1, 0);
-  1129		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
-  1130				  V4L2_CID_VFLIP, 0, 1, 1, 0);
-  1131		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
-  1132				  V4L2_CID_AUTOGAIN, 0, 1, 1, 1);
-  1133		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
-  1134				  V4L2_CID_AUTO_WHITE_BALANCE, 0, 1, 1, 1);
-  1135		v4l2_ctrl_new_std_menu(&ov5645->ctrls, &ov5645_ctrl_ops,
-  1136				       V4L2_CID_EXPOSURE_AUTO, V4L2_EXPOSURE_MANUAL,
-  1137				       0, V4L2_EXPOSURE_AUTO);
-  1138		v4l2_ctrl_new_std_menu_items(&ov5645->ctrls, &ov5645_ctrl_ops,
-  1139					     V4L2_CID_TEST_PATTERN,
-  1140					     ARRAY_SIZE(ov5645_test_pattern_menu) - 1,
-  1141					     0, 0, ov5645_test_pattern_menu);
-  1142		ov5645->pixel_clock = v4l2_ctrl_new_std(&ov5645->ctrls,
-  1143							&ov5645_ctrl_ops,
-  1144							V4L2_CID_PIXEL_RATE,
-  1145							1, INT_MAX, 1, 1);
-  1146		ov5645->link_freq = v4l2_ctrl_new_int_menu(&ov5645->ctrls,
-  1147							   &ov5645_ctrl_ops,
-  1148							   V4L2_CID_LINK_FREQ,
-  1149							   ARRAY_SIZE(link_freq) - 1,
-  1150							   0, link_freq);
-  1151		if (ov5645->link_freq)
-  1152			ov5645->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-  1153	
-  1154		ov5645->sd.ctrl_handler = &ov5645->ctrls;
-  1155	
-  1156		if (ov5645->ctrls.error) {
-  1157			ret = ov5645->ctrls.error;
-  1158			dev_err_probe(dev, ret, "%s: control initialization error %d\n",
-  1159				      __func__, ov5645->ctrls.error);
-  1160			goto free_ctrl;
-  1161		}
-  1162	
-  1163		v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
-  1164		ov5645->sd.internal_ops = &ov5645_internal_ops;
-  1165		ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
-  1166		ov5645->pads[OV5645_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> 1167		ov5645->pads[OV5645_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-  1168		ov5645->sd.dev = dev;
-  1169		ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-  1170	
-  1171		ret = media_entity_pads_init(&ov5645->sd.entity, ARRAY_SIZE(ov5645->pads), ov5645->pads);
-  1172		if (ret < 0) {
-  1173			dev_err_probe(dev, ret, "could not register media entity\n");
-  1174			goto free_ctrl;
-  1175		}
-  1176	
-  1177		ret = ov5645_set_power_on(dev);
-  1178		if (ret)
-  1179			goto free_entity;
-  1180	
-  1181		ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
-  1182		if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
-  1183			ret = -ENODEV;
-  1184			dev_err_probe(dev, ret, "could not read ID high\n");
-  1185			goto power_down;
-  1186		}
-  1187		ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low);
-  1188		if (ret < 0 || chip_id_low != OV5645_CHIP_ID_LOW_BYTE) {
-  1189			ret = -ENODEV;
-  1190			dev_err_probe(dev, ret, "could not read ID low\n");
-  1191			goto power_down;
-  1192		}
-  1193	
-  1194		dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
-  1195	
-  1196		ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
-  1197				      &ov5645->aec_pk_manual);
-  1198		if (ret < 0) {
-  1199			ret = -ENODEV;
-  1200			dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
-  1201			goto power_down;
-  1202		}
-  1203	
-  1204		ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
-  1205				      &ov5645->timing_tc_reg20);
-  1206		if (ret < 0) {
-  1207			ret = -ENODEV;
-  1208			dev_err_probe(dev, ret, "could not read vflip value\n");
-  1209			goto power_down;
-  1210		}
-  1211	
-  1212		ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
-  1213				      &ov5645->timing_tc_reg21);
-  1214		if (ret < 0) {
-  1215			ret = -ENODEV;
-  1216			dev_err_probe(dev, ret, "could not read hflip value\n");
-  1217			goto power_down;
-  1218		}
-  1219	
-  1220		ov5645->sd.state_lock = ov5645->ctrls.lock;
-  1221		ret = v4l2_subdev_init_finalize(&ov5645->sd);
-  1222		if (ret < 0) {
-  1223			dev_err_probe(dev, ret, "subdev init error\n");
-  1224			goto power_down;
-  1225		}
-  1226	
-  1227		ret = v4l2_async_register_subdev_sensor(&ov5645->sd);
-  1228		if (ret < 0) {
-  1229			dev_err_probe(dev, ret, "could not register v4l2 device\n");
-  1230			goto error_subdev_cleanup;
-  1231		}
-  1232	
-  1233		pm_runtime_set_active(dev);
-  1234		pm_runtime_get_noresume(dev);
-  1235		pm_runtime_enable(dev);
-  1236		pm_runtime_set_autosuspend_delay(dev, 1000);
-  1237		pm_runtime_use_autosuspend(dev);
-  1238		pm_runtime_mark_last_busy(dev);
-  1239		pm_runtime_put_autosuspend(dev);
-  1240	
-  1241		return 0;
-  1242	
-  1243	error_subdev_cleanup:
-  1244		v4l2_subdev_cleanup(&ov5645->sd);
-  1245	power_down:
-  1246		ov5645_set_power_off(dev);
-  1247	free_entity:
-  1248		media_entity_cleanup(&ov5645->sd.entity);
-  1249	free_ctrl:
-  1250		v4l2_ctrl_handler_free(&ov5645->ctrls);
-  1251	
-  1252		return ret;
-  1253	}
-  1254	
+   697	
+   698	&i2c2 {
+   699		status = "disabled";
+   700	
+   701		pinctrl-names = "default";
+   702		pinctrl-0 = <&i2c2m1_xfer>;
+   703	
+   704		clock-frequency = <400000>;
+   705	
+ > 706		touchscreen: touchscreen {
+   707			status = "disabled";
+   708	
+   709			pinctrl-names = "default";
+   710			pinctrl-0 = <&touch_gpios>;
+   711	
+   712			interrupt-parent = <&gpio0>;
+   713			interrupts = <RK_PC4 IRQ_TYPE_LEVEL_LOW>;
+   714	
+   715			irq-gpios = <&gpio0 RK_PC4 IRQ_TYPE_LEVEL_LOW>;
+   716			reset-gpios = <&gpio4 RK_PB2 GPIO_ACTIVE_LOW>;
+   717		};
+   718	};
+   719	
 
 -- 
 0-DAY CI Kernel Test Service
