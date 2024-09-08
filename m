@@ -1,144 +1,121 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E76EA31
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 20:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4F2170A2C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 20:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725825697; cv=none; b=UXJy4TTmNxq4lkg7CREkrDPtf6zw/IeIvJdqZ0MMwmhd8U0RFZOdrJ7anEFRTvFyezX80XX7SvmECAn+Ci3ULTSlMGP+S/Ufhz0DRl3PhEPM0oNfHnoPwxS+wdEqll2Exd9I4dyKz8IiCrkNei5GaJaaFA49NtjSnLTyx9UflB0=
+	t=1725827622; cv=none; b=kI9lxpQM8nfPnUbB8AYUSOl3giPlbbfzsVBJRkBrmhILvJlc0k09JnQRyTF93EaJWhsFNxLRYF0hyhfeb93/qSDAq8HIVFPBs2a70ubn/c+KRX/8k3kIJvQ+IW5+nyAQXmmP2N+7TLJLooMaTpKPuKHJwHPPEuOal/TgCK+qO4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725825697; c=relaxed/simple;
-	bh=2D+UcsbTQm0Pl1w0qPJN3RzMlbN2lpXc/QcHAp0lQUc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ndJSF47kLmVBNA9vZ+XszJdiu2i1Jhoac8vlt/4nw4hIN+0F8s3x5xLuEeiDAmh1ARHqvZfU2E7cFBferT18ejU1iqYnmanza+3Xj5AN9Q3oaOVxvBjf7MAmR7ZyDqKLinw9n7hic98hMFZbGnN36XiJfw6HLb496Id5MREBAcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uAUSPxnw; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com
+	s=arc-20240116; t=1725827622; c=relaxed/simple;
+	bh=/x8D13OlnClewCfMRfr42r7n87v4oTQxjbmWl/rFOA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g524djuKMMjQc6X1UiH9J9icp5cqIkVj76/B2uOdg+zfyOcWlXZN4E1j83M6SAr9tRUNULlQX6lMyYeLaJi4yNjefDfeCgEs82WUMzHpLKMNtVKacbkpAUBltgAIL1H1N4R0v2fR08wMHAHx8R/17PuuyxU/rCNCqkEiQBkhJK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VmJMNrxJ; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uAUSPxnw"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-a8a87c7c719so82136766b.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Sep 2024 13:01:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725825694; x=1726430494; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ug9eaffYhqFA0PC6wFkjKlxNmNfpvwkr9YdUbFvwzDk=;
-        b=uAUSPxnwA0HiIlR2TxwedzzGhz8VpvojcPs/mlyUR9sUOqkbilLZVLvDbBk3IeEwR6
-         4b8QCOBsYojfpemQ04VsM6o1Q2fMr/Y5erq7YbLHrtgV6y8wP7P6iiT/kB93E/tKNDdB
-         cZSUDevIoe2xSTFtydwkt59sxzk860Uar1taLpaLh7wyeTu3GHdodPIonft/tdR6/tfD
-         QTfVAjOnhKzgF31KilPNubygYF7HeVUQuKtbAjZbCTy4qPkss3w6wlUA5Jdh2/CZvRIV
-         WbV7glAQ2oidhMFXxfguNCqAqAoPQpCbD6M0C1mIp+VlDUMHnu3i3AhLU7lXEMzRsw0L
-         CGaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725825694; x=1726430494;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ug9eaffYhqFA0PC6wFkjKlxNmNfpvwkr9YdUbFvwzDk=;
-        b=QQED/8Yv2qJnxmDw6B90o/3jn8nokRCI6f7hKzne5OKrbPwqg8mZLByV4NWpMp3TNS
-         0D1GeASn7RsZB54H8LteBjprMa5djUckVyaLYltZTP1TgH5i7tRGQQGjAasSE0B6OyN+
-         g8uth6sias+AURaE26wRVOofACbGMxKc198LT3L9BlDJvN0sTEJCy+15q8w0HVNrtjvs
-         aIEB6VoGsWs/wy522ZA1oLG8DYueKOaY+58hUHhWCqV7TlUmn9sZ5N7hU3BpEKndcyvz
-         1dx/QNGtasIo5lT38FpBXlArdxehA5wm1+rHp4ABPeRczftmpugHkRFA/VlawgsXFwOK
-         lJmA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdxWbab/Wr0p0dGgTZSkk+ehckjuB5B7hZMH/ycngyOfut6ztw1t3eh6KmCpMBpeY7lNqB2iCpeuQT9tlX@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvP+58RKD8WHYFl1Oj/b8qvOwdq6uZUxndE7//pX6HukYDNRv4
-	EMUeZuAUqQslVfvbN9V84i6O+qWHeqTydrUbUVPdmIQzS30LCyr16hEFwtU5Lj/C9/6b/ce2fda
-	prEUsJSOqMe4A3g==
-X-Google-Smtp-Source: AGHT+IGWEAAdTqy9HWRfpr2zIqIHAZb3LmSQlUJJORnY3nPzO6xcvB7Sly7TPnE3cqwQKWdDXl5RBe1OUtFmtgo=
-X-Received: from mmaslanka2.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:b8d])
- (user=mmaslanka job=sendgmr) by 2002:a17:906:f14a:b0:a8a:8a31:c47f with SMTP
- id a640c23a62f3a-a8a8a31dc1bmr558966b.1.1725825693954; Sun, 08 Sep 2024
- 13:01:33 -0700 (PDT)
-Date: Sun,  8 Sep 2024 20:01:27 +0000
-In-Reply-To: <202409090259.6vsS5Bni-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VmJMNrxJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725827621; x=1757363621;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/x8D13OlnClewCfMRfr42r7n87v4oTQxjbmWl/rFOA4=;
+  b=VmJMNrxJgV8JE8+bCzE4Be8YSUoamVZa6OaPOam8QwqhhNmHe3KhG8c+
+   noU+KWuw4DwLFKGC7EoLLCvOqNhz3ryIShZW3x5PIcEoqXbyIRMHh/kS5
+   shZD55bvpQ+cCSDlt+up+oZcU6znWzZ56EoXRe0dKRRybcZAgGj3l8xZp
+   Rh8O0hf80TLCeK80Seo39LPdshBHPfK4oUWBdYCy3JNsY3SDOYbysMXl7
+   C1QNSe6x7iG6MoYAdTQBBvG3MENlaWKJYlRdpBOx1x1GsqmLORKxm3MQD
+   jirmoAdTtUZ3c9XDGgLZixTIB00Ix9Rx/eHjCXrsv8jCcKTlP47pRjwCl
+   A==;
+X-CSE-ConnectionGUID: RJsrNw2QS72Z4trKmJ/6Nw==
+X-CSE-MsgGUID: 7RfW7FpAR56IAUMRKlsrmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35174743"
+X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
+   d="scan'208";a="35174743"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 13:33:40 -0700
+X-CSE-ConnectionGUID: Abmo6hqfRqO9TUinUyw4XQ==
+X-CSE-MsgGUID: Uu47vd9LQM641stwOUvIQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
+   d="scan'208";a="70867989"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Sep 2024 13:33:39 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snObI-000DxT-29;
+	Sun, 08 Sep 2024 20:33:36 +0000
+Date: Mon, 9 Sep 2024 04:33:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ido Schimmel <idosch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 14/39] net/ipv4/fib_rules.c:387:52:
+ sparse: sparse: restricted dscp_t degrades to integer
+Message-ID: <202409090444.UEg822QQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202409090259.6vsS5Bni-lkp@intel.com>
-X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
-Message-ID: <20240908200127.1848844-1-mmaslanka@google.com>
-Subject: [PATCH] platform/x86:intel/pmc: Encapsulate callbacks registration in
- CONFIG_X86_PM_TIMER check
-From: Marek Maslanka <mmaslanka@google.com>
-To: lkp@intel.com
-Cc: daniel.lezcano@linaro.org, hdegoede@redhat.com, linux-mm@kvack.org, 
-	mmaslanka@google.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Encapsulate the code that registers and unregisters the ACPI PM Timer
-suspend/resume callback to checks that CONFIG_X86_PM_TIMER is enabled.
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   1e442c563723a4ecdef463c14b10ba919b27acdf
+commit: 9a03a6c1671e79ebe2d7d47738a9014cc6c32359 [14/39] ipv4: fib_rules: Add DSCP selector support
+config: parisc-randconfig-r111-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090444.UEg822QQ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240909/202409090444.UEg822QQ-lkp@intel.com/reproduce)
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202409090259.6vsS5Bni-lkp@intel.com/
-Signed-off-by: Marek Maslanka <mmaslanka@google.com>
----
- drivers/platform/x86/intel/pmc/core.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409090444.UEg822QQ-lkp@intel.com/
 
-diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
-index 695804ca8de4..0c6392eeacee 100644
---- a/drivers/platform/x86/intel/pmc/core.c
-+++ b/drivers/platform/x86/intel/pmc/core.c
-@@ -1215,6 +1215,7 @@ static bool pmc_core_is_pson_residency_enabled(struct pmc_dev *pmcdev)
- 	return val == 1;
- }
- 
-+#ifdef CONFIG_X86_PM_TIMER
- /*
-  * Enable or disable ACPI PM Timer
-  *
-@@ -1247,6 +1248,7 @@ static void pmc_core_acpi_pm_timer_suspend_resume(void *data, bool suspend)
- 
- 	pmcdev->enable_acpi_pm_timer_on_resume = suspend && enabled;
- }
-+#endif
- 
- static void pmc_core_dbgfs_unregister(struct pmc_dev *pmcdev)
- {
-@@ -1443,9 +1445,11 @@ static int pmc_core_probe(struct platform_device *pdev)
- 	struct pmc_dev *pmcdev;
- 	const struct x86_cpu_id *cpu_id;
- 	int (*core_init)(struct pmc_dev *pmcdev);
--	const struct pmc_reg_map *map;
- 	struct pmc *primary_pmc;
- 	int ret;
-+#ifdef CONFIG_X86_PM_TIMER
-+	const struct pmc_reg_map *map;
-+#endif
- 
- 	if (device_initialized)
- 		return -ENODEV;
-@@ -1502,10 +1506,12 @@ static int pmc_core_probe(struct platform_device *pdev)
- 	pm_report_max_hw_sleep(FIELD_MAX(SLP_S0_RES_COUNTER_MASK) *
- 			       pmc_core_adjust_slp_s0_step(primary_pmc, 1));
- 
-+#ifdef CONFIG_X86_PM_TIMER
- 	map = primary_pmc->map;
- 	if (map->acpi_pm_tmr_ctl_offset)
- 		acpi_pmtmr_register_suspend_resume_callback(pmc_core_acpi_pm_timer_suspend_resume,
--							 pmcdev);
-+							    pmcdev);
-+#endif
- 
- 	device_initialized = true;
- 	dev_info(&pdev->dev, " initialized\n");
-@@ -1516,11 +1522,13 @@ static int pmc_core_probe(struct platform_device *pdev)
- static void pmc_core_remove(struct platform_device *pdev)
- {
- 	struct pmc_dev *pmcdev = platform_get_drvdata(pdev);
-+#ifdef CONFIG_X86_PM_TIMER
- 	const struct pmc *pmc = pmcdev->pmcs[PMC_IDX_MAIN];
- 	const struct pmc_reg_map *map = pmc->map;
- 
- 	if (map->acpi_pm_tmr_ctl_offset)
- 		acpi_pmtmr_unregister_suspend_resume_callback();
-+#endif
- 
- 	pmc_core_dbgfs_unregister(pmcdev);
- 	pmc_core_clean_structure(pdev);
+sparse warnings: (new ones prefixed by >>)
+>> net/ipv4/fib_rules.c:387:52: sparse: sparse: restricted dscp_t degrades to integer
+   net/ipv4/fib_rules.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/stackdepot.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+
+vim +387 net/ipv4/fib_rules.c
+
+   376	
+   377	static int fib4_rule_fill(struct fib_rule *rule, struct sk_buff *skb,
+   378				  struct fib_rule_hdr *frh)
+   379	{
+   380		struct fib4_rule *rule4 = (struct fib4_rule *) rule;
+   381	
+   382		frh->dst_len = rule4->dst_len;
+   383		frh->src_len = rule4->src_len;
+   384	
+   385		if (rule4->dscp_full) {
+   386			frh->tos = 0;
+ > 387			if (nla_put_u8(skb, FRA_DSCP, rule4->dscp >> 2))
+   388				goto nla_put_failure;
+   389		} else {
+   390			frh->tos = inet_dscp_to_dsfield(rule4->dscp);
+   391		}
+   392	
+   393		if ((rule4->dst_len &&
+   394		     nla_put_in_addr(skb, FRA_DST, rule4->dst)) ||
+   395		    (rule4->src_len &&
+   396		     nla_put_in_addr(skb, FRA_SRC, rule4->src)))
+   397			goto nla_put_failure;
+   398	#ifdef CONFIG_IP_ROUTE_CLASSID
+   399		if (rule4->tclassid &&
+   400		    nla_put_u32(skb, FRA_FLOW, rule4->tclassid))
+   401			goto nla_put_failure;
+   402	#endif
+   403		return 0;
+   404	
+   405	nla_put_failure:
+   406		return -ENOBUFS;
+   407	}
+   408	
+
 -- 
-2.46.0.469.g59c65b2a67-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
