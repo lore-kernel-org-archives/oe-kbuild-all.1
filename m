@@ -1,156 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38897157E91;
-	Sun,  8 Sep 2024 21:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81511145FE5
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 21:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725830086; cv=none; b=Aalm+vBuWchTv0TWx8iKZr7SiryyH7n9Mxisk1ZVoiejJyhKw0+r0AbW7iTYg1Ai8J2+vjpYSfDTk2blwzNc0fkTyirmMFfhJ8drYFt+erO6SrqIJo9yAPd/PObvBc4HciwEy56nuTN4LT2Lw0uoAAeDpSffXJrqONk4v0jiuOU=
+	t=1725831265; cv=none; b=VB2/CYfnWANkTMo1K/VCxNcwSdzD3OwtfsXeCoGy6If75+vRfBmKBFt/dDOtjY8AANofQXCCh8tv8OCO3XwtopCG9OXeBRUKBZ7Bd4PTYpw6J86FwUMNzYAquai9y3D7EwIyEoYOdv6nv6hgkMeeK1MMaH/WQK6SRUerOft2LHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725830086; c=relaxed/simple;
-	bh=NXvN4ge7FUdylrvPMxJi6mIKuXsqQLs2f7Ll8mW8vz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=acQoXdByGuEQN2GfwkdjnROxw1TOH8/I9fvTDLawGYX0sn3tm6gY+KC7K86L985kxdDjPtzAEymNCj8J9JHcoJxZiEc51vVmKq+Jz+LPaEgh0zqLOGQjWsiv8HD9dcgrp5nkXs8YTfUgisQbxYOVm4nvUNNwJt4TG6Z7Kx7omvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BSehgHNF; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSehgHNF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725830084; x=1757366084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NXvN4ge7FUdylrvPMxJi6mIKuXsqQLs2f7Ll8mW8vz4=;
-  b=BSehgHNFmqevsP+dfxe+28u5IUxtERVCLLtVnNvKbijlq2dcwsIMBcR9
-   VbroP9hYKZl5i59jQNvnaQ1jjZVtAiD9bNoMApMQHP93RVIgTQkHc/ul0
-   Mf+kdIK1xFBFT5P3XSq1eoDY06p1Oa2/aPNF7tdiT0saAY+1qV9y4CVTZ
-   6EEvGgm7CmYU4VPpCwuJfu7i8ETyIba1j1g4LEL3S5lY6tmlWPPND+d4X
-   AEiJ8tauAwjj7TvrxazMPXE14wR18LCaPGUVsTd4ZZ8rKeeKpzzlMl/8I
-   YR2e+TcBg8vEroMvr9rx6l/5j+VFKSfLP/9ZMdmfB+PkTwEIWEG7HvPJ+
-   w==;
-X-CSE-ConnectionGUID: Lr34cDoGSD2ZLP+BWnAQSQ==
-X-CSE-MsgGUID: wkinxRHLRQKcrE7F+Lkbsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35888283"
-X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="35888283"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 14:14:41 -0700
-X-CSE-ConnectionGUID: hEpRfrxtSc2wpBfi/zcNqQ==
-X-CSE-MsgGUID: t1UqsI6oR3mc3m3ck0a4dw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
-   d="scan'208";a="67203521"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 Sep 2024 14:14:40 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snPEz-000DyZ-2M;
-	Sun, 08 Sep 2024 21:14:37 +0000
-Date: Mon, 9 Sep 2024 05:14:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cedric Xing <cedric.xing@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 2/3] tsm: Add RTMR event logging
-Message-ID: <202409090447.mSy6H0u8-lkp@intel.com>
-References: <20240907-tsm-rtmr-v1-2-12fc4d43d4e7@intel.com>
+	s=arc-20240116; t=1725831265; c=relaxed/simple;
+	bh=LhtuifP5IpdNvKQRLUnCHialW7Brlt+b4DPn+TFoBKM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=MJydijC2ePg3GrnR38s3Hp3MvYQinlKPY+wNJJV6iUPe1PNnovMeMRI3n3glKbNlHD7eh0uc8/HtqJ8f1BBrbABfWFq+6uczp6ZDQsxp7niIFZldzGaKSunioVF+1z+vxoR67MfvlPSoV5gpHD/EZ6Y5AFcBZv8wS7a1r1u9zZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id D34F092009C; Sun,  8 Sep 2024 23:34:21 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id C30B492009B;
+	Sun,  8 Sep 2024 22:34:21 +0100 (BST)
+Date: Sun, 8 Sep 2024 22:34:21 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: kernel test robot <lkp@intel.com>
+cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, oe-kbuild-all@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: Re: error: ABI 'o32' is not supported on CPU 'mips3'
+In-Reply-To: <202409062003.wDQ7fEq1-lkp@intel.com>
+Message-ID: <alpine.DEB.2.21.2409082231560.60835@angie.orcam.me.uk>
+References: <202409062003.wDQ7fEq1-lkp@intel.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240907-tsm-rtmr-v1-2-12fc4d43d4e7@intel.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Cedric,
+On Fri, 6 Sep 2024, kernel test robot wrote:
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+> commit: bfc0a330c1b4526b88f6f9e711484b342cb00fb5 MIPS: Fallback CPU -march flag to ISA level if unsupported
+> date:   7 months ago
+> config: mips-randconfig-r111-20240906 (https://download.01.org/0day-ci/archive/20240906/202409062003.wDQ7fEq1-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce: (https://download.01.org/0day-ci/archive/20240906/202409062003.wDQ7fEq1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409062003.wDQ7fEq1-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> error: ABI 'o32' is not supported on CPU 'mips3'
+> >> error: ABI 'o32' is not supported on CPU 'mips3'
+> >> error: ABI 'o32' is not supported on CPU 'mips3'
+>    make[3]: *** [scripts/Makefile.build:116: scripts/mod/devicetable-offsets.s] Error 1
+>    make[3]: *** [scripts/Makefile.build:243: scripts/mod/empty.o] Error 1
+>    make[3]: Target 'scripts/mod/' not remade because of errors.
+>    make[2]: *** [Makefile:1198: prepare0] Error 2
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:240: __sub-make] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:240: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
 
-[auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+ This is analogous to the same failure for "CPU 'mips64'", and presumably 
+also addressed in newer LLVM.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Xing/tsm-Add-TVM-Measurement-Register-Support/20240908-142434
-base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-patch link:    https://lore.kernel.org/r/20240907-tsm-rtmr-v1-2-12fc4d43d4e7%40intel.com
-patch subject: [PATCH RFC 2/3] tsm: Add RTMR event logging
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240909/202409090447.mSy6H0u8-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090447.mSy6H0u8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409090447.mSy6H0u8-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/virt/coco/tsm.c:821:5: warning: the value of the size argument in 'strncat' is too large, might lead to a buffer overflow [-Wstrncat-size]
-     821 |                                 sizeof(sync));
-         |                                 ^~~~~~~~~~~~
-   drivers/virt/coco/tsm.c:821:5: note: change the argument to be the free space in the destination buffer minus the terminating null byte
-     821 |                                 sizeof(sync));
-         |                                 ^~~~~~~~~~~~
-         |                                 sizeof(sync) - strlen(sync) - 1
-   1 warning generated.
-
-
-vim +/strncat +821 drivers/virt/coco/tsm.c
-
-   788	
-   789	DEFINE_FREE(shash, struct crypto_shash *,
-   790		    if (!IS_ERR(_T)) crypto_free_shash(_T));
-   791	
-   792	static ssize_t append_event_store(struct kobject *kobj,
-   793					  struct kobj_attribute *attr, const char *page,
-   794					  size_t count)
-   795	{
-   796		struct _rtmr *rtmr;
-   797		rtmr = container_of(kobj, typeof(*rtmr), kobj);
-   798	
-   799		const struct tsm_measurement_register *mr;
-   800		mr = _rtmr_mr(rtmr);
-   801	
-   802		struct crypto_shash *tfm __free(shash) =
-   803			crypto_alloc_shash(hash_algo_name[mr->mr_hash], 0, 0);
-   804		if (IS_ERR(tfm))
-   805			return PTR_ERR(tfm);
-   806	
-   807		struct _mr_provider *pvd;
-   808		pvd = container_of(kobj->kset, typeof(*pvd), kset);
-   809	
-   810		ssize_t rc = down_write_killable(&pvd->rwsem);
-   811		if (rc)
-   812			return rc;
-   813	
-   814		if (!rtmr->log_in_sync) {
-   815			if (mr->mr_flags & TSM_MR_F_L)
-   816				rc = _call_refresh(pvd, mr);
-   817	
-   818			if (!IS_ERR_VALUE(rc)) {
-   819				char sync[0x100] = "SYNC ";
-   820				strncat(sync, hash_algo_name[mr->mr_hash],
- > 821					sizeof(sync));
-   822				size_t len = strnlen(sync, sizeof(sync));
-   823				sync[len++] = '/';
-   824				len += snprint_hex(sync + len, sizeof(sync) - len,
-   825						   mr->mr_value, mr->mr_size);
-   826				rc = _log_extend_line(rtmr, sync, sync + len,
-   827						      _rtmr_log_size(rtmr) > 0, tfm);
-   828			}
-   829		}
-   830	
-   831		if (!IS_ERR_VALUE(rc)) {
-   832			rtmr->log_in_sync = true;
-   833			rc = _log_extend(rtmr, page, count, tfm);
-   834		}
-   835	
-   836		up_write(&pvd->rwsem);
-   837		return IS_ERR_VALUE(rc) ? rc : count;
-   838	}
-   839	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  Maciej
