@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C9C1684A8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Sep 2024 23:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0B31843
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Sep 2024 00:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725752618; cv=none; b=oisWrf4Gut695AHL9u9GsEuhUjjB9LqYfU5g8TqwE23DW7iYBwXKPHb2ra6rXHE2uSbKB4xSYmPy5iffkrpG29sx21cw21aJursqO04mLQBYHmoVHVIqTi3AP0D9wtIiLMuQGg/Sr56k139Ck02x3bDPrhoAHZq23nx1pATFyHQ=
+	t=1725754477; cv=none; b=Xmp5tXud/yrORxnj5DGEb+DpHd1coUsQHNxAKDvppjlxILc/9+/O/Yse81Wzzd9KGoyp6Quu8L1jPI/7bdQd19K0mjRVh85j1cReeIibBaGyqaQ0ljWkCwtaEcile0t+lNccqqnjtS6NnJOZdexagNHBltjhfkphkMa3NPxGB9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725752618; c=relaxed/simple;
-	bh=3yuHilr2TLfO4vOw3XxPBupZnZnowuTt11x1/S7wtDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tpTACO41N8k0OlNIyJ76vu6aE91wZ9ZN/6Zn4M9EJ41TEdrEqnFL/ASxBxri8Fx4EtKuyuAkbYZOPIwzd9J1pDh16juzy8CFMvCsz+Xq1L2Uzj4oOLuHMfVQnbAx4ys8Xbzpvn/m7aEeZ8ird2Oz2ixgKpbsjDiObZfLSFj99Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ggWAX3Kw; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1725754477; c=relaxed/simple;
+	bh=DvLAcIAMeWc83lJk5vdANeFx3o5uR0eMOtZ/AGAxWmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L8u153NtGS/JQ4kwI+dcRRBb1ip/m29Hoy/brJpmc5vhv1sws4YcrobKJDuv4+C1tPwRbBXagft5X3PELwqxiuMxlDpLpVnrYBa5d0KfPrVP1Jb9SpGcxGI/Phqgifcxy28Np5HrC86iOFOJjD3ssEr0hN7mUYr/Y0KyZpUc3Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4uKPSGB; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ggWAX3Kw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4uKPSGB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725752616; x=1757288616;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3yuHilr2TLfO4vOw3XxPBupZnZnowuTt11x1/S7wtDs=;
-  b=ggWAX3KwzrcOf2ANvlqZiB/xijGoOkXv8mdXkjiRcxRW5Axv0v2E95K+
-   jYaICyHIZ15qSsBUbpkgpvskEviw4m3MYURAQohm+mwA+AiWP4hmVsRh5
-   RAXrVDGeZw5/PaXlNk68Sxrgz7JmpT6Ybb7EYkKfq6cWMDld6gLEEgRVF
-   6gUaxEPrR0ZibiyPr4XsTWDWLnA3/fiUsfE0rfWPO6/9HIgRmH7ezPKEA
-   fz9CGA+93suL9n/yDNFuwSNGcI50hJtqvQrPw9YJq5JHmRIFLNKpYjvIZ
-   ZUdLa6nDf/+bicCDCxgdsyXUJmBMKFpJLLdDemJ5HUKHL5llZRB0Rp9L4
+  t=1725754475; x=1757290475;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DvLAcIAMeWc83lJk5vdANeFx3o5uR0eMOtZ/AGAxWmY=;
+  b=H4uKPSGB8c9fIBaIWsz9bgPBoda64sXoJpDEvdrJWPK/gFa3RzgoFkDJ
+   MGosQVetYMkwhCsLKhDPuN7MsDz4TKZM3oOZ4rVSjNAO7WtYvXrPO4TPz
+   O2avcd50faxGmrLPETe2i845HitQ5KfTruBusf9sVcTj0vxIfBjbNvFHf
+   Hp+vdkNRc/O0lMNc7noiQJdl9I8NXEp4j9dfhR/Luk0ZrMbxTOt6iwEdX
+   3X7Hy7ihlPDj4OK9Sx28ahgD/Fsv874si+bT5D2lMzg3RlrvWxi/sdD0T
+   i4cOwonjDdT/3qftQI39du+zlxW102emP7pkCWTCLH6PCqHW5xPx42e9j
    Q==;
-X-CSE-ConnectionGUID: kSKlfi2zSE2FTAAKTuyiBQ==
-X-CSE-MsgGUID: 4yhVtoRPS2qy7fmGxkzi2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="41987881"
+X-CSE-ConnectionGUID: LFaxFKb7R7KCOv8/1LDHtA==
+X-CSE-MsgGUID: A17ttZQIRYWaTK78J33iNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="35073026"
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="41987881"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 16:43:33 -0700
-X-CSE-ConnectionGUID: kHIBTY4URrO4UI3MG7RW/Q==
-X-CSE-MsgGUID: lE5bUbTmSDangIaqHEmnJQ==
+   d="scan'208";a="35073026"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 17:14:34 -0700
+X-CSE-ConnectionGUID: iwdmQux6Rs+OivTbtlYUEg==
+X-CSE-MsgGUID: FuVCWA8KRpi5rDntSMR82Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="103759017"
+   d="scan'208";a="71112563"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Sep 2024 16:43:32 -0700
+  by orviesa005.jf.intel.com with ESMTP; 07 Sep 2024 17:14:33 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sn55V-000D7F-1u;
-	Sat, 07 Sep 2024 23:43:29 +0000
-Date: Sun, 8 Sep 2024 07:43:03 +0800
+	id 1sn5ZW-000D8R-3D;
+	Sun, 08 Sep 2024 00:14:30 +0000
+Date: Sun, 8 Sep 2024 08:13:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>
-Subject: kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits
- from constant value (ffffc00000000000 becomes 0)
-Message-ID: <202409080751.h44hDCan-lkp@intel.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 09/12] media: i2c: ov5645: Add internal image sink pad
+Message-ID: <202409080734.5pW5y2eJ-lkp@intel.com>
+References: <20240904210719.52466-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,293 +62,243 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240904210719.52466-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d1f2d51b711a3b7f1ae1b46701c769c1d580fa7f
-commit: af682b767a41772499f8e54ca7d7e1deb3395f44 bpf: Optimize emit_mov_imm64().
-date:   5 months ago
-config: arm64-randconfig-r113-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080751.h44hDCan-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240908/202409080751.h44hDCan-lkp@intel.com/reproduce)
+Hi Prabhakar,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240906]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/media-i2c-ov5645-Add-V4L2_SUBDEV_FL_HAS_EVENTS-and-subscribe-hooks/20240905-051300
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240904210719.52466-10-prabhakar.mahadev-lad.rj%40bp.renesas.com
+patch subject: [RFC PATCH 09/12] media: i2c: ov5645: Add internal image sink pad
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240908/202409080734.5pW5y2eJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080734.5pW5y2eJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409080751.h44hDCan-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409080734.5pW5y2eJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/verifier.c:20219:38: sparse: sparse: subtraction of functions? Share your drugs
-   kernel/bpf/verifier.c: note: in included file (through include/linux/bpf.h, include/linux/bpf-cgroup.h):
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
->> kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits from constant value (ffffc00000000000 becomes 0)
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+All errors (new ones prefixed by >>):
 
-vim +19160 kernel/bpf/verifier.c
+   drivers/media/i2c/ov5645.c: In function 'ov5645_probe':
+>> drivers/media/i2c/ov5645.c:1167:68: error: 'MEDIA_PAD_FL_INTERNAL' undeclared (first use in this function); did you mean 'MEDIA_PAD_FL_SINK'?
+    1167 |         ov5645->pads[OV5645_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
+         |                                                                    ^~~~~~~~~~~~~~~~~~~~~
+         |                                                                    MEDIA_PAD_FL_SINK
+   drivers/media/i2c/ov5645.c:1167:68: note: each undeclared identifier is reported only once for each function it appears in
 
- 19113	
- 19114	static int jit_subprogs(struct bpf_verifier_env *env)
- 19115	{
- 19116		struct bpf_prog *prog = env->prog, **func, *tmp;
- 19117		int i, j, subprog_start, subprog_end = 0, len, subprog;
- 19118		struct bpf_map *map_ptr;
- 19119		struct bpf_insn *insn;
- 19120		void *old_bpf_func;
- 19121		int err, num_exentries;
- 19122	
- 19123		if (env->subprog_cnt <= 1)
- 19124			return 0;
- 19125	
- 19126		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
- 19127			if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
- 19128				continue;
- 19129	
- 19130			/* Upon error here we cannot fall back to interpreter but
- 19131			 * need a hard reject of the program. Thus -EFAULT is
- 19132			 * propagated in any case.
- 19133			 */
- 19134			subprog = find_subprog(env, i + insn->imm + 1);
- 19135			if (subprog < 0) {
- 19136				WARN_ONCE(1, "verifier bug. No program starts at insn %d\n",
- 19137					  i + insn->imm + 1);
- 19138				return -EFAULT;
- 19139			}
- 19140			/* temporarily remember subprog id inside insn instead of
- 19141			 * aux_data, since next loop will split up all insns into funcs
- 19142			 */
- 19143			insn->off = subprog;
- 19144			/* remember original imm in case JIT fails and fallback
- 19145			 * to interpreter will be needed
- 19146			 */
- 19147			env->insn_aux_data[i].call_imm = insn->imm;
- 19148			/* point imm to __bpf_call_base+1 from JITs point of view */
- 19149			insn->imm = 1;
- 19150			if (bpf_pseudo_func(insn)) {
- 19151	#if defined(MODULES_VADDR)
- 19152				u64 addr = MODULES_VADDR;
- 19153	#else
- 19154				u64 addr = VMALLOC_START;
- 19155	#endif
- 19156				/* jit (e.g. x86_64) may emit fewer instructions
- 19157				 * if it learns a u32 imm is the same as a u64 imm.
- 19158				 * Set close enough to possible prog address.
- 19159				 */
- 19160				insn[0].imm = (u32)addr;
- 19161				insn[1].imm = addr >> 32;
- 19162			}
- 19163		}
- 19164	
- 19165		err = bpf_prog_alloc_jited_linfo(prog);
- 19166		if (err)
- 19167			goto out_undo_insn;
- 19168	
- 19169		err = -ENOMEM;
- 19170		func = kcalloc(env->subprog_cnt, sizeof(prog), GFP_KERNEL);
- 19171		if (!func)
- 19172			goto out_undo_insn;
- 19173	
- 19174		for (i = 0; i < env->subprog_cnt; i++) {
- 19175			subprog_start = subprog_end;
- 19176			subprog_end = env->subprog_info[i + 1].start;
- 19177	
- 19178			len = subprog_end - subprog_start;
- 19179			/* bpf_prog_run() doesn't call subprogs directly,
- 19180			 * hence main prog stats include the runtime of subprogs.
- 19181			 * subprogs don't have IDs and not reachable via prog_get_next_id
- 19182			 * func[i]->stats will never be accessed and stays NULL
- 19183			 */
- 19184			func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
- 19185			if (!func[i])
- 19186				goto out_free;
- 19187			memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
- 19188			       len * sizeof(struct bpf_insn));
- 19189			func[i]->type = prog->type;
- 19190			func[i]->len = len;
- 19191			if (bpf_prog_calc_tag(func[i]))
- 19192				goto out_free;
- 19193			func[i]->is_func = 1;
- 19194			func[i]->sleepable = prog->sleepable;
- 19195			func[i]->aux->func_idx = i;
- 19196			/* Below members will be freed only at prog->aux */
- 19197			func[i]->aux->btf = prog->aux->btf;
- 19198			func[i]->aux->func_info = prog->aux->func_info;
- 19199			func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
- 19200			func[i]->aux->poke_tab = prog->aux->poke_tab;
- 19201			func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
- 19202	
- 19203			for (j = 0; j < prog->aux->size_poke_tab; j++) {
- 19204				struct bpf_jit_poke_descriptor *poke;
- 19205	
- 19206				poke = &prog->aux->poke_tab[j];
- 19207				if (poke->insn_idx < subprog_end &&
- 19208				    poke->insn_idx >= subprog_start)
- 19209					poke->aux = func[i]->aux;
- 19210			}
- 19211	
- 19212			func[i]->aux->name[0] = 'F';
- 19213			func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
- 19214			func[i]->jit_requested = 1;
- 19215			func[i]->blinding_requested = prog->blinding_requested;
- 19216			func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
- 19217			func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
- 19218			func[i]->aux->linfo = prog->aux->linfo;
- 19219			func[i]->aux->nr_linfo = prog->aux->nr_linfo;
- 19220			func[i]->aux->jited_linfo = prog->aux->jited_linfo;
- 19221			func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
- 19222			func[i]->aux->arena = prog->aux->arena;
- 19223			num_exentries = 0;
- 19224			insn = func[i]->insnsi;
- 19225			for (j = 0; j < func[i]->len; j++, insn++) {
- 19226				if (BPF_CLASS(insn->code) == BPF_LDX &&
- 19227				    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
- 19228				     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
- 19229				     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
- 19230					num_exentries++;
- 19231				if ((BPF_CLASS(insn->code) == BPF_STX ||
- 19232				     BPF_CLASS(insn->code) == BPF_ST) &&
- 19233				     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
- 19234					num_exentries++;
- 19235			}
- 19236			func[i]->aux->num_exentries = num_exentries;
- 19237			func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
- 19238			func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
- 19239			if (!i)
- 19240				func[i]->aux->exception_boundary = env->seen_exception;
- 19241			func[i] = bpf_int_jit_compile(func[i]);
- 19242			if (!func[i]->jited) {
- 19243				err = -ENOTSUPP;
- 19244				goto out_free;
- 19245			}
- 19246			cond_resched();
- 19247		}
- 19248	
- 19249		/* at this point all bpf functions were successfully JITed
- 19250		 * now populate all bpf_calls with correct addresses and
- 19251		 * run last pass of JIT
- 19252		 */
- 19253		for (i = 0; i < env->subprog_cnt; i++) {
- 19254			insn = func[i]->insnsi;
- 19255			for (j = 0; j < func[i]->len; j++, insn++) {
- 19256				if (bpf_pseudo_func(insn)) {
- 19257					subprog = insn->off;
- 19258					insn[0].imm = (u32)(long)func[subprog]->bpf_func;
- 19259					insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
- 19260					continue;
- 19261				}
- 19262				if (!bpf_pseudo_call(insn))
- 19263					continue;
- 19264				subprog = insn->off;
- 19265				insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
- 19266			}
- 19267	
- 19268			/* we use the aux data to keep a list of the start addresses
- 19269			 * of the JITed images for each function in the program
- 19270			 *
- 19271			 * for some architectures, such as powerpc64, the imm field
- 19272			 * might not be large enough to hold the offset of the start
- 19273			 * address of the callee's JITed image from __bpf_call_base
- 19274			 *
- 19275			 * in such cases, we can lookup the start address of a callee
- 19276			 * by using its subprog id, available from the off field of
- 19277			 * the call instruction, as an index for this list
- 19278			 */
- 19279			func[i]->aux->func = func;
- 19280			func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
- 19281			func[i]->aux->real_func_cnt = env->subprog_cnt;
- 19282		}
- 19283		for (i = 0; i < env->subprog_cnt; i++) {
- 19284			old_bpf_func = func[i]->bpf_func;
- 19285			tmp = bpf_int_jit_compile(func[i]);
- 19286			if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
- 19287				verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
- 19288				err = -ENOTSUPP;
- 19289				goto out_free;
- 19290			}
- 19291			cond_resched();
- 19292		}
- 19293	
- 19294		/* finally lock prog and jit images for all functions and
- 19295		 * populate kallsysm. Begin at the first subprogram, since
- 19296		 * bpf_prog_load will add the kallsyms for the main program.
- 19297		 */
- 19298		for (i = 1; i < env->subprog_cnt; i++) {
- 19299			err = bpf_prog_lock_ro(func[i]);
- 19300			if (err)
- 19301				goto out_free;
- 19302		}
- 19303	
- 19304		for (i = 1; i < env->subprog_cnt; i++)
- 19305			bpf_prog_kallsyms_add(func[i]);
- 19306	
- 19307		/* Last step: make now unused interpreter insns from main
- 19308		 * prog consistent for later dump requests, so they can
- 19309		 * later look the same as if they were interpreted only.
- 19310		 */
- 19311		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
- 19312			if (bpf_pseudo_func(insn)) {
- 19313				insn[0].imm = env->insn_aux_data[i].call_imm;
- 19314				insn[1].imm = insn->off;
- 19315				insn->off = 0;
- 19316				continue;
- 19317			}
- 19318			if (!bpf_pseudo_call(insn))
- 19319				continue;
- 19320			insn->off = env->insn_aux_data[i].call_imm;
- 19321			subprog = find_subprog(env, i + insn->off + 1);
- 19322			insn->imm = subprog;
- 19323		}
- 19324	
- 19325		prog->jited = 1;
- 19326		prog->bpf_func = func[0]->bpf_func;
- 19327		prog->jited_len = func[0]->jited_len;
- 19328		prog->aux->extable = func[0]->aux->extable;
- 19329		prog->aux->num_exentries = func[0]->aux->num_exentries;
- 19330		prog->aux->func = func;
- 19331		prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
- 19332		prog->aux->real_func_cnt = env->subprog_cnt;
- 19333		prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
- 19334		prog->aux->exception_boundary = func[0]->aux->exception_boundary;
- 19335		bpf_prog_jit_attempt_done(prog);
- 19336		return 0;
- 19337	out_free:
- 19338		/* We failed JIT'ing, so at this point we need to unregister poke
- 19339		 * descriptors from subprogs, so that kernel is not attempting to
- 19340		 * patch it anymore as we're freeing the subprog JIT memory.
- 19341		 */
- 19342		for (i = 0; i < prog->aux->size_poke_tab; i++) {
- 19343			map_ptr = prog->aux->poke_tab[i].tail_call.map;
- 19344			map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
- 19345		}
- 19346		/* At this point we're guaranteed that poke descriptors are not
- 19347		 * live anymore. We can just unlink its descriptor table as it's
- 19348		 * released with the main prog.
- 19349		 */
- 19350		for (i = 0; i < env->subprog_cnt; i++) {
- 19351			if (!func[i])
- 19352				continue;
- 19353			func[i]->aux->poke_tab = NULL;
- 19354			bpf_jit_free(func[i]);
- 19355		}
- 19356		kfree(func);
- 19357	out_undo_insn:
- 19358		/* cleanup main prog to be interpreted */
- 19359		prog->jit_requested = 0;
- 19360		prog->blinding_requested = 0;
- 19361		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
- 19362			if (!bpf_pseudo_call(insn))
- 19363				continue;
- 19364			insn->off = 0;
- 19365			insn->imm = env->insn_aux_data[i].call_imm;
- 19366		}
- 19367		bpf_prog_jit_attempt_done(prog);
- 19368		return err;
- 19369	}
- 19370	
+
+vim +1167 drivers/media/i2c/ov5645.c
+
+  1057	
+  1058	static int ov5645_probe(struct i2c_client *client)
+  1059	{
+  1060		struct device *dev = &client->dev;
+  1061		struct device_node *endpoint;
+  1062		struct ov5645 *ov5645;
+  1063		u8 chip_id_high, chip_id_low;
+  1064		unsigned int i;
+  1065		u32 xclk_freq;
+  1066		int ret;
+  1067	
+  1068		ov5645 = devm_kzalloc(dev, sizeof(struct ov5645), GFP_KERNEL);
+  1069		if (!ov5645)
+  1070			return -ENOMEM;
+  1071	
+  1072		ov5645->i2c_client = client;
+  1073		ov5645->dev = dev;
+  1074	
+  1075		endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+  1076		if (!endpoint)
+  1077			return dev_err_probe(dev, -EINVAL, "endpoint node not found\n");
+  1078	
+  1079		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint),
+  1080						 &ov5645->ep);
+  1081	
+  1082		of_node_put(endpoint);
+  1083	
+  1084		if (ret < 0)
+  1085			return dev_err_probe(dev, ret, "parsing endpoint node failed\n");
+  1086	
+  1087		if (ov5645->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
+  1088			return dev_err_probe(dev, -EINVAL, "invalid bus type, must be CSI2\n");
+  1089	
+  1090		/* get system clock (xclk) */
+  1091		ov5645->xclk = devm_clk_get(dev, NULL);
+  1092		if (IS_ERR(ov5645->xclk))
+  1093			return dev_err_probe(dev, PTR_ERR(ov5645->xclk), "could not get xclk");
+  1094	
+  1095		ret = of_property_read_u32(dev->of_node, "clock-frequency", &xclk_freq);
+  1096		if (ret)
+  1097			return dev_err_probe(dev, ret, "could not get xclk frequency\n");
+  1098	
+  1099		/* external clock must be 24MHz, allow 1% tolerance */
+  1100		if (xclk_freq < 23760000 || xclk_freq > 24240000)
+  1101			return dev_err_probe(dev, -EINVAL, "external clock frequency %u is not supported\n",
+  1102					     xclk_freq);
+  1103	
+  1104		ret = clk_set_rate(ov5645->xclk, xclk_freq);
+  1105		if (ret)
+  1106			return dev_err_probe(dev, ret, "could not set xclk frequency\n");
+  1107	
+  1108		for (i = 0; i < OV5645_NUM_SUPPLIES; i++)
+  1109			ov5645->supplies[i].supply = ov5645_supply_name[i];
+  1110	
+  1111		ret = devm_regulator_bulk_get(dev, OV5645_NUM_SUPPLIES,
+  1112					      ov5645->supplies);
+  1113		if (ret < 0)
+  1114			return ret;
+  1115	
+  1116		ov5645->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
+  1117		if (IS_ERR(ov5645->enable_gpio))
+  1118			return dev_err_probe(dev, PTR_ERR(ov5645->enable_gpio), "cannot get enable gpio\n");
+  1119	
+  1120		ov5645->rst_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+  1121		if (IS_ERR(ov5645->rst_gpio))
+  1122			return dev_err_probe(dev, PTR_ERR(ov5645->rst_gpio), "cannot get reset gpio\n");
+  1123	
+  1124		v4l2_ctrl_handler_init(&ov5645->ctrls, 9);
+  1125		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
+  1126				  V4L2_CID_SATURATION, -4, 4, 1, 0);
+  1127		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
+  1128				  V4L2_CID_HFLIP, 0, 1, 1, 0);
+  1129		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
+  1130				  V4L2_CID_VFLIP, 0, 1, 1, 0);
+  1131		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
+  1132				  V4L2_CID_AUTOGAIN, 0, 1, 1, 1);
+  1133		v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
+  1134				  V4L2_CID_AUTO_WHITE_BALANCE, 0, 1, 1, 1);
+  1135		v4l2_ctrl_new_std_menu(&ov5645->ctrls, &ov5645_ctrl_ops,
+  1136				       V4L2_CID_EXPOSURE_AUTO, V4L2_EXPOSURE_MANUAL,
+  1137				       0, V4L2_EXPOSURE_AUTO);
+  1138		v4l2_ctrl_new_std_menu_items(&ov5645->ctrls, &ov5645_ctrl_ops,
+  1139					     V4L2_CID_TEST_PATTERN,
+  1140					     ARRAY_SIZE(ov5645_test_pattern_menu) - 1,
+  1141					     0, 0, ov5645_test_pattern_menu);
+  1142		ov5645->pixel_clock = v4l2_ctrl_new_std(&ov5645->ctrls,
+  1143							&ov5645_ctrl_ops,
+  1144							V4L2_CID_PIXEL_RATE,
+  1145							1, INT_MAX, 1, 1);
+  1146		ov5645->link_freq = v4l2_ctrl_new_int_menu(&ov5645->ctrls,
+  1147							   &ov5645_ctrl_ops,
+  1148							   V4L2_CID_LINK_FREQ,
+  1149							   ARRAY_SIZE(link_freq) - 1,
+  1150							   0, link_freq);
+  1151		if (ov5645->link_freq)
+  1152			ov5645->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+  1153	
+  1154		ov5645->sd.ctrl_handler = &ov5645->ctrls;
+  1155	
+  1156		if (ov5645->ctrls.error) {
+  1157			ret = ov5645->ctrls.error;
+  1158			dev_err_probe(dev, ret, "%s: control initialization error %d\n",
+  1159				      __func__, ov5645->ctrls.error);
+  1160			goto free_ctrl;
+  1161		}
+  1162	
+  1163		v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
+  1164		ov5645->sd.internal_ops = &ov5645_internal_ops;
+  1165		ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+  1166		ov5645->pads[OV5645_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+> 1167		ov5645->pads[OV5645_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
+  1168		ov5645->sd.dev = dev;
+  1169		ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+  1170	
+  1171		ret = media_entity_pads_init(&ov5645->sd.entity, ARRAY_SIZE(ov5645->pads), ov5645->pads);
+  1172		if (ret < 0) {
+  1173			dev_err_probe(dev, ret, "could not register media entity\n");
+  1174			goto free_ctrl;
+  1175		}
+  1176	
+  1177		ret = ov5645_set_power_on(dev);
+  1178		if (ret)
+  1179			goto free_entity;
+  1180	
+  1181		ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
+  1182		if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
+  1183			ret = -ENODEV;
+  1184			dev_err_probe(dev, ret, "could not read ID high\n");
+  1185			goto power_down;
+  1186		}
+  1187		ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low);
+  1188		if (ret < 0 || chip_id_low != OV5645_CHIP_ID_LOW_BYTE) {
+  1189			ret = -ENODEV;
+  1190			dev_err_probe(dev, ret, "could not read ID low\n");
+  1191			goto power_down;
+  1192		}
+  1193	
+  1194		dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+  1195	
+  1196		ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
+  1197				      &ov5645->aec_pk_manual);
+  1198		if (ret < 0) {
+  1199			ret = -ENODEV;
+  1200			dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
+  1201			goto power_down;
+  1202		}
+  1203	
+  1204		ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
+  1205				      &ov5645->timing_tc_reg20);
+  1206		if (ret < 0) {
+  1207			ret = -ENODEV;
+  1208			dev_err_probe(dev, ret, "could not read vflip value\n");
+  1209			goto power_down;
+  1210		}
+  1211	
+  1212		ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
+  1213				      &ov5645->timing_tc_reg21);
+  1214		if (ret < 0) {
+  1215			ret = -ENODEV;
+  1216			dev_err_probe(dev, ret, "could not read hflip value\n");
+  1217			goto power_down;
+  1218		}
+  1219	
+  1220		ov5645->sd.state_lock = ov5645->ctrls.lock;
+  1221		ret = v4l2_subdev_init_finalize(&ov5645->sd);
+  1222		if (ret < 0) {
+  1223			dev_err_probe(dev, ret, "subdev init error\n");
+  1224			goto power_down;
+  1225		}
+  1226	
+  1227		ret = v4l2_async_register_subdev_sensor(&ov5645->sd);
+  1228		if (ret < 0) {
+  1229			dev_err_probe(dev, ret, "could not register v4l2 device\n");
+  1230			goto error_subdev_cleanup;
+  1231		}
+  1232	
+  1233		pm_runtime_set_active(dev);
+  1234		pm_runtime_get_noresume(dev);
+  1235		pm_runtime_enable(dev);
+  1236		pm_runtime_set_autosuspend_delay(dev, 1000);
+  1237		pm_runtime_use_autosuspend(dev);
+  1238		pm_runtime_mark_last_busy(dev);
+  1239		pm_runtime_put_autosuspend(dev);
+  1240	
+  1241		return 0;
+  1242	
+  1243	error_subdev_cleanup:
+  1244		v4l2_subdev_cleanup(&ov5645->sd);
+  1245	power_down:
+  1246		ov5645_set_power_off(dev);
+  1247	free_entity:
+  1248		media_entity_cleanup(&ov5645->sd.entity);
+  1249	free_ctrl:
+  1250		v4l2_ctrl_handler_free(&ov5645->ctrls);
+  1251	
+  1252		return ret;
+  1253	}
+  1254	
 
 -- 
 0-DAY CI Kernel Test Service
