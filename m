@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DC81DA5F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 14:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2E91BB6A4
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 14:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725891567; cv=none; b=HQcBVuxgQuIf1cTx+c0ZbOnALCaRPf/fAKVJlIV6ukFeUf75lRf/AWmkhRs4mgBcbFLB6VRECIRFX977iHpjqqcTDmKOzDASd09NdGbbNYPi5fN4tbq9vszEhYcRaU3dNO154wRTNPcxkPc15bv/UeIpjpzqs88Il+p3mpyQ17E=
+	t=1725893428; cv=none; b=a+aPJEP8uwyayUmymYEESeeqtm11YTQQ89g4JG25EWOvSg+eNXfUKFDa/G4vvZRmsaTPm1OAui7nfmdx7j3pmzGVT1NS0/xo35X5zgjc2hiv9jlWkcqRzlUv9fELnPj8bdIogT3KI4REb0SecD/RuW8baxNhZaBEBrMH0snzIpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725891567; c=relaxed/simple;
-	bh=u5PNIKarIWm0sQgathI+0sVqsBQ/k55USDm2Z+I5NTg=;
+	s=arc-20240116; t=1725893428; c=relaxed/simple;
+	bh=5yaU2huBrojkJLQBmFEOcC7IvRG2ddhsMptH1XhfjcY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r+w/f5IpHQxKIsQz02Dwf84smICYt0syaAB408myH45vt08UP5Rl4mYhYX+FAXICB7vIqUUSnpkIVMIFyBw434EVRIOB897uEdwyUz6VWqvVTqdhPFxECXCLpfkQHM8uCwf71XKMvdT3Xnuazj8z9EU9EBkkx8hGx50vOQcIPBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xddh/xM2; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=HE4OFvdPulMO+8S/TJ6pPQEHIF1T5mtSR2LoDGJVQSWsfRTdYcbRFmyYmtdnFFitPqzepmOAMAowrUHCxNGUYKmSt7cJqUgJ0Iml7Fu6B2Otv0wQaqYu1g4qEWD1USn5GkpnfX7nVGRRCi9dzD87aQu7xtg39oURguDediPnVgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHef6PfE; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xddh/xM2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHef6PfE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725891566; x=1757427566;
+  t=1725893427; x=1757429427;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u5PNIKarIWm0sQgathI+0sVqsBQ/k55USDm2Z+I5NTg=;
-  b=Xddh/xM2pzL7byHEluarGTFNsZyQdkswB5yBKNVs95dj6HytfvRl4ecF
-   Dxh4iYxx79uRgeTGuoBvGkUy8z6Kp7rYkoNBApc/uPgdifVU0jt3h9y3E
-   xOv8Ji/6QbRBY6si8jDcZ8jEJPUQs5OKZWkQsfhxu0dycgJgV03V6IZ7M
-   gdEofnGGF1NfcVAUqo7uw3fNZ6i7tC8kAP7AUNLModDcdzePEIW8nO5Pt
-   cR4Vp+64Cj7+j5ivtzI8sXx0JM7i45pvXcwMAYpGjJw288L09/MiPq9EL
-   kASU4pBMR/WwFD+F5Z+31ty1p/VlODGY665JRT0JZ09YTm5QCWTD4klRB
-   Q==;
-X-CSE-ConnectionGUID: mmOa7NAITPaYNsK3tnMeUA==
-X-CSE-MsgGUID: M0X/6WyZS1yj5BKbFbcgEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="42099777"
+  bh=5yaU2huBrojkJLQBmFEOcC7IvRG2ddhsMptH1XhfjcY=;
+  b=UHef6PfE1OAvU6n9xrICJUlsR9GgWZEVVqusyusa+HLj2h+HsHnd9jyS
+   EJb9seVG3nkhzKV4dJsR+V7rXuMCbU7lhvv27+s6eopXChm/830KmFmP4
+   gxW9DjBBw6sMcf8WqJ7IeuJdGqrb0/0dQ8xHmdztLYtbj+jwuewobz67v
+   PlueKd0BOtuxRVWsP/Rf6cEW0c+kEhZY9LsB0iEliO4ayeQ62nqpWB9xy
+   aKfzpaEz21DPGM+LKIgqQGJUnuaK6F/nC8ULiOSNffKBSnH5qFNG6kSmZ
+   krGSzhdTQWTWnbp3/I995G9trdbzUCbKVxBzjGsveeefEiHYlJn5apoRZ
+   A==;
+X-CSE-ConnectionGUID: b2UNXSJwQ66Lq2pWddQGAw==
+X-CSE-MsgGUID: OZr+D9DCRlarzLwETZ0WYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24461190"
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="42099777"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 07:19:25 -0700
-X-CSE-ConnectionGUID: UkbXZ8luReCPiOtx44V5Ew==
-X-CSE-MsgGUID: mqQEiUUlRk+JY2YCKD9Pzw==
+   d="scan'208";a="24461190"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 07:50:26 -0700
+X-CSE-ConnectionGUID: drFBIyfARyeNZMIGMrm6Ww==
+X-CSE-MsgGUID: 7cz27t4LTNKzGX6Jg1WphA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="66475872"
+   d="scan'208";a="89978682"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Sep 2024 07:19:23 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 09 Sep 2024 07:50:25 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snfEe-000Eoi-3B;
-	Mon, 09 Sep 2024 14:19:20 +0000
-Date: Mon, 9 Sep 2024 22:18:42 +0800
+	id 1snfih-000Er6-0O;
+	Mon, 09 Sep 2024 14:50:23 +0000
+Date: Mon, 9 Sep 2024 22:49:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-garbage 201/258]
- kernel/sched/core.c:3914:25: error: implicit declaration of function
- 'stack_trace_save_tsk'
-Message-ID: <202409092218.s0v2pzGh-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-garbage 194/258] arc-elf-ld:
+ main.c:undefined reference to `kvfree_rcu_pending_init'
+Message-ID: <202409092238.tJPjq9rG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,49 +64,21 @@ Content-Disposition: inline
 
 tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
 head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
-commit: 08354d16b5d03f4594c112c4c540a4a168f6a427 [201/258] trace_sched_wakeup_backtrace
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240909/202409092218.s0v2pzGh-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409092218.s0v2pzGh-lkp@intel.com/reproduce)
+commit: 66de14f67dd993fb93e846432af241600f522d83 [194/258] rcu: Switch kvfree_rcu() to new rcu_pending
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240909/202409092238.tJPjq9rG-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409092238.tJPjq9rG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409092218.s0v2pzGh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409092238.tJPjq9rG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/core.c: In function 'do_trace_sched_wakeup_backtrace':
->> kernel/sched/core.c:3914:25: error: implicit declaration of function 'stack_trace_save_tsk' [-Werror=implicit-function-declaration]
-    3914 |                 bt_nr = stack_trace_save_tsk(task, bt, ARRAY_SIZE(bt), 0);
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/stack_trace_save_tsk +3914 kernel/sched/core.c
-
-  3899	
-  3900	static noinline void do_trace_sched_wakeup_backtrace(struct task_struct *task, u64 start_time)
-  3901	{
-  3902		u64 duration = ktime_get_ns() - start_time;
-  3903	
-  3904		if (duration < 1000 * 1000)
-  3905			return;
-  3906	
-  3907		if (task->__state & TASK_NOLOAD)
-  3908			return;
-  3909	
-  3910		unsigned long bt[10];
-  3911		unsigned bt_nr = 0;
-  3912	
-  3913		if (down_read_trylock(&task->signal->exec_update_lock)) {
-> 3914			bt_nr = stack_trace_save_tsk(task, bt, ARRAY_SIZE(bt), 0);
-  3915			up_read(&task->signal->exec_update_lock);
-  3916		}
-  3917	
-  3918		trace_sched_wakeup_backtrace(task, duration, bt, bt_nr);
-  3919	}
-  3920	
+   arc-elf-ld: init/main.o: in function `start_kernel':
+   main.c:(.init.text+0x942): undefined reference to `kvfree_rcu_pending_init'
+>> arc-elf-ld: main.c:(.init.text+0x942): undefined reference to `kvfree_rcu_pending_init'
 
 -- 
 0-DAY CI Kernel Test Service
