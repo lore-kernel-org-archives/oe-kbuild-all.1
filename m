@@ -1,177 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2050.outbound.protection.outlook.com [40.92.103.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A1F18CBF0;
-	Mon,  9 Sep 2024 23:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725923207; cv=none; b=kX2gS7kGvFc+FsdEZgPelqNY61ESMaTiLOpEqCqTboaCwkQndmhTnosxTqfCQCienwIabfeXLD36YmrjizgdT3yzqi2Hhdeu21Vaay+lvNmwWybCtK55RSuKPMk2acEwOuLs+fZW46t9+8VNqp/92wtbZ+VhHxN9F/CL8e5wYCE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725923207; c=relaxed/simple;
-	bh=d6sQfdMd/TRtHc//UGkxb+8WTJvSlnDR9/Dt0jbt5JU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z/LzBNdw8IUMrJ4arniz9GWyWSzWCslJSW/7vYT0ImT16CIcJ94Dkbre8EYcBN1NM1iE4HO2cR8JZbXeXZOf3Xo3HnuCCx9zUQLhXjVne5qmigwXg1aDHq1gSZz1UY3hXvnriwDr/s22rFSv/NlwZk22hGrz63SaVUEjQtjgHLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7Ox8NJN; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683F118CC11
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 23:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725923307; cv=fail; b=dXYZ0lj9ojvGnRQuySa/E2TVAt9uLAM72briWMsBG9jhD+mvReNAhMGDVro+3dgpgAzU8OgyLhKpsjzULChGgYIaw6tEp75ZSOW2Xblu4EaOl5MnzH+KvNAjt7yFnhrZrQP9Bodo0uHWCsGx5dCSvuy9hDVseLqVEgLuKToi5WM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725923307; c=relaxed/simple;
+	bh=NEiZrUrEtdrSIUL9KEcJsBCmbVHKNtjFNi27XS5oS+8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=S45IpXpgFZvzUkGInEaio4/+6Y5ODjvx0qjSzAlnkINP1dHr/UT9bleBx06kUZckZJen0Upv7ts1Gb4OUyN4+55KDAgjHmDonUehWX5KiwEO+bg47PxPC0+JOTfqhZqsUbizgSOY9qHVZHqbDPpUwa0nZWZz0MKP9Xy9J16NxjM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=WG+YBXbz; arc=fail smtp.client-ip=40.92.103.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7Ox8NJN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725923205; x=1757459205;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d6sQfdMd/TRtHc//UGkxb+8WTJvSlnDR9/Dt0jbt5JU=;
-  b=C7Ox8NJNmXKuYLveDy/KmuCk9WUFqER2neI9qegL8NHMuecI4HN8CHXz
-   7vL5qpzauFxWlFikjSdvb3xQQOLO6F+VI5WyRbJVnL1W00O1ZNMbOR6AL
-   zuSgnlEY9Frz5hyg1/fD0z/3tmDUzZMvf/IuiVs/C9BpdZrp7jKb2p1Bo
-   xh2uOaNa8wonpqpen3gH/uWWBNhQC+eP6Rzcb0bFgX93rLHxKYE6HOG7T
-   OUOC/fA8l8WgC6hz6TDQJnaz0SeoicU08AEe6HrmruKTHrc9vgM8A8+F6
-   f9atkxkSeUpzkYGkLkyBO5pGfrtk2llz9WZ2BcpgZwjQrHUz3oQw6+yUP
-   w==;
-X-CSE-ConnectionGUID: bx+QSuaiTcGXajpuPG5nMQ==
-X-CSE-MsgGUID: EYcbFTXlRY+PZ3vHcCHvJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24806662"
-X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="24806662"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 16:06:44 -0700
-X-CSE-ConnectionGUID: Dt4vttWWTP+tKGdvbSUHjw==
-X-CSE-MsgGUID: E0A85fuYSyO7FJwOKHmjWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="97625971"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Sep 2024 16:06:43 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snnSz-000FK0-0g;
-	Mon, 09 Sep 2024 23:06:41 +0000
-Date: Tue, 10 Sep 2024 07:06:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-garbage 169/258]
- fs/bcachefs/ec.c:899:2: error: expected expression
-Message-ID: <202409100726.g9xGizIl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="WG+YBXbz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iWwUhV8+ZRDcgsWlMAijvNOzdrs0dZ6IIGw6tjtEyqRh2Ha6bTrzDiwm3sv1FnxG8BG2IUOykc+7YzTFsNFwXIUu4lGt9Ldvn+43rgxEz9c9KU5N22AFB5TR0prAuJUMaKFX1IVIa3ifX63nYdxVnBrB5xZbpTTzJODBSQ36VCbHsJx92On0W49KSX3n0sxxjbpaV/J6xX1ssLaUd9fmE8nceAux/kz+FYEAcmCnbuM/Sm/zDurkKOkk+aiIJeULA3y0YKsusms0qFvyn7xVJ/mZwTnHbWgOxZ3sx9n8nrhtShPfPZlR4qfeVAGGw0ZWejfg4mK6LDJL1Rs4zdHeKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NEiZrUrEtdrSIUL9KEcJsBCmbVHKNtjFNi27XS5oS+8=;
+ b=HookQElCE36N5nOVT02GFDveSWnz74OGq40ZogcfrC/biDTCYgOwCdxgrrg16/iKsIFnXVNJAS2BNYnMwwapv1uTrzuaxH92yTiRQ0iUlkfuMKuRaiDzZQQlZNyN4xeXS9YA0LpTeeyUa/OUKaM2PGsMPeUy16GQpIYnfMmLv9pfYP2ot75SD5Znqt6POOZSoArJBTkxjJFJjFKCzH1kiM5tTjoWUWkoK/mI1pHAa+EhMo9T0UKskLj9Zod9pv5bRyFn1HGmmY26+2o+MBju2E3Jv0jXY0Cx02TyuKr/9wQNetxnQugT8Q7nn9KZkKHa1cKZQ7eMUQn9Jrh/Ut9hjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NEiZrUrEtdrSIUL9KEcJsBCmbVHKNtjFNi27XS5oS+8=;
+ b=WG+YBXbzFScP71gvXeWp4LPbL+3n3dc15h2KGvVSg7G0A671W38GOxKR5RCCf0p84UdAdFZEi8ATroVGbHuxIPTFE4APRVG6DBA1PgCbsW8EHfx/bF+5AbIh5t+IKnA2sWd1uM4aRXcVydQMoGazrw5TLGovdejoAwoqmuISkuhVHLYhsszdYOEAYHcI2ot6Jur3T03pNzkgu9GfRuuB9rjDdJyMQuuOR2C0mX91SNOTjkIZ9ImRsmTIUiy0/JOndL86wKHJaL9HR1qVTUNZCwkuUbVD9Ee1ZMhIRgUOysuBZh0U78uCCXgZqdTQV7s1NEAKa7q1EU0umP9cm/IH8w==
+Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:138::5)
+ by MA0P287MB2133.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:103::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Mon, 9 Sep
+ 2024 23:08:15 +0000
+Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ ([fe80::a94:ad0a:9071:806c]) by MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ ([fe80::a94:ad0a:9071:806c%4]) with mapi id 15.20.7939.022; Mon, 9 Sep 2024
+ 23:08:15 +0000
+Message-ID:
+ <MA0P287MB282257F6614C3D43523CB4C3FE992@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+Date: Tue, 10 Sep 2024 07:08:07 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] pwm: sophgo: add driver for Sophgo SG2042 PWM
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ Chen Wang <unicornxw@gmail.com>, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, inochiama@outlook.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-riscv@lists.infradead.org, chao.wei@sophgo.com,
+ haijiao.liu@sophgo.com, xiaoguang.xing@sophgo.com, chunzhi.lin@sophgo.com
+References: <3985690b29340982a45314bdcc914c554621e909.1725536870.git.unicorn_wang@outlook.com>
+ <202409080100.h6lX5Asm-lkp@intel.com>
+ <MA0P287MB28225ECCF1D263A20917AD5DFE992@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+ <CAMuHMdXOAmCsdcvdo41qD9f4L=K2uZa6nJN7D5YOTTuCnBHtWA@mail.gmail.com>
+ <MA0P287MB2822B10767514B3E04E8E468FE992@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+ <qcpqwvffln3cb5lxnhwarmeawiudurc4v35rqz7jo6xo2es5bi@2q4e4f4zn2vu>
+From: Chen Wang <unicorn_wang@outlook.com>
+In-Reply-To: <qcpqwvffln3cb5lxnhwarmeawiudurc4v35rqz7jo6xo2es5bi@2q4e4f4zn2vu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TMN: [pgQpsBM5yz7Tp3fDJcasQ8aQK9r0aGlb]
+X-ClientProxiedBy: TYAPR01CA0225.jpnprd01.prod.outlook.com
+ (2603:1096:404:11e::21) To MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:138::5)
+X-Microsoft-Original-Message-ID:
+ <25b44694-0701-4577-8168-9c356e5fe74f@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MA0P287MB2822:EE_|MA0P287MB2133:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e303450-9b3d-4d44-3447-08dcd1244863
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|8060799006|19110799003|5072599009|461199028|6090799003|15080799006|3412199025|440099028;
+X-Microsoft-Antispam-Message-Info:
+	GwpAmNBZaWJuMv1mp8y3pFW4Qv2ss7mv1r9f0r7/biD97t4xjzblJVwy8w9rNfqueCzcC8CaqM3UMZ1oEuSPRSdRY0g76nCeHfgBcfTpvzNp4FP9d20zZXKC1hnaQmaiLT5IQ9tY8w2rcFnyEfGH9hhwvwplTTnWC57jNHy9Qrs1HFF1dWDCE8uU/wHpdDb5zoqWwUvgfj/RmJXPYXL5CcLach//Ag3K6v3swcUdryPPX0rKYkyJcuEBEqPJ6Uy0Uq/crBrnJfPvcBacqdkOM95IcPJ8Z4ufcvzmmyw4KqzTajpR5/qcyM6RQfr3YHRM5o65qpBn0lpKShrsAyRs9Rw+HGICJjqag91qgvW0uLSEoKIJPdZ44GGXjxry+n5BxBTf44B36ISyggv2fsmcjVw5oNj9qC4Wb6ckrW3+LykoEd+s8VHZ/8/wuKyQDqrwb5UI2M1EtK8DA6fhT/Itz89l0h9pJes9x55GJvhTAzcJEf/HHFUJZrcLr7IKKp/ithols+qWM1IFvyBInqDR/p7LbXbbMaGUDcR2Es7Omem99x1oLv8woUKx0UTyK1+h78cLglx8ZaFOXh7seZLCRf+fKK3qzonioioA6z3Gm+7bf5y7dGgtCR3kEmsQoL4b/pmfLt4aHooVA/IEJkGZkglHHsZwDY3JcQFvjEnpn3iYZIcbhRNWqI5PQbM9SlvgInf7LxotTAtmCVCWnnEyv9a8v2TOXRJkUY6VVfRc+2g=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Uk5DcVg0U3VRSFU4ZkVGcnBCRlVYRXVibXIrS3I2N0N0VzRQNkFCUk1Gcmpo?=
+ =?utf-8?B?UXlMWVU2WmY2TG1Qb1BGVkNrSXcwdlhSdGU5M29NU3BZYjBpNm8ycHlrTWFm?=
+ =?utf-8?B?cjd0bEtrTUVZZmJ6czNRV1BaT3E2cGxwdVVsVW1nNGxGRzhNYkJDVFE5OG5B?=
+ =?utf-8?B?eVpQeEpTYklpdmVtWWRrWVN2VXZYTUt3WDAxbkxVMC8wTGJxbkg1Q1plbXZR?=
+ =?utf-8?B?V04xMnlFZWNDL3FsTnNmUlprOHZMYnlzVjlYVXJ3UElKNjB4eENHNFd3NEpZ?=
+ =?utf-8?B?eUh1RUwrMU9SVStwMXJjMENzSTBJOFh0WXJvdE8xaWpqVnVIeVl0SllydzRv?=
+ =?utf-8?B?WnFCRUFCWnVwd0puUitBM3lKWHNBY1JiT2FVaGllSk9ZdTBmSkRqS1g2bnNY?=
+ =?utf-8?B?eGhiL3JuaTNWSHN1L2dKeGJ6WW5kNm9QeVNUUy9rZlRqOEJNajRFV0NBZWp0?=
+ =?utf-8?B?dHQvaTJ3aWFETVhkY3BuNjlOTGMxcXAvd1BENXZCVUloZFVpSzRRL056MVlt?=
+ =?utf-8?B?dW1ZNDlCUWtYbDcxdFRwdDlCOTNuOUpETUJnbFpQZ1ozOXZwMVhtdDNVQmxK?=
+ =?utf-8?B?MEJlc3Z0N01nczdJYTcxV2VURW1hei95RExRb3Z0RWlPejVJRFhjV1ZRdWE1?=
+ =?utf-8?B?bFM4YW1ybFdhNWZ3SGZDRHhaWVJkeGx0b0Z4V21rNmFNRkU5eFRRNXVkc1FY?=
+ =?utf-8?B?RXhudk5HcE5CYVcyT0ZtUERtelZVa2lwcGlLaTBzQUxQRHJzcUpidnVyZmcv?=
+ =?utf-8?B?bWxMVm9OeGxVVEViVEdlb1E4aE1mang5V3Y0MVFKT1hCN1R1amgrUW93VGFn?=
+ =?utf-8?B?eWd3TThQcG1wTTUrT2dZZVlobzBWSkE5dW94MUl2S0k4VUxvNGc4QXdVdUwy?=
+ =?utf-8?B?S0FZeDhnUVo1clBYUkY3eUF5cjY3V21WazBiVlo2WWxtdmROMm84ZFNudFZO?=
+ =?utf-8?B?cFhVVE1Sb2hoT2tnUlViQnAxcEdsTFEyTGQvVUtnbU5PSG1LRHdZRTVKSUhR?=
+ =?utf-8?B?dHRnZWtuQ3JlTEtEWEF5c2w3c0tCU3A2MFhJOG9EdXJhakRKMHhRMlM4b1Y5?=
+ =?utf-8?B?OHluMDRzeVcyUm1SWEVWdE5QL0hlL3JjUmNnc2JsYlRFbVFSZDhZOHhqU2ZZ?=
+ =?utf-8?B?dVRpZjl5ZmVpZnVXK21nQ010aFhlNUliZlltSFVseUhMZVlBOU92UWF6OHB2?=
+ =?utf-8?B?emhFYS8wQlB1OUNPVDNLT2JKTFRueHBFV1JsYk9lNlF2WktFR0JNT2pia1cv?=
+ =?utf-8?B?Rk1LanFHc0xiUyt3czk1Qko5SjVEbzU2UTNKZDFZdXd4K0dKSnMyZkZHSXZq?=
+ =?utf-8?B?NDRhMnQvZVBoV2g4clpZRWFnL0w0K0trb1IvNFVwb0NFSnNEZDRkTzBrSDJE?=
+ =?utf-8?B?V3ZrTGx0d3JDMUtVUHRMTHNHTGxtM0huS2luNmZraGZCRVdMcTJpTjRuU1Er?=
+ =?utf-8?B?bFZpWllkU2hsRENNZWJWMG01UStzQkM4azk3RTN4eU0rZGpieTgxSVd0S3d2?=
+ =?utf-8?B?N096VldsSGo2bHcvem1uZEZvV2hYakdnMVJOcXlsbnNaWlBJQ01ZdDJQeHI3?=
+ =?utf-8?B?eHAzQ09pcnRwRHdJYjNhcElCT2NPN2lmYnpET2NLNkkrTWJ6VlY0bTFtQVhY?=
+ =?utf-8?B?VGJYWTN1Mzk5OE5vN3RUY2I4TUF1bEtJc3RVd1lZMjYyclRobktSVHhFd2Qx?=
+ =?utf-8?Q?XbD/Sp9mkfjEc2Yf9H6Q?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e303450-9b3d-4d44-3447-08dcd1244863
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 23:08:14.7894
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB2133
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
-head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
-commit: 1cf183a9fbb35bf1e6544d317fd534d6ff862e0e [169/258] bcachefs: Better error messages in bch2_ec_read_extent()
-config: powerpc64-randconfig-003-20240909 (https://download.01.org/0day-ci/archive/20240910/202409100726.g9xGizIl-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100726.g9xGizIl-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409100726.g9xGizIl-lkp@intel.com/
+On 2024/9/9 19:45, Uwe Kleine-König wrote:
+> Hello Chen,
+>
+> On Mon, Sep 09, 2024 at 05:08:41PM +0800, Chen Wang wrote:
+>> On 2024/9/9 16:45, Geert Uytterhoeven wrote:
+>>> On Mon, Sep 9, 2024 at 10:26 AM Chen Wang <unicorn_wang@outlook.com> wrote:
+>>>> I wonder why CONFIG_PWM_SOPHGO_SG2042 is enabeld for m68k? Please remove
+>>>> this.
+>>> Because it depends on ARCH_SOPHGO || COMPILE_TEST.
+>>> So it can be enabled on all architectures when compile-testing.
+>> Thanks, it's really a potential defect when CONFIG_OF is not set, will fix
+>> this in next version.
+> BTW, the right approach to fix that is to not use of_match_ptr when
+> initializing pwm_sg2042_driver.driver.of_match_table.
+>
+> Best regards
+> Uwe
 
-All errors (new ones prefixed by >>):
+Thank you Uwe, that's what I said potential defect, have fixed here.
 
->> fs/bcachefs/ec.c:899:2: error: expected expression
-           struct printbuf msgbuf = PRINTBUF;
-           ^
->> fs/bcachefs/ec.c:900:25: error: use of undeclared identifier 'msgbuf'
-           bch2_bkey_val_to_text(&msgbuf, c, orig_k);
-                                  ^
-   fs/bcachefs/ec.c:902:55: error: use of undeclared identifier 'msgbuf'
-                               "error doing reconstruct read: %s\n  %s", msg, msgbuf.buf);
-                                                                              ^
-   fs/bcachefs/ec.c:903:17: error: use of undeclared identifier 'msgbuf'
-           printbuf_exit(&msgbuf);;
-                          ^
-   4 errors generated.
+Thanks,
 
+Chen
 
-vim +899 fs/bcachefs/ec.c
-
-   830	
-   831	/* recovery read path: */
-   832	int bch2_ec_read_extent(struct btree_trans *trans, struct bch_read_bio *rbio,
-   833				struct bkey_s_c orig_k)
-   834	{
-   835		struct bch_fs *c = trans->c;
-   836		struct ec_stripe_buf *buf = NULL;
-   837		struct closure cl;
-   838		struct bch_stripe *v;
-   839		unsigned i, offset;
-   840		const char *msg = NULL;
-   841		int ret = 0;
-   842	
-   843		closure_init_stack(&cl);
-   844	
-   845		BUG_ON(!rbio->pick.has_ec);
-   846	
-   847		buf = kzalloc(sizeof(*buf), GFP_NOFS);
-   848		if (!buf)
-   849			return -BCH_ERR_ENOMEM_ec_read_extent;
-   850	
-   851		ret = lockrestart_do(trans, get_stripe_key_trans(trans, rbio->pick.ec.idx, buf));
-   852		if (ret) {
-   853			msg = "stripe not found";
-   854			goto err;
-   855		}
-   856	
-   857		v = &bkey_i_to_stripe(&buf->key)->v;
-   858	
-   859		if (!bch2_ptr_matches_stripe(v, rbio->pick)) {
-   860			msg = "pointer doesn't match stripe";
-   861			goto err;
-   862		}
-   863	
-   864		offset = rbio->bio.bi_iter.bi_sector - v->ptrs[rbio->pick.ec.block].offset;
-   865		if (offset + bio_sectors(&rbio->bio) > le16_to_cpu(v->sectors)) {
-   866			msg = "read is bigger than stripe";
-   867			goto err;
-   868		}
-   869	
-   870		ret = ec_stripe_buf_init(buf, offset, bio_sectors(&rbio->bio));
-   871		if (ret) {
-   872			msg = "-ENOMEM";
-   873			goto err;
-   874		}
-   875	
-   876		for (i = 0; i < v->nr_blocks; i++)
-   877			ec_block_io(c, buf, REQ_OP_READ, i, &cl);
-   878	
-   879		closure_sync(&cl);
-   880	
-   881		if (ec_nr_failed(buf) > v->nr_redundant) {
-   882			msg = "unable to read enough blocks";
-   883			goto err;
-   884		}
-   885	
-   886		ec_validate_checksums(c, buf);
-   887	
-   888		ret = ec_do_recov(c, buf);
-   889		if (ret)
-   890			goto err;
-   891	
-   892		memcpy_to_bio(&rbio->bio, rbio->bio.bi_iter,
-   893			      buf->data[rbio->pick.ec.block] + ((offset - buf->offset) << 9));
-   894	out:
-   895		ec_stripe_buf_exit(buf);
-   896		kfree(buf);
-   897		return ret;
-   898	err:
- > 899		struct printbuf msgbuf = PRINTBUF;
- > 900		bch2_bkey_val_to_text(&msgbuf, c, orig_k);
-   901		bch_err_ratelimited(c,
-   902				    "error doing reconstruct read: %s\n  %s", msg, msgbuf.buf);
-   903		printbuf_exit(&msgbuf);;
-   904		ret = -BCH_ERR_stripe_reconstruct;
-   905		goto out;
-   906	}
-   907	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
