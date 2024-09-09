@@ -1,38 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B9128DCC
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 17:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F32A939
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 17:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725901896; cv=none; b=Usn3gBvJsIQj8A703vapWaenrj9NM7ejmrtht+dovrNXUd71XENONRt2r5T9RdQcjUFQB3Y/Qau3EFebSJ+CKIlW9xihVlky8rBBYX5CdXUKAM9AYnnGxyGC+3CyLPUTpLsWtmMR1I8VJ/pgGrvC9086amkVZ/LVkeu9AI6jjHo=
+	t=1725902021; cv=none; b=txY+LXB16TWWiRUOsV0a6Int1VfjfY28yk/ITyWxvLgO/iRLQuZChrrJMt1dBmhjfw1k3YfZNHntGVGHOTQPrH8xWVmqvSeVB/ptOl5oq7b7BC7G2bQeLwMtuAXhFl5sSRPHr4tXX/uaMpd0gSjPOKQ1582kOcPK3dkpL0cFTI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725901896; c=relaxed/simple;
-	bh=+2DFgwq5HXLNnmiMrxVSbVnZ13PPaWYUOm31vYE+3Hg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gEUtdjv4+dkNkxLKm0Xa5kimJuDOCy4HBTcRqilHalb78a/WXQpoyWLQkgB4EqIpHSWYv2kzvNMwBuJVJliEIIMutvBhwu+poqHZp5kUvGrBBGH/u8RP4J9mGUpBUBZ0JFeU7uGHzBD876FzZwMrOsP+zf3X9kXL8x/o/IqzE6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dZTvBqJ/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725902021; c=relaxed/simple;
+	bh=gLTi+KMaIpRoTe3W7093RqkB1wnlsTx8e8WnFrTBFqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SoqcW7a80RisnDBnKE5VvWw97qw/YoUKU1tRgLDW7pSnUQEYEZb28kS5wl5PytPsGTFjuuhGQY9Ifo0AYbD6J9wBmxWCjIlzPynWQ8op2OUB21hrlV5cPb+jDtQnAaAlNlz54TwkJ1HCZlSo+8UPG6iVUwzadPx1pQHySAkTkzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBMy8G0u; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dZTvBqJ/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DD5EC4CEC5;
-	Mon,  9 Sep 2024 17:11:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1725901895;
-	bh=+2DFgwq5HXLNnmiMrxVSbVnZ13PPaWYUOm31vYE+3Hg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dZTvBqJ/s7A1cxxa7nCbhyjsDlu5JL+PpWcOQ1WnK51omGIRL6XQyqZW7X0GzZYSg
-	 v8VhoQCcWQiRWwAtDmracIny+ghyDq3wdupUeDCiuL3S0BkWExh+gXQPBniT2qW/Dt
-	 Me1KoaUCGU1ymuLAKm7njpFDhfsZRTTcWrdu1VVY=
-Date: Mon, 9 Sep 2024 19:11:32 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev, Amit Sunil Dhamne <amitsd@google.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [bvanassche:usb 3/3] drivers/usb/roles/class.c:39:31: error:
- duplicate member 'key'
-Message-ID: <2024090934-sitting-unshackle-b3ea@gregkh>
-References: <202409081825.OlP6X3uN-lkp@intel.com>
- <e7dada44-c205-454e-8f49-52dd55017758@acm.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBMy8G0u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725902019; x=1757438019;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gLTi+KMaIpRoTe3W7093RqkB1wnlsTx8e8WnFrTBFqo=;
+  b=fBMy8G0uw2zh4lyKc7qmfMKtiiH4MMUgjECZacTGkKNZFJIRCWJRiyN0
+   33O6wkJVz68tQTnAlZPeC+uHDq1kd7bAgHX8Xb6HRMwCxfAVmXm7Wkh7Y
+   1LiC3kQA5jw4buLu0M7YR/RXnNvd4AxRkDAdbtPXRFqlx3LWJWPYPzvTD
+   v5v9/J0O06g/gi0TU3ITmje/9vXq91mrOVS8LAbGWNjkIr6Xv3qi+nqhK
+   iPYgFsfmRKJELPNLBrfLvcaMs1fdkUOFCtIPCguuDBa3dZkD/SSDpy3iB
+   KGN8cBTviUBTIR0t/hgEGBg8VTROmj8JONRWNB9IxQXW9XuZijkZ/KqD0
+   Q==;
+X-CSE-ConnectionGUID: vJnnyg1fQGeVn4bUsl/KeA==
+X-CSE-MsgGUID: 8svifpHrR4i5hxqSCCP0dQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24724157"
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="24724157"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 10:13:39 -0700
+X-CSE-ConnectionGUID: HZfEsa4TT3WA6Xey6Bq8uQ==
+X-CSE-MsgGUID: D5SR0apSR/+oNNeOV1zhNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="66794032"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2024 10:13:38 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snhxI-000F1K-0M;
+	Mon, 09 Sep 2024 17:13:36 +0000
+Date: Tue, 10 Sep 2024 01:13:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-garbage 248/258] main.c:undefined
+ reference to `execmem_free'
+Message-ID: <202409100123.1tHF218G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -41,46 +61,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e7dada44-c205-454e-8f49-52dd55017758@acm.org>
 
-On Mon, Sep 09, 2024 at 10:00:21AM -0700, Bart Van Assche wrote:
-> On 9/8/24 3:47 AM, kernel test robot wrote:
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  22
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  23  struct usb_role_switch {
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  24  	struct device dev;
-> > fe1d1701ee563a drivers/usb/roles/class.c  Bart Van Assche   2024-09-04  25  	struct lock_class_key key;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  26  	struct mutex lock; /* device lock*/
-> > 1c9be13846c0b2 drivers/usb/roles/class.c  Xu Yang           2024-01-29  27  	struct module *module; /* the module this device depends on */
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  28  	enum usb_role role;
-> > b787a3e7817590 drivers/usb/roles/class.c  Xu Yang           2024-01-29  29  	bool registered;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  30
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  31  	/* From descriptor */
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  32  	struct device *usb2_port;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  33  	struct device *usb3_port;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  34  	struct device *udc;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  35  	usb_role_switch_set_t set;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  36  	usb_role_switch_get_t get;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  37  	bool allow_userspace_control;
-> > fc88bb11617978 drivers/usb/roles/class.c  Amit Sunil Dhamne 2024-08-22  38
-> > fc88bb11617978 drivers/usb/roles/class.c  Amit Sunil Dhamne 2024-08-22 @39  	struct lock_class_key key;
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  40  };
-> > fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  41
-> 
-> Hi Greg,
-> 
-> Apparently Amit's patch is already in your for-next branch? Do you agree
-> with replacing Amit's patch with my patch series? See also
-> https://lore.kernel.org/linux-usb/CAHp75VeA6N_jmkz0-asjogYx4ig8Q=zxnNM7C4m5FV94pH-nCg@mail.gmail.com/
-> and
-> https://lore.kernel.org/linux-usb/20240906091308.GV4723@noisy.programming.kicks-ass.net/
+tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
+head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
+commit: 7a091cbeb2d972e3dc4d44f00ab2828b7abbbcce [248/258] mm: jit/text allocator
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20240910/202409100123.1tHF218G-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100123.1tHF218G-lkp@intel.com/reproduce)
 
-To do so I would need some reverts as I can't rebase my tree.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409100123.1tHF218G-lkp@intel.com/
 
-I've been at a conference for the last few days and will work to catch
-up on my review queue this week.  Ideally you would just send a patch
-against my tree that would convert what you don't like about the
-existing change into something you do like :)
+All errors (new ones prefixed by >>):
 
-thanks,
+   csky-linux-ld: init/main.o: in function `start_kernel':
+   main.c:(.init.text+0x762): undefined reference to `kvfree_rcu_pending_init'
+   csky-linux-ld: main.c:(.init.text+0x918): undefined reference to `kvfree_rcu_pending_init'
+   csky-linux-ld: kernel/module/main.o: in function `do_free_init':
+>> main.c:(.text+0x11c): undefined reference to `execmem_free'
+>> csky-linux-ld: main.c:(.text+0x122): undefined reference to `execmem_free'
+   csky-linux-ld: main.c:(.text+0x128): undefined reference to `execmem_free'
+   csky-linux-ld: kernel/module/main.o: in function `__module_get':
+   main.c:(.text+0x17c): undefined reference to `execmem_free'
+   csky-linux-ld: kernel/module/main.o: in function `move_module':
+>> main.c:(.text+0x2a0): undefined reference to `execmem_alloc'
+>> csky-linux-ld: main.c:(.text+0x2ec): undefined reference to `execmem_alloc'
+   csky-linux-ld: main.c:(.text+0x38e): undefined reference to `execmem_free'
+   csky-linux-ld: main.c:(.text+0x3ac): undefined reference to `execmem_alloc'
+   csky-linux-ld: main.c:(.text+0x3b8): undefined reference to `execmem_free'
+   csky-linux-ld: kernel/module/main.o: in function `free_module':
+   main.c:(.text+0x14f2): undefined reference to `execmem_free'
+   csky-linux-ld: main.c:(.text+0x1500): undefined reference to `execmem_free'
+   csky-linux-ld: main.c:(.text+0x1544): undefined reference to `execmem_free'
+   csky-linux-ld: kernel/module/main.o: in function `load_module':
+   main.c:(.text+0x1e2e): undefined reference to `execmem_free'
+   csky-linux-ld: kernel/module/main.o:main.c:(.text+0x1e3e): more undefined references to `execmem_free' follow
+   csky-linux-ld: mm/mm_init.o: in function `mm_core_init':
+>> mm_init.c:(.init.text+0x1656): undefined reference to `execmem_init'
+>> csky-linux-ld: mm_init.c:(.init.text+0x16a8): undefined reference to `execmem_init'
 
-greg k-h
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
