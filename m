@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6462C87A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 16:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5344D1BC39;
+	Mon,  9 Sep 2024 16:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725897695; cv=none; b=RvMNflxX2hhCZVPnU68Iozviu7PF2Jmm0la9PlZY/MmJCr1Vog07nXopvDvm+B7IfbCaXjyiO/oZvzjbCoC4dm+5K0MRyooX4koU/lT0A3+6EqYI3mAC+vB2v8WOhfmlSaVU13z+3T/s55bXvCXWuomAsn++QGsoghz35Ueh2iA=
+	t=1725898354; cv=none; b=CJX38+V4W7DoToTAsLbPRmbj0YLMlEi3kf65j6EiOSVuS3VhNZcPRjx4ih+or9LblPFsMjembr+pOhnr4h8/aFyV+Lsu4zeDtOTogkNBwtGq5ItUuSwEMAR1o1Z5vKzitxvyMeZYguAcB7a6cyzKCXE0/J9nz1Zh85w8XniBw+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725897695; c=relaxed/simple;
-	bh=QTQ9eEFKPipaW6Y+SvjIjmdbz7kWa++fIa1eSFWzifc=;
+	s=arc-20240116; t=1725898354; c=relaxed/simple;
+	bh=w+mLJLGVqYXWVkRzmXhaGBtOFvLmxxz91gh9OcGTQdY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QmBc02lKg+UFCvt+uilGu6C5+QRgF8k2yHxhF6oERwm81mvvCQ3PSy8ERL0khLb2/YZU/jbtV9+ZGu7FaGt0Wh+RDkHevnnBNutDN/igtWgwl1wikG6PMKX4LNJ0DFdbh/uALaLfBWegwx9fGeEu3aYbTAMCe4Q/6HHMb3BbNRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5AB2+Gt; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=kREPDfHLIjAnkZ0FB2qqchHAYmmrXHkQTm97r5a+7Natz+53c9YqJnusDei6cVkWVty3TAH3xvDiXYui7OZDVQR2Iuz1gKgR2foJyI1GX7fG/wFdlz5nOsJo5PP0BTIgCq6JfH8MkdX7UGU3WIOtBZHuEZI2sQKv6gLMNFMIuhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfruG1GM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5AB2+Gt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfruG1GM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725897693; x=1757433693;
+  t=1725898352; x=1757434352;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QTQ9eEFKPipaW6Y+SvjIjmdbz7kWa++fIa1eSFWzifc=;
-  b=B5AB2+GtY6GoyUGEhQ36xZJvE4F6UW4uuVzA0d8vH7bgYTH32xKQkUsZ
-   7D50yd7dlcZODqhBoxUXUFrE1c66cA3G7dXxi/v24M+lgZzuTHxVaK+KM
-   +5/o7UYdxSo2/rEADiocg9FDxB1Hdq6ryRWdQwna+Pk8icIHV+Wk5ReUs
-   x91j91TLkJYx/PAfTOse9ejYzXaXs4ji7mI1U+BLD8+c+Ol6LAMq9+z6I
-   cZjsjK+XJChr75qq/WFvyK+QjrZgw7wsLNAYFZvKgsH2BJIE6F6leStgs
-   h+LQh04QPjzNTRIkQgw72Bn3pq0CaudO3FOIFli1vdbWwGK1t7Qp9UeSg
-   A==;
-X-CSE-ConnectionGUID: 54AECLgUSzaGM3b94VVMzg==
-X-CSE-MsgGUID: kUAz40hbT8GCiLsCfIiByQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="42112707"
+  bh=w+mLJLGVqYXWVkRzmXhaGBtOFvLmxxz91gh9OcGTQdY=;
+  b=kfruG1GMXpDbm70ougpSpQdgOot1xsrrKY7whRVr6HQPV0MVdc5j9xsU
+   zDllAGTNRN2aU0Z+2oCt6VyX96SkG5Km5KAeBP8IZNTlx0quQr9fpJSyh
+   N1oR3x3W5hI/yKqPpdO1MeMdUA1nOozkpqrxz3mE/mqPNGTyRnkbbezJK
+   eo1wk6h3+Yi5XCrp9Rng6yqL6XQAFxDDOQEOhf22EpCQGwK/7EXzvrgbj
+   auSEEiNBejVsoDX05wV7lXBW+/LN3FrZNUoqdnY25er08Vap/LS8j6AZ1
+   mDQlw3eWv+tVbmbkEIpHMDmPaE2/DF7tB+kyF1XIgmrH9RDiV0N/SxPjI
+   g==;
+X-CSE-ConnectionGUID: z/gSJBpCQnOTIslyaGEmIg==
+X-CSE-MsgGUID: xorQstIcTmC8GQBhkZJ5vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24798690"
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="42112707"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 09:01:29 -0700
-X-CSE-ConnectionGUID: yWPrelTVSh6JrR1AIObJlw==
-X-CSE-MsgGUID: CTzjhUZNTfOdfRhp7AwS0g==
+   d="scan'208";a="24798690"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 09:12:32 -0700
+X-CSE-ConnectionGUID: PDJewC3TT4OOo1dra7ycEw==
+X-CSE-MsgGUID: vqoWjEWXQum4/qWO+htB6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="90001746"
+   d="scan'208";a="66429081"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Sep 2024 09:01:28 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Sep 2024 09:12:30 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sngpS-000Euu-0z;
-	Mon, 09 Sep 2024 16:01:26 +0000
-Date: Tue, 10 Sep 2024 00:01:17 +0800
+	id 1snh08-000EwA-1F;
+	Mon, 09 Sep 2024 16:12:28 +0000
+Date: Tue, 10 Sep 2024 00:11:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-garbage 234/258]
- lib/zstd/compress/zstd_opt.c:698:49: error: implicit declaration of function
- 'memcmp'
-Message-ID: <202409092338.XidK7Y77-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-garbage 190/258]
+ drivers/net/ethernet/sfc/ef100_rx.c:175:3: warning: shift count >= width of
+ type
+Message-ID: <202409100019.2rv1U5EA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,281 +65,202 @@ Content-Disposition: inline
 
 tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
 head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
-commit: 7bf0cb0943e978f0e501d865b587734b35ac5ee7 [234/258] XXX zstd debug
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240909/202409092338.XidK7Y77-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409092338.XidK7Y77-lkp@intel.com/reproduce)
+commit: a2a5fdffbb42082064006597ddabecccdb746d39 [190/258] vmalloc: is_vmalloc_addr_inlined()
+config: i386-randconfig-001-20240909 (https://download.01.org/0day-ci/archive/20240910/202409100019.2rv1U5EA-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100019.2rv1U5EA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409092338.XidK7Y77-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409100019.2rv1U5EA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/alpha/include/asm/bug.h:23,
-                    from lib/zstd/compress/../common/debug.h:35,
-                    from lib/zstd/compress/../common/mem.h:22,
-                    from lib/zstd/compress/../common/cpu.h:19,
-                    from lib/zstd/compress/../common/zstd_internal.h:23,
-                    from lib/zstd/compress/zstd_compress_internal.h:21,
-                    from lib/zstd/compress/zstd_opt.c:11:
-   lib/zstd/compress/zstd_opt.c: In function 'ZSTD_insertBtAndGetAllMatches':
->> lib/zstd/compress/zstd_opt.c:698:49: error: implicit declaration of function 'memcmp' [-Werror=implicit-function-declaration]
-     698 |             if (matchIndex >= dictLimit) assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
-         |                                                 ^~~~~~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   lib/zstd/compress/zstd_opt.c:698:42: note: in expansion of macro 'assert'
-     698 |             if (matchIndex >= dictLimit) assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
-         |                                          ^~~~~~
-   lib/zstd/compress/zstd_opt.c:14:1: note: include '<string.h>' or provide a declaration of 'memcmp'
-      13 | #include "zstd_opt.h"
-     +++ |+#include <string.h>
-      14 | 
-   cc1: some warnings being treated as errors
+   In file included from drivers/net/ethernet/sfc/ef100_rx.c:11:
+   In file included from drivers/net/ethernet/sfc/net_driver.h:13:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   include/linux/mm.h:1200:17: error: use of undeclared identifier 'VMALLOC_START'; did you mean 'KMALLOC_DMA'?
+    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
+         |                        ^~~~~~~~~~~~~
+         |                        KMALLOC_DMA
+   include/linux/slab.h:408:2: note: 'KMALLOC_DMA' declared here
+     408 |         KMALLOC_DMA = KMALLOC_NORMAL,
+         |         ^
+   In file included from drivers/net/ethernet/sfc/ef100_rx.c:11:
+   In file included from drivers/net/ethernet/sfc/net_driver.h:13:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   include/linux/mm.h:1200:41: error: use of undeclared identifier 'VMALLOC_END'; did you mean 'KMALLOC_DMA'?
+    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
+         |                                                ^~~~~~~~~~~
+         |                                                KMALLOC_DMA
+   include/linux/slab.h:408:2: note: 'KMALLOC_DMA' declared here
+     408 |         KMALLOC_DMA = KMALLOC_NORMAL,
+         |         ^
+   drivers/net/ethernet/sfc/ef100_rx.c:175:3: warning: shift count is negative [-Wshift-count-negative]
+     175 |                 EFX_QWORD_FIELD(*p_event, ESF_GZ_EV_RXPKTS_NUM_PKT);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:231:26: note: expanded from macro 'EFX_QWORD_FIELD'
+     231 | #define EFX_QWORD_FIELD         EFX_QWORD_FIELD32
+         |                                 ^
+   drivers/net/ethernet/sfc/bitfield.h:183:2: note: expanded from macro 'EFX_QWORD_FIELD32'
+     183 |         EFX_EXTRACT_QWORD32(qword, EFX_LOW_BIT(field),          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     184 |                             EFX_HIGH_BIT(field))
+         |                             ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:163:4: note: expanded from macro 'EFX_EXTRACT_QWORD32'
+     163 |           EFX_EXTRACT32((qword).u32[1], 32, 63, low, high)) &           \
+         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:143:2: note: expanded from macro 'EFX_EXTRACT32'
+     143 |         EFX_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:128:20: note: expanded from macro 'EFX_EXTRACT_NATIVE'
+     128 |          (native_element) >> ((low) - (min)) :                          \
+         |                           ^  ~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/sfc/ef100_rx.c:175:3: warning: shift count >= width of type [-Wshift-count-overflow]
+     175 |                 EFX_QWORD_FIELD(*p_event, ESF_GZ_EV_RXPKTS_NUM_PKT);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:231:26: note: expanded from macro 'EFX_QWORD_FIELD'
+     231 | #define EFX_QWORD_FIELD         EFX_QWORD_FIELD32
+         |                                 ^
+   drivers/net/ethernet/sfc/bitfield.h:183:2: note: expanded from macro 'EFX_QWORD_FIELD32'
+     183 |         EFX_EXTRACT_QWORD32(qword, EFX_LOW_BIT(field),          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     184 |                             EFX_HIGH_BIT(field))
+         |                             ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:163:4: note: expanded from macro 'EFX_EXTRACT_QWORD32'
+     163 |           EFX_EXTRACT32((qword).u32[1], 32, 63, low, high)) &           \
+         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:143:2: note: expanded from macro 'EFX_EXTRACT32'
+     143 |         EFX_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:129:20: note: expanded from macro 'EFX_EXTRACT_NATIVE'
+     129 |          (native_element) << ((min) - (low)))
+         |                           ^  ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/ef100_rx.c:204:3: warning: shift count is negative [-Wshift-count-negative]
+     204 |                 EFX_POPULATE_QWORD_1(*rxd, ESF_GZ_RX_BUF_ADDR, rx_buf->dma_addr);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:440:2: note: expanded from macro 'EFX_POPULATE_QWORD_1'
+     440 |         EFX_POPULATE_QWORD_2(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:438:2: note: expanded from macro 'EFX_POPULATE_QWORD_2'
+     438 |         EFX_POPULATE_QWORD_3(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:436:2: note: expanded from macro 'EFX_POPULATE_QWORD_3'
+     436 |         EFX_POPULATE_QWORD_4(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 21 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   drivers/net/ethernet/sfc/bitfield.h:258:3: note: expanded from macro 'EFX_INSERT_NATIVE'
+     258 |          EFX_INSERT_NATIVE64(min, max, low, high, value) :      \
+         |          ^
+   drivers/net/ethernet/sfc/bitfield.h:247:21: note: expanded from macro 'EFX_INSERT_NATIVE64'
+     247 |           (((u64) (value)) << (low - min)) :            \
+         |                            ^
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: expanded from macro '__cpu_to_le32'
+      34 | #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+         |                                                   ^
+   drivers/net/ethernet/sfc/ef100_rx.c:204:3: warning: shift count is negative [-Wshift-count-negative]
+     204 |                 EFX_POPULATE_QWORD_1(*rxd, ESF_GZ_RX_BUF_ADDR, rx_buf->dma_addr);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:440:2: note: expanded from macro 'EFX_POPULATE_QWORD_1'
+     440 |         EFX_POPULATE_QWORD_2(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:438:2: note: expanded from macro 'EFX_POPULATE_QWORD_2'
+     438 |         EFX_POPULATE_QWORD_3(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:436:2: note: expanded from macro 'EFX_POPULATE_QWORD_3'
+     436 |         EFX_POPULATE_QWORD_4(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 21 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   drivers/net/ethernet/sfc/bitfield.h:259:3: note: expanded from macro 'EFX_INSERT_NATIVE'
+     259 |          EFX_INSERT_NATIVE32(min, max, low, high, value))
+         |          ^
+   drivers/net/ethernet/sfc/bitfield.h:253:21: note: expanded from macro 'EFX_INSERT_NATIVE32'
+     253 |           (((u32) (value)) << (low - min)) :            \
+         |                            ^
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: expanded from macro '__cpu_to_le32'
+      34 | #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+         |                                                   ^
+   drivers/net/ethernet/sfc/ef100_rx.c:204:3: warning: shift count >= width of type [-Wshift-count-overflow]
+     204 |                 EFX_POPULATE_QWORD_1(*rxd, ESF_GZ_RX_BUF_ADDR, rx_buf->dma_addr);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:440:2: note: expanded from macro 'EFX_POPULATE_QWORD_1'
+     440 |         EFX_POPULATE_QWORD_2(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:438:2: note: expanded from macro 'EFX_POPULATE_QWORD_2'
+     438 |         EFX_POPULATE_QWORD_3(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:436:2: note: expanded from macro 'EFX_POPULATE_QWORD_3'
+     436 |         EFX_POPULATE_QWORD_4(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 21 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   drivers/net/ethernet/sfc/bitfield.h:259:3: note: expanded from macro 'EFX_INSERT_NATIVE'
+     259 |          EFX_INSERT_NATIVE32(min, max, low, high, value))
+         |          ^
+   drivers/net/ethernet/sfc/bitfield.h:254:21: note: expanded from macro 'EFX_INSERT_NATIVE32'
+     254 |           (((u32) (value)) >> (min - low))))
+         |                            ^
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: expanded from macro '__cpu_to_le32'
+      34 | #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+         |                                                   ^
+   drivers/net/ethernet/sfc/ef100_rx.c:204:3: warning: shift count is negative [-Wshift-count-negative]
+     204 |                 EFX_POPULATE_QWORD_1(*rxd, ESF_GZ_RX_BUF_ADDR, rx_buf->dma_addr);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:440:2: note: expanded from macro 'EFX_POPULATE_QWORD_1'
+     440 |         EFX_POPULATE_QWORD_2(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:438:2: note: expanded from macro 'EFX_POPULATE_QWORD_2'
+     438 |         EFX_POPULATE_QWORD_3(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/bitfield.h:436:2: note: expanded from macro 'EFX_POPULATE_QWORD_3'
+     436 |         EFX_POPULATE_QWORD_4(qword, EFX_DUMMY_FIELD, 0, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 21 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   drivers/net/ethernet/sfc/bitfield.h:258:3: note: expanded from macro 'EFX_INSERT_NATIVE'
+     258 |          EFX_INSERT_NATIVE64(min, max, low, high, value) :      \
 
 
-vim +/memcmp +698 lib/zstd/compress/zstd_opt.c
+vim +175 drivers/net/ethernet/sfc/ef100_rx.c
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  554  
-e0c1b49f5b674c Nick Terrell 2020-09-11  555  FORCE_INLINE_TEMPLATE
-e0c1b49f5b674c Nick Terrell 2020-09-11  556  U32 ZSTD_insertBtAndGetAllMatches (
-e0c1b49f5b674c Nick Terrell 2020-09-11  557                      ZSTD_match_t* matches,   /* store result (found matches) in this table (presumed large enough) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  558                      ZSTD_matchState_t* ms,
-e0c1b49f5b674c Nick Terrell 2020-09-11  559                      U32* nextToUpdate3,
-e0c1b49f5b674c Nick Terrell 2020-09-11  560                      const BYTE* const ip, const BYTE* const iLimit, const ZSTD_dictMode_e dictMode,
-e0c1b49f5b674c Nick Terrell 2020-09-11  561                      const U32 rep[ZSTD_REP_NUM],
-e0c1b49f5b674c Nick Terrell 2020-09-11  562                      U32 const ll0,   /* tells if associated literal length is 0 or not. This value must be 0 or 1 */
-e0c1b49f5b674c Nick Terrell 2020-09-11  563                      const U32 lengthToBeat,
-e0c1b49f5b674c Nick Terrell 2020-09-11  564                      U32 const mls /* template */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  565  {
-e0c1b49f5b674c Nick Terrell 2020-09-11  566      const ZSTD_compressionParameters* const cParams = &ms->cParams;
-e0c1b49f5b674c Nick Terrell 2020-09-11  567      U32 const sufficient_len = MIN(cParams->targetLength, ZSTD_OPT_NUM -1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  568      const BYTE* const base = ms->window.base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  569      U32 const curr = (U32)(ip-base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  570      U32 const hashLog = cParams->hashLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  571      U32 const minMatch = (mls==3) ? 3 : 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  572      U32* const hashTable = ms->hashTable;
-e0c1b49f5b674c Nick Terrell 2020-09-11  573      size_t const h  = ZSTD_hashPtr(ip, hashLog, mls);
-e0c1b49f5b674c Nick Terrell 2020-09-11  574      U32 matchIndex  = hashTable[h];
-e0c1b49f5b674c Nick Terrell 2020-09-11  575      U32* const bt   = ms->chainTable;
-e0c1b49f5b674c Nick Terrell 2020-09-11  576      U32 const btLog = cParams->chainLog - 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  577      U32 const btMask= (1U << btLog) - 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  578      size_t commonLengthSmaller=0, commonLengthLarger=0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  579      const BYTE* const dictBase = ms->window.dictBase;
-e0c1b49f5b674c Nick Terrell 2020-09-11  580      U32 const dictLimit = ms->window.dictLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  581      const BYTE* const dictEnd = dictBase + dictLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  582      const BYTE* const prefixStart = base + dictLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  583      U32 const btLow = (btMask >= curr) ? 0 : curr - btMask;
-e0c1b49f5b674c Nick Terrell 2020-09-11  584      U32 const windowLow = ZSTD_getLowestMatchIndex(ms, curr, cParams->windowLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  585      U32 const matchLow = windowLow ? windowLow : 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  586      U32* smallerPtr = bt + 2*(curr&btMask);
-e0c1b49f5b674c Nick Terrell 2020-09-11  587      U32* largerPtr  = bt + 2*(curr&btMask) + 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  588      U32 matchEndIdx = curr+8+1;   /* farthest referenced position of any match => detects repetitive patterns */
-e0c1b49f5b674c Nick Terrell 2020-09-11  589      U32 dummy32;   /* to be nullified at the end */
-e0c1b49f5b674c Nick Terrell 2020-09-11  590      U32 mnum = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  591      U32 nbCompares = 1U << cParams->searchLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  592  
-e0c1b49f5b674c Nick Terrell 2020-09-11  593      const ZSTD_matchState_t* dms    = dictMode == ZSTD_dictMatchState ? ms->dictMatchState : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  594      const ZSTD_compressionParameters* const dmsCParams =
-e0c1b49f5b674c Nick Terrell 2020-09-11  595                                        dictMode == ZSTD_dictMatchState ? &dms->cParams : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  596      const BYTE* const dmsBase       = dictMode == ZSTD_dictMatchState ? dms->window.base : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  597      const BYTE* const dmsEnd        = dictMode == ZSTD_dictMatchState ? dms->window.nextSrc : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  598      U32         const dmsHighLimit  = dictMode == ZSTD_dictMatchState ? (U32)(dmsEnd - dmsBase) : 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  599      U32         const dmsLowLimit   = dictMode == ZSTD_dictMatchState ? dms->window.lowLimit : 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  600      U32         const dmsIndexDelta = dictMode == ZSTD_dictMatchState ? windowLow - dmsHighLimit : 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  601      U32         const dmsHashLog    = dictMode == ZSTD_dictMatchState ? dmsCParams->hashLog : hashLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  602      U32         const dmsBtLog      = dictMode == ZSTD_dictMatchState ? dmsCParams->chainLog - 1 : btLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  603      U32         const dmsBtMask     = dictMode == ZSTD_dictMatchState ? (1U << dmsBtLog) - 1 : 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  604      U32         const dmsBtLow      = dictMode == ZSTD_dictMatchState && dmsBtMask < dmsHighLimit - dmsLowLimit ? dmsHighLimit - dmsBtMask : dmsLowLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  605  
-e0c1b49f5b674c Nick Terrell 2020-09-11  606      size_t bestLength = lengthToBeat-1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  607      DEBUGLOG(8, "ZSTD_insertBtAndGetAllMatches: current=%u", curr);
-e0c1b49f5b674c Nick Terrell 2020-09-11  608  
-e0c1b49f5b674c Nick Terrell 2020-09-11  609      /* check repCode */
-e0c1b49f5b674c Nick Terrell 2020-09-11  610      assert(ll0 <= 1);   /* necessarily 1 or 0 */
-e0c1b49f5b674c Nick Terrell 2020-09-11  611      {   U32 const lastR = ZSTD_REP_NUM + ll0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  612          U32 repCode;
-e0c1b49f5b674c Nick Terrell 2020-09-11  613          for (repCode = ll0; repCode < lastR; repCode++) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  614              U32 const repOffset = (repCode==ZSTD_REP_NUM) ? (rep[0] - 1) : rep[repCode];
-e0c1b49f5b674c Nick Terrell 2020-09-11  615              U32 const repIndex = curr - repOffset;
-e0c1b49f5b674c Nick Terrell 2020-09-11  616              U32 repLen = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  617              assert(curr >= dictLimit);
-e0c1b49f5b674c Nick Terrell 2020-09-11  618              if (repOffset-1 /* intentional overflow, discards 0 and -1 */ < curr-dictLimit) {  /* equivalent to `curr > repIndex >= dictLimit` */
-e0c1b49f5b674c Nick Terrell 2020-09-11  619                  /* We must validate the repcode offset because when we're using a dictionary the
-e0c1b49f5b674c Nick Terrell 2020-09-11  620                   * valid offset range shrinks when the dictionary goes out of bounds.
-e0c1b49f5b674c Nick Terrell 2020-09-11  621                   */
-e0c1b49f5b674c Nick Terrell 2020-09-11  622                  if ((repIndex >= windowLow) & (ZSTD_readMINMATCH(ip, minMatch) == ZSTD_readMINMATCH(ip - repOffset, minMatch))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  623                      repLen = (U32)ZSTD_count(ip+minMatch, ip+minMatch-repOffset, iLimit) + minMatch;
-e0c1b49f5b674c Nick Terrell 2020-09-11  624                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  625              } else {  /* repIndex < dictLimit || repIndex >= curr */
-e0c1b49f5b674c Nick Terrell 2020-09-11  626                  const BYTE* const repMatch = dictMode == ZSTD_dictMatchState ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  627                                               dmsBase + repIndex - dmsIndexDelta :
-e0c1b49f5b674c Nick Terrell 2020-09-11  628                                               dictBase + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  629                  assert(curr >= windowLow);
-e0c1b49f5b674c Nick Terrell 2020-09-11  630                  if ( dictMode == ZSTD_extDict
-e0c1b49f5b674c Nick Terrell 2020-09-11  631                    && ( ((repOffset-1) /*intentional overflow*/ < curr - windowLow)  /* equivalent to `curr > repIndex >= windowLow` */
-e0c1b49f5b674c Nick Terrell 2020-09-11  632                       & (((U32)((dictLimit-1) - repIndex) >= 3) ) /* intentional overflow : do not test positions overlapping 2 memory segments */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  633                    && (ZSTD_readMINMATCH(ip, minMatch) == ZSTD_readMINMATCH(repMatch, minMatch)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  634                      repLen = (U32)ZSTD_count_2segments(ip+minMatch, repMatch+minMatch, iLimit, dictEnd, prefixStart) + minMatch;
-e0c1b49f5b674c Nick Terrell 2020-09-11  635                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  636                  if (dictMode == ZSTD_dictMatchState
-e0c1b49f5b674c Nick Terrell 2020-09-11  637                    && ( ((repOffset-1) /*intentional overflow*/ < curr - (dmsLowLimit + dmsIndexDelta))  /* equivalent to `curr > repIndex >= dmsLowLimit` */
-e0c1b49f5b674c Nick Terrell 2020-09-11  638                       & ((U32)((dictLimit-1) - repIndex) >= 3) ) /* intentional overflow : do not test positions overlapping 2 memory segments */
-e0c1b49f5b674c Nick Terrell 2020-09-11  639                    && (ZSTD_readMINMATCH(ip, minMatch) == ZSTD_readMINMATCH(repMatch, minMatch)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  640                      repLen = (U32)ZSTD_count_2segments(ip+minMatch, repMatch+minMatch, iLimit, dmsEnd, prefixStart) + minMatch;
-e0c1b49f5b674c Nick Terrell 2020-09-11  641              }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  642              /* save longer solution */
-e0c1b49f5b674c Nick Terrell 2020-09-11  643              if (repLen > bestLength) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  644                  DEBUGLOG(8, "found repCode %u (ll0:%u, offset:%u) of length %u",
-e0c1b49f5b674c Nick Terrell 2020-09-11  645                              repCode, ll0, repOffset, repLen);
-e0c1b49f5b674c Nick Terrell 2020-09-11  646                  bestLength = repLen;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  647                  matches[mnum].off = STORE_REPCODE(repCode - ll0 + 1);  /* expect value between 1 and 3 */
-e0c1b49f5b674c Nick Terrell 2020-09-11  648                  matches[mnum].len = (U32)repLen;
-e0c1b49f5b674c Nick Terrell 2020-09-11  649                  mnum++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  650                  if ( (repLen > sufficient_len)
-e0c1b49f5b674c Nick Terrell 2020-09-11  651                     | (ip+repLen == iLimit) ) {  /* best possible */
-e0c1b49f5b674c Nick Terrell 2020-09-11  652                      return mnum;
-e0c1b49f5b674c Nick Terrell 2020-09-11  653      }   }   }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  654  
-e0c1b49f5b674c Nick Terrell 2020-09-11  655      /* HC3 match finder */
-e0c1b49f5b674c Nick Terrell 2020-09-11  656      if ((mls == 3) /*static*/ && (bestLength < mls)) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  657          U32 const matchIndex3 = ZSTD_insertAndFindFirstIndexHash3(ms, nextToUpdate3, ip);
-e0c1b49f5b674c Nick Terrell 2020-09-11  658          if ((matchIndex3 >= matchLow)
-e0c1b49f5b674c Nick Terrell 2020-09-11  659            & (curr - matchIndex3 < (1<<18)) /*heuristic : longer distance likely too expensive*/ ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  660              size_t mlen;
-e0c1b49f5b674c Nick Terrell 2020-09-11  661              if ((dictMode == ZSTD_noDict) /*static*/ || (dictMode == ZSTD_dictMatchState) /*static*/ || (matchIndex3 >= dictLimit)) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  662                  const BYTE* const match = base + matchIndex3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  663                  mlen = ZSTD_count(ip, match, iLimit);
-e0c1b49f5b674c Nick Terrell 2020-09-11  664              } else {
-e0c1b49f5b674c Nick Terrell 2020-09-11  665                  const BYTE* const match = dictBase + matchIndex3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  666                  mlen = ZSTD_count_2segments(ip, match, iLimit, dictEnd, prefixStart);
-e0c1b49f5b674c Nick Terrell 2020-09-11  667              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  668  
-e0c1b49f5b674c Nick Terrell 2020-09-11  669              /* save best solution */
-e0c1b49f5b674c Nick Terrell 2020-09-11  670              if (mlen >= mls /* == 3 > bestLength */) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  671                  DEBUGLOG(8, "found small match with hlog3, of length %u",
-e0c1b49f5b674c Nick Terrell 2020-09-11  672                              (U32)mlen);
-e0c1b49f5b674c Nick Terrell 2020-09-11  673                  bestLength = mlen;
-e0c1b49f5b674c Nick Terrell 2020-09-11  674                  assert(curr > matchIndex3);
-e0c1b49f5b674c Nick Terrell 2020-09-11  675                  assert(mnum==0);  /* no prior solution */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  676                  matches[0].off = STORE_OFFSET(curr - matchIndex3);
-e0c1b49f5b674c Nick Terrell 2020-09-11  677                  matches[0].len = (U32)mlen;
-e0c1b49f5b674c Nick Terrell 2020-09-11  678                  mnum = 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  679                  if ( (mlen > sufficient_len) |
-e0c1b49f5b674c Nick Terrell 2020-09-11  680                       (ip+mlen == iLimit) ) {  /* best possible length */
-e0c1b49f5b674c Nick Terrell 2020-09-11  681                      ms->nextToUpdate = curr+1;  /* skip insertion */
-e0c1b49f5b674c Nick Terrell 2020-09-11  682                      return 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  683          }   }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  684          /* no dictMatchState lookup: dicts don't have a populated HC3 table */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  685      }  /* if (mls == 3) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  686  
-e0c1b49f5b674c Nick Terrell 2020-09-11  687      hashTable[h] = curr;   /* Update Hash Table */
-e0c1b49f5b674c Nick Terrell 2020-09-11  688  
-e0c1b49f5b674c Nick Terrell 2020-09-11  689      for (; nbCompares && (matchIndex >= matchLow); --nbCompares) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  690          U32* const nextPtr = bt + 2*(matchIndex & btMask);
-e0c1b49f5b674c Nick Terrell 2020-09-11  691          const BYTE* match;
-e0c1b49f5b674c Nick Terrell 2020-09-11  692          size_t matchLength = MIN(commonLengthSmaller, commonLengthLarger);   /* guaranteed minimum nb of common bytes */
-e0c1b49f5b674c Nick Terrell 2020-09-11  693          assert(curr > matchIndex);
-e0c1b49f5b674c Nick Terrell 2020-09-11  694  
-e0c1b49f5b674c Nick Terrell 2020-09-11  695          if ((dictMode == ZSTD_noDict) || (dictMode == ZSTD_dictMatchState) || (matchIndex+matchLength >= dictLimit)) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  696              assert(matchIndex+matchLength >= dictLimit);  /* ensure the condition is correct when !extDict */
-e0c1b49f5b674c Nick Terrell 2020-09-11  697              match = base + matchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11 @698              if (matchIndex >= dictLimit) assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
-e0c1b49f5b674c Nick Terrell 2020-09-11  699              matchLength += ZSTD_count(ip+matchLength, match+matchLength, iLimit);
-e0c1b49f5b674c Nick Terrell 2020-09-11  700          } else {
-e0c1b49f5b674c Nick Terrell 2020-09-11  701              match = dictBase + matchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  702              assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
-e0c1b49f5b674c Nick Terrell 2020-09-11  703              matchLength += ZSTD_count_2segments(ip+matchLength, match+matchLength, iLimit, dictEnd, prefixStart);
-e0c1b49f5b674c Nick Terrell 2020-09-11  704              if (matchIndex+matchLength >= dictLimit)
-e0c1b49f5b674c Nick Terrell 2020-09-11  705                  match = base + matchIndex;   /* prepare for match[matchLength] read */
-e0c1b49f5b674c Nick Terrell 2020-09-11  706          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  707  
-e0c1b49f5b674c Nick Terrell 2020-09-11  708          if (matchLength > bestLength) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  709              DEBUGLOG(8, "found match of length %u at distance %u (offCode=%u)",
-2aa14b1ab2c41a Nick Terrell 2022-10-17  710                      (U32)matchLength, curr - matchIndex, STORE_OFFSET(curr - matchIndex));
-e0c1b49f5b674c Nick Terrell 2020-09-11  711              assert(matchEndIdx > matchIndex);
-e0c1b49f5b674c Nick Terrell 2020-09-11  712              if (matchLength > matchEndIdx - matchIndex)
-e0c1b49f5b674c Nick Terrell 2020-09-11  713                  matchEndIdx = matchIndex + (U32)matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  714              bestLength = matchLength;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  715              matches[mnum].off = STORE_OFFSET(curr - matchIndex);
-e0c1b49f5b674c Nick Terrell 2020-09-11  716              matches[mnum].len = (U32)matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  717              mnum++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  718              if ( (matchLength > ZSTD_OPT_NUM)
-e0c1b49f5b674c Nick Terrell 2020-09-11  719                 | (ip+matchLength == iLimit) /* equal : no way to know if inf or sup */) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  720                  if (dictMode == ZSTD_dictMatchState) nbCompares = 0; /* break should also skip searching dms */
-e0c1b49f5b674c Nick Terrell 2020-09-11  721                  break; /* drop, to preserve bt consistency (miss a little bit of compression) */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  722          }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  723  
-e0c1b49f5b674c Nick Terrell 2020-09-11  724          if (match[matchLength] < ip[matchLength]) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  725              /* match smaller than current */
-e0c1b49f5b674c Nick Terrell 2020-09-11  726              *smallerPtr = matchIndex;             /* update smaller idx */
-e0c1b49f5b674c Nick Terrell 2020-09-11  727              commonLengthSmaller = matchLength;    /* all smaller will now have at least this guaranteed common length */
-e0c1b49f5b674c Nick Terrell 2020-09-11  728              if (matchIndex <= btLow) { smallerPtr=&dummy32; break; }   /* beyond tree size, stop the search */
-e0c1b49f5b674c Nick Terrell 2020-09-11  729              smallerPtr = nextPtr+1;               /* new candidate => larger than match, which was smaller than current */
-e0c1b49f5b674c Nick Terrell 2020-09-11  730              matchIndex = nextPtr[1];              /* new matchIndex, larger than previous, closer to current */
-e0c1b49f5b674c Nick Terrell 2020-09-11  731          } else {
-e0c1b49f5b674c Nick Terrell 2020-09-11  732              *largerPtr = matchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  733              commonLengthLarger = matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  734              if (matchIndex <= btLow) { largerPtr=&dummy32; break; }   /* beyond tree size, stop the search */
-e0c1b49f5b674c Nick Terrell 2020-09-11  735              largerPtr = nextPtr;
-e0c1b49f5b674c Nick Terrell 2020-09-11  736              matchIndex = nextPtr[0];
-e0c1b49f5b674c Nick Terrell 2020-09-11  737      }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  738  
-e0c1b49f5b674c Nick Terrell 2020-09-11  739      *smallerPtr = *largerPtr = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  740  
-e0c1b49f5b674c Nick Terrell 2020-09-11  741      assert(nbCompares <= (1U << ZSTD_SEARCHLOG_MAX)); /* Check we haven't underflowed. */
-e0c1b49f5b674c Nick Terrell 2020-09-11  742      if (dictMode == ZSTD_dictMatchState && nbCompares) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  743          size_t const dmsH = ZSTD_hashPtr(ip, dmsHashLog, mls);
-e0c1b49f5b674c Nick Terrell 2020-09-11  744          U32 dictMatchIndex = dms->hashTable[dmsH];
-e0c1b49f5b674c Nick Terrell 2020-09-11  745          const U32* const dmsBt = dms->chainTable;
-e0c1b49f5b674c Nick Terrell 2020-09-11  746          commonLengthSmaller = commonLengthLarger = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  747          for (; nbCompares && (dictMatchIndex > dmsLowLimit); --nbCompares) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  748              const U32* const nextPtr = dmsBt + 2*(dictMatchIndex & dmsBtMask);
-e0c1b49f5b674c Nick Terrell 2020-09-11  749              size_t matchLength = MIN(commonLengthSmaller, commonLengthLarger);   /* guaranteed minimum nb of common bytes */
-e0c1b49f5b674c Nick Terrell 2020-09-11  750              const BYTE* match = dmsBase + dictMatchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  751              matchLength += ZSTD_count_2segments(ip+matchLength, match+matchLength, iLimit, dmsEnd, prefixStart);
-e0c1b49f5b674c Nick Terrell 2020-09-11  752              if (dictMatchIndex+matchLength >= dmsHighLimit)
-e0c1b49f5b674c Nick Terrell 2020-09-11  753                  match = base + dictMatchIndex + dmsIndexDelta;   /* to prepare for next usage of match[matchLength] */
-e0c1b49f5b674c Nick Terrell 2020-09-11  754  
-e0c1b49f5b674c Nick Terrell 2020-09-11  755              if (matchLength > bestLength) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  756                  matchIndex = dictMatchIndex + dmsIndexDelta;
-e0c1b49f5b674c Nick Terrell 2020-09-11  757                  DEBUGLOG(8, "found dms match of length %u at distance %u (offCode=%u)",
-2aa14b1ab2c41a Nick Terrell 2022-10-17  758                          (U32)matchLength, curr - matchIndex, STORE_OFFSET(curr - matchIndex));
-e0c1b49f5b674c Nick Terrell 2020-09-11  759                  if (matchLength > matchEndIdx - matchIndex)
-e0c1b49f5b674c Nick Terrell 2020-09-11  760                      matchEndIdx = matchIndex + (U32)matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  761                  bestLength = matchLength;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  762                  matches[mnum].off = STORE_OFFSET(curr - matchIndex);
-e0c1b49f5b674c Nick Terrell 2020-09-11  763                  matches[mnum].len = (U32)matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  764                  mnum++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  765                  if ( (matchLength > ZSTD_OPT_NUM)
-e0c1b49f5b674c Nick Terrell 2020-09-11  766                     | (ip+matchLength == iLimit) /* equal : no way to know if inf or sup */) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  767                      break;   /* drop, to guarantee consistency (miss a little bit of compression) */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  768              }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  769  
-e0c1b49f5b674c Nick Terrell 2020-09-11  770              if (dictMatchIndex <= dmsBtLow) { break; }   /* beyond tree size, stop the search */
-e0c1b49f5b674c Nick Terrell 2020-09-11  771              if (match[matchLength] < ip[matchLength]) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  772                  commonLengthSmaller = matchLength;    /* all smaller will now have at least this guaranteed common length */
-e0c1b49f5b674c Nick Terrell 2020-09-11  773                  dictMatchIndex = nextPtr[1];              /* new matchIndex larger than previous (closer to current) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  774              } else {
-e0c1b49f5b674c Nick Terrell 2020-09-11  775                  /* match is larger than current */
-e0c1b49f5b674c Nick Terrell 2020-09-11  776                  commonLengthLarger = matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  777                  dictMatchIndex = nextPtr[0];
-2aa14b1ab2c41a Nick Terrell 2022-10-17  778      }   }   }  /* if (dictMode == ZSTD_dictMatchState) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  779  
-e0c1b49f5b674c Nick Terrell 2020-09-11  780      assert(matchEndIdx > curr+8);
-e0c1b49f5b674c Nick Terrell 2020-09-11  781      ms->nextToUpdate = matchEndIdx - 8;  /* skip repetitive patterns */
-e0c1b49f5b674c Nick Terrell 2020-09-11  782      return mnum;
-e0c1b49f5b674c Nick Terrell 2020-09-11  783  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  784  
+8e57daf70671e4 Edward Cree 2020-08-03  170  
+8e57daf70671e4 Edward Cree 2020-08-03  171  void efx_ef100_ev_rx(struct efx_channel *channel, const efx_qword_t *p_event)
+8e57daf70671e4 Edward Cree 2020-08-03  172  {
+8e57daf70671e4 Edward Cree 2020-08-03  173  	struct efx_rx_queue *rx_queue = efx_channel_get_rx_queue(channel);
+8e57daf70671e4 Edward Cree 2020-08-03  174  	unsigned int n_packets =
+8e57daf70671e4 Edward Cree 2020-08-03 @175  		EFX_QWORD_FIELD(*p_event, ESF_GZ_EV_RXPKTS_NUM_PKT);
+8e57daf70671e4 Edward Cree 2020-08-03  176  	int i;
+8e57daf70671e4 Edward Cree 2020-08-03  177  
+8e57daf70671e4 Edward Cree 2020-08-03  178  	WARN_ON_ONCE(!n_packets);
+8e57daf70671e4 Edward Cree 2020-08-03  179  	if (n_packets > 1)
+8e57daf70671e4 Edward Cree 2020-08-03  180  		++channel->n_rx_merge_events;
+8e57daf70671e4 Edward Cree 2020-08-03  181  
+8e57daf70671e4 Edward Cree 2020-08-03  182  	channel->irq_mod_score += 2 * n_packets;
+8e57daf70671e4 Edward Cree 2020-08-03  183  
+8e57daf70671e4 Edward Cree 2020-08-03  184  	for (i = 0; i < n_packets; ++i) {
+8e57daf70671e4 Edward Cree 2020-08-03  185  		ef100_rx_packet(rx_queue,
+8e57daf70671e4 Edward Cree 2020-08-03  186  				rx_queue->removed_count & rx_queue->ptr_mask);
+8e57daf70671e4 Edward Cree 2020-08-03  187  		++rx_queue->removed_count;
+8e57daf70671e4 Edward Cree 2020-08-03  188  	}
+8e57daf70671e4 Edward Cree 2020-08-03  189  }
+8e57daf70671e4 Edward Cree 2020-08-03  190  
 
-:::::: The code at line 698 was first introduced by commit
-:::::: e0c1b49f5b674cca7b10549c53b3791d0bbc90a8 lib: zstd: Upgrade to latest upstream zstd version 1.4.10
+:::::: The code at line 175 was first introduced by commit
+:::::: 8e57daf70671e482209b5d231a181f04845cf73e sfc_ef100: RX path for EF100
 
-:::::: TO: Nick Terrell <terrelln@fb.com>
-:::::: CC: Nick Terrell <terrelln@fb.com>
+:::::: TO: Edward Cree <ecree@solarflare.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
