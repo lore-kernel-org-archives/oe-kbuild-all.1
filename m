@@ -1,115 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BDD1F95E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 06:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC6A176255
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 07:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725865113; cv=none; b=WTn8bBTMX7IVi6iXtaPJgJJScobWk3pN0MzyRROzhAxo3UOFd6nNML6PJScV4k4gjInif2X0w7ZH2v+D4UhBxZUWGJ7OuthHGVb9atnUJs4FgRRqwM9fwviy+sdZC4hZiYFEfR5vl69X8nd8zlnZ7ig+0sR50uCWy55phqU3Djs=
+	t=1725866161; cv=none; b=U+svfY9iomf0sc/EY/muERwktsZnT11/CW+OS2kRzO5b40giEuTbRLwbRuBvSqB+jbBPcdLYWWqWeAuVe8k3wo8d+kQxm0E0yqbFwj8duUVJpSVxNXHrlLC+fITlUzo/t7L2vOwl19/vuFypRxSQD57u3qUnluRyIlMSyJHlKJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725865113; c=relaxed/simple;
-	bh=/z99RsFo7w2oE3PEqci8rQnLp8xjxYvVxEkJkCN24JY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZKPoZyuamPt7IVk1rdPlkn+dOq3zEy8VI/yCh2ehU3E1WsKbUDDA451Vt5AavMOqgZ08s73SH7kN59CWSF5uBCt3uxifYEprP5f1t/l2LT8tui3ucbiQ8zdaK6g7YSefTLaJuONr4HkjNmODUUQvBfcTgk8PixGbkSZZcWU1B5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfeE74hi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfeE74hi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA3EDC4CECC
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 06:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725865112;
-	bh=/z99RsFo7w2oE3PEqci8rQnLp8xjxYvVxEkJkCN24JY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IfeE74hioku44MQ4zrKTZE1xxaZ+eP1gGsZZ5o+4DlzTsdcVDsa8Gqc9IYeN0t5e+
-	 O9uXEEVCu8J31BEF8j9V8Wh4UyfXJ8iHHykXhC3va3T4y2Lh0rdFtfpwSkWWFAjrdf
-	 ffNDmDqS/qOWHRdwu//xRR7R2VaLcPzsx5K6JHn2P7Uzoon/+96DmBM2yspSshagji
-	 CuYYhCxt2v5gwWIKptaobRiXg6L9vlgCWyD40QmEvJUwAIXNssdJIDgN0BjIiDlTwm
-	 aQ8TssBMxkvij9hRtEVW9SBQs6RqSmCNAsRBl6eFf+zJAa6xdVeEnvQd2yB01j/55T
-	 RqdHqS645Sy5A==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f760f7e25bso9506981fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Sep 2024 23:58:32 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyCuNOOiF5eRn5bn1ksbPGKh9MwcJMCw0nNFN9Bko0BDq0nenWV
-	W0HW2791Wv2jB3SjPO2BFlN5yVP9rc3fBEJXSq5Pot1OCM0/x/WxhMajp8KGxGYWP0cdQunNtbf
-	cTfjuv9SGT08l3Apxy8tLQ9H/0/0=
-X-Google-Smtp-Source: AGHT+IF5OEqeNF5Fqa7J0qieFGJU57lGv+I41m2QE2gCCumc1nnaPRcN/gYdwvYhvKw5Z2tcmHfGaGdHxYPt6gkVoMY=
-X-Received: by 2002:a05:6512:3b89:b0:536:550e:7804 with SMTP id
- 2adb3069b0e04-536587b3466mr3826751e87.18.1725865111492; Sun, 08 Sep 2024
- 23:58:31 -0700 (PDT)
+	s=arc-20240116; t=1725866161; c=relaxed/simple;
+	bh=WkbqNcigGXb6YlWe49wJ2MneMwxBtf2+ekquSTb+6GQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A3ZX6W+jXJ8ElpfZpbH03aZtAVH9pCcDQ1WaNOTHC3Ryuf8tIicT2k8Y/GhNe3ajS2g2hoU3yCr3R91rOVfTBRRX/mJyMz7HGE+6I29GqCR+2UxlqwtNoaM/GNiIUdvU0JF72VZCc8C03s8IXS2hGbP/4BX3mLrgNPjR+psmxq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1snYct-0005nF-Cz; Mon, 09 Sep 2024 09:15:55 +0200
+Received: from [2a0a:edc0:0:b01:1d::7b] (helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1snYcr-006b13-VE; Mon, 09 Sep 2024 09:15:53 +0200
+Received: from pengutronix.de (pd9e595f8.dip0.t-ipconnect.de [217.229.149.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id AC891336514;
+	Mon, 09 Sep 2024 07:15:53 +0000 (UTC)
+Date: Mon, 9 Sep 2024 09:15:53 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 9160/10296] ERROR: modpost: "__divdi3"
+ [drivers/net/can/rockchip/rockchip_canfd.ko] undefined!
+Message-ID: <20240909-proficient-ancient-iguana-c16ff3-mkl@pengutronix.de>
+References: <202409072304.lCQWyNLU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202409090249.milE4bxu-lkp@intel.com>
-In-Reply-To: <202409090249.milE4bxu-lkp@intel.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 9 Sep 2024 15:57:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASQ2miUvSo7GJvGCoUimS1MxKkXC8HKWJoqGsCBwcSOww@mail.gmail.com>
-Message-ID: <CAK7LNASQ2miUvSo7GJvGCoUimS1MxKkXC8HKWJoqGsCBwcSOww@mail.gmail.com>
-Subject: Re: [masahiroy:kbuild 27/30] make[3]: *** No rule to make target
- 'arch/powerpc/boot/cuImage.katmai', needed by 'arch/powerpc/boot/zImage'.
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ygtie3rpn7qkt7tq"
+Content-Disposition: inline
+In-Reply-To: <202409072304.lCQWyNLU-lkp@intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+
+
+--ygtie3rpn7qkt7tq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 9, 2024 at 3:49=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
-build.git kbuild
-> head:   4dda2081d84398248af60da1d519840a5d6e3390
-> commit: e6abfb536d16cc9264c4d92b429934f92adf5285 [27/30] kbuild: split de=
-vice tree build rules into scripts/Makefile.dtbs
-> config: powerpc-katmai_defconfig (https://download.01.org/0day-ci/archive=
-/20240909/202409090249.milE4bxu-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 13.3.0
+On 07.09.2024 23:29:49, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   9aaeb87ce1e966169a57f53a02ba05b30880ffb8
+> commit: 4e1a18bab1244204f873103eef1c0c88f794be85 [9160/10296] can: rockch=
+ip_canfd: add hardware timestamping support
+> config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/2024=
+0907/202409072304.lCQWyNLU-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 14.1.0
 > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240909/202409090249.milE4bxu-lkp@intel.com/reproduce)
->
+ve/20240907/202409072304.lCQWyNLU-lkp@intel.com/reproduce)
+>=20
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409090249.milE4bxu-lkp=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409072304.lCQWyNLU-lkp=
 @intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> make[3]: *** No rule to make target 'arch/powerpc/boot/cuImage.katmai'=
-, needed by 'arch/powerpc/boot/zImage'.
->    make[3]: Target 'arch/powerpc/boot/zImage' not remade because of error=
-s.
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>=20
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>=20
+> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_=
+mutex.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/mxc-clk=
+=2Eo
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/clk-imx=
+rt1050.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governo=
+r_simpleondemand.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governo=
+r_performance.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governo=
+r_powersave.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governo=
+r_userspace.o
+> >> ERROR: modpost: "__divdi3" [drivers/net/can/rockchip/rockchip_canfd.ko=
+] undefined!
 
+Good Bot!
 
-Thanks.
-I will fix as follows:
+fixed with: https://patch.msgid.link/20240909-can-rockchip_canfd-fix-64-bit=
+-division-v1-1-2748d9422b00@pengutronix.de
 
-
-
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 6385e7aa5dbb..8403eba15457 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -444,7 +444,7 @@ ifneq ($(userprogs),)
- include $(srctree)/scripts/Makefile.userprogs
- endif
-
--ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb.o %.dtbo.o,$(targets)=
-),)
-+ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o
-%.dtbo.o,$(targets)),)
- include $(srctree)/scripts/Makefile.dtbs
- endif
-
-
-
+Thanks,
+Marc
 
 --=20
-Best Regards
-Masahiro Yamada
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--ygtie3rpn7qkt7tq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmbeoKYACgkQKDiiPnot
+vG+a6Qf/alzx9jLkOiiqV2aoFHjONdmSM0ICMXsJB77Y4vn3iaiSdwaEhqkBD4e7
+W6PcIs5WKTGZBeJqpFVCONNUNZVh3OyC0uvNPJJkHBRax0JjwqlH1LNHjzfYKzdk
+c/rEQsfpDGrL60GEsRhmOJcwF3VPwHsrSkWgVaUPikStAeq3VsMwKjGy9ZXiIa3t
+vFIxD1KPZIWO6TdodelspM9EV+T76twMtO01nPS86FLluZd1lIqZTO1+lVzlM7Cf
+P/h2CTd+7mxvikE2NQFzaJ6dG/0JmCbTMU1WOeg/drILaOeNX2V7EPUHT9cYUcnf
+GSD/w1MBWV5vQF2B7S6sNuJBfMgOGg==
+=7/Im
+-----END PGP SIGNATURE-----
+
+--ygtie3rpn7qkt7tq--
