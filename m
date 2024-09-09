@@ -1,73 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2CA16726E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 16:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B67A18C31
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 17:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725900276; cv=none; b=GstPuxG/Azo4cN4fmpoIFrync+0w66q5/m+OIl7e561jSpQTuLQWCQvnShMrXRL5o2LH0Sw6fbI07xzJwl6lkzzZhMN72cipdt+dT5fHBjRSAXSJKF0+UQYkXV33FCav1iccjamjFYs60cpRZnG9iAdT9rexuGEB6GcwRkGRAsc=
+	t=1725901227; cv=none; b=AptzgWsImf+vmbX0178DbcseFoGOoNpx/V4cXyNk3Yn9CYs9J4IYBq/Vp+X3SK5O6u06DfKiA8c2TcSdjgHrluGB3IOqfbvsxiANMR0wvaKnw87F1F2rO9GfdOgpC6huk62ZipJ6URQIY2coI4fN9f1WMtl7k9v7gR1qHebHW4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725900276; c=relaxed/simple;
-	bh=6srnt6M39RKiRZbhRIV0n7nb1KAmlvnuLyPHKt7EEjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pWfxneaQzkIqY68fASzGeiNy7XuAlJSdbL2qTEj2DR5bS5LCjyIH3A7eos81z1vyGseAu6QTz8jRINmuYGI4uDbwB6qF5KBFGim3nBr9cOUR9Qk2XzSNADq+02gA2PkCLVFV/OwWqwU81oBfX8+P4Jhn77gNe8lrpDEzDYfQpbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNkrsQ6M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725901227; c=relaxed/simple;
+	bh=tlmU/tOU3qiMsZZf6YhxvWytNOspC7l+Y2v6pAuKUgA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CxijQFSWYWYrjmrLfh5tt07ZKWcekg5ZK1URyvVFPN0TwTddaP/7OsWYsMBgs+fYpbcamWePhogAWBjmGWKKjOaHzVv/Gdx9JmBWOiiAPgC7qfLzKgEAtJbSooK1vWgGJjPFSXwfQr5eZtw2UnR4ZTQX6VnwWtp47AXJT0dDL+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=oOCPlvXf; arc=none smtp.client-ip=199.89.1.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FNkrsQ6M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BBFEC4AF09;
-	Mon,  9 Sep 2024 16:44:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725900275;
-	bh=6srnt6M39RKiRZbhRIV0n7nb1KAmlvnuLyPHKt7EEjQ=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=FNkrsQ6Mn/4wUADYXq2iDZ0FTHWfQtKODKoghOJHJO9dEhlogoZOHrD7gCZqqlsKn
-	 TA+MEBXej6TrkGFTWuODZfGc5cDPRdyWj42aISItYRb8EmwTH0HR7er1WOG45E1f5D
-	 zO6YX2lWXnpH1gujfEv5p49lpbzVQ5LURmE0naniiIkFAZc3YUXmGmXcgw6ge+7sqy
-	 B46LbbKu50oyS7unl/qTxMv97um9ak2GyqL3DdcjZ/GwUBY7D9FeoAFxk5PfEe40R+
-	 5e7Borv1lGZP+9t/GXo3gqQwW0F5yLn63W3O07/OW5rN7ZHdW/UCg+bn3/Oj2FJxFN
-	 Zmae5Cpfmg6uA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 1B839CE1407; Mon,  9 Sep 2024 09:20:00 -0700 (PDT)
-Date: Mon, 9 Sep 2024 09:20:00 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>
-Subject: Re: [linux-next:master 3671/10296] ERROR: start_text address is
- c000000000000700, should be c000000000000200
-Message-ID: <41c30910-93da-4476-89e6-e04911d723f6@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202409090839.Gz712lD2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="oOCPlvXf"
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4X2Y495fjBzlgTWQ;
+	Mon,  9 Sep 2024 17:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1725901223; x=1728493224; bh=aXk9aM+ZEAlmd0CZx0uK//H4
+	E51fVrhOBRVAQSwyD+E=; b=oOCPlvXfMoCYkcDsc+8f/qWPjELV6z1ei2dju0MD
+	zt2L58TWX84dw8kqBcrtlQN4cscJzNhqKLs13FEhXX3Wrh0jc9DTGOs3zWsKoSqY
+	lnEZ4LeL+Qad8GesZh/bRDa2VnVj66XoINJcEHflOmSEgkpsFk4SKMIKCXrqarLq
+	8X99xHgjattS5ncTi3K0dEbCYj8OUfPsuUI660du2yrWXugiynZOLRSL9O6Z6d45
+	KqIFiDQ5givmoU53xBG7a9xejSy8DWC11Cic4vVQYp0C+8NV6/0OUHFDeUDiaPu/
+	jX8IQt2g2SfATjt7tnA256zrBiuJYF2ARfs/bdaiL7bLsA==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id 0_Lv_iftBTLd; Mon,  9 Sep 2024 17:00:23 +0000 (UTC)
+Received: from [100.66.154.22] (unknown [104.135.204.82])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4X2Y466PG1zlgTWP;
+	Mon,  9 Sep 2024 17:00:22 +0000 (UTC)
+Message-ID: <e7dada44-c205-454e-8f49-52dd55017758@acm.org>
+Date: Mon, 9 Sep 2024 10:00:21 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202409090839.Gz712lD2-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bvanassche:usb 3/3] drivers/usb/roles/class.c:39:31: error:
+ duplicate member 'key'
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Amit Sunil Dhamne <amitsd@google.com>,
+ kernel test robot <lkp@intel.com>
+References: <202409081825.OlP6X3uN-lkp@intel.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <202409081825.OlP6X3uN-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 09, 2024 at 08:42:42AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   9aaeb87ce1e966169a57f53a02ba05b30880ffb8
-> commit: fe91cf39db0939ac8d523b5a1c31840f7cbe205c [3671/10296] rcu/tasks: Add detailed grace-period and barrier diagnostics
-> config: powerpc64-randconfig-003-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090839.Gz712lD2-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409090839.Gz712lD2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409090839.Gz712lD2-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> ERROR: start_text address is c000000000000700, should be c000000000000200
->    ERROR: try to enable LD_HEAD_STUB_CATCH config option
->    ERROR: see comments in arch/powerpc/tools/head_check.sh
+On 9/8/24 3:47 AM, kernel test robot wrote:
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  22
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  23  struct usb_role_switch {
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  24  	struct device dev;
+> fe1d1701ee563a drivers/usb/roles/class.c  Bart Van Assche   2024-09-04  25  	struct lock_class_key key;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  26  	struct mutex lock; /* device lock*/
+> 1c9be13846c0b2 drivers/usb/roles/class.c  Xu Yang           2024-01-29  27  	struct module *module; /* the module this device depends on */
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  28  	enum usb_role role;
+> b787a3e7817590 drivers/usb/roles/class.c  Xu Yang           2024-01-29  29  	bool registered;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  30
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  31  	/* From descriptor */
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  32  	struct device *usb2_port;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  33  	struct device *usb3_port;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  34  	struct device *udc;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  35  	usb_role_switch_set_t set;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  36  	usb_role_switch_get_t get;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  37  	bool allow_userspace_control;
+> fc88bb11617978 drivers/usb/roles/class.c  Amit Sunil Dhamne 2024-08-22  38
+> fc88bb11617978 drivers/usb/roles/class.c  Amit Sunil Dhamne 2024-08-22 @39  	struct lock_class_key key;
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  40  };
+> fde0aa6c175a4d drivers/usb/common/roles.c Heikki Krogerus   2018-03-20  41
 
-I have no idea how this patch could have caused this.  Help?
+Hi Greg,
 
-							Thanx, Paul
+Apparently Amit's patch is already in your for-next branch? Do you agree
+with replacing Amit's patch with my patch series? See also
+https://lore.kernel.org/linux-usb/CAHp75VeA6N_jmkz0-asjogYx4ig8Q=zxnNM7C4m5FV94pH-nCg@mail.gmail.com/
+and
+https://lore.kernel.org/linux-usb/20240906091308.GV4723@noisy.programming.kicks-ass.net/
+
+Thanks,
+
+Bart.
+
