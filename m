@@ -1,96 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3FA82481
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 12:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057C229CE8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 12:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725884061; cv=none; b=rVJcJf9ZeLw7nDz0CpRP5O9St36Tn3SD68jtdUsLs8/PFddq1dbAUO+Yd5kE3OE0oN7GAx3mFrBnfleeOZ9tsrdOWBO7odCpDHYgHyxW4ixjBzhtLDAyu5w7WfPMp8qzdcAx15bCkOojiP89B5WW08LFwfwU18LWgUSAILTrug0=
+	t=1725884214; cv=none; b=m6cNQr+0bu2PYHLmWotogfiFnZwvG2v15pDuYgCNZpOQHyvr8ZsBkyxNlPQ61A646/rHqXcuZuv1KF7gf+Ra3p/aZlIYrolfceI8M3PstRtXyNJJoJbgrejnqMrYTzfFbS+CFDxnPqGkrq77ha/nPqWsCOXc01tRF59BOszYmN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725884061; c=relaxed/simple;
-	bh=dTVEs2LxMnvBCkN5OTt0tO/voEOZ/PfGFutqnEEriAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bxxQfxl7ZyBM+gkvSDmSvRTYdzKXajPPpQxKFamxuk7KXQWuBNm6BZWb/wGiU6xGLOzD87jUsEklsfBjj3hqsZ7jCyUjg0pV3870p2N7MQlaJZr2sfKfAjzGM2z0ZBjRwDdzXCqOtokoxeIklgEE1Tvgk6NcOLoZxYdZkStbwTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSG3MFBT; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725884214; c=relaxed/simple;
+	bh=WpxLbhTQT6DKk9hVlW2D9IB7LmfZsuZUuHGokN812y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NbMB515twQUsNZQy5+UFa0Wpo2PUnFqW0WabxNs/dCAmHDtYJbm6k/BPzE8KOyrzwAqQT16u6OHrKWFwLgYS24Hx+xnkIhGsAWWQXy0tFEGEXuqAyCLRvuHK4SIdIbCj+IdF/xXmo9OwGCpxwBYylLB/M58PP9sA3Ir1Z+x/Yu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jR1YaWRG; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSG3MFBT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725884059; x=1757420059;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dTVEs2LxMnvBCkN5OTt0tO/voEOZ/PfGFutqnEEriAw=;
-  b=DSG3MFBTQN1jkqkUAUwfVlMGVBWLSeIbpgEZQAFjhZWbl4ewtPtdvhwV
-   f5YfFNNQH91zONlNS+Hh8ZuhFQbe7K/YQAgA+yVoOD6xQdylBE+9VgmR9
-   VNoeV+nGMbwQlPhoPJahGRJsW5pD981QBYmQ3n/cqd2F/gdHNbK4LV3ne
-   B225vCRzgfrvSXuYv5BpebL6JzV/41cEaJwEBeFgAH4l/xgbXpfj1d4Ty
-   1lrZHK5ooowU6gDZ07wfODGZg4XFD+X1B+0Q5+Yq7ZMwJY6Kov5QPjL1h
-   hMcKJ2dhSzRbYzS7OlvCm1vw3+IDTIbEu57Cr9oAA18m9SKtdwRmRY/of
-   A==;
-X-CSE-ConnectionGUID: isF4bQH9Sfe/8BpM0RbOcg==
-X-CSE-MsgGUID: 0S3zUgk0STyAUZvUgPgkVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35168288"
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="35168288"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 05:14:18 -0700
-X-CSE-ConnectionGUID: 06ZeEZKFSviUElJA8+9OYw==
-X-CSE-MsgGUID: D1iL7HlySrC7iIUxPrT/zQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="71435917"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Sep 2024 05:14:15 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sndHW-000Ege-14;
-	Mon, 09 Sep 2024 12:14:10 +0000
-Date: Mon, 9 Sep 2024 20:13:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 7777/10951] drivers/iommu/amd/iommu.c:69:30:
- sparse: sparse: symbol 'amd_dirty_ops' was not declared. Should it be
- static?
-Message-ID: <202409092049.ixi8uuu1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jR1YaWRG"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 57BC11C0003;
+	Mon,  9 Sep 2024 12:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1725884210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wLVmE56mUfVzGSq6t/JF7XMKKBTDxxgVIRCJXv0PVw4=;
+	b=jR1YaWRGYij+gUaOZTZrnnZcL3ySrWmAD+7I23Cz4XGp4lZOlE3+F9xcJ4t7fDDkp17BEm
+	qwTfyJMD72g3/2xx/j9lJ99I/2bPCGwPj8U3KfAF2ZoOuYpiMRiJ1nBJWEV7j22KSMb0Ab
+	J+ecQ9ynXmhip6v64Kx1XxnZnnfJ2PSQH8tjDb9hXwJxadEFJl+CJ6R3EmtqIwo+tZ9DIv
+	sOP2P7oFi6LFN5nAuPw4Ic4sCH+DDxAfPPS52fs6SDUXxJFBsyg5UNURIxmuXWVOuLKh+9
+	K8yI9vDDiW3UT+u4w52pWOSXC3IxGIvsTZ8q5bJdQzlAe6EQDpEM50NTWE+Otg==
+Date: Mon, 9 Sep 2024 14:16:48 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: [linux-next:master 8170/10296]
+ drivers/soc/fsl/qe/qmc.c:2002:30: warning: 'qmc_data_qe' defined but not
+ used
+Message-ID: <20240909141648.6c027bcf@bootlin.com>
+In-Reply-To: <202409071707.ou2KFNKO-lkp@intel.com>
+References: <202409071707.ou2KFNKO-lkp@intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: herve.codina@bootlin.com
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   95e99651a23c1ccc103007c3b0532ff97d7c357d
-commit: 48b9cbca2d0ec8d9fc4f05fca1243995f8cbc4b4 [7777/10951] iommu/amd: Access/Dirty bit support in IOPTEs
-config: x86_64-randconfig-123-20240909 (https://download.01.org/0day-ci/archive/20240909/202409092049.ixi8uuu1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409092049.ixi8uuu1-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409092049.ixi8uuu1-lkp@intel.com/
+On Sat, 7 Sep 2024 17:30:44 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/amd/iommu.c:69:30: sparse: sparse: symbol 'amd_dirty_ops' was not declared. Should it be static?
-   drivers/iommu/amd/iommu.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:241:46: sparse: sparse: self-comparison always evaluates to false
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   9aaeb87ce1e966169a57f53a02ba05b30880ffb8
+> commit: eb680d563089e55b20cb7730ed881638fe4425b7 [8170/10296] soc: fsl: cpm1: qmc: Add support for QUICC Engine (QE) implementation
+> config: powerpc-randconfig-r031-20230616 (https://download.01.org/0day-ci/archive/20240907/202409071707.ou2KFNKO-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 13.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071707.ou2KFNKO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409071707.ou2KFNKO-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/soc/fsl/qe/qmc.c:2002:30: warning: 'qmc_data_qe' defined but not used [-Wunused-const-variable=]  
+>     2002 | static const struct qmc_data qmc_data_qe = {
+>          |                              ^~~~~~~~~~~
+>    drivers/soc/fsl/qe/qmc.c:1992:30: warning: 'qmc_data_cpm1' defined but not used [-Wunused-const-variable=]
+>     1992 | static const struct qmc_data qmc_data_cpm1 = {
+>          |                              ^~~~~~~~~~~~~
+> 
 
-vim +/amd_dirty_ops +69 drivers/iommu/amd/iommu.c
+Patch sent to fix the issue:
+https://lore.kernel.org/lkml/20240909121129.57067-1-herve.codina@bootlin.com/
 
-    67	
-    68	const struct iommu_ops amd_iommu_ops;
-  > 69	const struct iommu_dirty_ops amd_dirty_ops;
-    70	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Hervé
