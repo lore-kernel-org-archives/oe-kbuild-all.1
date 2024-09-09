@@ -1,152 +1,296 @@
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2050.outbound.protection.outlook.com [40.92.103.50])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683F118CC11
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 23:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725923307; cv=fail; b=dXYZ0lj9ojvGnRQuySa/E2TVAt9uLAM72briWMsBG9jhD+mvReNAhMGDVro+3dgpgAzU8OgyLhKpsjzULChGgYIaw6tEp75ZSOW2Xblu4EaOl5MnzH+KvNAjt7yFnhrZrQP9Bodo0uHWCsGx5dCSvuy9hDVseLqVEgLuKToi5WM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725923307; c=relaxed/simple;
-	bh=NEiZrUrEtdrSIUL9KEcJsBCmbVHKNtjFNi27XS5oS+8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=S45IpXpgFZvzUkGInEaio4/+6Y5ODjvx0qjSzAlnkINP1dHr/UT9bleBx06kUZckZJen0Upv7ts1Gb4OUyN4+55KDAgjHmDonUehWX5KiwEO+bg47PxPC0+JOTfqhZqsUbizgSOY9qHVZHqbDPpUwa0nZWZz0MKP9Xy9J16NxjM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=WG+YBXbz; arc=fail smtp.client-ip=40.92.103.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35B173440
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 23:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725925693; cv=none; b=MaASvJuHkvoBhZiv3yxSg/uUzaQWelVazt9x2TGIlBnfOjqw0yL+d9syd8gAI6HK7jCctBmg3iy4n2z76e/ndPPejBB3g7BxmTsjLC/KSyi87Grlh4wGxCFm8MVd4LCT+9UCU9cl6WYR8oAyfoGehNCD7QuUxGuVAPBIMveegzw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725925693; c=relaxed/simple;
+	bh=B95LOtKUbdp3OIPltaTy0jrpBwp/9GxaTmkwlilfbJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IyfxyB3DWNmvN5AmGUX8JQkeyPp9SK75uaz1m+l9siGyPMq8loKyvE+5hc59LT7wzOOmYgPa3+2glUaUo3CYcOeA1RGSdeQsVIQLIziB8Xs5tQsxeSY5aLZ27HoMJCbszhgpWP7l87AlCGE6B5NhcMNkzKpH4RuxaMesLQ9UozQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L1ybXS8K; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="WG+YBXbz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iWwUhV8+ZRDcgsWlMAijvNOzdrs0dZ6IIGw6tjtEyqRh2Ha6bTrzDiwm3sv1FnxG8BG2IUOykc+7YzTFsNFwXIUu4lGt9Ldvn+43rgxEz9c9KU5N22AFB5TR0prAuJUMaKFX1IVIa3ifX63nYdxVnBrB5xZbpTTzJODBSQ36VCbHsJx92On0W49KSX3n0sxxjbpaV/J6xX1ssLaUd9fmE8nceAux/kz+FYEAcmCnbuM/Sm/zDurkKOkk+aiIJeULA3y0YKsusms0qFvyn7xVJ/mZwTnHbWgOxZ3sx9n8nrhtShPfPZlR4qfeVAGGw0ZWejfg4mK6LDJL1Rs4zdHeKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NEiZrUrEtdrSIUL9KEcJsBCmbVHKNtjFNi27XS5oS+8=;
- b=HookQElCE36N5nOVT02GFDveSWnz74OGq40ZogcfrC/biDTCYgOwCdxgrrg16/iKsIFnXVNJAS2BNYnMwwapv1uTrzuaxH92yTiRQ0iUlkfuMKuRaiDzZQQlZNyN4xeXS9YA0LpTeeyUa/OUKaM2PGsMPeUy16GQpIYnfMmLv9pfYP2ot75SD5Znqt6POOZSoArJBTkxjJFJjFKCzH1kiM5tTjoWUWkoK/mI1pHAa+EhMo9T0UKskLj9Zod9pv5bRyFn1HGmmY26+2o+MBju2E3Jv0jXY0Cx02TyuKr/9wQNetxnQugT8Q7nn9KZkKHa1cKZQ7eMUQn9Jrh/Ut9hjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NEiZrUrEtdrSIUL9KEcJsBCmbVHKNtjFNi27XS5oS+8=;
- b=WG+YBXbzFScP71gvXeWp4LPbL+3n3dc15h2KGvVSg7G0A671W38GOxKR5RCCf0p84UdAdFZEi8ATroVGbHuxIPTFE4APRVG6DBA1PgCbsW8EHfx/bF+5AbIh5t+IKnA2sWd1uM4aRXcVydQMoGazrw5TLGovdejoAwoqmuISkuhVHLYhsszdYOEAYHcI2ot6Jur3T03pNzkgu9GfRuuB9rjDdJyMQuuOR2C0mX91SNOTjkIZ9ImRsmTIUiy0/JOndL86wKHJaL9HR1qVTUNZCwkuUbVD9Ee1ZMhIRgUOysuBZh0U78uCCXgZqdTQV7s1NEAKa7q1EU0umP9cm/IH8w==
-Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:138::5)
- by MA0P287MB2133.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:103::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Mon, 9 Sep
- 2024 23:08:15 +0000
-Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
- ([fe80::a94:ad0a:9071:806c]) by MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
- ([fe80::a94:ad0a:9071:806c%4]) with mapi id 15.20.7939.022; Mon, 9 Sep 2024
- 23:08:15 +0000
-Message-ID:
- <MA0P287MB282257F6614C3D43523CB4C3FE992@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
-Date: Tue, 10 Sep 2024 07:08:07 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] pwm: sophgo: add driver for Sophgo SG2042 PWM
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- Chen Wang <unicornxw@gmail.com>, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, inochiama@outlook.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-riscv@lists.infradead.org, chao.wei@sophgo.com,
- haijiao.liu@sophgo.com, xiaoguang.xing@sophgo.com, chunzhi.lin@sophgo.com
-References: <3985690b29340982a45314bdcc914c554621e909.1725536870.git.unicorn_wang@outlook.com>
- <202409080100.h6lX5Asm-lkp@intel.com>
- <MA0P287MB28225ECCF1D263A20917AD5DFE992@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
- <CAMuHMdXOAmCsdcvdo41qD9f4L=K2uZa6nJN7D5YOTTuCnBHtWA@mail.gmail.com>
- <MA0P287MB2822B10767514B3E04E8E468FE992@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
- <qcpqwvffln3cb5lxnhwarmeawiudurc4v35rqz7jo6xo2es5bi@2q4e4f4zn2vu>
-From: Chen Wang <unicorn_wang@outlook.com>
-In-Reply-To: <qcpqwvffln3cb5lxnhwarmeawiudurc4v35rqz7jo6xo2es5bi@2q4e4f4zn2vu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TMN: [pgQpsBM5yz7Tp3fDJcasQ8aQK9r0aGlb]
-X-ClientProxiedBy: TYAPR01CA0225.jpnprd01.prod.outlook.com
- (2603:1096:404:11e::21) To MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:138::5)
-X-Microsoft-Original-Message-ID:
- <25b44694-0701-4577-8168-9c356e5fe74f@outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L1ybXS8K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725925691; x=1757461691;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B95LOtKUbdp3OIPltaTy0jrpBwp/9GxaTmkwlilfbJw=;
+  b=L1ybXS8KLqdlCqGN1pQg/THHzeMqnvpKYc6/Oa2rWeZUs2LEmP3fKZmt
+   mW8S2HhEQKJZZSwYwXPh8VA3bHGSCt5ENjD06wxav/QTKv4zEM3GMVDcA
+   Nit9scXaV7tFSrn6XEtTixCBmwbwsktnWxphKTejiThSei4n2gBL/6nwQ
+   qqgd5jFrJPAB99RHoo8ue1U6cOlRSsTpHOjHkpL1zywS+Se2uCpuc2CID
+   Wbdv+Ze/7Vf6qoIOdV9Kb65Fe+ubbHe45/c5mP3254Qhp8IK8J6x32ObW
+   cXr4+319gTA4+ckl/I0wAfynOaV8Ac05F/nqhO6Lo/FlEda7GeDWyitZJ
+   Q==;
+X-CSE-ConnectionGUID: zKUQuLv5QuyCNvmhRCQTlQ==
+X-CSE-MsgGUID: cLUl0BDjSD+aMNh5WFHZPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35792015"
+X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
+   d="scan'208";a="35792015"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 16:48:10 -0700
+X-CSE-ConnectionGUID: 9asNA2edTE2tGkZ4FZCsuA==
+X-CSE-MsgGUID: VmPGUhTPSSKJ4kRQ4J2GEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
+   d="scan'208";a="66454239"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Sep 2024 16:48:08 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sno74-000FLz-1g;
+	Mon, 09 Sep 2024 23:48:06 +0000
+Date: Tue, 10 Sep 2024 07:47:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.4.y-st-rt 421/872] drivers/block/xen-blkfront.c:1315:1:
+ warning: control reaches end of non-void function
+Message-ID: <202409100742.ibDdxYST-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MA0P287MB2822:EE_|MA0P287MB2133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e303450-9b3d-4d44-3447-08dcd1244863
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799006|19110799003|5072599009|461199028|6090799003|15080799006|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	GwpAmNBZaWJuMv1mp8y3pFW4Qv2ss7mv1r9f0r7/biD97t4xjzblJVwy8w9rNfqueCzcC8CaqM3UMZ1oEuSPRSdRY0g76nCeHfgBcfTpvzNp4FP9d20zZXKC1hnaQmaiLT5IQ9tY8w2rcFnyEfGH9hhwvwplTTnWC57jNHy9Qrs1HFF1dWDCE8uU/wHpdDb5zoqWwUvgfj/RmJXPYXL5CcLach//Ag3K6v3swcUdryPPX0rKYkyJcuEBEqPJ6Uy0Uq/crBrnJfPvcBacqdkOM95IcPJ8Z4ufcvzmmyw4KqzTajpR5/qcyM6RQfr3YHRM5o65qpBn0lpKShrsAyRs9Rw+HGICJjqag91qgvW0uLSEoKIJPdZ44GGXjxry+n5BxBTf44B36ISyggv2fsmcjVw5oNj9qC4Wb6ckrW3+LykoEd+s8VHZ/8/wuKyQDqrwb5UI2M1EtK8DA6fhT/Itz89l0h9pJes9x55GJvhTAzcJEf/HHFUJZrcLr7IKKp/ithols+qWM1IFvyBInqDR/p7LbXbbMaGUDcR2Es7Omem99x1oLv8woUKx0UTyK1+h78cLglx8ZaFOXh7seZLCRf+fKK3qzonioioA6z3Gm+7bf5y7dGgtCR3kEmsQoL4b/pmfLt4aHooVA/IEJkGZkglHHsZwDY3JcQFvjEnpn3iYZIcbhRNWqI5PQbM9SlvgInf7LxotTAtmCVCWnnEyv9a8v2TOXRJkUY6VVfRc+2g=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Uk5DcVg0U3VRSFU4ZkVGcnBCRlVYRXVibXIrS3I2N0N0VzRQNkFCUk1Gcmpo?=
- =?utf-8?B?UXlMWVU2WmY2TG1Qb1BGVkNrSXcwdlhSdGU5M29NU3BZYjBpNm8ycHlrTWFm?=
- =?utf-8?B?cjd0bEtrTUVZZmJ6czNRV1BaT3E2cGxwdVVsVW1nNGxGRzhNYkJDVFE5OG5B?=
- =?utf-8?B?eVpQeEpTYklpdmVtWWRrWVN2VXZYTUt3WDAxbkxVMC8wTGJxbkg1Q1plbXZR?=
- =?utf-8?B?V04xMnlFZWNDL3FsTnNmUlprOHZMYnlzVjlYVXJ3UElKNjB4eENHNFd3NEpZ?=
- =?utf-8?B?eUh1RUwrMU9SVStwMXJjMENzSTBJOFh0WXJvdE8xaWpqVnVIeVl0SllydzRv?=
- =?utf-8?B?WnFCRUFCWnVwd0puUitBM3lKWHNBY1JiT2FVaGllSk9ZdTBmSkRqS1g2bnNY?=
- =?utf-8?B?eGhiL3JuaTNWSHN1L2dKeGJ6WW5kNm9QeVNUUy9rZlRqOEJNajRFV0NBZWp0?=
- =?utf-8?B?dHQvaTJ3aWFETVhkY3BuNjlOTGMxcXAvd1BENXZCVUloZFVpSzRRL056MVlt?=
- =?utf-8?B?dW1ZNDlCUWtYbDcxdFRwdDlCOTNuOUpETUJnbFpQZ1ozOXZwMVhtdDNVQmxK?=
- =?utf-8?B?MEJlc3Z0N01nczdJYTcxV2VURW1hei95RExRb3Z0RWlPejVJRFhjV1ZRdWE1?=
- =?utf-8?B?bFM4YW1ybFdhNWZ3SGZDRHhaWVJkeGx0b0Z4V21rNmFNRkU5eFRRNXVkc1FY?=
- =?utf-8?B?RXhudk5HcE5CYVcyT0ZtUERtelZVa2lwcGlLaTBzQUxQRHJzcUpidnVyZmcv?=
- =?utf-8?B?bWxMVm9OeGxVVEViVEdlb1E4aE1mang5V3Y0MVFKT1hCN1R1amgrUW93VGFn?=
- =?utf-8?B?eWd3TThQcG1wTTUrT2dZZVlobzBWSkE5dW94MUl2S0k4VUxvNGc4QXdVdUwy?=
- =?utf-8?B?S0FZeDhnUVo1clBYUkY3eUF5cjY3V21WazBiVlo2WWxtdmROMm84ZFNudFZO?=
- =?utf-8?B?cFhVVE1Sb2hoT2tnUlViQnAxcEdsTFEyTGQvVUtnbU5PSG1LRHdZRTVKSUhR?=
- =?utf-8?B?dHRnZWtuQ3JlTEtEWEF5c2w3c0tCU3A2MFhJOG9EdXJhakRKMHhRMlM4b1Y5?=
- =?utf-8?B?OHluMDRzeVcyUm1SWEVWdE5QL0hlL3JjUmNnc2JsYlRFbVFSZDhZOHhqU2ZZ?=
- =?utf-8?B?dVRpZjl5ZmVpZnVXK21nQ010aFhlNUliZlltSFVseUhMZVlBOU92UWF6OHB2?=
- =?utf-8?B?emhFYS8wQlB1OUNPVDNLT2JKTFRueHBFV1JsYk9lNlF2WktFR0JNT2pia1cv?=
- =?utf-8?B?Rk1LanFHc0xiUyt3czk1Qko5SjVEbzU2UTNKZDFZdXd4K0dKSnMyZkZHSXZq?=
- =?utf-8?B?NDRhMnQvZVBoV2g4clpZRWFnL0w0K0trb1IvNFVwb0NFSnNEZDRkTzBrSDJE?=
- =?utf-8?B?V3ZrTGx0d3JDMUtVUHRMTHNHTGxtM0huS2luNmZraGZCRVdMcTJpTjRuU1Er?=
- =?utf-8?B?bFZpWllkU2hsRENNZWJWMG01UStzQkM4azk3RTN4eU0rZGpieTgxSVd0S3d2?=
- =?utf-8?B?N096VldsSGo2bHcvem1uZEZvV2hYakdnMVJOcXlsbnNaWlBJQ01ZdDJQeHI3?=
- =?utf-8?B?eHAzQ09pcnRwRHdJYjNhcElCT2NPN2lmYnpET2NLNkkrTWJ6VlY0bTFtQVhY?=
- =?utf-8?B?VGJYWTN1Mzk5OE5vN3RUY2I4TUF1bEtJc3RVd1lZMjYyclRobktSVHhFd2Qx?=
- =?utf-8?Q?XbD/Sp9mkfjEc2Yf9H6Q?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e303450-9b3d-4d44-3447-08dcd1244863
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 23:08:14.7894
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB2133
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rt
+head:   ffa3d4f70bc60fe44aef70601d9251c80f4e26f4
+commit: 86fed754c5ea084751b011af36779add17560724 [421/872] xen/blkfront: don't use gnttab_query_foreign_access() for mapped status
+config: arm-randconfig-002-20240910 (https://download.01.org/0day-ci/archive/20240910/202409100742.ibDdxYST-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100742.ibDdxYST-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409100742.ibDdxYST-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+     return find_first_bit(src, nbits) == nbits;
+                                       ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:308:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return find_first_zero_bit(src, nbits) == nbits;
+                                            ^~
+   In file included from include/linux/blkdev.h:18:0,
+                    from drivers/block/xen-blkfront.c:39:
+   include/linux/bio.h: In function 'bio_next_split':
+   include/linux/bio.h:424:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (sectors >= bio_sectors(bio))
+                 ^~
+   In file included from include/linux/linkage.h:4:0,
+                    from include/linux/kernel.h:6,
+                    from include/linux/interrupt.h:5,
+                    from drivers/block/xen-blkfront.c:38:
+   drivers/block/xen-blkfront.c: In function 'get_grant':
+   drivers/block/xen-blkfront.c:303:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     BUG_ON(gnt_list_entry->gref == -ENOSPC);
+                                 ^
+   include/linux/compiler.h:182:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   drivers/block/xen-blkfront.c:303:2: note: in expansion of macro 'BUG_ON'
+     BUG_ON(gnt_list_entry->gref == -ENOSPC);
+     ^~~~~~
+   drivers/block/xen-blkfront.c: In function 'get_indirect_grant':
+   drivers/block/xen-blkfront.c:326:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     BUG_ON(gnt_list_entry->gref == -ENOSPC);
+                                 ^
+   include/linux/compiler.h:182:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   drivers/block/xen-blkfront.c:326:2: note: in expansion of macro 'BUG_ON'
+     BUG_ON(gnt_list_entry->gref == -ENOSPC);
+     ^~~~~~
+   drivers/block/xen-blkfront.c: In function 'op_name':
+   drivers/block/xen-blkfront.c:351:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (op < 0 || op >= ARRAY_SIZE(names))
+                      ^~
+   drivers/block/xen-blkfront.c: In function 'xlbd_reserve_minors':
+   drivers/block/xen-blkfront.c:386:40: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (find_next_bit(minors, end, minor) >= end) {
+                                           ^~
+   drivers/block/xen-blkfront.c: In function 'blkif_ioctl':
+   drivers/block/xen-blkfront.c:440:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (i = 0; i < sizeof(struct cdrom_multisession); i++)
+                    ^
+   drivers/block/xen-blkfront.c: In function 'blkif_queue_rw_req':
+   drivers/block/xen-blkfront.c:616:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (info->persistent_gnts_c < max_grefs) {
+                                 ^
+   drivers/block/xen-blkfront.c: In function 'blkif_free':
+   drivers/block/xen-blkfront.c:1134:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < BLK_RING_SIZE(info); i++) {
+                   ^
+   drivers/block/xen-blkfront.c:1160:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (j = 0; j < INDIRECT_GREFS(segs); j++) {
+                    ^
+   drivers/block/xen-blkfront.c:1184:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < info->nr_ring_pages; i++) {
+                   ^
+   drivers/block/xen-blkfront.c: In function 'blkif_completion':
+   drivers/block/xen-blkfront.c:1239:8: error: 's' undeclared (first use in this function); did you mean 'sg'?
+      .s = s,
+           ^
+           sg
+   drivers/block/xen-blkfront.c:1239:8: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/block/xen-blkfront.c:1290:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (i = 0; i < INDIRECT_GREFS(num_grant); i++) {
+                    ^
+   drivers/block/xen-blkfront.c: In function 'setup_blkring':
+   drivers/block/xen-blkfront.c:1489:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < info->nr_ring_pages; i++)
+                   ^
+   drivers/block/xen-blkfront.c:1506:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < info->nr_ring_pages; i++)
+                   ^
+   drivers/block/xen-blkfront.c: In function 'talk_to_blkback':
+   drivers/block/xen-blkfront.c:1575:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (i = 0; i < info->nr_ring_pages; i++) {
+                    ^
+   drivers/block/xen-blkfront.c:1613:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < BLK_RING_SIZE(info); i++)
+                   ^
+   drivers/block/xen-blkfront.c: In function 'blkif_recover':
+   drivers/block/xen-blkfront.c:1741:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < BLK_RING_SIZE(info); i++)
+                   ^
+   drivers/block/xen-blkfront.c:1756:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < BLK_RING_SIZE(info); i++) {
+                   ^
+   drivers/block/xen-blkfront.c: In function 'blkfront_setup_indirect':
+   drivers/block/xen-blkfront.c:1957:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < BLK_RING_SIZE(info); i++) {
+                   ^
+   drivers/block/xen-blkfront.c:1979:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < BLK_RING_SIZE(info); i++) {
+                   ^
+   drivers/block/xen-blkfront.c: In function 'blkif_completion':
+>> drivers/block/xen-blkfront.c:1315:1: warning: control reaches end of non-void function [-Wreturn-type]
+    }
+    ^
+   drivers/block/xen-blkfront.c: In function 'blkback_changed':
+   drivers/block/xen-blkfront.c:2186:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+      if (dev->state == XenbusStateClosed)
+         ^
+   drivers/block/xen-blkfront.c:2189:2: note: here
+     case XenbusStateClosing:
+     ^~~~
 
 
-On 2024/9/9 19:45, Uwe Kleine-König wrote:
-> Hello Chen,
->
-> On Mon, Sep 09, 2024 at 05:08:41PM +0800, Chen Wang wrote:
->> On 2024/9/9 16:45, Geert Uytterhoeven wrote:
->>> On Mon, Sep 9, 2024 at 10:26 AM Chen Wang <unicorn_wang@outlook.com> wrote:
->>>> I wonder why CONFIG_PWM_SOPHGO_SG2042 is enabeld for m68k? Please remove
->>>> this.
->>> Because it depends on ARCH_SOPHGO || COMPILE_TEST.
->>> So it can be enabled on all architectures when compile-testing.
->> Thanks, it's really a potential defect when CONFIG_OF is not set, will fix
->> this in next version.
-> BTW, the right approach to fix that is to not use of_match_ptr when
-> initializing pwm_sg2042_driver.driver.of_match_table.
->
-> Best regards
-> Uwe
+vim +1315 drivers/block/xen-blkfront.c
 
-Thank you Uwe, that's what I said potential defect, have fixed here.
+c004a6fe0c405e Julien Grall        2015-07-22  1224  
+86fed754c5ea08 Juergen Gross       2022-02-25  1225  /*
+86fed754c5ea08 Juergen Gross       2022-02-25  1226   * Return values:
+86fed754c5ea08 Juergen Gross       2022-02-25  1227   *  1 response processed.
+86fed754c5ea08 Juergen Gross       2022-02-25  1228   *  0 missing further responses.
+86fed754c5ea08 Juergen Gross       2022-02-25  1229   * -1 error while processing.
+86fed754c5ea08 Juergen Gross       2022-02-25  1230   */
+86fed754c5ea08 Juergen Gross       2022-02-25  1231  static int blkif_completion(unsigned long *id,
+86fed754c5ea08 Juergen Gross       2022-02-25  1232  			    struct blkfront_info *info,
+0a8704a51f386c Roger Pau Monne     2012-10-24  1233  			    struct blkif_response *bret)
+9f27ee59503865 Jeremy Fitzhardinge 2007-07-17  1234  {
+d62f6918582523 Roger Pau Monne     2012-12-07  1235  	int i = 0;
+b7649158a0d241 Roger Pau Monne     2013-05-02  1236  	struct scatterlist *sg;
+c004a6fe0c405e Julien Grall        2015-07-22  1237  	int num_sg, num_grant;
+c004a6fe0c405e Julien Grall        2015-07-22  1238  	struct copy_from_grant data = {
+c004a6fe0c405e Julien Grall        2015-07-22  1239  		.s = s,
+c004a6fe0c405e Julien Grall        2015-07-22  1240  		.grant_idx = 0,
+c004a6fe0c405e Julien Grall        2015-07-22  1241  	};
+402b27f9f2c223 Roger Pau Monne     2013-04-18  1242  
+c004a6fe0c405e Julien Grall        2015-07-22  1243  	num_grant = s->req.operation == BLKIF_OP_INDIRECT ?
+402b27f9f2c223 Roger Pau Monne     2013-04-18  1244  		s->req.u.indirect.nr_segments : s->req.u.rw.nr_segments;
+c004a6fe0c405e Julien Grall        2015-07-22  1245  	num_sg = s->num_sg;
+0a8704a51f386c Roger Pau Monne     2012-10-24  1246  
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1247  	if (bret->operation == BLKIF_OP_READ && info->feature_persistent) {
+c004a6fe0c405e Julien Grall        2015-07-22  1248  		for_each_sg(s->sg, sg, num_sg, i) {
+b7649158a0d241 Roger Pau Monne     2013-05-02  1249  			BUG_ON(sg->offset + sg->length > PAGE_SIZE);
+c004a6fe0c405e Julien Grall        2015-07-22  1250  
+c004a6fe0c405e Julien Grall        2015-07-22  1251  			data.bvec_offset = sg->offset;
+c004a6fe0c405e Julien Grall        2015-07-22  1252  			data.bvec_data = kmap_atomic(sg_page(sg));
+c004a6fe0c405e Julien Grall        2015-07-22  1253  
+c004a6fe0c405e Julien Grall        2015-07-22  1254  			gnttab_foreach_grant_in_range(sg_page(sg),
+c004a6fe0c405e Julien Grall        2015-07-22  1255  						      sg->offset,
+c004a6fe0c405e Julien Grall        2015-07-22  1256  						      sg->length,
+c004a6fe0c405e Julien Grall        2015-07-22  1257  						      blkif_copy_from_grant,
+c004a6fe0c405e Julien Grall        2015-07-22  1258  						      &data);
+c004a6fe0c405e Julien Grall        2015-07-22  1259  
+c004a6fe0c405e Julien Grall        2015-07-22  1260  			kunmap_atomic(data.bvec_data);
+0a8704a51f386c Roger Pau Monne     2012-10-24  1261  		}
+0a8704a51f386c Roger Pau Monne     2012-10-24  1262  	}
+0a8704a51f386c Roger Pau Monne     2012-10-24  1263  	/* Add the persistent grant into the list of free grants */
+c004a6fe0c405e Julien Grall        2015-07-22  1264  	for (i = 0; i < num_grant; i++) {
+86fed754c5ea08 Juergen Gross       2022-02-25  1265  		if (!gnttab_try_end_foreign_access(s->grants_used[i]->gref)) {
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1266  			/*
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1267  			 * If the grant is still mapped by the backend (the
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1268  			 * backend has chosen to make this grant persistent)
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1269  			 * we add it at the head of the list, so it will be
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1270  			 * reused first.
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1271  			 */
+86fed754c5ea08 Juergen Gross       2022-02-25  1272  			if (!info->feature_persistent) {
+86fed754c5ea08 Juergen Gross       2022-02-25  1273  				pr_alert("backed has not unmapped grant: %u\n",
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1274  					 s->grants_used[i]->gref);
+86fed754c5ea08 Juergen Gross       2022-02-25  1275  				return -1;
+86fed754c5ea08 Juergen Gross       2022-02-25  1276  			}
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1277  			list_add(&s->grants_used[i]->node, &info->grants);
+0a8704a51f386c Roger Pau Monne     2012-10-24  1278  			info->persistent_gnts_c++;
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1279  		} else {
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1280  			/*
+86fed754c5ea08 Juergen Gross       2022-02-25  1281  			 * If the grant is not mapped by the backend we add it
+86fed754c5ea08 Juergen Gross       2022-02-25  1282  			 * to the tail of the list, so it will not be picked
+86fed754c5ea08 Juergen Gross       2022-02-25  1283  			 * again unless we run out of persistent grants.
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1284  			 */
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1285  			s->grants_used[i]->gref = GRANT_INVALID_REF;
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1286  			list_add_tail(&s->grants_used[i]->node, &info->grants);
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1287  		}
+0a8704a51f386c Roger Pau Monne     2012-10-24  1288  	}
+402b27f9f2c223 Roger Pau Monne     2013-04-18  1289  	if (s->req.operation == BLKIF_OP_INDIRECT) {
+c004a6fe0c405e Julien Grall        2015-07-22  1290  		for (i = 0; i < INDIRECT_GREFS(num_grant); i++) {
+86fed754c5ea08 Juergen Gross       2022-02-25  1291  			if (!gnttab_try_end_foreign_access(s->indirect_grants[i]->gref)) {
+86fed754c5ea08 Juergen Gross       2022-02-25  1292  				if (!info->feature_persistent) {
+86fed754c5ea08 Juergen Gross       2022-02-25  1293  					pr_alert("backed has not unmapped grant: %u\n",
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1294  						 s->indirect_grants[i]->gref);
+86fed754c5ea08 Juergen Gross       2022-02-25  1295  					return -1;
+86fed754c5ea08 Juergen Gross       2022-02-25  1296  				}
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1297  				list_add(&s->indirect_grants[i]->node, &info->grants);
+402b27f9f2c223 Roger Pau Monne     2013-04-18  1298  				info->persistent_gnts_c++;
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1299  			} else {
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1300  				struct page *indirect_page;
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1301  
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1302  				/*
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1303  				 * Add the used indirect page back to the list of
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1304  				 * available pages for indirect grefs.
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1305  				 */
+7b0767502b5db1 Bob Liu             2015-07-22  1306  				if (!info->feature_persistent) {
+a7a6df222351de Julien Grall        2015-06-30  1307  					indirect_page = s->indirect_grants[i]->page;
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1308  					list_add(&indirect_page->lru, &info->indirect_pages);
+7b0767502b5db1 Bob Liu             2015-07-22  1309  				}
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1310  				s->indirect_grants[i]->gref = GRANT_INVALID_REF;
+bfe11d6de1c416 Roger Pau Monne     2013-10-29  1311  				list_add_tail(&s->indirect_grants[i]->node, &info->grants);
+fbe363c476afe8 Roger Pau Monne     2013-08-12  1312  			}
+402b27f9f2c223 Roger Pau Monne     2013-04-18  1313  		}
+402b27f9f2c223 Roger Pau Monne     2013-04-18  1314  	}
+9f27ee59503865 Jeremy Fitzhardinge 2007-07-17 @1315  }
+9f27ee59503865 Jeremy Fitzhardinge 2007-07-17  1316  
 
-Thanks,
+:::::: The code at line 1315 was first introduced by commit
+:::::: 9f27ee595038653ddf8bca871200d39247d6f4fc xen: add virtual block device driver.
 
-Chen
+:::::: TO: Jeremy Fitzhardinge <jeremy@xensource.com>
+:::::: CC: Jeremy Fitzhardinge <jeremy@goop.org>
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
