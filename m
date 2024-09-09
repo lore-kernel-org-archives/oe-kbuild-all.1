@@ -1,178 +1,125 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC731BA281
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 13:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F0D22095
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 14:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725889524; cv=none; b=TAlpqa07CvkGYsnfyalOg+ZWWax7xmVhIL0shZmIqzpQzZctpAm9WyMbLGKwJrZZFmrvYc98N+K4EpRbF2caB/KmuI4v/Cmnrdn16TBWxi1qVSiFA9K/Y1RkhCiBUy8PP4Y7YNfPiIzLXPub0qeTPlm+yu//qodyoO8SoZfFU7w=
+	t=1725890905; cv=none; b=E/1WGTaaNnL1VQGYpzH+n/6WFoo3J1CvI149fX1t+QAQALehF5owuarkRSF1mbik1RuDjNliuEU45FH9gBb09NCd8yZa8oiF4iryhbjs0bfEMohMOpu8Kq20MdwKnXBbexTVrt/h4hqcxBZV7pfj4bkU5jbYFze9QJzL5gLou98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725889524; c=relaxed/simple;
-	bh=DIgINnfFNQiU0BeYyQfLH/SdoJ0HKoSPauy5k5X5lJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g47JoOJ0KdGkViO2sagez6FrFRJul3XOYSvAk53Co18m0bfLZ84lPsUSCilePLWwnUumpWnIJVRIFiFO0Kgvbd1GRDVTNU6nmnGIqI35215eIG0sC4GXa26M/cX4LF7q043Z64Zfh4Bhe53ZdvZmNXwIFTEURULBBemfIgN95Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gukUyOix; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1725890905; c=relaxed/simple;
+	bh=2TXZWG2CQQI9Qz5HQqrKZyYJW52v9Q+0avvADBq7a4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K3s2SH4oR5cc+Q9L9XR/3P2AGf+IarxW0bo/A08DwH/FYLf1b5fxFSrWTr+WGp6xFJgHa+35bOzPCAQU9KFtH3QsF0+UyI/duWWvFgUPq4+YFZCUbtZY26VyIc1kHU/O8uWFdEjATEfgu1gJsci5h9lfaf3tjVfKUa9d6j73l/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhyQFaUc; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gukUyOix"
-Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 542F95A4;
-	Mon,  9 Sep 2024 15:44:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725889443;
-	bh=DIgINnfFNQiU0BeYyQfLH/SdoJ0HKoSPauy5k5X5lJI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gukUyOixUwMCQa0c/DYH1Su6z3uDYM0EV12q70+qrExNSRaTa2OSu0LuZgHQIIVB2
-	 PrN55ehOPvvzSOruRl53NJNP00g710Ac0R2a20O4z4w/kPDZH2uT27HO+8ho61CQHU
-	 0NqQFwWWTLZWyUwFHi9ttZfGwn1bsGbbtDhOobkI=
-Date: Mon, 9 Sep 2024 16:45:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-Message-ID: <20240909134516.GA9448@pendragon.ideasonboard.com>
-References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
- <202409051822.ZzUGw3XQ-lkp@intel.com>
- <20240905111120.GK16183@pendragon.ideasonboard.com>
- <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
- <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
- <yib2r4wisxvk3kgogbjqawrpmfq6lcezfk4xjmftj44jzkbclc@icapodv2ffzk>
- <d5188c0a-4a52-4378-89b1-48f606e448cc@ideasonboard.com>
- <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhyQFaUc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725890903; x=1757426903;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2TXZWG2CQQI9Qz5HQqrKZyYJW52v9Q+0avvADBq7a4E=;
+  b=RhyQFaUcJKQUjmIPym33PZnYpxXqImJFTuvw6b8jpArlvrCIh+Q9CyfN
+   zXPSLxR8HfOlEyQyAycRcofVocNb0ShBo++xMvrUebiafCC2qMaHF0rRY
+   1+FVJWJFF8pmS5WfTBSqufkOI5n9b0Ow0KmZUp0PNRjxij6hZoqCHg29/
+   ORhk4EcNsRFupAwP/Ih9E+nrXO6RYaoJl0UALrbo2GhOXzCXgkOvnGuur
+   JtOfCOVIJrqzn3kuPNdGLD8f4Gm4fD4Z22+aGFnorxAcuz73Zky0J4CdM
+   0aVVzqLc7cL3F/fQW9E1YduA0TmO0I4Q6/rAZtnq5BkuYQQVDzJ+lS8c8
+   w==;
+X-CSE-ConnectionGUID: 21KKSTryRduy1jWh05JyMQ==
+X-CSE-MsgGUID: wBKLrrFEQGaI1EZPWTuZ6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="50000783"
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="50000783"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 07:08:22 -0700
+X-CSE-ConnectionGUID: SbuX2q17Q2ala9Bq5tL2eQ==
+X-CSE-MsgGUID: 8HxLgDwjSjm6Ghfm91+xig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="67208393"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 09 Sep 2024 07:08:21 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snf3y-000EnC-2B;
+	Mon, 09 Sep 2024 14:08:18 +0000
+Date: Mon, 9 Sep 2024 22:08:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-garbage 238/258]
+ lib/test_bits.c:45:16: warning: unused variable 'w'
+Message-ID: <202409092257.2idoiFQv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
 
-On Mon, Sep 09, 2024 at 03:29:30PM +0200, Jacopo Mondi wrote:
-> On Mon, Sep 09, 2024 at 01:04:35PM GMT, Tomi Valkeinen wrote:
-> > On 09/09/2024 12:13, Jacopo Mondi wrote:
-> > > On Mon, Sep 09, 2024 at 08:22:59AM GMT, Tomi Valkeinen wrote:
-> > > > On 09/09/2024 08:08, Tomi Valkeinen wrote:
-> > > > > On 05/09/2024 14:11, Laurent Pinchart wrote:
-> > > > > > On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
-> > > > > > > Hi Tomi,
-> > > > > > >
-> > > > > > > kernel test robot noticed the following build warnings:
-> > > > > > >
-> > > > > > > [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
-> > > > > > >
-> > > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-
-> > > > > > > Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-
-> > > > > > > stats/20240904-192729
-> > > > > > > base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-> > > > > > > patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-
-> > > > > > > f1b5b3d69c81%40ideasonboard.com
-> > > > > > > patch subject: [PATCH v4 3/4] media: raspberrypi: Add support
-> > > > > > > for RP1-CFE
-> > > > > > > config: m68k-allmodconfig (https://download.01.org/0day-ci/
-> > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
-> > > > > > > compiler: m68k-linux-gcc (GCC) 14.1.0
-> > > > > > > reproduce (this is a W=1 build):
-> > > > > > > (https://download.01.org/0day-ci/
-> > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
-> > > > > > >
-> > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a
-> > > > > > > new version of
-> > > > > > > the same patch/commit), kindly add following tags
-> > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-
-> > > > > > > all/202409051822.ZzUGw3XQ-lkp@intel.com/
-> > > > > > >
-> > > > > > > All warnings (new ones prefixed by >>):
-> > > > > > >
-> > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12:
-> > > > > > > > > warning: 'cfe_runtime_resume' defined but not used
-> > > > > > > > > [-Wunused-function]
-> > > > > > >       2445 | static int cfe_runtime_resume(struct device *dev)
-> > > > > > >            |            ^~~~~~~~~~~~~~~~~~
-> > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12:
-> > > > > > > > > warning: 'cfe_runtime_suspend' defined but not used
-> > > > > > > > > [-Wunused-function]
-> > > > > > >       2435 | static int cfe_runtime_suspend(struct device *dev)
-> > > > > > >            |            ^~~~~~~~~~~~~~~~~~~
-> > > > > > > vim +/cfe_runtime_resume +2445
-> > > > > > > drivers/media/platform/raspberrypi/ rp1-cfe/cfe.c
-> > > > > >
-> > > > > > The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
-> > > > > > to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
-> > > > > > the driver won't work on a kernel with !CONFIG_PM given how you
-> > > > > > implemented probe() and remove().
-> > > > > >
-> > > > > > The pisp-be driver suffered from the same issue and Jacopo fixed it in
-> > > > > > the last version. You can have a look at implement something similar.
-> > > > >
-> > > > > I can't right away think of any reason to not just depend on CONFIG_PM
-> > > > > and be done with it without any tricks. Do you know if there's a reason?
-> > >
-> > > We had the same discussion, and even if I would be fine depending on
-> > > CONFIG_PM, supporting !CONFIG_PM is not that much work, I kept it as
-> > > an optional dependency (it was suggested during the review as well)
-> > >
-> > > >
-> > > > Also, I don't think pisp-be is correct. It just calls
-> > > > pispbe_runtime_resume() in probe() to wake the IP up (which only enables
-> > > > pisp clock), without telling the runtime PM about it. This means the parent
-> > > > device and the suppliers may not be powered up.
-> > >
-> > > Are you referring to the code currently in the tree or to this patch ?
-> > > https://patchwork.linuxtv.org/project/linux-media/patch/20240904095836.344833-5-jacopo.mondi@ideasonboard.com/
-> >
-> > Ah, I missed that one.
-> >
-> > I don't think it fixes the issue I mentioned. If we have PM enabled, and the
-> > parent device requires powering up for the child device (BE) to be
-> > accessible, the driver will crash when calling pispbe_hw_init(). I think you
-> > should call pm_runtime_set_active() before calling pispbe_runtime_resume().
-> 
-> As discussed, this is not a problem currently for BE, but indeed you
-> have a point.
-> 
-> Sad note: most of all the occurrences of "grep set_active" in
-> drivers/media/platform/ show that set_active() is used as I've done in
-> my patch
-> 
-> > However, you said above that "supporting !CONFIG_PM is not that much work".
-> > Maybe not. But how much work is it to get it right (for both PM and !PM),
-> > and make sure it stays right? =).
-> >
-> > Just my opinion, but if there are zero use cases for the !PM, I would just
-> > go with "depends on PM" to keep the driver simpler, less bug-prone, and
-> > easier to maintain.
+tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
+head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
+commit: bae0847211275fbc52b8f635c24105975cedd042 [238/258] fix W=12 build errors, rest of kernel
+config: parisc-randconfig-r072-20240909 (https://download.01.org/0day-ci/archive/20240909/202409092257.2idoiFQv-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409092257.2idoiFQv-lkp@intel.com/reproduce)
 
-I'm fine with that, and for platform drivers, that's my preferred
-option. Sakari ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409092257.2idoiFQv-lkp@intel.com/
 
-> I don't see a use case for !PM and we confirmed with RPi they don't
-> need to support it. During the review of a previous version of the BE
-> driver iirc I've been asked to support !PM but I'm not sure I recall
-> the reasons.
+All warnings (new ones prefixed by >>):
 
-I hope it wasn't me :-)
+   lib/test_bits.c: In function 'genmask_input_check_test':
+>> lib/test_bits.c:45:16: warning: unused variable 'w' [-Wunused-variable]
+      45 |         int z, w;
+         |                ^
+>> lib/test_bits.c:45:13: warning: unused variable 'z' [-Wunused-variable]
+      45 |         int z, w;
+         |             ^
+>> lib/test_bits.c:44:25: warning: unused variable 'y' [-Wunused-variable]
+      44 |         unsigned int x, y;
+         |                         ^
+>> lib/test_bits.c:44:22: warning: unused variable 'x' [-Wunused-variable]
+      44 |         unsigned int x, y;
+         |                      ^
+
+
+vim +/w +45 lib/test_bits.c
+
+6d511020e13d5d Rikard Falkeborn 2020-08-11  41  
+6d511020e13d5d Rikard Falkeborn 2020-08-11  42  static void genmask_input_check_test(struct kunit *test)
+6d511020e13d5d Rikard Falkeborn 2020-08-11  43  {
+6d511020e13d5d Rikard Falkeborn 2020-08-11 @44  	unsigned int x, y;
+6d511020e13d5d Rikard Falkeborn 2020-08-11 @45  	int z, w;
+6d511020e13d5d Rikard Falkeborn 2020-08-11  46  
+6d511020e13d5d Rikard Falkeborn 2020-08-11  47  	/* Unknown input */
+6d511020e13d5d Rikard Falkeborn 2020-08-11  48  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(x, 0));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  49  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(0, x));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  50  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(x, y));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  51  
+6d511020e13d5d Rikard Falkeborn 2020-08-11  52  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(z, 0));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  53  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(0, z));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  54  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(z, w));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  55  
+6d511020e13d5d Rikard Falkeborn 2020-08-11  56  	/* Valid input */
+6d511020e13d5d Rikard Falkeborn 2020-08-11  57  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(1, 1));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  58  	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(39, 21));
+6d511020e13d5d Rikard Falkeborn 2020-08-11  59  }
+6d511020e13d5d Rikard Falkeborn 2020-08-11  60  
+
+:::::: The code at line 45 was first introduced by commit
+:::::: 6d511020e13d5d6f5f0af853e32ddef75c693ccc lib/test_bits.c: add tests of GENMASK
+
+:::::: TO: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
