@@ -1,213 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B434D8DA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 15:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5276433C0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 15:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725897092; cv=none; b=ooYuE8AsXinvIXKw7yOeagpAjC14m9QTxe/pZcAECI9lujeuBAomZ9h9zdbIrxpRTrUcUFgMOjpEhfsAievN7aH590bTRr6mflFA9KlmaiZyb/Ek+JRUaMv+3NeATSl2OYdbB6ei//Ji/rR/66aqrT788vPVwNF4bfqMZ3TN004=
+	t=1725897171; cv=none; b=eVxoFNKWOGsqaP3aoDscEjfvG0rmKIt+V5v0tpfwNdd1774nTQ+GGLNjukjVyka5Ae20l5CvIj1st0kPlauVGkdWyUn03DSNSOlbbawZwZBS/JwfdVJk9zhXPU+62KEv7Ks1PpVjM0KHadWLjqqKTSR6uEkqu4ouiUNwBFLsHx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725897092; c=relaxed/simple;
-	bh=dGbcJMOE7tRZOblqHOTXXFG4yzNKbsbiuYqBdgJB3ds=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eykBoJqOzxONGx+PzYjNbg7K4RIYcYtZV3PJS9p/PU4xazlsl6ki/d2Fj7fMEYZCDn1ujTl8BA2RYG7zSYXrxqs90S8o5QCSubYm/kYGwmoXP/8EefE+XW5m6rdQlvWo+eN2rGdnbz3QSyvvq8wg4te1hVqARaU/AD8/keNVxHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8Kmf3mC; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725897171; c=relaxed/simple;
+	bh=vyFxGJC2gaUCC9d9aoXJ7yEsJc3w1CNJ/3ibxlNoiew=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VnWmC3tzFF8mBo5YYEIRuof3/AOawVudLxQstD5ZjEUtROHRCHjgiowF9HrQEerSUrBW+6tsKqR/LVRc9xABm0zXX4ZaJJLu4NCj8rV4DGjvf6G0DOqlqdHumw3acPn3eXPd8Zi1YoseNT8kkL6HhNPbpCZpoJMUcfoiTGtrPfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HE7cUbcu; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8Kmf3mC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HE7cUbcu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725897090; x=1757433090;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dGbcJMOE7tRZOblqHOTXXFG4yzNKbsbiuYqBdgJB3ds=;
-  b=B8Kmf3mC3hiCc8GhEPUyKYC6Dg6/ybezsCNQbvR9gMv/R7+5yrimPMAq
-   uj9WQsVQ0v+BxnwFzm1Rg8JcVsvg55kLwP8w3ssaQRPKbSoHXahtk3aGL
-   ZxeV9eMsswKbu9xsKwk8ar0lzjL8Mj5+x6iKuTR+huQOm4ZY/z6n9wck8
-   dGGfY8g+zex3mfG5c5IR0KmxYMbabQUijhCR+mcCc6cmLiriHCD7/XGb+
-   X6hq3Kf6h3aOVY3UmqSh9Y57nCCfUeUzxwIwC/q0+BGS0rAzyJjxrHwFP
-   9mdZVQB1oc2zZ2sUpfC7k5Y2hBKbwOs94eMesKjhM0dv+YbGdctF4iu7E
+  t=1725897170; x=1757433170;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=vyFxGJC2gaUCC9d9aoXJ7yEsJc3w1CNJ/3ibxlNoiew=;
+  b=HE7cUbcuzgshDF1qPiK7XdAFZH95yJiVGWafr+EUZeN/Ikctg0BlZeTF
+   gVOtPwlrQV9TCI8C4yiSfMd5BlUjMUvaH2+miDjCog7RDpm+UzszzYB05
+   lg+j91Dm+Uk7/u9E5JwQhFYAoxmPsPETB4dPImG38Qy62QbRtBO8sIaJn
+   cS5XIAdjqgvQlYymFVcdrl81PwxIZ1ICbdoWoQ29bhodmn+/V7Lz9pAM+
+   38z2oZU4efGj7DclLZz8wj6py0OjqUhx4pTDI6qcaxuS0NoVH0Ln9Suj5
+   M1qvZFSsV4yd9VPJUOLzCbIlMc5Cgr+Fx8xVLvN0vycaJp832uXNeK9Vs
    g==;
-X-CSE-ConnectionGUID: bRfmLnckRFu3noRyG79kHA==
-X-CSE-MsgGUID: zF9aN6xlQ1SFKv8+1FBDyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24546147"
+X-CSE-ConnectionGUID: w77vHGL4QWKiRUJT57o8JA==
+X-CSE-MsgGUID: iPdtzrEbRgeECw/lg1SEug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="13443263"
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="24546147"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 08:51:29 -0700
-X-CSE-ConnectionGUID: d6e/AnaISvyhp90xWSJqFQ==
-X-CSE-MsgGUID: TXACAGGoQlaAAvQmdEuRpQ==
+   d="scan'208";a="13443263"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 08:52:49 -0700
+X-CSE-ConnectionGUID: jcnxAf0PSrCL7claosPc6Q==
+X-CSE-MsgGUID: vTZCCGJpTG+a0ZQfIV2MIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="66724418"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Sep 2024 08:51:28 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sngfm-000EuJ-0K;
-	Mon, 09 Sep 2024 15:51:26 +0000
-Date: Mon, 9 Sep 2024 23:51:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-garbage 190/258]
- include/linux/mm.h:1200:24: error: 'VMALLOC_START' undeclared; did you mean
- 'KMALLOC_DMA'?
-Message-ID: <202409092312.0X3vUppH-lkp@intel.com>
+   d="scan'208";a="67238507"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 08:52:45 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2E99511F817;
+	Mon,  9 Sep 2024 18:52:42 +0300 (EEST)
+Date: Mon, 9 Sep 2024 15:52:42 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
+Message-ID: <Zt8ZysTT5DIZr-J7@kekkonen.localdomain>
+References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
+ <202409051822.ZzUGw3XQ-lkp@intel.com>
+ <20240905111120.GK16183@pendragon.ideasonboard.com>
+ <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
+ <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
+ <yib2r4wisxvk3kgogbjqawrpmfq6lcezfk4xjmftj44jzkbclc@icapodv2ffzk>
+ <d5188c0a-4a52-4378-89b1-48f606e448cc@ideasonboard.com>
+ <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
+ <20240909134516.GA9448@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240909134516.GA9448@pendragon.ideasonboard.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
-head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
-commit: a2a5fdffbb42082064006597ddabecccdb746d39 [190/258] vmalloc: is_vmalloc_addr_inlined()
-config: i386-buildonly-randconfig-002-20240909 (https://download.01.org/0day-ci/archive/20240909/202409092312.0X3vUppH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409092312.0X3vUppH-lkp@intel.com/reproduce)
+Hi Laurent,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409092312.0X3vUppH-lkp@intel.com/
+On Mon, Sep 09, 2024 at 04:45:16PM +0300, Laurent Pinchart wrote:
+> On Mon, Sep 09, 2024 at 03:29:30PM +0200, Jacopo Mondi wrote:
+> > On Mon, Sep 09, 2024 at 01:04:35PM GMT, Tomi Valkeinen wrote:
+> > > On 09/09/2024 12:13, Jacopo Mondi wrote:
+> > > > On Mon, Sep 09, 2024 at 08:22:59AM GMT, Tomi Valkeinen wrote:
+> > > > > On 09/09/2024 08:08, Tomi Valkeinen wrote:
+> > > > > > On 05/09/2024 14:11, Laurent Pinchart wrote:
+> > > > > > > On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
+> > > > > > > > Hi Tomi,
+> > > > > > > >
+> > > > > > > > kernel test robot noticed the following build warnings:
+> > > > > > > >
+> > > > > > > > [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+> > > > > > > >
+> > > > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-
+> > > > > > > > Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-
+> > > > > > > > stats/20240904-192729
+> > > > > > > > base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+> > > > > > > > patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-
+> > > > > > > > f1b5b3d69c81%40ideasonboard.com
+> > > > > > > > patch subject: [PATCH v4 3/4] media: raspberrypi: Add support
+> > > > > > > > for RP1-CFE
+> > > > > > > > config: m68k-allmodconfig (https://download.01.org/0day-ci/
+> > > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
+> > > > > > > > compiler: m68k-linux-gcc (GCC) 14.1.0
+> > > > > > > > reproduce (this is a W=1 build):
+> > > > > > > > (https://download.01.org/0day-ci/
+> > > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
+> > > > > > > >
+> > > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a
+> > > > > > > > new version of
+> > > > > > > > the same patch/commit), kindly add following tags
+> > > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-
+> > > > > > > > all/202409051822.ZzUGw3XQ-lkp@intel.com/
+> > > > > > > >
+> > > > > > > > All warnings (new ones prefixed by >>):
+> > > > > > > >
+> > > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12:
+> > > > > > > > > > warning: 'cfe_runtime_resume' defined but not used
+> > > > > > > > > > [-Wunused-function]
+> > > > > > > >       2445 | static int cfe_runtime_resume(struct device *dev)
+> > > > > > > >            |            ^~~~~~~~~~~~~~~~~~
+> > > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12:
+> > > > > > > > > > warning: 'cfe_runtime_suspend' defined but not used
+> > > > > > > > > > [-Wunused-function]
+> > > > > > > >       2435 | static int cfe_runtime_suspend(struct device *dev)
+> > > > > > > >            |            ^~~~~~~~~~~~~~~~~~~
+> > > > > > > > vim +/cfe_runtime_resume +2445
+> > > > > > > > drivers/media/platform/raspberrypi/ rp1-cfe/cfe.c
+> > > > > > >
+> > > > > > > The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
+> > > > > > > to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
+> > > > > > > the driver won't work on a kernel with !CONFIG_PM given how you
+> > > > > > > implemented probe() and remove().
+> > > > > > >
+> > > > > > > The pisp-be driver suffered from the same issue and Jacopo fixed it in
+> > > > > > > the last version. You can have a look at implement something similar.
+> > > > > >
+> > > > > > I can't right away think of any reason to not just depend on CONFIG_PM
+> > > > > > and be done with it without any tricks. Do you know if there's a reason?
+> > > >
+> > > > We had the same discussion, and even if I would be fine depending on
+> > > > CONFIG_PM, supporting !CONFIG_PM is not that much work, I kept it as
+> > > > an optional dependency (it was suggested during the review as well)
+> > > >
+> > > > >
+> > > > > Also, I don't think pisp-be is correct. It just calls
+> > > > > pispbe_runtime_resume() in probe() to wake the IP up (which only enables
+> > > > > pisp clock), without telling the runtime PM about it. This means the parent
+> > > > > device and the suppliers may not be powered up.
+> > > >
+> > > > Are you referring to the code currently in the tree or to this patch ?
+> > > > https://patchwork.linuxtv.org/project/linux-media/patch/20240904095836.344833-5-jacopo.mondi@ideasonboard.com/
+> > >
+> > > Ah, I missed that one.
+> > >
+> > > I don't think it fixes the issue I mentioned. If we have PM enabled, and the
+> > > parent device requires powering up for the child device (BE) to be
+> > > accessible, the driver will crash when calling pispbe_hw_init(). I think you
+> > > should call pm_runtime_set_active() before calling pispbe_runtime_resume().
+> > 
+> > As discussed, this is not a problem currently for BE, but indeed you
+> > have a point.
+> > 
+> > Sad note: most of all the occurrences of "grep set_active" in
+> > drivers/media/platform/ show that set_active() is used as I've done in
+> > my patch
+> > 
+> > > However, you said above that "supporting !CONFIG_PM is not that much work".
+> > > Maybe not. But how much work is it to get it right (for both PM and !PM),
+> > > and make sure it stays right? =).
+> > >
+> > > Just my opinion, but if there are zero use cases for the !PM, I would just
+> > > go with "depends on PM" to keep the driver simpler, less bug-prone, and
+> > > easier to maintain.
+> 
+> I'm fine with that, and for platform drivers, that's my preferred
+> option. Sakari ?
 
-All errors (new ones prefixed by >>):
+I'm concerned with your (?) recent finding that many architectures don't
+have support for CONFIG_PM. In this case the device is very unlikely to be
+used outside ARM(64) so I guess it's fine.
 
-   In file included from arch/x86/include/asm/cacheflush.h:5,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/buffer_head.h:12,
-                    from fs/reiserfs/reiserfs.h:17,
-                    from fs/reiserfs/xattr.c:37:
-   include/linux/mm.h: In function 'is_vmalloc_addr_inlined':
->> include/linux/mm.h:1200:24: error: 'VMALLOC_START' undeclared (first use in this function); did you mean 'KMALLOC_DMA'?
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                        ^~~~~~~~~~~~~
-         |                        KMALLOC_DMA
-   include/linux/mm.h:1200:24: note: each undeclared identifier is reported only once for each function it appears in
->> include/linux/mm.h:1200:48: error: 'VMALLOC_END' undeclared (first use in this function)
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                                                ^~~~~~~~~~~
---
-   In file included from arch/x86/include/asm/cacheflush.h:5,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/buffer_head.h:12,
-                    from fs/reiserfs/reiserfs.h:17,
-                    from fs/reiserfs/lbalance.c:8:
-   include/linux/mm.h: In function 'is_vmalloc_addr_inlined':
->> include/linux/mm.h:1200:24: error: 'VMALLOC_START' undeclared (first use in this function); did you mean 'KMALLOC_DMA'?
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                        ^~~~~~~~~~~~~
-         |                        KMALLOC_DMA
-   include/linux/mm.h:1200:24: note: each undeclared identifier is reported only once for each function it appears in
->> include/linux/mm.h:1200:48: error: 'VMALLOC_END' undeclared (first use in this function)
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                                                ^~~~~~~~~~~
-   fs/reiserfs/lbalance.c: In function 'leaf_copy_items':
-   fs/reiserfs/lbalance.c:524:29: warning: variable 'dest' set but not used [-Wunused-but-set-variable]
-     524 |         struct buffer_head *dest;
-         |                             ^~~~
---
-   In file included from arch/x86/include/asm/cacheflush.h:5,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/buffer_head.h:12,
-                    from fs/reiserfs/reiserfs.h:17,
-                    from fs/reiserfs/do_balan.c:15:
-   include/linux/mm.h: In function 'is_vmalloc_addr_inlined':
->> include/linux/mm.h:1200:24: error: 'VMALLOC_START' undeclared (first use in this function); did you mean 'KMALLOC_DMA'?
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                        ^~~~~~~~~~~~~
-         |                        KMALLOC_DMA
-   include/linux/mm.h:1200:24: note: each undeclared identifier is reported only once for each function it appears in
->> include/linux/mm.h:1200:48: error: 'VMALLOC_END' undeclared (first use in this function)
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                                                ^~~~~~~~~~~
-   fs/reiserfs/do_balan.c: In function 'balance_leaf_new_nodes_paste_whole':
-   fs/reiserfs/do_balan.c:1147:13: warning: variable 'leaf_mi' set but not used [-Wunused-but-set-variable]
-    1147 |         int leaf_mi;
-         |             ^~~~~~~
---
-   In file included from arch/x86/include/asm/cacheflush.h:5,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/buffer_head.h:12,
-                    from fs/reiserfs/reiserfs.h:17,
-                    from fs/reiserfs/fix_node.c:8:
-   include/linux/mm.h: In function 'is_vmalloc_addr_inlined':
->> include/linux/mm.h:1200:24: error: 'VMALLOC_START' undeclared (first use in this function); did you mean 'KMALLOC_DMA'?
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                        ^~~~~~~~~~~~~
-         |                        KMALLOC_DMA
-   include/linux/mm.h:1200:24: note: each undeclared identifier is reported only once for each function it appears in
->> include/linux/mm.h:1200:48: error: 'VMALLOC_END' undeclared (first use in this function)
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                                                ^~~~~~~~~~~
-   fs/reiserfs/fix_node.c: In function 'dc_check_balance_leaf':
-   fs/reiserfs/fix_node.c:1938:13: warning: variable 'maxsize' set but not used [-Wunused-but-set-variable]
-    1938 |         int maxsize, ret;
-         |             ^~~~~~~
-   fs/reiserfs/fix_node.c:1935:13: warning: variable 'levbytes' set but not used [-Wunused-but-set-variable]
-    1935 |         int levbytes;
-         |             ^~~~~~~~
---
-   In file included from arch/x86/include/asm/cacheflush.h:5,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/buffer_head.h:12,
-                    from fs/reiserfs/reiserfs.h:17,
-                    from fs/reiserfs/prints.c:7:
-   include/linux/mm.h: In function 'is_vmalloc_addr_inlined':
->> include/linux/mm.h:1200:24: error: 'VMALLOC_START' undeclared (first use in this function); did you mean 'KMALLOC_DMA'?
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                        ^~~~~~~~~~~~~
-         |                        KMALLOC_DMA
-   include/linux/mm.h:1200:24: note: each undeclared identifier is reported only once for each function it appears in
->> include/linux/mm.h:1200:48: error: 'VMALLOC_END' undeclared (first use in this function)
-    1200 |         return addr >= VMALLOC_START && addr < VMALLOC_END;
-         |                                                ^~~~~~~~~~~
-   fs/reiserfs/prints.c: In function 'prepare_error_buf':
-   fs/reiserfs/prints.c:221:17: warning: function 'prepare_error_buf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     221 |                 p += vscnprintf(p, end - p, fmt1, args);
-         |                 ^
-   fs/reiserfs/prints.c:260:9: warning: function 'prepare_error_buf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     260 |         p += vscnprintf(p, end - p, fmt1, args);
-         |         ^
+> 
+> > I don't see a use case for !PM and we confirmed with RPi they don't
+> > need to support it. During the review of a previous version of the BE
+> > driver iirc I've been asked to support !PM but I'm not sure I recall
+> > the reasons.
+> 
+> I hope it wasn't me :-)
 
+Me neither. Although it'd be nice: CONFIG_PM isn't a hardware specific
+option as such. As one part of the kernel requires !CONFIG_PM and another
+CONFIG_PM, we can expect problems, at least in principle.
 
-vim +1200 include/linux/mm.h
-
-  1188	
-  1189	/*
-  1190	 * Determine if an address is within the vmalloc range
-  1191	 *
-  1192	 * On nommu, vmalloc/vfree wrap through kmalloc/kfree directly, so there
-  1193	 * is no special casing required.
-  1194	 */
-  1195	#ifdef CONFIG_MMU
-  1196	static inline bool is_vmalloc_addr_inlined(const void *x)
-  1197	{
-  1198		unsigned long addr = (unsigned long)kasan_reset_tag(x);
-  1199	
-> 1200		return addr >= VMALLOC_START && addr < VMALLOC_END;
-  1201	}
-  1202	
+Ideally all architectures would support it so CONFIG_PM could be removed
+and we could say the problem has been solved. :-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Sakari Ailus
