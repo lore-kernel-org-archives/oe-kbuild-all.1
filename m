@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8541F3D76
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 03:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328F71400A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 03:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725851903; cv=none; b=sq/3i0yDrYUr8of52XMXi2TizLOqxby+sRfbMTiuRLISxdh/FxSb4h2uG/98hO0PojnlkKPt2TgZJTWbtl1ogtPVZejmmyMu2JPMVtkV+PPsS6k5csqhZpiP338uNyG0HWTTlVaEzE5/qIg7bXUcenMI0Ik6XxiTRPLAXzj6P4E=
+	t=1725851904; cv=none; b=gkHpi3+TG15hg1pvgYREEKKeY5WIvMIdPdwpFRMUfI4KRVZdode+CS9evYAP7GOt9CEd87Gm6gCa8dzb+OKKTIBxQgCgyr+dqaT3ronGV1VS8XDiWn3+zIr4ifDobuHOPy35QlV5/jn/Ekd1j55m5p+DeYyM5JHSOCuILJiwq+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725851903; c=relaxed/simple;
-	bh=C19zLkzRtT44ZylEPkjEwbC0tzPom3s4QVsK301wgNM=;
+	s=arc-20240116; t=1725851904; c=relaxed/simple;
+	bh=9Qz9uKha/JsjFXVjA+l4/vxvAxzRVh/qnDbGxTqCvDY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sYm+rEroblXHI37nWnNW0GzbYtgN8g9n2qwhYYO0c2Q+13OaHg12LhSfJ7zsd5eIuPEnRRQI34bydzD8f+USArsWe8cz2hti101ECbe9wwWgaGQgnbQ6DyjiUaUCYHThZeOqkJe2Shd7WUsYJjBbwgEyDTmpveEILgOM8EUwMDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjfNovJt; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=UZgogEIy4bd+lVkOvgE3MHGrnkFQ3s+1KXPRrBk6EgSWsSz9CPCnXybDJMr7b9ykNR98c1Jk9j8Ni3ac/le62QtRc1rXInfKLpnGqwTcL1OMYG0Ql9qb0OlSwqhahTlMC1lB0h01RA7aTaPpfZo8Qi/47sLFjLb8evK40sov8xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MAkW5+w9; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjfNovJt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MAkW5+w9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725851901; x=1757387901;
+  t=1725851903; x=1757387903;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C19zLkzRtT44ZylEPkjEwbC0tzPom3s4QVsK301wgNM=;
-  b=PjfNovJtUm+ONBKRfwOYmJrw/uUQo3+h5zNulfMejbiRoWNUMeEaf10D
-   ZATjq4Puab2eSFOuPHVMtIjyyatTrmpzIl5Ova/+uy3H1sD+C429Fe2NL
-   GZEBzAamLM44fxHiIbyKbPZ2faT6m6hAyCqLE4akDN/ZQ7Mdkp0PTdNcS
-   e/fc3zwntrlOp/iJS+Wpt2s71VYIhykdxDRTVBGI1Lj8mtjdb4k2BBs10
-   ZokAmorM3HTZSCMEgODMf7xo1NTwV9mTZECQ1bSz5GXHqaPXDuyTSqAmM
-   xByXGITPhrimuDXm5ai8Bf0SiV/V9lE/83AliY0aaYDlTem1DHbuUDhji
+  bh=9Qz9uKha/JsjFXVjA+l4/vxvAxzRVh/qnDbGxTqCvDY=;
+  b=MAkW5+w9fpZBM4vOLF0y2Kjor7iJIcOILDsgC9s3CXR9+P1NT1dwl+Oe
+   /Kq5HPEVIsv82B/0qMbcyJsouIFRDOaXIvrbKJAPyguih8M0XBnVG7ZII
+   bm6CXXwU36K5vLef7ZVajaH2gAy6tRo1/2IHKGxcdbyPG2tvNxR3bMzRs
+   wNIzE6/4Goq1X57pvUOINZv9cxmqmy/6o/p8W+H0sZ7PytAiPo4m3blXb
+   Sqj2PXDg1FGDCuHS46MZAdjBi14xDCSHhZV2Vv1JNq/Izz5bvtG923Waj
+   8lA9z1kuhkNPUgr8DeoeOrh0yjFOKdfcySneYIkW5bcWptuGbZOekFMcv
    g==;
-X-CSE-ConnectionGUID: uk3R2LlqTBaAwFyrK9dE8Q==
-X-CSE-MsgGUID: q2ceFVwCTEm9y7/356yhTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24074722"
+X-CSE-ConnectionGUID: B+eB0isTTc+Z41BZ4TVbZg==
+X-CSE-MsgGUID: S9ZN9BENQT+icVgteaiVQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="49937530"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="24074722"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 20:18:20 -0700
-X-CSE-ConnectionGUID: J3FPfdnkRIa0LDYqOZ8uKA==
-X-CSE-MsgGUID: P4r23T6pQy2MoWXhTNO1Lg==
+   d="scan'208";a="49937530"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 20:18:22 -0700
+X-CSE-ConnectionGUID: A3axwJrtSMOUO5eHvKuvng==
+X-CSE-MsgGUID: WcqwQ6iMT22jDwzhsyI2hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="66159609"
+   d="scan'208";a="66755645"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Sep 2024 20:18:20 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 08 Sep 2024 20:18:20 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snUuv-000EEd-2a;
+	id 1snUuv-000EEf-2f;
 	Mon, 09 Sep 2024 03:18:17 +0000
-Date: Mon, 9 Sep 2024 11:17:57 +0800
+Date: Mon, 9 Sep 2024 11:18:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:spdm-future 8/46] crypto/rsassa-pkcs1.c:130:23: error:
- 'HASH_MAX_DIGESTSIZE' undeclared
-Message-ID: <202409091143.VuJ67ZGY-lkp@intel.com>
+Subject: [opencloudos:next 17/98] kernel/tkernel/shield_mounts.c:254:5:
+ sparse: sparse: symbol 'shield_mounts_release' was not declared. Should it
+ be static?
+Message-ID: <202409091143.rCYSpREc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,181 +67,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/l1k/linux spdm-future
-head:   fc9f4270fb1c1618a497f5bc1cf9eef4ac9032d2
-commit: ef118934511b94533def9b11a34018b90d942cc9 [8/46] crypto: rsassa-pkcs1 - Harden digest length verification
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240909/202409091143.VuJ67ZGY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091143.VuJ67ZGY-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   95e99651a23c1ccc103007c3b0532ff97d7c357d
+commit: 7dbd79cf59e88173f385083fdf39603a49c99233 [17/98] tkernel: mounts: add shield mountpoint in container support
+config: loongarch-randconfig-r111-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091143.rCYSpREc-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240909/202409091143.rCYSpREc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409091143.VuJ67ZGY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091143.rCYSpREc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/tkernel/shield_mounts.c:254:5: sparse: sparse: symbol 'shield_mounts_release' was not declared. Should it be static?
+   kernel/tkernel/shield_mounts.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from crypto/rsassa-pkcs1.c:10:
-   crypto/rsassa-pkcs1.c: In function 'rsassa_pkcs1_hash_len':
->> crypto/rsassa-pkcs1.c:130:23: error: 'HASH_MAX_DIGESTSIZE' undeclared (first use in this function)
-     130 |         static_assert(HASH_MAX_DIGESTSIZE <= 127);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   crypto/rsassa-pkcs1.c:130:9: note: in expansion of macro 'static_assert'
-     130 |         static_assert(HASH_MAX_DIGESTSIZE <= 127);
-         |         ^~~~~~~~~~~~~
-   crypto/rsassa-pkcs1.c:130:23: note: each undeclared identifier is reported only once for each function it appears in
-     130 |         static_assert(HASH_MAX_DIGESTSIZE <= 127);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   crypto/rsassa-pkcs1.c:130:9: note: in expansion of macro 'static_assert'
-     130 |         static_assert(HASH_MAX_DIGESTSIZE <= 127);
-         |         ^~~~~~~~~~~~~
->> crypto/rsassa-pkcs1.c:130:23: error: expression in static assertion is not an integer
-     130 |         static_assert(HASH_MAX_DIGESTSIZE <= 127);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   crypto/rsassa-pkcs1.c:130:9: note: in expansion of macro 'static_assert'
-     130 |         static_assert(HASH_MAX_DIGESTSIZE <= 127);
-         |         ^~~~~~~~~~~~~
+vim +/shield_mounts_release +254 kernel/tkernel/shield_mounts.c
 
-
-vim +/HASH_MAX_DIGESTSIZE +130 crypto/rsassa-pkcs1.c
-
-  > 10	#include <linux/module.h>
-    11	#include <linux/scatterlist.h>
-    12	#include <crypto/akcipher.h>
-    13	#include <crypto/algapi.h>
-    14	#include <crypto/sig.h>
-    15	#include <crypto/internal/akcipher.h>
-    16	#include <crypto/internal/rsa.h>
-    17	#include <crypto/internal/sig.h>
-    18	
-    19	/*
-    20	 * Full Hash Prefix for EMSA-PKCS1-v1_5 encoding method (RFC 9580 table 24)
-    21	 *
-    22	 * RSA keys are usually much larger than the hash of the message to be signed.
-    23	 * The hash is therefore prepended by the Full Hash Prefix and a 0xff padding.
-    24	 * The Full Hash Prefix is an ASN.1 SEQUENCE containing the hash algorithm OID.
-    25	 *
-    26	 * https://www.rfc-editor.org/rfc/rfc9580#table-24
-    27	 */
-    28	
-    29	static const u8 hash_prefix_md5[] = {
-    30		0x30, 0x20, 0x30, 0x0c, 0x06, 0x08,	  /* SEQUENCE (SEQUENCE (OID */
-    31		0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x02, 0x05,	/*	<algorithm>, */
-    32		0x05, 0x00, 0x04, 0x10		      /* NULL), OCTET STRING <hash>) */
-    33	};
-    34	
-    35	static const u8 hash_prefix_sha1[] = {
-    36		0x30, 0x21, 0x30, 0x09, 0x06, 0x05,
-    37		0x2b, 0x0e, 0x03, 0x02, 0x1a,
-    38		0x05, 0x00, 0x04, 0x14
-    39	};
-    40	
-    41	static const u8 hash_prefix_rmd160[] = {
-    42		0x30, 0x21, 0x30, 0x09, 0x06, 0x05,
-    43		0x2b, 0x24, 0x03, 0x02, 0x01,
-    44		0x05, 0x00, 0x04, 0x14
-    45	};
-    46	
-    47	static const u8 hash_prefix_sha224[] = {
-    48		0x30, 0x2d, 0x30, 0x0d, 0x06, 0x09,
-    49		0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x04,
-    50		0x05, 0x00, 0x04, 0x1c
-    51	};
-    52	
-    53	static const u8 hash_prefix_sha256[] = {
-    54		0x30, 0x31, 0x30, 0x0d, 0x06, 0x09,
-    55		0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01,
-    56		0x05, 0x00, 0x04, 0x20
-    57	};
-    58	
-    59	static const u8 hash_prefix_sha384[] = {
-    60		0x30, 0x41, 0x30, 0x0d, 0x06, 0x09,
-    61		0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x02,
-    62		0x05, 0x00, 0x04, 0x30
-    63	};
-    64	
-    65	static const u8 hash_prefix_sha512[] = {
-    66		0x30, 0x51, 0x30, 0x0d, 0x06, 0x09,
-    67		0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x03,
-    68		0x05, 0x00, 0x04, 0x40
-    69	};
-    70	
-    71	static const u8 hash_prefix_sha3_256[] = {
-    72		0x30, 0x31, 0x30, 0x0d, 0x06, 0x09,
-    73		0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x08,
-    74		0x05, 0x00, 0x04, 0x20
-    75	};
-    76	
-    77	static const u8 hash_prefix_sha3_384[] = {
-    78		0x30, 0x41, 0x30, 0x0d, 0x06, 0x09,
-    79		0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x09,
-    80		0x05, 0x00, 0x04, 0x30
-    81	};
-    82	
-    83	static const u8 hash_prefix_sha3_512[] = {
-    84		0x30, 0x51, 0x30, 0x0d, 0x06, 0x09,
-    85		0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x0a,
-    86		0x05, 0x00, 0x04, 0x40
-    87	};
-    88	
-    89	static const struct hash_prefix {
-    90		const char	*name;
-    91		const u8	*data;
-    92		size_t		size;
-    93	} hash_prefixes[] = {
-    94	#define _(X) { #X, hash_prefix_##X, sizeof(hash_prefix_##X) }
-    95		_(md5),
-    96		_(sha1),
-    97		_(rmd160),
-    98		_(sha256),
-    99		_(sha384),
-   100		_(sha512),
-   101		_(sha224),
-   102	#undef _
-   103	#define _(X) { "sha3-" #X, hash_prefix_sha3_##X, sizeof(hash_prefix_sha3_##X) }
-   104		_(256),
-   105		_(384),
-   106		_(512),
-   107	#undef _
-   108		{ NULL }
-   109	};
-   110	
-   111	static const struct hash_prefix *rsassa_pkcs1_find_hash_prefix(const char *name)
-   112	{
-   113		const struct hash_prefix *p;
-   114	
-   115		for (p = hash_prefixes; p->name; p++)
-   116			if (strcmp(name, p->name) == 0)
-   117				return p;
-   118		return NULL;
-   119	}
-   120	
-   121	static unsigned int rsassa_pkcs1_hash_len(const struct hash_prefix *p)
-   122	{
-   123		/*
-   124		 * The final byte of the Full Hash Prefix encodes the hash length.
-   125		 *
-   126		 * This needs to be revisited should hash algorithms with more than
-   127		 * 1016 bits (127 bytes * 8) ever be added.  The length would then
-   128		 * be encoded into more than one byte by ASN.1.
-   129		 */
- > 130		static_assert(HASH_MAX_DIGESTSIZE <= 127);
-   131	
-   132		return p->data[p->size - 1];
-   133	}
-   134	
+   253	
+ > 254	int shield_mounts_release(struct inode *inode, struct file *file)
+   255	{
+   256		return single_release(inode, file);
+   257	}
+   258	
 
 -- 
 0-DAY CI Kernel Test Service
