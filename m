@@ -1,175 +1,147 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059121B3725
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 11:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5594A13BAF1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 11:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725882017; cv=none; b=kfpEKBLqQOkJ8kjky2GuBavUYdqleDU5WG4N9cdXrXCPUAEi6mw9rgU14xCqDWDhUntd8soyFiu08c6eebM1gQNMVIaajPfAsg4lyrP1+vZ68l5fB88wIWP6JOZ4fZGG2mhNTP3Sk2ZWIk6YClJ+H3xnidLSmSskL0xIrlJ2Ho0=
+	t=1725882193; cv=none; b=s9DYZT25uYno5bFc6FKwhf+LanCpbjKBMs31ZKMfuGL4mV8+gaU8KQGGtZ0/jxPOWWV8EtwYxaH9br6jbhggmdbEAh/baR43nIe9ovkKkpAShDNDc5N+65L7Td7of1UVTmGf2Jehxxavu9NNs/0PyrFg+yBwQQJU5drl7q9heOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725882017; c=relaxed/simple;
-	bh=SPYpBRIb6rXrn9VgF6BgFoB3pRz9hVX/If4hbjI2F1Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ls5/MNWB8Cgn83B/1U4TVI34pIzU81LvP2wX+LqvvyxCDa05q4DHQpXiOyNj6nYtlhKE/xYwZJIfhK217Nm2a3cqVDh9DC/mbIjbOx824d7x6UgwxsgBuqlQ+K4fQ8dbzXvdVFQnYwJlNr8nSqk24K5x9EiRsE+f4FK5PYgIwKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cReMBloH; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1725882193; c=relaxed/simple;
+	bh=HWz6DwNqd+5/2bPmYUs32Mg3Wp+Dg3BfRh9BQiyBw7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ex6WuG+RCOlXdDc0J0fAgqK0iI//v2+NIdfdRw6huVqoFiQel6Ly9MOPwvFlKpLj4UCyMuBQ5fxRmZe8Uy/ifSFzidjY6/8jn5bM4Hb8gWtttArKcDtMFwYrg0ffeB+Wi5ecw3xhazQihFMNnpCTICfHfIiEVbt4QUiwxSj8FaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k25e9EqL; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cReMBloH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725882015;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B9CDfCUPWyy8T8eCH3NbbeKvi6CvjR/Ke1Y5gIeSyoU=;
-	b=cReMBloHg0RhDofjs+A0wN1bib8ZfGkYHRijoiYLhfX++32t1cgbDSyZ03JBsjb+EPZ2Ed
-	CefCIX3pSI5qu2SVITpUQqKR+DP5yX1Px/YeiU4ORQmIl2gtsgXSqUhJWWPDwSuQXFxF3M
-	0cNPzucE/qUFnhS7mPeWTQBJzk+Y1bQ=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-336-ptye5UrYNq-UkYoFk2bzbg-1; Mon, 09 Sep 2024 07:40:10 -0400
-X-MC-Unique: ptye5UrYNq-UkYoFk2bzbg-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2f75f196ed9so11438741fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Sep 2024 04:40:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725882009; x=1726486809;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B9CDfCUPWyy8T8eCH3NbbeKvi6CvjR/Ke1Y5gIeSyoU=;
-        b=eJRLYimwltnZBI+3dpbrMrgObIHi3NOD9Qc3S/cRrjfi+IF5pa2hbhP+ITNVj3yW+u
-         IfeyXIPG8XHgVDDRIAZQTVPuCG1pUkYIwRxlgZWp9xP+tWcvmN+eFTTp6uRdobSp6shC
-         C1LKTLXX1sTCXMbSsGtMryHthEUCcyt4/uJ6EL2KrrseLle7K0GDoNAuHVxHw2DuKBMn
-         +JwjGw0dIOY8fn6xTLreCD0RC+dnsTtxUY8QkuUS6E3Gy8wJ53m6oVSyXooXSORgPGfm
-         xHiAsGj3XRt74wnFYAh+IVwZPjDE+RLunrO2IKmA5+Gv8blMXFHApmUyfAVsEwkGlXpk
-         xGmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlEh4lcC/NYcR8/tvr4Xgu/tD0E5zZeGICgY33iPhO9JB1jjac55qthDISTR9IaR+6z5mPPRUd9NvGeya0@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQtDZpxn+7ZyFX/B0vaVLTg0m3Sbk+LCDtrTBe6wPxNY/fwfq1
-	eX0L0VoJehZmUDN3OKzAIbKdZlHNeOQV9LbYUo3LO9exF3qAinOEQM7okMLKl9Bdhz1ERX7INKE
-	/uZw02QgmOaTMbwan1haYgTKRyRtGpNpm85NlxUFqU0DPkWBs+bi61HI9HV7HYds=
-X-Received: by 2002:a2e:511a:0:b0:2f2:9f26:ce96 with SMTP id 38308e7fff4ca-2f75b94e3famr39536681fa.40.1725882009228;
-        Mon, 09 Sep 2024 04:40:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IENg0cqrzz8j0LWpuGJOnSIckBcQeO1OoAKo63WWsuBOQWfprIbu3PvNa7hmLnPYtRbCsLzaA==
-X-Received: by 2002:a2e:511a:0:b0:2f2:9f26:ce96 with SMTP id 38308e7fff4ca-2f75b94e3famr39536441fa.40.1725882008637;
-        Mon, 09 Sep 2024 04:40:08 -0700 (PDT)
-Received: from [192.168.171.203] ([109.38.234.69])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd46733sm2888959a12.27.2024.09.09.04.40.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Sep 2024 04:40:08 -0700 (PDT)
-Message-ID: <8bd11a7b-d227-4f21-9ba5-5494e22f3761@redhat.com>
-Date: Mon, 9 Sep 2024 13:40:06 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k25e9EqL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725882191; x=1757418191;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HWz6DwNqd+5/2bPmYUs32Mg3Wp+Dg3BfRh9BQiyBw7M=;
+  b=k25e9EqLWZalSOsxT1rJFZ5fjgdH5YupAOrR3f+e79Wk1SWXgU+sTUTg
+   RVEabuRGcsvOh7q9BpigI0LpCRv1o5y9RUH6U+RSs5mmEmgn7p1Wf/ElK
+   Pa+v85dkZ85sjtZMk3zUKQCt7owgY5mYC67ghWo9M3jv1SqEtnZZRGEQb
+   db0Fw/tV2E8ipF8ftpxh3poTYlT6Gepo3nkTjH8UoukkQ/OaaG5x8rgBV
+   Dxq4b7c9fvzcgWuMGXB9gz0K7qAgfjyYFmWE6Z10iJMHigayuuOZdnPFb
+   zWOd050xorTvcOnxsojGoUSDqYq4HTPkTIuiNH97SHgvhauJRquUzKjvC
+   g==;
+X-CSE-ConnectionGUID: AthCr3TQQHGPnLv5gl+zvg==
+X-CSE-MsgGUID: 35BaB8PVQZaq5qoqfIWbfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="47095025"
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="47095025"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 04:43:10 -0700
+X-CSE-ConnectionGUID: cpTBspiJSJaX7wyfJ5TaMA==
+X-CSE-MsgGUID: GSYguTXPSAqtLbEX6nCCng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="97353623"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 09 Sep 2024 04:43:08 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sncnR-000EfC-0z;
+	Mon, 09 Sep 2024 11:43:05 +0000
+Date: Mon, 9 Sep 2024 19:42:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@redhat.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v2 3/3] drm/nouveau: Add drm_panic support for nv50+
+Message-ID: <202409091805.3PzxoAY6-lkp@intel.com>
+References: <20240906100434.1171093-4-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] platform/x86:intel/pmc: Encapsulate callbacks
- registration in CONFIG_X86_PM_TIMER check
-To: Marek Maslanka <mmaslanka@google.com>, lkp@intel.com,
- Arnd Bergmann <arnd@kernel.org>
-Cc: daniel.lezcano@linaro.org, linux-mm@kvack.org,
- oe-kbuild-all@lists.linux.dev
-References: <202409090259.6vsS5Bni-lkp@intel.com>
- <20240908200127.1848844-1-mmaslanka@google.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240908200127.1848844-1-mmaslanka@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240906100434.1171093-4-jfalempe@redhat.com>
 
-Hi Marek,
+Hi Jocelyn,
 
-On 9/8/24 10:01 PM, Marek Maslanka wrote:
-> Encapsulate the code that registers and unregisters the ACPI PM Timer
-> suspend/resume callback to checks that CONFIG_X86_PM_TIMER is enabled.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202409090259.6vsS5Bni-lkp@intel.com/
-> Signed-off-by: Marek Maslanka <mmaslanka@google.com>
+kernel test robot noticed the following build warnings:
 
-Thank you for the quick fix.
+[auto build test WARNING on e8653e63e834e4c7de60b81b8b24deb7bdd3bf56]
 
-Arnd has submitted a cleaner fix for this, which looks better so
-I think we should go with Arnd's fix:
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Add-ABGR2101010-support/20240906-180717
+base:   e8653e63e834e4c7de60b81b8b24deb7bdd3bf56
+patch link:    https://lore.kernel.org/r/20240906100434.1171093-4-jfalempe%40redhat.com
+patch subject: [PATCH v2 3/3] drm/nouveau: Add drm_panic support for nv50+
+config: x86_64-randconfig-121-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091805.3PzxoAY6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091805.3PzxoAY6-lkp@intel.com/reproduce)
 
-https://lore.kernel.org/platform-driver-x86/20240909111644.248756-1-arnd@kernel.org/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091805.3PzxoAY6-lkp@intel.com/
 
-Regards,
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/nouveau/dispnv50/wndw.c:651:66: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *vaddr_iomem @@     got void *virtual @@
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:651:66: sparse:     expected void [noderef] __iomem *vaddr_iomem
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:651:66: sparse:     got void *virtual
 
-Hans
+vim +651 drivers/gpu/drm/nouveau/dispnv50/wndw.c
 
+   628	
+   629	static int
+   630	nv50_wndw_get_scanout_buffer(struct drm_plane *plane, struct drm_scanout_buffer *sb)
+   631	{
+   632		struct drm_framebuffer *fb;
+   633		struct nouveau_bo *nvbo;
+   634	
+   635		if (!plane->state || !plane->state->fb)
+   636			return -EINVAL;
+   637	
+   638		fb = plane->state->fb;
+   639		nvbo = nouveau_gem_object(fb->obj[0]);
+   640	
+   641		/* Don't support compressed format, or multiplane yet. */
+   642		if (nvbo->comp || fb->format->num_planes != 1)
+   643			return -EOPNOTSUPP;
+   644	
+   645		if (nouveau_bo_map(nvbo)) {
+   646			pr_warn("nouveau bo map failed, panic won't be displayed\n");
+   647			return -ENOMEM;
+   648		}
+   649	
+   650		if (nvbo->kmap.bo_kmap_type & TTM_BO_MAP_IOMEM_MASK)
+ > 651			iosys_map_set_vaddr_iomem(&sb->map[0], nvbo->kmap.virtual);
+   652		else
+   653			iosys_map_set_vaddr(&sb->map[0], nvbo->kmap.virtual);
+   654	
+   655		sb->height = fb->height;
+   656		sb->width = fb->width;
+   657		sb->pitch[0] = fb->pitches[0];
+   658		sb->format = fb->format;
+   659	
+   660		/* If tiling is enabled, use the set_pixel() to display correctly.
+   661		 * Only handle 32bits format for now.
+   662		 */
+   663		if (fb->modifier & 0xf) {
+   664			if (fb->format->cpp[0] != 4)
+   665				return -EOPNOTSUPP;
+   666			sb->private = (void *) fb;
+   667			sb->set_pixel = nv50_set_pixel;
+   668		}
+   669		return 0;
+   670	}
+   671	
 
-
-
-> ---
->  drivers/platform/x86/intel/pmc/core.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
-> index 695804ca8de4..0c6392eeacee 100644
-> --- a/drivers/platform/x86/intel/pmc/core.c
-> +++ b/drivers/platform/x86/intel/pmc/core.c
-> @@ -1215,6 +1215,7 @@ static bool pmc_core_is_pson_residency_enabled(struct pmc_dev *pmcdev)
->  	return val == 1;
->  }
->  
-> +#ifdef CONFIG_X86_PM_TIMER
->  /*
->   * Enable or disable ACPI PM Timer
->   *
-> @@ -1247,6 +1248,7 @@ static void pmc_core_acpi_pm_timer_suspend_resume(void *data, bool suspend)
->  
->  	pmcdev->enable_acpi_pm_timer_on_resume = suspend && enabled;
->  }
-> +#endif
->  
->  static void pmc_core_dbgfs_unregister(struct pmc_dev *pmcdev)
->  {
-> @@ -1443,9 +1445,11 @@ static int pmc_core_probe(struct platform_device *pdev)
->  	struct pmc_dev *pmcdev;
->  	const struct x86_cpu_id *cpu_id;
->  	int (*core_init)(struct pmc_dev *pmcdev);
-> -	const struct pmc_reg_map *map;
->  	struct pmc *primary_pmc;
->  	int ret;
-> +#ifdef CONFIG_X86_PM_TIMER
-> +	const struct pmc_reg_map *map;
-> +#endif
->  
->  	if (device_initialized)
->  		return -ENODEV;
-> @@ -1502,10 +1506,12 @@ static int pmc_core_probe(struct platform_device *pdev)
->  	pm_report_max_hw_sleep(FIELD_MAX(SLP_S0_RES_COUNTER_MASK) *
->  			       pmc_core_adjust_slp_s0_step(primary_pmc, 1));
->  
-> +#ifdef CONFIG_X86_PM_TIMER
->  	map = primary_pmc->map;
->  	if (map->acpi_pm_tmr_ctl_offset)
->  		acpi_pmtmr_register_suspend_resume_callback(pmc_core_acpi_pm_timer_suspend_resume,
-> -							 pmcdev);
-> +							    pmcdev);
-> +#endif
->  
->  	device_initialized = true;
->  	dev_info(&pdev->dev, " initialized\n");
-> @@ -1516,11 +1522,13 @@ static int pmc_core_probe(struct platform_device *pdev)
->  static void pmc_core_remove(struct platform_device *pdev)
->  {
->  	struct pmc_dev *pmcdev = platform_get_drvdata(pdev);
-> +#ifdef CONFIG_X86_PM_TIMER
->  	const struct pmc *pmc = pmcdev->pmcs[PMC_IDX_MAIN];
->  	const struct pmc_reg_map *map = pmc->map;
->  
->  	if (map->acpi_pm_tmr_ctl_offset)
->  		acpi_pmtmr_unregister_suspend_resume_callback();
-> +#endif
->  
->  	pmc_core_dbgfs_unregister(pmcdev);
->  	pmc_core_clean_structure(pdev);
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
