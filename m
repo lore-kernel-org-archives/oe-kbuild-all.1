@@ -1,57 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0802C1741F0;
-	Mon,  9 Sep 2024 05:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEB24C81
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 06:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725861261; cv=none; b=fjvqp/D8AhM1f2a6vDh3EMeAIHvZhDndRr365oOFiku5IJhgihQ2c7jRmN0pWdoaLU5JkrVqyn2MgQAHcmyVciZN/qv1cjrdRErvWyjezwbEMkki8YVlxaHJJBi9B8V8HEjOgWmseinasDpKb+Kbqck5amnSUS6aXoFSXem2hxI=
+	t=1725862421; cv=none; b=oBWqIy6NjqZGgubzighT5qtwCrzaOf0Uf5KNvQgRjOwIQ+1PFxoi1O3N8GoQV9V8P3Mczgtjy3A/Lq6B5oTgMG6AgOaC3HiZX84txEtDJ+KCwAdAqcooPILGmH3o3oq/IaokzKvmRG90GiarCiXg5V1sbOOKE0IZDjWcDbREYkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725861261; c=relaxed/simple;
-	bh=bxex6xMzInlTbz9S7Sjl0HhrLpmlW6o8zrtqzzxe0Dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dM6f6TGjFF3cxSz3+393aWJhgej4OxY2pwAiSmt9EoD1+duk0MwwAAXm77nMQUFDGXlXSOiST8lUoOXAe0FB6GmTB9IXrROwzcNzcFxJRAGhHhUJdJQFEiOLeIlSN1iihLF7tmDU96S162hkYi+7IwVcmD4kHo+ljKJvi+gPTEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpIR/WDN; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725862421; c=relaxed/simple;
+	bh=gtiRoYAIc/wJJz8mjfDz4qmpe5KBp3/hi8FZ1dNSamA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PD87TllB9omhHpH3UK4VdnMzlr+S+rTVYgwOBoKzaMuIkdp4pQ53eLQrm3uEiPJpM9Ffbp17z8odc4VHBQYVQlujtsX0fzaKNQcvVnbBQ/7BTU4Pj/ECjjQlny+jq0F/6ZSpw8Gq4DpxC4PMABDjAsICBIHHY9FVkgnpiI68SmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNI29kdt; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpIR/WDN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNI29kdt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725861260; x=1757397260;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bxex6xMzInlTbz9S7Sjl0HhrLpmlW6o8zrtqzzxe0Dk=;
-  b=lpIR/WDNP2L5dFWvRvMG9zkrp2MxQFTNoQwediFzztjEErt93mZJPu/F
-   qxdmfsOKkOmR+GBpLc5TBo+Kh6hGj1IPNXGNsAMrIwJZo3cG/Mm5iMV10
-   91znzE1ww0ymSFiGnPENc3Y+FKCEc2d9ElANv47o3jQoXf5altrecWACt
-   AVS/oiU4bwtEcLy5Gm8Eh07lJBayj2FJUlTpOlP8y6PYZWmRLgOa7hKxJ
-   ZWyNPqTktA1sv5+6in5rU8K14f6c6MasF7k8GYNneqOcbmZ3vbIi/733n
-   F5v5n5rTLTxGSKTSrZ3vyfaAHzUj8kuSGCsDjM7gl8VjmDrwNvrn2nUAK
+  t=1725862420; x=1757398420;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gtiRoYAIc/wJJz8mjfDz4qmpe5KBp3/hi8FZ1dNSamA=;
+  b=BNI29kdtymgNqLcIeKqvuXKsnRUGJs2v8z2eIaXpvyk1FBIk+RTA/BGH
+   6jz8LU5d623mIimUIqrN2koJIjCMRW9L8S3SUEBq+CeslKgLTXRcwwPnn
+   3WtbOASCbx3WYnv5eeBOCMos2c6l4SYE4f3/M71ZjJlhZwaZ2FXWBhGGh
+   29oQ7GYBGt5oTcm3SNFuZQ5aVNTsRBywd9Ek+vAzN1kK9t00rVyelFzSv
+   E2ZAY4nY33LThPZXf2Sc4Fts0xIcHuGw8YTeE2HR/pqtX0tcXxf7hgMXC
+   peFRnP3/6UfmPCrBRknIzhrRly0otVInyzsVxoFEK19Lw1MNcWlJxQw9W
    w==;
-X-CSE-ConnectionGUID: 5CdYvNTXS5eGWazmYsZncQ==
-X-CSE-MsgGUID: tC6Qf+SQR4i+/DZSx4lTag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35911235"
+X-CSE-ConnectionGUID: 6VMgRHjzRL6hc7B/aKNLnA==
+X-CSE-MsgGUID: Wq8JhUq0Rp+SDM7itlyPAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24329758"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="35911235"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 22:54:19 -0700
-X-CSE-ConnectionGUID: XmGWAFyTQ4+Sdw3V8P2ZKQ==
-X-CSE-MsgGUID: YjYyMP3fRou+rsudVrrTPA==
+   d="scan'208";a="24329758"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 23:13:39 -0700
+X-CSE-ConnectionGUID: T5dsg21aTsSPVoyW2HkEcA==
+X-CSE-MsgGUID: znd60/UBSzuliEcTqE0NDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="97266050"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO tlindgre-MOBL1) ([10.245.246.140])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 22:54:17 -0700
-Date: Mon, 9 Sep 2024 08:54:12 +0300
-From: Tony Lindgren <tony.lindgren@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>
-Subject: Re: ERROR: modpost: "match_devname_and_update_preferred_console"
- [drivers/tty/serial/serial_base.ko] undefined!
-Message-ID: <Zt6NhNCbiBkSx_Uy@tlindgre-MOBL1>
-References: <202409071312.qlwtTOS1-lkp@intel.com>
+   d="scan'208";a="71505404"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Sep 2024 23:13:36 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snXeX-000EOF-0q;
+	Mon, 09 Sep 2024 06:13:33 +0000
+Date: Mon, 9 Sep 2024 14:13:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 31/48]
+ drivers/pci/controller/pci-loongson.c:219:22: sparse: sparse: incorrect type
+ in argument 2 (different address spaces)
+Message-ID: <202409091429.9tatcAEe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,40 +66,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202409071312.qlwtTOS1-lkp@intel.com>
 
-Hi,
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   95e99651a23c1ccc103007c3b0532ff97d7c357d
+commit: f01438e069eeb6072d6049df27282e29c5b7f386 [31/48] PCI: LS7A2000: fix GPU card error
+config: loongarch-randconfig-r111-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091429.9tatcAEe-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240909/202409091429.9tatcAEe-lkp@intel.com/reproduce)
 
-On Sat, Sep 07, 2024 at 01:23:47PM +0800, kernel test robot wrote:
-> Hi Tony,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   b31c4492884252a8360f312a0ac2049349ddf603
-> commit: 12c91cec3155f79216641162a32e04a59abb6e37 serial: core: Add serial_base_match_and_update_preferred_console()
-> date:   9 weeks ago
-> config: i386-buildonly-randconfig-004-20240907 (https://download.01.org/0day-ci/archive/20240907/202409071312.qlwtTOS1-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071312.qlwtTOS1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409071312.qlwtTOS1-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091429.9tatcAEe-lkp@intel.com/
 
-> >> ERROR: modpost: "match_devname_and_update_preferred_console" [drivers/tty/serial/serial_base.ko] undefined!
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/pci-loongson.c:219:22: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/pci/controller/pci-loongson.c:219:22: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pci/controller/pci-loongson.c:219:22: sparse:     got void *
+   drivers/pci/controller/pci-loongson.c:220:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/pci/controller/pci-loongson.c:220:29: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pci/controller/pci-loongson.c:220:29: sparse:     got void *
+   drivers/pci/controller/pci-loongson.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-Sorry I did not realize we still have an open build issue. I'll send a fix.
+vim +219 drivers/pci/controller/pci-loongson.c
 
-As the serial port devices drives can select SERIAL_CORE_CONSOLE, and
-CONFIG_PRINTK may not be set we should check for both Kconfig options.
+   187	
+   188	static void loongson_display_quirk(struct pci_dev *dev)
+   189	{
+   190		u32 val;
+   191		u64 mask, size;
+   192		u64 max_size = 0;
+   193		int i, num;
+   194		struct pci_bus *bus = dev->bus;
+   195	
+   196		if (!dev->bus->number) {
+   197			if (!(dev->vendor == PCI_VENDOR_ID_LOONGSON && dev->device == 0x7a25))
+   198				return;
+   199		} else {
+   200			while (!pci_is_root_bus(bus->parent))
+   201				bus = bus->parent;
+   202	
+   203			/* ensure slot is 7a2000 */
+   204			if (bus->self->vendor != PCI_VENDOR_ID_LOONGSON || bus->self->device < 0x7a39)
+   205				return;
+   206		}
+   207		max_size = 0;
+   208		for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
+   209			if (dev->resource[i].flags & IORESOURCE_MEM) {
+   210				size = dev->resource[i].end - dev->resource[i].start;
+   211				if (size > max_size) {
+   212					max_size = size;
+   213					num = i;
+   214				}
+   215			}
+   216		}
+   217		mask = ~(dev->resource[num].end - dev->resource[num].start);
+   218		val = (dev->resource[num].start >> (24 - 16)) | ((mask >> 24) & 0xffff);
+ > 219		writel(val, (void *)0x80000efdfb000174UL);
+   220		writel(0x80000000, (void *)0x80000efdfb000170UL);
+   221	}
+   222	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_LOONGSON, 0x7a25, loongson_display_quirk);
+   223	DECLARE_PCI_FIXUP_CLASS_FINAL(PCI_ANY_ID, PCI_ANY_ID,
+   224					PCI_BASE_CLASS_DISPLAY, 16, loongson_display_quirk);
+   225	
 
-So if defined(CONFIG_SERIAL_CORE_CONSOLE) && defined(CONFIG_PRINTK).
-
-Regards,
-
-Tony
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
