@@ -1,140 +1,121 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551E91B29DA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 09:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F088B1B2EE8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 09:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725873197; cv=none; b=atfKy/w0ytOdmSpWopVi0xwpGy9jywKC+2uCYYXiKKFK9r6hcFVXOjbL4EWNmy7Scuok0VMD3Xfl3JdOA5X4iSwrzd+i/yhEG9xXDSv8R2oD1rHFCReCIRqEO3vq8P7Dq5Y6im+oA8L4xGbvNiNiF8b74LZLBQWWRB/F+XpBgLg=
+	t=1725875459; cv=none; b=ch5wkC/ftxJtILLgWPEsxAPqXYSs6BbqIThI5di75DBNqlunm8cO+UDb7A/F1LYM1z9jnR17vIS0P7lFLv1AGmbg89XyDMSvuqzRV/GtDNeVIiVzPQOapKhvSJf01ENhpWqzZAknm9KHECNOo0Mfq7QMxIvfjhDQSXddtAhnkoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725873197; c=relaxed/simple;
-	bh=e2ZtB7/J/dXnRJ3lIbCKVoMI6QBb+RQ9HEmJypzOLus=;
+	s=arc-20240116; t=1725875459; c=relaxed/simple;
+	bh=cpN4c04fp/ArFHGa6SsgZy4awJOaoPGXwyrkhJbDvIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uw/Oa9GcWnDJLVlace2jF255zNfWTfvt/UNI7Rz3XJo5hfkJh+PMWGWkoqDhVcE+oQOSbKbqjcPnfnQy37fI4PjgAtiWrzirvnZ5A1pZ2Nhg2wf372UVV+YlnWdkrhSGvOom13sqNtlminfmGD4jsTjDnzl77SpHMRx87niGtwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Nm6fxUam; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XvGHfuTrjvb1kugwSVQWy9Y4TAV/uVTSUER0uMFCcz4x2+2F48fvuLjRYYU6sTukLX428SgkvYvhpKFFGSna07agDTCFmIjOWvciKGpvee6lED/zDpbI9x1Oj87qJLJOmaSPuAenqudgNorWoMd+F/W5SMoyQX7e7h0kAlA/oZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dCMJGnkA; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Nm6fxUam"
-Received: from ideasonboard.com (unknown [213.208.157.109])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 066356EC;
-	Mon,  9 Sep 2024 11:11:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725873117;
-	bh=e2ZtB7/J/dXnRJ3lIbCKVoMI6QBb+RQ9HEmJypzOLus=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nm6fxUamoqf9FVPhR27x5kHHzMJvdy5JYdIx5BAkw7hGYyej0KQTJVwloDyVbkcpI
-	 U10/RsZYyT8ZGr3iwr0TxRDXb96BmbsaQH2rLF9joOMIWfZG+mENhGfrRRfmgU+UsL
-	 2pZrK/V9j8anOzXnwiuA3CYwQwI/jA4/D+JX2+eo=
-Date: Mon, 9 Sep 2024 11:13:07 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, Naushir Patuck <naush@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-Message-ID: <yib2r4wisxvk3kgogbjqawrpmfq6lcezfk4xjmftj44jzkbclc@icapodv2ffzk>
-References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
- <202409051822.ZzUGw3XQ-lkp@intel.com>
- <20240905111120.GK16183@pendragon.ideasonboard.com>
- <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
- <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dCMJGnkA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725875458; x=1757411458;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cpN4c04fp/ArFHGa6SsgZy4awJOaoPGXwyrkhJbDvIg=;
+  b=dCMJGnkAnDF7ZNBvYW81G8fHgZ6R3jxG+/hZDet+Bf30V4Li4bYgWu43
+   strgMYPmPP9/7O4SpFGI7omb1Ap/AkI1irhsaCLB+c8L2nK6Hvt5lNQ5s
+   likiPHZ27pqXqYb//x+HAXnS+0kiXwsXVYyQLLVY5UOYMdQ1bpOo/VmLn
+   5Ha8rIkX2b0sOfLdjdzgrzt4ctzB8lVOy5rMpMCJ5rCAXCrSWHRib1s9I
+   V4yk5tOHDoxg23v/eh09A6Pv0EwYuCNfO7YeJovr++3RdCe4toUdWX/ok
+   k+bzWx6DK0FImAQF+B5b/Z7KYAXvtv1BNd7mCnfQvQHiXmYat4qMKjvKl
+   Q==;
+X-CSE-ConnectionGUID: iZlwYXSJQ1uQSG5k1pgDvQ==
+X-CSE-MsgGUID: LeybjmJKQmmRMkIGgxvgDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24361719"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="24361719"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:50:58 -0700
+X-CSE-ConnectionGUID: PwWFr16YRiyxWamW3eHXtQ==
+X-CSE-MsgGUID: gv9Tf7MVT4CfRlIE0eicUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="67357831"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 09 Sep 2024 02:50:56 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snb2r-000EaU-0x;
+	Mon, 09 Sep 2024 09:50:53 +0000
+Date: Mon, 9 Sep 2024 17:50:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	brendan.higgins@linux.dev, davidgow@google.com, rmoar@google.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v4] lib/math: Add int_pow test suite
+Message-ID: <202409091732.x5CGQKBV-lkp@intel.com>
+References: <20240908224901.78595-1-luis.hernandez093@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
+In-Reply-To: <20240908224901.78595-1-luis.hernandez093@gmail.com>
 
-Hi Tomi
+Hi Luis,
 
-On Mon, Sep 09, 2024 at 08:22:59AM GMT, Tomi Valkeinen wrote:
-> Hi Laurent, Jacopo,
->
-> On 09/09/2024 08:08, Tomi Valkeinen wrote:
-> > Hi,
-> >
-> > On 05/09/2024 14:11, Laurent Pinchart wrote:
-> > > On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
-> > > > Hi Tomi,
-> > > >
-> > > > kernel test robot noticed the following build warnings:
-> > > >
-> > > > [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
-> > > >
-> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-
-> > > > Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-
-> > > > stats/20240904-192729
-> > > > base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-> > > > patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-
-> > > > f1b5b3d69c81%40ideasonboard.com
-> > > > patch subject: [PATCH v4 3/4] media: raspberrypi: Add support
-> > > > for RP1-CFE
-> > > > config: m68k-allmodconfig (https://download.01.org/0day-ci/
-> > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
-> > > > compiler: m68k-linux-gcc (GCC) 14.1.0
-> > > > reproduce (this is a W=1 build):
-> > > > (https://download.01.org/0day-ci/
-> > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a
-> > > > new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-
-> > > > all/202409051822.ZzUGw3XQ-lkp@intel.com/
-> > > >
-> > > > All warnings (new ones prefixed by >>):
-> > > >
-> > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12:
-> > > > > > warning: 'cfe_runtime_resume' defined but not used
-> > > > > > [-Wunused-function]
-> > > >      2445 | static int cfe_runtime_resume(struct device *dev)
-> > > >           |            ^~~~~~~~~~~~~~~~~~
-> > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12:
-> > > > > > warning: 'cfe_runtime_suspend' defined but not used
-> > > > > > [-Wunused-function]
-> > > >      2435 | static int cfe_runtime_suspend(struct device *dev)
-> > > >           |            ^~~~~~~~~~~~~~~~~~~
-> > > > vim +/cfe_runtime_resume +2445
-> > > > drivers/media/platform/raspberrypi/ rp1-cfe/cfe.c
-> > >
-> > > The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
-> > > to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
-> > > the driver won't work on a kernel with !CONFIG_PM given how you
-> > > implemented probe() and remove().
-> > >
-> > > The pisp-be driver suffered from the same issue and Jacopo fixed it in
-> > > the last version. You can have a look at implement something similar.
-> >
-> > I can't right away think of any reason to not just depend on CONFIG_PM
-> > and be done with it without any tricks. Do you know if there's a reason?
+kernel test robot noticed the following build warnings:
 
-We had the same discussion, and even if I would be fine depending on
-CONFIG_PM, supporting !CONFIG_PM is not that much work, I kept it as
-an optional dependency (it was suggested during the review as well)
+[auto build test WARNING on v6.11-rc6]
+[also build test WARNING on linus/master next-20240906]
+[cannot apply to akpm-mm/mm-nonmm-unstable]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> Also, I don't think pisp-be is correct. It just calls
-> pispbe_runtime_resume() in probe() to wake the IP up (which only enables
-> pisp clock), without telling the runtime PM about it. This means the parent
-> device and the suppliers may not be powered up.
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Felipe-Hernandez/lib-math-Add-int_pow-test-suite/20240909-065058
+base:   v6.11-rc6
+patch link:    https://lore.kernel.org/r/20240908224901.78595-1-luis.hernandez093%40gmail.com
+patch subject: [PATCH v4] lib/math: Add int_pow test suite
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240909/202409091732.x5CGQKBV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091732.x5CGQKBV-lkp@intel.com/reproduce)
 
-Are you referring to the code currently in the tree or to this patch ?
-https://patchwork.linuxtv.org/project/linux-media/patch/20240904095836.344833-5-jacopo.mondi@ideasonboard.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091732.x5CGQKBV-lkp@intel.com/
 
->
->  Tomi
->
->
+All warnings (new ones prefixed by >>):
+
+>> lib/math/tests/int_pow_kunit.c:22:18: warning: integer constant is so large that it is unsigned
+      22 |         { 2, 63, 9223372036854775808, "Large result"},
+         |                  ^~~~~~~~~~~~~~~~~~~
+
+
+vim +22 lib/math/tests/int_pow_kunit.c
+
+    12	
+    13	static const struct test_case_params params[] = {
+    14		{ 64, 0, 1, "Power of zero" },
+    15		{ 64, 1, 64, "Power of one"},
+    16		{ 0, 5, 0, "Base zero" },
+    17		{ 1, 64, 1, "Base one" },
+    18		{ 2, 2, 4, "Two squared"},
+    19		{ 2, 3, 8, "Two cubed"},
+    20		{ 5, 5, 3125, "Five raised to the fifth power" },
+    21		{ U64_MAX, 1, U64_MAX, "Max base" },
+  > 22		{ 2, 63, 9223372036854775808, "Large result"},
+    23	};
+    24	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
