@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750E81ACDE0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 05:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0802C1741F0;
+	Mon,  9 Sep 2024 05:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725859955; cv=none; b=Tv+x2z0WAA33QEjKJ8SileaKVSm16xNTtpV+LMPBB7QsXPUAZWZJbZWboEYtLCWSn1dRr27j/TAM8ddAiYNy9TmNMWGxk37UH6OTuim/18g3cNbZglJ+bx2quZjWBz++BSupkxE1AUaemihCVxl+MRhScUxK61M7HiyXyKRKIdY=
+	t=1725861261; cv=none; b=fjvqp/D8AhM1f2a6vDh3EMeAIHvZhDndRr365oOFiku5IJhgihQ2c7jRmN0pWdoaLU5JkrVqyn2MgQAHcmyVciZN/qv1cjrdRErvWyjezwbEMkki8YVlxaHJJBi9B8V8HEjOgWmseinasDpKb+Kbqck5amnSUS6aXoFSXem2hxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725859955; c=relaxed/simple;
-	bh=Q8OJeHsyhdKLJFYlZCvDRfN+xKYvIZWBWHHQ3YzlrQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SlNCOLDAwNg3mxuBBuTQ0JXDN4FciU35Cb76XZ2DkvsuLLruFfWXm5U7RSU7/MgbaJUHfIXehrx1si5eRGveBUSLavp4t7uy3//ym61mqFOero68SbgRVoWaotHEQj/XHXwbc7eglyEnXqEX2SLrzTqzlle8IHQ88O3qhv2kT+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQNpKBjg; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725861261; c=relaxed/simple;
+	bh=bxex6xMzInlTbz9S7Sjl0HhrLpmlW6o8zrtqzzxe0Dk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dM6f6TGjFF3cxSz3+393aWJhgej4OxY2pwAiSmt9EoD1+duk0MwwAAXm77nMQUFDGXlXSOiST8lUoOXAe0FB6GmTB9IXrROwzcNzcFxJRAGhHhUJdJQFEiOLeIlSN1iihLF7tmDU96S162hkYi+7IwVcmD4kHo+ljKJvi+gPTEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpIR/WDN; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQNpKBjg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpIR/WDN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725859951; x=1757395951;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q8OJeHsyhdKLJFYlZCvDRfN+xKYvIZWBWHHQ3YzlrQ4=;
-  b=hQNpKBjghbB+WpHiUWtj22cEotLypE+I0RvVO3vpUYCsodo+NLMJFlgD
-   bCiTT4Hw3AlZ9dpWmxC5XKrWvQPSeFUt6OUg5gwQopEQJ/DuEhq/yRPHW
-   GtnR1D/GkGkret/dHNEbguX5bqxIb6wE79TYd8+oYE/S1wOQ4hHTIns9e
-   mvDUz3l63o2qqBg8ZRX7a/fr89cfZypDKgAYJT96M6RacRXevqhZvJiJM
-   qGGcGks0cdAWVY/6QXH67f5Ot/LCqPu/pJz66WMefTnRei+bx/W3J3hEt
-   PAawlDoTzT2k2T9NX9Y3rLW4DzxbfcRS2m9VTqgCsLMMqKv7FtqOxFD7m
-   A==;
-X-CSE-ConnectionGUID: /n1iJObTRP2RJfPQweEusA==
-X-CSE-MsgGUID: k+tI37IVS2uZAY647mXDdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35676116"
+  t=1725861260; x=1757397260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bxex6xMzInlTbz9S7Sjl0HhrLpmlW6o8zrtqzzxe0Dk=;
+  b=lpIR/WDNP2L5dFWvRvMG9zkrp2MxQFTNoQwediFzztjEErt93mZJPu/F
+   qxdmfsOKkOmR+GBpLc5TBo+Kh6hGj1IPNXGNsAMrIwJZo3cG/Mm5iMV10
+   91znzE1ww0ymSFiGnPENc3Y+FKCEc2d9ElANv47o3jQoXf5altrecWACt
+   AVS/oiU4bwtEcLy5Gm8Eh07lJBayj2FJUlTpOlP8y6PYZWmRLgOa7hKxJ
+   ZWyNPqTktA1sv5+6in5rU8K14f6c6MasF7k8GYNneqOcbmZ3vbIi/733n
+   F5v5n5rTLTxGSKTSrZ3vyfaAHzUj8kuSGCsDjM7gl8VjmDrwNvrn2nUAK
+   w==;
+X-CSE-ConnectionGUID: 5CdYvNTXS5eGWazmYsZncQ==
+X-CSE-MsgGUID: tC6Qf+SQR4i+/DZSx4lTag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35911235"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="35676116"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 22:32:30 -0700
-X-CSE-ConnectionGUID: sj5wmqYAQ4W7Z6v5KGXr9g==
-X-CSE-MsgGUID: oFvvswxaQxuZroCQRu9eZA==
+   d="scan'208";a="35911235"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 22:54:19 -0700
+X-CSE-ConnectionGUID: XmGWAFyTQ4+Sdw3V8P2ZKQ==
+X-CSE-MsgGUID: YjYyMP3fRou+rsudVrrTPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="66234195"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Sep 2024 22:32:29 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snX0k-000EKZ-36;
-	Mon, 09 Sep 2024 05:32:26 +0000
-Date: Mon, 9 Sep 2024 13:32:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:spdm-future 8/46] crypto/rsassa-pkcs1.c:130:16: error: use of
- undeclared identifier 'HASH_MAX_DIGESTSIZE'
-Message-ID: <202409091321.tYl8okx9-lkp@intel.com>
+   d="scan'208";a="97266050"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO tlindgre-MOBL1) ([10.245.246.140])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 22:54:17 -0700
+Date: Mon, 9 Sep 2024 08:54:12 +0300
+From: Tony Lindgren <tony.lindgren@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>
+Subject: Re: ERROR: modpost: "match_devname_and_update_preferred_console"
+ [drivers/tty/serial/serial_base.ko] undefined!
+Message-ID: <Zt6NhNCbiBkSx_Uy@tlindgre-MOBL1>
+References: <202409071312.qlwtTOS1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,45 +60,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202409071312.qlwtTOS1-lkp@intel.com>
 
-tree:   https://github.com/l1k/linux spdm-future
-head:   fc9f4270fb1c1618a497f5bc1cf9eef4ac9032d2
-commit: ef118934511b94533def9b11a34018b90d942cc9 [8/46] crypto: rsassa-pkcs1 - Harden digest length verification
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240909/202409091321.tYl8okx9-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091321.tYl8okx9-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409091321.tYl8okx9-lkp@intel.com/
+On Sat, Sep 07, 2024 at 01:23:47PM +0800, kernel test robot wrote:
+> Hi Tony,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b31c4492884252a8360f312a0ac2049349ddf603
+> commit: 12c91cec3155f79216641162a32e04a59abb6e37 serial: core: Add serial_base_match_and_update_preferred_console()
+> date:   9 weeks ago
+> config: i386-buildonly-randconfig-004-20240907 (https://download.01.org/0day-ci/archive/20240907/202409071312.qlwtTOS1-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071312.qlwtTOS1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409071312.qlwtTOS1-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+...
 
-All errors (new ones prefixed by >>):
+> >> ERROR: modpost: "match_devname_and_update_preferred_console" [drivers/tty/serial/serial_base.ko] undefined!
 
->> crypto/rsassa-pkcs1.c:130:16: error: use of undeclared identifier 'HASH_MAX_DIGESTSIZE'
-     130 |         static_assert(HASH_MAX_DIGESTSIZE <= 127);
-         |                       ^
-   1 error generated.
+Sorry I did not realize we still have an open build issue. I'll send a fix.
 
+As the serial port devices drives can select SERIAL_CORE_CONSOLE, and
+CONFIG_PRINTK may not be set we should check for both Kconfig options.
 
-vim +/HASH_MAX_DIGESTSIZE +130 crypto/rsassa-pkcs1.c
+So if defined(CONFIG_SERIAL_CORE_CONSOLE) && defined(CONFIG_PRINTK).
 
-   120	
-   121	static unsigned int rsassa_pkcs1_hash_len(const struct hash_prefix *p)
-   122	{
-   123		/*
-   124		 * The final byte of the Full Hash Prefix encodes the hash length.
-   125		 *
-   126		 * This needs to be revisited should hash algorithms with more than
-   127		 * 1016 bits (127 bytes * 8) ever be added.  The length would then
-   128		 * be encoded into more than one byte by ASN.1.
-   129		 */
- > 130		static_assert(HASH_MAX_DIGESTSIZE <= 127);
-   131	
-   132		return p->data[p->size - 1];
-   133	}
-   134	
+Regards,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tony
