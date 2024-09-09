@@ -1,191 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail03.siengine.com (mail03.siengine.com [43.240.192.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EE46AB8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 00:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC7CBA42
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 01:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.240.192.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725842598; cv=none; b=OYRAkF9SLN1xw2f4w3Sn+8CLDo5zFtQb+P+QrF6cl9jN0+FI3UPvdTQNlv2ZH/FtotQIGdX9H3yLaPkzImk9bbx8BHPsDzvJl7YVnLuXx0RH+gfcJT7Af/2YYioM7sc0Xldv56kXLtBStdrg7WihRjpOZQpKVnblVoFUE7D+JhI=
+	t=1725845552; cv=none; b=SW1YX7RkSCRDsVPRay6iR5oq6/RoYrq55Nhj5LMBLxAqFX3r895Dv260xdDS0nkHzhwA0OxiF1uxvFojj4bdihyjJihhvRFZB3YOR9mmWxdHMmKHypo0cyl8cDZUnBQq+BGs3rALZmJtLuN7wXaKeqCc+I35wCYL8JVhFztanXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725842598; c=relaxed/simple;
-	bh=XNNSjYDp2/vVWve1yWNzSRejqISxf3CiHc/EGOCbqS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H9mKuW91CEo8W+g+ailiJOFHhoTpS06xKw3p+w7kFa3vwmEbtQIjZmhV81mK2bJWXJ1S6Y1HnhDwVhOM/GzOCQCnAUxiE3HxnO1vMVXXVfHtYyRjEjUURBfL9asZlV8piDJnCwvUx7yaawszaYj0XsQ3MOubQosBlhPIye5zN3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVM/wsB4; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVM/wsB4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725842596; x=1757378596;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XNNSjYDp2/vVWve1yWNzSRejqISxf3CiHc/EGOCbqS8=;
-  b=aVM/wsB4fwfFWaAnyVN3Eo8qc7PjwYgBeVGUegaya8x03An16ib6ItHc
-   FfS062HSlJeu1GFdL2TfNnKUblka6qlGW3psh+hkNVsUY53PrGkKBjLac
-   og7GT+q4A6Yay9bElwhHhhb4TTlusdJuM59LhFhu0tZL1MLulFz1vo1LR
-   7IaoCfkrDz/Jnzgf8CWnHSBlf4Sd3LcC5YEHOQOkTBbPNpvTcoZH5gPUu
-   YWBUk0ss6U2ln5o5sZl7ERzVT2h07ieNWJ22qf4lvzDQhfiXGKNXpRwL+
-   gGTMAwimVeKRB0kt0buCBAnkIgLj9NSbD5ZIHXtYU2gJyi98I4m+Z4IAm
-   Q==;
-X-CSE-ConnectionGUID: xDDjPW7dSBGzLOEBPlT8Ww==
-X-CSE-MsgGUID: aL7b6cjcTM+VMqIAHB0srQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24380696"
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="24380696"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 17:43:16 -0700
-X-CSE-ConnectionGUID: 0TF1Qs4nRxmSO0LssqBdig==
-X-CSE-MsgGUID: nHhGW951T3ePC2vI+90hZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="89764067"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Sep 2024 17:43:10 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snSUl-000E7t-2r;
-	Mon, 09 Sep 2024 00:43:07 +0000
-Date: Mon, 9 Sep 2024 08:42:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mark Yao <markyao0591@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-	kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
-	Luis de Arquer <ldearquer@gmail.com>,
-	Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-Message-ID: <202409090615.l6BkuR5K-lkp@intel.com>
-References: <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
+	s=arc-20240116; t=1725845552; c=relaxed/simple;
+	bh=OV7RsPTtf5jTdNH+X7jXGLv6MDzHIDOCnPqNISKgzbQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=DJYeH5gNapccP+G0/IlabFm51Cdm9tVjZY8AKFAFR8qTJT6efbP+BHUNzZG9i85QMNrJ5rXR1XgNhd4M/dVVO5a3VgiQi7QgrncxuiDhuHnosKtiB5lBL6EFXecD/VANbNiVIIQk59G4eWpPtDyGv7RgNPuVZjcp9zWEZAqO2u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siengine.com; spf=pass smtp.mailfrom=siengine.com; arc=none smtp.client-ip=43.240.192.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siengine.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siengine.com
+Received: from dsgsiengine01.siengine.com ([10.8.1.61])
+	by mail03.siengine.com with ESMTPS id 4891VkE9085406
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 9 Sep 2024 09:31:46 +0800 (+08)
+	(envelope-from kimriver.liu@siengine.com)
+Received: from SEEXMB03-2019.siengine.com (SEEXMB03-2019.siengine.com [10.8.1.33])
+	by dsgsiengine01.siengine.com (SkyGuard) with ESMTPS id 4X28Sd20r8z7ZMjf;
+	Mon,  9 Sep 2024 09:31:45 +0800 (CST)
+Received: from SEEXMB03-2019.siengine.com (10.8.1.33) by
+ SEEXMB03-2019.siengine.com (10.8.1.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.1544.11; Mon, 9 Sep 2024 09:31:45 +0800
+Received: from SEEXMB03-2019.siengine.com ([fe80::23e0:1bbb:3ec9:73fe]) by
+ SEEXMB03-2019.siengine.com ([fe80::23e0:1bbb:3ec9:73fe%16]) with mapi id
+ 15.02.1544.011; Mon, 9 Sep 2024 09:31:45 +0800
+From: =?gb2312?B?TGl1IEtpbXJpdmVyL8H1vfC60w==?= <kimriver.liu@siengine.com>
+To: kernel test robot <lkp@intel.com>,
+        "jarkko.nikula@linux.intel.com"
+	<jarkko.nikula@linux.intel.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+        "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
+        "jsd@semihalf.com" <jsd@semihalf.com>,
+        "andi.shyti@kernel.org"
+	<andi.shyti@kernel.org>,
+        "linux-i2c@vger.kernel.org"
+	<linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] i2c: designware: fix master is holding SCL low while
+ ENABLE bit is disabled
+Thread-Topic: [PATCH] i2c: designware: fix master is holding SCL low while
+ ENABLE bit is disabled
+Thread-Index: AQHa/2duFR8zehOY/kSHdEPBwRT+f7JNYfWAgAFJ+9A=
+Date: Mon, 9 Sep 2024 01:31:45 +0000
+Message-ID: <d37f51a15b454217936c423512de6e39@siengine.com>
+References: <20240905074211.2278-1-kimriver.liu@siengine.com>
+ <202409082011.9JF6aYsk-lkp@intel.com>
+In-Reply-To: <202409082011.9JF6aYsk-lkp@intel.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
+X-DKIM-Results: [10.8.1.61]; dkim=none;
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:mail03.siengine.com 4891VkE9085406
 
-Hi Cristian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Ciocaltea/drm-bridge-synopsys-Add-DW-HDMI-QP-TX-Controller-support-library/20240906-092027
-base:   8400291e289ee6b2bf9779ff1c83a291501f017b
-patch link:    https://lore.kernel.org/r/20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb%40collabora.com
-patch subject: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-config: powerpc64-randconfig-r122-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090615.l6BkuR5K-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20240909/202409090615.l6BkuR5K-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409090615.l6BkuR5K-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c:679:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct dw_hdmi_qp * @@     got void [noderef] __iomem *[assigned] regs @@
-   drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c:679:24: sparse:     expected struct dw_hdmi_qp *
-   drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c:679:24: sparse:     got void [noderef] __iomem *[assigned] regs
-
-vim +679 drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  653  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  654  struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  655  				   struct drm_encoder *encoder,
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  656  				   const struct dw_hdmi_qp_plat_data *plat_data)
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  657  {
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  658  	struct device *dev = &pdev->dev;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  659  	struct dw_hdmi_qp *hdmi;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  660  	void __iomem *regs;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  661  	int ret;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  662  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  663  	if (!plat_data->phy_ops || !plat_data->phy_ops->init ||
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  664  	    !plat_data->phy_ops->disable || !plat_data->phy_ops->read_hpd) {
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  665  		dev_err(dev, "Missing platform PHY ops\n");
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  666  		return ERR_PTR(-ENODEV);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  667  	}
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  668  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  669  	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  670  	if (!hdmi)
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  671  		return ERR_PTR(-ENOMEM);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  672  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  673  	INIT_DELAYED_WORK(&hdmi->scramb_work, dw_hdmi_qp_scramb_work);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  674  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  675  	hdmi->dev = dev;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  676  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  677  	regs = devm_platform_ioremap_resource(pdev, 0);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  678  	if (IS_ERR(regs))
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06 @679  		return regs;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  680  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  681  	hdmi->regm = devm_regmap_init_mmio(dev, regs, &dw_hdmi_qp_regmap_config);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  682  	if (IS_ERR(hdmi->regm)) {
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  683  		dev_err(dev, "Failed to configure regmap\n");
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  684  		return ERR_CAST(hdmi->regm);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  685  	}
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  686  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  687  	hdmi->phy.ops = plat_data->phy_ops;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  688  	hdmi->phy.data = plat_data->phy_data;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  689  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  690  	dw_hdmi_qp_init_hw(hdmi);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  691  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  692  	ret = devm_request_threaded_irq(dev, plat_data->main_irq,
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  693  					dw_hdmi_qp_main_hardirq, NULL,
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  694  					IRQF_SHARED, dev_name(dev), hdmi);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  695  	if (ret)
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  696  		return ERR_PTR(ret);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  697  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  698  	hdmi->bridge.driver_private = hdmi;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  699  	hdmi->bridge.funcs = &dw_hdmi_qp_bridge_funcs;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  700  	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT |
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  701  			   DRM_BRIDGE_OP_EDID |
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  702  			   DRM_BRIDGE_OP_HDMI |
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  703  			   DRM_BRIDGE_OP_HPD;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  704  	hdmi->bridge.of_node = pdev->dev.of_node;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  705  	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  706  	hdmi->bridge.vendor = "Synopsys";
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  707  	hdmi->bridge.product = "DW HDMI QP TX";
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  708  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  709  	hdmi->bridge.ddc = dw_hdmi_qp_i2c_adapter(hdmi);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  710  	if (IS_ERR(hdmi->bridge.ddc))
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  711  		hdmi->bridge.ddc = NULL;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  712  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  713  	ret = devm_drm_bridge_add(dev, &hdmi->bridge);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  714  	if (ret)
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  715  		return ERR_PTR(ret);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  716  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  717  	ret = drm_bridge_attach(encoder, &hdmi->bridge, NULL,
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  718  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  719  	if (ret)
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  720  		return ERR_PTR(ret);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  721  
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  722  	return hdmi;
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  723  }
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  724  EXPORT_SYMBOL_GPL(dw_hdmi_qp_bind);
-4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  725  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SEmjrHJvYm90LA0KIFRvZGF5IEkgd2lsbCByZXNlbmQgYSB2ZXJzaW9uIHY3IHBhdGNoKFtQQVRD
+SCBWN10gaTJjOiBkZXNpZ253YXJlOiBmaXggbWFzdGVyIGlzIGhvbGRpbmcgU0NMIGxvdyB3aGls
+ZSBFTkFCTEUgYml0IGlzIGRpc2FibGVkKQ0KIGJhc2VkIG9uIHRoZSBsYXRlc3QgTGludXggbWFz
+dGVyIGJyYW5jaCB0byByZXNvbHZlIGNvbXBpbGUgZXJyb3JzLg0KDQotLS0tLS0tLS0tLS0tDQpC
+ZXN0IFJlZ2FyZHMsDQpLaW1yaXZlciBMaXUNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+CkZyb206IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPiANClNlbnQ6IDIwMjTE6jnU
+wjjI1SAyMTozMg0KVG86IExpdSBLaW1yaXZlci/B9b3wutMgPGtpbXJpdmVyLmxpdUBzaWVuZ2lu
+ZS5jb20+OyBqYXJra28ubmlrdWxhQGxpbnV4LmludGVsLmNvbQ0KQ2M6IG9lLWtidWlsZC1hbGxA
+bGlzdHMubGludXguZGV2OyBhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb207IG1pa2Eu
+d2VzdGVyYmVyZ0BsaW51eC5pbnRlbC5jb207IGpzZEBzZW1paGFsZi5jb207IGFuZGkuc2h5dGlA
+a2VybmVsLm9yZzsgbGludXgtaTJjQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIu
+a2VybmVsLm9yZzsgTGl1IEtpbXJpdmVyL8H1vfC60yA8a2ltcml2ZXIubGl1QHNpZW5naW5lLmNv
+bT4NClN1YmplY3Q6IFJlOiBbUEFUQ0hdIGkyYzogZGVzaWdud2FyZTogZml4IG1hc3RlciBpcyBo
+b2xkaW5nIFNDTCBsb3cgd2hpbGUgRU5BQkxFIGJpdCBpcyBkaXNhYmxlZA0KDQpIaSBraW1yaXZl
+ciwNCg0Ka2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9sbG93aW5nIGJ1aWxkIGVycm9y
+czoNCg0KW2F1dG8gYnVpbGQgdGVzdCBFUlJPUiBvbiBhbmRpLXNoeXRpL2kyYy9pMmMtaG9zdF0N
+ClthbHNvIGJ1aWxkIHRlc3QgRVJST1Igb24gbGludXMvbWFzdGVyIHY2LjExLXJjNiBuZXh0LTIw
+MjQwOTA2XQ0KW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGllZCB0byB0aGUgd3JvbmcgZ2l0IHRyZWUs
+IGtpbmRseSBkcm9wIHVzIGEgbm90ZS4NCkFuZCB3aGVuIHN1Ym1pdHRpbmcgcGF0Y2gsIHdlIHN1
+Z2dlc3QgdG8gdXNlICctLWJhc2UnIGFzIGRvY3VtZW50ZWQgaW4NCmh0dHBzOi8vZ2l0LXNjbS5j
+b20vZG9jcy9naXQtZm9ybWF0LXBhdGNoI19iYXNlX3RyZWVfaW5mb3JtYXRpb25dDQoNCnVybDog
+ICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0cy9raW1yaXZl
+ci1saXUvaTJjLWRlc2lnbndhcmUtZml4LW1hc3Rlci1pcy1ob2xkaW5nLVNDTC1sb3ctd2hpbGUt
+RU5BQkxFLWJpdC1pcy1kaXNhYmxlZC8yMDI0MDkwNS0xNTQ3MTENCmJhc2U6ICAgaHR0cHM6Ly9n
+aXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvYW5kaS5zaHl0aS9saW51eC5n
+aXQgaTJjL2kyYy1ob3N0DQpwYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9y
+LzIwMjQwOTA1MDc0MjExLjIyNzgtMS1raW1yaXZlci5saXUlNDBzaWVuZ2luZS5jb20NCnBhdGNo
+IHN1YmplY3Q6IFtQQVRDSF0gaTJjOiBkZXNpZ253YXJlOiBmaXggbWFzdGVyIGlzIGhvbGRpbmcg
+U0NMIGxvdyB3aGlsZSBFTkFCTEUgYml0IGlzIGRpc2FibGVkDQpjb25maWc6IHNoLWFsbG1vZGNv
+bmZpZyAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjQwOTA4LzIw
+MjQwOTA4MjAxMS45SkY2YVlzay1sa3BAaW50ZWwuY29tL2NvbmZpZykNCmNvbXBpbGVyOiBzaDQt
+bGludXgtZ2NjIChHQ0MpIDE0LjEuMA0KcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKTog
+KGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI0MDkwOC8yMDI0MDkw
+ODIwMTEuOUpGNmFZc2stbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpDQoNCklmIHlvdSBmaXggdGhl
+IGlzc3VlIGluIGEgc2VwYXJhdGUgcGF0Y2gvY29tbWl0IChpLmUuIG5vdCBqdXN0IGEgbmV3IHZl
+cnNpb24gb2YNCnRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRh
+Z3MNCnwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KfCBD
+bG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWtidWlsZC1hbGwvMjAyNDA5MDgyMDEx
+LjlKRjZhWXNrLWxrcEBpbnRlbC5jb20vDQoNCkFsbCBlcnJvcnMgKG5ldyBvbmVzIHByZWZpeGVk
+IGJ5ID4+KToNCg0KICAgZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1kZXNpZ253YXJlLWNvbW1vbi5j
+OiBJbiBmdW5jdGlvbiAnX19pMmNfZHdfZGlzYWJsZSc6DQo+PiBkcml2ZXJzL2kyYy9idXNzZXMv
+aTJjLWRlc2lnbndhcmUtY29tbW9uLmM6NTM4OjMyOiBlcnJvcjogJ0RXX0lDX0VOQUJMRV9FTkFC
+TEUnIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKTsgZGlkIHlvdSBtZWFu
+ICdEV19JQ19FTkFCTEVfU1RBVFVTJz8NCiAgICAgNTM4IHwgICAgICAgICAgICAgICAgIGlmICgh
+KGVuYWJsZSAmIERXX0lDX0VOQUJMRV9FTkFCTEUpKSB7DQogICAgICAgICB8ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+DQogICAgICAgICB8ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBEV19JQ19FTkFCTEVfU1RBVFVTDQogICBkcml2ZXJz
+L2kyYy9idXNzZXMvaTJjLWRlc2lnbndhcmUtY29tbW9uLmM6NTM4OjMyOiBub3RlOiBlYWNoIHVu
+ZGVjbGFyZWQgaWRlbnRpZmllciBpcyByZXBvcnRlZCBvbmx5IG9uY2UgZm9yIGVhY2ggZnVuY3Rp
+b24gaXQgYXBwZWFycyBpbg0KDQoNCnZpbSArNTM4IGRyaXZlcnMvaTJjL2J1c3Nlcy9pMmMtZGVz
+aWdud2FyZS1jb21tb24uYw0KDQogICA1MjMJDQogICA1MjQJdm9pZCBfX2kyY19kd19kaXNhYmxl
+KHN0cnVjdCBkd19pMmNfZGV2ICpkZXYpDQogICA1MjUJew0KICAgNTI2CQl1bnNpZ25lZCBpbnQg
+cmF3X2ludHJfc3RhdHM7DQogICA1MjcJCXVuc2lnbmVkIGludCBlbmFibGU7DQogICA1MjgJCWlu
+dCB0aW1lb3V0ID0gMTAwOw0KICAgNTI5CQlib29sIGFib3J0X25lZWRlZDsNCiAgIDUzMAkJdW5z
+aWduZWQgaW50IHN0YXR1czsNCiAgIDUzMQkJaW50IHJldDsNCiAgIDUzMgkNCiAgIDUzMwkJcmVn
+bWFwX3JlYWQoZGV2LT5tYXAsIERXX0lDX1JBV19JTlRSX1NUQVQsICZyYXdfaW50cl9zdGF0cyk7
+DQogICA1MzQJCXJlZ21hcF9yZWFkKGRldi0+bWFwLCBEV19JQ19FTkFCTEUsICZlbmFibGUpOw0K
+ICAgNTM1CQ0KICAgNTM2CQlhYm9ydF9uZWVkZWQgPSByYXdfaW50cl9zdGF0cyAmIERXX0lDX0lO
+VFJfTVNUX09OX0hPTEQ7DQogICA1MzcJCWlmIChhYm9ydF9uZWVkZWQpIHsNCiA+IDUzOAkJCWlm
+ICghKGVuYWJsZSAmIERXX0lDX0VOQUJMRV9FTkFCTEUpKSB7DQogICA1MzkJCQkJcmVnbWFwX3dy
+aXRlKGRldi0+bWFwLCBEV19JQ19FTkFCTEUsIERXX0lDX0VOQUJMRV9FTkFCTEUpOw0KICAgNTQw
+CQkJCWVuYWJsZSB8PSBEV19JQ19FTkFCTEVfRU5BQkxFOw0KICAgNTQxCQ0KICAgNTQyCQkJCS8q
+DQogICA1NDMJCQkJICogV2FpdCB0d28gaWNfY2xrIGRlbGF5IHdoZW4gZW5hYmxpbmcgdGhlIGky
+YyB0byBlbnN1cmUgRU5BQkxFIGJpdA0KICAgNTQ0CQkJCSAqIGlzIGFscmVhZHkgc2V0IGJ5IHRo
+ZSBkcml2ZXIgKGZvciA0MDBLSHogdGhpcyBpcyAyNXVzKQ0KICAgNTQ1CQkJCSAqIGFzIGRlc2Ny
+aWJlZCBpbiB0aGUgRGVzaWduV2FyZSBJMkMgZGF0YWJvb2suDQogICA1NDYJCQkJICovDQogICA1
+NDcJCQkJZnNsZWVwKDI1KTsNCiAgIDU0OAkJCX0NCiAgIDU0OQkNCiAgIDU1MAkJCXJlZ21hcF93
+cml0ZShkZXYtPm1hcCwgRFdfSUNfRU5BQkxFLCBlbmFibGUgfCBEV19JQ19FTkFCTEVfQUJPUlQp
+Ow0KICAgNTUxCQkJcmV0ID0gcmVnbWFwX3JlYWRfcG9sbF90aW1lb3V0KGRldi0+bWFwLCBEV19J
+Q19FTkFCTEUsIGVuYWJsZSwNCiAgIDU1MgkJCQkJCSAgICAgICAhKGVuYWJsZSAmIERXX0lDX0VO
+QUJMRV9BQk9SVCksIDEwLA0KICAgNTUzCQkJCQkJICAgICAgIDEwMCk7DQogICA1NTQJCQlpZiAo
+cmV0KQ0KICAgNTU1CQkJCWRldl9lcnIoZGV2LT5kZXYsICJ0aW1lb3V0IHdoaWxlIHRyeWluZyB0
+byBhYm9ydCBjdXJyZW50IHRyYW5zZmVyXG4iKTsNCiAgIDU1NgkJfQ0KICAgNTU3CQ0KICAgNTU4
+CQlkbyB7DQogICA1NTkJCQlfX2kyY19kd19kaXNhYmxlX25vd2FpdChkZXYpOw0KICAgNTYwCQkJ
+LyoNCiAgIDU2MQkJCSAqIFRoZSBlbmFibGUgc3RhdHVzIHJlZ2lzdGVyIG1heSBiZSB1bmltcGxl
+bWVudGVkLCBidXQNCiAgIDU2MgkJCSAqIGluIHRoYXQgY2FzZSB0aGlzIHRlc3QgcmVhZHMgemVy
+byBhbmQgZXhpdHMgdGhlIGxvb3AuDQogICA1NjMJCQkgKi8NCiAgIDU2NAkJCXJlZ21hcF9yZWFk
+KGRldi0+bWFwLCBEV19JQ19FTkFCTEVfU1RBVFVTLCAmc3RhdHVzKTsNCiAgIDU2NQkJCWlmICgo
+c3RhdHVzICYgMSkgPT0gMCkNCiAgIDU2NgkJCQlyZXR1cm47DQogICA1NjcJDQogICA1NjgJCQkv
+Kg0KICAgNTY5CQkJICogV2FpdCAxMCB0aW1lcyB0aGUgc2lnbmFsaW5nIHBlcmlvZCBvZiB0aGUg
+aGlnaGVzdCBJMkMNCiAgIDU3MAkJCSAqIHRyYW5zZmVyIHN1cHBvcnRlZCBieSB0aGUgZHJpdmVy
+IChmb3IgNDAwS0h6IHRoaXMgaXMNCiAgIDU3MQkJCSAqIDI1dXMpIGFzIGRlc2NyaWJlZCBpbiB0
+aGUgRGVzaWduV2FyZSBJMkMgZGF0YWJvb2suDQogICA1NzIJCQkgKi8NCiAgIDU3MwkJCXVzbGVl
+cF9yYW5nZSgyNSwgMjUwKTsNCiAgIDU3NAkJfSB3aGlsZSAodGltZW91dC0tKTsNCiAgIDU3NQkN
+CiAgIDU3NgkJZGV2X3dhcm4oZGV2LT5kZXYsICJ0aW1lb3V0IGluIGRpc2FibGluZyBhZGFwdGVy
+XG4iKTsNCiAgIDU3Nwl9DQogICA1NzgJDQoNCi0tIA0KMC1EQVkgQ0kgS2VybmVsIFRlc3QgU2Vy
+dmljZQ0KaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xrcC10ZXN0cy93aWtpDQo=
