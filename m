@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66895125A9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 16:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6462C87A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 16:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725897692; cv=none; b=buXslCrrO9whISBgu24I3124YxR73bbJ7GT0cJMj1LC/dswiFzRTmnuIU3t5gyNuhK5IvQiKLxa/qk4U+DyvJD0BVAlELFtspPiB7w9LYDVE7hJohcoP9kT8G/B/byc0c2nhgY5NSj/xDNvrJfLtlWYWvTP8KeLRbDTG1x/2jSA=
+	t=1725897695; cv=none; b=RvMNflxX2hhCZVPnU68Iozviu7PF2Jmm0la9PlZY/MmJCr1Vog07nXopvDvm+B7IfbCaXjyiO/oZvzjbCoC4dm+5K0MRyooX4koU/lT0A3+6EqYI3mAC+vB2v8WOhfmlSaVU13z+3T/s55bXvCXWuomAsn++QGsoghz35Ueh2iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725897692; c=relaxed/simple;
-	bh=P7wnM+uyMXb8c82sKUcpv4VkiuN8a/daUI90eDYSALQ=;
+	s=arc-20240116; t=1725897695; c=relaxed/simple;
+	bh=QTQ9eEFKPipaW6Y+SvjIjmdbz7kWa++fIa1eSFWzifc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t8bo5XwMNdZkUe4HvAzNtAf56RqzdhAPX2pWxyNrg/uVHY44sK5k+cVagVjpwjrJEamCp6Hnnd4PV7+DnVsKdLhFx2ZD5TYY9AClcaujST52otgwA2TukxUc54gJvfo9DGdA8B6dpA3Hz8odY35ELvNmGUrjUFzTZ9mHFzkPby0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LsjJHh2i; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=QmBc02lKg+UFCvt+uilGu6C5+QRgF8k2yHxhF6oERwm81mvvCQ3PSy8ERL0khLb2/YZU/jbtV9+ZGu7FaGt0Wh+RDkHevnnBNutDN/igtWgwl1wikG6PMKX4LNJ0DFdbh/uALaLfBWegwx9fGeEu3aYbTAMCe4Q/6HHMb3BbNRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5AB2+Gt; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LsjJHh2i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5AB2+Gt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725897690; x=1757433690;
+  t=1725897693; x=1757433693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P7wnM+uyMXb8c82sKUcpv4VkiuN8a/daUI90eDYSALQ=;
-  b=LsjJHh2i1POZdMjFnVJd5EYQrwl32TdEdMMQyOhRaeYC5LNk+dC41SBV
-   U99/4f86mo+y41SiAvL3ueMVZ8L3UWMYMG6H95Yd9UOc1CXNowfXHf6S+
-   r5DEvHGo0jQRHP8JtZ9+ADr/iHn15kocFogK96jlOHreysujvNOKRk6zX
-   RfnReTyGj6VKxFxg0zlR3ktsUVXFKSXx8l1RiFs7lAcqxCQYSL65je0CP
-   FnYMiUcNG8SeTqRvFBGhqc5Z8EO7VIhvxFTInCFSf2+bLWj0yPPZlZwAw
-   +VfbVIf9n8XQUcpqinQ+iU6xvnIxH/xcbv4Gmo0WnxOcS9/tAm9YATQkj
-   Q==;
-X-CSE-ConnectionGUID: +t79J7PmQ7qo1o1Zr6yEGw==
-X-CSE-MsgGUID: NP+6rXehT/O29yFubwyusg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="42112705"
+  bh=QTQ9eEFKPipaW6Y+SvjIjmdbz7kWa++fIa1eSFWzifc=;
+  b=B5AB2+GtY6GoyUGEhQ36xZJvE4F6UW4uuVzA0d8vH7bgYTH32xKQkUsZ
+   7D50yd7dlcZODqhBoxUXUFrE1c66cA3G7dXxi/v24M+lgZzuTHxVaK+KM
+   +5/o7UYdxSo2/rEADiocg9FDxB1Hdq6ryRWdQwna+Pk8icIHV+Wk5ReUs
+   x91j91TLkJYx/PAfTOse9ejYzXaXs4ji7mI1U+BLD8+c+Ol6LAMq9+z6I
+   cZjsjK+XJChr75qq/WFvyK+QjrZgw7wsLNAYFZvKgsH2BJIE6F6leStgs
+   h+LQh04QPjzNTRIkQgw72Bn3pq0CaudO3FOIFli1vdbWwGK1t7Qp9UeSg
+   A==;
+X-CSE-ConnectionGUID: 54AECLgUSzaGM3b94VVMzg==
+X-CSE-MsgGUID: kUAz40hbT8GCiLsCfIiByQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="42112707"
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="42112705"
+   d="scan'208";a="42112707"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 09:01:29 -0700
-X-CSE-ConnectionGUID: 9TnlCdEgT2GNg58Oyq8Cqw==
-X-CSE-MsgGUID: DVdaaoo4Ssu1F1AvqGmEXg==
+X-CSE-ConnectionGUID: yWPrelTVSh6JrR1AIObJlw==
+X-CSE-MsgGUID: CTzjhUZNTfOdfRhp7AwS0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="90001747"
+   d="scan'208";a="90001746"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 09 Sep 2024 09:01:28 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sngpS-000Euw-14;
+	id 1sngpS-000Euu-0z;
 	Mon, 09 Sep 2024 16:01:26 +0000
-Date: Tue, 10 Sep 2024 00:01:18 +0800
+Date: Tue, 10 Sep 2024 00:01:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-garbage 249/258] mm/jitalloc.c:46:35:
- error: initialization of 'void *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202409100005.1q6ceW6d-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-garbage 234/258]
+ lib/zstd/compress/zstd_opt.c:698:49: error: implicit declaration of function
+ 'memcmp'
+Message-ID: <202409092338.XidK7Y77-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,189 +63,283 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kent,
-
-First bad commit (maybe != root cause):
-
 tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
 head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
-commit: 0dc0c36d5a2a19098aba0639a99b1574aec0f286 [249/258] bcachefs: switch to jitalloc
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240910/202409100005.1q6ceW6d-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100005.1q6ceW6d-lkp@intel.com/reproduce)
+commit: 7bf0cb0943e978f0e501d865b587734b35ac5ee7 [234/258] XXX zstd debug
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240909/202409092338.XidK7Y77-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409092338.XidK7Y77-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409100005.1q6ceW6d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409092338.XidK7Y77-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/jitalloc.c: In function 'jit_slab_alloc':
-   mm/jitalloc.c:46:35: error: implicit declaration of function 'module_alloc' [-Wimplicit-function-declaration]
-      46 |         void *executably_mapped = module_alloc(PAGE_SIZE);
-         |                                   ^~~~~~~~~~~~
->> mm/jitalloc.c:46:35: error: initialization of 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   mm/jitalloc.c: In function 'jit_update':
->> mm/jitalloc.c:106:9: error: implicit declaration of function 'text_poke_copy'; did you mean 'text_poke_sync'? [-Wimplicit-function-declaration]
-     106 |         text_poke_copy(buf, new_buf, len);
-         |         ^~~~~~~~~~~~~~
-         |         text_poke_sync
-   mm/jitalloc.c: In function 'jit_alloc':
->> mm/jitalloc.c:162:19: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     162 |                 p = module_alloc(len);
-         |                   ^
+   In file included from arch/alpha/include/asm/bug.h:23,
+                    from lib/zstd/compress/../common/debug.h:35,
+                    from lib/zstd/compress/../common/mem.h:22,
+                    from lib/zstd/compress/../common/cpu.h:19,
+                    from lib/zstd/compress/../common/zstd_internal.h:23,
+                    from lib/zstd/compress/zstd_compress_internal.h:21,
+                    from lib/zstd/compress/zstd_opt.c:11:
+   lib/zstd/compress/zstd_opt.c: In function 'ZSTD_insertBtAndGetAllMatches':
+>> lib/zstd/compress/zstd_opt.c:698:49: error: implicit declaration of function 'memcmp' [-Werror=implicit-function-declaration]
+     698 |             if (matchIndex >= dictLimit) assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
+         |                                                 ^~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   lib/zstd/compress/zstd_opt.c:698:42: note: in expansion of macro 'assert'
+     698 |             if (matchIndex >= dictLimit) assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
+         |                                          ^~~~~~
+   lib/zstd/compress/zstd_opt.c:14:1: note: include '<string.h>' or provide a declaration of 'memcmp'
+      13 | #include "zstd_opt.h"
+     +++ |+#include <string.h>
+      14 | 
+   cc1: some warnings being treated as errors
 
 
-vim +46 mm/jitalloc.c
+vim +/memcmp +698 lib/zstd/compress/zstd_opt.c
 
-7a091cbeb2d972e Kent Overstreet 2023-05-17   35  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   36  #define folio_jit_slab(folio)		(_Generic((folio),			\
-7a091cbeb2d972e Kent Overstreet 2023-05-17   37  	const struct folio *:		(const struct jit_slab *)(folio),	\
-7a091cbeb2d972e Kent Overstreet 2023-05-17   38  	struct folio *:			(struct jit_slab *)(folio)))
-7a091cbeb2d972e Kent Overstreet 2023-05-17   39  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   40  #define jit_slab_folio(s)		(_Generic((s),				\
-7a091cbeb2d972e Kent Overstreet 2023-05-17   41  	const struct jit_slab *:	(const struct folio *)s,		\
-7a091cbeb2d972e Kent Overstreet 2023-05-17   42  	struct jit_slab *:		(struct folio *)s))
-7a091cbeb2d972e Kent Overstreet 2023-05-17   43  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   44  static struct jit_slab *jit_slab_alloc(struct jit_cache *cache)
-7a091cbeb2d972e Kent Overstreet 2023-05-17   45  {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  @46  	void *executably_mapped = module_alloc(PAGE_SIZE);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   47  	struct page *page;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   48  	struct folio *folio;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   49  	struct jit_slab *slab;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   50  	unsigned long *objs_allocated;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   51  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   52  	if (!executably_mapped)
-7a091cbeb2d972e Kent Overstreet 2023-05-17   53  		return NULL;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   54  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   55  	objs_allocated = kcalloc(BITS_TO_LONGS(cache->objs_per_slab), sizeof(unsigned long), GFP_KERNEL);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   56  	if (!objs_allocated ) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17   57  		vfree(executably_mapped);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   58  		return NULL;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   59  	}
-7a091cbeb2d972e Kent Overstreet 2023-05-17   60  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   61  	set_vm_flush_reset_perms(executably_mapped);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   62  	set_memory_rox((unsigned long) executably_mapped, 1);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   63  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   64  	page = vmalloc_to_page(executably_mapped);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   65  	folio = page_folio(page);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   66  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   67  	__folio_set_slab(folio);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   68  	slab			= folio_jit_slab(folio);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   69  	slab->cache		= cache;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   70  	slab->executably_mapped	= executably_mapped;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   71  	slab->objs_allocated = objs_allocated;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   72  	INIT_LIST_HEAD(&slab->list);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   73  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   74  	return slab;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   75  }
-7a091cbeb2d972e Kent Overstreet 2023-05-17   76  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   77  static void *jit_cache_alloc(void *buf, size_t len, struct jit_cache *cache)
-7a091cbeb2d972e Kent Overstreet 2023-05-17   78  {
-7a091cbeb2d972e Kent Overstreet 2023-05-17   79  	struct jit_slab *s =
-7a091cbeb2d972e Kent Overstreet 2023-05-17   80  		list_first_entry_or_null(&cache->partial, struct jit_slab, list) ?:
-7a091cbeb2d972e Kent Overstreet 2023-05-17   81  		jit_slab_alloc(cache);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   82  	unsigned obj_idx, nr_allocated;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   83  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   84  	if (!s)
-7a091cbeb2d972e Kent Overstreet 2023-05-17   85  		return NULL;
-7a091cbeb2d972e Kent Overstreet 2023-05-17   86  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   87  	obj_idx = find_first_zero_bit(s->objs_allocated, cache->objs_per_slab);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   88  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   89  	BUG_ON(obj_idx >= cache->objs_per_slab);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   90  	__set_bit(obj_idx, s->objs_allocated);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   91  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   92  	nr_allocated = bitmap_weight(s->objs_allocated, s->cache->objs_per_slab);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   93  
-7a091cbeb2d972e Kent Overstreet 2023-05-17   94  	if (nr_allocated == s->cache->objs_per_slab) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17   95  		list_del_init(&s->list);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   96  	} else if (nr_allocated == 1) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17   97  		list_del(&s->list);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   98  		list_add(&s->list, &s->cache->partial);
-7a091cbeb2d972e Kent Overstreet 2023-05-17   99  	}
-7a091cbeb2d972e Kent Overstreet 2023-05-17  100  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  101  	return s->executably_mapped + (obj_idx << cache->obj_size_bits);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  102  }
-7a091cbeb2d972e Kent Overstreet 2023-05-17  103  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  104  void jit_update(void *buf, void *new_buf, size_t len)
-7a091cbeb2d972e Kent Overstreet 2023-05-17  105  {
-7a091cbeb2d972e Kent Overstreet 2023-05-17 @106  	text_poke_copy(buf, new_buf, len);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  107  }
-7a091cbeb2d972e Kent Overstreet 2023-05-17  108  EXPORT_SYMBOL_GPL(jit_update);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  109  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  110  void jit_free(void *buf)
-7a091cbeb2d972e Kent Overstreet 2023-05-17  111  {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  112  	struct page *page;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  113  	struct folio *folio;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  114  	struct jit_slab *s;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  115  	unsigned obj_idx, nr_allocated;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  116  	size_t offset;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  117  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  118  	if (!buf)
-7a091cbeb2d972e Kent Overstreet 2023-05-17  119  		return;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  120  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  121  	page	= vmalloc_to_page(buf);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  122  	folio	= page_folio(page);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  123  	offset	= offset_in_folio(folio, buf);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  124  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  125  	if (!folio_test_slab(folio)) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  126  		vfree(buf);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  127  		return;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  128  	}
-7a091cbeb2d972e Kent Overstreet 2023-05-17  129  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  130  	s = folio_jit_slab(folio);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  131  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  132  	mutex_lock(&jit_alloc_lock);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  133  	obj_idx = offset >> s->cache->obj_size_bits;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  134  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  135  	__clear_bit(obj_idx, s->objs_allocated);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  136  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  137  	nr_allocated = bitmap_weight(s->objs_allocated, s->cache->objs_per_slab);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  138  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  139  	if (nr_allocated == 0) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  140  		list_del(&s->list);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  141  		kfree(s->objs_allocated);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  142  		folio_put(folio);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  143  	} else if (nr_allocated + 1 == s->cache->objs_per_slab) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  144  		list_del(&s->list);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  145  		list_add(&s->list, &s->cache->partial);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  146  	}
-7a091cbeb2d972e Kent Overstreet 2023-05-17  147  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  148  	mutex_unlock(&jit_alloc_lock);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  149  }
-7a091cbeb2d972e Kent Overstreet 2023-05-17  150  EXPORT_SYMBOL_GPL(jit_free);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  151  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  152  void *jit_alloc(void *buf, size_t len)
-7a091cbeb2d972e Kent Overstreet 2023-05-17  153  {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  154  	unsigned jit_cache_idx = ilog2(roundup_pow_of_two(len) / 16);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  155  	void *p;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  156  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  157  	if (jit_cache_idx < NR_JIT_CACHES) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  158  		mutex_lock(&jit_alloc_lock);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  159  		p = jit_cache_alloc(buf, len, &jit_caches[jit_cache_idx]);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  160  		mutex_unlock(&jit_alloc_lock);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  161  	} else {
-7a091cbeb2d972e Kent Overstreet 2023-05-17 @162  		p = module_alloc(len);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  163  		if (p) {
-7a091cbeb2d972e Kent Overstreet 2023-05-17  164  			set_vm_flush_reset_perms(p);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  165  			set_memory_rox((unsigned long) p, DIV_ROUND_UP(len, PAGE_SIZE));
-7a091cbeb2d972e Kent Overstreet 2023-05-17  166  		}
-7a091cbeb2d972e Kent Overstreet 2023-05-17  167  	}
-7a091cbeb2d972e Kent Overstreet 2023-05-17  168  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  169  	if (p && buf)
-7a091cbeb2d972e Kent Overstreet 2023-05-17  170  		jit_update(p, buf, len);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  171  
-7a091cbeb2d972e Kent Overstreet 2023-05-17  172  	return p;
-7a091cbeb2d972e Kent Overstreet 2023-05-17  173  }
-7a091cbeb2d972e Kent Overstreet 2023-05-17  174  EXPORT_SYMBOL_GPL(jit_alloc);
-7a091cbeb2d972e Kent Overstreet 2023-05-17  175  
+e0c1b49f5b674c Nick Terrell 2020-09-11  554  
+e0c1b49f5b674c Nick Terrell 2020-09-11  555  FORCE_INLINE_TEMPLATE
+e0c1b49f5b674c Nick Terrell 2020-09-11  556  U32 ZSTD_insertBtAndGetAllMatches (
+e0c1b49f5b674c Nick Terrell 2020-09-11  557                      ZSTD_match_t* matches,   /* store result (found matches) in this table (presumed large enough) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  558                      ZSTD_matchState_t* ms,
+e0c1b49f5b674c Nick Terrell 2020-09-11  559                      U32* nextToUpdate3,
+e0c1b49f5b674c Nick Terrell 2020-09-11  560                      const BYTE* const ip, const BYTE* const iLimit, const ZSTD_dictMode_e dictMode,
+e0c1b49f5b674c Nick Terrell 2020-09-11  561                      const U32 rep[ZSTD_REP_NUM],
+e0c1b49f5b674c Nick Terrell 2020-09-11  562                      U32 const ll0,   /* tells if associated literal length is 0 or not. This value must be 0 or 1 */
+e0c1b49f5b674c Nick Terrell 2020-09-11  563                      const U32 lengthToBeat,
+e0c1b49f5b674c Nick Terrell 2020-09-11  564                      U32 const mls /* template */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  565  {
+e0c1b49f5b674c Nick Terrell 2020-09-11  566      const ZSTD_compressionParameters* const cParams = &ms->cParams;
+e0c1b49f5b674c Nick Terrell 2020-09-11  567      U32 const sufficient_len = MIN(cParams->targetLength, ZSTD_OPT_NUM -1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  568      const BYTE* const base = ms->window.base;
+e0c1b49f5b674c Nick Terrell 2020-09-11  569      U32 const curr = (U32)(ip-base);
+e0c1b49f5b674c Nick Terrell 2020-09-11  570      U32 const hashLog = cParams->hashLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  571      U32 const minMatch = (mls==3) ? 3 : 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  572      U32* const hashTable = ms->hashTable;
+e0c1b49f5b674c Nick Terrell 2020-09-11  573      size_t const h  = ZSTD_hashPtr(ip, hashLog, mls);
+e0c1b49f5b674c Nick Terrell 2020-09-11  574      U32 matchIndex  = hashTable[h];
+e0c1b49f5b674c Nick Terrell 2020-09-11  575      U32* const bt   = ms->chainTable;
+e0c1b49f5b674c Nick Terrell 2020-09-11  576      U32 const btLog = cParams->chainLog - 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  577      U32 const btMask= (1U << btLog) - 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  578      size_t commonLengthSmaller=0, commonLengthLarger=0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  579      const BYTE* const dictBase = ms->window.dictBase;
+e0c1b49f5b674c Nick Terrell 2020-09-11  580      U32 const dictLimit = ms->window.dictLimit;
+e0c1b49f5b674c Nick Terrell 2020-09-11  581      const BYTE* const dictEnd = dictBase + dictLimit;
+e0c1b49f5b674c Nick Terrell 2020-09-11  582      const BYTE* const prefixStart = base + dictLimit;
+e0c1b49f5b674c Nick Terrell 2020-09-11  583      U32 const btLow = (btMask >= curr) ? 0 : curr - btMask;
+e0c1b49f5b674c Nick Terrell 2020-09-11  584      U32 const windowLow = ZSTD_getLowestMatchIndex(ms, curr, cParams->windowLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  585      U32 const matchLow = windowLow ? windowLow : 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  586      U32* smallerPtr = bt + 2*(curr&btMask);
+e0c1b49f5b674c Nick Terrell 2020-09-11  587      U32* largerPtr  = bt + 2*(curr&btMask) + 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  588      U32 matchEndIdx = curr+8+1;   /* farthest referenced position of any match => detects repetitive patterns */
+e0c1b49f5b674c Nick Terrell 2020-09-11  589      U32 dummy32;   /* to be nullified at the end */
+e0c1b49f5b674c Nick Terrell 2020-09-11  590      U32 mnum = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  591      U32 nbCompares = 1U << cParams->searchLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  592  
+e0c1b49f5b674c Nick Terrell 2020-09-11  593      const ZSTD_matchState_t* dms    = dictMode == ZSTD_dictMatchState ? ms->dictMatchState : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  594      const ZSTD_compressionParameters* const dmsCParams =
+e0c1b49f5b674c Nick Terrell 2020-09-11  595                                        dictMode == ZSTD_dictMatchState ? &dms->cParams : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  596      const BYTE* const dmsBase       = dictMode == ZSTD_dictMatchState ? dms->window.base : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  597      const BYTE* const dmsEnd        = dictMode == ZSTD_dictMatchState ? dms->window.nextSrc : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  598      U32         const dmsHighLimit  = dictMode == ZSTD_dictMatchState ? (U32)(dmsEnd - dmsBase) : 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  599      U32         const dmsLowLimit   = dictMode == ZSTD_dictMatchState ? dms->window.lowLimit : 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  600      U32         const dmsIndexDelta = dictMode == ZSTD_dictMatchState ? windowLow - dmsHighLimit : 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  601      U32         const dmsHashLog    = dictMode == ZSTD_dictMatchState ? dmsCParams->hashLog : hashLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  602      U32         const dmsBtLog      = dictMode == ZSTD_dictMatchState ? dmsCParams->chainLog - 1 : btLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  603      U32         const dmsBtMask     = dictMode == ZSTD_dictMatchState ? (1U << dmsBtLog) - 1 : 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  604      U32         const dmsBtLow      = dictMode == ZSTD_dictMatchState && dmsBtMask < dmsHighLimit - dmsLowLimit ? dmsHighLimit - dmsBtMask : dmsLowLimit;
+e0c1b49f5b674c Nick Terrell 2020-09-11  605  
+e0c1b49f5b674c Nick Terrell 2020-09-11  606      size_t bestLength = lengthToBeat-1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  607      DEBUGLOG(8, "ZSTD_insertBtAndGetAllMatches: current=%u", curr);
+e0c1b49f5b674c Nick Terrell 2020-09-11  608  
+e0c1b49f5b674c Nick Terrell 2020-09-11  609      /* check repCode */
+e0c1b49f5b674c Nick Terrell 2020-09-11  610      assert(ll0 <= 1);   /* necessarily 1 or 0 */
+e0c1b49f5b674c Nick Terrell 2020-09-11  611      {   U32 const lastR = ZSTD_REP_NUM + ll0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  612          U32 repCode;
+e0c1b49f5b674c Nick Terrell 2020-09-11  613          for (repCode = ll0; repCode < lastR; repCode++) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  614              U32 const repOffset = (repCode==ZSTD_REP_NUM) ? (rep[0] - 1) : rep[repCode];
+e0c1b49f5b674c Nick Terrell 2020-09-11  615              U32 const repIndex = curr - repOffset;
+e0c1b49f5b674c Nick Terrell 2020-09-11  616              U32 repLen = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  617              assert(curr >= dictLimit);
+e0c1b49f5b674c Nick Terrell 2020-09-11  618              if (repOffset-1 /* intentional overflow, discards 0 and -1 */ < curr-dictLimit) {  /* equivalent to `curr > repIndex >= dictLimit` */
+e0c1b49f5b674c Nick Terrell 2020-09-11  619                  /* We must validate the repcode offset because when we're using a dictionary the
+e0c1b49f5b674c Nick Terrell 2020-09-11  620                   * valid offset range shrinks when the dictionary goes out of bounds.
+e0c1b49f5b674c Nick Terrell 2020-09-11  621                   */
+e0c1b49f5b674c Nick Terrell 2020-09-11  622                  if ((repIndex >= windowLow) & (ZSTD_readMINMATCH(ip, minMatch) == ZSTD_readMINMATCH(ip - repOffset, minMatch))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  623                      repLen = (U32)ZSTD_count(ip+minMatch, ip+minMatch-repOffset, iLimit) + minMatch;
+e0c1b49f5b674c Nick Terrell 2020-09-11  624                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  625              } else {  /* repIndex < dictLimit || repIndex >= curr */
+e0c1b49f5b674c Nick Terrell 2020-09-11  626                  const BYTE* const repMatch = dictMode == ZSTD_dictMatchState ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  627                                               dmsBase + repIndex - dmsIndexDelta :
+e0c1b49f5b674c Nick Terrell 2020-09-11  628                                               dictBase + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  629                  assert(curr >= windowLow);
+e0c1b49f5b674c Nick Terrell 2020-09-11  630                  if ( dictMode == ZSTD_extDict
+e0c1b49f5b674c Nick Terrell 2020-09-11  631                    && ( ((repOffset-1) /*intentional overflow*/ < curr - windowLow)  /* equivalent to `curr > repIndex >= windowLow` */
+e0c1b49f5b674c Nick Terrell 2020-09-11  632                       & (((U32)((dictLimit-1) - repIndex) >= 3) ) /* intentional overflow : do not test positions overlapping 2 memory segments */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  633                    && (ZSTD_readMINMATCH(ip, minMatch) == ZSTD_readMINMATCH(repMatch, minMatch)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  634                      repLen = (U32)ZSTD_count_2segments(ip+minMatch, repMatch+minMatch, iLimit, dictEnd, prefixStart) + minMatch;
+e0c1b49f5b674c Nick Terrell 2020-09-11  635                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  636                  if (dictMode == ZSTD_dictMatchState
+e0c1b49f5b674c Nick Terrell 2020-09-11  637                    && ( ((repOffset-1) /*intentional overflow*/ < curr - (dmsLowLimit + dmsIndexDelta))  /* equivalent to `curr > repIndex >= dmsLowLimit` */
+e0c1b49f5b674c Nick Terrell 2020-09-11  638                       & ((U32)((dictLimit-1) - repIndex) >= 3) ) /* intentional overflow : do not test positions overlapping 2 memory segments */
+e0c1b49f5b674c Nick Terrell 2020-09-11  639                    && (ZSTD_readMINMATCH(ip, minMatch) == ZSTD_readMINMATCH(repMatch, minMatch)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  640                      repLen = (U32)ZSTD_count_2segments(ip+minMatch, repMatch+minMatch, iLimit, dmsEnd, prefixStart) + minMatch;
+e0c1b49f5b674c Nick Terrell 2020-09-11  641              }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  642              /* save longer solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  643              if (repLen > bestLength) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  644                  DEBUGLOG(8, "found repCode %u (ll0:%u, offset:%u) of length %u",
+e0c1b49f5b674c Nick Terrell 2020-09-11  645                              repCode, ll0, repOffset, repLen);
+e0c1b49f5b674c Nick Terrell 2020-09-11  646                  bestLength = repLen;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  647                  matches[mnum].off = STORE_REPCODE(repCode - ll0 + 1);  /* expect value between 1 and 3 */
+e0c1b49f5b674c Nick Terrell 2020-09-11  648                  matches[mnum].len = (U32)repLen;
+e0c1b49f5b674c Nick Terrell 2020-09-11  649                  mnum++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  650                  if ( (repLen > sufficient_len)
+e0c1b49f5b674c Nick Terrell 2020-09-11  651                     | (ip+repLen == iLimit) ) {  /* best possible */
+e0c1b49f5b674c Nick Terrell 2020-09-11  652                      return mnum;
+e0c1b49f5b674c Nick Terrell 2020-09-11  653      }   }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  654  
+e0c1b49f5b674c Nick Terrell 2020-09-11  655      /* HC3 match finder */
+e0c1b49f5b674c Nick Terrell 2020-09-11  656      if ((mls == 3) /*static*/ && (bestLength < mls)) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  657          U32 const matchIndex3 = ZSTD_insertAndFindFirstIndexHash3(ms, nextToUpdate3, ip);
+e0c1b49f5b674c Nick Terrell 2020-09-11  658          if ((matchIndex3 >= matchLow)
+e0c1b49f5b674c Nick Terrell 2020-09-11  659            & (curr - matchIndex3 < (1<<18)) /*heuristic : longer distance likely too expensive*/ ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  660              size_t mlen;
+e0c1b49f5b674c Nick Terrell 2020-09-11  661              if ((dictMode == ZSTD_noDict) /*static*/ || (dictMode == ZSTD_dictMatchState) /*static*/ || (matchIndex3 >= dictLimit)) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  662                  const BYTE* const match = base + matchIndex3;
+e0c1b49f5b674c Nick Terrell 2020-09-11  663                  mlen = ZSTD_count(ip, match, iLimit);
+e0c1b49f5b674c Nick Terrell 2020-09-11  664              } else {
+e0c1b49f5b674c Nick Terrell 2020-09-11  665                  const BYTE* const match = dictBase + matchIndex3;
+e0c1b49f5b674c Nick Terrell 2020-09-11  666                  mlen = ZSTD_count_2segments(ip, match, iLimit, dictEnd, prefixStart);
+e0c1b49f5b674c Nick Terrell 2020-09-11  667              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  668  
+e0c1b49f5b674c Nick Terrell 2020-09-11  669              /* save best solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  670              if (mlen >= mls /* == 3 > bestLength */) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  671                  DEBUGLOG(8, "found small match with hlog3, of length %u",
+e0c1b49f5b674c Nick Terrell 2020-09-11  672                              (U32)mlen);
+e0c1b49f5b674c Nick Terrell 2020-09-11  673                  bestLength = mlen;
+e0c1b49f5b674c Nick Terrell 2020-09-11  674                  assert(curr > matchIndex3);
+e0c1b49f5b674c Nick Terrell 2020-09-11  675                  assert(mnum==0);  /* no prior solution */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  676                  matches[0].off = STORE_OFFSET(curr - matchIndex3);
+e0c1b49f5b674c Nick Terrell 2020-09-11  677                  matches[0].len = (U32)mlen;
+e0c1b49f5b674c Nick Terrell 2020-09-11  678                  mnum = 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  679                  if ( (mlen > sufficient_len) |
+e0c1b49f5b674c Nick Terrell 2020-09-11  680                       (ip+mlen == iLimit) ) {  /* best possible length */
+e0c1b49f5b674c Nick Terrell 2020-09-11  681                      ms->nextToUpdate = curr+1;  /* skip insertion */
+e0c1b49f5b674c Nick Terrell 2020-09-11  682                      return 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  683          }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  684          /* no dictMatchState lookup: dicts don't have a populated HC3 table */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  685      }  /* if (mls == 3) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  686  
+e0c1b49f5b674c Nick Terrell 2020-09-11  687      hashTable[h] = curr;   /* Update Hash Table */
+e0c1b49f5b674c Nick Terrell 2020-09-11  688  
+e0c1b49f5b674c Nick Terrell 2020-09-11  689      for (; nbCompares && (matchIndex >= matchLow); --nbCompares) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  690          U32* const nextPtr = bt + 2*(matchIndex & btMask);
+e0c1b49f5b674c Nick Terrell 2020-09-11  691          const BYTE* match;
+e0c1b49f5b674c Nick Terrell 2020-09-11  692          size_t matchLength = MIN(commonLengthSmaller, commonLengthLarger);   /* guaranteed minimum nb of common bytes */
+e0c1b49f5b674c Nick Terrell 2020-09-11  693          assert(curr > matchIndex);
+e0c1b49f5b674c Nick Terrell 2020-09-11  694  
+e0c1b49f5b674c Nick Terrell 2020-09-11  695          if ((dictMode == ZSTD_noDict) || (dictMode == ZSTD_dictMatchState) || (matchIndex+matchLength >= dictLimit)) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  696              assert(matchIndex+matchLength >= dictLimit);  /* ensure the condition is correct when !extDict */
+e0c1b49f5b674c Nick Terrell 2020-09-11  697              match = base + matchIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11 @698              if (matchIndex >= dictLimit) assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
+e0c1b49f5b674c Nick Terrell 2020-09-11  699              matchLength += ZSTD_count(ip+matchLength, match+matchLength, iLimit);
+e0c1b49f5b674c Nick Terrell 2020-09-11  700          } else {
+e0c1b49f5b674c Nick Terrell 2020-09-11  701              match = dictBase + matchIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  702              assert(memcmp(match, ip, matchLength) == 0);  /* ensure early section of match is equal as expected */
+e0c1b49f5b674c Nick Terrell 2020-09-11  703              matchLength += ZSTD_count_2segments(ip+matchLength, match+matchLength, iLimit, dictEnd, prefixStart);
+e0c1b49f5b674c Nick Terrell 2020-09-11  704              if (matchIndex+matchLength >= dictLimit)
+e0c1b49f5b674c Nick Terrell 2020-09-11  705                  match = base + matchIndex;   /* prepare for match[matchLength] read */
+e0c1b49f5b674c Nick Terrell 2020-09-11  706          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  707  
+e0c1b49f5b674c Nick Terrell 2020-09-11  708          if (matchLength > bestLength) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  709              DEBUGLOG(8, "found match of length %u at distance %u (offCode=%u)",
+2aa14b1ab2c41a Nick Terrell 2022-10-17  710                      (U32)matchLength, curr - matchIndex, STORE_OFFSET(curr - matchIndex));
+e0c1b49f5b674c Nick Terrell 2020-09-11  711              assert(matchEndIdx > matchIndex);
+e0c1b49f5b674c Nick Terrell 2020-09-11  712              if (matchLength > matchEndIdx - matchIndex)
+e0c1b49f5b674c Nick Terrell 2020-09-11  713                  matchEndIdx = matchIndex + (U32)matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  714              bestLength = matchLength;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  715              matches[mnum].off = STORE_OFFSET(curr - matchIndex);
+e0c1b49f5b674c Nick Terrell 2020-09-11  716              matches[mnum].len = (U32)matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  717              mnum++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  718              if ( (matchLength > ZSTD_OPT_NUM)
+e0c1b49f5b674c Nick Terrell 2020-09-11  719                 | (ip+matchLength == iLimit) /* equal : no way to know if inf or sup */) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  720                  if (dictMode == ZSTD_dictMatchState) nbCompares = 0; /* break should also skip searching dms */
+e0c1b49f5b674c Nick Terrell 2020-09-11  721                  break; /* drop, to preserve bt consistency (miss a little bit of compression) */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  722          }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  723  
+e0c1b49f5b674c Nick Terrell 2020-09-11  724          if (match[matchLength] < ip[matchLength]) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  725              /* match smaller than current */
+e0c1b49f5b674c Nick Terrell 2020-09-11  726              *smallerPtr = matchIndex;             /* update smaller idx */
+e0c1b49f5b674c Nick Terrell 2020-09-11  727              commonLengthSmaller = matchLength;    /* all smaller will now have at least this guaranteed common length */
+e0c1b49f5b674c Nick Terrell 2020-09-11  728              if (matchIndex <= btLow) { smallerPtr=&dummy32; break; }   /* beyond tree size, stop the search */
+e0c1b49f5b674c Nick Terrell 2020-09-11  729              smallerPtr = nextPtr+1;               /* new candidate => larger than match, which was smaller than current */
+e0c1b49f5b674c Nick Terrell 2020-09-11  730              matchIndex = nextPtr[1];              /* new matchIndex, larger than previous, closer to current */
+e0c1b49f5b674c Nick Terrell 2020-09-11  731          } else {
+e0c1b49f5b674c Nick Terrell 2020-09-11  732              *largerPtr = matchIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  733              commonLengthLarger = matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  734              if (matchIndex <= btLow) { largerPtr=&dummy32; break; }   /* beyond tree size, stop the search */
+e0c1b49f5b674c Nick Terrell 2020-09-11  735              largerPtr = nextPtr;
+e0c1b49f5b674c Nick Terrell 2020-09-11  736              matchIndex = nextPtr[0];
+e0c1b49f5b674c Nick Terrell 2020-09-11  737      }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  738  
+e0c1b49f5b674c Nick Terrell 2020-09-11  739      *smallerPtr = *largerPtr = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  740  
+e0c1b49f5b674c Nick Terrell 2020-09-11  741      assert(nbCompares <= (1U << ZSTD_SEARCHLOG_MAX)); /* Check we haven't underflowed. */
+e0c1b49f5b674c Nick Terrell 2020-09-11  742      if (dictMode == ZSTD_dictMatchState && nbCompares) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  743          size_t const dmsH = ZSTD_hashPtr(ip, dmsHashLog, mls);
+e0c1b49f5b674c Nick Terrell 2020-09-11  744          U32 dictMatchIndex = dms->hashTable[dmsH];
+e0c1b49f5b674c Nick Terrell 2020-09-11  745          const U32* const dmsBt = dms->chainTable;
+e0c1b49f5b674c Nick Terrell 2020-09-11  746          commonLengthSmaller = commonLengthLarger = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  747          for (; nbCompares && (dictMatchIndex > dmsLowLimit); --nbCompares) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  748              const U32* const nextPtr = dmsBt + 2*(dictMatchIndex & dmsBtMask);
+e0c1b49f5b674c Nick Terrell 2020-09-11  749              size_t matchLength = MIN(commonLengthSmaller, commonLengthLarger);   /* guaranteed minimum nb of common bytes */
+e0c1b49f5b674c Nick Terrell 2020-09-11  750              const BYTE* match = dmsBase + dictMatchIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  751              matchLength += ZSTD_count_2segments(ip+matchLength, match+matchLength, iLimit, dmsEnd, prefixStart);
+e0c1b49f5b674c Nick Terrell 2020-09-11  752              if (dictMatchIndex+matchLength >= dmsHighLimit)
+e0c1b49f5b674c Nick Terrell 2020-09-11  753                  match = base + dictMatchIndex + dmsIndexDelta;   /* to prepare for next usage of match[matchLength] */
+e0c1b49f5b674c Nick Terrell 2020-09-11  754  
+e0c1b49f5b674c Nick Terrell 2020-09-11  755              if (matchLength > bestLength) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  756                  matchIndex = dictMatchIndex + dmsIndexDelta;
+e0c1b49f5b674c Nick Terrell 2020-09-11  757                  DEBUGLOG(8, "found dms match of length %u at distance %u (offCode=%u)",
+2aa14b1ab2c41a Nick Terrell 2022-10-17  758                          (U32)matchLength, curr - matchIndex, STORE_OFFSET(curr - matchIndex));
+e0c1b49f5b674c Nick Terrell 2020-09-11  759                  if (matchLength > matchEndIdx - matchIndex)
+e0c1b49f5b674c Nick Terrell 2020-09-11  760                      matchEndIdx = matchIndex + (U32)matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  761                  bestLength = matchLength;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  762                  matches[mnum].off = STORE_OFFSET(curr - matchIndex);
+e0c1b49f5b674c Nick Terrell 2020-09-11  763                  matches[mnum].len = (U32)matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  764                  mnum++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  765                  if ( (matchLength > ZSTD_OPT_NUM)
+e0c1b49f5b674c Nick Terrell 2020-09-11  766                     | (ip+matchLength == iLimit) /* equal : no way to know if inf or sup */) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  767                      break;   /* drop, to guarantee consistency (miss a little bit of compression) */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  768              }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  769  
+e0c1b49f5b674c Nick Terrell 2020-09-11  770              if (dictMatchIndex <= dmsBtLow) { break; }   /* beyond tree size, stop the search */
+e0c1b49f5b674c Nick Terrell 2020-09-11  771              if (match[matchLength] < ip[matchLength]) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  772                  commonLengthSmaller = matchLength;    /* all smaller will now have at least this guaranteed common length */
+e0c1b49f5b674c Nick Terrell 2020-09-11  773                  dictMatchIndex = nextPtr[1];              /* new matchIndex larger than previous (closer to current) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  774              } else {
+e0c1b49f5b674c Nick Terrell 2020-09-11  775                  /* match is larger than current */
+e0c1b49f5b674c Nick Terrell 2020-09-11  776                  commonLengthLarger = matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  777                  dictMatchIndex = nextPtr[0];
+2aa14b1ab2c41a Nick Terrell 2022-10-17  778      }   }   }  /* if (dictMode == ZSTD_dictMatchState) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  779  
+e0c1b49f5b674c Nick Terrell 2020-09-11  780      assert(matchEndIdx > curr+8);
+e0c1b49f5b674c Nick Terrell 2020-09-11  781      ms->nextToUpdate = matchEndIdx - 8;  /* skip repetitive patterns */
+e0c1b49f5b674c Nick Terrell 2020-09-11  782      return mnum;
+e0c1b49f5b674c Nick Terrell 2020-09-11  783  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  784  
 
-:::::: The code at line 46 was first introduced by commit
-:::::: 7a091cbeb2d972e3dc4d44f00ab2828b7abbbcce mm: jit/text allocator
+:::::: The code at line 698 was first introduced by commit
+:::::: e0c1b49f5b674cca7b10549c53b3791d0bbc90a8 lib: zstd: Upgrade to latest upstream zstd version 1.4.10
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Nick Terrell <terrelln@fb.com>
+:::::: CC: Nick Terrell <terrelln@fb.com>
 
 -- 
 0-DAY CI Kernel Test Service
