@@ -1,64 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F088B1B2EE8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 09:50:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBB01B2EEF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 09:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725875459; cv=none; b=ch5wkC/ftxJtILLgWPEsxAPqXYSs6BbqIThI5di75DBNqlunm8cO+UDb7A/F1LYM1z9jnR17vIS0P7lFLv1AGmbg89XyDMSvuqzRV/GtDNeVIiVzPQOapKhvSJf01ENhpWqzZAknm9KHECNOo0Mfq7QMxIvfjhDQSXddtAhnkoc=
+	t=1725875461; cv=none; b=abg6L/QzRlAvDB2ZAe0pbBB26xrODtgCjeHzZbybh2cVchhssCDB0TYi/S6gDUJzkpa3iEt50OJUis2PgyFCAdFf1SxhNXIiWv1ZFBFGMQTocWXlTEEyAyZ/dat9TFnDUJXHcHWEujOziREvNuRuac+VbYwccVNTsVpDugj+PSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725875459; c=relaxed/simple;
-	bh=cpN4c04fp/ArFHGa6SsgZy4awJOaoPGXwyrkhJbDvIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvGHfuTrjvb1kugwSVQWy9Y4TAV/uVTSUER0uMFCcz4x2+2F48fvuLjRYYU6sTukLX428SgkvYvhpKFFGSna07agDTCFmIjOWvciKGpvee6lED/zDpbI9x1Oj87qJLJOmaSPuAenqudgNorWoMd+F/W5SMoyQX7e7h0kAlA/oZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dCMJGnkA; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1725875461; c=relaxed/simple;
+	bh=Q/pk0bz01Cc1a3LW0szlwHGr2S70S9mTAznC9QRAaf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e1QFk4WGaYhBRcXI9uT+v9c2HIsI12eb53B+kw+bd6Sa9USxd6ZxZL1cvMkeeqyJrfp8p+gRH606eltQirFc8I5KdK1Z91sHRLRddI6veAHeeENGQMSi1lJPdtjSyEntHenYUPpPxODVJZXLlugRXZLI2E4pJetsK9tQzS1v5RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5JIgqs8; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dCMJGnkA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5JIgqs8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725875458; x=1757411458;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cpN4c04fp/ArFHGa6SsgZy4awJOaoPGXwyrkhJbDvIg=;
-  b=dCMJGnkAnDF7ZNBvYW81G8fHgZ6R3jxG+/hZDet+Bf30V4Li4bYgWu43
-   strgMYPmPP9/7O4SpFGI7omb1Ap/AkI1irhsaCLB+c8L2nK6Hvt5lNQ5s
-   likiPHZ27pqXqYb//x+HAXnS+0kiXwsXVYyQLLVY5UOYMdQ1bpOo/VmLn
-   5Ha8rIkX2b0sOfLdjdzgrzt4ctzB8lVOy5rMpMCJ5rCAXCrSWHRib1s9I
-   V4yk5tOHDoxg23v/eh09A6Pv0EwYuCNfO7YeJovr++3RdCe4toUdWX/ok
-   k+bzWx6DK0FImAQF+B5b/Z7KYAXvtv1BNd7mCnfQvQHiXmYat4qMKjvKl
-   Q==;
-X-CSE-ConnectionGUID: iZlwYXSJQ1uQSG5k1pgDvQ==
-X-CSE-MsgGUID: LeybjmJKQmmRMkIGgxvgDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24361719"
+  t=1725875457; x=1757411457;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q/pk0bz01Cc1a3LW0szlwHGr2S70S9mTAznC9QRAaf8=;
+  b=Q5JIgqs8FKTQ6VF5nmSOwiCjafpA/L3uuwenrpkp43szw9oDMuaaLSnX
+   YTVr7kLfq34cPzzwRxJWYmPvGaajcWZnagtW8Mjx/6fs/AQF7GZwki2fx
+   nTXmHsB9/0bKUaEeM3je2VaAzrwtWita8y0aZcUM9qII/P7BKcMAwpB0J
+   3Q4BgCmYl+Hh+dgT/vtpEepQ9wj23VbWkFjsrvTdAcsQwU8snaN2KcY3U
+   mQmmortELnlHp2xwU0pNChRl5YqEkkOYeUWwUToHbbgcBc1RTvNc9D2Ta
+   mG7RJZxq6nMMYpY3hYVlzbnax1TrDRakGARgR87ix5HO1jPKWormwbr9K
+   w==;
+X-CSE-ConnectionGUID: ruMRuJ10SxCWAmnSGraoyA==
+X-CSE-MsgGUID: 8ugFKgU5QzKBD4uZomYmbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24361713"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="24361719"
+   d="scan'208";a="24361713"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:50:58 -0700
-X-CSE-ConnectionGUID: PwWFr16YRiyxWamW3eHXtQ==
-X-CSE-MsgGUID: gv9Tf7MVT4CfRlIE0eicUg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:50:56 -0700
+X-CSE-ConnectionGUID: 1ygYQyQeQq2vc8lZhzZV5g==
+X-CSE-MsgGUID: sXAUfpXvSJi0xrs/YiECKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="67357831"
+   d="scan'208";a="67357832"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 09 Sep 2024 02:50:56 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snb2r-000EaU-0x;
+	id 1snb2r-000EaY-1A;
 	Mon, 09 Sep 2024 09:50:53 +0000
-Date: Mon, 9 Sep 2024 17:50:26 +0800
+Date: Mon, 9 Sep 2024 17:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	brendan.higgins@linux.dev, davidgow@google.com, rmoar@google.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v4] lib/math: Add int_pow test suite
-Message-ID: <202409091732.x5CGQKBV-lkp@intel.com>
-References: <20240908224901.78595-1-luis.hernandez093@gmail.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/btree_trans_commit.o: warning: objtool:
+ __bch2_trans_commit+0x88: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
+Message-ID: <202409091745.jFnZrkPl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,54 +61,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240908224901.78595-1-luis.hernandez093@gmail.com>
 
-Hi Luis,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.11-rc6]
-[also build test WARNING on linus/master next-20240906]
-[cannot apply to akpm-mm/mm-nonmm-unstable]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Felipe-Hernandez/lib-math-Add-int_pow-test-suite/20240909-065058
-base:   v6.11-rc6
-patch link:    https://lore.kernel.org/r/20240908224901.78595-1-luis.hernandez093%40gmail.com
-patch subject: [PATCH v4] lib/math: Add int_pow test suite
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240909/202409091732.x5CGQKBV-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091732.x5CGQKBV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   da3ea35007d0af457a0afc87e84fddaebc4e0b63
+commit: 1d16c605cc55ef26f0c65b362665a6c99080ccbc bcachefs: Disk space accounting rewrite
+date:   8 weeks ago
+config: loongarch-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240909/202409091745.jFnZrkPl-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091745.jFnZrkPl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409091732.x5CGQKBV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091745.jFnZrkPl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/math/tests/int_pow_kunit.c:22:18: warning: integer constant is so large that it is unsigned
-      22 |         { 2, 63, 9223372036854775808, "Large result"},
-         |                  ^~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_trans_commit.o: warning: objtool: __bch2_trans_commit+0x88: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
 
 
-vim +22 lib/math/tests/int_pow_kunit.c
-
-    12	
-    13	static const struct test_case_params params[] = {
-    14		{ 64, 0, 1, "Power of zero" },
-    15		{ 64, 1, 64, "Power of one"},
-    16		{ 0, 5, 0, "Base zero" },
-    17		{ 1, 64, 1, "Base one" },
-    18		{ 2, 2, 4, "Two squared"},
-    19		{ 2, 3, 8, "Two cubed"},
-    20		{ 5, 5, 3125, "Five raised to the fifth power" },
-    21		{ U64_MAX, 1, U64_MAX, "Max base" },
-  > 22		{ 2, 63, 9223372036854775808, "Large result"},
-    23	};
-    24	
+objdump-func vmlinux.o __bch2_trans_commit:
 
 -- 
 0-DAY CI Kernel Test Service
