@@ -1,87 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362261B5EC6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 13:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F231B86EE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Sep 2024 13:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725887178; cv=none; b=MWXc34jeQKuakvZtfxm9JUjHAy4nplaKKX+LtleYHJY6j+MXSEEgo4SP8JTplSQv9W4v7MejUy7B5SKUBuOKpcoWJf7V4g+EvZSOC/HvnKTTNgYv2ng09ozHkx1o8Nz+UEhBYQYPXdHynZvdiIjjc4wUMa2ooUBszW8gjVOjKRU=
+	t=1725888582; cv=none; b=Rre45b+Br1iZUNoe/D2kDUTxHjN9YrRWS30RNnbcd90sWSDfaWZY8UrW44/T74BVh8VbcewYvxiRk0rVXRhWiBOLz6u1KYP82BeO9+JgrUY7xoqaP8rHFoQjuZ57lIjJokKkK69TyWJpVj9ZKlu7lVOVr0xqnqzRCS8b8m2xsQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725887178; c=relaxed/simple;
-	bh=6gsdrp0J3LNoef6NXNgAa8/OG/tdyYpaNf9vzmZlniQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AI31/y035a6vqS0KLGLYNS4/4Xpb/WfdV3WdzJZ47Wcs+6pmcOUcqbYHnBVzEsIkkIK/s5dEBae+QlROtekQuLJ8VSfmIaRZOFAslRJau1igQqEBKZfnCFweo43QVHMuQXncfnHcNkFutEp7XQyMx5iAPisiytpLqgMcXAKmRtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObU3njb4; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725888582; c=relaxed/simple;
+	bh=3onFqNDgtBje617C3OHUTUaDq3+dyc9stUvBZFeUw0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftsgCqlTodXn1sQL1csv6yl7qMekbYmL7VTGVdMVktbZj/EjEXAAQTYTZjAlFHqF3AUHHQ0++gTtACAxAQGj2yo1wb+KC33vzcHoyIkEJB8BMeDOVBaY7V3/wjeIZkRR6IAU5Z8wPc6KsCUaHSUi/Ort3svkYUzctZZD2SNe3kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vTJTtNBM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObU3njb4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725887176; x=1757423176;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6gsdrp0J3LNoef6NXNgAa8/OG/tdyYpaNf9vzmZlniQ=;
-  b=ObU3njb4C6k0NAyoCBRGmbDXzJRN1T3eV+W9Gfk7WXYWzwvUuDCcKuc9
-   ZEGZ36ocIkiKmRn4V+qujI5vqzutDdXP03h9Aj7k079/PUE5Is2Z2jTDT
-   RhnAL+8VxAX9NBxgkspDBLmAPVGbPxSvoSGB9M7kiVCvyU001oc4wEt9C
-   oBlE1ZPXYiWW/E60O4QQoG2n/N7BGBhgg0rx7CQ1CvBi4NazeeA9SpMpG
-   s3BLGlRsSIVqpwqIGQZ/xTaXM19M8dw5Bifl3DMyWuBNJoy0iVv9XD4s7
-   PAwvhG0rSLVf7jss1gOsy3lUXtedMepfqHxb4IsPumBHH1eQ/lNPdpGxL
-   A==;
-X-CSE-ConnectionGUID: jAv9LvTvRmS5+6zyElaOKw==
-X-CSE-MsgGUID: 7wlv8b3kTdyjD5nbkGK99Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="47102889"
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="47102889"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 06:06:16 -0700
-X-CSE-ConnectionGUID: ljyxDAC1TRim4RA7Il6n7Q==
-X-CSE-MsgGUID: sVFz59K2SBSBDZSlLIr7Rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="66725135"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2024 06:06:14 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sne5r-000EjI-2w;
-	Mon, 09 Sep 2024 13:06:11 +0000
-Date: Mon, 9 Sep 2024 21:05:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kamlesh Gurudasani <kamlesh@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-linux-6.6.y-wip 107/137] kismet: WARNING: unmet direct
- dependencies detected for CRYPTO_CRC64_ISO3309 when selected by
- CRYPTO_DEV_TI_MCRC64
-Message-ID: <202409092042.O3V5VfoV-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vTJTtNBM"
+Received: from ideasonboard.com (unknown [213.208.157.37])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC0823DA;
+	Mon,  9 Sep 2024 15:28:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725888500;
+	bh=3onFqNDgtBje617C3OHUTUaDq3+dyc9stUvBZFeUw0w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vTJTtNBM5WD2eojbgDp73KLHIoJUc6Vk7F9cE2xNuk3ZheavM3fKlE/4pFeLhwGzy
+	 PI4B7PFWqhgdYHs8WWwWAkX6PZlvKjKKLMnVMhDRVTuZebfBEaw6TuZhu0P2xnl7cJ
+	 oyFoSp88EQp9bx2IuOAFt090iY1ZoQLJmkYFi/EI=
+Date: Mon, 9 Sep 2024 15:29:30 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, Naushir Patuck <naush@raspberrypi.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
+Message-ID: <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
+References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
+ <202409051822.ZzUGw3XQ-lkp@intel.com>
+ <20240905111120.GK16183@pendragon.ideasonboard.com>
+ <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
+ <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
+ <yib2r4wisxvk3kgogbjqawrpmfq6lcezfk4xjmftj44jzkbclc@icapodv2ffzk>
+ <d5188c0a-4a52-4378-89b1-48f606e448cc@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d5188c0a-4a52-4378-89b1-48f606e448cc@ideasonboard.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
-head:   c0deda7906ed2661afaa841e1d822932a37f38f6
-commit: 2af1725d4bd6b8b24a1a2b47e1de27949d1cee9b [107/137] crypto: ti - add driver for MCRC64 engine
-config: x86_64-kismet-CONFIG_CRYPTO_CRC64_ISO3309-CONFIG_CRYPTO_DEV_TI_MCRC64-0-0 (https://download.01.org/0day-ci/archive/20240909/202409092042.O3V5VfoV-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240909/202409092042.O3V5VfoV-lkp@intel.com/reproduce)
+Hi Tomi
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409092042.O3V5VfoV-lkp@intel.com/
+On Mon, Sep 09, 2024 at 01:04:35PM GMT, Tomi Valkeinen wrote:
+> On 09/09/2024 12:13, Jacopo Mondi wrote:
+> > Hi Tomi
+> >
+> > On Mon, Sep 09, 2024 at 08:22:59AM GMT, Tomi Valkeinen wrote:
+> > > Hi Laurent, Jacopo,
+> > >
+> > > On 09/09/2024 08:08, Tomi Valkeinen wrote:
+> > > > Hi,
+> > > >
+> > > > On 05/09/2024 14:11, Laurent Pinchart wrote:
+> > > > > On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
+> > > > > > Hi Tomi,
+> > > > > >
+> > > > > > kernel test robot noticed the following build warnings:
+> > > > > >
+> > > > > > [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+> > > > > >
+> > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-
+> > > > > > Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-
+> > > > > > stats/20240904-192729
+> > > > > > base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+> > > > > > patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-
+> > > > > > f1b5b3d69c81%40ideasonboard.com
+> > > > > > patch subject: [PATCH v4 3/4] media: raspberrypi: Add support
+> > > > > > for RP1-CFE
+> > > > > > config: m68k-allmodconfig (https://download.01.org/0day-ci/
+> > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
+> > > > > > compiler: m68k-linux-gcc (GCC) 14.1.0
+> > > > > > reproduce (this is a W=1 build):
+> > > > > > (https://download.01.org/0day-ci/
+> > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
+> > > > > >
+> > > > > > If you fix the issue in a separate patch/commit (i.e. not just a
+> > > > > > new version of
+> > > > > > the same patch/commit), kindly add following tags
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Closes: https://lore.kernel.org/oe-kbuild-
+> > > > > > all/202409051822.ZzUGw3XQ-lkp@intel.com/
+> > > > > >
+> > > > > > All warnings (new ones prefixed by >>):
+> > > > > >
+> > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12:
+> > > > > > > > warning: 'cfe_runtime_resume' defined but not used
+> > > > > > > > [-Wunused-function]
+> > > > > >       2445 | static int cfe_runtime_resume(struct device *dev)
+> > > > > >            |            ^~~~~~~~~~~~~~~~~~
+> > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12:
+> > > > > > > > warning: 'cfe_runtime_suspend' defined but not used
+> > > > > > > > [-Wunused-function]
+> > > > > >       2435 | static int cfe_runtime_suspend(struct device *dev)
+> > > > > >            |            ^~~~~~~~~~~~~~~~~~~
+> > > > > > vim +/cfe_runtime_resume +2445
+> > > > > > drivers/media/platform/raspberrypi/ rp1-cfe/cfe.c
+> > > > >
+> > > > > The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
+> > > > > to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
+> > > > > the driver won't work on a kernel with !CONFIG_PM given how you
+> > > > > implemented probe() and remove().
+> > > > >
+> > > > > The pisp-be driver suffered from the same issue and Jacopo fixed it in
+> > > > > the last version. You can have a look at implement something similar.
+> > > >
+> > > > I can't right away think of any reason to not just depend on CONFIG_PM
+> > > > and be done with it without any tricks. Do you know if there's a reason?
+> >
+> > We had the same discussion, and even if I would be fine depending on
+> > CONFIG_PM, supporting !CONFIG_PM is not that much work, I kept it as
+> > an optional dependency (it was suggested during the review as well)
+> >
+> > >
+> > > Also, I don't think pisp-be is correct. It just calls
+> > > pispbe_runtime_resume() in probe() to wake the IP up (which only enables
+> > > pisp clock), without telling the runtime PM about it. This means the parent
+> > > device and the suppliers may not be powered up.
+> >
+> > Are you referring to the code currently in the tree or to this patch ?
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20240904095836.344833-5-jacopo.mondi@ideasonboard.com/
+>
+> Ah, I missed that one.
+>
+> I don't think it fixes the issue I mentioned. If we have PM enabled, and the
+> parent device requires powering up for the child device (BE) to be
+> accessible, the driver will crash when calling pispbe_hw_init(). I think you
+> should call pm_runtime_set_active() before calling pispbe_runtime_resume().
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_CRC64_ISO3309 when selected by CRYPTO_DEV_TI_MCRC64
-   WARNING: unmet direct dependencies detected for CRYPTO_CRC64_ISO3309
-     Depends on [n]: CRYPTO [=y] && CRC64 [=n]
-     Selected by [y]:
-     - CRYPTO_DEV_TI_MCRC64 [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+As discussed, this is not a problem currently for BE, but indeed you
+have a point.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sad note: most of all the occurrences of "grep set_active" in
+drivers/media/platform/ show that set_active() is used as I've done in
+my patch
+
+>
+> However, you said above that "supporting !CONFIG_PM is not that much work".
+> Maybe not. But how much work is it to get it right (for both PM and !PM),
+> and make sure it stays right? =).
+>
+> Just my opinion, but if there are zero use cases for the !PM, I would just
+> go with "depends on PM" to keep the driver simpler, less bug-prone, and
+> easier to maintain.
+>
+
+I don't see a use case for !PM and we confirmed with RPi they don't
+need to support it. During the review of a previous version of the BE
+driver iirc I've been asked to support !PM but I'm not sure I recall
+the reasons.
+
+>  Tomi
+>
