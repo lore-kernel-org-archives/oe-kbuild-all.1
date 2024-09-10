@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869CD181B8D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 18:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD62219ABAB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 18:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725991566; cv=none; b=todAacmhRFC+1m3ga4MniYPlkpeJ0mOB8z1MESL3NffZTx6Dqip7mCzVdYpElkuWCENe3N/wbGbbq0Sim3LvkGXPkphsrvY8Qcl847GoXE0it1AjE6xsifHMLLpQHF+Mum+eQ1uE1OhhLLjMAj0YtA6Csr+Lm8zK6gebfWXDFoU=
+	t=1725993423; cv=none; b=EC+wNgXVo0SZqGeepaY9x+u8JkXvJkVQJ6qv2hSdbIL5xuIEPvLc+fCLcvRuXUnA1/Qa9UEYHip8nP5QwX4VdpxHUZa6lAGycBSNKLcCkMPQiUUyHdzj8m2hgq5cQLnQg+884deUuZ2md46EOKFpnYLswL25U9j8QVd75xDP4Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725991566; c=relaxed/simple;
-	bh=cYkmWOqYPRP2o+uuGehZ8/35RLKDmvOsEw4WIAINBqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pmob7PrB4uoS2DMGqOkw2OMocT4JEtxeyAMHAHDgGpaL+KT1CZMEHmmyXmTjaxAbJSyR5A3R8virfMFw3F3SADmKwFI83TmjGZRk3XkNKpR+BxqNBtaqI8ausIEXLX/tbaNs9g/Kjwzwusp4FnYLGanEYceY1L+UPjLUubjayKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2RxjOkF; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1725993423; c=relaxed/simple;
+	bh=pFAfXF8UAx4IPqECvsAWmfGxBLsn1sdjicY7T25RlxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NAJpd/06Qa1sIqdPjgmm+ZasSb/ZlVlKyuYV1SBXQJ1jilya/zwKM+1xzWad2YRigJioG0HU/d51CYjkrCmh0hjpTfZY3J1zHa5STuq5RIHd1SvfRta476pYJBj+aN8EjJrhFmH9ThwDtqjkfhPsiTsl0Dt0dpngjkq1Kc1RJs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k6yLHeDH; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2RxjOkF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6yLHeDH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725991561; x=1757527561;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cYkmWOqYPRP2o+uuGehZ8/35RLKDmvOsEw4WIAINBqU=;
-  b=N2RxjOkFYOVoHB2UvRQE7UHa5srEMFLechYLjUpD/dTu2dzLPVdSHWaa
-   SZNqiSSuw63DljG+0xVlHV8S2d1/F9O2ZHUOqgEVzP4cv7GAtPO8slgkC
-   6nO1wZ8w48sHqJFnNccVVn4WgNqqZLDl8HAG8zN3G/g/s552hirWLvdd1
-   423WHuS42XpnN86myo9X1gBrLHIUfy73Kni2grMdOeelkT3/SGoJpdQ1v
-   s0ky/j5hpm/cxuTBtfKVHUOtOcGSmLF3oWbR9BPT23ssNBUeJBwc9iHX3
-   sZsFUZRFS8geOd/bUAnpyLCRf/lKXDpb8204MWuWX67M6Hwq1jX4vpZST
+  t=1725993422; x=1757529422;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pFAfXF8UAx4IPqECvsAWmfGxBLsn1sdjicY7T25RlxY=;
+  b=k6yLHeDHkuoUZ435nMtlPhSFzXXYCF+GO8/gHlHJmLpRpsc8L0tM/Zoe
+   qqsYtxwQo4AOwcJqksaHIQO6lM1URAjW3TsUZKV2WboHUMrhQJ3wgDun4
+   jgibxS170GNpN6MBZhGAWYAKAJq01Sf/7722IoLU+uWmYX83yt504NBNR
+   I1k3V/GFKNBXpVspdUyNFXtL078P8BM+My/KzUP9+lTligVsDkV0WqcVp
+   Pp7vAYtAdxf7Cv5e1fZMG+PI2OSPN0qsB77aL4vR+ZOtnomTgi+3ehj3U
+   usU2Xuvb0NR+jVhNjWT0cmggj14b4s7dXZm5YUTE5BH4ogrmlS+9IJTQh
    g==;
-X-CSE-ConnectionGUID: q2ZFF0xdQCG1jcP2GQ6DAA==
-X-CSE-MsgGUID: cdzQqhmURHmcWpTcGxW48w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="42277970"
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="42277970"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 11:06:01 -0700
-X-CSE-ConnectionGUID: ZRMrzJdEQ+uibFOih6TwCQ==
-X-CSE-MsgGUID: YBYFj/+LQf+CpjDsBIkS5A==
+X-CSE-ConnectionGUID: dtxq0QBnRIKaNjLf3i4mqA==
+X-CSE-MsgGUID: hvpPkSw9RQ6cO4E8BveYwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28500639"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="28500639"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 11:37:01 -0700
+X-CSE-ConnectionGUID: drbDfimZSJWIYftNylWvcg==
+X-CSE-MsgGUID: pG342M+rQZWr71sZM+/hqQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="67123406"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="66961403"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Sep 2024 11:05:58 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Sep 2024 11:37:00 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1so5FU-0002TE-1b;
-	Tue, 10 Sep 2024 18:05:56 +0000
-Date: Wed, 11 Sep 2024 02:05:34 +0800
+	id 1so5jV-0002Ua-1b;
+	Tue, 10 Sep 2024 18:36:57 +0000
+Date: Wed, 11 Sep 2024 02:36:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Selvin Xavier <selvin.xavier@broadcom.com>, leon@kernel.org,
-	jgg@ziepe.ca
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
-	andrew.gospodarek@broadcom.com, kalesh-anakkur.purayil@broadcom.com,
-	Chandramohan Akula <chandramohan.akula@broadcom.com>,
-	Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: Re: [PATCH for-next 1/4] RDMA/bnxt_re: Change aux driver data to
- en_info to hold more information
-Message-ID: <202409110129.V1tgNuph-lkp@intel.com>
-References: <1725940862-4821-2-git-send-email-selvin.xavier@broadcom.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 20/44]
+ drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202409110253.5oNy5zXf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,77 +62,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1725940862-4821-2-git-send-email-selvin.xavier@broadcom.com>
 
-Hi Selvin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on next-20240910]
-[cannot apply to linus/master v6.11-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Selvin-Xavier/RDMA-bnxt_re-Change-aux-driver-data-to-en_info-to-hold-more-information/20240910-122414
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/1725940862-4821-2-git-send-email-selvin.xavier%40broadcom.com
-patch subject: [PATCH for-next 1/4] RDMA/bnxt_re: Change aux driver data to en_info to hold more information
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240911/202409110129.V1tgNuph-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110129.V1tgNuph-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   3fb778c36179e8f5812520ded26eb14f2aa77d94
+commit: ee334bab464b2d240f3144c29e9cfcd256ea7afb [20/44] FROMLIST: gunyah: rsc_mgr: Add memory parcel RPC
+config: arm64-randconfig-r131-20240910 (https://download.01.org/0day-ci/archive/20240911/202409110253.5oNy5zXf-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240911/202409110253.5oNy5zXf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110129.V1tgNuph-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409110253.5oNy5zXf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] n_entries @@     got restricted __le32 [usertype] @@
+   drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse:     expected restricted __le16 [usertype] n_entries
+   drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse:     got restricted __le32 [usertype]
 
-   drivers/infiniband/hw/bnxt_re/main.c: In function 'bnxt_re_remove':
->> drivers/infiniband/hw/bnxt_re/main.c:1939:29: warning: variable 'en_dev' set but not used [-Wunused-but-set-variable]
-    1939 |         struct bnxt_en_dev *en_dev;
-         |                             ^~~~~~
+vim +222 drivers/virt/gunyah/rsc_mgr_rpc.c
 
-
-vim +/en_dev +1939 drivers/infiniband/hw/bnxt_re/main.c
-
-  1935	
-  1936	static void bnxt_re_remove(struct auxiliary_device *adev)
-  1937	{
-  1938		struct bnxt_re_en_dev_info *en_info = auxiliary_get_drvdata(adev);
-> 1939		struct bnxt_en_dev *en_dev;
-  1940		struct bnxt_re_dev *rdev;
-  1941	
-  1942		mutex_lock(&bnxt_re_mutex);
-  1943		if (!en_info) {
-  1944			mutex_unlock(&bnxt_re_mutex);
-  1945			return;
-  1946		}
-  1947		en_dev = en_info->en_dev;
-  1948		rdev = en_info->rdev;
-  1949		if (!rdev)
-  1950			goto skip_remove;
-  1951	
-  1952		if (rdev->nb.notifier_call) {
-  1953			unregister_netdevice_notifier(&rdev->nb);
-  1954			rdev->nb.notifier_call = NULL;
-  1955		} else {
-  1956			/* If notifier is null, we should have already done a
-  1957			 * clean up before coming here.
-  1958			 */
-  1959			goto skip_remove;
-  1960		}
-  1961		bnxt_re_setup_cc(rdev, false);
-  1962		ib_unregister_device(&rdev->ibdev);
-  1963		bnxt_re_dev_uninit(rdev);
-  1964		ib_dealloc_device(&rdev->ibdev);
-  1965	skip_remove:
-  1966		kfree(en_info);
-  1967		mutex_unlock(&bnxt_re_mutex);
-  1968	}
-  1969	
+   162	
+   163	/**
+   164	 * gunyah_rm_mem_share() - Share memory with other virtual machines.
+   165	 * @rm: Handle to a Gunyah resource manager
+   166	 * @p: Information about the memory to be shared.
+   167	 *
+   168	 * Sharing keeps Linux's access to the memory while the memory parcel is shared.
+   169	 */
+   170	int gunyah_rm_mem_share(struct gunyah_rm *rm, struct gunyah_rm_mem_parcel *p)
+   171	{
+   172		u32 message_id = p->n_acl_entries == 1 ? GUNYAH_RM_RPC_MEM_LEND :
+   173							 GUNYAH_RM_RPC_MEM_SHARE;
+   174		size_t msg_size, initial_mem_entries = p->n_mem_entries, resp_size;
+   175		struct gunyah_rm_mem_share_req_acl_section *acl;
+   176		struct gunyah_rm_mem_share_req_mem_section *mem;
+   177		struct gunyah_rm_mem_share_req_header *req_header;
+   178		size_t acl_size, mem_size;
+   179		u32 *attr_section;
+   180		bool need_append = false;
+   181		__le32 *resp;
+   182		void *msg;
+   183		int ret;
+   184	
+   185		if (!p->acl_entries || !p->n_acl_entries || !p->mem_entries ||
+   186		    !p->n_mem_entries || p->n_acl_entries > U8_MAX ||
+   187		    p->mem_handle != GUNYAH_MEM_HANDLE_INVAL)
+   188			return -EINVAL;
+   189	
+   190		if (initial_mem_entries > GUNYAH_RM_MAX_MEM_ENTRIES) {
+   191			initial_mem_entries = GUNYAH_RM_MAX_MEM_ENTRIES;
+   192			need_append = true;
+   193		}
+   194	
+   195		acl_size = struct_size(acl, entries, p->n_acl_entries);
+   196		mem_size = struct_size(mem, entries, initial_mem_entries);
+   197	
+   198		/* The format of the message goes:
+   199		 * request header
+   200		 * ACL entries (which VMs get what kind of access to this memory parcel)
+   201		 * Memory entries (list of memory regions to share)
+   202		 * Memory attributes (currently unused, we'll hard-code the size to 0)
+   203		 */
+   204		msg_size = sizeof(struct gunyah_rm_mem_share_req_header) + acl_size +
+   205			   mem_size +
+   206			   sizeof(u32); /* for memory attributes, currently unused */
+   207	
+   208		msg = kzalloc(msg_size, GFP_KERNEL);
+   209		if (!msg)
+   210			return -ENOMEM;
+   211	
+   212		req_header = msg;
+   213		acl = (void *)req_header + sizeof(*req_header);
+   214		mem = (void *)acl + acl_size;
+   215		attr_section = (void *)mem + mem_size;
+   216	
+   217		req_header->mem_type = p->mem_type;
+   218		if (need_append)
+   219			req_header->flags |= GUNYAH_MEM_SHARE_REQ_FLAGS_APPEND;
+   220		req_header->label = cpu_to_le32(p->label);
+   221	
+ > 222		acl->n_entries = cpu_to_le32(p->n_acl_entries);
+   223		memcpy(acl->entries, p->acl_entries,
+   224		       flex_array_size(acl, entries, p->n_acl_entries));
+   225	
+   226		mem->n_entries = cpu_to_le16(initial_mem_entries);
+   227		memcpy(mem->entries, p->mem_entries,
+   228		       flex_array_size(mem, entries, initial_mem_entries));
+   229	
+   230		/* Set n_entries for memory attribute section to 0 */
+   231		*attr_section = 0;
+   232	
+   233		ret = gunyah_rm_call(rm, message_id, msg, msg_size, (void **)&resp,
+   234				     &resp_size);
+   235		kfree(msg);
+   236	
+   237		if (ret)
+   238			return ret;
+   239	
+   240		p->mem_handle = le32_to_cpu(*resp);
+   241		kfree(resp);
+   242	
+   243		if (need_append) {
+   244			ret = gunyah_rm_mem_append(
+   245				rm, p->mem_handle, &p->mem_entries[initial_mem_entries],
+   246				p->n_mem_entries - initial_mem_entries);
+   247			if (ret) {
+   248				gunyah_rm_mem_reclaim(rm, p);
+   249				p->mem_handle = GUNYAH_MEM_HANDLE_INVAL;
+   250			}
+   251		}
+   252	
+   253		return ret;
+   254	}
+   255	ALLOW_ERROR_INJECTION(gunyah_rm_mem_share, ERRNO);
+   256	
 
 -- 
 0-DAY CI Kernel Test Service
