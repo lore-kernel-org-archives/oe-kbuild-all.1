@@ -1,270 +1,117 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681A8175568
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A00187870;
+	Tue, 10 Sep 2024 09:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725959101; cv=none; b=lQUQE7A6y1OV83eWN24LXal0ZJV5c5StzOJIMRQ1JF4fvFZx0ZPj7kQ6tP87WvMHfS6kyih8e4IBXHAV8VJD9mBw/EGoNx8pf3Nxxu8ZK0dNa5k1T4yU3AAebq83zOet3O3cWli2LuNgaq0ziopFzb8xaXFKCUi0u6rmDEqqrC0=
+	t=1725959765; cv=none; b=MIumscLIfTmCvfu58ek9HCI2wLXOflMhF+SlrJdeju/BGLAPwin/vX1qdAOKeQfpEm5Ga7P10vMEeYBq1k8mJSZaypRw/I7zKlQuP41EmbK0SdKJXgFgfNX9QwSWTzuLHtnUz3hoAdvqkHCF1rjIy4d9RCTm/F7UHlgKBR5bOdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725959101; c=relaxed/simple;
-	bh=d+a/HLH54e6hJb85VFKHdDyDs9zEYq45uYiP4vNGna0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XlDahQU3jW6gwfhzXvnxWGZK1OWePmdufxNaFz7qWhDtsQTBN0fpetkEnQ8oVjpwIZ4a0ZtWubBEBwInFPcAfNTxsP8PsblS8u14zQ9rZJAoDQLz3sfqZiOPENcQmPq3M0Qrt8DoFegjPAy0a+qwLIBvGBvn0THCCptbuHh/12E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de; spf=fail smtp.mailfrom=denx.de; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=denx.de
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id DC4671C009E; Tue, 10 Sep 2024 10:59:36 +0200 (CEST)
-Date: Tue, 10 Sep 2024 10:59:36 +0200
-From: Pavel Machek <pavel@denx.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [cip:linux-6.1.y-cip-rebase 190/438]
- drivers/iommu/io-pgtable-arm.c:1185:undefined reference to
- `alloc_io_pgtable_ops'
-Message-ID: <ZuAKeKb/23ZqSltA@duo.ucw.cz>
-References: <202409101626.sNel54m0-lkp@intel.com>
+	s=arc-20240116; t=1725959765; c=relaxed/simple;
+	bh=FBMJWJqB79yGDbUvlWAy35uxPHrp8h6XY0yZZg4VB4w=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=YSwt7lJrbIHsaIkpIEtI/D9L/odgwXgtOhT1gvcdYduOeHAuVx12STZxNkrJ1Y0IKsLRenRJRN2j5iHMoI/GaF0JFRSIIafP7BhdGhelKU6L9jGurF41bhwmLMSY/ZLhteSA5JXfOnmBZVAbWrGMGEXys0jPl83VuQdJfd2tPcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=a1j62AdA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l+J5gSQ/; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="a1j62AdA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l+J5gSQ/"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2196111402FF;
+	Tue, 10 Sep 2024 05:16:03 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Tue, 10 Sep 2024 05:16:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1725959763;
+	 x=1726046163; bh=MBfqYJPMZJv6Y590XG1x2GpGDpSRx867w+Y9UYCRbw8=; b=
+	a1j62AdAnQhf0HLyjSZe8JZWKYzSnjAvjaaddrKACiX0WQDkHUFIgKBXcODTv7qw
+	o1/nXcSntC1fW3ImMyZD8xhgHO0fr611gdnbAHFuF5z4DUMs9TQubhDDyJjzfIS9
+	NWO3ciAvN4cQfAluv8ggEgfXX60wCjEQMGmlM0R8+dS25X9HDB8B2lxkH8Dorp2u
+	bjTGq6VlZSpKU3u2f+9LyUbsPQvq78e1HtLg2/p6Zz/G9lnxw3br+6/YMNHY2Njm
+	6wFeHugpyLPXcvl6l1+4GEqdUKNs07zzC/Q+sGNqhAII5aRFQpL4D1fmym7HhhuU
+	aXrGw70YdK2qbYpLdsm3tA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725959763; x=
+	1726046163; bh=MBfqYJPMZJv6Y590XG1x2GpGDpSRx867w+Y9UYCRbw8=; b=l
+	+J5gSQ/KGDhLUDLnXehAjvmnaoBep82FwwBq3dm1GhJQ7LGWzxlqxVIGSvtAC93F
+	/2uvVGb4dFIDjCrvGBYjUO+QYVxL5vFgk9NiRtUxwjbdWPz8B/RpCls3ZmAByPeP
+	WQ07CvO/OQePvsYc4AJ5M2wGSQdRO4lGSkySRoOT5iHNBxddUEup1ktRCyvROKrL
+	swFUjiL1PBP/Pfl55OTWP8IkjDyH72iHI1dy6z+CNe9V4cBv+/TUJlXzwmJyTWvG
+	hhsTAeJfqgMNQQ1vKEmM71VcB91UWQS0BXToJhOtYK0lMrMHC/kxvY20995KylsI
+	JoqiXacJ6Gb6OIpEvnjCQ==
+X-ME-Sender: <xms:Ug7gZjojGXn6UCqfUmTT12seRnAENgWdJ7W8kdqF22TzXXX55R0e0g>
+    <xme:Ug7gZto3yDJxstGEgORYARNSrMttFE7f1Db_Y9-9qnoXukE6oCcEhBnPs6BmMcw9b
+    njjWYtDa-nKCfOVEd0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiledgudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
+    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudeh
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrg
+    hssegrrhhmrdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphht
+    thhopehjvhgvthhtvghrsehkrghlrhgrhihinhgtrdgtohhmpdhrtghpthhtohephihsih
+    honhhnvggruheskhgrlhhrrgihihhntgdrtghomhdprhgtphhtthhopegthhgvnhhhuhgr
+    tggriheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhuohhrvghnsehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    lhhinhhugidqmhhmsehkvhgrtghkrdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuh
+    igqdhfohhunhgurghtihhonhdrohhrgh
+X-ME-Proxy: <xmx:Ug7gZgP8xQEG18G7xPFL4QGmK2mXkM-t716YUekMYUG_PwYZTZ7x3Q>
+    <xmx:Ug7gZm5rXtNcuwvnJMGqh3g-bZpf_v76S_FVbRRxDhb9oxBMuVNKYQ>
+    <xmx:Ug7gZi5WZH3YWgrEsaCy5grLKqoGpwgdTQeMr0fH7tVKyiej_2g4lA>
+    <xmx:Ug7gZuihdGDVMGl1i-UIbLgjJBq7YSAOJitHj9GhJeCT4mnTSPQE-g>
+    <xmx:Uw7gZhT3YmmvpnNfQ7pxMrIcJew_JCbe3z_lqcSOto6EG6CQMtdD7pwU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C1566222006F; Tue, 10 Sep 2024 05:16:02 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KDvFHQDngPotlOux"
-Content-Disposition: inline
-In-Reply-To: <202409101626.sNel54m0-lkp@intel.com>
+Date: Tue, 10 Sep 2024 09:15:42 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>,
+ "Julian Vetter" <jvetter@kalrayinc.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
+ guoren <guoren@kernel.org>, "Huacai Chen" <chenhuacai@kernel.org>,
+ "WANG Xuerui" <kernel@xen0n.name>,
+ "Andrew Morton" <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Linux Memory Management List" <linux-mm@kvack.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ loongarch@lists.linux.dev, "Yann Sionneau" <ysionneau@kalrayinc.com>
+Message-Id: <c78987ba-6b54-4433-b5dc-3b3b9f98354a@app.fastmail.com>
+In-Reply-To: <202409101549.CyV0mJ2S-lkp@intel.com>
+References: <20240909133159.2024688-4-jvetter@kalrayinc.com>
+ <202409101549.CyV0mJ2S-lkp@intel.com>
+Subject: Re: [PATCH v2 3/4] Use generic io memcpy functions on the csky architecture
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+On Tue, Sep 10, 2024, at 07:27, kernel test robot wrote:
 
---KDvFHQDngPotlOux
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> 6a9bfa83709a84e Julian Vetter 2024-09-09  55  	while (count >= 
+> NATIVE_STORE_SIZE) {
+> 6a9bfa83709a84e Julian Vetter 2024-09-09  56  		if 
+> (IS_ENABLED(CONFIG_64BIT))
+> 6a9bfa83709a84e Julian Vetter 2024-09-09 @57  
+> 			__raw_writeq(get_unaligned((uintptr_t *)from), to);
+> 6a9bfa83709a84e Julian Vetter 2024-09-09  58  		else
 
-Hi!
+Right, this one actually has to be a preprocessor conditional
+because __raw_writeq is not defined.
 
-Who is responsible for this bot, and how do I unsubscribe?
-
-								Pavel
-
-On Tue 2024-09-10 16:08:15, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git=
- linux-6.1.y-cip-rebase
-> head:   fb1857d56e47961f0e5a291c3385b88f610320e3
-> commit: 16cf7a685142727e637f16ed7d9de15b7a32a753 [190/438] riscv: Kconfig=
-=2Esocs: Add ARCH_RENESAS kconfig option
-> config: riscv-randconfig-001-20240910 (https://download.01.org/0day-ci/ar=
-chive/20240910/202409101626.sNel54m0-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240910/202409101626.sNel54m0-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409101626.sNel54m0-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    riscv64-linux-ld: drivers/iommu/io-pgtable-arm.o: in function `arm_lpa=
-e_run_tests':
-> >> drivers/iommu/io-pgtable-arm.c:1185:(.init.text+0x212): undefined refe=
-rence to `alloc_io_pgtable_ops'
-> >> riscv64-linux-ld: drivers/iommu/io-pgtable-arm.c:1257:(.init.text+0x79=
-2): undefined reference to `free_io_pgtable_ops'
->    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
-n_free_context':
-> >> drivers/iommu/ipmmu-vmsa.c:361:(.text+0x7ee): undefined reference to `=
-free_io_pgtable_ops'
->    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
-n_init_context':
-> >> drivers/iommu/ipmmu-vmsa.c:439:(.text+0xc54): undefined reference to `=
-alloc_io_pgtable_ops'
->=20
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
->    Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST =
-[=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
->    Selected by [y]:
->    - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] ||=
- COMPILE_TEST [=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
->=20
->=20
-> vim +1185 drivers/iommu/io-pgtable-arm.c
->=20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1169 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1170  static int __init arm=
-_lpae_run_tests(struct io_pgtable_cfg *cfg)
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1171  {
-> 9062c1d0bedacf Christophe JAILLET 2019-09-09  1172  	static const enum io=
-_pgtable_fmt fmts[] __initconst =3D {
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1173  		ARM_64_LPAE_S1,
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1174  		ARM_64_LPAE_S2,
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1175  	};
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1176 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1177  	int i, j;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1178  	unsigned long iova;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1179  	size_t size;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1180  	struct io_pgtable_op=
-s *ops;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1181 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1182  	selftest_running =3D=
- true;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1183 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1184  	for (i =3D 0; i < AR=
-RAY_SIZE(fmts); ++i) {
-> fe4b991dcd84e0 Will Deacon        2014-11-17 @1185  		cfg_cookie =3D cfg;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1186  		ops =3D alloc_io_pg=
-table_ops(fmts[i], cfg, cfg);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1187  		if (!ops) {
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1188  			pr_err("selftest: =
-failed to allocate io pgtable ops\n");
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1189  			return -ENOMEM;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1190  		}
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1191 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1192  		/*
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1193  		 * Initial sanity c=
-hecks.
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1194  		 * Empty page table=
-s shouldn't provide any translations.
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1195  		 */
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1196  		if (ops->iova_to_ph=
-ys(ops, 42))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1197  			return __FAIL(ops,=
- i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1198 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1199  		if (ops->iova_to_ph=
-ys(ops, SZ_1G + 42))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1200  			return __FAIL(ops,=
- i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1201 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1202  		if (ops->iova_to_ph=
-ys(ops, SZ_2G + 42))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1203  			return __FAIL(ops,=
- i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1204 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1205  		/*
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1206  		 * Distinct mapping=
-s of different granule sizes.
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1207  		 */
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1208  		iova =3D 0;
-> 4ae8a5c528c0b1 Kefeng Wang        2016-09-21  1209  		for_each_set_bit(j,=
- &cfg->pgsize_bitmap, BITS_PER_LONG) {
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1210  			size =3D 1UL << j;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1211 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1212  			if (ops->map(ops, =
-iova, iova, size, IOMMU_READ |
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1213  							    IOMMU_WRIT=
-E |
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1214  							    IOMMU_NOEX=
-EC |
-> f34ce7a7018c2f Baolin Wang        2020-06-12  1215  							    IOMMU_CACH=
-E, GFP_KERNEL))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1216  				return __FAIL(ops=
-, i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1217 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1218  			/* Overlapping map=
-pings */
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1219  			if (!ops->map(ops,=
- iova, iova + size, size,
-> f34ce7a7018c2f Baolin Wang        2020-06-12  1220  				      IOMMU_READ =
-| IOMMU_NOEXEC, GFP_KERNEL))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1221  				return __FAIL(ops=
-, i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1222 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1223  			if (ops->iova_to_p=
-hys(ops, iova + 42) !=3D (iova + 42))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1224  				return __FAIL(ops=
-, i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1225 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1226  			iova +=3D SZ_1G;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1227  		}
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1228 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1229  		/* Partial unmap */
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1230  		size =3D 1UL << __f=
-fs(cfg->pgsize_bitmap);
-> a2d3a382d6c682 Will Deacon        2019-07-02  1231  		if (ops->unmap(ops,=
- SZ_1G + size, size, NULL) !=3D size)
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1232  			return __FAIL(ops,=
- i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1233 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1234  		/* Remap of partial=
- unmap */
-> f34ce7a7018c2f Baolin Wang        2020-06-12  1235  		if (ops->map(ops, S=
-Z_1G + size, size, size, IOMMU_READ, GFP_KERNEL))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1236  			return __FAIL(ops,=
- i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1237 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1238  		if (ops->iova_to_ph=
-ys(ops, SZ_1G + size + 42) !=3D (size + 42))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1239  			return __FAIL(ops,=
- i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1240 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1241  		/* Full unmap */
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1242  		iova =3D 0;
-> f793b13ef0c9c1 YueHaibing         2018-04-26  1243  		for_each_set_bit(j,=
- &cfg->pgsize_bitmap, BITS_PER_LONG) {
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1244  			size =3D 1UL << j;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1245 =20
-> a2d3a382d6c682 Will Deacon        2019-07-02  1246  			if (ops->unmap(ops=
-, iova, size, NULL) !=3D size)
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1247  				return __FAIL(ops=
-, i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1248 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1249  			if (ops->iova_to_p=
-hys(ops, iova + 42))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1250  				return __FAIL(ops=
-, i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1251 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1252  			/* Remap full bloc=
-k */
-> f34ce7a7018c2f Baolin Wang        2020-06-12  1253  			if (ops->map(ops, =
-iova, iova, size, IOMMU_WRITE, GFP_KERNEL))
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1254  				return __FAIL(ops=
-, i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1255 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1256  			if (ops->iova_to_p=
-hys(ops, iova + 42) !=3D (iova + 42))
-> fe4b991dcd84e0 Will Deacon        2014-11-17 @1257  				return __FAIL(ops=
-, i);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1258 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1259  			iova +=3D SZ_1G;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1260  		}
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1261 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1262  		free_io_pgtable_ops=
-(ops);
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1263  	}
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1264 =20
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1265  	selftest_running =3D=
- false;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1266  	return 0;
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1267  }
-> fe4b991dcd84e0 Will Deacon        2014-11-17  1268 =20
->=20
-> :::::: The code at line 1185 was first introduced by commit
-> :::::: fe4b991dcd84e0104cf2e29223a819335ed048a7 iommu: add self-consisten=
-cy tests to ARM LPAE IO page table allocator
->=20
-> :::::: TO: Will Deacon <will.deacon@arm.com>
-> :::::: CC: Will Deacon <will.deacon@arm.com>
->=20
-
---=20
-DENX Software Engineering GmbH,        Managing Director: Erika Unter
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---KDvFHQDngPotlOux
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZuAKeAAKCRAw5/Bqldv6
-8gr3AJ9IEMGLujlOMqmVXr6wE2Ut6qSS9wCgkYgA5/wn+hg30spl9cMNb+AaRBg=
-=ITHT
------END PGP SIGNATURE-----
-
---KDvFHQDngPotlOux--
+     Arnd
