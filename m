@@ -1,172 +1,134 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133F21A7051
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 21:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF22176FCF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 21:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726003372; cv=none; b=rPFAF0zt9aUqnmBNsTBY6ufBOqRrOz9Sb7y06jGeE76WU2BaoDVsbynobwJBF/3Hm45gY1ARLfkSjTejpRQy2Fs1uAOXRfugnWLZmNs7Vky4geI24mM+FEez+jWptI3Uyiw1jVP3DDxOYWUh9bcomXOG4WiKF11UXB1OVp10gY0=
+	t=1726004416; cv=none; b=RPirv5jlNx6wxtxm5F/3M9Iz9JjSusLuZqGEGBbDw7RmCykC2cuYcITKDElp4so9bdNfxKsW9B25NGD0L3xBi5zF3cORzBYzEQGzdYsCOqvOGt9fYVS7VkzkKlmUYiGpjnAUFQ3PY7GDA4zaEhAVn1RrWqowGqH2LcL0WDHLDPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726003372; c=relaxed/simple;
-	bh=g2IZLba3/WnIUuxyDP7eK54cQ7B9oZtD+WTeIJ/fUNI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f2tpU1D3K3NcrJ5rCQOP6oHengkL/XMxkWwI/RH63ug6WWZERmqIvb2HwcyXkSrN4GVfbjZijPkB0mHdm+t3BmL37hz6Hdc9sssw6Ejk3AWzpLfpiFhtFn1iPmWHvYXbYnWVJjWZFGahQyQFIPyxlvf2VQ9hQcSXSafeuzq20Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CgyhNF8q; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1726004416; c=relaxed/simple;
+	bh=Z1f4XynSC5YWGaW/O1OCe4xNqu4ScurA90PxhgemFB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qqfpZdJqpV5idj6AZAExbJ3O7YDgoNfjJloOELtCOI+V45O9OBj3fYUxtvp4j+qzbMtVKu57oYamnYt/oS223w5SmjM8mtjK7n8nOvp77VzR4j1xJFoOvXzrdADd8V9OV9tNGzQJmc1MAPVLx3gstsb1DOudF8DQI994x8+WxB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k/uKT+Xs; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CgyhNF8q"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-374bfc395a5so144305f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 14:22:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1726003368; x=1726608168; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=rmpqhs1xd8bfsJ3sKQnLTZJeE5iZf3lqCOadMn3tHHM=;
-        b=CgyhNF8qqhMb+pKblTXgOor6pzGWIV2F6txpLEbSFk7XWr+8D35mvGM0ZIJkLT0vgs
-         ZfIoiaS7PHUJyAm6vagZnpES59EDnFWzntfG8sLE78wkXAkFjcT9hKKVZ6zlbLdPh8yc
-         MybCSfbeYbAOfGcdD/lsF/wbry2lN9E7VW5s05VPPVHKVZ8ZA7bF60rU73D51Xk++7s4
-         be5qanTPdHDDGTRyzlQIADtaMH+W+dTY6r/neMeW8smN5fAI2MiBa1V7xPkSsrW8cRMA
-         EFcwDk78G/sSvTlpTeeoCti1IiiUheeKB6g6KslUznRqvXRlF6Poo5VdR0Q4wN/zjF7l
-         nHjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726003368; x=1726608168;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rmpqhs1xd8bfsJ3sKQnLTZJeE5iZf3lqCOadMn3tHHM=;
-        b=mQLSvukzwAyBOByJ6v4acRrKyXAhQn025o1RjQ0VU0hHuiPhrEHRUrB9s2oZzYFepa
-         h2sX4+n725zOWGBLhJbB75EZIlEzAl2YZ5Tp06j6Apl2nbjjzoka301RwqarQArSfich
-         hKlTr7f3LJZeO44Xww/wIJYst0m4WLrFdI4MRirj7r7g6cNtbFAKj7NEAWRJL23nuwZu
-         cMCeqkyMTN69ttMmz+t2pMF4pbeUfXRQkFKWf51MA0+/CLqczi01+u4vvAnV2NmCOok9
-         uSKKY8jEX29fb+WNAcl7rm7+EmXb0oIF2C7ygJy0DF5aGW9RNN4Lv4vyrn1bCnBv0OSt
-         n0Pg==
-X-Forwarded-Encrypted: i=1; AJvYcCVBypqDwS7Khn0Tp5mcYFsPyGPMObZXDFrcNy5V+XXoe+N6z2bcWVEDCBJ+d4Gm8ELj3JEskPwVUQO52uUM@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVIpvH3MtVS0Pbg+INSJ9t4QXK5VwaZkG8Eno9PHKX5G1Uen+6
-	8R/kcOzneHcWvJvRLyKuu1ggmqSH/d7+yi4c9s+v44mvZQuZvE53nlEwJuZ0jdo=
-X-Google-Smtp-Source: AGHT+IG/EKbvdEZA2oSGr4EkL1Cx4pXjhdd/S2ypRMSM1ZbRXY6aQkk5kuEJiX9yXagjcO8v1pTdMg==
-X-Received: by 2002:a5d:5f46:0:b0:36b:c65c:661e with SMTP id ffacd0b85a97d-378a8a1d30cmr3607509f8f.13.1726003367534;
-        Tue, 10 Sep 2024 14:22:47 -0700 (PDT)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dadb42e6fasm9087783a91.0.2024.09.10.14.22.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Sep 2024 14:22:47 -0700 (PDT)
-Message-ID: <4168874d-41ae-41e2-aa9e-7cf4281278d3@suse.com>
-Date: Wed, 11 Sep 2024 06:52:42 +0930
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/uKT+Xs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726004414; x=1757540414;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Z1f4XynSC5YWGaW/O1OCe4xNqu4ScurA90PxhgemFB0=;
+  b=k/uKT+Xs28niquC1raI0p7EcoUdm5vZmAO6+Btw4MKUtH3kuCaamIKfW
+   lQt/nnBCFANFR0oXiQJALweunp5K6RqtpnS+lmgxOKjR4NXNH5UI3+EdY
+   K9nHuvkvvKNJkNp2HUfMp+CB85hIJckdz2JG0qb8tko3O7kRQZ/UgAqHv
+   kdqoIxTXKD/8E+b1OJzTffAxY54RbQYTKXDcBGxk2Qt4CqZhz1aUCILJ8
+   Bi4phoGaifXvEoJ4D+zTV4meqvy8IKTC+ckfT+/YLu1k/W0D+FmGkq5AG
+   hJ8QDi8qPq+P6U1iLn9woJ2foRdJwNGQx2RR0pOuiA7EPeje/G/AOTxcs
+   Q==;
+X-CSE-ConnectionGUID: x2wqNyiVQISqFFmqTrfeJw==
+X-CSE-MsgGUID: G6rAwXiITaySss9lwCxCxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="27698795"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="27698795"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 14:40:13 -0700
+X-CSE-ConnectionGUID: wcbiGw8TSU6BPW1YAk312w==
+X-CSE-MsgGUID: UyJ7/ZhWQeadWO2rsA42Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="71956038"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 10 Sep 2024 14:40:12 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1so8ao-0002jy-02;
+	Tue, 10 Sep 2024 21:40:10 +0000
+Date: Wed, 11 Sep 2024 05:39:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3790/30000] kernel/pid.c:623:50: sparse: sparse:
+ incorrect type in argument 3 (different address spaces)
+Message-ID: <202409110524.f822gNQG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 9813/10862] fs/btrfs/subpage.c:437
- btrfs_folio_end_writer_lock_bitmap() warn: variable dereferenced before check
- 'fs_info' (see line 431)
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- David Sterba <dsterba@suse.com>
-References: <3023236c-6e88-407b-9640-5b956d4c969c@stanley.mountain>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJVBQkNOgemAAoJEMI9kfOh
- Jf6oapEH/3r/xcalNXMvyRODoprkDraOPbCnULLPNwwp4wLP0/nKXvAlhvRbDpyx1+Ht/3gW
- p+Klw+S9zBQemxu+6v5nX8zny8l7Q6nAM5InkLaD7U5OLRgJ0O1MNr/UTODIEVx3uzD2X6MR
- ECMigQxu9c3XKSELXVjTJYgRrEo8o2qb7xoInk4mlleji2rRrqBh1rS0pEexImWphJi+Xgp3
- dxRGHsNGEbJ5+9yK9Nc5r67EYG4bwm+06yVT8aQS58ZI22C/UeJpPwcsYrdABcisd7dddj4Q
- RhWiO4Iy5MTGUD7PdfIkQ40iRcQzVEL1BeidP8v8C4LVGmk4vD1wF6xTjQRKfXHOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJuBQkNOge/AAoJEMI9kfOhJf6o
- rq8H/3LJmWxL6KO2y/BgOMYDZaFWE3TtdrlIEG8YIDJzIYbNIyQ4lw61RR+0P4APKstsu5VJ
- 9E3WR7vfxSiOmHCRIWPi32xwbkD5TwaA5m2uVg6xjb5wbdHm+OhdSBcw/fsg19aHQpsmh1/Q
- bjzGi56yfTxxt9R2WmFIxe6MIDzLlNw3JG42/ark2LOXywqFRnOHgFqxygoMKEG7OcGy5wJM
- AavA+Abj+6XoedYTwOKkwq+RX2hvXElLZbhYlE+npB1WsFYn1wJ22lHoZsuJCLba5lehI+//
- ShSsZT5Tlfgi92e9P7y+I/OzMvnBezAll+p/Ly2YczznKM5tV0gboCWeusM=
-In-Reply-To: <3023236c-6e88-407b-9640-5b956d4c969c@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   cbfb00d89c3b9971c3f0732b4f34d4e674bff5d8
+commit: c649babf7cf25e545a7dc3eb6d59392ac3355cb9 [3790/30000] pid_ns: Make pid_max per namespace
+config: x86_64-randconfig-123-20240910 (https://download.01.org/0day-ci/archive/20240911/202409110524.f822gNQG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110524.f822gNQG-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409110524.f822gNQG-lkp@intel.com/
 
-在 2024/9/10 22:22, Dan Carpenter 写道:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   6708132e80a2ced620bde9b9c36e426183544a23
-> commit: 966416b380926c94751476747ea68571004eac24 [9813/10862] btrfs: only unlock the to-be-submitted ranges inside a folio
-> config: i386-randconfig-141-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101924.XTvd0yQv-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202409101924.XTvd0yQv-lkp@intel.com/
-> 
-> smatch warnings:
-> fs/btrfs/subpage.c:437 btrfs_folio_end_writer_lock_bitmap() warn: variable dereferenced before check 'fs_info' (see line 431)
-> 
-> vim +/fs_info +437 fs/btrfs/subpage.c
+sparse warnings: (new ones prefixed by >>)
+   kernel/pid.c:385:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/pid.c:385:9: sparse:    struct pid [noderef] __rcu *
+   kernel/pid.c:385:9: sparse:    struct pid *
+   kernel/pid.c:386:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/pid.c:386:9: sparse:    struct pid [noderef] __rcu *
+   kernel/pid.c:386:9: sparse:    struct pid *
+   kernel/pid.c:449:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/pid.c:449:23: sparse:    struct pid [noderef] __rcu *
+   kernel/pid.c:449:23: sparse:    struct pid *
+   kernel/pid.c:507:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/pid.c:507:24: sparse:    struct pid [noderef] __rcu *
+   kernel/pid.c:507:24: sparse:    struct pid *
+>> kernel/pid.c:623:50: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   kernel/pid.c:623:50: sparse:     expected void *
+   kernel/pid.c:623:50: sparse:     got void [noderef] __user *buffer
+>> kernel/pid.c:632:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/pid.c:632:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/pid.c:632:35: sparse:     got int ( * )( ... )
+   kernel/pid.c: note: in included file (through include/linux/pid.h, include/linux/sched.h, include/linux/mm.h):
+   include/linux/rculist.h:553:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/rculist.h:553:9: sparse:    struct hlist_node [noderef] __rcu *
+   include/linux/rculist.h:553:9: sparse:    struct hlist_node *
+   include/linux/rculist.h:554:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/rculist.h:554:9: sparse:    struct hlist_node [noderef] __rcu *
+   include/linux/rculist.h:554:9: sparse:    struct hlist_node *
 
-Thanks for the report.
+vim +623 kernel/pid.c
 
-It looks like the extra checks are duplicated.
+   614	
+   615	static int proc_dointvec_pidmax(struct ctl_table *table, int write,
+   616					void __user *buffer, size_t *lenp, loff_t *ppos)
+   617	{
+   618		struct ctl_table tmp;
+   619	
+   620		tmp = *table;
+   621		tmp.data = &task_active_pid_ns(current)->pid_max;
+   622	
+ > 623		return proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
+   624	}
+   625	
+   626	static struct ctl_table pid_ctl_table[] = {
+   627		{
+   628			.procname	= "pid_max",
+   629			.data		= &init_pid_ns.pid_max,
+   630			.maxlen		= sizeof(int),
+   631			.mode		= 0644,
+ > 632			.proc_handler	= proc_dointvec_pidmax,
+   633			.extra1		= &pid_max_min,
+   634			.extra2		= &pid_max_max,
+   635		},
+   636		{}
+   637	};
+   638	
 
-This function is only called inside extent_writepage(), which will never 
-be triggered from selftest, thus fs_info should always exist.
-
-I can remove the fs_info check from our btrfs/for-next branch.
-
-Thanks,
-Qu
-> 
-> 966416b380926c Qu Wenruo 2024-09-02  427  void btrfs_folio_end_writer_lock_bitmap(const struct btrfs_fs_info *fs_info,
-> 966416b380926c Qu Wenruo 2024-09-02  428  					struct folio *folio, unsigned long bitmap)
-> 966416b380926c Qu Wenruo 2024-09-02  429  {
-> 966416b380926c Qu Wenruo 2024-09-02  430  	struct btrfs_subpage *subpage = folio_get_private(folio);
-> 966416b380926c Qu Wenruo 2024-09-02 @431  	const int start_bit = fs_info->sectors_per_page * btrfs_bitmap_nr_locked;
->                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
-> Dereference
-> 
-> 966416b380926c Qu Wenruo 2024-09-02  432  	unsigned long flags;
-> 966416b380926c Qu Wenruo 2024-09-02  433  	bool last = false;
-> 966416b380926c Qu Wenruo 2024-09-02  434  	int cleared = 0;
-> 966416b380926c Qu Wenruo 2024-09-02  435  	int bit;
-> 966416b380926c Qu Wenruo 2024-09-02  436
-> 966416b380926c Qu Wenruo 2024-09-02 @437  	if (unlikely(!fs_info) || !btrfs_is_subpage(fs_info, folio->mapping)) {
->                                                               ^^^^^^^^^
-> Too late
-> 
-> 966416b380926c Qu Wenruo 2024-09-02  438  		folio_unlock(folio);
-> 966416b380926c Qu Wenruo 2024-09-02  439  		return;
-> 966416b380926c Qu Wenruo 2024-09-02  440  	}
-> 966416b380926c Qu Wenruo 2024-09-02  441
-> 966416b380926c Qu Wenruo 2024-09-02  442  	if (atomic_read(&subpage->writers) == 0) {
-> 966416b380926c Qu Wenruo 2024-09-02  443  		/* No writers, locked by plain lock_page(). */
-> 966416b380926c Qu Wenruo 2024-09-02  444  		folio_unlock(folio);
-> 966416b380926c Qu Wenruo 2024-09-02  445  		return;
-> 966416b380926c Qu Wenruo 2024-09-02  446  	}
-> 966416b380926c Qu Wenruo 2024-09-02  447
-> 966416b380926c Qu Wenruo 2024-09-02  448  	spin_lock_irqsave(&subpage->lock, flags);
-> 966416b380926c Qu Wenruo 2024-09-02  449  	for_each_set_bit(bit, &bitmap, fs_info->sectors_per_page) {
-> 966416b380926c Qu Wenruo 2024-09-02  450  		if (test_and_clear_bit(bit + start_bit, subpage->bitmaps))
-> 966416b380926c Qu Wenruo 2024-09-02  451  			cleared++;
-> 966416b380926c Qu Wenruo 2024-09-02  452  	}
-> 966416b380926c Qu Wenruo 2024-09-02  453  	ASSERT(atomic_read(&subpage->writers) >= cleared);
-> 966416b380926c Qu Wenruo 2024-09-02  454  	last = atomic_sub_and_test(cleared, &subpage->writers);
-> 966416b380926c Qu Wenruo 2024-09-02  455  	spin_unlock_irqrestore(&subpage->lock, flags);
-> 966416b380926c Qu Wenruo 2024-09-02  456  	if (last)
-> 966416b380926c Qu Wenruo 2024-09-02  457  		folio_unlock(folio);
-> 966416b380926c Qu Wenruo 2024-09-02  458  }
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
