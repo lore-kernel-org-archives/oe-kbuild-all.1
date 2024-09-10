@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3208618EFF6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 08:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC67183CB8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 08:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725955743; cv=none; b=PZcwUlQUgasyCuxqxmHyEkBhaTTpwIJF8/hDNP53HGY1SXKAst13mw0OGKA+W77ypyRJYJSP6199Tr/zwuh1cc5tJpnzmdKAUAgZGXtbYWiE3d6eAo/L5uMLrWoryNJEt1C7FwHPRnnLoizD0J3k9MwCK3dVpPaZZw++6QmccYs=
+	t=1725955744; cv=none; b=M5MMxR/8TFO3Z2X39HHs3p45yUX8Q+lVKjxVYjiby2MWyI+Vmp9374/9YvJ9IbRy27EUUUBfioEi9QMg6jxqF2rsIYJ+iEJ6q84BPfRphy10hrGL66CZF/+kAqL8iJnJ1hDhlGGBUpc7s1/fiTL2bJKF5w/sWhsVITeotnNcmNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725955743; c=relaxed/simple;
-	bh=0MaA7Q75o2lY7rfg10Z6ZXLlzlGrPmDxnFUEAm8INV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f5QhSghtp4D2fSi4Qutmg+lVpc8ZrrMNqk4gl9O4STN1zevu0BKfcU++7v1kDIQJHv5FypylSBLad38KOpcrDKBNKxYQl6v8DDzwovErFQhQXyYdlKcWLpx+tJBJOGOoTj8B9jexGJd4RdaB4b7GyyjvwN65NysTJx2JQ8MwOBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyloHng4; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1725955744; c=relaxed/simple;
+	bh=CbhqKnSgFyeafE5ynffMFbxesySdvJj911eauV3Hiag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IKo6oLCMhkoR9/AwjDKgNuIteMItoPpgN/2ulwP+4oFZflTuq2WETKZqj4/kJtwGC7ZyaHTlppXl1txBTQHUUbZsKKYBeGhyOPAt1RS0I3GTjCai1/gp0sYF5N7ToH2ZryIeQosdngMIznqdcZ+gtwb4QM9wKJ+nkukc1WcqPaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DmaxNfd3; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyloHng4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmaxNfd3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725955741; x=1757491741;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0MaA7Q75o2lY7rfg10Z6ZXLlzlGrPmDxnFUEAm8INV0=;
-  b=AyloHng4SXX0HevNN78DyuGdZiiOVxgFfvkUYHRDrUasx5FRYNVdPdbo
-   iou3tpGXgHiSR4z9UNRNETDXqCH3/+S0giiGKPDpZXKifF5eGYyVhCvQW
-   KieFQW9jGsOGKZyCF0/kGpDjcGbzMsRcyp2FaGiPvpqvg/w7raLhfP/uV
-   YAzivWHDfJX7Qs6EcecjeMuQXZH0xKJXVFQTrC8I7dzck5WQHGBavf2DR
-   XIS3zLQvmeMB462UYQt8zrcsmrHPvqJ6Q1K3UZHimU/3d+XMWMln49kzs
-   07OPOe+ALwQUjlCQ7HVSHCHVsIHX6rhN8PnXII8XCKCL0MWw+Dk15+0l4
-   Q==;
-X-CSE-ConnectionGUID: VfSNKBgyRhy7xwTEfqij+w==
-X-CSE-MsgGUID: A3ap0JtiR+qmorDMtz46HA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35353388"
+  t=1725955742; x=1757491742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CbhqKnSgFyeafE5ynffMFbxesySdvJj911eauV3Hiag=;
+  b=DmaxNfd3kWDLIZmBYhlk69/aPD1QbNpKmKOXP0QLQSl87fvEfeO9v74G
+   7OpzFWlMaMQWlkpNH+tyo8LH1TI6pQw9oHOdK3q0QcZ4ESeQL0R86RrK0
+   WfzvnPTcWR6bIvBB64+C1ymNsz/nqg1vlhDJW4uA4MJIxCU/9dy1UNbTk
+   cFJuzFBVLF/97l6ZjXFj3w7IZDfDbPXeME8l5PRuvHNhZQrvxj+xbCltc
+   XBX6qSCGtfyqOjL4a9nPrjWA+clxuntBnfoNreLgcTUUrwYgF1opXODXF
+   qgjaqg2PCzFIZyAqiQndVtyKmfHR3bhfWRHVaAscClOS6b0QE875Gp2FB
+   w==;
+X-CSE-ConnectionGUID: tEHWiSTBSYWZLrsjhY+SMg==
+X-CSE-MsgGUID: YGJmDuEDSYGdkej1h9IIkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28466390"
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="35353388"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 01:09:00 -0700
-X-CSE-ConnectionGUID: HUi8qmy3Qci9aPpWo57TSg==
-X-CSE-MsgGUID: 8GQsBiXVQe6eqjYLJ6s8Dw==
+   d="scan'208";a="28466390"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 01:09:02 -0700
+X-CSE-ConnectionGUID: MM1uZ7wBTqatJjnpG6ldaA==
+X-CSE-MsgGUID: XnXP7mZjTj6X9ne0+UzxVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="66573863"
+   d="scan'208";a="71069793"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Sep 2024 01:08:59 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 10 Sep 2024 01:08:59 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snvvk-0000GO-2l;
+	id 1snvvk-0000GQ-2r;
 	Tue, 10 Sep 2024 08:08:56 +0000
-Date: Tue, 10 Sep 2024 16:08:15 +0800
+Date: Tue, 10 Sep 2024 16:08:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-6.1.y-cip-rebase 190/438]
- drivers/iommu/io-pgtable-arm.c:1185:undefined reference to
- `alloc_io_pgtable_ops'
-Message-ID: <202409101626.sNel54m0-lkp@intel.com>
+To: Jerome Brunet <jbrunet@baylibre.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
+Message-ID: <202409101522.ZoP360wM-lkp@intel.com>
+References: <20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,144 +69,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip-rebase
-head:   fb1857d56e47961f0e5a291c3385b88f610320e3
-commit: 16cf7a685142727e637f16ed7d9de15b7a32a753 [190/438] riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
-config: riscv-randconfig-001-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101626.sNel54m0-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101626.sNel54m0-lkp@intel.com/reproduce)
+Hi Jerome,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d22bd451d5606411895ef55cb105277e4f4f6e54]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/dt-bindings-hwmon-pmbus-add-ti-tps25990-documentation/20240909-234152
+base:   d22bd451d5606411895ef55cb105277e4f4f6e54
+patch link:    https://lore.kernel.org/r/20240909-tps25990-v1-3-39b37e43e795%40baylibre.com
+patch subject: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240910/202409101522.ZoP360wM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101522.ZoP360wM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409101626.sNel54m0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409101522.ZoP360wM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   riscv64-linux-ld: drivers/iommu/io-pgtable-arm.o: in function `arm_lpae_run_tests':
->> drivers/iommu/io-pgtable-arm.c:1185:(.init.text+0x212): undefined reference to `alloc_io_pgtable_ops'
->> riscv64-linux-ld: drivers/iommu/io-pgtable-arm.c:1257:(.init.text+0x792): undefined reference to `free_io_pgtable_ops'
-   riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domain_free_context':
->> drivers/iommu/ipmmu-vmsa.c:361:(.text+0x7ee): undefined reference to `free_io_pgtable_ops'
-   riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domain_init_context':
->> drivers/iommu/ipmmu-vmsa.c:439:(.text+0xc54): undefined reference to `alloc_io_pgtable_ops'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
-   Selected by [y]:
-   - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
+   drivers/hwmon/pmbus/tps25990.c: In function 'tps25990_read_word':
+>> drivers/hwmon/pmbus/tps25990.c:267:23: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     267 |                 ret = FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
+         |                       ^~~~~~~~~
+   drivers/hwmon/pmbus/tps25990.c: In function 'tps25990_write_word':
+>> drivers/hwmon/pmbus/tps25990.c:337:46: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     337 |                                              FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
+         |                                              ^~~~~~~~~~
 
 
-vim +1185 drivers/iommu/io-pgtable-arm.c
+vim +/FIELD_GET +267 drivers/hwmon/pmbus/tps25990.c
 
-fe4b991dcd84e0 Will Deacon        2014-11-17  1169  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1170  static int __init arm_lpae_run_tests(struct io_pgtable_cfg *cfg)
-fe4b991dcd84e0 Will Deacon        2014-11-17  1171  {
-9062c1d0bedacf Christophe JAILLET 2019-09-09  1172  	static const enum io_pgtable_fmt fmts[] __initconst = {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1173  		ARM_64_LPAE_S1,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1174  		ARM_64_LPAE_S2,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1175  	};
-fe4b991dcd84e0 Will Deacon        2014-11-17  1176  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1177  	int i, j;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1178  	unsigned long iova;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1179  	size_t size;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1180  	struct io_pgtable_ops *ops;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1181  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1182  	selftest_running = true;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1183  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1184  	for (i = 0; i < ARRAY_SIZE(fmts); ++i) {
-fe4b991dcd84e0 Will Deacon        2014-11-17 @1185  		cfg_cookie = cfg;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1186  		ops = alloc_io_pgtable_ops(fmts[i], cfg, cfg);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1187  		if (!ops) {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1188  			pr_err("selftest: failed to allocate io pgtable ops\n");
-fe4b991dcd84e0 Will Deacon        2014-11-17  1189  			return -ENOMEM;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1190  		}
-fe4b991dcd84e0 Will Deacon        2014-11-17  1191  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1192  		/*
-fe4b991dcd84e0 Will Deacon        2014-11-17  1193  		 * Initial sanity checks.
-fe4b991dcd84e0 Will Deacon        2014-11-17  1194  		 * Empty page tables shouldn't provide any translations.
-fe4b991dcd84e0 Will Deacon        2014-11-17  1195  		 */
-fe4b991dcd84e0 Will Deacon        2014-11-17  1196  		if (ops->iova_to_phys(ops, 42))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1197  			return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1198  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1199  		if (ops->iova_to_phys(ops, SZ_1G + 42))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1200  			return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1201  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1202  		if (ops->iova_to_phys(ops, SZ_2G + 42))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1203  			return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1204  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1205  		/*
-fe4b991dcd84e0 Will Deacon        2014-11-17  1206  		 * Distinct mappings of different granule sizes.
-fe4b991dcd84e0 Will Deacon        2014-11-17  1207  		 */
-fe4b991dcd84e0 Will Deacon        2014-11-17  1208  		iova = 0;
-4ae8a5c528c0b1 Kefeng Wang        2016-09-21  1209  		for_each_set_bit(j, &cfg->pgsize_bitmap, BITS_PER_LONG) {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1210  			size = 1UL << j;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1211  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1212  			if (ops->map(ops, iova, iova, size, IOMMU_READ |
-fe4b991dcd84e0 Will Deacon        2014-11-17  1213  							    IOMMU_WRITE |
-fe4b991dcd84e0 Will Deacon        2014-11-17  1214  							    IOMMU_NOEXEC |
-f34ce7a7018c2f Baolin Wang        2020-06-12  1215  							    IOMMU_CACHE, GFP_KERNEL))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1216  				return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1217  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1218  			/* Overlapping mappings */
-fe4b991dcd84e0 Will Deacon        2014-11-17  1219  			if (!ops->map(ops, iova, iova + size, size,
-f34ce7a7018c2f Baolin Wang        2020-06-12  1220  				      IOMMU_READ | IOMMU_NOEXEC, GFP_KERNEL))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1221  				return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1222  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1223  			if (ops->iova_to_phys(ops, iova + 42) != (iova + 42))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1224  				return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1225  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1226  			iova += SZ_1G;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1227  		}
-fe4b991dcd84e0 Will Deacon        2014-11-17  1228  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1229  		/* Partial unmap */
-fe4b991dcd84e0 Will Deacon        2014-11-17  1230  		size = 1UL << __ffs(cfg->pgsize_bitmap);
-a2d3a382d6c682 Will Deacon        2019-07-02  1231  		if (ops->unmap(ops, SZ_1G + size, size, NULL) != size)
-fe4b991dcd84e0 Will Deacon        2014-11-17  1232  			return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1233  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1234  		/* Remap of partial unmap */
-f34ce7a7018c2f Baolin Wang        2020-06-12  1235  		if (ops->map(ops, SZ_1G + size, size, size, IOMMU_READ, GFP_KERNEL))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1236  			return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1237  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1238  		if (ops->iova_to_phys(ops, SZ_1G + size + 42) != (size + 42))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1239  			return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1240  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1241  		/* Full unmap */
-fe4b991dcd84e0 Will Deacon        2014-11-17  1242  		iova = 0;
-f793b13ef0c9c1 YueHaibing         2018-04-26  1243  		for_each_set_bit(j, &cfg->pgsize_bitmap, BITS_PER_LONG) {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1244  			size = 1UL << j;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1245  
-a2d3a382d6c682 Will Deacon        2019-07-02  1246  			if (ops->unmap(ops, iova, size, NULL) != size)
-fe4b991dcd84e0 Will Deacon        2014-11-17  1247  				return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1248  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1249  			if (ops->iova_to_phys(ops, iova + 42))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1250  				return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1251  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1252  			/* Remap full block */
-f34ce7a7018c2f Baolin Wang        2020-06-12  1253  			if (ops->map(ops, iova, iova, size, IOMMU_WRITE, GFP_KERNEL))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1254  				return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1255  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1256  			if (ops->iova_to_phys(ops, iova + 42) != (iova + 42))
-fe4b991dcd84e0 Will Deacon        2014-11-17 @1257  				return __FAIL(ops, i);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1258  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1259  			iova += SZ_1G;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1260  		}
-fe4b991dcd84e0 Will Deacon        2014-11-17  1261  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1262  		free_io_pgtable_ops(ops);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1263  	}
-fe4b991dcd84e0 Will Deacon        2014-11-17  1264  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1265  	selftest_running = false;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1266  	return 0;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1267  }
-fe4b991dcd84e0 Will Deacon        2014-11-17  1268  
-
-:::::: The code at line 1185 was first introduced by commit
-:::::: fe4b991dcd84e0104cf2e29223a819335ed048a7 iommu: add self-consistency tests to ARM LPAE IO page table allocator
-
-:::::: TO: Will Deacon <will.deacon@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+   254	
+   255	static int tps25990_read_word(struct i2c_client *client,
+   256				      int page, int phase, int reg)
+   257	{
+   258		int ret, addr;
+   259	
+   260		addr = tps25990_get_addr(reg);
+   261		if (addr < 0)
+   262			return addr;
+   263	
+   264		switch (reg) {
+   265		case PMBUS_VIRT_SAMPLES:
+   266			ret = pmbus_read_byte_data(client, page, addr);
+ > 267			ret = FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
+   268			break;
+   269	
+   270		case PMBUS_IIN_OC_FAULT_LIMIT:
+   271			ret = pmbus_read_byte_data(client, page, addr);
+   272			break;
+   273	
+   274		default:
+   275			ret = pmbus_read_word_data(client, page, -1, addr);
+   276			break;
+   277		}
+   278	
+   279		if (ret >= 0)
+   280			ret = tps25990_read_adapt_value(reg, ret);
+   281	
+   282		return ret;
+   283	}
+   284	
+   285	static int tps25990_write_adapt_value(int reg, int val)
+   286	{
+   287		switch (reg) {
+   288		case PMBUS_VIN_UV_WARN_LIMIT:
+   289		case PMBUS_VIN_UV_FAULT_LIMIT:
+   290		case PMBUS_VIN_OV_WARN_LIMIT:
+   291		case PMBUS_VOUT_UV_WARN_LIMIT:
+   292		case PMBUS_IIN_OC_WARN_LIMIT:
+   293		case PMBUS_OT_WARN_LIMIT:
+   294		case PMBUS_OT_FAULT_LIMIT:
+   295		case PMBUS_PIN_OP_WARN_LIMIT:
+   296		case PMBUS_POWER_GOOD_OFF:
+   297			val >>= TPS25990_8B_SHIFT;
+   298			val = clamp(val, 0, 0xff);
+   299			break;
+   300	
+   301		case PMBUS_VIN_OV_FAULT_LIMIT:
+   302			val -= TPS25990_VIN_OVF_OFF;
+   303			val = DIV_ROUND_CLOSEST(val * TPS25990_VIN_OVF_DIV, TPS25990_VIN_OVF_NUM);
+   304			val = clamp_val(val, 0, 0xf);
+   305			break;
+   306	
+   307		case PMBUS_IIN_OC_FAULT_LIMIT:
+   308			val -= TPS25990_IIN_OCF_OFF;
+   309			val = DIV_ROUND_CLOSEST(val * TPS25990_IIN_OCF_DIV, TPS25990_IIN_OCF_NUM);
+   310			val = clamp_val(val, 0, 0x3f);
+   311			break;
+   312	
+   313		case PMBUS_VIRT_SAMPLES:
+   314			val = clamp_val(val, 1, 1 << PK_MIN_AVG_AVG_CNT);
+   315			val = ilog2(val);
+   316			break;
+   317		}
+   318	
+   319		return val;
+   320	}
+   321	
+   322	static int tps25990_write_word(struct i2c_client *client,
+   323				       int page, int reg, u16 value)
+   324	{
+   325		int addr, ret;
+   326	
+   327		addr = tps25990_get_addr(reg);
+   328		if (addr < 0)
+   329			return addr;
+   330	
+   331		value = tps25990_write_adapt_value(reg, value);
+   332	
+   333		switch (reg) {
+   334		case PMBUS_VIRT_SAMPLES:
+   335			ret = pmbus_update_byte_data(client, page, addr,
+   336						     PK_MIN_AVG_AVG_CNT,
+ > 337						     FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
+   338			break;
+   339	
+   340		case PMBUS_IIN_OC_FAULT_LIMIT:
+   341			ret = pmbus_write_byte_data(client, page, addr,
+   342						    value);
+   343			break;
+   344	
+   345		default:
+   346			ret = pmbus_write_word_data(client, page, addr, value);
+   347			break;
+   348		}
+   349	
+   350		return ret;
+   351	}
+   352	
 
 -- 
 0-DAY CI Kernel Test Service
