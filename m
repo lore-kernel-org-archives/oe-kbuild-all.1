@@ -1,60 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB9246444
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 10:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC1A190072;
+	Tue, 10 Sep 2024 10:33:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725964388; cv=none; b=W1NbEk7rbUVlNxyExMTuLsPuiVnW70rSPhdfGOrs0ad3p3T2MTAjB2drtxTInweAhafn0LTojseQTUwRoVHOnx322UWnHiec5uKfu3TMlG4M1hyp8mfjZIFTO7pSzTIYJHmp9FL2blzeQembeet6D6EnTlDdK7RG1S6rR7y+tLk=
+	t=1725964390; cv=none; b=D277ZNkbHF+pTxWVeg4NMqbr6R+k7eId7DhwagvvtnIjT6oOOTEf9h4MfElzA8nEe+bNr4uG0dbix600JoSVwVfZ7ZJmprDvq7PDyakW5AcdSumtKG0h4X/ds8z0vSCwnbMzn/ynkW58BBKQP8MdDrqQ9Mub7D87C+KsETUiVfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725964388; c=relaxed/simple;
-	bh=dIS8Uy4dBTkqsIU9uRKOkKbW0X2LIHsh+ouI0YlvOW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ENmYpQP+77Qu+m+eFOpacMIDcDZnYGtq/0tzwdrnlPBchFZPOJvtB5SEjV74Idm69a0c16AYFGm1BSMvpw8S//1uLQYhH94b6tL+wCbxrYpk60bvEB3yHGnev9IKdfwN5U7+Gev5EQ7qYDG3VOWhVVfrtoIYc0fWON5TJmOb21k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hi/jtFKf; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1725964390; c=relaxed/simple;
+	bh=m4rLZiBxy1v0tyc+rkItksP01I5QS7BSDV6XBZRddM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cn0pzoEHEA96C18QphUCTmZ0vOuMGZYFN/RQOSBKqEqvNGPdI3TmagRdTTXwc8t58DnNpa/LfgZUvc5rtrGWJqBjinJOqjPaPNjpTKbG6fSKVKPZWmd/mLg76C1IFWNKMtRJ2eLXF+ZKamtBYUiVnM7kJdQCc5K/1V0fb25ryGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d7fYuK6j; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hi/jtFKf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d7fYuK6j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725964386; x=1757500386;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dIS8Uy4dBTkqsIU9uRKOkKbW0X2LIHsh+ouI0YlvOW8=;
-  b=Hi/jtFKfdV517n2zm96OITNX9kyNUHj8YsoAK6dh3Pim6lBKsI6fSk6P
-   ipnxgWxBxb+Vq6f5LG8tGueUswUKAbQrMTj8ttRFohmUnbK9Cjyh2jJIb
-   klXGoN54dDokqGhsOoBQkviths2zTFOQbCnj1MKqp14eQGNgIvikvxW/V
-   esNBCbC43Do1L7ZnnKnQik3KYuH4Pt9cyrw175puv2YZgKa0ZMOzyQL0v
-   ykfQc1tF3RoFdlxjyvQvE7aXnm98XIZPz4/PJ1CiO7rKQDrl2mKnsnfyj
-   4BFinxLagA9q+QpDCr1Otf1YKrzAzgtVslqM3w0U8ijDDEE5J/1RMJmpv
-   A==;
-X-CSE-ConnectionGUID: xoaytmnVRAKp0nlY4uLEuw==
-X-CSE-MsgGUID: /3p+/u4zQHeHZ7l8Aki0ZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24846308"
+  t=1725964388; x=1757500388;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m4rLZiBxy1v0tyc+rkItksP01I5QS7BSDV6XBZRddM4=;
+  b=d7fYuK6jLI3eavJi0QtZ/ACy4etUJXHm7j2dYVFJ1boLATbjO5tl+ql0
+   Bpd/PoL4EJ/QE96f/Kumk3U/xiZDpOF0iLZhW3DnqvcCIJ9jQ0NJCJeBw
+   bQNqgF574c9uHlMZQA2b8VMszir+4tOeInvnHNzw0zwt3oVBrnruaGTns
+   2uieg1KzS6IsZ/3FTBFQSYMVZERt0mDizYKlb27znJZKBeUu8p2yUfRHz
+   3H6HIAU4oaYvUdsb0KYuphbnin4D29QW+buYPP/vZkUNKM1HLFzbUyoOM
+   cGcxl3vNp28gA/iOgXVUH1BsSk6LdTHJL3hfLGDOUOlbTJnvLPKi7S6Lp
+   w==;
+X-CSE-ConnectionGUID: VHWSEoTWSfe+0tLGs8X00g==
+X-CSE-MsgGUID: 3XfKpPTYSpmzFzFpVhWoOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24846313"
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="24846308"
+   d="scan'208";a="24846313"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 03:32:56 -0700
-X-CSE-ConnectionGUID: 7n1mqbsxSeiiQJ94kkCilA==
-X-CSE-MsgGUID: NENEu7zIQI65tX4f3DnLvQ==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 03:32:57 -0700
+X-CSE-ConnectionGUID: gkCTnSf3SbK9cWkk6ZBOTw==
+X-CSE-MsgGUID: YoVJC/vlQDeMAQbmagT15g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="97683511"
+   d="scan'208";a="97683495"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2024 03:32:55 -0700
+  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2024 03:32:53 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snyB3-0001Xv-07;
-	Tue, 10 Sep 2024 10:32:53 +0000
+	id 1snyB1-0001WW-0R;
+	Tue, 10 Sep 2024 10:32:51 +0000
 Date: Tue, 10 Sep 2024 18:32:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-5.10.y-cip 7711/9999]
- drivers/net/ethernet/pensando/ionic/ionic_main.c:420:9: warning: 'strncpy'
- output truncated copying 31 bytes from a string of length 32
-Message-ID: <202409101813.nDWqv9uA-lkp@intel.com>
+To: Jerome Brunet <jbrunet@baylibre.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
+Message-ID: <202409101807.GjHADcvQ-lkp@intel.com>
+References: <20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,82 +70,218 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip
-head:   a73978e16f87d704893e4b3a637be257420d43f3
-commit: 2332f07a324fd78d7c7436deeed23cd7db441ea7 [7711/9999] CIP: Add a number to the version suffix
-config: riscv-randconfig-002-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101813.nDWqv9uA-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101813.nDWqv9uA-lkp@intel.com/reproduce)
+Hi Jerome,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d22bd451d5606411895ef55cb105277e4f4f6e54]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/dt-bindings-hwmon-pmbus-add-ti-tps25990-documentation/20240909-234152
+base:   d22bd451d5606411895ef55cb105277e4f4f6e54
+patch link:    https://lore.kernel.org/r/20240909-tps25990-v1-3-39b37e43e795%40baylibre.com
+patch subject: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240910/202409101807.GjHADcvQ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101807.GjHADcvQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409101813.nDWqv9uA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409101807.GjHADcvQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/pensando/ionic/ionic_main.c: In function 'ionic_identify':
->> drivers/net/ethernet/pensando/ionic/ionic_main.c:420:9: warning: 'strncpy' output truncated copying 31 bytes from a string of length 32 [-Wstringop-truncation]
-     420 |         strncpy(ident->drv.driver_ver_str, UTS_RELEASE,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     421 |                 sizeof(ident->drv.driver_ver_str) - 1);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/hwmon/pmbus/tps25990.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/pmbus/tps25990.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/pmbus/tps25990.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/hwmon/pmbus/tps25990.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/pmbus/tps25990.c:267:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     267 |                 ret = FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
+         |                       ^
+>> drivers/hwmon/pmbus/tps25990.c:337:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     337 |                                              FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
+         |                                              ^
+   7 warnings and 2 errors generated.
 
 
-vim +/strncpy +420 drivers/net/ethernet/pensando/ionic/ionic_main.c
+vim +/FIELD_GET +267 drivers/hwmon/pmbus/tps25990.c
 
-fbfb8031533c924 Shannon Nelson 2019-09-03  409  
-fbfb8031533c924 Shannon Nelson 2019-09-03  410  int ionic_identify(struct ionic *ionic)
-fbfb8031533c924 Shannon Nelson 2019-09-03  411  {
-fbfb8031533c924 Shannon Nelson 2019-09-03  412  	struct ionic_identity *ident = &ionic->ident;
-fbfb8031533c924 Shannon Nelson 2019-09-03  413  	struct ionic_dev *idev = &ionic->idev;
-fbfb8031533c924 Shannon Nelson 2019-09-03  414  	size_t sz;
-fbfb8031533c924 Shannon Nelson 2019-09-03  415  	int err;
-fbfb8031533c924 Shannon Nelson 2019-09-03  416  
-fbfb8031533c924 Shannon Nelson 2019-09-03  417  	memset(ident, 0, sizeof(*ident));
-fbfb8031533c924 Shannon Nelson 2019-09-03  418  
-fbfb8031533c924 Shannon Nelson 2019-09-03  419  	ident->drv.os_type = cpu_to_le32(IONIC_OS_TYPE_LINUX);
-1fcbebf115d9ce0 Shannon Nelson 2020-03-06 @420  	strncpy(ident->drv.driver_ver_str, UTS_RELEASE,
-fbfb8031533c924 Shannon Nelson 2019-09-03  421  		sizeof(ident->drv.driver_ver_str) - 1);
-fbfb8031533c924 Shannon Nelson 2019-09-03  422  
-fbfb8031533c924 Shannon Nelson 2019-09-03  423  	mutex_lock(&ionic->dev_cmd_lock);
-fbfb8031533c924 Shannon Nelson 2019-09-03  424  
-fbfb8031533c924 Shannon Nelson 2019-09-03  425  	sz = min(sizeof(ident->drv), sizeof(idev->dev_cmd_regs->data));
-fbfb8031533c924 Shannon Nelson 2019-09-03  426  	memcpy_toio(&idev->dev_cmd_regs->data, &ident->drv, sz);
-fbfb8031533c924 Shannon Nelson 2019-09-03  427  
-fbfb8031533c924 Shannon Nelson 2019-09-03  428  	ionic_dev_cmd_identify(idev, IONIC_IDENTITY_VERSION_1);
-fbfb8031533c924 Shannon Nelson 2019-09-03  429  	err = ionic_dev_cmd_wait(ionic, DEVCMD_TIMEOUT);
-fbfb8031533c924 Shannon Nelson 2019-09-03  430  	if (!err) {
-fbfb8031533c924 Shannon Nelson 2019-09-03  431  		sz = min(sizeof(ident->dev), sizeof(idev->dev_cmd_regs->data));
-fbfb8031533c924 Shannon Nelson 2019-09-03  432  		memcpy_fromio(&ident->dev, &idev->dev_cmd_regs->data, sz);
-fbfb8031533c924 Shannon Nelson 2019-09-03  433  	}
-fbfb8031533c924 Shannon Nelson 2019-09-03  434  	mutex_unlock(&ionic->dev_cmd_lock);
-fbfb8031533c924 Shannon Nelson 2019-09-03  435  
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  436  	if (err) {
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  437  		dev_err(ionic->dev, "Cannot identify ionic: %dn", err);
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  438  		goto err_out;
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  439  	}
-fbfb8031533c924 Shannon Nelson 2019-09-03  440  
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  441  	err = ionic_lif_identify(ionic, IONIC_LIF_TYPE_CLASSIC,
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  442  				 &ionic->ident.lif);
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  443  	if (err) {
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  444  		dev_err(ionic->dev, "Cannot identify LIFs: %d\n", err);
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  445  		goto err_out;
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  446  	}
-fbfb8031533c924 Shannon Nelson 2019-09-03  447  
-fbfb8031533c924 Shannon Nelson 2019-09-03  448  	return 0;
-fbfb8031533c924 Shannon Nelson 2019-09-03  449  
-a21b5d49e77a2ec Shannon Nelson 2020-10-01  450  err_out:
-fbfb8031533c924 Shannon Nelson 2019-09-03  451  	return err;
-fbfb8031533c924 Shannon Nelson 2019-09-03  452  }
-fbfb8031533c924 Shannon Nelson 2019-09-03  453  
-
-:::::: The code at line 420 was first introduced by commit
-:::::: 1fcbebf115d9ce077c2ba5ecfb521cc1eedcb467 ionic: drop ethtool driver version
-
-:::::: TO: Shannon Nelson <snelson@pensando.io>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   254	
+   255	static int tps25990_read_word(struct i2c_client *client,
+   256				      int page, int phase, int reg)
+   257	{
+   258		int ret, addr;
+   259	
+   260		addr = tps25990_get_addr(reg);
+   261		if (addr < 0)
+   262			return addr;
+   263	
+   264		switch (reg) {
+   265		case PMBUS_VIRT_SAMPLES:
+   266			ret = pmbus_read_byte_data(client, page, addr);
+ > 267			ret = FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
+   268			break;
+   269	
+   270		case PMBUS_IIN_OC_FAULT_LIMIT:
+   271			ret = pmbus_read_byte_data(client, page, addr);
+   272			break;
+   273	
+   274		default:
+   275			ret = pmbus_read_word_data(client, page, -1, addr);
+   276			break;
+   277		}
+   278	
+   279		if (ret >= 0)
+   280			ret = tps25990_read_adapt_value(reg, ret);
+   281	
+   282		return ret;
+   283	}
+   284	
+   285	static int tps25990_write_adapt_value(int reg, int val)
+   286	{
+   287		switch (reg) {
+   288		case PMBUS_VIN_UV_WARN_LIMIT:
+   289		case PMBUS_VIN_UV_FAULT_LIMIT:
+   290		case PMBUS_VIN_OV_WARN_LIMIT:
+   291		case PMBUS_VOUT_UV_WARN_LIMIT:
+   292		case PMBUS_IIN_OC_WARN_LIMIT:
+   293		case PMBUS_OT_WARN_LIMIT:
+   294		case PMBUS_OT_FAULT_LIMIT:
+   295		case PMBUS_PIN_OP_WARN_LIMIT:
+   296		case PMBUS_POWER_GOOD_OFF:
+   297			val >>= TPS25990_8B_SHIFT;
+   298			val = clamp(val, 0, 0xff);
+   299			break;
+   300	
+   301		case PMBUS_VIN_OV_FAULT_LIMIT:
+   302			val -= TPS25990_VIN_OVF_OFF;
+   303			val = DIV_ROUND_CLOSEST(val * TPS25990_VIN_OVF_DIV, TPS25990_VIN_OVF_NUM);
+   304			val = clamp_val(val, 0, 0xf);
+   305			break;
+   306	
+   307		case PMBUS_IIN_OC_FAULT_LIMIT:
+   308			val -= TPS25990_IIN_OCF_OFF;
+   309			val = DIV_ROUND_CLOSEST(val * TPS25990_IIN_OCF_DIV, TPS25990_IIN_OCF_NUM);
+   310			val = clamp_val(val, 0, 0x3f);
+   311			break;
+   312	
+   313		case PMBUS_VIRT_SAMPLES:
+   314			val = clamp_val(val, 1, 1 << PK_MIN_AVG_AVG_CNT);
+   315			val = ilog2(val);
+   316			break;
+   317		}
+   318	
+   319		return val;
+   320	}
+   321	
+   322	static int tps25990_write_word(struct i2c_client *client,
+   323				       int page, int reg, u16 value)
+   324	{
+   325		int addr, ret;
+   326	
+   327		addr = tps25990_get_addr(reg);
+   328		if (addr < 0)
+   329			return addr;
+   330	
+   331		value = tps25990_write_adapt_value(reg, value);
+   332	
+   333		switch (reg) {
+   334		case PMBUS_VIRT_SAMPLES:
+   335			ret = pmbus_update_byte_data(client, page, addr,
+   336						     PK_MIN_AVG_AVG_CNT,
+ > 337						     FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
+   338			break;
+   339	
+   340		case PMBUS_IIN_OC_FAULT_LIMIT:
+   341			ret = pmbus_write_byte_data(client, page, addr,
+   342						    value);
+   343			break;
+   344	
+   345		default:
+   346			ret = pmbus_write_word_data(client, page, addr, value);
+   347			break;
+   348		}
+   349	
+   350		return ret;
+   351	}
+   352	
 
 -- 
 0-DAY CI Kernel Test Service
