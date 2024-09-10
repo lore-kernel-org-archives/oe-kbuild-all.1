@@ -1,64 +1,62 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9FB1DFE8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 12:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9BF191F73;
+	Tue, 10 Sep 2024 13:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725972780; cv=none; b=VVawABLLYzcGZhE4iV/uyhCJA0sMXN1GtQ/BtcTtONvs76a90U3zn7sIAgs46pNCMXFROAjfoqyYZ5eQJ7bKeVHMKeNKuyu1Gr7iemr13Sd+Kv8z+WRsWNchOR2xWzFCWvNQwBhQE0qk7H9Sh9UWvgw2Qj5ehM3kKmzZkVCv0NQ=
+	t=1725973603; cv=none; b=PWK28H2JMuS/Dj99vHecKRvAKdRLWaqqVG3Q+rnFvcGDr5jNCR/5Ni90zrT/D+BxWULq/36VPdMHOfK6naMnD7kuhbhm48Mt14Wc/bRD0JN6B57NJsa5pacv8Y00tZZMyNmK0C+PzQ1dGyEmWYGsbd9RdLXPdWtD9PoCBMkix8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725972780; c=relaxed/simple;
-	bh=gCJBrtpD1zb+rKcgrSSzloY6l3QLliLLRJ9Z+1iODZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nO+g8qqijF2hmdSoXx6i5ukAbMP2v0KA5THgL20lNhuTRCvsTPF7Gn3xReZ+vLWSJXJXqPMqO6edHlPSSwS7/OGUuccb3eYKH/qtbQIb42s1NP2RU6GQEsikGS/xWnwbTuY5dg6DUADatWmkgXTKWfKnyelupgLswGNkYMTy3As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AiD72uEm; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725973603; c=relaxed/simple;
+	bh=Yz/kpha3wBkhE6LIgb99aDoBkB6GQjW3qis7RjJNGvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nAHD0V8IgF5xk9NKe+HalfqAKKxGxnzvtAg8fh3894AxizOx6+dJYqlr6ia8bud7YGcnSFgcvmGPvbXRdtlJIuB3GZyKLBHnF8+wZa1Fgm6Z1PykGpKEMtV5niD3v/kUL39qqpo6z4o/dNpnw6K9EoIAD08D8nnp83rcGs6jP/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fLxD+SZH; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AiD72uEm"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-374bb08d011so3173680f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 05:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725972776; x=1726577576; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LytqXkjAg4kJafNiKcHBPrkZjdNnaMiyYSwVbXFWN6s=;
-        b=AiD72uEmBO9bqSSImQTPgjyX1MhIK9khiEO+KafG+AYFl7Zfx/X6ZVjVXlD5nQSbra
-         xCZ2vjDnPTAyJQmqdnU3Cq2pC9kFb5eeX+9aXI+9fKlWLnOHAkDMzkAAZ9QZu6L9sPC9
-         ZyoR7dNLWwkB70EOK3YgCm7oGqRA02UcTllv6257kQNyjh4ZPDmwGM7o6GGGd3hG9d9v
-         teZW1bUhllvRJfvhezWOSLn6eBDymjRxZ9xXy3rSacufDnS8dYxRljFU9SgD/VXGAyBn
-         LEHTus3MnC9mOw8dlXTl/rWyIcr3mHhItvRbFYlCtcXBfQsqwrPwmirDn4nUqqtR7jcv
-         6Iuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725972776; x=1726577576;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LytqXkjAg4kJafNiKcHBPrkZjdNnaMiyYSwVbXFWN6s=;
-        b=BwFcrv4htVKiTdcidZwF6OHmVyzVCfdxA3OajreI5LGF9HcV/W+qkkJiP/46v/tNsz
-         gkbVT0ad0h7W0XbtlxyuV/ekCAkvlPMzYKEgBgpUfg2aXTaOfVY5Ffwn2b/rywb/twvW
-         Ud/aTKsXzZUnCsf3MAMrU4/Rimh/jtYbv2VJd7djLr73TGBZT7ExDK8bD0ReHoqbqFwj
-         VqgsQ/TaXhENOX6H0NDGP0jV51txywsRtpji3JDnH5ufvxiqrhZI75rqMoRsYZon7NZy
-         aNCXXx9M4fBEGwYK+Vtgpf3nJtfKt4ErAt+1n/v5hpW7bKEJvywcJRWh/9CzcfcSFslX
-         xWKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWK1avPZcGNGTxaoEU/rvP52bBVRS5UBwGbRBCtJwdOVhpORaOI9ouxFs5UC4J3+27Dl9dE76TqK8aVUFO0@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyd1AFaIVPeFbE2hEKo9fk9zo103QgISX6S0iQbuWI1q4GhcIXQ
-	Z5i5HciDzPPcXljGuhEG/w644uRKM6e/of1spEfXEoB9sddxPss/6BRH4Hbr9y4=
-X-Google-Smtp-Source: AGHT+IEB2acOgb1hQNL6xw1IZqZNa0+g3rm4HvpsctDrKvmlOn36D67jAxDB2raxeo4vxE8iMWHdag==
-X-Received: by 2002:adf:f807:0:b0:374:c17a:55b5 with SMTP id ffacd0b85a97d-378895c9f94mr8480599f8f.14.1725972776245;
-        Tue, 10 Sep 2024 05:52:56 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d374fsm8897233f8f.86.2024.09.10.05.52.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 05:52:55 -0700 (PDT)
-Date: Tue, 10 Sep 2024 15:52:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	David Sterba <dsterba@suse.com>
-Subject: [linux-next:master 9813/10862] fs/btrfs/subpage.c:437
- btrfs_folio_end_writer_lock_bitmap() warn: variable dereferenced before
- check 'fs_info' (see line 431)
-Message-ID: <3023236c-6e88-407b-9640-5b956d4c969c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLxD+SZH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725973602; x=1757509602;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Yz/kpha3wBkhE6LIgb99aDoBkB6GQjW3qis7RjJNGvk=;
+  b=fLxD+SZHzqPbeQF3kZNw81lHoWhXOSZbM3j6ctVCGpvKKjUq5+wRmPz8
+   w6tqvAQ4bfQXN13rMuKKw7v/N14NHBmclh/RCVi8DF425MAYu8sL2Ciu7
+   MjaamJwCNgc6+gYkIBHPjHOXOp6MESPt016nPUce8y1YjzTG/xcBY2zqi
+   Rs+1lM4PddZceqA3FYSHhXu/C98ebGv+s9cyhLOF5tPOA1qmPCsMhy2R4
+   bCBfqD8vfhTy3W2EMmXMsdpfsJxNNufLOY7uHSVe51vXA0kBniThgs7jq
+   YWQRhBL1DMBZydWKTdNIhmJlaKQSK2bf7DHeNb8dlyggRAO5CICGMd4F5
+   g==;
+X-CSE-ConnectionGUID: iirkbUYNQHWMZKAuR3zlgg==
+X-CSE-MsgGUID: TyL/v9PhTNmVn36qWhU2Yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24822641"
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
+   d="scan'208";a="24822641"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 06:06:41 -0700
+X-CSE-ConnectionGUID: UBmpZ3GcT4KjmRobpQCIzw==
+X-CSE-MsgGUID: fGF6n0NGR/2IbP3iOG/jOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
+   d="scan'208";a="66820124"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 10 Sep 2024 06:06:40 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1so0Zp-00026o-0d;
+	Tue, 10 Sep 2024 13:06:37 +0000
+Date: Tue, 10 Sep 2024 21:06:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Len Brown <lenb@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH] LoongArch: Enable ACPI BGRT handling
+Message-ID: <202409102056.DNqh6zzA-lkp@intel.com>
+References: <20240909015514.597253-1-maobibo@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,64 +65,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240909015514.597253-1-maobibo@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6708132e80a2ced620bde9b9c36e426183544a23
-commit: 966416b380926c94751476747ea68571004eac24 [9813/10862] btrfs: only unlock the to-be-submitted ranges inside a folio
-config: i386-randconfig-141-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101924.XTvd0yQv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Bibo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b31c4492884252a8360f312a0ac2049349ddf603]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Enable-ACPI-BGRT-handling/20240909-095705
+base:   b31c4492884252a8360f312a0ac2049349ddf603
+patch link:    https://lore.kernel.org/r/20240909015514.597253-1-maobibo%40loongson.cn
+patch subject: [PATCH] LoongArch: Enable ACPI BGRT handling
+config: loongarch-randconfig-r133-20240910 (https://download.01.org/0day-ci/archive/20240910/202409102056.DNqh6zzA-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240910/202409102056.DNqh6zzA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409101924.XTvd0yQv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409102056.DNqh6zzA-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/subpage.c:437 btrfs_folio_end_writer_lock_bitmap() warn: variable dereferenced before check 'fs_info' (see line 431)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/efi/efi-bgrt.c:69:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *image @@     got void [noderef] __iomem * @@
+   drivers/firmware/efi/efi-bgrt.c:69:15: sparse:     expected void *image
+   drivers/firmware/efi/efi-bgrt.c:69:15: sparse:     got void [noderef] __iomem *
+>> drivers/firmware/efi/efi-bgrt.c:76:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *image @@
+   drivers/firmware/efi/efi-bgrt.c:76:24: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/efi/efi-bgrt.c:76:24: sparse:     got void *image
 
-vim +/fs_info +437 fs/btrfs/subpage.c
+vim +69 drivers/firmware/efi/efi-bgrt.c
 
-966416b380926c Qu Wenruo 2024-09-02  427  void btrfs_folio_end_writer_lock_bitmap(const struct btrfs_fs_info *fs_info,
-966416b380926c Qu Wenruo 2024-09-02  428  					struct folio *folio, unsigned long bitmap)
-966416b380926c Qu Wenruo 2024-09-02  429  {
-966416b380926c Qu Wenruo 2024-09-02  430  	struct btrfs_subpage *subpage = folio_get_private(folio);
-966416b380926c Qu Wenruo 2024-09-02 @431  	const int start_bit = fs_info->sectors_per_page * btrfs_bitmap_nr_locked;
-                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-Dereference
-
-966416b380926c Qu Wenruo 2024-09-02  432  	unsigned long flags;
-966416b380926c Qu Wenruo 2024-09-02  433  	bool last = false;
-966416b380926c Qu Wenruo 2024-09-02  434  	int cleared = 0;
-966416b380926c Qu Wenruo 2024-09-02  435  	int bit;
-966416b380926c Qu Wenruo 2024-09-02  436  
-966416b380926c Qu Wenruo 2024-09-02 @437  	if (unlikely(!fs_info) || !btrfs_is_subpage(fs_info, folio->mapping)) {
-                                                             ^^^^^^^^^
-Too late
-
-966416b380926c Qu Wenruo 2024-09-02  438  		folio_unlock(folio);
-966416b380926c Qu Wenruo 2024-09-02  439  		return;
-966416b380926c Qu Wenruo 2024-09-02  440  	}
-966416b380926c Qu Wenruo 2024-09-02  441  
-966416b380926c Qu Wenruo 2024-09-02  442  	if (atomic_read(&subpage->writers) == 0) {
-966416b380926c Qu Wenruo 2024-09-02  443  		/* No writers, locked by plain lock_page(). */
-966416b380926c Qu Wenruo 2024-09-02  444  		folio_unlock(folio);
-966416b380926c Qu Wenruo 2024-09-02  445  		return;
-966416b380926c Qu Wenruo 2024-09-02  446  	}
-966416b380926c Qu Wenruo 2024-09-02  447  
-966416b380926c Qu Wenruo 2024-09-02  448  	spin_lock_irqsave(&subpage->lock, flags);
-966416b380926c Qu Wenruo 2024-09-02  449  	for_each_set_bit(bit, &bitmap, fs_info->sectors_per_page) {
-966416b380926c Qu Wenruo 2024-09-02  450  		if (test_and_clear_bit(bit + start_bit, subpage->bitmaps))
-966416b380926c Qu Wenruo 2024-09-02  451  			cleared++;
-966416b380926c Qu Wenruo 2024-09-02  452  	}
-966416b380926c Qu Wenruo 2024-09-02  453  	ASSERT(atomic_read(&subpage->writers) >= cleared);
-966416b380926c Qu Wenruo 2024-09-02  454  	last = atomic_sub_and_test(cleared, &subpage->writers);
-966416b380926c Qu Wenruo 2024-09-02  455  	spin_unlock_irqrestore(&subpage->lock, flags);
-966416b380926c Qu Wenruo 2024-09-02  456  	if (last)
-966416b380926c Qu Wenruo 2024-09-02  457  		folio_unlock(folio);
-966416b380926c Qu Wenruo 2024-09-02  458  }
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  26  
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  27  void __init efi_bgrt_init(struct acpi_table_header *table)
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  28  {
+50a0cb565246f2 arch/x86/platform/efi/efi-bgrt.c Sai Praneeth  2015-12-09  29  	void *image;
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  30  	struct bmp_header bmp_header;
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  31  	struct acpi_table_bgrt *bgrt = &bgrt_tab;
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  32  
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  33  	if (acpi_disabled)
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  34  		return;
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  35  
+792ef14df5c585 drivers/firmware/efi/efi-bgrt.c  Dave Young    2017-06-09  36  	if (!efi_enabled(EFI_MEMMAP))
+7425826f4f7ac6 drivers/firmware/efi/efi-bgrt.c  Dave Young    2017-05-26  37  		return;
+7425826f4f7ac6 drivers/firmware/efi/efi-bgrt.c  Dave Young    2017-05-26  38  
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  39  	if (table->length < sizeof(bgrt_tab)) {
+7f9b474c927130 arch/x86/platform/efi/efi-bgrt.c Josh Boyer    2016-05-03  40  		pr_notice("Ignoring BGRT: invalid length %u (expected %zu)\n",
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  41  		       table->length, sizeof(bgrt_tab));
+5d6d578c170bb2 arch/x86/platform/efi/efi-bgrt.c Jan Beulich   2012-11-07  42  		return;
+1282278ee00b41 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2014-07-30  43  	}
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  44  	*bgrt = *(struct acpi_table_bgrt *)table;
+55087c5713dcf1 drivers/firmware/efi/efi-bgrt.c  Hans de Goede 2020-01-31  45  	/*
+55087c5713dcf1 drivers/firmware/efi/efi-bgrt.c  Hans de Goede 2020-01-31  46  	 * Only version 1 is defined but some older laptops (seen on Lenovo
+55087c5713dcf1 drivers/firmware/efi/efi-bgrt.c  Hans de Goede 2020-01-31  47  	 * Ivy Bridge models) have a correct version 1 BGRT table with the
+55087c5713dcf1 drivers/firmware/efi/efi-bgrt.c  Hans de Goede 2020-01-31  48  	 * version set to 0, so we accept version 0 and 1.
+55087c5713dcf1 drivers/firmware/efi/efi-bgrt.c  Hans de Goede 2020-01-31  49  	 */
+55087c5713dcf1 drivers/firmware/efi/efi-bgrt.c  Hans de Goede 2020-01-31  50  	if (bgrt->version > 1) {
+7f9b474c927130 arch/x86/platform/efi/efi-bgrt.c Josh Boyer    2016-05-03  51  		pr_notice("Ignoring BGRT: invalid version %u (expected 1)\n",
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  52  		       bgrt->version);
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  53  		goto out;
+1282278ee00b41 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2014-07-30  54  	}
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  55  	if (bgrt->image_type != 0) {
+7f9b474c927130 arch/x86/platform/efi/efi-bgrt.c Josh Boyer    2016-05-03  56  		pr_notice("Ignoring BGRT: invalid image type %u (expected 0)\n",
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  57  		       bgrt->image_type);
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  58  		goto out;
+1282278ee00b41 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2014-07-30  59  	}
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  60  	if (!bgrt->image_address) {
+7f9b474c927130 arch/x86/platform/efi/efi-bgrt.c Josh Boyer    2016-05-03  61  		pr_notice("Ignoring BGRT: null image address\n");
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  62  		goto out;
+1282278ee00b41 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2014-07-30  63  	}
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  64  
+6de47a5e371f75 drivers/firmware/efi/efi-bgrt.c  Jan Beulich   2017-08-25  65  	if (efi_mem_type(bgrt->image_address) != EFI_BOOT_SERVICES_DATA) {
+792ef14df5c585 drivers/firmware/efi/efi-bgrt.c  Dave Young    2017-06-09  66  		pr_notice("Ignoring BGRT: invalid image address\n");
+792ef14df5c585 drivers/firmware/efi/efi-bgrt.c  Dave Young    2017-06-09  67  		goto out;
+792ef14df5c585 drivers/firmware/efi/efi-bgrt.c  Dave Young    2017-06-09  68  	}
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31 @69  	image = early_memremap(bgrt->image_address, sizeof(bmp_header));
+1282278ee00b41 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2014-07-30  70  	if (!image) {
+7f9b474c927130 arch/x86/platform/efi/efi-bgrt.c Josh Boyer    2016-05-03  71  		pr_notice("Ignoring BGRT: failed to map image header memory\n");
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31  72  		goto out;
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  73  	}
+2223af38903242 arch/x86/platform/efi/efi-bgrt.c Josh Triplett 2012-09-28  74  
+50a0cb565246f2 arch/x86/platform/efi/efi-bgrt.c Sai Praneeth  2015-12-09  75  	memcpy(&bmp_header, image, sizeof(bmp_header));
+7b0a911478c74c arch/x86/platform/efi/efi-bgrt.c Dave Young    2017-01-31 @76  	early_memunmap(image, sizeof(bmp_header));
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
