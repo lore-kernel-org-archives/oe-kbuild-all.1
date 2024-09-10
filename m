@@ -1,199 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAAA17C7A3;
-	Tue, 10 Sep 2024 07:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FA5176FAC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 07:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725953328; cv=none; b=ffXC9c7/8X1R1bOg9f7KLK1oKSJbcwM9RRlh7gm1GP7tUrc72QNenoJRatZd3jtqNapHOkQc2e/o1ogApuD7M7EhH9If4rlTpMzeFf/QM7Ma6sQKMmoJRmT67pUore/XD6STWDzB0NbvS8j5H2P9IVNU3Uus/BHYtM4PcmgUUwU=
+	t=1725953524; cv=none; b=B2QEJmH9coN3GRKwgNdvSsBvJXkcT5FpkFIp8bVge4MrOwEMzmbaHXqI61Jq9xuNKYzsCjNAcoY5HUcroU4g4y4iVxaN2y18qOyWcavOqXA+sM3bes4My4YuVtUkBoApmJ1rcd2DAsAwBN/MfV35wwq6mkCfBos/HDG6HKcd3OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725953328; c=relaxed/simple;
-	bh=oHfOiuXeROeapZx5nV1VqUqUHQVGGiRVnhF4ET0GNEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q/RwH1oaJJhxWgt0c0n8Gv7orXkY2UE9TvLJYS7PlmxFQ6E1vazMoeRoUCey7amK1fzls4kpgtAlMexFtutjDKE3oFTarrii9MXm0triKS/lMUmQ/YKJ9ehr+hqGf6/6AAI7H7jrKhJx+acW1JqvpuoOyuH2/avRdMOnNsCqcs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XbqbDyR9; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725953524; c=relaxed/simple;
+	bh=f77j3SCTqwAT+GaM8xKCdHzIx3G/Jn8Mz8HPtqQebr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RUHjuAJV4W04fG5qHRxVAHOwuxbI7kKppg18Sjq1uJEir99FF7X/C5EU/rRlpxhhebS64s02SD9rNdWD5LdhdcFq20gNOVwLVYGpegzwwbzTUGsJZCDwKPrcNiRGovfmbXD0d8FDMA75AS51jZXplwt86o9Z5rw8WhsPW11Y6lU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qRq2/iah; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbqbDyR9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725953326; x=1757489326;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oHfOiuXeROeapZx5nV1VqUqUHQVGGiRVnhF4ET0GNEs=;
-  b=XbqbDyR9YaKE4djmkY1KkVhEXu1s3mVYuCWNb5C9DBw5fgCQq3iE0ARk
-   WnGr+iYyKz0UHjL8GL0SeQ19y6LSYNvNUnqfQCOLAFqiyvGG0opOAGL2D
-   zKzY1cK9FYdyiMvpdywfCbz0etBrF2albw9uLmX8YPhE9/rdOUG5CX/HS
-   g2y+rHzC41QAmjPAjtA+c3yD/IixUB67WND+YQqx87g2EQfyy1JviE5nV
-   I26OQBZka4ataa+VCbxHMSeMSU9yN9TGMzYRVoNvqjWHrdA3qtmMhSEr8
-   PUbc7Gv5XP+GQLvo2OU9dbIRLxSYBBHIt/SPtH2pUyxCl5gq8i8MqckVh
-   Q==;
-X-CSE-ConnectionGUID: nuXGeij6SkO5tNSQzt3SsQ==
-X-CSE-MsgGUID: bsRAYOpiRTeu+iTlNSOINg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35822076"
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="35822076"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 00:28:09 -0700
-X-CSE-ConnectionGUID: ku3WCRXqRQGfm8cvnjYRrA==
-X-CSE-MsgGUID: tvhMKvAkT4+uKOGx3IKQvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="71539619"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Sep 2024 00:27:54 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snvI0-0000E6-0U;
-	Tue, 10 Sep 2024 07:27:52 +0000
-Date: Tue, 10 Sep 2024 15:27:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Julian Vetter <jvetter@kalrayinc.com>, Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
-	Yann Sionneau <ysionneau@kalrayinc.com>,
-	Julian Vetter <jvetter@kalrayinc.com>
-Subject: Re: [PATCH v2 3/4] Use generic io memcpy functions on the csky
- architecture
-Message-ID: <202409101549.CyV0mJ2S-lkp@intel.com>
-References: <20240909133159.2024688-4-jvetter@kalrayinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qRq2/iah"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42cb58d810eso11257195e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 00:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725953520; x=1726558320; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eszUiQ9wlG/1tjLAyBKIiKLnnAvpZBasgR+qa/r6bgw=;
+        b=qRq2/iahz0gemfZrCcrPTM+a1+VbeVVpcCyt6t8Z5Tf/KnVZmHMcdSICxKvirwGEki
+         H2G5i4HSXpWtl8kIJytmmnMvYjWe3I31825lP4TTZIORo7nG6zxVVF23Nkq+60NVp4Ol
+         ebRViTEf5toa9BJkj0SQEUbTvAzlKg+dFVhWe+s3bHfof1psRmBszHPgRZ8LhYDnXFpr
+         MRufGuP6t7RAGmYDbM+E59LetxCzDBVh0wqnHdw4uxNnNJBNQqQiQs28j5Ie0CmOa31L
+         LTIFhfYimYLuvkYdsYUFXsIQx7SFFzU185L7+zADRLmwVluNJ1lHmzRAHV+PSBb1RrXt
+         3Ziw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725953520; x=1726558320;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eszUiQ9wlG/1tjLAyBKIiKLnnAvpZBasgR+qa/r6bgw=;
+        b=wRUlvYGi7UZ7Ma/FQXnDgrtBWeAZXAFNb0aNRd+CV8AD6RZwneVbNNhbTx7ubxvzXd
+         ZzPbciYWmruTMwL+SC8yuY+0PXWiGq2lSjYi4bZOJb6IkfzoCU41mOdRT64lj4qUcn+P
+         RHPzwikfXLkjJwzZpXGNRVvvOXlU/sJgka5091fbjrvIWcd0nWPlNKoqdxeTI1GBCUIU
+         ySEoILocv80085B7Tc9BDSrppGnlrX39wku6DkXj/6HNGfzXQkw4EpFlh3IA5bOncFoc
+         rngDhn5sIdJZbooBKEJ+R++lr0yHZBMU4s6IIEm+NfGEPsZaJHNQPshOgjyXYFVmt/db
+         eUfg==
+X-Forwarded-Encrypted: i=1; AJvYcCW60pBgJCOTczLfYUZ3alzyowGJORuYJkbT/TRVOUR4m7szV9LOm66NghyS4FoXteSdJE15Fp1f5oMfDrb4@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVLKJDiLzlUSiWEUfjlKriZS2VKr6dds0yvvs1wvwvS/WMWm8H
+	DEzkLYlsT+HTpK0NUs1ij1nHSfzqTn7P99BE2yPffNV02NJCbq1zhCdC5zFtNUw=
+X-Google-Smtp-Source: AGHT+IELa+rG14pL1lB7AiyIMDigzrd0vAidxvik7sx8yhamOOu/U1MRmirvLr3oz1Xd5vrj6Iz8HQ==
+X-Received: by 2002:a05:6000:1ac7:b0:374:c6b6:c656 with SMTP id ffacd0b85a97d-378a8a3de4cmr1414873f8f.21.1725953520367;
+        Tue, 10 Sep 2024 00:32:00 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956767dasm8091431f8f.62.2024.09.10.00.31.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 00:31:59 -0700 (PDT)
+Date: Tue, 10 Sep 2024 10:31:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Eric Biggers <ebiggers@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>
+Subject: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
+ 'actual_mac' too small (64 vs 448)
+Message-ID: <e8c80d61-2c74-4b50-ab50-2cf1291df9bc@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240909133159.2024688-4-jvetter@kalrayinc.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Julian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on arm64/for-next/core soc/for-next linus/master v6.11-rc7 next-20240909]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Vetter/Consolidate-__memcpy_-to-from-io-and-__memset_io-into-a-single-lib/20240909-213659
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20240909133159.2024688-4-jvetter%40kalrayinc.com
-patch subject: [PATCH v2 3/4] Use generic io memcpy functions on the csky architecture
-config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20240910/202409101549.CyV0mJ2S-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101549.CyV0mJ2S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
+date:   10 months ago
+config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061401.44rtN1bh-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409101549.CyV0mJ2S-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409061401.44rtN1bh-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
 
-   In file included from ./arch/csky/include/generated/asm/unaligned.h:1,
-                    from lib/io_copy.c:9:
-   lib/io_copy.c: In function '__memcpy_fromio':
->> lib/io_copy.c:28:39: error: implicit declaration of function '__raw_readq'; did you mean '__raw_readl'? [-Wimplicit-function-declaration]
-      28 |                         put_unaligned(__raw_readq(from), (uintptr_t *)to);
-         |                                       ^~~~~~~~~~~
-   include/asm-generic/unaligned.h:19:22: note: in definition of macro '__put_unaligned_t'
-      19 |         __pptr->x = (val);                                                      \
-         |                      ^~~
-   lib/io_copy.c:28:25: note: in expansion of macro 'put_unaligned'
-      28 |                         put_unaligned(__raw_readq(from), (uintptr_t *)to);
-         |                         ^~~~~~~~~~~~~
-   lib/io_copy.c: In function '__memcpy_toio':
->> lib/io_copy.c:57:25: error: implicit declaration of function '__raw_writeq'; did you mean '__raw_writel'? [-Wimplicit-function-declaration]
-      57 |                         __raw_writeq(get_unaligned((uintptr_t *)from), to);
-         |                         ^~~~~~~~~~~~
-         |                         __raw_writel
-   lib/io_copy.c: In function '__memset_io':
->> lib/io_copy.c:83:26: warning: left shift count >= width of type [-Wshift-count-overflow]
-      83 |                 qc |= qc << 32;
-         |                          ^~
+vim +/actual_mac +521 drivers/md/dm-integrity.c
 
+09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
+09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
+070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
+070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
+070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
+070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
 
-vim +28 lib/io_copy.c
+This is paired with the line before and prevents the subtraction from going
+negative.  It limits the mac_size to 0-448.  Is it reasonable to have a mac_size
+which is > HASH_MAX_DIGESTSIZE (64)?
 
-6a9bfa83709a84e Julian Vetter 2024-09-09  16  
-6a9bfa83709a84e Julian Vetter 2024-09-09  17  void __memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
-6a9bfa83709a84e Julian Vetter 2024-09-09  18  {
-6a9bfa83709a84e Julian Vetter 2024-09-09  19  	while (count && !IS_ALIGNED((unsigned long)from, NATIVE_STORE_SIZE)) {
-6a9bfa83709a84e Julian Vetter 2024-09-09  20  		*(u8 *)to = __raw_readb(from);
-6a9bfa83709a84e Julian Vetter 2024-09-09  21  		from++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  22  		to++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  23  		count--;
-6a9bfa83709a84e Julian Vetter 2024-09-09  24  	}
-6a9bfa83709a84e Julian Vetter 2024-09-09  25  
-6a9bfa83709a84e Julian Vetter 2024-09-09  26  	while (count >= NATIVE_STORE_SIZE) {
-6a9bfa83709a84e Julian Vetter 2024-09-09  27  		if (IS_ENABLED(CONFIG_64BIT))
-6a9bfa83709a84e Julian Vetter 2024-09-09 @28  			put_unaligned(__raw_readq(from), (uintptr_t *)to);
-6a9bfa83709a84e Julian Vetter 2024-09-09  29  		else
-6a9bfa83709a84e Julian Vetter 2024-09-09  30  			put_unaligned(__raw_readl(from), (uintptr_t *)to);
-6a9bfa83709a84e Julian Vetter 2024-09-09  31  
-6a9bfa83709a84e Julian Vetter 2024-09-09  32  		from += NATIVE_STORE_SIZE;
-6a9bfa83709a84e Julian Vetter 2024-09-09  33  		to += NATIVE_STORE_SIZE;
-6a9bfa83709a84e Julian Vetter 2024-09-09  34  		count -= NATIVE_STORE_SIZE;
-6a9bfa83709a84e Julian Vetter 2024-09-09  35  	}
-6a9bfa83709a84e Julian Vetter 2024-09-09  36  
-6a9bfa83709a84e Julian Vetter 2024-09-09  37  	while (count) {
-6a9bfa83709a84e Julian Vetter 2024-09-09  38  		*(u8 *)to = __raw_readb(from);
-6a9bfa83709a84e Julian Vetter 2024-09-09  39  		from++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  40  		to++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  41  		count--;
-6a9bfa83709a84e Julian Vetter 2024-09-09  42  	}
-6a9bfa83709a84e Julian Vetter 2024-09-09  43  }
-6a9bfa83709a84e Julian Vetter 2024-09-09  44  EXPORT_SYMBOL(__memcpy_fromio);
-6a9bfa83709a84e Julian Vetter 2024-09-09  45  
-6a9bfa83709a84e Julian Vetter 2024-09-09  46  void __memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
-6a9bfa83709a84e Julian Vetter 2024-09-09  47  {
-6a9bfa83709a84e Julian Vetter 2024-09-09  48  	while (count && !IS_ALIGNED((unsigned long)to, NATIVE_STORE_SIZE)) {
-6a9bfa83709a84e Julian Vetter 2024-09-09  49  		__raw_writeb(*(u8 *)from, to);
-6a9bfa83709a84e Julian Vetter 2024-09-09  50  		from++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  51  		to++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  52  		count--;
-6a9bfa83709a84e Julian Vetter 2024-09-09  53  	}
-6a9bfa83709a84e Julian Vetter 2024-09-09  54  
-6a9bfa83709a84e Julian Vetter 2024-09-09  55  	while (count >= NATIVE_STORE_SIZE) {
-6a9bfa83709a84e Julian Vetter 2024-09-09  56  		if (IS_ENABLED(CONFIG_64BIT))
-6a9bfa83709a84e Julian Vetter 2024-09-09 @57  			__raw_writeq(get_unaligned((uintptr_t *)from), to);
-6a9bfa83709a84e Julian Vetter 2024-09-09  58  		else
-6a9bfa83709a84e Julian Vetter 2024-09-09  59  			__raw_writel(get_unaligned((uintptr_t *)from), to);
-6a9bfa83709a84e Julian Vetter 2024-09-09  60  
-6a9bfa83709a84e Julian Vetter 2024-09-09  61  		from += NATIVE_STORE_SIZE;
-6a9bfa83709a84e Julian Vetter 2024-09-09  62  		to += NATIVE_STORE_SIZE;
-6a9bfa83709a84e Julian Vetter 2024-09-09  63  		count -= NATIVE_STORE_SIZE;
-6a9bfa83709a84e Julian Vetter 2024-09-09  64  	}
-6a9bfa83709a84e Julian Vetter 2024-09-09  65  
-6a9bfa83709a84e Julian Vetter 2024-09-09  66  	while (count) {
-6a9bfa83709a84e Julian Vetter 2024-09-09  67  		__raw_writeb(*(u8 *)from, to);
-6a9bfa83709a84e Julian Vetter 2024-09-09  68  		from++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  69  		to++;
-6a9bfa83709a84e Julian Vetter 2024-09-09  70  		count--;
-6a9bfa83709a84e Julian Vetter 2024-09-09  71  	}
-6a9bfa83709a84e Julian Vetter 2024-09-09  72  }
-6a9bfa83709a84e Julian Vetter 2024-09-09  73  EXPORT_SYMBOL(__memcpy_toio);
-6a9bfa83709a84e Julian Vetter 2024-09-09  74  
-6a9bfa83709a84e Julian Vetter 2024-09-09  75  void __memset_io(volatile void __iomem *dst, int c, size_t count)
-6a9bfa83709a84e Julian Vetter 2024-09-09  76  {
-6a9bfa83709a84e Julian Vetter 2024-09-09  77  	uintptr_t qc = (u8)c;
-6a9bfa83709a84e Julian Vetter 2024-09-09  78  
-6a9bfa83709a84e Julian Vetter 2024-09-09  79  	qc |= qc << 8;
-6a9bfa83709a84e Julian Vetter 2024-09-09  80  	qc |= qc << 16;
-6a9bfa83709a84e Julian Vetter 2024-09-09  81  
-6a9bfa83709a84e Julian Vetter 2024-09-09  82  	if (IS_ENABLED(CONFIG_64BIT))
-6a9bfa83709a84e Julian Vetter 2024-09-09 @83  		qc |= qc << 32;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  501  		dm_integrity_io_error(ic, "digest is too long", -EINVAL);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  502  		return -EINVAL;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  503  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  504  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  505  	desc->tfm = ic->journal_mac;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  506  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  507  	if (likely(wr)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  508  		r = crypto_shash_digest(desc, sb, mac - sb, mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  509  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  510  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  511  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  512  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  513  	} else {
+070bb43ab01e89 Eric Biggers      2023-10-28  514  		__u8 actual_mac[HASH_MAX_DIGESTSIZE];
+
+This buffer is only 64 bytes.
+
+0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
+070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
+070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+                                                                                ^^^^^^^^^^
+Read overflow.
+
+09d85f8d8909ec Mikulas Patocka   2021-01-21  522  			dm_integrity_io_error(ic, "superblock mac", -EILSEQ);
+82bb85998cc9a3 Michael Weiß      2021-09-04  523  			dm_audit_log_target(DM_MSG_PREFIX, "mac-superblock", ic->ti, 0);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  524  			return -EILSEQ;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  525  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  526  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  527  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  528  	return 0;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  529  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
