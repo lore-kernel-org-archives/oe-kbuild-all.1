@@ -1,175 +1,105 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2820A18859A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116D41891A1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725960039; cv=none; b=t2VRqeIa2tTGf1Xw1NyllQpHtO0iu9vf2E4+nKT4ICj+kNDsVzYWts4pwFcloqeT5WAM2lp//4/SYG7NWk5nYQDLeFhPOMwdITTSXdWFBSUMpgdRxJto8mx9dIUlc31GjExFmidk+OSz+M+JzqS20S7l7+f5vV7FyfE82Ocjn4k=
+	t=1725960129; cv=none; b=sc3OKcEKnAq1WdqoulaE1R3WYJYLFhABheMQcYPeklG7OFKSBoJulrDDX8vRdpl3qz65koZqpnW34YEAVJGQnMSTOr0xrpzT+9TxZdjXdO4Wtlez9cM4eATYe7P5Ry6cPZ5W7PYkNNqj0gX4eqZMwNCESmmJiQ01cqG+0v9XRmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725960039; c=relaxed/simple;
-	bh=8+dCpkOW8iBiEz5yPaF72LDT887m4VnqG2AW+wQ8XoA=;
+	s=arc-20240116; t=1725960129; c=relaxed/simple;
+	bh=8OuhZYhgh5XhzjIu9fipi6ts4GTgTizHQMjbiDTLB9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WKK2TcbUPIDwrtx5nEU43vl6k0uUcoXOWx2m0hbGNyJXKxhfk7bIjAYXHunDVHBnw2FUBkL30kHLPRybo1yzTOYoUEqtG73MAlh/f9G3JLVRjrV7cIucfphV4qFGItNYcsQ6yCkdQjnAR5I9W+LR39YmSTG7Dm/2WOVxjBFrZKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=myg/Mrge; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=qV6P/9IAw9dOJP0lrJSHqeuY2kpIO4vnTnG3rB0Nv0XKAeDxPM+5IE8+GQ5BnTyoU6aGTAY1uA9b4/4QqDly67K2KmhQJw7oep+JGoOCBMa43miS6+311XsT6NytWKsHPjsjyLMcrB7ox0E5SfYlKOyvMQyG6IBE656Paeq4qIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cED/xIAh; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="myg/Mrge"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42bb6d3e260so5187435e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 02:20:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725960035; x=1726564835; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QaVuov/GMKYob9rnqk10dKYifuJlj6SVPmyKe/nzanI=;
-        b=myg/MrgeYBmTAHXaI2zux3hLNvDtlExZx9XKFgJ+fCYJqmxZT2Ol99Wpzm6MS7rlya
-         cewQ1o5VRGmofQrC8K55uQ36TminMdAiL1Wn/XMUu7eGegIkovBese55/XJgt3pBCMoM
-         wBoaV82DPEFhVdGvcHD0LwnmYqsW1JhPns7FS74fcULr46CVoPlnN5F2u6SK7AZXKhK6
-         oxhSOdQqwrPvsrkzgrqCZmZRIgY+Rm5EqgtzQn8WgJvYrEvbnHptMOcbhHVIDNPtwQ6N
-         I/aRU/z3tSjnCK060ctljjMGqJssxFehUjIHTiDSkZtdc4zpkL0Orz5FWub86epBAzOu
-         SpmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725960035; x=1726564835;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QaVuov/GMKYob9rnqk10dKYifuJlj6SVPmyKe/nzanI=;
-        b=cO9AO2eKEChORMB8+5LclJzBAMPneCLfGByyhB0X9aLESJF3NirzS9Q5Gb/MzEqPte
-         tS5r9JhyCZ8fqk9gMbDiT6+SrLK1MXZfbbO5WkbZMtkzVRVQhNklS643IhI/hzcF46df
-         OzzSkY0icZLPJnnBSYF31NKc8UconnvJ9lDuuNE4NE0rWrQFwvZ5x8l24VniVzjR8Ks/
-         XH0+edphftJ6NKEDwmmy3l++/iNnrc8P8v5gnu8N1SJu24MbkXJxR5wxiN0nvrbYtX1L
-         dGzH1eJj3cXs+kC1+/ywqnSC3169eeu8BnZHs0PqoW6ZTeX/EKB6ebRyCosyYX3TZDTj
-         0nHg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1Fd4kJoPMUYBjPQ+CyHwmxhEALlQUi4HnSWLl57Q1EkFCA6A9f0iz/1VicUwH4TtQp0TMzyV9TLVjrD3x@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOtkYvWKtt2GxzVAeJ/qW3G0nBmJbg9dJxFRfVopcQEq9C96Cg
-	Zyfz+8qNbNzo+TIIcmSWjnpH//RZ3soQGnLiW25SDd8eJw6AwEIqQQxjOsmG+UM=
-X-Google-Smtp-Source: AGHT+IHdQlXsqnNH1io28/qy8pwsediidCY0yocjW/6T9f2sDTX85XSttflhDNL4NWYsLAXBUQ/vuQ==
-X-Received: by 2002:a05:600c:4692:b0:428:10d7:a4b1 with SMTP id 5b1f17b1804b1-42c9f9d6f06mr110127165e9.25.1725960035362;
-        Tue, 10 Sep 2024 02:20:35 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956654ffsm8331611f8f.40.2024.09.10.02.20.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 02:20:35 -0700 (PDT)
-Date: Tue, 10 Sep 2024 12:20:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/1]
- drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of
- 'gi->composite.gadget_driver.driver.name'
-Message-ID: <6ba088e2-126f-4f4d-a1e5-b50aea604cd7@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cED/xIAh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725960127; x=1757496127;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8OuhZYhgh5XhzjIu9fipi6ts4GTgTizHQMjbiDTLB9Y=;
+  b=cED/xIAhxcZJ1U9KEnivyehAlPTrWJhJy4/Z1EZqPc3SiH8dpyLMV37k
+   8wt74IYvKa1itg4bUSGrREe25P+VQn3K8jxhAZUH3diLReddKu4Kx941q
+   WG/1cfontohjXCi26ru6769Os2k1DyOQBUM9+ZJU4SFJmp+fXEsqyaOfI
+   LE0n/2S/7jyGoHC4LVQBqg0wfyPjcYgi1pZgSM9dMdzA5e6DaNycUcGwE
+   GsOYNYG4lFX4sQUSqjeL2s5HbjZK6sjdG798s+wI8VrTHuL5gi2uqFjYs
+   wXccWaBDVmxw8EDAIhwYm/9cqyMIk3tx7OliB8pwV3qb+T4ZRyXO9Of7j
+   g==;
+X-CSE-ConnectionGUID: owhon8EKScWljcZ8ihll8g==
+X-CSE-MsgGUID: H/p3IBCsQBifECKIy4rRiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="13455275"
+X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
+   d="scan'208";a="13455275"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 02:22:05 -0700
+X-CSE-ConnectionGUID: oLGL7Xc/Tv2qKXqxN7fCgg==
+X-CSE-MsgGUID: lVFs/IsBQYqAfYcF5FjLtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
+   d="scan'208";a="67494873"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Sep 2024 02:22:04 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snx4U-0000LK-1h;
+	Tue, 10 Sep 2024 09:22:02 +0000
+Date: Tue, 10 Sep 2024 17:21:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/2] net/ipv4/tcp_input.c:4515
+ tcp_rcv_spurious_retrans() warn: inconsistent indenting
+Message-ID: <202409101751.1FoF3985-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   2dd00822d42905f5d4a7db95fbac52c47daf9bf6
-commit: 957b40b3b769bc23db3d6491db267e3166f91316 [1/1] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
-config: i386-randconfig-141-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101015.b0Oixg1v-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   f31bdfa6dc193afe48f1dc79503ed3f149961aa7
+commit: c4db168998fa4b38e7857f435be9e7e8ba937bc1 [1/2] ANDROID: GKI: net: add vendor hooks net qos for gki purpose
+config: i386-randconfig-141-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101751.1FoF3985-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409101015.b0Oixg1v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409101751.1FoF3985-lkp@intel.com/
 
 smatch warnings:
-drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of 'gi->composite.gadget_driver.driver.name'
+net/ipv4/tcp_input.c:4515 tcp_rcv_spurious_retrans() warn: inconsistent indenting
 
-vim +2050 drivers/usb/gadget/configfs.c
+vim +4515 net/ipv4/tcp_input.c
 
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1981  static struct config_group *gadgets_make(
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1982  		struct config_group *group,
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1983  		const char *name)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1984  {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1985  	struct gadget_info *gi;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1986  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1987  	gi = kzalloc(sizeof(*gi), GFP_KERNEL);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1988  	if (!gi)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1989  		return ERR_PTR(-ENOMEM);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1990  
-1ae1602de028ac Christoph Hellwig         2016-02-26  1991  	config_group_init_type_name(&gi->group, name, &gadget_root_type);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1992  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1993  	config_group_init_type_name(&gi->functions_group, "functions",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1994  			&functions_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1995  	configfs_add_default_group(&gi->functions_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1996  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1997  	config_group_init_type_name(&gi->configs_group, "configs",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1998  			&config_desc_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1999  	configfs_add_default_group(&gi->configs_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2000  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2001  	config_group_init_type_name(&gi->strings_group, "strings",
-6e2a512d9532c5 Daniel Scally             2023-02-06  2002  			&gadget_language_strings_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2003  	configfs_add_default_group(&gi->strings_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2004  
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2005  	config_group_init_type_name(&gi->os_desc_group, "os_desc",
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2006  			&os_desc_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2007  	configfs_add_default_group(&gi->os_desc_group, &gi->group);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2008  
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2009  	config_group_init_type_name(&gi->webusb_group, "webusb",
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2010  			&webusb_type);
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2011  	configfs_add_default_group(&gi->webusb_group, &gi->group);
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2012  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2013  	gi->composite.bind = configfs_do_nothing;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2014  	gi->composite.unbind = configfs_do_nothing;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2015  	gi->composite.suspend = NULL;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2016  	gi->composite.resume = NULL;
-e2459108b5a060 taehyun.cho               2021-01-07  2017  	gi->composite.max_speed = USB_SPEED_SUPER_PLUS;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2018  
-093edc2baad2c2 Wei Yongjun               2019-10-30  2019  	spin_lock_init(&gi->spinlock);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2020  	mutex_init(&gi->lock);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2021  	INIT_LIST_HEAD(&gi->string_list);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2022  	INIT_LIST_HEAD(&gi->available_func);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2023  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2024  	composite_init_dev(&gi->cdev);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2025  	gi->cdev.desc.bLength = USB_DT_DEVICE_SIZE;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2026  	gi->cdev.desc.bDescriptorType = USB_DT_DEVICE;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2027  	gi->cdev.desc.bcdDevice = cpu_to_le16(get_default_bcdDevice());
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2028  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2029  	gi->composite.gadget_driver = configfs_driver_template;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2030  
-7c07553807c512 Chanh Nguyen              2023-01-11  2031  	gi->composite.gadget_driver.driver.name = kasprintf(GFP_KERNEL,
-7c07553807c512 Chanh Nguyen              2023-01-11  2032  							    "configfs-gadget.%s", name);
-7c07553807c512 Chanh Nguyen              2023-01-11  2033  	if (!gi->composite.gadget_driver.driver.name)
-7c07553807c512 Chanh Nguyen              2023-01-11  2034  		goto err;
-7c07553807c512 Chanh Nguyen              2023-01-11  2035  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2036  	gi->composite.gadget_driver.function = kstrdup(name, GFP_KERNEL);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2037  	gi->composite.name = gi->composite.gadget_driver.function;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2038  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2039  	if (!gi->composite.gadget_driver.function)
-7c07553807c512 Chanh Nguyen              2023-01-11  2040  		goto out_free_driver_name;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2041  
-957b40b3b769bc Neill Kapron              2024-02-01  2042  	if (android_device_create(&gi->cdev.android_opts))
-957b40b3b769bc Neill Kapron              2024-02-01  2043  		goto out_free_driver_name_and_function;
-957b40b3b769bc Neill Kapron              2024-02-01  2044  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2045  	return &gi->group;
-7c07553807c512 Chanh Nguyen              2023-01-11  2046  
-7c07553807c512 Chanh Nguyen              2023-01-11  2047  out_free_driver_name:
-7c07553807c512 Chanh Nguyen              2023-01-11  2048  	kfree(gi->composite.gadget_driver.driver.name);
-                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Free
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4505  
+7788174e8726c3 Yuchung Cheng  2018-08-29  4506  static void tcp_rcv_spurious_retrans(struct sock *sk, const struct sk_buff *skb)
+7788174e8726c3 Yuchung Cheng  2018-08-29  4507  {
+7788174e8726c3 Yuchung Cheng  2018-08-29  4508  	/* When the ACK path fails or drops most ACKs, the sender would
+7788174e8726c3 Yuchung Cheng  2018-08-29  4509  	 * timeout and spuriously retransmit the same segment repeatedly.
+7788174e8726c3 Yuchung Cheng  2018-08-29  4510  	 * The receiver remembers and reflects via DSACKs. Leverage the
+7788174e8726c3 Yuchung Cheng  2018-08-29  4511  	 * DSACK state and change the txhash to re-route speculatively.
+7788174e8726c3 Yuchung Cheng  2018-08-29  4512  	 */
+c4db168998fa4b Jyu Jiang      2024-07-10  4513  	 trace_android_rvh_tcp_rcv_spurious_retrans(sk);
+c4db168998fa4b Jyu Jiang      2024-07-10  4514  
+9c30ae8398b081 Yuchung Cheng  2021-01-19 @4515  	if (TCP_SKB_CB(skb)->seq == tcp_sk(sk)->duplicate_sack[0].start_seq &&
+9c30ae8398b081 Yuchung Cheng  2021-01-19  4516  	    sk_rethink_txhash(sk))
+32efcc06d2a15f Abdul Kabbani  2020-01-24  4517  		NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPDUPLICATEDATAREHASH);
+32efcc06d2a15f Abdul Kabbani  2020-01-24  4518  }
+7788174e8726c3 Yuchung Cheng  2018-08-29  4519  
 
-957b40b3b769bc Neill Kapron              2024-02-01  2049  out_free_driver_name_and_function:
-957b40b3b769bc Neill Kapron              2024-02-01 @2050  	kfree(gi->composite.gadget_driver.driver.name);
-                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Double free
+:::::: The code at line 4515 was first introduced by commit
+:::::: 9c30ae8398b0813e237bde387d67a7f74ab2db2d tcp: fix TCP socket rehash stats mis-accounting
 
-957b40b3b769bc Neill Kapron              2024-02-01  2051  	kfree(gi->composite.gadget_driver.function);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2052  err:
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2053  	kfree(gi);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2054  	return ERR_PTR(-ENOMEM);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2055  }
+:::::: TO: Yuchung Cheng <ycheng@google.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
