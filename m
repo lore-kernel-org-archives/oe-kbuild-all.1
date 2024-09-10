@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD62219ABAB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 18:37:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249981A4F30
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 18:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725993423; cv=none; b=EC+wNgXVo0SZqGeepaY9x+u8JkXvJkVQJ6qv2hSdbIL5xuIEPvLc+fCLcvRuXUnA1/Qa9UEYHip8nP5QwX4VdpxHUZa6lAGycBSNKLcCkMPQiUUyHdzj8m2hgq5cQLnQg+884deUuZ2md46EOKFpnYLswL25U9j8QVd75xDP4Vg=
+	t=1725993702; cv=none; b=DfMILL+GLOGtuUJOBZ4QAz9vIWZ6xcgWx3tG6KVTLDMSwvV5fPFRhIZ7oysxDDD/uBrGNKFtqTxupBlSszSXQF9o715+sy3G/sK88KNqyCsupyJz1Lb3sL7yYkNcyhjWBzq1io5z5OsBLcFvJZ6qUVomE1AOyYuLIzPvN0ivplw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725993423; c=relaxed/simple;
-	bh=pFAfXF8UAx4IPqECvsAWmfGxBLsn1sdjicY7T25RlxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NAJpd/06Qa1sIqdPjgmm+ZasSb/ZlVlKyuYV1SBXQJ1jilya/zwKM+1xzWad2YRigJioG0HU/d51CYjkrCmh0hjpTfZY3J1zHa5STuq5RIHd1SvfRta476pYJBj+aN8EjJrhFmH9ThwDtqjkfhPsiTsl0Dt0dpngjkq1Kc1RJs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k6yLHeDH; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725993702; c=relaxed/simple;
+	bh=BWmo7iSKtODxk30hoO0cSTCVls5lhJji1P4AIkMyan0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HEubI5LEq8uM2OarrFO+Iw2LEcwRZAAQz6MT6uiDVMK0oB165hqrBs9Afo3LSofivcOMB8rTZ2nMmYXDn4KPwDQUSgftwBwOT8VFTd6JxUoSkXGO50w+R2btewGNZhuanGZpMucbdZUujVf8QwRKK8JcRIFnQB+6/dEoPzEGr3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZIcZ6Kz8; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6yLHeDH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725993422; x=1757529422;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pFAfXF8UAx4IPqECvsAWmfGxBLsn1sdjicY7T25RlxY=;
-  b=k6yLHeDHkuoUZ435nMtlPhSFzXXYCF+GO8/gHlHJmLpRpsc8L0tM/Zoe
-   qqsYtxwQo4AOwcJqksaHIQO6lM1URAjW3TsUZKV2WboHUMrhQJ3wgDun4
-   jgibxS170GNpN6MBZhGAWYAKAJq01Sf/7722IoLU+uWmYX83yt504NBNR
-   I1k3V/GFKNBXpVspdUyNFXtL078P8BM+My/KzUP9+lTligVsDkV0WqcVp
-   Pp7vAYtAdxf7Cv5e1fZMG+PI2OSPN0qsB77aL4vR+ZOtnomTgi+3ehj3U
-   usU2Xuvb0NR+jVhNjWT0cmggj14b4s7dXZm5YUTE5BH4ogrmlS+9IJTQh
-   g==;
-X-CSE-ConnectionGUID: dtxq0QBnRIKaNjLf3i4mqA==
-X-CSE-MsgGUID: hvpPkSw9RQ6cO4E8BveYwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28500639"
-X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="28500639"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 11:37:01 -0700
-X-CSE-ConnectionGUID: drbDfimZSJWIYftNylWvcg==
-X-CSE-MsgGUID: pG342M+rQZWr71sZM+/hqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="66961403"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Sep 2024 11:37:00 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1so5jV-0002Ua-1b;
-	Tue, 10 Sep 2024 18:36:57 +0000
-Date: Wed, 11 Sep 2024 02:36:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 20/44]
- drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202409110253.5oNy5zXf-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZIcZ6Kz8"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42cae4eb026so35413005e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 11:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725993698; x=1726598498; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+9PL5Tl2Mwr8imabb3mrABTELpbfGgfF2GcjdAezlDk=;
+        b=ZIcZ6Kz8wErA7MBFgirU6vC5KfUMr0zi1a3lpLGc8z939pEXgOQCweCC0AdF4M5tjG
+         d8MNieDotvYzW6XhA4vHUdRhXvsMTzbE6WtQJqbHAzVr9wXfPL9QGtJDohnIz22phklv
+         jFlgQ4rIgFEw8gw4nj+Ja156ok762VVerSzd36oir6JKUn8Tb8q2NL6lEB/96Ma0qu+/
+         JKEKl8bdYcz+yrh8cde7Tl3zjsHHVGj73QsliOcXRBsp2JVEaVPsgBg37J2ZtcSSlMBG
+         cdMwKnWlB70wzl9w3wzCm7pmQhyqDI0tNlo35yVpikuMOaoBYpHrLLGesfZVEwoT9G2I
+         hTJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725993698; x=1726598498;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+9PL5Tl2Mwr8imabb3mrABTELpbfGgfF2GcjdAezlDk=;
+        b=fcUo6u7Qlgp3HcPiuxWp+nvbpWA1p8X3vNbLv+nyenTRnC2QU2IIk8DwUrcWUPmiiU
+         keXytYw/b/wk1EhcSL0Bg1TDkjc2t9o4UL0gSezbacTkpGpL7tmvQklRNoWUxJ9FW/M6
+         GmcVQRtMdifEgD0Cerwn2AJfqTmQhsYJj/NcFSS2OEshnPaaYwxq0bcwjPWowol9/9en
+         LNlcJzZDP7RoNRSlZKa6Df6IyBBq173+zmiuLmS97VuepCevT6ZUMPDSyEH59OWDII2G
+         i8wbxGrxx0veBW0O4z+SOdpiuU/tLDNbte7hg0WndnFxNdczwihx7/F8ENcNWwhtmyLD
+         03nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWwxkBL7pPToxHT6E4IRSVGCccUlewHdrffsRT9Mq/fwO2XAFla1NWReu/VXfy1bgXHfFWUjZK5DS6ecdZn@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywt+Zx2zB9KObA3zV7PzGJYvf7dozlz/g/ZFbOqNcT3AKUJ3W0V
+	IBwxs3IzCWHyK+7pv5c4mh1Rq4KGBnTgPeGO4nO6flnqgvypNBNty6DYbem+JBs=
+X-Google-Smtp-Source: AGHT+IHtloX3WqASwCkacjxrSNiWqVc1JRchMQnG3IFI7ixq90XKVKnIRhzzHkwvO4dBvtOs4eh9Kg==
+X-Received: by 2002:a5d:4c8b:0:b0:373:b87:55d8 with SMTP id ffacd0b85a97d-378895c549amr8702023f8f.3.1725993698324;
+        Tue, 10 Sep 2024 11:41:38 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d3765sm9604350f8f.74.2024.09.10.11.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 11:41:38 -0700 (PDT)
+Date: Tue, 10 Sep 2024 21:41:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@lists.linux.dev
+Subject: Re: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
+ 'actual_mac' too small (64 vs 448)
+Message-ID: <d09d8b14-9ea8-4802-9c37-2cd60a75b0fa@stanley.mountain>
+References: <e8c80d61-2c74-4b50-ab50-2cf1291df9bc@stanley.mountain>
+ <20240910172001.GD2642@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,122 +70,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240910172001.GD2642@sol.localdomain>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   3fb778c36179e8f5812520ded26eb14f2aa77d94
-commit: ee334bab464b2d240f3144c29e9cfcd256ea7afb [20/44] FROMLIST: gunyah: rsc_mgr: Add memory parcel RPC
-config: arm64-randconfig-r131-20240910 (https://download.01.org/0day-ci/archive/20240911/202409110253.5oNy5zXf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240911/202409110253.5oNy5zXf-lkp@intel.com/reproduce)
+On Tue, Sep 10, 2024 at 10:20:01AM -0700, Eric Biggers wrote:
+> [+Cc dm-devel@lists.linux.dev]
+> 
+> On Tue, Sep 10, 2024 at 10:31:56AM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+> > commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
+> 
+> This commit seems unrelated, as the alleged issue existed in the code before
+> that commit too (maybe smatch just didn't notice it yet).
+> 
+> > date:   10 months ago
+> > config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061401.44rtN1bh-lkp@intel.com/config)
+> > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202409061401.44rtN1bh-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
+> > 
+> > vim +/actual_mac +521 drivers/md/dm-integrity.c
+> > 
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
+> > 
+> > This is paired with the line before and prevents the subtraction from going
+> > negative.  It limits the mac_size to 0-448.  Is it reasonable to have a mac_size
+> > which is > HASH_MAX_DIGESTSIZE (64)?
+> 
+> crypto_shash_digestsize() cannot return a value greater than HASH_MAX_DIGESTSIZE
+> because the crypto API doesn't allow registering any hash algorithms with
+> digests larger than that.  That's the whole point of HASH_MAX_DIGESTSIZE.
+> 
+> > This buffer is only 64 bytes.
+> 
+> Yes.
+> 
+> > 0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
+> > 070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+> >                                                                                 ^^^^^^^^^^
+> > Read overflow.
+> 
+> No, because mac_size <= 64.
+> 
+> We might as well explicitly check that in the code to suppress the static
+> analysis warning (I'll send a patch), but it's not fixing an actual bug.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110253.5oNy5zXf-lkp@intel.com/
+Generally, we try avoid silencing warnings just for silencing them unless it
+makes the code more readable.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] n_entries @@     got restricted __le32 [usertype] @@
-   drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse:     expected restricted __le16 [usertype] n_entries
-   drivers/virt/gunyah/rsc_mgr_rpc.c:222:24: sparse:     got restricted __le32 [usertype]
+The other way to silence this warning would be to delete the check on line 500
+because if it can't be larger than 64 then it can't be larger than 448.  It's
+not like SECTOR_SIZE is going to get smaller in the future.
 
-vim +222 drivers/virt/gunyah/rsc_mgr_rpc.c
+regards,
+dan carpenter
 
-   162	
-   163	/**
-   164	 * gunyah_rm_mem_share() - Share memory with other virtual machines.
-   165	 * @rm: Handle to a Gunyah resource manager
-   166	 * @p: Information about the memory to be shared.
-   167	 *
-   168	 * Sharing keeps Linux's access to the memory while the memory parcel is shared.
-   169	 */
-   170	int gunyah_rm_mem_share(struct gunyah_rm *rm, struct gunyah_rm_mem_parcel *p)
-   171	{
-   172		u32 message_id = p->n_acl_entries == 1 ? GUNYAH_RM_RPC_MEM_LEND :
-   173							 GUNYAH_RM_RPC_MEM_SHARE;
-   174		size_t msg_size, initial_mem_entries = p->n_mem_entries, resp_size;
-   175		struct gunyah_rm_mem_share_req_acl_section *acl;
-   176		struct gunyah_rm_mem_share_req_mem_section *mem;
-   177		struct gunyah_rm_mem_share_req_header *req_header;
-   178		size_t acl_size, mem_size;
-   179		u32 *attr_section;
-   180		bool need_append = false;
-   181		__le32 *resp;
-   182		void *msg;
-   183		int ret;
-   184	
-   185		if (!p->acl_entries || !p->n_acl_entries || !p->mem_entries ||
-   186		    !p->n_mem_entries || p->n_acl_entries > U8_MAX ||
-   187		    p->mem_handle != GUNYAH_MEM_HANDLE_INVAL)
-   188			return -EINVAL;
-   189	
-   190		if (initial_mem_entries > GUNYAH_RM_MAX_MEM_ENTRIES) {
-   191			initial_mem_entries = GUNYAH_RM_MAX_MEM_ENTRIES;
-   192			need_append = true;
-   193		}
-   194	
-   195		acl_size = struct_size(acl, entries, p->n_acl_entries);
-   196		mem_size = struct_size(mem, entries, initial_mem_entries);
-   197	
-   198		/* The format of the message goes:
-   199		 * request header
-   200		 * ACL entries (which VMs get what kind of access to this memory parcel)
-   201		 * Memory entries (list of memory regions to share)
-   202		 * Memory attributes (currently unused, we'll hard-code the size to 0)
-   203		 */
-   204		msg_size = sizeof(struct gunyah_rm_mem_share_req_header) + acl_size +
-   205			   mem_size +
-   206			   sizeof(u32); /* for memory attributes, currently unused */
-   207	
-   208		msg = kzalloc(msg_size, GFP_KERNEL);
-   209		if (!msg)
-   210			return -ENOMEM;
-   211	
-   212		req_header = msg;
-   213		acl = (void *)req_header + sizeof(*req_header);
-   214		mem = (void *)acl + acl_size;
-   215		attr_section = (void *)mem + mem_size;
-   216	
-   217		req_header->mem_type = p->mem_type;
-   218		if (need_append)
-   219			req_header->flags |= GUNYAH_MEM_SHARE_REQ_FLAGS_APPEND;
-   220		req_header->label = cpu_to_le32(p->label);
-   221	
- > 222		acl->n_entries = cpu_to_le32(p->n_acl_entries);
-   223		memcpy(acl->entries, p->acl_entries,
-   224		       flex_array_size(acl, entries, p->n_acl_entries));
-   225	
-   226		mem->n_entries = cpu_to_le16(initial_mem_entries);
-   227		memcpy(mem->entries, p->mem_entries,
-   228		       flex_array_size(mem, entries, initial_mem_entries));
-   229	
-   230		/* Set n_entries for memory attribute section to 0 */
-   231		*attr_section = 0;
-   232	
-   233		ret = gunyah_rm_call(rm, message_id, msg, msg_size, (void **)&resp,
-   234				     &resp_size);
-   235		kfree(msg);
-   236	
-   237		if (ret)
-   238			return ret;
-   239	
-   240		p->mem_handle = le32_to_cpu(*resp);
-   241		kfree(resp);
-   242	
-   243		if (need_append) {
-   244			ret = gunyah_rm_mem_append(
-   245				rm, p->mem_handle, &p->mem_entries[initial_mem_entries],
-   246				p->n_mem_entries - initial_mem_entries);
-   247			if (ret) {
-   248				gunyah_rm_mem_reclaim(rm, p);
-   249				p->mem_handle = GUNYAH_MEM_HANDLE_INVAL;
-   250			}
-   251		}
-   252	
-   253		return ret;
-   254	}
-   255	ALLOW_ERROR_INJECTION(gunyah_rm_mem_share, ERRNO);
-   256	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
