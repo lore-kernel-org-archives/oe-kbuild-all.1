@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1EC17A924
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 22:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6120E1A7AEC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 22:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726006278; cv=none; b=SR4ye9u3cyu5sVHWcnvb4mVX9WgaYKRRlePgmU8FCSCeHmfcU451G+8BMo5KJG8zm7S7ZSzHEfLTOhCyprAP+gVMfcJgD6PktBTNqnr62Hq/wfE1FFgezxauhmO78A6Mfm7Dh8mR41QSX+6gN6yjg/GC1WrRn2DLbmcGlB6ofYo=
+	t=1726006878; cv=none; b=swzLJZTGWfzBj8b/SM6TrXSjCkUjRTpt+ifOWepLpUJqzoDCayrb6tEU+VlyI3zBcUU/66OiJ12BF+BNMR4szZE1Yq4uN6kUP2xJ/wXalE57OHc8PpEyuEsae5vBYfafnD6yqauFBlX6WMpNoKdLgF0tR1fwsfVprXeoVzQrQBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726006278; c=relaxed/simple;
-	bh=0sgwXL68sw3gwlHjkHkH+1+HKasDSo02ifjtxitVhtA=;
+	s=arc-20240116; t=1726006878; c=relaxed/simple;
+	bh=/Z18wiXVRmZ/aPtT+yW1l7qM3HA7Wf3Ssasu4f6oXm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GOsN8i6O9PH4Jg0jRjp6XXLucYBpo1U2SYS+K001cOD10W0fYYtuuyoMuIj5WYyq3o7POaczKFMsRkueQkylY+nm2fGy5RCbyRWHxLnbhmU50uHM0wSq1hjL5YdD9p9yZs49CGBDlxfJIiYM2tTAeb7BK4Z/Due8YzwSaILvHxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PsP2vwq2; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=iPjAiaWRV0pY6Bna4k7oG980a3VitOoBNyS8JY1J1QdG2ooQBHuVD/cQ0P2Kb0+oLPtwPZENrSEGQGKMe7C0vFZFLg8Ohi+KIUy8AM1+0WNir4zZS9FrgssUonLTTlpTN58OsyZL8C95kr8rX3+tvMvSjZGadHdWd7RQUUYhyXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMkvxjO5; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PsP2vwq2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMkvxjO5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726006276; x=1757542276;
+  t=1726006876; x=1757542876;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0sgwXL68sw3gwlHjkHkH+1+HKasDSo02ifjtxitVhtA=;
-  b=PsP2vwq2HvlUKMez96jjWYLNVrN/9o7NzL80GqlUGVVh4HFaOpCKeSKw
-   mMQz70eIghOt+JKjlJqh9e3F29A3gnvTVj+xJ5npnP3GmlEjByJKO4H50
-   CPZDrH+zjACMbhglEWvNIn5DIA3q1MhPfR8bAIoVi3v+T8iFRzvjGqgO9
-   Xj9OcfysWdNDPKiEV72yqI2atmbJ3tkRmkBuiJn6F131dL88qgu92xv+g
-   EK2TQgAMfTZgohSGq2Ths1rp/eyp7pRkZ4WinjAVObt4zs9OvXCl61Okh
-   LKNAptyZSf23BtfqNTsevA0yBE+IqG/AXzoA3bf8eEGp3zChmowqDVMc4
-   g==;
-X-CSE-ConnectionGUID: OSi/PsekSBmFPlwPBOTd8g==
-X-CSE-MsgGUID: P+ugMmClRUquGZyf6YYAOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="36136810"
+  bh=/Z18wiXVRmZ/aPtT+yW1l7qM3HA7Wf3Ssasu4f6oXm4=;
+  b=OMkvxjO5OqjhuR+JgfA8kWVDp8yb/oLRAfBtCD+i7BqxwCk3XbTHr9YY
+   u5MvLNYS2uoquuX5k+l1tupxBkQgShCuK3NjHogf1Gh52E4CfoKznWkwF
+   cvH7Ghvth7X/zacZy7/l3FVdyxK39TcV7pyBJaQvSDLNb9Lia4h5yxhtg
+   bPdje8DWLDZQB8uhljQnehg0STHelSKE8A1xvO9fmwOYJ4KleET/ZAZ3U
+   L7Vku4ZURgSC/mQBU25OkTLP/Marm5t1lIvJjRnDgQm2Hwg7k0qxKvnx8
+   28jAJw2pZ3t8KgaAqmNo85bSkHH868YsWHbVe3NHCunXe6dW9SNuepkvr
+   w==;
+X-CSE-ConnectionGUID: BnejZFIsSvelbmoUQx35lg==
+X-CSE-MsgGUID: yEh/pCKrTiSQnTRFd551Xg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="35353221"
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="36136810"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:11:15 -0700
-X-CSE-ConnectionGUID: mdUKyi5kQP27h+a/9YEcFg==
-X-CSE-MsgGUID: g7zRhRr+Rv22oKqF4XUVaA==
+   d="scan'208";a="35353221"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:21:15 -0700
+X-CSE-ConnectionGUID: zvs4WUXQRVW72icL34XQ0Q==
+X-CSE-MsgGUID: BLdS3QKVSaW62UM1O92okQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="98002953"
+   d="scan'208";a="104628514"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Sep 2024 15:11:13 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2024 15:21:13 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1so94p-0002li-0L;
-	Tue, 10 Sep 2024 22:11:11 +0000
-Date: Wed, 11 Sep 2024 06:10:24 +0800
+	id 1so9EV-0002mI-1Q;
+	Tue, 10 Sep 2024 22:21:11 +0000
+Date: Wed, 11 Sep 2024 06:20:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, JofDiamonds <kwb0523@163.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 16131/30000] net/core/sock_map.c:1501:5: sparse:
- sparse: symbol 'sock_map_prog_lookup' was not declared. Should it be static?
-Message-ID: <202409110644.OlZbU3Ny-lkp@intel.com>
+To: Christian Loehle <christian.loehle@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>
+Subject: [tip:sched/core 69/70] drivers/cpufreq/cppc_cpufreq.c:227:20: error:
+ use of undeclared identifier 'NSER_PER_MSEC'
+Message-ID: <202409110611.dmyDCkoe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +63,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   cbfb00d89c3b9971c3f0732b4f34d4e674bff5d8
-commit: 050383882de382969e4fb8362235749b232cccae [16131/30000] bpf: support BPF_PROG_QUERY for progs attached to sockmap
-config: x86_64-randconfig-122-20240910 (https://download.01.org/0day-ci/archive/20240911/202409110644.OlZbU3Ny-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110644.OlZbU3Ny-lkp@intel.com/reproduce)
+Hi Christian,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+head:   6cbbb91711c6b17da3802a3cf072d3311828ca33
+commit: b3a47ff095544af206b8885391a7bad662d06a57 [69/70] cpufreq/cppc: Use NSEC_PER_MSEC for deadline task
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240911/202409110611.dmyDCkoe-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110611.dmyDCkoe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110644.OlZbU3Ny-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409110611.dmyDCkoe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/core/sock_map.c:1501:5: sparse: sparse: symbol 'sock_map_prog_lookup' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/sock_map_prog_lookup +1501 net/core/sock_map.c
+>> drivers/cpufreq/cppc_cpufreq.c:227:20: error: use of undeclared identifier 'NSER_PER_MSEC'
+     227 |                 .sched_runtime  = NSER_PER_MSEC,
+         |                                   ^
+>> drivers/cpufreq/cppc_cpufreq.c:229:3: error: member reference base type 'long' is not a structure or union
+     228 |                 .sched_deadline = 10 * NSEC_PER_MSEC
+         |                                        ~~~~~~~~~~~~~
+     229 |                 .sched_period   = 10 * NSEC_PER_MSEC,
+         |                 ^~~~~~~~~~~~~
+   2 errors generated.
 
-  1500	
-> 1501	int sock_map_prog_lookup(struct bpf_map *map, struct bpf_prog ***pprog,
-  1502				 u32 which)
-  1503	{
-  1504		struct sk_psock_progs *progs = sock_map_progs(map);
-  1505	
-  1506		if (!progs)
-  1507			return -EOPNOTSUPP;
-  1508	
-  1509		switch (which) {
-  1510		case BPF_SK_MSG_VERDICT:
-  1511			*pprog = &progs->msg_parser;
-  1512			break;
-  1513		case BPF_SK_SKB_STREAM_PARSER:
-  1514			*pprog = &progs->skb_parser;
-  1515			break;
-  1516		case BPF_SK_SKB_STREAM_VERDICT:
-  1517			*pprog = &progs->skb_verdict;
-  1518			break;
-  1519		default:
-  1520			return -EOPNOTSUPP;
-  1521		}
-  1522		return 0;
-  1523	}
-  1524	
+
+vim +/NSER_PER_MSEC +227 drivers/cpufreq/cppc_cpufreq.c
+
+   215	
+   216	static void __init cppc_freq_invariance_init(void)
+   217	{
+   218		struct sched_attr attr = {
+   219			.size		= sizeof(struct sched_attr),
+   220			.sched_policy	= SCHED_DEADLINE,
+   221			.sched_nice	= 0,
+   222			.sched_priority	= 0,
+   223			/*
+   224			 * Fake (unused) bandwidth; workaround to "fix"
+   225			 * priority inheritance.
+   226			 */
+ > 227			.sched_runtime	= NSER_PER_MSEC,
+   228			.sched_deadline = 10 * NSEC_PER_MSEC
+ > 229			.sched_period	= 10 * NSEC_PER_MSEC,
+   230		};
+   231		int ret;
+   232	
+   233		if (fie_disabled != FIE_ENABLED && fie_disabled != FIE_DISABLED) {
+   234			fie_disabled = FIE_ENABLED;
+   235			if (cppc_perf_ctrs_in_pcc()) {
+   236				pr_info("FIE not enabled on systems with registers in PCC\n");
+   237				fie_disabled = FIE_DISABLED;
+   238			}
+   239		}
+   240	
+   241		if (fie_disabled)
+   242			return;
+   243	
+   244		kworker_fie = kthread_create_worker(0, "cppc_fie");
+   245		if (IS_ERR(kworker_fie)) {
+   246			pr_warn("%s: failed to create kworker_fie: %ld\n", __func__,
+   247				PTR_ERR(kworker_fie));
+   248			fie_disabled = FIE_DISABLED;
+   249			return;
+   250		}
+   251	
+   252		ret = sched_setattr_nocheck(kworker_fie->task, &attr);
+   253		if (ret) {
+   254			pr_warn("%s: failed to set SCHED_DEADLINE: %d\n", __func__,
+   255				ret);
+   256			kthread_destroy_worker(kworker_fie);
+   257			fie_disabled = FIE_DISABLED;
+   258		}
+   259	}
+   260	
 
 -- 
 0-DAY CI Kernel Test Service
