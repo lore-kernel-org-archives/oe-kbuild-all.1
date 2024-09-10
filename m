@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013C8210EC;
-	Mon,  9 Sep 2024 23:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E591CAB9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 00:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725926293; cv=none; b=i6aONfJE3TsygycDWpzTQzbPIyiNQY3OM0nF7x3HrVp1Q/S9+/cxpXSjQjumEA2Zg8pDeLui32LKylB84KfgSmV36bWTp7tw56IIMngbnAvGDRwdk6/av5Qb5n2danEF6yialJ8j0dcX6Kmt8K4vsOMicjwjKzj04pH3YAAHD2E=
+	t=1725927553; cv=none; b=Xfg6XHZV/6AuBMfznT21VrIM4JvANT5ZbDbyMAj1uO2TSieRyPxIG97sP+WgXM28xaHEgnuEuMZPn36rf40v5UGM2rmlb1KLv7kzwpSl+tqVO7g5tI05IBdlGAkn348VHM/QPQmwe2wpXHEcpXiIBnUBt6Sb9Gh6v4LROLg/ICg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725926293; c=relaxed/simple;
-	bh=5epVVkn2PLxPjF6sN9j3lSNsxBTpsJNigNUbCBDzaGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FMeGOEqM0Bc3Ifz28GTD8WaTEyqt5+6ijilm6Tcc9PRR1GWzmW7+v0PHJtubHe4kSc8GNSCaVig1SEaTmN0wCUY37DbqZzFqhKXu1CcwStIRxcJu6Hb2yDdEuRYYGrdCwpPU230UzmoUkemV5I+bJHl5Ozm+euocBDaPcJZJqoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzvVq2/3; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1725927553; c=relaxed/simple;
+	bh=enVFUikH3z7HxbzlYHSRqjWg5ymoPNonfQKoStsXJj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rJt119yUBAztA3Eo1hwwEUcxSg69e6pw813+a2pmAfbSFFVIRS8EOf0J+At89MVBX5Q3VSy/Nvhpxlligj/tmZXNTbQfcrZ2aUMdm1pY0MeUXD6eXdhh93gxedpHGh7XHvPsGvImNFIl8HoluwoLseRklS6cLjA1QeWshj2oYcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B96FO78G; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzvVq2/3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B96FO78G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725926293; x=1757462293;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5epVVkn2PLxPjF6sN9j3lSNsxBTpsJNigNUbCBDzaGE=;
-  b=ZzvVq2/3ZKibj0kwlM/QN9L5rPgN2e8GsdjfPw8fey9mal9x8cVqt0q7
-   qEa+A5fyTvvIEBJbkeuWmTvnwfneiz3Q3ygucVfNJJ38M9ER6OEDtpS17
-   ddyHmc1zx2w9lONpbZKHwPRPWZBbY31twXjsLiBlCuN0DI7stopK9Rt/F
-   f7OEPggx4sHesgEsjgMd3/XeMUWayxB+Kyq6RlNW236hpBCX5+xf3/VPI
-   1OWZcZzGFr1ypHVbh6leMrkWYX0o8oELinYRTWScaKB7WVJoZAEOrxTL3
-   t8+2FYSUO44xHJCcK0JSqCWJiYo3xIW5r8AM2mLwqxwqC2bwBAEPXlYiF
-   A==;
-X-CSE-ConnectionGUID: 1pW3A5lLQAyGufztGtYsrw==
-X-CSE-MsgGUID: gATYwDdZRBmkOOCSJqugug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28430946"
+  t=1725927551; x=1757463551;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=enVFUikH3z7HxbzlYHSRqjWg5ymoPNonfQKoStsXJj4=;
+  b=B96FO78GTkhC9cojG6X+LfWtpmfxtZL4IDtVoemtXQy5EaYOSLfh0C4/
+   7G0MH6iafRiYxIMuinWm8jdApiuL1AwQkjazq1EzciWQyre2Lm8GHSr4k
+   Y0vGPiBxTFCK+m0z8aQnCs4ExR/c/cD283zOSY5ZEI4QefeC+g3utjwEx
+   u8ugGtcG8fRWaduU7XiWyz3DI3bBwBygX4x7xHV5uzyLqYuzFEaxcLV3a
+   di1HGOtuN0glU3GegTCAzcdLbLyubyTtTnGseiZeOfYgliPmVjxBYMvlz
+   nFnXZJrVMGoQeTKMHjK1rAEm2QqsHFqSsE1yB/zrvczezvHeaXpdi4xR2
+   w==;
+X-CSE-ConnectionGUID: OlE4GeXbSi+yO51vunn4Nw==
+X-CSE-MsgGUID: Pe7cBezHRw+sP90TQgdnzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35247605"
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="28430946"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 16:58:12 -0700
-X-CSE-ConnectionGUID: 1WbSL/OlSTSao5p/1SU7lQ==
-X-CSE-MsgGUID: XkS4mGqfTAamzR8ZFWoXjA==
+   d="scan'208";a="35247605"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 17:19:11 -0700
+X-CSE-ConnectionGUID: CVNHas+QT2+ynGcbrpIrbA==
+X-CSE-MsgGUID: /KAsmE57QhyYNCDUpg2R5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="90123048"
+   d="scan'208";a="67100145"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Sep 2024 16:58:09 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Sep 2024 17:19:10 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snoGl-000FMe-12;
-	Mon, 09 Sep 2024 23:58:07 +0000
-Date: Tue, 10 Sep 2024 07:58:03 +0800
+	id 1snob5-000FNa-2U;
+	Tue, 10 Sep 2024 00:19:07 +0000
+Date: Tue, 10 Sep 2024 08:18:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abhash Jha <abhashkumarjha123@gmail.com>, linux-iio@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	anshulusr@gmail.com, jic23@kernel.org, lars@metafoo.de,
-	linux-kernel@vger.kernel.org,
-	Abhash Jha <abhashkumarjha123@gmail.com>
-Subject: Re: [PATCH 3/4] iio: light: ltr390: Interrupts and threshold event
- support
-Message-ID: <202409100717.2rKMS0oi-lkp@intel.com>
-References: <20240909103623.264113-4-abhashkumarjha123@gmail.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-5.10.y-cip-rebase 814/1087]
+ drivers/cache/ax45mp_cache.c:141:6: warning: no previous prototype for
+ function 'arch_sync_dma_for_device'
+Message-ID: <202409100820.fv9yNzHt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,115 +63,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240909103623.264113-4-abhashkumarjha123@gmail.com>
 
-Hi Abhash,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on next-20240909]
-[cannot apply to linus/master v6.11-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhash-Jha/iio-light-ltr390-Suspend-and-Resume-support/20240909-193623
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240909103623.264113-4-abhashkumarjha123%40gmail.com
-patch subject: [PATCH 3/4] iio: light: ltr390: Interrupts and threshold event support
-config: x86_64-buildonly-randconfig-003-20240910 (https://download.01.org/0day-ci/archive/20240910/202409100717.2rKMS0oi-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100717.2rKMS0oi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip-rebase
+head:   1a87c1b75e38aa1407f0b0d1b1d9b57bed4ae652
+commit: 7cf15c8a5f74e1a61f26884a20e9b08798ae5898 [814/1087] cache: ax45mp_cache: Add non coherent support
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240910/202409100820.fv9yNzHt-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100820.fv9yNzHt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409100717.2rKMS0oi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409100820.fv9yNzHt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iio/light/ltr390.c:633:19: error: call to undeclared function 'irq_get_trigger_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     633 |                 int irq_flags = irq_get_trigger_type(client->irq);
-         |                                 ^
-   1 error generated.
+>> drivers/cache/ax45mp_cache.c:141:6: warning: no previous prototype for function 'arch_sync_dma_for_device' [-Wmissing-prototypes]
+     141 | void arch_sync_dma_for_device(phys_addr_t paddr,
+         |      ^
+   drivers/cache/ax45mp_cache.c:141:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     141 | void arch_sync_dma_for_device(phys_addr_t paddr,
+         | ^
+         | static 
+>> drivers/cache/ax45mp_cache.c:165:6: warning: no previous prototype for function 'arch_sync_dma_for_cpu' [-Wmissing-prototypes]
+     165 | void arch_sync_dma_for_cpu(phys_addr_t paddr,
+         |      ^
+   drivers/cache/ax45mp_cache.c:165:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     165 | void arch_sync_dma_for_cpu(phys_addr_t paddr,
+         | ^
+         | static 
+>> drivers/cache/ax45mp_cache.c:183:6: warning: no previous prototype for function 'arch_setup_dma_ops' [-Wmissing-prototypes]
+     183 | void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+         |      ^
+   drivers/cache/ax45mp_cache.c:183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     183 | void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+         | ^
+         | static 
+   3 warnings generated.
 
 
-vim +/irq_get_trigger_type +633 drivers/iio/light/ltr390.c
+vim +/arch_sync_dma_for_device +141 drivers/cache/ax45mp_cache.c
 
-   578	
-   579	static int ltr390_probe(struct i2c_client *client)
-   580	{
-   581		struct ltr390_data *data;
-   582		struct iio_dev *indio_dev;
-   583		struct device *dev;
-   584		int ret, part_number;
-   585	
-   586		dev = &client->dev;
-   587		indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
-   588		if (!indio_dev)
-   589			return -ENOMEM;
-   590	
-   591		data = iio_priv(indio_dev);
-   592	
-   593		data->regmap = devm_regmap_init_i2c(client, &ltr390_regmap_config);
-   594		if (IS_ERR(data->regmap))
-   595			return dev_err_probe(dev, PTR_ERR(data->regmap),
-   596					     "regmap initialization failed\n");
-   597	
-   598		data->client = client;
-   599		/* default value of integration time from pg: 15 of the datasheet */
-   600		data->int_time_us = 100000;
-   601		/* default value of gain from pg: 16 of the datasheet */
-   602		data->gain = 3;
-   603		/* default mode for ltr390 is ALS mode */
-   604		data->mode = LTR390_SET_ALS_MODE;
-   605	
-   606		mutex_init(&data->lock);
-   607	
-   608		indio_dev->info = &ltr390_info;
-   609		indio_dev->channels = ltr390_channels;
-   610		indio_dev->num_channels = ARRAY_SIZE(ltr390_channels);
-   611		indio_dev->name = "ltr390";
-   612	
-   613		ret = regmap_read(data->regmap, LTR390_PART_ID, &part_number);
-   614		if (ret)
-   615			return dev_err_probe(dev, ret,
-   616					     "failed to get sensor's part id\n");
-   617		/* Lower 4 bits of `part_number` change with hardware revisions */
-   618		if (part_number >> 4 != LTR390_PART_NUMBER_ID)
-   619			dev_info(dev, "received invalid product id: 0x%x", part_number);
-   620		dev_dbg(dev, "LTR390, product id: 0x%x\n", part_number);
-   621	
-   622		/* reset sensor, chip fails to respond to this, so ignore any errors */
-   623		regmap_set_bits(data->regmap, LTR390_MAIN_CTRL, LTR390_SW_RESET);
-   624	
-   625		/* Wait for the registers to reset before proceeding */
-   626		usleep_range(1000, 2000);
-   627	
-   628		ret = regmap_set_bits(data->regmap, LTR390_MAIN_CTRL, LTR390_SENSOR_ENABLE);
-   629		if (ret)
-   630			return dev_err_probe(dev, ret, "failed to enable the sensor\n");
-   631	
-   632		if (client->irq) {
- > 633			int irq_flags = irq_get_trigger_type(client->irq);
-   634	
-   635			if (!irq_flags)
-   636				irq_flags = IRQF_TRIGGER_FALLING;
-   637	
-   638			ret = devm_request_threaded_irq(&client->dev, client->irq,
-   639							NULL, ltr390_interrupt_handler,
-   640							irq_flags | IRQF_ONESHOT,
-   641							"ltr390_thresh_event", indio_dev);
-   642			if (ret) {
-   643				dev_err(&client->dev, "request irq (%d) failed\n", client->irq);
-   644				return ret;
-   645			}
-   646		}
-   647	
-   648		return devm_iio_device_register(dev, indio_dev);
-   649	}
-   650	
+   140	
+ > 141	void arch_sync_dma_for_device(phys_addr_t paddr,
+   142				      size_t size, enum dma_data_direction dir)
+   143	{
+   144		switch (dir) {
+   145		case DMA_TO_DEVICE:
+   146			ax45mp_dma_cache_wback(paddr, size);
+   147			break;
+   148	
+   149		case DMA_FROM_DEVICE:
+   150			fallthrough;
+   151	
+   152		case DMA_BIDIRECTIONAL:
+   153			/* Skip the invalidate here if it's done later */
+   154			if (IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU))
+   155				ax45mp_dma_cache_wback(paddr, size);
+   156			else
+   157				ax45mp_dma_cache_wback_inv(paddr, size);
+   158			break;
+   159	
+   160		default:
+   161			break;
+   162		}
+   163	}
+   164	
+ > 165	void arch_sync_dma_for_cpu(phys_addr_t paddr,
+   166				   size_t size, enum dma_data_direction dir)
+   167	{
+   168		switch (dir) {
+   169		case DMA_TO_DEVICE:
+   170			break;
+   171	
+   172		case DMA_FROM_DEVICE:
+   173		case DMA_BIDIRECTIONAL:
+   174			/* FROM_DEVICE invalidate needed if speculative CPU prefetch only */
+   175			ax45mp_dma_cache_inv(paddr, size);
+   176			break;
+   177	
+   178		default:
+   179			break;
+   180		}
+   181	}
+   182	
+ > 183	void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+   184				const struct iommu_ops *iommu, bool coherent)
+   185	{
+   186		dev->dma_coherent = coherent;
+   187	}
+   188	
 
 -- 
 0-DAY CI Kernel Test Service
