@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E906A1ABEB7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 22:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B9A1A76BE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 22:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726007497; cv=none; b=Vkio3H0/zJeOcXDPCKEKOYmKXxq775Ze158qqfEhbKKeY++LDrsmKOuDrEHCwMzdzeT2QlWHxFvpla6aeES3XKwgc3JzyInVnJo3+3nd2qzYZzLA70YfMKfM3ZYlO4jbPkZfV+wCSPPNbiD2A7kEWhLAK/cVBnIzPc3FtoF/hyQ=
+	t=1726008078; cv=none; b=mcdx+oP1Ig4RDXp0wPs6vDl041HelXr8mY9Rtasp0uNvDwUB641BUjeqFZEr88bSzYiHaFo2rKTxobbpuHUGnJ2O1BAB2LABvRcNy7+rrWEJ5gKahKdQZTurRBWEGfAtfdbRmfpRhf6xMLgF+gvPTC0mJUxjl18ql/zTgSa4XO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726007497; c=relaxed/simple;
-	bh=ZVX8AKGfzYjH2COOzEYjkU5Nza8UUkj1i3/zPKeF4uQ=;
+	s=arc-20240116; t=1726008078; c=relaxed/simple;
+	bh=GEsfu3EwWcknL9fbcg3wA5dVdhsIZSwq5tik00EMwBg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e3nDPhfl9DRl8VdBDV/C1+Ngd/wnxsIzbXAIIWZ/n4zk2bshl6e5Ht7hgYip1Bax9319+iuTHUPt8hUrymV7Am82MkZvIlDmWUVy2K/GmgbMniYCyYoO6sxjQm8qI2jraQxkMjEtXMEcqEjzdWY8+0USyjlDAXjF80yPrUZHEHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EISKKcbP; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=UyPLPrZoGcqCBkCglW0cK8UiGkBCHfkfru7kDB7/WE89KymIwq0ZMm0nZXOX/1zna3wCWevUHd0bXfTc3eBkrNeXGDcKCYbjDMiGMy2FINJ/Z1dqs7sEpHhK5qAsAbfTbc9nLsbzeClqB98QQbLXVPi56pPyS74v7jkdZkkaZyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F8ICc5hB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EISKKcbP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F8ICc5hB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726007496; x=1757543496;
+  t=1726008076; x=1757544076;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZVX8AKGfzYjH2COOzEYjkU5Nza8UUkj1i3/zPKeF4uQ=;
-  b=EISKKcbPLVeRkJorHV9KWpfoZEuAuW+ct7dVe2YBubN2YV2BmGpTsMlc
-   T0LPj/HD1RvzKSaOwWpt6PRwO5a3lF22oKKX6bfgF4wH9C3BLIj1BdB30
-   XDZ1rjaRkAMjoCexyRHafHYmp3/6CXaPEZtarpfb+VwxFm3TinyyvlLFa
-   1vN8yRqJGEh2CWqIReiO5NnFSlaQRX/zRl9JapDx09JrDolqKg45YJ/WA
-   z8y+sK7HyGDRrAwDOx6kMXY4QvJa3SkhfVIR62lrtybT589eYHyzR/Kov
-   bn/0cf5D+bvyWtZ63u4AH/PPj7+CMHy4WiGiNk/xVk1J6bCGh05tTVy02
-   g==;
-X-CSE-ConnectionGUID: QpMreDCJTXmFrlyVAyP8cA==
-X-CSE-MsgGUID: P5Uc+A+NTGqLbmDVfKQ5HA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24603544"
+  bh=GEsfu3EwWcknL9fbcg3wA5dVdhsIZSwq5tik00EMwBg=;
+  b=F8ICc5hBjv7CJdf4aG5OdJ1/PUdcYVHMIgcnj7BGuQRJgBccPBCOZD1i
+   U+NRDA5PocpcHjCcT6RC/z5ud1zq9qZQD5O2QOlwz5sKD1GcUb99xkj43
+   jTKdiQBJsd89sXhw2qt8Znfji4DgQg0JWBuvh7uDfFhyinCQSLPsm16wh
+   STSbRzx03+TrD8KkWd1/BaZXCzr3XL1iRXum3ZP3ryRmqEbFb1t5LcuZu
+   /+mjHjaJaovt2A+zqyrD7hv72w18nzcKTuf+kHJSwYFOAkJA+I6s49xo3
+   r/miSVLbU3347KUNPH/i+s3WT1erHLbYRBM7Yfohyx8P4JLdJtWA5wV13
+   w==;
+X-CSE-ConnectionGUID: MZZOE0H3QZ6Zsnhzt4prMw==
+X-CSE-MsgGUID: YH1BjaPgRMuX9rwT3C7r6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24924062"
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="24603544"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:31:18 -0700
-X-CSE-ConnectionGUID: oz35Z4ikTeOjRfFWESZXZg==
-X-CSE-MsgGUID: VJXLbIBARrG+nCi/3Dpl9Q==
+   d="scan'208";a="24924062"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:41:15 -0700
+X-CSE-ConnectionGUID: YZqZIPQiQoi+nKXuNVXarA==
+X-CSE-MsgGUID: C5JS/h95QQCy9nJ9P1rrkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="67184382"
+   d="scan'208";a="67126375"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Sep 2024 15:31:13 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Sep 2024 15:41:14 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1so9OB-0002mc-2D;
-	Tue, 10 Sep 2024 22:31:11 +0000
-Date: Wed, 11 Sep 2024 06:30:51 +0800
+	id 1so9Xr-0002nC-3A;
+	Tue, 10 Sep 2024 22:41:11 +0000
+Date: Wed, 11 Sep 2024 06:41:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 2/3] open.c:undefined reference to
- `__tracepoint_cros_filp_close_exit'
-Message-ID: <202409110619.iXGfh5KT-lkp@intel.com>
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-20240910 36/37]
+ drivers/iommu/iommufd/main.c:550:16: warning: format '%lu' expects argument
+ of type 'long unsigned int', but argument 3 has type 'unsigned int'
+Message-ID: <202409110632.CbUltD5u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,105 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   b409e2357562c5e8ed351597fddb38b7e8920fdd
-commit: bc1704f468b153e8b6edd27e720a4d143297e394 [2/3] CHROMIUM: add cros file tracepoints for bpf
-config: x86_64-buildonly-randconfig-003-20240911 (https://download.01.org/0day-ci/archive/20240911/202409110619.iXGfh5KT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110619.iXGfh5KT-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-20240910
+head:   47bd94563684b36d40cac3c558ca963539dd5980
+commit: 9b356346d2c4a9eed8c3e87785f19f944c4098db [36/37] iommufd: Extend IOMMU_GET_HW_INFO to report PASID support
+config: arc-randconfig-002-20240911 (https://download.01.org/0day-ci/archive/20240911/202409110632.CbUltD5u-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110632.CbUltD5u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110619.iXGfh5KT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409110632.CbUltD5u-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/link-vmlinux.sh: 123: is_enabled: not found
-   vmlinux.o: warning: objtool: mce_setup()+0x4c: call to cpuid_eax.constprop.0() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_read_aux()+0xdd: call to mca_msr_reg() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check()+0xcb: call to mce_gather_info() leaves .noinstr.text section
-   ld: fs/open.o: in function `trace_cros_chmod_common_exit':
-   open.c:(.text+0x1181): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x118c): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x1271): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x127d): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x129d): undefined reference to `__SCT__tp_func_cros_chmod_common_exit'
-   ld: fs/open.o: in function `chmod_common':
-   open.c:(.text+0x2c04): undefined reference to `__tracepoint_cros_chmod_common_enter'
-   ld: open.c:(.text+0x2c1c): undefined reference to `__tracepoint_cros_chmod_common_enter'
-   ld: open.c:(.text+0x2d56): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x2d61): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x2e84): undefined reference to `__tracepoint_cros_chmod_common_enter'
-   ld: open.c:(.text+0x2e90): undefined reference to `__tracepoint_cros_chmod_common_enter'
-   ld: open.c:(.text+0x2eae): undefined reference to `__SCT__tp_func_cros_chmod_common_enter'
-   ld: open.c:(.text+0x2f38): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x2f44): undefined reference to `__tracepoint_cros_chmod_common_exit'
-   ld: open.c:(.text+0x2f66): undefined reference to `__SCT__tp_func_cros_chmod_common_exit'
-   ld: fs/open.o: in function `chown_common':
-   open.c:(.text+0x3329): undefined reference to `__tracepoint_cros_chown_common_enter'
-   ld: open.c:(.text+0x3339): undefined reference to `__tracepoint_cros_chown_common_enter'
-   ld: open.c:(.text+0x3517): undefined reference to `__tracepoint_cros_chown_common_exit'
-   ld: open.c:(.text+0x3522): undefined reference to `__tracepoint_cros_chown_common_exit'
-   ld: open.c:(.text+0x3637): undefined reference to `__tracepoint_cros_chown_common_enter'
-   ld: open.c:(.text+0x3643): undefined reference to `__tracepoint_cros_chown_common_enter'
-   ld: open.c:(.text+0x3667): undefined reference to `__SCT__tp_func_cros_chown_common_enter'
-   ld: open.c:(.text+0x36f1): undefined reference to `__tracepoint_cros_chown_common_exit'
-   ld: open.c:(.text+0x36fd): undefined reference to `__tracepoint_cros_chown_common_exit'
-   ld: open.c:(.text+0x3724): undefined reference to `__SCT__tp_func_cros_chown_common_exit'
-   ld: fs/open.o: in function `filp_close':
-   open.c:(.text+0x563c): undefined reference to `__tracepoint_cros_filp_close_exit'
-   ld: open.c:(.text+0x5647): undefined reference to `__tracepoint_cros_filp_close_exit'
-   ld: open.c:(.text+0x5709): undefined reference to `__tracepoint_cros_filp_close_exit'
-   ld: open.c:(.text+0x5715): undefined reference to `__tracepoint_cros_filp_close_exit'
-   ld: open.c:(.text+0x5735): undefined reference to `__SCT__tp_func_cros_filp_close_exit'
-   ld: fs/open.o: in function `filp_close.cold':
->> open.c:(.text.unlikely+0xf): undefined reference to `__tracepoint_cros_filp_close_exit'
->> ld: open.c:(.text.unlikely+0x1a): undefined reference to `__tracepoint_cros_filp_close_exit'
-   ld: open.c:(.text.unlikely+0x81): undefined reference to `__tracepoint_cros_filp_close_exit'
-   ld: open.c:(.text.unlikely+0x8d): undefined reference to `__tracepoint_cros_filp_close_exit'
->> ld: open.c:(.text.unlikely+0x107): undefined reference to `__SCT__tp_func_cros_filp_close_exit'
-   ld: fs/open.o:(.static_call_sites+0x4): undefined reference to `__SCK__tp_func_cros_chmod_common_exit'
-   ld: fs/open.o:(.static_call_sites+0xc): undefined reference to `__SCK__tp_func_cros_chmod_common_enter'
-   ld: fs/open.o:(.static_call_sites+0x14): undefined reference to `__SCK__tp_func_cros_chmod_common_exit'
-   ld: fs/open.o:(.static_call_sites+0x1c): undefined reference to `__SCK__tp_func_cros_chown_common_enter'
-   ld: fs/open.o:(.static_call_sites+0x24): undefined reference to `__SCK__tp_func_cros_chown_common_exit'
-   ld: fs/open.o:(.static_call_sites+0x34): undefined reference to `__SCK__tp_func_cros_filp_close_exit'
-   ld: fs/open.o:(.static_call_sites+0x3c): undefined reference to `__SCK__tp_func_cros_filp_close_exit'
-   ld: fs/namespace.o: in function `trace_cros_path_mount_exit':
-   namespace.c:(.text+0x28a7): undefined reference to `__tracepoint_cros_path_mount_exit'
-   ld: namespace.c:(.text+0x28be): undefined reference to `__tracepoint_cros_path_mount_exit'
-   ld: namespace.c:(.text+0x299d): undefined reference to `__tracepoint_cros_path_mount_exit'
-   ld: namespace.c:(.text+0x29a9): undefined reference to `__tracepoint_cros_path_mount_exit'
-   ld: namespace.c:(.text+0x29d9): undefined reference to `__SCT__tp_func_cros_path_mount_exit'
-   ld: fs/namespace.o: in function `path_umount':
-   namespace.c:(.text+0x7409): undefined reference to `__tracepoint_cros_path_umount_entry'
-   ld: namespace.c:(.text+0x7418): undefined reference to `__tracepoint_cros_path_umount_entry'
-   ld: namespace.c:(.text+0x752c): undefined reference to `__tracepoint_cros_path_umount_exit'
-   ld: namespace.c:(.text+0x7537): undefined reference to `__tracepoint_cros_path_umount_exit'
-   ld: namespace.c:(.text+0x760e): undefined reference to `__tracepoint_cros_path_umount_entry'
-   ld: namespace.c:(.text+0x761a): undefined reference to `__tracepoint_cros_path_umount_entry'
-   ld: namespace.c:(.text+0x7638): undefined reference to `__SCT__tp_func_cros_path_umount_entry'
-   ld: namespace.c:(.text+0x76aa): undefined reference to `__tracepoint_cros_path_umount_exit'
-   ld: namespace.c:(.text+0x76b6): undefined reference to `__tracepoint_cros_path_umount_exit'
-   ld: namespace.c:(.text+0x76d8): undefined reference to `__SCT__tp_func_cros_path_umount_exit'
-   ld: fs/namespace.o:(.static_call_sites+0x4): undefined reference to `__SCK__tp_func_cros_path_mount_exit'
-   ld: fs/namespace.o:(.static_call_sites+0xc): undefined reference to `__SCK__tp_func_cros_path_umount_entry'
-   ld: fs/namespace.o:(.static_call_sites+0x14): undefined reference to `__SCK__tp_func_cros_path_umount_exit'
-   ld: fs/utimes.o: in function `trace_cros_vfs_utimes_exit':
-   utimes.c:(.text+0x11): undefined reference to `__tracepoint_cros_vfs_utimes_exit'
-   ld: utimes.c:(.text+0x1c): undefined reference to `__tracepoint_cros_vfs_utimes_exit'
-   ld: utimes.c:(.text+0x10b): undefined reference to `__tracepoint_cros_vfs_utimes_exit'
-   ld: utimes.c:(.text+0x117): undefined reference to `__tracepoint_cros_vfs_utimes_exit'
-   ld: utimes.c:(.text+0x136): undefined reference to `__SCT__tp_func_cros_vfs_utimes_exit'
-   ld: fs/utimes.o: in function `vfs_utimes':
-   utimes.c:(.text+0x1f6): undefined reference to `__tracepoint_cros_vfs_utimes_enter'
-   ld: utimes.c:(.text+0x20a): undefined reference to `__tracepoint_cros_vfs_utimes_enter'
-   ld: utimes.c:(.text+0x5f7): undefined reference to `__tracepoint_cros_vfs_utimes_enter'
-   ld: utimes.c:(.text+0x603): undefined reference to `__tracepoint_cros_vfs_utimes_enter'
-   ld: utimes.c:(.text+0x620): undefined reference to `__SCT__tp_func_cros_vfs_utimes_enter'
-   ld: fs/utimes.o:(.static_call_sites+0x4): undefined reference to `__SCK__tp_func_cros_vfs_utimes_exit'
-   ld: fs/utimes.o:(.static_call_sites+0xc): undefined reference to `__SCK__tp_func_cros_vfs_utimes_enter'
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arc/include/asm/bug.h:30,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from drivers/iommu/iommufd/main.c:12:
+   drivers/iommu/iommufd/main.c: In function 'iommufd_init':
+>> drivers/iommu/iommufd/main.c:550:16: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'unsigned int' [-Wformat=]
+     550 |         printk("%s offsetofend(_struct, _last): %lu\n", __func__, offsetofend(struct iommu_hw_info, __reserved));
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:437:25: note: in definition of macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/iommu/iommufd/main.c:550:9: note: in expansion of macro 'printk'
+     550 |         printk("%s offsetofend(_struct, _last): %lu\n", __func__, offsetofend(struct iommu_hw_info, __reserved));
+         |         ^~~~~~
+   drivers/iommu/iommufd/main.c:550:51: note: format string is defined here
+     550 |         printk("%s offsetofend(_struct, _last): %lu\n", __func__, offsetofend(struct iommu_hw_info, __reserved));
+         |                                                 ~~^
+         |                                                   |
+         |                                                   long unsigned int
+         |                                                 %u
+
+
+vim +550 drivers/iommu/iommufd/main.c
+
+   545	
+   546	static int __init iommufd_init(void)
+   547	{
+   548		int ret;
+   549	
+ > 550		printk("%s offsetofend(_struct, _last): %lu\n", __func__, offsetofend(struct iommu_hw_info, __reserved));
+   551		ret = misc_register(&iommu_misc_dev);
+   552		if (ret)
+   553			return ret;
+   554	
+   555		if (IS_ENABLED(CONFIG_IOMMUFD_VFIO_CONTAINER)) {
+   556			ret = misc_register(&vfio_misc_dev);
+   557			if (ret)
+   558				goto err_misc;
+   559		}
+   560		ret = iommufd_test_init();
+   561		if (ret)
+   562			goto err_vfio_misc;
+   563		return 0;
+   564	
+   565	err_vfio_misc:
+   566		if (IS_ENABLED(CONFIG_IOMMUFD_VFIO_CONTAINER))
+   567			misc_deregister(&vfio_misc_dev);
+   568	err_misc:
+   569		misc_deregister(&iommu_misc_dev);
+   570		return ret;
+   571	}
+   572	
 
 -- 
 0-DAY CI Kernel Test Service
