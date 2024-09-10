@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235C5195980
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 15:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB48199FBB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 15:41:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725981710; cv=none; b=TSQcvrp8FpU8fAmL2njFzT5CxTH2/xRUEqL8BoKs4t9TWwsMQ1PN3HAIaBre+g/r+6RRJsJx/C1s/jVRuGG4/M0H7hsVq3KB/DI0I4+nayXCSB2KSUm+dCytp+ZBGyN+oVbKhB1eQVhgI9QrLRePqtDvGHBIDIdBMBvetvHueI4=
+	t=1725982911; cv=none; b=H0yBLcOq79o2BeMSbSQYeJXKU1SEmFLno501ooZmxVC3lubyXbqFLmr3678ayJ5DR2es+MBMa3evFVdb4sHNCiy8Jzd02h1maFq73gR+r1Rv45MJmZNE/aaCdh5JLm/O0oaP5//088iYaVByiArSUDHDFN+PP3IuN9TA15rKNww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725981710; c=relaxed/simple;
-	bh=W6eGTfECuMCueVT0cwNwqmVphUEBuHFRAM4/cCfFXsM=;
+	s=arc-20240116; t=1725982911; c=relaxed/simple;
+	bh=gMBNfd63rPvxJ9N9wV2O58Z7a/YrFgzrtjWnOio/k6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R15qZLoKNfKDpMLgKDpdvIWdnGPdvK1Aa2TjNb37BrsoGeJqb0b3HIo0xFRBnNOrH7t4VLG7wrjwdZ4RXvGF7aC883pWcm+7j/nGXRJDK7mo1X3DEa34VKMTrquo2lm4g4rf5BziT6DkvFm15ybLeb9jOsRl/eaqLI9gfbZjF7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+jnkpvD; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=XvIW2jhoYXH+G7tbF2qKJ6E+HvDDYXxy6noqmplJkt3jHt2RFoviGpscr+rVSewuvQ3n+VOt4WU+U8E7p3phXHC22jU/M3crO5560U62BeBdgHVBSi2/bXJL36WLD8G2n3x8cgJnjbJa/P9xPXx+PcnE6CAcKEy0NCiUVVojhGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kv4r6ZGi; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+jnkpvD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kv4r6ZGi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725981708; x=1757517708;
+  t=1725982909; x=1757518909;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W6eGTfECuMCueVT0cwNwqmVphUEBuHFRAM4/cCfFXsM=;
-  b=a+jnkpvDOEZjETvOJEjUh4a/X/yefG9s12nM1UFZeS6dvlwnNNQ0CaK8
-   XFsuFfn49uGWPafkDKRvhC9XYqi+upJlTdQGMLc3iBbBrsnCSV6kpgPPt
-   8PLxqBXysYZ8wlprmSz7lhmyj8o4XdHd2UIG0FeKWRk1erk6VHeePmSbD
-   uy9pM4HL32HYCPjJb0E/993P6iV+kFQdOWD2GNZKEh1/SuD+qzGxUZxt2
-   Mq1rsuRUvcrWuWdWherctf8NOmx5MU9tmycKx3AAdIVlyIBwqGTVL2Cjt
-   eiA4SNHNQCGyA2ps117dFDma1df4hkcWHwHdHvJExVJZXe4AvWCoI89zL
-   w==;
-X-CSE-ConnectionGUID: IfQ2jz4kRmOKtMeuvKr8fg==
-X-CSE-MsgGUID: Uw7kKlITTyiePM5vXYeWvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28516991"
+  bh=gMBNfd63rPvxJ9N9wV2O58Z7a/YrFgzrtjWnOio/k6M=;
+  b=Kv4r6ZGi1S84f4KhZBeGgebDSelu2nfRhe+/8auXzVnMAxeU6T7sQJ8M
+   udZ06og+a7WFIYfy1fNhISobhGwoMMxtX0v5oQ4wqm79OOIMgZ/hDoC11
+   2cQ83S12G4q91mVjDWA0CHGJQIjK+NQl4q3M2x20SVjwTRhKbWqJMklHP
+   wGd8sp0hUq80kmyTLdnR9Suibj8Gj2XlIiZY9vZj0QwTKCGeR41YDyR8R
+   kFaCdAzwgxWzcdH+G7BqaUmAfqvzo8b3vSkj6ooWrOtxkWKESTG+pJwpY
+   rIVye6zSmPYRxnStCvsHNmjRWlVsDDJOsVtPwyxEfW25VxP17Zt/TN/yw
+   Q==;
+X-CSE-ConnectionGUID: z+9CwLEsQ/25egYV8k7PIQ==
+X-CSE-MsgGUID: vsR/5ob5R8yxckznLuCH9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28521425"
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="28516991"
+   d="scan'208";a="28521425"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 08:21:47 -0700
-X-CSE-ConnectionGUID: FQ9qrwCdRBOr2RoaruXxbQ==
-X-CSE-MsgGUID: Si9kmb1STE6N4iv6kK0jug==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 08:41:49 -0700
+X-CSE-ConnectionGUID: UcmqMmhpR7WkcMinHOlXBg==
+X-CSE-MsgGUID: k0V/RB5kSL6dlRmg4yjwgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="67017226"
+   d="scan'208";a="67021006"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Sep 2024 08:21:47 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Sep 2024 08:41:47 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1so2gZ-0002Fy-33;
-	Tue, 10 Sep 2024 15:21:43 +0000
-Date: Tue, 10 Sep 2024 23:20:59 +0800
+	id 1so2zx-0002Ha-0P;
+	Tue, 10 Sep 2024 15:41:45 +0000
+Date: Tue, 10 Sep 2024 23:41:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 5704/30000] include/linux/blk-mq.h:620:18:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202409102355.6lrxEzuT-lkp@intel.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331'
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(~var)
+Message-ID: <202409102318.ncgp3AQK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,137 +63,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   cbfb00d89c3b9971c3f0732b4f34d4e674bff5d8
-commit: 8a6bee347626968d467aef07453c4547bc23cb64 [5704/30000] blk-mq: fix potential uaf for 'queue_hw_ctx'
-config: x86_64-randconfig-122-20240910 (https://download.01.org/0day-ci/archive/20240910/202409102355.6lrxEzuT-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409102355.6lrxEzuT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bc83b4d1f08695e85e85d36f7b803da58010161d
+commit: 53585f9ea40a9466ab9c1151f15984513eb542f7 um: enable UBSAN
+date:   10 weeks ago
+config: um-randconfig-r132-20240910 (https://download.01.org/0day-ci/archive/20240910/202409102318.ncgp3AQK-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409102318.ncgp3AQK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409102355.6lrxEzuT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409102318.ncgp3AQK-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   block/blk-mq-sched.c: note: in included file:
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
---
->> block/blk-mq-sysfs.c:339:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
-   block/blk-mq-sysfs.c:339:55: sparse:     expected struct blk_mq_hw_ctx *hctx
-   block/blk-mq-sysfs.c:339:55: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu *
-   block/blk-mq-sysfs.c: note: in included file:
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
---
-   block/blk-sysfs.c: note: in included file:
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
---
-   block/blk-mq-tag.c: note: in included file:
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
---
->> block/blk-mq.c:485:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
-   block/blk-mq.c:485:19: sparse:     expected struct blk_mq_hw_ctx *hctx
-   block/blk-mq.c:485:19: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu *
->> block/blk-mq.c:3270:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct blk_mq_hw_ctx **hctxs @@     got struct blk_mq_hw_ctx [noderef] __rcu **queue_hw_ctx @@
-   block/blk-mq.c:3270:41: sparse:     expected struct blk_mq_hw_ctx **hctxs
-   block/blk-mq.c:3270:41: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu **queue_hw_ctx
->> block/blk-mq.c:3284:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   block/blk-mq.c:3284:17: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   block/blk-mq.c:3284:17: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
-   block/blk-mq.c:4033:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
-   block/blk-mq.c: note: in included file:
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
->> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
-   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+All errors (new ones prefixed by >>):
 
-vim +620 include/linux/blk-mq.h
+>> lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
+    1278 |         BUILD_BUG_ON(!__builtin_constant_p(~var));
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:510:2: note: expanded from macro 'compiletime_assert'
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
+     498 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
+     491 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:50:1: note: expanded from here
+      50 | __compiletime_assert_331
+         | ^
+   1 error generated.
 
-   614	
-   615	static inline struct blk_mq_hw_ctx *queue_hctx(struct request_queue *q, int id)
-   616	{
-   617		struct blk_mq_hw_ctx *hctx;
-   618	
-   619		rcu_read_lock();
- > 620		hctx = *(rcu_dereference(q->queue_hw_ctx) + id);
-   621		rcu_read_unlock();
-   622	
-   623		return hctx;
-   624	}
-   625	
+
+vim +1278 lib/test_bitmap.c
+
+291f93ca339f5b Barry Song        2021-08-06  1227  
+2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
+2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
+2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
+2356d198d2b4dd Yury Norov        2023-07-17  1231   */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
+dc34d5036692c6 Alexander Lobakin 2022-06-24 @1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
+
+:::::: The code at line 1278 was first introduced by commit
+:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+
+:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
