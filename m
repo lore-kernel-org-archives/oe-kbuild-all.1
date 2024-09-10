@@ -1,270 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAE7188CDC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56867188CC1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725960366; cv=none; b=KucfuOLJNnxWi6IUVm7/jcrd7Fg8oRbT6glouDRhA8TffU4J60Y5LR45GXFzX0H5qif9ezTKdYeuF+cjfiUM5xbaJ5lNKoM05iuTxh2D9cJdfn044VVc65Ef2ZwKTr8z0tKCQoZ/6Eez/wOux4aabAUaBMRcfuoElYgmh3OiXLY=
+	t=1725960479; cv=none; b=MrvlR5fOO91QVeoWeONpoWdS6WDa04CACM8lqebwUlManrDevorOyEQFxvpwlm9DG4Vqkh2K98qqKRvn0gRu/rUXhfLyIbjKgUUIiX7ctOh6oxAui6GUu5b6EaTABhvo54pee74NFJJeG1iPQe+msKY96eIbU5bYzunQnLrkTww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725960366; c=relaxed/simple;
-	bh=LRHeTsxWfDELiybzeGmOm0O0UOGwOPx1jGxPuXuL8+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cZmlhcoynEqJBM6KCkCvawembRN39Z4MS1HLsjZ26cOUw7rxmUDeaU7V9QnA5X6b6etyGALA4D3ggRLIfIaAoJcJrJZM8x1TXn11ugvuF5HhiV9SoNqXcRRiJWm2iUeqd+rgSlaFgo7g+VYb0m4RKvsD2H0FsfYgWWDrRTki+RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f2HNMxYH; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725960479; c=relaxed/simple;
+	bh=GNLsnEcDpfFnNAWR3urnvGUz3HpFXqK/e5cclewGaJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K0l4e+SjkU7q9KbVXNb+xkk+9Wpl5fZBXQg3V6e6S6STV72CKXXUD/SGmkPEKXixdXeFVhPc24IPVCF9d5II4ff7RhaSxXP4cGIjop/qAgQhrLZrRt8uhJLoTcox9xLc9vawotHun8y3RCfvvlSZXx0qyCXrjhHMmAPGPqhTmtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YUzqoHKR; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2HNMxYH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725960364; x=1757496364;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=LRHeTsxWfDELiybzeGmOm0O0UOGwOPx1jGxPuXuL8+k=;
-  b=f2HNMxYHpyvGe8ufHU+wLsceTjI7dWSNUL6eNZCjnkG7cCKPcyC+gF7M
-   ZtCeCBIx8tS+5TMB8X501qhpAAWdA4TG3A8mEPLA917N/3EqTw71+fvCy
-   U2Ho9A3ANm4I5E+J6GXySqg4QpwZFrSB9bDXzD/TGkduvGbnPpw1l/3mN
-   2oRWgTyPicXAcZb5gQurtIs/sv637IwrG0rJokpY+tQQTWLECe/og6CSm
-   UaLGxaw+WNbgDjdi1M+bwjrmiOtbeJz8WldKpPzVAck2RCvp49G7W1HL5
-   5iBPnD0ojAyBEj4eES6F18/oOay4Moslt34mI+6gl9C4bDlorQjM+CXhL
-   Q==;
-X-CSE-ConnectionGUID: goJx3So9T2m61SyfO9zrBQ==
-X-CSE-MsgGUID: hHZ0i1zdTVC6p+5rG6TuyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="36075595"
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="36075595"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 02:26:04 -0700
-X-CSE-ConnectionGUID: MBWYuWlqTwKVfDa3tVlqow==
-X-CSE-MsgGUID: U+DDdEFtSJWVKqMQ5AAh8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="67215343"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 02:25:59 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8054311F83C;
-	Tue, 10 Sep 2024 12:25:56 +0300 (EEST)
-Date: Tue, 10 Sep 2024 09:25:56 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-Message-ID: <ZuAQpITcee2SSYKk@kekkonen.localdomain>
-References: <202409051822.ZzUGw3XQ-lkp@intel.com>
- <20240905111120.GK16183@pendragon.ideasonboard.com>
- <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
- <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
- <yib2r4wisxvk3kgogbjqawrpmfq6lcezfk4xjmftj44jzkbclc@icapodv2ffzk>
- <d5188c0a-4a52-4378-89b1-48f606e448cc@ideasonboard.com>
- <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
- <20240909134516.GA9448@pendragon.ideasonboard.com>
- <Zt8ZysTT5DIZr-J7@kekkonen.localdomain>
- <jdtjdspf4qyrgn6jmyxeab5ueo53wjd5vuhvlpin3pdiyifwht@dndfcqnmv7sd>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YUzqoHKR"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42bb6d3e260so5258215e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 02:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725960476; x=1726565276; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OhnKEadp0MPVoUcjV0Ee6hhY+nUdAFKRksTQ0ZRfrgk=;
+        b=YUzqoHKR4MeH/N+r6sgKNvKA5QB8BiiUWIys9PevaSb1iuaV2R2ZLN6bOXROwNygGh
+         nrsLXfwd+39+vnl8NWBjIq0Dn2ImBGw6l4r0DFMG/KQ1wdoLf2/3l2ePy1JibJoa0UtH
+         n+GT1rBQiD/xkYry7oZwUAK8pnwC+u8ChfMqmrOYovFTJcOxTNNBMcwaYBYG9ZwVQYby
+         n5btjqhy/j7gWZ5Ql10/17lr12phnledRSHEPKX922OTDBdA98gUXmRKY1NSqYpnxVhj
+         S1QOoihb3DyOs3lHRW3Ev4gV3f25+EDc2+zw1orKuvGt8UqebzK6nr1qj85uGZE7rDy7
+         qy2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725960476; x=1726565276;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OhnKEadp0MPVoUcjV0Ee6hhY+nUdAFKRksTQ0ZRfrgk=;
+        b=p6FI+T+SuT6Yp0P1+Xyx8lHewYJsz9qw/DVUrpfXmrfFEIA/mwtX2mKIA4i0xsgY7g
+         lQFLEgGYmJkWs/ZFhfV9aatkW+XxZ0/srsF466aKQLtfftFhyqmLMO1KGu7OiuVIcNtA
+         QGFGV8FVtxUC3x5lmGzWndClvMDh3nUt4fPbpzgydb9ntCXQYO0yPPKUkeIz7boiFKFU
+         eJkqETW9PTaSJY5ZzuydxPN1miqLxS756Q3NufbsX6mEF0QqzQ8tE6+ZO9Uq0VSePNWO
+         iyRGiIZen9ZKQ6B4GBlO82+HuNwxrMGyYmE5TnZJN3dUxp923m4W79fz3UTAgjS3oA8X
+         18gA==
+X-Forwarded-Encrypted: i=1; AJvYcCXPBl/xQFl+btavig1srHGZfq/2zyTzlkDhWZ49dpnzGCRq5XQ90YE7Gn/6CwB91rLQ6qWHoAReiTuCMQmc@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzsg4KDfmKpj0FdqFlCHsJS2hpuL0DiCcEMuYq/r/aeql54PwpT
+	B80nQbJmb16BDMYdmptvdKkcg4JsKZ3WeHUT6GaqYwP2+oBspaEwcSNAXbs3UYs=
+X-Google-Smtp-Source: AGHT+IHYchhen5w0uxVHZAvnfE6YNm/wjH0J795HWSo1Lj1fqJ5m0JnjNBPHqMDWgIxbc6loqogwbw==
+X-Received: by 2002:a5d:484b:0:b0:374:b5fc:d31a with SMTP id ffacd0b85a97d-378895de475mr8692895f8f.25.1725960475513;
+        Tue, 10 Sep 2024 02:27:55 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42caeb4444asm104867585e9.22.2024.09.10.02.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 02:27:55 -0700 (PDT)
+Date: Tue, 10 Sep 2024 12:27:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-20240905 24/29]
+ drivers/iommu/iommufd/pasid.c:37 iommufd_device_pasid_do_attach() warn:
+ passing zero to 'ERR_PTR'
+Message-ID: <4d1d7a79-0f69-4036-a0b7-141f3f8c87c9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <jdtjdspf4qyrgn6jmyxeab5ueo53wjd5vuhvlpin3pdiyifwht@dndfcqnmv7sd>
 
-Hi Jacopo,
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-20240905
+head:   4291b5d19a8845a8dbe31516094fd1e01ac5ef5e
+commit: eca216f94e05faab6b4e6d67ec3d95f2c6024ad3 [24/29] iommufd: Support attach/replace hwpt per pasid
+config: i386-randconfig-141-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091622.yfNTNCSQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-On Tue, Sep 10, 2024 at 11:19:57AM +0200, Jacopo Mondi wrote:
-> Hi Sakari, Tomi
-> 
-> On Mon, Sep 09, 2024 at 03:52:42PM GMT, Sakari Ailus wrote:
-> > Hi Laurent,
-> >
-> > On Mon, Sep 09, 2024 at 04:45:16PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Sep 09, 2024 at 03:29:30PM +0200, Jacopo Mondi wrote:
-> > > > On Mon, Sep 09, 2024 at 01:04:35PM GMT, Tomi Valkeinen wrote:
-> > > > > On 09/09/2024 12:13, Jacopo Mondi wrote:
-> > > > > > On Mon, Sep 09, 2024 at 08:22:59AM GMT, Tomi Valkeinen wrote:
-> > > > > > > On 09/09/2024 08:08, Tomi Valkeinen wrote:
-> > > > > > > > On 05/09/2024 14:11, Laurent Pinchart wrote:
-> > > > > > > > > On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
-> > > > > > > > > > Hi Tomi,
-> > > > > > > > > >
-> > > > > > > > > > kernel test robot noticed the following build warnings:
-> > > > > > > > > >
-> > > > > > > > > > [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
-> > > > > > > > > >
-> > > > > > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-
-> > > > > > > > > > Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-
-> > > > > > > > > > stats/20240904-192729
-> > > > > > > > > > base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-> > > > > > > > > > patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-
-> > > > > > > > > > f1b5b3d69c81%40ideasonboard.com
-> > > > > > > > > > patch subject: [PATCH v4 3/4] media: raspberrypi: Add support
-> > > > > > > > > > for RP1-CFE
-> > > > > > > > > > config: m68k-allmodconfig (https://download.01.org/0day-ci/
-> > > > > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
-> > > > > > > > > > compiler: m68k-linux-gcc (GCC) 14.1.0
-> > > > > > > > > > reproduce (this is a W=1 build):
-> > > > > > > > > > (https://download.01.org/0day-ci/
-> > > > > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
-> > > > > > > > > >
-> > > > > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a
-> > > > > > > > > > new version of
-> > > > > > > > > > the same patch/commit), kindly add following tags
-> > > > > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-
-> > > > > > > > > > all/202409051822.ZzUGw3XQ-lkp@intel.com/
-> > > > > > > > > >
-> > > > > > > > > > All warnings (new ones prefixed by >>):
-> > > > > > > > > >
-> > > > > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12:
-> > > > > > > > > > > > warning: 'cfe_runtime_resume' defined but not used
-> > > > > > > > > > > > [-Wunused-function]
-> > > > > > > > > >       2445 | static int cfe_runtime_resume(struct device *dev)
-> > > > > > > > > >            |            ^~~~~~~~~~~~~~~~~~
-> > > > > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12:
-> > > > > > > > > > > > warning: 'cfe_runtime_suspend' defined but not used
-> > > > > > > > > > > > [-Wunused-function]
-> > > > > > > > > >       2435 | static int cfe_runtime_suspend(struct device *dev)
-> > > > > > > > > >            |            ^~~~~~~~~~~~~~~~~~~
-> > > > > > > > > > vim +/cfe_runtime_resume +2445
-> > > > > > > > > > drivers/media/platform/raspberrypi/ rp1-cfe/cfe.c
-> > > > > > > > >
-> > > > > > > > > The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
-> > > > > > > > > to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
-> > > > > > > > > the driver won't work on a kernel with !CONFIG_PM given how you
-> > > > > > > > > implemented probe() and remove().
-> > > > > > > > >
-> > > > > > > > > The pisp-be driver suffered from the same issue and Jacopo fixed it in
-> > > > > > > > > the last version. You can have a look at implement something similar.
-> > > > > > > >
-> > > > > > > > I can't right away think of any reason to not just depend on CONFIG_PM
-> > > > > > > > and be done with it without any tricks. Do you know if there's a reason?
-> > > > > >
-> > > > > > We had the same discussion, and even if I would be fine depending on
-> > > > > > CONFIG_PM, supporting !CONFIG_PM is not that much work, I kept it as
-> > > > > > an optional dependency (it was suggested during the review as well)
-> > > > > >
-> > > > > > >
-> > > > > > > Also, I don't think pisp-be is correct. It just calls
-> > > > > > > pispbe_runtime_resume() in probe() to wake the IP up (which only enables
-> > > > > > > pisp clock), without telling the runtime PM about it. This means the parent
-> > > > > > > device and the suppliers may not be powered up.
-> > > > > >
-> > > > > > Are you referring to the code currently in the tree or to this patch ?
-> > > > > > https://patchwork.linuxtv.org/project/linux-media/patch/20240904095836.344833-5-jacopo.mondi@ideasonboard.com/
-> > > > >
-> > > > > Ah, I missed that one.
-> > > > >
-> > > > > I don't think it fixes the issue I mentioned. If we have PM enabled, and the
-> > > > > parent device requires powering up for the child device (BE) to be
-> > > > > accessible, the driver will crash when calling pispbe_hw_init(). I think you
-> > > > > should call pm_runtime_set_active() before calling pispbe_runtime_resume().
-> > > >
-> > > > As discussed, this is not a problem currently for BE, but indeed you
-> > > > have a point.
-> 
-> I admit the runtime_pm intrinsics are obscure to me, but Laurent just
-> made me notice something.
-> 
-> Consider the following scenario
-> 
-> *) Kernel compiled with CONFIG_PM
-> *) i2c sensor driver that supports both CONFIG_PM and !CONFIG_PM by:
->   *) Manually power up the sensor during probe
->   *) Call pm_runtime_enable() and pm_runtime_set_active() at the end
->      of the probe routine after having accessed the chip over i2c
->      (like most, if not all the i2c drivers in mainline do including
->      ccs)
-> 
-> All these drivers work, and during the probe routine before accessing
-> the HW, they don't need to power up the parent i2c controller.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409091622.yfNTNCSQ-lkp@intel.com/
 
-This isn't done explicitly by the I²C drivers, indeed but...
+smatch warnings:
+drivers/iommu/iommufd/pasid.c:37 iommufd_device_pasid_do_attach() warn: passing zero to 'ERR_PTR'
+drivers/iommu/iommufd/pasid.c:78 iommufd_device_pasid_do_replace() warn: passing zero to 'ERR_PTR'
 
-> 
-> Might it be that during probe() the parent is guaranteed to be enabled ?
+vim +/ERR_PTR +37 drivers/iommu/iommufd/pasid.c
 
-...yes.
+eca216f94e05fa Yi Liu 2024-03-18  10  struct iommufd_hw_pagetable *
+eca216f94e05fa Yi Liu 2024-03-18  11  iommufd_device_pasid_do_attach(struct iommufd_device *idev, ioasid_t pasid,
+eca216f94e05fa Yi Liu 2024-03-18  12  			       struct iommufd_hw_pagetable *hwpt)
+eca216f94e05fa Yi Liu 2024-03-18  13  {
+eca216f94e05fa Yi Liu 2024-03-18  14  	void *curr;
+eca216f94e05fa Yi Liu 2024-03-18  15  	int rc;
+eca216f94e05fa Yi Liu 2024-03-18  16  
+eca216f94e05fa Yi Liu 2024-03-18  17  	refcount_inc(&hwpt->obj.users);
+eca216f94e05fa Yi Liu 2024-03-18  18  	curr = xa_cmpxchg(&idev->pasid_hwpts, pasid, NULL, hwpt, GFP_KERNEL);
+eca216f94e05fa Yi Liu 2024-03-18  19  	if (curr) {
+eca216f94e05fa Yi Liu 2024-03-18  20  		if (curr == hwpt)
+eca216f94e05fa Yi Liu 2024-03-18  21  			rc = 0;
 
-> 
-> I add a look in the driver-core and pm Documentation/ but found
-> nothing.
-> 
-> A quick stroll in driver/base/ got me to __device_attach() and it
-> seems parents are powered up before attaching a driver to a device
-> (which in my understanding should be what ends up calling probe()).
-> Clearly I've no real understanding of what I'm talking about when it
-> comes to driver-core, so take this with a grain of salt.
+Are you sure we should call refcount_dec(&hwpt->obj.users) for this path?
 
-This only works with runtime PM enabled.
+This Smatch heuristic is always going to have false positives because calling
+ERR_PTR(NULL) is perfectly valid.  So don't worry about it if the code is
+correct.  But maybe add a comment explaining that /* we don't bump the ref count
+if we're already on the current hw port */ or whatever.
 
-> 
-> > > >
-> > > > Sad note: most of all the occurrences of "grep set_active" in
-> > > > drivers/media/platform/ show that set_active() is used as I've done in
-> > > > my patch
-> > > >
-> > > > > However, you said above that "supporting !CONFIG_PM is not that much work".
-> > > > > Maybe not. But how much work is it to get it right (for both PM and !PM),
-> > > > > and make sure it stays right? =).
-> > > > >
-> > > > > Just my opinion, but if there are zero use cases for the !PM, I would just
-> > > > > go with "depends on PM" to keep the driver simpler, less bug-prone, and
-> > > > > easier to maintain.
-> > >
-> > > I'm fine with that, and for platform drivers, that's my preferred
-> > > option. Sakari ?
-> >
-> > I'm concerned with your (?) recent finding that many architectures don't
-> > have support for CONFIG_PM. In this case the device is very unlikely to be
-> > used outside ARM(64) so I guess it's fine.
-> >
-> 
-> Also, this IP is RPi specific, and the !CONFIG_PM case is not used or
-> tested on Pi.
-> 
-> However, I think this current patch is correct (assuming the above
-> reasoning on i2c sensor drivers is correct) and doesn't require
-> CONFIG_PM, so I would be tempted to keep this version.
+eca216f94e05fa Yi Liu 2024-03-18  22  		else
+eca216f94e05fa Yi Liu 2024-03-18  23  			rc = xa_err(curr) ? : -EBUSY;
+eca216f94e05fa Yi Liu 2024-03-18  24  		goto err_put_hwpt;
+eca216f94e05fa Yi Liu 2024-03-18  25  	}
+eca216f94e05fa Yi Liu 2024-03-18  26  
+eca216f94e05fa Yi Liu 2024-03-18  27  	rc = iommufd_hwpt_attach_device(hwpt, idev, pasid);
+eca216f94e05fa Yi Liu 2024-03-18  28  	if (rc) {
+eca216f94e05fa Yi Liu 2024-03-18  29  		xa_erase(&idev->pasid_hwpts, pasid);
+eca216f94e05fa Yi Liu 2024-03-18  30  		goto err_put_hwpt;
+eca216f94e05fa Yi Liu 2024-03-18  31  	}
+eca216f94e05fa Yi Liu 2024-03-18  32  
+eca216f94e05fa Yi Liu 2024-03-18  33  	return NULL;
+eca216f94e05fa Yi Liu 2024-03-18  34  
+eca216f94e05fa Yi Liu 2024-03-18  35  err_put_hwpt:
+eca216f94e05fa Yi Liu 2024-03-18  36  	refcount_dec(&hwpt->obj.users);
+eca216f94e05fa Yi Liu 2024-03-18 @37  	return ERR_PTR(rc);
+eca216f94e05fa Yi Liu 2024-03-18  38  }
+eca216f94e05fa Yi Liu 2024-03-18  39  
+eca216f94e05fa Yi Liu 2024-03-18  40  struct iommufd_hw_pagetable *
+eca216f94e05fa Yi Liu 2024-03-18  41  iommufd_device_pasid_do_replace(struct iommufd_device *idev, ioasid_t pasid,
+eca216f94e05fa Yi Liu 2024-03-18  42  				struct iommufd_hw_pagetable *hwpt)
+eca216f94e05fa Yi Liu 2024-03-18  43  {
+eca216f94e05fa Yi Liu 2024-03-18  44  	void *curr;
+eca216f94e05fa Yi Liu 2024-03-18  45  	int rc;
+eca216f94e05fa Yi Liu 2024-03-18  46  
+eca216f94e05fa Yi Liu 2024-03-18  47  	refcount_inc(&hwpt->obj.users);
+eca216f94e05fa Yi Liu 2024-03-18  48  	curr = xa_store(&idev->pasid_hwpts, pasid, hwpt, GFP_KERNEL);
+eca216f94e05fa Yi Liu 2024-03-18  49  	rc = xa_err(curr);
+eca216f94e05fa Yi Liu 2024-03-18  50  	if (rc)
+eca216f94e05fa Yi Liu 2024-03-18  51  		goto out_put_hwpt;
+eca216f94e05fa Yi Liu 2024-03-18  52  
+eca216f94e05fa Yi Liu 2024-03-18  53  	if (!curr) {
+eca216f94e05fa Yi Liu 2024-03-18  54  		xa_erase(&idev->pasid_hwpts, pasid);
+eca216f94e05fa Yi Liu 2024-03-18  55  		rc = -EINVAL;
+eca216f94e05fa Yi Liu 2024-03-18  56  		goto out_put_hwpt;
+eca216f94e05fa Yi Liu 2024-03-18  57  	}
+eca216f94e05fa Yi Liu 2024-03-18  58  
+eca216f94e05fa Yi Liu 2024-03-18  59  	if (curr == hwpt)
+eca216f94e05fa Yi Liu 2024-03-18  60  		goto out_put_hwpt;
 
-I understand the current patch does depend on CONFIG_PM: it requires
-runtime PM to be operational to start the clock, for instance.
+Same question.
 
-> 
-> > >
-> > > > I don't see a use case for !PM and we confirmed with RPi they don't
-> > > > need to support it. During the review of a previous version of the BE
-> > > > driver iirc I've been asked to support !PM but I'm not sure I recall
-> > > > the reasons.
-> > >
-> > > I hope it wasn't me :-)
-> >
-> > Me neither. Although it'd be nice: CONFIG_PM isn't a hardware specific
-> > option as such. As one part of the kernel requires !CONFIG_PM and another
-> > CONFIG_PM, we can expect problems, at least in principle.
-> >
-> > Ideally all architectures would support it so CONFIG_PM could be removed
-> > and we could say the problem has been solved. :-)
+eca216f94e05fa Yi Liu 2024-03-18  61  
+eca216f94e05fa Yi Liu 2024-03-18  62  	/*
+eca216f94e05fa Yi Liu 2024-03-18  63  	 * After replacement, the reference on the old hwpt is retained
+eca216f94e05fa Yi Liu 2024-03-18  64  	 * in this thread as caller would free it.
+eca216f94e05fa Yi Liu 2024-03-18  65  	 */
+eca216f94e05fa Yi Liu 2024-03-18  66  	rc = iommufd_hwpt_replace_device(idev, pasid, hwpt, curr);
+eca216f94e05fa Yi Liu 2024-03-18  67  	if (rc) {
+eca216f94e05fa Yi Liu 2024-03-18  68  		WARN_ON(xa_err(xa_store(&idev->pasid_hwpts, pasid,
+eca216f94e05fa Yi Liu 2024-03-18  69  					curr, GFP_KERNEL)));
+eca216f94e05fa Yi Liu 2024-03-18  70  		goto out_put_hwpt;
+eca216f94e05fa Yi Liu 2024-03-18  71  	}
+eca216f94e05fa Yi Liu 2024-03-18  72  
+eca216f94e05fa Yi Liu 2024-03-18  73  	/* Caller must destroy old_hwpt */
+eca216f94e05fa Yi Liu 2024-03-18  74  	return curr;
+eca216f94e05fa Yi Liu 2024-03-18  75  
+eca216f94e05fa Yi Liu 2024-03-18  76  out_put_hwpt:
+eca216f94e05fa Yi Liu 2024-03-18  77  	refcount_dec(&hwpt->obj.users);
+eca216f94e05fa Yi Liu 2024-03-18 @78  	return ERR_PTR(rc);
+eca216f94e05fa Yi Liu 2024-03-18  79  }
 
 -- 
-Kidnregards,
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-Sakari Ailus
