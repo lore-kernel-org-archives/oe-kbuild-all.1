@@ -1,67 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A80517BEBF;
-	Tue, 10 Sep 2024 07:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAAA17C7A3;
+	Tue, 10 Sep 2024 07:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725951962; cv=none; b=Eo5ss9umbM8igkeHeZiK9ZeCAzSqDHl4599oIs0JLLaoE8xRiaUHcc/NYEvUTJFjeEb4Dt+cvCXz/DyUEEJzdZJJT8CzkTpDEMRnDZsd61bpSB/Mn6OmNBXygVchICHQJ9QAkMl/n7VaELz/kofh0TcTYDfakX9XK2YFNpFdhIc=
+	t=1725953328; cv=none; b=ffXC9c7/8X1R1bOg9f7KLK1oKSJbcwM9RRlh7gm1GP7tUrc72QNenoJRatZd3jtqNapHOkQc2e/o1ogApuD7M7EhH9If4rlTpMzeFf/QM7Ma6sQKMmoJRmT67pUore/XD6STWDzB0NbvS8j5H2P9IVNU3Uus/BHYtM4PcmgUUwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725951962; c=relaxed/simple;
-	bh=gqF06DA7eFnsn0rKiQDdVrzFfjrAyFqYKop9G+HSQT8=;
+	s=arc-20240116; t=1725953328; c=relaxed/simple;
+	bh=oHfOiuXeROeapZx5nV1VqUqUHQVGGiRVnhF4ET0GNEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CdnI9BRkUWXZAob7p0tJsBPkJInWm+FzLAYxw054345wPPl9U3d5751aU4DCWOEOvOtXJDxq3KuymEADJn19ejDfr47oz0kJvwVUEfDQRnx5V2eJBytjpxpYB/GYrcKIVRsdnsmGf8OHzaEjUm6zDu2TlXBJwXSRiPpEMvX1AhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SDmmn8fs; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/RwH1oaJJhxWgt0c0n8Gv7orXkY2UE9TvLJYS7PlmxFQ6E1vazMoeRoUCey7amK1fzls4kpgtAlMexFtutjDKE3oFTarrii9MXm0triKS/lMUmQ/YKJ9ehr+hqGf6/6AAI7H7jrKhJx+acW1JqvpuoOyuH2/avRdMOnNsCqcs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XbqbDyR9; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SDmmn8fs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbqbDyR9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725951960; x=1757487960;
+  t=1725953326; x=1757489326;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gqF06DA7eFnsn0rKiQDdVrzFfjrAyFqYKop9G+HSQT8=;
-  b=SDmmn8fsVRYEBASI+HW/vpriHNG8qcUwVuwJFkL3u7IyhlDBT1lU0k63
-   6ru+iZWH9XHap66emPeVt9WXsHBulvcHdbgGOFiqRun5SgwSaKDQMYOWS
-   O2bvuXGoyz0LOcA+kEpCRIG8evq7ZL/CYc7vfFMv6x6gzj4eLjRs0bRD3
-   S2Mor946jf3qgwsZXmiagsFbCCAiSgS72+B8AayCZXLtyU8/tNq5SFCRR
-   KTx7VlXQzF/qPcM9tHXzgIIk1hm4WpCWAMpTWPpbbnKK14Y2lD+NJ7TiQ
-   O3jGxopAihQcPLB7NPO5MNPDjHPRM0y/2ihdWdlEMSMQ8wE9qtDwoCAvg
-   A==;
-X-CSE-ConnectionGUID: e+yGJwtTTM61+18rSn1mkQ==
-X-CSE-MsgGUID: 41IhfWUVRWe7/k1MxPtIOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28571871"
+  bh=oHfOiuXeROeapZx5nV1VqUqUHQVGGiRVnhF4ET0GNEs=;
+  b=XbqbDyR9YaKE4djmkY1KkVhEXu1s3mVYuCWNb5C9DBw5fgCQq3iE0ARk
+   WnGr+iYyKz0UHjL8GL0SeQ19y6LSYNvNUnqfQCOLAFqiyvGG0opOAGL2D
+   zKzY1cK9FYdyiMvpdywfCbz0etBrF2albw9uLmX8YPhE9/rdOUG5CX/HS
+   g2y+rHzC41QAmjPAjtA+c3yD/IixUB67WND+YQqx87g2EQfyy1JviE5nV
+   I26OQBZka4ataa+VCbxHMSeMSU9yN9TGMzYRVoNvqjWHrdA3qtmMhSEr8
+   PUbc7Gv5XP+GQLvo2OU9dbIRLxSYBBHIt/SPtH2pUyxCl5gq8i8MqckVh
+   Q==;
+X-CSE-ConnectionGUID: nuXGeij6SkO5tNSQzt3SsQ==
+X-CSE-MsgGUID: bsRAYOpiRTeu+iTlNSOINg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35822076"
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="28571871"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 00:05:57 -0700
-X-CSE-ConnectionGUID: n/zJixobRey0zzAxypIMUQ==
-X-CSE-MsgGUID: tEfp3j0WQM2xmbrEPdFTiQ==
+   d="scan'208";a="35822076"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 00:28:09 -0700
+X-CSE-ConnectionGUID: ku3WCRXqRQGfm8cvnjYRrA==
+X-CSE-MsgGUID: tvhMKvAkT4+uKOGx3IKQvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="97638226"
+   d="scan'208";a="71539619"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2024 00:05:51 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 Sep 2024 00:27:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snuwd-0000CK-1L;
-	Tue, 10 Sep 2024 07:05:47 +0000
-Date: Tue, 10 Sep 2024 15:05:41 +0800
+	id 1snvI0-0000E6-0U;
+	Tue, 10 Sep 2024 07:27:52 +0000
+Date: Tue, 10 Sep 2024 15:27:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Willem de Bruijn <willemb@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Jason Xing <kerneljasonxing@gmail.com>,
-	Simon Horman <horms@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v4 2/3] net_tstamp: add SCM_TS_OPT_ID for RAW
- sockets
-Message-ID: <202409101415.65PxVwQn-lkp@intel.com>
-References: <20240909165046.644417-3-vadfed@meta.com>
+To: Julian Vetter <jvetter@kalrayinc.com>, Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+	Yann Sionneau <ysionneau@kalrayinc.com>,
+	Julian Vetter <jvetter@kalrayinc.com>
+Subject: Re: [PATCH v2 3/4] Use generic io memcpy functions on the csky
+ architecture
+Message-ID: <202409101549.CyV0mJ2S-lkp@intel.com>
+References: <20240909133159.2024688-4-jvetter@kalrayinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,67 +73,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240909165046.644417-3-vadfed@meta.com>
+In-Reply-To: <20240909133159.2024688-4-jvetter@kalrayinc.com>
 
-Hi Vadim,
+Hi Julian,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on arm64/for-next/core soc/for-next linus/master v6.11-rc7 next-20240909]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/net_tstamp-add-SCM_TS_OPT_ID-to-provide-OPT_ID-in-control-message/20240910-005324
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240909165046.644417-3-vadfed%40meta.com
-patch subject: [PATCH net-next v4 2/3] net_tstamp: add SCM_TS_OPT_ID for RAW sockets
-config: arm-integrator_defconfig (https://download.01.org/0day-ci/archive/20240910/202409101415.65PxVwQn-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101415.65PxVwQn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Vetter/Consolidate-__memcpy_-to-from-io-and-__memset_io-into-a-single-lib/20240909-213659
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20240909133159.2024688-4-jvetter%40kalrayinc.com
+patch subject: [PATCH v2 3/4] Use generic io memcpy functions on the csky architecture
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20240910/202409101549.CyV0mJ2S-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101549.CyV0mJ2S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409101415.65PxVwQn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409101549.CyV0mJ2S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from net/ipv4/tcp.c:252:
-   In file included from include/linux/inet_diag.h:5:
-   In file included from include/net/netlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/ipv4/tcp.c:485:25: error: use of undeclared identifier 'sockc'
-     485 |                 sock_tx_timestamp(sk, sockc, &shinfo->tx_flags);
-         |                                       ^
-   1 warning and 1 error generated.
+   In file included from ./arch/csky/include/generated/asm/unaligned.h:1,
+                    from lib/io_copy.c:9:
+   lib/io_copy.c: In function '__memcpy_fromio':
+>> lib/io_copy.c:28:39: error: implicit declaration of function '__raw_readq'; did you mean '__raw_readl'? [-Wimplicit-function-declaration]
+      28 |                         put_unaligned(__raw_readq(from), (uintptr_t *)to);
+         |                                       ^~~~~~~~~~~
+   include/asm-generic/unaligned.h:19:22: note: in definition of macro '__put_unaligned_t'
+      19 |         __pptr->x = (val);                                                      \
+         |                      ^~~
+   lib/io_copy.c:28:25: note: in expansion of macro 'put_unaligned'
+      28 |                         put_unaligned(__raw_readq(from), (uintptr_t *)to);
+         |                         ^~~~~~~~~~~~~
+   lib/io_copy.c: In function '__memcpy_toio':
+>> lib/io_copy.c:57:25: error: implicit declaration of function '__raw_writeq'; did you mean '__raw_writel'? [-Wimplicit-function-declaration]
+      57 |                         __raw_writeq(get_unaligned((uintptr_t *)from), to);
+         |                         ^~~~~~~~~~~~
+         |                         __raw_writel
+   lib/io_copy.c: In function '__memset_io':
+>> lib/io_copy.c:83:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+      83 |                 qc |= qc << 32;
+         |                          ^~
 
 
-vim +/sockc +485 net/ipv4/tcp.c
+vim +28 lib/io_copy.c
 
-   476	
-   477	static void tcp_tx_timestamp(struct sock *sk, u16 tsflags)
-   478	{
-   479		struct sk_buff *skb = tcp_write_queue_tail(sk);
-   480	
-   481		if (tsflags && skb) {
-   482			struct skb_shared_info *shinfo = skb_shinfo(skb);
-   483			struct tcp_skb_cb *tcb = TCP_SKB_CB(skb);
-   484	
- > 485			sock_tx_timestamp(sk, sockc, &shinfo->tx_flags);
-   486			if (tsflags & SOF_TIMESTAMPING_TX_ACK)
-   487				tcb->txstamp_ack = 1;
-   488			if (tsflags & SOF_TIMESTAMPING_TX_RECORD_MASK)
-   489				shinfo->tskey = TCP_SKB_CB(skb)->seq + skb->len - 1;
-   490		}
-   491	}
-   492	
+6a9bfa83709a84e Julian Vetter 2024-09-09  16  
+6a9bfa83709a84e Julian Vetter 2024-09-09  17  void __memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
+6a9bfa83709a84e Julian Vetter 2024-09-09  18  {
+6a9bfa83709a84e Julian Vetter 2024-09-09  19  	while (count && !IS_ALIGNED((unsigned long)from, NATIVE_STORE_SIZE)) {
+6a9bfa83709a84e Julian Vetter 2024-09-09  20  		*(u8 *)to = __raw_readb(from);
+6a9bfa83709a84e Julian Vetter 2024-09-09  21  		from++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  22  		to++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  23  		count--;
+6a9bfa83709a84e Julian Vetter 2024-09-09  24  	}
+6a9bfa83709a84e Julian Vetter 2024-09-09  25  
+6a9bfa83709a84e Julian Vetter 2024-09-09  26  	while (count >= NATIVE_STORE_SIZE) {
+6a9bfa83709a84e Julian Vetter 2024-09-09  27  		if (IS_ENABLED(CONFIG_64BIT))
+6a9bfa83709a84e Julian Vetter 2024-09-09 @28  			put_unaligned(__raw_readq(from), (uintptr_t *)to);
+6a9bfa83709a84e Julian Vetter 2024-09-09  29  		else
+6a9bfa83709a84e Julian Vetter 2024-09-09  30  			put_unaligned(__raw_readl(from), (uintptr_t *)to);
+6a9bfa83709a84e Julian Vetter 2024-09-09  31  
+6a9bfa83709a84e Julian Vetter 2024-09-09  32  		from += NATIVE_STORE_SIZE;
+6a9bfa83709a84e Julian Vetter 2024-09-09  33  		to += NATIVE_STORE_SIZE;
+6a9bfa83709a84e Julian Vetter 2024-09-09  34  		count -= NATIVE_STORE_SIZE;
+6a9bfa83709a84e Julian Vetter 2024-09-09  35  	}
+6a9bfa83709a84e Julian Vetter 2024-09-09  36  
+6a9bfa83709a84e Julian Vetter 2024-09-09  37  	while (count) {
+6a9bfa83709a84e Julian Vetter 2024-09-09  38  		*(u8 *)to = __raw_readb(from);
+6a9bfa83709a84e Julian Vetter 2024-09-09  39  		from++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  40  		to++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  41  		count--;
+6a9bfa83709a84e Julian Vetter 2024-09-09  42  	}
+6a9bfa83709a84e Julian Vetter 2024-09-09  43  }
+6a9bfa83709a84e Julian Vetter 2024-09-09  44  EXPORT_SYMBOL(__memcpy_fromio);
+6a9bfa83709a84e Julian Vetter 2024-09-09  45  
+6a9bfa83709a84e Julian Vetter 2024-09-09  46  void __memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
+6a9bfa83709a84e Julian Vetter 2024-09-09  47  {
+6a9bfa83709a84e Julian Vetter 2024-09-09  48  	while (count && !IS_ALIGNED((unsigned long)to, NATIVE_STORE_SIZE)) {
+6a9bfa83709a84e Julian Vetter 2024-09-09  49  		__raw_writeb(*(u8 *)from, to);
+6a9bfa83709a84e Julian Vetter 2024-09-09  50  		from++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  51  		to++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  52  		count--;
+6a9bfa83709a84e Julian Vetter 2024-09-09  53  	}
+6a9bfa83709a84e Julian Vetter 2024-09-09  54  
+6a9bfa83709a84e Julian Vetter 2024-09-09  55  	while (count >= NATIVE_STORE_SIZE) {
+6a9bfa83709a84e Julian Vetter 2024-09-09  56  		if (IS_ENABLED(CONFIG_64BIT))
+6a9bfa83709a84e Julian Vetter 2024-09-09 @57  			__raw_writeq(get_unaligned((uintptr_t *)from), to);
+6a9bfa83709a84e Julian Vetter 2024-09-09  58  		else
+6a9bfa83709a84e Julian Vetter 2024-09-09  59  			__raw_writel(get_unaligned((uintptr_t *)from), to);
+6a9bfa83709a84e Julian Vetter 2024-09-09  60  
+6a9bfa83709a84e Julian Vetter 2024-09-09  61  		from += NATIVE_STORE_SIZE;
+6a9bfa83709a84e Julian Vetter 2024-09-09  62  		to += NATIVE_STORE_SIZE;
+6a9bfa83709a84e Julian Vetter 2024-09-09  63  		count -= NATIVE_STORE_SIZE;
+6a9bfa83709a84e Julian Vetter 2024-09-09  64  	}
+6a9bfa83709a84e Julian Vetter 2024-09-09  65  
+6a9bfa83709a84e Julian Vetter 2024-09-09  66  	while (count) {
+6a9bfa83709a84e Julian Vetter 2024-09-09  67  		__raw_writeb(*(u8 *)from, to);
+6a9bfa83709a84e Julian Vetter 2024-09-09  68  		from++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  69  		to++;
+6a9bfa83709a84e Julian Vetter 2024-09-09  70  		count--;
+6a9bfa83709a84e Julian Vetter 2024-09-09  71  	}
+6a9bfa83709a84e Julian Vetter 2024-09-09  72  }
+6a9bfa83709a84e Julian Vetter 2024-09-09  73  EXPORT_SYMBOL(__memcpy_toio);
+6a9bfa83709a84e Julian Vetter 2024-09-09  74  
+6a9bfa83709a84e Julian Vetter 2024-09-09  75  void __memset_io(volatile void __iomem *dst, int c, size_t count)
+6a9bfa83709a84e Julian Vetter 2024-09-09  76  {
+6a9bfa83709a84e Julian Vetter 2024-09-09  77  	uintptr_t qc = (u8)c;
+6a9bfa83709a84e Julian Vetter 2024-09-09  78  
+6a9bfa83709a84e Julian Vetter 2024-09-09  79  	qc |= qc << 8;
+6a9bfa83709a84e Julian Vetter 2024-09-09  80  	qc |= qc << 16;
+6a9bfa83709a84e Julian Vetter 2024-09-09  81  
+6a9bfa83709a84e Julian Vetter 2024-09-09  82  	if (IS_ENABLED(CONFIG_64BIT))
+6a9bfa83709a84e Julian Vetter 2024-09-09 @83  		qc |= qc << 32;
 
 -- 
 0-DAY CI Kernel Test Service
