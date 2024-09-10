@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EBA42AA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 01:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3168A14EC58
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 02:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725933343; cv=none; b=RoBynX33l/CP6p+Bp9FY/f9hrp3BeGpbS6k3Bbq2IprrBXiAncSxTrzDKZLuF9c2dt4PjY/57aEP/5l6d/GwDcftRJKXwCoeXl6xDYyjflgt0S3qF8ZB2vdxhH51TVYEc97gc73oBxN52WztyN9eLLCyXp4hliG+KZyApEGAkb0=
+	t=1725933945; cv=none; b=gFd/q3f2KS7zHqlH6TSF7AT87mf5qXvb4ioB0QxcTU7BdXA43fFFTGekpWGEyCIM/BK+eWceC5hZgy4lpGFrlR8x644o1fNP/aZtyHZhBU8SVJeMYtQfVdW2rmSTfeuVQx3mU7RcD4PXBsFp+/NwJVmIWPJlLR9Z0t2ffVh+7kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725933343; c=relaxed/simple;
-	bh=WXIYwvgCCcY15YOPnK6S4GVJJNWqZ9kOmG05udu4AcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qInFIVwEKdZziCWcFAbFDDcT0xLdx1igxZCvUDSaW3YY2tK+MZvL7vZ4ndOcUhCkGhMgwlfQezpTbM1wqsRs57lM/pURW2vfC4ZxaJWE5by727EfnX8MgMAidFqPl/vW8YqNfO9z2PJt/K0vgYCmy/ifeDOk5rEtPITdX0v7/sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRR4ZCo6; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1725933945; c=relaxed/simple;
+	bh=eHpLUMAhRPiz/JBUa5KLoHjCeXwIfT0oIM0GwenYoX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sBrx3s6bw1xGHYVUmrNdTqEVOkPN3WTYisyEcKuy8z9O+v6UrxGaE8lo2CMMnWRu3FMA+08ELOWvpliXVX6JRNF0TB0FhHZm0ghNLm/o6sUSq6wbiH4gnttA1GlFnmnyJZ+Fml1Crnm26FkhTqCNrcZfddpq5h4uzbebbcab/2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXheIZpM; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRR4ZCo6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXheIZpM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725933342; x=1757469342;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WXIYwvgCCcY15YOPnK6S4GVJJNWqZ9kOmG05udu4AcI=;
-  b=QRR4ZCo6xIRc2utOZC/GTNuyrsKCuFMDjTrGA80MZ4cXMQmYAt4k4EqQ
-   GdRivITuS9XXdEe0pIYYj/qo5bOb7btysW+7Py81wahJ9j1XVhgcKTstO
-   Vtdbyq4PmaYGzby/nHxg8YzGKE1xrUkefFeYYD1S9HKuS/1oav2VsPl9r
-   LY9la0ANgVJnNTp3m59puJK9vqV3WEDUXGGXlUiwB1oZNwHIoAEcC4zcg
-   uzGyHgzVgDUeA6w9an2CN2DzX7wGCt8TEC6MbnuWkXs01h4Dc/VYf/8HW
-   26eX9U0HV1zLL5tlU8dWwmPppjaVSKWyl0WJasEkzJTVhfJRlF51ZodbB
-   w==;
-X-CSE-ConnectionGUID: PY9YDuvhS6mwerKDo2nBQA==
-X-CSE-MsgGUID: qu0+GxHdSIaJxvPItxVgOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24851649"
+  t=1725933945; x=1757469945;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eHpLUMAhRPiz/JBUa5KLoHjCeXwIfT0oIM0GwenYoX4=;
+  b=UXheIZpMt6vvboooEqou0alwdRGgX/0RH9rv1hFevb0LkkXCn3aoeZGA
+   oppbsLSVP9LGn/LSkNOEHT+wJpYtT5E9lD3FTFUU+0Z6c0xKB4LogRvaO
+   zsu3vIOEaLTAmBjIf+m5A6mOEPRuYXewFz1/wMy0XM3cpoB9Uxzn/PYGk
+   MDPzzM1eUHin6O8/ipr4OhxTxQk4S9+QlNV/FvVScKbdff/1YHAHlzra/
+   IxmkgJ6eoAG/Pv1kIRJjmQ0Vkfgyr8wdNsgc43nTYr2Ti871SyA5bUW4p
+   U6DyFIDlAWfpDJV8V9DB2p8+JMDRPynqHsD4U9gJnoVmJ51aMLzKgvIns
+   A==;
+X-CSE-ConnectionGUID: K4NNS8S6TXWII/ImZtVUBg==
+X-CSE-MsgGUID: /QWMHNArRPmZNP1jQ8bceg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24476987"
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="24851649"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 18:55:41 -0700
-X-CSE-ConnectionGUID: cf0cPxM3QJ6R/2dkNPzv5A==
-X-CSE-MsgGUID: OfslnRUBRv+oEfKRhDFFqw==
+   d="scan'208";a="24476987"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 19:05:43 -0700
+X-CSE-ConnectionGUID: 7smg1IzFTlivl0+yOWgcFg==
+X-CSE-MsgGUID: 5SyrMEalSUCtO2oTrqeZ+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="71471852"
+   d="scan'208";a="104318432"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Sep 2024 18:55:37 -0700
+  by orviesa001.jf.intel.com with ESMTP; 09 Sep 2024 19:05:41 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snq6R-000FTc-0k;
-	Tue, 10 Sep 2024 01:55:35 +0000
-Date: Tue, 10 Sep 2024 09:54:39 +0800
+	id 1snqGA-000FWA-26;
+	Tue, 10 Sep 2024 02:05:38 +0000
+Date: Tue, 10 Sep 2024 10:04:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, tony.luck@intel.com,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com, TimGuo@zhaoxin.com,
-	LeoLiu-oc@zhaoxin.com, Lyle Li <LyleLi@zhaoxin.com>
-Subject: Re: [PATCH v1 2/3] x86/mce: Add zhaoxin.c to support Zhaoxin MCA
-Message-ID: <202409100925.oZtxKGQi-lkp@intel.com>
-References: <20240909104349.3349-3-TonyWWang-oc@zhaoxin.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Matthew Sakai <msakai@redhat.com>
+Subject: drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
+Message-ID: <202409101018.B75pIBKR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,58 +61,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240909104349.3349-3-TonyWWang-oc@zhaoxin.com>
 
-Hi Tony,
+Hi Mike,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on tip/x86/core]
-[also build test ERROR on tip/master linus/master v6.11-rc7 next-20240909]
-[cannot apply to tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-W-Wang-oc/x86-mce-Add-centaur-vendor-to-support-Zhaoxin-MCA/20240909-192507
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20240909104349.3349-3-TonyWWang-oc%40zhaoxin.com
-patch subject: [PATCH v1 2/3] x86/mce: Add zhaoxin.c to support Zhaoxin MCA
-config: x86_64-buildonly-randconfig-001-20240910 (https://download.01.org/0day-ci/archive/20240910/202409100925.oZtxKGQi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100925.oZtxKGQi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bc83b4d1f08695e85e85d36f7b803da58010161d
+commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
+date:   7 months ago
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20240910/202409101018.B75pIBKR-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101018.B75pIBKR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409100925.oZtxKGQi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409101018.B75pIBKR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: arch/x86/kernel/cpu/mce/severity.o: in function `mce_zhaoxin_feature_init':
->> severity.c:(.text+0x2c0): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
-   ld: arch/x86/kernel/cpu/mce/severity.o: in function `mce_zhaoxin_feature_clear':
->> severity.c:(.text+0x2f0): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
-   ld: arch/x86/kernel/cpu/mce/genpool.o: in function `mce_zhaoxin_feature_init':
-   genpool.c:(.text+0x10): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
-   ld: arch/x86/kernel/cpu/mce/genpool.o: in function `mce_zhaoxin_feature_clear':
-   genpool.c:(.text+0x40): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
-   ld: arch/x86/kernel/cpu/mce/amd.o: in function `mce_zhaoxin_feature_init':
-   amd.c:(.text+0x1730): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
-   ld: arch/x86/kernel/cpu/mce/amd.o: in function `mce_zhaoxin_feature_clear':
-   amd.c:(.text+0x1760): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
-   ld: arch/x86/kernel/cpu/mce/threshold.o: in function `mce_zhaoxin_feature_init':
-   threshold.c:(.text+0x70): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
-   ld: arch/x86/kernel/cpu/mce/threshold.o: in function `mce_zhaoxin_feature_clear':
-   threshold.c:(.text+0xa0): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
-   ld: arch/x86/kernel/cpu/mce/inject.o: in function `mce_zhaoxin_feature_init':
-   inject.c:(.text+0xd80): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
-   ld: arch/x86/kernel/cpu/mce/inject.o: in function `mce_zhaoxin_feature_clear':
-   inject.c:(.text+0xdb0): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
-   ld: arch/x86/kernel/cpu/mce/apei.o: in function `mce_zhaoxin_feature_init':
-   apei.c:(.text+0xf0): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
-   ld: arch/x86/kernel/cpu/mce/apei.o: in function `mce_zhaoxin_feature_clear':
-   apei.c:(.text+0x120): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
+>> drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
+   drivers/md/dm-vdo/int-map.c:105: warning: Function parameter or struct member 'bucket_count' not described in 'int_map'
+   drivers/md/dm-vdo/int-map.c:330: warning: Function parameter or struct member '__always_unused' not described in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:330: warning: Excess function parameter 'map' description in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:461: warning: Function parameter or struct member '__always_unused' not described in 'move_empty_bucket'
+   drivers/md/dm-vdo/int-map.c:461: warning: Excess function parameter 'map' description in 'move_empty_bucket'
+
+
+vim +87 drivers/md/dm-vdo/int-map.c
+
+cc46b9554b3f6d Matthew Sakai 2023-11-16  66  
+cc46b9554b3f6d Matthew Sakai 2023-11-16  67  /**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  68   * struct bucket - hash bucket
+cc46b9554b3f6d Matthew Sakai 2023-11-16  69   *
+cc46b9554b3f6d Matthew Sakai 2023-11-16  70   * Buckets are packed together to reduce memory usage and improve cache efficiency. It would be
+cc46b9554b3f6d Matthew Sakai 2023-11-16  71   * tempting to encode the hop offsets separately and maintain alignment of key/value pairs, but
+cc46b9554b3f6d Matthew Sakai 2023-11-16  72   * it's crucial to keep the hop fields near the buckets that they use them so they'll tend to share
+cc46b9554b3f6d Matthew Sakai 2023-11-16  73   * cache lines.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  74   */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  75  struct __packed bucket {
+cc46b9554b3f6d Matthew Sakai 2023-11-16  76  	/**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  77  	 * @first_hop: The biased offset of the first entry in the hop list of the neighborhood
+cc46b9554b3f6d Matthew Sakai 2023-11-16  78  	 *             that hashes to this bucket.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  79  	 */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  80  	u8 first_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  81  	/** @next_hop: The biased offset of the next bucket in the hop list. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  82  	u8 next_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  83  	/** @key: The key stored in this bucket. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  84  	u64 key;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  85  	/** @value: The value stored in this bucket (NULL if empty). */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  86  	void *value;
+cc46b9554b3f6d Matthew Sakai 2023-11-16 @87  };
+cc46b9554b3f6d Matthew Sakai 2023-11-16  88  
+
+:::::: The code at line 87 was first introduced by commit
+:::::: cc46b9554b3f6d2f09b1111386b2706e5b4f56c8 dm vdo: add basic hash map data structures
+
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
