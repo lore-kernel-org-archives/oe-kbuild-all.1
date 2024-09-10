@@ -1,144 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340F5BA42
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 05:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52741474D3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 05:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725947167; cv=none; b=YXocfp5muCai7D8Ox0Jgq+/t7g+BWh0Pari51U67hWMh8V7n0JAsx9iF4Vv1EE23RPAHFNoqcRedsilDDGoAjyV/hf+f7wqsLCxCMJrZtv/heGkR/tILs2+4D1csfd2m4a4PHxJ3Lm5E18XI4Uuo6cuHJXpU/G6n2KYtXL+PkeQ=
+	t=1725947681; cv=none; b=MUaEeQgzvqnEABLKmFG6pskpWRJga/+R0Yil/STGoC3L9U97WQ5GPZuLjcKZ5rP8Y/Fgk6LQ+VO1WNT+UR1OQ4IbrJR2ktwFMLNSHG2aJrpCI0ptsADQlBspQWhJ5NOt1ukQh0cXnh3L6uS1WlSgYydJBPGlTAKRqErWJ+6/i+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725947167; c=relaxed/simple;
-	bh=NuRq0ODXWCIDuyUDFNqAGvTuDp/q2SC0qEs7keqG7B4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WJ1jI1JwPDOHug0nClRHkI+ULUrbTwfWDRXltif9WKjJZT2YC/EZeWdx0rY/ecvoEglKty966QLv4iRcJIX1YmCMrgl/dSLRpgyM1Esik89aCqIGRHJgRv1iD9Dn+3/y7I1d3iKxnNUDBjM1d1KFazBhmPHGqrX5Kqe5mgjS1ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOmrMx7K; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1725947681; c=relaxed/simple;
+	bh=YoWqmzklplwSJWfbQ1gZFmNrdFr9caEIlCjWuwlnYpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i5x4hHmfPeVc0TmUoGk+sO2FMHpLx18ATtPMaZyrAy2VNQElWqqFZRkavY1kDkYDjLVCqNFBLDtTm53JnUj+tWyT7FfaUYbcA8qNIRdXcLfwY9+wLAzpKJqb6zGjicWVySVKc6dhfqx/dURefepqPPyh1sjlH1mAv18KorZbR4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N1s00zJF; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOmrMx7K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1s00zJF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725947166; x=1757483166;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=NuRq0ODXWCIDuyUDFNqAGvTuDp/q2SC0qEs7keqG7B4=;
-  b=UOmrMx7Klr992Eu6NCVxYnpq22Yl3MdKlA7J2HYF4DVcOHhY5urtQXM3
-   nUKfeUXh6E4OPg1PRlBXkWBHJ3ACDJ1+VguyK2wDYqejmyu/Zx+xfmCoa
-   siz8Sfr9X6M36l8JMIiw0p7rgmOK5fAPUQT8OlZrGp50mlupP974JN3Ea
-   zewyxxy3OZ1mPc56133igJnObdyR9GjlQ7jvYRdx7jtqqSLq30I5XdqcP
-   d1mos6sl98rBtG+RTLFrFGIFOvV6dlP+Q/GuMRbp57gNfPnapZpuFvZlz
-   yxoRBUs2bIN3ZpZCupZjppck/3SLupn4scQsHsLAJOQSg93TwRIWtJ2D7
-   A==;
-X-CSE-ConnectionGUID: +aWvXt6tSwCnNLeSCs7VPg==
-X-CSE-MsgGUID: mPg+ryNITLqGAUsirVgt4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28453588"
+  t=1725947680; x=1757483680;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YoWqmzklplwSJWfbQ1gZFmNrdFr9caEIlCjWuwlnYpI=;
+  b=N1s00zJFQK8lDGH7MzYX+W0dU/4Xs6V2DVxjmP5+ak7W7F26GO8Ykpez
+   pJAOtddbLn6Scbt7zkRq1f8yy/5cFh0cj6zvH6947CWrlNA0OkwdgskY5
+   GNCCbuQ4uTskfUDyeirVxWAU7UmmIRUSfRx1+J1rrYk1xW33msxeKxqq7
+   JrY3dRFI/0fLcIad8zP/86VP5VhEVL+qXsUWlhWSzgpDbpym4Al1nDjay
+   0vq/oGMbWTGcA+uIgOWn1fXRU9urtSmpMVEWb8ERq8fc5oY+WolZsmN3Z
+   DQc2iiDSxbII8A+4exYfcWJHgE+RasQ+1d8tvyYgjMkFh+YTcMQ36QKWH
+   w==;
+X-CSE-ConnectionGUID: gYTYC+fYTxS5DgVJuEocCA==
+X-CSE-MsgGUID: ihTd4bFGTMSCW3Zznx0ABw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="42150632"
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="28453588"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 22:46:05 -0700
-X-CSE-ConnectionGUID: f00Ey9gqRfCHfys9LuYGng==
-X-CSE-MsgGUID: W0f2nt+wQbuhe4QmCTfbcQ==
+   d="scan'208";a="42150632"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 22:54:39 -0700
+X-CSE-ConnectionGUID: vq6qM2ePRbiXkXBhz1gCTA==
+X-CSE-MsgGUID: tpT0AFC9QVeomvw0K2O93w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="66537903"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 22:46:03 -0700
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>,  oe-kbuild-all@lists.linux.dev,
-  Linux Memory Management List <linux-mm@kvack.org>, Thomas Gleixner
- <tglx@linutronix.de>
-Subject: Re: [linux-next:master 10352/10516] include/linux/mm.h:101:35:
- error: 'MAX_PHYSMEM_BITS' undeclared
-In-Reply-To: <20240909204555.ab57c729531c83a0685cfa8e@linux-foundation.org>
-	(Andrew Morton's message of "Mon, 9 Sep 2024 20:45:55 -0700")
-References: <202409100913.RxkfrKU6-lkp@intel.com>
-	<20240909204555.ab57c729531c83a0685cfa8e@linux-foundation.org>
-Date: Tue, 10 Sep 2024 13:42:30 +0800
-Message-ID: <87wmjkyshl.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+   d="scan'208";a="71036413"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Sep 2024 22:54:36 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sntph-00008I-2A;
+	Tue, 10 Sep 2024 05:54:33 +0000
+Date: Tue, 10 Sep 2024 13:53:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, tony.luck@intel.com,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com, TimGuo@zhaoxin.com,
+	LeoLiu-oc@zhaoxin.com, Lyle Li <LyleLi@zhaoxin.com>
+Subject: Re: [PATCH v1 3/3] x86/mce: Add CMCI storm switching support for
+ Zhaoxin
+Message-ID: <202409101353.K4jjCjRN-lkp@intel.com>
+References: <20240909104349.3349-4-TonyWWang-oc@zhaoxin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240909104349.3349-4-TonyWWang-oc@zhaoxin.com>
 
-Andrew Morton <akpm@linux-foundation.org> writes:
+Hi Tony,
 
-> On Tue, 10 Sep 2024 09:33:48 +0800 kernel test robot <lkp@intel.com> wrote:
->
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   100cc857359b5d731407d1038f7e76cd0e871d94
->> commit: 5f445800cbdfc4b4185d496a43dfd78df63d2265 [10352/10516] Merge branch 'mm-everything' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
->> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240910/202409100913.RxkfrKU6-lkp@intel.com/config)
->> compiler: m68k-linux-gcc (GCC) 14.1.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100913.RxkfrKU6-lkp@intel.com/reproduce)
->> 
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202409100913.RxkfrKU6-lkp@intel.com/
->> 
->> All errors (new ones prefixed by >>):
->> 
->>    In file included from include/linux/ioport.h:15,
->>                     from kernel/resource.c:15:
->>    kernel/resource.c: In function 'gfr_start':
->> >> include/linux/mm.h:101:35: error: 'MAX_PHYSMEM_BITS' undeclared (first use in this function)
->>      101 | # define PHYSMEM_END    ((1ULL << MAX_PHYSMEM_BITS) - 1)
->>          |                                   ^~~~~~~~~~~~~~~~
->>    include/linux/minmax.h:93:38: note: in definition of macro '__cmp_once_unique'
->>       93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
->>          |                                      ^
->
-> Thanks. "resource, kunit: add test case for region_intersects" is the culprit.
+kernel test robot noticed the following build errors:
 
-Yes.  Although the definition in include/linux/mm.h introduced in
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on tip/master linus/master v6.11-rc7 next-20240909]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  commit ea72ce5da228 ("x86/kaslr: Expose and use the end of the physical memory address space")
+url:    https://github.com/intel-lab-lkp/linux/commits/Tony-W-Wang-oc/x86-mce-Add-centaur-vendor-to-support-Zhaoxin-MCA/20240909-192507
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20240909104349.3349-4-TonyWWang-oc%40zhaoxin.com
+patch subject: [PATCH v1 3/3] x86/mce: Add CMCI storm switching support for Zhaoxin
+config: x86_64-buildonly-randconfig-001-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101353.K4jjCjRN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101353.K4jjCjRN-lkp@intel.com/reproduce)
 
-doesn't compile on m68k.  There are no users of PHYSMEM_END before patch
-"resource, kunit: add test case for region_intersects".  This can be
-fixed via the following patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409101353.K4jjCjRN-lkp@intel.com/
 
----------------------------------8<--------------------------------------
-From 00d176e0cd07e3df1ea37a5e56ca576c819b585a Mon Sep 17 00:00:00 2001
-From: Huang Ying <ying.huang@intel.com>
-Date: Tue, 10 Sep 2024 13:20:40 +0800
-Subject: [PATCH] mm: fix PHYSMEM_END build error on m68k
+All errors (new ones prefixed by >>):
 
-0Day build system reported build error on m68k architecture for missing
-the definition of MAX_PHYSMEM_BITS when defining PHYSMEM_END.  Fixed it
-via making PHYSMEM_END definition depends on MAX_PHYSMEM_BITS definition
-conditionally.
+   ld: arch/x86/kernel/cpu/mce/severity.o: in function `mce_zhaoxin_feature_init':
+   severity.c:(.text+0x2c0): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
+   ld: arch/x86/kernel/cpu/mce/severity.o: in function `mce_zhaoxin_feature_clear':
+   severity.c:(.text+0x2f0): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
+   ld: arch/x86/kernel/cpu/mce/severity.o: in function `mce_zhaoxin_handle_storm':
+>> severity.c:(.text+0x320): multiple definition of `mce_zhaoxin_handle_storm'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x19b0): first defined here
+   ld: arch/x86/kernel/cpu/mce/genpool.o: in function `mce_zhaoxin_feature_init':
+   genpool.c:(.text+0x10): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
+   ld: arch/x86/kernel/cpu/mce/genpool.o: in function `mce_zhaoxin_feature_clear':
+   genpool.c:(.text+0x40): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
+   ld: arch/x86/kernel/cpu/mce/genpool.o: in function `mce_zhaoxin_handle_storm':
+   genpool.c:(.text+0x70): multiple definition of `mce_zhaoxin_handle_storm'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x19b0): first defined here
+   ld: arch/x86/kernel/cpu/mce/amd.o: in function `mce_zhaoxin_feature_init':
+   amd.c:(.text+0x1730): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
+   ld: arch/x86/kernel/cpu/mce/amd.o: in function `mce_zhaoxin_feature_clear':
+   amd.c:(.text+0x1760): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
+   ld: arch/x86/kernel/cpu/mce/amd.o: in function `mce_zhaoxin_handle_storm':
+   amd.c:(.text+0x1790): multiple definition of `mce_zhaoxin_handle_storm'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x19b0): first defined here
+   ld: arch/x86/kernel/cpu/mce/threshold.o: in function `mce_zhaoxin_feature_init':
+   threshold.c:(.text+0x70): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
+   ld: arch/x86/kernel/cpu/mce/threshold.o: in function `mce_zhaoxin_feature_clear':
+   threshold.c:(.text+0xa0): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
+   ld: arch/x86/kernel/cpu/mce/threshold.o: in function `mce_zhaoxin_handle_storm':
+   threshold.c:(.text+0xd0): multiple definition of `mce_zhaoxin_handle_storm'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x19b0): first defined here
+   ld: arch/x86/kernel/cpu/mce/inject.o: in function `mce_zhaoxin_feature_init':
+   inject.c:(.text+0xd80): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
+   ld: arch/x86/kernel/cpu/mce/inject.o: in function `mce_zhaoxin_feature_clear':
+   inject.c:(.text+0xdb0): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
+   ld: arch/x86/kernel/cpu/mce/inject.o: in function `mce_zhaoxin_handle_storm':
+   inject.c:(.text+0xde0): multiple definition of `mce_zhaoxin_handle_storm'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x19b0): first defined here
+   ld: arch/x86/kernel/cpu/mce/apei.o: in function `mce_zhaoxin_feature_init':
+   apei.c:(.text+0xf0): multiple definition of `mce_zhaoxin_feature_init'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1950): first defined here
+   ld: arch/x86/kernel/cpu/mce/apei.o: in function `mce_zhaoxin_feature_clear':
+   apei.c:(.text+0x120): multiple definition of `mce_zhaoxin_feature_clear'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x1980): first defined here
+   ld: arch/x86/kernel/cpu/mce/apei.o: in function `mce_zhaoxin_handle_storm':
+   apei.c:(.text+0x150): multiple definition of `mce_zhaoxin_handle_storm'; arch/x86/kernel/cpu/mce/core.o:core.c:(.text+0x19b0): first defined here
 
-Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202409100913.RxkfrKU6-lkp@intel.com/
----
- include/linux/mm.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 147073601716..62bb7e7e0a17 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -98,7 +98,11 @@ extern int mmap_rnd_compat_bits __read_mostly;
- #endif
- 
- #ifndef PHYSMEM_END
--# define PHYSMEM_END	((1ULL << MAX_PHYSMEM_BITS) - 1)
-+# ifdef MAX_PHYSMEM_BITS
-+#  define PHYSMEM_END		((1ULL << MAX_PHYSMEM_BITS) - 1)
-+# else
-+#  define PHYSMEM_END		(-1ULL)
-+# endif
- #endif
- 
- #include <asm/page.h>
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
