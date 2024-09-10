@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C98F17BEBD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 19:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A0E17BEBD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 19:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725995824; cv=none; b=i9h+xC8/syBtfzb2cFAQSXcbFzbA1TNW9dBYmy1tdGK2zwGY0hyJVok6PjgWZ0bD9ez3WDCHzZ5ITd4gZ4ZDXwRIljhaI0iG2NHRnzK2iO703YxWGGK2qoLIrgO40TAygsM60OamteF/AIG2qhOCe8Q3BkJEYY4wX8Dgwixthr0=
+	t=1725995826; cv=none; b=nXRftGZk5E4nzB8+VedkocAx0t146QnJSEo7NS+dGF5n9b23zD3BIkekm11sT5EnLDvLpugzGgg11A3UgCPM58gd5aUVR4R8/M4mQTVT4hxD02XO8fjYGH+hmlDGTonh6pi6EwEc628ve0y+Fs1JUCeFoWbqml+plH29Ps5wAbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725995824; c=relaxed/simple;
-	bh=erHSHhnBR7lbXGEvU+zh+camUYNAnlDgJycnIt1Nwbo=;
+	s=arc-20240116; t=1725995826; c=relaxed/simple;
+	bh=PIvFs68vLKgLFDZP7QnX3cR5s5ECDXhGwA5iU2eAX0w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mE4t44gAjtsSgeZoQtA13mPj6jzNkBIh6c8MsqJcpyNbY3Ap6WDqxsCefq5TJkrFp7nbynNgQONSIWsLHMZWwumhzqASU/sgAL3ZNqu0/+1YtBNLIgg1J3Y6mkWuMyDuGN/nPmUvHgQ3Bdt7hcGWEeWkZprkCdGbK2xY+OG702U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N+AWppes; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=qVmS4d5HfV4TUrb1qpiIGK8wZeoEquo0gpX5jmXkDK7TA9b5d3NzZycbhJzKY7VYH0+L8zZIPpBxBfPYj/togT/KaCa9x0HIlVa8y3210KxJiw3MaImoJq8KqKHd7XC4oCuaXqnWD/XnEHvhwISKSEpeT2aRJ0P/1Om63RYHQA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCLCko7I; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+AWppes"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCLCko7I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725995822; x=1757531822;
+  t=1725995825; x=1757531825;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=erHSHhnBR7lbXGEvU+zh+camUYNAnlDgJycnIt1Nwbo=;
-  b=N+AWppesqt4SmXcnyahRp5yfxuHDuca3vEmSSJSHPiik4qHr/yxntQrA
-   deULzws8rLIf0cWxiJhMBIE5o7tLA3ReLgcToD184UbOwW+EiwIBUu0mL
-   j0SI1D6wySQ3UdVREparsnaBq0ftrL8w2bKlN5dxkoo+FN1m1aUUpKlFt
-   Pib/JUSyIM7HSGDB+DEvJGLC/LwF2ccAzdG6DaCTOuABZIPOy31yRdSHl
-   CLmwxqr0Q9RLBmoP/h6Fj0+J9F1BA721N2C6CfIzcw9fsVNg7jdFXTBRa
-   cZOaPVwa3xyNQZrVMs3c+qQfO6+vXF/atPmbAjgx/uGGj0yHVyaWFWzLC
-   Q==;
-X-CSE-ConnectionGUID: IezSacfxRPWoTKxiCtR0gw==
-X-CSE-MsgGUID: VE3H/SpLSjOs9alXkEVolQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="50180655"
+  bh=PIvFs68vLKgLFDZP7QnX3cR5s5ECDXhGwA5iU2eAX0w=;
+  b=aCLCko7IV1adTE/BsGiFm/YrUipnHQkNkfF2LWCRCd6TKkU3sv5bHQoh
+   Lq7uRdbGTLuhOHqrzy0gUENJ/pK+l7/DAfzcHvblodWGViAq0Xj57lefP
+   KX5ZB3q/vAnxg5izpGMAghJK8NYG7D6ilbOcYJDvobBIfyEqstfgB1c3Y
+   vAH0LQ9vMmlgRHO7hWsfwC2BDf8+JzRUU8URbNfAb5iWGameFS5zfzRJg
+   CaakMed2DGKvUErRlAuaBlcpKuWE9xVV9ubY4JvBPZZJV6/z5u8wsp0P7
+   vPVJmeqmJALEUkONgtQPr49FSabJ55w79EmtzA4uO8QTw53mFzh5xLXOc
+   w==;
+X-CSE-ConnectionGUID: aFYlVPS2RNe5p6AUz6kItQ==
+X-CSE-MsgGUID: Y937oVhBR5OdEBA/qrLhnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="50180661"
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="50180655"
+   d="scan'208";a="50180661"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 12:17:02 -0700
-X-CSE-ConnectionGUID: +K4+271wSFWZ3lG9+Jo9aA==
-X-CSE-MsgGUID: olmpDSLITae+3vNuOCGhDQ==
+X-CSE-ConnectionGUID: T/zmvgToSjyET0lckWAupw==
+X-CSE-MsgGUID: /ooZolulS6i0Se+hGz75Sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="71892112"
+   d="scan'208";a="71892113"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 10 Sep 2024 12:17:01 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1so6ME-0002WI-26;
+	id 1so6ME-0002WL-2A;
 	Tue, 10 Sep 2024 19:16:58 +0000
-Date: Wed, 11 Sep 2024 03:16:51 +0800
+Date: Wed, 11 Sep 2024 03:16:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 13915/15115]
- drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:871:15: warning: variable
- 'ui32HWPerfPacketsSent' set but not used
-Message-ID: <202409110353.ljvfmcEA-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3775/30000] mm/page_alloc.c:3036:6: sparse:
+ sparse: symbol '__drain_all_pages' was not declared. Should it be static?
+Message-ID: <202409110302.AhDyE0gr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,133 +62,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   d96e302a66f36502668b61226367cebb93775bbd
-commit: 7b4b976d249b9ae5dbb9fa954bdcb09c4dde6dfd [13915/15115] CHROMIUM: drm/img-rogue: Add 1.17 IMG PowerVR Rogue driver
-config: arm64-randconfig-002-20240911 (https://download.01.org/0day-ci/archive/20240911/202409110353.ljvfmcEA-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110353.ljvfmcEA-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   cbfb00d89c3b9971c3f0732b4f34d4e674bff5d8
+commit: e037ee4a8deaff7c579618c0aba1f066d6d14b11 [3775/30000] mm, page_alloc: disable pcplists during memory offline
+config: x86_64-randconfig-123-20240910 (https://download.01.org/0day-ci/archive/20240911/202409110302.AhDyE0gr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110302.AhDyE0gr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110353.ljvfmcEA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409110302.AhDyE0gr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/page_alloc.c:3036:6: sparse: sparse: symbol '__drain_all_pages' was not declared. Should it be static?
+>> mm/page_alloc.c:6634:6: sparse: sparse: symbol '__zone_set_pageset_high_and_batch' was not declared. Should it be static?
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
 
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:871:15: warning: variable 'ui32HWPerfPacketsSent' set but not used [-Wunused-but-set-variable]
-           IMG_UINT32                      ui32HWPerfPacketsSent = 0;
-                                           ^
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:869:15: warning: variable 'ui32TlPackets' set but not used [-Wunused-but-set-variable]
-           IMG_UINT32                      ui32TlPackets = 0;
-                                           ^
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:870:15: warning: variable 'ui32HWPerfPackets' set but not used [-Wunused-but-set-variable]
-           IMG_UINT32                      ui32HWPerfPackets = 0;
-                                           ^
-   3 warnings generated.
---
->> drivers/gpu/drm/img-rogue/1.17/rgxhwperf_common.c:3410:15: warning: variable 'ui32TlPackets' set but not used [-Wunused-but-set-variable]
-           IMG_UINT32                      ui32TlPackets = 0;
-                                           ^
-   1 warning generated.
---
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:869:15: warning: variable 'ui32TlPackets' set but not used [-Wunused-but-set-variable]
-           IMG_UINT32                      ui32TlPackets = 0;
-                                           ^
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:870:15: warning: variable 'ui32HWPerfPackets' set but not used [-Wunused-but-set-variable]
-           IMG_UINT32                      ui32HWPerfPackets = 0;
-                                           ^
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:871:15: warning: variable 'ui32HWPerfPacketsSent' set but not used [-Wunused-but-set-variable]
-           IMG_UINT32                      ui32HWPerfPacketsSent = 0;
-                                           ^
-   3 warnings generated.
+vim +/__drain_all_pages +3036 mm/page_alloc.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-
-
-vim +/ui32HWPerfPacketsSent +871 drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c
-
-   864	
-   865	
-   866	static void _GpuTraceProcessPackets(PVRSRV_RGXDEV_INFO *psDevInfo,
-   867			void *pBuffer, IMG_UINT32 ui32ReadLen)
-   868	{
- > 869		IMG_UINT32			ui32TlPackets = 0;
- > 870		IMG_UINT32			ui32HWPerfPackets = 0;
- > 871		IMG_UINT32			ui32HWPerfPacketsSent = 0;
-   872		void				*pBufferEnd;
-   873		PVRSRVTL_PPACKETHDR psHDRptr;
-   874		PVRSRVTL_PACKETTYPE ui16TlType;
-   875	
-   876		PVR_DPF_ENTERED;
-   877	
-   878		PVR_ASSERT(psDevInfo);
-   879		PVR_ASSERT(pBuffer);
-   880		PVR_ASSERT(ui32ReadLen);
-   881	
-   882		/* Process the TL Packets
-   883		 */
-   884		pBufferEnd = IMG_OFFSET_ADDR(pBuffer, ui32ReadLen);
-   885		psHDRptr = GET_PACKET_HDR(pBuffer);
-   886		while ( psHDRptr < (PVRSRVTL_PPACKETHDR)pBufferEnd )
-   887		{
-   888			ui16TlType = GET_PACKET_TYPE(psHDRptr);
-   889			if (ui16TlType == PVRSRVTL_PACKETTYPE_DATA)
-   890			{
-   891				IMG_UINT16 ui16DataLen = GET_PACKET_DATA_LEN(psHDRptr);
-   892				if (0 == ui16DataLen)
-   893				{
-   894					PVR_DPF((PVR_DBG_ERROR, "_GpuTraceProcessPackets: ZERO Data in TL data packet: %p", psHDRptr));
-   895				}
-   896				else
-   897				{
-   898					RGX_HWPERF_V2_PACKET_HDR* psHWPerfPkt;
-   899					RGX_HWPERF_V2_PACKET_HDR* psHWPerfEnd;
-   900	
-   901					/* Check for lost hwperf data packets */
-   902					psHWPerfEnd = RGX_HWPERF_GET_PACKET(GET_PACKET_DATA_PTR(psHDRptr)+ui16DataLen);
-   903					psHWPerfPkt = RGX_HWPERF_GET_PACKET(GET_PACKET_DATA_PTR(psHDRptr));
-   904					do
-   905					{
-   906						if (ValidAndEmitFTraceEvent(psDevInfo, psHWPerfPkt))
-   907						{
-   908							ui32HWPerfPacketsSent++;
-   909						}
-   910						ui32HWPerfPackets++;
-   911						psHWPerfPkt = RGX_HWPERF_GET_NEXT_PACKET(psHWPerfPkt);
-   912					}
-   913					while (psHWPerfPkt < psHWPerfEnd);
-   914				}
-   915			}
-   916			else if (ui16TlType == PVRSRVTL_PACKETTYPE_MOST_RECENT_WRITE_FAILED)
-   917			{
-   918				PVR_DPF((PVR_DBG_MESSAGE, "_GpuTraceProcessPackets: Indication that the transport buffer was full"));
-   919			}
-   920			else
-   921			{
-   922				/* else Ignore padding packet type and others */
-   923				PVR_DPF((PVR_DBG_MESSAGE, "_GpuTraceProcessPackets: Ignoring TL packet, type %d", ui16TlType ));
-   924			}
-   925	
-   926			psHDRptr = GET_NEXT_PACKET_ADDR(psHDRptr);
-   927			ui32TlPackets++;
-   928		}
-   929	
-   930		PVR_DPF((PVR_DBG_VERBOSE, "_GpuTraceProcessPackets: TL "
-   931				"Packets processed %03d, HWPerf packets %03d, sent %03d",
-   932				ui32TlPackets, ui32HWPerfPackets, ui32HWPerfPacketsSent));
-   933	
-   934		PVR_DPF_RETURN;
-   935	}
-   936	
+  3025	
+  3026	/*
+  3027	 * The implementation of drain_all_pages(), exposing an extra parameter to
+  3028	 * drain on all cpus.
+  3029	 *
+  3030	 * drain_all_pages() is optimized to only execute on cpus where pcplists are
+  3031	 * not empty. The check for non-emptiness can however race with a free to
+  3032	 * pcplist that has not yet increased the pcp->count from 0 to 1. Callers
+  3033	 * that need the guarantee that every CPU has drained can disable the
+  3034	 * optimizing racy check.
+  3035	 */
+> 3036	void __drain_all_pages(struct zone *zone, bool force_all_cpus)
+  3037	{
+  3038		int cpu;
+  3039	
+  3040		/*
+  3041		 * Allocate in the BSS so we wont require allocation in
+  3042		 * direct reclaim path for CONFIG_CPUMASK_OFFSTACK=y
+  3043		 */
+  3044		static cpumask_t cpus_with_pcps;
+  3045	
+  3046		/*
+  3047		 * Make sure nobody triggers this path before mm_percpu_wq is fully
+  3048		 * initialized.
+  3049		 */
+  3050		if (WARN_ON_ONCE(!mm_percpu_wq))
+  3051			return;
+  3052	
+  3053		/*
+  3054		 * Do not drain if one is already in progress unless it's specific to
+  3055		 * a zone. Such callers are primarily CMA and memory hotplug and need
+  3056		 * the drain to be complete when the call returns.
+  3057		 */
+  3058		if (unlikely(!mutex_trylock(&pcpu_drain_mutex))) {
+  3059			if (!zone)
+  3060				return;
+  3061			mutex_lock(&pcpu_drain_mutex);
+  3062		}
+  3063	
+  3064		/*
+  3065		 * We don't care about racing with CPU hotplug event
+  3066		 * as offline notification will cause the notified
+  3067		 * cpu to drain that CPU pcps and on_each_cpu_mask
+  3068		 * disables preemption as part of its processing
+  3069		 */
+  3070		for_each_online_cpu(cpu) {
+  3071			struct per_cpu_pageset *pcp;
+  3072			struct zone *z;
+  3073			bool has_pcps = false;
+  3074	
+  3075			if (force_all_cpus) {
+  3076				/*
+  3077				 * The pcp.count check is racy, some callers need a
+  3078				 * guarantee that no cpu is missed.
+  3079				 */
+  3080				has_pcps = true;
+  3081			} else if (zone) {
+  3082				pcp = per_cpu_ptr(zone->pageset, cpu);
+  3083				if (pcp->pcp.count)
+  3084					has_pcps = true;
+  3085			} else {
+  3086				for_each_populated_zone(z) {
+  3087					pcp = per_cpu_ptr(z->pageset, cpu);
+  3088					if (pcp->pcp.count) {
+  3089						has_pcps = true;
+  3090						break;
+  3091					}
+  3092				}
+  3093			}
+  3094	
+  3095			if (has_pcps)
+  3096				cpumask_set_cpu(cpu, &cpus_with_pcps);
+  3097			else
+  3098				cpumask_clear_cpu(cpu, &cpus_with_pcps);
+  3099		}
+  3100	
+  3101		for_each_cpu(cpu, &cpus_with_pcps) {
+  3102			struct pcpu_drain *drain = per_cpu_ptr(&pcpu_drain, cpu);
+  3103	
+  3104			drain->zone = zone;
+  3105			INIT_WORK(&drain->work, drain_local_pages_wq);
+  3106			queue_work_on(cpu, mm_percpu_wq, &drain->work);
+  3107		}
+  3108		for_each_cpu(cpu, &cpus_with_pcps)
+  3109			flush_work(&per_cpu_ptr(&pcpu_drain, cpu)->work);
+  3110	
+  3111		mutex_unlock(&pcpu_drain_mutex);
+  3112	}
+  3113	
 
 -- 
 0-DAY CI Kernel Test Service
