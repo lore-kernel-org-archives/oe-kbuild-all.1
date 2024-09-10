@@ -1,138 +1,227 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E7917E472
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA0E187878
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725959873; cv=none; b=lVeu8tQm8LZnXa5wDxVlJ7JN70CeoMRwOzqF24+zmkyQR9B8PqOCEGvTCiV5lokI75sYcwaL4o1v5KgSOKArE8YJ4iuK6MFKA7/35nZvgkVzP8CVXmQmAtkB/dFHcawbgWsLCJ6xqpWQ7xXubbP3BX77rlMAgdVL1gSio5VEhpw=
+	t=1725960005; cv=none; b=cO92N8XKKDrN2NG2GDJoPavY1ZMWzvpB1eyhwfxF+ctiGRgzunXPN3uflTFOVrMC0zHyxKQ/OZehE5OQEKpJ1EM4QQTAeUYKmlhKFbBepvI4j6f9dN/pmpGG0s4YFAenewZ/aZZqvOWICw8GmFiwkJcHzAYMTKBEi6H930/J+Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725959873; c=relaxed/simple;
-	bh=p+DByMRcQlNIXdA1v1uqve5CDE8dg+ziuZCalk0yZe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g5Pc2K9qNTB4ziEqCC6T+7AXB5Bvxs5pV8u7EPGAfiH5IhSkxziNawn2dbqLl+NtSSy61P1hI3+ntAv716ojsv6OMV3ntT6KbPa5G2c1s+uZC61DbgA6hsMdjcPDCPmhjDP3OvpqIweh0Aru5WJLBrn6lTyrP41TzqAtV6hzDT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QdpX7rpD; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725960005; c=relaxed/simple;
+	bh=uWl48R8ff+pv/4REvISIbQgoAX1QsXJSsRp5hLHUmqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GSemVQROlngl7pOuJ6geLqGuEdD66mwmTiJE9nRejL7XOTvdPMjUBl39ScqkynC+A7w2DyCMB1IJjI4/+8X3SQd86Db113jUMKbg0lUphOebZRdA10sy/E5tQAMXAUgbED0IyZZloYFnioomuFf4rZ1qC5curlVC7iT2OBrkovg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sz/n1MBa; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QdpX7rpD"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-374c1963cb6so3298782f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 02:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725959870; x=1726564670; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gBqya18CJGCA3gKRbbSWX8CXkyQ/an9a199RUju6xLw=;
-        b=QdpX7rpDdSlDuaEMDj0QvCQcYST8qjXLnfer3d192jrJGgLnnrDQVHwe2WA3o1fCHK
-         +na6jRX5jvW8lZFkAd2vsS6bzYXXpdmlU5ckB7fJQC2aF2DmbyyGYkiOJt+gs/Fxe19x
-         17h5CHayfsA+seMIXn0idZAPUwNxAjmbPCW/IulzxGl4D/58oretGlNaBvUABxMzrxzM
-         L5puPwMFqGy9vTGWK0FifdtzD2eV5//OexbZKnokYhRMlFcIZUGlXiy4T0WCPOOZKEqY
-         gU9KojxyuJ2JuF9zrLbCTiKEGln/mlyWXHC8SwMRXYGzRekflsanTj5L7IGW7uoTIdVA
-         qa5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725959870; x=1726564670;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gBqya18CJGCA3gKRbbSWX8CXkyQ/an9a199RUju6xLw=;
-        b=iQU2AapASQpoRu1sIXuNSmGKTl1nAXaVncG6uT/tAxfNjG9xi6OIBMeP8ekwnJmGBf
-         mib+jR26FqPHACooKzsImpwLwr+tNRpumQ471CjUzcEpXRkLia+83Wn2u/qwqS9NH+cD
-         B/qsx+LPsR/wnjcdB6j9O41KgeCcUWY+NZxpiOMgcWVUTsOY1UBVy0gQsOkb89ELIxGn
-         JBHgH58djLm01qqL26HM81R4ZgdX8k68HET162vB6L6XZfuJIJMkVq39qaWkZekL5xcV
-         LSugtbSkiTPf/dzVRQTF8LGvgeymlLyVhRWNzFBu30928P8cA/LXc9Br/2Fd3WuKaw8A
-         t9Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjSvoQ1bmN+yUH+ODv4LV0JdwbM+LvGbnYMne2LMH8FryIoxCDWON8kCIWLrBEs9gWj5duFQ3K2yKO51fR@lists.linux.dev
-X-Gm-Message-State: AOJu0YydBfsQG7bDw07d1MNbAYcfgP8s7apxjw0OMH3C8OzGs9uoAY/b
-	pp4zpCMJbjzTXQR2QID4uYZJCiStrBV1W+al3trZuR62NzsPJfXiKPZrUg6f/c0=
-X-Google-Smtp-Source: AGHT+IHe6qBam3E3tDIg3n89+Ib4jL5iOWHkhTTyyJDMoypu22ayJRQozDZfVGh1ry7qa5NO3nOdvQ==
-X-Received: by 2002:a5d:4fc7:0:b0:374:bad0:2b72 with SMTP id ffacd0b85a97d-378895c2540mr8579639f8f.11.1725959869755;
-        Tue, 10 Sep 2024 02:17:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956494bdsm8347113f8f.21.2024.09.10.02.17.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 02:17:49 -0700 (PDT)
-Date: Tue, 10 Sep 2024 12:17:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/crypto/n2_core.c:1406 __n2_register_one_hmac() error:
- uninitialized symbol 'err'.
-Message-ID: <ae2cfe53-7d2a-408b-8b18-af880d1974cc@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sz/n1MBa"
+Received: from ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53E06C8A;
+	Tue, 10 Sep 2024 11:18:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725959924;
+	bh=uWl48R8ff+pv/4REvISIbQgoAX1QsXJSsRp5hLHUmqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sz/n1MBazVOmv1d/pouy/rRn6isDcArxQOFvTwxZRout1a+5OR1+Rn24SrrrAiqDx
+	 T+itHotH23y38uC6PRnY8b6KMkX3Aa1DthE7PNVbXfrLgvkBA4cEMClj00mJT08h7n
+	 J/+TdXh9fx4CyL5iP2bvHzea+fI75R5jHhVy3hto=
+Date: Tue, 10 Sep 2024 11:19:57 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, Naushir Patuck <naush@raspberrypi.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
+Message-ID: <jdtjdspf4qyrgn6jmyxeab5ueo53wjd5vuhvlpin3pdiyifwht@dndfcqnmv7sd>
+References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
+ <202409051822.ZzUGw3XQ-lkp@intel.com>
+ <20240905111120.GK16183@pendragon.ideasonboard.com>
+ <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
+ <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
+ <yib2r4wisxvk3kgogbjqawrpmfq6lcezfk4xjmftj44jzkbclc@icapodv2ffzk>
+ <d5188c0a-4a52-4378-89b1-48f606e448cc@ideasonboard.com>
+ <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
+ <20240909134516.GA9448@pendragon.ideasonboard.com>
+ <Zt8ZysTT5DIZr-J7@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zt8ZysTT5DIZr-J7@kekkonen.localdomain>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89f5e14d05b4852db5ecdf222dc6a13edc633658
-commit: 8c20982caca4b10ca79aea8134a16ea98989ca03 crypto: n2 - Silence gcc format-truncation false positive warnings
-config: sparc-randconfig-r071-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090726.TP0WfY7p-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+Hi Sakari, Tomi
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409090726.TP0WfY7p-lkp@intel.com/
+On Mon, Sep 09, 2024 at 03:52:42PM GMT, Sakari Ailus wrote:
+> Hi Laurent,
+>
+> On Mon, Sep 09, 2024 at 04:45:16PM +0300, Laurent Pinchart wrote:
+> > On Mon, Sep 09, 2024 at 03:29:30PM +0200, Jacopo Mondi wrote:
+> > > On Mon, Sep 09, 2024 at 01:04:35PM GMT, Tomi Valkeinen wrote:
+> > > > On 09/09/2024 12:13, Jacopo Mondi wrote:
+> > > > > On Mon, Sep 09, 2024 at 08:22:59AM GMT, Tomi Valkeinen wrote:
+> > > > > > On 09/09/2024 08:08, Tomi Valkeinen wrote:
+> > > > > > > On 05/09/2024 14:11, Laurent Pinchart wrote:
+> > > > > > > > On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
+> > > > > > > > > Hi Tomi,
+> > > > > > > > >
+> > > > > > > > > kernel test robot noticed the following build warnings:
+> > > > > > > > >
+> > > > > > > > > [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+> > > > > > > > >
+> > > > > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-
+> > > > > > > > > Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-
+> > > > > > > > > stats/20240904-192729
+> > > > > > > > > base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+> > > > > > > > > patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-
+> > > > > > > > > f1b5b3d69c81%40ideasonboard.com
+> > > > > > > > > patch subject: [PATCH v4 3/4] media: raspberrypi: Add support
+> > > > > > > > > for RP1-CFE
+> > > > > > > > > config: m68k-allmodconfig (https://download.01.org/0day-ci/
+> > > > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
+> > > > > > > > > compiler: m68k-linux-gcc (GCC) 14.1.0
+> > > > > > > > > reproduce (this is a W=1 build):
+> > > > > > > > > (https://download.01.org/0day-ci/
+> > > > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
+> > > > > > > > >
+> > > > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a
+> > > > > > > > > new version of
+> > > > > > > > > the same patch/commit), kindly add following tags
+> > > > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-
+> > > > > > > > > all/202409051822.ZzUGw3XQ-lkp@intel.com/
+> > > > > > > > >
+> > > > > > > > > All warnings (new ones prefixed by >>):
+> > > > > > > > >
+> > > > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12:
+> > > > > > > > > > > warning: 'cfe_runtime_resume' defined but not used
+> > > > > > > > > > > [-Wunused-function]
+> > > > > > > > >       2445 | static int cfe_runtime_resume(struct device *dev)
+> > > > > > > > >            |            ^~~~~~~~~~~~~~~~~~
+> > > > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12:
+> > > > > > > > > > > warning: 'cfe_runtime_suspend' defined but not used
+> > > > > > > > > > > [-Wunused-function]
+> > > > > > > > >       2435 | static int cfe_runtime_suspend(struct device *dev)
+> > > > > > > > >            |            ^~~~~~~~~~~~~~~~~~~
+> > > > > > > > > vim +/cfe_runtime_resume +2445
+> > > > > > > > > drivers/media/platform/raspberrypi/ rp1-cfe/cfe.c
+> > > > > > > >
+> > > > > > > > The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
+> > > > > > > > to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
+> > > > > > > > the driver won't work on a kernel with !CONFIG_PM given how you
+> > > > > > > > implemented probe() and remove().
+> > > > > > > >
+> > > > > > > > The pisp-be driver suffered from the same issue and Jacopo fixed it in
+> > > > > > > > the last version. You can have a look at implement something similar.
+> > > > > > >
+> > > > > > > I can't right away think of any reason to not just depend on CONFIG_PM
+> > > > > > > and be done with it without any tricks. Do you know if there's a reason?
+> > > > >
+> > > > > We had the same discussion, and even if I would be fine depending on
+> > > > > CONFIG_PM, supporting !CONFIG_PM is not that much work, I kept it as
+> > > > > an optional dependency (it was suggested during the review as well)
+> > > > >
+> > > > > >
+> > > > > > Also, I don't think pisp-be is correct. It just calls
+> > > > > > pispbe_runtime_resume() in probe() to wake the IP up (which only enables
+> > > > > > pisp clock), without telling the runtime PM about it. This means the parent
+> > > > > > device and the suppliers may not be powered up.
+> > > > >
+> > > > > Are you referring to the code currently in the tree or to this patch ?
+> > > > > https://patchwork.linuxtv.org/project/linux-media/patch/20240904095836.344833-5-jacopo.mondi@ideasonboard.com/
+> > > >
+> > > > Ah, I missed that one.
+> > > >
+> > > > I don't think it fixes the issue I mentioned. If we have PM enabled, and the
+> > > > parent device requires powering up for the child device (BE) to be
+> > > > accessible, the driver will crash when calling pispbe_hw_init(). I think you
+> > > > should call pm_runtime_set_active() before calling pispbe_runtime_resume().
+> > >
+> > > As discussed, this is not a problem currently for BE, but indeed you
+> > > have a point.
 
-smatch warnings:
-drivers/crypto/n2_core.c:1406 __n2_register_one_hmac() error: uninitialized symbol 'err'.
+I admit the runtime_pm intrinsics are obscure to me, but Laurent just
+made me notice something.
 
-vim +/err +1406 drivers/crypto/n2_core.c
+Consider the following scenario
 
-49cfe4db2ddc4d Greg Kroah-Hartman 2012-12-21  1366  static int __n2_register_one_hmac(struct n2_ahash_alg *n2ahash)
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1367  {
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1368  	struct n2_hmac_alg *p = kzalloc(sizeof(*p), GFP_KERNEL);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1369  	struct ahash_alg *ahash;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1370  	struct crypto_alg *base;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1371  	int err;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1372  
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1373  	if (!p)
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1374  		return -ENOMEM;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1375  
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1376  	p->child_alg = n2ahash->alg.halg.base.cra_name;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1377  	memcpy(&p->derived, n2ahash, sizeof(struct n2_ahash_alg));
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1378  	INIT_LIST_HEAD(&p->derived.entry);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1379  
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1380  	ahash = &p->derived.alg;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1381  	ahash->digest = n2_hmac_async_digest;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1382  	ahash->setkey = n2_hmac_async_setkey;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1383  
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1384  	base = &ahash->halg.base;
-8c20982caca4b1 Herbert Xu         2023-10-27  1385  	if (snprintf(base->cra_name, CRYPTO_MAX_ALG_NAME, "hmac(%s)",
-8c20982caca4b1 Herbert Xu         2023-10-27  1386  		     p->child_alg) >= CRYPTO_MAX_ALG_NAME)
-8c20982caca4b1 Herbert Xu         2023-10-27  1387  		goto out_free_p;
-                                                                ^^^^^^^^^^^^^^^^
+*) Kernel compiled with CONFIG_PM
+*) i2c sensor driver that supports both CONFIG_PM and !CONFIG_PM by:
+  *) Manually power up the sensor during probe
+  *) Call pm_runtime_enable() and pm_runtime_set_active() at the end
+     of the probe routine after having accessed the chip over i2c
+     (like most, if not all the i2c drivers in mainline do including
+     ccs)
 
-8c20982caca4b1 Herbert Xu         2023-10-27  1388  	if (snprintf(base->cra_driver_name, CRYPTO_MAX_ALG_NAME, "hmac-%s-n2",
-8c20982caca4b1 Herbert Xu         2023-10-27  1389  		     p->child_alg) >= CRYPTO_MAX_ALG_NAME)
-8c20982caca4b1 Herbert Xu         2023-10-27  1390  		goto out_free_p;
-                                                                ^^^^^^^^^^^^^^^^
-err = -EINVAL;
+All these drivers work, and during the probe routine before accessing
+the HW, they don't need to power up the parent i2c controller.
 
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1391  
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1392  	base->cra_ctxsize = sizeof(struct n2_hmac_ctx);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1393  	base->cra_init = n2_hmac_cra_init;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1394  	base->cra_exit = n2_hmac_cra_exit;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1395  
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1396  	list_add(&p->derived.entry, &hmac_algs);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1397  	err = crypto_register_ahash(ahash);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1398  	if (err) {
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1399  		pr_err("%s alg registration failed\n", base->cra_name);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1400  		list_del(&p->derived.entry);
-8c20982caca4b1 Herbert Xu         2023-10-27  1401  out_free_p:
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1402  		kfree(p);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1403  	} else {
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1404  		pr_info("%s alg registered\n", base->cra_name);
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1405  	}
-dc4ccfd15d4fc7 David S. Miller    2010-05-22 @1406  	return err;
-dc4ccfd15d4fc7 David S. Miller    2010-05-22  1407  }
+Might it be that during probe() the parent is guaranteed to be enabled ?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I add a look in the driver-core and pm Documentation/ but found
+nothing.
 
+A quick stroll in driver/base/ got me to __device_attach() and it
+seems parents are powered up before attaching a driver to a device
+(which in my understanding should be what ends up calling probe()).
+Clearly I've no real understanding of what I'm talking about when it
+comes to driver-core, so take this with a grain of salt.
+
+> > >
+> > > Sad note: most of all the occurrences of "grep set_active" in
+> > > drivers/media/platform/ show that set_active() is used as I've done in
+> > > my patch
+> > >
+> > > > However, you said above that "supporting !CONFIG_PM is not that much work".
+> > > > Maybe not. But how much work is it to get it right (for both PM and !PM),
+> > > > and make sure it stays right? =).
+> > > >
+> > > > Just my opinion, but if there are zero use cases for the !PM, I would just
+> > > > go with "depends on PM" to keep the driver simpler, less bug-prone, and
+> > > > easier to maintain.
+> >
+> > I'm fine with that, and for platform drivers, that's my preferred
+> > option. Sakari ?
+>
+> I'm concerned with your (?) recent finding that many architectures don't
+> have support for CONFIG_PM. In this case the device is very unlikely to be
+> used outside ARM(64) so I guess it's fine.
+>
+
+Also, this IP is RPi specific, and the !CONFIG_PM case is not used or
+tested on Pi.
+
+However, I think this current patch is correct (assuming the above
+reasoning on i2c sensor drivers is correct) and doesn't require
+CONFIG_PM, so I would be tempted to keep this version.
+
+> >
+> > > I don't see a use case for !PM and we confirmed with RPi they don't
+> > > need to support it. During the review of a previous version of the BE
+> > > driver iirc I've been asked to support !PM but I'm not sure I recall
+> > > the reasons.
+> >
+> > I hope it wasn't me :-)
+>
+> Me neither. Although it'd be nice: CONFIG_PM isn't a hardware specific
+> option as such. As one part of the kernel requires !CONFIG_PM and another
+> CONFIG_PM, we can expect problems, at least in principle.
+>
+> Ideally all architectures would support it so CONFIG_PM could be removed
+> and we could say the problem has been solved. :-)
+>
+> --
+> Regards,
+>
+> Sakari Ailus
