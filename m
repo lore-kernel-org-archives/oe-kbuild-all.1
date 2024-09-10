@@ -1,59 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FE016C684
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 17:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EAA1A2875;
+	Tue, 10 Sep 2024 17:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725987840; cv=none; b=QvApSyAl95a++Sjb4pupADo7hbfo69i2dggy+p7GI3yfqUur5iPuuK6sEFkjE20Pw88iuE2p5WqS4+s+dsVf9uuskjag+x9hYqLpG+IKNbYEXDzyBlFBIhjyv72ijVvZEybkbZbR34f/E6Rg2t6ZFehEBCWv9xUAHNpiWLRH7aY=
+	t=1725988804; cv=none; b=TPheUsBDprncCzpsohrnKkc8tSW6GJY2pGc9AwGJg7MNo73xbuFRreE/av7qO2/A3NZBqjaLXZRJViCoIXYuDcoaK1L72qZ5edzMPat3ZYg6qeJxuujh7zm65a21iIoxdppafP6mGQkC7pCypVt0TZn9QMTfp/sXIk8t4IKOunQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725987840; c=relaxed/simple;
-	bh=ILfy75VKoyNc8fPm0BxL+0A28LZxbGddW9+V9yEB2rs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bZgiyPex19g46XQ9BY8TjlDrAHcAgx2x01fJ1VZJJp+vbo1C1RFdIqhDEeSzyWrtZmRhW8hdx3EthJu06P10WmqrUrPgCFLONHGXU38jCMUU+4lCyJYSuSLGy4o108+aNkaGGNl4B2WRb9yIIGZB74Dwry3kEFDbXwjpmhLIHWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDDBivi/; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725988804; c=relaxed/simple;
+	bh=TvaB6J4SPaO1w4vDtpj2zNE8JWO+8r1xf8HiEUcu1xM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUANcE93nofGveDODO+D2iCQk4Y4rFaf9zijBdtoJV7zLX5k6+WoaMdT6o4rNnecxFMXmaPULymn7FiicmA5dFKBDi9AEU5EJBptu+0HpZrfOVSSlRqxJy6DGre1xtSdvZ3ntw3TgYIETPdh55LjZXLs0jHRiF+kh4YCJ4BAEYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oKlsUtqj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDDBivi/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725987838; x=1757523838;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ILfy75VKoyNc8fPm0BxL+0A28LZxbGddW9+V9yEB2rs=;
-  b=iDDBivi/+Y29ayzzI23J+b9N6KDZzUUn9cAZjE2lewB+Pud+Vmx90eP/
-   Y4M1r/rCn90FrKW5jESUMCc3oRrL1HVxno3BbtJ/7Uq0z5xcvUtrDSbS5
-   mI20hgcw56k1SkYPeYP9pPRyNfbb4VhbisnzYDQK88kiVTQfKt7M1/tMy
-   MzwzlD+yKuwBsqL10JrnAZLEdZFn6w0+D5mTLdesWfGq6j7zk1tjas7IQ
-   UKGepNgKY4IkQjP5xcCmgJJ3t40jhVQ01NNlq9jX3vEf55evOd+jWBPv1
-   cAom4o2F4QWL7IzYks+Bf0pibeqE5qr00LTC8CbQ0KOp9IVVng5/+/5xD
-   A==;
-X-CSE-ConnectionGUID: 3QSG4mMWRjqe6fNf5WahJg==
-X-CSE-MsgGUID: vKbQcJ30RAe2R+2eflhqOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="50164960"
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="50164960"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 10:03:57 -0700
-X-CSE-ConnectionGUID: EU9okrF/QS+Xof/ttZsJgQ==
-X-CSE-MsgGUID: cLlXIWJWQheuBJIevXYBzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="71861341"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Sep 2024 10:03:56 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1so4HR-0002Pe-2R;
-	Tue, 10 Sep 2024 17:03:53 +0000
-Date: Wed, 11 Sep 2024 01:03:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-09 15723/17419]
- arch/arm64/kvm/arm.c:55:1: sparse: sparse: symbol
- '__pcpu_scope_kvm_arm_hyp_stack_base' was not declared. Should it be static?
-Message-ID: <202409110038.cV2G6HYs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKlsUtqj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45769C4CEC3;
+	Tue, 10 Sep 2024 17:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725988803;
+	bh=TvaB6J4SPaO1w4vDtpj2zNE8JWO+8r1xf8HiEUcu1xM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oKlsUtqjBxe9ewO+kBetG3hSNfCwXfigGim7srXmxu3ikqBMLUeL07dcBc+H13ZWr
+	 hyqLMpeBDI3h1zXJQliHtZeT3Rj3iTse2jtsU5BUaMooI6UBu1vHtqwiP3AKMWtg6Y
+	 xgPyys2WP3y7oSPbyq+pzBr3EEvEJ5p633EtOWqCUF/dZ8QCRqgxsmUUMPj8QEoVOU
+	 +epCFf2DMuKroLqg0rPFXbuApZZ2XTgnEJ8NhBsr7G/fl92Kkk0YlSGZAxSJifpmAm
+	 IvKM5fc4EuIWCnxJXZsUhvaggesPsBq1yqfnDApzX375T+/FfCdT/fNvxM00pSAUlF
+	 iOh3JGEQALfnA==
+Date: Tue, 10 Sep 2024 10:20:01 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@lists.linux.dev
+Subject: Re: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
+ 'actual_mac' too small (64 vs 448)
+Message-ID: <20240910172001.GD2642@sol.localdomain>
+References: <e8c80d61-2c74-4b50-ab50-2cf1291df9bc@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,32 +44,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e8c80d61-2c74-4b50-ab50-2cf1291df9bc@stanley.mountain>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-09
-head:   90126a16a9a623123963a17972c39fdee257240d
-commit: f9df46617dcd6b10cb80aa8fa3f836f43941acd9 [15723/17419] ANDROID: KVM: Update nVHE stack size to 8KB
-config: arm64-randconfig-r112-20240910 (https://download.01.org/0day-ci/archive/20240911/202409110038.cV2G6HYs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240911/202409110038.cV2G6HYs-lkp@intel.com/reproduce)
+[+Cc dm-devel@lists.linux.dev]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110038.cV2G6HYs-lkp@intel.com/
+On Tue, Sep 10, 2024 at 10:31:56AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+> commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/arm.c:55:1: sparse: sparse: symbol '__pcpu_scope_kvm_arm_hyp_stack_base' was not declared. Should it be static?
-   arch/arm64/kvm/arm.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
+This commit seems unrelated, as the alleged issue existed in the code before
+that commit too (maybe smatch just didn't notice it yet).
 
-vim +/__pcpu_scope_kvm_arm_hyp_stack_base +55 arch/arm64/kvm/arm.c
+> date:   10 months ago
+> config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061401.44rtN1bh-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202409061401.44rtN1bh-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
+> 
+> vim +/actual_mac +521 drivers/md/dm-integrity.c
+> 
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
+> 070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
+> 070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
+> 070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
+> 070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
+> 
+> This is paired with the line before and prevents the subtraction from going
+> negative.  It limits the mac_size to 0-448.  Is it reasonable to have a mac_size
+> which is > HASH_MAX_DIGESTSIZE (64)?
 
-    54	
-  > 55	DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_base);
-    56	DECLARE_KVM_NVHE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
-    57	DECLARE_KVM_NVHE_PER_CPU(int, hyp_cpu_number);
-    58	
+crypto_shash_digestsize() cannot return a value greater than HASH_MAX_DIGESTSIZE
+because the crypto API doesn't allow registering any hash algorithms with
+digests larger than that.  That's the whole point of HASH_MAX_DIGESTSIZE.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> This buffer is only 64 bytes.
+
+Yes.
+
+> 0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
+> 070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
+> 070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
+> 09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
+> 070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+>                                                                                 ^^^^^^^^^^
+> Read overflow.
+
+No, because mac_size <= 64.
+
+We might as well explicitly check that in the code to suppress the static
+analysis warning (I'll send a patch), but it's not fixing an actual bug.
+
+- Eric
