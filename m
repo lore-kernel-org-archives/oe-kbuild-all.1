@@ -1,96 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28EA187325
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681A8175568
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 09:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725958867; cv=none; b=ABJ5srCydf6C5rBJuexq3Omjktd4Oi7m8hjxZkqNCiq+N+smZuD4x7V8I109ReoAxtYXd23o1SMVKlCyKqkzj90NmL9Jd9o1VClRqXz06cSjGTbY9Ce7C7CPu69K9q8SOIbkHoCvzCKWNG/HJOTzJ6n6bPbpWHa37Usuy5kXmkw=
+	t=1725959101; cv=none; b=lQUQE7A6y1OV83eWN24LXal0ZJV5c5StzOJIMRQ1JF4fvFZx0ZPj7kQ6tP87WvMHfS6kyih8e4IBXHAV8VJD9mBw/EGoNx8pf3Nxxu8ZK0dNa5k1T4yU3AAebq83zOet3O3cWli2LuNgaq0ziopFzb8xaXFKCUi0u6rmDEqqrC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725958867; c=relaxed/simple;
-	bh=BGZl869YqdVt2s1wmK1hshko6HG0cHTa/7jN6hXioCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mQ3E1JRNClJ3opeypuKiw4Jk0DqYvr+/55Aeeo78YA3QaPpVKKLedHAXqM8CVXTuh6fHd9NBY/tVoMk+tniwgThFZT6P7tXmoK/NjCH6ovyyT2p5+JwEhbtGphTRxLjoWrNpHwGbFNOIvuMQvdnksWzjNNea2ve2xRszvHmXuM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNdDbBBD; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNdDbBBD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725958866; x=1757494866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BGZl869YqdVt2s1wmK1hshko6HG0cHTa/7jN6hXioCw=;
-  b=SNdDbBBD4MQD2ktGNjsvN+COHD405cJHvqou2gDox5/LOhT593szlq20
-   +1IDmL2h/aWUn3FyRXKGV8HHMc4iWg0A7CszpvuCX5suyx8spqu7ILBoY
-   yXl5Btu400ZfAVFtnJFJYbfj1Fgwuk75E6tWwNjlpPOVhwTV7i3NaX6yr
-   fhQ4aGsGJNdLaL1oMN3xQnZ6+a/ydFtrZWCm9UGzmcpnuQQ0cYBjqFRuz
-   VZFitExxpqERmJO5VVk/P/xEBge6TgfXgfB2ogdkttBYnOw6rASDe2Mhd
-   cr0RIBW5tsOrnIoZvzIZTjCkOZfpMcBj7fmGaG9gqkekJ8EH1ojAfSixq
-   w==;
-X-CSE-ConnectionGUID: i4J6ATQPShej2tPngDtCTg==
-X-CSE-MsgGUID: YPuyLDljRNGXSTxW36KknA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35358902"
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="35358902"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 02:01:05 -0700
-X-CSE-ConnectionGUID: 35S7HKWdT42X5G3lo17cmg==
-X-CSE-MsgGUID: 50H18zViQK22x2pm9INtZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="67208325"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Sep 2024 02:01:04 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snwk9-0000KB-2v;
-	Tue, 10 Sep 2024 09:01:01 +0000
-Date: Tue, 10 Sep 2024 17:00:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-6.1.y-cip 18/31] kismet: WARNING: unmet direct
- dependencies detected for AX45MP_L2_CACHE when selected by ARCH_R9A07G043
-Message-ID: <202409101628.fbP1QhtP-lkp@intel.com>
+	s=arc-20240116; t=1725959101; c=relaxed/simple;
+	bh=d+a/HLH54e6hJb85VFKHdDyDs9zEYq45uYiP4vNGna0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XlDahQU3jW6gwfhzXvnxWGZK1OWePmdufxNaFz7qWhDtsQTBN0fpetkEnQ8oVjpwIZ4a0ZtWubBEBwInFPcAfNTxsP8PsblS8u14zQ9rZJAoDQLz3sfqZiOPENcQmPq3M0Qrt8DoFegjPAy0a+qwLIBvGBvn0THCCptbuHh/12E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de; spf=fail smtp.mailfrom=denx.de; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=denx.de
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id DC4671C009E; Tue, 10 Sep 2024 10:59:36 +0200 (CEST)
+Date: Tue, 10 Sep 2024 10:59:36 +0200
+From: Pavel Machek <pavel@denx.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [cip:linux-6.1.y-cip-rebase 190/438]
+ drivers/iommu/io-pgtable-arm.c:1185:undefined reference to
+ `alloc_io_pgtable_ops'
+Message-ID: <ZuAKeKb/23ZqSltA@duo.ucw.cz>
+References: <202409101626.sNel54m0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KDvFHQDngPotlOux"
+Content-Disposition: inline
+In-Reply-To: <202409101626.sNel54m0-lkp@intel.com>
+
+
+--KDvFHQDngPotlOux
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip
-head:   d5cc54849a0b793a2413dcd5f31b45d9907066ab
-commit: c868ba37129f941bf55e6e20fd666f1bc3a27ad7 [18/31] soc: renesas: Kconfig: Select the required configs for RZ/Five SoC
-config: riscv-kismet-CONFIG_AX45MP_L2_CACHE-CONFIG_ARCH_R9A07G043-0-0 (https://download.01.org/0day-ci/archive/20240910/202409101628.fbP1QhtP-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240910/202409101628.fbP1QhtP-lkp@intel.com/reproduce)
+Hi!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409101628.fbP1QhtP-lkp@intel.com/
+Who is responsible for this bot, and how do I unsubscribe?
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for AX45MP_L2_CACHE when selected by ARCH_R9A07G043
-   WARNING: unmet direct dependencies detected for ERRATA_ANDES
-     Depends on [n]: RISCV_ALTERNATIVE [=n]
-     Selected by [y]:
-     - ARCH_R9A07G043 [=y] && SOC_RENESAS [=y] && RISCV [=y]
-   
-   WARNING: unmet direct dependencies detected for ERRATA_ANDES_CMO
-     Depends on [n]: ERRATA_ANDES [=y] && MMU [=n] && ARCH_R9A07G043 [=y]
-     Selected by [y]:
-     - ARCH_R9A07G043 [=y] && SOC_RENESAS [=y] && RISCV [=y]
-   
-   WARNING: unmet direct dependencies detected for AX45MP_L2_CACHE
-     Depends on [n]: RISCV_DMA_NONCOHERENT [=n]
-     Selected by [y]:
-     - ARCH_R9A07G043 [=y] && SOC_RENESAS [=y] && RISCV [=y]
+								Pavel
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Tue 2024-09-10 16:08:15, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git=
+ linux-6.1.y-cip-rebase
+> head:   fb1857d56e47961f0e5a291c3385b88f610320e3
+> commit: 16cf7a685142727e637f16ed7d9de15b7a32a753 [190/438] riscv: Kconfig=
+=2Esocs: Add ARCH_RENESAS kconfig option
+> config: riscv-randconfig-001-20240910 (https://download.01.org/0day-ci/ar=
+chive/20240910/202409101626.sNel54m0-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240910/202409101626.sNel54m0-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409101626.sNel54m0-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    riscv64-linux-ld: drivers/iommu/io-pgtable-arm.o: in function `arm_lpa=
+e_run_tests':
+> >> drivers/iommu/io-pgtable-arm.c:1185:(.init.text+0x212): undefined refe=
+rence to `alloc_io_pgtable_ops'
+> >> riscv64-linux-ld: drivers/iommu/io-pgtable-arm.c:1257:(.init.text+0x79=
+2): undefined reference to `free_io_pgtable_ops'
+>    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
+n_free_context':
+> >> drivers/iommu/ipmmu-vmsa.c:361:(.text+0x7ee): undefined reference to `=
+free_io_pgtable_ops'
+>    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
+n_init_context':
+> >> drivers/iommu/ipmmu-vmsa.c:439:(.text+0xc54): undefined reference to `=
+alloc_io_pgtable_ops'
+>=20
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+>    Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST =
+[=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
+>    Selected by [y]:
+>    - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] ||=
+ COMPILE_TEST [=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
+>=20
+>=20
+> vim +1185 drivers/iommu/io-pgtable-arm.c
+>=20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1169 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1170  static int __init arm=
+_lpae_run_tests(struct io_pgtable_cfg *cfg)
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1171  {
+> 9062c1d0bedacf Christophe JAILLET 2019-09-09  1172  	static const enum io=
+_pgtable_fmt fmts[] __initconst =3D {
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1173  		ARM_64_LPAE_S1,
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1174  		ARM_64_LPAE_S2,
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1175  	};
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1176 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1177  	int i, j;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1178  	unsigned long iova;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1179  	size_t size;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1180  	struct io_pgtable_op=
+s *ops;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1181 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1182  	selftest_running =3D=
+ true;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1183 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1184  	for (i =3D 0; i < AR=
+RAY_SIZE(fmts); ++i) {
+> fe4b991dcd84e0 Will Deacon        2014-11-17 @1185  		cfg_cookie =3D cfg;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1186  		ops =3D alloc_io_pg=
+table_ops(fmts[i], cfg, cfg);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1187  		if (!ops) {
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1188  			pr_err("selftest: =
+failed to allocate io pgtable ops\n");
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1189  			return -ENOMEM;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1190  		}
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1191 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1192  		/*
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1193  		 * Initial sanity c=
+hecks.
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1194  		 * Empty page table=
+s shouldn't provide any translations.
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1195  		 */
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1196  		if (ops->iova_to_ph=
+ys(ops, 42))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1197  			return __FAIL(ops,=
+ i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1198 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1199  		if (ops->iova_to_ph=
+ys(ops, SZ_1G + 42))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1200  			return __FAIL(ops,=
+ i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1201 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1202  		if (ops->iova_to_ph=
+ys(ops, SZ_2G + 42))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1203  			return __FAIL(ops,=
+ i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1204 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1205  		/*
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1206  		 * Distinct mapping=
+s of different granule sizes.
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1207  		 */
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1208  		iova =3D 0;
+> 4ae8a5c528c0b1 Kefeng Wang        2016-09-21  1209  		for_each_set_bit(j,=
+ &cfg->pgsize_bitmap, BITS_PER_LONG) {
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1210  			size =3D 1UL << j;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1211 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1212  			if (ops->map(ops, =
+iova, iova, size, IOMMU_READ |
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1213  							    IOMMU_WRIT=
+E |
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1214  							    IOMMU_NOEX=
+EC |
+> f34ce7a7018c2f Baolin Wang        2020-06-12  1215  							    IOMMU_CACH=
+E, GFP_KERNEL))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1216  				return __FAIL(ops=
+, i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1217 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1218  			/* Overlapping map=
+pings */
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1219  			if (!ops->map(ops,=
+ iova, iova + size, size,
+> f34ce7a7018c2f Baolin Wang        2020-06-12  1220  				      IOMMU_READ =
+| IOMMU_NOEXEC, GFP_KERNEL))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1221  				return __FAIL(ops=
+, i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1222 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1223  			if (ops->iova_to_p=
+hys(ops, iova + 42) !=3D (iova + 42))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1224  				return __FAIL(ops=
+, i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1225 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1226  			iova +=3D SZ_1G;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1227  		}
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1228 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1229  		/* Partial unmap */
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1230  		size =3D 1UL << __f=
+fs(cfg->pgsize_bitmap);
+> a2d3a382d6c682 Will Deacon        2019-07-02  1231  		if (ops->unmap(ops,=
+ SZ_1G + size, size, NULL) !=3D size)
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1232  			return __FAIL(ops,=
+ i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1233 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1234  		/* Remap of partial=
+ unmap */
+> f34ce7a7018c2f Baolin Wang        2020-06-12  1235  		if (ops->map(ops, S=
+Z_1G + size, size, size, IOMMU_READ, GFP_KERNEL))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1236  			return __FAIL(ops,=
+ i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1237 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1238  		if (ops->iova_to_ph=
+ys(ops, SZ_1G + size + 42) !=3D (size + 42))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1239  			return __FAIL(ops,=
+ i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1240 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1241  		/* Full unmap */
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1242  		iova =3D 0;
+> f793b13ef0c9c1 YueHaibing         2018-04-26  1243  		for_each_set_bit(j,=
+ &cfg->pgsize_bitmap, BITS_PER_LONG) {
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1244  			size =3D 1UL << j;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1245 =20
+> a2d3a382d6c682 Will Deacon        2019-07-02  1246  			if (ops->unmap(ops=
+, iova, size, NULL) !=3D size)
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1247  				return __FAIL(ops=
+, i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1248 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1249  			if (ops->iova_to_p=
+hys(ops, iova + 42))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1250  				return __FAIL(ops=
+, i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1251 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1252  			/* Remap full bloc=
+k */
+> f34ce7a7018c2f Baolin Wang        2020-06-12  1253  			if (ops->map(ops, =
+iova, iova, size, IOMMU_WRITE, GFP_KERNEL))
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1254  				return __FAIL(ops=
+, i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1255 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1256  			if (ops->iova_to_p=
+hys(ops, iova + 42) !=3D (iova + 42))
+> fe4b991dcd84e0 Will Deacon        2014-11-17 @1257  				return __FAIL(ops=
+, i);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1258 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1259  			iova +=3D SZ_1G;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1260  		}
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1261 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1262  		free_io_pgtable_ops=
+(ops);
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1263  	}
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1264 =20
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1265  	selftest_running =3D=
+ false;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1266  	return 0;
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1267  }
+> fe4b991dcd84e0 Will Deacon        2014-11-17  1268 =20
+>=20
+> :::::: The code at line 1185 was first introduced by commit
+> :::::: fe4b991dcd84e0104cf2e29223a819335ed048a7 iommu: add self-consisten=
+cy tests to ARM LPAE IO page table allocator
+>=20
+> :::::: TO: Will Deacon <will.deacon@arm.com>
+> :::::: CC: Will Deacon <will.deacon@arm.com>
+>=20
+
+--=20
+DENX Software Engineering GmbH,        Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--KDvFHQDngPotlOux
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZuAKeAAKCRAw5/Bqldv6
+8gr3AJ9IEMGLujlOMqmVXr6wE2Ut6qSS9wCgkYgA5/wn+hg30spl9cMNb+AaRBg=
+=ITHT
+-----END PGP SIGNATURE-----
+
+--KDvFHQDngPotlOux--
