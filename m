@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAC21F956
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 15:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235C5195980
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 15:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725980456; cv=none; b=gPrJNytX9gMWB5sjIYDdpLsUnJlWqSchHr0pjz8P/l/KSiDBjXrjgne225doaH0SwTaHoxwruWo0Uy/IdSROdN2VnmMroXil3BzLLD8ciVoo5HmNseeCfbJS86HzRGk+n/0RzgG3F/AxQKNhW8HkUKHQCDjPN4XqAQLRIjHMxSE=
+	t=1725981710; cv=none; b=TSQcvrp8FpU8fAmL2njFzT5CxTH2/xRUEqL8BoKs4t9TWwsMQ1PN3HAIaBre+g/r+6RRJsJx/C1s/jVRuGG4/M0H7hsVq3KB/DI0I4+nayXCSB2KSUm+dCytp+ZBGyN+oVbKhB1eQVhgI9QrLRePqtDvGHBIDIdBMBvetvHueI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725980456; c=relaxed/simple;
-	bh=j7tjGVSW8H3+q0t9e0IaeNfipepQz25epPeXce/Z4AA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZYMheiSUtGj8QyqehUgyrHZQENNXQGfSW8BqnuMHJqVXal8Rsgj315zFOJi8sKZLXWXor0IqZtXRcKtZc/l5XrTdRYoanA/vWhM6DeXsqKCvONgvzrkKEBBjMPucXNeb+hAr3DFKrkpxH6hW1XnVQJaXHvrYesaFHIQBDtqCKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8UMUSoz; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1725981710; c=relaxed/simple;
+	bh=W6eGTfECuMCueVT0cwNwqmVphUEBuHFRAM4/cCfFXsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R15qZLoKNfKDpMLgKDpdvIWdnGPdvK1Aa2TjNb37BrsoGeJqb0b3HIo0xFRBnNOrH7t4VLG7wrjwdZ4RXvGF7aC883pWcm+7j/nGXRJDK7mo1X3DEa34VKMTrquo2lm4g4rf5BziT6DkvFm15ybLeb9jOsRl/eaqLI9gfbZjF7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+jnkpvD; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8UMUSoz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+jnkpvD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725980454; x=1757516454;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j7tjGVSW8H3+q0t9e0IaeNfipepQz25epPeXce/Z4AA=;
-  b=b8UMUSozBXa8dFNn6I1g++TMRpCtWYNGVL+nCUzskRt0VoRFqIh8NSBy
-   I/v7jbOQAuLsYl8qETRwpYMFJByq3E5NY9P8hW/YjvVR6CPZqhNKVueHk
-   egxW1WLKhRyB6i4n0HEESQbTApqC+Bt6hvqI4GmpMgTtfHWta7nRLU8Mz
-   stjNL7wDseKTlEfE27XFr2XV/bQRzF49L6BUx3uiPGPCq8BSxi45J8e8A
-   YAiNyAsSB6WZTl5MJYotXqU8ezGr1ia9TVmgwYwLk9C9fX/Mxr8DRZLmm
-   ZjjveXvmo5Z3Eg7Hvx0DFkPm43/IeLvmhcwPocXjN7IxWYjJtjHTDc3nE
-   A==;
-X-CSE-ConnectionGUID: wo6qIuxnTPyItb0J0EUODA==
-X-CSE-MsgGUID: m3PRuUllTQ6zZMmbe4iPjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24880247"
+  t=1725981708; x=1757517708;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W6eGTfECuMCueVT0cwNwqmVphUEBuHFRAM4/cCfFXsM=;
+  b=a+jnkpvDOEZjETvOJEjUh4a/X/yefG9s12nM1UFZeS6dvlwnNNQ0CaK8
+   XFsuFfn49uGWPafkDKRvhC9XYqi+upJlTdQGMLc3iBbBrsnCSV6kpgPPt
+   8PLxqBXysYZ8wlprmSz7lhmyj8o4XdHd2UIG0FeKWRk1erk6VHeePmSbD
+   uy9pM4HL32HYCPjJb0E/993P6iV+kFQdOWD2GNZKEh1/SuD+qzGxUZxt2
+   Mq1rsuRUvcrWuWdWherctf8NOmx5MU9tmycKx3AAdIVlyIBwqGTVL2Cjt
+   eiA4SNHNQCGyA2ps117dFDma1df4hkcWHwHdHvJExVJZXe4AvWCoI89zL
+   w==;
+X-CSE-ConnectionGUID: IfQ2jz4kRmOKtMeuvKr8fg==
+X-CSE-MsgGUID: Uw7kKlITTyiePM5vXYeWvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28516991"
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="24880247"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 08:00:49 -0700
-X-CSE-ConnectionGUID: T8gd7uDyQnSWOWsUCSSmKQ==
-X-CSE-MsgGUID: PGauhd31SA+bb4UACjoxSQ==
+   d="scan'208";a="28516991"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 08:21:47 -0700
+X-CSE-ConnectionGUID: FQ9qrwCdRBOr2RoaruXxbQ==
+X-CSE-MsgGUID: Si9kmb1STE6N4iv6kK0jug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="67824809"
+   d="scan'208";a="67017226"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Sep 2024 08:00:46 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Sep 2024 08:21:47 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1so2MF-0002Ea-0t;
-	Tue, 10 Sep 2024 15:00:43 +0000
-Date: Tue, 10 Sep 2024 23:00:34 +0800
+	id 1so2gZ-0002Fy-33;
+	Tue, 10 Sep 2024 15:21:43 +0000
+Date: Tue, 10 Sep 2024 23:20:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeongjun Park <aha310510@gmail.com>, davem@davemloft.net,
-	dsahern@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, kafai@fb.com, weiwan@google.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jeongjun Park <aha310510@gmail.com>
-Subject: Re: [PATCH net] net: prevent NULL pointer dereference in
- rt_fibinfo_free() and rt_fibinfo_free_cpus()
-Message-ID: <202409102210.krjQJVRr-lkp@intel.com>
-References: <20240909184827.123071-1-aha310510@gmail.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 5704/30000] include/linux/blk-mq.h:620:18:
+ sparse: sparse: incompatible types in comparison expression (different
+ address spaces):
+Message-ID: <202409102355.6lrxEzuT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,68 +62,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240909184827.123071-1-aha310510@gmail.com>
 
-Hi Jeongjun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeongjun-Park/net-prevent-NULL-pointer-dereference-in-rt_fibinfo_free-and-rt_fibinfo_free_cpus/20240910-025008
-base:   net/main
-patch link:    https://lore.kernel.org/r/20240909184827.123071-1-aha310510%40gmail.com
-patch subject: [PATCH net] net: prevent NULL pointer dereference in rt_fibinfo_free() and rt_fibinfo_free_cpus()
-config: arc-randconfig-002-20240910 (https://download.01.org/0day-ci/archive/20240910/202409102210.krjQJVRr-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409102210.krjQJVRr-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   cbfb00d89c3b9971c3f0732b4f34d4e674bff5d8
+commit: 8a6bee347626968d467aef07453c4547bc23cb64 [5704/30000] blk-mq: fix potential uaf for 'queue_hw_ctx'
+config: x86_64-randconfig-122-20240910 (https://download.01.org/0day-ci/archive/20240910/202409102355.6lrxEzuT-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409102355.6lrxEzuT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409102210.krjQJVRr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409102355.6lrxEzuT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   block/blk-mq-sched.c: note: in included file:
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+--
+>> block/blk-mq-sysfs.c:339:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
+   block/blk-mq-sysfs.c:339:55: sparse:     expected struct blk_mq_hw_ctx *hctx
+   block/blk-mq-sysfs.c:339:55: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu *
+   block/blk-mq-sysfs.c: note: in included file:
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+--
+   block/blk-sysfs.c: note: in included file:
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+--
+   block/blk-mq-tag.c: note: in included file:
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+--
+>> block/blk-mq.c:485:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
+   block/blk-mq.c:485:19: sparse:     expected struct blk_mq_hw_ctx *hctx
+   block/blk-mq.c:485:19: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu *
+>> block/blk-mq.c:3270:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct blk_mq_hw_ctx **hctxs @@     got struct blk_mq_hw_ctx [noderef] __rcu **queue_hw_ctx @@
+   block/blk-mq.c:3270:41: sparse:     expected struct blk_mq_hw_ctx **hctxs
+   block/blk-mq.c:3270:41: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu **queue_hw_ctx
+>> block/blk-mq.c:3284:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   block/blk-mq.c:3284:17: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   block/blk-mq.c:3284:17: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   block/blk-mq.c:4033:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
+   block/blk-mq.c: note: in included file:
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+>> include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
 
-   net/ipv4/fib_semantics.c: In function 'rt_fibinfo_free':
->> net/ipv4/fib_semantics.c:156:13: warning: the comparison will always evaluate as 'true' for the address of 'dst' will never be NULL [-Waddress]
-     156 |         if (!&rt->dst)
-         |             ^
-   In file included from include/net/ip.h:30,
-                    from net/ipv4/fib_semantics.c:37:
-   include/net/route.h:56:33: note: 'dst' declared here
-      56 |         struct dst_entry        dst;
-         |                                 ^~~
-   net/ipv4/fib_semantics.c: In function 'rt_fibinfo_free_cpus':
-   net/ipv4/fib_semantics.c:209:21: warning: the comparison will always evaluate as 'true' for the address of 'dst' will never be NULL [-Waddress]
-     209 |                 if (!&rt->dst)
-         |                     ^
-   include/net/route.h:56:33: note: 'dst' declared here
-      56 |         struct dst_entry        dst;
-         |                                 ^~~
+vim +620 include/linux/blk-mq.h
 
-
-vim +156 net/ipv4/fib_semantics.c
-
-   149	
-   150	static void rt_fibinfo_free(struct rtable __rcu **rtp)
-   151	{
-   152		struct rtable *rt = rcu_dereference_protected(*rtp, 1);
-   153	
-   154		if (!rt)
-   155			return;
- > 156		if (!&rt->dst)
-   157			return;
-   158	
-   159		/* Not even needed : RCU_INIT_POINTER(*rtp, NULL);
-   160		 * because we waited an RCU grace period before calling
-   161		 * free_fib_info_rcu()
-   162		 */
-   163	
-   164		dst_dev_put(&rt->dst);
-   165		dst_release_immediate(&rt->dst);
-   166	}
-   167	
+   614	
+   615	static inline struct blk_mq_hw_ctx *queue_hctx(struct request_queue *q, int id)
+   616	{
+   617		struct blk_mq_hw_ctx *hctx;
+   618	
+   619		rcu_read_lock();
+ > 620		hctx = *(rcu_dereference(q->queue_hw_ctx) + id);
+   621		rcu_read_unlock();
+   622	
+   623		return hctx;
+   624	}
+   625	
 
 -- 
 0-DAY CI Kernel Test Service
