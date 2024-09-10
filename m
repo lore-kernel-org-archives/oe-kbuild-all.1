@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CA6481DA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 00:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3739D6A01E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 00:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725928936; cv=none; b=k3ZsDhwA2fLkK3liAizbynMm+kbXY0mLyx6BI6pJ9wyYrhNZLmGP25+NITPNZBm70PEMLhOe1kPYqvBttDRWDNjf84SNnlxzwtodPKxuN5XBuQbeKetJZIYqJb3ebX7DZ6V9wmUjRPbqZ+tZCjDW5RXbJuqHJMzTp+i7WmczAxc=
+	t=1725929480; cv=none; b=BpFGbbN/ITcDMkvVqIRZSaEhrtdWbOI/K2PWuoi4XaOzODzqBHv8AZxq/43NzQUaFjigNDBdKLvAAXtDWRRqyQjLr9ghhT7Q9TunQnJo37/234hVbb7PvYBvLzjM4XqNgnOcO3wdclyCHP9/HvZ0qA7pWBHfRHeVAIlHv7/1U4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725928936; c=relaxed/simple;
-	bh=yn3Dn2Qqze0AiXwShqRP6iLLdkyfmKHeBhhgbOZoqwA=;
+	s=arc-20240116; t=1725929480; c=relaxed/simple;
+	bh=x5FMIUov/6DOEU1HnQcCBMZArJqHczQ+VMg/GPovUD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=VP2pS6XNOpuXpedsAaJNqGdhM0y9iE1RgyfhO5OuftheMvRmvT1sLo/qzcjeFUNFji2bs+IqrTPmyWm+fXouon89Mf/r1UIj5pAqr5umapSQWJnnE6cUly0xpB/0/cBWPVhKpU2wzwLI8EDexmDf5UCi45mMHS5a/9LgsxVZueY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rw78MjlH; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=HGQ/X7XtQT57eiGbqR05IMM8gqt42J0rPruFcHuHH31jPU8U9gmuA0v/3fKi3eeM9Ksab0k4wjvqx7V/nNDZB36QaKcbN6GIrUxtwWZpiCR360hs7Pkgwp1qnG4fbB72txUUTsZ04aGInTbS3wsdsZ+WtEf16qWouDXxBEv61QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLKbcy/s; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rw78MjlH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLKbcy/s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725928935; x=1757464935;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=yn3Dn2Qqze0AiXwShqRP6iLLdkyfmKHeBhhgbOZoqwA=;
-  b=Rw78MjlHgX98hEveoDkBH8INGuDnt3b7Y8ptRLPQ0lEFpuzPzaPZ3Ckr
-   KqJvUmZ4syCIHf5dIARKl/2mGcbxTmw89rB2QbnMsc+Jt2TY37x8podtX
-   0FkhSRJLj4nWlGfzBESnTTcDtFspJOIxeUrAoxISwkHNzfYfOrO4IivRC
-   rJ8pYkjOUype+6kmJWpYyaz8gjwKeNaMPn7xd1UjP/iwBXAoU09LfXubh
-   23gCxngsH5QHfnwV5+ibrpuneazEM8UiQTIbPVO53STxbhFLWoLXi3prG
-   1XMXguHibTcb2Alq0Gq0IxQxQ3DTnHvokN+ULqkW/IoE9TDKNif+bn0nc
+  t=1725929479; x=1757465479;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=x5FMIUov/6DOEU1HnQcCBMZArJqHczQ+VMg/GPovUD8=;
+  b=FLKbcy/sAear4/S+qKiogPVtOI6N+wcUG6uK9rnd9atRIz4OIdU48Is3
+   EaIrF5Q9Yn1s3dGxiF2gwBPl5F0lpjzGEsnsR4sPa4zpf+avXsOJ6ZAwU
+   FBshjoBiaPDOTdKz39BnpNBvrnZLICu46mpOh5ypoOnJD0jLVZnoAz3G2
+   /cgYzsgajjkiqsU7OhMwF2iSOgIP4gMn7cHtmkSBUkmCJNMZMtOGXjvxu
+   C5dCUqY67rhSt+aRzkh/Nr3pGERaV40qHURhkUcHCYay8QKKOd2yZg4FN
+   fEpMbnEDgJO/EAOJeVk7ibwYRKEGo0Ag5+k01qb6lD9ys2kr7ptK6mYX8
    A==;
-X-CSE-ConnectionGUID: ZY44X6SZTLOEBhiP4cue0A==
-X-CSE-MsgGUID: D/kf8GiKQsaBxjnulO8uRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="27578828"
+X-CSE-ConnectionGUID: /5r/sheJS/2/hQpL2AfoEg==
+X-CSE-MsgGUID: Q0o+39p7SwGPLQ/HLpqjow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28542727"
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="27578828"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 17:42:15 -0700
-X-CSE-ConnectionGUID: 4l6Q3jlhQMivfP5Es+mj+Q==
-X-CSE-MsgGUID: DMU2tLutTZScZAn22ttM+A==
+   d="scan'208";a="28542727"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 17:51:19 -0700
+X-CSE-ConnectionGUID: bD2GGUYHT4++n2orLGJ44g==
+X-CSE-MsgGUID: ibKMv0hNTF+iWkszYtUlmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="71635636"
+   d="scan'208";a="66798498"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Sep 2024 17:42:14 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 Sep 2024 17:51:17 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snoxP-000FPQ-1n;
-	Tue, 10 Sep 2024 00:42:11 +0000
-Date: Tue, 10 Sep 2024 08:41:35 +0800
+	id 1snp6B-000FPw-1B;
+	Tue, 10 Sep 2024 00:51:15 +0000
+Date: Tue, 10 Sep 2024 08:50:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net] net: tighten bad gso csum offset check in
- virtio_net_hdr
-Message-ID: <Zt-Vv1ygku-tScAI@b20ea791c01f>
+To: Appana Durga Kedareswara rao <appana.durga.kedareswara.rao@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: ERROR: modpost: "xmb_manager_register"
+ [drivers/misc/xilinx_tmr_manager.ko] undefined!
+Message-ID: <202409100844.5dIzksa3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910004033.530313-1-willemdebruijn.kernel@gmail.com>
 
-Hi,
+Hi Appana,
 
-Thanks for your patch.
+FYI, the error/warning still remains.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bc83b4d1f08695e85e85d36f7b803da58010161d
+commit: f5ec7f54fdba7fef051c65e975612edf46d4934d drivers: misc: Add Support for TMR Manager
+date:   1 year, 8 months ago
+config: microblaze-randconfig-r052-20240909 (https://download.01.org/0day-ci/archive/20240910/202409100844.5dIzksa3-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100844.5dIzksa3-lkp@intel.com/reproduce)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409100844.5dIzksa3-lkp@intel.com/
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net] net: tighten bad gso csum offset check in virtio_net_hdr
-Link: https://lore.kernel.org/stable/20240910004033.530313-1-willemdebruijn.kernel%40gmail.com
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "xmb_manager_register" [drivers/misc/xilinx_tmr_manager.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
