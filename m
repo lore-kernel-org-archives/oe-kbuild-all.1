@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB48199FBB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 15:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768AC18132A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Sep 2024 16:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725982911; cv=none; b=H0yBLcOq79o2BeMSbSQYeJXKU1SEmFLno501ooZmxVC3lubyXbqFLmr3678ayJ5DR2es+MBMa3evFVdb4sHNCiy8Jzd02h1maFq73gR+r1Rv45MJmZNE/aaCdh5JLm/O0oaP5//088iYaVByiArSUDHDFN+PP3IuN9TA15rKNww=
+	t=1725986578; cv=none; b=HfPMVBzF/s9YqALtiqAlGo8zZk++ocbOvkKIf5BR1kOiWcWFta7EE+Bcn1rPkVFwr+ua+zSPnovFnUS2rJu11NAuCsRM+f+RytYOVxxLJMvOQYf7JVNOA7k/Lq9vr+WZCVnjojhs1leMolMWjAC++tmrwTh3/uFHcVsnGcCfFIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725982911; c=relaxed/simple;
-	bh=gMBNfd63rPvxJ9N9wV2O58Z7a/YrFgzrtjWnOio/k6M=;
+	s=arc-20240116; t=1725986578; c=relaxed/simple;
+	bh=U9Nal/aSXFdm4x3H/aGylf4bAOQYA/j4mBRP1BgahAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XvIW2jhoYXH+G7tbF2qKJ6E+HvDDYXxy6noqmplJkt3jHt2RFoviGpscr+rVSewuvQ3n+VOt4WU+U8E7p3phXHC22jU/M3crO5560U62BeBdgHVBSi2/bXJL36WLD8G2n3x8cgJnjbJa/P9xPXx+PcnE6CAcKEy0NCiUVVojhGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kv4r6ZGi; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=RFWhr+RDLgAz8S8yP0OIeQi+GYvi5R4Y96JkzuIpMx6exW+GfcCt64Uy+OVZhmuZPrSgZvxBt3YdpKJ0oZeiZ/L8naOx/q/UNPVVIfToA7p13KzH8bKXlyE8lnkymhfq58SspUmy+4dUmKy8fMnXTuYhwxerraXXaK/qDJhLHog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jv9Dtddd; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kv4r6ZGi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jv9Dtddd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725982909; x=1757518909;
+  t=1725986576; x=1757522576;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gMBNfd63rPvxJ9N9wV2O58Z7a/YrFgzrtjWnOio/k6M=;
-  b=Kv4r6ZGi1S84f4KhZBeGgebDSelu2nfRhe+/8auXzVnMAxeU6T7sQJ8M
-   udZ06og+a7WFIYfy1fNhISobhGwoMMxtX0v5oQ4wqm79OOIMgZ/hDoC11
-   2cQ83S12G4q91mVjDWA0CHGJQIjK+NQl4q3M2x20SVjwTRhKbWqJMklHP
-   wGd8sp0hUq80kmyTLdnR9Suibj8Gj2XlIiZY9vZj0QwTKCGeR41YDyR8R
-   kFaCdAzwgxWzcdH+G7BqaUmAfqvzo8b3vSkj6ooWrOtxkWKESTG+pJwpY
-   rIVye6zSmPYRxnStCvsHNmjRWlVsDDJOsVtPwyxEfW25VxP17Zt/TN/yw
-   Q==;
-X-CSE-ConnectionGUID: z+9CwLEsQ/25egYV8k7PIQ==
-X-CSE-MsgGUID: vsR/5ob5R8yxckznLuCH9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28521425"
+  bh=U9Nal/aSXFdm4x3H/aGylf4bAOQYA/j4mBRP1BgahAI=;
+  b=jv9Dtddd5Xrs6d0tRYU1JQvqlp44vthz3erDobC2abDDGIOS2GaX8q20
+   IrdL47nrskw2WkT7v4ANdPc1OI5cV4I8fXqq2g0RTwKNX6zMMQjbBey0Y
+   K+iTNn+3bsx6AzyvoyYI8I1RaEz57M5ZYtHFF0dD+e2Ut0qRQQhaRVO96
+   jC5ZeyjHToIrUFC7iriq+PszkQXFMVL3WUFENApQyNYZR7Nd8DAlkOuxG
+   ydAOwvfdBStbcRaYrVGnq/t/KQaOocy+CDo+e5hQrvbliBseWuj3ayIu5
+   XSYQkQqw3f7mDSJnrb5mzAby6uojY7IhF1wVW/y5lHBAW63Yn/szD5f+k
+   A==;
+X-CSE-ConnectionGUID: sVd2nJh5T+uuQRapKhtpbw==
+X-CSE-MsgGUID: 27KTImbsTwO6kd5RO9Cvjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24290312"
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="28521425"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 08:41:49 -0700
-X-CSE-ConnectionGUID: UcmqMmhpR7WkcMinHOlXBg==
-X-CSE-MsgGUID: k0V/RB5kSL6dlRmg4yjwgg==
+   d="scan'208";a="24290312"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 09:42:55 -0700
+X-CSE-ConnectionGUID: 3Q+nnwJxSdmVpAqr81f0+w==
+X-CSE-MsgGUID: KS3dVdJLTe2IXxtWPXT7Fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="67021006"
+   d="scan'208";a="66921825"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Sep 2024 08:41:47 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Sep 2024 09:42:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1so2zx-0002Ha-0P;
-	Tue, 10 Sep 2024 15:41:45 +0000
-Date: Tue, 10 Sep 2024 23:41:20 +0800
+	id 1so3x5-0002OH-2y;
+	Tue, 10 Sep 2024 16:42:51 +0000
+Date: Wed, 11 Sep 2024 00:42:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331'
- declared with 'error' attribute: BUILD_BUG_ON failed:
- !__builtin_constant_p(~var)
-Message-ID: <202409102318.ncgp3AQK-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 16/44]
+ drivers/virt/gunyah/vm_mgr.c:173:28: error: implicit declaration of function
+ 'module_refcount'
+Message-ID: <202409110037.SEyIFlOn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,117 +63,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bc83b4d1f08695e85e85d36f7b803da58010161d
-commit: 53585f9ea40a9466ab9c1151f15984513eb542f7 um: enable UBSAN
-date:   10 weeks ago
-config: um-randconfig-r132-20240910 (https://download.01.org/0day-ci/archive/20240910/202409102318.ncgp3AQK-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409102318.ncgp3AQK-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   63aeacfc81f69e2533c50ab0965e02c11e015344
+commit: f3be66c6dc3c15949929f656944ec339cb5096e5 [16/44] FROMLIST: gunyah: vm_mgr: Add framework for VM Functions
+config: arm64-randconfig-r131-20240910 (https://download.01.org/0day-ci/archive/20240911/202409110037.SEyIFlOn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240911/202409110037.SEyIFlOn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409102318.ncgp3AQK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409110037.SEyIFlOn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
-    1278 |         BUILD_BUG_ON(!__builtin_constant_p(~var));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:510:2: note: expanded from macro 'compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:50:1: note: expanded from here
-      50 | __compiletime_assert_331
-         | ^
-   1 error generated.
+   In file included from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from arch/arm64/include/asm/cpufeature.h:23,
+                    from arch/arm64/include/asm/hwcap.h:9,
+                    from arch/arm64/include/asm/arch_timer.h:12,
+                    from arch/arm64/include/asm/timex.h:8,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/compat.h:10,
+                    from drivers/virt/gunyah/vm_mgr.c:9:
+   drivers/virt/gunyah/vm_mgr.c: In function 'gunyah_vm_function_unregister':
+>> drivers/virt/gunyah/vm_mgr.c:173:28: error: implicit declaration of function 'module_refcount' [-Wimplicit-function-declaration]
+     173 |         WARN_ON(fn->mod && module_refcount(fn->mod));
+         |                            ^~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
 
 
-vim +1278 lib/test_bitmap.c
+vim +/module_refcount +173 drivers/virt/gunyah/vm_mgr.c
 
-291f93ca339f5b Barry Song        2021-08-06  1227  
-2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
-2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
-2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
-2356d198d2b4dd Yury Norov        2023-07-17  1231   */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
-dc34d5036692c6 Alexander Lobakin 2022-06-24 @1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
-
-:::::: The code at line 1278 was first introduced by commit
-:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
-
-:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+   169	
+   170	void gunyah_vm_function_unregister(struct gunyah_vm_function *fn)
+   171	{
+   172		/* Expecting unregister to only come when unloading a module */
+ > 173		WARN_ON(fn->mod && module_refcount(fn->mod));
+   174		xa_erase(&gunyah_vm_functions, fn->type);
+   175	}
+   176	EXPORT_SYMBOL_GPL(gunyah_vm_function_unregister);
+   177	
 
 -- 
 0-DAY CI Kernel Test Service
