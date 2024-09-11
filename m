@@ -1,65 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0926819343B;
-	Wed, 11 Sep 2024 14:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C7C18C357
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 14:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726063864; cv=none; b=WbdubfKaMuyu66F9e2kRJFsriBy7xq34lmIyCIKULglcou41jQP81Azx3QWdC6jMaGCQxyVOpGcJ4q3TCdm4qrXkLAUxQ6e47IBXdDCX37n1ucabDTX0ZD4G6fpYDEv5lOuc4bKY9aK+jqC0w31d+xtx3XTY4W3oJ9+eYLfjzBU=
+	t=1726063865; cv=none; b=tOukqBkQNQhIt8kEtQgbtgiMlh2YprpkBGMPcUjujKJ5SIM+xx3sFYA2UHATRSsET0jRW1CRpziPJIpzHixLfER69AKVSzywhrJmFp7p4dKCAE/csiYoUrkVDo6Sr+N8EloImImBZtiljvT4tSQL03SwsXwmH2KlAHkzNccTZeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726063864; c=relaxed/simple;
-	bh=9xwPbs+FW8xyLLdAL+II5yA/9QMzxzCjdfhm7LcTA7o=;
+	s=arc-20240116; t=1726063865; c=relaxed/simple;
+	bh=9tw1+iLY2kTmeUQ/0QtPt8432I09fVnoFeUzde+RJp0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mNsWrW6q34GkZ2V9PJZV9Xs/RIyD8bMnYLHHw4EzV6YQRcVJmiO0rbw3TriDRi8H7UWd4uD7kNpuMFzgcuA78iqCMQUqqg+M5lZQNuW/4jAOXyUYO20oln4lCeYzfgHzJsyddhv3Ra0adFJGhLzRtEQMUS/F8ukPqzpezO09Jjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZp5eFCM; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0KxDjiznmYY7vuqCTWkh9b1UqQnsVpI6focpibDkx2KXcwxfgIr028FpPVldBoCTanKv1xHhcpBaVEjfu0gylunAJ33MdDU1zIMb4ALARDvRwCfKDc8k4KUAQlVkHanRHnq9/E8X523r4FvdT0iSQNq6VphYNR+HFLpL+K5DbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z8vN2LN1; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZp5eFCM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z8vN2LN1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1726063863; x=1757599863;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9xwPbs+FW8xyLLdAL+II5yA/9QMzxzCjdfhm7LcTA7o=;
-  b=nZp5eFCMIBAj7Ro5VlTnZ23XTbLQyxaTudtU4n26AdYg+xBNFx8/I2WW
-   omVqt4GdxhTcqZyGKR2c9g7QPzF/22PEDS0G1vQ0G/1tqAUvtK2wrmUeY
-   FGD2fztfIrqpxZQI4jJ639s3fQJtQpKeBQQTm2ZBkJcll4scM7rHnlRak
-   445hqK0u/KvNYMRX7vZX0bV8+DPB58JUlGKU/b5dBKaAzce+gvD7WdXVG
-   zpeP12ob5Vrg63NJwNazGvkIl6qeLKYvUkkrGN2SgnXdKTDI/YayJnS+r
-   vqpSj64gUPC+bJUt0+jVdGgx+1HTBNDr1GXQ3uwUMpWF60P0EIZHkEx/j
-   Q==;
-X-CSE-ConnectionGUID: OgmMKiXXRsGuDrA0qkBHYA==
-X-CSE-MsgGUID: 3iU/xMJSTBa9ay+cQbZ1WA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="36253991"
+  bh=9tw1+iLY2kTmeUQ/0QtPt8432I09fVnoFeUzde+RJp0=;
+  b=Z8vN2LN1vh7TCTcubV3bVsxZvaltR5Z4PB4wzwPluZX87d6rYe4GjD0v
+   /3SVvOJi1RST/7ZsYgIOXp5XW4fczqC3C1kIgC9f9tQbEbJKaDnZjTCTD
+   H7AX4rCwnDqvFj8CcBJcDDNL8j6KdLk412A+y3WWINBPk+HX4lrSPsBAC
+   wvOowd/+Rzfv0B54YynSsugE8ogTlvqM/yy3ikeLSjLaibNbWWYE+taNb
+   VCtw/UIJqU/nzA++9Bj3CqlGf/HbzRqJnw4lYofJWRHh2fe1GNzppaieQ
+   obHrg0Q/14Wkm9AZRFqJSmSJOR6QdqqNwXC0uPCt8uw8B7NrQkPKwpxJV
+   w==;
+X-CSE-ConnectionGUID: fVA+sDWjQhaj7xg5kqSKOw==
+X-CSE-MsgGUID: obyrk7UPTO2Gl0Djk0PJxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="36253980"
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="36253991"
+   d="scan'208";a="36253980"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 07:11:00 -0700
-X-CSE-ConnectionGUID: 7DWbzs2sQ2Geo2poq3LZog==
-X-CSE-MsgGUID: 63S8/QGLReKP9PGIwC9Vhw==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 07:10:59 -0700
+X-CSE-ConnectionGUID: bsnscet1QvOPxlsrHaRnlA==
+X-CSE-MsgGUID: 9NS2CHacTC2gMGQHEWahZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="67001194"
+   d="scan'208";a="67001193"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 11 Sep 2024 07:10:57 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soO3b-0003gi-03;
-	Wed, 11 Sep 2024 14:10:55 +0000
-Date: Wed, 11 Sep 2024 22:10:30 +0800
+	id 1soO3a-0003gc-31;
+	Wed, 11 Sep 2024 14:10:54 +0000
+Date: Wed, 11 Sep 2024 22:10:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v3] rust: add global lock support
-Message-ID: <202409112144.dcfxjqII-lkp@intel.com>
-References: <20240910-static-mutex-v3-1-5bebd11bdf3b@google.com>
+To: Cindy Lu <lulu@redhat.com>, jasowang@redhat.com, mst@redhat.com,
+	michael.christie@oracle.com, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 7/7] vhost: Add new UAPI to support change to task mode
+Message-ID: <202409112119.BJdqPVTC-lkp@intel.com>
+References: <20240909013531.1243525-8-lulu@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,54 +64,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910-static-mutex-v3-1-5bebd11bdf3b@google.com>
+In-Reply-To: <20240909013531.1243525-8-lulu@redhat.com>
 
-Hi Alice,
+Hi Cindy,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 93dc3be19450447a3a7090bd1dfb9f3daac3e8d2]
+[auto build test ERROR on mst-vhost/linux-next]
+[also build test ERROR on linus/master v6.11-rc7 next-20240911]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-add-global-lock-support/20240910-222519
-base:   93dc3be19450447a3a7090bd1dfb9f3daac3e8d2
-patch link:    https://lore.kernel.org/r/20240910-static-mutex-v3-1-5bebd11bdf3b%40google.com
-patch subject: [PATCH v3] rust: add global lock support
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240911/202409112144.dcfxjqII-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409112144.dcfxjqII-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cindy-Lu/vhost-Add-a-new-module_param-for-enable-kthread/20240909-093852
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20240909013531.1243525-8-lulu%40redhat.com
+patch subject: [PATCH v1 7/7] vhost: Add new UAPI to support change to task mode
+config: arc-randconfig-001-20240911 (https://download.01.org/0day-ci/archive/20240911/202409112119.BJdqPVTC-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409112119.BJdqPVTC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409112144.dcfxjqII-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409112119.BJdqPVTC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0432]: unresolved import `super::__static_lock_ty_MY_COUNTER`
-   --> rust/doctests_kernel_generated.rs:4818:1
-   |
-   4818 | / kernel::sync::global_lock! {
-   4819 | |     // SAFETY: Initialized in module initializer before first use.
-   4820 | |     static MY_COUNTER: Mutex<u32> = unsafe { uninit };
-   4821 | |     value: 0;
-   4822 | | }
-   | |_^ no `__static_lock_ty_MY_COUNTER` in the root
-   |
-   = note: this error originates in the macro `$crate::global_lock` which comes from the expansion of the macro `kernel::sync::global_lock` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0432]: unresolved import `super::__static_lock_ty_MY_MUTEX`
-   --> rust/doctests_kernel_generated.rs:4886:1
-   |
-   4886 | / kernel::sync::global_lock! {
-   4887 | |     // SAFETY: Initialized in module initializer before first use.
-   4888 | |     static MY_MUTEX: Mutex<()> = unsafe { uninit };
-   4889 | |     value: ();
-   4890 | |     guard: MyGuard;
-   4891 | |     locked_by: LockedByMyMutex;
-   4892 | | }
-   | |_^ no `__static_lock_ty_MY_MUTEX` in the root
-   |
-   = note: this error originates in the macro `$crate::global_lock` which comes from the expansion of the macro `kernel::sync::global_lock` (in Nightly builds, run with -Z macro-backtrace for more info)
+   drivers/vhost/vhost.c: In function 'vhost_worker_queue':
+   drivers/vhost/vhost.c:273:13: error: 'use_kthread' undeclared (first use in this function)
+     273 |         if (use_kthread) {
+         |             ^~~~~~~~~~~
+   drivers/vhost/vhost.c:273:13: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/vhost/vhost.c: In function 'vhost_workers_free':
+   drivers/vhost/vhost.c:805:13: error: 'use_kthread' undeclared (first use in this function)
+     805 |         if (use_kthread)
+         |             ^~~~~~~~~~~
+   drivers/vhost/vhost.c: In function 'vhost_worker_create':
+   drivers/vhost/vhost.c:986:13: error: 'use_kthread' undeclared (first use in this function)
+     986 |         if (use_kthread)
+         |             ^~~~~~~~~~~
+   drivers/vhost/vhost.c: In function 'vhost_free_worker':
+   drivers/vhost/vhost.c:1030:13: error: 'use_kthread' undeclared (first use in this function)
+    1030 |         if (use_kthread)
+         |             ^~~~~~~~~~~
+   drivers/vhost/vhost.c: In function 'vhost_dev_ioctl':
+>> drivers/vhost/vhost.c:2358:37: error: 'kthread' undeclared (first use in this function); did you mean 'kthreadd'?
+    2358 |                 if (copy_from_user(&kthread, argp, sizeof(enforce_task))) {
+         |                                     ^~~~~~~
+         |                                     kthreadd
+   drivers/vhost/vhost.c:2362:17: error: 'use_kthread' undeclared (first use in this function)
+    2362 |                 use_kthread = enforce_task;
+         |                 ^~~~~~~~~~~
+   drivers/vhost/vhost.c: In function 'vhost_worker_create':
+   drivers/vhost/vhost.c:990:1: warning: control reaches end of non-void function [-Wreturn-type]
+     990 | }
+         | ^
+
+
+vim +2358 drivers/vhost/vhost.c
+
+  2337	
+  2338	/* Caller must have device mutex */
+  2339	long vhost_dev_ioctl(struct vhost_dev *d, unsigned int ioctl, void __user *argp)
+  2340	{
+  2341		struct eventfd_ctx *ctx;
+  2342		u64 p;
+  2343		long r = 0;
+  2344		int i, fd;
+  2345		bool enforce_task;
+  2346	
+  2347		/* If you are not the owner, you can become one */
+  2348		if (ioctl == VHOST_SET_OWNER) {
+  2349			r = vhost_dev_set_owner(d);
+  2350			goto done;
+  2351		}
+  2352		if (ioctl == VHOST_SET_ENFORCE_TASK) {
+  2353			/* Is there an owner already? */
+  2354			if (vhost_dev_has_owner(d)) {
+  2355				r = -EBUSY;
+  2356				goto done;
+  2357			}
+> 2358			if (copy_from_user(&kthread, argp, sizeof(enforce_task))) {
+  2359				r = -EFAULT;
+  2360				goto done;
+  2361			}
+  2362			use_kthread = enforce_task;
+  2363			goto done;
+  2364		}
+  2365	
+  2366		/* You must be the owner to do anything else */
+  2367		r = vhost_dev_check_owner(d);
+  2368		if (r)
+  2369			goto done;
+  2370	
+  2371		switch (ioctl) {
+  2372		case VHOST_SET_MEM_TABLE:
+  2373			r = vhost_set_memory(d, argp);
+  2374			break;
+  2375		case VHOST_SET_LOG_BASE:
+  2376			if (copy_from_user(&p, argp, sizeof p)) {
+  2377				r = -EFAULT;
+  2378				break;
+  2379			}
+  2380			if ((u64)(unsigned long)p != p) {
+  2381				r = -EFAULT;
+  2382				break;
+  2383			}
+  2384			for (i = 0; i < d->nvqs; ++i) {
+  2385				struct vhost_virtqueue *vq;
+  2386				void __user *base = (void __user *)(unsigned long)p;
+  2387				vq = d->vqs[i];
+  2388				mutex_lock(&vq->mutex);
+  2389				/* If ring is inactive, will check when it's enabled. */
+  2390				if (vq->private_data && !vq_log_access_ok(vq, base))
+  2391					r = -EFAULT;
+  2392				else
+  2393					vq->log_base = base;
+  2394				mutex_unlock(&vq->mutex);
+  2395			}
+  2396			break;
+  2397		case VHOST_SET_LOG_FD:
+  2398			r = get_user(fd, (int __user *)argp);
+  2399			if (r < 0)
+  2400				break;
+  2401			ctx = fd == VHOST_FILE_UNBIND ? NULL : eventfd_ctx_fdget(fd);
+  2402			if (IS_ERR(ctx)) {
+  2403				r = PTR_ERR(ctx);
+  2404				break;
+  2405			}
+  2406			swap(ctx, d->log_ctx);
+  2407			for (i = 0; i < d->nvqs; ++i) {
+  2408				mutex_lock(&d->vqs[i]->mutex);
+  2409				d->vqs[i]->log_ctx = d->log_ctx;
+  2410				mutex_unlock(&d->vqs[i]->mutex);
+  2411			}
+  2412			if (ctx)
+  2413				eventfd_ctx_put(ctx);
+  2414			break;
+  2415		default:
+  2416			r = -ENOIOCTLCMD;
+  2417			break;
+  2418		}
+  2419	done:
+  2420		return r;
+  2421	}
+  2422	EXPORT_SYMBOL_GPL(vhost_dev_ioctl);
+  2423	
 
 -- 
 0-DAY CI Kernel Test Service
