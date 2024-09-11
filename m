@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0944F1AC88D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 17:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83491AC8B2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 17:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726074914; cv=none; b=OQE6fSktWr85dXtYK9J/qdqfqBghgdy/g9fDaulMAqDbouTJyexGW8nDnNgP+x4jWM6wkW5DY4qyzwqBwpgw7+s1eQJgWw6L9nSzHrfqwyVFjGB2SzJFNBQiLH9AOWBqOpJkNPAyPqkxE9HZkfIbgh5sHFJiWFKgYw/BdX7OlBA=
+	t=1726075569; cv=none; b=iWNFQI5ia3hBIrFLDNPgiwQVn105Tdz+UhK3LkOyu9YBN7CKgPvCGhPi8e+DXYRJ4oCH4AnqYD/QVYx1pk8JwgEtb2FLppgDMOr0vhDxDNSeZbis5iu1YJBcXbYY7uEgFY8d4HRZBro+6Hu6GlkJem8nvtRyv1aeDtsJVMj0MYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726074914; c=relaxed/simple;
-	bh=14W9sIWxLUkCkWLoX76SEaH8D6Xp9ESnArpldzuG1aY=;
+	s=arc-20240116; t=1726075569; c=relaxed/simple;
+	bh=sm9kOqoqqn8TdRLBSrjyw1FmPxp//FJTC5Fyjm6AAi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D2DhxzYWtp6OKFnKLwHONTIf1brqNKH0yWy2lcu5+VhYqzhUCbuJsgZDDl3A+xwP+ASVFXsIWIpoioa+w00j27a+GrsizJa9uhylU5EKZWOO7qj+lNWiAPvv/TzgHYgF4vayowmPt6/eSZYF1VWBXBGDg2DA34aYH8B8aVlsoUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBI4oAEU; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=XI05eMNKOZUOhR0p1IrCKgR8QlkSztEOa0amuj7GOMduOUBGqYAq2tf3bsUs6vK3CC3WwH48PhPUNl+u3UaGW4iK6sYNEFNE+uWxR1wB4hBEt5rZmVJ9c8BZdlekWkrI4UR1BZsiOdgJQDcejbCzD/7EWugT9uxjkBEMDLVkDso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDjNK0Wu; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBI4oAEU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDjNK0Wu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726074912; x=1757610912;
+  t=1726075567; x=1757611567;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=14W9sIWxLUkCkWLoX76SEaH8D6Xp9ESnArpldzuG1aY=;
-  b=dBI4oAEUIlAGHKXQ5ty9A/cKCWSxA23+BAAQnVLewfNgmU4uQb3FRvVS
-   LPMTlzG9Wc18PgQGNPY7PH9+6/gurt1Z4Xe++Ysa9WPZ8pisUsBnwFadO
-   le91r+Dw84IoQcHT1b03PpkTROHGxi4Ocmto6sBrq0wEMcEd5vC+SNRkZ
-   VVu7o2owbhBUJyacq+6gl9eHG4n3wufnOuCULL1D6ung570vp4+6J+9ri
-   VpC932KlEGUaqzWjglGPb2eLwkI5RrbgCSrboIkzOpa2qECgDusYL2+lT
-   4Pk6VwXLwa9ofH92nkK4YjwLEClzKOUyfXKonip61EK0SL7vmlDYS5LBM
-   w==;
-X-CSE-ConnectionGUID: 0O054ThSS0yIPI9WtPLpjQ==
-X-CSE-MsgGUID: nYV0GVOzSFqfSy2GjU63rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="36026771"
+  bh=sm9kOqoqqn8TdRLBSrjyw1FmPxp//FJTC5Fyjm6AAi0=;
+  b=ZDjNK0WuiDpBBVwaorTd92ERg64KP50RFItw76HFqfmkQovNA9CRP5RA
+   KbPi1HRz5CzisB9bFFRe9wK/DFd9kUMHXgkGeOYWGgHljfvflicblASQz
+   xA6fEbBTwbix/JtBil3ZBDg0LNcl5Fmupw0FSmL4YD9ZS5vOW1ORVvBHT
+   Mqr36TCkDVhTNdjyKBDAaQec7QrAaPxMXFqZjppeAo4OjFcK30Rhigs2N
+   BFrZ0WI15jh+glCb24lEttVNGtOsR9kGfHUnAZlr33YSPE0cKGbKW0RDY
+   sDPa3kSVviQRTCOYdpS2jCzQfL2T0vBnBWbQSr/0fShqeBJRtZaCdC6PW
+   A==;
+X-CSE-ConnectionGUID: vHAdL1otR9+/IBKgVp/JhQ==
+X-CSE-MsgGUID: zvPmqGXSROeIzjiBZcwI/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24762066"
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="36026771"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 10:15:06 -0700
-X-CSE-ConnectionGUID: zGGpojq+RVaWs0OINNlC2w==
-X-CSE-MsgGUID: pOup2aJWR0y/ehEKQ7SjyA==
+   d="scan'208";a="24762066"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 10:26:07 -0700
+X-CSE-ConnectionGUID: 84bx++t8Tr+4xYGEbBhn7g==
+X-CSE-MsgGUID: 7KGnhBqrTOuQ9lhdNmjJrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="67489902"
+   d="scan'208";a="67163844"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Sep 2024 10:15:04 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 Sep 2024 10:26:06 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soQvm-0003sg-1R;
-	Wed, 11 Sep 2024 17:15:02 +0000
-Date: Thu, 12 Sep 2024 01:14:59 +0800
+	id 1soR6S-0003ts-0u;
+	Wed, 11 Sep 2024 17:26:04 +0000
+Date: Thu, 12 Sep 2024 01:25:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Luis Henriques (SUSE)" <luis.henriques@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.cz>
-Subject: [linux-next:master 5690/11210] fs/ext4/fast_commit.c:362:21-23:
- WARNING !A || A && B is equivalent to !A || B
-Message-ID: <202409120149.GdjqoVYQ-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 2/3]
+ drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h:2168:8: error: redefinition
+ of 'struct cfg80211_ttlm_params'
+Message-ID: <202409120142.YcArirw5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,60 +63,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   32ffa5373540a8d1c06619f52d019c6cdc948bb4
-commit: ebc4b2c1ac92fc0f8bf3f5a9c285a871d5084a6b [5690/11210] ext4: fix incorrect tid assumption in ext4_fc_mark_ineligible()
-config: loongarch-randconfig-r063-20240911 (https://download.01.org/0day-ci/archive/20240912/202409120149.GdjqoVYQ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   3669ba03ddfc0ea94d6685f802b229564b807ebe
+commit: 00cccc6e75d20fc4fa449923c883ab1104bc97d1 [2/3] Reapply "UPSTREAM: wifi: cfg80211: Add support for setting TID to link mapping"
+config: x86_64-randconfig-006-20240911 (https://download.01.org/0day-ci/archive/20240912/202409120142.YcArirw5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409120142.YcArirw5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409120149.GdjqoVYQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409120142.YcArirw5-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/ext4/fast_commit.c:362:21-23: WARNING !A || A && B is equivalent to !A || B
+All errors (new ones prefixed by >>):
 
-vim +362 fs/ext4/fast_commit.c
+   In file included from drivers/net/wireless/iwl7000/hdrs/iwl-chrome.h:149,
+                    from <command-line>:
+>> drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h:2168:8: error: redefinition of 'struct cfg80211_ttlm_params'
+    2168 | struct cfg80211_ttlm_params {
+         |        ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h:7:
+   include/net/cfg80211.h:1595:8: note: originally defined here
+    1595 | struct cfg80211_ttlm_params {
+         |        ^~~~~~~~~~~~~~~~~~~~
 
-   332	
-   333	/*
-   334	 * Mark file system as fast commit ineligible, and record latest
-   335	 * ineligible transaction tid. This means until the recorded
-   336	 * transaction, commit operation would result in a full jbd2 commit.
-   337	 */
-   338	void ext4_fc_mark_ineligible(struct super_block *sb, int reason, handle_t *handle)
-   339	{
-   340		struct ext4_sb_info *sbi = EXT4_SB(sb);
-   341		tid_t tid;
-   342		bool has_transaction = true;
-   343		bool is_ineligible;
-   344	
-   345		if (ext4_fc_disabled(sb))
-   346			return;
-   347	
-   348		if (handle && !IS_ERR(handle))
-   349			tid = handle->h_transaction->t_tid;
-   350		else {
-   351			read_lock(&sbi->s_journal->j_state_lock);
-   352			if (sbi->s_journal->j_running_transaction)
-   353				tid = sbi->s_journal->j_running_transaction->t_tid;
-   354			else
-   355				has_transaction = false;
-   356			read_unlock(&sbi->s_journal->j_state_lock);
-   357		}
-   358		spin_lock(&sbi->s_fc_lock);
-   359		is_ineligible = ext4_test_mount_flag(sb, EXT4_MF_FC_INELIGIBLE);
-   360		if (has_transaction &&
-   361		    (!is_ineligible ||
- > 362		     (is_ineligible && tid_gt(tid, sbi->s_fc_ineligible_tid))))
-   363			sbi->s_fc_ineligible_tid = tid;
-   364		ext4_set_mount_flag(sb, EXT4_MF_FC_INELIGIBLE);
-   365		spin_unlock(&sbi->s_fc_lock);
-   366		WARN_ON(reason >= EXT4_FC_REASON_MAX);
-   367		sbi->s_fc_stats.fc_ineligible_reason_count[reason]++;
-   368	}
-   369	
+
+vim +2168 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h
+
+4c13b53f91aab1 Ayala Beker   2023-06-14  2167  
+4c13b53f91aab1 Ayala Beker   2023-06-14 @2168  struct cfg80211_ttlm_params {
+4c13b53f91aab1 Ayala Beker   2023-06-14  2169  	u16 dlink[8];
+4c13b53f91aab1 Ayala Beker   2023-06-14  2170  	u16 ulink[8];
+4c13b53f91aab1 Ayala Beker   2023-06-14  2171  };
+800097b1e14a76 Johannes Berg 2024-02-06  2172  #endif
+8faa6d09277325 Johannes Berg 2020-09-15  2173  
+
+:::::: The code at line 2168 was first introduced by commit
+:::::: 4c13b53f91aab115f2980385f6974274eb3972b8 CHROMIUM: iwl7000: mac80211: add support for negotiated TTLM request
+
+:::::: TO: Ayala Beker <ayala.beker@intel.com>
+:::::: CC: Tomasz Nowicki <tnowicki@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
