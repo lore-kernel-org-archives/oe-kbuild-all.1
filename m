@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2D31AED23
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 17:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6971B7917
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 18:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726077190; cv=none; b=rCaBpT7YQof+f4QzT4y7ru1UkDj57BXVSA8kw3PWZP9XuhrPilILWUm+w6NUhkbNLz1jU52ShDbeo7IkPB3oNUi11ArgaXzkbpQ645yBh4ceqN9+6wRd20oBah6TQ/DoN5MCP8hTkm81ykLqT9+d28zMJAMlsyZ5d1fkqF7no3s=
+	t=1726078033; cv=none; b=Sg9AXMN2FI27ClR38CSntLfohrAFQC4X/H3Ny+unZEa8cH4b1lkAD1GxLk1Xd3uZeGsW5nVdfglfFsrUwxTxhA2EusxiOQl3YQFh/vddpqUsh3OkJ0mYLu+FkILVReejHa2lJ0dowoktJHIQn2eZf8bp91V2eMLRglwT57uDx0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726077190; c=relaxed/simple;
-	bh=vsPiuPjLz/FdRTmXwKPwu0HKaExVSgIlo+EFcGgajEw=;
+	s=arc-20240116; t=1726078033; c=relaxed/simple;
+	bh=wJ/1h/qDCV16AsynIfa1nL0nOvreN+hu2psBTFBTGxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LmrOu2WN+b0uDv/bzDnHcbIGbfL05r5o/OgRTpes4hIx3IKdLrZ9rVmBXWKTJNvUCwlfa1qddB9q/+lKMIst6ZwcHzr213CIHPTzfCzzS+5rJ1WlZ4brBWdhLkRGEoP3b/0AvU3XqhlEX8/BZRVx5DFRcog2kWaubkcSyI5Lagc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V4FrzLmF; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=PHuRZd335Ohpc/HJWClHx2Atyijsd/psA6WZihpbBx3ywXHboxU9o+z+Uylu4/eoHpOLagGNe8/gbjYxvkyIOF6l5er4luxrItZ4WYeM8jzlZRRRnuoKtGuwGw4rXpPNidoeqrpCFB/0pXpQI9dmRJt17Z6yITfQTE3TyAOlEXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bI6YsDOg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V4FrzLmF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bI6YsDOg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726077189; x=1757613189;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=vsPiuPjLz/FdRTmXwKPwu0HKaExVSgIlo+EFcGgajEw=;
-  b=V4FrzLmFjx3+sjpaYaVK8boRdaTsnzJE48GsTHz25TDGiACSXFDArg48
-   ZOLaklWMQkdpr/jYiRGXAy5+Li2gKqd0UajsKWPAprgRYi6EXuoKlqYum
-   ACNDRrnnt/b9qIlpOuZ4+ERFZsBxORVaSipFC62sCAwpXGVotLqHlEiiC
-   m6kr5SN7uTwIdDOgYQgPZvALdDOtrmqOJ9VMWQ3yoPKr1/JNEQCalzFrx
-   qaCt/VhAGiQA3tUfEAbsUGmycKLO8ns4mMx+NboLTna9+VkON8gIMsOoN
-   3q5dQRN4jvlR/2/NvNhFR1zYWbzQWKXv0VNg+qbprccyd087ktlrSJVm4
-   Q==;
-X-CSE-ConnectionGUID: glKl72xNT5O+hC4gRhPUdQ==
-X-CSE-MsgGUID: A/+W/KCeRVOMQ2kSZW7bdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24831419"
+  t=1726078032; x=1757614032;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wJ/1h/qDCV16AsynIfa1nL0nOvreN+hu2psBTFBTGxs=;
+  b=bI6YsDOgAYzKofdGt8IcRfmFKUur8T5CON0gcwq6/0tp381bNEAMcB9R
+   YOnDNnwDSpNEX7KBypmoa1osIS8+BeOSbe+MRO+DS5b01d2mpFC7MfLab
+   VA+T4f/hf2UkTj3EW0tSk2dbaRlmI4iNJCikPx/ncyDFpQDL0N8pfEVc/
+   nBELs7zCs6Vorvtuguzcws1gD7eDnslEK/K9ZkAuKx4zTsSyIXA02mgSI
+   ZEiMTrjMvV8bj1AqBjJVDAbiQhaeJuzH5E0zl6hibCIgP5GzA9H3cECo6
+   VwvFjPAJLRnUlPrlxLyVEFBkDbydCPmGkNxnzpkEm5WB+nAm8NHiVydZn
+   g==;
+X-CSE-ConnectionGUID: J4gmajsASk2J2JJosIp+8A==
+X-CSE-MsgGUID: Y5zJoZSDSlihyOVraeO9lA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="25032033"
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="24831419"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 10:53:09 -0700
-X-CSE-ConnectionGUID: WlPgSP2iTmabQBYZlk0c7Q==
-X-CSE-MsgGUID: OtoFJkCzTU+j59qyuKop2w==
+   d="scan'208";a="25032033"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 11:07:11 -0700
+X-CSE-ConnectionGUID: lQaSQIxJTwe8pi/2kazLbw==
+X-CSE-MsgGUID: IYF8BHDXR5qN/sc/E1N1lA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="67166863"
+   d="scan'208";a="67678654"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Sep 2024 10:53:08 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Sep 2024 11:07:09 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soRWb-0003vL-1f;
-	Wed, 11 Sep 2024 17:53:05 +0000
-Date: Thu, 12 Sep 2024 01:52:21 +0800
+	id 1soRkB-0003yg-16;
+	Wed, 11 Sep 2024 18:07:07 +0000
+Date: Thu, 12 Sep 2024 02:06:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH hotfix 6.11 v2 2/3] minmax: reduce min/max macro
- expansion in skbuff
-Message-ID: <ZuHY1clkcuQjoa-N@e6eda6b5eb58>
+To: Ian Abbott <abbotti@mev.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/comedi/drivers/comedi_8254.c:139:31: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202409120105.yV1KBe45-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +61,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a32131084038312529243bc22b06f0ee64c95fb6.1726074904.git.lorenzo.stoakes@oracle.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8d8d276ba2fb5f9ac4984f5c10ae60858090babc
+commit: 98a15816636044f25be4644db2a3e09fad68aaf7 Revert "comedi: add HAS_IOPORT dependencies"
+date:   1 year ago
+config: m68k-randconfig-r113-20240911 (https://download.01.org/0day-ci/archive/20240912/202409120105.yV1KBe45-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240912/202409120105.yV1KBe45-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409120105.yV1KBe45-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/comedi/drivers/comedi_8254.c:139:31: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/comedi_8254.c:139:31: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/comedi_8254.c:139:31: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/comedi_8254.c:139:31: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/comedi_8254.c: note: in included file (through arch/m68k/include/asm/io.h, include/linux/io.h):
+   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+vim +139 drivers/comedi/drivers/comedi_8254.c
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH hotfix 6.11 v2 2/3] minmax: reduce min/max macro expansion in skbuff
-Link: https://lore.kernel.org/stable/a32131084038312529243bc22b06f0ee64c95fb6.1726074904.git.lorenzo.stoakes%40oracle.com
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  121  
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  122  static unsigned int __i8254_read(struct comedi_8254 *i8254, unsigned int reg)
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  123  {
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  124  	unsigned int reg_offset = (reg * i8254->iosize) << i8254->regshift;
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  125  	unsigned int val;
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  126  
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  127  	switch (i8254->iosize) {
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  128  	default:
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  129  	case I8254_IO8:
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  130  		if (i8254->mmio)
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  131  			val = readb(i8254->mmio + reg_offset);
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  132  		else
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  133  			val = inb(i8254->iobase + reg_offset);
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  134  		break;
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  135  	case I8254_IO16:
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  136  		if (i8254->mmio)
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  137  			val = readw(i8254->mmio + reg_offset);
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  138  		else
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23 @139  			val = inw(i8254->iobase + reg_offset);
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  140  		break;
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  141  	case I8254_IO32:
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  142  		if (i8254->mmio)
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  143  			val = readl(i8254->mmio + reg_offset);
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  144  		else
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  145  			val = inl(i8254->iobase + reg_offset);
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  146  		break;
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  147  	}
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  148  	return val & 0xff;
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  149  }
+d42b5211d861f1 drivers/staging/comedi/drivers/comedi_8254.c H Hartley Sweeten 2015-02-23  150  
 
-Please ignore this mail if the patch is not relevant for upstream.
+:::::: The code at line 139 was first introduced by commit
+:::::: d42b5211d861f1077869e9133efa19297a6f152b staging: comedi: comedi_8254: introduce module for 8254 timer support
+
+:::::: TO: H Hartley Sweeten <hsweeten@visionengravers.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
