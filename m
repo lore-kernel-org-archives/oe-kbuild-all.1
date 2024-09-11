@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248D340862
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 05:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB38558B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 05:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726033955; cv=none; b=azhrmzPSKGzUYkes7j/oUtznfSVZx3VwUP+gaaa4ENkBIZO6xIh9SxUo0tzPNWtlT4RlOR3HSpZNk2QBEJC1q/YVD5EVreXkKdHEtEcN63xxHgCEA6tauYNsZz55PHnpp9Tgn5paia7B6/Xrnm5mKbDG2FRN7HTTZPZnWcJFH+w=
+	t=1726033957; cv=none; b=HtC7hOu4/5XqgFP4Xn/7WHVKHxJJqsNZj7mr9yb8Y3dpA2L10uoZwgGPhLirBVu1Am+Zg9+j/72I68j6RmPer1PyRQdFiOtZyS89yT3arlt4O4MUEgJtxoKkOZ3a9AdbmSI7QbTqripYkXbf7VPQZLVES9ufVYhhmJUAqm1qaQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726033955; c=relaxed/simple;
-	bh=bdGUSsXKRJWpjB8lxvefNxqTL88THnW8Tso8uporYUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f98EzdGMwXd+tdtixIFfnlduN1mbF3AuWxXXikZPTEhhrW+JGma+4cC8hb6OBhM2oodczS0cUMTnQbBKogUq7DxZ8V0bYAOn8gIFcUrEIUIPaI0inpqQgTkwqgGVM8r4lg4Puq1/tEO1soAAaRVDZQTLsvyARHf1plQWTJYaxVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YDHtuIPN; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1726033957; c=relaxed/simple;
+	bh=cilhEiRXCMtMsFiv7q+j3JwD8PGgG+Mbh2BlrflV6wA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=THCs6Uqed3Xu/GCaM5hxPwOVctxEmxXaHn1/fkT5ESn9UAKwpMhbdHBHxIjuSc3okGcHoRs8KRw+alNtYbvr8KwPBN/8neu7QHa0jVmLhPH5YVEukIfbY0jvVfPZ91nhf9bX5mGc9FaOG0T+riZ5S2kob1+iMxw5lfBvkIRUwTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XapdbVRI; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YDHtuIPN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XapdbVRI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726033954; x=1757569954;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bdGUSsXKRJWpjB8lxvefNxqTL88THnW8Tso8uporYUg=;
-  b=YDHtuIPN2wtFuDPXtKzhePEcCBNH7oHDz8bAZP3l2p5E7pmIQP2/yi0j
-   rb86YGmSI4aKMMRjhV7zOZj4IZPi8exLHzA/3c6UNhF2dZA6lxwEWkPh5
-   RVnCfKwoiV0+spDLb3cHh7IzzuNMm5dyCIZqwoJ1sabbcozHepuIgTKF4
-   6rs4pqS32aPQNfDPSUkpURw8MAXfQMDNVsDi/N0rnV+Htms8E/V456X6Y
-   Ug5zyiXjH1jqILz+JYrLapU0MRdAsIujbH8s7gEj7RQGXgADSMv+zwSaK
-   ixEHJN6e74bPJIemhwilNAcbIrs1FEivyLTAlbMTrshndQF6jvKN17oZt
-   w==;
-X-CSE-ConnectionGUID: dIAamo5+RwGDQOYLV7vkwg==
-X-CSE-MsgGUID: 3kax0bvgThmw7KdBJq6imQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="13467159"
+  t=1726033955; x=1757569955;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cilhEiRXCMtMsFiv7q+j3JwD8PGgG+Mbh2BlrflV6wA=;
+  b=XapdbVRIEmWNYHAOHKnmS9bfypClSYd1Dt68xcAC7eqE3/JQ8dRbKDhJ
+   ekNs4Tq+RA48ocqY78+2gtsOST4gG/9sfxI4fF6Mt5CBoJybYKxBbf7f3
+   miOq2cbgOgZCweM0YODonQgAL1OSdj3qLNokFiyZ6kCmNlu/yt6j1nE+d
+   WePYiY8jvH/HwbxWFoWTlsqAi3KbiAo3qcLgeX7DmHHaJFhDLu/B5LNBj
+   gZhDBm1KDjAZAHG8groNALkD4QjAYVhE2Xa6Gt5WW3vCRiqgrZFa+VGpu
+   ImQZU1T+KWQpvhmqrUOJkQFmp/J3u+NKRJrkqd+eTM6awNmJoKXGimN0L
+   Q==;
+X-CSE-ConnectionGUID: Iyu9KCdBSYOhkQDVWfm0VQ==
+X-CSE-MsgGUID: tKlimkgpT6OKjnkNystj4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="35483378"
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="13467159"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 22:52:33 -0700
-X-CSE-ConnectionGUID: 5b9dIMEnS0i0OO/QT0MkPw==
-X-CSE-MsgGUID: B5Ca/Os2QXu06Yo6Y63XXQ==
+   d="scan'208";a="35483378"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 22:52:33 -0700
+X-CSE-ConnectionGUID: 33fD/V8uRB6IVX8nMegiNg==
+X-CSE-MsgGUID: xhEnOgnbRm2q65AM+/+SEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="67209229"
+   d="scan'208";a="66890796"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Sep 2024 22:52:32 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 10 Sep 2024 22:52:32 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soGHG-00036Z-0r;
+	id 1soGHG-00036W-0n;
 	Wed, 11 Sep 2024 05:52:30 +0000
-Date: Wed, 11 Sep 2024 13:52:16 +0800
+Date: Wed, 11 Sep 2024 13:52:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 6/7] xen: allow mapping ACPI data using a different
- physical address
-Message-ID: <202409111306.ddQghrl1-lkp@intel.com>
-References: <20240910103932.7634-7-jgross@suse.com>
+Subject: [openeuler:OLK-5.10 4865/30000] arch/x86/lib/copy_highpages.c:10:1:
+ sparse: sparse: symbol 'hugepage_nocache_copy' was not declared. Should it
+ be static?
+Message-ID: <202409111327.wMHIgHKQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,111 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910103932.7634-7-jgross@suse.com>
 
-Hi Juergen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/x86/core]
-[also build test ERROR on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.11-rc7 next-20240910]
-[cannot apply to xen-tip/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/xen-use-correct-end-address-of-kernel-for-conflict-checking/20240910-184510
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20240910103932.7634-7-jgross%40suse.com
-patch subject: [PATCH v3 6/7] xen: allow mapping ACPI data using a different physical address
-config: i386-buildonly-randconfig-006-20240911 (https://download.01.org/0day-ci/archive/20240911/202409111306.ddQghrl1-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a6042799048d28282f37a2a254f2757cea2c780a
+commit: 50d5bf1b6da9f74bf93f9dec601c09d45d6d8406 [4865/30000] x86: hugepage: use nt copy hugepage to AEP in x86
+config: x86_64-randconfig-123-20240910 (https://download.01.org/0day-ci/archive/20240911/202409111327.wMHIgHKQ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111306.ddQghrl1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111327.wMHIgHKQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409111306.ddQghrl1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409111327.wMHIgHKQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/lib/copy_highpages.c:10:1: sparse: sparse: symbol 'hugepage_nocache_copy' was not declared. Should it be static?
+>> arch/x86/lib/copy_highpages.c:33:47: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   arch/x86/lib/copy_highpages.c:33:47: sparse:     expected void *
+   arch/x86/lib/copy_highpages.c:33:47: sparse:     got void [noderef] __user *buffer
+>> arch/x86/lib/copy_highpages.c:20:5: sparse: sparse: symbol 'sysctl_hugepage_nocache_copy' was not declared. Should it be static?
+>> arch/x86/lib/copy_highpages.c:47:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   arch/x86/lib/copy_highpages.c:47:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   arch/x86/lib/copy_highpages.c:47:35: sparse:     got int ( * )( ... )
 
->> arch/x86/kernel/x86_init.c:123:43: error: 'x86_default_set_root_pointer' undeclared here (not in a function)
-     123 |                 .set_root_pointer       = x86_default_set_root_pointer,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kernel/x86_init.c:124:43: error: 'x86_default_get_root_pointer' undeclared here (not in a function)
-     124 |                 .get_root_pointer       = x86_default_get_root_pointer,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kernel/x86_init.c:125:43: error: 'acpi_generic_reduced_hw_init' undeclared here (not in a function)
-     125 |                 .reduced_hw_early_init  = acpi_generic_reduced_hw_init,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/hugepage_nocache_copy +10 arch/x86/lib/copy_highpages.c
 
-
-vim +/x86_default_set_root_pointer +123 arch/x86/kernel/x86_init.c
-
-f7cf5a5b8c0e59 Thomas Gleixner 2009-08-19   65  
-f7cf5a5b8c0e59 Thomas Gleixner 2009-08-19   66  	.resources = {
-5d94e81f69d4b1 Dan Williams    2011-03-08   67  		.probe_roms		= probe_roms,
-8fee697d990c54 Thomas Gleixner 2009-08-19   68  		.reserve_resources	= reserve_standard_io_resources,
-103e206309639b Ingo Molnar     2017-01-28   69  		.memory_setup		= e820__memory_setup_default,
-0f4a1e80989aca Kevin Loughlin  2024-03-13   70  		.dmi_setup		= dmi_setup,
-f7cf5a5b8c0e59 Thomas Gleixner 2009-08-19   71  	},
-f4848472cd9948 Thomas Gleixner 2009-08-20   72  
-f4848472cd9948 Thomas Gleixner 2009-08-20   73  	.mpparse = {
-de93410310952f Thomas Gleixner 2009-08-20   74  		.setup_ioapic_ids	= x86_init_noop,
-e061c7ae0830ff Thomas Gleixner 2024-02-13   75  		.find_mptable		= mpparse_find_mptable,
-dcb7600849ce9b Thomas Gleixner 2024-02-13   76  		.early_parse_smp_cfg	= mpparse_parse_early_smp_config,
-dcb7600849ce9b Thomas Gleixner 2024-02-13   77  		.parse_smp_cfg		= mpparse_parse_smp_config,
-f4848472cd9948 Thomas Gleixner 2009-08-20   78  	},
-d9112f43021554 Thomas Gleixner 2009-08-20   79  
-d9112f43021554 Thomas Gleixner 2009-08-20   80  	.irqs = {
-d9112f43021554 Thomas Gleixner 2009-08-20   81  		.pre_vector_init	= init_ISA_irqs,
-66bcaf0bde100a Thomas Gleixner 2009-08-20   82  		.intr_init		= native_init_IRQ,
-979923871f69a4 Thomas Gleixner 2020-01-23   83  		.intr_mode_select	= apic_intr_mode_select,
-6b15ffa07dc325 Thomas Gleixner 2020-08-26   84  		.intr_mode_init		= apic_intr_mode_init,
-6b15ffa07dc325 Thomas Gleixner 2020-08-26   85  		.create_pci_msi_domain	= native_create_pci_msi_domain,
-d9112f43021554 Thomas Gleixner 2009-08-20   86  	},
-42bbdb43b16d23 Thomas Gleixner 2009-08-20   87  
-42bbdb43b16d23 Thomas Gleixner 2009-08-20   88  	.oem = {
-42bbdb43b16d23 Thomas Gleixner 2009-08-20   89  		.arch_setup		= x86_init_noop,
-6f30c1ac3fcf11 Thomas Gleixner 2009-08-20   90  		.banner			= default_banner,
-42bbdb43b16d23 Thomas Gleixner 2009-08-20   91  	},
-030cb6c00d242c Thomas Gleixner 2009-08-20   92  
-030cb6c00d242c Thomas Gleixner 2009-08-20   93  	.paging = {
-7737b215ad0f94 Attilio Rao     2012-08-21   94  		.pagetable_init		= native_pagetable_init,
-030cb6c00d242c Thomas Gleixner 2009-08-20   95  	},
-736decac643e89 Thomas Gleixner 2009-08-19   96  
-736decac643e89 Thomas Gleixner 2009-08-19   97  	.timers = {
-736decac643e89 Thomas Gleixner 2009-08-19   98  		.setup_percpu_clockev	= setup_boot_APIC_clock,
-845b3944bbdf9e Thomas Gleixner 2009-08-19   99  		.timer_init		= hpet_time_init,
-c311ed6183f4fd Rahul Tanwar    2019-10-10  100  		.wallclock_init		= x86_wallclock_init,
-736decac643e89 Thomas Gleixner 2009-08-19  101  	},
-d07c1be0693e09 FUJITA Tomonori 2009-11-10  102  
-d07c1be0693e09 FUJITA Tomonori 2009-11-10  103  	.iommu = {
-d07c1be0693e09 FUJITA Tomonori 2009-11-10  104  		.iommu_init		= iommu_init_noop,
-d07c1be0693e09 FUJITA Tomonori 2009-11-10  105  	},
-b72d0db9dd41da Thomas Gleixner 2009-08-29  106  
-b72d0db9dd41da Thomas Gleixner 2009-08-29  107  	.pci = {
-b72d0db9dd41da Thomas Gleixner 2009-08-29  108  		.init			= x86_default_pci_init,
-ab3b37937e8f4f Thomas Gleixner 2009-08-29  109  		.init_irq		= x86_default_pci_init_irq,
-9325a28ce2fa7c Thomas Gleixner 2009-08-29  110  		.fixup_irqs		= x86_default_pci_fixup_irqs,
-b72d0db9dd41da Thomas Gleixner 2009-08-29  111  	},
-f72e38e8ec8869 Juergen Gross   2017-11-09  112  
-f72e38e8ec8869 Juergen Gross   2017-11-09  113  	.hyper = {
-f72e38e8ec8869 Juergen Gross   2017-11-09  114  		.init_platform		= x86_init_noop,
-f3614646005a1b Juergen Gross   2017-11-09  115  		.guest_late_init	= x86_init_noop,
-f72e38e8ec8869 Juergen Gross   2017-11-09  116  		.x2apic_available	= bool_x86_init_noop,
-ab0f59c6f13528 David Woodhouse 2020-10-24  117  		.msi_ext_dest_id	= bool_x86_init_noop,
-f72e38e8ec8869 Juergen Gross   2017-11-09  118  		.init_mem_mapping	= x86_init_noop,
-6f84f8d1587f20 Pavel Tatashin  2018-04-10  119  		.init_after_bootmem	= x86_init_noop,
-f72e38e8ec8869 Juergen Gross   2017-11-09  120  	},
-038bac2b02989a Juergen Gross   2018-02-19  121  
-038bac2b02989a Juergen Gross   2018-02-19  122  	.acpi = {
-41fa1ee9c6d687 Josh Boyer      2019-08-19 @123  		.set_root_pointer	= x86_default_set_root_pointer,
-e7b66d16fe4172 Juergen Gross   2018-10-10 @124  		.get_root_pointer	= x86_default_get_root_pointer,
-81b53e5ff21e09 Andy Shevchenko 2018-02-20 @125  		.reduced_hw_early_init	= acpi_generic_reduced_hw_init,
-038bac2b02989a Juergen Gross   2018-02-19  126  	},
-736decac643e89 Thomas Gleixner 2009-08-19  127  };
-736decac643e89 Thomas Gleixner 2009-08-19  128  
+     9	
+  > 10	DEFINE_STATIC_KEY_FALSE(hugepage_nocache_copy);
+    11	#ifdef CONFIG_SYSCTL
+    12	static void set_hugepage_nocache_copy(bool enabled)
+    13	{
+    14		if (enabled)
+    15			static_branch_enable(&hugepage_nocache_copy);
+    16		else
+    17			static_branch_disable(&hugepage_nocache_copy);
+    18	}
+    19	
+  > 20	int sysctl_hugepage_nocache_copy(struct ctl_table *table, int write,
+    21			void __user *buffer, size_t *lenp, loff_t *ppos)
+    22	{
+    23		struct ctl_table t;
+    24		int err;
+    25		int state;
+    26	
+    27		if (write && !capable(CAP_SYS_ADMIN))
+    28			return -EPERM;
+    29	
+    30		state = static_branch_unlikely(&hugepage_nocache_copy);
+    31		t = *table;
+    32		t.data = &state;
+  > 33		err = proc_dointvec_minmax(&t, write, buffer, lenp, ppos);
+    34		if (err < 0)
+    35			return err;
+    36		if (write)
+    37			set_hugepage_nocache_copy(state);
+    38		return err;
+    39	}
+    40	
+    41	static struct ctl_table copy_highpages_table[] = {
+    42	        {
+    43	                .procname       = "hugepage_nocache_copy",
+    44	                .data           = NULL,
+    45	                .maxlen         = sizeof(unsigned int),
+    46	                .mode           = 0600,
+  > 47	                .proc_handler   = sysctl_hugepage_nocache_copy,
+    48	                .extra1         = SYSCTL_ZERO,
+    49	                .extra2         = SYSCTL_ONE,
+    50	        },
+    51	        {}
+    52	};
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
