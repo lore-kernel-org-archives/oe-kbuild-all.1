@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD513E881
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 07:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8530439FE5;
+	Wed, 11 Sep 2024 07:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726039540; cv=none; b=GFg6H2Y9vxF9zCdHpozwIRhDxicb8XGjGuZ7D1wayYNCiZgban5KYlo1aMeW0WwtW/wnDBTnSaQD3jW1EeuM+TbEcx+Fmmv/89Z8ZXkR20tqN7Lq7TZ72DQlwn4xCq4KDHuaRa4t8IPPK+T0bsWXMFVDfmcyAS0y0c4s2N2vXO4=
+	t=1726041401; cv=none; b=Cg6PixYMGLE2NoM4ggKbxywTzFIOiCi+Ek0aeEw1N0XpxYFrVAPSmvPq9rozZyZEj6P5m8ocoEpFsjLXfJXOOV7G7iLU9DNk4QsVtpfoFtbYUxEaDA1glFGxlYBB4+N/RPFinwmiO8+ghvTCQ8gtPJ/C6SraEyUlN1M/DzqeR/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726039540; c=relaxed/simple;
-	bh=Sev+yS82DTjIjocqbz7Wk4jnoCEIitWfRRLfr7hF8Ig=;
+	s=arc-20240116; t=1726041401; c=relaxed/simple;
+	bh=2oz0F5oJtLf3lDzl1Y6YrOQ3N3Y7UGWXkPeLGHCuq6w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f0pmO0LPsMWN/waWTjuF32HRi1yYdRbq1FM+72pZDCiV5ZvUmiYcHP+2P/tciJ+N1OtrBru7T11Y3M+RZu41uWxcl3JMX+QntfD0qiRWFxVg8ffg7LetyUHr4eHuV/gW8TmgB3gDsiUteyozuaESyEd8O7pUk31kPEbfjeGtSTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Khc+p3uo; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=MTEWIMZpMdzimuqC9pWnmi+m99/tCwYEjPn1GNRadhdAsq0wKM750+FCLeZsgwASNMzhddoQfhWaGyOgL6V8xdMm5vmexdMXOXSXIkjOnZSji3IJsMYnDyz0zJv0015nDTQrLOXQF1rpGcmY7grt3BqekvBY2Ssp4JTimHb0oc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YmVMTik/; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Khc+p3uo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YmVMTik/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726039538; x=1757575538;
+  t=1726041400; x=1757577400;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sev+yS82DTjIjocqbz7Wk4jnoCEIitWfRRLfr7hF8Ig=;
-  b=Khc+p3uoA3eN7tTTi9XghIRnxMEYYdXo2y9s7YFHCZWQ+l9JuahA8zGJ
-   DGILaNur1uEPbnIKM2aOd7l8fz9PogiJ6ELpkbwDkesa6RoT5H3Id0jfS
-   Hoz2r7EGOgreQD1YyOlo1SXnsNq79Rclt2VZq0D6pNujLhcFafftbaKkj
-   dezHDd9ao9W1a8Acu7KMrCWDRJeFZeuRFYRapn4Y8OVtv5VcJpyYVvpC4
-   b1JWcqe0vVR6GlW1NwgXnJdvARopPjBbAr3avWRwG1tNYmU2Mqm/Hl32C
-   nyYSz5AYGoBLXBFHBB4hOivoIe1vEEu9+c/MCF+UwiwNXZN5E1c5kD5Ox
+  bh=2oz0F5oJtLf3lDzl1Y6YrOQ3N3Y7UGWXkPeLGHCuq6w=;
+  b=YmVMTik/Qpm8C+A9LgIlH9jCO3xPu1HlpSpTo+nh58Lgol4fzhN5qEHY
+   3mY2PtY99Vfm4aMAWv3Ulfok6dREcuZYL+EpEmUuZVZfKJBxAB7CIROZV
+   EK3BVXth767haRfZPy5eJYhfJecj8cJ1v6N2hfSBfCBl9zlN9dcoWrOTW
+   4xyTT4Gg2xKLUZFrgd9uA4/amg3Hn5VrQvN+IjmIca9mQT8gSyd8jRUS3
+   yhM/lMXXDB8Py3PEYrKI8alwu+GstnLMq+strmiC/suUhPTWLOrOd7P+n
+   tVT1W55Gdzyg8Jzhdyw9GWvb02F3lzNK1BcyMt9IoS5eHIDHqAeDD1BLv
    w==;
-X-CSE-ConnectionGUID: VR/ju21QRaqLK44JZDPBpA==
-X-CSE-MsgGUID: nXYDXrjqTyGFO181JD5koQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24692722"
+X-CSE-ConnectionGUID: zlGpWHCmS/C86Ocj3YQ9ww==
+X-CSE-MsgGUID: pZqY1JOiTCauQfE9t5mBxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24701965"
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="24692722"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 00:25:37 -0700
-X-CSE-ConnectionGUID: Fi7z4pTFQq+NBXJ+GCLT9g==
-X-CSE-MsgGUID: ALpTK6MGQ/isrxlQfURyJA==
+   d="scan'208";a="24701965"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 00:56:39 -0700
+X-CSE-ConnectionGUID: PbmpJdHzTOyCSpAe7s7LTQ==
+X-CSE-MsgGUID: UOasxn5ySSmCWZnsz4yM9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="72084937"
+   d="scan'208";a="98118095"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Sep 2024 00:25:37 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 11 Sep 2024 00:56:38 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soHjK-0003B6-2d;
-	Wed, 11 Sep 2024 07:25:34 +0000
-Date: Wed, 11 Sep 2024 15:25:10 +0800
+	id 1soIDL-0003Cy-2f;
+	Wed, 11 Sep 2024 07:56:35 +0000
+Date: Wed, 11 Sep 2024 15:55:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 5/13] ld.lld: error: undefined
- symbol: led_mc_calc_color_components
-Message-ID: <202409111518.WYJlbqo9-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	James Prestwood <prestwoj@gmail.com>
+Subject: [jarkko-tpmdd:tpm2key-v8 10/11]
+ crypto/asymmetric_keys/tpm2_key_rsa.c:636:10: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202409111527.uF380T7Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,27 +64,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   f3eef39b58c135ec165488d1b4e6785742bae87e
-commit: e1cd3ffe478871deb44f1ce2fbe6a6c8e7e08ab3 [5/13] UPSTREAM: HID: playstation: expose DualSense lightbar through a multi-color LED.
-config: x86_64-randconfig-016-20240911 (https://download.01.org/0day-ci/archive/20240911/202409111518.WYJlbqo9-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111518.WYJlbqo9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
+head:   79e909153c0a5ac21c2c5c0d4eac9229b3408178
+commit: 7d90c72ea84705971e66e2023d388c2d9958220d [10/11] keys: asymmetric: Add tpm2_key_rsa
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240911/202409111527.uF380T7Y-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111527.uF380T7Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409111518.WYJlbqo9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409111527.uF380T7Y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: devm_led_classdev_multicolor_register_ext
-   >>> referenced by led-class-multicolor.h:74 (include/linux/led-class-multicolor.h:74)
-   >>>               hid/hid-playstation.o:(ps_lightbar_register) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: led_mc_calc_color_components
-   >>> referenced by hid-playstation.c:816 (drivers/hid/hid-playstation.c:816)
-   >>>               hid/hid-playstation.o:(dualsense_lightbar_set_brightness) in archive drivers/built-in.a
+>> crypto/asymmetric_keys/tpm2_key_rsa.c:636:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     636 |                 return ret;
+         |                        ^~~
+   crypto/asymmetric_keys/tpm2_key_rsa.c:632:9: note: initialize the variable 'ret' to silence this warning
+     632 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
+
+
+vim +/ret +636 crypto/asymmetric_keys/tpm2_key_rsa.c
+
+   625	
+   626	/*
+   627	 * Attempt to parse a data blob for a key as a TPM private key blob.
+   628	 */
+   629	static int tpm2_key_rsa_preparse(struct key_preparsed_payload *prep)
+   630	{
+   631		struct tpm2_key *key;
+   632		int ret;
+   633	
+   634		key = tpm2_key_decode(prep->data, prep->datalen);
+   635		if (IS_ERR(key))
+ > 636			return ret;
+   637	
+   638		if (key->oid != OID_TPMLoadableKey) {
+   639			kfree(key);
+   640			return -EBADMSG;
+   641		}
+   642	
+   643		ret = __tpm2_key_rsa_preparse(key);
+   644		if (ret < 0) {
+   645			kfree(key);
+   646			return ret;
+   647		}
+   648	
+   649		prep->payload.data[asym_subtype] = &tpm2_key_rsa_subtype;
+   650		prep->payload.data[asym_key_ids] = NULL;
+   651		prep->payload.data[asym_crypto] = key;
+   652		prep->payload.data[asym_auth] = NULL;
+   653		prep->quotalen = 100;
+   654	
+   655		return 0;
+   656	}
+   657	
 
 -- 
 0-DAY CI Kernel Test Service
