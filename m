@@ -1,98 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779891865EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 13:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8CF16EB54;
+	Wed, 11 Sep 2024 14:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726060822; cv=none; b=OqqcU3eZcH5mlXs1Vr4mvAAH0AXWZ7E2M4BtPQcg7DkPos/LdSRJ/5x27Cy6OtYZOZ87fOOmg3sJqSilx2UWbJXqt8qWqUKVJS7i6anIteS3CiUepOMbn3rebEYiHfc+8a7OxCXYvHxjmT60rUEUxAZOJ+F8b2rUzmTQ5Cq3YKA=
+	t=1726063262; cv=none; b=Z52Vq/6x0vdNU8k2PlTzs7xdi+HUsMNs/lyKq2QquwgO5K7U7XITU5M1OCspcp34+heXkWcx3FjHgTwFTmj8ie+4mPHkTiBQ+A7bnIukzi+GttZRT4z7iWXJxuwQgYYK1ywxdm0YuwAqXHzs9oQ+jcHLIctsrmKk/R5VHiaYyiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726060822; c=relaxed/simple;
-	bh=zVkuZyzYTshCvmyT0UYeYmeBfOS1fMoih3JdFwufMew=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DVWvQDKFlzdK2yZMeR6YIMIbrVqXfJ61xcsu8niAcYly3O1u8urZuo7h1Eg5TbTZ4r55GDMnoml5a945DtzXTZ7B8UFihBz3xldYNS/GZT2ZH5CMZKD0gOivS+5X/oy0zH3GT9e5dEVhCRgILFiFm/8EPSUMnhOyKumx76pVpwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCCQjHgE; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1726063262; c=relaxed/simple;
+	bh=qN+cH6Xt0cHn3OYrwSWb7ux4N743VnFfarN7TgyzE8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ont7AntVApwHI++jSK/0H5GjQOIuOAPRRamBqEPkk1a4iwJFRrmYXdEb5sfI7XPwFxWTnRcdfuv34ZZhGpgg4xb27CUH7DLhN9KT/HN1qnKwFtq/HR4GY+5cpOp26VHxPRNHruba6YsW++7Rjq+lOWLrlAWp/hUDYAzbi6Exl+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MzYgItTM; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCCQjHgE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MzYgItTM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726060820; x=1757596820;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zVkuZyzYTshCvmyT0UYeYmeBfOS1fMoih3JdFwufMew=;
-  b=mCCQjHgEuTxu7JAQf1ujnzZaNi9PCv23NXzYbzVcXdJHyvCEPnpgZggp
-   FVyaQ9PTM9pQEAiY5AkSx9VBbC1aJfh3MPJUUPWo6Y5ZhCkjIY2Uu60a5
-   /Z87Xdze6vr+jbIc2J2hcjGhF8L8RTAWa+37u5J+sqOcRbNgTPnEaon/p
-   J49+YhWwGVTVNH6Xt7UqfTO51gNOXF4z1QsJpESoI05GURs6PXwmTiVj9
-   4jHozAXh7JWelFgAZrem7IlkzDxSTNBhq5oVh6dAEv8hge92gU9dm71cK
-   4xjYT7Wf+eUt32VbviLIHg5dbyTYH6UzZTsbHnhU6ijv6DwchE74QyQpE
-   Q==;
-X-CSE-ConnectionGUID: QhRgrnQPTQmEzQcPz4y5cg==
-X-CSE-MsgGUID: zlZuLb4AT2KMpIRB+3JgCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="35997648"
+  t=1726063260; x=1757599260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=qN+cH6Xt0cHn3OYrwSWb7ux4N743VnFfarN7TgyzE8U=;
+  b=MzYgItTMcNfH2vw+yhy0A1YdBXB1eaPRBum5lfAfll0EK051mdCB6kom
+   EbsbJEbRZHsyk+qs402+LLFzeoLEmSojsFIVC/RSj1sn/+8OKXznA753Z
+   trMKOOVWjim+xv8xGeuMtWG6lVP/HdvjaMppm86hxtXNZtSibd4+UXz7Y
+   9klZmdcOIoT+/EbO/bZkNFLZN3qUQpLi4qQ2EyETcR/Vs4u4Dr2gWvenp
+   S44WtkHvGZcw6pSqfwbWtXGKJ5rtmGPE25N7932v3cGn4UyYGh2ejNDKO
+   pQeu7fMwHlAqtI5bVaKXcO7LbkY9pT9kF6kKhnSYOP5las04KfgXQbL1/
+   g==;
+X-CSE-ConnectionGUID: z6yeBCr6QI2/fYZdk+3pdA==
+X-CSE-MsgGUID: ZISAif5/TruFXTlmnFI3Hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="36219567"
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="35997648"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 06:18:55 -0700
-X-CSE-ConnectionGUID: HKCmlkPYSFaYs3Z4CkZe5A==
-X-CSE-MsgGUID: yOe78GcSQea3U/UawoBdfw==
+   d="scan'208";a="36219567"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 07:00:59 -0700
+X-CSE-ConnectionGUID: vwrrdKfjSIiJr8ux9DJlQg==
+X-CSE-MsgGUID: 8D3yFtwMRfqRgJ4Fba3qtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="66990881"
+   d="scan'208";a="72170008"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Sep 2024 06:18:54 -0700
+  by orviesa005.jf.intel.com with ESMTP; 11 Sep 2024 07:00:56 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soNFE-0003bi-0U;
-	Wed, 11 Sep 2024 13:18:52 +0000
-Date: Wed, 11 Sep 2024 21:18:07 +0800
+	id 1soNtu-0003fi-1V;
+	Wed, 11 Sep 2024 14:00:54 +0000
+Date: Wed, 11 Sep 2024 22:00:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_pasid-20240910 19/37]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3044:26: error: initialization
- of 'int (*)(struct iommu_domain *, struct device *, ioasid_t,  struct
- iommu_domain *)' {aka 'int (*)(struct iommu_domain *, struct device *,
- unsigned int,  struct iommu_domain *)'}...
-Message-ID: <202409112127.PDP6dDp0-lkp@intel.com>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
+Message-ID: <202409112121.GHL72j84-lkp@intel.com>
+References: <20240910101527.603452-7-ukaszb@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240910101527.603452-7-ukaszb@chromium.org>
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-20240910
-head:   47bd94563684b36d40cac3c558ca963539dd5980
-commit: 40f580261cf35cef57fc7ad2060f485e104a0967 [19/37] iommu/arm-smmu-v3: Make smmuv3 blocked domain support PASID
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240911/202409112127.PDP6dDp0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409112127.PDP6dDp0-lkp@intel.com/reproduce)
+Hi Łukasz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus lee-mfd/for-mfd-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.11-rc7 next-20240910]
+[cannot apply to lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ukasz-Bartosik/platform-chrome-Update-ChromeOS-EC-header-for-UCSI/20240910-182729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240910101527.603452-7-ukaszb%40chromium.org
+patch subject: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
+config: x86_64-randconfig-121-20240911 (https://download.01.org/0day-ci/archive/20240911/202409112121.GHL72j84-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409112121.GHL72j84-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409112127.PDP6dDp0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409112121.GHL72j84-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/typec/ucsi/cros_ec_ucsi_main.c:178:24: sparse: sparse: symbol 'cros_ucsi_ops' was not declared. Should it be static?
 
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3044:26: error: initialization of 'int (*)(struct iommu_domain *, struct device *, ioasid_t,  struct iommu_domain *)' {aka 'int (*)(struct iommu_domain *, struct device *, unsigned int,  struct iommu_domain *)'} from incompatible pointer type 'int (*)(struct iommu_domain *, struct iommu_domain *, struct device *, ioasid_t)' {aka 'int (*)(struct iommu_domain *, struct iommu_domain *, struct device *, unsigned int)'} [-Wincompatible-pointer-types]
-    3044 |         .set_dev_pasid = arm_smmu_blocking_set_dev_pasid,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3044:26: note: (near initialization for 'arm_smmu_blocked_ops.set_dev_pasid')
+vim +/cros_ucsi_ops +178 drivers/usb/typec/ucsi/cros_ec_ucsi_main.c
 
-
-vim +3044 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-
-  3041	
-  3042	static const struct iommu_domain_ops arm_smmu_blocked_ops = {
-  3043		.attach_dev = arm_smmu_attach_dev_blocked,
-> 3044		.set_dev_pasid = arm_smmu_blocking_set_dev_pasid,
-  3045	};
-  3046	
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  177  
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10 @178  struct ucsi_operations cros_ucsi_ops = {
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  179  	.read_version = cros_ucsi_read_version,
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  180  	.read_cci = cros_ucsi_read_cci,
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  181  	.read_message_in = cros_ucsi_read_message_in,
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  182  	.async_control = cros_ucsi_async_control,
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  183  	.sync_control = cros_ucsi_sync_control,
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  184  };
+ef8d61204d9db5 drivers/usb/typec/ucsi/cros_ec_ucsi.c Pavan Holla 2024-09-10  185  
 
 -- 
 0-DAY CI Kernel Test Service
