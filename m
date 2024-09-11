@@ -1,100 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F9D14D2A6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 08:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A11F2C859
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 08:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726042064; cv=none; b=Sd1p90aR1eELjE6eZgp1OEPa43T6ltAbLU91jCf8eI2Wdz3/zsxXWaCpo5HCL22k+hdbAXVxBWrxZhNYCkHfJbsyWJh4LlGIFerrrK+mNkZdwYA0WrR4CJn1K/kzpNC6lTB0QC6lkxNvbw8+s5XGfk88zkVgPX43vDKsOJxreIA=
+	t=1726042530; cv=none; b=R59AyNhLWwkFRjOOFpDnQVe9hOjJnuJDYh8EeJDFCcgXmIDMxlxNWIcV3sCQxSww8HsBjIAKh8oKOHbIz24KBhb7hQcNk1QFw4SP15u+ElWrPGWcsJ4IktpeA8iq35amNr/M1Qtmz2Tx5+yK/qrjtEAMP8voofeA672naN6710c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726042064; c=relaxed/simple;
-	bh=EKZEIu89oRth7yodb/7PPbffl+lMha21+1Do9ttFjVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C+VENxJbMas8mgWoR+7DuyywvMXs9yx8ffxxOV4Kfd2eVhWzbeVowp2Hj1mH8EliLPvY6SUhf5afi6aLSauSwOXU0kWf/7wYir2bh7TIczozUhE/Un42rkqyRLzr4BdPype0oixdOxg959UiLyjvlEPEoJ9v4P1kDme2XkQZ8Yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YVJeeQTG; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVJeeQTG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726042064; x=1757578064;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EKZEIu89oRth7yodb/7PPbffl+lMha21+1Do9ttFjVI=;
-  b=YVJeeQTG5cciGWe2NJQkxl02CpwzbzvEL5nNYXLw9fqSxnnrLiEX1uTc
-   5xIEaEzce6F+pLbUlvWArrdS6udu+Zq2kDX1kV6kpYX914ZD1uOzDtBn+
-   neDahxaUatvRMNci6R4Ma8bHtH3HZImrSP3sMzKKjPvDB5pFzrMHRMo/H
-   lJG9qCCmrwOyxD6V3r2KSp3zNex5N4eZ3bEga5OBsjB52A0Mm/tyxWaNG
-   cg8jHUJvLSx0nau0CcOcNUSfhMRhKPkFGiIslwDYA32vs00aD5z1wqWaV
-   tUTrNzMa8LHqI8Q1N5FjlzuasDaEbKh580me63lhNk2tSiMIsXQPEFDOA
-   w==;
-X-CSE-ConnectionGUID: QiWcR9vxRcqfk7AcRrNJ+w==
-X-CSE-MsgGUID: hzZie4gcRz6CtpBCBhifsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24321861"
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="24321861"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 01:07:42 -0700
-X-CSE-ConnectionGUID: KEWhRgfHSIS3VTcnfiBibQ==
-X-CSE-MsgGUID: BUYId16kREuvLRI0XGNutQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="67127393"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Sep 2024 01:07:39 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1soIO0-0003DY-2v;
-	Wed, 11 Sep 2024 08:07:36 +0000
-Date: Wed, 11 Sep 2024 16:06:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hsin-Te Yuan <yuanhsinte@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>
-Subject: Re: [PATCH] arm64: dts: mt8183: Add encoder node
-Message-ID: <202409111520.z5LrGscP-lkp@intel.com>
-References: <20240910-venc-v1-1-d17dfd931dc8@chromium.org>
+	s=arc-20240116; t=1726042530; c=relaxed/simple;
+	bh=iqfPFe/4M5rHQHCFh6x3OrxC00dP11v4QtCNE39YNds=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qHE+25bQ4s6vYJ4DSgFmY40LVvbEG5jA2ElYFhzcWDHaDL9AoHXFfiZTjfb9M+G5MKlGcPoCIQA9OTM3cKfIDkVGcxR4y1isYQgR/8MukZ5BIy//nS4YWkaf87ubKjQJPhs6ylkAQ10qqQ8U8m6An1t1B6LNzpzSoYvUnSJk9EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E7AE1007;
+	Wed, 11 Sep 2024 01:15:57 -0700 (PDT)
+Received: from [10.57.50.106] (unknown [10.57.50.106])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A83AF3F66E;
+	Wed, 11 Sep 2024 01:15:26 -0700 (PDT)
+Message-ID: <f9d838d5-6b3d-4e7c-9bf6-cb2935320467@arm.com>
+Date: Wed, 11 Sep 2024 09:15:24 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240910-venc-v1-1-d17dfd931dc8@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tip:sched/core 69/70] drivers/cpufreq/cppc_cpufreq.c:227:20:
+ error: use of undeclared identifier 'NSER_PER_MSEC'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, Peter Zijlstra <peterz@infradead.org>
+References: <202409110611.dmyDCkoe-lkp@intel.com>
+Content-Language: en-US
+From: Christian Loehle <christian.loehle@arm.com>
+In-Reply-To: <202409110611.dmyDCkoe-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hsin-Te,
+On 9/10/24 23:20, kernel test robot wrote:
+> Hi Christian,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+> head:   6cbbb91711c6b17da3802a3cf072d3311828ca33
+> commit: b3a47ff095544af206b8885391a7bad662d06a57 [69/70] cpufreq/cppc: Use NSEC_PER_MSEC for deadline task
+> config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240911/202409110611.dmyDCkoe-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110611.dmyDCkoe-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409110611.dmyDCkoe-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> drivers/cpufreq/cppc_cpufreq.c:227:20: error: use of undeclared identifier 'NSER_PER_MSEC'
+>      227 |                 .sched_runtime  = NSER_PER_MSEC,
+>          |                                   ^
+>>> drivers/cpufreq/cppc_cpufreq.c:229:3: error: member reference base type 'long' is not a structure or union
+>      228 |                 .sched_deadline = 10 * NSEC_PER_MSEC
+>          |                                        ~~~~~~~~~~~~~
+>      229 |                 .sched_period   = 10 * NSEC_PER_MSEC,
+>          |                 ^~~~~~~~~~~~~
+>    2 errors generated.
+> 
+> 
+> vim +/NSER_PER_MSEC +227 drivers/cpufreq/cppc_cpufreq.c
+> 
+>    215	
+>    216	static void __init cppc_freq_invariance_init(void)
+>    217	{
+>    218		struct sched_attr attr = {
+>    219			.size		= sizeof(struct sched_attr),
+>    220			.sched_policy	= SCHED_DEADLINE,
+>    221			.sched_nice	= 0,
+>    222			.sched_priority	= 0,
+>    223			/*
+>    224			 * Fake (unused) bandwidth; workaround to "fix"
+>    225			 * priority inheritance.
+>    226			 */
+>  > 227			.sched_runtime	= NSER_PER_MSEC,
 
-kernel test robot noticed the following build errors:
+Sorry, seems I enabled the module, but didn't actually build modules
+before sending it out, anyway this should be s/NSER/NSEC
 
-[auto build test ERROR on da3ea35007d0af457a0afc87e84fddaebc4e0b63]
+>    228			.sched_deadline = 10 * NSEC_PER_MSEC
+and this is missing a comma.
+Peter do you mind fixing that up for me?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hsin-Te-Yuan/arm64-dts-mt8183-Add-encoder-node/20240910-142236
-base:   da3ea35007d0af457a0afc87e84fddaebc4e0b63
-patch link:    https://lore.kernel.org/r/20240910-venc-v1-1-d17dfd931dc8%40chromium.org
-patch subject: [PATCH] arm64: dts: mt8183: Add encoder node
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240911/202409111520.z5LrGscP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111520.z5LrGscP-lkp@intel.com/reproduce)
+-->8--
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409111520.z5LrGscP-lkp@intel.com/
+diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+index aff25b598ec4..1a5ad184d28f 100644
+--- a/drivers/cpufreq/cppc_cpufreq.c
++++ b/drivers/cpufreq/cppc_cpufreq.c
+@@ -224,8 +224,8 @@ static void __init cppc_freq_invariance_init(void)
+                 * Fake (unused) bandwidth; workaround to "fix"
+                 * priority inheritance.
+                 */
+-               .sched_runtime  = NSER_PER_MSEC,
+-               .sched_deadline = 10 * NSEC_PER_MSEC
++               .sched_runtime  = NSEC_PER_MSEC,
++               .sched_deadline = 10 * NSEC_PER_MSEC,
+                .sched_period   = 10 * NSEC_PER_MSEC,
+        };
+        int ret;
 
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm64/boot/dts/mediatek/mt8183.dtsi:1971.4-5 syntax error
-   FATAL ERROR: Unable to parse input tree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
