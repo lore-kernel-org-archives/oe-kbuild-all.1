@@ -1,58 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE50D17A922
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 09:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C498185938;
+	Wed, 11 Sep 2024 09:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726045852; cv=none; b=LSYT4nW0ECZgQoY1oYYG8n0txHQTDSoSEdYm/xVfdC21Gv6cCKiQzN9Jv58gpLgvaWKiWkWNFf2bRHkK9i1touk06Z1rWrVnMoQA7k1ACcNuNen/1VRh8UOMo0ASHQeXwV8aeCplVgh/icNHAGgHJzAMHKOUeetPDqld+QbaeZ8=
+	t=1726046077; cv=none; b=u5vTuRAC0XaWO4DRqbXMcbfv+YdgQmVVONJFKBz+pjSpv7pqwcM+ZOpRLxOCon3SgpOfU/lYFZzdeTnzLXCKG0vNMlH2iP/7UIvW7Db+PSbOVygTJgBG4t25OctpHxiGrMvRAJavfmks/HOxo1na936H5hMpl3UVWQ2SYnvCZt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726045852; c=relaxed/simple;
-	bh=WmvypRvluLxXSMvDronQqnQSCusmcYO7H9Je0eujxnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FqEO1414ZJjnC7n1B4/FNWlqivx0Y4jCW5U5L8NP1gvGcec9EyosT7RThdK5+mP+wuXFf1jCsIoVbb3ZyohMRIfHDXRj3rQKWGoyHquA6uTtldHVbfq7R09Msrj1x9RDLjSPH6+6/JyzfxVYrNnmWW4BDUli8IJeN05Z3NZSkvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LsV40Pkc; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726046077; c=relaxed/simple;
+	bh=YLU4xzSaV42y4wECNalFYkcBZIdqUSsMI9mUG/G/+Fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BGY7Qxw3hMHW/bAKO0k1NcoaB2EfB0kSJOi0vVZwMuSH/F2FR5X0pJPZ84W1lospjhLJ9DgI3p8AGkWLA5S3rL+2ETVkn33GgijXTXdwZOa81wK8mf7mcd7Q5cHMpsZjcVTJEjLH6G0v8o+jhl731+DRPomwGWwqamD+6GoAb0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GHqv+usZ; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LsV40Pkc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726045850; x=1757581850;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WmvypRvluLxXSMvDronQqnQSCusmcYO7H9Je0eujxnM=;
-  b=LsV40PkcZV0uc48O5bGOBvGAM5KX+SbJkzQ70VkDVGk5x+TiUPQABT9A
-   hGehs+X+p71UN9dB4BE7zaqtABBl1Q/I06gVY+zAXtJfFaE6GxM2HrD+Y
-   WFBobbi4AEnTM2MvurIIApMkfucMH4wKr+2YumJrt4Y9rU2sGY9Q+OAjw
-   QoE7buqPtqH1ldv3NPSK5Vsqb17AENeSX6hC8KA2h2pMBGee0ReQJE2Fl
-   mM4JrNU3N3Wvt52Z333bqr8FMY4BzP+ZkQRZ9ryQbVlxgUqWjrFv7akLq
-   jNMhxHBsi2tW+cBMs4UJa84TzIzZTPebiCnsUO+UonRzHE/sH2XTPYTS0
-   g==;
-X-CSE-ConnectionGUID: i2HT5r09Q5OpnaQeVoU70Q==
-X-CSE-MsgGUID: Jq4JRR+QQpeUOtBx61CjBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24328993"
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="24328993"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 02:10:42 -0700
-X-CSE-ConnectionGUID: L4WNw10qSsagKPKtsygjxw==
-X-CSE-MsgGUID: uXVVFLaXS8aHYZTz+ZOgtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="67354507"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Sep 2024 02:10:41 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1soJN1-0003Ha-1W;
-	Wed, 11 Sep 2024 09:10:39 +0000
-Date: Wed, 11 Sep 2024 17:09:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Pengyuan Zhao <zhaopengyuan@hisilicon.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 13879/30000] drivers/vdpa/vdpa.c:759:19: sparse:
- sparse: cast to restricted __le16
-Message-ID: <202409111741.8Hd9TwMf-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GHqv+usZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YZTQe0B0n8FuRrxJpiUXr7v6VvkARClaJnOd8Pt9hP0=; b=GHqv+usZjCCjfPqau/Mw1miyWp
+	DDbS9Qoh9AIE0FNUSqscDxcMvgQo3KZ7PlbEvbe8mA2OV8YEbnkJq8CU2GRqBGpfvkDEpTvRrQsbQ
+	BG/xZVMp+sf/oK2PuUcuhnc64mCQQEpoNk8YyqIa237oSg0M5xw0Ld6cmpfNlclJx4wEiD43Fg7BM
+	BI9DD0AU/cZneEzFGrj0x2CjYYZ1tgJ2bb5XB4Wb0TN9+JHXxHsjZIjrs0+9BvhLr2nPRwOxayRqX
+	HeDxTolunFj72ZZQTWkBsJ9eVvkqvG0bFsyaYIHbLwku7Sf2c/jfEXzqI3XDdzKutNNQ3gZMn5WC8
+	8RqgE5Qw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1soJQl-00000007hlo-1S1h;
+	Wed, 11 Sep 2024 09:14:31 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id CA98E300729; Wed, 11 Sep 2024 11:14:30 +0200 (CEST)
+Date: Wed, 11 Sep 2024 11:14:30 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Christian Loehle <christian.loehle@arm.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: Re: [tip:sched/core 69/70] drivers/cpufreq/cppc_cpufreq.c:227:20:
+ error: use of undeclared identifier 'NSER_PER_MSEC'
+Message-ID: <20240911091430.GN4723@noisy.programming.kicks-ass.net>
+References: <202409110611.dmyDCkoe-lkp@intel.com>
+ <f9d838d5-6b3d-4e7c-9bf6-cb2935320467@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,44 +50,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f9d838d5-6b3d-4e7c-9bf6-cb2935320467@arm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   fb74b7c6ee60eaba8d843255f6a09f6d1d6b8c33
-commit: 661b972e802c8e252911361538651db906c084bb [13879/30000] vdpa: Introduce query of device config layout
-config: x86_64-randconfig-123-20240910 (https://download.01.org/0day-ci/archive/20240911/202409111741.8Hd9TwMf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111741.8Hd9TwMf-lkp@intel.com/reproduce)
+On Wed, Sep 11, 2024 at 09:15:24AM +0100, Christian Loehle wrote:
+> On 9/10/24 23:20, kernel test robot wrote:
+> > Hi Christian,
+> > 
+> > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+> > head:   6cbbb91711c6b17da3802a3cf072d3311828ca33
+> > commit: b3a47ff095544af206b8885391a7bad662d06a57 [69/70] cpufreq/cppc: Use NSEC_PER_MSEC for deadline task
+> > config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240911/202409110611.dmyDCkoe-lkp@intel.com/config)
+> > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110611.dmyDCkoe-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202409110611.dmyDCkoe-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >>> drivers/cpufreq/cppc_cpufreq.c:227:20: error: use of undeclared identifier 'NSER_PER_MSEC'
+> >      227 |                 .sched_runtime  = NSER_PER_MSEC,
+> >          |                                   ^
+> >>> drivers/cpufreq/cppc_cpufreq.c:229:3: error: member reference base type 'long' is not a structure or union
+> >      228 |                 .sched_deadline = 10 * NSEC_PER_MSEC
+> >          |                                        ~~~~~~~~~~~~~
+> >      229 |                 .sched_period   = 10 * NSEC_PER_MSEC,
+> >          |                 ^~~~~~~~~~~~~
+> >    2 errors generated.
+> > 
+> > 
+> > vim +/NSER_PER_MSEC +227 drivers/cpufreq/cppc_cpufreq.c
+> > 
+> >    215	
+> >    216	static void __init cppc_freq_invariance_init(void)
+> >    217	{
+> >    218		struct sched_attr attr = {
+> >    219			.size		= sizeof(struct sched_attr),
+> >    220			.sched_policy	= SCHED_DEADLINE,
+> >    221			.sched_nice	= 0,
+> >    222			.sched_priority	= 0,
+> >    223			/*
+> >    224			 * Fake (unused) bandwidth; workaround to "fix"
+> >    225			 * priority inheritance.
+> >    226			 */
+> >  > 227			.sched_runtime	= NSER_PER_MSEC,
+> 
+> Sorry, seems I enabled the module, but didn't actually build modules
+> before sending it out, anyway this should be s/NSER/NSEC
+> 
+> >    228			.sched_deadline = 10 * NSEC_PER_MSEC
+> and this is missing a comma.
+> Peter do you mind fixing that up for me?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409111741.8Hd9TwMf-lkp@intel.com/
+I'll fix it up. I need to rebase sched/core anyway.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/vdpa/vdpa.c:759:19: sparse: sparse: cast to restricted __le16
->> drivers/vdpa/vdpa.c:759:19: sparse: sparse: cast from restricted __virtio16
-   drivers/vdpa/vdpa.c:775:19: sparse: sparse: cast to restricted __le16
-   drivers/vdpa/vdpa.c:775:19: sparse: sparse: cast from restricted __virtio16
-   drivers/vdpa/vdpa.c:779:19: sparse: sparse: cast to restricted __le16
-   drivers/vdpa/vdpa.c:779:19: sparse: sparse: cast from restricted __virtio16
-
-vim +759 drivers/vdpa/vdpa.c
-
-   749	
-   750	static int vdpa_dev_net_mq_config_fill(struct vdpa_device *vdev,
-   751					       struct sk_buff *msg, u64 features,
-   752					       const struct virtio_net_config *config)
-   753	{
-   754		u16 val_u16;
-   755	
-   756		if ((features & (1ULL << VIRTIO_NET_F_MQ)) == 0)
-   757			return 0;
-   758	
- > 759		val_u16 = le16_to_cpu(config->max_virtqueue_pairs);
-   760		return nla_put_u16(msg, VDPA_ATTR_DEV_NET_CFG_MAX_VQP, val_u16);
-   761	}
-   762	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
