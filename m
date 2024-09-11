@@ -1,85 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D1624B26
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 01:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CB9C144
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 02:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726018525; cv=none; b=ALLC40cSyZfLRXp55MedzxY/MQwUniG1dMYJv8lhV3Kr5Zq5jMsuHWB9fQQaAd3T3i5f1eKVqsUgTy+cwpUx/nfBhmN06AgGPtd0zwvezR7gNEV/Tz4F5GMmq8CEWEdE9yAdoh/Z/d02Sr6egyksWQZcS6XsSWjYu+9MPHVRlYE=
+	t=1726021985; cv=none; b=F03afZHlOnAlcrwhIElLmOcux0oAhljJHoEC36EDCKeJJ1/nmUhuHs/AzjS5jYPicrhpi3SEQQPtPp8hggDO8jfkHFli3JoU0CE1wOkavAoVyhwhQsjAppQFvh11ficM26RMltG9RkHW9PnfT5G1/XdpP8xuYJomB9cqCJyNCAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726018525; c=relaxed/simple;
-	bh=uZBGI9AC5epjr+t/41LcNbYQbmOnf+BQcv0uIzXcmnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uK9oLL0oO6PMCXLZYkgJly5SrIdOFW9VIpOcqZfeVqwlTlQxx0/uhY1b4rXe7bDnmb/CVyLCLO63Git02YgD9E9jDhryL5dJ9hwjBPg0wyYmhFgUsGFpqZX1IDlzeQo7JGwSyVM/NZ7qEJD8etepDNmllXC+5bCy199qs9aKBjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fv1oqhZ3; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726021985; c=relaxed/simple;
+	bh=8hO/axrA/lMAmDfYuGbd68SOHCMTKb4E5KAqw6+jF2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LCzKJzyQP7YhRPC/SE2v/BgAerTG74bRibnR5hmkLLPCXfu6HU+iRv/A0U3OKoMyhkBMCTxXJaAhnSlYb9KSqgle03yJJ87MwhERr+l7YoSV7pIoBZ4xmlG3eWEyKh2BoE+919Yj266ZB2/vmDBQwrz4VV8iLVqcV+ZJ1pEbrHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=cv5XRmwQ; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fv1oqhZ3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726018522; x=1757554522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uZBGI9AC5epjr+t/41LcNbYQbmOnf+BQcv0uIzXcmnc=;
-  b=Fv1oqhZ335xM6W5GfmGT1Q1ZggdM4GJLLaZSrkJHoS+6QVZ4b4m8yF4y
-   LpUd122dD4Upzs8NbM8oPwpogbQ5SAE5I7W4A4KZ5Teh3810gaijd+wQI
-   YMLJqRLdyFNLC3zyz7NyFb0ceUkejX7fbsNOczc8SNHloJNjQokfKUmOU
-   1hLuMVP5Ver2cI8TRQwedPxBztrU7sSSJMRD4vz4MkeIrNfM569HHXrHh
-   DWLgneZOzhHm6rorbh9t89ExuvSQnxX2UQz5eV4xmdfyvmIAYaj/Jqwln
-   9+v2yVztPXr4QgSWfWwCiR3i7jerc7J/HRBTMXtkm/u/TXSOQkF6ZAcCJ
-   w==;
-X-CSE-ConnectionGUID: 8xR+/qW7QQ+mo9M1qRkxVg==
-X-CSE-MsgGUID: j7SRplDoRR6gu4+nMfUKnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24663475"
-X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="24663475"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 18:35:22 -0700
-X-CSE-ConnectionGUID: usYvhOSXR1GvRkTgBqprUg==
-X-CSE-MsgGUID: aubv7gD8R/6DX0yEHD0lKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="71820087"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Sep 2024 18:35:21 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1soCGN-0002vi-0J;
-	Wed, 11 Sep 2024 01:35:19 +0000
-Date: Wed, 11 Sep 2024 09:34:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 20076/23703] arch/x86/power/cpu.o:
- warning: objtool: missing symbol for section .exit.text
-Message-ID: <202409110927.XJnvEERE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="cv5XRmwQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+	s=201702; t=1726021977;
+	bh=8hO/axrA/lMAmDfYuGbd68SOHCMTKb4E5KAqw6+jF2I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cv5XRmwQstaQkQduYTzHaq6FzPnbW6IDG4kii8xz7Nc0Waj8aKdu8+cqKTMscnYrQ
+	 XH/xdz8rHiRcEXOQHxB4GEKNUBVCsERBc1WpHp7sn/uxbHCohUfFw0uXVKc/K9fwWt
+	 rTiZUrXOEQC90/uysbI0u736HqWytj5G5FjfFguTZGe6T6f5Iyq08uwLhMQc8mrBK0
+	 18tSQ6+NyviGAOkG4XbUrGDr0w67YKEPj6Ay4etWwKxXx9n8HpPmpXM4GNV7pGdG9g
+	 fJ/igh0pZLUSwnDneJ52oUUmVaHKObXz3t9zMmAvk7jgKBcIHOiX4rD6+U3zVe6maN
+	 ruFMB6Mzngg7w==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4X3PkK37w6z4x3r;
+	Wed, 11 Sep 2024 12:32:57 +1000 (AEST)
+Date: Wed, 11 Sep 2024 12:32:56 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kernel test robot
+ <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux Memory Management
+ List <linux-mm@kvack.org>, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [linux-next:master 10352/10516] include/linux/mm.h:101:35:
+ error: 'MAX_PHYSMEM_BITS' undeclared
+Message-ID: <20240911123256.230a5b19@canb.auug.org.au>
+In-Reply-To: <87ttenvw0i.fsf@yhuang6-desk2.ccr.corp.intel.com>
+References: <202409100913.RxkfrKU6-lkp@intel.com>
+	<20240909204555.ab57c729531c83a0685cfa8e@linux-foundation.org>
+	<87wmjkyshl.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<20240910104056.343d7154134fb7fc6942075a@linux-foundation.org>
+	<87ttenvw0i.fsf@yhuang6-desk2.ccr.corp.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/pCVTpDHM_UXuDxu=20o_NJ0";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   bf039567abd9303dc03746afaaf0854f41ed853b
-commit: 27dd57ae7b305c8c1bcf55eab82c45d85b605149 [20076/23703] x86/cpu: Load microcode during restore_processor_state()
-config: x86_64-buildonly-randconfig-003-20240911 (https://download.01.org/0day-ci/archive/20240911/202409110927.XJnvEERE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110927.XJnvEERE-lkp@intel.com/reproduce)
+--Sig_/pCVTpDHM_UXuDxu=20o_NJ0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110927.XJnvEERE-lkp@intel.com/
+Hi Ying,
 
-All warnings (new ones prefixed by >>):
+On Wed, 11 Sep 2024 09:06:53 +0800 "Huang, Ying" <ying.huang@intel.com> wro=
+te:
+>
+> Can you use the patch above as part of merged conflict resolving patch
+> for patch
+>=20
+> e2941fe697c8 ("resource, kunit: add test case for region_intersects()")
 
-   arch/x86/power/cpu.c:78: warning: Function parameter or member 'ctxt' not described in '__save_processor_state'
-   arch/x86/power/cpu.c:200: warning: Function parameter or member 'ctxt' not described in '__restore_processor_state'
->> arch/x86/power/cpu.o: warning: objtool: missing symbol for section .exit.text
+I will apply your patch to the merge of the mm tree from tomorrow (and
+I have sneaked it in today in another, later merge).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/pCVTpDHM_UXuDxu=20o_NJ0
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmbhAVgACgkQAVBC80lX
+0Gya5Af/Zm3VVnSH6NE40nxILGR19NQa9WYIxvo9guhbbzQKY1QnShkqDltXqPje
+daEo05M+IceqPz8y5jEiw0ueNMGD2ra8qwTog/JcrM1skKmhrkINcjdgVlpACbeQ
+wspWJgac9e4T8vadjos4ICoqJRVzqo6DNyaEZnXm9qUQpQImDKBhGkgU1vZP24Pl
+A2y0mii65XWAAwh0Rj8jxLgkpVJ7VnrsFRQPn3wIu3MVaGclgZJbVfyHWODrZhNr
+uSL3Foq3rQdQrkLqtt3OprKtQVj9F0exDan3oingoBhjDOFZGuymI26Dxhn07BOn
+mTmitAgwM9mYV49i3lKkkcwcvdiGVA==
+=yyyi
+-----END PGP SIGNATURE-----
+
+--Sig_/pCVTpDHM_UXuDxu=20o_NJ0--
