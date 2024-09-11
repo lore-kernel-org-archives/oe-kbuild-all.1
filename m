@@ -1,133 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F45BA20;
-	Wed, 11 Sep 2024 00:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547E21863E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 01:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726016062; cv=none; b=D4lO6sw2QgtHN9GfBgl0S3NBI7uDENLP9rHsfIEMGkMvsNfQ07M/JbdsMojQ8xSxuw3TsBwP15sa35vS/dZ8NnZBEp8EKF9jL5jVDrVVxgpKJQ1u8NP9mMdMQHB/u+inqZPKXdgB5aCEg5DPcqpwRMxGtp1sXgEUKJyUeVSlTNw=
+	t=1726017031; cv=none; b=h+UmR94Pi9VoKrMmUSBY2GN2lCHPzN4JSsiOQKsJ+WJong1MJ58wlzmyQCr+9WidIGMmR8Pi8xivZ0XydX4KDc5+K1W+3WnpGomRJgZQI4zlbzX2QuVWQ4Im6C+R/jd3r0mqDo63juI+y0f1Csvz+wy6EcUtzOxYl/IP5eoAw68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726016062; c=relaxed/simple;
-	bh=+rZ9RVMd9rJmPj3ZMZ+np0DxGyN8HzeqK2hMKMC1JBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upY5OY9wDJwXGec4VtFo37kTl2DS2wl33Wpa9PfnikaH6Txs2/OmXbsQjjNeFqEdoJkEWKLGW1cfidm7/AxoEhn3PINTLIJFIIbRr9XCo7kcvWtvOnN0kv9/nsV2MaM3GYcOueeeuXIkdXaOP8vydOSlGvjvrEBH5qHyFVzgpn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZywEcea8; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1726017031; c=relaxed/simple;
+	bh=riNq3pM/DId4C30DQEIiavYhDshRICeniueLV2tGyug=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NqRw1fZ+3brFQWcbD4LBPccB1oGgnMawe8NWBvyt4rZFDw1I6nqy+UxIxUNxFdn9sbzFnfJlCx7o8j+pP+fsdNSErW3UP1x7Rf/Oy9tI910GM3SfsWjst2+bWhMLSAjBi5sjaTCVCpjtSzgzzlafmizXQZXwvhW8VIxpC7Poxjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KcdavCn5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZywEcea8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KcdavCn5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726016062; x=1757552062;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+rZ9RVMd9rJmPj3ZMZ+np0DxGyN8HzeqK2hMKMC1JBA=;
-  b=ZywEcea8IAIGG12bYl3jnfWmg/WG5883iDzWfF2WPF12guDI7sX7OoAi
-   E03prV5dJ5zCGftSga+ySbKoh1/998oI9VtYcbMLvRemGUKH5vjw6sxMR
-   1D78BS+bD8y9oD3fVDWtfeyQmoXkSR8az1XQ0PV+aRgiS2pSSy0q1RJVZ
-   i9o5JHkw5cYb+FwIGV1krhgbdDZ8RprVIrJmvq+zNOBHEYSSz+AD3s3N+
-   68ccdDqHBKZyaWHN8+6T/EHDq0a9g2Sh9GHwWI7elBsesHE2ClBEdTvWo
-   e4TgI6/R7Xf65nxAIA3VnYNHS1JmnUY3JKRUVLFSdxcyV8ryeghPHe4gk
-   w==;
-X-CSE-ConnectionGUID: zI+3SrAQSlWe2kAyGPV6pA==
-X-CSE-MsgGUID: 5xIliQ2CRlKWFrhxfo44Hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="27714905"
+  t=1726017030; x=1757553030;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=riNq3pM/DId4C30DQEIiavYhDshRICeniueLV2tGyug=;
+  b=KcdavCn5ufJ9xxB+YV/l/6wBaojq9cFDNeMjhbHZ3tsive4EP+ShjeBq
+   /0aoF8+TQIPfGVDbWV7tcKd4dKvuLFBvVAYOG18+7/ON6nQL67XRUMNYp
+   68b4ONZ9hz51oXH70Xsw2ajgM1efcRD6AxrT8DrKVTePvcGPVgei+MpUg
+   j2EEqa6lsaQo1nOyE2OqkTRn3fdee6eikCiSudGjSUf4ACNTMHbMR+YS6
+   cM43szwWc0iUGczKhOWZBr9t1Yy3RTj129Z5nTaO9o2ylMtSItiYYGSMy
+   Gubm5SJ1Lo27sXlNsHlk2oKc/J9zJR8bso4EkeytgaR2FsiNNEYRfV8bh
+   Q==;
+X-CSE-ConnectionGUID: 9pRIZIG3RsGXZTkSmS+5EA==
+X-CSE-MsgGUID: ftSgvT16QT+bJmsIs2qJ9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24662107"
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="27714905"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 17:54:21 -0700
-X-CSE-ConnectionGUID: uAaxVga6S3WvggkQTLI6AQ==
-X-CSE-MsgGUID: GKg2f3YrRd+Aoj2c35hRqA==
+   d="scan'208";a="24662107"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 18:10:29 -0700
+X-CSE-ConnectionGUID: dFNXcVp+QQ2VTJyJF8yO9A==
+X-CSE-MsgGUID: aG3CQ8UkRryMt0Evaq9njA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="67491946"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Sep 2024 17:54:20 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1soBce-0002tS-1z;
-	Wed, 11 Sep 2024 00:54:16 +0000
-Date: Wed, 11 Sep 2024 08:53:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Kobayashi, Daisuke" <kobayashi.da-06@fujitsu.com>,
-	linux-pci@vger.kernel.org, kw@linux.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Kobayashi, Daisuke" <kobayashi.da-06@fujitsu.com>
-Subject: Re: [PATCH v3] Export PBEC Data register into sysfs
-Message-ID: <202409110845.zaUjhBmy-lkp@intel.com>
-References: <20240910090951.332773-1-kobayashi.da-06@fujitsu.com>
+   d="scan'208";a="67218580"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 18:10:26 -0700
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>
+Cc: kernel test robot <lkp@intel.com>,  oe-kbuild-all@lists.linux.dev,
+  Linux Memory Management List <linux-mm@kvack.org>,  Thomas Gleixner
+ <tglx@linutronix.de>
+Subject: Re: [linux-next:master 10352/10516] include/linux/mm.h:101:35:
+ error: 'MAX_PHYSMEM_BITS' undeclared
+In-Reply-To: <20240910104056.343d7154134fb7fc6942075a@linux-foundation.org>
+	(Andrew Morton's message of "Tue, 10 Sep 2024 10:40:56 -0700")
+References: <202409100913.RxkfrKU6-lkp@intel.com>
+	<20240909204555.ab57c729531c83a0685cfa8e@linux-foundation.org>
+	<87wmjkyshl.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<20240910104056.343d7154134fb7fc6942075a@linux-foundation.org>
+Date: Wed, 11 Sep 2024 09:06:53 +0800
+Message-ID: <87ttenvw0i.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240910090951.332773-1-kobayashi.da-06@fujitsu.com>
+Content-Type: text/plain; charset=ascii
 
-Hi Kobayashi,Daisuke,
+Andrew Morton <akpm@linux-foundation.org> writes:
 
-kernel test robot noticed the following build errors:
+> On Tue, 10 Sep 2024 13:42:30 +0800 "Huang, Ying" <ying.huang@intel.com> wrote:
+>
+>> >>       93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+>> >>          |                                      ^
+>> >
+>> > Thanks. "resource, kunit: add test case for region_intersects" is the culprit.
+>> 
+>> Yes.  Although the definition in include/linux/mm.h introduced in
+>> 
+>>   commit ea72ce5da228 ("x86/kaslr: Expose and use the end of the physical memory address space")
+>> 
+>> doesn't compile on m68k.  There are no users of PHYSMEM_END before patch
+>> "resource, kunit: add test case for region_intersects".  This can be
+>> fixed via the following patch.
+>> 
+>> ---------------------------------8<--------------------------------------
+>> >From 00d176e0cd07e3df1ea37a5e56ca576c819b585a Mon Sep 17 00:00:00 2001
+>> From: Huang Ying <ying.huang@intel.com>
+>> Date: Tue, 10 Sep 2024 13:20:40 +0800
+>> Subject: [PATCH] mm: fix PHYSMEM_END build error on m68k
+>> 
+>> 0Day build system reported build error on m68k architecture for missing
+>> the definition of MAX_PHYSMEM_BITS when defining PHYSMEM_END.  Fixed it
+>> via making PHYSMEM_END definition depends on MAX_PHYSMEM_BITS definition
+>> conditionally.
+>> 
+>> Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202409100913.RxkfrKU6-lkp@intel.com/
+>> ---
+>>  include/linux/mm.h | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index 147073601716..62bb7e7e0a17 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -98,7 +98,11 @@ extern int mmap_rnd_compat_bits __read_mostly;
+>>  #endif
+>>  
+>>  #ifndef PHYSMEM_END
+>> -# define PHYSMEM_END	((1ULL << MAX_PHYSMEM_BITS) - 1)
+>> +# ifdef MAX_PHYSMEM_BITS
+>> +#  define PHYSMEM_END		((1ULL << MAX_PHYSMEM_BITS) - 1)
+>> +# else
+>> +#  define PHYSMEM_END		(-1ULL)
+>> +# endif
+>>  #endif
+>>  
+>>  #include <asm/page.h>
+>
+> I'm not really understanding.  This patch (which I assume is against
+> linux-next?) requires the presence of ea72ce5da228 ("x86/kaslr: Expose
+> and use the end of the physical memory address space"), which is not
+> present in mm.git.  Yet mm.git exhibits the build failure.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.11-rc7 next-20240910]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The original test report is against linux-next tree instead mm tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kobayashi-Daisuke/Export-PBEC-Data-register-into-sysfs/20240910-170834
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240910090951.332773-1-kobayashi.da-06%40fujitsu.com
-patch subject: [PATCH v3] Export PBEC Data register into sysfs
-config: arm-randconfig-002-20240911 (https://download.01.org/0day-ci/archive/20240911/202409110845.zaUjhBmy-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110845.zaUjhBmy-lkp@intel.com/reproduce)
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409110845.zaUjhBmy-lkp@intel.com/
+The first bad commit (bisection result) is:
 
-All errors (new ones prefixed by >>):
+5f445800cbdfc4b4185d496a43dfd78df63d2265 [10352/10516] Merge branch 'mm-everything' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
 
-   In file included from drivers/pci/pci-sysfs.c:18:
-   In file included from include/linux/pci.h:1646:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/pci/pci-sysfs.c:663:3: error: use of undeclared identifier 'dev_attr_pbec'; did you mean 'dev_attr_irq'?
-     663 |         &dev_attr_pbec.attr,
-         |          ^~~~~~~~~~~~~
-         |          dev_attr_irq
-   drivers/pci/pci-sysfs.c:76:8: note: 'dev_attr_irq' declared here
-      76 | static DEVICE_ATTR_RO(irq);
-         |        ^
-   include/linux/device.h:199:26: note: expanded from macro 'DEVICE_ATTR_RO'
-     199 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
-         |                                 ^
-   <scratch space>:58:1: note: expanded from here
-      58 | dev_attr_irq
-         | ^
-   1 warning and 1 error generated.
+That is, mm tree is merged in linux-next, and commit ea72ce5da228
+("x86/kaslr: Expose and use the end of the physical memory address
+space") is merged in linux-next too.  In fact, there's a merge conflict
+for MAX_PHYSMEM_BITS related code.  Maybe this can be part of merge
+conflict resolving patch?
 
+Hi, Stephen,
 
-vim +663 drivers/pci/pci-sysfs.c
+Can you use the patch above as part of merged conflict resolving patch
+for patch
 
-   657	
-   658	static struct attribute *pcie_dev_attrs[] = {
-   659		&dev_attr_current_link_speed.attr,
-   660		&dev_attr_current_link_width.attr,
-   661		&dev_attr_max_link_width.attr,
-   662		&dev_attr_max_link_speed.attr,
- > 663		&dev_attr_pbec.attr,
-   664		NULL,
-   665	};
-   666	
+e2941fe697c8 ("resource, kunit: add test case for region_intersects()")
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You have resolved it in
+
+https://lore.kernel.org/lkml/20240909100043.60668995@canb.auug.org.au/
+
+--
+Best Regards,
+Huang, Ying
