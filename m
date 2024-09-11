@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BE5185B48
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 11:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED51539FE5;
+	Wed, 11 Sep 2024 11:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726053293; cv=none; b=oAGq5glNXYMySy2sF1s29feKomyjR4m5abUfxmIFyw3U5rllVRyZskis8gEOmi0tFd4vlKlD7LpEVfOALQszjDsoEyf9F1WoBc8czZFSCbiFZ+zmgFbUBIaVdexw++j/bqgjptvbs0igxYJVuzRZwaut82UjcZFcVaIoHsj9bSs=
+	t=1726053893; cv=none; b=ZswMda8ZtanyXu150E9ZEY/S7c6qBgf7Hme9rp0yxL+zElXJJZL8YaxiZlLy8t02zrGtmdEE9PhPFKICEUvhLDnDW/PEMTk533DrJhqlZlP+8oVp7ZrVn/ZcAIhO4u4iLipvafifsv+GGPuUpI1nhkoOWOKYrpW9/VU0LRUOVP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726053293; c=relaxed/simple;
-	bh=BqmxWsUGpfUEobiPJB0THI7iakdvlX0ThUxWPLdaaW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XhyFPzKKIXRNoiMgNBz4w+8NnO1kT1zOZkPUc7zCWHTHWA76GhLmAsZiGorR/XqBt8RanFxO54bhX39rc+GinYgFo8M1q8IsZMG9ULfe01//7GwGX4YbDqa+b0doC3Uk6uyJywNaxEQ1WoU9RK/KRetI89I9H0SkwJZJ6GsqFbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVMATNxF; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1726053893; c=relaxed/simple;
+	bh=9UdmEXPRLSqNY+nZbCFO3Mvbt+mNN3AnKLK9XijtSEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qujuYgk96mSeJ0oprloSA2Lvff4Uui9KOQGJnBEt09EZVPI22FS6kiossBui2muuJwS9JaZqJQHn/jwWiYJJXdndTT4SI0233cBIy7g5oxzyb9hK+Ze/GJyevAOqMy+TYjFAOT5y2oAJeDodnKOBN4Kw0yCCD+1l3l5GJe9FoDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4itFTeb; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVMATNxF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4itFTeb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726053291; x=1757589291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BqmxWsUGpfUEobiPJB0THI7iakdvlX0ThUxWPLdaaW8=;
-  b=DVMATNxF1NcdAhtDDbukmVUSW7/JRytteXuvri1FLicWG9rYMi2+i0TP
-   oG1ryZYU3FndVX3F3YCcJ7+hAE5e/457ZTMX5Iq/1aDSOw7ttUxIKz+E/
-   zovL0YhdJVHlgUT2aDNau4zzA0mq8KN+mMr4K68D+AP9aOoi6FbXex9mm
-   +Tr2xCSw8bvCMEKCAnbzCNlXianmOnUYTUnR2LwqIUDMgdjRcUh9d+VkT
-   a0L+2dkAxYC4w8mVFfMGTo0PjxztI+CJFVWlnw3nEN+SSI0KtKADwzkLG
-   /U83J0b0YcEpwE5hwzb00hCFFbxQ5dWA0nGJyz2D/6wf9q0z/wKrxIMdn
+  t=1726053891; x=1757589891;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9UdmEXPRLSqNY+nZbCFO3Mvbt+mNN3AnKLK9XijtSEo=;
+  b=G4itFTebJPk7WCuvez/vLv9pl+71hxqcon/TxHND/cl9pexh1nHZCI4g
+   OV6Z5v9/BYUPyeoXxRl3hc/8OnmgzkdFoLcF7wxy7JkjsXQDf39aibQba
+   GhYpNs0RPVIFv81fuLtiiXPFVPNsWsb6bWU/W4Q2P/7Jci2Zsjjx4LVR8
+   Yh7PvQ6M8Z0v5J6UgFhswy4ZghQPeO3JfkjKOvYsmLW+0rd5PMWLUShPx
+   FTdotIH0ZyeNJUUtUx700kE8e/oBrBvbPw5IaxrJqw2FhFTKOfkwhceev
+   AAG04X9Mv8AXzow6/RH1bq29zvISNwsEC0+++SW+oqoUTdXLakSiBNbPT
    Q==;
-X-CSE-ConnectionGUID: n05bw1QLRtKZ6bqMWoWIvw==
-X-CSE-MsgGUID: 6LUHbDTQRHeXgF/5PSyoVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24385329"
+X-CSE-ConnectionGUID: 7IyX4yt7QM69/PvzRhz0KA==
+X-CSE-MsgGUID: aQp/Jn0gSpWTMU6iy/SPmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24721332"
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="24385329"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 04:14:50 -0700
-X-CSE-ConnectionGUID: cQlyxEGaROSubZX6BH/QFw==
-X-CSE-MsgGUID: r4n+UmWTQC6Cgo166HJTQw==
+   d="scan'208";a="24721332"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 04:24:50 -0700
+X-CSE-ConnectionGUID: f9uEUFFyS0mNd+xuZVP05Q==
+X-CSE-MsgGUID: zobXir12QxC2qXjzmtE96A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="67284394"
+   d="scan'208";a="67841999"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Sep 2024 04:14:49 -0700
+  by orviesa007.jf.intel.com with ESMTP; 11 Sep 2024 04:24:49 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soLJ7-0003RI-30;
-	Wed, 11 Sep 2024 11:14:45 +0000
-Date: Wed, 11 Sep 2024 19:13:58 +0800
+	id 1soLSo-0003Sg-1a;
+	Wed, 11 Sep 2024 11:24:46 +0000
+Date: Wed, 11 Sep 2024 19:24:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cindy Lu <lulu@redhat.com>, jasowang@redhat.com, mst@redhat.com,
-	michael.christie@oracle.com, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 2/7] vhost: Add kthread support in function
- vhost_worker_queue()
-Message-ID: <202409111842.o3eEppU6-lkp@intel.com>
-References: <20240909013531.1243525-3-lulu@redhat.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:klp-build-v1.5 29/32]
+ arch/x86/include/asm/arch_hweight.h:19:7: error: expected ')'
+Message-ID: <202409111934.EbkOedyQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,69 +61,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240909013531.1243525-3-lulu@redhat.com>
 
-Hi Cindy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mst-vhost/linux-next]
-[also build test ERROR on linus/master v6.11-rc7 next-20240910]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cindy-Lu/vhost-Add-a-new-module_param-for-enable-kthread/20240909-093852
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20240909013531.1243525-3-lulu%40redhat.com
-patch subject: [PATCH v1 2/7] vhost: Add kthread support in function vhost_worker_queue()
-config: arc-randconfig-001-20240911 (https://download.01.org/0day-ci/archive/20240911/202409111842.o3eEppU6-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111842.o3eEppU6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build-v1.5
+head:   2abe29f4f173c4090c0030c43c30053694b1658a
+commit: 62e666a6052abd6142d52405ea99e83ab7d48a83 [29/32] x86/alternative: Create symbols for special section entries
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20240911/202409111934.EbkOedyQ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111934.EbkOedyQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409111842.o3eEppU6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409111934.EbkOedyQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/vhost/vhost.c: In function 'vhost_worker_queue':
->> drivers/vhost/vhost.c:272:13: error: 'use_kthread' undeclared (first use in this function)
-     272 |         if (use_kthread) {
-         |             ^~~~~~~~~~~
-   drivers/vhost/vhost.c:272:13: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from kernel/bounds.c:13:
+   In file included from include/linux/log2.h:12:
+   In file included from include/linux/bitops.h:68:
+   In file included from arch/x86/include/asm/bitops.h:428:
+>> arch/x86/include/asm/arch_hweight.h:19:7: error: expected ')'
+      19 |         asm (ALTERNATIVE("call __sw_hweight32", "popcntl %1, %0", X86_FEATURE_POPCNT)
+         |              ^
+   arch/x86/include/asm/alternative.h:192:2: note: expanded from macro 'ALTERNATIVE'
+     192 |         ALTINSTR_ENTRY(ft_flags)                                        \
+         |         ^
+   arch/x86/include/asm/alternative.h:173:2: note: expanded from macro 'ALTINSTR_ENTRY'
+     173 |         FAKE_SYMBOL(__alt_entry_, 776f)                                       \
+         |         ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:117: kernel/bounds.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1194: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/use_kthread +272 drivers/vhost/vhost.c
+vim +19 arch/x86/include/asm/arch_hweight.h
 
-   268	
-   269	static void vhost_worker_queue(struct vhost_worker *worker,
-   270				       struct vhost_work *work)
-   271	{
- > 272		if (use_kthread) {
-   273			vhost_work_queue_kthread(worker, work);
-   274		} else {
-   275			vhost_worker_queue_task(worker, work);
-   276		}
-   277	}
-   278	bool vhost_vq_work_queue(struct vhost_virtqueue *vq, struct vhost_work *work)
-   279	{
-   280		struct vhost_worker *worker;
-   281		bool queued = false;
-   282	
-   283		rcu_read_lock();
-   284		worker = rcu_dereference(vq->worker);
-   285		if (worker) {
-   286			queued = true;
-   287			vhost_worker_queue(worker, work);
-   288		}
-   289		rcu_read_unlock();
-   290	
-   291		return queued;
-   292	}
-   293	EXPORT_SYMBOL_GPL(vhost_vq_work_queue);
-   294	
+d61931d89be506 Borislav Petkov 2010-03-05  14  
+d14edb1648221e Denys Vlasenko  2015-08-04  15  static __always_inline unsigned int __arch_hweight32(unsigned int w)
+d61931d89be506 Borislav Petkov 2010-03-05  16  {
+f5967101e9de12 Borislav Petkov 2016-05-30  17  	unsigned int res;
+d61931d89be506 Borislav Petkov 2010-03-05  18  
+566b62a3676cae Uros Bizjak     2018-10-14 @19  	asm (ALTERNATIVE("call __sw_hweight32", "popcntl %1, %0", X86_FEATURE_POPCNT)
+d61931d89be506 Borislav Petkov 2010-03-05  20  			 : "="REG_OUT (res)
+d61931d89be506 Borislav Petkov 2010-03-05  21  			 : REG_IN (w));
+d61931d89be506 Borislav Petkov 2010-03-05  22  
+d61931d89be506 Borislav Petkov 2010-03-05  23  	return res;
+d61931d89be506 Borislav Petkov 2010-03-05  24  }
+d61931d89be506 Borislav Petkov 2010-03-05  25  
+
+:::::: The code at line 19 was first introduced by commit
+:::::: 566b62a3676caed1f8c626e26066ff3ae3a38918 x86: Use POPCNT mnemonics in arch_hweight.h
+
+:::::: TO: Uros Bizjak <ubizjak@gmail.com>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
