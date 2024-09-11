@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F0B2BAE3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 06:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6E718C3E;
+	Wed, 11 Sep 2024 07:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726036488; cv=none; b=ahwzeUhzlkZ6fqkkBrhKJ3K9w8UCaQBIYRkpsqmxJ0TJkxLZPaNt/O4NDyLbjZzGV9VVXmgsCn3e08sWsCu5uSX38JF/rJu/5CPyf8fvVgUp64DFrVaC0UpQ+yGec+WxtpxZF/pB8ojzSykMWUEZIZL7y6ja4UT03b0XMfBSn3Y=
+	t=1726038341; cv=none; b=daTnMl2B14EyZiYOif88pWSC/kkr0yLJvy5C0fpTbOFgMAWAajAFv8qPAcklxe6QUcFP7V3OObWU/OzlS1L2vU+jap+g/tTE1VI/yWPExiMOgIqs9zZTKMfw/lWtOj84M8qHSMY1BA/Y0RNG7cPTd6ACk89w7uPsGqPc9Zlq5pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726036488; c=relaxed/simple;
-	bh=sT5eyXboXZg+xIE27KznIQJRMPL6IiO/nGVWqOw+9T0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uM03LWcMo7qkEt5kwczUASp9clXtdsL3C0MO2AKIJTif5cKSDwzfb9rZJ2PchIgFrrO6IDato6S01i6fWxTcfyKrxSJb7wA4qHbxof+1Do9a8PTLTzGctPvZ/T/UjPlX8DilMXnE3JeMexALsyJh88dr25JIEDuikqRfib6bH7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DadZcGix; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1726038341; c=relaxed/simple;
+	bh=5bxEgmyrGZ0w781E9sA/P4Mmg/yu9h72frq99nLFJgI=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BAHOhnvWO+tqX70CQohtearHc85+k1Jzw6uPzKZfhqvQOhczXXk684CWrTMAUJVx4544p+xAsQ4vG9rQPidpQNeNW/xhwTU06YWIaEVADReWL3RRihBOg0VThs+dYQoM1KM2EanOsTE1ycFYTCOV47BDgLI3B3mbrv8eg1I6n+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IY0QFenQ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DadZcGix"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IY0QFenQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726036487; x=1757572487;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sT5eyXboXZg+xIE27KznIQJRMPL6IiO/nGVWqOw+9T0=;
-  b=DadZcGix7wLN3ueBQavIj0ZjEsf+RUJoSQdh2kv8Ecl3AlqUdITjiVuC
-   6w9r0/g0W9Dy0bkRR8a8JDNr82whQGPGJU+NgcHhR/1YlJCZH282s/Wgn
-   b/8pJ5CdbEkv23p5a5UX8vRizBVg45otXBLVFVqwIjo0xLDt73rn22OJU
-   CCUxADi1sCi+iT6j0jVF3kyfEaK4jZavnF5hcLZ9LMpRuwJvK4fH5guw+
-   2NdFKBThLcTr/iH2PtPhAweDKg7MD+Kdi7EeVN9Aqtx/LXqjnQBv04Gvq
-   SDV418OLfgdPrwkIaQDd9dYi04J3S4ceVEf5eNV1uwAu7JS7dU+MO/h26
-   w==;
-X-CSE-ConnectionGUID: N/ytJydySYO6G23ejWjefg==
-X-CSE-MsgGUID: qop9BQWsSGuNL5VZZ6+s7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="35387242"
+  t=1726038339; x=1757574339;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=5bxEgmyrGZ0w781E9sA/P4Mmg/yu9h72frq99nLFJgI=;
+  b=IY0QFenQYBcRobvxGrjOvptHJzIQ+IHtlTanCPPGCB44TBLZpP5AQNMf
+   T0dPaEd7mHFaOHXZh5AkFCYGT2y3lcEPvbssaZmRcKe0Zq/jpOk8zf96B
+   FmK2PPPcoRAu2kHsAgm1oZNbE6M0EVXn7Jl8DYQmCYF4cni9Btyqd11/u
+   4ofXtY4iEszL0FB5p8Dg91gPnO7KC8sa0ro6bPf9d8GiXETPGcRLSdHcx
+   dYHhDxDqM99HUNMUn1RW68dFupkiOnPQ4qSTJysCca8YvxSK9HegmUM/c
+   Zc2TZGpVgOSJzvS/vNe4H/HDzclDjIH7CUKhbKjfvgXsMTiQBekHn1BX6
+   A==;
+X-CSE-ConnectionGUID: pCa2CAqbTReGexfY5edElg==
+X-CSE-MsgGUID: hBpCDZ5eSx6NE0aw1nuRVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="50232480"
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="35387242"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 23:34:35 -0700
-X-CSE-ConnectionGUID: GpWB5Bj6TnOew1SjPnyDGg==
-X-CSE-MsgGUID: zha2c3k7T+mBf6LaasCxcw==
+   d="scan'208";a="50232480"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 00:05:37 -0700
+X-CSE-ConnectionGUID: kxlg4RgrQx6FZvRyzUQ3RQ==
+X-CSE-MsgGUID: qaD1PJ1WSGGp8O7DPxgcWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="67550107"
+   d="scan'208";a="66981776"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Sep 2024 23:34:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 Sep 2024 00:05:36 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soGvv-000380-00;
-	Wed, 11 Sep 2024 06:34:31 +0000
-Date: Wed, 11 Sep 2024 14:33:43 +0800
+	id 1soHPy-0003AK-0A;
+	Wed, 11 Sep 2024 07:05:34 +0000
+Date: Wed, 11 Sep 2024 15:04:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/tty/mips_ejtag_fdc.c:343:32: error: incompatible pointer
- types passing 'const char **' to parameter of type 'const u8 **' (aka 'const
- unsigned char **')
-Message-ID: <202409111435.RTzhB8Te-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [mst-vhost:vhost 5/37] drivers/virtio/virtio_balloon.c:372:37:
+ warning: arithmetic between different enumeration types ('enum
+ vm_event_item' and 'enum zone_type')
+Message-ID: <202409111508.O5YtdBhp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,105 +62,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jiri,
+CC: kvm@vger.kernel.org
+CC: virtualization@lists.linux-foundation.org
+CC: netdev@vger.kernel.org
+TO: zhenwei pi <pizhenwei@bytedance.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8d8d276ba2fb5f9ac4984f5c10ae60858090babc
-commit: ce7cbd9a6c81b5fc899bbc730072a1bddeae5d0d tty: mips_ejtag_fdc: use u8 for character pointers
-date:   9 months ago
-config: mips-randconfig-r051-20240911 (https://download.01.org/0day-ci/archive/20240911/202409111435.RTzhB8Te-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111435.RTzhB8Te-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git vhost
+head:   025b6cabd88a35947637ffb7613e90c871c3381b
+commit: c5b70a26aac39f09a23fd72f44cfbb3d4d5a14d5 [5/37] virtio_balloon: introduce memory allocation stall counter
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240911/202409111508.O5YtdBhp-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111508.O5YtdBhp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409111435.RTzhB8Te-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409111508.O5YtdBhp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/tty/mips_ejtag_fdc.c:343:32: error: incompatible pointer types passing 'const char **' to parameter of type 'const u8 **' (aka 'const unsigned char **') [-Werror,-Wincompatible-pointer-types]
-                   word = mips_ejtag_fdc_encode(&buf_ptr, &buf_len, 1);
-                                                ^~~~~~~~
-   drivers/tty/mips_ejtag_fdc.c:216:57: note: passing argument to parameter 'ptrs' here
-   static struct fdc_word mips_ejtag_fdc_encode(const u8 **ptrs,
-                                                           ^
-   drivers/tty/mips_ejtag_fdc.c:1224:31: error: incompatible pointer types passing 'const char *[1]' to parameter of type 'const u8 **' (aka 'const unsigned char **') [-Werror,-Wincompatible-pointer-types]
-           word = mips_ejtag_fdc_encode(bufs, &kgdbfdc_wbuflen, 1);
-                                        ^~~~
-   drivers/tty/mips_ejtag_fdc.c:216:57: note: passing argument to parameter 'ptrs' here
-   static struct fdc_word mips_ejtag_fdc_encode(const u8 **ptrs,
-                                                           ^
-   2 errors generated.
+   In file included from drivers/virtio/virtio_balloon.c:9:
+   In file included from include/linux/virtio.h:7:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/virtio/virtio_balloon.c:9:
+   In file included from include/linux/virtio.h:7:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/virtio/virtio_balloon.c:9:
+   In file included from include/linux/virtio.h:7:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/virtio/virtio_balloon.c:9:
+   In file included from include/linux/virtio.h:7:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/virtio/virtio_balloon.c:372:37: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+     372 |                 stall += events[ALLOCSTALL_NORMAL - ZONE_NORMAL + zid];
+         |                                 ~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   8 warnings generated.
 
 
-vim +343 drivers/tty/mips_ejtag_fdc.c
+vim +372 drivers/virtio/virtio_balloon.c
 
-4cebec609aea6df James Hogan 2015-01-29  299  
-4cebec609aea6df James Hogan 2015-01-29  300  /* Low level console write shared by early console and normal console */
-4cebec609aea6df James Hogan 2015-01-29  301  static void mips_ejtag_fdc_console_write(struct console *c, const char *s,
-4cebec609aea6df James Hogan 2015-01-29  302  					 unsigned int count)
-4cebec609aea6df James Hogan 2015-01-29  303  {
-4cebec609aea6df James Hogan 2015-01-29  304  	struct mips_ejtag_fdc_console *cons =
-4cebec609aea6df James Hogan 2015-01-29  305  		container_of(c, struct mips_ejtag_fdc_console, cons);
-4cebec609aea6df James Hogan 2015-01-29  306  	void __iomem *regs;
-4cebec609aea6df James Hogan 2015-01-29  307  	struct fdc_word word;
-4cebec609aea6df James Hogan 2015-01-29  308  	unsigned long flags;
-4cebec609aea6df James Hogan 2015-01-29  309  	unsigned int i, buf_len, cpu;
-4cebec609aea6df James Hogan 2015-01-29  310  	bool done_cr = false;
-4cebec609aea6df James Hogan 2015-01-29  311  	char buf[4];
-4cebec609aea6df James Hogan 2015-01-29  312  	const char *buf_ptr = buf;
-4cebec609aea6df James Hogan 2015-01-29  313  	/* Number of bytes of input data encoded up to each byte in buf */
-4cebec609aea6df James Hogan 2015-01-29  314  	u8 inc[4];
-4cebec609aea6df James Hogan 2015-01-29  315  
-4cebec609aea6df James Hogan 2015-01-29  316  	local_irq_save(flags);
-4cebec609aea6df James Hogan 2015-01-29  317  	cpu = smp_processor_id();
-4cebec609aea6df James Hogan 2015-01-29  318  	regs = cons->regs[cpu];
-4cebec609aea6df James Hogan 2015-01-29  319  	/* First console output on this CPU? */
-4cebec609aea6df James Hogan 2015-01-29  320  	if (!regs) {
-4cebec609aea6df James Hogan 2015-01-29  321  		regs = mips_cdmm_early_probe(0xfd);
-4cebec609aea6df James Hogan 2015-01-29  322  		cons->regs[cpu] = regs;
-4cebec609aea6df James Hogan 2015-01-29  323  	}
-4cebec609aea6df James Hogan 2015-01-29  324  	/* Already tried and failed to find FDC on this CPU? */
-4cebec609aea6df James Hogan 2015-01-29  325  	if (IS_ERR(regs))
-4cebec609aea6df James Hogan 2015-01-29  326  		goto out;
-4cebec609aea6df James Hogan 2015-01-29  327  	while (count) {
-4cebec609aea6df James Hogan 2015-01-29  328  		/*
-4cebec609aea6df James Hogan 2015-01-29  329  		 * Copy the next few characters to a buffer so we can inject
-4cebec609aea6df James Hogan 2015-01-29  330  		 * carriage returns before newlines.
-4cebec609aea6df James Hogan 2015-01-29  331  		 */
-4cebec609aea6df James Hogan 2015-01-29  332  		for (buf_len = 0, i = 0; buf_len < 4 && i < count; ++buf_len) {
-4cebec609aea6df James Hogan 2015-01-29  333  			if (s[i] == '\n' && !done_cr) {
-4cebec609aea6df James Hogan 2015-01-29  334  				buf[buf_len] = '\r';
-4cebec609aea6df James Hogan 2015-01-29  335  				done_cr = true;
-4cebec609aea6df James Hogan 2015-01-29  336  			} else {
-4cebec609aea6df James Hogan 2015-01-29  337  				buf[buf_len] = s[i];
-4cebec609aea6df James Hogan 2015-01-29  338  				done_cr = false;
-4cebec609aea6df James Hogan 2015-01-29  339  				++i;
-4cebec609aea6df James Hogan 2015-01-29  340  			}
-4cebec609aea6df James Hogan 2015-01-29  341  			inc[buf_len] = i;
-4cebec609aea6df James Hogan 2015-01-29  342  		}
-4cebec609aea6df James Hogan 2015-01-29 @343  		word = mips_ejtag_fdc_encode(&buf_ptr, &buf_len, 1);
-4cebec609aea6df James Hogan 2015-01-29  344  		count -= inc[word.bytes - 1];
-4cebec609aea6df James Hogan 2015-01-29  345  		s += inc[word.bytes - 1];
-4cebec609aea6df James Hogan 2015-01-29  346  
-4cebec609aea6df James Hogan 2015-01-29  347  		/* Busy wait until there's space in fifo */
-70f041b6e1ff508 James Hogan 2015-04-28  348  		while (__raw_readl(regs + REG_FDSTAT) & REG_FDSTAT_TXF)
-4cebec609aea6df James Hogan 2015-01-29  349  			;
-70f041b6e1ff508 James Hogan 2015-04-28  350  		__raw_writel(word.word, regs + REG_FDTX(c->index));
-4cebec609aea6df James Hogan 2015-01-29  351  	}
-4cebec609aea6df James Hogan 2015-01-29  352  out:
-4cebec609aea6df James Hogan 2015-01-29  353  	local_irq_restore(flags);
-4cebec609aea6df James Hogan 2015-01-29  354  }
-4cebec609aea6df James Hogan 2015-01-29  355  
-
-:::::: The code at line 343 was first introduced by commit
-:::::: 4cebec609aea6dff23e67a42b6516d852fa87d07 TTY: Add MIPS EJTAG Fast Debug Channel TTY driver
-
-:::::: TO: James Hogan <james.hogan@imgtec.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+   351	
+   352	#ifdef CONFIG_VM_EVENT_COUNTERS
+   353	/* Return the number of entries filled by vm events */
+   354	static inline unsigned int update_balloon_vm_stats(struct virtio_balloon *vb)
+   355	{
+   356		unsigned long events[NR_VM_EVENT_ITEMS];
+   357		unsigned int idx = 0;
+   358		unsigned int zid;
+   359		unsigned long stall = 0;
+   360	
+   361		all_vm_events(events);
+   362		update_stat(vb, idx++, VIRTIO_BALLOON_S_SWAP_IN,
+   363			    pages_to_bytes(events[PSWPIN]));
+   364		update_stat(vb, idx++, VIRTIO_BALLOON_S_SWAP_OUT,
+   365			    pages_to_bytes(events[PSWPOUT]));
+   366		update_stat(vb, idx++, VIRTIO_BALLOON_S_MAJFLT, events[PGMAJFAULT]);
+   367		update_stat(vb, idx++, VIRTIO_BALLOON_S_MINFLT, events[PGFAULT]);
+   368		update_stat(vb, idx++, VIRTIO_BALLOON_S_OOM_KILL, events[OOM_KILL]);
+   369	
+   370		/* sum all the stall events */
+   371		for (zid = 0; zid < MAX_NR_ZONES; zid++)
+ > 372			stall += events[ALLOCSTALL_NORMAL - ZONE_NORMAL + zid];
+   373	
+   374		update_stat(vb, idx++, VIRTIO_BALLOON_S_ALLOC_STALL, stall);
+   375	
 
 -- 
 0-DAY CI Kernel Test Service
