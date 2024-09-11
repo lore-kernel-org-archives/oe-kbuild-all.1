@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A04C1E51D;
-	Wed, 11 Sep 2024 14:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DE319F126
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Sep 2024 14:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726064462; cv=none; b=gVRuBguKO0DLZL7kRLuo+2PL4dg6uJbi3UKR1mMvlwJcLLyHexqbO9MJkU0Z994fylNq2RtXY7dE+XUyvkN9uDg+Ro3ts5oiy52jDczYF298Wpq2tIYmG5KT+fFo/x5yZboaTA9KCx0OHxyhWmrPhldIH4lAAJFxsNZjoAIHj1E=
+	t=1726065121; cv=none; b=HlbHBjENs6JWFCnuKoZ7aSINSVrN7GtkCTPQKjshYPPezdQIZ7ipbW0D3gxLrzM+vhzNxUhYe6iQFiFIVesGe+7aGzWAx0JVmV+4f7YQrqFlSznjTqHHOGqL1Ja2NbbgtLxm8y3G8v+VSeK+jjtC8IvavOByBWGGGfSd63MohiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726064462; c=relaxed/simple;
-	bh=hCydF1+P5OifbZ65eRZ1ya0BPYCaNltPcb3RgiODn58=;
+	s=arc-20240116; t=1726065121; c=relaxed/simple;
+	bh=41THF/E4LYMHaKNv2dUYsdh4NXJmpJfHEDcbI6Yrfxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hHcZwBCaqlqVRKfXpu2H8BTNIfHMoxVEw71xVCiqeT7f0KVOnNOxp1JiYbo4k8eOCtn4xUhbH/gi7EZhIHGvEfyrnJ8xMSHlbX3TqnWss7LZwczakpMaritNHeGUtC3UxDv0/X9tSV5/SsQMdvAkZTRh9znJsMmnmVDA9y8fq4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGkBef8F; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=eSErxXu3TiQj7ZPblKm2nyFfdDjKo3Yx+gWEQQVPaCMWEAhVMmawrjUJ/5OGZOBTHl85f3onbtYs/W0Foi8T7Yj9Tcztt08xRjcb8C4wUL+s15W5cd60dt6u7nmOrsq4rkjY32xQ+b6ywvF+9QBCa1OyJ2txWQAiDB8riVNDhMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/PwNu+H; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGkBef8F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/PwNu+H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726064460; x=1757600460;
+  t=1726065120; x=1757601120;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hCydF1+P5OifbZ65eRZ1ya0BPYCaNltPcb3RgiODn58=;
-  b=DGkBef8FHfARBDow6XRFxxLctpALcKasRs+VL5noRZGDsCZN7jqAZ5NK
-   73EVmyLq6FhRLvdvsYDCkeZVnahrK3b4agGzj+MmjVyQWNtS0cr/N9ehm
-   B++2/k2dVBFzDxryOit1RNpocfQtlBsEfpSNk1fAWTK5rG/XUy/ADNTCM
-   MtiQjpY7JbyCZFalOVGL31bgNS8rIyNVN1vCt209oJH3tMakx4kBryMFw
-   sEL/0l0Z3cKm/y9rM9khDiYAB/LjShsXXkNL8UXmeJys9++qRytrukhvh
-   yAefPLi+bU2lUip+yEdzF6rTTU4fUqyoPSnZO99nuh+u+8rpx6bD5B2Kw
-   A==;
-X-CSE-ConnectionGUID: sO4nMfwgQnKto0tI5w8vvw==
-X-CSE-MsgGUID: g0+D/evuRQqNT4zxX28nng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="28754607"
+  bh=41THF/E4LYMHaKNv2dUYsdh4NXJmpJfHEDcbI6Yrfxs=;
+  b=j/PwNu+HQoSLlWWGOQusYzyZHbLmruSIX8LmNKyZ4Qene/fU9bjhTT7x
+   AAme521MrcMHizT2trDQVB0BrrnsgJ9mzGlOPhtZIYYK/FkOWl161r4f/
+   jbXNV7HUsgfJqQTlgoOBsKd69v0QVPeo6TdLTR9mMoMGLTb+4GSWbe2vE
+   HbQWDNqBE7yma3VlR7m3EMM64M+CZhqptuxg2Ti6n/2b5pZqOsj00wz/u
+   8aSSX0qDAHOZiKlWv8LewxpoSDSroGQ9Pr99a6en5hD5Mz+yw/1KpzRFE
+   dVLVpwSCehxwqyCt2VkXW5/5EdbUaTx7rZrFbuVnBOd5kSxtA3E3U9aXZ
+   w==;
+X-CSE-ConnectionGUID: FqDI5cuFSjaZnJFEO+y+gQ==
+X-CSE-MsgGUID: oJlXwDsoQECE/4rvaJKz6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="13471445"
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="28754607"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 07:20:59 -0700
-X-CSE-ConnectionGUID: efMV1vx4Q3CPIf7x1WVivg==
-X-CSE-MsgGUID: 32WcEvsqTf+CD0y2JcWrzQ==
+   d="scan'208";a="13471445"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 07:31:59 -0700
+X-CSE-ConnectionGUID: BnSMd/Q/S5uvOCgT54ZbSw==
+X-CSE-MsgGUID: qrIL28+ETCOVJT7+Cyn+XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="67624780"
+   d="scan'208";a="67229215"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Sep 2024 07:20:58 -0700
+  by orviesa010.jf.intel.com with ESMTP; 11 Sep 2024 07:31:58 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soODI-0003hG-06;
-	Wed, 11 Sep 2024 14:20:56 +0000
-Date: Wed, 11 Sep 2024 22:20:44 +0800
+	id 1soONw-0003hu-1p;
+	Wed, 11 Sep 2024 14:31:56 +0000
+Date: Wed, 11 Sep 2024 22:31:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:klp-build-v1.5 30/32] check.c:11:10: fatal error:
- 'xxhash.h' file not found
-Message-ID: <202409120059.B0trKsB1-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 7521/30000] net-procfs.c:undefined
+ reference to `wext_proc_exit'
+Message-ID: <202409112203.zGte8zgv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,117 +62,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build-v1.5
-head:   2abe29f4f173c4090c0030c43c30053694b1658a
-commit: b28bcdc0e8e9cad411975854148e76e0957ad16c [30/32] objtool: Calculate function checksums
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240912/202409120059.B0trKsB1-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409120059.B0trKsB1-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   7d4d03eb539e5c78a894f5f3daeb61a606c3074e
+commit: 2d8ce5be6941d90ea78a9237537268cd30f6d444 [7521/30000] ANDROID: net: enable wireless core features with GKI_LEGACY_WEXT_ALLCONFIG
+config: arm64-randconfig-001-20240911 (https://download.01.org/0day-ci/archive/20240911/202409112203.zGte8zgv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409112203.zGte8zgv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409120059.B0trKsB1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409112203.zGte8zgv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> check.c:11:10: fatal error: 'xxhash.h' file not found
-   11 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   In file included from special.c:16:
-   In file included from tools/objtool/include/objtool/special.h:10:
-   In file included from tools/objtool/include/objtool/check.h:11:
-   In file included from tools/objtool/include/objtool/arch.h:11:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.hIn file included from builtin-check.c:10:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   >   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
---
-   |          ^~~~~~~~~~
-   In file included from orc_gen.c:12:
-   In file included from tools/objtool/include/objtool/check.h:11:
-   In file included from tools/objtool/include/objtool/arch.h:11:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   In file included from objtool.c:18:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/special.o] Error 1
-   make[5]: *** Waiting for unfinished jobs....
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/builtin-check.o] Error 1
-   11 error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/orc_gen.o] Error 1
-   error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/objtool.o] Error 1
-   In file included from arch/x86/special.c:4:
-   In file included from tools/objtool/include/objtool/special.h:10:
-   In file included from tools/objtool/include/objtool/check.h:11:
-   In file included from tools/objtool/include/objtool/arch.h:11:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   1 error generated.
-   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/special.o] Error 1
-   make[6]: *** Waiting for unfinished jobs....
-   In file included from weak.c:10:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   In file included from arch/x86/orc.c:5:
-   In file included from tools/objtool/include/objtool/check.h:11:
-   In file included from tools/objtool/include/objtool/arch.h:11:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/weak.o] Error 1
-   1 error generated.
-   In file included from elf.c:23:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/orc.o] Error 1
-   In file included from orc_dump.c:8:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/orc_dump.o] Error 1
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/elf.o] Error 1
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/check.o] Error 1
-   In file included from arch/x86/decode.c:18:
-   In file included from tools/objtool/include/objtool/check.h:11:
-   In file included from tools/objtool/include/objtool/arch.h:11:
-   In file included from tools/objtool/include/objtool/objtool.h:13:
->> tools/objtool/include/objtool/elf.h:16:10: fatal error: 'xxhash.h' file not found
-   16 | #include <xxhash.h>
-   |          ^~~~~~~~~~
-   1 error generated.
-   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/decode.o] Error 1
-   make[5]: *** [tools/build/Makefile.build:158: arch/x86] Error 2
-   make[4]: *** [Makefile:77: tools/objtool/objtool-in.o] Error 2
-   make[3]: *** [Makefile:72: objtool] Error 2
-   make[2]: *** [Makefile:1361: tools/objtool] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   aarch64-linux-ld: warning: -z norelro ignored
+   aarch64-linux-ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   aarch64-linux-ld: net/socket.o: in function `sock_ioctl':
+   socket.c:(.text+0x4f2c): undefined reference to `wext_handle_ioctl'
+   aarch64-linux-ld: net/socket.o: in function `compat_sock_ioctl':
+   socket.c:(.text+0x710c): undefined reference to `compat_wext_handle_ioctl'
+   aarch64-linux-ld: net/core/net-procfs.o: in function `dev_proc_net_exit':
+>> net-procfs.c:(.text+0x38c): undefined reference to `wext_proc_exit'
+   aarch64-linux-ld: net/core/net-procfs.o: in function `dev_proc_net_init':
+>> net-procfs.c:(.text+0x490): undefined reference to `wext_proc_init'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=n])
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
