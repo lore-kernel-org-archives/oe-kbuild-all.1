@@ -1,67 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2478E18BBBA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 20:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E901186E3A;
+	Thu, 12 Sep 2024 21:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726171943; cv=none; b=TtbSI9wO60IilrCRSpdwPrGXzCpMbvjPQEZ044K9OntRRgNd+GOgqbnW5oxo5QdTW/cM8TQ3XwuJnQv/cRF0eS2MtEZKD5DVdpY2WNjROWDoYg94ZYPmQzPtAo4d0LAg9Y/yvQu6yzxRm6JtDjtvsoTJxpypnWKBM6/FU7bJYPA=
+	t=1726175005; cv=none; b=p+r/nAz0SzG0rJAK4H059SXa9sjf5v0eYKA+uVXlSoBOtv2c1qzy0bxjGoj7o+m2ARbgBg4Q8TraHOqLliSHbeYra5NOS/ZVyQaq1733Ap0l4oVQmA3YiBPDTqTDAYAFyZZFHoYXH8jBNNgwYjJn/MJ970FHhlS5Lg9g4QjbEBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726171943; c=relaxed/simple;
-	bh=sJ21ScUbw18j2aqixetW4Lu9Jkgk1yroAWxOMzNk0FQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RxyjOGwdWEUCsi8+B0OZK9hODJKdAIsH2vq21QZCUh2PuZoZyZULTeFaWaOCN45uJj+sQbawGgJxREh2+hE3aMUMYHhHK3PzKfG740ZK+AwfEa8c0KumVQwvoG6hFWBLHVE50pDEnyY/02qdnKCandYV568OWNL41/jpkKrDY3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ar6cG6LQ; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1726175005; c=relaxed/simple;
+	bh=l0M0BTQTdn4ZzXg3VfpaKLI6M9qF07AMt5X4kfEMAmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pMTo0ysoOuQ0oq1KhyFmGf0lsvfmtgyIvmym6aDXkx4rNpnsaU0yTsYaejgF+hxWZES9bcmafMSHA8fdycDMUAv77wxWblpV5lAGiTL9SkrPdVQrBuRB73xhvcImOaAgYViJjnfzQC2BwsqVFRA7tU3JgI3D16KShDbXQUJd2H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+Tna/uv; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ar6cG6LQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+Tna/uv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726171943; x=1757707943;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sJ21ScUbw18j2aqixetW4Lu9Jkgk1yroAWxOMzNk0FQ=;
-  b=Ar6cG6LQ0aZyyYBoF6tIr6NU6kaxjt6CwbNIYQqXYdam4GlIF5AIrJ2M
-   P8asiTrrYWLn3ijo82NkkTPHEKTATYR+ZVYu3lur4c8jGH6XtPLEikw3E
-   8qqh+hGo8Vefpm18ICkJtqeCdmzPyEPa6kgjIr+ZMoaddI8YQ0yu0POmi
-   vqrUdV8mXyGgFLoS8cuNn0A6dpXYd94CnZOcCTfkKQ8+gmkKmFSWek6qO
-   vvBAJ2q3+Ra5SS+4Mi4lX/uwEerOb698gg27GKIG5MsPqKzS3GsysjyKG
-   y1WHEMk9/c2Pl9BQLHCo5x/DBF7OJ+FWpsl5VNV5Gaunj4LDh3kHqPga+
-   w==;
-X-CSE-ConnectionGUID: 7FONXwmqRYWp1yPpC68I2g==
-X-CSE-MsgGUID: Mz0M4aNuQ/CfHRkU4bZ4AQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24877755"
+  t=1726175004; x=1757711004;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l0M0BTQTdn4ZzXg3VfpaKLI6M9qF07AMt5X4kfEMAmk=;
+  b=E+Tna/uvPGtZNNDUT6BC4J0oABxnD/UdRecBCvrowYO6gjqZgcHZ6cY4
+   GQ3lmOKUSOWHw7zNX3X3/K5yz4rG4NgzxDEpHCNrPPsR3Qi5Ui2k4h1hE
+   Dr//1WjET8WC3XYPwrRkLX7q6OksY+WKeNH/cjVdQVDVa38aU5cwaqtBL
+   Rbtu0b3PZk5ZB3E+shmDxhDZniV6BIKEAgB2ny3x2LIozu3TNGhWRu0wv
+   EY6iFuOWXbBWDSDbZbkc9ICuysPRZRjDwO1BGZNT4PO60hiFCA1MuZOFq
+   Mr2cSBkTQYQl3Sj8CPyUMMRxlC4VHA85vJ34i+1REVOlpmb53QYrVZNUJ
+   g==;
+X-CSE-ConnectionGUID: 8AZDWkLWSkSh8eMxqG9JIg==
+X-CSE-MsgGUID: rrlajGd1SYSIwacP4bHqNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="50474845"
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="24877755"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 13:12:22 -0700
-X-CSE-ConnectionGUID: oVf/gq6RQdGNgbzG+AtYTQ==
-X-CSE-MsgGUID: qMJrg2IHTl6dA0vsH5GdDA==
+   d="scan'208";a="50474845"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 14:03:23 -0700
+X-CSE-ConnectionGUID: HE6EROGdStyoIENWrXdAEw==
+X-CSE-MsgGUID: gR2t+/evRNiAO0PTOBpCjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="72174917"
+   d="scan'208";a="72610679"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Sep 2024 13:12:19 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Sep 2024 14:03:20 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soqAq-0005eo-2U;
-	Thu, 12 Sep 2024 20:12:16 +0000
-Date: Fri, 13 Sep 2024 04:11:41 +0800
+	id 1soqyE-0005h8-0J;
+	Thu, 12 Sep 2024 21:03:18 +0000
+Date: Fri, 13 Sep 2024 05:02:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Kris Bahnsen <kris@embeddedts.com>, Andrew Lunn <andrew@lunn.ch>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [linux-next:master 11167/11623]
- drivers/pinctrl/pinctrl-ep93xx.c:683:27: warning: 'raster_on_sdram3_pins'
- defined but not used
-Message-ID: <202409130426.1OzNAC9M-lkp@intel.com>
+To: Levi Yun <yeoreum.yun@arm.com>, peterz@infradead.org,
+	mark.rutland@arm.com, james.clark@linaro.org, rostedt@goodmis.org,
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, mingo@elte.hu
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Levi Yun <yeoreum.yun@arm.com>
+Subject: Re: [PATCH] trace/trace_event_perf: remove duplicate samples on the
+ first tracepoint event
+Message-ID: <202409130445.H7LIIGpd-lkp@intel.com>
+References: <20240911122747.4168556-1-yeoreum.yun@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,42 +67,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240911122747.4168556-1-yeoreum.yun@arm.com>
 
-Hi Nikita,
+Hi Levi,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   57f962b956f1d116cd64d5c406776c4975de549d
-commit: 216bf914b7a36d7ca260b008cefd99c3eebc1a25 [11167/11623] ARM: ep93xx: DT for the Cirrus ep93xx SoC platforms
-config: arm-randconfig-001-20240912 (https://download.01.org/0day-ci/archive/20240913/202409130426.1OzNAC9M-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409130426.1OzNAC9M-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11-rc7 next-20240912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Levi-Yun/trace-trace_event_perf-remove-duplicate-samples-on-the-first-tracepoint-event/20240911-202917
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240911122747.4168556-1-yeoreum.yun%40arm.com
+patch subject: [PATCH] trace/trace_event_perf: remove duplicate samples on the first tracepoint event
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240913/202409130445.H7LIIGpd-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409130445.H7LIIGpd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409130426.1OzNAC9M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409130445.H7LIIGpd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-ep93xx.c:683:27: warning: 'raster_on_sdram3_pins' defined but not used [-Wunused-const-variable=]
-     683 | static const unsigned int raster_on_sdram3_pins[] = {
-         |                           ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_event_perf.c:360:24: error: use of undeclared identifier 'event'
+     360 |         if (is_sampling_event(event)) {
+         |                               ^
+   1 error generated.
 
 
-vim +/raster_on_sdram3_pins +683 drivers/pinctrl/pinctrl-ep93xx.c
+vim +/event +360 kernel/trace/trace_event_perf.c
 
-d1661439f5a3f8 Nikita Shubin 2024-09-09  682  
-d1661439f5a3f8 Nikita Shubin 2024-09-09 @683  static const unsigned int raster_on_sdram3_pins[] = {
-d1661439f5a3f8 Nikita Shubin 2024-09-09  684  };
-d1661439f5a3f8 Nikita Shubin 2024-09-09  685  
-
-:::::: The code at line 683 was first introduced by commit
-:::::: d1661439f5a3f8386d32b0732f5f1eef53a260bc pinctrl: add a Cirrus ep93xx SoC pin controller
-
-:::::: TO: Nikita Shubin <nikita.shubin@maquefel.me>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+   351	
+   352	int perf_trace_add(struct perf_event *p_event, int flags)
+   353	{
+   354		struct trace_event_call *tp_event = p_event->tp_event;
+   355		struct hw_perf_event *hwc = &p_event->hw;
+   356	
+   357		if (!(flags & PERF_EF_START))
+   358			p_event->hw.state = PERF_HES_STOPPED;
+   359	
+ > 360		if (is_sampling_event(event)) {
+   361			hwc->last_period = hwc->sample_period;
+   362			perf_swevent_set_period(p_event);
+   363		}
+   364	
+   365		/*
+   366		 * If TRACE_REG_PERF_ADD returns false; no custom action was performed
+   367		 * and we need to take the default action of enqueueing our event on
+   368		 * the right per-cpu hlist.
+   369		 */
+   370		if (!tp_event->class->reg(tp_event, TRACE_REG_PERF_ADD, p_event)) {
+   371			struct hlist_head __percpu *pcpu_list;
+   372			struct hlist_head *list;
+   373	
+   374			pcpu_list = tp_event->perf_events;
+   375			if (WARN_ON_ONCE(!pcpu_list))
+   376				return -EINVAL;
+   377	
+   378			list = this_cpu_ptr(pcpu_list);
+   379			hlist_add_head_rcu(&p_event->hlist_entry, list);
+   380		}
+   381	
+   382		return 0;
+   383	}
+   384	
 
 -- 
 0-DAY CI Kernel Test Service
