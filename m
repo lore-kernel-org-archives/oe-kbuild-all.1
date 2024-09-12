@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE2337703
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 04:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F2F5227
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 04:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726115497; cv=none; b=V8z5rLfamikd16hxlA0SfNmrtxrNIqgPl4n4j22Vw6fEms8agnOJZ8p/QsHX2NpqIxjJOoNVePuGKWJYBziT7QU/9loLSVb1EJLQ9zsH6ShVJPFttBX2YmMNcvpK6bASqd4dmj5yjQvawv+5A01oFX+4ZafFLA1FuXdXcD4ucQI=
+	t=1726116098; cv=none; b=RmYsgnUiKM5ytxvTdOeRe+Csln7t32jgzhvXXXwUxporzYGrK9AaeCOSoCKgWK6YDWule13KaIzMLVPoxas/UpvZ0r6pz4A3xnr9e1TD70DEqRiBDr3yE+2Kt+COOFc1AaJYZi9og2VcjA8jZwQB54yWRdQhGMqfCjDHV0bVi0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726115497; c=relaxed/simple;
-	bh=Obl28i0WQgYiA2c9/Z6X4OBMIs3nZXwgJ13qaDt+Lj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B32l91Zs3VlRSWTLtl3PbRI8usWrmscSM5swSG4J03IigSqSukVSY9l9VcifeUMDvZBG6QUl4VVRLOF6PRXSI6OS+UX3y2SKmFE3buva9sHGU70NxYfOzQqBk71G/s+bPSAkfxLWckax6S257MofghBwu16jXA1R5z199pP1Rv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFPLVgXt; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1726116098; c=relaxed/simple;
+	bh=J+voR34oci4p2IIVjc3qd0YparHlcuZTim//SkaanKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r1hCeEfKOyALsyDJIjtBbaiq+iLBBAANgNB0IeBvke+3dy24zFL76G9aFhrE+ujN436TyXUxaYx61qMwf7//xWDB5Mp/rXTSqd8SGRXIlhveCP6/EHkMYxJq8FgEMe+q9HmeyderBXmx3W+/Ae9v+1SHSZkOJXAxAHNQ/mjnDCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eyjbzGUw; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFPLVgXt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eyjbzGUw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726115495; x=1757651495;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Obl28i0WQgYiA2c9/Z6X4OBMIs3nZXwgJ13qaDt+Lj4=;
-  b=mFPLVgXtQv9pKQkDfg0PAvJtqihFN7jiXbWsrYmMr21a1gitlOtPKN5e
-   6FlJHDaO8v3c8fvVUbUPVTHw1H5GYPumRDux6gDV3eCsop4gwsVJwmnOM
-   mEdBgJ9ldftLaxeqB1KplMGkFIEqWXt1/z7vdyiIpjyZo+umlI0uylt8V
-   5dB0twa5pKT2/zsRsCUZrUSGLHXys/643uEdKhDzlTZSSw/67v954Ihr3
-   lW4a4QPvDd8V2BanT8Iu6X3bAxOYWVYcTy6Fd4TzucYksTYxNKHT6CZuJ
-   WVTkp3/JEWULV5YMw19TRjAB9OWSSWtrLCsj4REiuO7VHHtvCfG4TF3r9
-   Q==;
-X-CSE-ConnectionGUID: M2KMfkI5STOG4d79zkv9mg==
-X-CSE-MsgGUID: chdaAVHIRLyE79FC0QRhcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="25079153"
+  t=1726116097; x=1757652097;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J+voR34oci4p2IIVjc3qd0YparHlcuZTim//SkaanKw=;
+  b=eyjbzGUwP1GKQ4eBBwoFd2UzDTWgN9y9cHylvnUaRFDhoggC7u8yj3GU
+   VcjG9T0Q0uXyOfeynrEZXqS8QmVFPiwo/fNKqfMhPi1zIXyAf53r8K1X4
+   3wvCPRQ+BfiNFGVQPbjteD1H1o/I7BDb5tjtqYLEdkXLeUb3ykbMWdhMh
+   4hxvypnE5s4n/CDcssRmSqoZr6vaELGTRV/p1LHy2cDcEJkPyuimVKAPG
+   vSvp+3M26ZWEgoe8YA13UGxDKqAZAkfn102Hs5kDNJO/H+CD+7NOGIYp7
+   xAeansf3aj18fWGBclmc8O7lj4zYJNunoUS2ixDrK6PEq8jhFNZnSmAHV
+   w==;
+X-CSE-ConnectionGUID: CdjqKtSiS0aV4Epx/pgW5w==
+X-CSE-MsgGUID: FKX7tV1eRFOoO2784lYlQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="25051007"
 X-IronPort-AV: E=Sophos;i="6.10,221,1719903600"; 
-   d="scan'208";a="25079153"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 21:31:33 -0700
-X-CSE-ConnectionGUID: /Jf/ZDCnRaqmlTP4ELw/XA==
-X-CSE-MsgGUID: 6jbWNayiTNyfUuRGBMzpbw==
+   d="scan'208";a="25051007"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 21:41:36 -0700
+X-CSE-ConnectionGUID: CwOQcPi0Rqy9ZzuC58xUVQ==
+X-CSE-MsgGUID: bv3X29aXRbWeaiGw38nICg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,221,1719903600"; 
-   d="scan'208";a="67408426"
+   d="scan'208";a="67822998"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Sep 2024 21:31:32 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Sep 2024 21:41:32 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sobUQ-0004Ww-0n;
-	Thu, 12 Sep 2024 04:31:30 +0000
-Date: Thu, 12 Sep 2024 12:30:37 +0800
+	id 1sobe6-0004XK-1J;
+	Thu, 12 Sep 2024 04:41:30 +0000
+Date: Thu, 12 Sep 2024 12:41:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Zhang <yu.c.zhang@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 26967/30000] arch/x86/kvm/x86.c:893:6: sparse:
- sparse: symbol 'kvm_post_set_cr0' was not declared. Should it be static?
-Message-ID: <202409121221.f86WxXWu-lkp@intel.com>
+To: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	NXP S32 Linux Team <s32@nxp.com>,
+	Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Bogdan Hamciuc <bogdan.hamciuc@nxp.com>,
+	Bogdan-Gabriel Roman <bogdan-gabriel.roman@nxp.com>,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>
+Subject: Re: [PATCH 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+Message-ID: <202409121103.EX9BTDFT-lkp@intel.com>
+References: <20240911070028.127659-3-ciprianmarian.costea@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,63 +75,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240911070028.127659-3-ciprianmarian.costea@oss.nxp.com>
 
-Hi Yu,
+Hi Ciprian,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   7c98201b2598a42ac2ce6a9036ee4e4349a406ac
-commit: 1686d271f795f8756b49151978b95b095c0598ad [26967/30000] KVM: x86: Introduce kvm_post_set_cr0 to post handle the CR0 emulation
-config: x86_64-randconfig-123-20240910 (https://download.01.org/0day-ci/archive/20240912/202409121221.f86WxXWu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409121221.f86WxXWu-lkp@intel.com/reproduce)
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on robh/for-next arm64/for-next/core linus/master v6.11-rc7 next-20240911]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/dt-bindings-rtc-add-schema-for-NXP-S32G2-S32G3-SoCs/20240911-150205
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20240911070028.127659-3-ciprianmarian.costea%40oss.nxp.com
+patch subject: [PATCH 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+config: sh-randconfig-r073-20240912 (https://download.01.org/0day-ci/archive/20240912/202409121103.EX9BTDFT-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409121103.EX9BTDFT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409121221.f86WxXWu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409121103.EX9BTDFT-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/x86.c:893:6: sparse: sparse: symbol 'kvm_post_set_cr0' was not declared. Should it be static?
-   arch/x86/kvm/x86.c:3044:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user * @@     got unsigned char [usertype] * @@
-   arch/x86/kvm/x86.c:3044:38: sparse:     expected void const [noderef] __user *
-   arch/x86/kvm/x86.c:3044:38: sparse:     got unsigned char [usertype] *
-   arch/x86/kvm/x86.c:8608:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/x86.c:8608:15: sparse:    struct kvm_apic_map [noderef] __rcu *
-   arch/x86/kvm/x86.c:8608:15: sparse:    struct kvm_apic_map *
-   arch/x86/kvm/x86.c:11008:32: sparse: sparse: Using plain integer as NULL pointer
-   arch/x86/kvm/x86.c:11061:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/x86.c:11061:16: sparse:    struct kvm_apic_map [noderef] __rcu *
-   arch/x86/kvm/x86.c:11061:16: sparse:    struct kvm_apic_map *
-   arch/x86/kvm/x86.c:11062:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/x86.c:11062:15: sparse:    struct kvm_pmu_event_filter [noderef] __rcu *
-   arch/x86/kvm/x86.c:11062:15: sparse:    struct kvm_pmu_event_filter *
-   arch/x86/kvm/x86.c:4134:42: sparse: sparse: self-comparison always evaluates to false
-   arch/x86/kvm/x86.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:182:9: sparse: sparse: context imbalance in 'vcpu_enter_guest' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +/kvm_post_set_cr0 +893 arch/x86/kvm/x86.c
+>> drivers/rtc/rtc-s32g.c:668:34: warning: 'rtc_dt_ids' defined but not used [-Wunused-const-variable=]
+     668 | static const struct of_device_id rtc_dt_ids[] = {
+         |                                  ^~~~~~~~~~
 
-   892	
- > 893	void kvm_post_set_cr0(struct kvm_vcpu *vcpu, unsigned long old_cr0, unsigned long cr0)
-   894	{
-   895		unsigned long update_bits = X86_CR0_PG | X86_CR0_WP;
-   896	
-   897		if ((cr0 ^ old_cr0) & X86_CR0_PG) {
-   898			kvm_clear_async_pf_completion_queue(vcpu);
-   899			kvm_async_pf_hash_reset(vcpu);
-   900		}
-   901	
-   902		if ((cr0 ^ old_cr0) & update_bits)
-   903			kvm_mmu_reset_context(vcpu);
-   904	
-   905		if (((cr0 ^ old_cr0) & X86_CR0_CD) &&
-   906		    kvm_arch_has_noncoherent_dma(vcpu->kvm) &&
-   907		    !kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_CD_NW_CLEARED))
-   908			kvm_zap_gfn_range(vcpu->kvm, 0, ~0ULL);
-   909	}
-   910	
+
+vim +/rtc_dt_ids +668 drivers/rtc/rtc-s32g.c
+
+   667	
+ > 668	static const struct of_device_id rtc_dt_ids[] = {
+   669		{.compatible = "nxp,s32g-rtc" },
+   670		{ /* sentinel */ },
+   671	};
+   672	
 
 -- 
 0-DAY CI Kernel Test Service
