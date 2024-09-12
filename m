@@ -1,63 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4567718890C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 05:53:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9265028C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 06:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726120419; cv=none; b=MAsEha6/kitKawwcgGNZbhLjimloZfJqj2XUhPjS5GZj4L7a+SyZ7foR4eiGJYS3PPZeo0oOnhiYhb5ZQcuUDjMiQ0M6jn9+ypwZ011kN8kBT6PUZldxlrpgky0gSB2RylEwUYM59bfn8i6OOwnnvgh+hOyum21DWUW9wOPSuC0=
+	t=1726121019; cv=none; b=sw8UbrIJoLYk2M9KDAQkNFapRyG5Cws7gxrbMUBbIQCbLwelVQrBWpBaLaPC2+OpnloNyBo9lMsSFveJJEirBS1BFTh49TMEy85HlCZ93PgfSnGyyAz26cp5/ZpJHMhxxIbFtIdttCzqH0SfI5/NkTiG5d32ZB5bFAwuDVfdofA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726120419; c=relaxed/simple;
-	bh=ZCkO/5mSJ0mHwGXbYlJn+SQKakDCYdC3/McjGG/w+UY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FBTjFEeWUfraVO2j3xPAGqHiC/zSd69LLIhsauLpoOJY4KoF036G0RarYzJLD1CiW3nFU5OLt6/D+BT0+yd5Cx+utjVpFnc18LfrcM9XFMiHC6yJMI0NnPCN+z/s3NVX0jLuUTnQEo6asI7W4kh+dUfY8/7fLIjLZvkomBGLu6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4IQVHBt; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1726121019; c=relaxed/simple;
+	bh=p2fnwvn97Ezfs0qMuHWsv5ECU8KtcAnRJbHP1S6kv6U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=If9638kAyUvEMS8cFK579rj18Fm8FMK57Vfdel/BA9uHEt740Fk9KuBp80GcWu8NdasyC7FbWfxw+9TPaFUxyNec3kBmfIHp5Tufs/knyRtO4q7rscDb2Wh9B4VbNNMMwd6EcCGmvXEava2FUlE+20NMv/hwfTNfiUkTMP6b5cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f5zomxUg; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4IQVHBt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f5zomxUg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726120417; x=1757656417;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZCkO/5mSJ0mHwGXbYlJn+SQKakDCYdC3/McjGG/w+UY=;
-  b=U4IQVHBtkc3oxjZwNxLQjesJ/MzDVsFd6XION0UlbEjeNEhiDkLsOVfW
-   gq50rebAEBxFh/zzf31m5QTZ5t7UKksjiaRUBijhBPJ5TlT6cSyCi/Dw+
-   OMOwzfLBNtSnwrjS64ZXZAxp3tL1e0xtW1O/6pPL6fCe3+sE8w1r+pOZw
-   FrB7p2LpUg5M+DjIoaNDwbAl6rIJAsE8CHmU1JKeuQW+SGdF9SrV1qEHY
-   ZqM2pvbCGmpjWuKjtEaoW3GaCM4wtt6qY5yXPhYTMypNGh7Ka6MtvqaT0
-   ImFIcwrbZnhC3RKKX/HC8KX42M/qw+VHhYu9Opr+jYrpU2fPHf2NocktV
-   A==;
-X-CSE-ConnectionGUID: n8cwnmEuQtqU3ojqNZQCRQ==
-X-CSE-MsgGUID: 3e8lA4ysSBu6qs1WdtOobg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="36091568"
+  t=1726121017; x=1757657017;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p2fnwvn97Ezfs0qMuHWsv5ECU8KtcAnRJbHP1S6kv6U=;
+  b=f5zomxUgQk+2cn7pg1qT255LyEAHg8dfzdu4sidyZRI2TLAlJh9Nyoke
+   wBin/JcE5KCGxHhMZlaWqU1HO9460dAZtujfsIsIZ3dTgNAlN1XfM3Nbc
+   eDGd0qa2kOD4G+eqGKGJpdxbAOZptE8ZvfcJaAv2XA7OrY9vgQ+rPJ4sx
+   12q4yVPNvDx8gU4nwgCi9vWCBrxwu+xJdT9dmkB0ctgK1nkD8h6IZfS6D
+   4quS8khpUNXUqCSPhwL9BSWnKmn17vebAxADpcTatmDgYDgl/mxrseail
+   E9uGx/0PnPnl89u6t7xwk2uXia/QxYmzl6oR5UI2E1N3ZrMGwH7lmzPhC
+   g==;
+X-CSE-ConnectionGUID: aTOuN7/ZRAebadl/t5esrg==
+X-CSE-MsgGUID: Kpz5tay2R0KlmEuNnwhfvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="36092349"
 X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
-   d="scan'208";a="36091568"
+   d="scan'208";a="36092349"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 22:53:36 -0700
-X-CSE-ConnectionGUID: 8dOeQaeZT0OWBveyB42R4Q==
-X-CSE-MsgGUID: RCHp+Rx8TJmkDt8/Bbf6bQ==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 23:03:36 -0700
+X-CSE-ConnectionGUID: uuIPrn+EQBqhRiPqD+eMmg==
+X-CSE-MsgGUID: tyVJjG1jTvS6nbECYKPvgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
-   d="scan'208";a="90845677"
+   d="scan'208";a="90848417"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Sep 2024 22:53:34 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Sep 2024 23:03:35 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1socln-0004Ze-2w;
-	Thu, 12 Sep 2024 05:53:31 +0000
-Date: Thu, 12 Sep 2024 13:52:39 +0800
+	id 1socvU-0004a6-0H;
+	Thu, 12 Sep 2024 06:03:32 +0000
+Date: Thu, 12 Sep 2024 14:02:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Avri Altman <avri.altman@wdc.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
-	Avri Altman <avri.altman@wdc.com>
-Subject: Re: [PATCH] scsi: ufs: Zero utp_upiu_req at the beginning of each
- command
-Message-ID: <202409121226.ngZ7ruK0-lkp@intel.com>
-References: <20240911053951.4032533-1-avri.altman@wdc.com>
+To: Yang Wang <kevinyang.wang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Hawking Zhang <Hawking.Zhang@amd.com>
+Subject: ERROR: modpost: "_restgpr1_16"
+ [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+Message-ID: <202409121452.N6t7aAhZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,37 +63,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911053951.4032533-1-avri.altman@wdc.com>
 
-Hi Avri,
+Hi Yang,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on mkp-scsi/for-next]
-[also build test ERROR on jejb-scsi/for-next linus/master v6.11-rc7 next-20240911]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Avri-Altman/scsi-ufs-Zero-utp_upiu_req-at-the-beginning-of-each-command/20240911-134349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20240911053951.4032533-1-avri.altman%40wdc.com
-patch subject: [PATCH] scsi: ufs: Zero utp_upiu_req at the beginning of each command
-config: i386-buildonly-randconfig-001-20240912 (https://download.01.org/0day-ci/archive/20240912/202409121226.ngZ7ruK0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409121226.ngZ7ruK0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   77f587896757708780a7e8792efe62939f25a5ab
+commit: 04c4fcd2630d400959f791a598070dab9d2133cd drm/amdgpu: add amdgpu ras aca query interface
+date:   8 months ago
+config: powerpc64-randconfig-002-20230922 (https://download.01.org/0day-ci/archive/20240912/202409121452.N6t7aAhZ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409121452.N6t7aAhZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409121226.ngZ7ruK0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409121452.N6t7aAhZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <command-line>:
->> ./usr/include/scsi/scsi_bsg_ufs.h:165:9: error: expected specifier-qualifier-list before 'struct_group'
-     165 |         struct_group(utp_upiu,
-         |         ^~~~~~~~~~~~
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-meson-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-bcm-ns-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/meson/pinctrl-meson.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-intel-lgm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-visconti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek-gen3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/pci-stub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-npe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pmdomain/amlogic/meson-gx-pwrc-vpu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/uninorth-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ttyprintk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/firewire-uapi-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ali1563.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/ttpci/budget-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-alsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/twl4030_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/marvell_cn10k_ddr_pmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+>> ERROR: modpost: "_restgpr1_16" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+ERROR: modpost: "_savegpr1_27" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_restfpr_16" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_savefpr_29" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_savefpr_21" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_savefpr_25" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_restfpr_21" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_savegpr1_15" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_restfpr_29" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "_savefpr_16" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+WARNING: modpost: suppressed 56 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
