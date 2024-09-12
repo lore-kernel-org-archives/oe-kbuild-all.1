@@ -1,129 +1,173 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFE418E764
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 08:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9D018BC27
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 08:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726129174; cv=none; b=htfLBI9otdNbwDYMeaTWU3nj5AD0MmD4y/W9tlySt2PKXzlPRPkTX6D37Io9wO8qsp3katLLXXH4t44CpoA6Vlbmc1o3nQYWhHjcJ3DqtrnqwPpIXmP4Dwl3nxZlUzyMeYe+uVMHPAd6ClcK9z/i0wCLWjW6rZ/PSJpuvBf+U80=
+	t=1726130322; cv=none; b=Rq0z0IoQFMAawhQJA6AdDffvY6SMvSX3/Z+7kinJJ3xaufe6YWThjheCcb4fXNsxUi3dUqFrnVGrCesEeYsIP7lmUF/f3VHV5FZEyKx5gbBuhb081SPYH5o74uOwQTSlbC0KPl6KZiuJfQr+szlYHoWyXA1pPvvOlfU32ctNBc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726129174; c=relaxed/simple;
-	bh=oXD8Bz6eo8NMtIanMbEUlfKIai6QG/7vmtOs6O+xSWw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UXHV14XZ3Jn4NbqGm/HDSj6Vs/Io3+WEnHKCWDBPCBB3ignWWUg6ofn+Sq59roDq+HKxKqMT+jx0UYsw8lWHp8WTY4P/EHOj7/b8m1ZsGAP1UhP7y5qqBGRnRI2vY3M2dk1u38g+qH2JyNRr1lb/CVs47EwQI7bMQVOmSC0evE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=So9TtO9t; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1726130322; c=relaxed/simple;
+	bh=5EVa0USWAD+pgatFeiCrS00qDKJa7avKjyT3VizTolU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p6Fs1qrgo4QngqiWpNOeGIxjBKL7Eu8mVUi8Lw1jGdSmFk6joDCvjOiMfanMIVTMlfJKwoxQjKboK9QOwVtAimYPKFfjnGNKWa3FuqiO/GYu4N5Tj0dgpzSo9ejZzHw57S5EnLQoAI9vX9GxFhZM1bkh2bwG2l9+nYKxdB0s2dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SuLga5mh; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="So9TtO9t"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1726129168;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9CQifcZ2WrGX2rzMNEg+NhE8zUJOuIH6qsj52bCYDnM=;
-	b=So9TtO9t2ll30oflYbv4fR3/MbMvIovLx83aXoV8yhI1sJ9SJeu5pUwEN9U2fKWqVny289
-	0vsgkk76Xkg+qJoPBdtJUNcQOxs+veA5WCoiIX47sb/ePZgb/6xsnfyC6YogHhj+U3li1z
-	UEgq2xTPIdWzsYI7njMpadzJhKl1kuE=
-From: Luis Henriques <luis.henriques@linux.dev>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,  Linux Memory Management List
- <linux-mm@kvack.org>,  Theodore Ts'o <tytso@mit.edu>,  Jan Kara
- <jack@suse.cz>
-Subject: Re: [linux-next:master 5690/11210] fs/ext4/fast_commit.c:362:21-23:
- WARNING !A || A && B is equivalent to !A || B
-In-Reply-To: <202409120149.GdjqoVYQ-lkp@intel.com> (kernel test robot's
-	message of "Thu, 12 Sep 2024 01:14:59 +0800")
-References: <202409120149.GdjqoVYQ-lkp@intel.com>
-Date: Thu, 12 Sep 2024 09:19:18 +0100
-Message-ID: <874j6lcmih.fsf@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SuLga5mh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726130320; x=1757666320;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5EVa0USWAD+pgatFeiCrS00qDKJa7avKjyT3VizTolU=;
+  b=SuLga5mhESqptkiEJq+Oiu9QdLmyt0Tbf5poeJmoa9Df0WM4TbdDRRdm
+   Gg6DmZvDsicssb0klJUD+AFh4r0ZNhQpAu293vd5UlZUksB7RJoH7dn39
+   I93fP1cGrtDOwWtraosg8FJ4uURXzd81w1c6BAsxIfgjUBSU1hZ1SrJOv
+   IinQsGX5J93fRlqyZvyfLfM/P5VY9cNiAydPy9HR86flrRldQpj5TTGIL
+   Y3B6M3/IzQQI6gejO3N3Tg1Mibw9Kfzomg4SNXXgdNXNMK/9TaaBqFEZF
+   LCSzflTExYB9u13++G4LtGfEVLbzudgVZxGFzCh1xrzHXyEznV+cGF16i
+   Q==;
+X-CSE-ConnectionGUID: dIll6dOwQqqAQPqmlg3qlg==
+X-CSE-MsgGUID: RnGUCdvGRdOhqUiXZp0NgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="25117108"
+X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
+   d="scan'208";a="25117108"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 01:38:39 -0700
+X-CSE-ConnectionGUID: 7018hL0bTwSiir9PLfZx6w==
+X-CSE-MsgGUID: haJwczc1TACtaDxbvW+r0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
+   d="scan'208";a="98345509"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 12 Sep 2024 01:38:38 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sofLY-0004hW-0S;
+	Thu, 12 Sep 2024 08:38:36 +0000
+Date: Thu, 12 Sep 2024 16:38:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 693/30000] versioncheck:
+ ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need
+ linux/version.h
+Message-ID: <202409121609.9KRZ2663-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Sep 12 2024, kernel test robot wrote:
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: e8a0febb1fb5b45f60a2010a90050806aeea9173 [693/30000] media: intel-ipu4: virtio: IPU virtio backend and frontend drivers base-code
+reproduce: (https://download.01.org/0day-ci/archive/20240912/202409121609.9KRZ2663-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   32ffa5373540a8d1c06619f52d019c6cdc948bb4
-> commit: ebc4b2c1ac92fc0f8bf3f5a9c285a871d5084a6b [5690/11210] ext4: fix i=
-ncorrect tid assumption in ext4_fc_mark_ineligible()
-> config: loongarch-randconfig-r063-20240911 (https://download.01.org/0day-=
-ci/archive/20240912/202409120149.GdjqoVYQ-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.1.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409120149.GdjqoVYQ-lkp=
-@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
->>> fs/ext4/fast_commit.c:362:21-23: WARNING !A || A && B is equivalent to =
-!A || B
->
-> vim +362 fs/ext4/fast_commit.c
->
->    332=09
->    333	/*
->    334	 * Mark file system as fast commit ineligible, and record latest
->    335	 * ineligible transaction tid. This means until the recorded
->    336	 * transaction, commit operation would result in a full jbd2 commi=
-t.
->    337	 */
->    338	void ext4_fc_mark_ineligible(struct super_block *sb, int reason, h=
-andle_t *handle)
->    339	{
->    340		struct ext4_sb_info *sbi =3D EXT4_SB(sb);
->    341		tid_t tid;
->    342		bool has_transaction =3D true;
->    343		bool is_ineligible;
->    344=09
->    345		if (ext4_fc_disabled(sb))
->    346			return;
->    347=09
->    348		if (handle && !IS_ERR(handle))
->    349			tid =3D handle->h_transaction->t_tid;
->    350		else {
->    351			read_lock(&sbi->s_journal->j_state_lock);
->    352			if (sbi->s_journal->j_running_transaction)
->    353				tid =3D sbi->s_journal->j_running_transaction->t_tid;
->    354			else
->    355				has_transaction =3D false;
->    356			read_unlock(&sbi->s_journal->j_state_lock);
->    357		}
->    358		spin_lock(&sbi->s_fc_lock);
->    359		is_ineligible =3D ext4_test_mount_flag(sb, EXT4_MF_FC_INELIGIBLE);
->    360		if (has_transaction &&
->    361		    (!is_ineligible ||
->  > 362		     (is_ineligible && tid_gt(tid, sbi->s_fc_ineligible_tid))))
->    363			sbi->s_fc_ineligible_tid =3D tid;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409121609.9KRZ2663-lkp@intel.com/
 
-This suggestion is obviously correct.  However, my brain found it much
-easier to write (and understand) this logic if written this way.
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.1.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
-Ted, want me to re-send this patch (or a fix for it), or are you happy
-leaving it as is?
-
-Cheers,
---=20
-Lu=C3=ADs
-
->    364 ext4_set_mount_flag(sb, EXT4_MF_FC_INELIGIBLE); 365
->    spin_unlock(&sbi->s_fc_lock); 366 WARN_ON(reason >=3D
->    EXT4_FC_REASON_MAX); 367
->    sbi->s_fc_stats.fc_ineligible_reason_count[reason]++; 368 } 369
->
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
