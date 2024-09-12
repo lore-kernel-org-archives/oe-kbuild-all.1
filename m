@@ -1,108 +1,128 @@
-Received: from gentwo.org (gentwo.org [62.72.0.81])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817962C80
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 22:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452FA17DFF5;
+	Thu, 12 Sep 2024 22:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726180223; cv=none; b=afSpHHA7aIIiNYwCaW6u0/EW1Yf2IjYBbPtcHhu9x4+7Cg6K8+5UqZmKDjnqTQxygaBjFE4h8/3rGdT0NR0MdgfRpYJcMpu4rpWZ39KqSaRsN3Sp92+T02kUoF+15EFYqYr4OL93P0hWZDTAcNj/J5gEf46rupYtFn+d9x9+tik=
+	t=1726180528; cv=none; b=rEdPfDEBZaYkNhRZBakNv+VWbiEsZj7F9dO5CfGh+7EG9s8wW5nJfKqrI8YViQb5TNJQ6HEgbXEnfHE21csbJauiy2qI7ejcxUeBAlVTyjm8/FuNFnqs9QhnTgyEbSprsK3fRBR23tHl6ituZ5yzrlhMyd6Iz6Z0zQhJl9rRkR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726180223; c=relaxed/simple;
-	bh=l78uYYUDdPq8NYE6gjoHUQJq/YK7wZojSJ0RQKOF0aw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ac3zBCgXJPtKTKCTjS6w9H7SYIkMZIt5MNETwX6M+rHRs6SQIEj3wqCjsQ/M0xoIRZrr2hXHbqxt5ps4E3135z+vpIiv7I1u3HxRRq5Bcg2ityppRZ60i1a79GIU/Ywrxc943ywoJ2mnvXiBk9k0TuIqCu8bCAdjG+7u8GgIjho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=DLDSueZI; arc=none smtp.client-ip=62.72.0.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
+	s=arc-20240116; t=1726180528; c=relaxed/simple;
+	bh=wuIELZcEof8EAfoBjEWh2KFq19kR4h+BfHve4ep/mrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DtW3lm+N/dj3nMMSp0T9tkRbUWFPDh5XsfIfs1o27TdsAf7U5ZTnUCJivrQptuVaftGzlBrKUunSjBOkSK6tE2rs0AmEssV13ImZ2NR9FHnvbzglHawBRTQIE4UCU5gG26INW+o0JamdXXqd7TU8LOfMqv+6auzhhqHg4qbibEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SDPzrPRX; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="DLDSueZI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
-	s=default; t=1726179662;
-	bh=l78uYYUDdPq8NYE6gjoHUQJq/YK7wZojSJ0RQKOF0aw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=DLDSueZIc9xylIWaSQCWxbKxnRD/+z5nSSQhuanrh0lVcivSVWajubmOwVpR+qE3S
-	 ciT/0JUTH2P0byafBd9FRq0ke3OntwIkYLn4SSVp7Y4JM1o9Po3/wEpRRsl0507v3w
-	 jtXpwHVegSlGjJn4ujk/SAuokCuXLyarJVwuYEbw=
-Received: by gentwo.org (Postfix, from userid 1003)
-	id 538E94027D; Thu, 12 Sep 2024 15:21:02 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTP id 51A73401CB;
-	Thu, 12 Sep 2024 15:21:02 -0700 (PDT)
-Date: Thu, 12 Sep 2024 15:21:02 -0700 (PDT)
-From: "Christoph Lameter (Ampere)" <cl@gentwo.org>
-To: Matthew Wilcox <willy@infradead.org>
-cc: kernel test robot <lkp@intel.com>, 
-    Christoph Lameter via B4 Relay <devnull+cl.gentwo.org@kernel.org>, 
-    Vlastimil Babka <vbabka@suse.cz>, Pekka Enberg <penberg@kernel.org>, 
-    David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    Roman Gushchin <roman.gushchin@linux.dev>, 
-    Hyeonggon Yoo <42.hyeyoo@gmail.com>, Yang Shi <shy828301@gmail.com>, 
-    oe-kbuild-all@lists.linux.dev, 
-    Linux Memory Management List <linux-mm@kvack.org>, 
-    linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-    Huang Shijie <shijie@os.amperecomputing.com>
-Subject: Re: [PATCH v2] SLUB: Add support for per object memory policies
-In-Reply-To: <ZuMk2Yc7i-JMiHpA@casper.infradead.org>
-Message-ID: <5f9e2cbd-a7a6-53c1-8272-6f91fb525571@gentwo.org>
-References: <20240906-strict_numa-v2-1-f104e6de6d1e@gentwo.org> <202409080304.haF25cFZ-lkp@intel.com> <2011fcea-b4f3-a7ec-e747-6ee0195452e1@gentwo.org> <ZuMk2Yc7i-JMiHpA@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SDPzrPRX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726180527; x=1757716527;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wuIELZcEof8EAfoBjEWh2KFq19kR4h+BfHve4ep/mrE=;
+  b=SDPzrPRXJWFa2ypXOcVWuh7d88brok4kUTN7N9Cd1I3RXah21DB3Mw03
+   ODT886nxekxlGhb3bYXsp/fMcI9OsprRLSZtOQfxnOuBE0SZnD3UR8Lsy
+   c2Oy2UtjGBll3UpvquiqcUGhf1DzMIjA2YKT3h916wr56E11MFOYhPsVI
+   0FLo/g9Yr9+HP7z5fQhZYNHMDdF4iLDN1Q5KHzwvJoNsr4fw1dKODoKQs
+   Vu+UEEgThUZOoiA12IVGjG4slQ4X6RKFu0T0GaEWhvlc2xhAl4KsZ9jLS
+   sGL0lmxL6dGacarhYCd1LGDRFD1PTxXW0iaHBO4JkKVWzJv8DZLH7CmBy
+   A==;
+X-CSE-ConnectionGUID: EJife8ESSMeR4bfxBXl13w==
+X-CSE-MsgGUID: QlyrZmDtTn6tp7uhSacbMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="35655345"
+X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
+   d="scan'208";a="35655345"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 15:35:26 -0700
+X-CSE-ConnectionGUID: hiAirQFtSGS+mBZl7t9oeQ==
+X-CSE-MsgGUID: 4VAvA29oTw2t6Evp0EQ2Lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
+   d="scan'208";a="68374426"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 12 Sep 2024 15:35:24 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sosPK-0005mQ-0V;
+	Thu, 12 Sep 2024 22:35:22 +0000
+Date: Fri, 13 Sep 2024 06:34:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 13/13]
+ drivers/cpuidle/cpuidle-apple.c:153:13: warning: variable 'pdev' is
+ uninitialized when used here
+Message-ID: <202409130612.wWkyxkkx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 12 Sep 2024, Matthew Wilcox wrote:
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   0be532d0b8c8e4c9d35c7a7b2199e9296d8f68a8
+commit: 0be532d0b8c8e4c9d35c7a7b2199e9296d8f68a8 [13/13] cpuidle: apple: Do not load on unsupported Apple platforms
+config: arm64-randconfig-004-20240913 (https://download.01.org/0day-ci/archive/20240913/202409130612.wWkyxkkx-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409130612.wWkyxkkx-lkp@intel.com/reproduce)
 
-> On Thu, Sep 12, 2024 at 09:15:34AM -0700, Christoph Lameter (Ampere) wrote:
-> > > sparse warnings: (new ones prefixed by >>)
-> > > >> mm/slub.c:222:1: sparse: sparse: symbol 'strict_numa' was not declared. Should it be static?
-> >
-> >
-> > Ummm.. This code declares strict_numa. Whats wrong with sparc64 / sparse ?
-> >
-> > > vim +/strict_numa +222 mm/slub.c
-> > >
-> > >    220
-> > >    221	#ifdef CONFIG_NUMA
-> > >  > 222	DEFINE_STATIC_KEY_FALSE(strict_numa);
->
-> maybe this should be:
->
-> static DEFINE_STATIC_KEY_FALSE(strict_numa);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409130612.wWkyxkkx-lkp@intel.com/
 
-Ah double staticity. Thanks.
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/cpuidle/cpuidle-apple.c:14:
+   In file included from arch/arm64/include/asm/cpuidle.h:8:
+   In file included from arch/arm64/include/asm/arch_gicv3.h:17:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/cpuidle/cpuidle-apple.c:153:13: warning: variable 'pdev' is uninitialized when used here [-Wuninitialized]
+     153 |                 dev_info(&pdev->dev, "cpuidle unavailable CPU does not retain state in deep WFI\n");
+         |                           ^~~~
+   include/linux/dev_printk.h:160:46: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                     ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/cpuidle/cpuidle-apple.c:142:30: note: initialize the variable 'pdev' to silence this warning
+     142 |         struct platform_device *pdev;
+         |                                     ^
+         |                                      = NULL
+   2 warnings generated.
 
 
+vim +/pdev +153 drivers/cpuidle/cpuidle-apple.c
 
+   139	
+   140	static int __init apple_cpuidle_init(void)
+   141	{
+   142		struct platform_device *pdev;
+   143		int ret;
+   144	
+   145		ret = platform_driver_register(&apple_cpuidle_driver);
+   146		if (ret)
+   147			return ret;
+   148	
+   149		if (!of_machine_is_compatible("apple,arm-platform"))
+   150			return 0;
+   151	
+   152		if (!FIELD_GET(DEEP_WFI_STATE_RETENTION, read_sysreg(aidr_el1))) {
+ > 153			dev_info(&pdev->dev, "cpuidle unavailable CPU does not retain state in deep WFI\n");
 
-From b239f4f26094845af74b091682f0bdcae56b5123 Mon Sep 17 00:00:00 2001
-From: Christoph Lameter <cl@gentwo.org>
-Date: Thu, 12 Sep 2024 15:15:07 -0700
-Subject: [PATCH 3/3] [SLUB] Make strict_numa static
-
-strict_numa is only used in mm/slub.c so it can be static.
-
-Signed-off-by: Christoph Lameter <cl@linux.com>
----
- mm/slub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/mm/slub.c b/mm/slub.c
-index 2fa7c35e076a..56e320082c09 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -219,7 +219,7 @@ DEFINE_STATIC_KEY_FALSE(slub_debug_enabled);
- #endif		/* CONFIG_SLUB_DEBUG */
-
- #ifdef CONFIG_NUMA
--DEFINE_STATIC_KEY_FALSE(strict_numa);
-+static DEFINE_STATIC_KEY_FALSE(strict_numa);
- #endif
-
- /* Structure holding parameters for get_partial() call chain */
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
