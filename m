@@ -1,83 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E86415D5D9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 14:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751961B654F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 15:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726152819; cv=none; b=ny/9hgiy6Ote8WE77yenHfIBFUFEPRPE9ah+MSUXJicvr6rLmyQujpC5SdSfsg95FWszwcLwRZqCCEPSJW+s2EN+WCghwbvWpqrWzvGua8BS37kBeAV4WgijBMiAeyMAjKh8WS4GXw4gQFyCJDDI0yIFcqt2IjgKCgd3NP1rJwM=
+	t=1726154483; cv=none; b=KBzHMi+ORjZjfHXLl4mYUmyt4Uv67tLCDFLHTyaSIGd2rPVyEorqBjr5WHVtFWivShS8Qi/Ch0bdg4lmWjK30aJRT9l5sv/+0AOZQW7EkZLNCAWaHz8EHWUTOZPaoUYviCtXE20idAYt0qQjPqrO8WeD36MQZLAkqmwAWi0p8bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726152819; c=relaxed/simple;
-	bh=Mu1iveyIKRBj/frOcWiQg1pMR4qLnYURMBvJG04Pa9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVdGrR77JDn44yczAnli8q/HTWYYyQs2Z7HzW2fwzbUlPS0nGW1XlJjB9f+DnVQgJhz76LVnsnLpnDAV0QuyIGHKTnBCE/o0VS3ITa8bBOVWq9tGjmlndYl3NgWPN9Ft8EQp0TpXRMuiS1DFjtGB8D9XH2PIckCD5EkLiSgC85k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQHMPfWb; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726154483; c=relaxed/simple;
+	bh=9TkatWWy4qUigj/Agc0VJXFWEg2FwVM7y8pymR1r4Jg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=kDHg0aemrlHYm+dqJGNEy+sO9s7hb7LmdNS5A8TMK9P8UpP/JbQsmwXW0RYuirnmzsv534Zp5zaw+0Izsvf2WXh3vvjrtNczmFG8u2cv/yjH3P+SH0n09nBU9g13FcbOJLqOrz7xDE36GiDak2OsdwQqv97+67xTzSBUzlsHsBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dEg9DhOV; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQHMPfWb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726152818; x=1757688818;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mu1iveyIKRBj/frOcWiQg1pMR4qLnYURMBvJG04Pa9Y=;
-  b=XQHMPfWb8wbK0i7H6YdWH5nujVb6xn9J86kFbhG6ui81JowEHyZ6V1Gd
-   EcXOhoZIlhHVELnjcZRzMzxmL4AmmoKX/cwGdztvH+11N1y3BcE27ThFw
-   Go2+hmtfJSwudEEcn+W81Bah2tiAhiiBGjPyr+UAyghwlxeYqiqCRqmYz
-   sXD+wscuceEz6+Mmx7ey8TaoeSrLU7Ncv6uh2F1SeBmtT09XljhOSp5io
-   nBVIcwVofbsqKkBpipOGIDEIBLI5ZMg7kcU0s9dwf7nw6cX6R+EcQjy/D
-   vUhM3n/SmhaXfNkx0HVAzlWZBsXl1nezh7yLv9oCgfssIwEkZL6Az+kxD
-   Q==;
-X-CSE-ConnectionGUID: zt8S/934SLCe9a4blVQLNg==
-X-CSE-MsgGUID: Z4mw3HdlT2+25sc+USsDvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24836124"
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; 
-   d="scan'208";a="24836124"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 07:53:11 -0700
-X-CSE-ConnectionGUID: dKmondxhQtWNkq6SQCgzLA==
-X-CSE-MsgGUID: bpwUapB7SeGqCOj5+unffw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; 
-   d="scan'208";a="67988216"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Sep 2024 07:53:03 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1solBt-0005Is-0j;
-	Thu, 12 Sep 2024 14:53:01 +0000
-Date: Thu, 12 Sep 2024 22:52:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Oliver Upton <oliver.upton@linux.dev>,
-	Sean Christopherson <seanjc@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Kan Liang <kan.liang@linux.intel.com>,
-	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH v2 5/5] perf: Correct perf sampling with guest VMs
-Message-ID: <202409122254.PnIe8ulL-lkp@intel.com>
-References: <20240911222433.3415301-6-coltonlewis@google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dEg9DhOV"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a8d24f98215so163974966b.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 08:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726154480; x=1726759280; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rKZhGXRQcwFBUGD2TvzDYoHMOsYseNMEOOZwanUbJEc=;
+        b=dEg9DhOVqgprAjH1tb3eqJ0wqUsLelLlX59mJNCQmYuVNfcKQXLXmQem2BhXmGsLux
+         s0JgH1bjeNEwZaKiF3X+7MxdimIpwuKL9aieGigrw2gWWsdIlbsZoYB3/JbhRC+2rHIl
+         91rGcjvBnfDuedLC5BfJVarerLimV/Ign3Vcmh3DEjc7ShYFi2X33aCSY0cvDyuTk6of
+         O3dup9PDiBNI53g5/Iyww4TFdABmU1U9RLF9EC2c/lkMQyFjCR6u4LK4m9ddSGjHGOmk
+         Ujm+Jy/YTnp3C4JifK51XVCdKwjkwukyQsQ7H2sG9Df4PXmg2xQJdLOUe89Pj4dhcDaz
+         rapg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726154480; x=1726759280;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rKZhGXRQcwFBUGD2TvzDYoHMOsYseNMEOOZwanUbJEc=;
+        b=Cj/sEABPNuQeFCs7C+DlqZV8uYgAbgDPZcihinXXZdRr0OwWsgn0LHX6SCZpld5NgC
+         J5lewqdAAAM04RIba/jaCGR43DeHqpmhuum2NZ5mKhwVJ9+cGZIUMRzcZS+AUVEO4JQj
+         0drwWTE6SJFHZQkPDnVQPWvW22Fxmd1bWMzggdz8UHw8NteX644Cvl7nGFAB/nXwuiYH
+         yV84qD2rMKvSA1nLQSUXYx0hYRXTMa+SB8oPdOqCLS1YEfNb1MR0hl7gERnhGd4/YkjU
+         LtnVW0TA6ImAY9X2HOUZB+ubuiyjJalCI5GH7VBGBo+FZ6TFYM+q2Y02h979vuQPNinl
+         7ckg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4X19eQrH496oU3vEMxtluQAgXuVg6M3OGrSvhNTfy7PbsAto+B9axyiZN3SrUjtK6XhY+6Nr+2m49xkHH@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWXSpbyoEV54pAZRrO48QbYcsEooN2LXOY2m8hJlt05bCYMPFq
+	nE+Uwu1DqIvxhgZJU3JQLaWM9ZWhtpWVdrJ/tFAFc01hTYSh7R7kWB20YigOMwA=
+X-Google-Smtp-Source: AGHT+IGR0nOHASEqi+8LkA+gXAMl7gOxeG0h01vdv3UFFIDmn5QNe4LfNAaLW1YKKzKPpNhxSZIgjg==
+X-Received: by 2002:a17:907:f154:b0:a86:851e:3a2b with SMTP id a640c23a62f3a-a902959cdaemr311009866b.29.1726154479528;
+        Thu, 12 Sep 2024 08:21:19 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25ced1bfsm758176566b.154.2024.09.12.08.21.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2024 08:21:19 -0700 (PDT)
+Date: Thu, 12 Sep 2024 18:21:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Feng Tang <feng.tang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 4/5] mm/slub: Improve redzone check and zeroing for
+ krealloc()
+Message-ID: <956a59be-4153-4ec0-8b26-ea3dc1700e75@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,56 +66,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911222433.3415301-6-coltonlewis@google.com>
+In-Reply-To: <20240911064535.557650-5-feng.tang@intel.com>
 
-Hi Colton,
+Hi Feng,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on perf-tools-next/perf-tools-next]
-[also build test WARNING on tip/perf/core perf-tools/perf-tools acme/perf/core linus/master v6.11-rc7 next-20240912]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm-perf-Drop-unused-functions/20240912-063910
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240911222433.3415301-6-coltonlewis%40google.com
-patch subject: [PATCH v2 5/5] perf: Correct perf sampling with guest VMs
-config: x86_64-buildonly-randconfig-005-20240912 (https://download.01.org/0day-ci/archive/20240912/202409122254.PnIe8ulL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409122254.PnIe8ulL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Tang/mm-kasan-Don-t-store-metadata-inside-kmalloc-object-when-slub_debug_orig_size-is-on/20240911-144724
+base:   next-20240910
+patch link:    https://lore.kernel.org/r/20240911064535.557650-5-feng.tang%40intel.com
+patch subject: [PATCH v2 4/5] mm/slub: Improve redzone check and zeroing for krealloc()
+config: i386-randconfig-141-20240912 (https://download.01.org/0day-ci/archive/20240912/202409122122.U5RpHfCY-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409122254.PnIe8ulL-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409122122.U5RpHfCY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/slub.c:4748 __do_krealloc() error: uninitialized symbol 's'.
 
-   arch/x86/events/core.c: In function 'perf_arch_misc_flags':
->> arch/x86/events/core.c:2971:22: warning: unused variable 'guest_state' [-Wunused-variable]
-    2971 |         unsigned int guest_state = perf_guest_state();
-         |                      ^~~~~~~~~~~
+vim +/s +4748 mm/slub.c
 
+474fff8e68012d Feng Tang       2024-09-11  4715  static __always_inline __realloc_size(2) void *
+474fff8e68012d Feng Tang       2024-09-11  4716  __do_krealloc(const void *p, size_t new_size, gfp_t flags)
+474fff8e68012d Feng Tang       2024-09-11  4717  {
+474fff8e68012d Feng Tang       2024-09-11  4718  	void *ret;
+474fff8e68012d Feng Tang       2024-09-11  4719  	size_t ks;
+89a7731cc91033 Feng Tang       2024-09-11  4720  	int orig_size = 0;
+89a7731cc91033 Feng Tang       2024-09-11  4721  	struct kmem_cache *s;
+474fff8e68012d Feng Tang       2024-09-11  4722  
+89a7731cc91033 Feng Tang       2024-09-11  4723  	/* Check for double-free. */
+474fff8e68012d Feng Tang       2024-09-11  4724  	if (likely(!ZERO_OR_NULL_PTR(p))) {
+474fff8e68012d Feng Tang       2024-09-11  4725  		if (!kasan_check_byte(p))
+474fff8e68012d Feng Tang       2024-09-11  4726  			return NULL;
+89a7731cc91033 Feng Tang       2024-09-11  4727  
+89a7731cc91033 Feng Tang       2024-09-11  4728  		s = virt_to_cache(p);
+89a7731cc91033 Feng Tang       2024-09-11  4729  		orig_size = get_orig_size(s, (void *)p);
+89a7731cc91033 Feng Tang       2024-09-11  4730  		ks = s->object_size;
+474fff8e68012d Feng Tang       2024-09-11  4731  	} else
+474fff8e68012d Feng Tang       2024-09-11  4732  		ks = 0;
 
-vim +/guest_state +2971 arch/x86/events/core.c
+ks is zero
 
-8f19518b57cef1 arch/x86/events/core.c           Colton Lewis        2024-09-11  2968  
-a2d1490e40282f arch/x86/events/core.c           Colton Lewis        2024-09-11  2969  unsigned long perf_arch_misc_flags(struct pt_regs *regs)
-39447b386c846b arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-19  2970  {
-1c3430516b0732 arch/x86/events/core.c           Sean Christopherson 2021-11-11 @2971  	unsigned int guest_state = perf_guest_state();
-8f19518b57cef1 arch/x86/events/core.c           Colton Lewis        2024-09-11  2972  	unsigned long misc = common_misc_flags(regs);
-dcf46b9443ad48 arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-20  2973  
-d07bdfd322d307 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra      2012-07-10  2974  	if (user_mode(regs))
-dcf46b9443ad48 arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-20  2975  		misc |= PERF_RECORD_MISC_USER;
-dcf46b9443ad48 arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-20  2976  	else
-dcf46b9443ad48 arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-20  2977  		misc |= PERF_RECORD_MISC_KERNEL;
-dcf46b9443ad48 arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-20  2978  
-39447b386c846b arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-19  2979  	return misc;
-39447b386c846b arch/x86/kernel/cpu/perf_event.c Zhang, Yanmin       2010-04-19  2980  }
-b3d9468a8bd218 arch/x86/kernel/cpu/perf_event.c Gleb Natapov        2011-11-10  2981  
+474fff8e68012d Feng Tang       2024-09-11  4733  
+89a7731cc91033 Feng Tang       2024-09-11  4734  	/* If the object doesn't fit, allocate a bigger one */
+89a7731cc91033 Feng Tang       2024-09-11  4735  	if (new_size > ks)
+
+Assume new_size is also zero so this is false
+
+89a7731cc91033 Feng Tang       2024-09-11  4736  		goto alloc_new;
+89a7731cc91033 Feng Tang       2024-09-11  4737  
+474fff8e68012d Feng Tang       2024-09-11  4738  	/* Zero out spare memory. */
+474fff8e68012d Feng Tang       2024-09-11  4739  	if (want_init_on_alloc(flags)) {
+474fff8e68012d Feng Tang       2024-09-11  4740  		kasan_disable_current();
+89a7731cc91033 Feng Tang       2024-09-11  4741  		if (orig_size < new_size)
+89a7731cc91033 Feng Tang       2024-09-11  4742  			memset((void *)p + orig_size, 0, new_size - orig_size);
+89a7731cc91033 Feng Tang       2024-09-11  4743  		else
+474fff8e68012d Feng Tang       2024-09-11  4744  			memset((void *)p + new_size, 0, ks - new_size);
+474fff8e68012d Feng Tang       2024-09-11  4745  		kasan_enable_current();
+474fff8e68012d Feng Tang       2024-09-11  4746  	}
+474fff8e68012d Feng Tang       2024-09-11  4747  
+89a7731cc91033 Feng Tang       2024-09-11 @4748  	if (slub_debug_orig_size(s) && !is_kfence_address(p)) {
+                                                                                 ^
+Uninitialized in that case
+
+89a7731cc91033 Feng Tang       2024-09-11  4749  		set_orig_size(s, (void *)p, new_size);
+89a7731cc91033 Feng Tang       2024-09-11  4750  		if (s->flags & SLAB_RED_ZONE && new_size < ks)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
