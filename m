@@ -1,63 +1,59 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751961B654F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 15:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1793CA5F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 15:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726154483; cv=none; b=KBzHMi+ORjZjfHXLl4mYUmyt4Uv67tLCDFLHTyaSIGd2rPVyEorqBjr5WHVtFWivShS8Qi/Ch0bdg4lmWjK30aJRT9l5sv/+0AOZQW7EkZLNCAWaHz8EHWUTOZPaoUYviCtXE20idAYt0qQjPqrO8WeD36MQZLAkqmwAWi0p8bg=
+	t=1726154649; cv=none; b=kNxedRvrfMFREqgO6Gs/sV382vRUGhAlMN5cmaIfBYhTUgUQgptb2NhYLAniGxye+2sMWcvILXCRYUSPpOgEHk7fQRA866ombCh6F936dP5ezplbATJUcY6e1JqhAAZH0e0Ua5s8uXgurzcH16QNu+hD7Y2fRHkgTerXFSf9aUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726154483; c=relaxed/simple;
-	bh=9TkatWWy4qUigj/Agc0VJXFWEg2FwVM7y8pymR1r4Jg=;
+	s=arc-20240116; t=1726154649; c=relaxed/simple;
+	bh=QeA/QlvT7B7o5iLDLR0ucQfJWLqavnencezogCI7EaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=kDHg0aemrlHYm+dqJGNEy+sO9s7hb7LmdNS5A8TMK9P8UpP/JbQsmwXW0RYuirnmzsv534Zp5zaw+0Izsvf2WXh3vvjrtNczmFG8u2cv/yjH3P+SH0n09nBU9g13FcbOJLqOrz7xDE36GiDak2OsdwQqv97+67xTzSBUzlsHsBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dEg9DhOV; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=dfHFviLS5GbWcHQEkneTcumNGrD/Auw8aOzRwM3KH1mC2FBoX/F6a+lVFuysJlNaDE5Lm8dlEic7h7p/ZSsLx4ZPGFi1GHOCrGoph1aDFP86KU5l+PBrlkG6G1AKbaWgsJNLcnEVfrNFIlWQR7SvRUYsO4poPq5Q1vFdEU6UNOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TL/ShVHd; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dEg9DhOV"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a8d24f98215so163974966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Sep 2024 08:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726154480; x=1726759280; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rKZhGXRQcwFBUGD2TvzDYoHMOsYseNMEOOZwanUbJEc=;
-        b=dEg9DhOVqgprAjH1tb3eqJ0wqUsLelLlX59mJNCQmYuVNfcKQXLXmQem2BhXmGsLux
-         s0JgH1bjeNEwZaKiF3X+7MxdimIpwuKL9aieGigrw2gWWsdIlbsZoYB3/JbhRC+2rHIl
-         91rGcjvBnfDuedLC5BfJVarerLimV/Ign3Vcmh3DEjc7ShYFi2X33aCSY0cvDyuTk6of
-         O3dup9PDiBNI53g5/Iyww4TFdABmU1U9RLF9EC2c/lkMQyFjCR6u4LK4m9ddSGjHGOmk
-         Ujm+Jy/YTnp3C4JifK51XVCdKwjkwukyQsQ7H2sG9Df4PXmg2xQJdLOUe89Pj4dhcDaz
-         rapg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726154480; x=1726759280;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rKZhGXRQcwFBUGD2TvzDYoHMOsYseNMEOOZwanUbJEc=;
-        b=Cj/sEABPNuQeFCs7C+DlqZV8uYgAbgDPZcihinXXZdRr0OwWsgn0LHX6SCZpld5NgC
-         J5lewqdAAAM04RIba/jaCGR43DeHqpmhuum2NZ5mKhwVJ9+cGZIUMRzcZS+AUVEO4JQj
-         0drwWTE6SJFHZQkPDnVQPWvW22Fxmd1bWMzggdz8UHw8NteX644Cvl7nGFAB/nXwuiYH
-         yV84qD2rMKvSA1nLQSUXYx0hYRXTMa+SB8oPdOqCLS1YEfNb1MR0hl7gERnhGd4/YkjU
-         LtnVW0TA6ImAY9X2HOUZB+ubuiyjJalCI5GH7VBGBo+FZ6TFYM+q2Y02h979vuQPNinl
-         7ckg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4X19eQrH496oU3vEMxtluQAgXuVg6M3OGrSvhNTfy7PbsAto+B9axyiZN3SrUjtK6XhY+6Nr+2m49xkHH@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWXSpbyoEV54pAZRrO48QbYcsEooN2LXOY2m8hJlt05bCYMPFq
-	nE+Uwu1DqIvxhgZJU3JQLaWM9ZWhtpWVdrJ/tFAFc01hTYSh7R7kWB20YigOMwA=
-X-Google-Smtp-Source: AGHT+IGR0nOHASEqi+8LkA+gXAMl7gOxeG0h01vdv3UFFIDmn5QNe4LfNAaLW1YKKzKPpNhxSZIgjg==
-X-Received: by 2002:a17:907:f154:b0:a86:851e:3a2b with SMTP id a640c23a62f3a-a902959cdaemr311009866b.29.1726154479528;
-        Thu, 12 Sep 2024 08:21:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25ced1bfsm758176566b.154.2024.09.12.08.21.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 08:21:19 -0700 (PDT)
-Date: Thu, 12 Sep 2024 18:21:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Feng Tang <feng.tang@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 4/5] mm/slub: Improve redzone check and zeroing for
- krealloc()
-Message-ID: <956a59be-4153-4ec0-8b26-ea3dc1700e75@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TL/ShVHd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726154647; x=1757690647;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QeA/QlvT7B7o5iLDLR0ucQfJWLqavnencezogCI7EaA=;
+  b=TL/ShVHdTXIlScgocIeVXVUxB9KD+whIYsbar12M8+RWicNKBsuCqm4T
+   uuJdewaxDViFbVptG1MyGFCxpkwfPr6DPX1CpjFPGzS8BxTmlliRgGQMv
+   1X3H6OeYFpaKMjfuNbcuMnFUrBW5U1SwcvmKXWdQw4yBVZP6W6v8max9c
+   8rdQTxmLWZpFZkUNOaIAM4FxEoB+fskOvWb6OvN5Dshz55s4jSyrdL7qV
+   Q1JjXV6hXZa1t2rygetS5Riv1t4U2cxhsHfOAOP6J6taw3bwvP+XoS2ki
+   9Tduc7Oee/MF3I33e7RJF1mxaWDP70HfXDHfAEURbvJd0hjcrrQti4zzq
+   g==;
+X-CSE-ConnectionGUID: Uqdb/csITlCYLAmql2Tdug==
+X-CSE-MsgGUID: 84/1u475R+aVq4fCoNMAdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="27933442"
+X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; 
+   d="scan'208";a="27933442"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 08:24:06 -0700
+X-CSE-ConnectionGUID: HelONJ4TQKKrku4XIZI8SA==
+X-CSE-MsgGUID: dnWHndJVTFulzuUqt5caPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; 
+   d="scan'208";a="72748778"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 12 Sep 2024 08:24:06 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1solfu-0005Kq-2c;
+	Thu, 12 Sep 2024 15:24:02 +0000
+Date: Thu, 12 Sep 2024 23:23:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 11520/30000]
+ kernel/power/qos.c:306:5: warning: stack frame size (33240) exceeds limit
+ (8192) in 'pm_qos_update_target'
+Message-ID: <202409122352.OkoJF0Zw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,79 +62,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911064535.557650-5-feng.tang@intel.com>
 
-Hi Feng,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Tang/mm-kasan-Don-t-store-metadata-inside-kmalloc-object-when-slub_debug_orig_size-is-on/20240911-144724
-base:   next-20240910
-patch link:    https://lore.kernel.org/r/20240911064535.557650-5-feng.tang%40intel.com
-patch subject: [PATCH v2 4/5] mm/slub: Improve redzone check and zeroing for krealloc()
-config: i386-randconfig-141-20240912 (https://download.01.org/0day-ci/archive/20240912/202409122122.U5RpHfCY-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   1b3964c5e070d088ca4c9591cbadd91a22e438ea
+commit: 723feab600f71b3104a10de5b372bd1d9adf5943 [11520/30000] ANDROID: GKI: QoS: Enhance framework to support cpu/irq specific QoS requests
+config: x86_64-buildonly-randconfig-001-20240912 (https://download.01.org/0day-ci/archive/20240912/202409122352.OkoJF0Zw-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409122352.OkoJF0Zw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409122122.U5RpHfCY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409122352.OkoJF0Zw-lkp@intel.com/
 
-smatch warnings:
-mm/slub.c:4748 __do_krealloc() error: uninitialized symbol 's'.
+All warnings (new ones prefixed by >>):
 
-vim +/s +4748 mm/slub.c
+>> kernel/power/qos.c:306:5: warning: stack frame size (33240) exceeds limit (8192) in 'pm_qos_update_target' [-Wframe-larger-than]
+     306 | int pm_qos_update_target(struct pm_qos_constraints *c, struct plist_node *node,
+         |     ^
+   1 warning generated.
+   kernel/power/qos.c:630: warning: Function parameter or member 'new_value' not described in 'pm_qos_update_request'
+   kernel/power/qos.c:630: warning: Excess function parameter 'value' description in 'pm_qos_update_request'
 
-474fff8e68012d Feng Tang       2024-09-11  4715  static __always_inline __realloc_size(2) void *
-474fff8e68012d Feng Tang       2024-09-11  4716  __do_krealloc(const void *p, size_t new_size, gfp_t flags)
-474fff8e68012d Feng Tang       2024-09-11  4717  {
-474fff8e68012d Feng Tang       2024-09-11  4718  	void *ret;
-474fff8e68012d Feng Tang       2024-09-11  4719  	size_t ks;
-89a7731cc91033 Feng Tang       2024-09-11  4720  	int orig_size = 0;
-89a7731cc91033 Feng Tang       2024-09-11  4721  	struct kmem_cache *s;
-474fff8e68012d Feng Tang       2024-09-11  4722  
-89a7731cc91033 Feng Tang       2024-09-11  4723  	/* Check for double-free. */
-474fff8e68012d Feng Tang       2024-09-11  4724  	if (likely(!ZERO_OR_NULL_PTR(p))) {
-474fff8e68012d Feng Tang       2024-09-11  4725  		if (!kasan_check_byte(p))
-474fff8e68012d Feng Tang       2024-09-11  4726  			return NULL;
-89a7731cc91033 Feng Tang       2024-09-11  4727  
-89a7731cc91033 Feng Tang       2024-09-11  4728  		s = virt_to_cache(p);
-89a7731cc91033 Feng Tang       2024-09-11  4729  		orig_size = get_orig_size(s, (void *)p);
-89a7731cc91033 Feng Tang       2024-09-11  4730  		ks = s->object_size;
-474fff8e68012d Feng Tang       2024-09-11  4731  	} else
-474fff8e68012d Feng Tang       2024-09-11  4732  		ks = 0;
 
-ks is zero
+vim +/pm_qos_update_target +306 kernel/power/qos.c
 
-474fff8e68012d Feng Tang       2024-09-11  4733  
-89a7731cc91033 Feng Tang       2024-09-11  4734  	/* If the object doesn't fit, allocate a bigger one */
-89a7731cc91033 Feng Tang       2024-09-11  4735  	if (new_size > ks)
+723feab600f71b kernel/power/qos.c     Lina Iyer           2014-05-21  294  
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  295  /**
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  296   * pm_qos_update_target - manages the constraints list and calls the notifiers
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  297   *  if needed
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  298   * @c: constraints data struct
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  299   * @node: request to add to the list, to update or to remove
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  300   * @action: action to take on the constraints list
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  301   * @value: value of the request to add or update
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  302   *
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  303   * This function returns 1 if the aggregated constraint value has changed, 0
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  304   *  otherwise.
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  305   */
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25 @306  int pm_qos_update_target(struct pm_qos_constraints *c, struct plist_node *node,
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  307  			 enum pm_qos_req_action action, int value)
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  308  {
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  309  	unsigned long flags;
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  310  	int prev_value, curr_value, new_value;
+2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  311  	int ret;
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  312  
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  313  	spin_lock_irqsave(&pm_qos_lock, flags);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  314  	prev_value = pm_qos_get_value(c);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  315  	if (value == PM_QOS_DEFAULT_VALUE)
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  316  		new_value = c->default_value;
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  317  	else
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  318  		new_value = value;
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  319  
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  320  	switch (action) {
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  321  	case PM_QOS_REMOVE_REQ:
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  322  		plist_del(node, &c->list);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  323  		break;
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  324  	case PM_QOS_UPDATE_REQ:
+5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  325  		/*
+5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  326  		 * to change the list, we atomically remove, reinit
+5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  327  		 * with new value and add, then see if the extremal
+5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  328  		 * changed
+5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  329  		 */
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  330  		plist_del(node, &c->list);
+fe43e2ce526979 kernel/power/qos.c     Gustavo A. R. Silva 2018-03-30  331  		/* fall through */
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  332  	case PM_QOS_ADD_REQ:
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  333  		plist_node_init(node, new_value);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  334  		plist_add(node, &c->list);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  335  		break;
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  336  	default:
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  337  		/* no action */
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  338  		;
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  339  	}
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  340  
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  341  	curr_value = pm_qos_get_value(c);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  342  	pm_qos_set_value(c, curr_value);
+723feab600f71b kernel/power/qos.c     Lina Iyer           2014-05-21  343  	pm_qos_set_value_for_cpus(c);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  344  
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  345  	spin_unlock_irqrestore(&pm_qos_lock, flags);
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  346  
+247e9ee034b044 kernel/power/qos.c     Sahara              2013-06-21  347  	trace_pm_qos_update_target(action, prev_value, curr_value);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  348  	if (prev_value != curr_value) {
+2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  349  		ret = 1;
+2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  350  		if (c->notifiers)
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  351  			blocking_notifier_call_chain(c->notifiers,
+5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  352  						     (unsigned long)curr_value,
+5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  353  						     NULL);
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  354  	} else {
+2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  355  		ret = 0;
+abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  356  	}
+2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  357  	return ret;
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  358  }
+d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  359  
 
-Assume new_size is also zero so this is false
+:::::: The code at line 306 was first introduced by commit
+:::::: abe98ec2d86279fe821c9051003a0abc43444f15 PM QoS: Generalize and export constraints management code
 
-89a7731cc91033 Feng Tang       2024-09-11  4736  		goto alloc_new;
-89a7731cc91033 Feng Tang       2024-09-11  4737  
-474fff8e68012d Feng Tang       2024-09-11  4738  	/* Zero out spare memory. */
-474fff8e68012d Feng Tang       2024-09-11  4739  	if (want_init_on_alloc(flags)) {
-474fff8e68012d Feng Tang       2024-09-11  4740  		kasan_disable_current();
-89a7731cc91033 Feng Tang       2024-09-11  4741  		if (orig_size < new_size)
-89a7731cc91033 Feng Tang       2024-09-11  4742  			memset((void *)p + orig_size, 0, new_size - orig_size);
-89a7731cc91033 Feng Tang       2024-09-11  4743  		else
-474fff8e68012d Feng Tang       2024-09-11  4744  			memset((void *)p + new_size, 0, ks - new_size);
-474fff8e68012d Feng Tang       2024-09-11  4745  		kasan_enable_current();
-474fff8e68012d Feng Tang       2024-09-11  4746  	}
-474fff8e68012d Feng Tang       2024-09-11  4747  
-89a7731cc91033 Feng Tang       2024-09-11 @4748  	if (slub_debug_orig_size(s) && !is_kfence_address(p)) {
-                                                                                 ^
-Uninitialized in that case
-
-89a7731cc91033 Feng Tang       2024-09-11  4749  		set_orig_size(s, (void *)p, new_size);
-89a7731cc91033 Feng Tang       2024-09-11  4750  		if (s->flags & SLAB_RED_ZONE && new_size < ks)
+:::::: TO: Jean Pihet <j-pihet@ti.com>
+:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
