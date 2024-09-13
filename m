@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C6D40C03
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 02:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776231E884
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 03:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726196015; cv=none; b=Hbuz5DeZPoY7DV7ibQnQB2O/0GBCiGcpnhhfUSqjoFtxkOw8YCVyxup5iOScENX6PJ6+ljP/gASxY8B3btHY/1kvGTFP8kB+Q9CSVVrx4k796oH0W9EvY4IImcuJOv8W3WyT0hTMSRwh87VA7FuKGc7cYMBLOScjKeZ4+8G6dno=
+	t=1726197276; cv=none; b=NZxCYbu5WCrr2R+UNaH+PC7SqlH/orHUXyxj9aBlDJ2iztsbBGkn5x1tWp01LY20D2avjMtKZeOHIdCpEU/7GbV/A/ckvIVhI+Sma7n1BItuzk2RAS8E7Ep+s/8oGnOaV3NOQflfi4xa9IhLSMANUsXiTTZTRs+WxgMxx0B+EHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726196015; c=relaxed/simple;
-	bh=W1p9h8bplarDu3lVaxin1ia7X7OgpDgdohSgDSIkkkw=;
+	s=arc-20240116; t=1726197276; c=relaxed/simple;
+	bh=UF45bnjN7xTRiQ2CNcZl8S9F997vPgP/Ef6Vzltetw8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GLdwBOkEyljNcJ4aVZZk2c2MHUUXvsNbVn18i7SJgzJrSuuA8AO8hg9mTPk3+4pmAWS7ZM+S59inHc1hXfVxzanLLX3ahX/SayuUNDcVT1y52MkSrn38bLGmIXMZ/yjo3v8DNSiwFHHcVfGyelLTIeJXr9KZCGlLj3P90F0vMnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AoAgQMdz; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=MWn2buWhU8+qzhMrr7LFFRXQwGhWDJiqD3kR62fDokaQlYZO2ROeZ8mG+PV9ZABM9LIy9/9ZjpgHiMOje1EbXTa8rvJHShWue7JLoswXk/C4mqLBH0EKqwys3DUklFYnqeceTfqxXZB1LQfLLzD9+oSVnTWAskJrLA7KWIH1aXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzyTWW6c; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AoAgQMdz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzyTWW6c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726196013; x=1757732013;
+  t=1726197274; x=1757733274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W1p9h8bplarDu3lVaxin1ia7X7OgpDgdohSgDSIkkkw=;
-  b=AoAgQMdzVX2A6K6vYMuFdKqShW7+lTaHtZy6JKD3omTqYVxhve1/ZS4H
-   OJdtFxQqRriO6J63d6PVzR3pYBFXeY6z0WJjH+z5m6Kvhpm3sGxfODfem
-   iF7vC67Ivxlrzzs7Cd1UuI5Rqcys6Aks+9U8ma8y98/X7y00qHAzjYuWS
-   R4rJehqJdORENLrI1328woCbKAkkbdVb6u8c/Dm//OzKPoi7+ZQVUlbtO
-   saaj2jXNrAmloCv0IaV26mU3WQwUryaiZMuJeHFz71zBujz3jm9s3ssbG
-   bJXQnJDwb+gd9tSnQAqnp6MwBEUNH1HArA27f8tIab+j9qSonD/vxdlvS
+  bh=UF45bnjN7xTRiQ2CNcZl8S9F997vPgP/Ef6Vzltetw8=;
+  b=kzyTWW6c5oagkveSWGcMvoWdckxcZ5CINmtwYhU+b04wYQjC1vkDCCEL
+   NkpYolg7HF5Ifq1c/Mw/5LkkRssgzRt4nZuLqD0I8efZNFgEKC9GdvPlJ
+   lucIOHvY2WhjZSW4u7jFCodfTAkBSnhAG3EjhO4zVPgUtCOJgUMyyDuoq
+   /qwbX+uQzUxEMtMrk6H6VbKdKIYIVTrKZfPWNlEZfMVVPi8PHNdPehARG
+   CvB+24hrx564ApJS8tbmRnJZJQg/PWuGRcIq0V57nF+2F4Ix7gZ4njil3
+   JmYPEp49hrrvIM+xvz8V7fdM0rxyprv/u8D1mOftmJOZCrzAhvyZZAc1P
    A==;
-X-CSE-ConnectionGUID: ShnzkUkYSxGfZi7NUmPOSw==
-X-CSE-MsgGUID: WjzKMeuoRCObBDknIEEs4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25182003"
+X-CSE-ConnectionGUID: YtMUb3PyQViGIbRCxIRd+Q==
+X-CSE-MsgGUID: apb9X+D9RG+FZ+eHgWcBPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24908594"
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="25182003"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 19:53:33 -0700
-X-CSE-ConnectionGUID: AL7/rf/WT/mrXmC8qcYTIw==
-X-CSE-MsgGUID: svdXIkyyS+moKjHdhnh3Mg==
+   d="scan'208";a="24908594"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 20:14:33 -0700
+X-CSE-ConnectionGUID: DaNXnFwKSRut9B0sPBnkWw==
+X-CSE-MsgGUID: tSsqDzH6SGqCYKZkblP9GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="68158780"
+   d="scan'208";a="68419447"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Sep 2024 19:53:31 -0700
+  by orviesa007.jf.intel.com with ESMTP; 12 Sep 2024 20:14:32 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sowR7-0005wC-05;
-	Fri, 13 Sep 2024 02:53:29 +0000
-Date: Fri, 13 Sep 2024 10:52:47 +0800
+	id 1sowlR-0005x0-1z;
+	Fri, 13 Sep 2024 03:14:29 +0000
+Date: Fri, 13 Sep 2024 11:13:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Guralnik <michaelgur@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:rdma-next 52/80]
- drivers/net/ethernet/mellanox/mlx5/core/main.c:482:2-3: Unneeded semicolon
-Message-ID: <202409131019.IXh0jC0s-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-error-cleanup-2024-09-10 17/31]
+ sound/soc/fsl/imx-audmix.c:113:24: warning: unused variable 'dev'
+Message-ID: <202409131123.k0jLcDSi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   f1e3ad547cf0c19a02c067031cd16c70943a1052
-commit: 5416992c011080f20d2e849674bbbf5a5a9d1808 [52/80] net/mlx5: Handle memory scheme ODP capabilities
-config: um-randconfig-r051-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131019.IXh0jC0s-lkp@intel.com/config)
+tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-10
+head:   df81764a514843b316e76c4bc95d2f97a31297f5
+commit: c329ff407425a195a664d14e72cc82be93f2b75f [17/31] snd_soc_dai_set_fmt
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240913/202409131123.k0jLcDSi-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131123.k0jLcDSi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131019.IXh0jC0s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131123.k0jLcDSi-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/mellanox/mlx5/core/main.c:482:2-3: Unneeded semicolon
+All warnings (new ones prefixed by >>):
 
-vim +482 drivers/net/ethernet/mellanox/mlx5/core/main.c
+   sound/soc/fsl/imx-audmix.c: In function 'imx_audmix_be_hw_params':
+>> sound/soc/fsl/imx-audmix.c:113:24: warning: unused variable 'dev' [-Wunused-variable]
+     113 |         struct device *dev = rtd->card->dev;
+         |                        ^~~
 
-   454	
-   455	static int handle_hca_cap_odp(struct mlx5_core_dev *dev, void *set_ctx)
-   456	{
-   457		bool do_set = false, mem_page_fault = false;
-   458		void *set_hca_cap;
-   459		int err;
-   460	
-   461		if (!IS_ENABLED(CONFIG_INFINIBAND_ON_DEMAND_PAGING) ||
-   462		    !MLX5_CAP_GEN(dev, pg))
-   463			return 0;
-   464	
-   465		err = mlx5_core_get_caps(dev, MLX5_CAP_ODP);
-   466		if (err)
-   467			return err;
-   468	
-   469		set_hca_cap = MLX5_ADDR_OF(set_hca_cap_in, set_ctx, capability);
-   470		memcpy(set_hca_cap, dev->caps.hca[MLX5_CAP_ODP]->cur,
-   471		       MLX5_ST_SZ_BYTES(odp_cap));
-   472	
-   473		/* For best performance, enable memory scheme ODP only when
-   474		 * it has page prefetch enabled.
-   475		 */
-   476		if (MLX5_CAP_ODP_MAX(dev, mem_page_fault) &&
-   477		    MLX5_CAP_ODP_MAX(dev, memory_page_fault_scheme_cap.page_prefetch)) {
-   478			mem_page_fault = true;
-   479			do_set = true;
-   480			MLX5_SET(odp_cap, set_hca_cap, mem_page_fault, mem_page_fault);
-   481			goto set;
- > 482		};
-   483	
+
+vim +/dev +113 sound/soc/fsl/imx-audmix.c
+
+b86ef536776160 Viorel Suman      2019-01-22  108  
+b86ef536776160 Viorel Suman      2019-01-22  109  static int imx_audmix_be_hw_params(struct snd_pcm_substream *substream,
+b86ef536776160 Viorel Suman      2019-01-22  110  				   struct snd_pcm_hw_params *params)
+b86ef536776160 Viorel Suman      2019-01-22  111  {
+14ec63f678e8be Kuninori Morimoto 2023-09-11  112  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+b86ef536776160 Viorel Suman      2019-01-22 @113  	struct device *dev = rtd->card->dev;
+b86ef536776160 Viorel Suman      2019-01-22  114  	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+b86ef536776160 Viorel Suman      2019-01-22  115  	unsigned int fmt = SND_SOC_DAIFMT_DSP_A | SND_SOC_DAIFMT_NB_NF;
+b86ef536776160 Viorel Suman      2019-01-22  116  	int ret;
+b86ef536776160 Viorel Suman      2019-01-22  117  
+b86ef536776160 Viorel Suman      2019-01-22  118  	if (!tx)
+b86ef536776160 Viorel Suman      2019-01-22  119  		return 0;
+b86ef536776160 Viorel Suman      2019-01-22  120  
+bf101022487091 Mark Brown        2021-09-21  121  	/* For playback the AUDMIX is consumer */
+3b14c15a333b82 Charles Keepax    2022-05-19  122  	fmt |= SND_SOC_DAIFMT_BC_FC;
+b86ef536776160 Viorel Suman      2019-01-22  123  
+b86ef536776160 Viorel Suman      2019-01-22  124  	/* set AUDMIX DAI configuration */
+14ec63f678e8be Kuninori Morimoto 2023-09-11  125  	ret = snd_soc_dai_set_fmt(snd_soc_rtd_to_cpu(rtd, 0), fmt);
+b86ef536776160 Viorel Suman      2019-01-22  126  
+b86ef536776160 Viorel Suman      2019-01-22  127  	return ret;
+b86ef536776160 Viorel Suman      2019-01-22  128  }
+b86ef536776160 Viorel Suman      2019-01-22  129  
+
+:::::: The code at line 113 was first introduced by commit
+:::::: b86ef5367761603df5f66ce08fb014b991f6b51d ASoC: fsl: Add Audio Mixer machine driver
+
+:::::: TO: Viorel Suman <viorel.suman@nxp.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
