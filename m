@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35267489
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 22:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B16170A11
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 23:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726267594; cv=none; b=rYP0FGKLxJ6RdMo/LsJLpdQpOuMceJ6CloXuAy3z/YfO6WSI2w0d28mQwrlUBzbzi0m/Aln32gvWI/znb+z1Q5lGAvMbd17P+ds7BG18LmVYk6gCQviK2hG4vNzELc5IuAMMhotw1odYaiXAaA4cIDnja9mmhaNpBkmYXCLUoWE=
+	t=1726268795; cv=none; b=CPcEVdK4jzlpWpeN5hP3ZQLNrd99+kD5PWJ6nugtwhNO1vvOOef5q/B/kEQYihe4hmICFnARp/7Ibb/Si6rygy7niVPYTTTnGjX9okPjaC81bX/UjbNJdXv2XZj3mmW/kQrfmhQHPCq4MzMJDFDbfUV37zpXqvA4j30Vu7eXvuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726267594; c=relaxed/simple;
-	bh=bzZYx6X/0ts5emwyeq1oo9iSBwMC96Ac+YnFn+TnGdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BRWKeHf6H8jCUQ0r1nEeHlIUPWRWwbyd6Pt8LHHUJ3XuvkX9vgjGpo8emTM3/rDmRDRQgQszFsCpEHuda1j8+39rgKX17qcM3ptxW9Pg7EQ2my6D/GDx7bpazCATa6m6LesiPiOaUZLkd2ceUpLzoNWx2DemvxDrrdqnTbqEaL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejNZWv//; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1726268795; c=relaxed/simple;
+	bh=wnToeX8YzDppkDKMgMsn/V/HdNlGQr09epLSRpo5Wv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EP4cYWDX4wojn1SOqVpSuSO99F4TOfufVme/llXU4Cf2CvUTGPmmscQ6g3dUukZI0RwIqO1Kw2VXnoIWfIy6agEONhKjz8CnHM3XPAl/wIavKGo9WlW2+i2Bqu6qEaMMQ5MtMAo934fN+qKqfj6n8CEQSk5+vUJ2AdMVO/jDz80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KltF6waC; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejNZWv//"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KltF6waC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726267591; x=1757803591;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bzZYx6X/0ts5emwyeq1oo9iSBwMC96Ac+YnFn+TnGdw=;
-  b=ejNZWv//V+o7aBEJ+fuaUX9je0195MWE2D/7hFIUbaCUFpI3W7eP9XHC
-   gVRqtevYpwVCVF08XdEaCze5OyHvt4zoy3yXYN6YYcTJSvbHL6CsanilD
-   eptSxQ4hVcDZ2KS3RqvqWKj2mcahGYGEqEg0i+mESwG1vz+1SmZfbEc+i
-   MtdsF5XDPAq244kArs7uLtBKCe6BIJaPwIxIGQVpHF4GEP+xHduSUf/yL
-   z9PfHifZJFNjGA7LZmDlz9T8F6F7ewN94b6Lls3KLlVyjxYU+3URBqDGE
-   jkBJENGSLiO7XqtU0NS/DxXtpn/egcjBrsVw6yJuOVZS8sr5HlTozLCNS
-   A==;
-X-CSE-ConnectionGUID: q979rTNuQoO8EPKCbFavvw==
-X-CSE-MsgGUID: 3Xz04J2RTx2Sp8vvcv6rJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35856906"
+  t=1726268793; x=1757804793;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wnToeX8YzDppkDKMgMsn/V/HdNlGQr09epLSRpo5Wv4=;
+  b=KltF6waCpSKyUJO8bx2qjPD567K7/+GwWyTdgB3aRJlJYQnsnGtLKLuq
+   19Ra89hbKMssay3AbO2V7thtnrU/K3AQpBZJ4jfzimyziuMdQDKHE2EJZ
+   9dPeYfFnEB75m+re1Wmz/rSkD3CaWZwzwL2uFnvxuz6/3b8+QC5Cxcm8e
+   4KJ7Ip1P/VxXdwO2i7oFPRfKteaNKusAGRKGA62c1y/aet/IsJleQ7vRX
+   4lBzeHiy690ZygUz35MWzcHnQ4nRR1b4taCDMLsx7BcbibZod/aX1TnXU
+   qM0CMqF+AAfP844Iik4GQDTTElgWRfWtBDh/A4xQod5HUTKRnhvQqk3b2
+   Q==;
+X-CSE-ConnectionGUID: KmvL+3EzSyOro84fApznSA==
+X-CSE-MsgGUID: oRX++dV7QeiOihbcXkgtQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="36533411"
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="35856906"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 15:46:31 -0700
-X-CSE-ConnectionGUID: OSIAn2ZeQ0ex8ubiKnzNLg==
-X-CSE-MsgGUID: jBrAiw88RpugICQcQ74wfw==
+   d="scan'208";a="36533411"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 16:06:32 -0700
+X-CSE-ConnectionGUID: 3wW/D9yCQcOX/zhYzqkZ5A==
+X-CSE-MsgGUID: wBA1xxxbTQewDCs8o9Xq+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="68085643"
+   d="scan'208";a="68733764"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Sep 2024 15:46:29 -0700
+  by orviesa007.jf.intel.com with ESMTP; 13 Sep 2024 16:06:31 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spF3a-00076o-2M;
-	Fri, 13 Sep 2024 22:46:26 +0000
-Date: Sat, 14 Sep 2024 06:45:28 +0800
+	id 1spFMy-00077g-2W;
+	Fri, 13 Sep 2024 23:06:28 +0000
+Date: Sat, 14 Sep 2024 07:06:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	Sanket.Goswami@amd.com,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Patil.Reddy@amd.com, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v5 4/8] i2c: amd-asf: Add ACPI support for AMD ASF
- Controller
-Message-ID: <202409140624.TOshFT39-lkp@intel.com>
-References: <20240913121110.1611340-5-Shyam-sundar.S-k@amd.com>
+To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2385/13930] kernel/cgroup/cgroup.c:3968:15:
+ error: use of undeclared identifier 'cgroup_psi_stat_show'; did you mean
+ 'cgroup_stat_show'?
+Message-ID: <202409140727.bS0VY46J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,71 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913121110.1611340-5-Shyam-sundar.S-k@amd.com>
 
-Hi Shyam,
+Hi Lu,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/i2c-piix4-Change-the-parameter-list-of-piix4_transaction-function/20240913-201353
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240913121110.1611340-5-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH v5 4/8] i2c: amd-asf: Add ACPI support for AMD ASF Controller
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240914/202409140624.TOshFT39-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140624.TOshFT39-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   13706c950ff941dc015e16f76812077f9861e378
+commit: 4a69b56540f40550585b9f93c35e415ac90bdecc [2385/13930] sched/psi: Introduce pressure.stat in psi
+config: arm64-randconfig-001-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140727.bS0VY46J-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140727.bS0VY46J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140624.TOshFT39-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140727.bS0VY46J-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/i2c/busses/i2c-amd-asf-plat.c: In function 'amd_asf_probe':
->> drivers/i2c/busses/i2c-amd-asf-plat.c:52:47: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-      52 |                  "SMBus ASF adapter%s at 0x%llx", amd_asf_port_name, asf_dev->port_addr->start);
-         |                                            ~~~^                      ~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                               |                                        |
-         |                                               long long unsigned int                   resource_size_t {aka unsigned int}
-         |                                            %x
+>> kernel/cgroup/cgroup.c:3968:15: error: use of undeclared identifier 'cgroup_psi_stat_show'; did you mean 'cgroup_stat_show'?
+                   .seq_show = cgroup_psi_stat_show,
+                               ^~~~~~~~~~~~~~~~~~~~
+                               cgroup_stat_show
+   kernel/cgroup/cgroup.c:3660:12: note: 'cgroup_stat_show' declared here
+   static int cgroup_stat_show(struct seq_file *seq, void *v)
+              ^
+   1 error generated.
 
 
-vim +52 drivers/i2c/busses/i2c-amd-asf-plat.c
+vim +3968 kernel/cgroup/cgroup.c
 
-    30	
-    31	static int amd_asf_probe(struct platform_device *pdev)
-    32	{
-    33		struct amd_asf_dev *asf_dev;
-    34	
-    35		asf_dev = devm_kzalloc(&pdev->dev, sizeof(*asf_dev), GFP_KERNEL);
-    36		if (!asf_dev)
-    37			return dev_err_probe(&pdev->dev, -ENOMEM, "Failed to allocate memory\n");
-    38	
-    39		asf_dev->dev = &pdev->dev;
-    40		asf_dev->mmio_cfg.use_mmio = true;
-    41		platform_set_drvdata(pdev, asf_dev);
-    42	
-    43		asf_dev->port_addr = platform_get_resource(pdev, IORESOURCE_IO, 0);
-    44		if (!asf_dev->port_addr)
-    45			return dev_err_probe(&pdev->dev, -EINVAL, "missing IO resources\n");
-    46	
-    47		asf_dev->adap.owner = THIS_MODULE;
-    48		asf_dev->adap.dev.parent = &pdev->dev;
-    49	
-    50		i2c_set_adapdata(&asf_dev->adap, asf_dev);
-    51		snprintf(asf_dev->adap.name, sizeof(asf_dev->adap.name),
-  > 52			 "SMBus ASF adapter%s at 0x%llx", amd_asf_port_name, asf_dev->port_addr->start);
-    53	
-    54		return devm_i2c_add_adapter(&pdev->dev, &asf_dev->adap);
-    55	}
-    56	
+  3929	
+  3930	struct cftype cgroup_v1_psi_files[] = {
+  3931		{
+  3932			.name = "io.pressure",
+  3933			.flags = CFTYPE_NO_PREFIX,
+  3934			.seq_show = cgroup_io_pressure_show,
+  3935			.write = cgroup_io_pressure_write,
+  3936			.poll = cgroup_pressure_poll,
+  3937			.release = cgroup_pressure_release,
+  3938		},
+  3939		{
+  3940			.name = "memory.pressure",
+  3941			.flags = CFTYPE_NO_PREFIX,
+  3942			.seq_show = cgroup_memory_pressure_show,
+  3943			.write = cgroup_memory_pressure_write,
+  3944			.poll = cgroup_pressure_poll,
+  3945			.release = cgroup_pressure_release,
+  3946		},
+  3947		{
+  3948			.name = "cpu.pressure",
+  3949			.flags = CFTYPE_NO_PREFIX,
+  3950			.seq_show = cgroup_cpu_pressure_show,
+  3951			.write = cgroup_cpu_pressure_write,
+  3952			.poll = cgroup_pressure_poll,
+  3953			.release = cgroup_pressure_release,
+  3954		},
+  3955	#ifdef CONFIG_IRQ_TIME_ACCOUNTING
+  3956		{
+  3957			.name = "irq.pressure",
+  3958			.flags = CFTYPE_NO_PREFIX,
+  3959			.seq_show = cgroup_irq_pressure_show,
+  3960			.write = cgroup_irq_pressure_write,
+  3961			.poll = cgroup_pressure_poll,
+  3962			.release = cgroup_pressure_release,
+  3963		},
+  3964	#endif
+  3965		{
+  3966			.name = "pressure.stat",
+  3967			.flags = CFTYPE_NO_PREFIX,
+> 3968			.seq_show = cgroup_psi_stat_show,
+  3969		},
+  3970		{ }	/* terminate */
+  3971	};
+  3972	#endif
+  3973	#else /* CONFIG_PSI */
+  3974	bool cgroup_psi_enabled(void)
+  3975	{
+  3976		return false;
+  3977	}
+  3978	
 
 -- 
 0-DAY CI Kernel Test Service
