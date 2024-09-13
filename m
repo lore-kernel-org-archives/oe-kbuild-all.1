@@ -1,75 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D399118BC20
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 05:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649BE18734B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 05:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726205381; cv=none; b=HcTyCCDQBKkrSOxOb2AkF/p4ziRymuuDJcI3DjrsXvCHJGhxL/1mSRN/WKwDs70MmoJ+qS2DA1y9vYSBtb3FGynjsu0W6F8Jgp7+7pKnl1LzNTvwR9MlrW4rIO5mEtvRVP7gMgXuNuITe/JxHgVTfXCUcxYcRt2IZnQDrsfbGb4=
+	t=1726205979; cv=none; b=lAwVhDsNW9OeRC9ZlSrODIsWBXJDG2+iYs/APKALj9fKOhsXudN86IDtyJSKdnhJPzKu0iIUuC3Cw4bdKxxPqJx/3nH4UU4LtFvPcJ1oiMhe/+57Q/NpMOpKKdIAQK6y0TT2N6lN2G+Qt8hwXIqJKPnwefA4F/BCm/dOc6oAKOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726205381; c=relaxed/simple;
-	bh=80v5ch7Jk09s6l+BVbrjWkR705j1W08EbcI8sSu/9F8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usQBACCsY8gjjJopZq1I8Pk+YqKofBxZlQEZqBJb99zupJHUO/4RB2zUo6veAmxsoXRrJHIGO6ADfjyz1e6C5Z447tZfBT4IzK5Or3+fBs4uImb4PNIYjr9Y7UbESGX4zAbkpGWbmeu7aYi2C6pWwCFCo3v9/AaPzECEyTwv9Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3vf5fy2; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1726205979; c=relaxed/simple;
+	bh=7VKYr6A4O2fX+dRTeUcqJx8z5Vz7TLlRbF5Mmm6YGzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TDFQIOKvFdKAbAPjnVnkjivcQXhuhTAnzIpMwkSlFCEEHiwZiYxOngVbOlbq2u9iA8S9p2DXuMSWVSPz9FA9T8DQmTs31rbp/O4coKW5hHomFIBqsJrGx79gekEOL4vnAKVhZWEwYaamFAWOWOXNuaDPC7olGGzvu7G1j+69/v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZvWXOx3g; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3vf5fy2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZvWXOx3g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726205380; x=1757741380;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=80v5ch7Jk09s6l+BVbrjWkR705j1W08EbcI8sSu/9F8=;
-  b=U3vf5fy2xJRyrsOhDPI1WDa28VDlCLPJRGTa9rCwcjYFrqSJcS9MhX4i
-   blyYwqndMks/kvBbU9yvXn91oaYv/Rs4TDfO1rVF5kvP8A9LfK9W9K559
-   SUPXPzALu2ND6p9e849rWkrp9RaFUnhQ8ntLT0Getydiit/jab5iMBjhW
-   r3mJMZqtohGWFRxFnWvmG4pROUn7ylp49Lfccwow6LXjOibMVwXMRJhfO
-   Bq/AONTrg8Rfl1uFrYxtZfbcpmd7GUIQYIMlbPk7KWENGiK3LTa2d5Cwr
-   Y4orKwXZEk7N6DX1cYT1PsUW47hrOkJoj1oJo9KsFtfra4to1Ajf7zmNr
+  t=1726205977; x=1757741977;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7VKYr6A4O2fX+dRTeUcqJx8z5Vz7TLlRbF5Mmm6YGzA=;
+  b=ZvWXOx3gj5FXnQLojSAEVt2DVCSwllQip7gunvZVJZSzf90lL72vKk0F
+   Bs8GGPxGlj8L4lAfVfIOEYpXtAUXxIIvrOCu0reNiXObth97ZS5eTYhCE
+   Ng2/SI9nqOFXktWIlhZkdDhVR6N2CQ2Rs7rf5tF3g/ZQ6/LhX+B2gK1J4
+   p443tHcagZ98uY1BYuYCkmjsIu2uEw5FNbWC2D3sowVr7YDBE4DD65Adm
+   W3i/huoR0joGXrTwtjf3H58gnSYj6wY6uykg3umhQ6NrNqXX6I70jVx3A
+   Yp53rfqevaT71rpdUUWNz2Uo0gryko1dI8dyYQufL4j7KdIgUzfDHezsx
    A==;
-X-CSE-ConnectionGUID: mNyZTRPQREeBryGsGFUJyA==
-X-CSE-MsgGUID: XhvNw/AgTACmBfzMj+Ep+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25190271"
+X-CSE-ConnectionGUID: a8upLiZ+TA6gBkn78Ww9kg==
+X-CSE-MsgGUID: gxJ2GWLAR/6MS0y2PmNpzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="13506959"
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="25190271"
+   d="scan'208";a="13506959"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 22:29:39 -0700
-X-CSE-ConnectionGUID: dGw7irkORmu/2kylREtn/g==
-X-CSE-MsgGUID: RvVP3gC/Qze0ht9Is4J6zg==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 22:39:36 -0700
+X-CSE-ConnectionGUID: umXERJRvTn60jzMqcqLEPQ==
+X-CSE-MsgGUID: 3AuHwj8dRDScqMhPs+dt9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="72047680"
+   d="scan'208";a="72048946"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Sep 2024 22:29:35 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 12 Sep 2024 22:39:35 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soys8-00062u-2q;
-	Fri, 13 Sep 2024 05:29:32 +0000
-Date: Fri, 13 Sep 2024 13:29:13 +0800
+	id 1soz1p-00063a-1A;
+	Fri, 13 Sep 2024 05:39:33 +0000
+Date: Fri, 13 Sep 2024 13:39:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	linux-arm-kernel@lists.infradead.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH net-next 3/7] net: phy: lxt: Mark LXT973 PHYs as having a
- broken isolate mode
-Message-ID: <202409131315.SEzdGTvD-lkp@intel.com>
-References: <20240911212713.2178943-4-maxime.chevallier@bootlin.com>
+To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 19394/30000]
+ drivers/ub/urma/uburma/uburma_cmd.c:144:6: warning: no previous prototype
+ for 'uburma_jfs_event_cb'
+Message-ID: <202409131316.GLZstznv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,79 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911212713.2178943-4-maxime.chevallier@bootlin.com>
 
-Hi Maxime,
+Hi Yizhen,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Chevallier/net-phy-allow-isolating-PHY-devices/20240912-053106
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240911212713.2178943-4-maxime.chevallier%40bootlin.com
-patch subject: [PATCH net-next 3/7] net: phy: lxt: Mark LXT973 PHYs as having a broken isolate mode
-config: x86_64-randconfig-121-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131315.SEzdGTvD-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131315.SEzdGTvD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5a1d9701155c6908c76c68951170f10279685143
+commit: dd9641804ad19402838975c28003465d0b42042a [19394/30000] ub: uburma add cmd create/delete jfs implementation.
+config: arm64-randconfig-004-20240912 (https://download.01.org/0day-ci/archive/20240913/202409131316.GLZstznv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131316.GLZstznv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131315.SEzdGTvD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131316.GLZstznv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/phy/lxt.c:331:10: sparse: sparse: Initializer entry defined twice
-   drivers/net/phy/lxt.c:337:10: sparse:   also defined here
-   drivers/net/phy/lxt.c:343:10: sparse: sparse: Initializer entry defined twice
-   drivers/net/phy/lxt.c:348:10: sparse:   also defined here
+All warnings (new ones prefixed by >>):
 
-vim +331 drivers/net/phy/lxt.c
+>> drivers/ub/urma/uburma/uburma_cmd.c:144:6: warning: no previous prototype for 'uburma_jfs_event_cb' [-Wmissing-prototypes]
+     144 | void uburma_jfs_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~
 
-e13647c158307f Richard Cochran      2010-06-07  307  
-d5bf9071e71a4d Christian Hohnstaedt 2012-07-04  308  static struct phy_driver lxt97x_driver[] = {
-d5bf9071e71a4d Christian Hohnstaedt 2012-07-04  309  {
-600991b003039b Uwe Zeisberger       2006-06-25  310  	.phy_id		= 0x78100000,
-00db8189d984d6 Andy Fleming         2005-07-30  311  	.name		= "LXT970",
-600991b003039b Uwe Zeisberger       2006-06-25  312  	.phy_id_mask	= 0xfffffff0,
-dcdecdcfe1fc39 Heiner Kallweit      2019-04-12  313  	/* PHY_BASIC_FEATURES */
-00db8189d984d6 Andy Fleming         2005-07-30  314  	.config_init	= lxt970_config_init,
-00db8189d984d6 Andy Fleming         2005-07-30  315  	.config_intr	= lxt970_config_intr,
-01c4a00bf34797 Ioana Ciornei        2020-11-13  316  	.handle_interrupt = lxt970_handle_interrupt,
-d5bf9071e71a4d Christian Hohnstaedt 2012-07-04  317  }, {
-600991b003039b Uwe Zeisberger       2006-06-25  318  	.phy_id		= 0x001378e0,
-00db8189d984d6 Andy Fleming         2005-07-30  319  	.name		= "LXT971",
-600991b003039b Uwe Zeisberger       2006-06-25  320  	.phy_id_mask	= 0xfffffff0,
-dcdecdcfe1fc39 Heiner Kallweit      2019-04-12  321  	/* PHY_BASIC_FEATURES */
-00db8189d984d6 Andy Fleming         2005-07-30  322  	.config_intr	= lxt971_config_intr,
-01c4a00bf34797 Ioana Ciornei        2020-11-13  323  	.handle_interrupt = lxt971_handle_interrupt,
-5556fdb0c2ea3a Christophe Leroy     2019-05-23  324  	.suspend	= genphy_suspend,
-5556fdb0c2ea3a Christophe Leroy     2019-05-23  325  	.resume		= genphy_resume,
-871d1d6b59802a LEROY Christophe     2012-09-24  326  }, {
-871d1d6b59802a LEROY Christophe     2012-09-24  327  	.phy_id		= 0x00137a10,
-871d1d6b59802a LEROY Christophe     2012-09-24  328  	.name		= "LXT973-A2",
-871d1d6b59802a LEROY Christophe     2012-09-24  329  	.phy_id_mask	= 0xffffffff,
-dcdecdcfe1fc39 Heiner Kallweit      2019-04-12  330  	/* PHY_BASIC_FEATURES */
-871d1d6b59802a LEROY Christophe     2012-09-24 @331  	.flags		= 0,
-871d1d6b59802a LEROY Christophe     2012-09-24  332  	.probe		= lxt973_probe,
-871d1d6b59802a LEROY Christophe     2012-09-24  333  	.config_aneg	= lxt973_config_aneg,
-871d1d6b59802a LEROY Christophe     2012-09-24  334  	.read_status	= lxt973a2_read_status,
-5556fdb0c2ea3a Christophe Leroy     2019-05-23  335  	.suspend	= genphy_suspend,
-5556fdb0c2ea3a Christophe Leroy     2019-05-23  336  	.resume		= genphy_resume,
-c9dd02714c2f91 Maxime Chevallier    2024-09-11  337  	.flags		= PHY_NO_ISOLATE,
-d5bf9071e71a4d Christian Hohnstaedt 2012-07-04  338  }, {
-e13647c158307f Richard Cochran      2010-06-07  339  	.phy_id		= 0x00137a10,
-e13647c158307f Richard Cochran      2010-06-07  340  	.name		= "LXT973",
-e13647c158307f Richard Cochran      2010-06-07  341  	.phy_id_mask	= 0xfffffff0,
-dcdecdcfe1fc39 Heiner Kallweit      2019-04-12  342  	/* PHY_BASIC_FEATURES */
-e13647c158307f Richard Cochran      2010-06-07  343  	.flags		= 0,
-e13647c158307f Richard Cochran      2010-06-07  344  	.probe		= lxt973_probe,
-e13647c158307f Richard Cochran      2010-06-07  345  	.config_aneg	= lxt973_config_aneg,
-5556fdb0c2ea3a Christophe Leroy     2019-05-23  346  	.suspend	= genphy_suspend,
-5556fdb0c2ea3a Christophe Leroy     2019-05-23  347  	.resume		= genphy_resume,
-c9dd02714c2f91 Maxime Chevallier    2024-09-11  348  	.flags		= PHY_NO_ISOLATE,
-d5bf9071e71a4d Christian Hohnstaedt 2012-07-04  349  } };
-e13647c158307f Richard Cochran      2010-06-07  350  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+
+
+vim +/uburma_jfs_event_cb +144 drivers/ub/urma/uburma/uburma_cmd.c
+
+   143	
+ > 144	void uburma_jfs_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+   145	{
+   146		struct uburma_jfs_uobj *jfs_uobj;
+   147	
+   148		if (event->element.jfs == NULL)
+   149			return;
+   150	
+   151		jfs_uobj = (struct uburma_jfs_uobj *)event->element.jfs->jfs_cfg.jfs_context;
+   152		uburma_write_async_event(ctx, event->element.jfs->urma_jfs, event->event_type,
+   153					 &jfs_uobj->async_event_list, &jfs_uobj->async_events_reported);
+   154	}
+   155	
 
 -- 
 0-DAY CI Kernel Test Service
