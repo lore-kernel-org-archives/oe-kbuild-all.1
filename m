@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AC56E2BE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 17:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42E982D83;
+	Fri, 13 Sep 2024 17:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726246933; cv=none; b=g1g9Ibd038k0k/ekq95BKvtKOj+m2cpiefA3UQJAFzvH/VccS7aSkTovJtiYn2zMab5IDeuOYUWpemdQfciqonjLnJnpuTfEcGRLsUzR8b66HIRMyxX6rmu1SAtjtO+tOp85kgzPTYdVlUHQgC5OwbEUH6jG3Ifn02cnTReZswo=
+	t=1726249453; cv=none; b=jlOfynTI83aqlyvAm/RHLjJ+FxgCLruawpIeHgk7jFMjqw3biu9g90Z51flM92HOo5cimkQiCG+39YTIn+H5mgj40CXjvstCkQsOo8sEx6r56iC6/bqttcXptrzZd+UAzKg6079VITCghNBYaVP9Qse56y2Ul1dE7HwDzhwzw6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726246933; c=relaxed/simple;
-	bh=iU+uC45aK3oxV1shXS6vt5137cEYJgyIhw/8iZFvqHc=;
+	s=arc-20240116; t=1726249453; c=relaxed/simple;
+	bh=d7GrwIlNhvfrQBwvrOXiqd9IlzXYmLA5fR9e7VUQq0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dukijcysQEi1noGOZmJiA3a75/4H283rvsyYJno50zFmuQEyyReQBp5iPmNB1umFXDmhBsEM+kHONSnDkQnf1yTfJ7jkCwpw4Yfk9FmoE2qK83KhghfOPg+9Qa65lHSqMXJgnsWCsjC7XQG1ETCP8sslH6jGYoHgmyt3F+woHlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YC61bJFt; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=g1HY2i3I+z7cH92T0X2W+1Nvt8fZ77K8FVF0jBgRGcXNsFVNV6Ctfs64M82JpgM+ovYSvUpzzjTQmZ16k2q8bBxEzA2EZjvT+8enZYT1OzwgyXrgfz6X3wOADLIdrD8uLik6zoruoipqq4HxeM/41b0bF0mRpvXN96CRTLZCYBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lE7RbB6l; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YC61bJFt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lE7RbB6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726246932; x=1757782932;
+  t=1726249452; x=1757785452;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iU+uC45aK3oxV1shXS6vt5137cEYJgyIhw/8iZFvqHc=;
-  b=YC61bJFtDbc7pNw8YMKfP20CmUK83nhYZneQV+19cs9dF25CYJT+oz92
-   1+VcojxywW52QxgOARwMZqo9QhvME1PEmn1aCus910XQ2K3D+2o07ZE52
-   uzjkD/oS4rsJrIp6orJrQEAjoX47QPQgWaazTAmR+rjkA17TpCd5VKzuQ
-   BBpHq1a71+vnboZSnDgN+Cj9iTDi2Ao2OgNnp+P+KboHzMpYhqhbHbDd4
-   +rbJY4+T0HnxBOjyD/MdT3+Dh/BJrrUFwccmd4TLPan7njLBEPOMPefxV
-   ckrNVbskJ0mr2i5k2DdQzfglBqD4+BK+QFcWt7sVgDHGtDqa15g3sJg+0
-   Q==;
-X-CSE-ConnectionGUID: km2UBkMeQNWL+AxRyVIqcQ==
-X-CSE-MsgGUID: kP+B6Z1iRpaWYHrs2MwCGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="13515311"
+  bh=d7GrwIlNhvfrQBwvrOXiqd9IlzXYmLA5fR9e7VUQq0g=;
+  b=lE7RbB6l1TMYqaBKaPPsCVaTlXJ6Bn8FzycRmLDnpoNUcKG4F5OysIhd
+   f++IGPokEn/wDWZmflfnfTfCD5nTFLbo1DempME+CHeO3g6ymQj70B63J
+   fe7zL3yU1PmFjVp7Xjm1qRm4iA1YNFNeN6f8Zujem05I18F6F0GhUQRpL
+   Q/Eprr701clp3jY71rTnR0NssSl0fvOxNz6rJpDeVWcBN2zxhmIAyEpfK
+   CgT9Wq1S3lgs0mTGLPpcgUcSB4nv+7aekgreNCyysYEAfgaCIhlSLIeCK
+   24/HQu0YNGdlgV6SCVYeT1ojNHvdMv3rw6qp6cF8Hawcxm7KTJ06KQys1
+   w==;
+X-CSE-ConnectionGUID: jceJVF75Sa6aciFzfAjtLw==
+X-CSE-MsgGUID: qN25YHqxSrShWnQO7x6Tdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35829374"
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="13515311"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 10:02:11 -0700
-X-CSE-ConnectionGUID: AGhsvv91SAiQc4j9Az2hlw==
-X-CSE-MsgGUID: JmSBjxDHRLuUjUB61DfkmA==
+   d="scan'208";a="35829374"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 10:44:11 -0700
+X-CSE-ConnectionGUID: vlgVebppTkaBqfMQxJd0lQ==
+X-CSE-MsgGUID: TnzoFwMHQOW4jw/W/5goYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="98972511"
+   d="scan'208";a="67761068"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Sep 2024 10:02:08 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 13 Sep 2024 10:44:10 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sp9gL-0006im-28;
-	Fri, 13 Sep 2024 17:02:05 +0000
-Date: Sat, 14 Sep 2024 01:01:55 +0800
+	id 1spAL2-0006lc-0f;
+	Fri, 13 Sep 2024 17:44:08 +0000
+Date: Sat, 14 Sep 2024 01:43:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	jikos@kernel.org, bentiss@kernel.org, dmitry.torokhov@gmail.com,
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ernis@microsoft.com,
-	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>
-Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
-Message-ID: <202409140042.imFE8dSL-lkp@intel.com>
-References: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
+To: Patrick Roy <roypat@amazon.co.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 01/10] kvm: gmem: Add option to remove gmem from
+ direct map
+Message-ID: <202409140159.nGVKH1ST-lkp@intel.com>
+References: <20240910163038.1298452-2-roypat@amazon.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,67 +63,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
+In-Reply-To: <20240910163038.1298452-2-roypat@amazon.co.uk>
 
-Hi Erni,
+Hi Patrick,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 332d2c1d713e232e163386c35a3ba0c1b90df83f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Erni-Sri-Satya-Vennela/Drivers-hv-vmbus-Disable-Suspend-to-Idle-for-VMBus/20240913-053127
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/1726176470-13133-2-git-send-email-ernis%40linux.microsoft.com
-patch subject: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
-config: x86_64-randconfig-161-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140042.imFE8dSL-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Patrick-Roy/kvm-gmem-Add-option-to-remove-gmem-from-direct-map/20240911-003258
+base:   332d2c1d713e232e163386c35a3ba0c1b90df83f
+patch link:    https://lore.kernel.org/r/20240910163038.1298452-2-roypat%40amazon.co.uk
+patch subject: [RFC PATCH v2 01/10] kvm: gmem: Add option to remove gmem from direct map
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240914/202409140159.nGVKH1ST-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140042.imFE8dSL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140159.nGVKH1ST-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140042.imFE8dSL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140159.nGVKH1ST-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/hv/vmbus_drv.c:985:20: error: use of undeclared identifier 'vmbus_freeze'
-     985 |         .suspend_noirq  = vmbus_freeze,
-         |                           ^
-   drivers/hv/vmbus_drv.c:1913:42: warning: shift count >= width of type [-Wshift-count-overflow]
-    1913 |         dma_set_mask(&child_device_obj->device, DMA_BIT_MASK(64));
-         |                                                 ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   1 warning and 1 error generated.
+>> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:71:2: error: call to undeclared function 'flush_tlb_kernel_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      71 |         flush_tlb_kernel_range(start, start + folio_size(folio));
+         |         ^
+   1 error generated.
 
 
-vim +/vmbus_freeze +985 drivers/hv/vmbus_drv.c
+vim +/flush_tlb_kernel_range +71 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
 
-   973	
-   974	/*
-   975	 * Note: we must use the "noirq" ops: see the comment before vmbus_bus_pm.
-   976	 *
-   977	 * suspend_noirq/resume_noirq are set to NULL to support Suspend-to-Idle: we
-   978	 * shouldn't suspend the vmbus devices upon Suspend-to-Idle, otherwise there
-   979	 * is no way to wake up a Generation-2 VM.
-   980	 *
-   981	 * The other 4 ops are for hibernation.
-   982	 */
-   983	
-   984	static const struct dev_pm_ops vmbus_pm = {
- > 985		.suspend_noirq  = vmbus_freeze,
-   986		.resume_noirq	= NULL,
-   987		.freeze_noirq	= vmbus_suspend,
-   988		.thaw_noirq	= vmbus_resume,
-   989		.poweroff_noirq	= vmbus_suspend,
-   990		.restore_noirq	= vmbus_resume,
-   991	};
-   992	
+    57	
+    58	static int kvm_gmem_folio_set_private(struct folio *folio)
+    59	{
+    60		unsigned long start, npages, i;
+    61		int r;
+    62	
+    63		start = (unsigned long) folio_address(folio);
+    64		npages = folio_nr_pages(folio);
+    65	
+    66		for (i = 0; i < npages; ++i) {
+    67			r = set_direct_map_invalid_noflush(folio_page(folio, i));
+    68			if (r)
+    69				goto out_remap;
+    70		}
+  > 71		flush_tlb_kernel_range(start, start + folio_size(folio));
+    72		folio_set_private(folio);
+    73		return 0;
+    74	out_remap:
+    75		for (; i > 0; i--) {
+    76			struct page *page = folio_page(folio, i - 1);
+    77	
+    78			if (WARN_ON_ONCE(set_direct_map_default_noflush(page))) {
+    79				/*
+    80				 * Random holes in the direct map are bad, let's mark
+    81				 * these pages as corrupted memory so that the kernel
+    82				 * avoids ever touching them again.
+    83				 */
+    84				folio_set_hwpoison(folio);
+    85				r = -EHWPOISON;
+    86			}
+    87		}
+    88		return r;
+    89	}
+    90	
 
 -- 
 0-DAY CI Kernel Test Service
