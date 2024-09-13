@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7BE2F34
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 04:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A535189F2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 04:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726200397; cv=none; b=uTft9OdHfbeoCmm3etD9Y5/eaw6YioAcWcHrZ8dcE3yBWGcIKiakUeWa+ybu4sbN2Cbti/a+YsSuJ1rU/6yHEiL72AxAxYfyb3/GQHWwTF1B5wUEsfr+jc+Nq4HtuTr9olWawBuoYacsMMFI4F4u3utmOAIDP2Hti6AU+KW2jcg=
+	t=1726201056; cv=none; b=YiOK6XrHwyjWCZQWPtmfswShPdyJbW1iF7iTRP9+d7cVXE1kvlI5mUUEeCqJkl/lLtTlpqfEHVtTlkDaS5RYOLajZgD7myZQYJmYegODpIEcRmAHYhdrzpBEEYMnLBFlKQ/wT2bXaEPQF+EZviu/0H+VEq8qdU5b0us+/B1OFsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726200397; c=relaxed/simple;
-	bh=b/YjKn/ZppvAk8mAJHnSHoA2ecSizwpUfM20iMUM2Ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=odejCLlVWTA2YAhaTVGoOaCsPlclZC4qgLtZGVnwnHCCHT2alMULKihKgrAeJUjQPhJ1hdEITYvoVZPJO7iygCtGw/vSH3QdtQcUOMp+BXDAbdY/vlHjYd06kb0EinJikX79S2PdbGkPfpkgWwQ/HwukSg3uiQLhIaUCfJAYJ6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cGxhXg1w; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1726201056; c=relaxed/simple;
+	bh=EpdHpZFDKM10d3kQHw+GuaxEYxE5eEki6OWFTfxcAeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ba1kO22FiJNUcYwFScWfLKrbMLuk388bbrGtoTxAhVMQQRSzFJs4Oju4JgpS1pSByBB7Pgi3MWFYhwp7g8u15JKs2ENvWtNBbi2c8F2UIAUGOlSMPFGrtcD3WzvPg/0HZ1WBSDGXXpZ6UrWPAsrVr15eLEGChi9mIP5h/9dOS8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sb/IvM7F; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cGxhXg1w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sb/IvM7F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726200395; x=1757736395;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b/YjKn/ZppvAk8mAJHnSHoA2ecSizwpUfM20iMUM2Ms=;
-  b=cGxhXg1w+5VLKO1W4hbPEuzr2FxPLgiYuLY7461HE6hj5skk5LuwW5Fq
-   L7dli3zG9FdWdYwQ37z9GjYZ8Ogh5K1gwls/x29ol2aAf/aYV7R/FEZoi
-   RJ5EMSYWCd8vj60H0T/TQCALC33tV5dT6YNhL8lOw94IZ0EJPZiQEjGHO
-   ohmroIpG3+BNCKIkAsGEVAwCVig4Tc5Gj9qjc4w/M59fRDCUDyq69KgU/
-   MFN0PSfBnT21FiABeW79HIGQsbgXyiQ7UDzHY9KudUMVDNgFmYRZqS7aT
-   QmQl7f1pJ4r+1ypXztFsFtxPDsTL6Y/ObKJHUJKHyJpt5Q+F5RXV0QqDk
-   w==;
-X-CSE-ConnectionGUID: 2tBT36p1TemIYJZH2wxhjA==
-X-CSE-MsgGUID: mlWFFEN/SGSxGo7mJt6Eag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="28983559"
+  t=1726201055; x=1757737055;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EpdHpZFDKM10d3kQHw+GuaxEYxE5eEki6OWFTfxcAeM=;
+  b=Sb/IvM7F6iSIMWUMd2VuvFRlvX5vTHTU0M4ZSfjueQaSdif1WkrUC/5g
+   rZQrPshq52nwfHmPPzOVFlpQqcj/fvjGudXDe4aP3KvH8NJQZpESV1kb0
+   SxC7gimGMEZCUdowIg6tvuTWA3Wv2nnXO1qaIT8dvocYLJOGEVz0deERg
+   1djhZpJl5GCm+LVcH6+/W+ELrZGwk6HJTuCF+A5z0G1DF4o+Enb+PnPEl
+   CORynqRPVC2LHDH4fsbG10nRsS0I7QHR7lN+h7bP4sqDyQD4jW6z4R+PG
+   6nN87OM7L78m6F6+dHhQtvnU/+JTNRFEOJQYLSTtPsvEeUHw+fbub5dOR
+   A==;
+X-CSE-ConnectionGUID: lMNZHtWnRiyJxrcH3YOtpg==
+X-CSE-MsgGUID: l3hMkJjZTACO3gOpVh9d3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42564408"
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="28983559"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 21:06:34 -0700
-X-CSE-ConnectionGUID: o03+JXgbQoOCCvegFSwFGw==
-X-CSE-MsgGUID: b7sPALvsRh+XwdBVpooUlw==
+   d="scan'208";a="42564408"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 21:17:35 -0700
+X-CSE-ConnectionGUID: 7ZlYBhWgQS6LBQSOPcOHNg==
+X-CSE-MsgGUID: 7rErM16vTPCmMkPHJwZm3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="72526091"
+   d="scan'208";a="67766195"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Sep 2024 21:06:33 -0700
+  by orviesa010.jf.intel.com with ESMTP; 12 Sep 2024 21:17:33 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soxZm-0005zO-2i;
-	Fri, 13 Sep 2024 04:06:30 +0000
-Date: Fri, 13 Sep 2024 12:06:08 +0800
+	id 1soxkR-0005zq-0N;
+	Fri, 13 Sep 2024 04:17:31 +0000
+Date: Fri, 13 Sep 2024 12:16:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:asahi-wip 2911/2963] warning: unsafe impl missing a
- safety comment
-Message-ID: <202409131228.jh1ulc6M-lkp@intel.com>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1] Bluetooth: MGMT: Fix possible crash on
+ mgmt_index_removed
+Message-ID: <202409131212.VOjz2kzX-lkp@intel.com>
+References: <20240912164454.2996352-1-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,125 +64,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240912164454.2996352-1-luiz.dentz@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux asahi-wip
-head:   3e835461bf36824d84f098a1c534320be0c45d35
-commit: 4a1480ff331fced95b4e6e792aa2e8b45bff4bd5 [2911/2963] rust: Enable clippy::undocumented_unsafe_blocks lint
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240913/202409131228.jh1ulc6M-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131228.jh1ulc6M-lkp@intel.com/reproduce)
+Hi Luiz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v6.11-rc7 next-20240912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-MGMT-Fix-possible-crash-on-mgmt_index_removed/20240913-004604
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240912164454.2996352-1-luiz.dentz%40gmail.com
+patch subject: [PATCH v1] Bluetooth: MGMT: Fix possible crash on mgmt_index_removed
+config: openrisc-randconfig-r071-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131212.VOjz2kzX-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131212.VOjz2kzX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131228.jh1ulc6M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131212.VOjz2kzX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:435:1
-   |
-   435 | unsafe impl FromBytes for u16 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
-   note: the lint level is defined here
-   --> rust/kernel/lib.rs:25:9
-   |
-   25  | #![warn(clippy::undocumented_unsafe_blocks)]
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:447:1
-   |
-   447 | unsafe impl<T: FromBytes, const N: usize> FromBytes for [T; N] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:468:1
-   |
-   468 | unsafe impl AsBytes for u16 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:469:1
-   |
-   469 | unsafe impl AsBytes for u32 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:470:1
-   |
-   470 | unsafe impl AsBytes for u64 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:471:1
-   |
-   471 | unsafe impl AsBytes for usize {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:472:1
-   |
-   472 | unsafe impl AsBytes for i8 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:473:1
-   |
-   473 | unsafe impl AsBytes for i16 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:474:1
-   |
-   474 | unsafe impl AsBytes for i32 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:475:1
-   |
-   475 | unsafe impl AsBytes for i64 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/types.rs:476:1
-   |
-   476 | unsafe impl AsBytes for isize {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
-..
+   net/bluetooth/mgmt.c: In function 'cmd_complete_rsp':
+>> net/bluetooth/mgmt.c:1459:33: error: 'struct mgmt_pending_cmd' has no member named 'hdev'
+    1459 |         hci_cmd_sync_dequeue(cmd->hdev, NULL, cmd, NULL);
+         |                                 ^~
+
+
+vim +1459 net/bluetooth/mgmt.c
+
+  1453	
+  1454	static void cmd_complete_rsp(struct mgmt_pending_cmd *cmd, void *data)
+  1455	{
+  1456		/* dequeue cmd_sync entries using cmd as data as that is about to be
+  1457		 * removed/freed.
+  1458		 */
+> 1459		hci_cmd_sync_dequeue(cmd->hdev, NULL, cmd, NULL);
+  1460	
+  1461		if (cmd->cmd_complete) {
+  1462			u8 *status = data;
+  1463	
+  1464			cmd->cmd_complete(cmd, *status);
+  1465			mgmt_pending_remove(cmd);
+  1466	
+  1467			return;
+  1468		}
+  1469	
+  1470		cmd_status_rsp(cmd, data);
+  1471	}
+  1472	
 
 -- 
 0-DAY CI Kernel Test Service
