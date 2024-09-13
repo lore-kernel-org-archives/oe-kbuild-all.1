@@ -1,77 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9BC18C902
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 04:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DC51C461C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 04:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726201060; cv=none; b=BvI5DSm66OkYMa46pRxXvFLRhUcGfte/uGqku+2fEw5Tuv1vtEciyv8CISJzDq6efpiHgghjLbzYQAqgtCFI+8T5SIVvbDuQJARnsr2oZR69LFE1GAT7DO/BIyT7PdCge0gb/yAsVMp5okX7+t2IySBSBN4RUiIRym9yslZhdwY=
+	t=1726201661; cv=none; b=oVR6wrVrvAyybNjU0vc+UpK2YMbaJeoP4rGpn6AB3jhRsIwEb7dJnfS0nt1/YOO6tIWIBqwOzktvY6ojUixr1KVriiVZu0s12bnoac+HH2VF8XjgN7ojxNQAGW6abo1jchrci/ovR9I9aMJIcGKI+A+jNjvgVXYP1DSkLmSfvwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726201060; c=relaxed/simple;
-	bh=S6IS0/dc6jPqT0X5YnU7M+Sh2Oaf4b+CDbvVMXZru6A=;
+	s=arc-20240116; t=1726201661; c=relaxed/simple;
+	bh=tbKUVez8SwkZSBzbLioNUgUfCc/l7sq/rOH7qiyc8ew=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mi46wO6eFfIhSePvD4Rp1UxSl64qpjeBc/zG2plZhQAYK0lzMN4LpJ0IS5VxOujPprtQ8ldsKtDBKt++GF0mo0oOcDsErpoOEhWO5xYpn9dWX4T9nOmikGX0EMLMJWHc/RbtqN9PRS8BiPpMbghL6S7D6IDiWF1hag1KCi3ChGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cNH6pXjx; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUfGqdW3QrN178kVaCT2LU18kFlrUDlAa7GozCCBCEoNrtec911QcY7MrTtnu8+uonqSaVyZTYhstXWXsONN49kAO8oj1vikHbhBYRLR64cNzuOW4jj69tu2yZrUzcmmsxlOTcAMYITUTASw14yaWwQFDwRWA9qoNjRlI+9klaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHtX2ZyK; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cNH6pXjx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHtX2ZyK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726201059; x=1757737059;
+  t=1726201657; x=1757737657;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S6IS0/dc6jPqT0X5YnU7M+Sh2Oaf4b+CDbvVMXZru6A=;
-  b=cNH6pXjxOeUSm/aJ9bwzs8bpkVr7Ea5VQ0zXXila9pWqNBTv08GEampR
-   7fPJm/ypq4wJOew6Fum9fUQZ3I87UgTAndB3AbHySSyzSRBtVsqS2wXpN
-   FvBCGZ49MrezrHA3W0fXTnrv4F5xv8T7mM7T6xO6gRwBEi1pSSj7apsla
-   2AwkUclPH+MOcGEjTCfbO07hU7TzhOT6wRGaKowtklBiuqgYFCR9srhtH
-   7Z5lKL+aPxRo6jVBG7OzMnxfvTkdc3k0/Tko7fPxn3xzgUTkpSXdk5sSK
-   WT06JVdH+ojlFXnjSs2LnB2bMD3h3TjlwTrQRm9nKjlnkDkVnoom+cOxQ
-   g==;
-X-CSE-ConnectionGUID: wmsZbpp1Q4qFoBb+AUjkQQ==
-X-CSE-MsgGUID: MAW4ltwQQT+6JU9haz38VA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42564411"
+  bh=tbKUVez8SwkZSBzbLioNUgUfCc/l7sq/rOH7qiyc8ew=;
+  b=JHtX2ZyKLAbd+F+fTvaRd5Ic9zcC9gdF3fx4zmVyPJmLSB8rJoyd2nLN
+   X7H/fL3+NKU+ukbH2qKCTRycyWGUy1cdlqvYD5YBesPsB4RwByDCkTK7R
+   QZ8FpRv70VxRsSld9JBxmFlvtM58B1xWOQAJzlah2ElPZ9I2TlnN3j3ex
+   SExi+BNtPzoCU8IXVpRJhDfQEWfVVwpagUvyq13TKIR1nvzPsK1d1Xfqr
+   /VpTbJ+vQkjAwc8ir7rVpeSlCdf832hZ+jLJMOnYg6dN7R43TMJLvlOcw
+   2vy18Se56sAIqRhtfsg+O9rfLCiRE+Nz/ELF4nxTiZly0eT2NzrFR2y6d
+   Q==;
+X-CSE-ConnectionGUID: lFGKXuGKTMKZWRsBYAcLPg==
+X-CSE-MsgGUID: PxhEx5fXR2+SZJIChNgHtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24964582"
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="42564411"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 21:17:38 -0700
-X-CSE-ConnectionGUID: jxIOVqy1Tom4J+bpPhXlWw==
-X-CSE-MsgGUID: w9GyVT6yRV+ITkp8Wm6aRw==
+   d="scan'208";a="24964582"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 21:27:37 -0700
+X-CSE-ConnectionGUID: lIgpTRjfTuy1UtoCTbLbxA==
+X-CSE-MsgGUID: dhoszQ9qQNG3YtMwXpmvQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="67766196"
+   d="scan'208";a="98624621"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Sep 2024 21:17:33 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Sep 2024 21:27:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soxkR-0005zz-0g;
-	Fri, 13 Sep 2024 04:17:31 +0000
-Date: Fri, 13 Sep 2024 12:16:34 +0800
+	id 1soxu7-00060l-2K;
+	Fri, 13 Sep 2024 04:27:31 +0000
+Date: Fri, 13 Sep 2024 12:26:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <joao.goncalves@toradex.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 2/3] Documentation: ABI: added filter mode doc in
- sysfs-bus-iio
-Message-ID: <202409131243.olYA3Qdt-lkp@intel.com>
-References: <20240912121609.13438-3-ramona.nechita@analog.com>
+To: Krzysztof =?utf-8?Q?Ol=C4=99dzki?= <ole@ans.pl>,
+	Ido Schimmel <idosch@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Yishai Hadas <yishaih@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next 2/4] mlx4: Use MLX4_ATTR_CABLE_INFO instead of
+ 0xFF60 magic value
+Message-ID: <202409131225.ZqIX7nce-lkp@intel.com>
+References: <12a1d143-35d6-43f3-b8b3-ab0198f5540a@ans.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,40 +69,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240912121609.13438-3-ramona.nechita@analog.com>
+In-Reply-To: <12a1d143-35d6-43f3-b8b3-ab0198f5540a@ans.pl>
 
-Hi Ramona,
+Hi Krzysztof,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.11-rc7 next-20240912]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Alexandra-Nechita/dt-bindings-iio-adc-add-a7779-doc/20240912-201936
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240912121609.13438-3-ramona.nechita%40analog.com
-patch subject: [PATCH v5 2/3] Documentation: ABI: added filter mode doc in sysfs-bus-iio
-reproduce: (https://download.01.org/0day-ci/archive/20240913/202409131243.olYA3Qdt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Ol-dzki/mlx4-Use-MLX4_ATTR_CABLE_INFO-instead-of-0xFF60-magic-value/20240912-144426
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/12a1d143-35d6-43f3-b8b3-ab0198f5540a%40ans.pl
+patch subject: [PATCH net-next 2/4] mlx4: Use MLX4_ATTR_CABLE_INFO instead of 0xFF60 magic value
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240913/202409131225.ZqIX7nce-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131225.ZqIX7nce-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131243.olYA3Qdt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131225.ZqIX7nce-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-bus-iio-adc-ad4130
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/nvmem/u-boot,env.yaml
-   Using alabaster theme
+   drivers/infiniband/hw/mlx4/main.c: In function 'ib_link_query_port':
+>> drivers/infiniband/hw/mlx4/main.c:722:35: error: 'MLX4_ATTR_EXTENDED_PORT_INFO' undeclared (first use in this function)
+     722 |                 in_mad->attr_id = MLX4_ATTR_EXTENDED_PORT_INFO;
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/mlx4/main.c:722:35: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/MLX4_ATTR_EXTENDED_PORT_INFO +722 drivers/infiniband/hw/mlx4/main.c
+
+225c7b1feef1b4 Roland Dreier    2007-05-08  654  
+1fb7f8973f51ca Mark Bloch       2021-03-01  655  static int ib_link_query_port(struct ib_device *ibdev, u32 port,
+0a9a01884d447c Jack Morgenstein 2012-08-03  656  			      struct ib_port_attr *props, int netw_view)
+fa417f7b520ee6 Eli Cohen        2010-10-24  657  {
+a45e5f1859579f Ruan Jinjie      2023-07-28  658  	struct ib_smp *in_mad;
+a45e5f1859579f Ruan Jinjie      2023-07-28  659  	struct ib_smp *out_mad;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  660  	int ext_active_speed;
+0a9a01884d447c Jack Morgenstein 2012-08-03  661  	int mad_ifc_flags = MLX4_MAD_IFC_IGNORE_KEYS;
+a9c766bb75ee2c Or Gerlitz       2012-01-11  662  	int err = -ENOMEM;
+a9c766bb75ee2c Or Gerlitz       2012-01-11  663  
+a9c766bb75ee2c Or Gerlitz       2012-01-11  664  	in_mad  = kzalloc(sizeof *in_mad, GFP_KERNEL);
+a9c766bb75ee2c Or Gerlitz       2012-01-11  665  	out_mad = kmalloc(sizeof *out_mad, GFP_KERNEL);
+a9c766bb75ee2c Or Gerlitz       2012-01-11  666  	if (!in_mad || !out_mad)
+a9c766bb75ee2c Or Gerlitz       2012-01-11  667  		goto out;
+a9c766bb75ee2c Or Gerlitz       2012-01-11  668  
+d82e2b27ad3a4f Leon Romanovsky  2022-01-05  669  	ib_init_query_mad(in_mad);
+a9c766bb75ee2c Or Gerlitz       2012-01-11  670  	in_mad->attr_id  = IB_SMP_ATTR_PORT_INFO;
+a9c766bb75ee2c Or Gerlitz       2012-01-11  671  	in_mad->attr_mod = cpu_to_be32(port);
+a9c766bb75ee2c Or Gerlitz       2012-01-11  672  
+0a9a01884d447c Jack Morgenstein 2012-08-03  673  	if (mlx4_is_mfunc(to_mdev(ibdev)->dev) && netw_view)
+0a9a01884d447c Jack Morgenstein 2012-08-03  674  		mad_ifc_flags |= MLX4_MAD_IFC_NET_VIEW;
+0a9a01884d447c Jack Morgenstein 2012-08-03  675  
+0a9a01884d447c Jack Morgenstein 2012-08-03  676  	err = mlx4_MAD_IFC(to_mdev(ibdev), mad_ifc_flags, port, NULL, NULL,
+a9c766bb75ee2c Or Gerlitz       2012-01-11  677  				in_mad, out_mad);
+a9c766bb75ee2c Or Gerlitz       2012-01-11  678  	if (err)
+a9c766bb75ee2c Or Gerlitz       2012-01-11  679  		goto out;
+a9c766bb75ee2c Or Gerlitz       2012-01-11  680  
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  681  
+225c7b1feef1b4 Roland Dreier    2007-05-08  682  	props->lid		= be16_to_cpup((__be16 *) (out_mad->data + 16));
+225c7b1feef1b4 Roland Dreier    2007-05-08  683  	props->lmc		= out_mad->data[34] & 0x7;
+225c7b1feef1b4 Roland Dreier    2007-05-08  684  	props->sm_lid		= be16_to_cpup((__be16 *) (out_mad->data + 18));
+225c7b1feef1b4 Roland Dreier    2007-05-08  685  	props->sm_sl		= out_mad->data[36] & 0xf;
+225c7b1feef1b4 Roland Dreier    2007-05-08  686  	props->state		= out_mad->data[32] & 0xf;
+225c7b1feef1b4 Roland Dreier    2007-05-08  687  	props->phys_state	= out_mad->data[33] >> 4;
+225c7b1feef1b4 Roland Dreier    2007-05-08  688  	props->port_cap_flags	= be32_to_cpup((__be32 *) (out_mad->data + 20));
+0a9a01884d447c Jack Morgenstein 2012-08-03  689  	if (netw_view)
+0a9a01884d447c Jack Morgenstein 2012-08-03  690  		props->gid_tbl_len = out_mad->data[50];
+0a9a01884d447c Jack Morgenstein 2012-08-03  691  	else
+5ae2a7a836be66 Roland Dreier    2007-06-18  692  		props->gid_tbl_len = to_mdev(ibdev)->dev->caps.gid_table_len[port];
+149983af609e8f Dotan Barak      2007-06-26  693  	props->max_msg_sz	= to_mdev(ibdev)->dev->caps.max_msg_sz;
+5ae2a7a836be66 Roland Dreier    2007-06-18  694  	props->pkey_tbl_len	= to_mdev(ibdev)->dev->caps.pkey_table_len[port];
+225c7b1feef1b4 Roland Dreier    2007-05-08  695  	props->bad_pkey_cntr	= be16_to_cpup((__be16 *) (out_mad->data + 46));
+225c7b1feef1b4 Roland Dreier    2007-05-08  696  	props->qkey_viol_cntr	= be16_to_cpup((__be16 *) (out_mad->data + 48));
+225c7b1feef1b4 Roland Dreier    2007-05-08  697  	props->active_width	= out_mad->data[31] & 0xf;
+225c7b1feef1b4 Roland Dreier    2007-05-08  698  	props->active_speed	= out_mad->data[35] >> 4;
+225c7b1feef1b4 Roland Dreier    2007-05-08  699  	props->max_mtu		= out_mad->data[41] & 0xf;
+225c7b1feef1b4 Roland Dreier    2007-05-08  700  	props->active_mtu	= out_mad->data[36] >> 4;
+225c7b1feef1b4 Roland Dreier    2007-05-08  701  	props->subnet_timeout	= out_mad->data[51] & 0x1f;
+225c7b1feef1b4 Roland Dreier    2007-05-08  702  	props->max_vl_num	= out_mad->data[37] >> 4;
+225c7b1feef1b4 Roland Dreier    2007-05-08  703  	props->init_type_reply	= out_mad->data[41] >> 4;
+225c7b1feef1b4 Roland Dreier    2007-05-08  704  
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  705  	/* Check if extended speeds (EDR/FDR/...) are supported */
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  706  	if (props->port_cap_flags & IB_PORT_EXTENDED_SPEEDS_SUP) {
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  707  		ext_active_speed = out_mad->data[62] >> 4;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  708  
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  709  		switch (ext_active_speed) {
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  710  		case 1:
+2e96691c31ecf7 Or Gerlitz       2012-02-28  711  			props->active_speed = IB_SPEED_FDR;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  712  			break;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  713  		case 2:
+2e96691c31ecf7 Or Gerlitz       2012-02-28  714  			props->active_speed = IB_SPEED_EDR;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  715  			break;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  716  		}
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  717  	}
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  718  
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  719  	/* If reported active speed is QDR, check if is FDR-10 */
+2e96691c31ecf7 Or Gerlitz       2012-02-28  720  	if (props->active_speed == IB_SPEED_QDR) {
+d82e2b27ad3a4f Leon Romanovsky  2022-01-05  721  		ib_init_query_mad(in_mad);
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03 @722  		in_mad->attr_id = MLX4_ATTR_EXTENDED_PORT_INFO;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  723  		in_mad->attr_mod = cpu_to_be32(port);
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  724  
+0a9a01884d447c Jack Morgenstein 2012-08-03  725  		err = mlx4_MAD_IFC(to_mdev(ibdev), mad_ifc_flags, port,
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  726  				   NULL, NULL, in_mad, out_mad);
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  727  		if (err)
+bf6b47deb40f9f Jesper Juhl      2012-04-11  728  			goto out;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  729  
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  730  		/* Checking LinkSpeedActive for FDR-10 */
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  731  		if (out_mad->data[15] & 0x1)
+2e96691c31ecf7 Or Gerlitz       2012-02-28  732  			props->active_speed = IB_SPEED_FDR10;
+a5e12dff757b56 Marcel Apfelbaum 2011-10-03  733  	}
+d2ef406866620f Or Gerlitz       2012-04-02  734  
+d2ef406866620f Or Gerlitz       2012-04-02  735  	/* Avoid wrong speed value returned by FW if the IB link is down. */
+d2ef406866620f Or Gerlitz       2012-04-02  736  	if (props->state == IB_PORT_DOWN)
+d2ef406866620f Or Gerlitz       2012-04-02  737  		 props->active_speed = IB_SPEED_SDR;
+d2ef406866620f Or Gerlitz       2012-04-02  738  
+a9c766bb75ee2c Or Gerlitz       2012-01-11  739  out:
+a9c766bb75ee2c Or Gerlitz       2012-01-11  740  	kfree(in_mad);
+a9c766bb75ee2c Or Gerlitz       2012-01-11  741  	kfree(out_mad);
+a9c766bb75ee2c Or Gerlitz       2012-01-11  742  	return err;
+fa417f7b520ee6 Eli Cohen        2010-10-24  743  }
+fa417f7b520ee6 Eli Cohen        2010-10-24  744  
 
 -- 
 0-DAY CI Kernel Test Service
