@@ -1,125 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A7712C530
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 18:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0A812F588
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 18:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726251919; cv=none; b=j5zF9fP62EjHKhUzN0t/Ym9XSdmcyJ1rjQsfmg8ICcaNo+Va74p8nF1deOHjHzc+BgBz12xr6qLNpCH2ExjxO3eReUJtgxgDbOBDlHxdkK6JF2ckYIeXgASbijSLnrsWvdckHKlhZW7/CLygM7PPOEJM20EFucMtNqJ3qx18k78=
+	t=1726251919; cv=none; b=GkA51J3dIn2eWZ55hNyiUGfxAHwlQ4eBlVQ/SoQY5der0/dYUFx82JMy4oU/txH34tsCrN1HdjlxXJBrRf6v7jzmT9t9rGPcOA0IuE2tIhpIlwMbUlIk7EQ5gk2orj1jPvp23YXWLMflUp5RjiE/iT9k2p/sb90T52ZmtEaSPyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1726251919; c=relaxed/simple;
-	bh=ZP5Sr3pIISCAUY6csIxUxy+RYfNU+Q4zrM+AyHqj3zk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q+nuppWrK/suXTQL6ya2H0kWt3MUx0Xfy9AmmFoHvdvDHqZZcnvx56CnXN3TKPdsTFi3w/4ehSYDKtqoFJuj+Sp4kjOsrUNNw04zWTUAA2VfpTGkWeAk8Z2wK/QIcYFLLHGKvt0KsFxtdL8jX9i52bGxKgHhBtHJKtptApg/New=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqCOrKOt; arc=none smtp.client-ip=192.198.163.15
+	bh=claSdbk5YqMIErniEPVoK1A/Qi8jWup3wZvLEVvO9fw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QIpPZuGO0uiD6n3A5cRo74QFUfPPkoaRxKV2gjeZdAdfd5yJFjbAd7zRMymqgqlcV82CwHPZBwglBTU8bvRpXCPfL4rXo6xy8tE7dhwSv6HjIxzMHEx0afsdv1zQouj5ixIJiYL6TkrA2f67rCekN6dwuRjfQ2oS6Z0fSv7mM+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JZoptkVg; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqCOrKOt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JZoptkVg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1726251918; x=1757787918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ZP5Sr3pIISCAUY6csIxUxy+RYfNU+Q4zrM+AyHqj3zk=;
-  b=CqCOrKOtuc4KXD7IoEfkQIiV4kwh9Bs9pLQDnkGRCRfiOV5+Z5VPk67M
-   U/FeFoSCjEpdfFG6D7Q8VSm0fPOurHb2EHyodWOLhkMCmMX8aadlswH7V
-   ov2uPuYwLVlG/kS1pAhlh4IvQXloYLFqdcRzo45N+KtcwYwfz98NHkupZ
-   rKp/C4fj2UJ4WK913wU8MmxwMMJYzmJScYmebU1kkGSuRVHQTpXr66QWk
-   Pc9jhejzT49vNGN8dEkBwKLxH6Dy6lKE7BvGzx/z65P54SbppZcbgc8uq
-   4q5IQl+ysTerh8X+3Lulg7K4VZNWnkYdsKOpn+slHnPGXtTsdgwxTWSQH
-   g==;
-X-CSE-ConnectionGUID: ZMAWDmWoQgiB2bN5F71VHA==
-X-CSE-MsgGUID: o8nFgMgfTjSz/EN2+SXASw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25317600"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=claSdbk5YqMIErniEPVoK1A/Qi8jWup3wZvLEVvO9fw=;
+  b=JZoptkVgnyy1/nT4pmJuP82z/JS+iLBFoi3rQoMhZaVtJNfrGqKdbqgM
+   0fNT30x/9LAHTnDb3Mb07Hui8zqeQ3cB/BGWDP9pt0cnHV4VAJXJ+C8/P
+   J/rkifjyCwqcKHTZqxYBzFk1wNI56nzsvlegJn3fyYJHFPNzUSwjhiQGL
+   sZacye9FdQ0Bo1W7v3QFMDmevydhwYPSsGQ41BIGhRQ95m7M9DHSq1kHq
+   Dsh7LaE4VSPsH6npMd83QqfC56oQujT2F0VWbQ4iTDQH5yRd+fCd6YxEv
+   GL9G3U9diC/JaLAKdTgW/+z0UWxpftZGCqMRnVLV5Ey+/7KSwelGc2Kt7
+   A==;
+X-CSE-ConnectionGUID: 5GpWKlTeTuSq6qsSpDS94A==
+X-CSE-MsgGUID: uREVfxl+Quqm4ejUEybTMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="24988734"
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="25317600"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 11:25:17 -0700
-X-CSE-ConnectionGUID: qKVgOJ7vRz+xuOlNQcQR/g==
-X-CSE-MsgGUID: O8ITvqYkRYS8xm4R/TpOuw==
+   d="scan'208";a="24988734"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 11:25:15 -0700
+X-CSE-ConnectionGUID: 80/KCXqbRtWDqTc48yOXBw==
+X-CSE-MsgGUID: dnsjuI+MQheXs8+C0yZrVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="72262328"
+   d="scan'208";a="68088055"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Sep 2024 11:25:13 -0700
+  by orviesa009.jf.intel.com with ESMTP; 13 Sep 2024 11:25:14 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spAyl-0006p4-2y;
+	id 1spAyl-0006ow-2h;
 	Fri, 13 Sep 2024 18:25:11 +0000
 Date: Sat, 14 Sep 2024 02:25:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	krisman@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	kernel-dev@igalia.com, Daniel Rosenberg <drosen@google.com>,
-	smcv@collabora.com, Christoph Hellwig <hch@lst.de>,
-	Theodore Ts'o <tytso@mit.edu>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v4 07/10] tmpfs: Add casefold lookup support
-Message-ID: <202409140236.RR9Gbvqh-lkp@intel.com>
-References: <20240911144502.115260-8-andrealmeid@igalia.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 5448/30000] fs/proc/etmem_scan.c:1247:45:
+ warning: suggest braces around empty body in an 'else' statement
+Message-ID: <202409140258.tMEI5GEF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240911144502.115260-8-andrealmeid@igalia.com>
 
-Hi André,
+Hi liubo,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tytso-ext4/dev brauner-vfs/vfs.all linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/libfs-Create-the-helper-function-generic_ci_validate_strict_name/20240911-224740
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240911144502.115260-8-andrealmeid%40igalia.com
-patch subject: [PATCH v4 07/10] tmpfs: Add casefold lookup support
-config: csky-randconfig-002-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140236.RR9Gbvqh-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140236.RR9Gbvqh-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5a1d9701155c6908c76c68951170f10279685143
+commit: 79246e864484015e1ef3c7ecec2d18a6b27199ec [5448/30000] etmem: etmem scan module Replace WARN_ONCE() with debug_printk for "nothing read"
+config: arm64-randconfig-004-20240914 (https://download.01.org/0day-ci/archive/20240914/202409140258.tMEI5GEF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140258.tMEI5GEF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140236.RR9Gbvqh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140258.tMEI5GEF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/shmem.c:4719:39: warning: 'shmem_ci_dentry_ops' defined but not used [-Wunused-const-variable=]
-    4719 | static const struct dentry_operations shmem_ci_dentry_ops = {
-         |                                       ^~~~~~~~~~~~~~~~~~~
+   fs/proc/etmem_scan.c: In function 'mm_idle_walk_range':
+   fs/proc/etmem_scan.c:1244:61: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+    1244 |                                          pic->next_hva, end);
+         |                                                             ^
+>> fs/proc/etmem_scan.c:1247:45: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+    1247 |                 debug_printk("nothing read");
+         |                                             ^
 
 
-vim +/shmem_ci_dentry_ops +4719 mm/shmem.c
+vim +/else +1247 fs/proc/etmem_scan.c
 
-  4717	
-  4718	#if IS_ENABLED(CONFIG_UNICODE)
-> 4719	static const struct dentry_operations shmem_ci_dentry_ops = {
-  4720		.d_hash = generic_ci_d_hash,
-  4721		.d_compare = generic_ci_d_compare,
-  4722	#ifdef CONFIG_FS_ENCRYPTION
-  4723		.d_revalidate = fscrypt_d_revalidate,
-  4724	#endif
-  4725		.d_delete = always_delete_dentry,
-  4726	};
-  4727	#endif
-  4728	
+  1201	
+  1202	static int mm_idle_walk_range(struct page_idle_ctrl *pic,
+  1203					  unsigned long start,
+  1204					  unsigned long end,
+  1205					  struct mm_walk *walk)
+  1206	{
+  1207		struct vm_area_struct *vma;
+  1208		int ret = 0;
+  1209	
+  1210		ret = init_page_idle_ctrl_buffer(pic);
+  1211		if (ret)
+  1212			return ret;
+  1213	
+  1214		for (; start < end;) {
+  1215			down_read(&walk->mm->mmap_lock);
+  1216			vma = find_vma(walk->mm, start);
+  1217			if (vma) {
+  1218				if (end > vma->vm_start) {
+  1219					local_irq_disable();
+  1220					ret = walk_page_range(walk->mm, start, end,
+  1221							walk->ops, walk->private);
+  1222					local_irq_enable();
+  1223				} else
+  1224					set_restart_gpa(vma->vm_start, "VMA-HOLE");
+  1225			} else
+  1226				set_restart_gpa(TASK_SIZE, "EOF");
+  1227			up_read(&walk->mm->mmap_lock);
+  1228	
+  1229			WARN_ONCE(pic->gpa_to_hva, "non-zero gpa_to_hva");
+  1230			if (ret != PAGE_IDLE_KBUF_FULL && end > pic->restart_gpa)
+  1231				pic->restart_gpa = end;
+  1232			start = pic->restart_gpa;
+  1233			ret = page_idle_copy_user(pic, start, end);
+  1234			if (ret)
+  1235				break;
+  1236		}
+  1237	
+  1238		if (start > pic->next_hva)
+  1239			set_next_hva(start, "NEXT-START");
+  1240	
+  1241		if (pic->bytes_copied) {
+  1242			if (ret != PAGE_IDLE_BUF_FULL && pic->next_hva < end)
+  1243				debug_printk("partial scan: next_hva=%pK end=%pK\n",
+> 1244						 pic->next_hva, end);
+  1245			ret = 0;
+  1246		} else
+> 1247			debug_printk("nothing read");
+  1248		return ret;
+  1249	}
+  1250	
 
 -- 
 0-DAY CI Kernel Test Service
