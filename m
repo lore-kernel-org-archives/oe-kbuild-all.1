@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74E0BA37;
-	Fri, 13 Sep 2024 18:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799D4BA2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 19:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726253238; cv=none; b=tAOAIhw7p+jVNXVkMv5WLayRlVt85qWEVRj3Q8Tp34c5yE5nym4NUC8GJvAmwdcemptIzjw977zaV0Me8yGdjSfHhGC3g3i4TyVcWznZWFWvSC1uwgQcNIHlqxld8xrbXPQz2aw9fylWMQ3NPCCWGI5DrUIfjw4QOvx4DOr1nto=
+	t=1726255702; cv=none; b=VWl1UnQddlMIRXFzNkZaGlu0puIghrPqJTWuRtCdgf8JwKvwZwOY6WHs4wW/k/ONkKkWroLRwUgntyaQwL9F6BoOiboKKquNHiVL+mm28Ev+G+SxMsxwWbTtjQuymU8fPqA1W9S9ypuLZcITab+ZJkYpw2zssFB4Nst+jNT9Bvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726253238; c=relaxed/simple;
-	bh=Mn0loPp5U4L/icz1xLkVlHzdGcVblKS2F46A7SA88SY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XnZkkwiuihLyoBH355n7uzpcciB7apM+NW2+uTNwtIiJ6bN9jgkbVik2OSM4uuE+f063ruHdVj30ozTzZuMIj6s4lo7MGracDHfuzuMuCvoPmTM+W/xdzLiXqjlDOT265FOViqrFEVVIoTHhYGCbJFBkZjfsLjjXCFExdneGzpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqcCA8qj; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1726255702; c=relaxed/simple;
+	bh=nAFbR7abra0BZYB6LFWKSdJzsqfz9M0rIzt/PXqvAAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hLM16JpBYvLb3hYMeMKYThFGsf5qvKWGuK6TyHAzHD8vIORavrkwc4xrKGdWphD9c63zal1NVVzSeiVFipox4q1Cpr4FjoQh59070VoYGMBjfHx2v+vAp1eTZU00osjUmkx+YSLTBCSure8/PvEN4XTLFMB5kfZGzlNJHEPMO0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8PaYggx; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqcCA8qj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8PaYggx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726253237; x=1757789237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mn0loPp5U4L/icz1xLkVlHzdGcVblKS2F46A7SA88SY=;
-  b=PqcCA8qjF7ESKh2CFiaUi5AJeQQAaF5yA+jhSAlAswen8MmqebTmW0aI
-   tRw8UkPaxYQmX+A9haA0+KpYlYCHDCMRPsfP+cVbHNt0wyzktOjtj9ROq
-   I+OpqL5hZqT0Zzh2iFEena6l/GqOH+9mpiHLtZcj0JF5tyVK/cFsmWtKu
-   Dsx9JrU0n7DM3QiSlKNf2sRk6a3vUyDbNV4m25PGZC6I1EeqF4Pv6XgN0
-   /DP78VetnGkHaB25PgZkcmiqT66qf5yOaQ07yNTvKBsr/EC+Gz1Wf7Fim
-   IWcdjPaE8f4pJ93bFYdZ+yLWNMI+plzarr9rNAEZUgRLN5qJD8iX5aMO9
-   w==;
-X-CSE-ConnectionGUID: +H6lPP+ARTSi94gjOeaMng==
-X-CSE-MsgGUID: VTNIxR4rTRegCRs45dpw0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="24991159"
+  t=1726255700; x=1757791700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nAFbR7abra0BZYB6LFWKSdJzsqfz9M0rIzt/PXqvAAU=;
+  b=I8PaYggxZG1mlXUefTE7EcAfU6lWMyF5SGSFKDtxcu8figXxHpDafXb6
+   bF8esbPIcaz+oemVmACGIv/fyMKaLSk/Hdd3AfsK/v+AxJxFdgNF1mXad
+   latj2Oh1qwp+O5WYbmBKJBkaTk+IM7vZjYbqSCuCmf+NHYAvGOGvOACbY
+   UAN5vjMZNj/OKTZshVP8alke0Ytm4UDv5pvvBmPbQ+GSLaMd2rylutCU6
+   YDhE9tuKsdZu6JoaOZxo/S/xRrbxROInuCtyAY2slZRQHqL+ZsXHSBM8F
+   5xWT3/qaWaUchBSMGryaGE8REw8UITUaCxjottPXWBQ4Pp07aJBWKo+zy
+   A==;
+X-CSE-ConnectionGUID: l6/u+jLYS+CFDAYHbrQcFA==
+X-CSE-MsgGUID: 4T425PbqRoatYJcHd7FL/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="13517154"
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="24991159"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 11:47:16 -0700
-X-CSE-ConnectionGUID: bW1FyCbKQe67w2ZGJo6NLQ==
-X-CSE-MsgGUID: 7IToUScuR0yNJDHCFq9uhg==
+   d="scan'208";a="13517154"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 12:28:20 -0700
+X-CSE-ConnectionGUID: wnZWsATSSf+8+SYZ+rt4DA==
+X-CSE-MsgGUID: 0urTNAb0Sdy3z3RnebY3RQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="72529669"
+   d="scan'208";a="72764317"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Sep 2024 11:47:15 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Sep 2024 12:28:18 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spBK5-0006qO-0H;
-	Fri, 13 Sep 2024 18:47:13 +0000
-Date: Sat, 14 Sep 2024 02:47:02 +0800
+	id 1spBxo-0006u2-0M;
+	Fri, 13 Sep 2024 19:28:16 +0000
+Date: Sat, 14 Sep 2024 03:28:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Patrick Roy <roypat@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 02/10] kvm: gmem: Add KVM_GMEM_GET_PFN_SHARED
-Message-ID: <202409140259.UDF2K6th-lkp@intel.com>
-References: <20240910163038.1298452-3-roypat@amazon.co.uk>
+To: Guneshwor Singh <guneshwor.o.singh@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	"Shah, Hardik T" <hardik.t.shah@intel.com>
+Subject: [intel-lts:4.19/android_s 804/30000]
+ sound/soc/intel/fpga/hda_intel_cnl_fpga.c:189:16: warning: cast to pointer
+ from integer of different size
+Message-ID: <202409140345.7b5ZSI8y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +63,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910163038.1298452-3-roypat@amazon.co.uk>
 
-Hi Patrick,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 332d2c1d713e232e163386c35a3ba0c1b90df83f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Patrick-Roy/kvm-gmem-Add-option-to-remove-gmem-from-direct-map/20240911-003258
-base:   332d2c1d713e232e163386c35a3ba0c1b90df83f
-patch link:    https://lore.kernel.org/r/20240910163038.1298452-3-roypat%40amazon.co.uk
-patch subject: [RFC PATCH v2 02/10] kvm: gmem: Add KVM_GMEM_GET_PFN_SHARED
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240914/202409140259.UDF2K6th-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140259.UDF2K6th-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: 52b1cd7d118231b0c57a4c42c8522ea51d6ab77a [804/30000] Add facility to load ROM via debugfs
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240914/202409140345.7b5ZSI8y-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140345.7b5ZSI8y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140259.UDF2K6th-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140345.7b5ZSI8y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/svm/sev.c:3860:56: error: too few arguments to function call, expected 6, have 5
-    3860 |                 if (kvm_gmem_get_pfn(vcpu->kvm, slot, gfn, &pfn, NULL))
-         |                     ~~~~~~~~~~~~~~~~                                 ^
-   include/linux/kvm_host.h:2439:5: note: 'kvm_gmem_get_pfn' declared here
-    2439 | int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
-         |     ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2440 |                      gfn_t gfn, kvm_pfn_t *pfn, int *max_order, unsigned long flags);
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/svm/sev.c:4715:53: error: too few arguments to function call, expected 6, have 5
-    4715 |         ret = kvm_gmem_get_pfn(kvm, slot, gfn, &pfn, &order);
-         |               ~~~~~~~~~~~~~~~~                             ^
-   include/linux/kvm_host.h:2439:5: note: 'kvm_gmem_get_pfn' declared here
-    2439 | int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
-         |     ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2440 |                      gfn_t gfn, kvm_pfn_t *pfn, int *max_order, unsigned long flags);
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c: In function 'hda_intel_cnl_fpga_probe':
+>> sound/soc/intel/fpga/hda_intel_cnl_fpga.c:189:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     189 |                (void *)pci_resource_start(pdev, 0));
+         |                ^
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:193:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     193 |                (void *)pci_resource_start(pdev, 1));
+         |                ^
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:197:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     197 |                (void *)pci_resource_start(pdev, 2));
+         |                ^
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:201:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     201 |                (void *)pci_resource_start(pdev, 3));
+         |                ^
+   In file included from sound/soc/intel/fpga/hda_intel_cnl_fpga.c:17:
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c: At top level:
+   include/linux/module.h:139:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'hda_intel_cnl_fpga_driver_exit': 'cold' [-Wmissing-attributes]
+     139 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/device.h:1609:1: note: in expansion of macro 'module_exit'
+    1609 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/pci.h:1298:9: note: in expansion of macro 'module_driver'
+    1298 |         module_driver(__pci_driver, pci_register_driver, pci_unregister_driver)
+         |         ^~~~~~~~~~~~~
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:271:1: note: in expansion of macro 'module_pci_driver'
+     271 | module_pci_driver(hda_intel_cnl_fpga_driver);
+         | ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/pci.h:31,
+                    from sound/soc/intel/fpga/hda_intel_cnl_fpga.c:18:
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:271:19: note: 'cleanup_module' target declared here
+     271 | module_pci_driver(hda_intel_cnl_fpga_driver);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:1605:20: note: in definition of macro 'module_driver'
+    1605 | static void __exit __driver##_exit(void) \
+         |                    ^~~~~~~~
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:271:1: note: in expansion of macro 'module_pci_driver'
+     271 | module_pci_driver(hda_intel_cnl_fpga_driver);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/module.h:133:13: warning: 'init_module' specifies less restrictive attribute than its target 'hda_intel_cnl_fpga_driver_init': 'cold' [-Wmissing-attributes]
+     133 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/device.h:1604:1: note: in expansion of macro 'module_init'
+    1604 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/pci.h:1298:9: note: in expansion of macro 'module_driver'
+    1298 |         module_driver(__pci_driver, pci_register_driver, pci_unregister_driver)
+         |         ^~~~~~~~~~~~~
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:271:1: note: in expansion of macro 'module_pci_driver'
+     271 | module_pci_driver(hda_intel_cnl_fpga_driver);
+         | ^~~~~~~~~~~~~~~~~
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:271:19: note: 'init_module' target declared here
+     271 | module_pci_driver(hda_intel_cnl_fpga_driver);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:1600:19: note: in definition of macro 'module_driver'
+    1600 | static int __init __driver##_init(void) \
+         |                   ^~~~~~~~
+   sound/soc/intel/fpga/hda_intel_cnl_fpga.c:271:1: note: in expansion of macro 'module_pci_driver'
+     271 | module_pci_driver(hda_intel_cnl_fpga_driver);
+         | ^~~~~~~~~~~~~~~~~
 
 
-vim +3860 arch/x86/kvm/svm/sev.c
+vim +189 sound/soc/intel/fpga/hda_intel_cnl_fpga.c
 
-9b54e248d2644b Michael Roth 2024-05-01  3833  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3834  static int __sev_snp_update_protected_guest_state(struct kvm_vcpu *vcpu)
-e366f92ea99e19 Tom Lendacky 2024-05-01  3835  {
-e366f92ea99e19 Tom Lendacky 2024-05-01  3836  	struct vcpu_svm *svm = to_svm(vcpu);
-e366f92ea99e19 Tom Lendacky 2024-05-01  3837  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3838  	WARN_ON(!mutex_is_locked(&svm->sev_es.snp_vmsa_mutex));
-e366f92ea99e19 Tom Lendacky 2024-05-01  3839  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3840  	/* Mark the vCPU as offline and not runnable */
-e366f92ea99e19 Tom Lendacky 2024-05-01  3841  	vcpu->arch.pv.pv_unhalted = false;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3842  	vcpu->arch.mp_state = KVM_MP_STATE_HALTED;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3843  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3844  	/* Clear use of the VMSA */
-e366f92ea99e19 Tom Lendacky 2024-05-01  3845  	svm->vmcb->control.vmsa_pa = INVALID_PAGE;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3846  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3847  	if (VALID_PAGE(svm->sev_es.snp_vmsa_gpa)) {
-e366f92ea99e19 Tom Lendacky 2024-05-01  3848  		gfn_t gfn = gpa_to_gfn(svm->sev_es.snp_vmsa_gpa);
-e366f92ea99e19 Tom Lendacky 2024-05-01  3849  		struct kvm_memory_slot *slot;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3850  		kvm_pfn_t pfn;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3851  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3852  		slot = gfn_to_memslot(vcpu->kvm, gfn);
-e366f92ea99e19 Tom Lendacky 2024-05-01  3853  		if (!slot)
-e366f92ea99e19 Tom Lendacky 2024-05-01  3854  			return -EINVAL;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3855  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3856  		/*
-e366f92ea99e19 Tom Lendacky 2024-05-01  3857  		 * The new VMSA will be private memory guest memory, so
-e366f92ea99e19 Tom Lendacky 2024-05-01  3858  		 * retrieve the PFN from the gmem backend.
-e366f92ea99e19 Tom Lendacky 2024-05-01  3859  		 */
-e366f92ea99e19 Tom Lendacky 2024-05-01 @3860  		if (kvm_gmem_get_pfn(vcpu->kvm, slot, gfn, &pfn, NULL))
-e366f92ea99e19 Tom Lendacky 2024-05-01  3861  			return -EINVAL;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3862  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3863  		/*
-e366f92ea99e19 Tom Lendacky 2024-05-01  3864  		 * From this point forward, the VMSA will always be a
-e366f92ea99e19 Tom Lendacky 2024-05-01  3865  		 * guest-mapped page rather than the initial one allocated
-e366f92ea99e19 Tom Lendacky 2024-05-01  3866  		 * by KVM in svm->sev_es.vmsa. In theory, svm->sev_es.vmsa
-e366f92ea99e19 Tom Lendacky 2024-05-01  3867  		 * could be free'd and cleaned up here, but that involves
-e366f92ea99e19 Tom Lendacky 2024-05-01  3868  		 * cleanups like wbinvd_on_all_cpus() which would ideally
-e366f92ea99e19 Tom Lendacky 2024-05-01  3869  		 * be handled during teardown rather than guest boot.
-e366f92ea99e19 Tom Lendacky 2024-05-01  3870  		 * Deferring that also allows the existing logic for SEV-ES
-e366f92ea99e19 Tom Lendacky 2024-05-01  3871  		 * VMSAs to be re-used with minimal SNP-specific changes.
-e366f92ea99e19 Tom Lendacky 2024-05-01  3872  		 */
-e366f92ea99e19 Tom Lendacky 2024-05-01  3873  		svm->sev_es.snp_has_guest_vmsa = true;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3874  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3875  		/* Use the new VMSA */
-e366f92ea99e19 Tom Lendacky 2024-05-01  3876  		svm->vmcb->control.vmsa_pa = pfn_to_hpa(pfn);
-e366f92ea99e19 Tom Lendacky 2024-05-01  3877  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3878  		/* Mark the vCPU as runnable */
-e366f92ea99e19 Tom Lendacky 2024-05-01  3879  		vcpu->arch.pv.pv_unhalted = false;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3880  		vcpu->arch.mp_state = KVM_MP_STATE_RUNNABLE;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3881  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3882  		svm->sev_es.snp_vmsa_gpa = INVALID_PAGE;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3883  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3884  		/*
-e366f92ea99e19 Tom Lendacky 2024-05-01  3885  		 * gmem pages aren't currently migratable, but if this ever
-e366f92ea99e19 Tom Lendacky 2024-05-01  3886  		 * changes then care should be taken to ensure
-e366f92ea99e19 Tom Lendacky 2024-05-01  3887  		 * svm->sev_es.vmsa is pinned through some other means.
-e366f92ea99e19 Tom Lendacky 2024-05-01  3888  		 */
-e366f92ea99e19 Tom Lendacky 2024-05-01  3889  		kvm_release_pfn_clean(pfn);
-e366f92ea99e19 Tom Lendacky 2024-05-01  3890  	}
-e366f92ea99e19 Tom Lendacky 2024-05-01  3891  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3892  	/*
-e366f92ea99e19 Tom Lendacky 2024-05-01  3893  	 * When replacing the VMSA during SEV-SNP AP creation,
-e366f92ea99e19 Tom Lendacky 2024-05-01  3894  	 * mark the VMCB dirty so that full state is always reloaded.
-e366f92ea99e19 Tom Lendacky 2024-05-01  3895  	 */
-e366f92ea99e19 Tom Lendacky 2024-05-01  3896  	vmcb_mark_all_dirty(svm->vmcb);
-e366f92ea99e19 Tom Lendacky 2024-05-01  3897  
-e366f92ea99e19 Tom Lendacky 2024-05-01  3898  	return 0;
-e366f92ea99e19 Tom Lendacky 2024-05-01  3899  }
-e366f92ea99e19 Tom Lendacky 2024-05-01  3900  
+   166	
+   167	static int hda_intel_cnl_fpga_probe(struct pci_dev *pdev,
+   168			const struct pci_device_id *pci_id)
+   169	{
+   170		struct hda_intel_cnl_fpga_dev *fpgadev;
+   171		int ret = 0;
+   172	
+   173		ret = pci_enable_device(pdev);
+   174		if (ret) {
+   175			dev_err(&pdev->dev, "%s: pci_enable_device failed: %d\n",
+   176				__func__, ret);
+   177			return ret;
+   178		}
+   179	
+   180		fpgadev = kzalloc(sizeof(struct hda_intel_cnl_fpga_dev), GFP_KERNEL);
+   181		if (!fpgadev) {
+   182			dev_err(&pdev->dev, "%s: kzalloc failed, aborting.\n",
+   183				__func__);
+   184			ret = -ENOMEM;
+   185			goto err_alloc;
+   186		}
+   187	
+   188		printk(KERN_INFO "%s: bar: 0, start 0x%p\n", __func__,
+ > 189		       (void *)pci_resource_start(pdev, 0));
+   190		printk(KERN_INFO "%s: bar: 0, flags 0x%lx\n", __func__,
+   191		       pci_resource_flags(pdev, 0));
+   192		printk(KERN_INFO "%s: bar: 1, start 0x%p\n", __func__,
+   193		       (void *)pci_resource_start(pdev, 1));
+   194		printk(KERN_INFO "%s: bar: 1, flags 0x%lx\n", __func__,
+   195		       pci_resource_flags(pdev, 1));
+   196		printk(KERN_INFO "%s: bar: 2, start 0x%p\n", __func__,
+   197		       (void *)pci_resource_start(pdev, 2));
+   198		printk(KERN_INFO "%s: bar: 2, flags 0x%lx\n", __func__,
+   199		       pci_resource_flags(pdev, 2));
+   200		printk(KERN_INFO "%s: bar: 3, start 0x%p\n", __func__,
+   201		       (void *)pci_resource_start(pdev, 3));
+   202		printk(KERN_INFO "%s: bar: 3, flags 0x%lx\n", __func__,
+   203		       pci_resource_flags(pdev, 3));
+   204	
+   205		fpgadev->rom_mem_base
+   206			= pci_ioremap_bar(pdev, HDA_INTEL_CNL_FPGA_ROM_BAR_IDX);
+   207		printk("%s: bar: 0x%p\n", __func__, fpgadev->rom_mem_base);
+   208		if (!fpgadev->rom_mem_base) {
+   209			dev_err(&pdev->dev, "%s: ioremap failed, aborting\n",
+   210				__func__);
+   211			ret = -ENXIO;
+   212			goto err_map;
+   213		}
+   214	
+   215		fpgadev->pdev = pdev;
+   216	
+   217		pci_set_drvdata(pdev, fpgadev);
+   218	
+   219		if (!debugfs_create_file("cnl_oed_rom", 0644, NULL,
+   220			fpgadev, &hda_intel_cnl_fpga_rom_fops)) {
+   221			dev_err(&pdev->dev, "%s: cannot create debugfs entry.\n",
+   222				__func__);
+   223			ret = -ENODEV;
+   224			goto err_map;
+   225		}
+   226	
+   227		return ret;
+   228	
+   229	err_map:
+   230		if (fpgadev->rom_mem_base) {
+   231			iounmap(fpgadev->rom_mem_base);
+   232			fpgadev->rom_mem_base = NULL;
+   233		}
+   234		kfree(fpgadev);
+   235	err_alloc:
+   236		pci_disable_device(pdev);
+   237		return ret;
+   238	}
+   239	
 
 -- 
 0-DAY CI Kernel Test Service
