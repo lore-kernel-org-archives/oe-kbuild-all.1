@@ -1,60 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E60FBA50
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 18:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AE479B8E;
+	Fri, 13 Sep 2024 18:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726250657; cv=none; b=i5MANBYXCFmFotx013Z6ubJqOo5kBmLp8XPLWdAOXXI55NTSb49SzixooA2PHz132MqgNXdWwKFhOq7DVhDn5DskvY8StPGbACd1ABH6A3b0pq2qIjYg62vqcgQq911UqbgZvo+OqwIa+rztn1EkiEZYkKUdAMtVbQe4/rWaK6E=
+	t=1726251140; cv=none; b=JFnQkCpJDgui06zclih4G3xXr7WCZIkrZG0gSawyhmtldDk7ZgEOPS6aoDXx/pyrgA0zKP8ZitPendnBxPISlzLxSJJakaN7oDelPDeelku6rj9KrGcR/Av6cSGdlW6W5ALGknMsznsKGRpFK3DsHniDK+J/5p2klXIQJnXPx/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726250657; c=relaxed/simple;
-	bh=5DS9cPPilbKHo1jHMchMrjtoesE2l1wAmWjAgsqQ9fA=;
+	s=arc-20240116; t=1726251140; c=relaxed/simple;
+	bh=ELc+EZ6Ud+nuJFE/uD3oBDDq7oF9thBeZ2LWyjeuLTU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CpAax0aeI5sNR59XtvRAOArTvg0HjL55QxDMoNhyXxhz+splPHc4VSZCYod8cle+gS2qHu/mLxhEd6fSU9JMjCI99n30rNELMbJ7Xb/D+lncMxODKdL/lx3SJxyqPRYQy3lNuD9cuA16BtAZ6m/qp6uTuL5T9LF2fUB5fD/t9bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaP07HIy; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fmt23LDyyn31pa0JXvV6K2p0lqBe4cGxKKi614kihv4YaWQZHlfrW6BZdM80BKQrcFnIdGuy+rumVyW30YEvoVSKo7Dbogum8y5LEvpjm95dinpxxuo9X7EJ2saqp85GnSI6Jfgt+wQudsPbQV3VhjnyVwSCbmHSryQxSlJ7BKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=amYC6KlQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaP07HIy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726250655; x=1757786655;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5DS9cPPilbKHo1jHMchMrjtoesE2l1wAmWjAgsqQ9fA=;
-  b=ZaP07HIyd5+6CMujfvBQujkdSRuGZPIdLdS+O970vdVNHQslCzI7FxZG
-   Jw7EQT64cFzwyA+gTcp4Hx4M8ZZlSamYtKtolVTGEE5uRwprBK1RYIoPR
-   PiYyP+EGm6SCsLbJ0sSoqGdCFlMgQEjD/sdDrZXIfF5xI1mv4wF+jha0v
-   ilIvpPeRnfqHXtGNMUSm9DhT3aMFt4DlA8AgaUNFCNLkpXf/sVFDHf4M/
-   erdo0tjLJVe9z5s7MR+G99c4FXfirR1hMTj6WRkl8z3STgVpkMtz0YWZJ
-   uH7enroHVfiCRKCZaVPAn7pO5gVObiXtXPhJ0izOKaY7e3RMciXPv86BH
-   g==;
-X-CSE-ConnectionGUID: 3OszpW9wS76/MY3xoacEuA==
-X-CSE-MsgGUID: GJ/oSGq9T4SwT5xYDOJBfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25288131"
-X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="25288131"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 11:04:14 -0700
-X-CSE-ConnectionGUID: Qhezc30TSW2lZ8mIgWIVsQ==
-X-CSE-MsgGUID: zUmGgLowS1SkWeE507YibA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="98822304"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Sep 2024 11:04:14 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spAeR-0006nc-0B;
-	Fri, 13 Sep 2024 18:04:11 +0000
-Date: Sat, 14 Sep 2024 02:04:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Patrick Roy <roypat@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 07/10] kvm: pfncache: invalidate when memory
- attributes change
-Message-ID: <202409140116.x5fqwXJL-lkp@intel.com>
-References: <20240910163038.1298452-8-roypat@amazon.co.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="amYC6KlQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF54BC4CEC0;
+	Fri, 13 Sep 2024 18:12:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726251140;
+	bh=ELc+EZ6Ud+nuJFE/uD3oBDDq7oF9thBeZ2LWyjeuLTU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=amYC6KlQsEeRu1br1naI9PFxAp4xNZc1uIpm1fS11VIcupSakzGNwcLGcHu4sUhr8
+	 zY3n/2KOSWizbRqWSmlXNGBo5BLtQqDbVTH5pEhy+4Y3V8Mt8kIncZEkj0+ynTu7ev
+	 KzKKp6YKi2o6zsJ4Q0xBZjzbVmtHlWOn/mCnlPZwkA4DVwEN9A1QZjEqvSG/6EgvrR
+	 s3imqLthMF766CTm0Pt6oKQ9LwILSsn8/YsLNE7i0pZCGFgutcD1o9RZZDtubVCxqi
+	 vc9rYwoicw3eDz16YY5tx93mZpQGOG890aro/j6wIfB/BHQmDiEiWgC7oEASd6zx69
+	 LrhAY9RH/ZBSA==
+Date: Sat, 14 Sep 2024 03:12:18 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Richard Zhu <hongxing.zhu@nxp.com>, Frank Li <Frank.Li@nxp.com>,
+	Rob Herring <robh@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
+	Philip Li <philip.li@intel.com>, linux-pci@vger.kernel.org
+Subject: Re: [linux-next:master 11090/11210]
+ arch/arm64/boot/dts/freescale/imx8mm-venice-gw75xx-0x.dtb: pcie-ep@33800000:
+ reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+Message-ID: <20240913181218.GA3047723@rocinante>
+References: <202409131940.gkwdcLJ6-lkp@intel.com>
+ <20240913163249.GA713949@bhelgaas>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,76 +48,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910163038.1298452-8-roypat@amazon.co.uk>
+In-Reply-To: <20240913163249.GA713949@bhelgaas>
 
-Hi Patrick,
+[+Cc Philip]
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+Hello,
 
-[auto build test ERROR on 332d2c1d713e232e163386c35a3ba0c1b90df83f]
+> I don't know if this is a false positive or related to
+> https://git.kernel.org/cgit/linux/kernel/git/pci/pci.git/commit/?id=2f309c988b7c
+> ("dt-bindings: PCI: imx6q-pcie: Add reg-name "dbi2" and "atu" for
+> i.MX8M PCIe Endpoint") or what, but needs to be resolved before this
+> gets merged to mainline.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Patrick-Roy/kvm-gmem-Add-option-to-remove-gmem-from-direct-map/20240911-003258
-base:   332d2c1d713e232e163386c35a3ba0c1b90df83f
-patch link:    https://lore.kernel.org/r/20240910163038.1298452-8-roypat%40amazon.co.uk
-patch subject: [RFC PATCH v2 07/10] kvm: pfncache: invalidate when memory attributes change
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240914/202409140116.x5fqwXJL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140116.x5fqwXJL-lkp@intel.com/reproduce)
+Philip, this is one of the false-positives, isn't it?  I believe we've got
+a few of these recently.  See below for an example.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140116.x5fqwXJL-lkp@intel.com/
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   57f962b956f1d116cd64d5c406776c4975de549d
+> > commit: b099c3ac1a08c08517c1ff05c52a7f5476020b02 [11090/11210] Merge branch 'next' of git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
+> > config: arm64-randconfig-051-20240911 (https://download.01.org/0day-ci/archive/20240913/202409131940.gkwdcLJ6-lkp@intel.com/config)
+> > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> > dtschema version: 2024.6.dev16+gc51125d
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131940.gkwdcLJ6-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202409131940.gkwdcLJ6-lkp@intel.com/
+> > 
+> > dtcheck warnings: (new ones prefixed by >>)
+> > >> arch/arm64/boot/dts/freescale/imx8mm-venice-gw75xx-0x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+> > >> arch/arm64/boot/dts/freescale/imx8mm-venice-gw75xx-0x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+> > --
+> > >> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+> > >> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+> > --
+> > >> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+> > >> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+> > --
+> > >> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+> > >> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+> >    	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
 
-All errors (new ones prefixed by >>):
+Past conversation about these errors:
 
-   arch/x86/kvm/../../../virt/kvm/pfncache.c: In function 'mmu_notifier_retry_cache':
->> arch/x86/kvm/../../../virt/kvm/pfncache.c:187:16: error: 'struct kvm' has no member named 'attribute_change_in_progress'
-     187 |         if (kvm->attribute_change_in_progress)
-         |                ^~
+  - https://lore.kernel.org/all/202407041154.pTMBERxA-lkp@intel.com/
 
-
-vim +187 arch/x86/kvm/../../../virt/kvm/pfncache.c
-
-   163	
-   164	static inline bool mmu_notifier_retry_cache(struct kvm *kvm, unsigned long mmu_seq)
-   165	{
-   166		/*
-   167		 * mn_active_invalidate_count acts for all intents and purposes
-   168		 * like mmu_invalidate_in_progress here; but the latter cannot
-   169		 * be used here because the invalidation of caches in the
-   170		 * mmu_notifier event occurs _before_ mmu_invalidate_in_progress
-   171		 * is elevated.
-   172		 *
-   173		 * Note, it does not matter that mn_active_invalidate_count
-   174		 * is not protected by gpc->lock.  It is guaranteed to
-   175		 * be elevated before the mmu_notifier acquires gpc->lock, and
-   176		 * isn't dropped until after mmu_invalidate_seq is updated.
-   177		 */
-   178		if (kvm->mn_active_invalidate_count)
-   179			return true;
-   180	
-   181		/*
-   182		 * Similarly to the above, attribute_change_in_progress is set
-   183		 * before gfn_to_pfn_cache_invalidate_start is called in
-   184		 * kvm_vm_set_mem_attributes, and isn't cleared until after
-   185		 * mmu_invalidate_seq is updated.
-   186		 */
- > 187		if (kvm->attribute_change_in_progress)
-   188			return true;
-   189		/*
-   190		 * Ensure mn_active_invalidate_count is read before
-   191		 * mmu_invalidate_seq.  This pairs with the smp_wmb() in
-   192		 * mmu_notifier_invalidate_range_end() to guarantee either the
-   193		 * old (non-zero) value of mn_active_invalidate_count or the
-   194		 * new (incremented) value of mmu_invalidate_seq is observed.
-   195		 */
-   196		smp_rmb();
-   197		return kvm->mmu_invalidate_seq != mmu_seq;
-   198	}
-   199	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Krzysztof
