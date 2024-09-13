@@ -1,104 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8093812D1F1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 18:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A7712C530
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 18:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726251918; cv=none; b=qVnghwOr4TvhnRi4LBc1FqLuh0O/ZMqE699aQIArDVjG6XaqyQpNPXoAMc1OchhcmXBtaYfYIYDwU143OTRqYrxp2PWrt7AtaVfIhirt0ahFiPS+fASUJgWZtjFuq0Hy7SjfpSaQPKQkR6D2AZJtGgDSWcL0YjVTxQbm6yQFkPA=
+	t=1726251919; cv=none; b=j5zF9fP62EjHKhUzN0t/Ym9XSdmcyJ1rjQsfmg8ICcaNo+Va74p8nF1deOHjHzc+BgBz12xr6qLNpCH2ExjxO3eReUJtgxgDbOBDlHxdkK6JF2ckYIeXgASbijSLnrsWvdckHKlhZW7/CLygM7PPOEJM20EFucMtNqJ3qx18k78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726251918; c=relaxed/simple;
-	bh=jzX6jvGLQgSLvNZfYRi5Zq0yFTj4mHutWClp2zgkZjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pXb8J2d1Fvy9Z4hJo12EaNHEdxt1s6b5oVW4sVZ/U4KFr/5HB1aJwZoKlQnxNckhs4rALlcQDdPVXDtSBwnwecAMrhnrgMQ5Rf8K94eOpKYD3O1dRCjqAWx3tE4d56PdQMrssjy+Q6njTxB3UgVzEREi3cYEkKtyUmYOfXgtPt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kSxptwp3; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1726251919; c=relaxed/simple;
+	bh=ZP5Sr3pIISCAUY6csIxUxy+RYfNU+Q4zrM+AyHqj3zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q+nuppWrK/suXTQL6ya2H0kWt3MUx0Xfy9AmmFoHvdvDHqZZcnvx56CnXN3TKPdsTFi3w/4ehSYDKtqoFJuj+Sp4kjOsrUNNw04zWTUAA2VfpTGkWeAk8Z2wK/QIcYFLLHGKvt0KsFxtdL8jX9i52bGxKgHhBtHJKtptApg/New=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqCOrKOt; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kSxptwp3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqCOrKOt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726251916; x=1757787916;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jzX6jvGLQgSLvNZfYRi5Zq0yFTj4mHutWClp2zgkZjk=;
-  b=kSxptwp3cGP48Bf8vsT+EyDjjo9CDmKDHS6Al9VZFK3v5mEe5VfI7Hrv
-   HZkCOLKluepUN9KasJqmRer+gMcTIbWKDDjaKUpJTOcf+/QfGyMVvMmkF
-   2Zqu1TZWXNFbBu4fWlkqJsDG+khMKNiGE0vw9mTm8K4QUf35oqFU+qUFx
-   WNeWoo/LN5Zfp0mHJ70bTfNKaum18eW0HsxbCuAtmlYChpYBWE4fN/uGB
-   scAtdvmWF40aXHo6OyndeW8AuphV/LbA1NZs44d8scJiLZtjgwY0lfHQR
-   DMRJd5S+e/3juicvtuLNzI3hdQ8IxGAs/R/9EXsnclvEowMtT1lg1MrIH
-   Q==;
-X-CSE-ConnectionGUID: YRFnyhqPSF2ZMpjQWgb0dg==
-X-CSE-MsgGUID: 9ttJBj2sRqmMzng07muGTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="24988730"
+  t=1726251918; x=1757787918;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZP5Sr3pIISCAUY6csIxUxy+RYfNU+Q4zrM+AyHqj3zk=;
+  b=CqCOrKOtuc4KXD7IoEfkQIiV4kwh9Bs9pLQDnkGRCRfiOV5+Z5VPk67M
+   U/FeFoSCjEpdfFG6D7Q8VSm0fPOurHb2EHyodWOLhkMCmMX8aadlswH7V
+   ov2uPuYwLVlG/kS1pAhlh4IvQXloYLFqdcRzo45N+KtcwYwfz98NHkupZ
+   rKp/C4fj2UJ4WK913wU8MmxwMMJYzmJScYmebU1kkGSuRVHQTpXr66QWk
+   Pc9jhejzT49vNGN8dEkBwKLxH6Dy6lKE7BvGzx/z65P54SbppZcbgc8uq
+   4q5IQl+ysTerh8X+3Lulg7K4VZNWnkYdsKOpn+slHnPGXtTsdgwxTWSQH
+   g==;
+X-CSE-ConnectionGUID: ZMAWDmWoQgiB2bN5F71VHA==
+X-CSE-MsgGUID: o8nFgMgfTjSz/EN2+SXASw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25317600"
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="24988730"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 11:25:15 -0700
-X-CSE-ConnectionGUID: fZu7ylM3TY6ggpIVxoEMSw==
-X-CSE-MsgGUID: FCwRL/RvTGydTO/Pl/+r/Q==
+   d="scan'208";a="25317600"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 11:25:17 -0700
+X-CSE-ConnectionGUID: qKVgOJ7vRz+xuOlNQcQR/g==
+X-CSE-MsgGUID: O8ITvqYkRYS8xm4R/TpOuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="68088056"
+   d="scan'208";a="72262328"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Sep 2024 11:25:15 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 13 Sep 2024 11:25:13 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spAyl-0006p1-2t;
+	id 1spAyl-0006p4-2y;
 	Fri, 13 Sep 2024 18:25:11 +0000
-Date: Sat, 14 Sep 2024 02:25:11 +0800
+Date: Sat, 14 Sep 2024 02:25:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 27796/30000] mm/mem_sampling.c:164:35: error:
- 'sysctl_mem_sampling_enable' undeclared here (not in a function); did you
- mean 'sysctl_mem_sampling_mode'?
-Message-ID: <202409140253.h1BCVyaA-lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	krisman@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	kernel-dev@igalia.com, Daniel Rosenberg <drosen@google.com>,
+	smcv@collabora.com, Christoph Hellwig <hch@lst.de>,
+	Theodore Ts'o <tytso@mit.edu>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v4 07/10] tmpfs: Add casefold lookup support
+Message-ID: <202409140236.RR9Gbvqh-lkp@intel.com>
+References: <20240911144502.115260-8-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240911144502.115260-8-andrealmeid@igalia.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   5a1d9701155c6908c76c68951170f10279685143
-commit: 9878268b0b9f6144b3bf066fa54124ce9c401072 [27796/30000] mm/mem_sampling.c: Add controlling interface for mem_sampling
-config: arm64-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409140253.h1BCVyaA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140253.h1BCVyaA-lkp@intel.com/reproduce)
+Hi André,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tytso-ext4/dev brauner-vfs/vfs.all linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/libfs-Create-the-helper-function-generic_ci_validate_strict_name/20240911-224740
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240911144502.115260-8-andrealmeid%40igalia.com
+patch subject: [PATCH v4 07/10] tmpfs: Add casefold lookup support
+config: csky-randconfig-002-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140236.RR9Gbvqh-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140236.RR9Gbvqh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140253.h1BCVyaA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140236.RR9Gbvqh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/mem_sampling.c:164:35: error: 'sysctl_mem_sampling_enable' undeclared here (not in a function); did you mean 'sysctl_mem_sampling_mode'?
-     164 |                 .proc_handler   = sysctl_mem_sampling_enable,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   sysctl_mem_sampling_mode
+>> mm/shmem.c:4719:39: warning: 'shmem_ci_dentry_ops' defined but not used [-Wunused-const-variable=]
+    4719 | static const struct dentry_operations shmem_ci_dentry_ops = {
+         |                                       ^~~~~~~~~~~~~~~~~~~
 
 
-vim +164 mm/mem_sampling.c
+vim +/shmem_ci_dentry_ops +4719 mm/shmem.c
 
-   157	
-   158	static struct ctl_table ctl_table[] = {
-   159		{
-   160			.procname       = "mem_sampling_enable",
-   161			.data           = NULL, /* filled in by handler */
-   162			.maxlen		= sizeof(unsigned int),
-   163			.mode		= 0644,
- > 164			.proc_handler   = sysctl_mem_sampling_enable,
-   165			.extra1		= SYSCTL_ZERO,
-   166			.extra2		= SYSCTL_ONE,
-   167		},
-   168		{}
-   169	};
-   170	
+  4717	
+  4718	#if IS_ENABLED(CONFIG_UNICODE)
+> 4719	static const struct dentry_operations shmem_ci_dentry_ops = {
+  4720		.d_hash = generic_ci_d_hash,
+  4721		.d_compare = generic_ci_d_compare,
+  4722	#ifdef CONFIG_FS_ENCRYPTION
+  4723		.d_revalidate = fscrypt_d_revalidate,
+  4724	#endif
+  4725		.d_delete = always_delete_dentry,
+  4726	};
+  4727	#endif
+  4728	
 
 -- 
 0-DAY CI Kernel Test Service
