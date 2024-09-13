@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF09278276
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 16:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AC56E2BE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 17:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726245732; cv=none; b=gBBPxmZTJdgOYBer8A9RLjwi0RlsGpwKuAQUrn1ClVyNXeX4gM4CIdctjCmLXSBqiHrrlv4Qpu2BWnf+tYIxMXGNqo8GZVLPcjA3aeIQ6Wk4ioPp4oXRqzHjLZS+nKGDmc3FYuOTQQWis3DDHOC2yuDjb6QeGPKyS1ZoVNtEY5Y=
+	t=1726246933; cv=none; b=g1g9Ibd038k0k/ekq95BKvtKOj+m2cpiefA3UQJAFzvH/VccS7aSkTovJtiYn2zMab5IDeuOYUWpemdQfciqonjLnJnpuTfEcGRLsUzR8b66HIRMyxX6rmu1SAtjtO+tOp85kgzPTYdVlUHQgC5OwbEUH6jG3Ifn02cnTReZswo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726245732; c=relaxed/simple;
-	bh=4t0titKI9POlDTLVEPmiQct5YkoPSTyXdu9AwtChQMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pQuojsmyNbJiRFvX6um+WzzhWzFHgRDyXYaWjGiHe0gtpbjgc13jzRejPqlzP1OJTpiQeAEHMbVHvMrdMFlx1fD2nyfmfqkSs/mSLMsj7gAbjwFdgGF/qtFYVSBhvufCdk1tTaVYWwKOUevd1zd0Q1oOD+NQdDLXqioXqX3R6Cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghHI//Zt; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1726246933; c=relaxed/simple;
+	bh=iU+uC45aK3oxV1shXS6vt5137cEYJgyIhw/8iZFvqHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dukijcysQEi1noGOZmJiA3a75/4H283rvsyYJno50zFmuQEyyReQBp5iPmNB1umFXDmhBsEM+kHONSnDkQnf1yTfJ7jkCwpw4Yfk9FmoE2qK83KhghfOPg+9Qa65lHSqMXJgnsWCsjC7XQG1ETCP8sslH6jGYoHgmyt3F+woHlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YC61bJFt; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghHI//Zt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YC61bJFt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726245731; x=1757781731;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4t0titKI9POlDTLVEPmiQct5YkoPSTyXdu9AwtChQMc=;
-  b=ghHI//Zt5PvI6GCumMPSP/WDf6r+vhHRXCK8Xzs1ttR8G71LRYSUKi5Q
-   ed6ufbpPdfS930qYGfed0pTQ4Uzpycqx9w2Sr4PurIrfUtxY4KVXXeqYk
-   8Mc+/XyC4j7uAT0+i3XpbpDxFPDPMBQncRI6uEJkD+Hp17jabdWrVzs6+
-   X/7WecMdvlw5qK8x8I318aptOMoURZZpwDwc+Q/7h8zjkdweJ+4J2j3uq
-   Lq0UtcYkkMmfTMhY6ux3rizMZbgpKmgmWQ98WUH07mm3XRsNJ7jyIMPaV
-   l+zrAGKZ0luhmMiEYomqH1xIDqqPuIruFa07rFPUntFwVY2qMC70w4NBv
-   g==;
-X-CSE-ConnectionGUID: UomPKoVyTnOzV6yYh4nk3Q==
-X-CSE-MsgGUID: KXlTB+4ZQ0GI1jdJ+4yyew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25034504"
+  t=1726246932; x=1757782932;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iU+uC45aK3oxV1shXS6vt5137cEYJgyIhw/8iZFvqHc=;
+  b=YC61bJFtDbc7pNw8YMKfP20CmUK83nhYZneQV+19cs9dF25CYJT+oz92
+   1+VcojxywW52QxgOARwMZqo9QhvME1PEmn1aCus910XQ2K3D+2o07ZE52
+   uzjkD/oS4rsJrIp6orJrQEAjoX47QPQgWaazTAmR+rjkA17TpCd5VKzuQ
+   BBpHq1a71+vnboZSnDgN+Cj9iTDi2Ao2OgNnp+P+KboHzMpYhqhbHbDd4
+   +rbJY4+T0HnxBOjyD/MdT3+Dh/BJrrUFwccmd4TLPan7njLBEPOMPefxV
+   ckrNVbskJ0mr2i5k2DdQzfglBqD4+BK+QFcWt7sVgDHGtDqa15g3sJg+0
+   Q==;
+X-CSE-ConnectionGUID: km2UBkMeQNWL+AxRyVIqcQ==
+X-CSE-MsgGUID: kP+B6Z1iRpaWYHrs2MwCGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="13515311"
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="25034504"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 09:42:08 -0700
-X-CSE-ConnectionGUID: Kh5ylPfHTi+w04GlIPb2rw==
-X-CSE-MsgGUID: YZ1B8DqPTVyuxVsBWY+gYg==
+   d="scan'208";a="13515311"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 10:02:11 -0700
+X-CSE-ConnectionGUID: AGhsvv91SAiQc4j9Az2hlw==
+X-CSE-MsgGUID: JmSBjxDHRLuUjUB61DfkmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="68368389"
+   d="scan'208";a="98972511"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Sep 2024 09:42:07 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 13 Sep 2024 10:02:08 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sp9Mz-0006hU-0B;
-	Fri, 13 Sep 2024 16:42:05 +0000
-Date: Sat, 14 Sep 2024 00:41:06 +0800
+	id 1sp9gL-0006im-28;
+	Fri, 13 Sep 2024 17:02:05 +0000
+Date: Sat, 14 Sep 2024 01:01:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wang Wensheng <wangwensheng4@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 11451/30000] mm/mem_reliable.c:430:9: error:
- implicit declaration of function 'mem_reliable_ctrl_bit_disable'; did you
- mean 'mem_reliable_ctrl_bit_disabled'?
-Message-ID: <202409140014.U3Yy9wN5-lkp@intel.com>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	jikos@kernel.org, bentiss@kernel.org, dmitry.torokhov@gmail.com,
+	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ernis@microsoft.com,
+	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>
+Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
+Message-ID: <202409140042.imFE8dSL-lkp@intel.com>
+References: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +68,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   5a1d9701155c6908c76c68951170f10279685143
-commit: 2525d04c6308006b789564ed955081602727f38f [11451/30000] mm: Introduce proc interface to disable memory reliable features
-config: arm64-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409140014.U3Yy9wN5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140014.U3Yy9wN5-lkp@intel.com/reproduce)
+Hi Erni,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Erni-Sri-Satya-Vennela/Drivers-hv-vmbus-Disable-Suspend-to-Idle-for-VMBus/20240913-053127
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/1726176470-13133-2-git-send-email-ernis%40linux.microsoft.com
+patch subject: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
+config: x86_64-randconfig-161-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140042.imFE8dSL-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140042.imFE8dSL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140014.U3Yy9wN5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140042.imFE8dSL-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/mem_reliable.c: In function 'mem_reliable_feature_disable':
->> mm/mem_reliable.c:430:9: error: implicit declaration of function 'mem_reliable_ctrl_bit_disable'; did you mean 'mem_reliable_ctrl_bit_disabled'? [-Werror=implicit-function-declaration]
-     430 |         mem_reliable_ctrl_bit_disable(idx);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         mem_reliable_ctrl_bit_disabled
-   mm/mem_reliable.c: At top level:
->> mm/mem_reliable.c:405:13: warning: 'mem_reliable_ctrl_bit_disabled' defined but not used [-Wunused-function]
-     405 | static void mem_reliable_ctrl_bit_disabled(int idx) {}
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/hv/vmbus_drv.c:985:20: error: use of undeclared identifier 'vmbus_freeze'
+     985 |         .suspend_noirq  = vmbus_freeze,
+         |                           ^
+   drivers/hv/vmbus_drv.c:1913:42: warning: shift count >= width of type [-Wshift-count-overflow]
+    1913 |         dma_set_mask(&child_device_obj->device, DMA_BIT_MASK(64));
+         |                                                 ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   1 warning and 1 error generated.
 
 
-vim +430 mm/mem_reliable.c
+vim +/vmbus_freeze +985 drivers/hv/vmbus_drv.c
 
-   387	
-   388	static int __init reliable_sysctl_init(void)
-   389	{
-   390		if (!mem_reliable_is_enabled())
-   391			return 0;
-   392	
-   393		if (!register_sysctl_table(reliable_dir_table)) {
-   394			pr_err("register sysctl failed.");
-   395			return -ENOMEM;
-   396		}
-   397	
-   398		percpu_counter_init(&pagecache_reliable_pages, 0, GFP_KERNEL);
-   399		percpu_counter_init(&anon_reliable_pages, 0, GFP_KERNEL);
-   400	
-   401		return 0;
-   402	}
-   403	arch_initcall(reliable_sysctl_init);
-   404	#else
- > 405	static void mem_reliable_ctrl_bit_disabled(int idx) {}
-   406	#endif
-   407	
-   408	static void mem_reliable_feature_disable(int idx)
-   409	{
-   410		char *str = NULL;
-   411	
-   412		switch (idx) {
-   413		case MEM_RELIABLE_FALLBACK:
-   414			reliable_allow_fallback = false;
-   415			str = "fallback";
-   416			break;
-   417		case MEM_RELIABLE_SHMEM:
-   418			shmem_reliable = false;
-   419			str = "shmem";
-   420			break;
-   421		case MEM_RELIABLE_PAGECACHE:
-   422			pagecache_use_reliable_mem = false;
-   423			str = "pagecache";
-   424			break;
-   425		default:
-   426			pr_err("unknown index: %d", idx);
-   427			return;
-   428		}
-   429	
- > 430		mem_reliable_ctrl_bit_disable(idx);
-   431		pr_info("%s is disabled\n", str);
-   432	}
-   433	
+   973	
+   974	/*
+   975	 * Note: we must use the "noirq" ops: see the comment before vmbus_bus_pm.
+   976	 *
+   977	 * suspend_noirq/resume_noirq are set to NULL to support Suspend-to-Idle: we
+   978	 * shouldn't suspend the vmbus devices upon Suspend-to-Idle, otherwise there
+   979	 * is no way to wake up a Generation-2 VM.
+   980	 *
+   981	 * The other 4 ops are for hibernation.
+   982	 */
+   983	
+   984	static const struct dev_pm_ops vmbus_pm = {
+ > 985		.suspend_noirq  = vmbus_freeze,
+   986		.resume_noirq	= NULL,
+   987		.freeze_noirq	= vmbus_suspend,
+   988		.thaw_noirq	= vmbus_resume,
+   989		.poweroff_noirq	= vmbus_suspend,
+   990		.restore_noirq	= vmbus_resume,
+   991	};
+   992	
 
 -- 
 0-DAY CI Kernel Test Service
