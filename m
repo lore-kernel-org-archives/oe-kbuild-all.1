@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4CA1C2DC1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 04:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3947B73478
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 04:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726202260; cv=none; b=TZvfdQoY+VyYwDYBnhQpFhWQO+7gU69NC7PsfYEuMMTnCtqokG3+Rs1U9X49OzFXqiILE2MO6e1ZmWBV2KQtNP163Z4UFbuhBb2Jc15H/5G/sd5nvP/qt9jEXNxdS+Dp/zZI6UGnKlPZiS4cVXksbRb7uIIWJAnXCGh/e6UvQKs=
+	t=1726202918; cv=none; b=c8Za7hvms+KtDP9tlEwrU6KhzQD4mob0iUvR0/9CeMyUa/+uizfBmcv08+9Tpih0TzE/M76fAsr8Li/mzAFkWTNmeHJXR3q4h9N4n+pOV5dpPrw4J3LfVlkfIe7AXjlKFHncKFc7UkJuHyoQSefKuZAtkOFYIagNQFLnVDiLOPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726202260; c=relaxed/simple;
-	bh=KJSAmJp7son0p5Mlgj0g/qZ7KTE4AGtW1lnuGPyzvGw=;
+	s=arc-20240116; t=1726202918; c=relaxed/simple;
+	bh=EISpKepX2HAw7xzs0pM0iS1jcMFXqMZM+R5eTFJuL1k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kgcx51mDyGppr10zMvDMGAV2rLZr6vKouEkF9JFQVVviXUarBh3oF5M3oOwk7YuNRMlj6VZHeutuyZa3jMPIRmHsFEqCp25bMZokkwrs13X0Up2RRkQ7s+wQQ4KqXdDsoC3KOx7brrGw1X7O6z5I/Br4FLXot8FsTLir0ppfjUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N4xlnWMR; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=H62jR0N0cwjvgeCtLPjh9BhPadik97VU7YEhRvS4bGQHFefPfzus84x5jINEeOGVii2eMTA+2SElpJ+SXvSC8OTMEPxIdAVfaPzF04bFqb+aqmj4JGcuWpHlaeaRZT3b1v4TeXxxH1HCgNUoaFAc+YyzX9E+rUvZYaysDZ9O/Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SPLlK6Rx; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N4xlnWMR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SPLlK6Rx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726202258; x=1757738258;
+  t=1726202916; x=1757738916;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KJSAmJp7son0p5Mlgj0g/qZ7KTE4AGtW1lnuGPyzvGw=;
-  b=N4xlnWMRTmajepK/mK1Ks6h9l8CuNew9pzCi8wW0kuXSxedfDt3p+oIm
-   c2beRKwOWoU6vklwtY8XwwsQcsHkN89vz8DtipuzhUulK0WR67UOpagx1
-   q83kPchn0ZkU5Y+gkVwhv+92SOlAJqxMPoNlBA0Owzr3Yt1sn765Vb3Y4
-   dHoMs5E7jOyjMz+MlG9SsxI2NBBftoHsVJ7wfYYbe2eHo+6IbXtO7RxHp
-   ulADO41uUvuQpBUsXCJUwEjz7IeB2z9yqauVVdpNbyccUIySWnerAPz9r
-   2JTN7gB5xsM70yZ1YRyKdJ1bJ9xsvU98cfRZ3mc3cLN5tH/dbpoYFXZQP
-   A==;
-X-CSE-ConnectionGUID: V8o5GX5xTuqO63ocRsg3Lw==
-X-CSE-MsgGUID: HvXfRUa1SF+7Y0mJpCSEDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24960707"
+  bh=EISpKepX2HAw7xzs0pM0iS1jcMFXqMZM+R5eTFJuL1k=;
+  b=SPLlK6RxJr1NAtvnSNyRM5+hnZn94XkqwcPMh7DqX9RASp2tCnv5MTsi
+   xLvvX5ccUrPodlGDSlo7ZjSbBOW7WemOw/rS/YF5p7+fqT7X+M/wHA6mZ
+   BnhGf5Eux02vUmhHP58sNQT/p7BKWUtR3rj33pAwn6oQFFGm3U0SdV7uB
+   d3+3Id7501arv+z5oDoND4Cj39csMfnI7HzGfoWOEMdvUVzlLBAIqpRcJ
+   egl7ZFQ0SHrkXDEURQss7bp+TOSYAe3l9lz9G0jU7MWNy22WJWF1i/COl
+   6JyjBx6FNc3vyVJPeDdz8SHlflJ5taUZG7erf0ls9MjUAvF5hT1U8ma41
+   g==;
+X-CSE-ConnectionGUID: J9hJ8yx9SkymKt4sdHkKYg==
+X-CSE-MsgGUID: vvmsLAADSQKJtwO4Vz49GA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25214655"
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="24960707"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 21:37:37 -0700
-X-CSE-ConnectionGUID: ixpYaG+jQ66UYzhnyu5wOg==
-X-CSE-MsgGUID: LkTO/e3KTeWCV+YQpMx5Sw==
+   d="scan'208";a="25214655"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 21:48:36 -0700
+X-CSE-ConnectionGUID: BcT+NMoUR1+QO9cKbZQyRA==
+X-CSE-MsgGUID: 3wleqyR0Qg2SIENp5zaGkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="72736216"
+   d="scan'208";a="91191691"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Sep 2024 21:37:34 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 Sep 2024 21:48:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soy3n-00061C-2q;
-	Fri, 13 Sep 2024 04:37:31 +0000
-Date: Fri, 13 Sep 2024 12:37:31 +0800
+	id 1soyES-00061g-0u;
+	Fri, 13 Sep 2024 04:48:32 +0000
+Date: Fri, 13 Sep 2024 12:48:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: kernel@openeuler.org, Zhou Shuiqing <zhoushuiqing2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-error-cleanup-2024-09-10 20/31]
- sound/soc/atmel/mikroe-proto.c:23:30: warning: unused variable 'card'
-Message-ID: <202409131248.0FrTvExQ-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 19146/30000]
+ security/integrity/ima/ima_main.c:440:29: error: too few arguments to
+ function call, expected 8, have 7
+Message-ID: <202409131250.EMUg1KnI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +63,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-10
-head:   df81764a514843b316e76c4bc95d2f97a31297f5
-commit: c0ba340282eabd3b687386030a1972e46f73e44c [20/31] snd_soc_dai_set_sysclk
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240913/202409131248.0FrTvExQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131248.0FrTvExQ-lkp@intel.com/reproduce)
+Hi Zhou,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5a1d9701155c6908c76c68951170f10279685143
+commit: e94df9b790f7ed9025c9321f16a77044f66b14a5 [19146/30000] ima: Add macros to isolate the IMA digest list
+config: x86_64-buildonly-randconfig-004-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131250.EMUg1KnI-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131250.EMUg1KnI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131248.0FrTvExQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131250.EMUg1KnI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/atmel/mikroe-proto.c: In function 'snd_proto_init':
->> sound/soc/atmel/mikroe-proto.c:23:30: warning: unused variable 'card' [-Wunused-variable]
-      23 |         struct snd_soc_card *card = rtd->card;
-         |                              ^~~~
---
-   sound/soc/fsl/fsl-asoc-card.c: In function 'fsl_asoc_card_hw_params':
->> sound/soc/fsl/fsl-asoc-card.c:178:24: warning: unused variable 'dev' [-Wunused-variable]
-     178 |         struct device *dev = rtd->card->dev;
-         |                        ^~~
-   sound/soc/fsl/fsl-asoc-card.c: In function 'fsl_asoc_card_hw_free':
-   sound/soc/fsl/fsl-asoc-card.c:247:24: warning: unused variable 'dev' [-Wunused-variable]
-     247 |         struct device *dev = rtd->card->dev;
-         |                        ^~~
-   sound/soc/fsl/fsl-asoc-card.c: In function 'fsl_asoc_card_late_probe':
-   sound/soc/fsl/fsl-asoc-card.c:561:24: warning: unused variable 'dev' [-Wunused-variable]
-     561 |         struct device *dev = card->dev;
-         |                        ^~~
---
-   sound/soc/fsl/imx-sgtl5000.c: In function 'imx_sgtl5000_dai_init':
->> sound/soc/fsl/imx-sgtl5000.c:30:24: warning: unused variable 'dev' [-Wunused-variable]
-      30 |         struct device *dev = rtd->card->dev;
-         |                        ^~~
---
-   sound/soc/fsl/imx-hdmi.c: In function 'imx_hdmi_hw_params':
->> sound/soc/fsl/imx-hdmi.c:40:24: warning: unused variable 'dev' [-Wunused-variable]
-      40 |         struct device *dev = card->dev;
-         |                        ^~~
---
-   sound/soc/fsl/imx-rpmsg.c: In function 'imx_rpmsg_late_probe':
->> sound/soc/fsl/imx-rpmsg.c:39:24: warning: unused variable 'dev' [-Wunused-variable]
-      39 |         struct device *dev = card->dev;
-         |                        ^~~
---
-   sound/soc/fsl/imx-card.c: In function 'imx_aif_hw_params':
->> sound/soc/fsl/imx-card.c:298:24: warning: unused variable 'dev' [-Wunused-variable]
-     298 |         struct device *dev = card->dev;
-         |                        ^~~
---
-   sound/soc/sdw_utils/soc_sdw_rt_amp.c: In function 'rt1308_i2s_hw_params':
->> sound/soc/sdw_utils/soc_sdw_rt_amp.c:219:30: warning: unused variable 'card' [-Wunused-variable]
-     219 |         struct snd_soc_card *card = rtd->card;
-         |                              ^~~~
---
-   sound/soc/intel/boards/sof_realtek_common.c: In function 'rt1308_hw_params':
->> sound/soc/intel/boards/sof_realtek_common.c:550:30: warning: unused variable 'card' [-Wunused-variable]
-     550 |         struct snd_soc_card *card = rtd->card;
-         |                              ^~~~
---
-   sound/soc/mediatek/mt8195/mt8195-mt6359.c: In function 'mt8195_rt1011_etdm_hw_params':
->> sound/soc/mediatek/mt8195/mt8195-mt6359.c:472:30: warning: unused variable 'card' [-Wunused-variable]
-     472 |         struct snd_soc_card *card = rtd->card;
-         |                              ^~~~
+   In file included from security/integrity/ima/ima_main.c:30:
+   security/integrity/ima/ima.h:381:16: warning: declaration of 'struct ima_digest' will not be visible outside of this function [-Wvisibility]
+     381 |                                            struct ima_digest *found_digest)
+         |                                                   ^
+>> security/integrity/ima/ima_main.c:440:29: error: too few arguments to function call, expected 8, have 7
+     433 |                         rc = ima_appraise_measurement(func, iint, file,
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~
+     434 |                                               pathname, xattr_value,
+     435 | #ifdef CONFIG_IMA_DIGEST_LIST
+     436 |                                               xattr_len, modsig,
+     437 |                                               ima_digest_allow(found_digest,
+     438 |                                                                IMA_APPRAISE));
+     439 | #else
+     440 |                                               xattr_len, modsig);
+         |                                                                ^
+   security/integrity/ima/ima.h:373:19: note: 'ima_appraise_measurement' declared here
+     373 | static inline int ima_appraise_measurement(enum ima_hooks func,
+         |                   ^                        ~~~~~~~~~~~~~~~~~~~~
+     374 |                                            struct integrity_iint_cache *iint,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     375 |                                            struct file *file,
+         |                                            ~~~~~~~~~~~~~~~~~~
+     376 |                                            const unsigned char *filename,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     377 |                                            struct evm_ima_xattr_data *xattr_value,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     378 |                                            int xattr_len,
+         |                                            ~~~~~~~~~~~~~~
+     379 | #ifndef CONFIG_IMA_DIGEST_LIST
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     380 |                                            const struct modsig *modsig,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     381 |                                            struct ima_digest *found_digest)
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +/card +23 sound/soc/atmel/mikroe-proto.c
+vim +440 security/integrity/ima/ima_main.c
 
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  20  
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  21  static int snd_proto_init(struct snd_soc_pcm_runtime *rtd)
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  22  {
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31 @23  	struct snd_soc_card *card = rtd->card;
-6547effc3aea50 Kuninori Morimoto 2023-09-11  24  	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  25  
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  26  	/* Set proto sysclk */
-c0ba340282eabd Kuninori Morimoto 2024-09-10  27  	return snd_soc_dai_set_sysclk(codec_dai, WM8731_SYSCLK_XTAL,
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  28  					 XTAL_RATE, SND_SOC_CLOCK_IN);
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  29  }
-a45f8853a5f95e Codrin Ciubotariu 2018-08-31  30  
-
-:::::: The code at line 23 was first introduced by commit
-:::::: a45f8853a5f95e3760dfbd7ba09d3d597d247040 ASoC: Add driver for PROTO Audio CODEC (with a WM8731)
-
-:::::: TO: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   427	
+   428		if (rc == 0 && (action & IMA_APPRAISE_SUBMASK)) {
+   429			rc = ima_check_blacklist(iint, modsig, pcr);
+   430			if (rc != -EPERM) {
+   431				inode_lock(inode);
+   432	
+   433				rc = ima_appraise_measurement(func, iint, file,
+   434						      pathname, xattr_value,
+   435	#ifdef CONFIG_IMA_DIGEST_LIST
+   436						      xattr_len, modsig,
+   437						      ima_digest_allow(found_digest,
+   438								       IMA_APPRAISE));
+   439	#else
+ > 440						      xattr_len, modsig);
+   441	#endif
+   442				inode_unlock(inode);
+   443			}
+   444			if (!rc)
+   445				rc = mmap_violation_check(func, file, &pathbuf,
+   446							  &pathname, filename);
+   447		}
+   448		if (action & IMA_AUDIT)
+   449			ima_audit_measurement(iint, pathname);
+   450	
+   451		if ((file->f_flags & O_DIRECT) && (iint->flags & IMA_PERMIT_DIRECTIO))
+   452			rc = 0;
+   453	out_locked:
+   454		if ((mask & MAY_WRITE) && test_bit(IMA_DIGSIG, &iint->atomic_flags) &&
+   455		     !(iint->flags & IMA_NEW_FILE))
+   456			rc = -EACCES;
+   457		mutex_unlock(&iint->mutex);
+   458		kfree(xattr_value);
+   459		ima_free_modsig(modsig);
+   460	out:
+   461		if (pathbuf)
+   462			__putname(pathbuf);
+   463		if (must_appraise) {
+   464			if (rc && (ima_appraise & IMA_APPRAISE_ENFORCE))
+   465				return -EACCES;
+   466			if (file->f_mode & FMODE_WRITE)
+   467				set_bit(IMA_UPDATE_XATTR, &iint->atomic_flags);
+   468		}
+   469		return 0;
+   470	}
+   471	
 
 -- 
 0-DAY CI Kernel Test Service
