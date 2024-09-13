@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BD113D882
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 03:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA5C1B12F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 03:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726199137; cv=none; b=efuOrT9XQPLaClrNf8Zm4J6E/fySHaRThC5zM90PMl00/1w+W891+Ns0Zahz7wK/CVA2ODEazSNK7AfYjtMFwfioSK+zXFkFzrOm0ATSO0Cgb6TGIsQDvg85VXGbIjlFw2pmg979nDCTcQp5agQ7df8bd7kGlZZw7gYbKCGk1AA=
+	t=1726199143; cv=none; b=frPaY+etE1OX6h/Ei9fTkfaIxrFoLXHCVnypBN8ebr8R3yCumKJoAxlIk4Zgw+eTDjwW2SgtEf3pLxIfh0ElvlkRI+pXW/F1STvwY8pM5HaoGfYt1a7C/EVkzewjptSABzxrrfn/VsL4R4TeDi6jBilfxcNO47RIcntJN2xUOfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726199137; c=relaxed/simple;
-	bh=KRpuwJWBbYAlvGr9Q5A7BLOrcVJLsEoahnJiQ1lGqKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IH05TlWmyURA6mHoP1zVmnoxy47QZ9zHXyAt7ERfeEz/5p5vbHv+k0jLz9CLeFLWzN1ShPU8xfazNBpqeLtSzmXplIsg85Zn6OJZNGhg9gD6bMuhBMIBkQymYls69/r8+dfmLZqN+12BnSXjZcxP4BwGmvnu9dpTF03jVzf1KZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N85yMqF1; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1726199143; c=relaxed/simple;
+	bh=8yAgBAvBCQm9sOnQ6ccHw3KiQz9jzleR013szOuc37k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R7zpE1LBVH37jU6Y4mgXnLVuDd+doHzl3UAncsv0aZgCG4ubHL6V2ZkddFHFQAUWEqSKIjqRSduP2PLAFZB42ftFAhy5ZgiXUYJOe66avwrnoPl7LtTgiJfZyKFx+4bfX9Qf8Lkabz2965DpPAcJC2AF/ps4c2AqJ6/xv40fyuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gn5u1bQ2; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N85yMqF1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gn5u1bQ2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726199135; x=1757735135;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KRpuwJWBbYAlvGr9Q5A7BLOrcVJLsEoahnJiQ1lGqKc=;
-  b=N85yMqF1lAjBcm809t+KSd1Dk552o/84kCBs5AqLuR/A8hirdjYV8yrD
-   yUwQyjTnGXsv3Z2gFQY5YtVaM6iLIZXH1rJVElhE13O3sg0JxDWWTeTUO
-   ZN5O7jsRqcIlEKin94oXv7qB9z2EFacjMs+zI9AnIHfebVT6QLwbwHxr7
-   IcngozKmpUdpx4FIVB4U7fPyWM7Y2GmxgCmFRUhVOrOoMtt+L6NoAls4G
-   As+iidowZ7B/T1W7CD3/GBSOlwJSJXNnKBQ4yz7EmWUrWMVh4X/HD9k0u
-   ZMXkZn2QKQLhCdjbl0z18a6hPCeG4OsHGytfujokaxwZ3yr00/BoiaqfV
-   w==;
-X-CSE-ConnectionGUID: BQGB0020Rg62c+IfBNe7Hg==
-X-CSE-MsgGUID: fyYY+Hc9TRu9l0C4JLltkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42597870"
+  t=1726199141; x=1757735141;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8yAgBAvBCQm9sOnQ6ccHw3KiQz9jzleR013szOuc37k=;
+  b=Gn5u1bQ2sMY6RpHX0M3DIrzITJQ+nWGcxtXwQflyGG+ROhLCoPRlIfGq
+   U0FlgDdCrggLpVc4F59KAgVEoKMC7WHaoelEi/fTsQZQ4aGjlRXEvuV/A
+   wMFJBdZlwOScGJy2OB9hXGxBg0MXTUa3WUs/lOGurxJtPUZFSnNjT0j/b
+   VGCcu+Y08byBmEHx0ruuKP76KMFzaOXaR7d9CEQcIYZcXAfC3yPpuE4zl
+   QO5vyvpEaHSnRfJqB7hIJSeIXnwgiwA+6NGoGBo/zEOrgeMdCVhmgWb22
+   0EpcOw7RPFCNxv1k/xgcpkF0FcUU+EZA8EJzvxVy8phs3ooNBcU9dV8Ks
+   g==;
+X-CSE-ConnectionGUID: 52iosI09R1eTB2Xsy5ztmQ==
+X-CSE-MsgGUID: PsDBbH11TBOnEp1Driu9vA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="36465826"
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="42597870"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 20:45:35 -0700
-X-CSE-ConnectionGUID: XSPlTp1kTQqoy4tLSbvaTw==
-X-CSE-MsgGUID: uiLyvUX0SS69Dhz9afnofQ==
+   d="scan'208";a="36465826"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 20:45:41 -0700
+X-CSE-ConnectionGUID: gFcV9NOMSqCYquCroG1BuA==
+X-CSE-MsgGUID: vzmcTH3KRqKn4MHTg4Ynlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="72521873"
+   d="scan'208";a="72726583"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Sep 2024 20:45:32 -0700
+  by orviesa005.jf.intel.com with ESMTP; 12 Sep 2024 20:45:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soxFS-0005yM-0r;
+	id 1soxFS-0005yO-0w;
 	Fri, 13 Sep 2024 03:45:30 +0000
 Date: Fri, 13 Sep 2024 11:45:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
-	martin.petersen@oracle.com, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	sagi@grimberg.me
-Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv4 10/10] blk-integrity: improved sg segment mapping
-Message-ID: <202409131138.fuzBKPCG-lkp@intel.com>
-References: <20240911201240.3982856-11-kbusch@meta.com>
+To: kernel@openeuler.org, lujunhua <lujunhua7@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 6858/13930]
+ drivers/char/ipmi/ipmi_bt_sm.c:194:11: error: call to undeclared function
+ 'acpi_evaluate_integer'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202409131136.eKUhVyYX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,101 +63,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911201240.3982856-11-kbusch@meta.com>
 
-Hi Keith,
+Hi Devyn,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20240912]
-[cannot apply to mkp-scsi/for-next jejb-scsi/for-next linus/master v6.11-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/blk-mq-unconditional-nr_integrity_segments/20240912-041504
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20240911201240.3982856-11-kbusch%40meta.com
-patch subject: [PATCHv4 10/10] blk-integrity: improved sg segment mapping
-config: openrisc-randconfig-r072-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131138.fuzBKPCG-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131138.fuzBKPCG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   13706c950ff941dc015e16f76812077f9861e378
+commit: 6449ff7a5a2b148bc0a60efb3f0d723aaeceaae6 [6858/13930] ipmi: Errata workaround to prevent SMS message processing timeout
+config: arm64-randconfig-002-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131136.eKUhVyYX-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131136.eKUhVyYX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131138.fuzBKPCG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131136.eKUhVyYX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> block/blk-integrity.c:69: warning: Function parameter or struct member 'rq' not described in 'blk_rq_map_integrity_sg'
->> block/blk-integrity.c:69: warning: Excess function parameter 'q' description in 'blk_rq_map_integrity_sg'
->> block/blk-integrity.c:69: warning: Excess function parameter 'bio' description in 'blk_rq_map_integrity_sg'
+>> drivers/char/ipmi/ipmi_bt_sm.c:194:11: error: call to undeclared function 'acpi_evaluate_integer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     194 |         status = acpi_evaluate_integer(handle, "SATN", NULL, &tmp);
+         |                  ^
+   drivers/char/ipmi/ipmi_bt_sm.c:194:11: note: did you mean 'acpi_evaluate_object'?
+   include/acpi/acpixf.h:550:8: note: 'acpi_evaluate_object' declared here
+     550 |                             acpi_evaluate_object(acpi_handle object,
+         |                             ^
+   include/acpi/platform/aclinux.h:93:21: note: expanded from macro 'ACPI_EXTERNAL_RETURN_STATUS'
+      93 |         static ACPI_INLINE prototype {return(AE_NOT_CONFIGURED);}
+         |                            ^
+   1 error generated.
 
 
-vim +69 block/blk-integrity.c
+vim +/acpi_evaluate_integer +194 drivers/char/ipmi/ipmi_bt_sm.c
 
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   56  
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   57  /**
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   58   * blk_rq_map_integrity_sg - Map integrity metadata into a scatterlist
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   59   * @q:		request queue
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   60   * @bio:	bio with integrity metadata attached
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   61   * @sglist:	target scatterlist
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   62   *
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   63   * Description: Map the integrity vectors in request into a
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   64   * scatterlist.  The scatterlist must be big enough to hold all
-19f67fc3c069b6 Keith Busch        2024-09-11   65   * elements.  I.e. sized using blk_rq_count_integrity_sg() or
-19f67fc3c069b6 Keith Busch        2024-09-11   66   * rq->nr_integrity_segments.
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   67   */
-19f67fc3c069b6 Keith Busch        2024-09-11   68  int blk_rq_map_integrity_sg(struct request *rq, struct scatterlist *sglist)
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  @69  {
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   70  	struct bio_vec iv, ivprv = { NULL };
-19f67fc3c069b6 Keith Busch        2024-09-11   71  	struct request_queue *q = rq->q;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   72  	struct scatterlist *sg = NULL;
-19f67fc3c069b6 Keith Busch        2024-09-11   73  	struct bio *bio = rq->bio;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   74  	unsigned int segments = 0;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   75  	struct bvec_iter iter;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   76  	int prev = 0;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   77  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   78  	bio_for_each_integrity_vec(iv, bio, iter) {
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   79  		if (prev) {
-3dccdae54fe836 Christoph Hellwig  2018-09-24   80  			if (!biovec_phys_mergeable(q, &ivprv, &iv))
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   81  				goto new_segment;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   82  			if (sg->length + iv.bv_len > queue_max_segment_size(q))
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   83  				goto new_segment;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   84  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   85  			sg->length += iv.bv_len;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   86  		} else {
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   87  new_segment:
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   88  			if (!sg)
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   89  				sg = sglist;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   90  			else {
-c8164d8931fdee Paolo Bonzini      2013-03-20   91  				sg_unmark_end(sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   92  				sg = sg_next(sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   93  			}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   94  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   95  			sg_set_page(sg, iv.bv_page, iv.bv_len, iv.bv_offset);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   96  			segments++;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   97  		}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   98  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   99  		prev = 1;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  100  		ivprv = iv;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  101  	}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  102  
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  103  	if (sg)
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  104  		sg_mark_end(sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  105  
-19f67fc3c069b6 Keith Busch        2024-09-11  106  	/*
-19f67fc3c069b6 Keith Busch        2024-09-11  107  	 * Something must have been wrong if the figured number of segment
-19f67fc3c069b6 Keith Busch        2024-09-11  108  	 * is bigger than number of req's physical integrity segments
-19f67fc3c069b6 Keith Busch        2024-09-11  109  	 */
-19f67fc3c069b6 Keith Busch        2024-09-11  110  	BUG_ON(segments > blk_rq_nr_phys_segments(rq));
-19f67fc3c069b6 Keith Busch        2024-09-11  111  	BUG_ON(segments > queue_max_integrity_segments(q));
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  112  	return segments;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  113  }
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  114  EXPORT_SYMBOL(blk_rq_map_integrity_sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  115  
+   177	
+   178	#ifdef CONFIG_HISILICON_ERRATUM_162102203
+   179	/*
+   180	 * To confirm whether the SMS_ATN flag needs to be stored and get
+   181	 * quirk through the method reported by the BIOS. Because in special
+   182	 * cases SMS_ATN flag bits may be lost before being processed.
+   183	 */
+   184	static bool get_sms_atn_quirk(struct si_sm_io *io)
+   185	{
+   186		acpi_handle handle;
+   187		acpi_status status;
+   188		unsigned long long tmp;
+   189	
+   190		handle = ACPI_HANDLE(io->dev);
+   191		if (!handle)
+   192			return false;
+   193	
+ > 194		status = acpi_evaluate_integer(handle, "SATN", NULL, &tmp);
+   195		if (ACPI_FAILURE(status))
+   196			return false;
+   197		else if (tmp != 1)
+   198			return false;
+   199	
+   200		return true;
+   201	}
+   202	#endif
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
