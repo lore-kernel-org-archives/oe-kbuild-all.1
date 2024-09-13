@@ -1,170 +1,137 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920C085C5E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 17:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E60FBA50
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 18:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726249919; cv=none; b=goWU8GdBKklHW44BcreTFqkAuMQP7sRveYC2jiFewaV/MfE4VjwE0fPQ/JVZ8iLrnFMsesJwxveg3P7qF7rDnPEu7y5R0EAyC167AGrVPZwL+EQqRe6FHmRK/6Al0XVpQmAJ1OJaC0W7+NNx82nATL8zbtFX37WtrjeA3LWByBM=
+	t=1726250657; cv=none; b=i5MANBYXCFmFotx013Z6ubJqOo5kBmLp8XPLWdAOXXI55NTSb49SzixooA2PHz132MqgNXdWwKFhOq7DVhDn5DskvY8StPGbACd1ABH6A3b0pq2qIjYg62vqcgQq911UqbgZvo+OqwIa+rztn1EkiEZYkKUdAMtVbQe4/rWaK6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726249919; c=relaxed/simple;
-	bh=zvK49zvMWEnYsN5T/T0PU6C++FroTy2HLBUG4x8PoPQ=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=V2l+gmxgMDEqvvTrt5bIb6QAfB8X0Hkc/jQEmOV4T7qecqNTPz81ko11NihSFRT0FChnwPMoCs73N9ACRFqhJABSnnPg8fEb8crXKMjbMpoqpaBMZ4Rs5FlPwjJVBSThDmBWeWrInpDpnraGAiWaHpMeSPUKW44h7Bt8CBKo2NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=MYIzwfXC; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1726250657; c=relaxed/simple;
+	bh=5DS9cPPilbKHo1jHMchMrjtoesE2l1wAmWjAgsqQ9fA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CpAax0aeI5sNR59XtvRAOArTvg0HjL55QxDMoNhyXxhz+splPHc4VSZCYod8cle+gS2qHu/mLxhEd6fSU9JMjCI99n30rNELMbJ7Xb/D+lncMxODKdL/lx3SJxyqPRYQy3lNuD9cuA16BtAZ6m/qp6uTuL5T9LF2fUB5fD/t9bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaP07HIy; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="MYIzwfXC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qrs2z/urRWdAHvlvqcl0vvrtK5/O8hGQBRStCtceCf0=;
-  b=MYIzwfXCcPlyWfHKXSgpmiFs8GiYjtn+ROtWLH8K/piLtG4+O7AFSGpd
-   vnijrzIvpI0zR7nJhjObV7cP9Lp7Awhl7mg/loKh4bHr+FpcswhTSheNU
-   QThWlD7/brJQLUzXPeXmtEFtvqiq5jykuZZVKYUxG8/nyfXUGcGESDR5F
-   4=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.10,226,1719871200"; 
-   d="scan'208";a="183080143"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 19:51:49 +0200
-Date: Fri, 13 Sep 2024 19:51:48 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Jinjie Ruan <ruanjinjie@huawei.com>, Paolo Abeni <pabeni@redhat.com>, 
-    Jacob Keller <jacob.e.keller@intel.com>, 
-    Tony Nguyen <anthony.l.nguyen@intel.com>, Simon Horman <horms@kernel.org>
-cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid
- reference to the index variable of the iterator on line 7890 (fwd)
-Message-ID: <alpine.DEB.2.22.394.2409131949580.3731@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaP07HIy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726250655; x=1757786655;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5DS9cPPilbKHo1jHMchMrjtoesE2l1wAmWjAgsqQ9fA=;
+  b=ZaP07HIyd5+6CMujfvBQujkdSRuGZPIdLdS+O970vdVNHQslCzI7FxZG
+   Jw7EQT64cFzwyA+gTcp4Hx4M8ZZlSamYtKtolVTGEE5uRwprBK1RYIoPR
+   PiYyP+EGm6SCsLbJ0sSoqGdCFlMgQEjD/sdDrZXIfF5xI1mv4wF+jha0v
+   ilIvpPeRnfqHXtGNMUSm9DhT3aMFt4DlA8AgaUNFCNLkpXf/sVFDHf4M/
+   erdo0tjLJVe9z5s7MR+G99c4FXfirR1hMTj6WRkl8z3STgVpkMtz0YWZJ
+   uH7enroHVfiCRKCZaVPAn7pO5gVObiXtXPhJ0izOKaY7e3RMciXPv86BH
+   g==;
+X-CSE-ConnectionGUID: 3OszpW9wS76/MY3xoacEuA==
+X-CSE-MsgGUID: GJ/oSGq9T4SwT5xYDOJBfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25288131"
+X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
+   d="scan'208";a="25288131"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 11:04:14 -0700
+X-CSE-ConnectionGUID: Qhezc30TSW2lZ8mIgWIVsQ==
+X-CSE-MsgGUID: zUmGgLowS1SkWeE507YibA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
+   d="scan'208";a="98822304"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 13 Sep 2024 11:04:14 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spAeR-0006nc-0B;
+	Fri, 13 Sep 2024 18:04:11 +0000
+Date: Sat, 14 Sep 2024 02:04:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Patrick Roy <roypat@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 07/10] kvm: pfncache: invalidate when memory
+ attributes change
+Message-ID: <202409140116.x5fqwXJL-lkp@intel.com>
+References: <20240910163038.1298452-8-roypat@amazon.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240910163038.1298452-8-roypat@amazon.co.uk>
 
-On line 7895, entry is never NULL, even if you are at the end (which is
-the same as the beginning) of the list.
+Hi Patrick,
 
-julia
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
----------- Forwarded message ----------
-Date: Sat, 14 Sep 2024 01:43:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid
-    reference to the index variable of the iterator on line 7890
+[auto build test ERROR on 332d2c1d713e232e163386c35a3ba0c1b90df83f]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jinjie Ruan <ruanjinjie@huawei.com>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Simon Horman <horms@kernel.org>
-
-Hi Jinjie,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   196145c606d0f816fd3926483cb1ff87e09c2c0b
-commit: c1fec890458ad101ddbbc52cdd29f7bba6aa2b10 ethernet/intel: Use list_for_each_entry() helper
-date:   12 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 12 months ago
-config: microblaze-randconfig-r052-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140131.Y6Qnoc6t-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Patrick-Roy/kvm-gmem-Add-option-to-remove-gmem-from-direct-map/20240911-003258
+base:   332d2c1d713e232e163386c35a3ba0c1b90df83f
+patch link:    https://lore.kernel.org/r/20240910163038.1298452-8-roypat%40amazon.co.uk
+patch subject: [RFC PATCH v2 07/10] kvm: pfncache: invalidate when memory attributes change
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240914/202409140116.x5fqwXJL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140116.x5fqwXJL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409140131.Y6Qnoc6t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140116.x5fqwXJL-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid reference to the index variable of the iterator on line 7890
-   drivers/net/ethernet/intel/igb/igb_main.c:7895:15-20: ERROR: invalid reference to the index variable of the iterator on line 7890
+All errors (new ones prefixed by >>):
 
-vim +7895 drivers/net/ethernet/intel/igb/igb_main.c
+   arch/x86/kvm/../../../virt/kvm/pfncache.c: In function 'mmu_notifier_retry_cache':
+>> arch/x86/kvm/../../../virt/kvm/pfncache.c:187:16: error: 'struct kvm' has no member named 'attribute_change_in_progress'
+     187 |         if (kvm->attribute_change_in_progress)
+         |                ^~
 
-83c21335c87622 Yury Kylulin     2017-03-07  7854
-b476deab8f412b Colin Ian King   2017-04-27  7855  static int igb_set_vf_mac_filter(struct igb_adapter *adapter, const int vf,
-4827cc37796a02 Yury Kylulin     2017-03-07  7856  				 const u32 info, const u8 *addr)
-4827cc37796a02 Yury Kylulin     2017-03-07  7857  {
-4827cc37796a02 Yury Kylulin     2017-03-07  7858  	struct pci_dev *pdev = adapter->pdev;
-4827cc37796a02 Yury Kylulin     2017-03-07  7859  	struct vf_data_storage *vf_data = &adapter->vf_data[vf];
-4827cc37796a02 Yury Kylulin     2017-03-07  7860  	struct vf_mac_filter *entry = NULL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7861  	int ret = 0;
-4827cc37796a02 Yury Kylulin     2017-03-07  7862
-1b8b062a99dc76 Corinna Vinschen 2018-01-17  7863  	if ((vf_data->flags & IGB_VF_FLAG_PF_SET_MAC) &&
-1b8b062a99dc76 Corinna Vinschen 2018-01-17  7864  	    !vf_data->trusted) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7865  		dev_warn(&pdev->dev,
-4827cc37796a02 Yury Kylulin     2017-03-07  7866  			 "VF %d requested MAC filter but is administratively denied\n",
-4827cc37796a02 Yury Kylulin     2017-03-07  7867  			  vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7868  		return -EINVAL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7869  	}
-4827cc37796a02 Yury Kylulin     2017-03-07  7870  	if (!is_valid_ether_addr(addr)) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7871  		dev_warn(&pdev->dev,
-4827cc37796a02 Yury Kylulin     2017-03-07  7872  			 "VF %d attempted to set invalid MAC filter\n",
-4827cc37796a02 Yury Kylulin     2017-03-07  7873  			  vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7874  		return -EINVAL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7875  	}
-4827cc37796a02 Yury Kylulin     2017-03-07  7876
-584af82154f56e Karen Sornek     2021-08-31  7877  	switch (info) {
-584af82154f56e Karen Sornek     2021-08-31  7878  	case E1000_VF_MAC_FILTER_CLR:
-584af82154f56e Karen Sornek     2021-08-31  7879  		/* remove all unicast MAC filters related to the current VF */
-c1fec890458ad1 Jinjie Ruan      2023-09-19  7880  		list_for_each_entry(entry, &adapter->vf_macs.l, l) {
-584af82154f56e Karen Sornek     2021-08-31  7881  			if (entry->vf == vf) {
-584af82154f56e Karen Sornek     2021-08-31  7882  				entry->vf = -1;
-584af82154f56e Karen Sornek     2021-08-31  7883  				entry->free = true;
-584af82154f56e Karen Sornek     2021-08-31  7884  				igb_del_mac_filter(adapter, entry->vf_mac, vf);
-584af82154f56e Karen Sornek     2021-08-31  7885  			}
-584af82154f56e Karen Sornek     2021-08-31  7886  		}
-584af82154f56e Karen Sornek     2021-08-31  7887  		break;
-584af82154f56e Karen Sornek     2021-08-31  7888  	case E1000_VF_MAC_FILTER_ADD:
-4827cc37796a02 Yury Kylulin     2017-03-07  7889  		/* try to find empty slot in the list */
-c1fec890458ad1 Jinjie Ruan      2023-09-19 @7890  		list_for_each_entry(entry, &adapter->vf_macs.l, l) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7891  			if (entry->free)
-4827cc37796a02 Yury Kylulin     2017-03-07  7892  				break;
-4827cc37796a02 Yury Kylulin     2017-03-07  7893  		}
-4827cc37796a02 Yury Kylulin     2017-03-07  7894
-4827cc37796a02 Yury Kylulin     2017-03-07 @7895  		if (entry && entry->free) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7896  			entry->free = false;
-4827cc37796a02 Yury Kylulin     2017-03-07  7897  			entry->vf = vf;
-4827cc37796a02 Yury Kylulin     2017-03-07  7898  			ether_addr_copy(entry->vf_mac, addr);
-4827cc37796a02 Yury Kylulin     2017-03-07  7899
-4827cc37796a02 Yury Kylulin     2017-03-07  7900  			ret = igb_add_mac_filter(adapter, addr, vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7901  			ret = min_t(int, ret, 0);
-4827cc37796a02 Yury Kylulin     2017-03-07  7902  		} else {
-4827cc37796a02 Yury Kylulin     2017-03-07  7903  			ret = -ENOSPC;
-4827cc37796a02 Yury Kylulin     2017-03-07  7904  		}
-4827cc37796a02 Yury Kylulin     2017-03-07  7905
-4827cc37796a02 Yury Kylulin     2017-03-07  7906  		if (ret == -ENOSPC)
-4827cc37796a02 Yury Kylulin     2017-03-07  7907  			dev_warn(&pdev->dev,
-4827cc37796a02 Yury Kylulin     2017-03-07  7908  				 "VF %d has requested MAC filter but there is no space for it\n",
-4827cc37796a02 Yury Kylulin     2017-03-07  7909  				 vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7910  		break;
-4827cc37796a02 Yury Kylulin     2017-03-07  7911  	default:
-4827cc37796a02 Yury Kylulin     2017-03-07  7912  		ret = -EINVAL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7913  		break;
-4827cc37796a02 Yury Kylulin     2017-03-07  7914  	}
-4827cc37796a02 Yury Kylulin     2017-03-07  7915
-4827cc37796a02 Yury Kylulin     2017-03-07  7916  	return ret;
-4827cc37796a02 Yury Kylulin     2017-03-07  7917  }
-4827cc37796a02 Yury Kylulin     2017-03-07  7918
 
-:::::: The code at line 7895 was first introduced by commit
-:::::: 4827cc37796a02ece7097e01dad8e08f537ac815 igb/igbvf: Add VF MAC filter request capabilities
+vim +187 arch/x86/kvm/../../../virt/kvm/pfncache.c
 
-:::::: TO: Yury Kylulin <yury.kylulin@intel.com>
-:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+   163	
+   164	static inline bool mmu_notifier_retry_cache(struct kvm *kvm, unsigned long mmu_seq)
+   165	{
+   166		/*
+   167		 * mn_active_invalidate_count acts for all intents and purposes
+   168		 * like mmu_invalidate_in_progress here; but the latter cannot
+   169		 * be used here because the invalidation of caches in the
+   170		 * mmu_notifier event occurs _before_ mmu_invalidate_in_progress
+   171		 * is elevated.
+   172		 *
+   173		 * Note, it does not matter that mn_active_invalidate_count
+   174		 * is not protected by gpc->lock.  It is guaranteed to
+   175		 * be elevated before the mmu_notifier acquires gpc->lock, and
+   176		 * isn't dropped until after mmu_invalidate_seq is updated.
+   177		 */
+   178		if (kvm->mn_active_invalidate_count)
+   179			return true;
+   180	
+   181		/*
+   182		 * Similarly to the above, attribute_change_in_progress is set
+   183		 * before gfn_to_pfn_cache_invalidate_start is called in
+   184		 * kvm_vm_set_mem_attributes, and isn't cleared until after
+   185		 * mmu_invalidate_seq is updated.
+   186		 */
+ > 187		if (kvm->attribute_change_in_progress)
+   188			return true;
+   189		/*
+   190		 * Ensure mn_active_invalidate_count is read before
+   191		 * mmu_invalidate_seq.  This pairs with the smp_wmb() in
+   192		 * mmu_notifier_invalidate_range_end() to guarantee either the
+   193		 * old (non-zero) value of mn_active_invalidate_count or the
+   194		 * new (incremented) value of mmu_invalidate_seq is observed.
+   195		 */
+   196		smp_rmb();
+   197		return kvm->mmu_invalidate_seq != mmu_seq;
+   198	}
+   199	
 
 -- 
 0-DAY CI Kernel Test Service
