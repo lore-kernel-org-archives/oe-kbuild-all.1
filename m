@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5BD1D6C59
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 08:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D231D6C5C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 08:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726216261; cv=none; b=Ox+IlV4PTqQBwws8gfuO4+hJI0CqrPuVMShphoCTQcUK7QgeQeYf+oYkojS7ulpvaleOpLAagq+0fD99n7hxfzEWSZMzclV55sUkmD9doLq/QUODu5sEh19NzUHGeuLKoe7O6/ujebPhRy0wL4YRyLDmE/tm5IPiGD5gXTH2lC4=
+	t=1726217567; cv=none; b=H6hCFEsjNH6d6QEfe8N9EEHQf6bgNoW8TxZvqh/HgN6ACYAN+XB3lV+ogkLNX9RddhpVISz7iO/RF9ibypGYCBfPhZYK2PvXw0wPMbklTYafm8ffDup5mvoTTjM1YQdE545fIp4eXW40ai54SM8SkQDaG0bYgRJhJwTpgb5a6K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726216261; c=relaxed/simple;
-	bh=kxSMssNbiB4zufIky2UW7Kl0dC8eWyxvp3cDKhkp0rU=;
+	s=arc-20240116; t=1726217567; c=relaxed/simple;
+	bh=P+B9YEQdpF6gQitzmAwcw2pgg+bup13n3gq66WePkEk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ge9O12d6Sr70hhb5GBSjbOTrHnPsyNinQmASSFIuyKrqoMJU1ZY+cW30zNNHXJf7YVK6ksrUEjfdHtntVCbxafUFh81wJ7fw6oZEbovoxguCe0yc2Bd1Y1kwXuYvQQPICH6hkSgTTJsZVhOtDVqfQsnLBt5ZdehsJzX2GHTrqPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcTukd3n; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=Tn7L7cuZdloyFtlZ6Ih3Ff24Pd/RDs0+4fW45pKVDq5Gg1K7KqCil076YXZeDKXGztcM2skW9WhxDYkdEkxaIErWGsPBElXoz1SZbzd8KYTMnBzPNiSwOQOALZsX5O1wL/tT3Auy+glNxqYKcBXfcXdWSG2FFgymTEjtHgzyMlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDJqfXoQ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcTukd3n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDJqfXoQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726216259; x=1757752259;
+  t=1726217566; x=1757753566;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kxSMssNbiB4zufIky2UW7Kl0dC8eWyxvp3cDKhkp0rU=;
-  b=jcTukd3nQHj+cA/7+ZXpc0RucE2EzxhUVjO/5/h6y8nvxLKh2MnRdJBz
-   JKJx6EO3u+m98NLBjdn8TUaPiQmS4SrYO9qxJc/m3fq0nlR345KchTBuG
-   JCqbCdi/2+iMFa10otU/TLhs1PrlYqpCz9mUWJR/2+5LLkqrPY/Ixz55/
-   pn2JHz6x1wYi6WV8Zy2Mk80ybuhnoSz9VZr7l6TG3N1AYi9tUAreGpNQf
-   IPSfqqSaDdJRDUdUii/CSRpLTwzYVykkrg8dxQQDC+TkbGtxwPP9J6umh
-   PB5z5DVR7/7G/xIJ7rDkSG1/5xWX26/ogzNNGmFQD3FdtyoJ2y0DTKRt2
-   Q==;
-X-CSE-ConnectionGUID: BDd6xojFTVa/+q52zp/oPg==
-X-CSE-MsgGUID: Wpj5hyc2RzKrx7ig5Ad9PA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25259429"
+  bh=P+B9YEQdpF6gQitzmAwcw2pgg+bup13n3gq66WePkEk=;
+  b=BDJqfXoQe8EKtR4hHUEoyahYIRfcVI6vCTdvWMXEwPNtZAUJig41Ib7/
+   J+VAZtenXsun+lI2iK/jyRslVBXhqn0Or5d1zpxmv4Hf7uz842RrsTrh5
+   HUqocuReWBklmWLTzxUQMGrU3/DF9vUJVvG3nyQh7nf29DKeXwslzCipW
+   jordnnpBKyIvdoO/QdumV9gJTzwuohSxArrb3UuKuas7TUko+qJgKGN2w
+   KN0JS2PfrSt5uVejD4lzNhmVrC5aUUe/z2FqauZbtmNzypaJimYh8Hy46
+   UCfDlRQhtH/ffvDSjI/ieqjGXuCoIYyNwxQXGGOmW0kx9xx3Bzty3O4cv
+   w==;
+X-CSE-ConnectionGUID: jH20nseaSWK+RPShvaxQ8w==
+X-CSE-MsgGUID: vCV1Zi0HSg6IsNofdFDAdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25263071"
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="25259429"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:30:43 -0700
-X-CSE-ConnectionGUID: 8SpxuUXxRIawW0lj8AhQ/w==
-X-CSE-MsgGUID: Q22+JEHVRyCrFD/1RSvU+A==
+   d="scan'208";a="25263071"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:52:45 -0700
+X-CSE-ConnectionGUID: H4R5UdzOS7WbYR9DY+bPXw==
+X-CSE-MsgGUID: j8zhYPeTRyWkoCCti1injg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="68753890"
+   d="scan'208";a="68073181"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Sep 2024 01:30:42 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 13 Sep 2024 01:52:44 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sp1hQ-0006DC-0m;
-	Fri, 13 Sep 2024 08:30:40 +0000
-Date: Fri, 13 Sep 2024 16:30:19 +0800
+	id 1sp22j-0006G2-25;
+	Fri, 13 Sep 2024 08:52:41 +0000
+Date: Fri, 13 Sep 2024 16:51:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:for-6.12/io_uring-discard 1/7] powerpc64-linux-ld:
- fabrics.c:undefined reference to `nvme_tls_key_lookup'
-Message-ID: <202409131616.bX29zeY7-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 19395/30000]
+ drivers/ub/urma/uburma/uburma_cmd.c:156:6: warning: no previous prototype
+ for 'uburma_jfr_event_cb'
+Message-ID: <202409131601.MyaN9hL3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,28 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.12/io_uring-discard
-head:   50c52250e2d74b098465841163c18f4b4e9ad430
-commit: 318ad4283a6efea8ce5ec2b3c65b6cb19df6b07e [1/7] Merge branch 'for-6.12/block' into for-6.12/io_uring-discard
-config: powerpc64-randconfig-r063-20240102 (https://download.01.org/0day-ci/archive/20240913/202409131616.bX29zeY7-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131616.bX29zeY7-lkp@intel.com/reproduce)
+Hi Yizhen,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5a1d9701155c6908c76c68951170f10279685143
+commit: 79b60243a9ff771b76add8e16cfe55cc4f5edef2 [19395/30000] ub: uburma add cmd create jfr implementation.
+config: arm64-randconfig-004-20240912 (https://download.01.org/0day-ci/archive/20240913/202409131601.MyaN9hL3-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131601.MyaN9hL3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131616.bX29zeY7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131601.MyaN9hL3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `nvme_tls_key_lookup'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/nvme/host/fabrics.o: in function `nvmf_parse_options':
-   fabrics.c:(.text+0x33d8): undefined reference to `nvme_tls_key_lookup'
->> powerpc64-linux-ld: fabrics.c:(.text+0x3488): undefined reference to `nvme_tls_key_lookup'
+   drivers/ub/urma/uburma/uburma_cmd.c:144:6: warning: no previous prototype for 'uburma_jfs_event_cb' [-Wmissing-prototypes]
+     144 | void uburma_jfs_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/uburma/uburma_cmd.c:156:6: warning: no previous prototype for 'uburma_jfr_event_cb' [-Wmissing-prototypes]
+     156 | void uburma_jfr_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+
+
+vim +/uburma_jfr_event_cb +156 drivers/ub/urma/uburma/uburma_cmd.c
+
+   155	
+ > 156	void uburma_jfr_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+   157	{
+   158		struct uburma_jfr_uobj *jfr_uobj;
+   159	
+   160		if (event->element.jfr == NULL)
+   161			return;
+   162	
+   163		jfr_uobj = (struct uburma_jfr_uobj *)event->element.jfr->jfr_cfg.jfr_context;
+   164		uburma_write_async_event(ctx, event->element.jfr->urma_jfr, event->event_type,
+   165					 &jfr_uobj->async_event_list, &jfr_uobj->async_events_reported);
+   166	}
+   167	
 
 -- 
 0-DAY CI Kernel Test Service
