@@ -1,70 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DABE1D6DA7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 08:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D4A1D6C67
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 09:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726217570; cv=none; b=uVWSlHhtsI300CwCpVygJCEhaeBFFRO87QgBkVgmPdHJ85NPQ5YrP1nGFAFZvWgdxtGzQc19WPLx8EnZ0wTkSSn0PdKVV+vEbWgQJxX8gNhQ4LMWl4EaX/RAtDDxEwML7hojvTIN224gaCBV9nOF8cyKHiI/j9P/2JfAMM5rRVM=
+	t=1726219429; cv=none; b=LSR7yunpd1gRiCNsgxAt43gRKotrqkvjmKlnbbyYack220FTvy5rQvjoDCxl3sGL6oA93WGal1haUdGJMUPdrifVhjIB2gwh3ZKOqMtjavJqqn5l8rInjD2d97hKbmhmaJA+jKd7PfkVOxwwa0ahXuiv5KwSv9Ic0BehoSdX9iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726217570; c=relaxed/simple;
-	bh=Jyot/u39dSozHDfoZZzljqaPH7FKv6fUrFVFE36uz3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=APBvvuKbwTA0Mvq1bOTxse5fzSMP304NxC18t554zsyi5mSty1zLghBydflsrOPDQ/SSq2muoT1LqhY4qYlUEOVRQJ69QVRktLFDpE8dPUnMpp+YgMvn8TlolbUAL7ORnes26VJPV6kjCqc9+WBKhRayBfkXxF3QT5+6hz/ya4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QAudq56I; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1726219429; c=relaxed/simple;
+	bh=J2eohR9Mz5LOLU0QI8F3OROlJzQ54ggb33ngfQx3zCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LbL9dXVCTgFW1YsOQzeLWrL1VYcRTZ1rUNjwRl/Dxb+KJgQ2TIvD4f3pZIWpBhOsDoSIpuxaZgNBO/o638wuSOvNjUqLl8hxbZfLBRug6WYtu4pNQQabrZhLPzG7wED+CaJlVVkSopgU+PIJcozWPNXwjWRenpKuP7nMr8cGSSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e4xETvYl; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QAudq56I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e4xETvYl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726217569; x=1757753569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jyot/u39dSozHDfoZZzljqaPH7FKv6fUrFVFE36uz3w=;
-  b=QAudq56I1xVq+OayuMwfRfS60/nj1iwGC0J8NbVgfcdpMr/d0U+qXDpV
-   ctwuBGT2jYdhMbp09P3ZxXVQgV7qiIixM67cRPgVh4DQkal7603jCGztz
-   E22Tb5fly3vXPfdOvSGYCtt9+zOm7qPIBXfzeG4uxWKKzmy4QdHBNUM1/
-   2Qg9icXr+EZgcc/JH6rxJiS38iWMLdCzpfOFUuP3+cIqn59M99J5QhFi4
-   FXNI09NajRtDmOfI+MW2Qa9LP3w531/XxSNAKNlDL3oDtF7VlNgQCQvpa
-   FOyQTDuivb8pd1qGZXJyngPPSaylh9WmDO9fzVYdTsDHVs/eWhDSr82cS
-   A==;
-X-CSE-ConnectionGUID: pZKEOaVKTgKMPBQ+knL31Q==
-X-CSE-MsgGUID: 8tv5gm0iTMuLi3JqeseWlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25263084"
+  t=1726219428; x=1757755428;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J2eohR9Mz5LOLU0QI8F3OROlJzQ54ggb33ngfQx3zCU=;
+  b=e4xETvYlFfn0aknZFZxws3QTK2Q2S7LINQHuF26p+FAeaTdsn73g9XDS
+   ZwtsUltnlBBPzwAHYmQVSrTyyu+gNu1i8DCKk2MbmZzikzNd8zjGKSpqM
+   OylmW+aDXmqLVpFfV48An8tqayzp2t/6mtIx+IIGPYL7yU6BivTHBX3OK
+   HXOZeIrAXrQxJVZMuuG3iMIr0Bpr+GCHX4g1ivS/po3K68EPJMRvitAX2
+   cDiTvNVyUm5VI3yGoUHk7xThlQawK+IbXweiUXs9wlEW4PDiieFgmK566
+   BuvOp6TM69qh0sSCC6PbltNRDA9uULPUqyZgpneq7omDrcYN6mI9IPMKO
+   Q==;
+X-CSE-ConnectionGUID: Vd9T96BsQeatXbspU7/RAQ==
+X-CSE-MsgGUID: Mw11k3gdSHipLmpIjKliLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="47627569"
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="25263084"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:52:47 -0700
-X-CSE-ConnectionGUID: sy5rpTygQ32+DLl+U7K2AQ==
-X-CSE-MsgGUID: dey+tiFIR1SXIQNLvwWjgg==
+   d="scan'208";a="47627569"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 02:23:47 -0700
+X-CSE-ConnectionGUID: twJE3TqnRsCTLkfSW6woNQ==
+X-CSE-MsgGUID: dP8pLkChQSeHKZ5wws+trQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="68073182"
+   d="scan'208";a="67615378"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Sep 2024 01:52:44 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 13 Sep 2024 02:23:45 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sp22j-0006G6-2D;
-	Fri, 13 Sep 2024 08:52:41 +0000
-Date: Fri, 13 Sep 2024 16:51:44 +0800
+	id 1sp2Wk-0006IM-2e;
+	Fri, 13 Sep 2024 09:23:42 +0000
+Date: Fri, 13 Sep 2024 17:22:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Peter Xu <peterx@redhat.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	David Hildenbrand <david@redhat.com>,
-	Donet Tom <donettom@linux.ibm.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Michal Hocko <mhocko@suse.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Oscar Salvador <osalvador@suse.de>
-Subject: Re: [PATCH v3 9/9] mm: Consolidate common checks in
- hugetlb_get_unmapped_area
-Message-ID: <202409131650.lUO7EoXP-lkp@intel.com>
-References: <20240910080030.1272373-10-osalvador@suse.de>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [linux-next:master 9293/11623]
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51:
+ warning: 'DCEC' directive output may be truncated writing 4 bytes into a
+ region of size between 0 and 53
+Message-ID: <202409131718.JZ7cRIiX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,61 +66,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910080030.1272373-10-osalvador@suse.de>
 
-Hi Oscar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20240912]
-[cannot apply to s390/features powerpc/next powerpc/fixes deller-parisc/for-next arnd-asm-generic/master linus/master v6.11-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-mmap-Teach-generic_get_unmapped_area-_topdown-to-handle-hugetlb-mappings/20240910-160312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240910080030.1272373-10-osalvador%40suse.de
-patch subject: [PATCH v3 9/9] mm: Consolidate common checks in hugetlb_get_unmapped_area
-config: loongarch-randconfig-002-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131650.lUO7EoXP-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131650.lUO7EoXP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   57f962b956f1d116cd64d5c406776c4975de549d
+commit: 056f2821b631df2b94d3b017fd1e1eef918ed98d [9293/11623] media: cec: extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
+config: parisc-randconfig-r113-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131718.JZ7cRIiX-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240913/202409131718.JZ7cRIiX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131650.lUO7EoXP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131718.JZ7cRIiX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/hugetlb.h:792,
-                    from include/linux/migrate.h:8,
-                    from fs/aio.c:40:
-   arch/loongarch/include/asm/hugetlb.h: In function 'prepare_hugepage_range':
->> arch/loongarch/include/asm/hugetlb.h:19:24: warning: unused variable 'h' [-Wunused-variable]
-      19 |         struct hstate *h = hstate_file(file);
-         |                        ^
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_cec_adap_transmit':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+         |                                                   ^~~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:9: note: 'snprintf' output between 13 and 72 bytes into a destination of size 61
+    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1015 |                  port->direction, port->port.port,
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1016 |                  cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/h +19 arch/loongarch/include/asm/hugetlb.h
+vim +/DCEC +1014 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
 
-09cfefb7fa70c3 Huacai Chen 2022-05-31  12  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  13  #define __HAVE_ARCH_PREPARE_HUGEPAGE_RANGE
-09cfefb7fa70c3 Huacai Chen 2022-05-31  14  static inline int prepare_hugepage_range(struct file *file,
-09cfefb7fa70c3 Huacai Chen 2022-05-31  15  					 unsigned long addr,
-09cfefb7fa70c3 Huacai Chen 2022-05-31  16  					 unsigned long len)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  17  {
-09cfefb7fa70c3 Huacai Chen 2022-05-31  18  	unsigned long task_size = STACK_TOP;
-09cfefb7fa70c3 Huacai Chen 2022-05-31 @19  	struct hstate *h = hstate_file(file);
-09cfefb7fa70c3 Huacai Chen 2022-05-31  20  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  21  	if (len > task_size)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  22  		return -ENOMEM;
-09cfefb7fa70c3 Huacai Chen 2022-05-31  23  	if (task_size - len < addr)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  24  		return -EINVAL;
-09cfefb7fa70c3 Huacai Chen 2022-05-31  25  	return 0;
-09cfefb7fa70c3 Huacai Chen 2022-05-31  26  }
-09cfefb7fa70c3 Huacai Chen 2022-05-31  27  
+  1000	
+  1001	static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+  1002					    u32 signal_free_time, struct cec_msg *msg)
+  1003	{
+  1004		struct extron_port *port = cec_get_drvdata(adap);
+  1005		char buf[CEC_MAX_MSG_SIZE * 3 + 1];
+  1006		char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
+  1007		unsigned int i;
+  1008	
+  1009		if (port->disconnected)
+  1010			return -ENODEV;
+  1011		buf[0] = 0;
+  1012		for (i = 0; i < msg->len - 1; i++)
+  1013			sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
+> 1014		snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+  1015			 port->direction, port->port.port,
+  1016			 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+  1017		return extron_send_and_wait(port->extron, port, cmd, NULL);
+  1018	}
+  1019	
 
 -- 
 0-DAY CI Kernel Test Service
