@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDE134CD8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 20:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310B4136E01
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 20:51:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726260685; cv=none; b=GMUMSks4PUg7H6/Kbny8+D4g3uJAnhu336I0vSzQrJoQG4vm01RQ3JAUtyJv1ZxIAAPbujhiUpAOsEKPew1I8SlMppaYe25Tb9a4478OVP6DZMs2BvgXfurWHn+Z2JsoVANrnjZgHXj+43yG6eUzseppTaABBd2SFDv8KaPnGzM=
+	t=1726260686; cv=none; b=UqlpnwW5obyESITNDLXZyAQuGHEXSCovl25nScGmV4dSY1wzftoRu4SJovH91Bq79p/v7mMtYU52gdaf4F2Ybf6PguhXYGAUHPJqCrrJqeAfPx10T4qMXvhGKJCubhx7ZzS/E3PCKpkqoVFFLBlIfXZI84D2kaPPowtTf5Gps8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726260685; c=relaxed/simple;
-	bh=WrEUo3AtXPe6F7M+QOxhj2WzUtXwmbkth9pv8wflcXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IIQkDPRMDARXDMm9oLAGJySH5fhTZQGHnag9V36GzF7SOXweNecS6UxnPsIbMq3aXy8umPtU7ltegbqG1ioPIpusuMUk+PKXpu344olvTx163NVHQPZnuD3nKlumF3oV8tG6TxXOGWvbiQ9jZZYBHysJ7i+t76RuDX5oz9Qq0Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQhBG+N5; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1726260686; c=relaxed/simple;
+	bh=xpOnorOAPD5K01VhK6afzVYl02JALBAdPXmtI4vebZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kVFrMO8fg7KhI7/FrSq+J7WjVRhDAFplWxSU/Ia26ZqzrlQ91l9NoFpszoNxxm+oJTdqpZ2GFpwAfMpqUEWXldJ+FEaDLWHBavn69Gp4i3yh9T8dNyCR3lJFLxBg77yn3KoXC5peMOoD0utARqBJP8I9K9HstCtaNOxuNFz5Pk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Otyd5NWC; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQhBG+N5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Otyd5NWC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726260683; x=1757796683;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WrEUo3AtXPe6F7M+QOxhj2WzUtXwmbkth9pv8wflcXQ=;
-  b=RQhBG+N5xT4A4oGNCaqwRosofDGxNwPEJmY8/v9rUKSVObwXqnHZWv8W
-   iN4zWTPxZeqiSR96omk3LVbTuFYLMJCN4pl68JyMkYgkQ0kDos7WjKn1B
-   VmD7fJ9OqOy+woYnBmgNsUu+/Fmei9FEAEeM4S76pUvxbBQwDZ5qyJNUy
-   IlCy2vRhe4H4e7ccD6JYH1o6wzwqO5x6eXOHbMPzLlRwc6DVoLjr1XCBc
-   FSYfukDdekAqmMJ+kBbqfc8n2fOOndWUzpRGHPywM0kziTsyr+DBLHEfn
-   Ajtb/W5UdedIzYzDlZ9hVMB4RRe2VpZpdRnPGgSzNgGExGTiON2dteCXx
-   g==;
-X-CSE-ConnectionGUID: Wox7ct0SSXWYmcX2wznMjw==
-X-CSE-MsgGUID: 5COWfMWeSpil3iIZFfX7Qg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25112370"
+  t=1726260685; x=1757796685;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xpOnorOAPD5K01VhK6afzVYl02JALBAdPXmtI4vebZ8=;
+  b=Otyd5NWCGAcN4qHni8/gXZoxRPHS4/Ve+1keoeGttlyGGyDgRkG5TBLL
+   xXyT9DMI/89P2W59IZIpH0p+rjtCiwGPzB7W1XgF2uIjbRarsCS6scFd9
+   2mjOoeyolz2MYpTm9nXAteqfoFxzxeo8V1bgJWRm3Tu8h38C2N9eI6zWF
+   g0WZ/9yvwG5FtNFvmxLXm8iyMuS/KqdDS5mkYziq6OLeMNWHHSU9wvJHS
+   DW7TwdlGZhz8cBgv4K/r5nLvjZAUDLVebfrU8i2+HhQdsN5K9lEBlGmE5
+   pZUBzmCV9nljIjnnqBSVaNF8mvzACMynJE9yRzDTVeD6OQdtEkYB5/8CZ
+   A==;
+X-CSE-ConnectionGUID: eqd7AcZ+Ssa1wIcJid4L+Q==
+X-CSE-MsgGUID: 4HTsWr2GTbCl32uotTkBhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25112373"
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="25112370"
+   d="scan'208";a="25112373"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 13:51:23 -0700
-X-CSE-ConnectionGUID: Id87AW2qTn2VweEDYY5q7Q==
-X-CSE-MsgGUID: WHONATCWRveaU0ypsu2Hzg==
+X-CSE-ConnectionGUID: xSDwJ3aiRp6TgDmOBK7APQ==
+X-CSE-MsgGUID: q/p1p85ZSdW7AcnyXT5+UQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="72785710"
+   d="scan'208";a="72785713"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 13 Sep 2024 13:51:22 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spDGB-000704-31;
-	Fri, 13 Sep 2024 20:51:19 +0000
+	id 1spDGC-00070D-0j;
+	Fri, 13 Sep 2024 20:51:20 +0000
 Date: Sat, 14 Sep 2024 04:51:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: John Ogness <john.ogness@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 14594/23707]
- arch/arm64/kvm/../../../virt/kvm/arm/arm.c:411:36: error: 'struct
- sched_info' has no member named 'run_delay'
-Message-ID: <202409140415.hpdzSPWA-lkp@intel.com>
+Subject: Re: [PATCH next v2 3/4] serial: 8250: Switch to nbcon console
+Message-ID: <202409140437.EP0Ryw3u-lkp@intel.com>
+References: <20240913140538.221708-4-john.ogness@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240913140538.221708-4-john.ogness@linutronix.de>
 
-Hi chenjiajun,
+Hi John,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   c46f803e3465bd0ca66716804a4d3e20f586ac0d
-commit: b94fc31d4e16ff65dc2141f0a1a3af6a3aac5bb2 [14594/23707] kvm: debugfs: aarch64 export cpu time related items to debugfs
-config: arm64-randconfig-004-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140415.hpdzSPWA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140415.hpdzSPWA-lkp@intel.com/reproduce)
+[auto build test WARNING on b794563ea12fb46d9499da9e30c33d9607e33697]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ogness/serial-8250-Split-out-IER-from-rs485_start_tx/20240913-220810
+base:   b794563ea12fb46d9499da9e30c33d9607e33697
+patch link:    https://lore.kernel.org/r/20240913140538.221708-4-john.ogness%40linutronix.de
+patch subject: [PATCH next v2 3/4] serial: 8250: Switch to nbcon console
+config: arc-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409140437.EP0Ryw3u-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140437.EP0Ryw3u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140415.hpdzSPWA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140437.EP0Ryw3u-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/../../../virt/kvm/arm/arm.c: In function 'update_steal_time':
->> arch/arm64/kvm/../../../virt/kvm/arm/arm.c:411:36: error: 'struct sched_info' has no member named 'run_delay'
-     411 |         delta = current->sched_info.run_delay - vcpu->stat.steal;
-         |                                    ^
-   arch/arm64/kvm/../../../virt/kvm/arm/arm.c:412:47: error: 'struct sched_info' has no member named 'run_delay'
-     412 |         vcpu->stat.steal = current->sched_info.run_delay;
-         |                                               ^
+>> drivers/tty/serial/8250/8250_port.c:1904:13: warning: 'modem_status_handler' defined but not used [-Wunused-function]
+    1904 | static void modem_status_handler(struct irq_work *iwp)
+         |             ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +411 arch/arm64/kvm/../../../virt/kvm/arm/arm.c
+vim +/modem_status_handler +1904 drivers/tty/serial/8250/8250_port.c
 
-   406	
-   407	static void update_steal_time(struct kvm_vcpu *vcpu)
-   408	{
-   409		u64 delta;
-   410	
- > 411		delta = current->sched_info.run_delay - vcpu->stat.steal;
-   412		vcpu->stat.steal = current->sched_info.run_delay;
-   413		vcpu->stat.st_max = max(vcpu->stat.st_max, delta);
-   414	}
-   415	
+  1898	
+  1899	/*
+  1900	 * irq_work handler to perform modem control. Only triggered via
+  1901	 * write_atomic() callback because it may be in a scheduler or NMI
+  1902	 * context, unable to wake tasks.
+  1903	 */
+> 1904	static void modem_status_handler(struct irq_work *iwp)
+  1905	{
+  1906		struct uart_8250_port *up = container_of(iwp, struct uart_8250_port, modem_status_work);
+  1907		struct uart_port *port = &up->port;
+  1908	
+  1909		uart_port_lock(port);
+  1910		serial8250_modem_status(up);
+  1911		uart_port_unlock(port);
+  1912	}
+  1913	
 
 -- 
 0-DAY CI Kernel Test Service
