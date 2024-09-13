@@ -1,128 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE52A79DC7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 17:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920C085C5E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Sep 2024 17:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726249455; cv=none; b=RylEgloaXRZhDo3YD9kJ4kT6L1PQPjIEFEOl7ZUZV+UfTsIYTW8bLz6HN9oJsdrsk+TZ0AKDkl8Z+BBL+hM+tn+wMecC5d0sAuWeA8fYr4jNiGMxRoMLAoq/upb2rghIcN58IEsd/o3rpiiuWgKQCOlZNP5vx3BVI5l1vwELEjc=
+	t=1726249919; cv=none; b=goWU8GdBKklHW44BcreTFqkAuMQP7sRveYC2jiFewaV/MfE4VjwE0fPQ/JVZ8iLrnFMsesJwxveg3P7qF7rDnPEu7y5R0EAyC167AGrVPZwL+EQqRe6FHmRK/6Al0XVpQmAJ1OJaC0W7+NNx82nATL8zbtFX37WtrjeA3LWByBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726249455; c=relaxed/simple;
-	bh=jGzGLS5jc1tgtr1VvrVQOwCVcOgKD27bW3hONB0me0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcA71fIYfz+/dRdFulUNRK+Cwypu5bpB1aVaTIR/SPDYycaSYThMkuSKpzwXKN/vYnuupqH/zGE/+aYjvTLmkkVMrdASnp/A0E4YdPpoWubNTf4C9uOeMM9kcfHFxVFhZl7m6kDbvezqYqoe9T6/xT81T65h8QwTZmUEx78damE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y5oNq5+q; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726249919; c=relaxed/simple;
+	bh=zvK49zvMWEnYsN5T/T0PU6C++FroTy2HLBUG4x8PoPQ=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=V2l+gmxgMDEqvvTrt5bIb6QAfB8X0Hkc/jQEmOV4T7qecqNTPz81ko11NihSFRT0FChnwPMoCs73N9ACRFqhJABSnnPg8fEb8crXKMjbMpoqpaBMZ4Rs5FlPwjJVBSThDmBWeWrInpDpnraGAiWaHpMeSPUKW44h7Bt8CBKo2NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=MYIzwfXC; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y5oNq5+q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726249453; x=1757785453;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jGzGLS5jc1tgtr1VvrVQOwCVcOgKD27bW3hONB0me0s=;
-  b=Y5oNq5+qZtxi+NIN0hqEvNRsT2yCTfSIlh0eSLlzbbrOpXBy/UywNJtp
-   SL0B6Etd81KArhNuBwjXEdoF87CYIpPFP6C6f4HkCiDNRu+fgDQUBbKKA
-   7L7wN03PPPHiiTAWYtk+f7oqp3cVXIi7+h5aok04hkFd61VkfYsv2iB6F
-   y6xX4PRKIBeiajV5CX49kKHwZldjyE2IDem9rXUWCqkrxRg34YdtITpWA
-   xbBYkQUYDSKi/FDNxy87a98Jrv27xsnEMnwYNkNCBSE3+EyIymFWetdGd
-   cnwgM27JV0YAmc8QrT+AtwGf1tN61XEMrw9lObtbOPn0tScuRTk3DB4ur
-   Q==;
-X-CSE-ConnectionGUID: okQHkQnIQjCmmb6WQFfhbQ==
-X-CSE-MsgGUID: B0l961PwSc2Wzq+JxrZhTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35829379"
-X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="35829379"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 10:44:13 -0700
-X-CSE-ConnectionGUID: CpJnrJr1RpeKBeAlx1cR5Q==
-X-CSE-MsgGUID: mnDRyL3fS8Kw/nImH3rKAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="67761067"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Sep 2024 10:44:10 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spAL2-0006lY-0W;
-	Fri, 13 Sep 2024 17:44:08 +0000
-Date: Sat, 14 Sep 2024 01:43:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	jikos@kernel.org, bentiss@kernel.org, dmitry.torokhov@gmail.com,
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ernis@microsoft.com,
-	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>
-Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
-Message-ID: <202409140137.5jZxplAp-lkp@intel.com>
-References: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="MYIzwfXC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Qrs2z/urRWdAHvlvqcl0vvrtK5/O8hGQBRStCtceCf0=;
+  b=MYIzwfXCcPlyWfHKXSgpmiFs8GiYjtn+ROtWLH8K/piLtG4+O7AFSGpd
+   vnijrzIvpI0zR7nJhjObV7cP9Lp7Awhl7mg/loKh4bHr+FpcswhTSheNU
+   QThWlD7/brJQLUzXPeXmtEFtvqiq5jykuZZVKYUxG8/nyfXUGcGESDR5F
+   4=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.10,226,1719871200"; 
+   d="scan'208";a="183080143"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 19:51:49 +0200
+Date: Fri, 13 Sep 2024 19:51:48 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Jinjie Ruan <ruanjinjie@huawei.com>, Paolo Abeni <pabeni@redhat.com>, 
+    Jacob Keller <jacob.e.keller@intel.com>, 
+    Tony Nguyen <anthony.l.nguyen@intel.com>, Simon Horman <horms@kernel.org>
+cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid
+ reference to the index variable of the iterator on line 7890 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2409131949580.3731@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Erni,
+On line 7895, entry is never NULL, even if you are at the end (which is
+the same as the beginning) of the list.
 
-kernel test robot noticed the following build errors:
+julia
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---------- Forwarded message ----------
+Date: Sat, 14 Sep 2024 01:43:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid
+    reference to the index variable of the iterator on line 7890
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Erni-Sri-Satya-Vennela/Drivers-hv-vmbus-Disable-Suspend-to-Idle-for-VMBus/20240913-053127
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/1726176470-13133-2-git-send-email-ernis%40linux.microsoft.com
-patch subject: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
-config: i386-randconfig-003-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140137.5jZxplAp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140137.5jZxplAp-lkp@intel.com/reproduce)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Jinjie Ruan <ruanjinjie@huawei.com>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Jacob Keller <jacob.e.keller@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: Simon Horman <horms@kernel.org>
+
+Hi Jinjie,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   196145c606d0f816fd3926483cb1ff87e09c2c0b
+commit: c1fec890458ad101ddbbc52cdd29f7bba6aa2b10 ethernet/intel: Use list_for_each_entry() helper
+date:   12 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 12 months ago
+config: microblaze-randconfig-r052-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140131.Y6Qnoc6t-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140137.5jZxplAp-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202409140131.Y6Qnoc6t-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid reference to the index variable of the iterator on line 7890
+   drivers/net/ethernet/intel/igb/igb_main.c:7895:15-20: ERROR: invalid reference to the index variable of the iterator on line 7890
 
->> drivers/hv/vmbus_drv.c:985:27: error: 'vmbus_freeze' undeclared here (not in a function); did you mean 'vmbus_remove'?
-     985 |         .suspend_noirq  = vmbus_freeze,
-         |                           ^~~~~~~~~~~~
-         |                           vmbus_remove
+vim +7895 drivers/net/ethernet/intel/igb/igb_main.c
 
+83c21335c87622 Yury Kylulin     2017-03-07  7854
+b476deab8f412b Colin Ian King   2017-04-27  7855  static int igb_set_vf_mac_filter(struct igb_adapter *adapter, const int vf,
+4827cc37796a02 Yury Kylulin     2017-03-07  7856  				 const u32 info, const u8 *addr)
+4827cc37796a02 Yury Kylulin     2017-03-07  7857  {
+4827cc37796a02 Yury Kylulin     2017-03-07  7858  	struct pci_dev *pdev = adapter->pdev;
+4827cc37796a02 Yury Kylulin     2017-03-07  7859  	struct vf_data_storage *vf_data = &adapter->vf_data[vf];
+4827cc37796a02 Yury Kylulin     2017-03-07  7860  	struct vf_mac_filter *entry = NULL;
+4827cc37796a02 Yury Kylulin     2017-03-07  7861  	int ret = 0;
+4827cc37796a02 Yury Kylulin     2017-03-07  7862
+1b8b062a99dc76 Corinna Vinschen 2018-01-17  7863  	if ((vf_data->flags & IGB_VF_FLAG_PF_SET_MAC) &&
+1b8b062a99dc76 Corinna Vinschen 2018-01-17  7864  	    !vf_data->trusted) {
+4827cc37796a02 Yury Kylulin     2017-03-07  7865  		dev_warn(&pdev->dev,
+4827cc37796a02 Yury Kylulin     2017-03-07  7866  			 "VF %d requested MAC filter but is administratively denied\n",
+4827cc37796a02 Yury Kylulin     2017-03-07  7867  			  vf);
+4827cc37796a02 Yury Kylulin     2017-03-07  7868  		return -EINVAL;
+4827cc37796a02 Yury Kylulin     2017-03-07  7869  	}
+4827cc37796a02 Yury Kylulin     2017-03-07  7870  	if (!is_valid_ether_addr(addr)) {
+4827cc37796a02 Yury Kylulin     2017-03-07  7871  		dev_warn(&pdev->dev,
+4827cc37796a02 Yury Kylulin     2017-03-07  7872  			 "VF %d attempted to set invalid MAC filter\n",
+4827cc37796a02 Yury Kylulin     2017-03-07  7873  			  vf);
+4827cc37796a02 Yury Kylulin     2017-03-07  7874  		return -EINVAL;
+4827cc37796a02 Yury Kylulin     2017-03-07  7875  	}
+4827cc37796a02 Yury Kylulin     2017-03-07  7876
+584af82154f56e Karen Sornek     2021-08-31  7877  	switch (info) {
+584af82154f56e Karen Sornek     2021-08-31  7878  	case E1000_VF_MAC_FILTER_CLR:
+584af82154f56e Karen Sornek     2021-08-31  7879  		/* remove all unicast MAC filters related to the current VF */
+c1fec890458ad1 Jinjie Ruan      2023-09-19  7880  		list_for_each_entry(entry, &adapter->vf_macs.l, l) {
+584af82154f56e Karen Sornek     2021-08-31  7881  			if (entry->vf == vf) {
+584af82154f56e Karen Sornek     2021-08-31  7882  				entry->vf = -1;
+584af82154f56e Karen Sornek     2021-08-31  7883  				entry->free = true;
+584af82154f56e Karen Sornek     2021-08-31  7884  				igb_del_mac_filter(adapter, entry->vf_mac, vf);
+584af82154f56e Karen Sornek     2021-08-31  7885  			}
+584af82154f56e Karen Sornek     2021-08-31  7886  		}
+584af82154f56e Karen Sornek     2021-08-31  7887  		break;
+584af82154f56e Karen Sornek     2021-08-31  7888  	case E1000_VF_MAC_FILTER_ADD:
+4827cc37796a02 Yury Kylulin     2017-03-07  7889  		/* try to find empty slot in the list */
+c1fec890458ad1 Jinjie Ruan      2023-09-19 @7890  		list_for_each_entry(entry, &adapter->vf_macs.l, l) {
+4827cc37796a02 Yury Kylulin     2017-03-07  7891  			if (entry->free)
+4827cc37796a02 Yury Kylulin     2017-03-07  7892  				break;
+4827cc37796a02 Yury Kylulin     2017-03-07  7893  		}
+4827cc37796a02 Yury Kylulin     2017-03-07  7894
+4827cc37796a02 Yury Kylulin     2017-03-07 @7895  		if (entry && entry->free) {
+4827cc37796a02 Yury Kylulin     2017-03-07  7896  			entry->free = false;
+4827cc37796a02 Yury Kylulin     2017-03-07  7897  			entry->vf = vf;
+4827cc37796a02 Yury Kylulin     2017-03-07  7898  			ether_addr_copy(entry->vf_mac, addr);
+4827cc37796a02 Yury Kylulin     2017-03-07  7899
+4827cc37796a02 Yury Kylulin     2017-03-07  7900  			ret = igb_add_mac_filter(adapter, addr, vf);
+4827cc37796a02 Yury Kylulin     2017-03-07  7901  			ret = min_t(int, ret, 0);
+4827cc37796a02 Yury Kylulin     2017-03-07  7902  		} else {
+4827cc37796a02 Yury Kylulin     2017-03-07  7903  			ret = -ENOSPC;
+4827cc37796a02 Yury Kylulin     2017-03-07  7904  		}
+4827cc37796a02 Yury Kylulin     2017-03-07  7905
+4827cc37796a02 Yury Kylulin     2017-03-07  7906  		if (ret == -ENOSPC)
+4827cc37796a02 Yury Kylulin     2017-03-07  7907  			dev_warn(&pdev->dev,
+4827cc37796a02 Yury Kylulin     2017-03-07  7908  				 "VF %d has requested MAC filter but there is no space for it\n",
+4827cc37796a02 Yury Kylulin     2017-03-07  7909  				 vf);
+4827cc37796a02 Yury Kylulin     2017-03-07  7910  		break;
+4827cc37796a02 Yury Kylulin     2017-03-07  7911  	default:
+4827cc37796a02 Yury Kylulin     2017-03-07  7912  		ret = -EINVAL;
+4827cc37796a02 Yury Kylulin     2017-03-07  7913  		break;
+4827cc37796a02 Yury Kylulin     2017-03-07  7914  	}
+4827cc37796a02 Yury Kylulin     2017-03-07  7915
+4827cc37796a02 Yury Kylulin     2017-03-07  7916  	return ret;
+4827cc37796a02 Yury Kylulin     2017-03-07  7917  }
+4827cc37796a02 Yury Kylulin     2017-03-07  7918
 
-vim +985 drivers/hv/vmbus_drv.c
+:::::: The code at line 7895 was first introduced by commit
+:::::: 4827cc37796a02ece7097e01dad8e08f537ac815 igb/igbvf: Add VF MAC filter request capabilities
 
-   973	
-   974	/*
-   975	 * Note: we must use the "noirq" ops: see the comment before vmbus_bus_pm.
-   976	 *
-   977	 * suspend_noirq/resume_noirq are set to NULL to support Suspend-to-Idle: we
-   978	 * shouldn't suspend the vmbus devices upon Suspend-to-Idle, otherwise there
-   979	 * is no way to wake up a Generation-2 VM.
-   980	 *
-   981	 * The other 4 ops are for hibernation.
-   982	 */
-   983	
-   984	static const struct dev_pm_ops vmbus_pm = {
- > 985		.suspend_noirq  = vmbus_freeze,
-   986		.resume_noirq	= NULL,
-   987		.freeze_noirq	= vmbus_suspend,
-   988		.thaw_noirq	= vmbus_resume,
-   989		.poweroff_noirq	= vmbus_suspend,
-   990		.restore_noirq	= vmbus_resume,
-   991	};
-   992	
+:::::: TO: Yury Kylulin <yury.kylulin@intel.com>
+:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
