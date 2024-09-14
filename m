@@ -1,59 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6D01642B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 03:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020731642B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 03:26:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726284401; cv=none; b=Dp2iGNZ2e+kZuhKiSSYYFM9lYD4OZefOexqTj5TEWtwym2GkrJ05yHLVIAiUberl+oLpemlyHSqQPJEmq3HzInW07u5jZMtyJYP6jXVlRyiLjqckuVQJChJE0RQlzIg986tLN7vb4/ZhSm4Oze20A3qmHhW6RRG1j+Z+TbKYPkk=
+	t=1726284406; cv=none; b=RpDGeRCLZgKg9qoN3fgwSRpT0PefLg6KTfGcCA51JjFZVrcf03uHomcEuM1kISKYmygFYyOUHpg39MJCzbTo6pAT269BBm451CL++MaLjulxDhW1WIxnMHcdy3cdPOS2d9Iy9zq9MGfCWG6D5VpOwqtd7bujVMsJMSbWQiMIU7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726284401; c=relaxed/simple;
-	bh=tU7LtkPPzxBQ3Yco9V1/dO8KgGWkqwPlQiC9wDFkEB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JATzVEmMvcl87tsmcnQqmQK2uQEeJc6XO0l+3bwFRwa4JqT4VH0zbYu2DEVEG0qQ0SAjYYTzqLtUD+Xhaq6s1yWJRv2YYSS/MfMkU2eU/XgQVtppOnbokq2hb6nKUfSJxq6EozedrCkweIRec+Xc1diyiCTuRR4lNNnHe6otAZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXyFM2eC; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1726284406; c=relaxed/simple;
+	bh=omgqvgzzouQEUhPUfMey5nnTnVKYeEVzaU01hZPxRW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DIFvHWVb26CxQM6tbJkPqGWK1SrhTfXuk9QBfSz6NdMY1b7RpyyTJOd80V2HwB87J4LDjmVx1EbIVpy1vMgqCEGysCXtshY+yTlt9qCTGiYzPV5huzCp82QzcbrgfJAwNMZQcnwRe7nmJuMs5S7UqcMePTCozFO3BBA7CUdUAvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=frI+/C/A; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXyFM2eC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="frI+/C/A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726284399; x=1757820399;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tU7LtkPPzxBQ3Yco9V1/dO8KgGWkqwPlQiC9wDFkEB4=;
-  b=dXyFM2eCRDYpg6qk5mB5ciiSp0fbnaBkaCR+I7PrKc1YDjWenhCrpGDx
-   GkpjAQs/z1vYcBRVqPdu6x67XGdXuiJytJrxB0Zbr4OfoHhavSVrJ+gUe
-   E7BaxC9y/zp2HMHGSfrgNM1u4Vtj/D8f3UoP7u6ab93fTXcvZxs3pnC/f
-   z04D28Uz2gGEivU/CLVogNLdL3bYTHNXWUwxhRS3mK7rxY6c7OMAz3ND1
-   Re+aIgPOTVP1oCQeWVgi79y5VYVIYHdpaCrEzJcDbboMLFMa52yjdHMcM
-   ByTDxp0Lrb0X0qeidLNd960gusJvOd/DBOqst3zuMP7rXbZ5awOIT7V/q
-   A==;
-X-CSE-ConnectionGUID: HtpgoM/+QUuU5wjp+hjaPw==
-X-CSE-MsgGUID: 1Ma7K4eKSfi7BE2kvPqTAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="24681056"
+  t=1726284404; x=1757820404;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=omgqvgzzouQEUhPUfMey5nnTnVKYeEVzaU01hZPxRW0=;
+  b=frI+/C/AHpjnEFMGmznTEwGIfY1dQ7q4F3TV4T7xBBqhL8EPJv+NVHgy
+   v2TMIIin4yjxofF4NalOTDGdbqZZ2mIWF6z9hymvkuqiEJkVNDj16G09x
+   jOUaL+J9bbkcaTidnRuxXn0hMNm3WEKUAZHJvIBBsSZOUcxxcWla1tYGx
+   xTJ6lYs4N/KwC4DVAbvfifJqy+81d6G115802eiORVpnY4WZN9RI7NVX5
+   J7VzYHZW5HMv8qGjHa9fKAlanQUM4lHoYNbnfgHbwextX5rmG47bRbtGU
+   jev7Ts7Y/JshGhTIL9iIgLAJ2t8XeBJQtL5038x5XyDgUwHi5MTPMALvs
+   w==;
+X-CSE-ConnectionGUID: L2Y9xdtGQLKJFpVOqzCeQw==
+X-CSE-MsgGUID: U64+HTAdRhu5HyqKvUzPPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="24681063"
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="24681056"
+   d="scan'208";a="24681063"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 20:26:38 -0700
-X-CSE-ConnectionGUID: YjphYCdERXKt7l0a33grvg==
-X-CSE-MsgGUID: WZiHuMzlT/65N5BauZamMw==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 20:26:43 -0700
+X-CSE-ConnectionGUID: izKp/OBXQm66DzDaFEJEaQ==
+X-CSE-MsgGUID: sqg/QmHsTlGKouqptM4I1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="91566203"
+   d="scan'208";a="91566204"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 13 Sep 2024 20:26:37 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spJQh-0007Jg-13;
+	id 1spJQh-0007Je-0z;
 	Sat, 14 Sep 2024 03:26:35 +0000
 Date: Sat, 14 Sep 2024 11:26:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1834/13938] mm/page_cache_limit.c:35:5: sparse:
- sparse: symbol 'cache_reclaim_enable_handler' was not declared. Should it be
- static?
-Message-ID: <202409141142.ffRDmgO2-lkp@intel.com>
+To: Deepak Gupta <debug@rivosinc.com>, paul.walmsley@sifive.com,
+	palmer@sifive.com, conor@kernel.org, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, corbet@lwn.net, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, robh@kernel.org, krzk+dt@kernel.org,
+	oleg@redhat.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
+	kees@kernel.org, Liam.Howlett@oracle.com, vbabka@suse.cz
+Subject: Re: [PATCH v4 16/30] riscv/shstk: If needed allocate a new shadow
+ stack on clone
+Message-ID: <202409141139.mn5fTYCl-lkp@intel.com>
+References: <20240912231650.3740732-17-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +73,245 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240912231650.3740732-17-debug@rivosinc.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   292de9750592324fa903dc314670538f50b4c19a
-commit: 621647ce254f1d347ae9bc3d328c09cbb2732487 [1834/13938] mm: support periodical memory reclaim
-config: loongarch-randconfig-r133-20240913 (https://download.01.org/0day-ci/archive/20240914/202409141142.ffRDmgO2-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240914/202409141142.ffRDmgO2-lkp@intel.com/reproduce)
+Hi Deepak,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes tip/x86/core robh/for-next arnd-asm-generic/master tip/smp/core kees/for-next/execve linus/master v6.11-rc7]
+[cannot apply to akpm-mm/mm-everything next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/mm-Introduce-ARCH_HAS_USER_SHADOW_STACK/20240913-072124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20240912231650.3740732-17-debug%40rivosinc.com
+patch subject: [PATCH v4 16/30] riscv/shstk: If needed allocate a new shadow stack on clone
+config: riscv-randconfig-r071-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141139.mn5fTYCl-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141139.mn5fTYCl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141142.ffRDmgO2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141139.mn5fTYCl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/page_cache_limit.c:35:5: sparse: sparse: symbol 'cache_reclaim_enable_handler' was not declared. Should it be static?
->> mm/page_cache_limit.c:51:5: sparse: sparse: symbol 'cache_reclaim_sysctl_handler' was not declared. Should it be static?
+All error/warnings (new ones prefixed by >>):
 
-vim +/cache_reclaim_enable_handler +35 mm/page_cache_limit.c
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from arch/riscv/include/asm/thread_info.h:37,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/riscv/kernel/asm-offsets.c:10:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from include/linux/sched.h:13,
+                    from kernel/ptrace.c:13:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   In file included from include/linux/string.h:374,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from arch/riscv/include/asm/processor.h:79:
+   In function 'fortify_memcpy_chk',
+       inlined from 'syscall_get_arguments.isra' at arch/riscv/include/asm/syscall.h:66:2:
+   include/linux/fortify-string.h:580:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     580 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from include/linux/mutex.h:19,
+                    from include/linux/notifier.h:14,
+                    from include/linux/clk.h:14,
+                    from lib/vsprintf.c:22:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from include/linux/sched.h:13,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from lib/string_helpers.c:13:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   lib/string_helpers.c: In function 'string_get_size':
+   lib/string_helpers.c:124:46: warning: '%03u' directive output may be truncated writing between 3 and 10 bytes into a region of size 7 [-Wformat-truncation=]
+     124 |                 snprintf(tmp, sizeof(tmp), ".%03u", remainder);
+         |                                              ^~~~
+   lib/string_helpers.c:124:44: note: directive argument in the range [0, 4294966295]
+     124 |                 snprintf(tmp, sizeof(tmp), ".%03u", remainder);
+         |                                            ^~~~~~~
+   lib/string_helpers.c:124:17: note: 'snprintf' output between 5 and 12 bytes into a destination of size 8
+     124 |                 snprintf(tmp, sizeof(tmp), ".%03u", remainder);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from arch/riscv/include/asm/thread_info.h:37,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from lib/test_bitops.c:10:
+>> arch/riscv/include/asm/usercfi.h:44:15: error: no previous prototype for 'get_shstk_base' [-Werror=missing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from include/linux/mutex.h:19,
+                    from kernel/locking/lockdep.c:30:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   In file included from kernel/locking/lockdep.c:62:
+   kernel/locking/lockdep_internals.h:69:28: warning: 'LOCKF_USED_IN_IRQ_READ' defined but not used [-Wunused-const-variable=]
+      69 | static const unsigned long LOCKF_USED_IN_IRQ_READ =
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep_internals.h:63:28: warning: 'LOCKF_ENABLED_IRQ_READ' defined but not used [-Wunused-const-variable=]
+      63 | static const unsigned long LOCKF_ENABLED_IRQ_READ =
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep_internals.h:57:28: warning: 'LOCKF_USED_IN_IRQ' defined but not used [-Wunused-const-variable=]
+      57 | static const unsigned long LOCKF_USED_IN_IRQ =
+         |                            ^~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep_internals.h:51:28: warning: 'LOCKF_ENABLED_IRQ' defined but not used [-Wunused-const-variable=]
+      51 | static const unsigned long LOCKF_ENABLED_IRQ =
+         |                            ^~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from arch/riscv/include/asm/thread_info.h:37,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from net/sunrpc/clnt.c:22:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   net/sunrpc/clnt.c: In function 'rpc_create':
+   net/sunrpc/clnt.c:582:75: warning: '%s' directive output may be truncated writing up to 107 bytes into a region of size 48 [-Wformat-truncation=]
+     582 |                                 snprintf(servername, sizeof(servername), "%s",
+         |                                                                           ^~
+   net/sunrpc/clnt.c:582:33: note: 'snprintf' output between 1 and 108 bytes into a destination of size 48
+     582 |                                 snprintf(servername, sizeof(servername), "%s",
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     583 |                                          sun->sun_path);
+         |                                          ~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from arch/riscv/include/asm/thread_info.h:37,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/clk/clkdev.c:9:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   drivers/clk/clkdev.c: In function 'vclkdev_alloc':
+   drivers/clk/clkdev.c:185:17: warning: function 'vclkdev_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     185 |                 res = vsnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
+         |                 ^~~
+--
+   riscv64-linux-ld: net/dns_resolver/dns_query.o: in function `get_shstk_base':
+>> arch/riscv/include/asm/usercfi.h:45: multiple definition of `get_shstk_base'; net/dns_resolver/dns_key.o:arch/riscv/include/asm/usercfi.h:45: first defined here
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from include/linux/sched.h:13,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/miscdevice.h:7,
+                    from drivers/misc/xilinx_sdfec.c:13:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   drivers/misc/xilinx_sdfec.c: In function 'xsdfec_probe':
+   drivers/misc/xilinx_sdfec.c:1404:57: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
+    1404 |         snprintf(xsdfec->dev_name, DEV_NAME_LEN, "xsdfec%d", xsdfec->dev_id);
+         |                                                         ^~
+   drivers/misc/xilinx_sdfec.c:1404:50: note: directive argument in the range [0, 2147483647]
+    1404 |         snprintf(xsdfec->dev_name, DEV_NAME_LEN, "xsdfec%d", xsdfec->dev_id);
+         |                                                  ^~~~~~~~~~
+   drivers/misc/xilinx_sdfec.c:1404:9: note: 'snprintf' output between 8 and 17 bytes into a destination of size 12
+    1404 |         snprintf(xsdfec->dev_name, DEV_NAME_LEN, "xsdfec%d", xsdfec->dev_id);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/processor.h:17,
+                    from include/linux/sched.h:13,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from kernel/time/hrtimer.c:25:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
+     121 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
+   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
+     122 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
+   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
+     123 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
+   kernel/time/hrtimer.c:124:35: warning: initialized field overwritten [-Woverride-init]
+     124 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
+         |                                   ^~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:124:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
+..
 
-    34	
-  > 35	int cache_reclaim_enable_handler(struct ctl_table *table, int write,
-    36				void *buffer, size_t *length, loff_t *ppos)
-    37	{
-    38		int ret;
-    39	
-    40		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-    41		if (ret || !write)
-    42			return ret;
+
+vim +/get_shstk_base +44 arch/riscv/include/asm/usercfi.h
+
     43	
-    44		if (should_periodical_reclaim())
-    45			schedule_delayed_work(&shepherd, round_jiffies_relative(
-    46				(unsigned long)vm_cache_reclaim_s * HZ));
-    47	
-    48		return 0;
-    49	}
-    50	
-  > 51	int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
-    52			void *buffer, size_t *length, loff_t *ppos)
-    53	{
-    54		int ret;
-    55	
-    56		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-    57		if (ret || !write)
-    58			return ret;
-    59	
-    60		if (should_periodical_reclaim())
-    61			mod_delayed_work(system_unbound_wq, &shepherd,
-    62					round_jiffies_relative(
-    63					(unsigned long)vm_cache_reclaim_s * HZ));
-    64	
-    65		return ret;
-    66	}
-    67	
+  > 44	unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+  > 45	{
+    46		return 0;
+    47	}
+    48	
 
 -- 
 0-DAY CI Kernel Test Service
