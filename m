@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41B41CEEAB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 13:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862701CEE8B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 14:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726321685; cv=none; b=jioGRGLtLF/arlQdU0aUwcBxsuLKw5hC6p2viSl0p6iVTfBfJfhXFPymO2gE5396PuzwFjxz+Prx840swwTMXaXlkSeyZeYtMZL4c7vnhruvf1lWr/xlKv6vKoHXTqTMs3qMMMma5Cj+iaXlJ+2MnHBvIg7EzQpyBVLZbyX8tKA=
+	t=1726322884; cv=none; b=ZMthq47hKpAQzYW1xVLHsV0eLnuOy7Ro6vB+Pvv7lpivsn8etW8FxUZGxmr2dej9PpLEEz8Dm49pvNrLZ/xKt2kY6Kk/sXZL/DFxdHQENKiMjmfh6LV2SzpKcQnv6ZI3r1bfqW2SklgCEIscNZff0igyErvuQkjqtr0ghy92yIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726321685; c=relaxed/simple;
-	bh=znCDGR/1I3uZJmx5nX/kZLRTvWflBaMzIgAybI6mI7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j6B9R5i1bm+UlWa63iYTPDgcqUyiaph72XK3ouizwzYRK1ikanCEI0QlNftsVxwYhUyx/ufLT+OzFETHUYnCRAVEXGLJ+91iLCkLbawcWxryOi+Us4h/v8+XKNAZ4F4cpzBNpef9Rit+Gn6uqgkD7uE9RAT4rUGHRS+oOFt3lMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2gfJUOf; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1726322884; c=relaxed/simple;
+	bh=7E247dReZZ8zaoQnDlTMawaWQoBdK39N7JxxGk6rxwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X55XOks6T+GQrDBIMbzklhlkkWq+zc9n2nlXRBymP2gM+VjWNNLTLa08VVG7wtqNMR6X9LzxUpuBusrWNwwKyCRBGWY5vvOlCDpPJca1ua11uphdKuVXkB2UTMpvMlPbKCMDXz6AvcR0Mqy+rHS/2aehXkRX/I5atMAcicADwtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5kg7Nrh; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2gfJUOf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5kg7Nrh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726321684; x=1757857684;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=znCDGR/1I3uZJmx5nX/kZLRTvWflBaMzIgAybI6mI7Y=;
-  b=K2gfJUOfmaIT9EsDCSwtBCpevap2TUgSX22B0Yst6x6fUIIuwkvoKA/S
-   t++Yb20bgFp5eBoahSgLKRM0pIxpYFqteCkW1do+TwlIaOZeJa8oEYxmS
-   nQTccYD5De/XvnMnzDmAoD6hdIS+ovf1gszX+qEWfDCulg9gp6Xs+URUl
-   BctHcCwwL/4C97kdSP6xq/+rfI1yz+VxlCteF/9jRICwzDlYjjCzxiqs1
-   ui88Kt2mBVh+0RdSw/0/LqnWym+sywepnhvP9FnryOaXQen1yoxjuCsru
-   mfmQKQAHqlSKDideqkzvTN/L0xtoe9cI1qmHlzBeSocz6kcaT2XztAZkW
-   g==;
-X-CSE-ConnectionGUID: L/phlAFdQyC0FGfwUnnwkg==
-X-CSE-MsgGUID: 52cWj/IQSOSRkL3+YA4umg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="13527089"
+  t=1726322882; x=1757858882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7E247dReZZ8zaoQnDlTMawaWQoBdK39N7JxxGk6rxwM=;
+  b=e5kg7NrhcvPu5ukQ0PzXNi+h9ix3pOy61ACJ8I+L3dHWIIpkpfoW3nN2
+   2ZRdPJjR3R9qfnOxC3re++8l+gGLPDWlAOEBCRnOR1r+WJsyB3I47X9ev
+   s+4ZxXvqexZdA7zDRVPY2hbo4LmzzFYKwxsq2W2T5/ZyI8YIIgkljx0G0
+   ZLz9gznuk1edA3nyKIxGutoepQoRlbKj96M0zwqn0OJCpu5JZXoNG/LQY
+   adx8dUpB5P4LxbDlr7j6wRI2BrFQbgYMomTK+TVb6y8OnWxfXb1LrujzU
+   7DpSS8yKyhsldOsU26X2x/Y4OYypFM2IBhX9zOGx5ySg4iPwTedg0e325
+   w==;
+X-CSE-ConnectionGUID: ZcH0uK6NR0C4psPcxXbKAA==
+X-CSE-MsgGUID: z2Lnwd+xR9e6zB4QlYEMVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25311542"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="13527089"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 06:48:02 -0700
-X-CSE-ConnectionGUID: zpLOYR4XRPCwq9aW/Xd4wg==
-X-CSE-MsgGUID: isVdNTEtR1+s1Cn1QAILow==
+   d="scan'208";a="25311542"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 07:08:02 -0700
+X-CSE-ConnectionGUID: CKCj9hJQR/OECFiEGLNSwA==
+X-CSE-MsgGUID: 3qW6yf/uS+O5j+rdtpUQlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="68395336"
+   d="scan'208";a="73413093"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Sep 2024 06:48:01 -0700
+  by orviesa004.jf.intel.com with ESMTP; 14 Sep 2024 07:08:01 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spT82-0007nf-1f;
-	Sat, 14 Sep 2024 13:47:58 +0000
-Date: Sat, 14 Sep 2024 21:47:26 +0800
+	id 1spTRP-0007ow-0I;
+	Sat, 14 Sep 2024 14:07:59 +0000
+Date: Sat, 14 Sep 2024 22:07:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20240912 5/15]
- include/linux/build_bug.h:78:41: error: static assertion failed: "struct
- member likely outside of struct_group_tagged()"
-Message-ID: <202409142117.35sIzcUJ-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 02/11] unwind/x86: Add HAVE_USER_UNWIND
+Message-ID: <202409142115.HyZ7W4HU-lkp@intel.com>
+References: <82ef19a767cb75e76a985ecc0d47a39400b4fdf5.1726268190.git.jpoimboe@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,75 +62,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <82ef19a767cb75e76a985ecc0d47a39400b4fdf5.1726268190.git.jpoimboe@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240912
-head:   f2ca068393cf1157c12ab08556b05824eec16511
-commit: 06f3631525808b4ce559a30508e178bae26acb3c [5/15] RDMA/uverbs: Use static_assert() to check struct sizes
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20240914/202409142117.35sIzcUJ-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142117.35sIzcUJ-lkp@intel.com/reproduce)
+Hi Josh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Poimboeuf/unwind-Introduce-generic-user-space-unwinding-interface/20240914-070619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/82ef19a767cb75e76a985ecc0d47a39400b4fdf5.1726268190.git.jpoimboe%40kernel.org
+patch subject: [PATCH v2 02/11] unwind/x86: Add HAVE_USER_UNWIND
+config: x86_64-randconfig-121-20240914 (https://download.01.org/0day-ci/archive/20240914/202409142115.HyZ7W4HU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142115.HyZ7W4HU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409142117.35sIzcUJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409142115.HyZ7W4HU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/unwind/user.c:38:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long * @@
+   kernel/unwind/user.c:38:30: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/user.c:38:30: sparse:     got unsigned long *
+   kernel/unwind/user.c:41:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long * @@
+   kernel/unwind/user.c:41:30: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/user.c:41:30: sparse:     got unsigned long *
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from drivers/infiniband/core/nldev.c:33:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "struct member likely outside of struct_group_tagged()"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/rdma/uverbs_ioctl.h:643:1: note: in expansion of macro 'static_assert'
-     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
-         | ^~~~~~~~~~~~~
+vim +38 kernel/unwind/user.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [m]:
-   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
-
-
-vim +78 include/linux/build_bug.h
-
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+c970b852d500d4 Josh Poimboeuf 2024-09-14  17  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  18  int user_unwind_next(struct user_unwind_state *state)
+c970b852d500d4 Josh Poimboeuf 2024-09-14  19  {
+c970b852d500d4 Josh Poimboeuf 2024-09-14  20  	struct user_unwind_frame _frame;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  21  	struct user_unwind_frame *frame = &_frame;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  22  	unsigned long cfa, fp, ra;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  23  	int ret = -EINVAL;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  24  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  25  	if (state->done)
+c970b852d500d4 Josh Poimboeuf 2024-09-14  26  		return -EINVAL;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  27  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  28  	switch (state->type) {
+c970b852d500d4 Josh Poimboeuf 2024-09-14  29  	case USER_UNWIND_TYPE_FP:
+c970b852d500d4 Josh Poimboeuf 2024-09-14  30  		frame = &fp_frame;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  31  		break;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  32  	default:
+c970b852d500d4 Josh Poimboeuf 2024-09-14  33  		BUG();
+c970b852d500d4 Josh Poimboeuf 2024-09-14  34  	}
+c970b852d500d4 Josh Poimboeuf 2024-09-14  35  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  36  	cfa = (frame->use_fp ? state->fp : state->sp) + frame->cfa_off;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  37  
+c970b852d500d4 Josh Poimboeuf 2024-09-14 @38  	if (frame->ra_off && get_user(ra, (unsigned long *)(cfa + frame->ra_off)))
+c970b852d500d4 Josh Poimboeuf 2024-09-14  39  		goto the_end;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  40  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  41  	if (frame->fp_off && get_user(fp, (unsigned long *)(cfa + frame->fp_off)))
+c970b852d500d4 Josh Poimboeuf 2024-09-14  42  		goto the_end;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  43  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  44  	state->sp = cfa;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  45  	state->ip = ra;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  46  	if (frame->fp_off)
+c970b852d500d4 Josh Poimboeuf 2024-09-14  47  		state->fp = fp;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  48  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  49  	return 0;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  50  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  51  the_end:
+c970b852d500d4 Josh Poimboeuf 2024-09-14  52  	state->done = true;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  53  	return ret;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  54  }
+c970b852d500d4 Josh Poimboeuf 2024-09-14  55  
 
 -- 
 0-DAY CI Kernel Test Service
