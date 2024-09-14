@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED038F7D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 23:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279DA823D1;
+	Sat, 14 Sep 2024 23:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726355967; cv=none; b=ppL6WBO98KmfDQo095INJ6WHcEreuGE3KRYFwwa8ELHRNFszsGDOLZLNiPzSPejR7c3updH7NSzCqlvE+ptAxSyqUTt9kpeZyFWigt80/GAIfiUOLX7MWcPzFY0L2QbmcYAha30j/Z501tg6V4Ez2ne3Xom9Tk91Rhc9jUnwIUA=
+	t=1726355969; cv=none; b=E9hlRaP2JWx6N4QNIbzxDUx46d1M2VsfMwr8kz6HrR7N2i4QOx1nnIh4O2Ur5Tiv6LTE7vnKnTPhfQIbW6Ct4X/3BkBGlAF5VRViDh6eOMyWzhwRQ0pCaX1RCTEUJN/HccMjjTN7VusBKWiFJgDqugfctwznnsM5xU2GMK+LJNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726355967; c=relaxed/simple;
-	bh=p1HX5CTDi3LKpwTGqd35uEkOX2yc7x24+3nGtXHp2ss=;
+	s=arc-20240116; t=1726355969; c=relaxed/simple;
+	bh=y59VWu/bKAwTS9RtnpWc628YkLW9xowpbyjRRGSA1RM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jLRj8I9tVooR1oIxnmLNNZVqx/Cwn71A1uokavR1x6S0FQBzjQUyhFfbGymmnF36wPmVKUyjx0PHELe4eTFOxiVO8iD2vuYbrhO04SIVFhZvoT+zcZKPzwsaTzapuUPnDoTICqomZPlfjWCuOckblFX38MppLOHu5VI52Dm8oU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8QxBAOR; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z00PwOad+DKJuRAmym1POjQT5InoPw725lB6DdVFv/tI8omogyatZ8EfJ9KK6tDlhuvx0cyJNws8WOkbY59NXNJZRni1xaKy7vORZcg4W+rphdQGc5cEEQBnSV2djSX9xQ7LNimCcpdsSAF5BXXHPjB9qQuc+yLupb9iAV6EwiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1vzXibx; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8QxBAOR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1vzXibx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726355964; x=1757891964;
+  t=1726355967; x=1757891967;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=p1HX5CTDi3LKpwTGqd35uEkOX2yc7x24+3nGtXHp2ss=;
-  b=X8QxBAORpQ7z5EB4kssXDoyBcXjYgmcSKDBIGJ382eWhY10+itRpFwMZ
-   L1YQywbQZiT8x4XUUzgEW2OnuxZwJrpcNF86RjCs9jqlzTg16yl2x4RE8
-   ZjjJoaVz5EsX9jt4AuUXgLCzjyRQZHh0vMVaYnvmVPgmSsWibjgwgmFCg
-   +Gsk82CPDV7cGSR1fL2JjZLpWJ1xxQhyNaqLP19O/zynKwDKPHzSuw6Zt
-   VQbnc9wsD6dyd95fS+/dEJ2l6hzh/ZMjkXbwQojRTXYt2DTYzASK5+SwW
-   y5Sii0S3BGLrJmwIzJvkEjFIUiTHlZvd8Jg55AJyHmR8xDzxzBaOGK9hJ
-   A==;
-X-CSE-ConnectionGUID: puVQREtcRRWS9PAxwtJj6Q==
-X-CSE-MsgGUID: qacbmVlKQYmsOUejlnGv8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="28978110"
+  bh=y59VWu/bKAwTS9RtnpWc628YkLW9xowpbyjRRGSA1RM=;
+  b=B1vzXibxYV+yl9Dfca9xlKuj1X/Olrt4aT1/bR11scJ2hk80xh2QSRlv
+   TeXY0EBY/qXh58TXS+9DISB9+mTpAMDWsOxwNsqGLNAEc96zVJIEYGPdJ
+   DTfEyEcrjddjFmNzCe1MIu+rwQgxgSUSZZmt2b6OOpB3wflin9t8xPujJ
+   ZHQzC5PQfqBQaBSo46/mw4SAml0BIvBHq/TkEI2oAythl5CaDnOPOkT5v
+   C+9vpmPM1ACtQVfqUPMBpE67bXZRkD/HmSQBTN7co56GwaVrt7xTTkjIX
+   VOSmFUwn8To9YyI3Ufzid5dJTb4kcgr0zQbh2tX5SRllN76Uv8ir41Af6
+   w==;
+X-CSE-ConnectionGUID: hlL9OXlkSNeP4mJytjOnZg==
+X-CSE-MsgGUID: hawdTnJrSdyusdKVYysoQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="28978112"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="28978110"
+   d="scan'208";a="28978112"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 16:19:24 -0700
-X-CSE-ConnectionGUID: RXQoNKX+QhqKap0rNr1EKg==
-X-CSE-MsgGUID: wrIgEaUKRQ6dCT787AtbZg==
+X-CSE-ConnectionGUID: uXll9ZG1TLuteovD2ey5bw==
+X-CSE-MsgGUID: cwhYQobvRWWJ05G8XB2sNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="73248254"
+   d="scan'208";a="73248255"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 14 Sep 2024 16:19:23 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spc2y-0008EQ-2S;
+	id 1spc2y-0008ES-2W;
 	Sat, 14 Sep 2024 23:19:20 +0000
-Date: Sun, 15 Sep 2024 07:19:06 +0800
+Date: Sun, 15 Sep 2024 07:19:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Gautham Ananthakrishna <gautham.ananthakrishna@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH RFC V4 1/1] ocfs2: reserve space for inline xattr before
  attaching reflink tree
-Message-ID: <202409150704.dHBcQscU-lkp@intel.com>
+Message-ID: <202409150732.E4EsYwaz-lkp@intel.com>
 References: <20240912064720.898600-1-gautham.ananthakrishna@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,25 +80,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Gautham-Ananthakrishna/oc
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20240912064720.898600-1-gautham.ananthakrishna%40oracle.com
 patch subject: [PATCH RFC V4 1/1] ocfs2: reserve space for inline xattr before attaching reflink tree
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240915/202409150704.dHBcQscU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150704.dHBcQscU-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240915/202409150732.E4EsYwaz-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150732.E4EsYwaz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409150704.dHBcQscU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409150732.E4EsYwaz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/ocfs2/refcounttree.c: In function '__ocfs2_reflink':
->> fs/ocfs2/refcounttree.c:4197:55: error: initialization of 'struct ocfs2_dinode *' from incompatible pointer type 'char *' [-Werror=incompatible-pointer-types]
+>> fs/ocfs2/refcounttree.c:4197:25: error: incompatible pointer types initializing 'struct ocfs2_dinode *' with an expression of type 'char *' [-Werror,-Wincompatible-pointer-types]
     4197 |                         struct ocfs2_dinode *new_di = new_bh->b_data;
-         |                                                       ^~~~~~
-   fs/ocfs2/refcounttree.c:4198:55: error: initialization of 'struct ocfs2_dinode *' from incompatible pointer type 'char *' [-Werror=incompatible-pointer-types]
+         |                                              ^        ~~~~~~~~~~~~~~
+   fs/ocfs2/refcounttree.c:4198:25: error: incompatible pointer types initializing 'struct ocfs2_dinode *' with an expression of type 'char *' [-Werror,-Wincompatible-pointer-types]
     4198 |                         struct ocfs2_dinode *old_di = old_bh->b_data;
-         |                                                       ^~~~~~
-   cc1: some warnings being treated as errors
+         |                                              ^        ~~~~~~~~~~~~~~
+   2 errors generated.
 
 
 vim +4197 fs/ocfs2/refcounttree.c
