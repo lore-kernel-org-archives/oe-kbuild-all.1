@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998611D12EB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 16:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234841CFEAF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 16:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726330513; cv=none; b=X38k7JCzXHNjfw42R2ddhiyr6ncF6M1bsIWb2KlD3WUXjjihdSfTOhbrxHXoMahh+yFgtwpDi8DcWnKV2bNHFS145ssxkad8q6+ymTyVxBV8egFTkacb6U6mZsEsXAtN96ZJmImyhYrFgGnmqbd6kYz++PNN6dwDQN9CS1Tz3dI=
+	t=1726331173; cv=none; b=luPdfrUjnRRP3KZg4sO0sSpsy2I7vx9diW9XRdiNL1nWopwabL3xkcjGMhrGx6g2Rr5tiOOwdCHf+UXnbs3jgBq83qPD148tVFl8AuucJTB4IJ0tG79xLi1QWTB2IJ8m2oFYYrntD3nNC0q+1VQrh9kXtD38GtbB+1vzPSrjvQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726330513; c=relaxed/simple;
-	bh=99jCVrcEHKThldVE6apfPwrZ/f41Mrd9ol0m5LhNegM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fZc0qFHFjTmxpQWFPx82gssIx1GiwPiQ2YYAwIF0nueePxJJFagNg8dLqgwY0WC3EDHD8SoHd79Ex1fcHC+8VFt4kzywrtwbhBlKDq7rZhaqB0bF303wD02hUN2v6Q8OEZUCzyl7r/aI9ewgnDKaqtYEtgTAv3XPL+Rb6U+Ks1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivmikcxz; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1726331173; c=relaxed/simple;
+	bh=owm3wLExjKfYS7r9e951leRPb2HIdxsZZnAYlhpppLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BL2csRlpIVsb/KelMqei8tGdBX+l2q8qjB2SbBBD3qzxhv4mI4nHpYbG5lg2U6gwymNmpZvnc11kjJUsovRVzV6rW8O0+XSCQ1xB9l7kM9NxaqW19NMJKKup5XM5Xcixn7Jy01LgMowwonOrs7xH7/U8qUchzFwNK35XqXHvss0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwMAhlVk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivmikcxz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwMAhlVk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726330511; x=1757866511;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=99jCVrcEHKThldVE6apfPwrZ/f41Mrd9ol0m5LhNegM=;
-  b=ivmikcxz0zwSbd9+kusu9veaD/9LkWd9eRtmz/Gs07ptl58B98F4L9lc
-   cShla7G7Nj6bMmwzV0CdHHKOEiZI+FNj3wpe/0IGAoY8IYJkRLn/xW6bC
-   p0S8Zlq5czJzIcJE6v0noN63bDpMPD5um418/0lhk/N3YGidJr/H7t9pS
-   ka7bH0GeS/Vrbe8QDtuE+zhsQqA2c/gBNs/Evef5aRKBa7Ay2qp6f/jyz
-   fdsdJfmRpCJ82qA/+v2cJ7loBkfVflUATqonwnFY4ia3U4JcjHQT5PlUi
-   EsdwwiV/zhtAzQrS+keA+oq691WBZ+f9YbpHMyK4Md5sTm3MxH+X+mheJ
-   w==;
-X-CSE-ConnectionGUID: zxYaH3bTQdyH4wnar3nkGA==
-X-CSE-MsgGUID: bKh4vGupRe6I6xJsjn7tlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="35803087"
+  t=1726331171; x=1757867171;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=owm3wLExjKfYS7r9e951leRPb2HIdxsZZnAYlhpppLQ=;
+  b=HwMAhlVkb9RlnWBULNNyL2KAuJTYF5UcyB0W+89w7qTha7DsB9bdmfom
+   frgccwQWvrRuF4K2FRVlqGjmS0GxAHqKSXoiBjLhK1/JRbfh43i5b1HAs
+   s/MRbX8hyVcHdY2zwzxH1THovIc0wxbjHTKkeNuzo26J0GAWE3iWuJqXT
+   zgyBeYU5Xvc1PXp9PyhmR1VIsP4KroIkLXznYRXdCnnIIKdA6FYXifYfi
+   6ShholQa2MJ2BlwBp4EbSj/+JwBNSSQTerWmhKhu7qfbna4L1MScTB2th
+   VednATxFu73ecst839DZ4sUPCQzEt9OeEu8FE/RdxoiSW6PQqHKnsbSMe
+   g==;
+X-CSE-ConnectionGUID: sdOPgVMJSTCoWjhU0IGWmw==
+X-CSE-MsgGUID: Icu/Bf1DRBqJOxz/mwf8EQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="29116292"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="35803087"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 09:15:10 -0700
-X-CSE-ConnectionGUID: 5Tg8k8O3T7iEMbTk+4p7Tg==
-X-CSE-MsgGUID: Y/DxrxGpTX+uxFbv3jaZ1w==
+   d="scan'208";a="29116292"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 09:26:10 -0700
+X-CSE-ConnectionGUID: ixyxICedRTWO4oQ7GriRag==
+X-CSE-MsgGUID: rCnLIjaMTPutWROq4IwSNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="105881430"
+   d="scan'208";a="73438157"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Sep 2024 09:15:09 -0700
+  by orviesa004.jf.intel.com with ESMTP; 14 Sep 2024 09:26:09 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spVQP-0007w2-3D;
-	Sat, 14 Sep 2024 16:15:06 +0000
-Date: Sun, 15 Sep 2024 00:15:03 +0800
+	id 1spVb4-0007wv-1o;
+	Sat, 14 Sep 2024 16:26:06 +0000
+Date: Sun, 15 Sep 2024 00:25:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2387/13948] kernel/sched/psi.c:178:13: warning:
- 'psi_avgs_work' used but never defined
-Message-ID: <202409150029.IPJpZTLQ-lkp@intel.com>
+Subject: Re: [PATCH v2 04/11] unwind/x86/64: Add HAVE_USER_UNWIND_SFRAME
+Message-ID: <202409150012.aKxn8ZBV-lkp@intel.com>
+References: <37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,377 +62,329 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   1910604f7315d411c0c10359055daddee968441f
-commit: 654944510822988390470cbc5b6f914c19dd9b88 [2387/13948] sched/psi: add cpu fine grained stall tracking in pressure.stat
-config: loongarch-randconfig-r133-20240913 (https://download.01.org/0day-ci/archive/20240915/202409150029.IPJpZTLQ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240915/202409150029.IPJpZTLQ-lkp@intel.com/reproduce)
+Hi Josh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master v6.11-rc7 next-20240913]
+[cannot apply to acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Poimboeuf/unwind-Introduce-generic-user-space-unwinding-interface/20240914-070619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe%40kernel.org
+patch subject: [PATCH v2 04/11] unwind/x86/64: Add HAVE_USER_UNWIND_SFRAME
+config: x86_64-randconfig-121-20240914 (https://download.01.org/0day-ci/archive/20240915/202409150012.aKxn8ZBV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150012.aKxn8ZBV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409150029.IPJpZTLQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409150012.aKxn8ZBV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/unwind/sframe.c:94:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sframe_fde [noderef] __user *first @@     got void * @@
+   kernel/unwind/sframe.c:94:15: sparse:     expected struct sframe_fde [noderef] __user *first
+   kernel/unwind/sframe.c:94:15: sparse:     got void *
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got signed int [usertype] * @@
+   kernel/unwind/sframe.c:98:21: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:98:21: sparse:     got signed int [usertype] *
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:98:21: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:134:11: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *f @@     got void * @@
+   kernel/unwind/sframe.c:134:11: sparse:     expected void [noderef] __user *f
+   kernel/unwind/sframe.c:134:11: sparse:     got void *
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:138:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned char [usertype] * @@
+   kernel/unwind/sframe.c:138:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:138:17: sparse:     got unsigned char [usertype] *
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:138:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   kernel/unwind/sframe.c:138:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:138:17: sparse:     got unsigned short [usertype] *
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:138:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] * @@
+   kernel/unwind/sframe.c:138:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:138:17: sparse:     got unsigned int [usertype] *
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:138:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned char [usertype] * @@
+   kernel/unwind/sframe.c:149:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:149:17: sparse:     got unsigned char [usertype] *
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   kernel/unwind/sframe.c:149:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:149:17: sparse:     got unsigned short [usertype] *
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] * @@
+   kernel/unwind/sframe.c:149:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:149:17: sparse:     got unsigned int [usertype] *
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:149:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned char [usertype] * @@
+   kernel/unwind/sframe.c:166:9: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:166:9: sparse:     got unsigned char [usertype] *
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   kernel/unwind/sframe.c:166:9: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:166:9: sparse:     got unsigned short [usertype] *
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] * @@
+   kernel/unwind/sframe.c:166:9: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:166:9: sparse:     got unsigned int [usertype] *
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:166:9: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:173:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got signed char [usertype] * @@
+   kernel/unwind/sframe.c:173:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:173:17: sparse:     got signed char [usertype] *
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:173:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got signed short [usertype] * @@
+   kernel/unwind/sframe.c:173:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:173:17: sparse:     got signed short [usertype] *
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got signed int [usertype] * @@
+   kernel/unwind/sframe.c:173:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:173:17: sparse:     got signed int [usertype] *
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:173:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got signed char [usertype] * @@
+   kernel/unwind/sframe.c:179:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:179:17: sparse:     got signed char [usertype] *
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got signed short [usertype] * @@
+   kernel/unwind/sframe.c:179:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:179:17: sparse:     got signed short [usertype] *
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got signed int [usertype] * @@
+   kernel/unwind/sframe.c:179:17: sparse:     expected void const volatile [noderef] __user *ptr
+   kernel/unwind/sframe.c:179:17: sparse:     got signed int [usertype] *
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+   kernel/unwind/sframe.c:179:17: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/unwind/sframe.c:303:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void * @@
+   kernel/unwind/sframe.c:303:36: sparse:     expected void const [noderef] __user *from
+   kernel/unwind/sframe.c:303:36: sparse:     got void *
 
-   kernel/sched/psi.c:1883:27: note: (near initialization for 'psi_memory_proc_ops.proc_poll')
-   kernel/sched/psi.c:1884:27: error: initializer element is not constant
-    1884 |         .proc_release   = psi_fop_release,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1884:27: note: (near initialization for 'psi_memory_proc_ops.proc_release')
-   kernel/sched/psi.c:1888:27: error: initializer element is not constant
-    1888 |         .proc_open      = psi_cpu_open,
-         |                           ^~~~~~~~~~~~
-   kernel/sched/psi.c:1888:27: note: (near initialization for 'psi_cpu_proc_ops.proc_open')
-   kernel/sched/psi.c:1891:27: error: initializer element is not constant
-    1891 |         .proc_write     = psi_cpu_write,
-         |                           ^~~~~~~~~~~~~
-   kernel/sched/psi.c:1891:27: note: (near initialization for 'psi_cpu_proc_ops.proc_write')
-   kernel/sched/psi.c:1892:27: error: initializer element is not constant
-    1892 |         .proc_poll      = psi_fop_poll,
-         |                           ^~~~~~~~~~~~
-   kernel/sched/psi.c:1892:27: note: (near initialization for 'psi_cpu_proc_ops.proc_poll')
-   kernel/sched/psi.c:1893:27: error: initializer element is not constant
-    1893 |         .proc_release   = psi_fop_release,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1893:27: note: (near initialization for 'psi_cpu_proc_ops.proc_release')
-   kernel/sched/psi.c:1907:13: error: invalid storage class for function 'get_stat_names'
-    1907 | static void get_stat_names(struct seq_file *m, int i, bool is_full)
-         |             ^~~~~~~~~~~~~~
-   kernel/sched/psi.c:1953:12: error: invalid storage class for function 'system_psi_stat_show'
-    1953 | static int system_psi_stat_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1958:12: error: invalid storage class for function 'psi_stat_open'
-    1958 | static int psi_stat_open(struct inode *inode, struct file *file)
-         |            ^~~~~~~~~~~~~
-   kernel/sched/psi.c:1964:27: error: initializer element is not constant
-    1964 |         .proc_open      = psi_stat_open,
-         |                           ^~~~~~~~~~~~~
-   kernel/sched/psi.c:1964:27: note: (near initialization for 'psi_stat_proc_ops.proc_open')
-   kernel/sched/psi.c:1967:27: error: initializer element is not constant
-    1967 |         .proc_release   = psi_fop_release,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1967:27: note: (near initialization for 'psi_stat_proc_ops.proc_release')
-   kernel/sched/psi.c:1998:19: error: invalid storage class for function 'psi_proc_init'
-    1998 | static int __init psi_proc_init(void)
-         |                   ^~~~~~~~~~~~~
-   In file included from include/linux/printk.h:6,
-                    from include/linux/kernel.h:30:
-   kernel/sched/psi.c:2014:13: error: initializer element is not constant
-    2014 | module_init(psi_proc_init);
-         |             ^~~~~~~~~~~~~
-   include/linux/init.h:270:55: note: in definition of macro '____define_initcall'
-     270 |                 __attribute__((__section__(__sec))) = fn;
-         |                                                       ^~
-   include/linux/init.h:280:9: note: in expansion of macro '__unique_initcall'
-     280 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:282:35: note: in expansion of macro '___define_initcall'
-     282 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:311:41: note: in expansion of macro '__define_initcall'
-     311 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:316:24: note: in expansion of macro 'device_initcall'
-     316 | #define __initcall(fn) device_initcall(fn)
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
-      88 | #define module_init(x)  __initcall(x);
-         |                         ^~~~~~~~~~
-   kernel/sched/psi.c:2014:1: note: in expansion of macro 'module_init'
-    2014 | module_init(psi_proc_init);
-         | ^~~~~~~~~~~
-   In file included from kernel/sched/build_utility.c:101:
-   kernel/sched/membarrier.c:165:13: error: invalid storage class for function 'ipi_mb'
-     165 | static void ipi_mb(void *info)
-         |             ^~~~~~
-   kernel/sched/membarrier.c:170:13: error: invalid storage class for function 'ipi_sync_core'
-     170 | static void ipi_sync_core(void *info)
-         |             ^~~~~~~~~~~~~
-   kernel/sched/membarrier.c:187:13: error: invalid storage class for function 'ipi_rseq'
-     187 | static void ipi_rseq(void *info)
-         |             ^~~~~~~~
-   kernel/sched/membarrier.c:200:13: error: invalid storage class for function 'ipi_sync_rq_state'
-     200 | static void ipi_sync_rq_state(void *info)
-         |             ^~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:245:12: error: invalid storage class for function 'membarrier_global_expedited'
-     245 | static int membarrier_global_expedited(void)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:310:12: error: invalid storage class for function 'membarrier_private_expedited'
-     310 | static int membarrier_private_expedited(int flags, int cpu_id)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:426:12: error: invalid storage class for function 'sync_runqueues_membarrier_state'
-     426 | static int sync_runqueues_membarrier_state(struct mm_struct *mm)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:483:12: error: invalid storage class for function 'membarrier_register_global_expedited'
-     483 | static int membarrier_register_global_expedited(void)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:502:12: error: invalid storage class for function 'membarrier_register_private_expedited'
-     502 | static int membarrier_register_private_expedited(int flags)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:544:12: error: invalid storage class for function 'membarrier_get_registrations'
-     544 | static int membarrier_get_registrations(void)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler_types.h:153,
-                    from <command-line>:
->> include/linux/compiler-gcc.h:132:33: warning: 'alias' attribute ignored [-Wattributes]
-     132 | #define __diag(s)               _Pragma(__diag_str(GCC diagnostic s))
-         |                                 ^~~~~~~
-   include/linux/compiler-gcc.h:135:33: note: in expansion of macro '__diag'
-     135 | #define __diag_GCC_8(s)         __diag(s)
-         |                                 ^~~~~~
-   include/linux/compiler-gcc.h:123:9: note: in expansion of macro '__diag_GCC_8'
-     123 |         __diag_GCC_ ## version(__diag_GCC_ ## severity s)
-         |         ^~~~~~~~~~~
-   include/linux/compiler_types.h:444:9: note: in expansion of macro '__diag_GCC'
-     444 |         __diag_ ## compiler(version, ignore, option)
-         |         ^~~~~~~
-   include/linux/syscalls.h:242:9: note: in expansion of macro '__diag_ignore'
-     242 |         __diag_ignore(GCC, 8, "-Wattribute-alias",                      \
-         |         ^~~~~~~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   In file included from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:61,
-                    from kernel/sched/build_utility.c:53:
-   include/linux/syscalls.h:247:28: error: invalid storage class for function '__do_sys_membarrier'
-     247 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
-         |                            ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:249:25: error: static declaration of '__se_sys_membarrier' follows non-static declaration
-     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
-         |                         ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:248:25: note: previous declaration of '__se_sys_membarrier' with type 'long int(long int,  long int,  long int)'
-     248 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__)); \
-         |                         ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c: In function '__se_sys_membarrier':
-   include/linux/syscalls.h:251:28: error: implicit declaration of function '__do_sys_membarrier'; did you mean '__se_sys_membarrier'? [-Wimplicit-function-declaration]
-     251 |                 long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-         |                            ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c: In function 'record_stat_times':
-   include/linux/syscalls.h:257:28: error: invalid storage class for function '__do_sys_membarrier'
-     257 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
-         |                            ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   In file included from kernel/sched/build_utility.c:109:
-   kernel/sched/autogroup.c:7:28: error: section attribute cannot be specified for local variables
-       7 | unsigned int __read_mostly sysctl_sched_autogroup_enabled = 1;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:15:35: error: initializer element is not constant
-      15 |                 .data           = &sysctl_sched_autogroup_enabled,
-         |                                   ^
-   kernel/sched/autogroup.c:15:35: note: (near initialization for 'sched_autogroup_sysctls[0].data')
-   kernel/sched/autogroup.c:25:20: error: invalid storage class for function 'sched_autogroup_sysctl_init'
-      25 | static void __init sched_autogroup_sysctl_init(void)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:47:20: error: invalid storage class for function 'autogroup_destroy'
-      47 | static inline void autogroup_destroy(struct kref *kref)
-         |                    ^~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:60:20: error: invalid storage class for function 'autogroup_kref_put'
-      60 | static inline void autogroup_kref_put(struct autogroup *ag)
-         |                    ^~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:65:33: error: invalid storage class for function 'autogroup_kref_get'
-      65 | static inline struct autogroup *autogroup_kref_get(struct autogroup *ag)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:71:33: error: invalid storage class for function 'autogroup_task_get'
-      71 | static inline struct autogroup *autogroup_task_get(struct task_struct *p)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:85:33: error: invalid storage class for function 'autogroup_create'
-      85 | static inline struct autogroup *autogroup_create(void)
-         |                                 ^~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:158:1: error: invalid storage class for function 'autogroup_move_group'
-     158 | autogroup_move_group(struct task_struct *p, struct autogroup *ag)
-         | ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:202:15: error: non-static declaration of 'sched_autogroup_create_attach' follows static declaration
-     202 | EXPORT_SYMBOL(sched_autogroup_create_attach);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:202:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     202 | EXPORT_SYMBOL(sched_autogroup_create_attach);
-         | ^~~~~~~~~~~~~
-   kernel/sched/autogroup.c:193:6: note: previous definition of 'sched_autogroup_create_attach' with type 'void(struct task_struct *)'
-     193 | void sched_autogroup_create_attach(struct task_struct *p)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:209:15: error: non-static declaration of 'sched_autogroup_detach' follows static declaration
-     209 | EXPORT_SYMBOL(sched_autogroup_detach);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:209:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     209 | EXPORT_SYMBOL(sched_autogroup_detach);
-         | ^~~~~~~~~~~~~
-   kernel/sched/autogroup.c:205:6: note: previous definition of 'sched_autogroup_detach' with type 'void(struct task_struct *)'
-     205 | void sched_autogroup_detach(struct task_struct *p)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:221:19: error: invalid storage class for function 'setup_autogroup'
-     221 | static int __init setup_autogroup(char *str)
-         |                   ^~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:227:24: error: initializer element is not constant
-     227 | __setup("noautogroup", setup_autogroup);
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/autogroup.c:227:1: note: in expansion of macro '__setup'
-     227 | __setup("noautogroup", setup_autogroup);
-         | ^~~~~~~
-   kernel/sched/autogroup.c:227:24: note: (near initialization for '__setup_setup_autogroup.setup_func')
-     227 | __setup("noautogroup", setup_autogroup);
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/autogroup.c:227:1: note: in expansion of macro '__setup'
-     227 | __setup("noautogroup", setup_autogroup);
-         | ^~~~~~~
-   kernel/sched/build_utility.c:110: error: expected declaration or statement at end of input
-     110 | #endif
-   kernel/sched/psi.c: At top level:
->> kernel/sched/psi.c:178:13: warning: 'psi_avgs_work' used but never defined
-     178 | static void psi_avgs_work(struct work_struct *work);
-         |             ^~~~~~~~~~~~~
->> kernel/sched/psi.c:180:13: warning: 'poll_timer_fn' used but never defined
-     180 | static void poll_timer_fn(struct timer_list *t);
-         |             ^~~~~~~~~~~~~
->> kernel/sched/autogroup.c:285:5: warning: 'autogroup_path' defined but not used [-Wunused-function]
-     285 | int autogroup_path(struct task_group *tg, char *buf, int buflen)
-         |     ^~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:269:6: warning: 'proc_sched_autogroup_show_task' defined but not used [-Wunused-function]
-     269 | void proc_sched_autogroup_show_task(struct task_struct *p, struct seq_file *m)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:231:5: warning: 'proc_sched_autogroup_set_nice' defined but not used [-Wunused-function]
-     231 | int proc_sched_autogroup_set_nice(struct task_struct *p, int nice)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:216:6: warning: 'sched_autogroup_exit' defined but not used [-Wunused-function]
-     216 | void sched_autogroup_exit(struct signal_struct *sig)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:211:6: warning: 'sched_autogroup_fork' defined but not used [-Wunused-function]
-     211 | void sched_autogroup_fork(struct signal_struct *sig)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:147:6: warning: 'sched_autogroup_exit_task' defined but not used [-Wunused-function]
-     147 | void sched_autogroup_exit_task(struct task_struct *p)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:129:6: warning: 'task_wants_autogroup' defined but not used [-Wunused-function]
-     129 | bool task_wants_autogroup(struct task_struct *p, struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:42:6: warning: 'autogroup_free' defined but not used [-Wunused-function]
-      42 | void autogroup_free(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~
->> kernel/sched/autogroup.c:33:13: warning: 'autogroup_init' defined but not used [-Wunused-function]
-      33 | void __init autogroup_init(struct task_struct *init_task)
-         |             ^~~~~~~~~~~~~~
->> include/linux/syscalls.h:249:25: warning: '__se_sys_membarrier' defined but not used [-Wunused-function]
-     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
-         |                         ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
->> kernel/sched/membarrier.c:233:6: warning: 'membarrier_update_current_mm' defined but not used [-Wunused-function]
-     233 | void membarrier_update_current_mm(struct mm_struct *next_mm)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/membarrier.c:217:6: warning: 'membarrier_exec_mmap' defined but not used [-Wunused-function]
-     217 | void membarrier_exec_mmap(struct mm_struct *mm)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1471:6: warning: 'psi_cgroup_restart' defined but not used [-Wunused-function]
-    1471 | void psi_cgroup_restart(struct psi_group *group)
-         |      ^~~~~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1416:6: warning: 'cgroup_move_task' defined but not used [-Wunused-function]
-    1416 | void cgroup_move_task(struct task_struct *task, struct css_set *to)
-         |      ^~~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1392:6: warning: 'psi_cgroup_free' defined but not used [-Wunused-function]
-    1392 | void psi_cgroup_free(struct cgroup *cgroup)
-         |      ^~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1373:5: warning: 'psi_cgroup_alloc' defined but not used [-Wunused-function]
-    1373 | int psi_cgroup_alloc(struct cgroup *cgroup)
-         |     ^~~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1168:6: warning: 'psi_task_switch' defined but not used [-Wunused-function]
-    1168 | void psi_task_switch(struct task_struct *prev, struct task_struct *next,
-         |      ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:949:13: warning: 'poll_timer_fn' defined but not used [-Wunused-function]
-     949 | static void poll_timer_fn(struct timer_list *t)
-         |             ^~~~~~~~~~~~~
+vim +94 kernel/unwind/sframe.c
 
-
-vim +/psi_avgs_work +178 kernel/sched/psi.c
-
-eb414681d5a07d2 Johannes Weiner    2018-10-26  177  
-bcc78db64168eb6 Suren Baghdasaryan 2019-05-14 @178  static void psi_avgs_work(struct work_struct *work);
-eb414681d5a07d2 Johannes Weiner    2018-10-26  179  
-8f91efd870ea5d8 Zhaoyang Huang     2021-06-11 @180  static void poll_timer_fn(struct timer_list *t);
-8f91efd870ea5d8 Zhaoyang Huang     2021-06-11  181  
-
-:::::: The code at line 178 was first introduced by commit
-:::::: bcc78db64168eb6dede056fed2999f75f7ace309 psi: rename psi fields in preparation for psi trigger addition
-
-:::::: TO: Suren Baghdasaryan <surenb@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   85  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   86  static int find_fde(struct sframe_section *sec, unsigned long ip,
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   87  		    struct sframe_fde *fde)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   88  {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   89  	s32 func_off, ip_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   90  	struct sframe_fde __user *first, *last, *mid, *found;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   91  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   92  	ip_off = ip - sec->sframe_addr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   93  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  @94  	first = (void *)sec->fdes_addr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   95  	last = first + sec->fdes_nr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   96  	while (first <= last) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   97  		mid = first + ((last - first) / 2);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  @98  		if (get_user(func_off, (s32 *)mid))
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   99  			return -EFAULT;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  100  		if (ip_off >= func_off) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  101  			found = mid;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  102  			first = mid + 1;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  103  		} else
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  104  			last = mid - 1;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  105  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  106  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  107  	if (!found)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  108  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  109  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  110  	if (copy_from_user(fde, found, sizeof(*fde)))
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  111  		return -EFAULT;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  112  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  113  	return 0;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  114  }
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  115  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  116  static int find_fre(struct sframe_section *sec, struct sframe_fde *fde,
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  117  		    unsigned long ip, struct user_unwind_frame *frame)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  118  {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  119  	unsigned char fde_type = SFRAME_FUNC_FDE_TYPE(fde->info);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  120  	unsigned char fre_type = SFRAME_FUNC_FRE_TYPE(fde->info);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  121  	s32 fre_ip_off, cfa_off, ra_off, fp_off, ip_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  122  	unsigned char offset_count, offset_size;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  123  	unsigned char addr_size;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  124  	void __user *f, *last_f;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  125  	u8 fre_info;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  126  	int i;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  127  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  128  	addr_size = fre_type_to_size(fre_type);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  129  	if (!addr_size)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  130  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  131  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  132  	ip_off = ip - sec->sframe_addr - fde->start_addr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  133  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @134  	f = (void *)sec->fres_addr + fde->fres_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  135  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  136  	for (i = 0; i < fde->fres_num; i++) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  137  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @138  		SFRAME_GET_USER_UNSIGNED(fre_ip_off, f, addr_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  139  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  140  		if (fde_type == SFRAME_FDE_TYPE_PCINC) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  141  			if (fre_ip_off > ip_off)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  142  				break;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  143  		} else {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  144  			/* SFRAME_FDE_TYPE_PCMASK */
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  145  			if (ip_off % fde->rep_size < fre_ip_off)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  146  				break;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  147  		}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  148  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  149  		SFRAME_GET_USER_UNSIGNED(fre_info, f, 1);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  150  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  151  		offset_count = SFRAME_FRE_OFFSET_COUNT(fre_info);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  152  		offset_size  = offset_size_enum_to_size(SFRAME_FRE_OFFSET_SIZE(fre_info));
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  153  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  154  		if (!offset_count || !offset_size)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  155  			return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  156  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  157  		last_f = f;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  158  		f += offset_count * offset_size;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  159  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  160  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  161  	if (!last_f)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  162  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  163  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  164  	f = last_f;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  165  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  166  	SFRAME_GET_USER_UNSIGNED(cfa_off, f, offset_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  167  	offset_count--;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  168  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  169  	ra_off = sec->ra_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  170  	if (!ra_off) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  171  		if (!offset_count--)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  172  			return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @173  		SFRAME_GET_USER_SIGNED(ra_off, f, offset_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  174  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  175  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  176  	fp_off = sec->fp_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  177  	if (!fp_off && offset_count) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  178  		offset_count--;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  179  		SFRAME_GET_USER_SIGNED(fp_off, f, offset_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  180  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  181  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  182  	if (offset_count)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  183  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  184  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  185  	frame->cfa_off = cfa_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  186  	frame->ra_off = ra_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  187  	frame->fp_off = fp_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  188  	frame->use_fp = SFRAME_FRE_CFA_BASE_REG_ID(fre_info) == SFRAME_BASE_REG_FP;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  189  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  190  	return 0;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  191  }
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  192  
 
 -- 
 0-DAY CI Kernel Test Service
