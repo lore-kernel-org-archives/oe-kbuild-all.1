@@ -1,154 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9501482F3;
-	Sat, 14 Sep 2024 11:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796D016F0C1;
+	Sat, 14 Sep 2024 12:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726314694; cv=none; b=IaGd50mwkxtw5eZbPDDVKQe/0v/BpU5HIl7KyZAxZvDbS2PSZEi19hvnh93KsaRRtBOnad5tihs0l5lE54Tq81CxpmjwGKzCWs8w4MsjGg05rwF+uRPkS2aoy+6csYHnxX89yIeiBcWM1XEIaHF4fn8UAvO+mB7ULHapdIuUnB0=
+	t=1726316044; cv=none; b=ifmod6R2/Diq+eSP/2JdJ/71Vi6zeBWOi+3ByinqWEuzRJ2Su5fUqRb7A2gj6QO1YMczyfoySG4NcIv0oqtZuEI8DZu0YPOR/7KPDNF0RaEFBRi3znIJ2O4lLNI9CZ11+q+A+x2gTX21t+dnVXSkst87ft6nsczJV6VBbKjCiHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726314694; c=relaxed/simple;
-	bh=D3alaH9FVz0eNtgjK7+8PY9RsxlT58gKMLTR4lhwrXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MRJYvDzEvRj1/Y1ZsZ56vLW/b8KJojSmfvRhbqASLZCQqhzFRZhwDvuSaUWLh5W5+ZwvmFHQU4X3+zmmjk6OoaOIj3rSpqfu0YtAvnkMiuo6ZafxPDKGp7ryVum5LnB0NifB/Sool1+qJmbQPBJkWW/Zy4YyAj6QNFOhG14lID4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCMaev+i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726316044; c=relaxed/simple;
+	bh=ot9x1hg/d/1uLiT7Q0B6SgyHCzVqHOo4oWuX+Wh2JJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nRKVPg7XY6ZboMzVssOvXJKM9i2+IOuxMGGs4sACqsIopSvQ9rNvVmNwe3jAsknQESf8wjA1+Q0Z3ixCm1ByzE6iDK5MwicSrmccNSqQUw+dUcHe4ZsH6L2Ig9pPM3b6rC2+OxTmgDRWEHADSwY8M/GYfkjh02o3FBTk+umktVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lHqoF4T3; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCMaev+i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9DEDC4CEC0;
-	Sat, 14 Sep 2024 11:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726314693;
-	bh=D3alaH9FVz0eNtgjK7+8PY9RsxlT58gKMLTR4lhwrXc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SCMaev+iHtp/B5hdrJYkCRC444/iSywfihSD5qTRX7OiROVFtpWnz5SXQO2ITH2vU
-	 pZ/chHUhdmG4sFh17S9zvNgykKRxXa1Uw9tMUKOabCsoaZ92DPrnBZDaPI8V9SWTSZ
-	 LglwUcYsHsEmvWh2SijxAJAIo7g+ry9rkeox96gBPEocX9L5EzofIiBvr4X8dDYlRn
-	 QuVHJa5d/0wjmdad2NgPpm1Hyb7r238/n10aOKA3KZ+Wl6gsK8QqHhdbH6+3Sinw/C
-	 WwZfejSQ2SkF9U9/KQ8KEkk/8Jerm2qRmDxDvmEGjxYHfDRxkaAYSacvZtEYk7hxQr
-	 FmqxioiFxaHMg==
-Date: Sat, 14 Sep 2024 12:51:23 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Alex Lanzano <lanzano.alex@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Jagath Jog J <jagathjog1996@gmail.com>,
- Ramona Gradinariu <ramona.bolboaca13@gmail.com>, Nuno Sa
- <nuno.sa@analog.com>, oe-kbuild-all@lists.linux.dev,
- skhan@linuxfoundation.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] iio: imu: Add i2c driver for bmi270 imu
-Message-ID: <20240914125123.13ec48f1@jic23-huawei>
-In-Reply-To: <f5zruqfmohoaohr2qwqug33dsar5q3fubhspbwuisxxblni6h4@paioiqyjzeg5>
-References: <20240909043254.611589-3-lanzano.alex@gmail.com>
-	<202409100026.17N3K11W-lkp@intel.com>
-	<f5zruqfmohoaohr2qwqug33dsar5q3fubhspbwuisxxblni6h4@paioiqyjzeg5>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lHqoF4T3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726316042; x=1757852042;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ot9x1hg/d/1uLiT7Q0B6SgyHCzVqHOo4oWuX+Wh2JJ4=;
+  b=lHqoF4T3VVJnSQVTvTKonZH5rPDotOnX+yqqr+yEAmJPmdJ+5luvpuvn
+   +EWIv/OkMcpmg+1rHL/eicOStYlHKNedVkXlP/mz2IYRA1qU0ztzGiSn/
+   2CqrOVbp6WHDpwBDBMTJ6R30SfeVOVQU/S4Kz6L/FrDYCpbNFO7tSmQqp
+   Eo8cBNnlTnYnCK4/+g7hY+l1/08rIv0kPqnMUFOdDIQN0prE5IigdRcpT
+   7PX1+u+d3edYrb3aSYn4MLvJHLYtaIYCWBVDdChNHC8YuZaUEv9K7YTbm
+   gGl4ZsD65SiJs6Ns0l6I6zdNH2T89fPc8TaUqzkUB3qQLjrj2+dRdQJzv
+   w==;
+X-CSE-ConnectionGUID: 8pEOP7a0T5y/glamyjGF3g==
+X-CSE-MsgGUID: 0s7/iusdQl+XdlkAy8zjvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="36347222"
+X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
+   d="scan'208";a="36347222"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 05:14:02 -0700
+X-CSE-ConnectionGUID: BAdcNCMdSIuzILkdbxjCLw==
+X-CSE-MsgGUID: nNdw04wrQkGXUcH5gwqkww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
+   d="scan'208";a="68476797"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Sep 2024 05:13:58 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spRf1-0007ig-2I;
+	Sat, 14 Sep 2024 12:13:55 +0000
+Date: Sat, 14 Sep 2024 20:13:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jie Zhan <zhanjie9@hisilicon.com>, ionela.voinescu@arm.com,
+	beata.michalska@arm.com, wangxiongfeng2@huawei.com,
+	viresh.kumar@linaro.org, rafael@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxarm@huawei.com,
+	zhanjie9@hisilicon.com, jonathan.cameron@huawei.com,
+	wanghuiqiang@huawei.com, zhenglifeng1@huawei.com,
+	lihuisong@huawei.com, yangyicong@huawei.com, liaochang1@huawei.com,
+	zengheng4@huawei.com
+Subject: Re: [PATCH v2 3/3] cppc_cpufreq: Remove HiSilicon CPPC workaround
+Message-ID: <202409141923.kDxHsCjn-lkp@intel.com>
+References: <20240912072231.439332-4-zhanjie9@hisilicon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240912072231.439332-4-zhanjie9@hisilicon.com>
 
-On Mon, 9 Sep 2024 23:21:52 -0400
-Alex Lanzano <lanzano.alex@gmail.com> wrote:
+Hi Jie,
 
-> On Tue, Sep 10, 2024 at 01:03:04AM GMT, kernel test robot wrote:
-> > Hi Alex,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on jic23-iio/togreg]
-> > [also build test ERROR on robh/for-next linus/master v6.11-rc7 next-20240909]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Lanzano/dt-bindings-iio-imu-add-bmi270-bindings/20240909-123509
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-> > patch link:    https://lore.kernel.org/r/20240909043254.611589-3-lanzano.alex%40gmail.com
-> > patch subject: [PATCH v3 2/2] iio: imu: Add i2c driver for bmi270 imu
-> > config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240910/202409100026.17N3K11W-lkp@intel.com/config)
-> > compiler: m68k-linux-gcc (GCC) 14.1.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100026.17N3K11W-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202409100026.17N3K11W-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    drivers/iio/imu/bmi270/bmi270_core.c: In function 'bmi270_configure_imu':  
-> > >> drivers/iio/imu/bmi270/bmi270_core.c:180:31: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]  
-> >      180 |                               FIELD_PREP(BMI270_ACC_CONF_ODR_MSK,
-> >          |                               ^~~~~~~~~~
-> > 
-> > 
-> > vim +/FIELD_PREP +180 drivers/iio/imu/bmi270/bmi270_core.c
-> > 
-> >    165	
-> >    166	static int bmi270_configure_imu(struct bmi270_data *bmi270_device)
-> >    167	{
-> >    168		int ret;
-> >    169		struct device *dev = bmi270_device->dev;
-> >    170		struct regmap *regmap = bmi270_device->regmap;
-> >    171	
-> >    172		ret = regmap_set_bits(regmap, BMI270_PWR_CTRL_REG,
-> >    173				      BMI270_PWR_CTRL_AUX_EN_MSK |
-> >    174				      BMI270_PWR_CTRL_GYR_EN_MSK |
-> >    175				      BMI270_PWR_CTRL_ACCEL_EN_MSK);
-> >    176		if (ret)
-> >    177			return dev_err_probe(dev, ret, "Failed to enable accelerometer and gyroscope");
-> >    178	
-> >    179		ret = regmap_set_bits(regmap, BMI270_ACC_CONF_REG,  
-> >  > 180				      FIELD_PREP(BMI270_ACC_CONF_ODR_MSK,  
-> >    181						 BMI270_ACC_CONF_ODR_100HZ) |
-> >    182				      FIELD_PREP(BMI270_ACC_CONF_BWP_MSK,
-> >    183						 BMI270_ACC_CONF_BWP_NORMAL_MODE) |
-> >    184				      BMI270_PWR_CONF_ADV_PWR_SAVE_MSK);
-> >    185		if (ret)
-> >    186			return dev_err_probe(dev, ret, "Failed to configure accelerometer");
-> >    187	
-> >    188		ret = regmap_set_bits(regmap, BMI270_GYR_CONF_REG,
-> >    189				      FIELD_PREP(BMI270_GYR_CONF_ODR_MSK,
-> >    190						 BMI270_GYR_CONF_ODR_200HZ) |
-> >    191				      FIELD_PREP(BMI270_GYR_CONF_BWP_MSK,
-> >    192						 BMI270_GYR_CONF_BWP_NORMAL_MODE) |
-> >    193				      BMI270_PWR_CONF_ADV_PWR_SAVE_MSK);
-> >    194		if (ret)
-> >    195			return dev_err_probe(dev, ret, "Failed to configure gyroscope");
-> >    196	
-> >    197		/* Enable FIFO_WKUP, Disable ADV_PWR_SAVE and FUP_EN */
-> >    198		ret = regmap_write(regmap, BMI270_PWR_CONF_REG,
-> >    199				   BMI270_PWR_CONF_FIFO_WKUP_MSK);
-> >    200		if (ret)
-> >    201			return dev_err_probe(dev, ret, "Failed to set power configuration");
-> >    202	
-> >    203		return 0;
-> >    204	}
-> >    205	
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki  
-> 
-> I am having trouble reproducing this build error on both jic23-iio/togreg and
-> linus/master v6.11.rc7 on an aarch64 box with the same compiler version.
-> Maybe a config option is causing this?
-> 
-> However, I will add #include <linux/bitfield.h> to remedy this issue if
-> some edge case is being hit.
-Makes sense anyways roughly speaking we should aim for "include what you use"
-for headers to avoid this sort of subtle build issue.
-There are exceptions for one or two headers that are always included via
-another path, but bitfield.h isn't one of those.
+kernel test robot noticed the following build warnings:
 
-Jonathan
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> Best regards,
-> Alex
+url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Zhan/cppc_cpufreq-Return-desired-perf-in-get-if-feedback-counters-are-0/20240912-153059
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240912072231.439332-4-zhanjie9%40hisilicon.com
+patch subject: [PATCH v2 3/3] cppc_cpufreq: Remove HiSilicon CPPC workaround
+config: arm64-randconfig-001-20240913 (https://download.01.org/0day-ci/archive/20240914/202409141923.kDxHsCjn-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141923.kDxHsCjn-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141923.kDxHsCjn-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/cpufreq/cppc_cpufreq.c:45:3: warning: unused variable 'fie_disabled' [-Wunused-variable]
+   } fie_disabled = FIE_UNSET;
+     ^
+   1 warning generated.
+
+
+vim +/fie_disabled +45 drivers/cpufreq/cppc_cpufreq.c
+
+a3f083e04a8766 Zheng Bin     2022-05-21  40  
+ae2df912d1a557 Jeremy Linton 2022-09-12  41  static enum {
+ae2df912d1a557 Jeremy Linton 2022-09-12  42  	FIE_UNSET = -1,
+ae2df912d1a557 Jeremy Linton 2022-09-12  43  	FIE_ENABLED,
+ae2df912d1a557 Jeremy Linton 2022-09-12  44  	FIE_DISABLED
+ae2df912d1a557 Jeremy Linton 2022-09-12 @45  } fie_disabled = FIE_UNSET;
+ae2df912d1a557 Jeremy Linton 2022-09-12  46  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
