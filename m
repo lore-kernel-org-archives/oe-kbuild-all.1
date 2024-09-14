@@ -1,140 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29F8148833
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 12:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726317302; cv=none; b=CbClqq7ceQx04vIa2r8XkbSl0fUCQxuuVbkrZPfF+qFy0OyfCaYsY5WiBawS8NUsPV6C9Ls6JaR3eE3jhPmsY8KQaZpZbugKeT8yWwblWT9di5TcDqaetrMjLZ2Wk51ntTrZ59aB0mdCpx35SoubxbburszPi6LKCIsSr2KLCJ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726317302; c=relaxed/simple;
-	bh=A6j29p59Oxt5Lsgz2SXb2zVLcCsALfUq0ZescJ+8nX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u8LVxf8utiZZEhLAuJGbkaTHMUMKq5n9jUcyGD+tJVbSmzUc6G+DR5UoqusbDGe0DIrrC+ttKqh+r7QskLayzxn9NnmN9yPNP1HQr6uTwabx5H8kqM5cucMtFd0IJTmuAcEYpXpBJkLwUCqo1av+SnZ0bLSn5k8tIbRGXyY3Xb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+9B1+By; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A0E1CEAA7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 13:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726319669; cv=fail; b=gl1wzg1tfko7GJ0bCYW77hTgaeHoB8GlykQNl8K53JdFsrhiJ+Zr/zZMXiRJiI2h/MSCBtabyZmQo0BqpjaTdLul3ciz/vIDECrG7Wr4TC+bJSo3q4z6ri2a9nqUooIN4TNc9IjPYierq54WiXHk3G5m704hYxXvSgNdLa4Qxqc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726319669; c=relaxed/simple;
+	bh=5N+KdqCnxzkZijJ/BhGPt7MTtUTmOmaqxiIgpPD1waw=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=L4JLqNGUNFV+0raSWXFkCckjG7fgILLzytIvGykx+QxK5Cq5n8K6xtcbxN3EWoF+dQQjba2tyRNT4WA7sYMf2F0So9/fxbM+awDcNWFkA0fOiZVNhqZf8P8K/tbKDXb1l5kzJdQPNJrGmJgiX9yQP1OS+u2VXZKt+T2jG6e5l84=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR+dagkM; arc=fail smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+9B1+By"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR+dagkM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726317300; x=1757853300;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A6j29p59Oxt5Lsgz2SXb2zVLcCsALfUq0ZescJ+8nX8=;
-  b=Y+9B1+By1wOmlEGmWboFebPwXpB4TdXhe5NbsUCDNccN5Cvv5HvisqkQ
-   5kbjwl9gBnNl1heqWNxYvAdNnrg0CS9X8RZfzM0WVPx80QOX6PjzZ9LcK
-   9vu4VOEHpfFnmT7ksb7CqziMRquk+wwpt3xd7E0NDDqmkwwS3EMmIRDVv
-   YIHOVUUekSwvgSdlrp4CNKBmf689o+21BQ8RvufOKRxeGPJUaPJcoXEj9
-   Q7haafBUqO5MDynKniyRv5k4ioROG9icssFcpvfe/Gae74cTyIgs6Xz1r
-   5nlpxhFnUaTDslmTXcgnFm6nftZP1KJ5z9TI00xKIG5PCjZHviXkPGmpP
+  t=1726319667; x=1757855667;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=5N+KdqCnxzkZijJ/BhGPt7MTtUTmOmaqxiIgpPD1waw=;
+  b=lR+dagkMndYX3yj4ZQQACyPRop+IiFk2YzSdLX5yUgQzERbCDWdWidkw
+   tzSXRRYrYYSIXx8CLQxqVLBIjxg3ktAKJQUHcrXpyWW0qgiaorRAiCqf+
+   sAYOFjfrD5IC8Rwu+Img3U5rxuwibceovy4QXfodnxjnHcGlpUrEYXQ3d
+   Tww1j0q2IziFLKNMlMRJHWkLoSJc+Lu/V2byV3HuxXbcAzD9RUDgaV3L5
+   DPUIFWxrZSjJIDanbU5ITm6rFSIHcgJPltWFOyN+BrCWZbii3lBvBG21W
+   e67it3ywI1s+onJ8crbS0Ny7LLSFNdpecrhLmtDiPcWK6C2ASkI+bnNrf
    Q==;
-X-CSE-ConnectionGUID: EDjUURC9TKOOfxa5eBuvpQ==
-X-CSE-MsgGUID: ktT/z1WiThaIyjupFZkzkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="13526854"
+X-CSE-ConnectionGUID: l5vpOgjRTDuyhBfMTQ8z0A==
+X-CSE-MsgGUID: fhiBYha4QrCx84L5vbFeUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="35788842"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="13526854"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 05:34:59 -0700
-X-CSE-ConnectionGUID: E5iDoJwbSByvEWEPkuxahw==
-X-CSE-MsgGUID: nLDvj+KUSxuyBDNMScGGHw==
+   d="scan'208";a="35788842"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 06:14:26 -0700
+X-CSE-ConnectionGUID: i/Mi7xSFSh+3W65tF5bfbg==
+X-CSE-MsgGUID: 49gEq97vSB+if6hleheXYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="72776302"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Sep 2024 05:34:58 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spRzM-0007jO-0m;
-	Sat, 14 Sep 2024 12:34:56 +0000
-Date: Sat, 14 Sep 2024 20:34:47 +0800
+   d="scan'208";a="68388118"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Sep 2024 06:14:25 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sat, 14 Sep 2024 06:14:24 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Sat, 14 Sep 2024 06:14:24 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Sat, 14 Sep 2024 06:14:22 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HAgMWuibNZnUqlBeql9tYNH58fuaSDsB6yZ1bMArip4OLVyT2yxce0T/KwQiBDUiMz3ZSDNhUNDWFrUsYWaBVKQ1HZeywZRD+w1p8J6AgsBJFWD6G0N0MjoGbSV4BjljE8/YY6P4e286gDw/zGXDq5317TXLhhM8veu4Lk9uGKCxIq1xTG4NG6OX28qth608pdNgMQHgHM2YIs8KFxZkJYiVSMQDPxqNw/qn6jUyoEPSIVeFXUlBOXbSPWZVBunS+Zx+uQBCHBGnDFzUzFBgrBvl750uAZd6V7wRUVRpyAbU+UVBv+/u0QNxk3AKlxW0sxHdFIO79rEOBO91b2ztOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8za5osWWOW1aFCUfmdRY6iOCKQfl52CFYIAbYgz/JI8=;
+ b=HrKXPVsh4zHYrsgxnq02OdfShUdUkLY/DZRRxJUts2nCP8dpax3Q56fSWcOHzxyuHv33771PDrA5SM2oF07gptzpG76+xi6yYcyt7XNfH+/OcIhr7LnLvOkVQekEVwZWWiXu1ONr6LovE31vrx0rwI6yfyu13QHN1r44lhrQ4cVm9/HkReoMemk5bxC/EAfexBqMVWoS0fTh5FVO/qvvSB7SGHsNrGlUR2OoVk1MFx2csH8LRw175Rfu0KC9dvfI50uTlM6SisUtJtatID4u0aMoRYzj2biYglgx0xl3jmxkrrBERAoHAKDUXSM7ycn8jXIObwYdE8tIrzil8xJ2sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by SN7PR11MB6921.namprd11.prod.outlook.com (2603:10b6:806:2a8::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Sat, 14 Sep
+ 2024 13:14:20 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7962.018; Sat, 14 Sep 2024
+ 13:14:19 +0000
+Date: Sat, 14 Sep 2024 21:14:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 7/7] s390/vdso: Wire up getrandom() vdso implementation
-Message-ID: <202409142043.JMyQrX2G-lkp@intel.com>
-References: <20240913130544.2398678-8-hca@linux.ibm.com>
+To: Stanislav Fomichev <sdf@fomichev.me>, <netdev@vger.kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>, Mina Almasry
+	<almasrymina@google.com>
+Subject: Re: [PATCH net-next 10/13] selftests: ncdevmem: Use YNL to enable
+ TCP header split
+Message-ID: <ZuWMIijAeT728Av4@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240912171251.937743-11-sdf@fomichev.me>
+X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240913130544.2398678-8-hca@linux.ibm.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SN7PR11MB6921:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7048c17f-b06c-4023-15a2-08dcd4bf2429
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?e7DqiHlhEipOo9Avdf/vnLg/N+/uVGp1lLJKDrcF9rQOjhQOu3mUPjO9MtcD?=
+ =?us-ascii?Q?L5HJrY2ine1uBRouLzpXW0yZJGG0HEfVHmL+FV48h3kVcbYSmbdnsVChmdj0?=
+ =?us-ascii?Q?esb1SWp51Dtwv/BdSKjLOxb1XORQp+NHZOKQjdOuNXKa+7PR19QrarUThb7v?=
+ =?us-ascii?Q?FGZjO+2HqYq17WBa6Tu+SMfOrCTa7BamfS+i+/5UsMCMQqEX3F+z+AslE9HF?=
+ =?us-ascii?Q?AF9O/9JUyWzyAGUzghkB9doSM9/oJan7atz8t6kwhPVrZ3hnRSQyz+WlQAlw?=
+ =?us-ascii?Q?DwKKiavVV0Qn+xNQ8sjxoKcchxGalNXP9WAuXS87MgAAoQiuIN24eOYqTFoj?=
+ =?us-ascii?Q?R7KbuQKKaqZjJBjfwxksGwp9etPe8AIPxuT1reIdAx08V+xmhaq+wg5+XJm5?=
+ =?us-ascii?Q?rxYcrqqeFe+QC4FeoWOgiC6U03qzmCqUYU0Pdt3m+4AJctJtUgk/+ngqzo79?=
+ =?us-ascii?Q?ZtWtYPnEwuyVaye3iuIjjAJwFJQYwuXdN7q3WSYkKc0vDEQLfrNPtSHNdfPB?=
+ =?us-ascii?Q?pFmJTk4mo4n84/PdyqYcaM/QpUYxShCXj0Hgms7iyC8CQfAugaoJ6DQievAd?=
+ =?us-ascii?Q?bDp6BYN4TFL908Zwa7QCU5odi4gdSrSB3eDZeXDm/Bb21KH8ud+pFCM7YOwD?=
+ =?us-ascii?Q?roDdukKoUzlZDtYx9PKhimwRHW5ylsI97U6Y1OvQ9pR1X0unzMpkGZFPCUsr?=
+ =?us-ascii?Q?wiImITxpfLbvpxhZUNFL+e1dvamXTIju7F1syUf+tSeIeyrHfxPUhqfiIFjr?=
+ =?us-ascii?Q?HIs68sb8geMj6v4s7GS378Km2dPfNPKNF0ZYmz1+knYuO0b8oRslrI3ROHMN?=
+ =?us-ascii?Q?Jrt3152R4OMqkSdad/1g1WM0X2cJPCGA2bR8R9zQFEvcMJv9lr2qC1u3Rvsd?=
+ =?us-ascii?Q?OLQdxLYcUDnIwwe0NK2GJjRBgrDdylAwnlqN0IxsdpubPFJkEHGOC3nZ+uz5?=
+ =?us-ascii?Q?wCuKceGQLwkOMwOstbg8Ok2hy8wHS6gBTO32sWMTeu02pj6b1yrTiFxVDl1L?=
+ =?us-ascii?Q?1xRaIyo8MS9JLYJ27hGZ4ATPPkRu9NiQdRAneyBvj77ofJsEqZsTZ3m1/gpH?=
+ =?us-ascii?Q?l2K9vy6EAFAdxeyhEsV3e8VP8gLioAtMy8FfYIOP/V1V5FNlk0Q9mwZ8hkaw?=
+ =?us-ascii?Q?girfUPYef7dDVLsGIrPQA+2zbdCXwtaU7pftScZR/C7vQNkCn9tvHBVEpDhy?=
+ =?us-ascii?Q?bGAvgrt0l0k33ymy9jqHtvsXHqfmePSiRN2B0Ncn2r01HFN7INxFLT3Tz8zN?=
+ =?us-ascii?Q?c+wQXKLVq8nLWod56H6angWcIx8qtK3pBpiTiCRh9fyskQLchN1LQ4i4Ihu6?=
+ =?us-ascii?Q?5dY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZasV6pfcwguszO0Tx8XRfDw2oCR7WPgDqkcMwIJJ0cZen8cWWuOiAddc58tJ?=
+ =?us-ascii?Q?krem+IrW1C2pjyajKOHQ/BvsP8ELwpgUdCXiWacohNmqi37cKlbrtCsxwPeE?=
+ =?us-ascii?Q?bacI1N4GF6Odqaguswhb3fs3LE4TqDFdfWeTJplWV7+/0T+9gnqZAXn+LXWC?=
+ =?us-ascii?Q?qcEzAvgo5wEbwcimxXFEPstUqapzJjCSN8bDp2TCegDrPurqv8OMqEy1UU+u?=
+ =?us-ascii?Q?LKJEGn5Vo+H9pdznTN1j2fmzJtsu2cz+PSfxxBnWVeY8l7hUSYH1u7grMO9T?=
+ =?us-ascii?Q?l2/o1Ghlf0GEVmXDYyZ6AJ+k+muZ6XaTZNFpfA6BCc4jMKkwNQp4d93hp9L/?=
+ =?us-ascii?Q?uaFn/vxQi6FudeKy+IudQu6jgmWgQSU7slyW53UEVcQ3X95axg8pirZs8OEt?=
+ =?us-ascii?Q?Rbs8lz5+BNNZwaMjPVbYTgy6AbusMejJNKEr4pI1iNx6Le+UMz4MwGmvBU0J?=
+ =?us-ascii?Q?ivk0DQFanwhIUqsPdeBHp+Zoqj/961mQ6T8YUCXZmAXca1fAw6Sg2ZDKjfR3?=
+ =?us-ascii?Q?cToidOv44Uodi6T/NMrdWrk1h+D3Ews8CLywwl7HVDZ3S2fFlc8sEaBPH5M8?=
+ =?us-ascii?Q?psvBqJyMvbaA9g2KaAOQcWgZGHs2HxhZ0tFDgIZBXsYtt7AecX7ByRskwUHn?=
+ =?us-ascii?Q?joTx6qfCxVRIJkc1+N4VwdT0du+/1lGyKqr5rgJoGWn1QCNMGFQhERqK2DAq?=
+ =?us-ascii?Q?n0sdGx7t/cWRYCZs4UwVFJjfMkMK8X4Wc9q/wSRpxdMJk7PBSileMo7ls5Md?=
+ =?us-ascii?Q?MJwPpqWgEhPVi9DsKsJmyTQJzHqakpATojqDFreljmyYch8AX/o2aqhOpH1R?=
+ =?us-ascii?Q?dCzCXTOJIXdQ43URTrr61Z0Tm0x3MQtUD4ykqsdc3ciOQEsI6f3aH4/PLQd/?=
+ =?us-ascii?Q?fiLrDoRQIH48DPp5J3WTg3NhzPbIYTry1jV2ZEdsJq5BtMjNPFFO7EMJeL9v?=
+ =?us-ascii?Q?/CPgzrZ9edtomVP264WKDBiaSGoGwibYRrTWCa5alal6zycPgJeCklsE8jNT?=
+ =?us-ascii?Q?xvrda1WacOoag5TqVHvaCr3drn1biDlBzhx9Isscr3O6A18M1qshD//wTUZs?=
+ =?us-ascii?Q?EmIwqiXfktjQc8m9xv9Ia1ZzcJJl4WIjQ7NxIryRgcIqm3x5L30elDlhqc6N?=
+ =?us-ascii?Q?XGf9fsvkIAkE4uL+awG8e5PPO2YA7lvop5IbDEi2d2NETwQyKgHJQStL3tI1?=
+ =?us-ascii?Q?cxIf1n6QhtuSCFTB4T6Fzug1oQ2aii9kmH/5WZByFhzyV5DHzh1LK09s193+?=
+ =?us-ascii?Q?7DytNkDa6/SWdQtfU0rOMMBNCcoBRwMf8bL+ByhEwd1eu7/XKdCMVT8PzLcZ?=
+ =?us-ascii?Q?GNA1zGbP6Ho8P307sRbwshVdeYrGUo8MvcFEynSz3DKBMiaiW7YFbH+NaV8z?=
+ =?us-ascii?Q?SerkDis9SMvq9Nx+Up4R5hH+s7HyiiOEyWV79Xtj5J4eNEYHupDWYBXXLd6b?=
+ =?us-ascii?Q?rWHasNAGzxkeW5IQWDis64LHCauY5uK3s6LRYC/aao18CYY22vo5Uwm05/16?=
+ =?us-ascii?Q?ZutC7ZQQsBpgsPp3ayEWTW/pcXAtGSn0V4fB/aPbdFk19nkIznfVNLPDWiAq?=
+ =?us-ascii?Q?i3lLG810eq24RFSUCSAtWrXW6N6qCRPwGJ6+8CPJ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7048c17f-b06c-4023-15a2-08dcd4bf2429
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2024 13:14:19.6488
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lt2Zb7XxOjuEOq9EobHE4mZxyT0qw1SN0DJ0azchiquupMCPl3za3UMyTtjbCxT6esutWoJ54lw62E6LMQuYrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6921
+X-OriginatorOrg: intel.com
 
-Hi Heiko,
+Hi Stanislav,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on crng-random/master]
-[cannot apply to s390/features shuah-kselftest/next shuah-kselftest/fixes linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Carstens/s390-facility-Disable-compile-time-optimization-for-decompressor-code/20240913-210923
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git master
-patch link:    https://lore.kernel.org/r/20240913130544.2398678-8-hca%40linux.ibm.com
-patch subject: [PATCH 7/7] s390/vdso: Wire up getrandom() vdso implementation
-config: s390-randconfig-r063-20240914 (https://download.01.org/0day-ci/archive/20240914/202409142043.JMyQrX2G-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142043.JMyQrX2G-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/selftests-ncdevmem-Add-a-flag-for-the-selftest/20240913-011631
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240912171251.937743-11-sdf%40fomichev.me
+patch subject: [PATCH net-next 10/13] selftests: ncdevmem: Use YNL to enable TCP header split
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142047.UOZ425m7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409142043.JMyQrX2G-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409142047.UOZ425m7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/s390/kernel/vdso64/vgetrandom-chacha.S: Assembler messages:
->> arch/s390/kernel/vdso64/vgetrandom-chacha.S:147: Error: Unrecognized opcode: `alsih'
-   make[3]: *** [arch/s390/kernel/vdso64/Makefile:62: arch/s390/kernel/vdso64/vgetrandom-chacha.o] Error 1
-   make[3]: Target 'include/generated/vdso64-offsets.h' not remade because of errors.
-   make[2]: *** [arch/s390/Makefile:157: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +147 arch/s390/kernel/vdso64/vgetrandom-chacha.S
-
-   145	
-   146		/* ++COPY3.COUNTER */
- > 147		alsih	%r3,1
-   148		alcr	%r3,%r1
-   149		VLVGG	COPY3,%r3,0
-   150	
-   151		/* OUTPUT += 64, --NBLOCKS */
-   152		aghi	%r2,64
-   153		brctg	%r5,.Lblock
-   154	
-   155		/* COUNTER = COPY3.COUNTER */
-   156		stg	%r3,0(%r4)
-   157	
-   158		/* Zero out potentially sensitive regs */
-   159		VZERO	STATE0
-   160		VZERO	STATE1
-   161		VZERO	STATE2
-   162		VZERO	STATE3
-   163		VZERO	COPY1
-   164		VZERO	COPY2
-   165	
-   166		/* Early exit if TMP0-TMP3 have not been used */
-   167		ALTERNATIVE "nopr", "br %r14", ALT_FACILITY(148)
-   168	
-   169		VZERO	TMP0
-   170		VZERO	TMP1
-   171		VZERO	TMP2
-   172		VZERO	TMP3
-   173	
-   174		br	%r14
-   175	
+   In file included from ncdevmem.c:35:
+>> tools/testing/selftests/../../../tools/net/ynl/generated/ethtool-user.h:23:43: warning: declaration of 'enum ethtool_header_flags' will not be visible outside of this function [-Wvisibility]
+      23 | const char *ethtool_header_flags_str(enum ethtool_header_flags value);
+         |                                           ^
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
