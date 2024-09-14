@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E8A1CEABF;
-	Sat, 14 Sep 2024 09:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEDA143723
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 10:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726306557; cv=none; b=me57khLHNXbEZUHLCjcg2mGy+JNW14H/vuq8UlqrIx926sgg04Avb69+U1erqL9iCF+83L7c1Ksf/D8GumteCVD60mOLiEwgaT7FhswEzzvruNhTCBCvSiPPzG7GFICOjeG9+5Ev2F0sXJzVJdQQBTIGqFNcNi0YBRUJZtHrseA=
+	t=1726308477; cv=none; b=LQVPfLl/62ELOoKLi8PJcJ1s+v0bs1d79eKd8KLpPkacA+HJjJTAe1UMHngBeZJI9gIApEG/eNDRo11fuYQO9nLDmpu5TZR9+4BdlekhHREYP4aOigP9bMrcfjFIG/mFiu4XOcep2ZE5yE2NmHy5e+x89Ng1ojIGsidmP27UzcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726306557; c=relaxed/simple;
-	bh=OZLoe+sMypLEuAzHqbpXn7+8iacjT0TSvfUND/za1Cs=;
+	s=arc-20240116; t=1726308477; c=relaxed/simple;
+	bh=DceKjhHK2JfyFT6hxbT6fOwZGEYxc7l+I0qZ+f/xstg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CmR/n6/xsnP8OKHS8VUNJUna+H1/B4lE6MIcR2lH030Ma+eCneYHMwsPoOLOawtC+EcE50GQyvU4KmOPK8nb1xCjiCFUmrzyHtyHnVDt3EgcxQX+7d8UF+FBA/7RGooA3rSbTEw1VHsTh1fsyOeRaYG8t9VAKoI7PiFJ2zPUVaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AI7ZS4Ab; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=nWhSQtHG/Gu20rB1RudcvJe5xsXD4uOy13xnrbJPcWRaA2qM0ySljqHcp7RsOyTRIdIgkNV8KARo5O44sIRB1Tfwqk7pK2CpLrAHjKvzM2Y9bDaetEm6vmsXbPGj25yNBWT+3WnLuARacfEP1imNwYdYCg5jmdXbpJfflutKQvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWPHIdQL; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AI7ZS4Ab"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWPHIdQL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726306555; x=1757842555;
+  t=1726308475; x=1757844475;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OZLoe+sMypLEuAzHqbpXn7+8iacjT0TSvfUND/za1Cs=;
-  b=AI7ZS4AbKHVFwrOA2kEcSvSviFoGIckMxsb3QiBeSlGb/kXB+/GK/Odd
-   seq+iXMcWoE4tXEz2CmnOsiHzn51XL44Ycbm0KCmjokXwPeRtUstclQ+F
-   BysAnXJxAgl3Xj7LPxrzi4TLER1AIiDVTeFOkyO7iqSrZIqfvjm02rfMT
-   qQ9LYltgsF5LXn97zqiHzx2BK5B0R7oHdBJacvUc92rPXsFsi+FQL4762
-   9lZ/HXSedBWBNAgfOUpvN9LnpkTCt+Hl6mjpUkWDJTUXnGiIRvmAqhhvn
-   a1N1f9M1g7XB/vq9+YS7gS994J1h9WQ5T5mbfBB6QBqPhZhLHKWLfMdbi
+  bh=DceKjhHK2JfyFT6hxbT6fOwZGEYxc7l+I0qZ+f/xstg=;
+  b=OWPHIdQLcyK64sx934Ff4Dua54MaST8aiXT/kXzx7bNqoDs7CdBF+9+x
+   lR+hM6qG9dTji6ocTHQQTU+WezitD6KT+r6DAZXbBeIXWZZu3wgvbkpiA
+   R6cmrs3CNJs83pWDVZQB7cy6meDz8+72INqIGQcVOhswfF9T8lAnaoLea
+   PjWf/cVZpm++2vr7lHtaRRYTSWMZxS2c0BHlKLC57WRf2JcKznbFHS8zh
+   4CQP/7Bn6aVMfPL3JyCsii5qx1Kkqp1EP3Exi9bPdHBbO4mba2tnLCyI/
+   K8U6tIksKPrdkrZzT4XQlohNmGpJbSUuzZ4HQN6zN1lwvXQXyaLHeKiIc
    g==;
-X-CSE-ConnectionGUID: /Jqsb6fwRnqzOd808tajzQ==
-X-CSE-MsgGUID: hBdS/LDkS0SxTdncJOwFVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="36342275"
+X-CSE-ConnectionGUID: I6vUTlZHQ5SStkjj0xAAcQ==
+X-CSE-MsgGUID: z/SShAhiTn2ummJ6DsP6XA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25364951"
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="36342275"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 02:35:55 -0700
-X-CSE-ConnectionGUID: OVLdpQ6wR0CFtSYT5tZDkA==
-X-CSE-MsgGUID: 3tRXaDb1TpOOW81DmIP5kQ==
+   d="scan'208";a="25364951"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 03:07:55 -0700
+X-CSE-ConnectionGUID: xfMey6/oSpO8MYDFoUuFwA==
+X-CSE-MsgGUID: uL4sGqQtQcakJH2YjqDq2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="68450992"
+   d="scan'208";a="99219228"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Sep 2024 02:35:53 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 14 Sep 2024 03:07:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spPC2-0007aq-32;
-	Sat, 14 Sep 2024 09:35:50 +0000
-Date: Sat, 14 Sep 2024 17:35:50 +0800
+	id 1spPh2-0007cR-04;
+	Sat, 14 Sep 2024 10:07:52 +0000
+Date: Sat, 14 Sep 2024 18:07:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [wens:mtk-wip 31/45]
- drivers/platform/chrome/chromeos_of_hw_prober.c:102:27: error: use of
- undeclared identifier '__free_kfree'; did you mean '__free_pages'?
-Message-ID: <202409141714.eGNqxwW6-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-kiwi-5.4 1569/30000]
+ fs/incfs/vfs.c:1307:37: sparse: sparse: non size-preserving integer to
+ pointer cast
+Message-ID: <202409141828.BFIIpfSI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,145 +63,227 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
-head:   42c21929aeb3c7ca7b0ce9cacb1d0ff915d3c783
-commit: 2356afb129312b111cc39b588356445f3b598c63 [31/45] platform/chrome: of_hw_prober: Support SKU ID based component selection
-config: i386-randconfig-006-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141714.eGNqxwW6-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141714.eGNqxwW6-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   b41e3369a8f2bf2fc08e19da3d8c061981f4db89
+commit: 383f53ee186a22c3d04cc6809e3b5e13bc2b571d [1569/30000] ANDROID: Incremental fs: Remove unneeded compatibility typedef
+config: i386-randconfig-062-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141828.BFIIpfSI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141828.BFIIpfSI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141714.eGNqxwW6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141828.BFIIpfSI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/incfs/vfs.c:1307:37: sparse: sparse: non size-preserving integer to pointer cast
+>> fs/incfs/vfs.c:2054:23: sparse: sparse: cast truncates bits from constant value (5346434e49 becomes 46434e49)
 
->> drivers/platform/chrome/chromeos_of_hw_prober.c:102:27: error: use of undeclared identifier '__free_kfree'; did you mean '__free_pages'?
-     102 |         struct of_changeset *ocs __free(kfree) = kzalloc(sizeof(*ocs), GFP_KERNEL);
-         |                                  ^
-   include/linux/cleanup.h:200:33: note: expanded from macro '__free'
-     200 | #define __free(_name)   __cleanup(__free_##_name)
-         |                                   ^
-   <scratch space>:150:1: note: expanded from here
-     150 | __free_kfree
-         | ^
-   include/linux/gfp.h:371:13: note: '__free_pages' declared here
-     371 | extern void __free_pages(struct page *page, unsigned int order);
-         |             ^
->> drivers/platform/chrome/chromeos_of_hw_prober.c:102:27: error: 'cleanup' function '__free_pages' must take 1 parameter
-     102 |         struct of_changeset *ocs __free(kfree) = kzalloc(sizeof(*ocs), GFP_KERNEL);
-         |                                  ^
-   include/linux/cleanup.h:200:33: note: expanded from macro '__free'
-     200 | #define __free(_name)   __cleanup(__free_##_name)
-         |                                   ^
-   <scratch space>:150:1: note: expanded from here
-     150 | __free_kfree
-         | ^
->> drivers/platform/chrome/chromeos_of_hw_prober.c:102:43: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     102 |         struct of_changeset *ocs __free(kfree) = kzalloc(sizeof(*ocs), GFP_KERNEL);
-         |                                                  ^
->> drivers/platform/chrome/chromeos_of_hw_prober.c:102:23: error: incompatible integer to pointer conversion initializing 'struct of_changeset *' with an expression of type 'int' [-Wint-conversion]
-     102 |         struct of_changeset *ocs __free(kfree) = kzalloc(sizeof(*ocs), GFP_KERNEL);
-         |                              ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+vim +1307 fs/incfs/vfs.c
 
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1138  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1139  static long ioctl_create_file(struct mount_info *mi,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1140  			struct incfs_new_file_args __user *usr_args)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1141  {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1142  	struct incfs_new_file_args args;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1143  	char *file_id_str = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1144  	struct dentry *index_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1145  	struct dentry *named_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1146  	struct path parent_dir_path = {};
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1147  	struct inode *index_dir_inode = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1148  	__le64 size_attr_value = 0;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1149  	char *file_name = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1150  	char *attr_value = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1151  	int error = 0;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1152  	bool locked = false;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1153  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1154  	if (!mi || !mi->mi_index_dir) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1155  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1156  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1157  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1158  	if (!access_ok(usr_args, sizeof(args))) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1159  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1160  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1161  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1162  	if (copy_from_user(&args, usr_args, sizeof(args)) > 0) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1163  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1164  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1165  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1166  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1167  	file_name = strndup_user(u64_to_user_ptr(args.file_name), PATH_MAX);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1168  	if (IS_ERR(file_name)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1169  		error = PTR_ERR(file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1170  		file_name = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1171  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1172  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1173  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1174  	error = validate_name(file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1175  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1176  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1177  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1178  	file_id_str = file_id_to_str(args.file_id);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1179  	if (!file_id_str) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1180  		error = -ENOMEM;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1181  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1182  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1183  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1184  	error = mutex_lock_interruptible(&mi->mi_dir_struct_mutex);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1185  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1186  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1187  	locked = true;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1188  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1189  	/* Find a directory to put the file into. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1190  	error = dir_relative_path_resolve(mi,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1191  			u64_to_user_ptr(args.directory_path),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1192  			&parent_dir_path);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1193  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1194  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1195  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1196  	if (parent_dir_path.dentry == mi->mi_index_dir) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1197  		/* Can't create a file directly inside .index */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1198  		error = -EBUSY;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1199  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1200  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1201  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1202  	/* Look up a dentry in the parent dir. It should be negative. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1203  	named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1204  					file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1205  	if (!named_file_dentry) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1206  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1207  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1208  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1209  	if (IS_ERR(named_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1210  		error = PTR_ERR(named_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1211  		named_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1212  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1213  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1214  	if (d_really_is_positive(named_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1215  		/* File with this path already exists. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1216  		error = -EEXIST;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1217  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1218  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1219  	/* Look up a dentry in the .index dir. It should be negative. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1220  	index_file_dentry = incfs_lookup_dentry(mi->mi_index_dir, file_id_str);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1221  	if (!index_file_dentry) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1222  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1223  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1224  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1225  	if (IS_ERR(index_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1226  		error = PTR_ERR(index_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1227  		index_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1228  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1229  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1230  	if (d_really_is_positive(index_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1231  		/* File with this ID already exists in index. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1232  		error = -EEXIST;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1233  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1234  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1235  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1236  	/* Creating a file in the .index dir. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1237  	index_dir_inode = d_inode(mi->mi_index_dir);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1238  	inode_lock_nested(index_dir_inode, I_MUTEX_PARENT);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1239  	error = vfs_create(index_dir_inode, index_file_dentry,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1240  			args.mode, true);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1241  	inode_unlock(index_dir_inode);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1242  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1243  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1244  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1245  	if (!d_really_is_positive(index_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1246  		error = -EINVAL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1247  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1248  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1249  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1250  	/* Save the file's ID as an xattr for easy fetching in future. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1251  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_ID_NAME,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1252  		file_id_str, strlen(file_id_str), XATTR_CREATE);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1253  	if (error) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1254  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1255  		goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1256  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1257  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1258  	/* Save the file's size as an xattr for easy fetching in future. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1259  	size_attr_value = cpu_to_le64(args.size);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1260  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_SIZE_NAME,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1261  		(char *)&size_attr_value, sizeof(size_attr_value),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1262  		XATTR_CREATE);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1263  	if (error) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1264  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1265  		goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1266  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1267  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1268  	/* Save the file's attrubute as an xattr */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1269  	if (args.file_attr_len && args.file_attr) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1270  		if (args.file_attr_len > INCFS_MAX_FILE_ATTR_SIZE) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1271  			error = -E2BIG;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1272  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1273  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1274  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1275  		attr_value = kmalloc(args.file_attr_len, GFP_NOFS);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1276  		if (!attr_value) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1277  			error = -ENOMEM;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1278  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1279  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1280  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1281  		if (!access_ok(u64_to_user_ptr(args.file_attr),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1282  			       args.file_attr_len)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1283  			error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1284  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1285  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1286  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1287  		if (copy_from_user(attr_value,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1288  				u64_to_user_ptr(args.file_attr),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1289  				args.file_attr_len) > 0) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1290  			error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1291  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1292  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1293  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1294  		error = vfs_setxattr(index_file_dentry,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1295  				INCFS_XATTR_METADATA_NAME,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1296  				attr_value, args.file_attr_len,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1297  				XATTR_CREATE);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1298  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1299  		if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1300  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1301  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1302  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1303  	/* Initializing a newly created file. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1304  	error = init_new_file(mi, index_file_dentry, &args.file_id, args.size,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1305  			range(attr_value, args.file_attr_len),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1306  			(struct incfs_file_signature_info __user *)
+1be052b20ba04b Eugene Zemtsov 2019-11-18 @1307  				args.signature_info);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1308  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1309  		goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1310  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1311  	/* Linking a file with it's real name from the requested dir. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1312  	error = incfs_link(index_file_dentry, named_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1313  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1314  	if (!error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1315  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1316  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1317  delete_index_file:
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1318  	incfs_unlink(index_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1319  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1320  out:
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1321  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1322  		pr_debug("incfs: %s err:%d\n", __func__, error);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1323  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1324  	kfree(file_id_str);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1325  	kfree(file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1326  	kfree(attr_value);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1327  	dput(named_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1328  	dput(index_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1329  	path_put(&parent_dir_path);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1330  	if (locked)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1331  		mutex_unlock(&mi->mi_dir_struct_mutex);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1332  	return error;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1333  }
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1334  
 
-vim +102 drivers/platform/chrome/chromeos_of_hw_prober.c
+:::::: The code at line 1307 was first introduced by commit
+:::::: 1be052b20ba04b635cf87bcff80de5314697953e ANDROID: Initial commit of Incremental FS
 
-    57	
-    58	/*
-    59	 * chromeos_sku_component_selector - Selectively enable a component based on SKU ID
-    60	 *
-    61	 * Based on the list of component options and SKU ID read back from the device
-    62	 * tree, enable the matching component. Also update the OF graph if it exists,
-    63	 * so that the enabled component's remote endpoint correctly points to it. This
-    64	 * assumes a single local endpoint, which should be the case for panels and
-    65	 * camera sensors.
-    66	 */
-    67	static int chromeos_sku_component_selector(struct device *dev, const void *data)
-    68	{
-    69		const struct chromeos_sku_component_data *pdata = data;
-    70		const char *compatible;
-    71		void *ptr __always_unused;
-    72		int ret;
-    73		u32 sku_id = 0;
-    74	
-    75		if (!data)
-    76			return dev_err_probe(dev, -EINVAL, "No data given\n");
-    77	
-    78		ret = chromeos_get_coreboot_sku_id(dev, &sku_id);
-    79		if (ret)
-    80			return ret;
-    81	
-    82		compatible = NULL;
-    83		for (unsigned int i = 0; i < pdata->num_options; i++)
-    84			if ((sku_id & pdata->options[i].sku_id_mask) == pdata->options[i].sku_id_val) {
-    85				compatible = pdata->options->compatible;
-    86				break;
-    87			}
-    88	
-    89		if (!compatible)
-    90			return dev_err_probe(dev, -EINVAL, "Unknown SKU ID: 0x%x\n", sku_id);
-    91	
-    92		struct device_node *node __free(device_node) = of_find_compatible_node(NULL, NULL, compatible);
-    93		if (!node)
-    94			return dev_err_probe(dev, -ENODEV, "Cannot find matching device node\n");
-    95	
-    96		/* device node not marked as fail; don't mess with the device tree */
-    97		if (!of_device_is_fail(node))
-    98			return 0;
-    99	
-   100		dev_info(dev, "Enabling %pOF for SKU 0x%x\n", node, sku_id);
-   101	
- > 102		struct of_changeset *ocs __free(kfree) = kzalloc(sizeof(*ocs), GFP_KERNEL);
-   103		if (!ocs)
-   104			return -ENOMEM;
-   105	
-   106		/* Create changeset to apply DT changes atomically */
-   107		of_changeset_init(ocs);
-   108	
-   109		if (of_graph_is_present(node)) {
-   110			ret = -EINVAL;
-   111	
-   112			/* This currently assumes a single port on the component. */
-   113			struct device_node *endpoint __free(device_node) = of_graph_get_next_endpoint(node, NULL);
-   114			if (!endpoint) {
-   115				dev_err(dev, "No endpoint found for %pOF\n", node);
-   116				goto err_destroy_ocs;
-   117			}
-   118	
-   119			struct device_node *remote __free(device_node) = of_graph_get_remote_endpoint(endpoint);
-   120			if (!remote) {
-   121				dev_err(dev, "No remote endpoint node found for %pOF\n", endpoint);
-   122				goto err_destroy_ocs;
-   123			}
-   124	
-   125			ret = of_changeset_update_prop_u32(ocs, node, "remote-endpoint", endpoint->phandle);
-   126			if (ret)
-   127				goto err_destroy_ocs;
-   128		}
-   129	
-   130		ret = of_changeset_update_prop_string(ocs, node, "status", "okay");
-   131		if (ret)
-   132			goto err_destroy_ocs;
-   133		ret = of_changeset_apply(ocs);
-   134		if (ret)
-   135			goto err_destroy_ocs;
-   136	
-   137		/*
-   138		 * ocs is intentionally kept around as it needs to
-   139		 * exist as long as the change is applied.
-   140		 */
-   141		ptr = no_free_ptr(ocs);
-   142	
-   143		return 0;
-   144	
-   145	err_destroy_ocs:
-   146		of_changeset_destroy(ocs);
-   147		return ret;
-   148	}
-   149	
+:::::: TO: Eugene Zemtsov <ezemtsov@google.com>
+:::::: CC: Paul Lawrence <paullawrence@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
