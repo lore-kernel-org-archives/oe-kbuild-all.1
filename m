@@ -1,62 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4121CFEA2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 15:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A401CF7BA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 15:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726326788; cv=none; b=T2LLARRsKSd3lJcEMSypKOsdq6N2W1q3GeTQiZDRutbGSVykiUxhiv5T+jfWGk53rC01UuKG6yFgidNgG53Dc1tkG3s7P2bFgY2IcIG99fSbrGnbbPidFZ8d6OPvcneKl3owIMG0JOcQpSaQ6z/nI+e2M7Z9wmFb1k6BkEDskHU=
+	t=1726328060; cv=none; b=Nouf6C7MqbQiNoIwOIouSYDlQ8x1at+WZ3CJ1EX/ptuMO7yXmFQipfVgD98xp72m2bnzVERd9d2EWUKg04X9/TaIhUAW+PxLN2B7l3CtDMzgDVPbbVdR7nHPLY6IIrNiJOxt53/Mr+FMOwzuxtg3kCJ6OZ8s0998JWChQTEEJ9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726326788; c=relaxed/simple;
-	bh=M63WjdnzS1vanjNN0Ut26pFyhIL+utQ33M2kJCw6RFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sKhuW/aYCluWkaUDpOYs32ksVR3GSzIAKVxXoQldDa0rS09ZmWilJuK0QQsWRN675CUHymiUOVyAN8PcQVBNidPvOfbGp4qzH5jMhC918PK6Zw365ZzgEXEAaIDe6VvnlQmwSnn0xkMI4uq742Nl9avlA/aHhLBdiwOT7TuXQPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1BVokNa; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1726328060; c=relaxed/simple;
+	bh=QBOVB0yM2vWg5VsUrg726BxZNDRJISV0VOA08vKcut4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IY0erY+nrc4ApFY6LGsua6Ni9BwKxZeDHXFEXXAn9HNVOB+CoVQxvWdh486rxb1ZHLrNf4Xpmdzxm9nGMy/YUV/PcRP0oLO6jcKD2ZsUaBnM8TVuosK52/ztUtXIg6XbZuKK8JPpNnruSH3upuivRM8h3ey0JCYMG+AQ90Qn4N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcOz2c9/; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1BVokNa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcOz2c9/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726326787; x=1757862787;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M63WjdnzS1vanjNN0Ut26pFyhIL+utQ33M2kJCw6RFs=;
-  b=K1BVokNagJWv38JP+xdtMpaSG/X+KlCEyK55GmLbGQxl50oxtg+Gyp1e
-   Od833xPj1M30ZbsrAwwlL2OMonwJmE7LhoCPA44WF3qfSCIWdMMjwBzWd
-   WQcu34ARNw9OI0BBeWmagn+erh9iqmwnQU8F1ijAe8XD64ZEAdLq+IDg+
-   bEPqUexQd3zgLzolmlTN96Cj9DLzGdZMiktVUba4XPzjetHcClFnd+Aom
-   BEiTxGt6+V4ERPlpVEjKwUQn5dBGNimiiUpQTMdMKg4j4ljA00NPlqmKo
-   SokJwWhuaqpo87dRkJTlgDLarjPHtHNy/NpLmIRH7tlqv0CDV0IZqIU6w
-   A==;
-X-CSE-ConnectionGUID: NJ04QPiaQPmc5MtU+lN+Ng==
-X-CSE-MsgGUID: e0obyjfQTJ2jE1Gqlt2umg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25103797"
+  t=1726328060; x=1757864060;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QBOVB0yM2vWg5VsUrg726BxZNDRJISV0VOA08vKcut4=;
+  b=bcOz2c9/JxfV2MYZcKLRZDAhF0o2iZS29XCNQ+oQIMLKOzcIrvC50wm5
+   hqvqHFlGWJpVefPIk5QkpBrKiVjVocV1D5YLOuX/WRuSB6DFByUlURToZ
+   abmRy52jVpuxRxlx6gpyTOr5hgzSCOgxEQG64XeH4TkiUI3We0+2aG65H
+   dBNhKmJgdXfZzWm51UzO+pGE7/zgLWel8ydYLasNaZjf3PElVugEWvBkr
+   YK/IZ5rsz3zzryH3C8mM0bu2qCw13IlQB4u7+6jZC6rqO+vToQkhVHfFb
+   ZqAR6GaNVZdvQF3M7gHAxNxnp+k5m2wOKWLBAWduexyUS/fhEmjZl+oIF
+   w==;
+X-CSE-ConnectionGUID: roj35cG7SxuxR5xeV3MUvQ==
+X-CSE-MsgGUID: q8CNqQosTQqT+hYn+9ImRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="42695727"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="25103797"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 08:13:06 -0700
-X-CSE-ConnectionGUID: VaO8mIOlRj+sUYzyVCxy1A==
-X-CSE-MsgGUID: QMwG1qLgSZGgvB5zdA3xzg==
+   d="scan'208";a="42695727"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 08:34:10 -0700
+X-CSE-ConnectionGUID: bxZoZih5SFOFijIVQ5phng==
+X-CSE-MsgGUID: txFGEYR2TWmI7oVjMJY0xA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="68412482"
+   d="scan'208";a="72808096"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Sep 2024 08:13:05 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Sep 2024 08:34:06 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spUSN-0007sU-0C;
-	Sat, 14 Sep 2024 15:13:03 +0000
-Date: Sat, 14 Sep 2024 23:12:43 +0800
+	id 1spUmh-0007ta-20;
+	Sat, 14 Sep 2024 15:34:03 +0000
+Date: Sat, 14 Sep 2024 23:33:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20240912 6/15]
- include/linux/compiler_types.h:517:45: error: call to
- '__compiletime_assert_838' declared with attribute error: BUILD_BUG_ON
- failed: conf->keylen < WLAN_KEY_LEN_CCMP
-Message-ID: <202409142323.Q2pWjem4-lkp@intel.com>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
+	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
+	Peter.Yin@quantatw.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 5/6] gpio: aspeed: Change the macro to support
+ deferred probe
+Message-ID: <202409142334.UEVN1oRP-lkp@intel.com>
+References: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,91 +69,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240912
-head:   f2ca068393cf1157c12ab08556b05824eec16511
-commit: 7256c015db0178a6e2221d8f03b0d2fea660d9ea [6/15] wifi: iwlwifi: mvm: Use __counted_by() and avoid -Wfamnae warnings
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20240914/202409142323.Q2pWjem4-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142323.Q2pWjem4-lkp@intel.com/reproduce)
+Hi Billy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240913-154911
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20240913074325.239390-6-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v3 5/6] gpio: aspeed: Change the macro to support deferred probe
+config: arm-randconfig-003-20240914 (https://download.01.org/0day-ci/archive/20240914/202409142334.UEVN1oRP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142334.UEVN1oRP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409142323.Q2pWjem4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409142334.UEVN1oRP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <command-line>:
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c: In function 'iwl_mvm_gtk_rekey':
->> include/linux/compiler_types.h:517:45: error: call to '__compiletime_assert_838' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:498:25: note: in definition of macro '__compiletime_assert'
-     498 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2148:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2148 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
-         |         ^~~~~~~~~~~~
->> include/linux/compiler_types.h:517:45: error: call to '__compiletime_assert_839' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:498:25: note: in definition of macro '__compiletime_assert'
-     498 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2149 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
-         |         ^~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [y]:
-   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
-
-
-vim +/__compiletime_assert_838 +517 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  510   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  512   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  513   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  514   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  515   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  516  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @517  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  518  
-
-:::::: The code at line 517 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+>> WARNING: modpost: drivers/gpio/gpio-aspeed: section mismatch in reference: aspeed_gpio_driver+0x0 (section: .data) -> aspeed_gpio_probe (section: .init.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
 
 -- 
 0-DAY CI Kernel Test Service
