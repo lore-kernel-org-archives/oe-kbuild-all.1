@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E00A1CF29F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 17:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BAD1D016D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 17:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726334836; cv=none; b=h7OMUF+4dBa37OvZ7uCdgtUa7izseEKJvpznb7tsXrbWWIJ6U3tUw4IxhXUVdjtf5t7oom+z8JK7tCSIz1KIaFhd06/gmIfrp5JcLMBhw1/TMK7Frwvi5M57p5k3XDhbO6lVQlStpw6PsU0aXHl9AP54NLVraNzXddcpQ0NchQo=
+	t=1726335436; cv=none; b=Xrm/hlAbCthBYIzg1KxI3fHfPs7pmFyKFKULosR1FEHP+Aihj71V8JTNQUbEdnFX+QxWmiX8WW/HT4XmCVkhRzfpSeiVnwAPbjOubtBVsvk2RhYsba6eQ0Kfiwmjuzr+EgI0PonyIyxJcE/lv1aXQBjcOKxFJLwdMMn9a651JQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726334836; c=relaxed/simple;
-	bh=YUbsjSjhYZ4uX9Hfg8bm2IPQmkPdg6KR8h+0jHf/+mg=;
+	s=arc-20240116; t=1726335436; c=relaxed/simple;
+	bh=tQepsSFds9tkIKsX2klhF6tRQeyDy2Z/IJ2EJAwkRhA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eO7ujxG32xYE0tmjPz6KS9eZFrBX3q0co9I1Y2U9c2CE9EyanLu+Zt0bC/4vA5oDGVsh8YJPGg9QRxcTefN9OFUkG5juJ6806OAWh1RT6fRE4HpearpIm4a3WssXUvDwz7S39XvORUFqhG9NHcN1+eUpkeiPY74ILhcpU866NVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YqGKrhy7; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=VfTCP61g0qgU4uevgSy32p5uhPMg07IRoszdOM1u4n0IYbDlmME91/8bxnJjqq75viHu867GEoB2/hcCjOsMrcSxUo4ozAIurBUfGK1mjm05WmmJy+CZXD0iUNNubSTeKFts9QTUxoiWCYkYCKRDKg6jGowrHrZR+Nhj7RasLKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUTbEi4q; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YqGKrhy7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUTbEi4q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726334834; x=1757870834;
+  t=1726335435; x=1757871435;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YUbsjSjhYZ4uX9Hfg8bm2IPQmkPdg6KR8h+0jHf/+mg=;
-  b=YqGKrhy7GmGjViOkNTY9NAEia0zHKctKkcYztlphcKxA4UfCSNJSKldd
-   caZopXQgTpXoSiPJTJC2Ckr6S5/oHZgSE/vk0BvSONuDc6UAYk7T2NRS5
-   7a66icqaeHCYsobR28PpElSGnoq/YcOaT5jXQvC1nC5aNm/W6EU3P19Ga
-   T1ibdfzjkUwLA1YRMzZBsusck94ujropp9kv5u30GdWthwNZEcu0Acbv/
-   xWwY1vO0MJ1cMuTcG690i4goDVdxtLckHFa6IyPAZ3ypHpUWYcU0XbeVk
-   wFzensWGevjRLCWGbmEwQvxDJi7BojIvxOZAX2pIN98YexrmjsuYD2yyp
-   Q==;
-X-CSE-ConnectionGUID: YQCMgdjhQASvj4b6KJUO0Q==
-X-CSE-MsgGUID: LrNxpk1ATyqdPrX8pRUjiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="36358629"
+  bh=tQepsSFds9tkIKsX2klhF6tRQeyDy2Z/IJ2EJAwkRhA=;
+  b=lUTbEi4qYMEZShbcSINtiWQqailK3mjnuENQtSpRpTbNVQ7TduMl5f4j
+   Sd20QX76RQvEoOqiRgwDwoGSZ+ia33cBWS4z7I3jPBsweoAyYtGY+ENrz
+   7pDrNRtFpgLVJGI5sb4kSdCyVbPvhlV9uNkn1787pgtaNdSNfQbDGnHkc
+   w9CnV2mqnw6/O9MmbQ8UD1hAWVQ2aGDDnZLj4kT7VtPy/EZEBooX6esgh
+   ilaIOo5BaMGKnBHreidw7Sn96USNKFyDlXHtW7homJ2folkMTP1Nwev+v
+   HGahNJnivu8UvA22/p3OYr+Va+QMAbqOG5GDYiYXAUjY2twwL/wom8DCR
+   A==;
+X-CSE-ConnectionGUID: 6tV2vQ8CQyucheFrntESeA==
+X-CSE-MsgGUID: 6mqq1SC+SqmkDo3+8U44eQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="29118807"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="36358629"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 10:27:14 -0700
-X-CSE-ConnectionGUID: gwpgJJBwQB60fLtOZPRj2w==
-X-CSE-MsgGUID: IPLCau2ZSu6lx8auSERTMw==
+   d="scan'208";a="29118807"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 10:37:14 -0700
+X-CSE-ConnectionGUID: O9XI3Na8SfCpGIXXHa9vrw==
+X-CSE-MsgGUID: lXIOcvOoR7+g+QLIp80sdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="72825546"
+   d="scan'208";a="68392876"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Sep 2024 10:27:13 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Sep 2024 10:37:12 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spWYA-00080M-0l;
-	Sat, 14 Sep 2024 17:27:10 +0000
-Date: Sun, 15 Sep 2024 01:26:44 +0800
+	id 1spWhq-000816-20;
+	Sat, 14 Sep 2024 17:37:10 +0000
+Date: Sun, 15 Sep 2024 01:37:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 1/2]
- drivers/virtio/virtio_pvclock.c:76: undefined reference to
- `timekeeping_inject_sleeptime64'
-Message-ID: <202409150106.y7SYDi64-lkp@intel.com>
+Subject: [android-common:android15-6.6-partner_predev 10096/13796]
+ drivers/usb/gadget/function/android_f_accessory.c:353:23: sparse: sparse:
+ Using plain integer as NULL pointer
+Message-ID: <202409150108.HnmnK9ju-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +63,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   b41e3369a8f2bf2fc08e19da3d8c061981f4db89
-commit: 04f660d6724f5df1b07f8cf9e1c55f70fb43d1d2 [1/2] ANDROID: virtio: virtio_pvclock: initial driver impl
-config: i386-randconfig-062-20240914 (https://download.01.org/0day-ci/archive/20240915/202409150106.y7SYDi64-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150106.y7SYDi64-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
+head:   9b5dbabe32a282b68d3599efbbccd7ff6996d9c2
+commit: 8851a623b7a1a9456fc1e66855ad369c3f7f6483 [10096/13796] ANDROID: usb: gadget: Add Android Accessory Function
+config: arm-randconfig-r121-20240914 (https://download.01.org/0day-ci/archive/20240915/202409150108.HnmnK9ju-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240915/202409150108.HnmnK9ju-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409150106.y7SYDi64-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: warning: arch/x86/lib/putuser.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/putuser.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: drivers/virtio/virtio_pvclock.o: in function `update_suspend_time':
->> drivers/virtio/virtio_pvclock.c:76: undefined reference to `timekeeping_inject_sleeptime64'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DMA_VIRTUAL_CHANNELS
-   Depends on [n]: DMADEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409150108.HnmnK9ju-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/virtio/virtio_pvclock.c:294:9: sparse: sparse: mixing declarations and code
->> drivers/virtio/virtio_pvclock.c:48:6: sparse: sparse: symbol 'update_suspend_time' was not declared. Should it be static?
+>> drivers/usb/gadget/function/android_f_accessory.c:353:23: sparse: sparse: Using plain integer as NULL pointer
+   drivers/usb/gadget/function/android_f_accessory.c:786:35: sparse: sparse: Using plain integer as NULL pointer
+   drivers/usb/gadget/function/android_f_accessory.c:798:23: sparse: sparse: Using plain integer as NULL pointer
+   drivers/usb/gadget/function/android_f_accessory.c:840:23: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/usb/gadget/function/android_f_accessory.c:1392:6: sparse: sparse: symbol '__acc_req_match' was not declared. Should it be static?
+   drivers/usb/gadget/function/android_f_accessory.c: note: in included file (through include/linux/module.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-vim +76 drivers/virtio/virtio_pvclock.c
+vim +353 drivers/usb/gadget/function/android_f_accessory.c
 
-    47	
-  > 48	void update_suspend_time(struct work_struct *work)
-    49	{
-    50		u64 suspend_ns, suspend_time_delta = 0;
-    51		struct timespec64 inject_time;
-    52		struct virtio_pvclock *vp;
-    53	
-    54		vp = container_of(work, struct virtio_pvclock,
-    55				  update_suspend_time_work);
-    56	
-    57		virtio_cread(vp->vdev, struct virtio_pvclock_config, suspend_time_ns,
-    58			     &suspend_ns);
-    59	
-    60		mutex_lock(&vp->inject_suspend_lock);
-    61		if (suspend_ns > vp->injected_suspend_ns) {
-    62			suspend_time_delta = suspend_ns - vp->injected_suspend_ns;
-    63			vp->injected_suspend_ns = suspend_ns;
-    64		}
-    65		mutex_unlock(&vp->inject_suspend_lock);
-    66	
-    67		if (suspend_time_delta == 0) {
-    68			dev_err(&vp->vdev->dev,
-    69				"%s: suspend_time_ns is less than injected_suspend_ns\n",
-    70				__func__);
-    71			return;
-    72		}
-    73	
-    74		inject_time = ns_to_timespec64(suspend_time_delta);
-    75	
-  > 76		timekeeping_inject_sleeptime64(&inject_time);
-    77	
-    78		dev_info(&vp->vdev->dev, "injected sleeptime: %llu ns\n",
-    79			 suspend_time_delta);
-    80	}
-    81	
+   344	
+   345	/* remove a request from the head of a list */
+   346	static struct usb_request *req_get(struct acc_dev *dev, struct list_head *head)
+   347	{
+   348		unsigned long flags;
+   349		struct usb_request *req;
+   350	
+   351		spin_lock_irqsave(&dev->lock, flags);
+   352		if (list_empty(head)) {
+ > 353			req = 0;
+   354		} else {
+   355			req = list_first_entry(head, struct usb_request, list);
+   356			list_del(&req->list);
+   357		}
+   358		spin_unlock_irqrestore(&dev->lock, flags);
+   359		return req;
+   360	}
+   361	
 
 -- 
 0-DAY CI Kernel Test Service
