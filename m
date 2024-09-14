@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E46175B1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 07:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2817AC133
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 07:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726298272; cv=none; b=Zp6P/QFRTKwfxA5iRnKQPIkfmy7hP9wbl0jc0orY8xvhUaOYsjrJZuAbs/6ZZCeY9z/VkkgPInMzL6ZT3tcMevYx05rcxLuvkQIKKGKOHc3txb+bessuW8a7TskMvEg+dP0zSvRu/hlUtYtsjKH8x/+d8hbdsbHLSN8v2hwqr24=
+	t=1726299652; cv=none; b=MGikgEeZAbVgQWCNkijoDlsHI/pXLf2zy7ZvD1MP+qlVb/LceNSNnkl950W6LNAmaoKftzJMQLxPq1qG7brlHy4wP3sYdVbzB+XWoi/+mkLUxxaAU/rxg/sQWWckU8yvDwHJtt0tdlfjqDGEgbiZK3lq/jOkEsZTpK29RtQBsuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726298272; c=relaxed/simple;
-	bh=0ya9ZVl4viboR8s7R8MzSZrFshOPJJ47C26TxbbZhyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b1a6WbjdkS0jCvnu+yvTitTOZiTsjbTTWuZTozAj0GXI0aWqOpfXowWqLbTk703pgjvetz5UKJrZeZtfvx/nAIBxrxTmUgOaAEMMALeb/a2uskCztd3VShVC29+gBjwTGjKAUwqaQb6x66mN81LiywUgwd9pcbwOqnWdIY1jE/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LICKQlEL; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1726299652; c=relaxed/simple;
+	bh=Ht8cmc8cCbaz2kpkC2GEHfzVv1jnhpkt6M+PnqaO2XU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FUQczbf7nQT46vwNiRSYYcKP5rrWzWkFLJsGaqFf9npgf2G5RrqIGnXISYtfh/ftuE+65j2Mw3MsZWEOitJ60fnfyP3miu9ClhjQeK5OST1Jcy0xSF+yQCESi5duNAV8sSulU2chXFCWEzhRdl7PNme/97RoC5p7I4WyElYJPRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYXb8E7N; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LICKQlEL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYXb8E7N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726298270; x=1757834270;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0ya9ZVl4viboR8s7R8MzSZrFshOPJJ47C26TxbbZhyI=;
-  b=LICKQlELjFI6OKocWZnqWI/v5Gpt80qzYIxJW8fmTD9o8uLiEFEXzNPp
-   lx8xum0H9taFfHnNX793vwQ1HRyaPAYICPOKvOgR/V0nwx7d3lpCg8V0c
-   28cxPJ2S8/7PF/QOZ74Wq2kiyJogZTIFgv36P1C/PWyEfEWczobyxq3wy
-   eh1io2hOJauhVM28h+74d1nvfapv6Uo+m+YaMuxY+ST5GCr20+mNH7L3A
-   cZ4a4yEDF+hVUPVF1CBv6e8x13zA80hPJYk2HU/QEFn6hIxUFTPWM508Z
-   IWH2Hat4xG/TSVR9edq2R8P6lpDENDP0mUqCoZ81zzGIKepONwEWSGF6R
-   A==;
-X-CSE-ConnectionGUID: Gt6I1fqPQbuGNxlecWnISw==
-X-CSE-MsgGUID: zztnza4NTyqJahQXrtcDFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35779636"
+  t=1726299650; x=1757835650;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ht8cmc8cCbaz2kpkC2GEHfzVv1jnhpkt6M+PnqaO2XU=;
+  b=NYXb8E7NPP0c7tHrVBQg2qhMsfWzgnErprVg+H3KbUxQTXOBFH2EPLVH
+   cgYQcA92efPu5HXjYeGYaI/po3ADcA2iBYA0DMxwuUvNWgabgFtXEVfa8
+   ieOxBhl2f0rOMsknPMwalA+Smc4S6uG/nTiqfssdYgVoNSPygGYVjnR/o
+   Tue7no4+r4a/hdMQgiNbLJYzwkG4yEkWQwtRxwdgvQaEL8NztT1rV9Lkn
+   xFHRgq/Hl8/XU71BFpaNCciDixzQudpFM351JaJgTyyk/MgyhKSWGD04F
+   L9h3qZNNcNIhLR4JfM6sIqNgOn4+1vkdHlNgR0j2yJbhpuY2YBTnupBVu
+   w==;
+X-CSE-ConnectionGUID: BwcRc5w9SfyPLDhch7iYbA==
+X-CSE-MsgGUID: MdTKmxvVQAe1BoI2fTQvZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25300228"
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="35779636"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 00:17:49 -0700
-X-CSE-ConnectionGUID: lTSG9hzxQOypD1MAMq1DJQ==
-X-CSE-MsgGUID: j9oli31rQ7GiYSFBH10SYA==
+   d="scan'208";a="25300228"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 00:40:50 -0700
+X-CSE-ConnectionGUID: 2D/9ZqpDRFeNZsKsLSPwMg==
+X-CSE-MsgGUID: pv766GQQRn2AdPgDPot+Fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="99012395"
+   d="scan'208";a="68038027"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Sep 2024 00:17:47 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Sep 2024 00:40:48 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spN2P-0007UM-20;
-	Sat, 14 Sep 2024 07:17:45 +0000
-Date: Sat, 14 Sep 2024 15:17:30 +0800
+	id 1spNOg-0007VP-1L;
+	Sat, 14 Sep 2024 07:40:46 +0000
+Date: Sat, 14 Sep 2024 15:40:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 2584/30000] pda_power.c:undefined
- reference to `usb_put_phy'
-Message-ID: <202409141502.rcjF7nkU-lkp@intel.com>
+Subject: Re: [PATCH v2 03/11] unwind: Introduce SFrame user space unwinding
+Message-ID: <202409141501.yaoIVdSI-lkp@intel.com>
+References: <ca2e603ae3dcfa3e836162ed8c301fd4d9fd4058.1726268190.git.jpoimboe@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,70 +62,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ca2e603ae3dcfa3e836162ed8c301fd4d9fd4058.1726268190.git.jpoimboe@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   c8a568fb88e9a968e38609f91b0d3d1172551054
-commit: f7941b37ab1c4cc0a85a5617d32495908c3d08a2 [2584/30000] ANDROID: GKI: Enable CONFIG_USB_PHY for usb drivers like dwc3
-config: x86_64-buildonly-randconfig-006-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141502.rcjF7nkU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141502.rcjF7nkU-lkp@intel.com/reproduce)
+Hi Josh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v6.11-rc7 next-20240913]
+[cannot apply to acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Poimboeuf/unwind-Introduce-generic-user-space-unwinding-interface/20240914-070619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/ca2e603ae3dcfa3e836162ed8c301fd4d9fd4058.1726268190.git.jpoimboe%40kernel.org
+patch subject: [PATCH v2 03/11] unwind: Introduce SFrame user space unwinding
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240914/202409141501.yaoIVdSI-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141501.yaoIVdSI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141502.rcjF7nkU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141501.yaoIVdSI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_remove':
-   pda_power.c:(.text+0x280): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe':
-   pda_power.c:(.text+0x5cf): undefined reference to `usb_get_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe.cold':
->> pda_power.c:(.text.unlikely+0xb0): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/wm831x_power.o: in function `wm831x_power_probe':
-   wm831x_power.c:(.text+0x8ac): undefined reference to `devm_usb_get_phy_by_phandle'
-   ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
-   isp1704_charger.c:(.text+0x160): undefined reference to `devm_usb_get_phy_by_phandle'
-   ld: isp1704_charger.c:(.text+0x3da): undefined reference to `devm_usb_get_phy'
-   ld: drivers/power/supply/twl4030_charger.o: in function `twl4030_bci_probe':
->> twl4030_charger.c:(.text+0x12fb): undefined reference to `devm_usb_get_phy_by_node'
-   ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
-   bq25890_charger.c:(.text+0xd28): undefined reference to `devm_usb_get_phy'
-   ld: drivers/power/supply/sc2731_charger.o: in function `sc2731_charger_probe':
-   sc2731_charger.c:(.text+0x633): undefined reference to `devm_usb_get_phy_by_phandle'
-   ld: sc2731_charger.c:(.text+0x68e): undefined reference to `usb_phy_get_charger_current'
+>> mm/init-mm.c:48:33: error: expected expression before ',' token
+      48 |         INIT_MM_CONTEXT(init_mm),
+         |                                 ^
+>> mm/init-mm.c:48:33: warning: excess elements in struct initializer
+   mm/init-mm.c:48:33: note: (near initialization for 'init_mm')
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+vim +48 mm/init-mm.c
+
+    22	
+    23	/*
+    24	 * For dynamically allocated mm_structs, there is a dynamically sized cpumask
+    25	 * at the end of the structure, the size of which depends on the maximum CPU
+    26	 * number the system can see. That way we allocate only as much memory for
+    27	 * mm_cpumask() as needed for the hundreds, or thousands of processes that
+    28	 * a system typically runs.
+    29	 *
+    30	 * Since there is only one init_mm in the entire system, keep it simple
+    31	 * and size this cpu_bitmask to NR_CPUS.
+    32	 */
+    33	struct mm_struct init_mm = {
+    34		.mm_mt		= MTREE_INIT_EXT(mm_mt, MM_MT_FLAGS, init_mm.mmap_lock),
+    35		.pgd		= swapper_pg_dir,
+    36		.mm_users	= ATOMIC_INIT(2),
+    37		.mm_count	= ATOMIC_INIT(1),
+    38		.write_protect_seq = SEQCNT_ZERO(init_mm.write_protect_seq),
+    39		MMAP_LOCK_INITIALIZER(init_mm)
+    40		.page_table_lock =  __SPIN_LOCK_UNLOCKED(init_mm.page_table_lock),
+    41		.arg_lock	=  __SPIN_LOCK_UNLOCKED(init_mm.arg_lock),
+    42		.mmlist		= LIST_HEAD_INIT(init_mm.mmlist),
+    43	#ifdef CONFIG_PER_VMA_LOCK
+    44		.mm_lock_seq	= 0,
+    45	#endif
+    46		.user_ns	= &init_user_ns,
+    47		.cpu_bitmap	= CPU_BITS_NONE,
+  > 48		INIT_MM_CONTEXT(init_mm),
+    49		INIT_MM_SFRAME,
+    50	};
+    51	
 
 -- 
 0-DAY CI Kernel Test Service
