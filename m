@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDD31FDA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 01:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D60440C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 01:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726277679; cv=none; b=bJ6SmgQ5OvkCJWhJ7mzU5n3UpCfP8DXhx/Snz7I/+O/mDQVJ1y4q3wGDFHh5XlXnxFFrfzCri8cFlZf3r0jxLrO/LjLtJZPwLQIh2mo8Nqdh3XQg2Es6ik5oh7+bPLsqcZEF4I8pKOdWip6iVj8gLMiVKXQ8sWVPQfgwRDOoF/k=
+	t=1726278282; cv=none; b=PbRw5fyxf7ymwcvrwvheli4pjfDBjoYPTsouCeuPCl3y1yaHsh/oZebQT23aNOTsfd9JixOu2Q1mywWBz/9MMiWaAK1ZVxnhBGW0e9VdqTes+/WwuvhcBT11qgS1qUusSl5E6SMBjVK/K+wQNCzBICx7FKnIG1191haP1h6/VBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726277679; c=relaxed/simple;
-	bh=ytAothRdZM6PpfnKZZUz6/oyAY+iqWHATF/SQJmf4mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j/R8W/BrZhXAMRWILnNZhOLLdy6Cwr5OAviOSZnm4ORGNOgACSUet4sWRbtuwmua7+vqiGUJEoOsNp1LWc5Ilc76sXzigBaOYP+JUJ6BkopjdDhNt4Rb7qqYnDpd0Lx3A7q/VfvVoEb5G50pXYR3bmVgYjoQSQMx3OZhJcGc05Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GP+vgNux; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1726278282; c=relaxed/simple;
+	bh=7PE0TWR4MidGJwasi90H0Hd94ViXnJcHbucQglJ+DzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kX5DPdQpDARG9ChbZEY+l7UNrpy/yGLEnRf9DC6aBquJuc4Io3peND8gSk7ZLKTRMQCiLd76qf6Wxc+L1u+9bnTQVykU2ywTRWTm1ZutmNRO2Shk/Ju1wmzjEV0YF1ACc/9LsQnmHBAgEdl4XN+g6avwNOCa/11rKMt+43LkryI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSUP5ORb; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GP+vgNux"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSUP5ORb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726277678; x=1757813678;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ytAothRdZM6PpfnKZZUz6/oyAY+iqWHATF/SQJmf4mk=;
-  b=GP+vgNuxI1U71JJAsGboUrKwuf1ou/7mRnyVB/osBdf418OQfDBx1JfA
-   dqohDfQFAcwbqCGAm5rnXYvWMGFwAWRZQopLFOVIkMeaDWeHKNoEU1KqM
-   TxsAt6MEjPbhpKLtFEA9obCjcuEtoyh4hAh2WF0C0ZnfE2cxRptgjhlAP
-   LdsVxrMN5SNjBVeW7dfqddUP3SlQs1dPAjZr4AocZVUTQHSscGYyhctoj
-   2pjdCWmYPZL5zDZ/2Ilv161IvqGmcQzUfTHG/mFLpUAfl0Zs+pFMWi+fe
-   xV1cnOgEKFmKRFwRPHMoy3Id7B+gYzZpjccDg97RxQKZT93u1+v72Oral
-   w==;
-X-CSE-ConnectionGUID: 84ACGUtAQXq33dVsFI0bRQ==
-X-CSE-MsgGUID: S8+PnB/6T8SsMNo2LB/nkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35767076"
+  t=1726278281; x=1757814281;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7PE0TWR4MidGJwasi90H0Hd94ViXnJcHbucQglJ+DzM=;
+  b=XSUP5ORbWqLX6laN/EJyNZaL7vw0JhXdxsSewAcBsnUaRDWwMCLv+vgu
+   66kunX234kZ36NAsC7RbLnYS2tapast1WTjK8kgxOlYMArduEl2X6fD3Y
+   QtreKtyWXgr/aWOvKqLnKyBtmd3c29wdev9i9lq4z+ocVevwVYW/EZy2d
+   v1hKmqY1dYoYNdD6s8x02ti1/TnAsHFNFgjhHphUEfTzp/JhHf942WvEm
+   iMagDIDM9GZiRPdYuJxbLJ9CqsgL4Yei3OslEXEfOSih6gFmabQQFIcvi
+   96uFSt30CYgcB2LGWnhXkk5aBm5ZUIeI7vIWHeZ7KwSK9PC6Km/OTAtUs
+   g==;
+X-CSE-ConnectionGUID: c9D4OqKeTSuqFR8FHJs5Lw==
+X-CSE-MsgGUID: PxtY1NSSTRmW5BQXYM/2AA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="28978675"
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="35767076"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 18:34:37 -0700
-X-CSE-ConnectionGUID: SqIqu4poSOe7sdF0RR6aJA==
-X-CSE-MsgGUID: KcpgYUarQeixqVRBBQ/V2g==
+   d="scan'208";a="28978675"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 18:44:38 -0700
+X-CSE-ConnectionGUID: MkElL7YtT8+Bn2Ii+BeKmg==
+X-CSE-MsgGUID: l8DHiFTXSx2TsX/RCR3utA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="99119408"
+   d="scan'208";a="67887818"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Sep 2024 18:34:35 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 13 Sep 2024 18:44:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spHgG-0007EE-1E;
-	Sat, 14 Sep 2024 01:34:32 +0000
-Date: Sat, 14 Sep 2024 09:33:37 +0800
+	id 1spHpw-0007Eg-1o;
+	Sat, 14 Sep 2024 01:44:32 +0000
+Date: Sat, 14 Sep 2024 09:44:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, ville.syrjala@linux.intel.com,
-	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/display: Add block_dc6_needed variable into
- intel_crtc
-Message-ID: <202409140953.0izbdQ9U-lkp@intel.com>
-References: <20240913073347.3273589-2-jouni.hogander@intel.com>
+To: kernel@openeuler.org, zhangshuowen96 <zhangshuowen@hisilicon.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 29981/30000]
+ drivers/misc/sdma-dae/sdma_dbg.c:84:13: warning: variable
+ 'exclusive_chn_num' set but not used
+Message-ID: <202409140941.IxieoOe3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,77 +62,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913073347.3273589-2-jouni.hogander@intel.com>
 
-Hi Jouni,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240912]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11-rc7 v6.11-rc6 v6.11-rc5 v6.11-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jouni-H-gander/drm-i915-display-Add-block_dc6_needed-variable-into-intel_crtc/20240913-153658
-base:   next-20240912
-patch link:    https://lore.kernel.org/r/20240913073347.3273589-2-jouni.hogander%40intel.com
-patch subject: [PATCH 1/2] drm/i915/display: Add block_dc6_needed variable into intel_crtc
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240914/202409140953.0izbdQ9U-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140953.0izbdQ9U-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5a1d9701155c6908c76c68951170f10279685143
+commit: bacc47789eb5be49559f82859f5e4f0f25122af6 [29981/30000] driver:misc:sdma-dae: add debugfs of sdma-dae
+config: arm64-randconfig-002-20240914 (https://download.01.org/0day-ci/archive/20240914/202409140941.IxieoOe3-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140941.IxieoOe3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140953.0izbdQ9U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140941.IxieoOe3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'dg2_activate_panel_replay':
->> drivers/gpu/drm/i915/display/intel_psr.c:973:62: error: passing argument 1 of 'intel_crtc_for_pipe' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     973 |                 block_dc6_on_vblank_get(&intel_crtc_for_pipe(display, intel_dp->psr.pipe)->base);
-         |                                                              ^~~~~~~
-         |                                                              |
-         |                                                              struct intel_display *
-   In file included from drivers/gpu/drm/i915/display/intel_psr.c:32:
-   drivers/gpu/drm/i915/display/intel_crtc.h:46:65: note: expected 'struct drm_i915_private *' but argument is of type 'struct intel_display *'
-      46 | struct intel_crtc *intel_crtc_for_pipe(struct drm_i915_private *i915,
-         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/misc/sdma-dae/sdma_dbg.c:6:
+   drivers/misc/sdma-dae/sdma_hal.h: In function 'sdma_channel_clear_ioe_status':
+   drivers/misc/sdma-dae/sdma_hal.h:227:32: warning: variable 'reg_val' set but not used [-Wunused-but-set-variable]
+     227 |         union sdmam_irq_status reg_val = {0};
+         |                                ^~~~~~~
+   drivers/misc/sdma-dae/sdma_dbg.c: In function 'sdma_debugfs_stats_show':
+>> drivers/misc/sdma-dae/sdma_dbg.c:84:13: warning: variable 'exclusive_chn_num' set but not used [-Wunused-but-set-variable]
+      84 |         u32 exclusive_chn_num;
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +/intel_crtc_for_pipe +973 drivers/gpu/drm/i915/display/intel_psr.c
+vim +/exclusive_chn_num +84 drivers/misc/sdma-dae/sdma_dbg.c
 
-   954	
-   955	static void dg2_activate_panel_replay(struct intel_dp *intel_dp)
-   956	{
-   957		struct intel_display *display = to_intel_display(intel_dp);
-   958		struct intel_psr *psr = &intel_dp->psr;
-   959		enum transcoder cpu_transcoder = intel_dp->psr.transcoder;
-   960	
-   961		if (intel_dp_is_edp(intel_dp) && psr->sel_update_enabled) {
-   962			u32 val = psr->su_region_et_enabled ?
-   963				LNL_EDP_PSR2_SU_REGION_ET_ENABLE : 0;
-   964	
-   965			if (intel_dp->psr.req_psr2_sdp_prior_scanline)
-   966				val |= EDP_PSR2_SU_SDP_SCANLINE;
-   967	
-   968			intel_de_write(display, EDP_PSR2_CTL(display, cpu_transcoder),
-   969				       val);
-   970		}
-   971	
-   972		if (intel_dp_is_edp(intel_dp))
- > 973			block_dc6_on_vblank_get(&intel_crtc_for_pipe(display, intel_dp->psr.pipe)->base);
-   974	
-   975		intel_de_rmw(display,
-   976			     PSR2_MAN_TRK_CTL(display, intel_dp->psr.transcoder),
-   977			     0, ADLP_PSR2_MAN_TRK_CTL_SF_CONTINUOS_FULL_FRAME);
-   978	
-   979		intel_de_rmw(display, TRANS_DP2_CTL(intel_dp->psr.transcoder), 0,
-   980			     TRANS_DP2_PANEL_REPLAY_ENABLE);
-   981	}
-   982	
+    75	
+    76	static int sdma_debugfs_stats_show(struct seq_file *f, void *data SDMA_UNUSED)
+    77	{
+    78		u32 num = dbg_g_info.core_dev->sdma_device_num;
+    79		struct hisi_sdma_chn_num chn_num;
+    80		struct hisi_sdma_channel *pchan;
+    81		struct hisi_sdma_device *dev;
+    82		u32 exclusive_chn_used_nr;
+    83		u32 share_chn_used_nr;
+  > 84		u32 exclusive_chn_num;
+    85		u32 chn_idx;
+    86		u32 i;
+    87	
+    88		split_line(f);
+    89		seq_printf(f, "SDMA Devices Num = %u\n", num);
+    90		if (num == 0)
+    91			return 0;
+    92	
+    93		for (i = 0; i < num; i++) {
+    94			spin_lock(&dbg_g_info.core_dev->device_lock);
+    95			dev = dbg_g_info.core_dev->sdma_devices[i];
+    96			if (!dev) {
+    97				seq_puts(f, "sdma_devices already released!\n");
+    98				spin_unlock(&dbg_g_info.core_dev->device_lock);
+    99				return -ENXIO;
+   100			}
+   101			chn_num = sdma_chn_info(f, dev);
+   102			exclusive_chn_num = chn_num.total_chn_num - chn_num.share_chn_num;
+   103			exclusive_chn_used_nr = dev->nr_channel_used;
+   104			seq_printf(f, "Used exclusive chn total num = %u\n", exclusive_chn_used_nr);
+   105			seq_puts(f, "\n");
+   106			split_line(f);
+   107			share_chn_used_nr = 0;
+   108			chn_idx = 0;
+   109			seq_printf(f, "SDMA[%u] Used share chn id:\n", i);
+   110			while (chn_idx < chn_num.share_chn_num) {
+   111				pchan = dev->channels + chn_idx;
+   112				if (pchan->cnt_used != 0) {
+   113					share_chn_used_nr++;
+   114					seq_printf(f, "%u\t", chn_idx);
+   115				}
+   116				++chn_idx;
+   117			}
+   118			seq_printf(f, "\nSDMA[%u] Used share chn total num = %u\n", i, share_chn_used_nr);
+   119			split_line(f);
+   120			sdma_scan_channel_status(f, dev, chn_num.share_chn_num);
+   121			spin_unlock(&dbg_g_info.core_dev->device_lock);
+   122		}
+   123	
+   124		return 0;
+   125	}
+   126	
 
 -- 
 0-DAY CI Kernel Test Service
