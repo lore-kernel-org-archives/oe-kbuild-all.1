@@ -1,58 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3BA139CE9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 10:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559F21CEE80
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 10:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726309738; cv=none; b=UuNbW5iSQJzv4gjtFSU8NVxT1iSDQgI42dQ6khTx/7D1nR+VIUxX5mcGZWNiW++sbV3j51qzYn/fOE9/o2fDBWPzF59PUCsILxzwJIdBdAW3VogQFw+fYjoCymbNk/tKp9O8SF5Jxpmwrt/eNBGmYBz0is5sRc19yWh/068SluI=
+	t=1726311603; cv=none; b=bqR4+R4QuLs+BIiGmdA9Xw0M7c6Bp2oFsS/xfyM7x1CX93yxDsblny/AkPMbA7BwFghhhASwQ78agz7/g+yIkTY1brJ8qZp2IWLFm7oMD+ZM65qU3i6jWRWdFIIqprJf6l4CEs/8z6qyeqt2K8jnRGbPQ4EBNrkqvqKB1GyNd48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726309738; c=relaxed/simple;
-	bh=ObZQfVzybLMYPd/bONZS6VmRwMh5FncZEahWDsgEq7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FH1/2ikC3bM+G3stffn9tfx3ng55CV6Ltw6skUb3ALaVqXeOU6m3ABjBNW0+ap7Mc59P1hGCBt4PtXlMQqTe70anexmRswt/uBSxSrWqpeKNn13VYG3oFkKUdgHQO/LKIbTmiWzmCK6gwW4M8APzT9VXR77qC7j0copPievkc0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwtCIvUI; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1726311603; c=relaxed/simple;
+	bh=RqagvQleKzznUmEAGUk3kJBskCidxziKVdoH64L73j4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cc9+pZmNYesG6gbqBz9qAjzrT1hVkj38xFJVJ582WU4dFZaswbq/b/Y1WvOsXPH3F4JtdyohbD2SxblBAz6yFrxEw4irD9XzGfGgv66ZZetK8T4Zy39llTIUyFTb/J05eirndtctzcC+BGAlg/shgCkHL2ISlCNBpwp3IrmLH7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kPNk2ipE; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwtCIvUI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kPNk2ipE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726309736; x=1757845736;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ObZQfVzybLMYPd/bONZS6VmRwMh5FncZEahWDsgEq7A=;
-  b=NwtCIvUIYD5tFA45r18xlZEYNb6FHyWwYbnBGxuK3A1k8yv/B5SqKnL2
-   QrW8CCIAYRitJyYf0Jg/AjND+/CF2MpM9TlMPdehwvpWeRJN829apZWKH
-   NefjWdO+A981/2SpVpc8DujI6THy5xl/An4TlxbpBkFcW4Cw660bi2Zmk
-   L6kSJCbMvRopUJDA3e91YM9IrgJ+gB4VIclFiEyybUQcpRgqZRsCBng3d
-   4H0k913i+rXvN9a8tsu8xIUNuvjP1LBAMMGGfoc/spvcbx7anxatzfuzA
-   /2TLVX/VjvXOsLRDkmCL/wripBPW6hgEeQU72EURk+2b4oqyuPnZVcuTB
+  t=1726311600; x=1757847600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RqagvQleKzznUmEAGUk3kJBskCidxziKVdoH64L73j4=;
+  b=kPNk2ipElCfIxuvzTU734SvruXM3iKVsD7VKukOqFpinIeTJQLTlpkhX
+   mGwQNrjs1sGkGbahWpw4+z3oz5o1TeIQWS/Tfk4jc8D/s+qPTstF7AxXN
+   zRFOEoO2+4IVTMU0Wkhp+8CyBbbV7pEouYUAUGxNuxTcjsvS8bpBrDKa/
+   KisK3XZEHwnj2o4/bvGV2kbrPxsE77feNisN0+I7iBeEk2fWFhD1wRf3r
+   Tjm4huQotrMfJYNrdUbMxqj+sdOnVBjGnMmkZgi2c6OXnznnt9iuuKxAX
+   Q/r8Eboc18QlduOvVw7F8/QOid4BtcLuZxl/PcMlHdt+bk8Au0a7BaXMk
    Q==;
-X-CSE-ConnectionGUID: OmwnzTd8QDCPtzO4gY/PAA==
-X-CSE-MsgGUID: grNY0X/XTzW6eIvOiG9IVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25146749"
-X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="25146749"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 03:28:56 -0700
-X-CSE-ConnectionGUID: FxBkd0CGQf+YoXWyjZZQsA==
-X-CSE-MsgGUID: C2Je18PeQIuqrhZeOub8Hg==
+X-CSE-ConnectionGUID: gGwbLYtHS+6PD0fPFmD9tQ==
+X-CSE-MsgGUID: HTXqrevXSAGiHXrv1CnlmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25148006"
+X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
+   d="scan'208";a="25148006"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 03:59:59 -0700
+X-CSE-ConnectionGUID: vS6oIURLS3S2LyICQh7zNw==
+X-CSE-MsgGUID: 3Elus/PHQPesz24am0+B+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="68238285"
+   d="scan'208";a="72971200"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Sep 2024 03:28:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 14 Sep 2024 03:59:56 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spQ1M-0007dY-2V;
-	Sat, 14 Sep 2024 10:28:52 +0000
-Date: Sat, 14 Sep 2024 18:28:38 +0800
+	id 1spQVN-0007f1-2j;
+	Sat, 14 Sep 2024 10:59:53 +0000
+Date: Sat, 14 Sep 2024 18:59:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 1790/30000] ld.lld: error: duplicate symbol:
- debug
-Message-ID: <202409141843.ikQ03W3n-lkp@intel.com>
+To: Oleh Kuzhylnyi <kuzhylol@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Oleh Kuzhylnyi <kuzhylol@gmail.com>, igor.opaniuk@gmail.com,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jeff LaBundy <jeff@labundy.com>
+Subject: Re: [PATCH v7 2/2] input: add driver for Hynitron CST816X touchscreen
+Message-ID: <202409141849.QpkMdWlC-lkp@intel.com>
+References: <20240912132823.123409-2-kuzhylol@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +69,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240912132823.123409-2-kuzhylol@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   1b6ac823ff98dd4dbd1b6bff478a1b9b44855f67
-commit: 8e695222e0638bf3867561a1e7342d20fd9683a1 [1790/30000] Huawei BMA: Adding Huawei BMA driver: cdev_veth_drv
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240914/202409141843.ikQ03W3n-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141843.ikQ03W3n-lkp@intel.com/reproduce)
+Hi Oleh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleh-Kuzhylnyi/input-add-driver-for-Hynitron-CST816X-touchscreen/20240912-213044
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240912132823.123409-2-kuzhylol%40gmail.com
+patch subject: [PATCH v7 2/2] input: add driver for Hynitron CST816X touchscreen
+config: sparc64-randconfig-r133-20240913 (https://download.01.org/0day-ci/archive/20240914/202409141849.QpkMdWlC-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240914/202409141849.QpkMdWlC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141843.ikQ03W3n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141849.QpkMdWlC-lkp@intel.com/
 
-Note: the openeuler/OLK-5.10 HEAD 1b6ac823ff98dd4dbd1b6bff478a1b9b44855f67 builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/hynitron-cst816x.c:100:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_x @@     got unsigned long @@
+   drivers/input/touchscreen/hynitron-cst816x.c:100:21: sparse:     expected restricted __be16 [usertype] abs_x
+   drivers/input/touchscreen/hynitron-cst816x.c:100:21: sparse:     got unsigned long
+>> drivers/input/touchscreen/hynitron-cst816x.c:101:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_y @@     got unsigned long @@
+   drivers/input/touchscreen/hynitron-cst816x.c:101:21: sparse:     expected restricted __be16 [usertype] abs_y
+   drivers/input/touchscreen/hynitron-cst816x.c:101:21: sparse:     got unsigned long
+>> drivers/input/touchscreen/hynitron-cst816x.c:147:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_x @@
+   drivers/input/touchscreen/hynitron-cst816x.c:147:58: sparse:     expected int value
+   drivers/input/touchscreen/hynitron-cst816x.c:147:58: sparse:     got restricted __be16 [addressable] [usertype] abs_x
+>> drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_y @@
+   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     expected int value
+   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     got restricted __be16 [addressable] [usertype] abs_y
 
-All errors (new ones prefixed by >>):
+vim +100 drivers/input/touchscreen/hynitron-cst816x.c
 
->> ld.lld: error: duplicate symbol: debug
-   >>> defined at bma_pci.c
-   >>>            net/ethernet/huawei/bma/edma_drv/bma_pci.o:(debug) in archive drivers/built-in.a
-   >>> defined at virtual_cdev_eth_net.c
-   >>>            net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.o:(.bss+0x0) in archive drivers/built-in.a
+    93	
+    94	static bool cst816x_process_touch(struct cst816x_priv *priv,
+    95					  struct cst816x_touch_info *info)
+    96	{
+    97		if (cst816x_i2c_read_register(priv, CST816X_FRAME, info, sizeof(*info)))
+    98			return false;
+    99	
+ > 100		info->abs_x = get_unaligned_be16(&info->abs_x) & GENMASK(11, 0);
+ > 101		info->abs_y = get_unaligned_be16(&info->abs_y) & GENMASK(11, 0);
+   102	
+   103		dev_dbg(&priv->client->dev, "x: %d, y: %d, t: %d, g: 0x%x\n",
+   104			info->abs_x, info->abs_y, info->touch, info->gesture);
+   105	
+   106		return true;
+   107	}
+   108	
+   109	static int cst816x_register_input(struct cst816x_priv *priv)
+   110	{
+   111		priv->input = devm_input_allocate_device(&priv->client->dev);
+   112		if (!priv->input)
+   113			return -ENOMEM;
+   114	
+   115		priv->input->name = "Hynitron CST816X Touchscreen";
+   116		priv->input->phys = "input/ts";
+   117		priv->input->id.bustype = BUS_I2C;
+   118		input_set_drvdata(priv->input, priv);
+   119	
+   120		for (int i = 0; i < ARRAY_SIZE(priv->event_map); i++)
+   121			input_set_capability(priv->input, EV_KEY,
+   122					     priv->event_map[i].code);
+   123	
+   124		input_set_abs_params(priv->input, ABS_X, 0, 240, 0, 0);
+   125		input_set_abs_params(priv->input, ABS_Y, 0, 240, 0, 0);
+   126	
+   127		return input_register_device(priv->input);
+   128	}
+   129	
+   130	static void cst816x_reset(struct cst816x_priv *priv)
+   131	{
+   132		gpiod_set_value_cansleep(priv->reset, 1);
+   133		msleep(50);
+   134		gpiod_set_value_cansleep(priv->reset, 0);
+   135		msleep(100);
+   136	}
+   137	
+   138	static irqreturn_t cst816x_irq_cb(int irq, void *cookie)
+   139	{
+   140		struct cst816x_priv *priv = cookie;
+   141		struct cst816x_touch_info info;
+   142	
+   143		if (!cst816x_process_touch(priv, &info))
+   144			return IRQ_HANDLED;
+   145	
+   146		if (info.touch) {
+ > 147			input_report_abs(priv->input, ABS_X, info.abs_x);
+ > 148			input_report_abs(priv->input, ABS_Y, info.abs_y);
+   149			input_report_key(priv->input, BTN_TOUCH, 1);
+   150		}
+   151	
+   152		if (info.gesture) {
+   153			input_report_key(priv->input,
+   154					 priv->event_map[info.gesture & 0x0F].code,
+   155					 info.touch);
+   156	
+   157			if (!info.touch)
+   158				input_report_key(priv->input, BTN_TOUCH, 0);
+   159		}
+   160	
+   161		input_sync(priv->input);
+   162	
+   163		return IRQ_HANDLED;
+   164	}
+   165	
 
 -- 
 0-DAY CI Kernel Test Service
