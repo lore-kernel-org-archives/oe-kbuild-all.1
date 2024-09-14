@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85D97FD;
-	Sat, 14 Sep 2024 00:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBAD1370
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 00:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726272644; cv=none; b=cWO2RIDoN1Z7KFla2rzFoTEEdfr4xRzDMSH7deW2SC4r0L+EwvLsP9ytRFKmnSnKcyg3AWdLTy5RH7w5BuxCj1cxoMX9uEJT06QNsvUN1jKCl/Ktn4lB5r/qvAbB+uaaJEjxY7SrmQFPTi4+q8aUD97YOhrMTeng1PUs87i1XgM=
+	t=1726273296; cv=none; b=bKUcHWHIZs+MawJB0z/X3gavTX70bGitonmFG8Frc8H1HGbQNGTqsUBkJGaQm6Ku/4eyNJOduXpZsR7WilHA9WANnQOOo5W1yra3Dp6fYlR6m5eDA/7sXMBIStApC3Gj9TbYx9xLDLSb0zIIFvKsDUasBuXsIH4Vsr6JJRijeBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726272644; c=relaxed/simple;
-	bh=pBlXE22qTfUfu7R4b/GcgpMEmYdx7gX5i4yw66loTlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qED/Zh8THFvsnOExhk8BXgDlZvxIWVjqrRvJ0xuSM6j/KSRGmJ10gVkWeGQRDgeFFeCKUUVB/rz/OOtefzz0Crca9lAlOQTnKwSTF9aDLcJT2A0mnHPeZrLMJ3/MmZG7tT6p3kD2u6b6+Ovl7b1uA0KiTcg7999ZAXTTKPMqGLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEZ9Jvna; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1726273296; c=relaxed/simple;
+	bh=ryc3gDeq6nu0A8YbX6CGI3w7HE+S3MMxzkp1oTUbJcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FhZh/Ctfl+sAxeheiy+AK+CaHYnui6SslSyMFHwKKiWptbNJcCQaREJ8Ac76kiUnveFMILrGWwwjX2V1tZqsqDW9tGEqNS+Ns7blfeYoA8xmM3C02j3GGFF1Lfwqw623yz6BP3dh4bA+8RB7j634rnpp/dDSNmb5NgxuaK+yg4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fPp9uS6B; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEZ9Jvna"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fPp9uS6B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726272643; x=1757808643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pBlXE22qTfUfu7R4b/GcgpMEmYdx7gX5i4yw66loTlg=;
-  b=JEZ9JvnaQG5i2f+tlh5T8WbtJQLGDMgtdKWb6DEV/zU0I84r6HkcudfQ
-   LB2JQqIeXkirKzoe7A58J6B6uK+5dQ5qyOf/aW/deJ3EIkRGdliyKFyY/
-   hZvj+EFHovLsekuRhNlDqN2hPy+kLe/ane/1Bnq3Bdryz1XW/eLtZYp7y
-   vWJtx8SpSY7Uf0aAYqvtlVVTXLCSvC4esIs3KF+KOaP69mII6HX3SEMwX
-   segn/gzNWvKQRc2I7ix6ALw9EV81XPfRzQdc16+randWBlrVYArkYvQwk
-   IdOKx1JgCuNQ3xK+rxVMDNGALZ1wx4m9TI5dq9LqOhu7Lyj5sxjxF/SPC
-   g==;
-X-CSE-ConnectionGUID: L+a9AIoWQBaFWZnDJi8Lpg==
-X-CSE-MsgGUID: TdMu/WoqSRa68V+4sbRC1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25061967"
+  t=1726273295; x=1757809295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ryc3gDeq6nu0A8YbX6CGI3w7HE+S3MMxzkp1oTUbJcA=;
+  b=fPp9uS6BJ/GC/hgE86Fd/JwNEYWZ/fHeq6K1jjLhTvXBwovyIt9gliWB
+   QNk0kVa20eYnwLn4DF/1W1qTyHyl9x8z1wHbp2va5u2dNqeHlM/C0sc6r
+   aJGL+DId78TMmP9pn+yYPpuagdTTYV5WnNgUHIdbxgrM0SHsOA0z5Yd38
+   PiP9hHN/XwgeD4tARiQHQk4x+Hl+91R73axsfRE33yVIWFJeTsNxT/9gV
+   m8M/EUjNwyHXzqqSfeU8iP+fPNqTwhG3ThT7so7jSiC7trqooFnVJYmyl
+   nleDG+N+djUVyW+EHpQxnMEmt0XKiOvIhdtvH1BnGRAtdT0mBFYJKSjzt
+   Q==;
+X-CSE-ConnectionGUID: Vl45V++oRvGIrodDBwamoA==
+X-CSE-MsgGUID: zYInDvlLR1yxlqLsOTM7vg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25125731"
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="25061967"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 17:10:36 -0700
-X-CSE-ConnectionGUID: ZQDgBaKzScWKseKdZctE8Q==
-X-CSE-MsgGUID: BUzx7VxoTSuGCSExL6LSKw==
+   d="scan'208";a="25125731"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 17:21:35 -0700
+X-CSE-ConnectionGUID: re1KqVEtTHe64m/4nJtZlQ==
+X-CSE-MsgGUID: UV6d4CvrQgi11KpJc7L0kQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="72616669"
+   d="scan'208";a="68110402"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Sep 2024 17:10:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Sep 2024 17:21:33 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spGMw-0007AY-0j;
-	Sat, 14 Sep 2024 00:10:30 +0000
-Date: Sat, 14 Sep 2024 08:10:29 +0800
+	id 1spGXa-0007BY-2C;
+	Sat, 14 Sep 2024 00:21:30 +0000
+Date: Sat, 14 Sep 2024 08:21:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v1 04/12] i2c: isch: Switch to memory mapped IO accessors
-Message-ID: <202409140743.kKVc8T3C-lkp@intel.com>
-References: <20240911154820.2846187-5-andriy.shevchenko@linux.intel.com>
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 19206/30000]
+ drivers/gpu/drm/inspur/inspur_drm_drv.c:30:13: warning: no previous
+ prototype for 'inspur_drm_interrupt'
+Message-ID: <202409140804.IiV0APec-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,72 +62,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911154820.2846187-5-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
+Hi Hongchen,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on linus/master v6.11-rc7]
-[cannot apply to next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-isch-Add-missed-else/20240912-002224
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240911154820.2846187-5-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 04/12] i2c: isch: Switch to memory mapped IO accessors
-config: i386-buildonly-randconfig-001-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140743.kKVc8T3C-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140743.kKVc8T3C-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5a1d9701155c6908c76c68951170f10279685143
+commit: b9d65551a3adfa87a7c5d33391187ee60a1b501d [19206/30000] drm: add inspur drm driver support
+config: arm64-randconfig-002-20240914 (https://download.01.org/0day-ci/archive/20240914/202409140804.IiV0APec-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140804.IiV0APec-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140743.kKVc8T3C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140804.IiV0APec-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-isch.c:296:32: warning: format specifies type 'unsigned int' but the argument has type 'resource_size_t' (aka 'unsigned long long') [-Wformat]
-     296 |                 "SMBus SCH adapter at %04x", res->start);
-         |                                       ~~~~   ^~~~~~~~~~
-         |                                       %04llx
-   1 warning generated.
+>> drivers/gpu/drm/inspur/inspur_drm_drv.c:30:13: warning: no previous prototype for 'inspur_drm_interrupt' [-Wmissing-prototypes]
+      30 | irqreturn_t inspur_drm_interrupt(int irq, void *arg)
+         |             ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/inspur/inspur_drm_drv.c: In function 'inspur_pci_probe':
+   drivers/gpu/drm/inspur/inspur_drm_drv.c:379:36: warning: unused variable 'priv' [-Wunused-variable]
+     379 |         struct inspur_drm_private *priv;
+         |                                    ^~~~
 
 
-vim +296 drivers/i2c/busses/i2c-isch.c
+vim +/inspur_drm_interrupt +30 drivers/gpu/drm/inspur/inspur_drm_drv.c
 
-   276	
-   277	static int smbus_sch_probe(struct platform_device *dev)
-   278	{
-   279		struct resource *res;
-   280		int retval;
-   281	
-   282		res = platform_get_resource(dev, IORESOURCE_IO, 0);
-   283		if (!res)
-   284			return -EBUSY;
-   285	
-   286		sch_smba = devm_ioport_map(&dev->dev, res->start, resource_size(res));
-   287		if (!sch_smba) {
-   288			dev_err(&dev->dev, "SMBus region %pR already in use!\n", res);
-   289			return -EBUSY;
-   290		}
-   291	
-   292		/* set up the sysfs linkage to our parent device */
-   293		sch_adapter.dev.parent = &dev->dev;
-   294	
-   295		snprintf(sch_adapter.name, sizeof(sch_adapter.name),
- > 296			"SMBus SCH adapter at %04x", res->start);
-   297	
-   298		retval = i2c_add_adapter(&sch_adapter);
-   299		if (retval)
-   300			sch_smba = NULL;
-   301	
-   302		return retval;
-   303	}
-   304	
+    27	
+    28	
+    29	DEFINE_DRM_GEM_FOPS(inspur_fops);
+  > 30	irqreturn_t inspur_drm_interrupt(int irq, void *arg)
+    31	{
+    32		struct drm_device *dev = (struct drm_device *)arg;
+    33		struct inspur_drm_private *priv =
+    34			(struct inspur_drm_private *)dev->dev_private;
+    35		u32 status;
+    36	
+    37		status = readl(priv->mmio + INSPUR_RAW_INTERRUPT);
+    38	
+    39		if (status & INSPUR_RAW_INTERRUPT_VBLANK(1)) {
+    40			writel(INSPUR_RAW_INTERRUPT_VBLANK(1),
+    41			       priv->mmio + INSPUR_RAW_INTERRUPT);
+    42			drm_handle_vblank(dev, 0);
+    43		}
+    44	
+    45		return IRQ_HANDLED;
+    46	}
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
