@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A401CF7BA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 15:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87C71D0483
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 15:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726328060; cv=none; b=Nouf6C7MqbQiNoIwOIouSYDlQ8x1at+WZ3CJ1EX/ptuMO7yXmFQipfVgD98xp72m2bnzVERd9d2EWUKg04X9/TaIhUAW+PxLN2B7l3CtDMzgDVPbbVdR7nHPLY6IIrNiJOxt53/Mr+FMOwzuxtg3kCJ6OZ8s0998JWChQTEEJ9E=
+	t=1726328889; cv=none; b=k8RuAUH0ZkSSCApe+adqrh59BsMnyJsDMnxQtTrvHBFxaMHPPUqzxkBqkL93PqBJGLkFP0KgyH6+1kC/npv5HzXT2xBObd5CYnMeHsfBl903p6MrOf1Yx2M4ESfyWFICJWSwHMoCImrghx0yaVIzRpz0V9x3oyWe929WA33jb9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726328060; c=relaxed/simple;
-	bh=QBOVB0yM2vWg5VsUrg726BxZNDRJISV0VOA08vKcut4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IY0erY+nrc4ApFY6LGsua6Ni9BwKxZeDHXFEXXAn9HNVOB+CoVQxvWdh486rxb1ZHLrNf4Xpmdzxm9nGMy/YUV/PcRP0oLO6jcKD2ZsUaBnM8TVuosK52/ztUtXIg6XbZuKK8JPpNnruSH3upuivRM8h3ey0JCYMG+AQ90Qn4N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcOz2c9/; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1726328889; c=relaxed/simple;
+	bh=2GjI8rpV1PO0SHIF2lcxxiDXsIoOLM0bA4uc8zLiIK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jQTZwoJTuQhu31TcaBMCdFEmlVFp/x/ylYGSuUnPX9kij1M3mGgySLbkiwiH/rwlWt/mZvyqzdbDYdxuZtW+3czO7/nqlXd/bxovE40ld3POhVGmIg+8K3MjwjNqdqR9HqDI2MoJH6lrhMk6UNWA2awKJBz9IE1o0lF8TBXo3aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZlZRJ4P; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcOz2c9/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZlZRJ4P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726328060; x=1757864060;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QBOVB0yM2vWg5VsUrg726BxZNDRJISV0VOA08vKcut4=;
-  b=bcOz2c9/JxfV2MYZcKLRZDAhF0o2iZS29XCNQ+oQIMLKOzcIrvC50wm5
-   hqvqHFlGWJpVefPIk5QkpBrKiVjVocV1D5YLOuX/WRuSB6DFByUlURToZ
-   abmRy52jVpuxRxlx6gpyTOr5hgzSCOgxEQG64XeH4TkiUI3We0+2aG65H
-   dBNhKmJgdXfZzWm51UzO+pGE7/zgLWel8ydYLasNaZjf3PElVugEWvBkr
-   YK/IZ5rsz3zzryH3C8mM0bu2qCw13IlQB4u7+6jZC6rqO+vToQkhVHfFb
-   ZqAR6GaNVZdvQF3M7gHAxNxnp+k5m2wOKWLBAWduexyUS/fhEmjZl+oIF
-   w==;
-X-CSE-ConnectionGUID: roj35cG7SxuxR5xeV3MUvQ==
-X-CSE-MsgGUID: q8CNqQosTQqT+hYn+9ImRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="42695727"
+  t=1726328888; x=1757864888;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=2GjI8rpV1PO0SHIF2lcxxiDXsIoOLM0bA4uc8zLiIK0=;
+  b=kZlZRJ4PPQKhvosAzhwW9lUYhGYwW0eF3/m1I5l4+8EIN+IcP21xZ0NQ
+   VqB6Z7Pc7Ymt9VwxIB1ct5kgKKsrMgnAO/ComdjwYokE1ScmcOpbE0jKA
+   J0nuSg7ALUUczvN8V1kuBOtC2aclc5YoBESxU0s3bA/FzSUg66IVAlUjR
+   8vOUPSf+a60Ihtcn3Uri4xS3PaMEU6Iw11UICnzRJBaSmMw/w7OmP2SVp
+   tfsezLMCzQ0ju+4UajXJFM2qzKL/R/b2UuIqFTyayvcObXhyElB0AhH1w
+   Hh9JhryBnYdIEAsBmMNOCsJ3/4q94xVtgRGy5PJqMuRAhE6PGHLz+RGpA
+   g==;
+X-CSE-ConnectionGUID: zTR/4T5rRyOqSdF0gXimCg==
+X-CSE-MsgGUID: o/xF7O6WTVCUaXxLa4BdsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25155920"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="42695727"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 08:34:10 -0700
-X-CSE-ConnectionGUID: bxZoZih5SFOFijIVQ5phng==
-X-CSE-MsgGUID: txFGEYR2TWmI7oVjMJY0xA==
+   d="scan'208";a="25155920"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 08:48:07 -0700
+X-CSE-ConnectionGUID: f/iOIJOOSiq7TgguR7dMcg==
+X-CSE-MsgGUID: vYDx/JAER3CwP8hdQFp/Yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="72808096"
+   d="scan'208";a="99097242"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Sep 2024 08:34:06 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 Sep 2024 08:48:07 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spUmh-0007ta-20;
-	Sat, 14 Sep 2024 15:34:03 +0000
-Date: Sat, 14 Sep 2024 23:33:50 +0800
+	id 1spV0F-0007u2-3B;
+	Sat, 14 Sep 2024 15:48:03 +0000
+Date: Sat, 14 Sep 2024 23:47:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
-	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
-	Peter.Yin@quantatw.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 5/6] gpio: aspeed: Change the macro to support
- deferred probe
-Message-ID: <202409142334.UEVN1oRP-lkp@intel.com>
-References: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
+To: Kaixin Wang <kxwang23@m.fudan.edu.cn>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] i3c: master: svc: Fix use after free vulnerability in
+ svc_i3c_master Driver Due to Race Condition
+Message-ID: <ZuWwBbQJXOcczyfG@452932c7ae73>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,42 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
+In-Reply-To: <20240914154030.180-1-kxwang23@m.fudan.edu.cn>
 
-Hi Billy,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240913-154911
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20240913074325.239390-6-billy_tsai%40aspeedtech.com
-patch subject: [PATCH v3 5/6] gpio: aspeed: Change the macro to support deferred probe
-config: arm-randconfig-003-20240914 (https://download.01.org/0day-ci/archive/20240914/202409142334.UEVN1oRP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142334.UEVN1oRP-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409142334.UEVN1oRP-lkp@intel.com/
-
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
->> WARNING: modpost: drivers/gpio/gpio-aspeed: section mismatch in reference: aspeed_gpio_driver+0x0 (section: .data) -> aspeed_gpio_probe (section: .init.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] i3c: master: svc: Fix use after free vulnerability in svc_i3c_master Driver Due to Race Condition
+Link: https://lore.kernel.org/stable/20240914154030.180-1-kxwang23%40m.fudan.edu.cn
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
