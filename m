@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0B8749A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 02:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8978BEAF6;
+	Sat, 14 Sep 2024 02:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726281399; cv=none; b=BqW6B3zF2u1nJOCCq7IGmwZ4NyEZyUF490Kmz7MFfYidmQtYota6hlv43rUwpKscKRI4VPvD/c6D15fLst3ddoWj2bUkLPZqJID1L18LH6Lru2FM57B5SVTCgLF+fkMBzlOwXDWrsxPdVSrC1BjmfQqIgb4lwxOP5s6pftI1kgw=
+	t=1726282600; cv=none; b=i8LRBUNZ6xLcW7dvmSdWKiohJ29zaw7ry0LFBM529kQZK7+ZSfIvsSdPscFmWEuoi5KWgSi6d47pnUSbp/r7pp4pL9nBfMvgdZC5pNCsyp4SCR6xqx2nRXCi1j58uLOcKd5m5qce8weR6btze/9kAm4jzRSQkgtgZZ5ut3HxbG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726281399; c=relaxed/simple;
-	bh=FNXBYbdWzNgfjDSkNhEIFA6F9hPfy82GpWvz2tMAu1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QVbj+y3kwsg6yArgS9gliezWQxWckCKle2QPjgf8esF18ACYWZPyG7gzoDanhTy6UpNiSWLfSRyuF/vsIVGBqAwpXb3u+TC+r2R7n79K8Ha1nIdUxExXVhtbzD1howPqFYwBwnll89Z51UMsctB8PYtiFRUxj6vqymlOokkbo+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpteD+5K; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1726282600; c=relaxed/simple;
+	bh=wXD9oRrhuMCp9nFMvn5Vfjz+2YQ+0O2pvcPgRgzaNMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pcI+sKYeU1RoYyeCtkzvyp5Cg1Y3QTJn1YyQetvwyJIh5q3qWkMkpoTO6A6oks8oHQ1kXQKEgqqDNYUY7bxnstyIFaqesdCz547TZCBfCHVvQEOWI52wl9K1AmJL0Dx2/wlISvdL7Hm510S1ZFBkO9qJ7tBCFcyFtZQAVG0IB1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtSzZzlW; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpteD+5K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtSzZzlW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726281398; x=1757817398;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FNXBYbdWzNgfjDSkNhEIFA6F9hPfy82GpWvz2tMAu1M=;
-  b=bpteD+5KEmyxdImBPVcWbfu1E3r1stkjzlq07sGCY16aoYaUlgrlU3AZ
-   aa80anSpbZTmd8D27ATujMlrF6hyJbBUWhzvJPSCiGIjPy9hEAuVD8qt/
-   u+r8izDTUZRbsTd5Y6YeE1M4L5SbW9GWp6tQoEFWwwjQVE/rtcMmQ7EWO
-   wOlX3LlyneP5g2LyejJQiuBc7ALZHiOw7AdqwMquEfCpBMVx/WJbGy8YJ
-   v1Jv8KtFTO5Xe+VoN/Js8O9VlOtwHNpX4dwqxkCA6flMz7I7nA2YhIskf
-   TRXJrVjaP0KLbuYNKZjLnDAg5jWy18XUxjjmoDv2pUA2KVCDtOewzyn0g
+  t=1726282598; x=1757818598;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wXD9oRrhuMCp9nFMvn5Vfjz+2YQ+0O2pvcPgRgzaNMg=;
+  b=jtSzZzlWJs7n8WkMo9BRzpmRKxePRX3Q5laXXJ8I188b+C6idOxTPMIt
+   6OieKQMkOvtEQI+yjkq4tRUAPC5RRUK3imajdS2Da/WmC/VTZTer3fPIb
+   eamm7kud3VhT63qDJoZAs5iVmTOhN+7551BujEFjmVukjuVqvoE1BM6vv
+   a0tTjXh4D2C0dvO2fvhuZ0dVAbJRfEDgsejSMpSR/SSzJX3eLyyl2eT4Y
+   GXPS5GijjWwhW7k+j52gvw4rIg3nj/c1Pj2Eq+ipKD8OtBy8j3yFSsH/L
+   zWnVmpYJbQlJaHAIATdtt0CBL9r3XodeY67BvtHohSzc5ER6bZ9/+ttPx
    A==;
-X-CSE-ConnectionGUID: TPYQmwcEQym/r5RH1CeD2A==
-X-CSE-MsgGUID: IWNTyILKTh+j6f8jfAmJwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25132702"
+X-CSE-ConnectionGUID: sYbfGNy/S8W3k+pOl3R4gQ==
+X-CSE-MsgGUID: xSDntxxoSTuiaHPKG+QU/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35770248"
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="25132702"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 19:36:37 -0700
-X-CSE-ConnectionGUID: 78kiEkccRlW2tCXF4VPHKw==
-X-CSE-MsgGUID: fhJIjyD5TmSUUbtf7mBzTQ==
+   d="scan'208";a="35770248"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 19:56:38 -0700
+X-CSE-ConnectionGUID: 8tlQ/hqQS8mWPdKAQGfu8Q==
+X-CSE-MsgGUID: jHW8XlB9Sui//aTBHhyM8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="72659398"
+   d="scan'208";a="91561395"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Sep 2024 19:36:35 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 13 Sep 2024 19:56:36 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spIeH-0007Gg-2O;
-	Sat, 14 Sep 2024 02:36:33 +0000
-Date: Sat, 14 Sep 2024 10:35:34 +0800
+	id 1spIxe-0007He-0j;
+	Sat, 14 Sep 2024 02:56:34 +0000
+Date: Sat, 14 Sep 2024 10:55:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2820/30000] drivers/tty/tty_buffer.c:175:2:
- error: implicit declaration of function 'printk_safe_enter'
-Message-ID: <202409141036.Dno2bUGL-lkp@intel.com>
+To: Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ville.syrjala@linux.intel.com,
+	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
+Subject: Re: [PATCH 1/2] drm/i915/display: Add block_dc6_needed variable into
+ intel_crtc
+Message-ID: <202409141049.BsdxC6NQ-lkp@intel.com>
+References: <20240913073347.3273589-2-jouni.hogander@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,81 +66,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240913073347.3273589-2-jouni.hogander@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   5a1d9701155c6908c76c68951170f10279685143
-commit: 923efc4dc37c1a7cc91f0dd5dbdc87e0943ad1ae [2820/30000] tty: fix possible deadlock in console_unlock
-config: x86_64-buildonly-randconfig-003-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141036.Dno2bUGL-lkp@intel.com/config)
+Hi Jouni,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240912]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11-rc7 v6.11-rc6 v6.11-rc5 v6.11-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jouni-H-gander/drm-i915-display-Add-block_dc6_needed-variable-into-intel_crtc/20240913-153658
+base:   next-20240912
+patch link:    https://lore.kernel.org/r/20240913073347.3273589-2-jouni.hogander%40intel.com
+patch subject: [PATCH 1/2] drm/i915/display: Add block_dc6_needed variable into intel_crtc
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240914/202409141049.BsdxC6NQ-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141036.Dno2bUGL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141049.BsdxC6NQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141036.Dno2bUGL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141049.BsdxC6NQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tty/tty_buffer.c:175:2: error: implicit declaration of function 'printk_safe_enter' [-Werror,-Wimplicit-function-declaration]
-     175 |         printk_safe_enter();
-         |         ^
-   drivers/tty/tty_buffer.c:175:2: note: did you mean 'printk_nmi_enter'?
-   include/linux/printk.h:158:20: note: 'printk_nmi_enter' declared here
-     158 | static inline void printk_nmi_enter(void) { }
-         |                    ^
->> drivers/tty/tty_buffer.c:177:2: error: implicit declaration of function 'printk_safe_exit' [-Werror,-Wimplicit-function-declaration]
-     177 |         printk_safe_exit();
-         |         ^
-   2 errors generated.
+>> drivers/gpu/drm/i915/display/intel_psr.c:973:48: error: incompatible pointer types passing 'struct intel_display *' to parameter of type 'struct drm_i915_private *' [-Werror,-Wincompatible-pointer-types]
+     973 |                 block_dc6_on_vblank_get(&intel_crtc_for_pipe(display, intel_dp->psr.pipe)->base);
+         |                                                              ^~~~~~~
+   drivers/gpu/drm/i915/display/intel_crtc.h:46:65: note: passing argument to parameter 'i915' here
+      46 | struct intel_crtc *intel_crtc_for_pipe(struct drm_i915_private *i915,
+         |                                                                 ^
+   1 error generated.
 
 
-vim +/printk_safe_enter +175 drivers/tty/tty_buffer.c
+vim +973 drivers/gpu/drm/i915/display/intel_psr.c
 
-   142	
-   143	/**
-   144	 *	tty_buffer_alloc	-	allocate a tty buffer
-   145	 *	@port: tty port
-   146	 *	@size: desired size (characters)
-   147	 *
-   148	 *	Allocate a new tty buffer to hold the desired number of characters.
-   149	 *	We round our buffers off in 256 character chunks to get better
-   150	 *	allocation behaviour.
-   151	 *	Return NULL if out of memory or the allocation would exceed the
-   152	 *	per device queue
-   153	 */
-   154	
-   155	static struct tty_buffer *tty_buffer_alloc(struct tty_port *port, size_t size)
-   156	{
-   157		struct llist_node *free;
-   158		struct tty_buffer *p;
-   159	
-   160		/* Round the buffer size out */
-   161		size = __ALIGN_MASK(size, TTYB_ALIGN_MASK);
-   162	
-   163		if (size <= MIN_TTYB_SIZE) {
-   164			free = llist_del_first(&port->buf.free);
-   165			if (free) {
-   166				p = llist_entry(free, struct tty_buffer, free);
-   167				goto found;
-   168			}
-   169		}
-   170	
-   171		/* Should possibly check if this fails for the largest buffer we
-   172		   have queued and recycle that ? */
-   173		if (atomic_read(&port->buf.mem_used) > port->buf.mem_limit)
-   174			return NULL;
- > 175		printk_safe_enter();
-   176		p = kmalloc(sizeof(struct tty_buffer) + 2 * size, GFP_ATOMIC);
- > 177		printk_safe_exit();
-   178		if (p == NULL)
-   179			return NULL;
-   180	
-   181	found:
-   182		tty_buffer_reset(p, size);
-   183		atomic_add(size, &port->buf.mem_used);
-   184		return p;
-   185	}
-   186	
+   954	
+   955	static void dg2_activate_panel_replay(struct intel_dp *intel_dp)
+   956	{
+   957		struct intel_display *display = to_intel_display(intel_dp);
+   958		struct intel_psr *psr = &intel_dp->psr;
+   959		enum transcoder cpu_transcoder = intel_dp->psr.transcoder;
+   960	
+   961		if (intel_dp_is_edp(intel_dp) && psr->sel_update_enabled) {
+   962			u32 val = psr->su_region_et_enabled ?
+   963				LNL_EDP_PSR2_SU_REGION_ET_ENABLE : 0;
+   964	
+   965			if (intel_dp->psr.req_psr2_sdp_prior_scanline)
+   966				val |= EDP_PSR2_SU_SDP_SCANLINE;
+   967	
+   968			intel_de_write(display, EDP_PSR2_CTL(display, cpu_transcoder),
+   969				       val);
+   970		}
+   971	
+   972		if (intel_dp_is_edp(intel_dp))
+ > 973			block_dc6_on_vblank_get(&intel_crtc_for_pipe(display, intel_dp->psr.pipe)->base);
+   974	
+   975		intel_de_rmw(display,
+   976			     PSR2_MAN_TRK_CTL(display, intel_dp->psr.transcoder),
+   977			     0, ADLP_PSR2_MAN_TRK_CTL_SF_CONTINUOS_FULL_FRAME);
+   978	
+   979		intel_de_rmw(display, TRANS_DP2_CTL(intel_dp->psr.transcoder), 0,
+   980			     TRANS_DP2_PANEL_REPLAY_ENABLE);
+   981	}
+   982	
 
 -- 
 0-DAY CI Kernel Test Service
