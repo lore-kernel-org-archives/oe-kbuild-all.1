@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2817AC133
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 07:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F3D135A63
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 07:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726299652; cv=none; b=MGikgEeZAbVgQWCNkijoDlsHI/pXLf2zy7ZvD1MP+qlVb/LceNSNnkl950W6LNAmaoKftzJMQLxPq1qG7brlHy4wP3sYdVbzB+XWoi/+mkLUxxaAU/rxg/sQWWckU8yvDwHJtt0tdlfjqDGEgbiZK3lq/jOkEsZTpK29RtQBsuU=
+	t=1726299653; cv=none; b=l9lYZM++TBbTgOESgVfg0PiTdv5vq1+KmutyziCl+a6zs4l8hJNdOp9PSMTfxWJ/1ZHsW62uHxIGFvBS3bMqUyqX1LKU//BJdurx1xp+zLyT5P7b3WowwyqMr/3firSVq8ocevGU0ZtgqDIaQXdS4ZEUVjRNfcyp30uXV558CcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726299652; c=relaxed/simple;
-	bh=Ht8cmc8cCbaz2kpkC2GEHfzVv1jnhpkt6M+PnqaO2XU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FUQczbf7nQT46vwNiRSYYcKP5rrWzWkFLJsGaqFf9npgf2G5RrqIGnXISYtfh/ftuE+65j2Mw3MsZWEOitJ60fnfyP3miu9ClhjQeK5OST1Jcy0xSF+yQCESi5duNAV8sSulU2chXFCWEzhRdl7PNme/97RoC5p7I4WyElYJPRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYXb8E7N; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1726299653; c=relaxed/simple;
+	bh=jMHArKgyTv8eOCW7PbaoUkYrm5xHTOMPW0sQ5mgA/Bc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cIbgxc25kho83kG2X0tARa9GwSYqeTJU49/vP67AQzMEEkWJgUKfTbzxuD0cV82M2iWMTx7T1u0yTUKs84dxTBeur6loyKeFG8GtE5MzpT9QGF9GxhofLXzs+Y1PeC7CbmRErIEm7MfFOZF0bN09+Ef0ZQ1lYfZBN4fqeKS6EQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MHsToggE; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYXb8E7N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHsToggE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726299650; x=1757835650;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ht8cmc8cCbaz2kpkC2GEHfzVv1jnhpkt6M+PnqaO2XU=;
-  b=NYXb8E7NPP0c7tHrVBQg2qhMsfWzgnErprVg+H3KbUxQTXOBFH2EPLVH
-   cgYQcA92efPu5HXjYeGYaI/po3ADcA2iBYA0DMxwuUvNWgabgFtXEVfa8
-   ieOxBhl2f0rOMsknPMwalA+Smc4S6uG/nTiqfssdYgVoNSPygGYVjnR/o
-   Tue7no4+r4a/hdMQgiNbLJYzwkG4yEkWQwtRxwdgvQaEL8NztT1rV9Lkn
-   xFHRgq/Hl8/XU71BFpaNCciDixzQudpFM351JaJgTyyk/MgyhKSWGD04F
-   L9h3qZNNcNIhLR4JfM6sIqNgOn4+1vkdHlNgR0j2yJbhpuY2YBTnupBVu
-   w==;
-X-CSE-ConnectionGUID: BwcRc5w9SfyPLDhch7iYbA==
-X-CSE-MsgGUID: MdTKmxvVQAe1BoI2fTQvZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25300228"
+  t=1726299652; x=1757835652;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jMHArKgyTv8eOCW7PbaoUkYrm5xHTOMPW0sQ5mgA/Bc=;
+  b=MHsToggEbIWQTKK+UFGHYN2R1Vo1IlhaImcCRG9CGh6WsRi+cNGf8sls
+   xYMILOwbC0MldLTwZU9J8Fl2BO6Mc33FaeGXhglme6qKOOOtQS3wdhSyx
+   agwZ6yCHBxc/EWkdNKMsnXORe1vxYyPcxymFQn269D/BpzHX9xXgI9ha0
+   YljUZZtbI8aYHeKY+hNwXMzmmw61y7uPOhG06zx/IkHqbee0coJX6GEjQ
+   4dutgrJpVjCJ/d2ooAGeW50yQynsvEirNnwfgpTtOzJkbL37qIc9WG1yA
+   HhfTwvxSn+I2aH8DBcZ+rxKnmCMdDlvjIcpyD5oLScClu9DKXpZ5GPMp6
+   Q==;
+X-CSE-ConnectionGUID: 9+xgq38KStmmhjplXXnVkQ==
+X-CSE-MsgGUID: iTZReIklTNWzCAGND1+JCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25300230"
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="25300228"
+   d="scan'208";a="25300230"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 00:40:50 -0700
-X-CSE-ConnectionGUID: 2D/9ZqpDRFeNZsKsLSPwMg==
-X-CSE-MsgGUID: pv766GQQRn2AdPgDPot+Fg==
+X-CSE-ConnectionGUID: meMm2yYVT0u90m0Wodja8Q==
+X-CSE-MsgGUID: lgxzShV9TEqdPbEcDUvcWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="68038027"
+   d="scan'208";a="68038029"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 14 Sep 2024 00:40:48 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spNOg-0007VP-1L;
+	id 1spNOg-0007VM-1H;
 	Sat, 14 Sep 2024 07:40:46 +0000
-Date: Sat, 14 Sep 2024 15:40:38 +0800
+Date: Sat, 14 Sep 2024 15:40:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 03/11] unwind: Introduce SFrame user space unwinding
-Message-ID: <202409141501.yaoIVdSI-lkp@intel.com>
-References: <ca2e603ae3dcfa3e836162ed8c301fd4d9fd4058.1726268190.git.jpoimboe@kernel.org>
+Subject: [openeuler:OLK-6.6 1835/13946] mm/page_cache_limit.c:103:52: sparse:
+ sparse: incorrect type in argument 3 (different address spaces)
+Message-ID: <202409141518.G41e90PW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +61,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ca2e603ae3dcfa3e836162ed8c301fd4d9fd4058.1726268190.git.jpoimboe@kernel.org>
 
-Hi Josh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v6.11-rc7 next-20240913]
-[cannot apply to acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Poimboeuf/unwind-Introduce-generic-user-space-unwinding-interface/20240914-070619
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/ca2e603ae3dcfa3e836162ed8c301fd4d9fd4058.1726268190.git.jpoimboe%40kernel.org
-patch subject: [PATCH v2 03/11] unwind: Introduce SFrame user space unwinding
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240914/202409141501.yaoIVdSI-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141501.yaoIVdSI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   2e4beeb328d26e30afadf237e39b47aba637a978
+commit: 7d1031b36ebd6c273d9aad316fd9e3e2daa01a85 [1835/13946] mm: support pagecache limit
+config: loongarch-randconfig-r133-20240913 (https://download.01.org/0day-ci/archive/20240914/202409141518.G41e90PW-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240914/202409141518.G41e90PW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141501.yaoIVdSI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141518.G41e90PW-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/page_cache_limit.c:61:5: sparse: sparse: symbol 'cache_reclaim_enable_handler' was not declared. Should it be static?
+   mm/page_cache_limit.c:77:5: sparse: sparse: symbol 'cache_reclaim_sysctl_handler' was not declared. Should it be static?
+>> mm/page_cache_limit.c:103:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   mm/page_cache_limit.c:103:52: sparse:     expected void *
+   mm/page_cache_limit.c:103:52: sparse:     got void [noderef] __user *buffer
+>> mm/page_cache_limit.c:94:5: sparse: sparse: symbol 'cache_limit_mbytes_sysctl_handler' was not declared. Should it be static?
+>> mm/page_cache_limit.c:187:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   mm/page_cache_limit.c:187:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   mm/page_cache_limit.c:187:35: sparse:     got int ( * )( ... )
 
->> mm/init-mm.c:48:33: error: expected expression before ',' token
-      48 |         INIT_MM_CONTEXT(init_mm),
-         |                                 ^
->> mm/init-mm.c:48:33: warning: excess elements in struct initializer
-   mm/init-mm.c:48:33: note: (near initialization for 'init_mm')
+vim +103 mm/page_cache_limit.c
 
-
-vim +48 mm/init-mm.c
-
-    22	
-    23	/*
-    24	 * For dynamically allocated mm_structs, there is a dynamically sized cpumask
-    25	 * at the end of the structure, the size of which depends on the maximum CPU
-    26	 * number the system can see. That way we allocate only as much memory for
-    27	 * mm_cpumask() as needed for the hundreds, or thousands of processes that
-    28	 * a system typically runs.
-    29	 *
-    30	 * Since there is only one init_mm in the entire system, keep it simple
-    31	 * and size this cpu_bitmask to NR_CPUS.
-    32	 */
-    33	struct mm_struct init_mm = {
-    34		.mm_mt		= MTREE_INIT_EXT(mm_mt, MM_MT_FLAGS, init_mm.mmap_lock),
-    35		.pgd		= swapper_pg_dir,
-    36		.mm_users	= ATOMIC_INIT(2),
-    37		.mm_count	= ATOMIC_INIT(1),
-    38		.write_protect_seq = SEQCNT_ZERO(init_mm.write_protect_seq),
-    39		MMAP_LOCK_INITIALIZER(init_mm)
-    40		.page_table_lock =  __SPIN_LOCK_UNLOCKED(init_mm.page_table_lock),
-    41		.arg_lock	=  __SPIN_LOCK_UNLOCKED(init_mm.arg_lock),
-    42		.mmlist		= LIST_HEAD_INIT(init_mm.mmlist),
-    43	#ifdef CONFIG_PER_VMA_LOCK
-    44		.mm_lock_seq	= 0,
-    45	#endif
-    46		.user_ns	= &init_user_ns,
-    47		.cpu_bitmap	= CPU_BITS_NONE,
-  > 48		INIT_MM_CONTEXT(init_mm),
-    49		INIT_MM_SFRAME,
-    50	};
-    51	
+    93	
+  > 94	int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
+    95			void __user *buffer, size_t *length, loff_t *ppos)
+    96	{
+    97		int ret;
+    98		unsigned long vm_cache_limit_mbytes_max;
+    99		unsigned long origin_mbytes = vm_cache_limit_mbytes;
+   100		int nr_retries = MAX_RECLAIM_RETRIES;
+   101	
+   102		vm_cache_limit_mbytes_max = totalram_pages() >> (20 - PAGE_SHIFT);
+ > 103		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   104		if (ret || !write)
+   105			return ret;
+   106	
+   107		if (vm_cache_limit_mbytes > vm_cache_limit_mbytes_max) {
+   108			vm_cache_limit_mbytes = origin_mbytes;
+   109			return -EINVAL;
+   110		}
+   111	
+   112		if (write) {
+   113			while (should_reclaim_page_cache() && page_cache_over_limit() &&
+   114					nr_retries--) {
+   115				if (signal_pending(current))
+   116					return -EINTR;
+   117	
+   118				shrink_memory(node_reclaim_num(), false);
+   119			}
+   120		}
+   121	
+   122		return 0;
+   123	}
+   124	
+   125	static void shrink_shepherd(struct work_struct *w)
+   126	{
+   127		int node;
+   128	
+   129		if (!should_periodical_reclaim())
+   130			return;
+   131	
+   132		for_each_online_node(node) {
+   133			if (!work_pending(&vmscan_works[node]))
+   134				queue_work_node(node, system_unbound_wq, &vmscan_works[node]);
+   135		}
+   136	
+   137		queue_delayed_work(system_unbound_wq, &shepherd,
+   138			round_jiffies_relative((unsigned long)vm_cache_reclaim_s * HZ));
+   139	}
+   140	
+   141	static void shrink_page_work(struct work_struct *w)
+   142	{
+   143		shrink_memory(node_reclaim_num(), true);
+   144	}
+   145	
+   146	static void shrink_shepherd_timer(void)
+   147	{
+   148		int i;
+   149	
+   150		for (i = 0; i < MAX_NUMNODES; i++)
+   151			INIT_WORK(&vmscan_works[i], shrink_page_work);
+   152	}
+   153	
+   154	static struct ctl_table page_cache_limit_table[] = {
+   155		{
+   156			.procname	= "cache_reclaim_s",
+   157			.data		= &vm_cache_reclaim_s,
+   158			.maxlen		= sizeof(vm_cache_reclaim_s),
+   159			.mode		= 0644,
+   160			.proc_handler	= cache_reclaim_sysctl_handler,
+   161			.extra1		= SYSCTL_ZERO,
+   162			.extra2		= &vm_cache_reclaim_s_max,
+   163		},
+   164		{
+   165			.procname	= "cache_reclaim_weight",
+   166			.data		= &vm_cache_reclaim_weight,
+   167			.maxlen		= sizeof(vm_cache_reclaim_weight),
+   168			.mode		= 0644,
+   169			.proc_handler	= proc_dointvec_minmax,
+   170			.extra1		= SYSCTL_ONE,
+   171			.extra2		= &vm_cache_reclaim_weight_max,
+   172		},
+   173		{
+   174			.procname	= "cache_reclaim_enable",
+   175			.data		= &vm_cache_reclaim_enable,
+   176			.maxlen		= sizeof(vm_cache_reclaim_enable),
+   177			.mode		= 0644,
+   178			.proc_handler	= cache_reclaim_enable_handler,
+   179			.extra1		= SYSCTL_ZERO,
+   180			.extra2		= SYSCTL_ONE,
+   181		},
+   182		{
+   183			.procname	= "cache_limit_mbytes",
+   184			.data		= &vm_cache_limit_mbytes,
+   185			.maxlen		= sizeof(vm_cache_limit_mbytes),
+   186			.mode		= 0644,
+ > 187			.proc_handler	= cache_limit_mbytes_sysctl_handler,
+   188		},
+   189	};
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
