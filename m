@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739EF208DA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 06:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759F51CDA0F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 06:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726297012; cv=none; b=kHS0D5OPoghNqcwh9gq5L42sEgwvYV0vFo9k8o78SKtcv683v5GIDZzZqL/sQrenzoCcmkqOakycjJVIjmMtYffS+RKA4HJQ+yZFJECLD7V071YKwApGmLJTWcr7j3mpxuD65YK/C7n7X5x/5JfhQs9b1MTrhzSekLYUioHh+XE=
+	t=1726297013; cv=none; b=s3yfWrFFQnIx7RnpXoi/bZFfH1OferPmhI8YF7f8EFC9p3JIkxF6FeBFHKs0f3wbqvNCpiM26ACwTScbf0BpsZZtfRIv4oH1uExHkz099wR2i9dPZgbpS658oai84i7X0bTOdKiGUCgNa3Sq4I1hnGxRAWBZ2w5qf3uWponBmvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726297012; c=relaxed/simple;
-	bh=eDBaGqKU2dCsIXwBlQSOjlGc3Zg1J1YjjX4P6XgENM8=;
+	s=arc-20240116; t=1726297013; c=relaxed/simple;
+	bh=iKbFYRk2J8MOwC4JPMpaffxXFPd+RRdin3b7juYcdh8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dxsbXq2G0jqHZRr8zhTx0ooyqx+sqgpS4IwC3LDCj1pK2GE5TKH3A21Xo4MLpwmgCH/n91KRYXSCCw5fUj45HfaEikZp2nW4VXsYQk/uKn745Wu2viu9dtjTfyqLSekEgNqPy3fJyU9sHMf1gql3Ud6j/pyVvDQF4Bn9deAC8ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSYwVjoN; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=qZvGep4/tL1yWUkoq3Mx680ShN9+Dztt4050l8hvwt0WFvbifvnDqCjYY0+0ACTh0yQZbys4Hause/56Kxa0H8BD9NjDY9gpNHxb0Cu+0TJezKN0QTVuVugMzaAOMqpGPYPVXJe5bOBG8QO0bWwr61MWzMWWLhdoPEcGn2VZ29k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbjnZQCt; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSYwVjoN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbjnZQCt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726297009; x=1757833009;
+  t=1726297011; x=1757833011;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eDBaGqKU2dCsIXwBlQSOjlGc3Zg1J1YjjX4P6XgENM8=;
-  b=QSYwVjoNnsSfmQgSfT4ePvwdw/7WwDciF6azVVhzJpP0RQKRx8GOQ+E4
-   VlnddzgzmAOwkUMA99Yrdzh4ckhBJYeF9Q1OU4S4fsTVDSEPtwVXx6VPY
-   crdmAHjm2famHopVBWK2Zp6fTt6Rq4rXCT8i7HNPHDPYNaAki55tf23+V
-   O80krxHeKioarNEs7wWAr3PSL85dMwx3Pva3SqHfGV6HfDg53DUBJw0gR
-   8YFWhCOH1gtSK5K00B3JNhX33Eu+ycSrwzE3Qbx981HO2qXtS9BVdtMVx
-   RKL8rz+gNQnhW/+e8YIUguIJ0d0mLgaUw7J+AtHNDwNv6XengA5bpPTBl
-   Q==;
-X-CSE-ConnectionGUID: CikIHm+1QlSOMQ4+Ub8o7A==
-X-CSE-MsgGUID: CQwU+GghTXe1yoqsVkIiHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35878463"
+  bh=iKbFYRk2J8MOwC4JPMpaffxXFPd+RRdin3b7juYcdh8=;
+  b=RbjnZQCt4g+oog2sgaEP1Rt1YaShaoheJIIUdvrurphAGFfZk8urkL1Z
+   ecWwetPNZQk/HBqLGoExU5KNWnxzrL9zrKrIBzUyoWtjrm6qVjmPf9c4D
+   eoPWRfGoSEgQQFf+NMaDvBZP+GzKUKKQhUBdYjtjtknW/lLqgr3x/dh1X
+   9bhPOtbJnI0gXcW0oCjIgUwHYYz557byhesofcCBjW5SMZRcKFNCwhUpt
+   R3bw8AnIlO5//0MXsWK8O7m4xNhesDvoMfVivYrka9LbX5QNe6KVqeLiD
+   EVVcmUOwjn3GlvkHfHJfauZhczVLxcRbClTMlhz50OfGEeXHhCo7+0ZIp
+   A==;
+X-CSE-ConnectionGUID: a/b4QIUXTfSlCGTQfBHcrA==
+X-CSE-MsgGUID: ZzW1GU1ETNykkerzaeR0NQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="47714850"
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="35878463"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 23:56:48 -0700
-X-CSE-ConnectionGUID: 7s4ZThTKT36znQnYvJrZuA==
-X-CSE-MsgGUID: sW+SAfjqSoezGwRJFgRdcA==
+   d="scan'208";a="47714850"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 23:56:48 -0700
+X-CSE-ConnectionGUID: TcDsJtzMSgarwmJbNank4Q==
+X-CSE-MsgGUID: mzVjCidHRiGL7QDQpyCrtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="68320762"
+   d="scan'208";a="68572244"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Sep 2024 23:56:47 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 Sep 2024 23:56:47 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spMi5-0007TT-0c;
+	id 1spMi5-0007Tc-14;
 	Sat, 14 Sep 2024 06:56:45 +0000
-Date: Sat, 14 Sep 2024 14:56:17 +0800
+Date: Sat, 14 Sep 2024 14:56:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-error-cleanup-2024-09-13 40/53]
- sound/soc/mediatek/mt8183/mt8183-mt6358-ts3a227-max98357.c:67:30: warning:
- unused variable 'card'
-Message-ID: <202409141419.aSGOvZxE-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Maxim Levitsky <mlevitsk@redhat.com>
+Subject: [linux-next:master 10436/11962] arch/x86/kvm/smm.c:651
+ emulator_leave_smm() warn: inconsistent indenting
+Message-ID: <202409141449.UcocWbNb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +64,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-13
-head:   5e445c6c5142f8af742d327d3dc06bdadff2b0fa
-commit: 3f4b948e884c0e0712c65c96cca438e6d0ea83b8 [40/53] ASoC: mediatek: don't indicate duplicate error message
-config: arm64-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141419.aSGOvZxE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141419.aSGOvZxE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5acd9952f95fb4b7da6d09a3be39195a80845eb6
+commit: 3f6821aa147b6e6fe07e8b35999724518b74a632 [10436/11962] KVM: x86: Forcibly leave nested if RSM to L2 hits shutdown
+config: i386-randconfig-141-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141449.UcocWbNb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141419.aSGOvZxE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141449.UcocWbNb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/kvm/smm.c:651 emulator_leave_smm() warn: inconsistent indenting
 
-   sound/soc/mediatek/mt8183/mt8183-mt6358-ts3a227-max98357.c: In function 'mt8183_mt6358_rt1015_i2s_hw_params':
->> sound/soc/mediatek/mt8183/mt8183-mt6358-ts3a227-max98357.c:67:30: warning: unused variable 'card' [-Wunused-variable]
-      67 |         struct snd_soc_card *card = rtd->card;
-         |                              ^~~~
+Old smatch warnings:
+arch/x86/kvm/smm.c:300 enter_smm() warn: inconsistent indenting
 
+vim +651 arch/x86/kvm/smm.c
 
-vim +/card +67 sound/soc/mediatek/mt8183/mt8183-mt6358-ts3a227-max98357.c
-
-11c0269017b212 Shunli Wang       2019-03-29  58  
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  59  static int
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  60  mt8183_mt6358_rt1015_i2s_hw_params(struct snd_pcm_substream *substream,
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  61  				   struct snd_pcm_hw_params *params)
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  62  {
-de9e70137f0068 Kuninori Morimoto 2023-09-26  63  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  64  	unsigned int rate = params_rate(params);
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  65  	unsigned int mclk_fs_ratio = 128;
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  66  	unsigned int mclk_fs = rate * mclk_fs_ratio;
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08 @67  	struct snd_soc_card *card = rtd->card;
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  68  	struct snd_soc_dai *codec_dai;
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  69  	int ret, i;
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  70  
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  71  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  72  		ret = snd_soc_dai_set_pll(codec_dai, 0, RT1015_PLL_S_BCLK,
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  73  				rate * 64, rate * 256);
-3f4b948e884c0e Kuninori Morimoto 2024-09-11  74  		if (ret < 0)
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  75  			return ret;
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  76  
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  77  		ret = snd_soc_dai_set_sysclk(codec_dai, RT1015_SCLK_S_PLL,
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  78  				rate * 256, SND_SOC_CLOCK_IN);
-3f4b948e884c0e Kuninori Morimoto 2024-09-11  79  		if (ret < 0)
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  80  			return ret;
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  81  	}
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  82  
-de9e70137f0068 Kuninori Morimoto 2023-09-26  83  	return snd_soc_dai_set_sysclk(snd_soc_rtd_to_cpu(rtd, 0),
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  84  				      0, mclk_fs, SND_SOC_CLOCK_OUT);
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  85  }
-f4fb4fef49664e Tzung-Bi Shih     2020-07-08  86  
-
-:::::: The code at line 67 was first introduced by commit
-:::::: f4fb4fef49664e64f4f40e9e8db11f785fbc79a4 ASoC: mediatek: mt8183: support machine driver with rt1015
-
-:::::: TO: Tzung-Bi Shih <tzungbi@google.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   625	
+   626		/*
+   627		 * FIXME: When resuming L2 (a.k.a. guest mode), the transition to guest
+   628		 * mode should happen _after_ loading state from SMRAM.  However, KVM
+   629		 * piggybacks the nested VM-Enter flows (which is wrong for many other
+   630		 * reasons), and so nSVM/nVMX would clobber state that is loaded from
+   631		 * SMRAM and from the VMCS/VMCB.
+   632		 */
+   633		if (kvm_x86_call(leave_smm)(vcpu, &smram))
+   634			return X86EMUL_UNHANDLEABLE;
+   635	
+   636	#ifdef CONFIG_X86_64
+   637		if (guest_cpuid_has(vcpu, X86_FEATURE_LM))
+   638			ret = rsm_load_state_64(ctxt, &smram.smram64);
+   639		else
+   640	#endif
+   641			ret = rsm_load_state_32(ctxt, &smram.smram32);
+   642	
+   643		/*
+   644		 * If RSM fails and triggers shutdown, architecturally the shutdown
+   645		 * occurs *before* the transition to guest mode.  But due to KVM's
+   646		 * flawed handling of RSM to L2 (see above), the vCPU may already be
+   647		 * in_guest_mode().  Force the vCPU out of guest mode before delivering
+   648		 * the shutdown, so that L1 enters shutdown instead of seeing a VM-Exit
+   649		 * that architecturally shouldn't be possible.
+   650		 */
+ > 651		if (ret != X86EMUL_CONTINUE && is_guest_mode(vcpu))
 
 -- 
 0-DAY CI Kernel Test Service
