@@ -1,67 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343351CF5FC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 13:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514B815E86
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 13:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726320426; cv=none; b=I8+DMwpRXnNJYtIqaffVQHIuQkTmvnFv6fy0rBN6cikafuvpP0F6/qErwvKczS6Kz4gaC5IJahhlu6FN/qmx/5dCar11vq7lBYfi8rmFLEFH8JVjcmRpn9dP9NzPDfxMCMxXe5vVAcB1Z66BhZdlCzF0MoknmAJsFR9+mYK8/ec=
+	t=1726321024; cv=none; b=J9u2IpGs0RBcGibeDkCXq75P0Ej8NCxF7yTYleRkC0t65KDozkbwKU4gCUuhqjIsxYR5wu0ECKC+recNH3ooIGaT2vGEIj+LkTnp0hzN1csB3JoeIHGq3ya4rPTJ5fw1ZtLl1G8v0vK1LQxE7WQY+vj/nEgyvyKWON/w42w4nGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726320426; c=relaxed/simple;
-	bh=bfwqlZPrPDDj9RmAuDLGsQEpeaFuEXu2QbOhoqDsVLI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S1w9kGCEo8XanN1EIfd8kcb+jcW7jbqKBOw1sCt2GOeLjKNrVhsTzKL7ujcaoT/PqvyL2GL34bE+sZXCqGWsAW4jKv7zdvwlCok7Ba+npwl6upE5/kLvHjMsGNmy8MfJjezKQF+Tbbc6UKLb9ZKgr/DjVUeiP8cZNUsoB2+f/bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/d56EnX; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1726321024; c=relaxed/simple;
+	bh=mZZoSkk7t3hKDVlOYlPSQH31oO6NrGfwJNlrezjjVyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iRWbrYmvprq3tsX5WPoX8f37HumhElTchRxMVF0H7oo8Wwl1bdqkU9mSP/FsxdRf3/R5cBR9S9QJ3itxCLr0X1dsJwEvSmAUrDaXTIlQp5m/BqOgkcfJrJtFeWmfSkMb+7RLNijLxetOtL6RXyc5f/GX241Uxu3jLIU9KUhqyKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0/EhIKY; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/d56EnX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0/EhIKY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726320424; x=1757856424;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bfwqlZPrPDDj9RmAuDLGsQEpeaFuEXu2QbOhoqDsVLI=;
-  b=X/d56EnXnb6fTU1ha43hezEhi6t+s0wD7pTYcEBy/fCGgTcc7zhMR+l5
-   TWv/55R8CC/ZlYreb2M4XihDc7Uc+zbQOb6+VrBtl1K3SKp6lx/IN5sks
-   AHC2ucTk77IWDv/kpaoQmSSVB69dIw9DY6U1yik4pIu/421WOGH8kxcMb
-   u2LORzKuDIkrk3vql0ZQXuPumULT9IVZJmIbuFdgoyOB6eHdXWC6DPMyC
-   H5DhPi9BOgN4sUS+CNDRy4r9j/AVIZg3noVUl3y1A05NZVn9u7hyd9ted
-   ybpgzX8zk8AQIjtNn8Gb58zy8lthXEkFBjIVufJmxCuaRXxGKI2544/Bb
-   w==;
-X-CSE-ConnectionGUID: 6+sfdbB1Thi60sGjRa2d/w==
-X-CSE-MsgGUID: WUKPhYyjR8KHU98/Go5CRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="24698593"
+  t=1726321023; x=1757857023;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mZZoSkk7t3hKDVlOYlPSQH31oO6NrGfwJNlrezjjVyg=;
+  b=T0/EhIKYBpC+JuE6/e2AcKjogiSG4XdRbhpDFzrM4T2R7wGhdiHLDehm
+   2xTisuk3xHNNJ3FrIgf4FyG/BKmgD2uHYvUzuMpsJcjIp4LfzF2tTKsWN
+   AZUX0Y0OIM1tykD6X27Glmpne161PR2lz2tdylt6WrdBCYkum8D7McpDo
+   X4pqEormru0KBNHcS7yn8SkFO2aIz0PtY+qIh75/3phWgQaMr1/+GkpaC
+   AP6sacapMVz/sa+uI6th5eATh0IXHAiV5W5uW1z1RIBakhIAMKqx7wtIo
+   AJ5J22XLOMQBbPDw/MGqw8WmSr+36WXsszHfC96G06CX04gDELcz0xAS9
+   g==;
+X-CSE-ConnectionGUID: R55ApxZFTtmxEODVoLdHqg==
+X-CSE-MsgGUID: lkzNTNLJTuOT2XIqlLikow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="29000129"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="24698593"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 06:27:04 -0700
-X-CSE-ConnectionGUID: mHzuBfSMQ6+R0oB732P08Q==
-X-CSE-MsgGUID: 7TqGNRHXQwKIO3eJz7yGZw==
+   d="scan'208";a="29000129"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 06:37:02 -0700
+X-CSE-ConnectionGUID: sl4lNyDwQEiYTJx3gFUspQ==
+X-CSE-MsgGUID: icwwkJf6RRWEaujXEMPO3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="68268763"
+   d="scan'208";a="68640534"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Sep 2024 06:27:00 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2024 06:37:00 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spSnh-0007mK-2W;
-	Sat, 14 Sep 2024 13:26:57 +0000
-Date: Sat, 14 Sep 2024 21:26:26 +0800
+	id 1spSxO-0007ms-03;
+	Sat, 14 Sep 2024 13:36:58 +0000
+Date: Sat, 14 Sep 2024 21:36:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Bruel <christian.bruel@foss.st.com>, vkoul@kernel.org,
-	kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, p.zabel@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	fabrice.gasnier@foss.st.com,
-	Christian Bruel <christian.bruel@foss.st.com>
-Subject: Re: [PATCH v8 2/5] phy: stm32: Add support for STM32MP25 COMBOPHY.
-Message-ID: <202409142143.iJkSYPUK-lkp@intel.com>
-References: <20240911104646.2980821-3-christian.bruel@foss.st.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20240912 6/15]
+ drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:2: error: call to
+ '__compiletime_assert_1056' declared with 'error' attribute: BUILD_BUG_ON
+ failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
+Message-ID: <202409142133.w3pk77Qm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,195 +65,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911104646.2980821-3-christian.bruel@foss.st.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on atorgue-stm32/stm32-next]
-[also build test ERROR on robh/for-next linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Bruel/dt-bindings-phy-Add-STM32MP25-COMBOPHY-bindings/20240911-185452
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20240911104646.2980821-3-christian.bruel%40foss.st.com
-patch subject: [PATCH v8 2/5] phy: stm32: Add support for STM32MP25 COMBOPHY.
-config: um-randconfig-r132-20240914 (https://download.01.org/0day-ci/archive/20240914/202409142143.iJkSYPUK-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142143.iJkSYPUK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240912
+head:   f2ca068393cf1157c12ab08556b05824eec16511
+commit: 7256c015db0178a6e2221d8f03b0d2fea660d9ea [6/15] wifi: iwlwifi: mvm: Use __counted_by() and avoid -Wfamnae warnings
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240914/202409142133.w3pk77Qm-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142133.w3pk77Qm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409142143.iJkSYPUK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409142133.w3pk77Qm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/phy/st/phy-stm32-combophy.c:12:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/phy/st/phy-stm32-combophy.c:12:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/phy/st/phy-stm32-combophy.c:12:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/phy/st/phy-stm32-combophy.c:140:8: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                      FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_OHM, imp_of));
-                                      ^
->> drivers/phy/st/phy-stm32-combophy.c:143:12: error: implicit declaration of function 'FIELD_GET' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   imp_of = FIELD_GET(STM32MP25_PCIEPRG_IMPCTRL_OHM, val);
-                            ^
-   drivers/phy/st/phy-stm32-combophy.c:161:8: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                      FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_VSWING, vswing_of));
-                                      ^
-   drivers/phy/st/phy-stm32-combophy.c:530:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-                   return ret;
-                          ^~~
-   drivers/phy/st/phy-stm32-combophy.c:515:9: note: initialize the variable 'ret' to silence this warning
-           int ret, irq;
-                  ^
-                   = 0
-   13 warnings and 3 errors generated.
+   In file included from drivers/net/wireless/intel/iwlwifi/mvm/d3.c:7:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/riscv/include/asm/cacheflush.h:9:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:2: error: call to '__compiletime_assert_1056' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
+    2149 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:517:2: note: expanded from macro 'compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:505:2: note: expanded from macro '_compiletime_assert'
+     505 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:498:4: note: expanded from macro '__compiletime_assert'
+     498 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:67:1: note: expanded from here
+      67 | __compiletime_assert_1056
+         | ^
+>> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2148:2: error: call to '__compiletime_assert_1055' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
+    2148 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:517:2: note: expanded from macro 'compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:505:2: note: expanded from macro '_compiletime_assert'
+     505 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:498:4: note: expanded from macro '__compiletime_assert'
+     498 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:63:1: note: expanded from here
+      63 | __compiletime_assert_1055
+         | ^
+   4 warnings and 2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [m]:
+   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 
-vim +/FIELD_PREP +140 drivers/phy/st/phy-stm32-combophy.c
+vim +2149 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
 
-   113	
-   114	static int stm32_impedance_tune(struct stm32_combophy *combophy)
-   115	{
-   116		u8 imp_size = ARRAY_SIZE(imp_lookup);
-   117		u8 vswing_size = ARRAY_SIZE(imp_lookup[0].vswing);
-   118		u8 imp_of, vswing_of;
-   119		u32 max_imp = imp_lookup[0].microohm;
-   120		u32 min_imp = imp_lookup[imp_size - 1].microohm;
-   121		u32 max_vswing = imp_lookup[imp_size - 1].vswing[vswing_size - 1];
-   122		u32 min_vswing = imp_lookup[0].vswing[0];
-   123		u32 val;
-   124	
-   125		if (!of_property_read_u32(combophy->dev->of_node, "st,output-micro-ohms", &val)) {
-   126			if (val < min_imp || val > max_imp) {
-   127				dev_err(combophy->dev, "Invalid value %u for output ohm\n", val);
-   128				return -EINVAL;
-   129			}
-   130	
-   131			for (imp_of = 0; imp_of < ARRAY_SIZE(imp_lookup); imp_of++)
-   132				if (imp_lookup[imp_of].microohm <= val)
-   133					break;
-   134	
-   135			dev_dbg(combophy->dev, "Set %u micro-ohms output impedance\n",
-   136				imp_lookup[imp_of].microohm);
-   137	
-   138			regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
-   139					   STM32MP25_PCIEPRG_IMPCTRL_OHM,
- > 140					   FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_OHM, imp_of));
-   141		} else {
-   142			regmap_read(combophy->regmap, SYSCFG_PCIEPRGCR, &val);
- > 143			imp_of = FIELD_GET(STM32MP25_PCIEPRG_IMPCTRL_OHM, val);
-   144		}
-   145	
-   146		if (!of_property_read_u32(combophy->dev->of_node, "st,output-vswing-microvolt", &val)) {
-   147			if (val < min_vswing || val > max_vswing) {
-   148				dev_err(combophy->dev, "Invalid value %u for output vswing\n", val);
-   149				return -EINVAL;
-   150			}
-   151	
-   152			for (vswing_of = 0; vswing_of < ARRAY_SIZE(imp_lookup[imp_of].vswing); vswing_of++)
-   153				if (imp_lookup[imp_of].vswing[vswing_of] >= val)
-   154					break;
-   155	
-   156			dev_dbg(combophy->dev, "Set %u microvolt swing\n",
-   157				 imp_lookup[imp_of].vswing[vswing_of]);
-   158	
-   159			regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
-   160					   STM32MP25_PCIEPRG_IMPCTRL_VSWING,
-   161					   FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_VSWING, vswing_of));
-   162		}
-   163	
-   164		return 0;
-   165	}
-   166	
+  2134	
+  2135	static bool iwl_mvm_gtk_rekey(struct iwl_wowlan_status_data *status,
+  2136				      struct ieee80211_vif *vif,
+  2137				      struct iwl_mvm *mvm, u32 gtk_cipher)
+  2138	{
+  2139		int i, j;
+  2140		struct ieee80211_key_conf *key;
+  2141		DEFINE_FLEX(struct ieee80211_key_conf, conf, key, keylen,
+  2142			    WOWLAN_KEY_MAX_SIZE);
+  2143		int link_id = vif->active_links ? __ffs(vif->active_links) : -1;
+  2144	
+  2145		conf->cipher = gtk_cipher;
+  2146	
+  2147		BUILD_BUG_ON(WLAN_KEY_LEN_CCMP != WLAN_KEY_LEN_GCMP);
+> 2148		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
+> 2149		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
+  2150		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_TKIP);
+  2151		BUILD_BUG_ON(conf->keylen < sizeof(status->gtk[0].key));
+  2152	
+  2153		switch (gtk_cipher) {
+  2154		case WLAN_CIPHER_SUITE_CCMP:
+  2155		case WLAN_CIPHER_SUITE_GCMP:
+  2156			conf->keylen = WLAN_KEY_LEN_CCMP;
+  2157			break;
+  2158		case WLAN_CIPHER_SUITE_GCMP_256:
+  2159			conf->keylen = WLAN_KEY_LEN_GCMP_256;
+  2160			break;
+  2161		case WLAN_CIPHER_SUITE_TKIP:
+  2162			conf->keylen = WLAN_KEY_LEN_TKIP;
+  2163			break;
+  2164		default:
+  2165			WARN_ON(1);
+  2166		}
+  2167	
+  2168		for (i = 0; i < ARRAY_SIZE(status->gtk); i++) {
+  2169			if (!status->gtk[i].len)
+  2170				continue;
+  2171	
+  2172			conf->keyidx = status->gtk[i].id;
+  2173			IWL_DEBUG_WOWLAN(mvm,
+  2174					 "Received from FW GTK cipher %d, key index %d\n",
+  2175					 conf->cipher, conf->keyidx);
+  2176			memcpy(conf->key, status->gtk[i].key,
+  2177			       sizeof(status->gtk[i].key));
+  2178	
+  2179			key = ieee80211_gtk_rekey_add(vif, conf, link_id);
+  2180			if (IS_ERR(key))
+  2181				return false;
+  2182	
+  2183			for (j = 0; j < ARRAY_SIZE(status->gtk_seq); j++) {
+  2184				if (!status->gtk_seq[j].valid ||
+  2185				    status->gtk_seq[j].key_id != key->keyidx)
+  2186					continue;
+  2187				iwl_mvm_set_key_rx_seq_idx(key, status, j);
+  2188				break;
+  2189			}
+  2190			WARN_ON(j == ARRAY_SIZE(status->gtk_seq));
+  2191		}
+  2192	
+  2193		return true;
+  2194	}
+  2195	
 
 -- 
 0-DAY CI Kernel Test Service
