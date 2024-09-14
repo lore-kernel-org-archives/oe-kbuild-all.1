@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A10B143723;
-	Sat, 14 Sep 2024 10:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC8D76046
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 10:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726308479; cv=none; b=NI0Tef4KpGcWw8uTq/cxcuhvs+p4Xs8OT8qj4RpGTk5IZLpTvT9NAWRHvX+lIGzX6lYK7Om1okr+rouxA2Kc8Y/5z2L04nV5XL7fUfR9wXVKr8PqqKGSn5M2Tzab01OovwXiNoRDcXxhHj/AUeAD7eFuvOKVVKbHq07cKOTGGOA=
+	t=1726309138; cv=none; b=HQritW/SJIKxBxphETGPbIJlrN0RjzUHAPj0hU8Xw9lcncnIBwgqK7BGO/OArfSHwWrvm1odJvhvE6I3QjlqX1don/Luv/Mb5VdcvCPYOS2EPc5LPxyucPDvFlwjOz19VDlU4N3CyHcI1OhQVUmdqmExClz/pPh4CBrYhLutC9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726308479; c=relaxed/simple;
-	bh=D2K5mzwFbYYJ5gmg5Ev9xqQ6HGEqbVJKpdxN+0yysk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qs9diYFv8B+cd2KthNXiftO3TxqXNqCeQZy5j+Oyb8FC6XGQazBfqUF6oSHi/jYMsYl7EMippOCgceSQ8LRSFkvJ61jgb0imzspdBAgz8HIfo/D5uZt6tre1y7svPPN50Wi+p/3C7XKyF3B7BO6L5dhbOyLfzsb05VEHpcB5i6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UcVpZw0d; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1726309138; c=relaxed/simple;
+	bh=hMP+CztSwJDtBEifZT8Fzu/6kRf4wSNr+3Hv8tLnP+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IaFaWsLMgRWo5NcUW99D1TZztC7nrayUjXuOytdE+m888Wt+AhQoMgZApXMVtRp9xIczLgSPUUHSI12qUAc9N0EO9ChzsOmHS/zu0hAkde4f0t0t+8PpX6cLZp1k1MHpEEqXHbG4GVWf6YyXf2cNYD6eekYUgDZT3UCwM3BmsIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUPex1Mx; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UcVpZw0d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUPex1Mx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726308478; x=1757844478;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D2K5mzwFbYYJ5gmg5Ev9xqQ6HGEqbVJKpdxN+0yysk0=;
-  b=UcVpZw0dpxIlAKbLbXyZQfpaW/tcZhc4XsFFHNGlPw6ZhVHBxrhZTeU2
-   hZmkeAecA/Y5uLCcHZoI7cuKGayFzBdRjxkcjQ69+qPCEUSaFiJtopxq4
-   blKanlEY7O/AH1qWszGQAxaefSzy+9T+K64gULefrPR/QA9akCOjgpz+s
-   fLB/mU+fj33CRw9UiWqVsAD55/jjAC3BPiiixdohlljE7PDjaOuhucJit
-   TVmKrLcREIIFchCm9UjOLYyR40OgJKEGZ5pCoMJyJcwLwiyKeic7CWxXW
-   lm+CkFFVUjKyNFVDE6dREI44UXNcJLdqsurqMsgNzCWAzgpE2Jy4DXRi9
+  t=1726309136; x=1757845136;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hMP+CztSwJDtBEifZT8Fzu/6kRf4wSNr+3Hv8tLnP+g=;
+  b=WUPex1MxkqoRt5oWKUNmyH8YpElfCypUrGKrofp06B2fhcmaBd/QJYVP
+   9aAsL5C3suSVec7LCOfQPEkiwF1z5TxsXmTf2PtWBrqkJAvC04RPvK0/c
+   DXFokwenG5JJ/LZzRQoSurBYI8YsX8g97sgM7vbsEn7sIhB8jMxhU/nUj
+   DcQHxf0HqeXGNF638gkPiHKSIRKU8D49JEolWHgtlaht4PF8WQIYd6/8L
+   PGUhH9oaSBiDG101Hto9ZavRvADrFzbQxJj4X1rbRL2w3XtxZiUk6WUky
+   42A+D47/Vzg6GRuJ6oo/JYmuH5yet7lQPh2dDAkvycixWCJUhmckSVS8/
    g==;
-X-CSE-ConnectionGUID: ekq/yah2QAiH+qL+k8mD0A==
-X-CSE-MsgGUID: 2eGqo/mqTz+eLr302oV/Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25364953"
+X-CSE-ConnectionGUID: Zj+huT1hRZuhmR5WU9yaQQ==
+X-CSE-MsgGUID: /DPkw9kTRyaRuO0aMzxhYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="42686513"
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="25364953"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 03:07:55 -0700
-X-CSE-ConnectionGUID: uhGAQ8JTTFWo0m7rl6jQmg==
-X-CSE-MsgGUID: AliTTPSoRU+FxEzRvVcQVw==
+   d="scan'208";a="42686513"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 03:18:56 -0700
+X-CSE-ConnectionGUID: i1r1mulKSliAvTiGZ2UX5w==
+X-CSE-MsgGUID: xlb1JNOdQP+Lcard8pR15Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="99219229"
+   d="scan'208";a="99038810"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Sep 2024 03:07:54 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 Sep 2024 03:18:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spPh2-0007cU-08;
-	Sat, 14 Sep 2024 10:07:52 +0000
-Date: Sat, 14 Sep 2024 18:07:32 +0800
+	id 1spPrg-0007d0-0r;
+	Sat, 14 Sep 2024 10:18:52 +0000
+Date: Sat, 14 Sep 2024 18:18:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 39/39] KVM: guest_memfd: Dynamically
- split/reconstruct HugeTLB page
-Message-ID: <202409141709.Edd1Sxg8-lkp@intel.com>
-References: <38723c5d5e9b530e52f28b9f9f4a6d862ed69bcd.1726009989.git.ackerleytng@google.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 17239/23714]
+ drivers/nvme/host/core.c:1163:27: error: 'compat_uptr_t' undeclared; did you
+ mean 'compat_time_t'?
+Message-ID: <202409141821.nKd5ypu2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <38723c5d5e9b530e52f28b9f9f4a6d862ed69bcd.1726009989.git.ackerleytng@google.com>
 
-Hi Ackerley,
+Hi Nick,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on linus/master v6.11-rc7]
-[cannot apply to akpm-mm/mm-everything kvm/linux-next next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ackerley-Tng/mm-hugetlb-Simplify-logic-in-dequeue_hugetlb_folio_vma/20240911-074716
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/38723c5d5e9b530e52f28b9f9f4a6d862ed69bcd.1726009989.git.ackerleytng%40google.com
-patch subject: [RFC PATCH 39/39] KVM: guest_memfd: Dynamically split/reconstruct HugeTLB page
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240914/202409141709.Edd1Sxg8-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141709.Edd1Sxg8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   37aeb7e817053fbf532b214aa02858b3c23af0b1
+commit: b8ba22a604e4d0a3ad8e23af22f432e12b6f1a65 [17239/23714] nvme: fix compat address handling in several ioctls
+config: arm64-randconfig-003-20240913 (https://download.01.org/0day-ci/archive/20240914/202409141821.nKd5ypu2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141821.nKd5ypu2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141709.Edd1Sxg8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141821.nKd5ypu2-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-ERROR: modpost: "default_hstate_idx" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "hstates" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "hugepage_new_subpool" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "folio_zero_user" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "hugetlb_fault_mutex_hash" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "hugetlb_fault_mutex_table" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "get_mem_cgroup_from_current" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "mem_cgroup_hugetlb_try_charge" [arch/x86/kvm/kvm.ko] undefined!
-ERROR: modpost: "hugepage_subpool_get_pages" [arch/x86/kvm/kvm.ko] undefined!
->> ERROR: modpost: "mem_cgroup_cancel_charge" [arch/x86/kvm/kvm.ko] undefined!
-WARNING: modpost: suppressed 18 unresolved symbol warnings because there were too many)
+   drivers/nvme/host/core.c: In function 'nvme_to_user_ptr':
+>> drivers/nvme/host/core.c:1163:27: error: 'compat_uptr_t' undeclared (first use in this function); did you mean 'compat_time_t'?
+    1163 |                 ptrval = (compat_uptr_t)ptrval;
+         |                           ^~~~~~~~~~~~~
+         |                           compat_time_t
+   drivers/nvme/host/core.c:1163:27: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/nvme/host/core.c:1163:41: error: expected ';' before 'ptrval'
+    1163 |                 ptrval = (compat_uptr_t)ptrval;
+         |                                         ^~~~~~
+         |                                         ;
+
+
+vim +1163 drivers/nvme/host/core.c
+
+  1154	
+  1155	/*
+  1156	 * Convert integer values from ioctl structures to user pointers, silently
+  1157	 * ignoring the upper bits in the compat case to match behaviour of 32-bit
+  1158	 * kernels.
+  1159	 */
+  1160	static void __user *nvme_to_user_ptr(uintptr_t ptrval)
+  1161	{
+  1162		if (in_compat_syscall())
+> 1163			ptrval = (compat_uptr_t)ptrval;
+  1164		return (void __user *)ptrval;
+  1165	}
+  1166	
 
 -- 
 0-DAY CI Kernel Test Service
