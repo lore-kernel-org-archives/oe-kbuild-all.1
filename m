@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C802E12C7FB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 19:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23081E871
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 20:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726341138; cv=none; b=Z6gOKQh1ICXsHjgZraQpfsV6m3gSuwdAbsV6pdqiESHFa69rrqH2PnpbZ3gMym7fbHPRlNVwxAwBTRthOUJVUFOSgqKGFvCL0Qlr4RZXV7rwEqvcWAfOc3ZbUPH3lC7o6YkdiSDYxj0kDsJI/TZq08Hu11qEy//iKV9EmWxoQ74=
+	t=1726344199; cv=none; b=lYWSK0qibakja1yKQVuQpagmtoOKMcJl7e+QZ0dyOxviohKIlOpZM3hw6WMNoTdK+elXJnXvqHN7BYhX3/sK3QKAn6+GZxeUaIlzyMtGGGxb8wJvOMUfiQAEKhDrr8vOfuLEKGXhWo11qh6DFgPqU9usjQ1msvM4bsxIXdN+rSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726341138; c=relaxed/simple;
-	bh=88odafgMn79y/pyTLotQx8k3bN8kLtWMeWX2TeGl/00=;
+	s=arc-20240116; t=1726344199; c=relaxed/simple;
+	bh=dSXe2zK5hvnxlvqydyxGpdghEzQRJUa8pKFmT6La3w4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Er3BzTonOLK4ZoY0QJgdvFwFiSZLVpjmI5c2MF/d9RjzNjODm0hzyXJpqOc/5CW1EuK8BSzZrHDHysJpxs7JFkb5yUjzWYGgSlcoe7uZic5PCofmei3knULKKw3xP0IkzigdOKKU2P0TyQUPYyDKnkpuJ/FnjItBj1+QM3za9NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/BpOuDK; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=S06LFMSLvhP1d69z7AOL0+InueCE+J39fas8MHgnJINXOkSMVDd4Gkj5EY604kdAFbmgfeNYcWNuNje2usAeY5aYn56rE5eAB23Am+DT6xtRoHWfRd0QOiyqtwKrcadliH8KnBKUsvXZxdf66PQ816CPDbBgRU8Kjeq4Zo4wew4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hBYdbCwO; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/BpOuDK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hBYdbCwO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726341136; x=1757877136;
+  t=1726344198; x=1757880198;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=88odafgMn79y/pyTLotQx8k3bN8kLtWMeWX2TeGl/00=;
-  b=A/BpOuDKQ/XyrPM+Cb58MWhtvalCRURPkzD0tL37ST7KHCCXJqbl0syf
-   EupN9zyVlAd7KuUvsyW9CNKUjQJtmK5AU6dYR0Qi0aUwgzpHslOT2aEHR
-   mao2itYXmzPUyktpW11ktcwI/cGx6bEFmvskvqUF6Pi/hb0Vo4+xJHUqw
-   ViHXxSC4v1IjO5CJ3MBN2c+ImzBInE9PKBJj7DBwiWJ6s3IK6N3yhhWw/
-   y4A2Jn5je9gBts3Ug3hoT87bbYJs/gej0sKnCzmJuYq+EAKEne7KOjztC
-   dFRwSR8di4FPLCHQ9kzUC16+5a+rL4twHPOriCT2r8Ftxg0v+wu3c4oUe
-   Q==;
-X-CSE-ConnectionGUID: +anoqyj6RFWujvLsolpXMQ==
-X-CSE-MsgGUID: 19/kt4aKT5Wch3q2f0amQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="24708576"
+  bh=dSXe2zK5hvnxlvqydyxGpdghEzQRJUa8pKFmT6La3w4=;
+  b=hBYdbCwOFdkpu7bKSBe3YUvqJGGZwQLGtmFNBFJzz/T9KiHV6SFeZjD8
+   fIErd0rAqfAUcYRRxBmWqK2VyBiZbPWXSgLTEp9qLSH0xmwdIAo3BcGXY
+   VObrg57Wth5ZCJ1cp80WnjRnmOjjzm5PiWLHBUot+GHVlzpYGUg4PXB20
+   M7+RERQahM89hjnryMxvmTMBb/PBSzoxpmdlls11HyvhQKlHVfQtvBM+c
+   wFDuld9VkCX3LJgxbe2xcIc3ZvWvhDnhyICxpD092yhpaE0akFo6qi7UN
+   eyjLSex3Ahyzu+eBwpeYBAO8E9gx/0Q4ukUNjl32mitMbmEp+tncHZqr6
+   w==;
+X-CSE-ConnectionGUID: OWzTa/1URD2VfR0AMPBYnw==
+X-CSE-MsgGUID: O5KG8m5XTl6l4fLBzJ5nDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="36606174"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="24708576"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 12:12:16 -0700
-X-CSE-ConnectionGUID: U4EBrEioQ7+lDMAa5RlqVg==
-X-CSE-MsgGUID: 2MsiDHZbRmq0uMgyacnI7A==
+   d="scan'208";a="36606174"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 13:03:17 -0700
+X-CSE-ConnectionGUID: HiSDpaB0RSugx8814BR3kA==
+X-CSE-MsgGUID: jECWtT8WS/+smJ2dQL8QFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="68692356"
+   d="scan'208";a="91732203"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2024 12:12:15 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 14 Sep 2024 13:03:16 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spYBp-00085O-13;
-	Sat, 14 Sep 2024 19:12:13 +0000
-Date: Sun, 15 Sep 2024 03:12:11 +0800
+	id 1spYzC-00086g-0z;
+	Sat, 14 Sep 2024 20:03:14 +0000
+Date: Sun, 15 Sep 2024 04:03:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:5.4-main 3542/28533] versioncheck:
- ./net/wireguard/compat/dst_cache/dst_cache.c: 175: need linux/version.h
-Message-ID: <202409150319.GNrfiyg1-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 20076/23714] arch/x86/power/.tmp_cpu.o:
+ warning: objtool: missing symbol for section .exit.text
+Message-ID: <202409150309.lli3IYFh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,108 +62,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
-head:   92b88e0e59c946d552fb3d375d60e775a4151ea2
-commit: dabd02495f84488ea48192d40aa013f3749c1bc1 [3542/28533] added wireguard, tag:0.0.20191219
-reproduce: (https://download.01.org/0day-ci/archive/20240915/202409150319.GNrfiyg1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   37aeb7e817053fbf532b214aa02858b3c23af0b1
+commit: 27dd57ae7b305c8c1bcf55eab82c45d85b605149 [20076/23714] x86/cpu: Load microcode during restore_processor_state()
+config: x86_64-buildonly-randconfig-001-20240913 (https://download.01.org/0day-ci/archive/20240915/202409150309.lli3IYFh-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150309.lli3IYFh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409150319.GNrfiyg1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409150309.lli3IYFh-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.1.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/btif/common/inc/mtk_btif.h: 17 linux/version.h not needed.
-   ./drivers/misc/mediatek/btif/common/plat_inc/plat_common.h: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/common_detect/wmt_detect.h: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/include/wmt_stp_exp.h: 17 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/linux/include/osal_typedef.h: 24 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/bgw_desense.c: 15 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/hif/ahb/mt8127/ahb_pdma.c: 33 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/include/gl_os.h: 527 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/platform.c: 104 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
->> ./net/wireguard/compat/dst_cache/dst_cache.c: 175: need linux/version.h
-   ./net/wireguard/compat/simd/include/linux/simd.h: 12 linux/version.h not needed.
->> ./net/wireguard/compat/siphash/siphash.c: 539: need linux/version.h
->> ./net/wireguard/compat/udp_tunnel/udp_tunnel.c: 387: need linux/version.h
->> ./net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: 226: need linux/version.h
-   ./net/wireguard/crypto/zinc/curve25519/curve25519.c: 16 linux/version.h not needed.
->> ./net/wireguard/tests/qemu/init.c: 25 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./utils/cryptodev/cryptodev-linux/authenc.c: 849: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/cryptlib.c: 489: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/ioctl.c: 1217: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/zc.c: 220: need linux/version.h
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/x86/power/cpu.c:27:
+   In file included from arch/x86/include/asm/mmu_context.h:12:
+   In file included from arch/x86/include/asm/pgalloc.h:7:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   arch/x86/power/cpu.c:78: warning: Function parameter or member 'ctxt' not described in '__save_processor_state'
+   arch/x86/power/cpu.c:200: warning: Function parameter or member 'ctxt' not described in '__restore_processor_state'
+>> arch/x86/power/.tmp_cpu.o: warning: objtool: missing symbol for section .exit.text
 
 -- 
 0-DAY CI Kernel Test Service
