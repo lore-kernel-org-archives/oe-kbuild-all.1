@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407C4146D45
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 08:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFBF15D1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 08:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726303496; cv=none; b=V89+Kl9uxUngiHFTHFV7QCMCfqYyFDzJHYoLy2OSq9UMNTp705JE9xns8yABEF8MNui/OYc747cbNqyrCu4W6HRvCGpzJOZsfJ1219V6ZZP7hxfviXJ8EbgRJY9GRb5T3Xeo2TW45jq+9kUMWEKKUjLTs4bCu6SytrwXQQjnhHM=
+	t=1726304093; cv=none; b=P4a3ey10utJ+XXO4FSDfSUPZfr55pqldhCVv3Cu2qBvVMermHslHh4yWZujs7JVpzbQw5itGHzuZZKPXvOuDCA3xyyBsnz2LGkqFYh1RH0g3hpmGiFrY46+Ig6q/wzi3l0kLGcOz+T5LId1i0MtjCtsruqnLR05yAaUZLOf1Q/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726303496; c=relaxed/simple;
-	bh=Yo2t08wq6mqrLt2v9Yb6EbR8Hv+2oN77BrDNhVFJZzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gP7zr7lf8usWdS9sNn3+S4Ck3g5dBQC+YuW9mfU4wVkj7YaXe2Jk2j8anjJi/FjtlFazmPvlFuQfBR7Tm3iujIPwI6WtKwZSzf1hKLGolnhTx8rwC0c/SFIx1NmGpJybG1QPLRpaZGT6XLDo2dxhZPFUiyGDLmMi6qC1gyBaM9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFTvIviQ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1726304093; c=relaxed/simple;
+	bh=qwAg56FGxjfA5/8uwWH0e8w9OyJHSK14i/v4gBx/RUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NhQ28FXch02Xr70kbPpVU2KVVUlmmndV5pdb9YEKpGxefCcXSlF4NAowbXfYdXD+s4FjUrJY7fUDpWxQiv0vMZC28iZlT04tZI0jaJciUKPxkdvPwlKYC0nmcBLzT820QXLfSmJV5px8PdNGGHQtPf1kJBwu3vI4DKyLZxUDpwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6DwQ+7p; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFTvIviQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6DwQ+7p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726303494; x=1757839494;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Yo2t08wq6mqrLt2v9Yb6EbR8Hv+2oN77BrDNhVFJZzk=;
-  b=kFTvIviQNb98/ZAeR+yFKNYtTtekw4HCSIv5ItLJ0TnAPSVwKdid8nM0
-   7Rv+4G9QnmjotDEI6HeBttmbEXSLkg+mOWYogegaJacorAFVyGw36EXOR
-   ng0YKWO6Tpoww8+lXroQ11c4U5cOJYLf+KyGrOS8/GyqvVZwoJuRykrqd
-   1pQt4J93eNfjq/cD9d3Lj1pXPkqrPhUR/a/OPn7pi4cpOJaH6RxMAoZbm
-   /L/L+Jq8NGGygxb73o5ymF9714wxDbe+HiGwR5/X6mpOJJfZNsLsLqwps
-   W6UxftOMvr1dmJp9sadv5OKDgYRfmhaDQCtdtBs3uke5c1ocfN6IXBDn8
+  t=1726304092; x=1757840092;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qwAg56FGxjfA5/8uwWH0e8w9OyJHSK14i/v4gBx/RUo=;
+  b=O6DwQ+7pb31quil54hgPjhOxocPgauKiaAuxgyQOqSmb50ucy2cVyDGb
+   O/qRGm7BST2agO0NZoLKqsI1O8qTayvJmMKet/lIAaO+fxeptR1IXSH0E
+   uwJO8kkF4JEaf4JkAXZcqxVCoQ2hwVPo6xjHcbyGBAsgpvFACb8BSJUL8
+   XUJrQnFJu+MJYBd4G3cdlCUgw1K4xZQ2TLqLE4ZrEQLXd5U4SSi99VBbV
+   6NZRo9Duq9WFZoh4NbXvu2Kcie/uIWBtvfHbDvcnCMQWtW0mGeMcXNPqD
+   Y/HwRW6W2Z5JJqPDKZ1AHMkOma1Mvf7r6wNivdTkaFVtEJXBdrAtKp0tP
    g==;
-X-CSE-ConnectionGUID: tsLC2CTvTSescJStUNKGSQ==
-X-CSE-MsgGUID: bo3HeZ4PSwO1VDl8NtA5AQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25092064"
+X-CSE-ConnectionGUID: 08z3Hi0dRriXdDyTX2bfPA==
+X-CSE-MsgGUID: Pvxws9KsT7WNrdH7EVHiQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="50623302"
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="25092064"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 01:44:54 -0700
-X-CSE-ConnectionGUID: xmrBwu1NS0qQAciLVisk0w==
-X-CSE-MsgGUID: E9tgl2zaSju+Bp7vrddTKA==
+   d="scan'208";a="50623302"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 01:54:52 -0700
+X-CSE-ConnectionGUID: CwQKaOzGTxyAIqdirTJIaA==
+X-CSE-MsgGUID: o1ikovGORey2D62YiinoKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="105796452"
+   d="scan'208";a="67970776"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Sep 2024 01:44:50 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 14 Sep 2024 01:54:50 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spOOe-0007Xw-0K;
-	Sat, 14 Sep 2024 08:44:48 +0000
-Date: Sat, 14 Sep 2024 16:44:02 +0800
+	id 1spOYK-0007YU-1f;
+	Sat, 14 Sep 2024 08:54:48 +0000
+Date: Sat, 14 Sep 2024 16:54:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
-	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
-	Peter.Yin@quantatw.com
+To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 5/6] gpio: aspeed: Change the macro to support
- deferred probe
-Message-ID: <202409141654.wHuMQLLU-lkp@intel.com>
-References: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
+Subject: [wens:mtk-wip 22/45] drivers/i2c/i2c-core-of-prober.c:214:16:
+ warning: assignment to 'struct regulator *' from 'int' makes pointer from
+ integer without a cast
+Message-ID: <202409141604.8iTm1Wbx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,34 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
 
-Hi Billy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.11-rc7 next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240913-154911
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20240913074325.239390-6-billy_tsai%40aspeedtech.com
-patch subject: [PATCH v3 5/6] gpio: aspeed: Change the macro to support deferred probe
-config: arc-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141654.wHuMQLLU-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141654.wHuMQLLU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
+head:   42c21929aeb3c7ca7b0ce9cacb1d0ff915d3c783
+commit: e21fd10d1aa3f6556ed35a5af16f85a9ad14c29a [22/45] i2c: of-prober: Add simple helpers for regulator support
+config: i386-buildonly-randconfig-003-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141604.8iTm1Wbx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141604.8iTm1Wbx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141654.wHuMQLLU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141604.8iTm1Wbx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: aspeed_gpio_driver+0x0 (section: .data) -> aspeed_gpio_probe (section: .init.text)
+   drivers/i2c/i2c-core-of-prober.c: In function 'i2c_of_probe_simple_get_supply':
+   drivers/i2c/i2c-core-of-prober.c:214:18: error: implicit declaration of function 'of_regulator_get_optional'; did you mean 'regulator_get_optional'? [-Werror=implicit-function-declaration]
+     214 |         supply = of_regulator_get_optional(dev, node, supply_name);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                  regulator_get_optional
+>> drivers/i2c/i2c-core-of-prober.c:214:16: warning: assignment to 'struct regulator *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     214 |         supply = of_regulator_get_optional(dev, node, supply_name);
+         |                ^
+   cc1: some warnings being treated as errors
+
+
+vim +214 drivers/i2c/i2c-core-of-prober.c
+
+   197	
+   198	static int i2c_of_probe_simple_get_supply(struct device *dev, struct device_node *node,
+   199						  struct i2c_of_probe_simple_ctx *ctx)
+   200	{
+   201		const char *supply_name;
+   202		struct regulator *supply;
+   203	
+   204		/*
+   205		 * It's entirely possible for the component's device node to not have regulator
+   206		 * supplies. While it does not make sense from a hardware perspective, the
+   207		 * supplies could be always on or otherwise not modeled in the device tree, but
+   208		 * the device would still work.
+   209		 */
+   210		supply_name = ctx->opts->supply_name;
+   211		if (!supply_name)
+   212			return 0;
+   213	
+ > 214		supply = of_regulator_get_optional(dev, node, supply_name);
+   215		if (IS_ERR(supply)) {
+   216			return dev_err_probe(dev, PTR_ERR(supply),
+   217					     "Failed to get regulator supply \"%s\" from %pOF\n",
+   218					     supply_name, node);
+   219		}
+   220	
+   221		ctx->supply = supply;
+   222	
+   223		return 0;
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
