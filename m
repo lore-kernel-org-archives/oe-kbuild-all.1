@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8968A7E76D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 20:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4395FBBA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Sep 2024 21:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726347262; cv=none; b=WOCWiCiZTBwWTegFyhZCJOm/PkQ/XOnwgMpwrRiJQ5HwtMahs0J4Xdbf5lvxHgA59OJYHnS7ywB35RenUSdisig+24Uhs0gaor+5zdl4ElQ31xwO1dkf4ekb+bvlWsSEhsygt31XJ2K7ZgUcz/zM6tyEUuanFWkZAUrmYfvyZM0=
+	t=1726350325; cv=none; b=q406smwQIBE0/DL+D/+NDIZWDPj8sKOHhf7P1WuyB+EYgALxaYRfugz+hw41xdSOv37yPYGxsMxB+/omGS6ja9un97D51Vd4/fuIEQGTzmjzMZ5fvcSgZ3c/l8NaBygyZk55RMuzC4ihepXvIYwPdMrVjNyCLx8Fw81ZZ/bZ6DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726347262; c=relaxed/simple;
-	bh=pCz7eRNU5tTN1BhwUkQjl1xty62DK6Z3+vSbQQVbEPo=;
+	s=arc-20240116; t=1726350325; c=relaxed/simple;
+	bh=CLSu4mI5ZhyM2hJDPioSr4jdpcE7Sig1rtveFIUk3Pw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S6fSmHtFyW4rDjIGYWaLFU3oAsGvSqoEjSr7U1mNJCo9zA05IKUO1xSIs8ziVBPzYtDgVae3XOl4VEJwYnOivtw13BDudIveK1jC/NsrdRww6e7rhGF3OZFklQAYuPUZIEuv4EkdR5Fg1iqgpOrhOPIx4m5hJrq4GIFZNqlbDuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9vsvpBv; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=AGtDCOSfH8dGzxUoX4xVudf26VqyxIyXGx1vo4QaerMyhj1+gW+RsU0ccX5UoiM4YnbaVfnELMqBwW4VllrVQVoKVhWE62OgST/a9Vtt7TlWC9nEbXDSxY+5Vku+Lmq5NAf1E0tB3f6E/LNccfokXVD89vYqBq1DZwM/k5XkF3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lif74Feu; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9vsvpBv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lif74Feu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726347260; x=1757883260;
+  t=1726350323; x=1757886323;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pCz7eRNU5tTN1BhwUkQjl1xty62DK6Z3+vSbQQVbEPo=;
-  b=V9vsvpBvvWi43D4ykWTmwN2JZejLA7pT1pZwmOiQpGO+quzfBdyj+1KH
-   pgLFFqQ2jN6jJ/dIXLvZXWJBHaNCFHIWucnEiDJaD12jNjJrcysk9cN4n
-   xqDtAwIrhDyFiS5CJs2zktL3yPee3DlakPKGDMWFNEwH7+zoZGh2pJlC8
-   NJpFU2GqEoo5n5Dr5bYDljD4K3l3RjlUd5GB24a8xmVbSrfMBiD3PV3y/
-   ZgWdG9MlZ0W9dPEnqPJ3U6OObZ61GdoinKRx7Hg74ED9S1wqNiGKIBIuJ
-   E1X8dbE9yd24Stv3L4WGW3CO+FXab/ob1S27QdC6JinzvrMspbJ/3iuV9
-   g==;
-X-CSE-ConnectionGUID: figAeHlOTaOfGvgtnepV+w==
-X-CSE-MsgGUID: /wtShapZTTimdZO2HgWrDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="24763042"
+  bh=CLSu4mI5ZhyM2hJDPioSr4jdpcE7Sig1rtveFIUk3Pw=;
+  b=Lif74FeuBAH0xcZKyxoBNDEgW9ohmkf2yHz9JAKn2MfUFl4X4tx7WLiW
+   TFBNxcNx0JVCbH4PCfnsWUqJDLnCzMth0HMrG3MkB7kB08HVzTxvq3HIX
+   Z4olET7N9somvZABwF3bflIq54fKWFUJGR13anUhO0ClPXCsdJ7/5Zdv3
+   lcnvchjx474JXxJEV6OBa0sy791e62Qwv88J4KUXcWKBTM30RRlZy7pVk
+   cPSaLFj+RVFGskKqSVwQM7DUmm6VUIaPwyBXfvnRh4ndsoIzoSRkQbUUe
+   ShNJK+FYoQM1y9eMISY86X4lGRY0aoeu7ofClIoWqPbz8O5BMvb/xJ2+S
+   A==;
+X-CSE-ConnectionGUID: pBBWryKoT7K1GZz7o9biCQ==
+X-CSE-MsgGUID: L/9hOfffSkW4JfyMj15W4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25323743"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="24763042"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 13:54:19 -0700
-X-CSE-ConnectionGUID: GwE1rDs+QBG7Yd4wWCxIyQ==
-X-CSE-MsgGUID: tthQWUvnTdOVCrKJzWR5WA==
+   d="scan'208";a="25323743"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 14:45:22 -0700
+X-CSE-ConnectionGUID: uIx6SCKFQdi5OsSPjmFsnA==
+X-CSE-MsgGUID: MlDVNTZUTcu69bdBhEdP5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="99141568"
+   d="scan'208";a="73482304"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Sep 2024 13:54:18 -0700
+  by orviesa004.jf.intel.com with ESMTP; 14 Sep 2024 14:45:20 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spZmZ-000882-13;
-	Sat, 14 Sep 2024 20:54:15 +0000
-Date: Sun, 15 Sep 2024 04:54:12 +0800
+	id 1spaZy-0008A6-0j;
+	Sat, 14 Sep 2024 21:45:18 +0000
+Date: Sun, 15 Sep 2024 05:45:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:5.4-spi 10/41] versioncheck:
- ./net/wireguard/compat/ptr_ring/include/linux/ptr_ring.h: 674: need
- linux/version.h
-Message-ID: <202409150450.uDfFsUTD-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 22035/30000] arch/arm64/kvm/reset.c:102:34:
+ error: implicit declaration of function 'sve_max_virtualisable_vl'
+Message-ID: <202409150529.mcKQAqhK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,108 +62,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-spi
-head:   f18d6b8720893df4172d217fd074ba23ac53a7a7
-commit: eb31f9fb1fa2612c9024fcd18b95e511df50a1e5 [10/41] net: wireguard: update wireguard compat
-reproduce: (https://download.01.org/0day-ci/archive/20240915/202409150450.uDfFsUTD-lkp@intel.com/reproduce)
+Hi Mark,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   1b6ac823ff98dd4dbd1b6bff478a1b9b44855f67
+commit: 68da302c8ae30331c8917f1dc7b0f1682f696d71 [22035/30000] arm64/sve: Put system wide vector length information into structs
+config: arm64-randconfig-002-20240915 (https://download.01.org/0day-ci/archive/20240915/202409150529.mcKQAqhK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150529.mcKQAqhK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409150450.uDfFsUTD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409150529.mcKQAqhK-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.1.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/btif/common/inc/mtk_btif.h: 17 linux/version.h not needed.
-   ./drivers/misc/mediatek/btif/common/plat_inc/plat_common.h: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/common_detect/wmt_detect.h: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/include/wmt_stp_exp.h: 17 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/linux/include/osal_typedef.h: 24 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/bgw_desense.c: 15 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/hif/ahb/mt8127/ahb_pdma.c: 33 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/include/gl_os.h: 527 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/platform.c: 104 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 35 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./net/wireguard/compat/dst_cache/dst_cache.c: 175: need linux/version.h
->> ./net/wireguard/compat/ptr_ring/include/linux/ptr_ring.h: 674: need linux/version.h
-   ./net/wireguard/compat/siphash/siphash.c: 539: need linux/version.h
-   ./net/wireguard/compat/udp_tunnel/udp_tunnel.c: 394: need linux/version.h
-   ./net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: 226: need linux/version.h
->> ./net/wireguard/compat/version/linux/version.h: 10: need linux/version.h
-   ./net/wireguard/tests/qemu/init.c: 27 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./utils/cryptodev/cryptodev-linux/authenc.c: 849: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/cryptlib.c: 489: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/ioctl.c: 1217: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/zc.c: 220: need linux/version.h
+All errors (new ones prefixed by >>):
+
+   arch/arm64/kvm/reset.c: In function 'kvm_arm_init_sve':
+>> arch/arm64/kvm/reset.c:102:34: error: implicit declaration of function 'sve_max_virtualisable_vl' [-Werror=implicit-function-declaration]
+     102 |                 kvm_sve_max_vl = sve_max_virtualisable_vl();
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/sve_max_virtualisable_vl +102 arch/arm64/kvm/reset.c
+
+    98	
+    99	int kvm_arm_init_sve(void)
+   100	{
+   101		if (system_supports_sve()) {
+ > 102			kvm_sve_max_vl = sve_max_virtualisable_vl();
+   103	
+   104			/*
+   105			 * The get_sve_reg()/set_sve_reg() ioctl interface will need
+   106			 * to be extended with multiple register slice support in
+   107			 * order to support vector lengths greater than
+   108			 * SVE_VL_ARCH_MAX:
+   109			 */
+   110			if (WARN_ON(kvm_sve_max_vl > SVE_VL_ARCH_MAX))
+   111				kvm_sve_max_vl = SVE_VL_ARCH_MAX;
+   112	
+   113			/*
+   114			 * Don't even try to make use of vector lengths that
+   115			 * aren't available on all CPUs, for now:
+   116			 */
+   117			if (kvm_sve_max_vl < sve_max_vl())
+   118				pr_warn("KVM: SVE vector length for guests limited to %u bytes\n",
+   119					kvm_sve_max_vl);
+   120		}
+   121	
+   122		return 0;
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
