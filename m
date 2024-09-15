@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B83017BA3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 02:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60411D531
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 03:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726369111; cv=none; b=sMCpXp1aAacb+vaIfCl0g4OameJXvkiDBGgwHpk6Iyfu2So0eBt7CQR1fx/8CQ9UJMBF9F/2wzBcQ1b+2A9n+Jk5mm0UcujUtfvkZ1/AWK2flyTso5zbxPzXtEhWChDAWMkQzUfhXVuPgUQbxHLRNNowIgGS7htBq/DWrK4hfoo=
+	t=1726370314; cv=none; b=l20lGFVz+/x6lZ7tJdaM2+HBy+vNjv38mMO5VubABqhjMxEdmJhErS17Ml4wqKiZAq3x+wXkhUYspMVfwvq8MrihMoPCR0MVyCz8A+yLbAUsS6o2l5cOg/0OouuV6rXfL0pb0MnbZHrcEVxGvesOE/kPPMSQlgjKgGRzn2A3aWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726369111; c=relaxed/simple;
-	bh=4CwV2kreeBfNg1f9C9W1BjPDIKZc3jIem0zilwNNTVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JFmdjZTn+yabX8Z6/hfFknWQbvp8gbYJJ/O3Hv3/mhJqdwBt5RbKNZGjzgxEPat6hqyD4SSo7XnCt5K06k06ctAvwkSOglpiP03yeNBbrts3U1tIgrG+iGdtMZcNBOOD7eFua1RWjNo9JvGnljDfYfbfj4ZdLPAI5Oc7HI/0ylU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=byWyOlJU; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1726370314; c=relaxed/simple;
+	bh=ZRydN+dM+3OvRRLgs4jhjaBSzfoQ7MPwG7EOHmcE3FE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n/uO+XXOdgZMQLzMoyOAc0kJ/irB7stKwHD7sa/9YQoeCgcnWDu5nTg2UTjxgXbhGbPQG6BBymC1kpIcQdtQLUdOnrvB0W9S28e1g5rmINHvTJQWIufUTh/60QMgCcaODlpNssgvJyoTKFPsyeQudXCUSKbFxatzi4zMGgfOhjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RtwGmcf6; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byWyOlJU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RtwGmcf6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726369110; x=1757905110;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4CwV2kreeBfNg1f9C9W1BjPDIKZc3jIem0zilwNNTVw=;
-  b=byWyOlJUdSHQNccysrOYACJIEqsUr0YaB2he2S1xrW5jPXxAsDt7L1Cx
-   r5BEohOPJg8pYFmRoAJmVMhrNnFMBDEnqTJa+AZ9wo3lOi59XJwc9CQH8
-   QSsZUZf7mZNSm7a0FmO9FZx4EZ+9B6e05aOMf9aIQJbQ32I1DTOcy/DX2
-   oWVF/LdR5OeApaQ1ueHfHjuQF1PiKnEFcY315tvjT8NJLbc9vzGoafH1f
-   bZWvb88QlmIOfU0dIyu7FlmuF3a6boFu+uvYTGLHXKoQO5+fL5Ban6Szy
-   TZfrwQLFgojUlh5xv9/6+A90/UNcs1R3SM81hvMXD87qgivKtXGbhC7Q8
-   w==;
-X-CSE-ConnectionGUID: 7zfRztBAQtaEAis7pfUkIA==
-X-CSE-MsgGUID: Zthu74vpSTCBW+I074F5cQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25122002"
+  t=1726370313; x=1757906313;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZRydN+dM+3OvRRLgs4jhjaBSzfoQ7MPwG7EOHmcE3FE=;
+  b=RtwGmcf60KeTrhUqcFCiQpY20Jpmj1Uq/NgSIr4w1h5kMBKM1lag1rAC
+   +13uy1vbY2gmxcTdlKkMJ/IMYK7G0KSb0dHOPhTVfkkOAx2SRTYGZvqYN
+   /DFbvoV9P88T2w1IRkXwZVkJ91u1Az8QM8QM+r2CBnOzTKLGprCy52RL+
+   951xHnQcEGAxAaDZtqMpzMRb6w2UXBgArY33keFNkIB97Rcdse+YeF6mo
+   eBbTLjBPpFCwLaPKGdViRps4basTEynhQ+MhYQdSVA8u/e709HuRCutfs
+   jwUV3tEA6rEhcn/U8AMvgOFFPPgyzEvKBr4xRWLcfhn5VX09RmNHzKrz4
+   A==;
+X-CSE-ConnectionGUID: y2fIhsRYSsym8+/Sx6PPpw==
+X-CSE-MsgGUID: sT7W9xFkTEe6dUJmfCG+7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25110085"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="25122002"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 19:58:29 -0700
-X-CSE-ConnectionGUID: LxdIk35VS2aS1kDJFS0rMw==
-X-CSE-MsgGUID: cxD5dTzqTGii0zGp0rNfXw==
+   d="scan'208";a="25110085"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 20:18:32 -0700
+X-CSE-ConnectionGUID: /iHr1LBpRZuiH1v4RojWWA==
+X-CSE-MsgGUID: UgC0I8g9TUiqAhDuL+2B9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="73526262"
+   d="scan'208";a="72911982"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 14 Sep 2024 19:58:28 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Sep 2024 20:18:30 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spfSz-0008MA-2T;
-	Sun, 15 Sep 2024 02:58:25 +0000
-Date: Sun, 15 Sep 2024 10:58:07 +0800
+	id 1spfmN-0008NI-2r;
+	Sun, 15 Sep 2024 03:18:27 +0000
+Date: Sun, 15 Sep 2024 11:18:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v10 05/14] riscv: vector: Use vlenb from DT for thead
-Message-ID: <202409151033.te7A7BaA-lkp@intel.com>
-References: <20240911-xtheadvector-v10-5-8d3930091246@rivosinc.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Matt Roper <matthew.d.roper@intel.com>
+Subject: drivers/gpu/drm/xe/xe_rtp.c:151:2-3: Unneeded semicolon
+Message-ID: <202409151152.pJ4ukp5k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,36 +62,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911-xtheadvector-v10-5-8d3930091246@rivosinc.com>
 
-Hi Charlie,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0e3f3649d44bf1b388a7613ade14c29cbdedf075]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/dt-bindings-riscv-Add-xtheadvector-ISA-extension-description/20240912-140100
-base:   0e3f3649d44bf1b388a7613ade14c29cbdedf075
-patch link:    https://lore.kernel.org/r/20240911-xtheadvector-v10-5-8d3930091246%40rivosinc.com
-patch subject: [PATCH v10 05/14] riscv: vector: Use vlenb from DT for thead
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240915/202409151033.te7A7BaA-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409151033.te7A7BaA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0babf683783ddca06551537c6781e413cfe8d27b
+commit: 72906d340b60f3dae545deef77376a0f598bece7 drm/xe/rtp: Split rtp process initialization
+date:   9 months ago
+config: alpha-randconfig-r062-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151152.pJ4ukp5k-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409151033.te7A7BaA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409151152.pJ4ukp5k-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_rtp.c:151:2-3: Unneeded semicolon
 
-   In file included from arch/riscv/kernel/cpufeature.c:28:
->> arch/riscv/include/asm/vendor_extensions/thead.h:19:6: warning: no previous prototype for 'disable_xtheadvector' [-Wmissing-prototypes]
-      19 | void disable_xtheadvector(void) { }
-         |      ^~~~~~~~~~~~~~~~~~~~
---
-   riscv64-linux-ld: arch/riscv/kernel/vendor_extensions.o: in function `disable_xtheadvector':
->> vendor_extensions.c:(.text+0x4): multiple definition of `disable_xtheadvector'; arch/riscv/kernel/cpufeature.o:cpufeature.c:(.text+0x11a): first defined here
+vim +151 drivers/gpu/drm/xe/xe_rtp.c
+
+   134	
+   135	static void rtp_get_context(struct xe_rtp_process_ctx *ctx,
+   136				    struct xe_hw_engine **hwe,
+   137				    struct xe_gt **gt,
+   138				    struct xe_device **xe)
+   139	{
+   140		switch (ctx->type) {
+   141		case XE_RTP_PROCESS_TYPE_GT:
+   142			*hwe = NULL;
+   143			*gt = ctx->gt;
+   144			*xe = gt_to_xe(*gt);
+   145			break;
+   146		case XE_RTP_PROCESS_TYPE_ENGINE:
+   147			*hwe = ctx->hwe;
+   148			*gt = (*hwe)->gt;
+   149			*xe = gt_to_xe(*gt);
+   150			break;
+ > 151		};
+   152	}
+   153	
 
 -- 
 0-DAY CI Kernel Test Service
