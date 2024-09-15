@@ -1,64 +1,58 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA26D1DDEA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 14:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E542CA6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 14:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726410252; cv=none; b=bHYontjO78Mu7IBx9FPybKs/NtYecfnKcYpL8cvxIn9MveTLAW5yyFlg9lN0iAUHPzq6uePrY+ClPoyOrSq0N23wsXW/sXVFJwXI1AKFEpCcxylsMMDi1rrOfdWUUag2yM9z5UCgbN7nMNvn7znh16o3AZcVxC1lHYLHrkWyzpA=
+	t=1726411251; cv=none; b=XjZviiJAU0jbt6MBZfpDAR+DmdDLvtIzIcBKYI6FXtJsfasTTz2jBVYemES68fLKLnGjhuA+p5G9eS2DwA6X6n1H7rNUlGkpGq4LusoXO+uDzIryd0xXejOOBfAj1nlLNSnNNB2K/fsJuxOXLRl1CCwXrZkGpjPuaq57Wt+02RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726410252; c=relaxed/simple;
-	bh=5boAO4ENTuFT2KbnTyArdZtpGbazoY5AnmGUXqzrW7Y=;
+	s=arc-20240116; t=1726411251; c=relaxed/simple;
+	bh=al9uvuMS1ZTN7CaTqvEQIOedJtSCnin2SKnYlJKq+uE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sow7TCXnF6lIBCHVXrHpgqrCDETQ5du4zTGvWIZMpPIWpEZf4EWPV/tMiZRgbsYcmKRdDihzJI1svNty/8t7ivC57SFGDYHI1AO5ECruB6aBOJtMEgeL9SzXGRWoNuR98zYbbNI0VfXIIP0RD17WLaUPDhvaUDchb+4E5gQbcvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ixXoQhgw; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=l/92BzeSis4TQjW65pelKcsn1z4Vg4Dv00TdUP4rZUMOmg8om40gvsfntjXi7Bwm5UNXATE1pJaTpPS1EacO1naFA8oBR6va02E2HpShC8ZPEXx6z+x4Z+/TPe/kFyjlQsSttR4X0Ak3WvuueY79rXZ3PVjYSoXz9w2t/1KLYJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQlI9nE6; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ixXoQhgw"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-374c4c6cb29so2594662f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 07:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726410249; x=1727015049; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=j4CPKp3QZnMID8pkfud1N26aKpa0RCQYMk9K3q+I9pY=;
-        b=ixXoQhgwzoKqITGv9UFp4kiCgQTDJd7BaVtHwnDP5ZHfz1DZfwRmBalYQ3EEoaaQuO
-         jKKeqtv/sRfw2eIPxiur/er35h4MExeAYojxQI3q9qegSpmlMt4VQGmZF3p5fB9RwK2b
-         h6TmS42bn/WDwkYrJA5H7lgMgUtnMIYIsSYoCQ64Ek//QhZx9pl/iC+CMVCpDQZbeCn5
-         kkKxAgUdh22n5Jnyg7eoUxaYKdikTRNkUjNKuY/6RG4hqnt547wBP6Vl9dTcRODpgfMs
-         FqwET5eMPUpKvi6xu4EIotYfCo3Je2pzYIxgpYvcEwlzUTYC1LpXoMkQBovrbNk2LGwb
-         WaAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726410249; x=1727015049;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j4CPKp3QZnMID8pkfud1N26aKpa0RCQYMk9K3q+I9pY=;
-        b=ukItGUswwuqBZz08PnRyTGJVBoTNxpjgdapbqwH0XSxMJDN1gr2kZXERkK3r3IyRFB
-         x6Tw/qglRq1Rn6Mm9oiBn/tOmYH2BAMYRimSNb4GMEgXTlJ9DgjMUt27R69DjivQqHJm
-         XX9/sH5iRM8j+wirbudwDxcSjPbaQjw9MsSOLOwoqX8+mspxZRjKtk05YcF2G1uk0lzz
-         B4WVU+FcmmT1Uv0cE5EdE1pJRrYtuQGWsTea+5OprpXeuzOeUzcY61u5kwJE2D9n4lX7
-         3PfP2Ko/I1zUSSp1r4KooDRbSTPVXcKCrYxCLe8EnG63spnB+5MSiqwQtm1Cf3xO/Szj
-         3FIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUwjcL27GDcBmNIDu3JevGKYeq9ey8WuV4sTmb6Gaj2oBgPhoIBnDLvOQhyyYPqOBep6nbXsX3fl/bKBHng@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOplMVKCsGx6HG0hiOFGI3qPRSKi8IM6w5YJsIEPtcrytgoz2y
-	qy/MPZqWtexayLAYUDDZdt2FrQYT19RlZ4tyhYzVtMiZaGyEfFEBz9Wxy0EAkyU=
-X-Google-Smtp-Source: AGHT+IHx7SmWR6pQnPw+/xqWuo+2jZh8WmUQyoBC4qc/MdwJU5vbCj64Og/BQ5muAEGyIUTMA4mPOQ==
-X-Received: by 2002:a5d:58d4:0:b0:374:c7a5:d610 with SMTP id ffacd0b85a97d-378d6236b9cmr7343556f8f.43.1726410248866;
-        Sun, 15 Sep 2024 07:24:08 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e73f62dasm4759980f8f.49.2024.09.15.07.24.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2024 07:24:08 -0700 (PDT)
-Date: Sun, 15 Sep 2024 17:24:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>
-Subject: drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:612
- iwl_mvm_mld_start_ap_ibss() warn: missing error code 'ret'
-Message-ID: <de8ae132-a7b7-4e4a-b8f3-b507a75a670d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQlI9nE6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726411249; x=1757947249;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=al9uvuMS1ZTN7CaTqvEQIOedJtSCnin2SKnYlJKq+uE=;
+  b=iQlI9nE6kfrq6/LHVb37EDuTbyGIeC/cyH2Gk4FvM7dYArWBCPR0zPvo
+   fqSiw34GTGhnthXpiOFQhSVwgwDC261VzKikHBJvzNrb/N3PcfhAk5Nui
+   VZoWBA+xr/+oypHLuoTYM5lW7QwpsOyAXwX+t3E7k/GHYhVeYRvyDXb9f
+   +a6TAlbsVy5EeJAjv4gZTIhvpwiP4ged0GZvXREUsTYhsiFcCFzq/POHD
+   g9jA5BPfNhaBWw2/QvpNkxpTLf4XDjxJmaTOHNMDOoL1l7zHpC1SPaLnB
+   mll6hHN8Z9hLqVMDmH9PdXwYzcmc3jIwc4L8dLwUamezuiDzjud4Czv7R
+   Q==;
+X-CSE-ConnectionGUID: KrRSZyF0RYiL43oo+iHO3Q==
+X-CSE-MsgGUID: djHk7R+jRiWXqRocv4Zk0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="42771638"
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
+   d="scan'208";a="42771638"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 07:40:48 -0700
+X-CSE-ConnectionGUID: uQTssEtoTrOfcim0Y2pEFw==
+X-CSE-MsgGUID: pU9uFn8kQkyDeqC5fyr5rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
+   d="scan'208";a="99316567"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 15 Sep 2024 07:40:47 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spqQf-0008kS-01;
+	Sun, 15 Sep 2024 14:40:45 +0000
+Date: Sun, 15 Sep 2024 22:40:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm2key-v8 11/11] ERROR: modpost: "tpm_buf_read"
+ [crypto/asymmetric_keys/tpm2_key_ecdsa.ko] undefined!
+Message-ID: <202409152237.wGgqfwwj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,91 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d42f7708e27cc68d080ac9d3803d27e86821d775
-commit: 3f3126515fbee0e364f8218f6171c091d8e2555e wifi: iwlwifi: mvm: add mvm-specific guard
-config: csky-randconfig-r073-20240915 (https://download.01.org/0day-ci/archive/20240916/202409160031.caQ4LNOA-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
+head:   79e909153c0a5ac21c2c5c0d4eac9229b3408178
+commit: 79e909153c0a5ac21c2c5c0d4eac9229b3408178 [11/11] keys: asymmetric: Add tpm2_key_ecdsa
+config: csky-randconfig-r061-20240915 (https://download.01.org/0day-ci/archive/20240915/202409152237.wGgqfwwj-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409152237.wGgqfwwj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409160031.caQ4LNOA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409152237.wGgqfwwj-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:612 iwl_mvm_mld_start_ap_ibss() warn: missing error code 'ret'
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/ret +612 drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c
-
-f947b62c03b15d Miri Korenblit   2023-03-20  574  static int iwl_mvm_mld_start_ap_ibss(struct ieee80211_hw *hw,
-cbce62a315f67e Miri Korenblit   2023-03-28  575  				     struct ieee80211_vif *vif,
-cbce62a315f67e Miri Korenblit   2023-03-28  576  				     struct ieee80211_bss_conf *link_conf)
-f947b62c03b15d Miri Korenblit   2023-03-20  577  {
-f947b62c03b15d Miri Korenblit   2023-03-20  578  	struct iwl_mvm *mvm = IWL_MAC80211_GET_MVM(hw);
-f947b62c03b15d Miri Korenblit   2023-03-20  579  	struct iwl_mvm_vif *mvmvif = iwl_mvm_vif_from_mac80211(vif);
-f947b62c03b15d Miri Korenblit   2023-03-20  580  	int ret;
-f947b62c03b15d Miri Korenblit   2023-03-20  581  
-3f3126515fbee0 Johannes Berg    2024-05-12  582  	guard(mvm)(mvm);
-bde2f9b420f692 Mukesh Sisodiya  2024-04-16  583  
-bde2f9b420f692 Mukesh Sisodiya  2024-04-16  584  	if (vif->type == NL80211_IFTYPE_AP)
-bde2f9b420f692 Mukesh Sisodiya  2024-04-16  585  		iwl_mvm_send_ap_tx_power_constraint_cmd(mvm, vif, link_conf);
-bde2f9b420f692 Mukesh Sisodiya  2024-04-16  586  
-36cf537798cb6c Gregory Greenman 2023-03-28  587  	/* Send the beacon template */
-36cf537798cb6c Gregory Greenman 2023-03-28  588  	ret = iwl_mvm_mac_ctxt_beacon_changed(mvm, vif, link_conf);
-36cf537798cb6c Gregory Greenman 2023-03-28  589  	if (ret)
-3f3126515fbee0 Johannes Berg    2024-05-12  590  		return ret;
-36cf537798cb6c Gregory Greenman 2023-03-28  591  
-bf976c814c864e Johannes Berg    2023-03-28  592  	/* the link should be already activated when assigning chan context */
-bf976c814c864e Johannes Berg    2023-03-28  593  	ret = iwl_mvm_link_changed(mvm, vif, link_conf,
-bf976c814c864e Johannes Berg    2023-03-28  594  				   LINK_CONTEXT_MODIFY_ALL &
-bf976c814c864e Johannes Berg    2023-03-28  595  				   ~LINK_CONTEXT_MODIFY_ACTIVE,
-f947b62c03b15d Miri Korenblit   2023-03-20  596  				   true);
-f947b62c03b15d Miri Korenblit   2023-03-20  597  	if (ret)
-3f3126515fbee0 Johannes Berg    2024-05-12  598  		return ret;
-f947b62c03b15d Miri Korenblit   2023-03-20  599  
-62e0ccb2170e7a Gregory Greenman 2023-03-28  600  	ret = iwl_mvm_mld_add_mcast_sta(mvm, vif, link_conf);
-f947b62c03b15d Miri Korenblit   2023-03-20  601  	if (ret)
-3f3126515fbee0 Johannes Berg    2024-05-12  602  		return ret;
-f947b62c03b15d Miri Korenblit   2023-03-20  603  
-f947b62c03b15d Miri Korenblit   2023-03-20  604  	/* Send the bcast station. At this stage the TBTT and DTIM time
-f947b62c03b15d Miri Korenblit   2023-03-20  605  	 * events are added and applied to the scheduler
-f947b62c03b15d Miri Korenblit   2023-03-20  606  	 */
-62e0ccb2170e7a Gregory Greenman 2023-03-28  607  	ret = iwl_mvm_mld_add_bcast_sta(mvm, vif, link_conf);
-f947b62c03b15d Miri Korenblit   2023-03-20  608  	if (ret)
-f947b62c03b15d Miri Korenblit   2023-03-20  609  		goto out_rm_mcast;
-f947b62c03b15d Miri Korenblit   2023-03-20  610  
-f947b62c03b15d Miri Korenblit   2023-03-20  611  	if (iwl_mvm_start_ap_ibss_common(hw, vif, &ret))
-f947b62c03b15d Miri Korenblit   2023-03-20 @612  		goto out_failed;
-
-ret = iwl_mvm_start_ap_ibss_common()
-if (ret)
-
-f947b62c03b15d Miri Korenblit   2023-03-20  613  
-f947b62c03b15d Miri Korenblit   2023-03-20  614  	/* Need to update the P2P Device MAC (only GO, IBSS is single vif) */
-f947b62c03b15d Miri Korenblit   2023-03-20  615  	if (vif->p2p && mvm->p2p_device_vif)
-f947b62c03b15d Miri Korenblit   2023-03-20  616  		iwl_mvm_mld_mac_ctxt_changed(mvm, mvm->p2p_device_vif, false);
-f947b62c03b15d Miri Korenblit   2023-03-20  617  
-f947b62c03b15d Miri Korenblit   2023-03-20  618  	iwl_mvm_bt_coex_vif_change(mvm);
-f947b62c03b15d Miri Korenblit   2023-03-20  619  
-f947b62c03b15d Miri Korenblit   2023-03-20  620  	/* we don't support TDLS during DCM */
-f947b62c03b15d Miri Korenblit   2023-03-20  621  	if (iwl_mvm_phy_ctx_count(mvm) > 1)
-f947b62c03b15d Miri Korenblit   2023-03-20  622  		iwl_mvm_teardown_tdls_peers(mvm);
-f947b62c03b15d Miri Korenblit   2023-03-20  623  
-fd940de72d493c Avraham Stern    2023-06-12  624  	iwl_mvm_ftm_restart_responder(mvm, vif, link_conf);
-f947b62c03b15d Miri Korenblit   2023-03-20  625  
-3f3126515fbee0 Johannes Berg    2024-05-12  626  	return 0;
-f947b62c03b15d Miri Korenblit   2023-03-20  627  
-f947b62c03b15d Miri Korenblit   2023-03-20  628  out_failed:
-f947b62c03b15d Miri Korenblit   2023-03-20  629  	iwl_mvm_power_update_mac(mvm);
-f947b62c03b15d Miri Korenblit   2023-03-20  630  	mvmvif->ap_ibss_active = false;
-62e0ccb2170e7a Gregory Greenman 2023-03-28  631  	iwl_mvm_mld_rm_bcast_sta(mvm, vif, link_conf);
-f947b62c03b15d Miri Korenblit   2023-03-20  632  out_rm_mcast:
-62e0ccb2170e7a Gregory Greenman 2023-03-28  633  	iwl_mvm_mld_rm_mcast_sta(mvm, vif, link_conf);
-f947b62c03b15d Miri Korenblit   2023-03-20  634  	return ret;
-f947b62c03b15d Miri Korenblit   2023-03-20  635  }
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+>> ERROR: modpost: "tpm_buf_read" [crypto/asymmetric_keys/tpm2_key_ecdsa.ko] undefined!
+ERROR: modpost: "led_init_default_state_get" [drivers/net/dsa/realtek/rtl8366.ko] undefined!
+ERROR: modpost: "devm_led_classdev_register_ext" [drivers/net/dsa/realtek/rtl8366.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
