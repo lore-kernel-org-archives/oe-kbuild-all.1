@@ -1,62 +1,62 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254A5946C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 12:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0B013AA2B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 12:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726402439; cv=none; b=PllRl1TpQ/qLQ1BWd45DWv4hvs/Hy/c8kyKpPAFAhP7PUZcOK9uAfbXD+glnQCDuXjqb94RhKOZThm2Gp8hTA/bl1j1kPAHAgWInnswhOEqPqJc+8iWiH5zV1c4KO/i7VKQXQZWmP4RSl2bD7hkltLGfADeWQTwpVr4lX74gCrI=
+	t=1726402730; cv=none; b=YiPr2uPjpFw+1ZFGNgyudv4FamYboDIqiDBqy4b8fOy9mNZu0CzZh5ZLblWl34gHWz12PyQourTK6bLSmi+e7lZ/BSKuHpKXZpxI2+z3Jxle6tTnhvbCvTupunAbum5TnpdxSaDVEeEpNczJgfwM+cUOgymy3mivjGhaoFX3Nbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726402439; c=relaxed/simple;
-	bh=UVa6l0V7rrbFZZMICAZCWBKfAY681jk78M660bUHt2g=;
+	s=arc-20240116; t=1726402730; c=relaxed/simple;
+	bh=1/bl2cw9fdXYoDr4dHILLmcOCGTwwQDuO0BjzS1SHaU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P005IHyIsq5dqraJ9K2PtwqZTIxvbwtwfM9iSiKffQbIYTqSOudQe86QYOE2ADs9nsrLRZkBFkD+Twzd4T2aUkner2RRNLtkCPUU3NJPNR9D+LuL6A/78TkpunMO90xHwRrc2IDRlFbKLEST8PXD/0Xq6EbKmsnCgP5zDuiQHCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NVHj5CwS; arc=none smtp.client-ip=209.85.221.44
+	 Content-Disposition:In-Reply-To; b=tRNbV1LRYMV5Voqzav99nfRbuOQ+v4HKcwdxJ5trlqYardYzdTH0gnLBTYStotp3a3DKxME5tQ/oiLqbwgNslM4SbxL7JLiD6mIX6q1Y4truPIkgiJo99Uk4W3qdPcdpKzJBGMd5VXm32jZk3+jS+koA/DPeyr2HELLqNVF19qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XRz9LrPx; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NVHj5CwS"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-375e5c12042so1949080f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 05:13:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XRz9LrPx"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42cb7a2e4d6so29533365e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 05:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726402435; x=1727007235; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nbacs5q0lLjxoCXrYkHylGc3sqVSoO90SYD6szybiW0=;
-        b=NVHj5CwSqXOtcw4mfmzTu2XJ+uOYAuFsMxN3BJsQ2+uDIg5v/uSo43gUXLT7IvTGGY
-         MF/lZivQPwQgwOE3dFjoexcBXP3t8gwtS7riJXSJt9ZosFRPlqkwadepkV4EvPADkIwc
-         W6J9r0Q4xtzDCLLka7XSV6Ma0OVTLDtBoG4iZJhoCkeHZxZLGL4A8ag4FHrA/MbuHqwY
-         5o3Ivu8wpw/WJVbwwB9wCVoY5C/UBUmc/SBkwr+gC+oXxdLJSld3CEzTMJ1ZgyGWcwJD
-         Hh6Toa/kRh9ePQc1XB//fEMc9G7bEuBlX9AJj2qkMTox1VO3QagD8qw4X+JOaHm0KR+A
-         +IPw==
+        d=linaro.org; s=google; t=1726402727; x=1727007527; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PUEgg6MsjNS7xvWqYjPRgCJ1K4sv5B4HtikoOQeiwBw=;
+        b=XRz9LrPx2CahgevD8j+XxMl0oQ3odj3WtTMTIy5aQKxFgCLtWvzBSAyb1VcpCN6CCK
+         vonkqNCd3YUXH2K+VU2NkZAJK2Xa7y2AVpuvJ7wlWcQcy5hfAHmLsgQEBsqJhUtU4dy7
+         bVYFpx8ED/1lmvZHkX4+VLZPUFABve9BBHXALRntDCeCHQRyAMddNmafR9+8acv0JHdD
+         RP3klMhoFhYztGIRjT0YQvLlS3Wv7KMK5+/ZgUjl2RnwpXu/627s1eKa/HqdtZe9aODP
+         HnbJW60Zzr3Ph6a2OdQNIbDK/A7njDaxXQYaFZPfI3+ZOQhlKxnbmwIjwcTfcbXhgE7o
+         O95g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726402435; x=1727007235;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nbacs5q0lLjxoCXrYkHylGc3sqVSoO90SYD6szybiW0=;
-        b=l9qWaOKu6/2mQ0Gp8W/a9vQ92AlUucciA1ceKqUC025GJymY4efjNwiByf5mpB9HGv
-         uwMjj31IT4csoV3c90L4KQQCYu49e2yXU8qz5mAL0p7uwS4JHg/SWACU9xHIe7nYrjk4
-         60sHGPIDGBwnjcIONtF1+QZRl9LXEt8ISFpJnZ09QL+VynHxwnWYIltiqpGudtwlp9ur
-         WXVrQ+qBthRA7Q5CAritW/AFBXvvzIE5F/FIhHALJAFEc6CqcVZQE/rvWdXT4hVZT05A
-         bw4mqROwe8QzVEe02jSqGwZNbRAyP+CzzBxRsNxIyfkISYVvD++poTkzGeoOZ3kI0Njb
-         z62g==
-X-Forwarded-Encrypted: i=1; AJvYcCWDQKGR/eXAGe+XN2XnweNwRzEBXd8J8jgMfmvf4ue1GlUAJas9pUibJRXSYBPBZtJuiGqh0qoyWatN8AxU@lists.linux.dev
-X-Gm-Message-State: AOJu0YzY5/jZmKi8tatvZoJ9IDvMOoHuvQ1YOkRKHcMAEAumLKcXZHs0
-	Wlx/XjW8DcLTysTJU+6TUvE5c8KUseizcOU9rK0/zLeae0Tdv4bxgFg40NgDkT0=
-X-Google-Smtp-Source: AGHT+IE2eApXxU+5wskyDHYyV8D+atVqB7mtF3s0obqGeeowHjxiCT+dV2WmSdf5VXrKqWDvkRVdlg==
-X-Received: by 2002:a5d:4e10:0:b0:374:bd93:9bd4 with SMTP id ffacd0b85a97d-378c2d62109mr6900745f8f.56.1726402434979;
-        Sun, 15 Sep 2024 05:13:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726402727; x=1727007527;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PUEgg6MsjNS7xvWqYjPRgCJ1K4sv5B4HtikoOQeiwBw=;
+        b=M1MYSu2fVXKj7QXPdWruN8xeklYR2RuRMem7nLhyyausbV8oNlmbcXg1/hwlaQ+5m2
+         i++8PMdvqR26Vc/ZWwn+1F+ZyzmXQ9SUmv/9tKePVv27cPR4G135k0OBciqJf9DjUKVe
+         A4xExwbylQBrDdGnnAE/o5FQ/+ViNuK+0DaXZtn//BMgC/R7JtQnjO1lFDBlw59/QTIJ
+         1ph7C4/hok9azO131hiyP0GuVWzrpUKKILQK9lwFpp4QY0Zh5x+/eggmUjehmf0AcMuK
+         YJuSbG0HiJW7Fe8oS4ie4x72TtMdN5U0MYXSJzer4MiL8btwHmHHbW1iPXeKJuvSyZMO
+         rN5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVorQ5NeZt870Q5O9kVjYGzeXJVPeebsArIa2oIcZ1+BJEzfaAoNbxIuqMI7T4yD+78jvKJFMLAUQxqS+Nh@lists.linux.dev
+X-Gm-Message-State: AOJu0YxxkwsPv5Y7POgdtU1M7uMx4b9Xq5GaFH7c64CvtpaQs85sDGBU
+	KSCiYBeSKYC2HT/9mvvvHSsVkm4CVTOuhqWWzLiFVZfLAS4UIhgdsZF9wl366LA=
+X-Google-Smtp-Source: AGHT+IEkDdYWiyZqNa/vPFXKzwknJPX+bF59SgJO+yB70ZtxtZQVDNj1OCTdzsByclra0404S28cFg==
+X-Received: by 2002:a05:600c:3514:b0:42c:bae0:f059 with SMTP id 5b1f17b1804b1-42cdb531943mr88700255e9.5.1726402726631;
+        Sun, 15 Sep 2024 05:18:46 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e71f068esm4591275f8f.3.2024.09.15.05.13.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42d9b194c57sm81208855e9.48.2024.09.15.05.18.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2024 05:13:54 -0700 (PDT)
-Date: Sun, 15 Sep 2024 15:13:51 +0300
+        Sun, 15 Sep 2024 05:18:46 -0700 (PDT)
+Date: Sun, 15 Sep 2024 15:18:42 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+To: oe-kbuild@lists.linux.dev, Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned-rebase 51/57] fs/xfs/xfs_zone_gc.c:322
- xfs_zone_gc_data_alloc() error: buffer overflow 'data->scratch' 2 <= s32max
-Message-ID: <18a0d6c9-a697-40af-b4fc-71d2a32b6f32@stanley.mountain>
+Subject: Re: [PATCH v2 02/11] unwind/x86: Add HAVE_USER_UNWIND
+Message-ID: <da94586c-4db1-4450-8fad-7cb3418a9161@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +65,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <82ef19a767cb75e76a985ecc0d47a39400b4fdf5.1726268190.git.jpoimboe@kernel.org>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
-head:   ccc2db4d79624bc274d9879eb76670cad04efeff
-commit: e334accc28179d073922768f2deec41758403cf0 [51/57] xfs: support zoned RT devices
-config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240915/202409150207.qmhcRNcV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Josh,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Poimboeuf/unwind-Introduce-generic-user-space-unwinding-interface/20240914-070619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/82ef19a767cb75e76a985ecc0d47a39400b4fdf5.1726268190.git.jpoimboe%40kernel.org
+patch subject: [PATCH v2 02/11] unwind/x86: Add HAVE_USER_UNWIND
+config: x86_64-randconfig-r072-20240914 (https://download.01.org/0day-ci/archive/20240915/202409150812.Pg1WBJPn-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409150207.qmhcRNcV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409150812.Pg1WBJPn-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/xfs_zone_gc.c:322 xfs_zone_gc_data_alloc() error: buffer overflow 'data->scratch' 2 <= s32max
+kernel/unwind/user.c:45 user_unwind_next() error: uninitialized symbol 'ra'.
 
-vim +322 fs/xfs/xfs_zone_gc.c
+vim +/ra +45 kernel/unwind/user.c
 
-e334accc28179d Christoph Hellwig 2024-09-10  291  static struct xfs_zone_gc_data *
-e334accc28179d Christoph Hellwig 2024-09-10  292  xfs_zone_gc_data_alloc(
-e334accc28179d Christoph Hellwig 2024-09-10  293  	struct xfs_mount	*mp)
-e334accc28179d Christoph Hellwig 2024-09-10  294  {
-e334accc28179d Christoph Hellwig 2024-09-10  295  	struct xfs_zone_gc_data	*data;
-e334accc28179d Christoph Hellwig 2024-09-10  296  	int i;
-e334accc28179d Christoph Hellwig 2024-09-10  297  
-e334accc28179d Christoph Hellwig 2024-09-10  298  	data = kzalloc(sizeof(*data), GFP_KERNEL);
-e334accc28179d Christoph Hellwig 2024-09-10  299  	if (!data)
-e334accc28179d Christoph Hellwig 2024-09-10  300  		return NULL;
-e334accc28179d Christoph Hellwig 2024-09-10  301  
-e334accc28179d Christoph Hellwig 2024-09-10  302  	/*
-e334accc28179d Christoph Hellwig 2024-09-10  303  	 * We actually only need a single bio_vec.  It would be nice to have
-e334accc28179d Christoph Hellwig 2024-09-10  304  	 * a flag that only allocates the inline bvecs and not the separate
-e334accc28179d Christoph Hellwig 2024-09-10  305  	 * bvec pool.
-e334accc28179d Christoph Hellwig 2024-09-10  306  	 */
-e334accc28179d Christoph Hellwig 2024-09-10  307  	if (bioset_init(&data->bio_set, 4, offsetof(struct xfs_gc_bio, bio),
-e334accc28179d Christoph Hellwig 2024-09-10  308  			BIOSET_NEED_BVECS))
-e334accc28179d Christoph Hellwig 2024-09-10  309  		goto out_free_data;
-e334accc28179d Christoph Hellwig 2024-09-10  310  	for (i = 0; i < XFS_ZONE_GC_NR_SCRATCH; i++) {
-e334accc28179d Christoph Hellwig 2024-09-10  311  		data->scratch[i].folio =
-e334accc28179d Christoph Hellwig 2024-09-10  312  			folio_alloc(GFP_KERNEL, get_order(XFS_GC_CHUNK_SIZE));
-e334accc28179d Christoph Hellwig 2024-09-10  313  		if (!data->scratch[i].folio)
-e334accc28179d Christoph Hellwig 2024-09-10  314  			goto out_free_scratch;
-e334accc28179d Christoph Hellwig 2024-09-10  315  	}
-e334accc28179d Christoph Hellwig 2024-09-10  316  	spin_lock_init(&data->list_lock);
-e334accc28179d Christoph Hellwig 2024-09-10  317  	data->mp = mp;
-e334accc28179d Christoph Hellwig 2024-09-10  318  	return data;
-e334accc28179d Christoph Hellwig 2024-09-10  319  
-e334accc28179d Christoph Hellwig 2024-09-10  320  out_free_scratch:
-e334accc28179d Christoph Hellwig 2024-09-10  321  	while (--i > 0)
+c970b852d500d4 Josh Poimboeuf 2024-09-14  18  int user_unwind_next(struct user_unwind_state *state)
+c970b852d500d4 Josh Poimboeuf 2024-09-14  19  {
+c970b852d500d4 Josh Poimboeuf 2024-09-14  20  	struct user_unwind_frame _frame;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  21  	struct user_unwind_frame *frame = &_frame;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  22  	unsigned long cfa, fp, ra;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  23  	int ret = -EINVAL;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  24  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  25  	if (state->done)
+c970b852d500d4 Josh Poimboeuf 2024-09-14  26  		return -EINVAL;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  27  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  28  	switch (state->type) {
+c970b852d500d4 Josh Poimboeuf 2024-09-14  29  	case USER_UNWIND_TYPE_FP:
+c970b852d500d4 Josh Poimboeuf 2024-09-14  30  		frame = &fp_frame;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  31  		break;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  32  	default:
+c970b852d500d4 Josh Poimboeuf 2024-09-14  33  		BUG();
+c970b852d500d4 Josh Poimboeuf 2024-09-14  34  	}
+c970b852d500d4 Josh Poimboeuf 2024-09-14  35  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  36  	cfa = (frame->use_fp ? state->fp : state->sp) + frame->cfa_off;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  37  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  38  	if (frame->ra_off && get_user(ra, (unsigned long *)(cfa + frame->ra_off)))
+c970b852d500d4 Josh Poimboeuf 2024-09-14  39  		goto the_end;
 
-The warning is garbage, but this should be ">= 0" instead of "> 0".
+ra not initialized on else path.  Just do "= 0".  These days the compiler is
+going initialize everything to zero anyway.
 
-e334accc28179d Christoph Hellwig 2024-09-10 @322  		folio_put(data->scratch[i].folio);
-e334accc28179d Christoph Hellwig 2024-09-10  323  	bioset_exit(&data->bio_set);
-e334accc28179d Christoph Hellwig 2024-09-10  324  out_free_data:
-e334accc28179d Christoph Hellwig 2024-09-10  325  	kfree(data);
-e334accc28179d Christoph Hellwig 2024-09-10  326  	return NULL;
-e334accc28179d Christoph Hellwig 2024-09-10  327  }
+c970b852d500d4 Josh Poimboeuf 2024-09-14  40  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  41  	if (frame->fp_off && get_user(fp, (unsigned long *)(cfa + frame->fp_off)))
+c970b852d500d4 Josh Poimboeuf 2024-09-14  42  		goto the_end;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  43  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  44  	state->sp = cfa;
+c970b852d500d4 Josh Poimboeuf 2024-09-14 @45  	state->ip = ra;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  46  	if (frame->fp_off)
+c970b852d500d4 Josh Poimboeuf 2024-09-14  47  		state->fp = fp;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  48  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  49  	return 0;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  50  
+c970b852d500d4 Josh Poimboeuf 2024-09-14  51  the_end:
+c970b852d500d4 Josh Poimboeuf 2024-09-14  52  	state->done = true;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  53  	return ret;
+c970b852d500d4 Josh Poimboeuf 2024-09-14  54  }
 
 -- 
 0-DAY CI Kernel Test Service
