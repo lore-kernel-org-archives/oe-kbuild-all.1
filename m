@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C473A19340A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 08:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160EB3AC2B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 08:47:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726389463; cv=none; b=rTmQmxIQ8KDaymetOSaxCZY6m9iWxzICDdV+/ORGJD/CNcPdPQV/2sN9BpP+QVFSPrKiIBGzBoaGHXSmeNfrCzRXkXBPzMa+ebvFIYQMfdU+5gsb5XH7bNGRrYRSm3ckgUbDH+jAdw0uYK+UgzNPe7OTfNem/IG1jeP3WYj6u7w=
+	t=1726390061; cv=none; b=HNfLV+NwG8wpIj++Kz1afhT7LjMukLL1kpuBEOMibYt31Wzmeon8GIwfyZg6kY1KZIV6zf79yZ9DY55w/nweQNP2wNzSbyBcd8GWRnKrl6gzfmb/BJK2fCvgI2kMOTcnEPVLC0v9LFKrdjcbq9V/5GzmQSs5QSrHMcwSOmwUUJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726389463; c=relaxed/simple;
-	bh=FthG0Sk1hY2hbKD/1wblTWyxSHYnMENGGPBLfDbEyzo=;
+	s=arc-20240116; t=1726390061; c=relaxed/simple;
+	bh=D6GWGcMX7Zv9vf8VKlGKpdPxnM4BRSeoxRrsGiS7res=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p9Ef0VdAGN572EkB7JbFfAANb2BUPjsYhjBr0uu59VFyoebTkDhGxFEil+EGnLClPt75DyD1FUmRy0HKPr+2s4IUq6EEBm7J0WVyUrwKIt6gSQIySQONf8yKs2fhcCkeHOYecJwaNDzhTgLWXE5Q2v7V6qbFE83K/74KJbyMm4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mlv0Upxc; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=saxPJNonvsLKXP3bMKRwJre81P0DQnVjCup0Fb8ywmb8WBxGScFHathAVzkYYXL2hDWCuLxJjXjN4nBzguwpxo434+SMkASUpdknRUFRxmic2utolf5EbT/Ear1wrNLz61RpEu8V6asSEsMRiXIvKacsZ5VjZ3PiSlgmNdPnoMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOFBF1lZ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mlv0Upxc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOFBF1lZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726389462; x=1757925462;
+  t=1726390059; x=1757926059;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FthG0Sk1hY2hbKD/1wblTWyxSHYnMENGGPBLfDbEyzo=;
-  b=Mlv0Upxc6lVs8dvwnZjDEUyXrOqxh15jXYVCIyeKosZ7Gs2l4++SwcTx
-   T93smDAXA+2VdCguamXKMdk9KjPZF0co0NrhfQYZSFmld+2hXMGnDXqh+
-   frahVA5N+W84ldjiApZMtM5EIdimTkksTT/IvGOYmDmhASU5r0vmDfGJ6
-   HX+1IXnfu2976ljk0jBJsOc3Wq3YsyvgpGKdonUyJqTSmHzYMWVY2gakF
-   hvlQLWPK91nDnUY7D51uritXzXK/HFCXaOMnxh7uwPNQ39DsdRfkCFnsk
-   4OxVA8cPm9B6wJpc8SF0R/SYqQYH4KhxSSwApGEnfX2RZxy2wm8C7uB7+
+  bh=D6GWGcMX7Zv9vf8VKlGKpdPxnM4BRSeoxRrsGiS7res=;
+  b=QOFBF1lZ5Mvym73TWaJ4pYa2jy5LRhzjco3kyA3I7Cb2pFHFl28X21RD
+   yq0YF/56YnOiI2vRBPoQPsg8EWzvZ5tqwfFr1B/lL38wpx9OpF9g5In5k
+   w2+GiIzKkYQpqtzPrdQDe0iQuZgZYwhfI/sx0sYEI4fDhzX7aPBVtMH42
+   /dhgEkfur3gZOfYox/sbwj+k5TyiaT5pVfmA4JClYsZstxjji+0xCieCD
+   3jRk5CmsGrmFES/1JBBxxhluZ0q76fLUdlv1OzTq1SpVN+VGuM3ktGrpn
+   PXg+QW6mJ5rkrw46o+ZxOQfangLZXd7fO23ITVbNIuHvMrxXFZao99R6p
    Q==;
-X-CSE-ConnectionGUID: nOJAqXR6QTS1Id7gierplw==
-X-CSE-MsgGUID: ulMV9APURtm7+6dqAX26Ig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="47757485"
+X-CSE-ConnectionGUID: ZjzLm54ATdOe4+Ro2qXYIA==
+X-CSE-MsgGUID: lGO+5kDZS3Kx3dUIuo8r8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="47757916"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="47757485"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 01:37:39 -0700
-X-CSE-ConnectionGUID: SNuNZdr3Siyhnlvj+Bgx2w==
-X-CSE-MsgGUID: xt5oEU7/RGu02eYY0RUnQg==
+   d="scan'208";a="47757916"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 01:47:38 -0700
+X-CSE-ConnectionGUID: fTGYWZOoRxKNiWTXtwxd5A==
+X-CSE-MsgGUID: sc0dm/VPSauHpq0YjwMZRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="69348278"
+   d="scan'208";a="72967430"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Sep 2024 01:37:37 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 15 Sep 2024 01:47:37 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spklC-0008X4-30;
-	Sun, 15 Sep 2024 08:37:34 +0000
-Date: Sun, 15 Sep 2024 16:36:39 +0800
+	id 1spkut-0008XS-10;
+	Sun, 15 Sep 2024 08:47:35 +0000
+Date: Sun, 15 Sep 2024 16:47:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@uclinux.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:armnommu 3/3] include/linux/compiler_types.h:510:45:
- error: call to '__compiletime_assert_311' declared with attribute error:
- BUILD_BUG_ON failed: sizeof(priv_tbl->probs) % 16
-Message-ID: <202409151608.3NlECWXO-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: io_uring/io-wq.c:401:6-25: WARNING: atomic_dec_and_test variation
+ before object free at line 408.
+Message-ID: <202409151605.9zKulYo3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +62,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
-head:   efa144551cae4460d9824939792ec9d8e88c25ff
-commit: efa144551cae4460d9824939792ec9d8e88c25ff [3/3] ARM: versatile: support configuring versatile machine for no-MMU
-config: arm-randconfig-r112-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151608.3NlECWXO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240915/202409151608.3NlECWXO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0babf683783ddca06551537c6781e413cfe8d27b
+commit: ed29b0b4fd835b058ddd151c49d021e28d631ee6 io_uring: move to separate directory
+date:   2 years, 2 months ago
+config: i386-randconfig-052-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151605.9zKulYo3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409151608.3NlECWXO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409151605.9zKulYo3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> io_uring/io-wq.c:401:6-25: WARNING: atomic_dec_and_test variation before object free at line 408.
 
-   In file included from <command-line>:
-   drivers/staging/media/rkvdec/rkvdec-vp9.c: In function 'rkvdec_vp9_start':
->> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_311' declared with attribute error: BUILD_BUG_ON failed: sizeof(priv_tbl->probs) % 16
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-vp9.c:1010:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1010 |         BUILD_BUG_ON(sizeof(priv_tbl->probs) % 16); /* ensure probs size is 128-bit aligned */
-         |         ^~~~~~~~~~~~
+vim +401 io_uring/io-wq.c
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mach-versatile/versatile.c:89:23: sparse: sparse: symbol 'versatile_auxdata_lookup' was not declared. Should it be static?
+685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  392  
+958234d5ec9321 fs/io-wq.c Jens Axboe 2021-02-17  393  static void io_wqe_dec_running(struct io_worker *worker)
+c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  394  {
+958234d5ec9321 fs/io-wq.c Jens Axboe 2021-02-17  395  	struct io_wqe_acct *acct = io_wqe_get_acct(worker);
+958234d5ec9321 fs/io-wq.c Jens Axboe 2021-02-17  396  	struct io_wqe *wqe = worker->wqe;
+c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  397  
+685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  398  	if (!(worker->flags & IO_WORKER_F_UP))
+685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  399  		return;
+685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  400  
+42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06 @401  	if (!atomic_dec_and_test(&acct->nr_running))
+42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06  402  		return;
+e13fb1fe1483f6 fs/io-wq.c Hao Xu     2022-02-06  403  	if (!io_acct_run_queue(acct))
+42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06  404  		return;
+42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06  405  
+685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  406  	atomic_inc(&acct->nr_running);
+685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  407  	atomic_inc(&wqe->wq->worker_refs);
+3146cba99aa284 fs/io-wq.c Jens Axboe 2021-09-01 @408  	io_queue_worker_create(worker, acct, create_worker_cb);
+c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  409  }
+c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  410  
 
-vim +/__compiletime_assert_311 +510 include/linux/compiler_types.h
+:::::: The code at line 401 was first introduced by commit
+:::::: 42abc95f05bff5180ac40c7ba5726b73c1d5e2f4 io-wq: decouple work_list protection from the big wqe->lock
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
-
-:::::: The code at line 510 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Hao Xu <haoxu@linux.alibaba.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
