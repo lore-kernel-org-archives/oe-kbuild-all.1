@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A8C17BA0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 05:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFD11773A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 07:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726378898; cv=none; b=pXZhY0fOs9/Uk4vWIYenp9dv3ECs5cWFTVx0hS5dewAAuJ8jBy3UckeBCkQBGgSqGXFAxKOZXeDHI09QCCw1G7u2bKVHIGZ6i+lb/NxTNYtucjF3XtTwaEbhYJgkFzdjCE8G8UR3OETsJx1NnRJDS1sljtbaQkltkfWBpWibbFY=
+	t=1726385680; cv=none; b=XptkPNwa+9IQyhmGxd5aBniRBPodqnw5wcJCS0Q14VUpcacaFGNEzl5M0Ti+mvCJc+B6sGn//I6ScPUYz0CBCsgUBN4qH04LD9ZWs26ouYjwnmMabcncKH8jNsQ0U/xeXfLAc/URxwo2Zngq0UqsLVWtZ9DfQ+U7gdFEqSFMajE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726378898; c=relaxed/simple;
-	bh=XfY0Fj2mHThCqiHsM7zd/Lo96pDa3z9gUcZ0WPxG6jc=;
+	s=arc-20240116; t=1726385680; c=relaxed/simple;
+	bh=vI/EqcHfqLXhj+Xp5qXnWOanPCfo3IcQWUPpWplXq/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lgHTyOGsVzH2Pcx8KiVEHdAfx/PYD8Qtcu/rV3PfQCDIetM7SnCn2/1/PiR+PymHJ5ki6N3TyzdDQPQ/l95qb3+6+gcTobXOZsHnS5SuIjf5GmS3Eq7+68vNZhgH04pb//9Zgx9PdbzanVdHFAkijB9lVRy+Ho3uEB8h1YPeQTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9tGvKGk; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=bFTzmuI7TLzNdOIibiQrU/9e6o5MqkXlfAl5pv7T5SWUX1SIG0eBykDR+nZ0+tsLURBlg2AaOgCNQQ4sI4XzO9I6PxGYhbk4Xe0xrmJWccMQI3ZmojiTZGfNvK/IrKwqMkXCDyvUveiF+33RTuEBhUpwOiHNQFmdel0FL0EMP4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyEgZ0yJ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9tGvKGk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyEgZ0yJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726378895; x=1757914895;
+  t=1726385678; x=1757921678;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XfY0Fj2mHThCqiHsM7zd/Lo96pDa3z9gUcZ0WPxG6jc=;
-  b=I9tGvKGk6tpboVDHnqwX+bvjgUS0+3NuC288V52m1e0F7HjBdfztoyrL
-   ORz3PZDxhPooTede2hMv8a5xoSijdWUJQmyjFW7Y6BgXUlj8hG2RwcvpL
-   3x3oy+MoGaJKQE5AwVfyuf2H0WYRs/P38nMkR6cHUyPOpMKF8sgkSTEjP
-   V0SRB208xkrkn33u++KlC71dvTtBniNS6PL2jHRFqBcfyYr86O+q5VA1O
-   D7UQtSFIb0fc4HEEWksyc2HLuQPbtS/2yB4tmOs+IS82NV8iNbDpv5uFB
-   tGF8OIiuM1ahl+lRQAFLaPKKp0/hRNS4J+s/kkwpJWWuywpGRnabgzlTo
-   g==;
-X-CSE-ConnectionGUID: 9pzxrTJoTsCcLrX/109sTA==
-X-CSE-MsgGUID: zBJ7IZFPQVCWi5I4zJKbAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="42717079"
+  bh=vI/EqcHfqLXhj+Xp5qXnWOanPCfo3IcQWUPpWplXq/8=;
+  b=AyEgZ0yJY2qp4tk3k1/CZIiU9eyqyHbM5iw5rA1N+OvaIGMq33tqDs2U
+   3Eq44sMFvWuiyPuf2Plwgh5/RTH8hxomdjcgnXGNaUPU5H6jBoGQTPMgb
+   xql4baSzpBeAKafnUYF0eX7Y7KifvmrXJ+E9ybDQnTIUoVd2F33+sLAIe
+   BbUlxXe/lz5W4trZjcNpY9HSvcEEuRNY5sjNVP4PqtmzYsM/sDyy1D0IH
+   4oYM/ilDUFWK6vcuoC4YDCUBSq6DVhpgnSbfzZscskDSCMicATpjY0cO1
+   oYJ2CrRLFGUq2p5EqJQxfHduvlhsCjCD4v1zxzvwZksdAfcfMnsCms3ML
+   A==;
+X-CSE-ConnectionGUID: UdqxFkZARAqKmgQ2AnHyKg==
+X-CSE-MsgGUID: h/O+LzNQSiC53ppt5pbiBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25392832"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="42717079"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 22:41:34 -0700
-X-CSE-ConnectionGUID: P4Tsxf/rTSKl5hym0EwKCA==
-X-CSE-MsgGUID: bde5L/9rSM2cCsJsOXeNYA==
+   d="scan'208";a="25392832"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 00:34:37 -0700
+X-CSE-ConnectionGUID: f478bZOAQU+HBku6EDx/EA==
+X-CSE-MsgGUID: s5eQomInSK6ufiyxpWDI8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="73547699"
+   d="scan'208";a="69339722"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 14 Sep 2024 22:41:33 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Sep 2024 00:34:36 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spi0p-0008Ri-1u;
-	Sun, 15 Sep 2024 05:41:31 +0000
-Date: Sun, 15 Sep 2024 13:41:31 +0800
+	id 1spjmD-0008Us-2F;
+	Sun, 15 Sep 2024 07:34:33 +0000
+Date: Sun, 15 Sep 2024 15:33:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yangdepei <yangdepei@hygon.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13473/13950]
- drivers/crypto/ccp/hygon/hct.c:1730:51: error: 'struct device' has no member
- named 'numa_node'
-Message-ID: <202409151313.4XBOlxtN-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>
+Subject: drivers/video/console/dummycon.c:26:25: error:
+ 'CONFIG_DUMMY_CONSOLE_COLUMNS' undeclared; did you mean
+ 'CONFIG_DUMMY_CONSOLE'?
+Message-ID: <202409151512.LML1slol-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,54 +65,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   84404f248a61323e09909849803ea4efce81742f
-commit: c74ae2c5da57becf3f41c596d79b3dd30fa1baa6 [13473/13950] hct: add mediated ccp driver support for hygon crypto technology.
-config: x86_64-randconfig-013-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151313.4XBOlxtN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409151313.4XBOlxtN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0babf683783ddca06551537c6781e413cfe8d27b
+commit: 4293b09251490fe493c3fc5e0d3de7168fe70039 dummycon: limit Arm console size hack to footbridge
+date:   11 months ago
+config: arm-randconfig-r003-20221107 (https://download.01.org/0day-ci/archive/20240915/202409151512.LML1slol-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409151512.LML1slol-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409151313.4XBOlxtN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409151512.LML1slol-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/crypto/ccp/hygon/hct.c:1333:15: warning: no previous prototype for 'hct_pin_memory' [-Wmissing-prototypes]
-    1333 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
-         |               ^~~~~~~~~~~~~~
-   drivers/crypto/ccp/hygon/hct.c: In function 'hct_get_page':
->> drivers/crypto/ccp/hygon/hct.c:1730:51: error: 'struct device' has no member named 'numa_node'
-    1730 |         *node = hct_data.iommu[page_idx].pdev->dev.numa_node;
-         |                                                   ^
+   drivers/video/console/dummycon.c: In function 'dummycon_init':
+>> drivers/video/console/dummycon.c:26:25: error: 'CONFIG_DUMMY_CONSOLE_COLUMNS' undeclared (first use in this function); did you mean 'CONFIG_DUMMY_CONSOLE'?
+      26 | #define DUMMY_COLUMNS   CONFIG_DUMMY_CONSOLE_COLUMNS
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/console/dummycon.c:104:23: note: in expansion of macro 'DUMMY_COLUMNS'
+     104 |         vc->vc_cols = DUMMY_COLUMNS;
+         |                       ^~~~~~~~~~~~~
+   drivers/video/console/dummycon.c:26:25: note: each undeclared identifier is reported only once for each function it appears in
+      26 | #define DUMMY_COLUMNS   CONFIG_DUMMY_CONSOLE_COLUMNS
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/console/dummycon.c:104:23: note: in expansion of macro 'DUMMY_COLUMNS'
+     104 |         vc->vc_cols = DUMMY_COLUMNS;
+         |                       ^~~~~~~~~~~~~
+>> drivers/video/console/dummycon.c:27:25: error: 'CONFIG_DUMMY_CONSOLE_ROWS' undeclared (first use in this function); did you mean 'CONFIG_DUMMY_CONSOLE'?
+      27 | #define DUMMY_ROWS      CONFIG_DUMMY_CONSOLE_ROWS
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/console/dummycon.c:105:23: note: in expansion of macro 'DUMMY_ROWS'
+     105 |         vc->vc_rows = DUMMY_ROWS;
+         |                       ^~~~~~~~~~
 
 
-vim +1730 drivers/crypto/ccp/hygon/hct.c
+vim +26 drivers/video/console/dummycon.c
 
-  1713	
-  1714	static struct page *hct_get_page(pgoff_t page_idx)
-  1715	{
-  1716		u64 *node;
-  1717	
-  1718		mutex_lock(&hct_share.lock);
-  1719		if (!hct_share.pages[page_idx]) {
-  1720			hct_share.pages[page_idx] =
-  1721				alloc_pages(GFP_HIGHUSER | __GFP_ZERO, 0);
-  1722			if (!hct_share.pages[page_idx]) {
-  1723				mutex_unlock(&hct_share.lock);
-  1724				return NULL;
-  1725			}
-  1726		}
-  1727		get_page(hct_share.pages[page_idx]);
-  1728	
-  1729		node = page_to_virt(hct_share.pages[page_idx]) + PAGE_SIZE - 8;
-> 1730		*node = hct_data.iommu[page_idx].pdev->dev.numa_node;
-  1731		mutex_unlock(&hct_share.lock);
-  1732	
-  1733		return hct_share.pages[page_idx];
-  1734	}
-  1735	
+^1da177e4c3f41 Linus Torvalds     2005-04-16   16  
+^1da177e4c3f41 Linus Torvalds     2005-04-16   17  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16   18   *  Dummy console driver
+^1da177e4c3f41 Linus Torvalds     2005-04-16   19   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16   20  
+4293b09251490f Arnd Bergmann      2023-10-09   21  #if defined(CONFIG_ARCH_FOOTBRIDGE) && defined(CONFIG_VGA_CONSOLE)
+3ea33510001478 H. Peter Anvin     2007-10-16   22  #define DUMMY_COLUMNS	screen_info.orig_video_cols
+3ea33510001478 H. Peter Anvin     2007-10-16   23  #define DUMMY_ROWS	screen_info.orig_video_lines
+8f5b1e6511b83a Geert Uytterhoeven 2015-01-12   24  #else
+^1da177e4c3f41 Linus Torvalds     2005-04-16   25  /* set by Kconfig. Use 80x25 for 640x480 and 160x64 for 1280x1024 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  @26  #define DUMMY_COLUMNS	CONFIG_DUMMY_CONSOLE_COLUMNS
+^1da177e4c3f41 Linus Torvalds     2005-04-16  @27  #define DUMMY_ROWS	CONFIG_DUMMY_CONSOLE_ROWS
+^1da177e4c3f41 Linus Torvalds     2005-04-16   28  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16   29  
+83d83bebf40132 Hans de Goede      2018-06-28   30  #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+83d83bebf40132 Hans de Goede      2018-06-28   31  /* These are both protected by the console_lock */
+83d83bebf40132 Hans de Goede      2018-06-28   32  static RAW_NOTIFIER_HEAD(dummycon_output_nh);
+83d83bebf40132 Hans de Goede      2018-06-28   33  static bool dummycon_putc_called;
+83d83bebf40132 Hans de Goede      2018-06-28   34  
+83d83bebf40132 Hans de Goede      2018-06-28   35  void dummycon_register_output_notifier(struct notifier_block *nb)
+83d83bebf40132 Hans de Goede      2018-06-28   36  {
+214b0dd591abfd Daniel Vetter      2019-05-28   37  	WARN_CONSOLE_UNLOCKED();
+214b0dd591abfd Daniel Vetter      2019-05-28   38  
+83d83bebf40132 Hans de Goede      2018-06-28   39  	raw_notifier_chain_register(&dummycon_output_nh, nb);
+83d83bebf40132 Hans de Goede      2018-06-28   40  
+83d83bebf40132 Hans de Goede      2018-06-28   41  	if (dummycon_putc_called)
+83d83bebf40132 Hans de Goede      2018-06-28   42  		nb->notifier_call(nb, 0, NULL);
+83d83bebf40132 Hans de Goede      2018-06-28   43  }
+83d83bebf40132 Hans de Goede      2018-06-28   44  
+83d83bebf40132 Hans de Goede      2018-06-28   45  void dummycon_unregister_output_notifier(struct notifier_block *nb)
+83d83bebf40132 Hans de Goede      2018-06-28   46  {
+214b0dd591abfd Daniel Vetter      2019-05-28   47  	WARN_CONSOLE_UNLOCKED();
+214b0dd591abfd Daniel Vetter      2019-05-28   48  
+83d83bebf40132 Hans de Goede      2018-06-28   49  	raw_notifier_chain_unregister(&dummycon_output_nh, nb);
+83d83bebf40132 Hans de Goede      2018-06-28   50  }
+83d83bebf40132 Hans de Goede      2018-06-28   51  
+83d83bebf40132 Hans de Goede      2018-06-28   52  static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos)
+83d83bebf40132 Hans de Goede      2018-06-28   53  {
+214b0dd591abfd Daniel Vetter      2019-05-28   54  	WARN_CONSOLE_UNLOCKED();
+214b0dd591abfd Daniel Vetter      2019-05-28   55  
+83d83bebf40132 Hans de Goede      2018-06-28   56  	dummycon_putc_called = true;
+83d83bebf40132 Hans de Goede      2018-06-28   57  	raw_notifier_call_chain(&dummycon_output_nh, 0, NULL);
+83d83bebf40132 Hans de Goede      2018-06-28   58  }
+83d83bebf40132 Hans de Goede      2018-06-28   59  
+83d83bebf40132 Hans de Goede      2018-06-28   60  static void dummycon_putcs(struct vc_data *vc, const unsigned short *s,
+83d83bebf40132 Hans de Goede      2018-06-28   61  			   int count, int ypos, int xpos)
+83d83bebf40132 Hans de Goede      2018-06-28   62  {
+83d83bebf40132 Hans de Goede      2018-06-28   63  	int i;
+83d83bebf40132 Hans de Goede      2018-06-28   64  
+83d83bebf40132 Hans de Goede      2018-06-28   65  	if (!dummycon_putc_called) {
+83d83bebf40132 Hans de Goede      2018-06-28   66  		/* Ignore erases */
+83d83bebf40132 Hans de Goede      2018-06-28   67  		for (i = 0 ; i < count; i++) {
+83d83bebf40132 Hans de Goede      2018-06-28   68  			if (s[i] != vc->vc_video_erase_char)
+83d83bebf40132 Hans de Goede      2018-06-28   69  				break;
+83d83bebf40132 Hans de Goede      2018-06-28   70  		}
+83d83bebf40132 Hans de Goede      2018-06-28   71  		if (i == count)
+83d83bebf40132 Hans de Goede      2018-06-28   72  			return;
+83d83bebf40132 Hans de Goede      2018-06-28   73  
+83d83bebf40132 Hans de Goede      2018-06-28   74  		dummycon_putc_called = true;
+83d83bebf40132 Hans de Goede      2018-06-28   75  	}
+83d83bebf40132 Hans de Goede      2018-06-28   76  
+83d83bebf40132 Hans de Goede      2018-06-28   77  	raw_notifier_call_chain(&dummycon_output_nh, 0, NULL);
+83d83bebf40132 Hans de Goede      2018-06-28   78  }
+83d83bebf40132 Hans de Goede      2018-06-28   79  
+83d83bebf40132 Hans de Goede      2018-06-28   80  static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+83d83bebf40132 Hans de Goede      2018-06-28   81  {
+83d83bebf40132 Hans de Goede      2018-06-28   82  	/* Redraw, so that we get putc(s) for output done while blanked */
+83d83bebf40132 Hans de Goede      2018-06-28   83  	return 1;
+83d83bebf40132 Hans de Goede      2018-06-28   84  }
+83d83bebf40132 Hans de Goede      2018-06-28   85  #else
+83d83bebf40132 Hans de Goede      2018-06-28   86  static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos) { }
+83d83bebf40132 Hans de Goede      2018-06-28   87  static void dummycon_putcs(struct vc_data *vc, const unsigned short *s,
+83d83bebf40132 Hans de Goede      2018-06-28   88  			   int count, int ypos, int xpos) { }
+83d83bebf40132 Hans de Goede      2018-06-28   89  static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+83d83bebf40132 Hans de Goede      2018-06-28   90  {
+83d83bebf40132 Hans de Goede      2018-06-28   91  	return 0;
+83d83bebf40132 Hans de Goede      2018-06-28   92  }
+83d83bebf40132 Hans de Goede      2018-06-28   93  #endif
+83d83bebf40132 Hans de Goede      2018-06-28   94  
+^1da177e4c3f41 Linus Torvalds     2005-04-16   95  static const char *dummycon_startup(void)
+^1da177e4c3f41 Linus Torvalds     2005-04-16   96  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16   97      return "dummy device";
+^1da177e4c3f41 Linus Torvalds     2005-04-16   98  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16   99  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  100  static void dummycon_init(struct vc_data *vc, int init)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  101  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  102      vc->vc_can_do_color = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  103      if (init) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @104  	vc->vc_cols = DUMMY_COLUMNS;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  105  	vc->vc_rows = DUMMY_ROWS;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  106      } else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  107  	vc_resize(vc, DUMMY_COLUMNS, DUMMY_ROWS);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  108  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  109  
+
+:::::: The code at line 26 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
