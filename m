@@ -1,121 +1,108 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A07946C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 11:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53217946C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 11:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726398586; cv=none; b=M3lfG9SuBPHTDtoM0nIV3Xm9/wRk3C+NUwr/4ozRdSvPE12cuMeOKJ8/RiJInJEd0VC5Q3aTf5rMtoSkPM/N90gCGm0vxTsTdIidDk3ydsgjRohJaQV4uyYuaVkkSy5g4Tz5MnjNWA98Jgz2rykk5WXaplKUUHSUnboBrPE2YsA=
+	t=1726399425; cv=none; b=DKzk1WgCaJ4XTwIScNfLVKu9bK5LRo0Bsy2Nv3gsyvByhypMQ5U2IEsRsGcZOk5jUwS7dgIdHAQUtGR/0BD2feBS2ZBxsZ8ApaPW4b0VF0txdEgIwY1xfEi++V87aB/vty/jINF07YJjVrnNjikLxSubwaHwuFIX6iCKKYHL/7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726398586; c=relaxed/simple;
-	bh=VIacf0MemFT6BYFrEFUuBtlpFK5kZTuwHhkfh+te0gY=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=d9VAF7wRRyYb3xIDQISC+Nd1Vf7YChy9gyxp14sJwJ6z/icoh9vfdkqRc3gR2zdPgNtzpLaXuqf3SaxIvQnLlmDJXFL7XgMyjCKlwkk6LPu/yeiyJHHD6xVRjOJf+3ddpNwJ68jBQynIFr3yEQ5cNrd1UlMyVWo8PfJHJOhf/bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=DZlNWA4X; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1726399425; c=relaxed/simple;
+	bh=y5pR8Ud9iBuGhaJLVc+yIg7Uqb+KYqs5DcAOfCWblGg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uc5Y4JEzJzGi1sqaP1XIaGsmaqc28Tew87A8BfxbR1iT5ouDfa4NjcuopH7Uwz9gxDUv5RMouWf37ulJhi826MNXFGo160cbcaTVlhWFVHyHz35m9G22ctJNCcoM8lkoUs1fcdLRafcGKdDWYzX7SDNerbI8eAEG3wOuxJNwhqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6VndRSb; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="DZlNWA4X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6VndRSb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726399423; x=1757935423;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Va8xLHtRbeGCFi67Y5RLd/mjZDbRGynocebZDHBGzAA=;
-  b=DZlNWA4XggYPzDP3idIJ0i/ah4yFzfDqJV2lpBNi0VhUnYY+IpDraQTX
-   Qn6vpNCQnLeMxIvOStNdunoP7WQWEg94nK5YEnsmRcK0KpifAxSuy4cBA
-   BERE+1pxzTzczJhhF6I7F7wwbv8ZDPcE0rojFl2lRqJi9wzXK2IUZ0QHD
-   Y=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.10,231,1719871200"; 
-   d="scan'208";a="183190941"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 13:09:34 +0200
-Date: Sun, 15 Sep 2024 13:09:32 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Jiakun Shuai <shuaijiakun1288@phytium.com.cn>, kernel@openeuler.org
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21252/23714] drivers/i2c/busses/i2c-phytium-master.c:39:5-17:
- duplicated argument to && or || (fwd)
-Message-ID: <alpine.DEB.2.22.394.2409151308470.3437@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+  bh=y5pR8Ud9iBuGhaJLVc+yIg7Uqb+KYqs5DcAOfCWblGg=;
+  b=A6VndRSbwbHGk8792/CHmjZyHmfRuduiHxOeaM9vtLYAFpkw0/EutkeF
+   an8+GP+iYYsSc0SknRiMWdzyzrt2XTPGFDxh/0veK4MmnWKH9TwWL3NlT
+   ysEoDybTw2i4xCuKeYKmVyZDoWVHboJVJgyhv1CCVnf1PJxXzYoZluRpX
+   Kv5NL3tqf1okmhzx0CpMeq8Jc/0MCnyyrxE/OQfFW1StmKmJEF+ZKRUsX
+   hB0qKMHW8sHjSO1ZItpjky2RnLgynBi3qUYDn+7a4S1Hm2NnydFhBQNQ+
+   XH5SQnCPeQHrrNgQG50IOyuvZxqg+sG55blFOpwspigc5v2f9zWSyNZNt
+   Q==;
+X-CSE-ConnectionGUID: PDGgaNYzS/mrL5ooyFjNSQ==
+X-CSE-MsgGUID: TJPymmvNRfqshrZc/wwTqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25122699"
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
+   d="scan'208";a="25122699"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 04:23:42 -0700
+X-CSE-ConnectionGUID: z0+RR+smSzmJ6buc0t4GQw==
+X-CSE-MsgGUID: WL88LM4SQ9SMPBDKuOoqmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
+   d="scan'208";a="99453502"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Sep 2024 04:23:41 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spnLu-0008dS-2C;
+	Sun, 15 Sep 2024 11:23:38 +0000
+Date: Sun, 15 Sep 2024 19:23:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:5.4-main 1511/28533]
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/pm_runtime.h is included more
+ than once.
+Message-ID: <202409151942.pSP63zHi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Please check line 39.
-
-julia
-
----------- Forwarded message ----------
-Date: Sun, 15 Sep 2024 18:51:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 21252/23714]
-    drivers/i2c/busses/i2c-phytium-master.c:39:5-17: duplicated argument to &&
-    or ||
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Jiakun Shuai <shuaijiakun1288@phytium.com.cn>
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   37aeb7e817053fbf532b214aa02858b3c23af0b1
-commit: 777b12afb6187fc712f365df57982275e9ef244f [21252/23714] i2c: add Phytium i2c driver
-:::::: branch date: 29 hours ago
-:::::: commit date: 11 months ago
-config: arm64-randconfig-r051-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151803.TxkWDq73-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
+head:   92b88e0e59c946d552fb3d375d60e775a4151ea2
+commit: 6e3f7375acdcf714d1fcbae1238cd39cc9391560 [1511/28533] drm/mediatek: config component output by device node port
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409151803.TxkWDq73-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409151942.pSP63zHi-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-phytium-master.c:39:5-17: duplicated argument to && or ||
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/pm_runtime.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/iommu.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/component.h is included more than once.
+   drivers/gpu/drm/mediatek/mtk_drm_drv.c: mtk_drm_ddp.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/of_platform.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/of_address.h is included more than once.
 
-vim +39 drivers/i2c/busses/i2c-phytium-master.c
+vim +12 drivers/gpu/drm/mediatek/mtk_drm_drv.c
 
-777b12afb6187f Jiakun Shuai 2023-10-26  24
-777b12afb6187f Jiakun Shuai 2023-10-26  25  static int i2c_phytium_init_master(struct phytium_i2c_dev *dev)
-777b12afb6187f Jiakun Shuai 2023-10-26  26  {
-777b12afb6187f Jiakun Shuai 2023-10-26  27  	/* Disable the adapter */
-777b12afb6187f Jiakun Shuai 2023-10-26  28  	__i2c_phytium_disable(dev);
-777b12afb6187f Jiakun Shuai 2023-10-26  29
-777b12afb6187f Jiakun Shuai 2023-10-26  30  	/* Write standard speed timing parameters */
-777b12afb6187f Jiakun Shuai 2023-10-26  31  	phytium_writel(dev, dev->ss_hcnt, IC_SS_SCL_HCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  32  	phytium_writel(dev, dev->ss_lcnt, IC_SS_SCL_LCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  33
-777b12afb6187f Jiakun Shuai 2023-10-26  34  	/* Write fast mode/fast mode plus timing parameters */
-777b12afb6187f Jiakun Shuai 2023-10-26  35  	phytium_writel(dev, dev->fs_hcnt, IC_FS_SCL_HCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  36  	phytium_writel(dev, dev->fs_lcnt, IC_FS_SCL_LCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  37
-777b12afb6187f Jiakun Shuai 2023-10-26  38  	/* Write high speed timing parameters if supported */
-777b12afb6187f Jiakun Shuai 2023-10-26 @39  	if (dev->hs_hcnt && dev->hs_hcnt) {
-777b12afb6187f Jiakun Shuai 2023-10-26  40  		phytium_writel(dev, dev->hs_hcnt, IC_HS_SCL_HCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  41  		phytium_writel(dev, dev->hs_lcnt, IC_HS_SCL_LCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  42  	}
-777b12afb6187f Jiakun Shuai 2023-10-26  43
-777b12afb6187f Jiakun Shuai 2023-10-26  44  	/* Write SDA hold time if supported */
-777b12afb6187f Jiakun Shuai 2023-10-26  45  	if (dev->sda_hold_time)
-777b12afb6187f Jiakun Shuai 2023-10-26  46  		phytium_writel(dev, dev->sda_hold_time, IC_SDA_HOLD);
-777b12afb6187f Jiakun Shuai 2023-10-26  47
-777b12afb6187f Jiakun Shuai 2023-10-26  48  	/* Configure Tx/Rx FIFO threshold levels */
-777b12afb6187f Jiakun Shuai 2023-10-26  49  	phytium_writel(dev, dev->tx_fifo_depth >> 1, IC_TX_TL);
-777b12afb6187f Jiakun Shuai 2023-10-26  50  	phytium_writel(dev, 0, IC_RX_TL);
-777b12afb6187f Jiakun Shuai 2023-10-26  51
-777b12afb6187f Jiakun Shuai 2023-10-26  52  	/* Configure the I2C master */
-777b12afb6187f Jiakun Shuai 2023-10-26  53  	phytium_writel(dev, dev->master_cfg, IC_CON);
-777b12afb6187f Jiakun Shuai 2023-10-26  54
-777b12afb6187f Jiakun Shuai 2023-10-26  55  	return 0;
-777b12afb6187f Jiakun Shuai 2023-10-26  56  }
-777b12afb6187f Jiakun Shuai 2023-10-26  57
+  > 12	#include <linux/pm_runtime.h>
+    13	#include <linux/dma-mapping.h>
+    14	
+    15	#include <drm/drm_atomic.h>
+    16	#include <drm/drm_atomic_helper.h>
+    17	#include <drm/drm_drv.h>
+    18	#include <drm/drm_fb_helper.h>
+    19	#include <drm/drm_gem.h>
+    20	#include <drm/drm_gem_cma_helper.h>
+    21	#include <drm/drm_of.h>
+    22	#include <drm/drm_probe_helper.h>
+    23	#include <drm/drm_vblank.h>
+    24	#include <linux/component.h>
+    25	#include <linux/iommu.h>
+    26	#include <linux/of.h>
+    27	#include <linux/of_address.h>
+    28	#include <linux/of_graph.h>
+    29	#include <linux/of_platform.h>
+  > 30	#include <linux/pm_runtime.h>
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
