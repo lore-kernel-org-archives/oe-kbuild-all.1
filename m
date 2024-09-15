@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160EB3AC2B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 08:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0351C2DDD;
+	Sun, 15 Sep 2024 08:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726390061; cv=none; b=HNfLV+NwG8wpIj++Kz1afhT7LjMukLL1kpuBEOMibYt31Wzmeon8GIwfyZg6kY1KZIV6zf79yZ9DY55w/nweQNP2wNzSbyBcd8GWRnKrl6gzfmb/BJK2fCvgI2kMOTcnEPVLC0v9LFKrdjcbq9V/5GzmQSs5QSrHMcwSOmwUUJc=
+	t=1726390722; cv=none; b=DMfmbsUZq4T8CEMs8xu9ApZlvfGcXcV9VIWH+QRhOYn8Rjzdv98OftHDeRYWSLa9m6nTwOVH37tFrwdaT7Qkc7dFNBVA0imNea2TQse6Hd8gqWZNr+AptasoERiQ7M+pKVUo6L5sxw3DZOspv2wDkYVZrqUP3iP6ZZurTGnATCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726390061; c=relaxed/simple;
-	bh=D6GWGcMX7Zv9vf8VKlGKpdPxnM4BRSeoxRrsGiS7res=;
+	s=arc-20240116; t=1726390722; c=relaxed/simple;
+	bh=0JCWqAAAtrFrC4qrL59M0aoq5123LxZtAxxQxpxgvzs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=saxPJNonvsLKXP3bMKRwJre81P0DQnVjCup0Fb8ywmb8WBxGScFHathAVzkYYXL2hDWCuLxJjXjN4nBzguwpxo434+SMkASUpdknRUFRxmic2utolf5EbT/Ear1wrNLz61RpEu8V6asSEsMRiXIvKacsZ5VjZ3PiSlgmNdPnoMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOFBF1lZ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ozlYHUxXzS+JzFCbdQpaewfRJNbosjwYMpl5AAQRN87zl8n75G31l0PgEwcdPEpg0Hy0ZAqqenENVdTtr+xwnY4ODW3ZInwM0c+ZWvQ/fv880sF7aV8EC/AD3g7e2Yydix2uBaYab5px9tpG1rm1bG5i2b48GBfNmhLofX60418=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4mKFUL0; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOFBF1lZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4mKFUL0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726390059; x=1757926059;
+  t=1726390722; x=1757926722;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D6GWGcMX7Zv9vf8VKlGKpdPxnM4BRSeoxRrsGiS7res=;
-  b=QOFBF1lZ5Mvym73TWaJ4pYa2jy5LRhzjco3kyA3I7Cb2pFHFl28X21RD
-   yq0YF/56YnOiI2vRBPoQPsg8EWzvZ5tqwfFr1B/lL38wpx9OpF9g5In5k
-   w2+GiIzKkYQpqtzPrdQDe0iQuZgZYwhfI/sx0sYEI4fDhzX7aPBVtMH42
-   /dhgEkfur3gZOfYox/sbwj+k5TyiaT5pVfmA4JClYsZstxjji+0xCieCD
-   3jRk5CmsGrmFES/1JBBxxhluZ0q76fLUdlv1OzTq1SpVN+VGuM3ktGrpn
-   PXg+QW6mJ5rkrw46o+ZxOQfangLZXd7fO23ITVbNIuHvMrxXFZao99R6p
-   Q==;
-X-CSE-ConnectionGUID: ZjzLm54ATdOe4+Ro2qXYIA==
-X-CSE-MsgGUID: lGO+5kDZS3Kx3dUIuo8r8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="47757916"
+  bh=0JCWqAAAtrFrC4qrL59M0aoq5123LxZtAxxQxpxgvzs=;
+  b=Z4mKFUL0p4kOV7WJ7SCkSRemu3CYGg2ZTu1tP7hueeXL+t8xI7keyrD0
+   vPXBxe2tNPsTvs99oTz2m19bIWCfR0C0ppi3HvBZvXUocykXSA542QTRb
+   ualkfHWbRjF1EP0GOk6XrsmG1778xHOPJbwndP5ksRdh4kivyr47wN81k
+   LcXWavS0zXPATSB0FjoHt9n2QjjZMhaeLcE/oKB5jtq0I2NNb1FQ7k+rK
+   T9FUYW/DIMz+kzje7TEx8fGZdOyMZfGbkMKNvlAi/v2iODOCGrdfxAcf2
+   9f+pGHaQBOaJ/QFSChWtsiY4Qx83eV5C1g0Y/z1ZcnmvXn7pEksIoVwg1
+   g==;
+X-CSE-ConnectionGUID: PIlJ9w7SSqCnjOGl3itEOA==
+X-CSE-MsgGUID: H1geoaYwSWua1749sjVObQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="36380612"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="47757916"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 01:47:38 -0700
-X-CSE-ConnectionGUID: fTGYWZOoRxKNiWTXtwxd5A==
-X-CSE-MsgGUID: sc0dm/VPSauHpq0YjwMZRg==
+   d="scan'208";a="36380612"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 01:58:40 -0700
+X-CSE-ConnectionGUID: QC4P9BIHQdOUVxtyfauQpA==
+X-CSE-MsgGUID: Ok25cWrrS4KayGPzj0P/sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="72967430"
+   d="scan'208";a="72678859"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Sep 2024 01:47:37 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Sep 2024 01:58:37 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spkut-0008XS-10;
-	Sun, 15 Sep 2024 08:47:35 +0000
-Date: Sun, 15 Sep 2024 16:47:32 +0800
+	id 1spl5X-0008Xe-1O;
+	Sun, 15 Sep 2024 08:58:35 +0000
+Date: Sun, 15 Sep 2024 16:57:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/io-wq.c:401:6-25: WARNING: atomic_dec_and_test variation
- before object free at line 408.
-Message-ID: <202409151605.9zKulYo3-lkp@intel.com>
+To: Rameshkumar Sundaram <quic_ramess@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jeff Johnson <jjohnson@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	ath12k@lists.infradead.org, Kalle Valo <quic_kvalo@quicinc.com>
+Subject: [ath:ath12k-mlo 34/63] drivers/net/wireless/ath/ath12k/mac.c:4289:8:
+ warning: variable 'ret' is used uninitialized whenever 'if' condition is
+ true
+Message-ID: <202409151616.hnCxh90B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +65,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0babf683783ddca06551537c6781e413cfe8d27b
-commit: ed29b0b4fd835b058ddd151c49d021e28d631ee6 io_uring: move to separate directory
-date:   2 years, 2 months ago
-config: i386-randconfig-052-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151605.9zKulYo3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-mlo
+head:   8f61af03fddc0a30bdf49e06a13eafff3cec91b0
+commit: ec3755e39b7ae8f7ed9853e6169fa5e307b9fb90 [34/63] wifi: ath12k: modify ath12k_mac_op_set_key for MLO
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240915/202409151616.hnCxh90B-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409151616.hnCxh90B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409151605.9zKulYo3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409151616.hnCxh90B-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> io_uring/io-wq.c:401:6-25: WARNING: atomic_dec_and_test variation before object free at line 408.
+All warnings (new ones prefixed by >>):
 
-vim +401 io_uring/io-wq.c
+>> drivers/net/wireless/ath/ath12k/mac.c:4289:8: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    4289 |                         if (WARN_ON(!arvif))
+         |                             ^~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:122:28: note: expanded from macro 'WARN_ON'
+     122 | #define WARN_ON(condition) ({                                           \
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     124 |         if (unlikely(__ret_warn_on))                                    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     125 |                 __WARN();                                               \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     126 |         unlikely(__ret_warn_on);                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     127 | })
+         | ~~
+   drivers/net/wireless/ath/ath12k/mac.c:4322:9: note: uninitialized use occurs here
+    4322 |         return ret;
+         |                ^~~
+   drivers/net/wireless/ath/ath12k/mac.c:4289:4: note: remove the 'if' if its condition is always false
+    4289 |                         if (WARN_ON(!arvif))
+         |                         ^~~~~~~~~~~~~~~~~~~~
+    4290 |                                 goto out;
+         |                                 ~~~~~~~~
+   drivers/net/wireless/ath/ath12k/mac.c:4245:9: note: initialize the variable 'ret' to silence this warning
+    4245 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  392  
-958234d5ec9321 fs/io-wq.c Jens Axboe 2021-02-17  393  static void io_wqe_dec_running(struct io_worker *worker)
-c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  394  {
-958234d5ec9321 fs/io-wq.c Jens Axboe 2021-02-17  395  	struct io_wqe_acct *acct = io_wqe_get_acct(worker);
-958234d5ec9321 fs/io-wq.c Jens Axboe 2021-02-17  396  	struct io_wqe *wqe = worker->wqe;
-c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  397  
-685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  398  	if (!(worker->flags & IO_WORKER_F_UP))
-685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  399  		return;
-685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  400  
-42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06 @401  	if (!atomic_dec_and_test(&acct->nr_running))
-42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06  402  		return;
-e13fb1fe1483f6 fs/io-wq.c Hao Xu     2022-02-06  403  	if (!io_acct_run_queue(acct))
-42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06  404  		return;
-42abc95f05bff5 fs/io-wq.c Hao Xu     2022-02-06  405  
-685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  406  	atomic_inc(&acct->nr_running);
-685fe7feedb967 fs/io-wq.c Jens Axboe 2021-03-08  407  	atomic_inc(&wqe->wq->worker_refs);
-3146cba99aa284 fs/io-wq.c Jens Axboe 2021-09-01 @408  	io_queue_worker_create(worker, acct, create_worker_cb);
-c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  409  }
-c5def4ab849494 fs/io-wq.c Jens Axboe 2019-11-07  410  
 
-:::::: The code at line 401 was first introduced by commit
-:::::: 42abc95f05bff5180ac40c7ba5726b73c1d5e2f4 io-wq: decouple work_list protection from the big wqe->lock
+vim +4289 drivers/net/wireless/ath/ath12k/mac.c
 
-:::::: TO: Hao Xu <haoxu@linux.alibaba.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+  4232	
+  4233	static int ath12k_mac_op_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
+  4234					 struct ieee80211_vif *vif, struct ieee80211_sta *sta,
+  4235					 struct ieee80211_key_conf *key)
+  4236	{
+  4237		struct ath12k_vif *ahvif = ath12k_vif_to_ahvif(vif);
+  4238		struct ath12k_hw *ah = ath12k_hw_to_ah(hw);
+  4239		struct ath12k_link_vif *arvif;
+  4240		struct ath12k_link_sta *arsta = NULL;
+  4241		struct ath12k_vif_cache *cache;
+  4242		struct ath12k_sta *ahsta;
+  4243		unsigned long links;
+  4244		u8 link_id;
+  4245		int ret;
+  4246	
+  4247		mutex_lock(&ah->conf_mutex);
+  4248		/* BIP needs to be done in software */
+  4249		if (key->cipher == WLAN_CIPHER_SUITE_AES_CMAC ||
+  4250		    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_128 ||
+  4251		    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_256 ||
+  4252		    key->cipher == WLAN_CIPHER_SUITE_BIP_CMAC_256) {
+  4253			mutex_unlock(&ah->conf_mutex);
+  4254			return 1;
+  4255		}
+  4256	
+  4257		if (key->keyidx > WMI_MAX_KEY_INDEX) {
+  4258			mutex_unlock(&ah->conf_mutex);
+  4259			return -ENOSPC;
+  4260		}
+  4261	
+  4262		if (sta) {
+  4263			ahsta = ath12k_sta_to_ahsta(sta);
+  4264			/* For an ML STA Pairwise key is same for all associated link Stations,
+  4265			 * hence do set key for all link STAs.
+  4266			 */
+  4267			if (sta->mlo) {
+  4268				links = sta->valid_links;
+  4269				for_each_set_bit(link_id, &links, IEEE80211_MLD_MAX_NUM_LINKS) {
+  4270					arvif = rcu_dereference_protected(ahvif->link[link_id],
+  4271							lockdep_is_held(&ah->conf_mutex));
+  4272					arsta = rcu_dereference_protected(ahsta->link[link_id],
+  4273							lockdep_is_held(&ah->conf_mutex));
+  4274					/* arvif and arsta are expected to be valid when
+  4275					 * STA is present.
+  4276					 */
+  4277					if (WARN_ON(!arvif || !arsta))
+  4278						continue;
+  4279					mutex_lock(&arvif->ar->conf_mutex);
+  4280					ret = ath12k_mac_set_key(arvif->ar, cmd, arvif,
+  4281								 arsta, key);
+  4282					mutex_unlock(&arvif->ar->conf_mutex);
+  4283					if (ret)
+  4284						break;
+  4285				}
+  4286			} else {
+  4287				arsta = &ahsta->deflink;
+  4288				arvif = arsta->arvif;
+> 4289				if (WARN_ON(!arvif))
+  4290					goto out;
+  4291				mutex_lock(&arvif->ar->conf_mutex);
+  4292				ret = ath12k_mac_set_key(arvif->ar, cmd, arvif, arsta, key);
+  4293				mutex_unlock(&arvif->ar->conf_mutex);
+  4294			}
+  4295		} else {
+  4296			if (key->link_id >= 0 && key->link_id < IEEE80211_MLD_MAX_NUM_LINKS) {
+  4297				link_id = key->link_id;
+  4298				arvif = rcu_dereference_protected(ahvif->link[link_id],
+  4299						lockdep_is_held(&ah->conf_mutex));
+  4300			} else {
+  4301				link_id = 0;
+  4302				arvif = &ahvif->deflink;
+  4303			}
+  4304	
+  4305			if (!arvif || !arvif->is_created) {
+  4306				cache = ath12k_ahvif_get_link_cache(ahvif, link_id);
+  4307				if (!cache) {
+  4308					mutex_unlock(&ah->conf_mutex);
+  4309					return -ENOSPC;
+  4310				}
+  4311				ret = ath12k_mac_update_key_cache(cache, cmd, sta, key);
+  4312				mutex_unlock(&ah->conf_mutex);
+  4313				return ret;
+  4314			}
+  4315	
+  4316			mutex_lock(&arvif->ar->conf_mutex);
+  4317			ret = ath12k_mac_set_key(arvif->ar, cmd, arvif, NULL, key);
+  4318			mutex_unlock(&arvif->ar->conf_mutex);
+  4319		}
+  4320	out:
+  4321		mutex_unlock(&ah->conf_mutex);
+  4322		return ret;
+  4323	}
+  4324	
 
 -- 
 0-DAY CI Kernel Test Service
