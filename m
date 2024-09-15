@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C93441760
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 09:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184F714F90
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 10:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726393182; cv=none; b=HyhnfIHpa8NF8rZlFWBx1Z0b1s6Jt917weayf/rttAMcVWoomO8RBN8dekPn7l8WOn10pUAKTypVQdz6Xiw+U/aWx/gSotQbr7NCNahRac6SlcWB0GAu3o9Yh17/gLh5CGv4ChQAMBBjW6VkEIs6E+V2CjumhhrIAct6Dm+3pWY=
+	t=1726394442; cv=none; b=lkDUICHW14S1T1ZD1CAbXlb9dcQP/0AYTCWqW+Yht8o2yDMD7rUFXlkKzSoBEn3QN5pWJpCHWiRfl7iRlTq/eNi8XJY0cy/R9jPdsyyHNLtOQVY/Eh5nwlh28WoKPa4u0hgJPkagvHwU60sAUsFp2TpY1K5/BZUX++z+xV5s4dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726393182; c=relaxed/simple;
-	bh=uppLv4VECLNYt7cYjEM7pGpC2x2Ntif9ubs2PQBulAU=;
+	s=arc-20240116; t=1726394442; c=relaxed/simple;
+	bh=iFzJJ4Ek30AQN2LxHHHvScB7pn3YC0jc0GfCZSR1Ds4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i5/2Psm5nD7YRljPsl9Ub+GlTsueisTVzPu3JTSKh5R9E5UbAsqqellgSZyjGsk5kqJXHdHYwG+W0fDt8NDGETyql8JEEpOoVtLVv0mwPaQfQmEFdlSDni0EKnoLvVsJv2HvbOfDSU4x6oXaM/S6Qg8+NvTvsuUeQqvL0WM6nyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeUoUgE1; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=uGrVP7bdgJ58qHmqp5iAwvbLCiPCOuH8Ew1tlNUm6l9h3ZWY8px76ez3UMh5W+7pQx5SOTxojNHLBfKl4Bh7S0Vx/Prf/Ci1B6nDYTEWrf55AC0mHJXXNrTrzduiJ+rU7D288xbuin7wUWPR5CsaLlZDTHu4Erkq4OxNjhsOpNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceF77t0/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeUoUgE1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceF77t0/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726393181; x=1757929181;
+  t=1726394441; x=1757930441;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uppLv4VECLNYt7cYjEM7pGpC2x2Ntif9ubs2PQBulAU=;
-  b=ZeUoUgE16cCQNW9fmT+SHckeqJigqPTTnpVHTDkKN+rDGpZuT5jCjFK2
-   AavSt5ESXh+/PVccB/TJAc/AnIgtxFi+Im5XRC9L3hsE1gnLQuTCFXzVX
-   r5ROWDxNR06JjVwHHuA9XbP49OL5KgO36fjha/Db6pJaV3b6DthrN1aUj
-   S0f9uVGZazhmIY1xZnrdsJx/nbvfxUEGQhYrsHgHTimUoZ7MkMxh0uGdN
-   3YkQIbY74u7zYToxqVxGKPvXMxDeARrpFeifiauBkbFDnBhzpUrepn4Ag
-   uqPzk1HlRrvCNE+qvg/RmwDR7MvP3L0JQgEWan0lrPMbD8mzOU7VJ6qoh
-   A==;
-X-CSE-ConnectionGUID: tUPmnGDGQOWSDyVvX9+xFA==
-X-CSE-MsgGUID: yABKs7lLRVqia3lJSUXdnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="50663002"
+  bh=iFzJJ4Ek30AQN2LxHHHvScB7pn3YC0jc0GfCZSR1Ds4=;
+  b=ceF77t0/T3D+924SdSFMmhYbyMpwYQ0cC8BR/GPki5FKRZANZHM68z1a
+   OKm9AL3vrh1kB7WymcfSTvUY33TohXVJ9c6mXsiMjRpJYnRR4cfaf6Waw
+   HkpkDCWK4FwKDUs0Qb4eJ28cnBE2NE26c/Boybl//7+86wI8CO7xXGF2C
+   T+dKcjtxRE0afbB6NFbDxwj3wEnDxb7gta1jL2edgS/SCmkZ9B1TmXb97
+   7yFauwObk63+pAl63Cv7ZiDu8cOC7dkPvd/KIUPKIjOgt9NfjavnXtGtZ
+   k54xzyDdkhxzJ31HHcs7ZUq3GiIWJ8nyFcGfxAS4X1DcWtT2smvBvudzu
+   Q==;
+X-CSE-ConnectionGUID: gd1rvw4ZTci++OrZvg5Bqg==
+X-CSE-MsgGUID: VysqE9nGRsGszZrPGQhYpg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="13532558"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="50663002"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 02:39:40 -0700
-X-CSE-ConnectionGUID: jI3vppVcRf2AVxXpwHQ1rg==
-X-CSE-MsgGUID: PanJnT5WRGqRkD71wVFRyA==
+   d="scan'208";a="13532558"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 03:00:41 -0700
+X-CSE-ConnectionGUID: Eb/KDcJkSEeMawOlj/IVnQ==
+X-CSE-MsgGUID: IpNW3ezjR6+EtRgdbK16ww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="106035271"
+   d="scan'208";a="68464772"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Sep 2024 02:39:39 -0700
+  by orviesa010.jf.intel.com with ESMTP; 15 Sep 2024 03:00:39 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spljE-0008aA-1n;
-	Sun, 15 Sep 2024 09:39:36 +0000
-Date: Sun, 15 Sep 2024 17:39:05 +0800
+	id 1spm3Y-0008b4-30;
+	Sun, 15 Sep 2024 10:00:36 +0000
+Date: Sun, 15 Sep 2024 17:59:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2547/13950] kernel/sched/core.c:11514:74:
- warning: format '%llu' expects argument of type 'long long unsigned int',
- but argument 6 has type 'int'
-Message-ID: <202409151723.cHHy97fz-lkp@intel.com>
+To: David Arinzon <darinzon@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Shay Agroskin <shayagr@amazon.com>
+Subject: drivers/net/ethernet/amazon/ena/ena_netdev.c:77 ena_tx_timeout()
+ warn: inconsistent indenting
+Message-ID: <202409152000.h6g4SVzs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,108 +63,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Hui,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   84404f248a61323e09909849803ea4efce81742f
-commit: 6eb07f9925a906d81f328c808ba25f7800888dce [2547/13950] sched: Introduce smart grid scheduling strategy for cfs
-config: loongarch-randconfig-r133-20240913 (https://download.01.org/0day-ci/archive/20240915/202409151723.cHHy97fz-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240915/202409151723.cHHy97fz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0babf683783ddca06551537c6781e413cfe8d27b
+commit: 071271f39ce833a3534d1fbd47174d1bed6d9326 net: ena: Add more information on TX timeouts
+date:   8 months ago
+config: csky-randconfig-r073-20240915 (https://download.01.org/0day-ci/archive/20240915/202409152000.h6g4SVzs-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409151723.cHHy97fz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409152000.h6g4SVzs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/amazon/ena/ena_netdev.c:77 ena_tx_timeout() warn: inconsistent indenting
 
-   In file included from include/linux/irq.h:23,
-                    from arch/loongarch/include/asm/hardirq.h:10,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/highmem.h:12,
-                    from kernel/sched/core.c:9:
-   include/linux/nmi.h: In function 'trigger_all_cpu_backtrace':
-   arch/loongarch/include/asm/irq.h:42:40: error: void value not ignored as it ought to be
-      42 | #define arch_trigger_cpumask_backtrace arch_trigger_cpumask_backtrace
-   include/linux/nmi.h:160:16: note: in expansion of macro 'arch_trigger_cpumask_backtrace'
-     160 |         return arch_trigger_cpumask_backtrace(cpu_online_mask, -1);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nmi.h: In function 'trigger_allbutcpu_cpu_backtrace':
-   arch/loongarch/include/asm/irq.h:42:40: error: void value not ignored as it ought to be
-      42 | #define arch_trigger_cpumask_backtrace arch_trigger_cpumask_backtrace
-   include/linux/nmi.h:165:16: note: in expansion of macro 'arch_trigger_cpumask_backtrace'
-     165 |         return arch_trigger_cpumask_backtrace(cpu_online_mask, exclude_cpu);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nmi.h: In function 'trigger_cpumask_backtrace':
-   arch/loongarch/include/asm/irq.h:42:40: error: void value not ignored as it ought to be
-      42 | #define arch_trigger_cpumask_backtrace arch_trigger_cpumask_backtrace
-   include/linux/nmi.h:170:16: note: in expansion of macro 'arch_trigger_cpumask_backtrace'
-     170 |         return arch_trigger_cpumask_backtrace(mask, -1);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nmi.h: In function 'trigger_single_cpu_backtrace':
-   arch/loongarch/include/asm/irq.h:42:40: error: void value not ignored as it ought to be
-      42 | #define arch_trigger_cpumask_backtrace arch_trigger_cpumask_backtrace
-   include/linux/nmi.h:175:16: note: in expansion of macro 'arch_trigger_cpumask_backtrace'
-     175 |         return arch_trigger_cpumask_backtrace(cpumask_of(cpu), -1);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c: At top level:
-   kernel/sched/core.c:11374:5: warning: no previous prototype for 'tg_set_dynamic_affinity_mode' [-Wmissing-prototypes]
-   11374 | int tg_set_dynamic_affinity_mode(struct task_group *tg, u64 mode)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:11415:5: warning: no previous prototype for 'tg_set_affinity_period' [-Wmissing-prototypes]
-   11415 | int tg_set_affinity_period(struct task_group *tg, u64 period_ms)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:11429:5: warning: no previous prototype for 'tg_get_affinity_period' [-Wmissing-prototypes]
-   11429 | u64 tg_get_affinity_period(struct task_group *tg)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c: In function 'cpu_affinity_stat_show':
->> kernel/sched/core.c:11514:74: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type 'int' [-Wformat=]
-   11514 |                 seq_printf(sf, "sd_level %d, cpu list %*pbl, stay_cnt %llu\n",
-         |                                                                       ~~~^
-         |                                                                          |
-         |                                                                          long long unsigned int
-         |                                                                       %u
-   In file included from kernel/sched/core.c:54:
-   include/linux/nmi.h: In function 'trigger_single_cpu_backtrace':
-   include/linux/nmi.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
-     176 | }
-         | ^
+vim +77 drivers/net/ethernet/amazon/ena/ena_netdev.c
 
-
-vim +11514 kernel/sched/core.c
-
- 11493	
- 11494	static int cpu_affinity_stat_show(struct seq_file *sf, void *v)
- 11495	{
- 11496		struct task_group *tg = css_tg(seq_css(sf));
- 11497		struct auto_affinity *auto_affi = tg->auto_affinity;
- 11498		struct affinity_domain *ad;
- 11499		int i;
- 11500	
- 11501		/* No stat when dynamic affinity disabled */
- 11502		if (!dynamic_affinity_enabled())
- 11503			return -EPERM;
- 11504	
- 11505		if (unlikely(!auto_affi))
- 11506			return -EPERM;
- 11507	
- 11508		ad = &auto_affi->ad;
- 11509		seq_printf(sf, "period_active %d\n", auto_affi->period_active);
- 11510		seq_printf(sf, "dcount %d\n", ad->dcount);
- 11511		seq_printf(sf, "domain_mask 0x%x\n", ad->domain_mask);
- 11512		seq_printf(sf, "curr_level %d\n", ad->curr_level);
- 11513		for (i = 0; i < ad->dcount; i++)
- 11514			seq_printf(sf, "sd_level %d, cpu list %*pbl, stay_cnt %llu\n",
- 11515				i, cpumask_pr_args(ad->domains[i]),
- 11516				schedstat_val(ad->stay_cnt[i]));
- 11517	
- 11518		return 0;
- 11519	}
- 11520	#endif /* CONFIG_QOS_SCHED_SMART_GRID */
- 11521	
+    47	
+    48	static void ena_tx_timeout(struct net_device *dev, unsigned int txqueue)
+    49	{
+    50		enum ena_regs_reset_reason_types reset_reason = ENA_REGS_RESET_OS_NETDEV_WD;
+    51		struct ena_adapter *adapter = netdev_priv(dev);
+    52		unsigned int time_since_last_napi, threshold;
+    53		struct ena_ring *tx_ring;
+    54		int napi_scheduled;
+    55	
+    56		if (txqueue >= adapter->num_io_queues) {
+    57			netdev_err(dev, "TX timeout on invalid queue %u\n", txqueue);
+    58			goto schedule_reset;
+    59		}
+    60	
+    61		threshold = jiffies_to_usecs(dev->watchdog_timeo);
+    62		tx_ring = &adapter->tx_ring[txqueue];
+    63	
+    64		time_since_last_napi = jiffies_to_usecs(jiffies - tx_ring->tx_stats.last_napi_jiffies);
+    65		napi_scheduled = !!(tx_ring->napi->state & NAPIF_STATE_SCHED);
+    66	
+    67		netdev_err(dev,
+    68			   "TX q %d is paused for too long (threshold %u). Time since last napi %u usec. napi scheduled: %d\n",
+    69			   txqueue,
+    70			   threshold,
+    71			   time_since_last_napi,
+    72			   napi_scheduled);
+    73	
+    74		if (threshold < time_since_last_napi && napi_scheduled) {
+    75			netdev_err(dev,
+    76				   "napi handler hasn't been called for a long time but is scheduled\n");
+  > 77				   reset_reason = ENA_REGS_RESET_SUSPECTED_POLL_STARVATION;
+    78		}
+    79	schedule_reset:
+    80		/* Change the state of the device to trigger reset
+    81		 * Check that we are not in the middle or a trigger already
+    82		 */
+    83		if (test_and_set_bit(ENA_FLAG_TRIGGER_RESET, &adapter->flags))
+    84			return;
+    85	
+    86		ena_reset_device(adapter, reset_reason);
+    87		ena_increase_stat(&adapter->dev_stats.tx_timeout, 1, &adapter->syncp);
+    88	}
+    89	
 
 -- 
 0-DAY CI Kernel Test Service
