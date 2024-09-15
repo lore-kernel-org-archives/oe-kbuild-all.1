@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDEA2209F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 20:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B7F1B85CD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Sep 2024 20:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726431917; cv=none; b=VQT1IOJ9/zhf+IdXyZFLB84HMHBOh01JCAEs7Hw1G31S32UxTZob7LjJQ6GBijFjJO3PITjDlcLBvUrqx98nRNWV9tTlRd6d7hUzeGtC4zflcoH5iYitRpMfKLUJbPNm0Oy/CVHEiZdDB5KRFhLGe5bsdRaLzfq/1Gh88Cysmck=
+	t=1726432522; cv=none; b=nepSIbIwcf1JIjQTZ5pbepZ+ukaP51rby1QP8pfyuloxgkiJI5crj/67/wMgJk1ZDTFlKh2zTdclRO0V2m6w7ViQZo0VJ/oLHqw5ISrK3MeSgQCSkV6KrneuqApjxdmhPBUOXR4jk47ZINuyWgJ73hwZjJZBzrgVmOh4yhxgl7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726431917; c=relaxed/simple;
-	bh=XguYv4ThW5ZYjXCrppONz9r4kMUc/nyNaVCAQo6NBxk=;
+	s=arc-20240116; t=1726432522; c=relaxed/simple;
+	bh=lFcgXYr4Cfa3E99WXd/X+JZPoJD1gxvzDpqH57r2Azo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xp7iDzxhn0oo1zQgxN7sHn/FcocNEyJxHQmXFgvQDisZ1BQkR2tvUQsad6hdX1/f+7S9KQyKes0vL8wi4elsxyC7Vzb4Swd8FvG7S7JncuT7emClmpFGhPUWYBX9LsBgiybM5bCdl/EMsQ0iDrQxWHaWNjf3sRu2G3l6vE6a+rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YccvY48W; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=HnHaUyasrcOsEM9z04dXjQawjZUBwpfrBfwT80fXX1ZPzJVqdWQq+fqv02lkHay+h+4OagvB4zeR0JvrF8uJH/0NuB7Ukst73BTMFlQe5QbL+x+yoTqK2V2EHkJK4Zir/v5Or/FiY8Dj+q4A0FXs7F08JSoueTeCJlZJ5LDFZOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZZx9jOd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YccvY48W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZZx9jOd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726431915; x=1757967915;
+  t=1726432520; x=1757968520;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XguYv4ThW5ZYjXCrppONz9r4kMUc/nyNaVCAQo6NBxk=;
-  b=YccvY48WXNsaizH4NDlYV5bGGl11b4PVdr5eypgpJS+twlQI8jJqWitL
-   Dg56hlUjBR/UP7+GtEIcQM9fOcunWbo2xEfbxQJYWcJ9yZqbZ9PAvDBl9
-   BvvWujOKlfubCpSENlNH9eKDhap8HHljn889mAEyLevDxeASH23XTgkP8
-   9PjiildJCbFwCL3I2JnDgfhb+yXB5EAfsRNo2E+UZeC+xJ5FP+lyraOK2
-   pOFEkQ8kYreWs9Rm5PyJRk4qndiVjg3IaIjbige4N7evOi+vBL7F5ZhsF
-   iCh1LziDh5Ej6nW3vyJDuaGvavZ/Xoi1uXvcVucXLwpgKIuRUG/8YyA/F
-   A==;
-X-CSE-ConnectionGUID: e0q/RX4uQaOC7AlC+zA8BA==
-X-CSE-MsgGUID: AhEyhrSbQW+Ddn1c+VFE1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="36648129"
+  bh=lFcgXYr4Cfa3E99WXd/X+JZPoJD1gxvzDpqH57r2Azo=;
+  b=nZZx9jOdzlpVn7NoykiY7HBndtw4v+YVCWT02P37wk8RutJD7hdfxt9S
+   MyGVLjv74AsB62hy9ujNW4n9TE0RTJRV4JlVnPLd8xbx8pIiXdFA0dnIl
+   CWkqrdZlAJvgTkzAgBzSF4t1qZRPeW3DipHSpJPsDOChNXkpd2rCClFKh
+   NniOKTkUeufdA8jGfV139udMc6Kt4LKzL9vXLkBuHmje70dK95wXRYZpZ
+   ihcTTwnJJxkaayTMD8zs4QCqVqyw/fxT1sNpt0kt5nwFOSg9v8877aG1D
+   3rWUZBYgWSNg+CWSx/GPJl3nHzsVKbXcQHmouWqKt1VqeW2D9Get+IqxH
+   g==;
+X-CSE-ConnectionGUID: Us5vCR9cQe6ahEncpHgljw==
+X-CSE-MsgGUID: GUGezTzSQMOcUratxJmBrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="24753197"
 X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
-   d="scan'208";a="36648129"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 13:25:14 -0700
-X-CSE-ConnectionGUID: BmPNptE6T9yq1HtbnlOIFw==
-X-CSE-MsgGUID: BSONGI0YSKe7a3CsRzcNYQ==
+   d="scan'208";a="24753197"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 13:35:19 -0700
+X-CSE-ConnectionGUID: VA3AzX0tSg+87wIXgSKqQw==
+X-CSE-MsgGUID: mvZqJtU/RFaatOx48NBSDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
-   d="scan'208";a="68929918"
+   d="scan'208";a="68555192"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Sep 2024 13:25:13 -0700
+  by orviesa010.jf.intel.com with ESMTP; 15 Sep 2024 13:35:19 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spvnz-00091K-1x;
-	Sun, 15 Sep 2024 20:25:11 +0000
-Date: Mon, 16 Sep 2024 04:24:19 +0800
+	id 1spvxk-00091u-1r;
+	Sun, 15 Sep 2024 20:35:16 +0000
+Date: Mon, 16 Sep 2024 04:34:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1624/13950] loongson3-acpi-cpufreq.c:undefined
- reference to `acpi_processor_register_performance'
-Message-ID: <202409160448.mekEXGBM-lkp@intel.com>
+Subject: [android-common:android15-6.6 56/64]
+ arch/arm64/kvm/hyp/nvhe/modules.c:128:10: sparse: sparse: symbol
+ 'num_dynamic_hcalls' was not declared. Should it be static?
+Message-ID: <202409160411.hi2ve5rC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,30 +63,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi liuyun,
+Hi Quentin,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   84404f248a61323e09909849803ea4efce81742f
-commit: 47a0b6f372d7f05822d021f86b21a34fd2142225 [1624/13950] cpufreq: Add cpufreq driver for LoongArch
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240916/202409160448.mekEXGBM-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409160448.mekEXGBM-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   1fa94a14074632ecff57ab73a2c9677521b7524f
+commit: 081625b0457739645b1982b908e449e54f6037dd [56/64] ANDROID: KVM: arm64: Rework pKVM module locking
+config: arm64-randconfig-r122-20240915 (https://download.01.org/0day-ci/archive/20240916/202409160411.hi2ve5rC-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20240916/202409160411.hi2ve5rC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409160448.mekEXGBM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409160411.hi2ve5rC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/modules.c:128:10: sparse: sparse: symbol 'num_dynamic_hcalls' was not declared. Should it be static?
+>> arch/arm64/kvm/hyp/nvhe/modules.c:129:1: sparse: sparse: symbol 'dyn_hcall_lock' was not declared. Should it be static?
 
-   loongarch64-linux-ld: drivers/cpufreq/loongson3-acpi-cpufreq.o: in function `loongson3_cpufreq_cpu_exit':
-   loongson3-acpi-cpufreq.c:(.text+0x6f8): undefined reference to `acpi_processor_unregister_performance'
-   loongarch64-linux-ld: drivers/cpufreq/loongson3-acpi-cpufreq.o: in function `.L333':
->> loongson3-acpi-cpufreq.c:(.text+0x2a20): undefined reference to `acpi_processor_register_performance'
-   loongarch64-linux-ld: drivers/cpufreq/loongson3-acpi-cpufreq.o: in function `.L372':
-   loongson3-acpi-cpufreq.c:(.text+0x3390): undefined reference to `acpi_processor_unregister_performance'
+vim +/num_dynamic_hcalls +128 arch/arm64/kvm/hyp/nvhe/modules.c
+
+bc68b420c1452e Vincent Donnefort 2022-09-27  127  
+bc68b420c1452e Vincent Donnefort 2022-09-27 @128  atomic_t num_dynamic_hcalls = ATOMIC_INIT(0);
+bc68b420c1452e Vincent Donnefort 2022-09-27 @129  DEFINE_HYP_SPINLOCK(dyn_hcall_lock);
+bc68b420c1452e Vincent Donnefort 2022-09-27  130  
+
+:::::: The code at line 128 was first introduced by commit
+:::::: bc68b420c1452e2c029344d5c3954b8098e125e1 ANDROID: KVM: arm64: Add support for custom hypercall registration
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Will Deacon <willdeacon@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
