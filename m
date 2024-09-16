@@ -1,43 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1818C15575B;
-	Mon, 16 Sep 2024 11:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4BD156C65
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 12:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726487907; cv=none; b=FbnFRhYdWG1Vvos1N3wFo3lBgVnB9ARcehIWGaBVW54HvCL3BF+1YY1+ti/T2TU7Z23xVjssMeS+mjepAGQ4+xESodY/sTqurPC6ZEsGDvJmzWTjs3m5IWnWeVu+lU+IqQyU6+fkItIW2q/Bw1foeTJgEZNxdhSszSwemGvzPyU=
+	t=1726488206; cv=none; b=hu4snMJCbTxLMs83rFTPLOq4WdRyjACxT8DgFEBiDL5iInOQqz6f4igAzyL+Gz1r3R/qqrDBWwNUYr91rCgRjdOT3rcrZngFWBe60mFtfepxFGoQc9zUFVElkWpMu+EL9CqS/8BBMllehdsiAEKMW/0AL4LDxHVfCP3x+n+p5zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726487907; c=relaxed/simple;
-	bh=cn4qiSXIffztlhZkpuG7otltZwk8uS66Sy7HbKtKITY=;
+	s=arc-20240116; t=1726488206; c=relaxed/simple;
+	bh=0sePlQ6v8SDrzxFHDtEPRg3gT5Tv1CqKdfBCdG5rw/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fav5R4OE3FWKba35MjuRept/xXpFpn0BqBWPuDZ2I/eFLK3EVr0K3STxUeN4NLST0mgmcNC5NeNSbCGmxR9FbmWc14Ebh9QtjVSNnkFwZazcNh6AqPK+Ct1PaeULQThKCSSHxO/BRWYdkfe5S7EfkKCZMbyhKk+FCNv9ON18ruU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQCxSoPw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sNilYVhMcqBV8rik1vQgVlM60YtlPmTsgUAbkEhm7qCbzhgpodud43SC7zQ4ouWkyLNr7Uykn4QsVTdKUyMKDIOwbxJB2NfQlO80b+VLFNPkNFTuuwtcKzEtdGxeJ35v0c8V7/dmroTUKxuxL4GnBAUPpWwun99ejZTF6q/VBwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbUolzUh; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQCxSoPw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69174C4CECC;
-	Mon, 16 Sep 2024 11:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726487906;
-	bh=cn4qiSXIffztlhZkpuG7otltZwk8uS66Sy7HbKtKITY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZQCxSoPwzQsKG9vFV91ERoFLhlTDq7/ciItIJn3/7T/auMZzWe99x4M2DxvU2hfM7
-	 m+M+WB1BIKrcMThag5k3saZwah2Y296itp1VeoQj+cwq+rrUkDFIzX/9SHjfJH1jkh
-	 zqv0eDWZFt5mR5iDL8fu+uxVUlIxrmEGAKH2K/bWCBeGkamCLGQijDbAxnQuvc20Gp
-	 ilCeWZ73lZfIRpJ1RubAywlyawWhlrjhSL7XvY9zl/52tQ7cJ3oQEvQnMIsMakrsso
-	 n/KS9LOtE9nAIh3ulDZoFWTKc2Zj417r+HnUfJ/kc8kp3KQpspTbGRkAJj40xZsaEb
-	 odvzrxBNp7hGg==
-Date: Mon, 16 Sep 2024 13:58:06 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbUolzUh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726488205; x=1758024205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0sePlQ6v8SDrzxFHDtEPRg3gT5Tv1CqKdfBCdG5rw/s=;
+  b=RbUolzUh4DKb5NLuzyQ+kW9GgChMefFSOho00rtEPTLcG5puD0s4myGF
+   Ri1anItZ/o9Oj5yffv786UFt6bfJrFw3pGjrNWpmAvDqlkMJOJCssDD7c
+   KKDzif6R3Ew8DdvcmsZN2mdlcxer+icXQcOg9aJi0HR74mZAvVOW9O/gK
+   a4adTzXgFMx0lcshtGTZrXd9+g/U6iUwvi2JQniN0rQxz/m9k5fYHkAaU
+   Haa8S/fr8yInAi0Fg6VgqgtR2Rm6Bi0eN0Umr33TTb2golyXTIw8r41cq
+   bsIqJs+kV0gOrzAVDPfVEx52QMVVLO5zR6GcuuBQZtlKEZfuVSdrq41OH
+   Q==;
+X-CSE-ConnectionGUID: gIJ3N7xwRfuqqOCFhrF28Q==
+X-CSE-MsgGUID: ByY1BvmuQe+W2mH6+aBHQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="24794234"
+X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
+   d="scan'208";a="24794234"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 05:03:25 -0700
+X-CSE-ConnectionGUID: 2NPTtz0FRT+IiDPT9K5Qvg==
+X-CSE-MsgGUID: UR0g2S9DS6OTn5/rndSTXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
+   d="scan'208";a="73221867"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 05:03:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sqARs-00000009RtK-3CxY;
+	Mon, 16 Sep 2024 15:03:20 +0300
+Date: Mon, 16 Sep 2024 15:03:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	Jean Delvare <jdelvare@suse.com>
 Subject: Re: [PATCH v1 04/12] i2c: isch: Switch to memory mapped IO accessors
-Message-ID: <uikfb52qduifmhnlkc43tgvmw2ok67eclqpokyrkp7sftetz3v@bs64p6aga6s3>
+Message-ID: <ZugeiJ96VHwg-pl0@smile.fi.intel.com>
 References: <20240911154820.2846187-5-andriy.shevchenko@linux.intel.com>
  <202409141436.QFCDQrRF-lkp@intel.com>
  <Zuf1UJ6K_8hL5x5U@smile.fi.intel.com>
  <leoyop42s4qmaytvwhwhpgfwfrkpm2xxabskz645r337jdjfml@zg5ql73tqidk>
  <ZugI2NCtaWKgcgh5@smile.fi.intel.com>
+ <uikfb52qduifmhnlkc43tgvmw2ok67eclqpokyrkp7sftetz3v@bs64p6aga6s3>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,47 +69,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZugI2NCtaWKgcgh5@smile.fi.intel.com>
+In-Reply-To: <uikfb52qduifmhnlkc43tgvmw2ok67eclqpokyrkp7sftetz3v@bs64p6aga6s3>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Sep 16, 2024 at 01:30:48PM GMT, Andy Shevchenko wrote:
-> On Mon, Sep 16, 2024 at 12:10:32PM +0200, Andi Shyti wrote:
-> > On Mon, Sep 16, 2024 at 12:07:28PM GMT, Andy Shevchenko wrote:
-> > > On Sat, Sep 14, 2024 at 02:56:19PM +0800, kernel test robot wrote:
-> 
-> ...
-> 
-> > > >    drivers/i2c/busses/i2c-isch.c: In function 'smbus_sch_probe':
-> > > > >> drivers/i2c/busses/i2c-isch.c:296:42: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'resource_size_t' {aka 'long long unsigned int'} [-Wformat=]
-> > > >      296 |                 "SMBus SCH adapter at %04x", res->start);
-> > > >          |                                       ~~~^   ~~~~~~~~~~
-> > > >          |                                          |      |
-> > > >          |                                          |      resource_size_t {aka long long unsigned int}
-> > > >          |                                          unsigned int
-> > > >          |                                       %04llx
-> > > 
-> > > Yeah, this should be something like %pa, but the problem with that that it
-> > > always uses the same, fixed-width format with a prefix. We don't want this. But
-> > > to make sure we have proper specifier we need to introduce a temporary variable
-> > > and assign the resource start address to it and then use that variable in here.
-> > > I'll update this in v2 and send it after we have v6.12-rc1 is out.
+On Mon, Sep 16, 2024 at 01:58:06PM +0200, Andi Shyti wrote:
+> On Mon, Sep 16, 2024 at 01:30:48PM GMT, Andy Shevchenko wrote:
+> > On Mon, Sep 16, 2024 at 12:10:32PM +0200, Andi Shyti wrote:
+> > > On Mon, Sep 16, 2024 at 12:07:28PM GMT, Andy Shevchenko wrote:
+
+...
+
+> > > Feel free to send it, I will apply it in i2c/i2c-host-for-6.12,
+> > > that's where I'm collecting the next patches.
 > > 
-> > Feel free to send it, I will apply it in i2c/i2c-host-for-6.12,
-> > that's where I'm collecting the next patches.
+> > But I believe it's a material for v6.13, no?
 > 
-> But I believe it's a material for v6.13, no?
+> yes, I gave it the wrong name :-)
+> I renamed it now to i2c/i2c-host-for-6.13(*).
+> 
+> But it doesn't matter. It will become the next i2c/i2c-host after
+> Linus has taken the actual for-6.12 patches into mainline.
 
-yes, I gave it the wrong name :-)
-I renamed it now to i2c/i2c-host-for-6.13(*).
+v2 has just been sent out.
 
-But it doesn't matter. It will become the next i2c/i2c-host after
-Linus has taken the actual for-6.12 patches into mainline.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> From the whole series the first patch is only a fix, the rest is pure
-> refactoring and cleanup.
 
-Yes, you can omit the first patch. It has already been sent in
-the fixes pull request.
-
-Andi
-
-(*) https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git/log/?h=i2c/i2c-host-for-6.13
