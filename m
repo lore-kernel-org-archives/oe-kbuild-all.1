@@ -1,201 +1,139 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8181148850
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 09:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21EC50284
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 09:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726478278; cv=none; b=JMTNdkLIkH2ifA6euRF+ERwNwQEvEzroRczorzw2fPWRnP0qO2494wKfKhVbws+nWEPpWmf+BrA8uT49GXoMk6IFVfTDRGEhdoMqBeKDFnefKbdDp3o3pFY7no55lXYDCsp/I2+IxZcp+lLqtnhmJDf3C2h47mk2yW9+s/hwF6c=
+	t=1726478296; cv=none; b=AkaI7JSUE7Kk+vYHzjy78wax0a5DZC23IP/V6SaLH+rH7wwYoDyd3fzFF06pKAFdZTPeqZQHCQi7+hOg/p8M0MbAf43Xek+me+mINt7pAEjJoxy6uKAPutuhDfz4V7X2We9mCddDQHbmVxhu3JLw7n39oTsTUcMgOCH3QgFiJtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726478278; c=relaxed/simple;
-	bh=ajmRpK7Nvpx8Du6U5exs5Hd7Za4uy/AQUFmTiV5ajXA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GW9z8/u3wsStHgzXcZObcat0OpTP1shJNbmhP7lz+48+mVtGd5wHkG3IadyUm+09udQm8aVmWSvaR9jrDazJrARDwkhQRnzxta8LXlsmUJ0hGgzRYddepF7BENkQXj9dS8JRIecW198pizDrtnzUaBUeH+ejZ1R8prOgjBrwElg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gyVM0x2U; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726478296; c=relaxed/simple;
+	bh=ANcPPEfwneESYbEhy+LoeIfKk3erD75RIgp7uNj/sog=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mg/6mMF21VdFl7d2cieOOnB1/DBtE+EsM2ud3jPXK1/fEiD7usTIEqIy34tRkMW4PJl09S/ZtEJPzrzTmLKNOP43yj0HnSETtALTyxvdlX0ij6aRfqgcKM50rP8avR3J6sxPoIatbM0Oc0jpZNxHecj4cuEWDPA0CPPe2lQZ590=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lRGToeZg; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gyVM0x2U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726478276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u4y4nz5Nv7wOUIE0PuGjkvUmulAldY5WgyA0UlbnwHA=;
-	b=gyVM0x2UrXjqe/PbDKGS5QwRN+zliVwp/0EFSApsXlEitO/DXq1QZ00FjgxzslnhlOPB80
-	LzZimL0s67UwrGmVvS6RZmuzWJlaOHbm9JgFxvVIXvbJIe1IGeoq/BGtJhTQAqYqmQqm+8
-	X7H+q5h6wpwBNVe+siIGTFgzu3bdgPk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-XilmH3_QORqSKFicyhHIFw-1; Mon, 16 Sep 2024 05:17:52 -0400
-X-MC-Unique: XilmH3_QORqSKFicyhHIFw-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-374cd315c68so1269668f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 02:17:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726478272; x=1727083072;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CZlUpJD1u2D4y829v0MZ+38o7vNfH4MDWrJrr43iAOo=;
-        b=W8bH7o8QQqAKfgbIXsbE/w8VJxJVRqb8lIbx/zcSoAImamW2ThSftayIIwWBOoKaI/
-         Q//LlT3SWo7Nr7L9LiNJFxXYDVlcNpPtDFN/kyRPKT4o5CffGwBi+ojNujrk9f7EiyvA
-         SEhVGnWHHg7S8NkRVFpKJ5Ym2WggKuQwKXDeZg5H5kc/gsMUNSNSVPDGibG3wYRnSSF4
-         o2meuu/VlFQMN7GdvjVAIN56/SeFwwTR3GxIfahvkSTcGhFPDT2GFNnWAB1S2gVhS6qh
-         /mEAQcfiJrk0p3ZEqEo2wqM4vGUcUNhsnka/vzq4nRfOOH//hEE6Bx53TntnbQJAU12S
-         9iDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhpI3xhxo/sICg/2Qw7joo7S4DTJYKrgCkGOkWeibaQP2g7Tcq1d8ZgPl8tud1goT5jnjK4+kPtcx5Krwd@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcoLra26u95qwIbSsj7VuJj5pzStjVI0M+HggkHkX9ztwVQjqr
-	gU6fCrWh/tWNlbdnotfinmfi9UmHPxqlxAeYgBjkVLx+N2J8Tqys3jo6KiHH8ywJTt03pdOQuUA
-	BBbdQuC2C537kHseUxxqNECmNy46IZZ1O3nmLgQzyNlhdP5S9jMpkdLSuA1WijNA=
-X-Received: by 2002:a05:6000:459a:b0:374:c87c:6653 with SMTP id ffacd0b85a97d-378d625d1bcmr5180007f8f.59.1726478271526;
-        Mon, 16 Sep 2024 02:17:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFr/amHL1g9g9bIGYoMJCQHZMKTHGf7MVVMg5YL/dVBytjGa9ZBq7SHyvot4r13prMJmLQeqg==
-X-Received: by 2002:a05:6000:459a:b0:374:c87c:6653 with SMTP id ffacd0b85a97d-378d625d1bcmr5179986f8f.59.1726478270844;
-        Mon, 16 Sep 2024 02:17:50 -0700 (PDT)
-Received: from localhost (red-hat-inc.vlan560.asr1.mad1.gblx.net. [159.63.51.90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e71ed08esm6763307f8f.4.2024.09.16.02.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 02:17:50 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot
- <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Julius Werner
- <jwerner@chromium.org>, Hugues Bruant <hugues.bruant@gmail.com>,
- intel-gfx@lists.freedesktop.org, Brian Norris <briannorris@chromium.org>,
- dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- chrome-platform@lists.linux.dev, Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v3] firmware: coreboot: Don't register a pdev if
- screen_info data is present
-In-Reply-To: <a6a994b0-5021-49e5-b853-a1b2abe3af2f@suse.de>
-References: <20240913213246.1549213-1-javierm@redhat.com>
- <202409151528.CIWZRPBq-lkp@intel.com>
- <eeac1c3c-4a21-4cd5-b513-8e55cffe0bae@suse.de>
- <8734m0atbu.fsf@minerva.mail-host-address-is-not-set>
- <a6a994b0-5021-49e5-b853-a1b2abe3af2f@suse.de>
-Date: Mon, 16 Sep 2024 11:17:49 +0200
-Message-ID: <875xqwufcy.fsf@minerva.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lRGToeZg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726478295; x=1758014295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ANcPPEfwneESYbEhy+LoeIfKk3erD75RIgp7uNj/sog=;
+  b=lRGToeZgrTQkvr7fa/1D7zvn6SUER+IqafJZnnea6fqSS1X7h+hS4OPo
+   QNj7DmvytmkezjUN8OTzP1yTTlojVn8J2lcI4jHCX9xxGxRW5aCWky7rE
+   hyKMRimLS9N92Ijbq64oA+lFeSVKTTiGK3o1K167mF+HfSHMl4mfYbflD
+   i2ZVSE982CiIyY+hp635G+5/LWM19PSkzofof97qEFaWrzGxH0nioip9X
+   qmLv4IoQDTmFDzsBYmFq6uiOE2t473TOpkFftbaw6CZCeFj61HJBy7sJn
+   GhB9ogMltylNgdoNoVpnKY+oUThWfRjCk62aEV1sXl1G947hxeegufO3o
+   Q==;
+X-CSE-ConnectionGUID: wgu2gjAsTPeb1Oay0ky70Q==
+X-CSE-MsgGUID: V6J/O+gITkyj/OOF6n7tZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="50713260"
+X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
+   d="scan'208";a="50713260"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 02:18:14 -0700
+X-CSE-ConnectionGUID: LtlVYoJxSgyBJz839wqO1g==
+X-CSE-MsgGUID: Les+pS1aSEGS3ff79eEtjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
+   d="scan'208";a="68913079"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2024 02:18:13 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sq7s3-0009bi-0w;
+	Mon, 16 Sep 2024 09:18:11 +0000
+Date: Mon, 16 Sep 2024 17:17:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-generic-group 46/53] fs/xfs/xfs_extfree_item.c:481:26:
+ error: assignment to 'struct xfs_group *' from incompatible pointer type
+ 'struct xfs_perag *'
+Message-ID: <202409161720.g9imBF30-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+tree:   git://git.infradead.org/users/hch/xfs xfs-generic-group
+head:   70d97335ce6b1b5fa4a40c0c33694d70d5e61224
+commit: f08067c829d72702c49ed146b666fa397ac780de [46/53] xfs: store a generic group structure in the intents
+config: i386-buildonly-randconfig-004-20240916 (https://download.01.org/0day-ci/archive/20240916/202409161720.g9imBF30-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161720.g9imBF30-lkp@intel.com/reproduce)
 
-Hello Thomas,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409161720.g9imBF30-lkp@intel.com/
 
-> Hi Javier
->
-> Am 16.09.24 um 10:36 schrieb Javier Martinez Canillas:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
->>
->> Hello Thomas and Tzung-Bi,
->>
->>> Hi
->>>
->>> Am 15.09.24 um 09:44 schrieb kernel test robot:
->>>> Hi Javier,
->>>>
->>>> kernel test robot noticed the following build errors:
->>>>
->>>> [auto build test ERROR on chrome-platform/for-next]
->>>> [also build test ERROR on chrome-platform/for-firmware-next linus/mast=
-er v6.11-rc7 next-20240913]
->>>> [If your patch is applied to the wrong git tree, kindly drop us a note=
-.
->>>> And when submitting patch, we suggest to use '--base' as documented in
->>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>
->>>> url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez=
--Canillas/firmware-coreboot-Don-t-register-a-pdev-if-screen_info-data-is-pr=
-esent/20240914-053323
->>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platfor=
-m/linux.git for-next
->>>> patch link:    https://lore.kernel.org/r/20240913213246.1549213-1-javi=
-erm%40redhat.com
->>>> patch subject: [PATCH v3] firmware: coreboot: Don't register a pdev if=
- screen_info data is present
->>>> config: riscv-randconfig-001-20240915 (https://download.01.org/0day-ci=
-/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/config)
->>>> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8=
-dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
->>>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/ar=
-chive/20240915/202409151528.CIWZRPBq-lkp@intel.com/reproduce)
->>>>
->>>> If you fix the issue in a separate patch/commit (i.e. not just a new v=
-ersion of
->>>> the same patch/commit), kindly add following tags
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202409151528.CIWZRPBq-=
-lkp@intel.com/
->>>>
->>>> All errors (new ones prefixed by >>):
->>>>
->>>>>> ld.lld: error: undefined symbol: screen_info
->>>>      >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/goo=
-gle/framebuffer-coreboot.c:27)
->>>>      >>>               drivers/firmware/google/framebuffer-coreboot.o:=
-(framebuffer_probe) in archive vmlinux.a
->>>>      >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/goo=
-gle/framebuffer-coreboot.c:27)
->>>>      >>>               drivers/firmware/google/framebuffer-coreboot.o:=
-(framebuffer_probe) in archive vmlinux.a
->>> Not all platforms define screen_info. Maybe fix this by following
->> Yes, after reading the build errors reported by the robot I remembered
->> that we had similar issues with sysfb, for example commit 1260b9a7020
->> ("drivers/firmware: fix SYSFB depends to prevent build failures") fixed
->> one of those.
->>
->>> Tzung-Bi's advice of removing the local variables and then guard the
->>> test by CONFIG_SYSFB. If SYSFB has been defined, screen_info has to be
->>> there. It's not a super pretty solution, though.
->>>
->> If possible I would prefer to avoid the ifdefery in the driver. I also
->> believe that the local variables makes the code easier to read. But if
->> you folks think that's better to drop them, I can do it in the next rev.
->>
->> Another option is to restrict the architectures where this driver could
->> be build. As far as I understand it is mainly for x86 and ARM64 arches.
->>
->> These two have a screen_info defined so the driver will build correctly.
->> I can include a preparatory patch that adds a "depends on x86 || ARM64".
->
-> That feels arbitrary, as the dependency is not really in coreboot, but=20
-> in sysbf. What you'd want is a HAVE_SCREEN_INFO define on the=20
-> architectures that provide it. IIRC earlier attempts to add this have=20
-> failed. :/
->
-> If you don't want the ifdef-ery in coreboot.c, you could add a helper to=
-=20
-> sysfb. Let's say
->
->  =C2=A0 bool sysfb_handles_screen_info(void)
->
-> returns the result of the test. If you put it next to sysfb_disable(),=20
-> you could add an empty wrapper into the sysfb.h header as well. [1]
->
-> (There's still the possibility that screen_info is available, but sysfb=
-=20
-> has been disabled. But that's not different from how it currently works.)
->
+All errors (new ones prefixed by >>):
 
-I like that. And when SYSFB is not enabled, sysfb_handles_screen_info()
-could just be defined as "return false;" which will indicate to drivers
-that would have to handle the system frambuffer themselves.
+   fs/xfs/xfs_extfree_item.c: In function 'xfs_extent_free_defer_add':
+>> fs/xfs/xfs_extfree_item.c:481:26: error: assignment to 'struct xfs_group *' from incompatible pointer type 'struct xfs_perag *' [-Werror=incompatible-pointer-types]
+     481 |         xefi->xefi_group = xfs_group_intent_get(mp, xefi->xefi_startblock,
+         |                          ^
+   fs/xfs/xfs_extfree_item.c: In function 'xfs_efi_recover_work':
+   fs/xfs/xfs_extfree_item.c:615:26: error: assignment to 'struct xfs_group *' from incompatible pointer type 'struct xfs_perag *' [-Werror=incompatible-pointer-types]
+     615 |         xefi->xefi_group = xfs_group_intent_get(mp, extp->ext_start, isrt);
+         |                          ^
+   cc1: some warnings being treated as errors
+--
+   fs/xfs/xfs_bmap_item.c: In function 'xfs_bmap_update_get_group':
+>> fs/xfs/xfs_bmap_item.c:335:22: error: assignment to 'struct xfs_group *' from incompatible pointer type 'struct xfs_perag *' [-Werror=incompatible-pointer-types]
+     335 |         bi->bi_group = xfs_group_intent_get(mp, bi->bi_bmap.br_startblock,
+         |                      ^
+   cc1: some warnings being treated as errors
+--
+   fs/xfs/xfs_refcount_item.c: In function 'xfs_refcount_defer_add':
+>> fs/xfs/xfs_refcount_item.c:362:22: error: assignment to 'struct xfs_group *' from incompatible pointer type 'struct xfs_perag *' [-Werror=incompatible-pointer-types]
+     362 |         ri->ri_group = xfs_group_intent_get(mp, ri->ri_startblock,
+         |                      ^
+   fs/xfs/xfs_refcount_item.c: In function 'xfs_cui_recover_work':
+   fs/xfs/xfs_refcount_item.c:472:22: error: assignment to 'struct xfs_group *' from incompatible pointer type 'struct xfs_perag *' [-Werror=incompatible-pointer-types]
+     472 |         ri->ri_group = xfs_group_intent_get(mp, pmap->pe_startblock, isrt);
+         |                      ^
+   cc1: some warnings being treated as errors
+--
+   fs/xfs/xfs_rmap_item.c: In function 'xfs_rmap_defer_add':
+>> fs/xfs/xfs_rmap_item.c:386:22: error: assignment to 'struct xfs_group *' from incompatible pointer type 'struct xfs_perag *' [-Werror=incompatible-pointer-types]
+     386 |         ri->ri_group = xfs_group_intent_get(mp, ri->ri_bmap.br_startblock,
+         |                      ^
+   fs/xfs/xfs_rmap_item.c: In function 'xfs_rui_recover_work':
+   fs/xfs/xfs_rmap_item.c:536:22: error: assignment to 'struct xfs_group *' from incompatible pointer type 'struct xfs_perag *' [-Werror=incompatible-pointer-types]
+     536 |         ri->ri_group = xfs_group_intent_get(mp, map->me_startblock, isrt);
+         |                      ^
+   cc1: some warnings being treated as errors
 
-I'll try to type the patches later today.
 
---=20
-Best regards,
+vim +481 fs/xfs/xfs_extfree_item.c
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+   469	
+   470	/* Add this deferred EFI to the transaction. */
+   471	void
+   472	xfs_extent_free_defer_add(
+   473		struct xfs_trans		*tp,
+   474		struct xfs_extent_free_item	*xefi,
+   475		struct xfs_defer_pending	**dfpp)
+   476	{
+   477		struct xfs_mount		*mp = tp->t_mountp;
+   478	
+   479		trace_xfs_extent_free_defer(mp, xefi);
+   480	
+ > 481		xefi->xefi_group = xfs_group_intent_get(mp, xefi->xefi_startblock,
+   482				xfs_efi_is_realtime(xefi));
+   483		*dfpp = xfs_defer_add(tp, &xefi->xefi_list, xefi_ops(xefi));
+   484	}
+   485	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
