@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F64314A4D1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 09:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E9014B945
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 10:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726479498; cv=none; b=mIuplJ4VUMYAolS5E25FIRK6fyixWQ1r0dZnuDkQjbYo7ncBdFkHNGFBQdVyV7ztTSA4UkXqTXXQQKhk56KGpIOdWnPOCebmmdoom8djemGJL/VA6u7F1MZi7q9SRGrC3zRBCt3FG4y2z7xU9Ww8BtAvk/sKNY/fN88RSnCVWbE=
+	t=1726481364; cv=none; b=sBgbh+w0Csr5lu96iyDCL6XBvON4lwR75QP5GuWwNjFPGtVNboBaOF/wANz0mMcsefbZC1X4lA+vmar5zgl0Mpvlhd/y+HYeF+kB2ftzn0oNTh79XXf00Flpsy9m4Z9n24o3zA+RaTBkmidI6Yk0mWFgh3IQG+0EusOmITktTw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726479498; c=relaxed/simple;
-	bh=HfqKWyJvEO1/3dOc+fHmnDVsr9WLw7VoSCPhdGg2DLI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rWRkSFhhF+2BdmcncbAZhmmiCvdjQI4mNi49yjqct+ccK1PhPzUclqdGkjGV/Ep5rswmfttdtpU0oy3y0UJLhrah0XTKwvVDMvB1PDDlLlIhsfVLPsTw//3/rCprqpy5N3ftShodC0bl7pTXi50fB9+fJy6d0btRmenoBLlwJNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MBWnbcJf; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726481364; c=relaxed/simple;
+	bh=x9frWFSiwZgea4dLj22yFxrd3OqYmZIUfJKbAW/nCQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYMSC60Hst3Jmxw53MstQCDY0ZKCdXD1Up4CdZN0tpiu56YlvamEU87FvV8rnGDO8N3uYyWZd5pTkpz760tk7eH+2T2g4GKs8p1vQVi+lGPeOITD0IqQpVlqP9P5KelvEY8wqAHkI2Ta+PS8CoX4mF9g+nPMZpynMUcooS4VCKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cJ0nAPFi; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MBWnbcJf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJ0nAPFi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726479496; x=1758015496;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HfqKWyJvEO1/3dOc+fHmnDVsr9WLw7VoSCPhdGg2DLI=;
-  b=MBWnbcJfVNIuknboxcF9XY4eC1cKhlaBmgVs66lzgOtYn52r50MuZkuI
-   nI9/78vsErFuE1UP5BDrCl4k02/RInDTO47czXcrQYtoM3Ut1ARVcECrh
-   OBgDzybiDOucwrzqpCdRJINq8i/9kC7tO4qvPir+FxGpKYE+9MsO3mKlf
-   bks/16O6Y/4pUgZKHB7lFnF9Q89F/OYj7Ty39f+5sb7Cd3Tv/FxtlslI+
-   4m5kD+UwMwcbp4ngcA6BdXFqChwX/eht/nf2v3hemxsEBZFYWC4mDWFbd
-   Z4zDKNmrGacvNHF04/rQOoBNqbf0jA7jEhfD04xmVIFPdatg+ngOLq0Nw
-   A==;
-X-CSE-ConnectionGUID: a1pDLPwuS+m1cX7AxIycqA==
-X-CSE-MsgGUID: sOYq9WtIQpeFxi2nCljTNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="35870708"
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="35870708"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 02:38:15 -0700
-X-CSE-ConnectionGUID: Q+e+6wS1ReKz/YMkLV0UmQ==
-X-CSE-MsgGUID: k7vFdTuuSJaoCmzEoMn7nA==
+  t=1726481364; x=1758017364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x9frWFSiwZgea4dLj22yFxrd3OqYmZIUfJKbAW/nCQ8=;
+  b=cJ0nAPFirEaSP0XAD5RsDF+tYD6gfAhwRj3KgvmG3IRx1RvS6LrTyfAc
+   FQWg+sNpFHViQiCDrci96rd3WzbV/65/8uaDVJj/JvcF40EaZuOh4CaaW
+   F5xIkNFdPn8URz/+SavAHm0RftrF6d07oxAOazJIVw92HEYpXq0m/x+94
+   rnqQFrtMAVJusTp1CiY8EOoRwlF3hY6Py8tKAvN+2+C/06mR41FfvkLin
+   Rw8RuBvdWpWJ61rELQ5gzI9mSy6jIB1LOjbE6nvnHrH5Cmj+zl0OVRL/Q
+   WaQuoLHBREomrXhJwy3psQgVSNF0epLMKHCsiaNnzWOuZTydWAiTJZs+w
+   Q==;
+X-CSE-ConnectionGUID: Ua7RodNOQRun++EB8L6IGA==
+X-CSE-MsgGUID: 5g7kQARdSoeK46VbCJ73Fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25130571"
+X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
+   d="scan'208";a="25130571"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 03:09:22 -0700
+X-CSE-ConnectionGUID: ul9sjz7vRR69TRfNEl1Kvw==
+X-CSE-MsgGUID: 79dV34vtR3eONo0b0PwkYA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="68770895"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 16 Sep 2024 02:38:14 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sq8BQ-0009co-0j;
-	Mon, 16 Sep 2024 09:38:12 +0000
-Date: Mon, 16 Sep 2024 17:37:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:5.4-main 1518/28533]
- drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h: que_mgt.h is
- included more than once.
-Message-ID: <202409161743.f3vi7VlS-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
+   d="scan'208";a="69133419"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 03:09:19 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sq8fU-00000009Pv1-1JXL;
+	Mon, 16 Sep 2024 13:09:16 +0300
+Date: Mon, 16 Sep 2024 13:09:16 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Parker Newman <parker@finest.io>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	Parker Newman <pnewman@connecttech.com>
+Subject: Re: [PATCH v1 4/6] serial: 8250_exar: Replace custom EEPROM read
+ with eeprom_93cx6
+Message-ID: <ZugDzBHmTCdMagWR@smile.fi.intel.com>
+References: <78dead78311ea619e0be99cc32ee0df1610a480d.1726237379.git.pnewman@connecttech.com>
+ <202409142138.yCOHBlL1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,337 +69,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202409142138.yCOHBlL1-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
-head:   92b88e0e59c946d552fb3d375d60e775a4151ea2
-commit: 06d376a01ea074dd064fc447282fe587ea9ddbdb [1518/28533] mt6625l: add driver-folder from 5.3
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+On Sat, Sep 14, 2024 at 09:26:27PM +0800, kernel test robot wrote:
+> Hi Parker,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 5ed771f174726ae879945d4f148a9005ac909cb7]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Parker-Newman/misc-eeprom-eeprom_93cx6-Add-quirk-for-extra-read-clock-cycle/20240913-230345
+> base:   5ed771f174726ae879945d4f148a9005ac909cb7
+> patch link:    https://lore.kernel.org/r/78dead78311ea619e0be99cc32ee0df1610a480d.1726237379.git.pnewman%40connecttech.com
+> patch subject: [PATCH v1 4/6] serial: 8250_exar: Replace custom EEPROM read with eeprom_93cx6
+> config: x86_64-randconfig-122-20240914 (https://download.01.org/0day-ci/archive/20240914/202409142138.yCOHBlL1-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142138.yCOHBlL1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409142138.yCOHBlL1-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/tty/serial/8250/8250_exar.c:739:13: sparse: sparse: restricted __le32 degrades to integer
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409161743.f3vi7VlS-lkp@intel.com/
-
-includecheck warnings: (new ones prefixed by >>)
->> drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h: que_mgt.h is included more than once.
---
->> drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/include/gl_os.h: linux/wireless.h is included more than once.
---
->> drivers/misc/mediatek/connectivity/common/conn_soc/linux/include/wmt_idc.h: wmt_stp_exp.h is included more than once.
---
->> drivers/misc/mediatek/connectivity/wlan/gen2/include/p2p_precomp.h: que_mgt.h is included more than once.
---
->> drivers/misc/mediatek/include/mt-plat/mt8127/include/mach/mtk_thermal.h: linux/types.h is included more than once.
-
-vim +143 drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h
-
-    11	
-    12	/*
-    13	** Log: precomp.h
-    14	 *
-    15	 * 07 17 2012 yuche.tsai
-    16	 * NULL
-    17	 * Compile no error before trial run.
-    18	 *
-    19	 * 01 05 2012 tsaiyuan.hsu
-    20	 * [WCXRP00001157] [MT6620 Wi-Fi][FW][DRV] add timing measurement support for 802.11v
-    21	 * add timing measurement support for 802.11v.
-    22	 *
-    23	 * 08 15 2011 cp.wu
-    24	 * [WCXRP00000851] [MT6628 Wi-Fi][Driver] Add HIFSYS related definition to driver source tree
-    25	 * add MT6628-specific definitions.
-    26	 *
-    27	 * 04 18 2011 terry.wu
-    28	 * [WCXRP00000660] [MT6620 Wi-Fi][Driver] Remove flag CFG_WIFI_DIRECT_MOVED
-    29	 * Remove flag CFG_WIFI_DIRECT_MOVED.
-    30	 *
-    31	 * 03 15 2011 eddie.chen
-    32	 * [WCXRP00000554] [MT6620 Wi-Fi][DRV] Add sw control debug counter
-    33	 * Add sw debug counter for QM.
-    34	 *
-    35	 * 01 27 2011 tsaiyuan.hsu
-    36	 * [WCXRP00000392] [MT6620 Wi-Fi][Driver] Add Roaming Support
-    37	 * add roaming fsm
-    38	 * 1. not support 11r, only use strength of signal to determine roaming.
-    39	 * 2. not enable CFG_SUPPORT_ROAMING until completion of full test.
-    40	 * 3. in 6620, adopt work-around to avoid sign extension problem of cck of hw
-    41	 * 4. assume that change of link quality in smooth way.
-    42	 *
-    43	 * 12 13 2010 cp.wu
-    44	 * [WCXRP00000260] [MT6620 Wi-Fi][Driver][Firmware] Create V1.1 branch for both firmware and driver
-    45	 * create branch for Wi-Fi driver v1.1
-    46	 *
-    47	 * 10 07 2010 cp.wu
-    48	 * [WCXRP00000083] [MT5931][Driver][FW] Add necessary logic for MT5931 first connection
-    49	 * add firmware download for MT5931.
-    50	 *
-    51	 * 10 05 2010 cp.wu
-    52	 * [WCXRP00000056] [MT6620 Wi-Fi][Driver] NVRAM implementation with Version Check
-    53	 * 1) add NVRAM access API
-    54	 * 2) fake scanning result when NVRAM doesn't exist and/or version mismatch. (off by compiler option)
-    55	 * 3) add OID implementation for NVRAM read/write service
-    56	 *
-    57	 * 09 21 2010 kevin.huang
-    58	 * [WCXRP00000052] [MT6620 Wi-Fi][Driver] Eliminate Linux Compile Warning
-    59	 * Isolate P2P related function for Hardware Software Bundle
-    60	 *
-    61	 * 09 14 2010 chinghwa.yu
-    62	 * NULL
-    63	 * Fix BOW_FSM_INFO_T dependence.
-    64	 *
-    65	 * 09 03 2010 kevin.huang
-    66	 * NULL
-    67	 * Refine #include sequence and solve recursive/nested #include issue
-    68	 *
-    69	 * 07 20 2010 wh.su
-    70	 *
-    71	 * adding the wapi code.
-    72	 *
-    73	 * 07 08 2010 cp.wu
-    74	 *
-    75	 * [WPD00003833] [MT6620 and MT5931] Driver migration - move to new repository.
-    76	 *
-    77	 * 07 08 2010 cm.chang
-    78	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
-    79	 * Check draft RLM code for HT cap
-    80	 *
-    81	 * 07 01 2010 cm.chang
-    82	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
-    83	 * Modify CNM message handler for new flow
-    84	 *
-    85	 * 06 28 2010 cm.chang
-    86	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
-    87	 * 1st draft code for RLM module
-    88	 *
-    89	 * 06 19 2010 wh.su
-    90	 * [WPD00003840][MT6620 5931] Security migration
-    91	 * consdier the concurrent network setting.
-    92	 *
-    93	 * 06 18 2010 wh.su
-    94	 * [WPD00003840][MT6620 5931] Security migration
-    95	 * migration the security related function from firmware.
-    96	 *
-    97	 * 06 18 2010 wh.su
-    98	 * [WPD00003840][MT6620 5931] Security migration
-    99	 * migration from MT6620 firmware.
-   100	 *
-   101	 * 06 08 2010 cp.wu
-   102	 * [WPD00003833][MT6620 and MT5931] Driver migration
-   103	 * add hem_mbox.c and cnm_mem.h (but disabled some feature) for further migration
-   104	 *
-   105	 * 06 07 2010 cp.wu
-   106	 * [WPD00003833][MT6620 and MT5931] Driver migration
-   107	 * merge cnm_scan.h and hem_mbox.h
-   108	 *
-   109	 * 06 07 2010 cp.wu
-   110	 * [WPD00003833][MT6620 and MT5931] Driver migration
-   111	 * merge wifi_var.h, precomp.h, cnm_timer.h (data type only)
-   112	 *
-   113	 * 06 06 2010 kevin.huang
-   114	 * [WPD00003832][MT6620 5931] Create driver base
-   115	 * [MT6620 5931] Create driver base
-   116	 *
-   117	 * 05 17 2010 cp.wu
-   118	 * [WPD00003831][MT6620 Wi-Fi] Add framework for Wi-Fi Direct support
-   119	 * 1) add timeout handler mechanism for pending command packets
-   120	 * 2) add p2p add/removal key
-   121	 *
-   122	 * 04 13 2010 cp.wu
-   123	 * [WPD00003823][MT6620 Wi-Fi] Add Bluetooth-over-Wi-Fi support
-   124	 * add framework for BT-over-Wi-Fi support.
-   125	 *  *  *  *  *  *  *  *  *  *  * 1) prPendingCmdInfo is replaced by queue for multiple handler capability
-   126	 *  *  *  *  *  *  *  *  *  *  * 2) command sequence number is now increased atomically
-   127	 *  *  *  *  *  *  *  *  *  *  * 3) private data could be hold and taken use for other purpose
-   128	 *
-   129	 * 03 16 2010 cp.wu
-   130	 * [WPD00003823][MT6620 Wi-Fi] Add Bluetooth-over-Wi-Fi support
-   131	 * build up basic data structure and definitions to support BT-over-WiFi
-   132	 *
-   133	 * 02 08 2010 cp.wu
-   134	 * [WPD00001943]Create WiFi test driver framework on WinXP
-   135	 * prepare for implementing fw download logic
-   136	 *
-   137	 * 01 27 2010 wh.su
-   138	 * [WPD00003816][MT6620 Wi-Fi] Adding the security support
-   139	 * .
-   140	**  \main\maintrunk.MT6620WiFiDriver_Prj\9 2009-12-08 11:30:58 GMT mtk02752
-   141	**  add rftest.h for implementing RF test mode in driver land
-   142	**  \main\maintrunk.MT6620WiFiDriver_Prj\8 2009-11-23 22:02:00 GMT mtk02468
- > 143	**  Added que_mgt.h
-   144	**  \main\maintrunk.MT6620WiFiDriver_Prj\7 2009-10-13 21:58:36 GMT mtk01084
-   145	**  update for new macro define
-   146	**  \main\maintrunk.MT6620WiFiDriver_Prj\6 2009-04-21 09:40:11 GMT mtk01461
-   147	**  Add nic_cmd_event.h
-   148	**  \main\maintrunk.MT6620WiFiDriver_Prj\5 2009-04-17 20:00:26 GMT mtk01461
-   149	**  Add cmd_buf.h
-   150	**  \main\maintrunk.MT6620WiFiDriver_Prj\4 2009-03-19 18:32:44 GMT mtk01084
-   151	**  update for basic power management functions
-   152	**  \main\maintrunk.MT6620WiFiDriver_Prj\3 2009-03-16 09:08:25 GMT mtk01461
-   153	**  Update TX PATH API
-   154	**  \main\maintrunk.MT6620WiFiDriver_Prj\2 2009-03-10 20:11:38 GMT mtk01426
-   155	**  Init for develop
-   156	**
-   157	*/
-   158	
-   159	#ifndef _PRECOMP_H
-   160	#define _PRECOMP_H
-   161	
-   162	/*******************************************************************************
-   163	*                         C O M P I L E R   F L A G S
-   164	********************************************************************************
-   165	*/
-   166	
-   167	/*******************************************************************************
-   168	*                    E X T E R N A L   R E F E R E N C E S
-   169	********************************************************************************
-   170	*/
-   171	#include "gl_os.h"		/* Include "config.h" */
-   172	
-   173	#if CFG_ENABLE_WIFI_DIRECT
-   174	#include "gl_p2p_os.h"
-   175	#endif
-   176	
-   177	#include "debug.h"
-   178	
-   179	#include "link.h"
-   180	#include "queue.h"
-   181	
-   182	/*------------------------------------------------------------------------------
-   183	 * .\include\mgmt
-   184	 *------------------------------------------------------------------------------
-   185	 */
-   186	#include "wlan_typedef.h"
-   187	
-   188	#include "mac.h"
-   189	
-   190	/* Dependency:  mac.h (MAC_ADDR_LEN) */
-   191	#include "wlan_def.h"
-   192	
-   193	#if CFG_SUPPORT_SWCR
-   194	#include "swcr.h"
-   195	#endif
-   196	
-   197	/*------------------------------------------------------------------------------
-   198	 * .\include\nic
-   199	 *------------------------------------------------------------------------------
-   200	 */
-   201	/* Dependency:  wlan_def.h (ENUM_NETWORK_TYPE_T) */
-   202	#include "cmd_buf.h"
-   203	
-   204	/* Dependency:  mac.h (MAC_ADDR_LEN) */
-   205	#include "nic_cmd_event.h"
-   206	
-   207	/* Dependency:  nic_cmd_event.h (P_EVENT_CONNECTION_STATUS) */
-   208	#include "nic.h"
-   209	
-   210	#include "nic_init_cmd_event.h"
-   211	
-   212	#include "hif_rx.h"
-   213	#include "hif_tx.h"
-   214	
-   215	#include "nic_tx.h"
-   216	
-   217	/* Dependency:  hif_rx.h (P_HIF_RX_HEADER_T) */
-   218	#include "nic_rx.h"
-   219	
- > 220	#include "que_mgt.h"
-   221	
-   222	#if CFG_ENABLE_WIFI_DIRECT
-   223	#include "p2p_typedef.h"
-   224	#include "p2p_cmd_buf.h"
-   225	#include "p2p_nic_cmd_event.h"
-   226	#include "p2p_mac.h"
-   227	#include "p2p_nic.h"
-   228	#endif
-   229	
-   230	/*------------------------------------------------------------------------------
-   231	 * .\include\mgmt
-   232	 *------------------------------------------------------------------------------
-   233	 */
-   234	
-   235	#include "hem_mbox.h"
-   236	
-   237	#include "scan.h"
-   238	#include "bss.h"
-   239	
-   240	#include "wlan_lib.h"
-   241	#include "wlan_oid.h"
-   242	#include "wlan_bow.h"
-   243	
-   244	#if CFG_ENABLE_WIFI_DIRECT
-   245	#include "wlan_p2p.h"
-   246	#endif
-   247	
-   248	#include "hal.h"
-   249	
-   250	#if defined(MT6620)
-   251	#include "mt6620_reg.h"
-   252	#elif defined(MT6628)
-   253	/* #include "mt6628_reg.h" */
-   254	#include "mtreg.h"
-   255	#endif
-   256	
-   257	#include "rlm.h"
-   258	#include "rlm_domain.h"
-   259	#include "rlm_protection.h"
-   260	#include "rlm_obss.h"
-   261	#include "rate.h"
-   262	#if CFG_SUPPORT_802_11V
-   263	#include "wnm.h"
-   264	#endif
-   265	
-   266	#include "aa_fsm.h"
-   267	
-   268	#include "cnm_timer.h"
-   269	
-   270	#if CFG_ENABLE_BT_OVER_WIFI
-   271	#include "bow.h"
-   272	#include "bow_fsm.h"
-   273	#endif
-   274	
-   275	#include "pwr_mgt.h"
-   276	
-   277	#if (CFG_SUPPORT_STATISTICS == 1)
-   278	#include "stats.h"
-   279	#endif /* CFG_SUPPORT_STATISTICS */
-   280	
-   281	#include "cnm.h"
-   282	/* Dependency:  aa_fsm.h (ENUM_AA_STATE_T), p2p_fsm.h (WPS_ATTRI_MAX_LEN_DEVICE_NAME) */
-   283	#include "cnm_mem.h"
-   284	#include "cnm_scan.h"
-   285	
-   286	#if CFG_ENABLE_WIFI_DIRECT
-   287	#include "p2p_rlm_obss.h"
-   288	#include "p2p_bss.h"
-   289	#include "p2p.h"
-   290	#include "p2p_fsm.h"
-   291	#include "p2p_scan.h"
-   292	#include "p2p_state.h"
-   293	#include "p2p_func.h"
-   294	#include "p2p_rlm.h"
-   295	#include "p2p_assoc.h"
-   296	#include "p2p_ie.h"
-   297	#endif
-   298	
-   299	#include "privacy.h"
-   300	
-   301	#include "mib.h"
-   302	
-   303	#include "auth.h"
-   304	#include "assoc.h"
-   305	
-   306	#if CFG_SUPPORT_ROAMING
-   307	#include "roaming_fsm.h"
-   308	#endif /* CFG_SUPPORT_ROAMING */
-   309	
-   310	#include "ais_fsm.h"
-   311	
-   312	#include "adapter.h"
-   313	
- > 314	#include "que_mgt.h"
-   315	#include "rftest.h"
-   316	
+Yes, and this should gone if Parker follows my suggestion on how to handle this.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
