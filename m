@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FC1446D1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 07:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB8313A863
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 07:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726470900; cv=none; b=siAt41WHxepKyQnij45Gne4Ey8OOOOZ/cFMx1VwIlo+GOG/G3FeJQidxhUzbi9NdJoilL+cL6GmruS4gbiqR7T80qNrv6eeJvjVgf/n/DnJDbhcDeJP0qdzbL0u6HKV4gcPIXfVmF7qzdaZ2fdqyaQgyXnXTT79sgpEdv571eSM=
+	t=1726472137; cv=none; b=ZiqTRHeJohxJrH/Akc23EZg13pk9LJs04Rn17R19ltgRU/n59N3NVqyx0b6j6vPDFS3rocQXdeIPW9XawfJ+ZWoXVz9KnCTqaJUkMlG9qewKVL9VcEHnyAkte8SaNmnTFC0VKlusiQfqzuH1geYUJlpOWLSIxPSZjxXMSmCgJvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726470900; c=relaxed/simple;
-	bh=jzcBdP7j8vYPtj8EFa3xlmgSbL/O8ZceqbiFAM3c0c8=;
+	s=arc-20240116; t=1726472137; c=relaxed/simple;
+	bh=ELDAGEWFbIuabo50LtqwuRApSXREsRqoJ7re32LR5Pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s+yB09ym/jqEAzrwjPpVRFUZHVMglnuMAzfq6vTqQ2dZiZaJeQpvWEBNjHcFmHyrcEcKf0bxDSqD+QrSYUfPXpho3QYYEDh4qPfyYBCdBL8xvgMigXHBZvN15Lf1SDT3sKNr6BaGb14/6EWEcKxmDPQEMUEYMqsx9Ocin+1SSO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jkf0pGdJ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=cOOYIAsIxmKBvNJXA2hsSuh7cGFdeyXhkEalmRsin4UGdeymZu20Wz7Ksm92J4kN9+JOjQInRbbJWS0M8jIh/kdw5etV6FGQ3p8xLOhiouXIFsorIF6ngNZIMA3OCWcczoLz5pG/KnK82o/UZ6oi0MCcE8GWIW9fTAy1SQmAnmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jYUi6jBP; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jkf0pGdJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726470898; x=1758006898;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jzcBdP7j8vYPtj8EFa3xlmgSbL/O8ZceqbiFAM3c0c8=;
-  b=jkf0pGdJmyO/MTwPbjF+p19v//xbmAgAfleMy6FVCYZA8a8ig1bOXNUV
-   pKT8xGrSRSkN37FjK624KtxnyJ+Ymz4ZDyiRpJm/BQXeRVITBTVu/Mz44
-   GRe23qNthObZoxFkBGGE6kSHG7NKM23odPQZKNBBgiPcRq/C1peXLRcKO
-   QMMGVpfy2sS/5nVPA64pXzw8LNGaKxpNbxksAB0G2NusAQiFfSUbJMdJE
-   gium/9o4wK+hRwo+7yAy1rJrKvfyU5iWlyg//xjymgIo9HvqrG0A328zu
-   yAuMQ7k5NdMIa6LOR2zZckB+MMmXHDQKv4aGeqhe8qR9NMw8qsRcH21Vd
-   g==;
-X-CSE-ConnectionGUID: ZHooe/l7TGe4e1/OYU5gmQ==
-X-CSE-MsgGUID: +1d4yZAETSOBYi6KaAp5nQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="29190110"
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="29190110"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 00:14:57 -0700
-X-CSE-ConnectionGUID: Utx/ZN+ERrisam4jeC3ryg==
-X-CSE-MsgGUID: zCaj8EkbQ82KhwFtgFHpQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="68404171"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Sep 2024 00:14:56 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sq5wk-0009VA-27;
-	Mon, 16 Sep 2024 07:14:54 +0000
-Date: Mon, 16 Sep 2024 15:14:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.10/main 296/2859] kernel/sched/alt_core.c:4421:3: error:
- implicit declaration of function 'hrtick_start' is invalid in C99
-Message-ID: <202409161520.g5UMKX1P-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jYUi6jBP"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3770320574aso3091865f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 00:35:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726472133; x=1727076933; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YOdceN0DS/wzREp2UcEaAzSKm4y+YZSwxFm6SuUMfwU=;
+        b=jYUi6jBPDoIdmA/6whYmdX+R0dZojG6TifBgPsFGWcUxlm/HFPKVncrFqI5Cb+i6Dn
+         Xg/Zf+pFZGxbeLmyfb7uvRK0R9sO8/ncOcV+5fVl+vcMpOhHGYcfVzCY87nvKJOHbECY
+         QO+zmIgeqQiyv0mq3MFT+S6D0FbYokNwzHZvfo2aBHMmFoM1M1lwu2ge2l1E7DavWQ4d
+         GglfqE+spEDRi81k6DbKwxmzUlOhEy6Oq/RY8rMGDG0/cs+KuPocn0okf4YhpjpDi8wA
+         74zA6J0XSQLjc5tbV6XN4usBL+sVSR2+s+zNg+SZ73/2h7HgVdaF0BrIi/ZCuClCtqJE
+         x3hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726472133; x=1727076933;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YOdceN0DS/wzREp2UcEaAzSKm4y+YZSwxFm6SuUMfwU=;
+        b=hrA+9CtpLv6OCSbGe7FxzzVHwzq+LGzzKgIuXF1f0livlOWEQhcuQB8qmEsZuKdOoF
+         rh7pGl3aRI99tzRIbZzPgHXwrAPKg4LY9AEUvkHdY4F//DG0GbdjyBrJKNqhGlI1cbTs
+         icrc/BYr3Ho/tL8s0Br+ad++BrBQ99hFDf2Uvqq0UFc+Vr3fainG1X9XUKSY3nffdpsf
+         U8wGsY9nc+Fxu91EpIVH04WTXUN5/Ot5iAMpPz1ES6uT6HHhj25cM9J5sDZ1lpgLIpAf
+         qJSlcQ+AI4WZUalsxYlRT96fGhOcrMOne2XLA+g5lWqUk5NBTK3DN136C4KX+A6okiJo
+         qTmg==
+X-Forwarded-Encrypted: i=1; AJvYcCXhOeUkG+4nHQh9sO27zgFRojdVBqfkk/OEOqmwNi+cV+SeUybYBrn681/+11tFve3NzvwQbMl6wnCKuEvc@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJAXn38nMecdL2DmE+Mls3h5tv2N/fMjT0l7r+fP8V09nuTHjp
+	e1R/4LWjayiR3KvdTS9VjF0cv0/ot6PsPnhllqR/vsKjg5XTMykq6V8LwHm1v2w=
+X-Google-Smtp-Source: AGHT+IFtTDEFWVBXJac4ig3M604bac0B8FGKuMCE7pMZuhx+QezYxRXyYU8IXTUzNVsZ6dNXUoz7Xw==
+X-Received: by 2002:a05:6000:542:b0:374:c0a3:fbb1 with SMTP id ffacd0b85a97d-378c2d12e01mr7587179f8f.35.1726472132662;
+        Mon, 16 Sep 2024 00:35:32 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bb89e1fsm2378444a12.72.2024.09.16.00.35.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2024 00:35:32 -0700 (PDT)
+Date: Mon, 16 Sep 2024 10:35:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Srujana Challa <schalla@marvell.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+	Vamsi Attunuru <vattunuru@marvell.com>,
+	Shijith Thotton <sthotton@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>
+Subject: drivers/vdpa/octeon_ep/octep_vdpa_hw.c:143 octep_process_mbox()
+ warn: missing error code? 'ret'
+Message-ID: <7e8141cb-44e6-477c-b77e-aa9b4bc5af3a@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,226 +70,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.10/main
-head:   f446b0d8da9b1fd6e2286d3599e19d363c205337
-commit: 8709d450c41654b91b78d6bca880f98164d4b219 [296/2859] sched/alt: [Sync] 95c74abe404d io_uring: move to separate directory
-config: um-randconfig-001-20240916 (https://download.01.org/0day-ci/archive/20240916/202409161520.g5UMKX1P-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161520.g5UMKX1P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   98f7e32f20d28ec452afb208f9cffc08448a2652
+commit: 8b6c724cdab85d8923dd8c474a5a9464228379c5 virtio: vdpa: vDPA driver for Marvell OCTEON DPU devices
+date:   10 weeks ago
+config: i386-randconfig-141-20240912 (https://download.01.org/0day-ci/archive/20240916/202409160431.bRhZWhiU-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409161520.g5UMKX1P-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409160431.bRhZWhiU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/vdpa/octeon_ep/octep_vdpa_hw.c:143 octep_process_mbox() warn: missing error code? 'ret'
+drivers/vdpa/octeon_ep/octep_vdpa_hw.c:478 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
 
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from kernel/sched/alt_core.c:42:
-   In file included from kernel/sched/sched.h:9:
-   kernel/sched/alt_sched.h:481:14: warning: declaration of 'struct cpuidle_state' will not be visible outside of this function [-Wvisibility]
-                                     struct cpuidle_state *idle_state)
-                                            ^
-   kernel/sched/alt_core.c:578:14: error: implicit declaration of function 'sched_clock_cpu' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           s64 delta = sched_clock_cpu(cpu_of(rq)) - rq->clock;
-                       ^
-   kernel/sched/alt_core.c:966:6: warning: no previous prototype for function 'resched_curr' [-Wmissing-prototypes]
-   void resched_curr(struct rq *rq)
-        ^
-   kernel/sched/alt_core.c:966:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void resched_curr(struct rq *rq)
-   ^
-   static 
-   kernel/sched/alt_core.c:989:6: warning: no previous prototype for function 'resched_cpu' [-Wmissing-prototypes]
-   void resched_cpu(int cpu)
-        ^
-   kernel/sched/alt_core.c:989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void resched_cpu(int cpu)
-   ^
-   static 
-   kernel/sched/alt_core.c:3021:2: error: implicit declaration of function 'rseq_migrate' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           rseq_migrate(p);
-           ^
-   kernel/sched/alt_core.c:3449:2: error: implicit declaration of function 'rseq_preempt' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           rseq_preempt(prev);
-           ^
-   kernel/sched/alt_core.c:3894:2: error: implicit declaration of function 'sched_clock_tick' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           sched_clock_tick();
-           ^
-   kernel/sched/alt_core.c:3894:2: note: did you mean 'scheduler_tick'?
-   kernel/sched/alt_core.c:3887:6: note: 'scheduler_tick' declared here
-   void scheduler_tick(void)
-        ^
-   kernel/sched/alt_core.c:3887:6: warning: no previous prototype for function 'scheduler_tick' [-Wmissing-prototypes]
-   void scheduler_tick(void)
-        ^
-   kernel/sched/alt_core.c:3887:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void scheduler_tick(void)
-   ^
-   static 
->> kernel/sched/alt_core.c:4421:3: error: implicit declaration of function 'hrtick_start' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   hrtick_start(rq, next->time_slice);
-                   ^
-   kernel/sched/alt_core.c:4421:3: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:272:20: note: 'hrtimer_start' declared here
-   static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-                      ^
-   kernel/sched/alt_core.c:4440:2: error: implicit declaration of function 'hrtick_start' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           hrtick_start(rq, next->time_slice);
-           ^
-   kernel/sched/alt_core.c:4558:21: error: use of undeclared identifier 'PF_FROZEN'
-                                   !(prev->flags & PF_FROZEN);
-                                                   ^
-   kernel/sched/alt_core.c:4674:6: error: implicit declaration of function 'tsk_is_pi_blocked' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           if (tsk_is_pi_blocked(tsk))
-               ^
-   kernel/sched/alt_core.c:5357:3: error: implicit declaration of function 'cpuset_read_lock' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   cpuset_read_lock();
-                   ^
-   kernel/sched/alt_core.c:5357:3: note: did you mean 'cpus_read_lock'?
-   include/linux/cpu.h:155:20: note: 'cpus_read_lock' declared here
-   static inline void cpus_read_lock(void) { }
-                      ^
-   kernel/sched/alt_core.c:5405:4: error: implicit declaration of function 'cpuset_read_unlock' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           cpuset_read_unlock();
-                           ^
-   kernel/sched/alt_core.c:5437:3: error: implicit declaration of function 'cpuset_read_unlock' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   cpuset_read_unlock();
-                   ^
-   kernel/sched/alt_core.c:5451:3: error: implicit declaration of function 'cpuset_read_unlock' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   cpuset_read_unlock();
-                   ^
-   kernel/sched/alt_core.c:7238:13: warning: no previous prototype for function 'sched_init_smp' [-Wmissing-prototypes]
-   void __init sched_init_smp(void)
-               ^
-   kernel/sched/alt_core.c:7238:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init sched_init_smp(void)
-   ^
-   static 
-   kernel/sched/alt_core.c:7278:13: warning: no previous prototype for function 'sched_init' [-Wmissing-prototypes]
-   void __init sched_init(void)
-               ^
-   kernel/sched/alt_core.c:7278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init sched_init(void)
-   ^
-   static 
-   18 warnings and 12 errors generated.
+Old smatch warnings:
+drivers/vdpa/octeon_ep/octep_vdpa_hw.c:479 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+drivers/vdpa/octeon_ep/octep_vdpa_hw.c:480 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+drivers/vdpa/octeon_ep/octep_vdpa_hw.c:481 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+drivers/vdpa/octeon_ep/octep_vdpa_hw.c:514 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
 
+vim +/ret +143 drivers/vdpa/octeon_ep/octep_vdpa_hw.c
 
-vim +/hrtick_start +4421 kernel/sched/alt_core.c
+8b6c724cdab85d Srujana Challa 2024-06-14  102  static int octep_process_mbox(struct octep_hw *oct_hw, u16 id, u16 qid, void *buffer,
+8b6c724cdab85d Srujana Challa 2024-06-14  103  			      u32 buf_size, bool write)
+8b6c724cdab85d Srujana Challa 2024-06-14  104  {
+8b6c724cdab85d Srujana Challa 2024-06-14  105  	struct octep_mbox __iomem *mbox = octep_get_mbox(oct_hw);
+8b6c724cdab85d Srujana Challa 2024-06-14  106  	struct pci_dev *pdev = oct_hw->pdev;
+8b6c724cdab85d Srujana Challa 2024-06-14  107  	u32 *p = (u32 *)buffer;
+8b6c724cdab85d Srujana Challa 2024-06-14  108  	u16 data_wds;
+8b6c724cdab85d Srujana Challa 2024-06-14  109  	int ret, i;
+8b6c724cdab85d Srujana Challa 2024-06-14  110  	u32 val;
+8b6c724cdab85d Srujana Challa 2024-06-14  111  
+8b6c724cdab85d Srujana Challa 2024-06-14  112  	if (!IS_ALIGNED(buf_size, 4))
+8b6c724cdab85d Srujana Challa 2024-06-14  113  		return -EINVAL;
+8b6c724cdab85d Srujana Challa 2024-06-14  114  
+8b6c724cdab85d Srujana Challa 2024-06-14  115  	/* Make sure mbox space is available */
+8b6c724cdab85d Srujana Challa 2024-06-14  116  	ret = octep_wait_for_mbox_avail(mbox);
+8b6c724cdab85d Srujana Challa 2024-06-14  117  	if (ret) {
+8b6c724cdab85d Srujana Challa 2024-06-14  118  		dev_warn(&pdev->dev, "Timeout waiting for previous mbox data to be consumed\n");
+8b6c724cdab85d Srujana Challa 2024-06-14  119  		return ret;
+8b6c724cdab85d Srujana Challa 2024-06-14  120  	}
+8b6c724cdab85d Srujana Challa 2024-06-14  121  	data_wds = buf_size / 4;
+8b6c724cdab85d Srujana Challa 2024-06-14  122  
+8b6c724cdab85d Srujana Challa 2024-06-14  123  	if (write) {
+8b6c724cdab85d Srujana Challa 2024-06-14  124  		for (i = 1; i <= data_wds; i++) {
+8b6c724cdab85d Srujana Challa 2024-06-14  125  			octep_write32_word(mbox, i, *p);
+8b6c724cdab85d Srujana Challa 2024-06-14  126  			p++;
+8b6c724cdab85d Srujana Challa 2024-06-14  127  		}
+8b6c724cdab85d Srujana Challa 2024-06-14  128  	}
+8b6c724cdab85d Srujana Challa 2024-06-14  129  	octep_write32_word(mbox, 0, (u32)qid);
+8b6c724cdab85d Srujana Challa 2024-06-14  130  	octep_write_sts(mbox, 0);
+8b6c724cdab85d Srujana Challa 2024-06-14  131  
+8b6c724cdab85d Srujana Challa 2024-06-14  132  	octep_write_hdr(mbox, id, MBOX_REQ_SIG);
+8b6c724cdab85d Srujana Challa 2024-06-14  133  
+8b6c724cdab85d Srujana Challa 2024-06-14  134  	ret = octep_wait_for_mbox_rsp(mbox);
+8b6c724cdab85d Srujana Challa 2024-06-14  135  	if (ret) {
+8b6c724cdab85d Srujana Challa 2024-06-14  136  		dev_warn(&pdev->dev, "Timeout waiting for mbox : %d response\n", id);
+8b6c724cdab85d Srujana Challa 2024-06-14  137  		return ret;
+8b6c724cdab85d Srujana Challa 2024-06-14  138  	}
+8b6c724cdab85d Srujana Challa 2024-06-14  139  
+8b6c724cdab85d Srujana Challa 2024-06-14  140  	val = octep_read_sig(mbox);
+8b6c724cdab85d Srujana Challa 2024-06-14  141  	if ((val & 0xFFFF) != MBOX_RSP_SIG) {
+8b6c724cdab85d Srujana Challa 2024-06-14  142  		dev_warn(&pdev->dev, "Invalid Signature from mbox : %d response\n", id);
+8b6c724cdab85d Srujana Challa 2024-06-14 @143  		return ret;
 
-d821e3e8509258 Alfred Chen 2019-08-19  4399  
-d821e3e8509258 Alfred Chen 2019-08-19  4400  static inline struct task_struct *
-d821e3e8509258 Alfred Chen 2019-08-19  4401  choose_next_task(struct rq *rq, int cpu, struct task_struct *prev)
-d821e3e8509258 Alfred Chen 2019-08-19  4402  {
-d821e3e8509258 Alfred Chen 2019-08-19  4403  	struct task_struct *next;
-d821e3e8509258 Alfred Chen 2019-08-19  4404  
-d821e3e8509258 Alfred Chen 2019-08-19  4405  	if (unlikely(rq->skip)) {
-d821e3e8509258 Alfred Chen 2019-08-19  4406  		next = rq_runnable_task(rq);
-d821e3e8509258 Alfred Chen 2019-08-19  4407  		if (next == rq->idle) {
-d821e3e8509258 Alfred Chen 2019-08-19  4408  #ifdef	CONFIG_SMP
-d821e3e8509258 Alfred Chen 2019-08-19  4409  			if (!take_other_rq_tasks(rq, cpu)) {
-d821e3e8509258 Alfred Chen 2019-08-19  4410  #endif
-d821e3e8509258 Alfred Chen 2019-08-19  4411  				rq->skip = NULL;
-d821e3e8509258 Alfred Chen 2019-08-19  4412  				schedstat_inc(rq->sched_goidle);
-d821e3e8509258 Alfred Chen 2019-08-19  4413  				return next;
-d821e3e8509258 Alfred Chen 2019-08-19  4414  #ifdef	CONFIG_SMP
-d821e3e8509258 Alfred Chen 2019-08-19  4415  			}
-d821e3e8509258 Alfred Chen 2019-08-19  4416  			next = rq_runnable_task(rq);
-d821e3e8509258 Alfred Chen 2019-08-19  4417  #endif
-d821e3e8509258 Alfred Chen 2019-08-19  4418  		}
-d821e3e8509258 Alfred Chen 2019-08-19  4419  		rq->skip = NULL;
-d821e3e8509258 Alfred Chen 2019-08-19  4420  #ifdef CONFIG_HIGH_RES_TIMERS
-d821e3e8509258 Alfred Chen 2019-08-19 @4421  		hrtick_start(rq, next->time_slice);
-d821e3e8509258 Alfred Chen 2019-08-19  4422  #endif
-d821e3e8509258 Alfred Chen 2019-08-19  4423  		return next;
-d821e3e8509258 Alfred Chen 2019-08-19  4424  	}
-d821e3e8509258 Alfred Chen 2019-08-19  4425  
-d821e3e8509258 Alfred Chen 2019-08-19  4426  	next = sched_rq_first_task(rq);
-d821e3e8509258 Alfred Chen 2019-08-19  4427  	if (next == rq->idle) {
-d821e3e8509258 Alfred Chen 2019-08-19  4428  #ifdef	CONFIG_SMP
-d821e3e8509258 Alfred Chen 2019-08-19  4429  		if (!take_other_rq_tasks(rq, cpu)) {
-d821e3e8509258 Alfred Chen 2019-08-19  4430  #endif
-d821e3e8509258 Alfred Chen 2019-08-19  4431  			schedstat_inc(rq->sched_goidle);
-3a24f42da1ff2b Alfred Chen 2020-08-09  4432  			/*printk(KERN_INFO "sched: choose_next_task(%d) idle %px\n", cpu, next);*/
-d821e3e8509258 Alfred Chen 2019-08-19  4433  			return next;
-d821e3e8509258 Alfred Chen 2019-08-19  4434  #ifdef	CONFIG_SMP
-d821e3e8509258 Alfred Chen 2019-08-19  4435  		}
-d821e3e8509258 Alfred Chen 2019-08-19  4436  		next = sched_rq_first_task(rq);
-d821e3e8509258 Alfred Chen 2019-08-19  4437  #endif
-d821e3e8509258 Alfred Chen 2019-08-19  4438  	}
-d821e3e8509258 Alfred Chen 2019-08-19  4439  #ifdef CONFIG_HIGH_RES_TIMERS
-d821e3e8509258 Alfred Chen 2019-08-19  4440  	hrtick_start(rq, next->time_slice);
-d821e3e8509258 Alfred Chen 2019-08-19  4441  #endif
-3a24f42da1ff2b Alfred Chen 2020-08-09  4442  	/*printk(KERN_INFO "sched: choose_next_task(%d) next %px\n", cpu,
-3a24f42da1ff2b Alfred Chen 2020-08-09  4443  	 * next);*/
-d821e3e8509258 Alfred Chen 2019-08-19  4444  	return next;
-d821e3e8509258 Alfred Chen 2019-08-19  4445  }
-d821e3e8509258 Alfred Chen 2019-08-19  4446  
+return -EINVAL;
 
-:::::: The code at line 4421 was first introduced by commit
-:::::: d821e3e85092581709b1b5f9ab8cacf0ce70c1a8 Project C v5.7.5-r2
+The other warnings are because we should use %p to print pointers.  Depening on
+the .config the kernel will mask out pointers so that they aren't disclosed to
+the users.  Otherwise it risks being an information leak to defeat KSALR.
 
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+8b6c724cdab85d Srujana Challa 2024-06-14  144  	}
+8b6c724cdab85d Srujana Challa 2024-06-14  145  
+8b6c724cdab85d Srujana Challa 2024-06-14  146  	val = octep_read_sts(mbox);
+8b6c724cdab85d Srujana Challa 2024-06-14  147  	if (val & MBOX_RC_MASK) {
+8b6c724cdab85d Srujana Challa 2024-06-14  148  		ret = MBOX_RSP_TO_ERR(val);
+8b6c724cdab85d Srujana Challa 2024-06-14  149  		dev_warn(&pdev->dev, "Error while processing mbox : %d, err %d\n", id, ret);
+8b6c724cdab85d Srujana Challa 2024-06-14  150  		return ret;
+8b6c724cdab85d Srujana Challa 2024-06-14  151  	}
+8b6c724cdab85d Srujana Challa 2024-06-14  152  
+8b6c724cdab85d Srujana Challa 2024-06-14  153  	if (!write)
+8b6c724cdab85d Srujana Challa 2024-06-14  154  		for (i = 1; i <= data_wds; i++)
+8b6c724cdab85d Srujana Challa 2024-06-14  155  			*p++ = octep_read32_word(mbox, i);
+8b6c724cdab85d Srujana Challa 2024-06-14  156  
+8b6c724cdab85d Srujana Challa 2024-06-14  157  	return 0;
+8b6c724cdab85d Srujana Challa 2024-06-14  158  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
