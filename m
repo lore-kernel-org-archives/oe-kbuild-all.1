@@ -1,140 +1,398 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44AE13D612
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 09:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F64314A4D1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 09:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726479150; cv=none; b=NHrmlI2GZmPl7qkrwxyVOQ0SVqSBb957Z0fR0EE9oQx+A/qlI1+LdwYg6y/CXuyk7Af47ACmSUUvkYYOjzBgPJpsjjyOsDribqmfUGiuv6qqdpcb+xy2bxlMbclZPK2mXd4nxhjJ8bmxvHdKyPcd2viIefdfTqtVVhgrhESMUog=
+	t=1726479498; cv=none; b=mIuplJ4VUMYAolS5E25FIRK6fyixWQ1r0dZnuDkQjbYo7ncBdFkHNGFBQdVyV7ztTSA4UkXqTXXQQKhk56KGpIOdWnPOCebmmdoom8djemGJL/VA6u7F1MZi7q9SRGrC3zRBCt3FG4y2z7xU9Ww8BtAvk/sKNY/fN88RSnCVWbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726479150; c=relaxed/simple;
-	bh=USbGwEO7IwcHWeNLhpwNDOUlKjzXqvfr9ct/oRzf6/o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iyfMQdxVaLs+in01O8qt6ub9q4CwrIpzcXp+R7XZ2yfUnPr8LG/oO3PrLBu4jUimWCEwmCtxr/bElNjyNgPEDOmNgm8ZfRHYXhpPCfr3HrC1NecAlpK5JEE0bgpid4V+W05SOMM+5JxO/hq0K/hynhB48QXNKQ6/nDTFY5LEwEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=C6nMpWwq; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1726479498; c=relaxed/simple;
+	bh=HfqKWyJvEO1/3dOc+fHmnDVsr9WLw7VoSCPhdGg2DLI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rWRkSFhhF+2BdmcncbAZhmmiCvdjQI4mNi49yjqct+ccK1PhPzUclqdGkjGV/Ep5rswmfttdtpU0oy3y0UJLhrah0XTKwvVDMvB1PDDlLlIhsfVLPsTw//3/rCprqpy5N3ftShodC0bl7pTXi50fB9+fJy6d0btRmenoBLlwJNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MBWnbcJf; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="C6nMpWwq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1726479139;
-	bh=USbGwEO7IwcHWeNLhpwNDOUlKjzXqvfr9ct/oRzf6/o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=C6nMpWwqYxGFdPPYAXK2jEhxh5V/9d/v+BZRPuqvJsmz0ESPuHj3a48uSWepg2T1y
-	 24vC13VN1vJb3nZj5Bcn6JhovO3j/Uu/mKpsa221LpeQuLcx5lLVO6T3txloKwfFqC
-	 YtvsTqoJSX2WKnZcdw91XEAtsPWkHQa2x+ZCYPmk=
-X-QQ-mid: bizesmtpip4t1726479134td6dydv
-X-QQ-Originating-IP: u61mJaE1jT59hiRq71n3xxPlEAr5Pfy9ohSojPmcDec=
-Received: from [IPV6:240e:36c:df7:ef00:7c16:95 ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 16 Sep 2024 17:32:13 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 8058414913114651353
-Message-ID: <535BAC253A2AA9E5+8efb29ef-a3b4-4e3f-b8ff-31aebb5eefff@uniontech.com>
-Date: Mon, 16 Sep 2024 17:32:12 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MBWnbcJf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726479496; x=1758015496;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HfqKWyJvEO1/3dOc+fHmnDVsr9WLw7VoSCPhdGg2DLI=;
+  b=MBWnbcJfVNIuknboxcF9XY4eC1cKhlaBmgVs66lzgOtYn52r50MuZkuI
+   nI9/78vsErFuE1UP5BDrCl4k02/RInDTO47czXcrQYtoM3Ut1ARVcECrh
+   OBgDzybiDOucwrzqpCdRJINq8i/9kC7tO4qvPir+FxGpKYE+9MsO3mKlf
+   bks/16O6Y/4pUgZKHB7lFnF9Q89F/OYj7Ty39f+5sb7Cd3Tv/FxtlslI+
+   4m5kD+UwMwcbp4ngcA6BdXFqChwX/eht/nf2v3hemxsEBZFYWC4mDWFbd
+   Z4zDKNmrGacvNHF04/rQOoBNqbf0jA7jEhfD04xmVIFPdatg+ngOLq0Nw
+   A==;
+X-CSE-ConnectionGUID: a1pDLPwuS+m1cX7AxIycqA==
+X-CSE-MsgGUID: sOYq9WtIQpeFxi2nCljTNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="35870708"
+X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
+   d="scan'208";a="35870708"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 02:38:15 -0700
+X-CSE-ConnectionGUID: Q+e+6wS1ReKz/YMkLV0UmQ==
+X-CSE-MsgGUID: k7vFdTuuSJaoCmzEoMn7nA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
+   d="scan'208";a="68770895"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 16 Sep 2024 02:38:14 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sq8BQ-0009co-0j;
+	Mon, 16 Sep 2024 09:38:12 +0000
+Date: Mon, 16 Sep 2024 17:37:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:5.4-main 1518/28533]
+ drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h: que_mgt.h is
+ included more than once.
+Message-ID: <202409161743.f3vi7VlS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6.10] LoongArch: KVM: Remove undefined a6 argument comment
- for kvm_hypercall()
-To: kernel test robot <lkp@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-References: <Zuf5zjeeWO9zfUkL@3bb1e60d1c37>
-From: WangYuli <wangyuli@uniontech.com>
-Content-Language: en-US
-Autocrypt: addr=wangyuli@uniontech.com; keydata=
- xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
- IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
- qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
- 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
- 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
- VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
- DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
- o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
-In-Reply-To: <Zuf5zjeeWO9zfUkL@3bb1e60d1c37>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zPbJb0saSJ40xEAq3FqPz6LI"
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zPbJb0saSJ40xEAq3FqPz6LI
-Content-Type: multipart/mixed; boundary="------------8YdOfnc7UemR0qZ4RE3IKS5m";
- protected-headers="v1"
-From: WangYuli <wangyuli@uniontech.com>
-To: kernel test robot <lkp@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Message-ID: <8efb29ef-a3b4-4e3f-b8ff-31aebb5eefff@uniontech.com>
-Subject: Re: [PATCH 6.10] LoongArch: KVM: Remove undefined a6 argument comment
- for kvm_hypercall()
-References: <Zuf5zjeeWO9zfUkL@3bb1e60d1c37>
-In-Reply-To: <Zuf5zjeeWO9zfUkL@3bb1e60d1c37>
+tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
+head:   92b88e0e59c946d552fb3d375d60e775a4151ea2
+commit: 06d376a01ea074dd064fc447282fe587ea9ddbdb [1518/28533] mt6625l: add driver-folder from 5.3
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
---------------8YdOfnc7UemR0qZ4RE3IKS5m
-Content-Type: multipart/mixed; boundary="------------qeZG1mGiGoWD0JD0PoUMoxOr"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409161743.f3vi7VlS-lkp@intel.com/
 
---------------qeZG1mGiGoWD0JD0PoUMoxOr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h: que_mgt.h is included more than once.
+--
+>> drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/include/gl_os.h: linux/wireless.h is included more than once.
+--
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/include/wmt_idc.h: wmt_stp_exp.h is included more than once.
+--
+>> drivers/misc/mediatek/connectivity/wlan/gen2/include/p2p_precomp.h: que_mgt.h is included more than once.
+--
+>> drivers/misc/mediatek/include/mt-plat/mt8127/include/mach/mtk_thermal.h: linux/types.h is included more than once.
 
-DQpPbiAyMDI0LzkvMTYgMTc6MjYsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0KPiBIaSwN
-Cj4NCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPg0KPiBGWUk6IGtlcm5lbCB0ZXN0IHJv
-Ym90IG5vdGljZXMgdGhlIHN0YWJsZSBrZXJuZWwgcnVsZSBpcyBub3Qgc2F0aXNmaWVkLg0K
-Pg0KPiBUaGUgY2hlY2sgaXMgYmFzZWQgb24gaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2Mv
-aHRtbC9sYXRlc3QvcHJvY2Vzcy9zdGFibGUta2VybmVsLXJ1bGVzLmh0bWwjb3B0aW9uLTMN
-Cj4NCj4gUnVsZTogVGhlIHVwc3RyZWFtIGNvbW1pdCBJRCBtdXN0IGJlIHNwZWNpZmllZCB3
-aXRoIGEgc2VwYXJhdGUgbGluZSBhYm92ZSB0aGUgY29tbWl0IHRleHQuDQo+IFN1YmplY3Q6
-IFtQQVRDSCA2LjEwXSBMb29uZ0FyY2g6IEtWTTogUmVtb3ZlIHVuZGVmaW5lZCBhNiBhcmd1
-bWVudCBjb21tZW50IGZvciBrdm1faHlwZXJjYWxsKCkNCj4gTGluazogaHR0cHM6Ly9sb3Jl
-Lmtlcm5lbC5vcmcvc3RhYmxlLzhFRkFBMzg1MTI1M0VCOUElMkIyMDI0MDkxNjA5MjU0Ni40
-Mjk0NjQtMS13YW5neXVsaSU0MHVuaW9udGVjaC5jb20NCj4NCj4gUGxlYXNlIGlnbm9yZSB0
-aGlzIG1haWwgaWYgdGhlIHBhdGNoIGlzIG5vdCByZWxldmFudCBmb3IgdXBzdHJlYW0uDQo+
-DQpTb3JyeSBmb3IgYm90aGVyaW5nIHlvdSBhbGwsDQpwYXRjaC12MiBsaW5rOiANCmh0dHBz
-Oi8vbG9yZS5rZXJuZWwub3JnL2FsbC81QjEzQjJBRjdDMjc3OUE3KzIwMjQwOTE2MDkyODU3
-LjQzMzMzNC0xLXdhbmd5dWxpQHVuaW9udGVjaC5jb20vDQpUaGFua3MsDQotLSANCldhbmdZ
-dWxpDQo=
---------------qeZG1mGiGoWD0JD0PoUMoxOr
-Content-Type: application/pgp-keys; name="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+vim +143 drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+    11	
+    12	/*
+    13	** Log: precomp.h
+    14	 *
+    15	 * 07 17 2012 yuche.tsai
+    16	 * NULL
+    17	 * Compile no error before trial run.
+    18	 *
+    19	 * 01 05 2012 tsaiyuan.hsu
+    20	 * [WCXRP00001157] [MT6620 Wi-Fi][FW][DRV] add timing measurement support for 802.11v
+    21	 * add timing measurement support for 802.11v.
+    22	 *
+    23	 * 08 15 2011 cp.wu
+    24	 * [WCXRP00000851] [MT6628 Wi-Fi][Driver] Add HIFSYS related definition to driver source tree
+    25	 * add MT6628-specific definitions.
+    26	 *
+    27	 * 04 18 2011 terry.wu
+    28	 * [WCXRP00000660] [MT6620 Wi-Fi][Driver] Remove flag CFG_WIFI_DIRECT_MOVED
+    29	 * Remove flag CFG_WIFI_DIRECT_MOVED.
+    30	 *
+    31	 * 03 15 2011 eddie.chen
+    32	 * [WCXRP00000554] [MT6620 Wi-Fi][DRV] Add sw control debug counter
+    33	 * Add sw debug counter for QM.
+    34	 *
+    35	 * 01 27 2011 tsaiyuan.hsu
+    36	 * [WCXRP00000392] [MT6620 Wi-Fi][Driver] Add Roaming Support
+    37	 * add roaming fsm
+    38	 * 1. not support 11r, only use strength of signal to determine roaming.
+    39	 * 2. not enable CFG_SUPPORT_ROAMING until completion of full test.
+    40	 * 3. in 6620, adopt work-around to avoid sign extension problem of cck of hw
+    41	 * 4. assume that change of link quality in smooth way.
+    42	 *
+    43	 * 12 13 2010 cp.wu
+    44	 * [WCXRP00000260] [MT6620 Wi-Fi][Driver][Firmware] Create V1.1 branch for both firmware and driver
+    45	 * create branch for Wi-Fi driver v1.1
+    46	 *
+    47	 * 10 07 2010 cp.wu
+    48	 * [WCXRP00000083] [MT5931][Driver][FW] Add necessary logic for MT5931 first connection
+    49	 * add firmware download for MT5931.
+    50	 *
+    51	 * 10 05 2010 cp.wu
+    52	 * [WCXRP00000056] [MT6620 Wi-Fi][Driver] NVRAM implementation with Version Check
+    53	 * 1) add NVRAM access API
+    54	 * 2) fake scanning result when NVRAM doesn't exist and/or version mismatch. (off by compiler option)
+    55	 * 3) add OID implementation for NVRAM read/write service
+    56	 *
+    57	 * 09 21 2010 kevin.huang
+    58	 * [WCXRP00000052] [MT6620 Wi-Fi][Driver] Eliminate Linux Compile Warning
+    59	 * Isolate P2P related function for Hardware Software Bundle
+    60	 *
+    61	 * 09 14 2010 chinghwa.yu
+    62	 * NULL
+    63	 * Fix BOW_FSM_INFO_T dependence.
+    64	 *
+    65	 * 09 03 2010 kevin.huang
+    66	 * NULL
+    67	 * Refine #include sequence and solve recursive/nested #include issue
+    68	 *
+    69	 * 07 20 2010 wh.su
+    70	 *
+    71	 * adding the wapi code.
+    72	 *
+    73	 * 07 08 2010 cp.wu
+    74	 *
+    75	 * [WPD00003833] [MT6620 and MT5931] Driver migration - move to new repository.
+    76	 *
+    77	 * 07 08 2010 cm.chang
+    78	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
+    79	 * Check draft RLM code for HT cap
+    80	 *
+    81	 * 07 01 2010 cm.chang
+    82	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
+    83	 * Modify CNM message handler for new flow
+    84	 *
+    85	 * 06 28 2010 cm.chang
+    86	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
+    87	 * 1st draft code for RLM module
+    88	 *
+    89	 * 06 19 2010 wh.su
+    90	 * [WPD00003840][MT6620 5931] Security migration
+    91	 * consdier the concurrent network setting.
+    92	 *
+    93	 * 06 18 2010 wh.su
+    94	 * [WPD00003840][MT6620 5931] Security migration
+    95	 * migration the security related function from firmware.
+    96	 *
+    97	 * 06 18 2010 wh.su
+    98	 * [WPD00003840][MT6620 5931] Security migration
+    99	 * migration from MT6620 firmware.
+   100	 *
+   101	 * 06 08 2010 cp.wu
+   102	 * [WPD00003833][MT6620 and MT5931] Driver migration
+   103	 * add hem_mbox.c and cnm_mem.h (but disabled some feature) for further migration
+   104	 *
+   105	 * 06 07 2010 cp.wu
+   106	 * [WPD00003833][MT6620 and MT5931] Driver migration
+   107	 * merge cnm_scan.h and hem_mbox.h
+   108	 *
+   109	 * 06 07 2010 cp.wu
+   110	 * [WPD00003833][MT6620 and MT5931] Driver migration
+   111	 * merge wifi_var.h, precomp.h, cnm_timer.h (data type only)
+   112	 *
+   113	 * 06 06 2010 kevin.huang
+   114	 * [WPD00003832][MT6620 5931] Create driver base
+   115	 * [MT6620 5931] Create driver base
+   116	 *
+   117	 * 05 17 2010 cp.wu
+   118	 * [WPD00003831][MT6620 Wi-Fi] Add framework for Wi-Fi Direct support
+   119	 * 1) add timeout handler mechanism for pending command packets
+   120	 * 2) add p2p add/removal key
+   121	 *
+   122	 * 04 13 2010 cp.wu
+   123	 * [WPD00003823][MT6620 Wi-Fi] Add Bluetooth-over-Wi-Fi support
+   124	 * add framework for BT-over-Wi-Fi support.
+   125	 *  *  *  *  *  *  *  *  *  *  * 1) prPendingCmdInfo is replaced by queue for multiple handler capability
+   126	 *  *  *  *  *  *  *  *  *  *  * 2) command sequence number is now increased atomically
+   127	 *  *  *  *  *  *  *  *  *  *  * 3) private data could be hold and taken use for other purpose
+   128	 *
+   129	 * 03 16 2010 cp.wu
+   130	 * [WPD00003823][MT6620 Wi-Fi] Add Bluetooth-over-Wi-Fi support
+   131	 * build up basic data structure and definitions to support BT-over-WiFi
+   132	 *
+   133	 * 02 08 2010 cp.wu
+   134	 * [WPD00001943]Create WiFi test driver framework on WinXP
+   135	 * prepare for implementing fw download logic
+   136	 *
+   137	 * 01 27 2010 wh.su
+   138	 * [WPD00003816][MT6620 Wi-Fi] Adding the security support
+   139	 * .
+   140	**  \main\maintrunk.MT6620WiFiDriver_Prj\9 2009-12-08 11:30:58 GMT mtk02752
+   141	**  add rftest.h for implementing RF test mode in driver land
+   142	**  \main\maintrunk.MT6620WiFiDriver_Prj\8 2009-11-23 22:02:00 GMT mtk02468
+ > 143	**  Added que_mgt.h
+   144	**  \main\maintrunk.MT6620WiFiDriver_Prj\7 2009-10-13 21:58:36 GMT mtk01084
+   145	**  update for new macro define
+   146	**  \main\maintrunk.MT6620WiFiDriver_Prj\6 2009-04-21 09:40:11 GMT mtk01461
+   147	**  Add nic_cmd_event.h
+   148	**  \main\maintrunk.MT6620WiFiDriver_Prj\5 2009-04-17 20:00:26 GMT mtk01461
+   149	**  Add cmd_buf.h
+   150	**  \main\maintrunk.MT6620WiFiDriver_Prj\4 2009-03-19 18:32:44 GMT mtk01084
+   151	**  update for basic power management functions
+   152	**  \main\maintrunk.MT6620WiFiDriver_Prj\3 2009-03-16 09:08:25 GMT mtk01461
+   153	**  Update TX PATH API
+   154	**  \main\maintrunk.MT6620WiFiDriver_Prj\2 2009-03-10 20:11:38 GMT mtk01426
+   155	**  Init for develop
+   156	**
+   157	*/
+   158	
+   159	#ifndef _PRECOMP_H
+   160	#define _PRECOMP_H
+   161	
+   162	/*******************************************************************************
+   163	*                         C O M P I L E R   F L A G S
+   164	********************************************************************************
+   165	*/
+   166	
+   167	/*******************************************************************************
+   168	*                    E X T E R N A L   R E F E R E N C E S
+   169	********************************************************************************
+   170	*/
+   171	#include "gl_os.h"		/* Include "config.h" */
+   172	
+   173	#if CFG_ENABLE_WIFI_DIRECT
+   174	#include "gl_p2p_os.h"
+   175	#endif
+   176	
+   177	#include "debug.h"
+   178	
+   179	#include "link.h"
+   180	#include "queue.h"
+   181	
+   182	/*------------------------------------------------------------------------------
+   183	 * .\include\mgmt
+   184	 *------------------------------------------------------------------------------
+   185	 */
+   186	#include "wlan_typedef.h"
+   187	
+   188	#include "mac.h"
+   189	
+   190	/* Dependency:  mac.h (MAC_ADDR_LEN) */
+   191	#include "wlan_def.h"
+   192	
+   193	#if CFG_SUPPORT_SWCR
+   194	#include "swcr.h"
+   195	#endif
+   196	
+   197	/*------------------------------------------------------------------------------
+   198	 * .\include\nic
+   199	 *------------------------------------------------------------------------------
+   200	 */
+   201	/* Dependency:  wlan_def.h (ENUM_NETWORK_TYPE_T) */
+   202	#include "cmd_buf.h"
+   203	
+   204	/* Dependency:  mac.h (MAC_ADDR_LEN) */
+   205	#include "nic_cmd_event.h"
+   206	
+   207	/* Dependency:  nic_cmd_event.h (P_EVENT_CONNECTION_STATUS) */
+   208	#include "nic.h"
+   209	
+   210	#include "nic_init_cmd_event.h"
+   211	
+   212	#include "hif_rx.h"
+   213	#include "hif_tx.h"
+   214	
+   215	#include "nic_tx.h"
+   216	
+   217	/* Dependency:  hif_rx.h (P_HIF_RX_HEADER_T) */
+   218	#include "nic_rx.h"
+   219	
+ > 220	#include "que_mgt.h"
+   221	
+   222	#if CFG_ENABLE_WIFI_DIRECT
+   223	#include "p2p_typedef.h"
+   224	#include "p2p_cmd_buf.h"
+   225	#include "p2p_nic_cmd_event.h"
+   226	#include "p2p_mac.h"
+   227	#include "p2p_nic.h"
+   228	#endif
+   229	
+   230	/*------------------------------------------------------------------------------
+   231	 * .\include\mgmt
+   232	 *------------------------------------------------------------------------------
+   233	 */
+   234	
+   235	#include "hem_mbox.h"
+   236	
+   237	#include "scan.h"
+   238	#include "bss.h"
+   239	
+   240	#include "wlan_lib.h"
+   241	#include "wlan_oid.h"
+   242	#include "wlan_bow.h"
+   243	
+   244	#if CFG_ENABLE_WIFI_DIRECT
+   245	#include "wlan_p2p.h"
+   246	#endif
+   247	
+   248	#include "hal.h"
+   249	
+   250	#if defined(MT6620)
+   251	#include "mt6620_reg.h"
+   252	#elif defined(MT6628)
+   253	/* #include "mt6628_reg.h" */
+   254	#include "mtreg.h"
+   255	#endif
+   256	
+   257	#include "rlm.h"
+   258	#include "rlm_domain.h"
+   259	#include "rlm_protection.h"
+   260	#include "rlm_obss.h"
+   261	#include "rate.h"
+   262	#if CFG_SUPPORT_802_11V
+   263	#include "wnm.h"
+   264	#endif
+   265	
+   266	#include "aa_fsm.h"
+   267	
+   268	#include "cnm_timer.h"
+   269	
+   270	#if CFG_ENABLE_BT_OVER_WIFI
+   271	#include "bow.h"
+   272	#include "bow_fsm.h"
+   273	#endif
+   274	
+   275	#include "pwr_mgt.h"
+   276	
+   277	#if (CFG_SUPPORT_STATISTICS == 1)
+   278	#include "stats.h"
+   279	#endif /* CFG_SUPPORT_STATISTICS */
+   280	
+   281	#include "cnm.h"
+   282	/* Dependency:  aa_fsm.h (ENUM_AA_STATE_T), p2p_fsm.h (WPS_ATTRI_MAX_LEN_DEVICE_NAME) */
+   283	#include "cnm_mem.h"
+   284	#include "cnm_scan.h"
+   285	
+   286	#if CFG_ENABLE_WIFI_DIRECT
+   287	#include "p2p_rlm_obss.h"
+   288	#include "p2p_bss.h"
+   289	#include "p2p.h"
+   290	#include "p2p_fsm.h"
+   291	#include "p2p_scan.h"
+   292	#include "p2p_state.h"
+   293	#include "p2p_func.h"
+   294	#include "p2p_rlm.h"
+   295	#include "p2p_assoc.h"
+   296	#include "p2p_ie.h"
+   297	#endif
+   298	
+   299	#include "privacy.h"
+   300	
+   301	#include "mib.h"
+   302	
+   303	#include "auth.h"
+   304	#include "assoc.h"
+   305	
+   306	#if CFG_SUPPORT_ROAMING
+   307	#include "roaming_fsm.h"
+   308	#endif /* CFG_SUPPORT_ROAMING */
+   309	
+   310	#include "ais_fsm.h"
+   311	
+   312	#include "adapter.h"
+   313	
+ > 314	#include "que_mgt.h"
+   315	#include "rftest.h"
+   316	
 
-xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSK
-P+nX39DNIVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAx
-FiEEa1GMzYeuKPkgqDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMB
-AAAKCRDF2h8wRvQL7g0UAQCH3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfP
-bwD/SrncJwwPAL4GiLPEC4XssV6FPUAY0rA68eNNI9cJLArOOARmgSyJEgorBgEE
-AZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7VTL0dvPDofBTjFYDAQgHwngE
-GBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIbDAAKCRDF2h8wRvQL
-7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkUo9ERi7qS
-/hbUdUgtitI89efbY0TVetgDsyeQiwU=3D
-=3DBlkq
------END PGP PUBLIC KEY BLOCK-----
-
---------------qeZG1mGiGoWD0JD0PoUMoxOr--
-
---------------8YdOfnc7UemR0qZ4RE3IKS5m--
-
---------------zPbJb0saSJ40xEAq3FqPz6LI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZuf7HAUDAAAAAAAKCRDF2h8wRvQL7obx
-AQCB0yiArM+pUxTf+6w0vGMUZ7586hFObeS4BWAKqunMRQEA2w6KggOZ+X9gK4cdac+Ln9fCawh5
-kw+fFdBBC/vuEAM=
-=9Fsf
------END PGP SIGNATURE-----
-
---------------zPbJb0saSJ40xEAq3FqPz6LI--
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
