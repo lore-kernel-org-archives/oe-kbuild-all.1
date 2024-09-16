@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E65D520;
-	Mon, 16 Sep 2024 02:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478632F5E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 02:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726453730; cv=none; b=TmGw/m99fJNI9bSC+Wes2bU1IP8TGZkXmwoBzAf5bggxDlGdsHJZcSmvQFCbFYwiYJ/84VY1ClFrPve6QiA5HxiXlK8qQuVm9gTWu2mswCfNdzGld4l0lUxfbSqTz5sZK8fkyilGoI6raVbf6MZiBHZDfaLa8g2pEru69vn06DE=
+	t=1726454367; cv=none; b=E9EnaivILBn+ynFLcR3oEkpc8F5Yr++Mlr3zP+lQ8BzOdUYUEqCUPszi7QurJFdK+7/7zVHEkGcWppQIEb7TtTwarlR8kVRz94TChuttB++RHUMIwTGgSFN+giBYYhCCRTWI7UCNg91E4fbcK75JmRzEMB4WQKw7oH19VGY/Wvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726453730; c=relaxed/simple;
-	bh=wbkU5U4xZN6n0KQSFlfPnDD1W4SoNXtV1HAasNYFbf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sl55WLrpoyM3c9OlwxSga8VzWOPQiywqQSzviaDJq1mwLHjQlnolh/UjfXOrm7crgXo75CoJ90czjbqaWroyLr3daOX/j0CzDqSzTYKJ5dD6zAD/REiLs3dI/gZZrjKbjnb2V91HzvZX7laYmiLEtFYScANhsP0VinYMsIwF5fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xgo97QGk; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1726454367; c=relaxed/simple;
+	bh=6uGDjpketrMl29E74+SiHeE2+lHCH8g9ZzGXVs0c7IU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hCsTqbEcvsRfeu77G5r9GotKw81Dbp4WjiizOBjiki0Y+JbyfSUCZExGNiAbObuYsyNwMmtx/Uwr5l0fBxLYhCMgy8Q7GSD5No1gUsSXUSQmsB4+onuPR+iRb72f8+uE+dMercBlVAio/n2wTSPtBMqBCuhyabbTWneagDy/DGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EExuZpRv; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xgo97QGk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EExuZpRv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726453729; x=1757989729;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wbkU5U4xZN6n0KQSFlfPnDD1W4SoNXtV1HAasNYFbf8=;
-  b=Xgo97QGkm7ZdAJPwzFqcpv75EMzyoE3glawg3YEJkw8+HU1WMDXmGhlu
-   XveqCh7GUdiZanC9PxFo/+c9+gbbwFn18/WvGcE9o35suBJfyqXXv72IA
-   6oBH9T2N9gvEfo1xo4JNi/ckEuRI7bLM69SiR8lGg77Piq9FN/Nz+ppow
-   nVcz7ZZbnf/Yj5XNsd9NB46MIW3tYj2AWUKCiq00k/EY/qgntj13wUcGo
-   f8XOCj0p0UyGtRdODC8E9HoN2itg0vmIePY8YPzoPa/nbYJdO/ob8JL/4
-   zbOfSFBVdjFR/+n0MTwQWY97bbnfgIf6TesTzHk0rnd+tJgGlgzbKdwwN
-   g==;
-X-CSE-ConnectionGUID: RVmTEmfFQqicDfC0gJa5Mw==
-X-CSE-MsgGUID: iSZzFVo9TiGzrhStKma5rA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="36626675"
+  t=1726454365; x=1757990365;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6uGDjpketrMl29E74+SiHeE2+lHCH8g9ZzGXVs0c7IU=;
+  b=EExuZpRvBJ32T/Q3ELZMxGiXZv2gRx3YLJm37FTZWlgk1AFWkDPl9Ny+
+   0X4UYcjosl8d/3LZeEjRSB7SDgd095WmGAeBYRoyh6q7/igqN/n4mdSXB
+   3HTZ6qqdgBcz3eu3okKPplIYprYUon0/udaL0PKXRTfz5gprkoCHHhepD
+   lpghGFoUZcpT4t4jnTPLiMMqFg3OL72AoeNWSAffz9dN+p5zv/VUlE39N
+   x5wIpR/yjHiUu1nHHS/a3Jz2mUVpcnJkchAvA6lhYG47I24FmiFETz7T1
+   S7vXgFden8twIyeFxGOqMZ35Xqmfgd8o4cCLD4w3u19EgvbiFj/2lsK5n
+   Q==;
+X-CSE-ConnectionGUID: iU0FyuRHS0SyLq/igmi2Nw==
+X-CSE-MsgGUID: u6RLdtu0QBm9dglsRRKFzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25404771"
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="36626675"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 19:28:47 -0700
-X-CSE-ConnectionGUID: tn0KQ7TPT3Whbg+c2C2qcA==
-X-CSE-MsgGUID: uGXKRgPmT1W94/X2BtsqYg==
+   d="scan'208";a="25404771"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 19:39:24 -0700
+X-CSE-ConnectionGUID: FNhgfxuLSe6YDL41frFtgA==
+X-CSE-MsgGUID: SqN/yauzSYi6pyOylgXKJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="73573295"
+   d="scan'208";a="68364455"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Sep 2024 19:28:45 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 Sep 2024 19:39:23 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sq1Tm-0009FI-0r;
-	Mon, 16 Sep 2024 02:28:42 +0000
-Date: Mon, 16 Sep 2024 10:27:55 +0800
+	id 1sq1e5-0009Fp-0C;
+	Mon, 16 Sep 2024 02:39:21 +0000
+Date: Mon, 16 Sep 2024 10:38:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@suse.de>, Chuck Lever III <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH nfsd-next] SQUASH sunrpc: allow svc threads to fail
- initialisation cleanly
-Message-ID: <202409161022.FCpNdJMX-lkp@intel.com>
-References: <172644394073.17050.16376953609629336068@noble.neil.brown.name>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 5957/23714]
+ include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized
+Message-ID: <202409161055.v0wzDm7V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +61,197 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <172644394073.17050.16376953609629336068@noble.neil.brown.name>
 
-Hi NeilBrown,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240913]
-[cannot apply to trondmy-nfs/linux-next v6.11 v6.11-rc7 v6.11-rc6 linus/master v6.11]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/SQUASH-sunrpc-allow-svc-threads-to-fail-initialisation-cleanly/20240916-074739
-base:   next-20240913
-patch link:    https://lore.kernel.org/r/172644394073.17050.16376953609629336068%40noble.neil.brown.name
-patch subject: [PATCH nfsd-next] SQUASH sunrpc: allow svc threads to fail initialisation cleanly
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240916/202409161022.FCpNdJMX-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161022.FCpNdJMX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   37aeb7e817053fbf532b214aa02858b3c23af0b1
+commit: 2dd8345826607c5d2d6528de872118da554015b6 [5957/23714] vfio: Add support for Shared Virtual Addressing
+config: arm64-randconfig-001-20240913 (https://download.01.org/0day-ci/archive/20240916/202409161055.v0wzDm7V-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161055.v0wzDm7V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409161022.FCpNdJMX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409161055.v0wzDm7V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-   In file included from fs/nfsd/trace.c:4:
-   In file included from fs/nfsd/trace.h:18:
-   In file included from fs/nfsd/nfsfh.h:12:
->> include/linux/sunrpc/svc.h:333:2: error: call to undeclared function 'smb_mb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     333 |         smb_mb();
-         |         ^
-   1 error generated.
---
-   In file included from fs/nfsd/export.c:19:
-   In file included from include/linux/sunrpc/svc_xprt.h:11:
->> include/linux/sunrpc/svc.h:333:2: error: call to undeclared function 'smb_mb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     333 |         smb_mb();
-         |         ^
-   fs/nfsd/export.c:1020:17: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
-    1020 |         struct inode            *inode;
-         |                                  ^
-   1 warning and 1 error generated.
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/vfio/vfio_iommu_type1.c:31:
+   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'vfio_iommu_type1_init': 'cold' [-Wmissing-attributes]
+     134 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2222:1: note: in expansion of macro 'module_init'
+    2222 | module_init(vfio_iommu_type1_init);
+         | ^~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2212:19: note: 'init_module' target declared here
+    2212 | static int __init vfio_iommu_type1_init(void)
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'vfio_iommu_type1_cleanup': 'cold' [-Wmissing-attributes]
+     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2223:1: note: in expansion of macro 'module_exit'
+    2223 | module_exit(vfio_iommu_type1_cleanup);
+         | ^~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2217:20: note: 'cleanup_module' target declared here
+    2217 | static void __exit vfio_iommu_type1_cleanup(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compat.h:19,
+                    from drivers/vfio/vfio_iommu_type1.c:27:
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_bind_process' at drivers/vfio/vfio_iommu_type1.c:1933:6:
+>> include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compiler.h:251,
+                    from include/asm-generic/div64.h:25,
+                    from ./arch/arm64/include/generated/asm/div64.h:1,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/compat_time.h:6,
+                    from include/linux/compat.h:10:
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_bind_process':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:1920:46: note: 'params' declared here
+    1920 |         struct vfio_iommu_type1_bind_process params;
+         |                                              ^~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_unbind_process' at drivers/vfio/vfio_iommu_type1.c:2021:6:
+>> include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_unbind_process':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2014:46: note: 'params' declared here
+    2014 |         struct vfio_iommu_type1_bind_process params;
+         |                                              ^~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl' at drivers/vfio/vfio_iommu_type1.c:2084:7:
+   include/linux/uaccess.h:112:17: warning: 'info' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2080:46: note: 'info' declared here
+    2080 |                 struct vfio_iommu_type1_info info;
+         |                                              ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl' at drivers/vfio/vfio_iommu_type1.c:2104:7:
+   include/linux/uaccess.h:112:17: warning: 'map' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2098:49: note: 'map' declared here
+    2098 |                 struct vfio_iommu_type1_dma_map map;
+         |                                                 ^~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl' at drivers/vfio/vfio_iommu_type1.c:2118:7:
+   include/linux/uaccess.h:112:17: warning: 'unmap' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2113:51: note: 'unmap' declared here
+    2113 |                 struct vfio_iommu_type1_dma_unmap unmap;
+         |                                                   ^~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl' at drivers/vfio/vfio_iommu_type1.c:2136:7:
+>> include/linux/uaccess.h:112:17: warning: 'bind' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2132:46: note: 'bind' declared here
+    2132 |                 struct vfio_iommu_type1_bind bind;
+         |                                              ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl' at drivers/vfio/vfio_iommu_type1.c:2155:7:
+>> include/linux/uaccess.h:112:17: warning: 'bind' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2151:46: note: 'bind' declared here
+    2151 |                 struct vfio_iommu_type1_bind bind;
+         |                                              ^~~~
 
 
-vim +/smb_mb +333 include/linux/sunrpc/svc.h
+vim +/params +112 include/linux/uaccess.h
 
-   313	
-   314	/**
-   315	 * svc_thread_init_status - report whether thread has initialised successfully
-   316	 * @rqstp: the thread in question
-   317	 * @err: errno code
-   318	 *
-   319	 * After performing any initialisation that could fail, and before starting
-   320	 * normal work, each sunrpc svc_thread must call svc_thread_init_status()
-   321	 * with an appropriate error, or zero.
-   322	 *
-   323	 * If zero is passed, the thread is ready and must continue until
-   324	 * svc_thread_should_stop() returns true.  If a non-zero error is passed
-   325	 * the call will not return - the thread will exit.
-   326	 */
-   327	static inline void svc_thread_init_status(struct svc_rqst *rqstp, int err)
-   328	{
-   329		rqstp->rq_err = err;
-   330		/* memory barrier ensures assignment to error above is visible before
-   331		 * waitqueue_active() test below completes.
-   332		 */
- > 333		smb_mb();
-   334		wake_up_var(&rqstp->rq_err);
-   335		if (err)
-   336			kthread_exit(1);
-   337	}
-   338	
+d597580d373774 Al Viro        2017-03-20  104  
+d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
+d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  108  {
+d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
+9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
+4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
+9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
+d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  114  	}
+d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
+d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
+d597580d373774 Al Viro        2017-03-20  117  	return res;
+d597580d373774 Al Viro        2017-03-20  118  }
+d597580d373774 Al Viro        2017-03-20  119  #else
+d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  122  #endif
+d597580d373774 Al Viro        2017-03-20  123  
+d597580d373774 Al Viro        2017-03-20  124  #ifdef INLINE_COPY_TO_USER
+d597580d373774 Al Viro        2017-03-20  125  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  126  _copy_to_user(void __user *to, const void *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  127  {
+9c5f6908de03a4 Al Viro        2017-06-29  128  	might_fault();
+4983cb67a383a7 Linus Torvalds 2019-02-14  129  	if (access_ok(to, n)) {
+9c5f6908de03a4 Al Viro        2017-06-29  130  		kasan_check_read(from, n);
+d597580d373774 Al Viro        2017-03-20  131  		n = raw_copy_to_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  132  	}
+d597580d373774 Al Viro        2017-03-20  133  	return n;
+d597580d373774 Al Viro        2017-03-20  134  }
+d597580d373774 Al Viro        2017-03-20  135  #else
+d597580d373774 Al Viro        2017-03-20  136  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  137  _copy_to_user(void __user *, const void *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  138  #endif
+d597580d373774 Al Viro        2017-03-20  139  
+d597580d373774 Al Viro        2017-03-20  140  static __always_inline unsigned long __must_check
+d597580d373774 Al Viro        2017-03-20  141  copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  142  {
+b0377fedb65280 Al Viro        2017-06-29  143  	if (likely(check_copy_size(to, n, false)))
+d597580d373774 Al Viro        2017-03-20 @144  		n = _copy_from_user(to, from, n);
+d597580d373774 Al Viro        2017-03-20  145  	return n;
+d597580d373774 Al Viro        2017-03-20  146  }
+d597580d373774 Al Viro        2017-03-20  147  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
