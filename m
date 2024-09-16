@@ -1,120 +1,109 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BF03E47B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 07:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CAA3FE4A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 07:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726472516; cv=none; b=rSnRe0D2DuriQJMB5l3/fQGvtFGgOwx7KVHXbgLZcij2khzokAPi+oeI2p8/9XojWiF/G/3e0yTLlQWXaW1yJNSUrXLZPvgmAnw0GNNFud3Iip2yX9VXVSve3bksi+Sj+iLn0fistjw9srvAB7HtzwI60pX83TcRPeD3Omgxef0=
+	t=1726473154; cv=none; b=GoAVbj4ZcigE1Nie4F7V9JpFNj6iAd+f5I0akZGnkQ/H9BkMJIy1x72D9tkPUaKyLMjclVZIku/3CoKKfRNv6ZU9IkGA4q9dMjYBG1AlU3pmGlQSTOgXFHdMB9YFNqzgfvj25MDnKG4pzJoS8UcIjC6XaRknEspKwX1bEMdumHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726472516; c=relaxed/simple;
-	bh=WuL7fc3dsUJrzGy++U3w6UI+nK9QBAGR5fSiJTUTGwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TsB4tPswFTadyyfCUOubQjBi9vczscYmldLKxwcm38G+F2WApxLkTTJpf/2mSTDd5l5FnV6lcPqOdkOBLDSRQbvzi42zxZb+4LG+c4cgFOK1dhCrLDqLMSa1gfhdPuaAEVhNtzTwo5/lqcE7wiiL6PgsIe1ITu4b7RS7hzDK+jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JDod8ggo; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1726473154; c=relaxed/simple;
+	bh=EjYQJGAMGDlItHOfp4HtjeGBtf4hKCQ/fVxar+n3Zt0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lEg19lXyVw0NUUS7QSEdQUVMhihLkpVtL7vlVH1e8KLe9RgzwrdSqzzb1i8Q4XF5baTAGAVEj+JYqSIPtveM4rARe3/mdZ2bidAXmMG/Pv5WLZsKhAttBf/zTTwZuuJedtPFZb8YUGtHLrJWdfQzbGo2vHDaW9oYoaRbMXdAsOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=X7TM9VoA; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JDod8ggo"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a8d60e23b33so539726066b.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 00:41:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="X7TM9VoA"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6dbb24ee2ebso35201037b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 00:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726472513; x=1727077313; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AZS57HTfuqNCpR+j8S0CQPhdJ2cT4uHPD0UI94VxX1s=;
-        b=JDod8ggowgaJ8iqLdvj8qmZYIno52ZznRLWVg+FEjP5iSl6SrJ2APhJd+dChpwaOq0
-         9O46NChPkGuDxgmgBbKtbUd6lLXjrtAjEjqGHQVxqYQGRGT+M3WL1YcFT0pAg3Z7LiNI
-         FQ0Ky2bMFldVPsbKJiGm7ASdY7xphGxXLp6bXMd+3huHY+aqLruGeEB8/uHY7+fvH699
-         6SUsC4yuDld4SNQ8CnU0kBa2dldjUyY2gd/olobhunecOhe2zt3Ty2vHcb4Gu8pLjpcL
-         pD27JDXrGyTwGSszrop/VRRv8xLkUrERvuT27Rh681h1k1iQBPR7SOy1b0QNAyMhwu7M
-         Cj4w==
+        d=paul-moore.com; s=google; t=1726473150; x=1727077950; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PmWPob5EI48YO42hx1Wkp4dHihtizsde4mRrqudf8UA=;
+        b=X7TM9VoAow3tynzq3kYz2onngi4WDVyYLCxy7noBX2demunFvJ2K1IXKCcaLXxdbdH
+         vcbPoRVDKaMQObkBd41QcOsfP9JY373N8ckhjF8C7pf7zFnbYFfITs6NdLV7dvvZ1XvI
+         8CnJCeHPxq2sD8sV4dm4J3fzVoc9DPovhS3aG48jbtL5PodiP7EiCWw3IUjSyIFu9ski
+         FQ9scqHxExNhsChfGKdRk3d3PuPhLHvnTjAkcwE425VueujEwZDUsUUmo+cSukb2q7P7
+         lwSsXoz+rj3Wm9GjWFmcYKSGC9izS1Wbl0QLqaVEFiDzQuHXH4Z2SE0Vu+3PljPZGzrB
+         gYRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726472513; x=1727077313;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AZS57HTfuqNCpR+j8S0CQPhdJ2cT4uHPD0UI94VxX1s=;
-        b=X6P9bKxJimpTmkry8lSnjswNLYtzFFZrg+UuCnqCF9/Vei35nm5TZfJLL6R0es6xIu
-         mU10WKrvom2z7dFV5G1mxhNNcABH9Okep7mpJRhrTLlpUE9L/dwFcmvVj19Myt6mE6F4
-         xdVNPxyRehAe0qbfJLsamgoTMaetWg24m+ABxciecwMbcdctBekWYHkQbPO+giQeIh0L
-         cesgkwkzFgBu2kvDTTQODFGm3b9wPNZHVlLO2UzDWxUKcKYGvSDHnM7i1uYH+zRhvOEe
-         rOg+AOWZemmnDf/qfllQBU59Djv/oMnB58op1qf8BASewZ1vluqJ+d9yfrrars7BHz8l
-         w7RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWh5F2TvSBwVmRKqd2H1m5ZNgKkU9B4NaXFACCOAw5O5sUUseIR3oEVGSRaf8wJOJvBGlUP27FMB04vP9h9@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAVFC02R/u3kN5Y1uin7/ilJNVw10NKsLckP3SzziKfh4B2nBV
-	gL0mRd7kud5xjDt4ebnc7hlUpoX11MFSNJEvxTV9HQM00nY7cFfLb6bxGtAHvhk=
-X-Google-Smtp-Source: AGHT+IH2IjXV5tLpbg5HdvTtKUQ2QaLHwVgTpsT3oW2QM8v5U1x4we3oE+VqW11x3lB9GzSdHkBQBQ==
-X-Received: by 2002:a17:907:e26a:b0:a7a:8da1:eb00 with SMTP id a640c23a62f3a-a902941faefmr1333729766b.7.1726472512847;
-        Mon, 16 Sep 2024 00:41:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a906109669fsm274363666b.3.2024.09.16.00.41.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 00:41:50 -0700 (PDT)
-Date: Mon, 16 Sep 2024 10:41:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Meng Wei <wei.meng@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"Pan, Kris" <kris.pan@intel.com>, Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_s 677/30000]
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing()
- warn: check for integer overflow 'num_routes'
-Message-ID: <904c51ae-9517-44a9-9a60-aaa9490afe1f@stanley.mountain>
+        d=1e100.net; s=20230601; t=1726473150; x=1727077950;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PmWPob5EI48YO42hx1Wkp4dHihtizsde4mRrqudf8UA=;
+        b=UObsXKbQVjFfoqeWrduBufheWUkUC0LXb8w2/ISKgRc7suvyeUU6CkuAeYGo9ymg2r
+         bOELv8pyX7onbiRgG4LnvbQDJQZ/Es0EupYOjuHHPN9MScnRNnQ1TZT2EJyXD0DON7Ax
+         2s/u6AgJXObirJdIRxGLyphA+1SbPE4U4UZ9Qc93Ew8k5aczTeSCkalNJvXDXzpwOqZ+
+         MqtHXBrNugLI5ID6KOD5bVXDAWv44bkaBskHpwOF3l5OpLqWngX5fMYn3PMj51shYS/G
+         AwTQoLMiKeNVDhxK5KFRTjBdcWXbeqnBTHLVdmmqQHEuZkg0EigrARACz+550gXLjBMR
+         I7tA==
+X-Gm-Message-State: AOJu0YyP6CSbxmGisfwFLrpNcawDY/PxT37poUwbh5Vl+JGdOK7XuNTd
+	5AUwij5W18V524WDYNqPnMbbrTtmW3OCXO6JfOoZT4Z0s4JGdHLVvbtEx01r9SZwm3yEVXxJiQA
+	8TkNbTtCpze4UCS+MMBpopGCgnnC7m+HqHCH24hgeZLrmidjFAQ==
+X-Google-Smtp-Source: AGHT+IFEviVWsfeqsx7W1wqCtOADLAIeUCrC1lZpT6l9Dxa7oCuIQp3pSOkejDewrOz+4to59Md4s5GrJ2k28DnUaHg=
+X-Received: by 2002:a05:690c:93:b0:64b:5cc7:bcbc with SMTP id
+ 00721157ae682-6dbb6b8f713mr131456257b3.32.1726473150305; Mon, 16 Sep 2024
+ 00:52:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202409160044.ogHHPKFy-lkp@intel.com>
+In-Reply-To: <202409160044.ogHHPKFy-lkp@intel.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 16 Sep 2024 03:52:19 -0400
+Message-ID: <CAHC9VhS=ofgVy3Aq8C4r+M_wm9ihjjLab-W+DOUUM4_qNV7GZQ@mail.gmail.com>
+Subject: Re: [linux-next:master 11886/11962] main.c:(.init.text+0xef4):
+ relocation truncated to fit: R_ARC_S25W_PCREL against `no symbol'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   84d5fc421289417e51781e27e64fbb0fc44216ae
-commit: dcdab0d72b69b6291d08483c0baf62cf92e2a1bc [677/30000] v4l: subdev: Add [GS]_ROUTING subdev ioctls and operations
-config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240916/202409161236.pnGXSCjw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+On Sun, Sep 15, 2024 at 12:43=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   5acd9952f95fb4b7da6d09a3be39195a80845eb6
+> commit: 9b3e805e7dc536b172a9c2512b0e66212100747f [11886/11962] Merge bran=
+ch 'next' of git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git
+> config: arc-randconfig-r121-20240828 (https://download.01.org/0day-ci/arc=
+hive/20240916/202409160044.ogHHPKFy-lkp@intel.com/config)
+> compiler: arceb-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240916/202409160044.ogHHPKFy-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409160044.ogHHPKFy-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    init/main.o: in function `start_kernel':
+> >> main.c:(.init.text+0xef4): relocation truncated to fit: R_ARC_S25W_PCR=
+EL against `no symbol'
+>
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for GET_FREE_REGION
+>    Depends on [n]: SPARSEMEM [=3Dn]
+>    Selected by [y]:
+>    - RESOURCE_KUNIT_TEST [=3Dy] && RUNTIME_TESTING_MENU [=3Dy] && KUNIT [=
+=3Dy]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409161236.pnGXSCjw-lkp@intel.com/
+I'm not sure why this was sent to me, is this an attribution bug in
+kernel test robot?
 
-smatch warnings:
-drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing() warn: check for integer overflow 'num_routes'
-
-vim +/num_routes +1098 drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-
-dcdab0d72b69b6 Meng Wei 2018-10-26  1082  static int put_v4l2_subdev_routing(struct v4l2_subdev_routing __user *kp,
-dcdab0d72b69b6 Meng Wei 2018-10-26  1083  				   struct v4l2_subdev_routing32 __user *up)
-dcdab0d72b69b6 Meng Wei 2018-10-26  1084  {
-dcdab0d72b69b6 Meng Wei 2018-10-26  1085  	struct v4l2_subdev_route __user *uroutes;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1086  	compat_caddr_t p;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1087  	u32 num_routes;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1088  
-dcdab0d72b69b6 Meng Wei 2018-10-26  1089  	if (!access_ok(VERIFY_WRITE, up, sizeof(*up)) ||
-dcdab0d72b69b6 Meng Wei 2018-10-26  1090  	    get_user(p, &up->routes) ||
-dcdab0d72b69b6 Meng Wei 2018-10-26  1091  	    get_user(num_routes, &kp->num_routes) ||
-dcdab0d72b69b6 Meng Wei 2018-10-26  1092  	    assign_in_user(&up->num_routes, &kp->num_routes) ||
-dcdab0d72b69b6 Meng Wei 2018-10-26  1093  	    !access_ok(VERIFY_WRITE, up->reserved, sizeof(*up->reserved)))
-dcdab0d72b69b6 Meng Wei 2018-10-26  1094  		return -EFAULT;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1095  
-dcdab0d72b69b6 Meng Wei 2018-10-26  1096  	uroutes = compat_ptr(p);
-dcdab0d72b69b6 Meng Wei 2018-10-26  1097  
-dcdab0d72b69b6 Meng Wei 2018-10-26 @1098  	if (!access_ok(VERIFY_WRITE, uroutes,
-dcdab0d72b69b6 Meng Wei 2018-10-26  1099  		       num_routes * sizeof(*kp->routes)))
-                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This multiplication has an integer overflow bug on 32bit systems.  Just do:
-
-	if (!access_ok(VERIFY_WRITE, uroutes,
-		       size_mul(num_routes, sizeof(*kp->routes)))
-
-dcdab0d72b69b6 Meng Wei 2018-10-26  1100  		return -EFAULT;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1101  
-dcdab0d72b69b6 Meng Wei 2018-10-26  1102  	return 0;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1103  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+--=20
+paul-moore.com
