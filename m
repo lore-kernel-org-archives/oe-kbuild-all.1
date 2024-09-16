@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35ECD28F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 00:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626F579E5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 01:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726447310; cv=none; b=Ebxk2UbieFIkBvLhaJIaE50gjc1HV6R4j874HY4jgHjnn84iBDOiS64R5MVlG98jjAv81bYPlh0bvvCRKgYknOR/dfuxezjQe2oMmptvhALbyHF71glkAF28HOI6g43JpSFXeO4xf7TPDmfV/dSptkFP/drRTeBPihNJWYDXW1E=
+	t=1726450392; cv=none; b=B5WFf2s6H1M812jxi6ND1jowfd5VSHtsNxZRKmN5Q7aDAdtgdeVhSZ37Phch+Lsy2FnCn36COM5IurtXIAgVaiK4oJ+AsrB32Uv9yNBNiTE+2kIUhC9BfySGFeIrApl8l16wDY0zu92XtR0J2/k+p1kQobxl5g6bIkq0hpWwYDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726447310; c=relaxed/simple;
-	bh=vpdjjGURmUcB3JcEVcqa2oefX11IXxymEkbmxRAUgqg=;
+	s=arc-20240116; t=1726450392; c=relaxed/simple;
+	bh=zKTQgc8XMz6Tt023flGFtu9oSlDN+0+OEp6jMF+6Qpw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SB8AgTVvZluVc6eIeMrtiauvZOyz3RXOo+1+YUtv10An8cgs7CZzqopFqaG5ewrr/CoSD1sL5kkdnNLDMurs9IdeBEzshMlVLZWivr8MibfnJHsyVFY7SUqgNt6RdSBvEX7w8dw2hcsBzb1fDjQ+5DNlcwjx+bY7lrM0v2Vpxs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PagKTiPR; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Um4q4pSHY7DCbJf0pLWLIf/iYD5k5hib9KLHEhAnVfDuFXWEAuP1vydLvUUCTT/DtxG6D6U5KSG/MT/39W/gp4J5k0snr13eNTkMRLytfvSLfj+7FyhZFDWvOK5x5eLjswQjTOmT2fGwYAhFgkE/Cb/piMxHoILUw/bwsG6JI0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/lhg/2s; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PagKTiPR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/lhg/2s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726447307; x=1757983307;
+  t=1726450390; x=1757986390;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vpdjjGURmUcB3JcEVcqa2oefX11IXxymEkbmxRAUgqg=;
-  b=PagKTiPRKgm3GZfW4MbtWGOhHRz2ZQFq7dduAJ5u4E63BD3jA1yp5F/v
-   YT+NsZq6YfhTHxZvVuOeOeBCRTolaut9Eyr1zbN6fs8ZXPoHPNCm5CGlB
-   8kIT5yBMC7mbCMFUf4ezWwIEEAAnd/K0ekJMBzeNdOXHbTJSTyhAIB23S
-   zJjtCb2kE0Jl2KYuxxo+dkUQbewMideHUsc4PKr2Cn+E2VW6PfNGPpbZ8
-   /oR6u9banyTHRpjB3KoYaxJhan4RZuwW00dYHX2ra+enXt834sRZXtIur
-   LE86G3idOLChrfIQhyee04gS3dbtvBx++5TWtIUWtsttL3F3X2Ag/UEjF
+  bh=zKTQgc8XMz6Tt023flGFtu9oSlDN+0+OEp6jMF+6Qpw=;
+  b=R/lhg/2szZ8whi2ZowvYaOP0mR/5skRvk2saD6t5jT3iwaEK0lEMM4O2
+   a5JxeYYdYEFG+n0usRt/ros+dH58NQUVcu3SjXyZG2SBXCkUgGC8Zxqo2
+   CQDAoOOD+J87ydsxv8kbzUBXusBeeba2IFvl3TljGLhns3pD8fQar3a+A
+   hX4dLSsGSx8Z5d5cYfYxoqQZIvD1nQJG9BYnhadzVzKqM2zRe3GrgW3MO
+   AUY8iMhmM1WkSsx/j5hFHWqscYEdObGccUyYFcvMuWQyn0FiqcAYakwCr
+   MBesedNXdotf2NLHsAnFovkr/QZ9lSJ4qXXD6I+k0tmZH8B4yWb28HSkb
    w==;
-X-CSE-ConnectionGUID: q0gNpvwGSq2tp2DKHa9BjQ==
-X-CSE-MsgGUID: zey1m2eaSPmiumrsmhIdZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="13537126"
+X-CSE-ConnectionGUID: 8brg9I4TToaZqOw4I7h9LA==
+X-CSE-MsgGUID: LK/uibgiQd+DRzBcBPjr+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25158637"
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="13537126"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 17:41:46 -0700
-X-CSE-ConnectionGUID: 5ueF3FvkTFq+jG6u1ZKKZw==
-X-CSE-MsgGUID: H6X7peciTS2Op9zWNBJxKA==
+   d="scan'208";a="25158637"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 18:33:09 -0700
+X-CSE-ConnectionGUID: 1q2A/ZvITE+upCNSgsSPHw==
+X-CSE-MsgGUID: InwPA7GFR3avh25rasBS3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="92002935"
+   d="scan'208";a="68686649"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Sep 2024 17:41:45 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Sep 2024 18:33:07 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spzoE-0009A5-2d;
-	Mon, 16 Sep 2024 00:41:42 +0000
-Date: Mon, 16 Sep 2024 08:40:58 +0800
+	id 1sq0bx-0009De-1h;
+	Mon, 16 Sep 2024 01:33:05 +0000
+Date: Mon, 16 Sep 2024 09:32:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Enzo Matsumiya <ematsumiya@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	Steve French <stfrench@microsoft.com>
-Subject: [cifs:for-next 12/25] fs/smb/client/transport.c:437:24: error:
- implicit declaration of function 'smb_compress'; did you mean
- 'cra_compress'?
-Message-ID: <202409160825.dssj4HmQ-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.10/prjc 430/494] kernel/sched/alt_core.c:2080:1: warning: the
+ frame size of 2376 bytes is larger than 2048 bytes
+Message-ID: <202409160915.9lTYHrji-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,86 +62,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-head:   2716e3ac61b56a9da0072911d96144578c39e750
-commit: f046d71e84e1e94cf23335129a27f5cfe3e8b75f [12/25] smb: client: insert compression check/call on write requests
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240916/202409160825.dssj4HmQ-lkp@intel.com/config)
+tree:   https://github.com/zen-kernel/zen-kernel 6.10/prjc
+head:   4099cf9e206cdeab5d4f25d815854d26fea387c9
+commit: aff562154f37204576bc8d7454efa9e40cf19031 [430/494] sched/alt: [Sync] 932562a6045e rseq: Split out rseq.h from sched.h
+config: x86_64-rhel-8.3-kunit (https://download.01.org/0day-ci/archive/20240916/202409160915.9lTYHrji-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409160825.dssj4HmQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409160915.9lTYHrji-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409160825.dssj4HmQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409160915.9lTYHrji-lkp@intel.com/
 
-Note: the cifs/for-next HEAD 2716e3ac61b56a9da0072911d96144578c39e750 builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   kernel/sched/alt_core.c:1001:6: warning: no previous prototype for 'resched_curr' [-Wmissing-prototypes]
+    1001 | void resched_curr(struct rq *rq)
+         |      ^~~~~~~~~~~~
+   kernel/sched/alt_core.c:1024:6: warning: no previous prototype for 'resched_cpu' [-Wmissing-prototypes]
+    1024 | void resched_cpu(int cpu)
+         |      ^~~~~~~~~~~
+   kernel/sched/alt_core.c:1039:6: warning: no previous prototype for 'select_nohz_load_balancer' [-Wmissing-prototypes]
+    1039 | void select_nohz_load_balancer(int stop_tick) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1041:6: warning: no previous prototype for 'set_cpu_sd_state_idle' [-Wmissing-prototypes]
+    1041 | void set_cpu_sd_state_idle(void) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1361:6: warning: no previous prototype for 'hrtick_start' [-Wmissing-prototypes]
+    1361 | void hrtick_start(struct rq *rq, u64 delay)
+         |      ^~~~~~~~~~~~
+   kernel/sched/alt_core.c:2507:6: warning: no previous prototype for 'sched_ttwu_pending' [-Wmissing-prototypes]
+    2507 | void sched_ttwu_pending(void *arg)
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:2550:6: warning: no previous prototype for 'call_function_single_prep_ipi' [-Wmissing-prototypes]
+    2550 | bool call_function_single_prep_ipi(int cpu)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:4131:6: warning: no previous prototype for 'scheduler_tick' [-Wmissing-prototypes]
+    4131 | void scheduler_tick(void)
+         |      ^~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7170:6: warning: no previous prototype for 'idle_task_exit' [-Wmissing-prototypes]
+    7170 | void idle_task_exit(void)
+         |      ^~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7384:5: warning: no previous prototype for 'sched_cpu_activate' [-Wmissing-prototypes]
+    7384 | int sched_cpu_activate(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7423:5: warning: no previous prototype for 'sched_cpu_deactivate' [-Wmissing-prototypes]
+    7423 | int sched_cpu_deactivate(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7486:5: warning: no previous prototype for 'sched_cpu_starting' [-Wmissing-prototypes]
+    7486 | int sched_cpu_starting(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7506:5: warning: no previous prototype for 'sched_cpu_wait_empty' [-Wmissing-prototypes]
+    7506 | int sched_cpu_wait_empty(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7548:5: warning: no previous prototype for 'sched_cpu_dying' [-Wmissing-prototypes]
+    7548 | int sched_cpu_dying(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7631:13: warning: no previous prototype for 'sched_init_smp' [-Wmissing-prototypes]
+    7631 | void __init sched_init_smp(void)
+         |             ^~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7691:13: warning: no previous prototype for 'sched_init' [-Wmissing-prototypes]
+    7691 | void __init sched_init(void)
+         |             ^~~~~~~~~~
+   kernel/sched/alt_core.c:8024:20: warning: no previous prototype for 'sched_create_group' [-Wmissing-prototypes]
+    8024 | struct task_group *sched_create_group(struct task_group *parent)
+         |                    ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8035:6: warning: no previous prototype for 'sched_online_group' [-Wmissing-prototypes]
+    8035 | void sched_online_group(struct task_group *tg, struct task_group *parent)
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8046:6: warning: no previous prototype for 'sched_destroy_group' [-Wmissing-prototypes]
+    8046 | void sched_destroy_group(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8052:6: warning: no previous prototype for 'sched_release_group' [-Wmissing-prototypes]
+    8052 | void sched_release_group(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8120:5: warning: no previous prototype for 'sched_group_set_shares' [-Wmissing-prototypes]
+    8120 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'select_task_rq':
+>> kernel/sched/alt_core.c:2080:1: warning: the frame size of 2376 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+    2080 | }
+         | ^
 
-   fs/smb/client/transport.c: In function 'smb_send_rqst':
->> fs/smb/client/transport.c:437:24: error: implicit declaration of function 'smb_compress'; did you mean 'cra_compress'? [-Werror=implicit-function-declaration]
-     437 |                 return smb_compress(server, &rqst[0], __smb_send_rqst);
-         |                        ^~~~~~~~~~~~
-         |                        cra_compress
-   cc1: some warnings being treated as errors
---
-   fs/smb/client/smb2pdu.c: In function 'smb2_async_writev':
->> fs/smb/client/smb2pdu.c:5025:69: error: implicit declaration of function 'should_compress' [-Werror=implicit-function-declaration]
-    5025 |         if (((flags & CIFS_TRANSFORM_REQ) != CIFS_TRANSFORM_REQ) && should_compress(tcon, &rqst))
-         |                                                                     ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
 
+vim +2080 kernel/sched/alt_core.c
 
-vim +437 fs/smb/client/transport.c
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2063  
+f99df1c954d477f Alfred Chen 2021-05-24  2064  static inline int select_task_rq(struct task_struct *p)
+d821e3e85092581 Alfred Chen 2019-08-19  2065  {
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2066  	cpumask_t allow_mask, mask;
+d821e3e85092581 Alfred Chen 2019-08-19  2067  
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2068  	if (unlikely(!cpumask_and(&allow_mask, p->cpus_ptr, cpu_active_mask)))
+d821e3e85092581 Alfred Chen 2019-08-19  2069  		return select_fallback_rq(task_cpu(p), p);
+d821e3e85092581 Alfred Chen 2019-08-19  2070  
+d821e3e85092581 Alfred Chen 2019-08-19  2071  	if (
+d821e3e85092581 Alfred Chen 2019-08-19  2072  #ifdef CONFIG_SCHED_SMT
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2073  	    cpumask_and(&mask, &allow_mask, &sched_sg_idle_mask) ||
+d821e3e85092581 Alfred Chen 2019-08-19  2074  #endif
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2075  	    cpumask_and(&mask, &allow_mask, sched_idle_mask) ||
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2076  	    preempt_mask_check(p, &allow_mask, &mask))
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2077  		return best_mask_cpu(task_cpu(p), &mask);
+d821e3e85092581 Alfred Chen 2019-08-19  2078  
+c24076ccd41dbf0 Alfred Chen 2022-12-21  2079  	return best_mask_cpu(task_cpu(p), &allow_mask);
+d821e3e85092581 Alfred Chen 2019-08-19 @2080  }
+d821e3e85092581 Alfred Chen 2019-08-19  2081  
 
-   426	
-   427	static int
-   428	smb_send_rqst(struct TCP_Server_Info *server, int num_rqst,
-   429		      struct smb_rqst *rqst, int flags)
-   430	{
-   431		struct send_req_vars *vars;
-   432		struct smb_rqst *cur_rqst;
-   433		struct kvec *iov;
-   434		int rc;
-   435	
-   436		if (flags & CIFS_COMPRESS_REQ)
- > 437			return smb_compress(server, &rqst[0], __smb_send_rqst);
-   438	
-   439		if (!(flags & CIFS_TRANSFORM_REQ))
-   440			return __smb_send_rqst(server, num_rqst, rqst);
-   441	
-   442		if (WARN_ON_ONCE(num_rqst > MAX_COMPOUND - 1))
-   443			return -EIO;
-   444	
-   445		if (!server->ops->init_transform_rq) {
-   446			cifs_server_dbg(VFS, "Encryption requested but transform callback is missing\n");
-   447			return -EIO;
-   448		}
-   449	
-   450		vars = kzalloc(sizeof(*vars), GFP_NOFS);
-   451		if (!vars)
-   452			return -ENOMEM;
-   453		cur_rqst = vars->rqst;
-   454		iov = &vars->iov;
-   455	
-   456		iov->iov_base = &vars->tr_hdr;
-   457		iov->iov_len = sizeof(vars->tr_hdr);
-   458		cur_rqst[0].rq_iov = iov;
-   459		cur_rqst[0].rq_nvec = 1;
-   460	
-   461		rc = server->ops->init_transform_rq(server, num_rqst + 1,
-   462						    &cur_rqst[0], rqst);
-   463		if (rc)
-   464			goto out;
-   465	
-   466		rc = __smb_send_rqst(server, num_rqst + 1, &cur_rqst[0]);
-   467		smb3_free_compound_rqst(num_rqst, &cur_rqst[1]);
-   468	out:
-   469		kfree(vars);
-   470		return rc;
-   471	}
-   472	
+:::::: The code at line 2080 was first introduced by commit
+:::::: d821e3e85092581709b1b5f9ab8cacf0ce70c1a8 Project C v5.7.5-r2
+
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
