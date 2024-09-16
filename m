@@ -1,128 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from gentwo.org (gentwo.org [62.72.0.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19AD1581E0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 17:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EA615B0EB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 18:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726506864; cv=none; b=l3ERVqza75WA3sf0Myki3xjQJ6o3j63ikS3pm3WsCjxwmhOQL7DFR165LEScPTcQKsWr1qHIdSQNDte9IBgyTzfoedyg51lUjIcqBql1NBDfMPn4COI34YIe8QtlOeGP88wjqll2xKKJntEbRt6XtP+WISaMSflErJJB6nlZbrg=
+	t=1726509640; cv=none; b=EHpnE1qwrIarTflO5JJihQsUbM8cvy1vnwuIjDhxQEprE3YF31hHerHpLY0QK0ISp5jpBWefn1CzugxYy1XV97sMExw/ZiexmvTLZ8UgBaypWS+RBQycGVGv51fuJD9GAxzRDMK6D8+e8GQcTmHE/w/AZpyw6OPBSGeX2JVtnuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726506864; c=relaxed/simple;
-	bh=tNIT6Rb3/4W6G1/vE+8uamflUt841Fq23pEoqT2qlRc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hMcwrGl66PFd/BJmX1Wi/vBj9EvVaZpXfGKqGrQPJgebhGumnpr1h2VX/dC3/NI+SVEVbJIAD2yydabGO4xOLT+8Tz6ETzUuUzqUoT3CrwU4MXb5ovT5OL57zVfNWy+xyLgNHUF1r347fFDi5i2NOO9Lzsjdm1wnykmCIfr+mcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mf37IbLj; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726509640; c=relaxed/simple;
+	bh=VEcCojKlwFA8hJfGgqCw4mLqtRV4UKECSLbvXOFqrkw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=oHTpK+EXRUA+AfApiM06ZBPCxsLbAsBm0+ZieUd3rWDuHElZm1DTMlIlagzaaEZJEUFenTVZ8L2tqt8ZxlmvaaiR1clZ2uquXuu4khoB196igUPG4XjDyUB8GLlJzMApEk1f2m1FWn1uJ9H8MjmfU4eBIUWPwkIpJzIUqfmD/Oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=ULYHcJXo; arc=none smtp.client-ip=62.72.0.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mf37IbLj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726506863; x=1758042863;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=tNIT6Rb3/4W6G1/vE+8uamflUt841Fq23pEoqT2qlRc=;
-  b=mf37IbLj38YhAzouh1vnCMoGDwclzuUHdxMXgWVE1ENYfhw7Pad5g9TQ
-   6FPuhylAbLyGs2G2JhwW8Jo5+w2JbkEMxSYn1AUI9QYNhBr5ORqVweLbc
-   P2L5yaPNR4bN/iTiEzWun6xuV8SZ2QdN5pdXndgididh02JJuXssvv7q6
-   1TGeDXXdajtlDN5bqItdk/b8yJJ5umxuk0bPK2js2SU0xZvlg9gXWQVr2
-   2eo8VaLMXg3fyMqzittiHq0Jy25zbrN6FhISvHPfYpbISH3feBMBdkvi0
-   yWT1CzxiDmQCXEe5vFxvcdYWTx8UnIvs51xRs0tyREymEdhpM+uc0ZN1F
-   Q==;
-X-CSE-ConnectionGUID: 7EekCPv+TNyUllJjAh5Qtg==
-X-CSE-MsgGUID: wzlVP+L5Tle3YRdVQG1AQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="28257143"
-X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
-   d="scan'208";a="28257143"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 10:14:20 -0700
-X-CSE-ConnectionGUID: 096CF7RqRcKM28G1Dc798w==
-X-CSE-MsgGUID: tOBmnKXcS4G+RsX11CMcSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
-   d="scan'208";a="68915531"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Sep 2024 10:14:18 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sqFIm-000AKm-2O;
-	Mon, 16 Sep 2024 17:14:16 +0000
-Date: Tue, 17 Sep 2024 01:13:35 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	MD Danish Anwar <danishanwar@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 45/69]
- drivers/net/ethernet/ti/icssg_prueth.c:2087: warning: Function parameter or
- member 'bpf' not described in 'emac_xdp_setup'
-Message-ID: <202409170113.pJkuP6JI-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="ULYHcJXo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
+	s=default; t=1726509138;
+	bh=VEcCojKlwFA8hJfGgqCw4mLqtRV4UKECSLbvXOFqrkw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=ULYHcJXoqq8BkGdPNajFNKW/OwrOUFqLYj+U6PY1T8TdhuKxdte6DhL1LojaBalUj
+	 XsbfRBPi8Q+3/awB4s+ov5uwKp7sqpCFgd+nvO+P8G+iHMOhW0f48E07HY98L9g1mz
+	 HJxOURoQdTdjp/WegHbVSYsLLyHn1p3sfvrl7Bow=
+Received: by gentwo.org (Postfix, from userid 1003)
+	id 8CC8440262; Mon, 16 Sep 2024 10:52:18 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+	by gentwo.org (Postfix) with ESMTP id 890F5401D1;
+	Mon, 16 Sep 2024 10:52:18 -0700 (PDT)
+Date: Mon, 16 Sep 2024 10:52:18 -0700 (PDT)
+From: "Christoph Lameter (Ampere)" <cl@gentwo.org>
+To: kernel test robot <lkp@intel.com>
+cc: Christoph Lameter via B4 Relay <devnull+cl.gentwo.org@kernel.org>, 
+    Thomas Gleixner <tglx@linutronix.de>, 
+    Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+    Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+    Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
+    oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org, 
+    linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+    linux-arch@vger.kernel.org
+Subject: Re: [PATCH v3] Avoid memory barrier in read_seqcount() through load
+ acquire
+In-Reply-To: <202409132135.ki3Mp5EA-lkp@intel.com>
+Message-ID: <766fe92a-13da-f299-0ecf-f8a477d58a79@gentwo.org>
+References: <20240912-seq_optimize-v3-1-8ee25e04dffa@gentwo.org> <202409132135.ki3Mp5EA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   829eefbd4a1ba5b21fb43beeba454fd5dc23bb80
-commit: 78264a1200f8382c460803badd7d458e47ef8736 [45/69] net: ethernet: ti: icssg_prueth: Add AF_XDP support
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240917/202409170113.pJkuP6JI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409170113.pJkuP6JI-lkp@intel.com/reproduce)
+On Fri, 13 Sep 2024, kernel test robot wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409170113.pJkuP6JI-lkp@intel.com/
+> >> drivers/gpu/drm/i915/gt/intel_tlb.h:21:47: error: macro "seqprop_sequence" requires 2 arguments, but only 1 given
 
-All warnings (new ones prefixed by >>):
+From 15d86bc9589f16947c5fb0f34d2947eacd48f853 Mon Sep 17 00:00:00 2001
+From: Christoph Lameter <cl@gentwo.org>
+Date: Mon, 16 Sep 2024 10:44:16 -0700
+Subject: [PATCH] Update Intel DRM use of seqprop_sequence
 
->> drivers/net/ethernet/ti/icssg_prueth.c:2087: warning: Function parameter or member 'bpf' not described in 'emac_xdp_setup'
->> drivers/net/ethernet/ti/icssg_prueth.c:2087: warning: Excess function parameter 'prog' description in 'emac_xdp_setup'
->> drivers/net/ethernet/ti/icssg_prueth.c:2106: warning: Function parameter or member 'bpf' not described in 'emac_ndo_bpf'
->> drivers/net/ethernet/ti/icssg_prueth.c:2106: warning: Excess function parameter 'xdp' description in 'emac_ndo_bpf'
+One of Intels drivers uses seqprop_sequence() for its tlb sequencing.
+We added a parameter so that we can use acquire. Its pretty safe to
+assume that this will work without acquire.
 
+Signed-off-by: Christoph Lameter <cl@linux.com>
+---
+ drivers/gpu/drm/i915/gt/intel_tlb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-vim +2087 drivers/net/ethernet/ti/icssg_prueth.c
+diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
+index 337327af92ac..81998c4cd4fb 100644
+--- a/drivers/gpu/drm/i915/gt/intel_tlb.h
++++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
+@@ -18,7 +18,7 @@ void intel_gt_fini_tlb(struct intel_gt *gt);
 
-  2080	
-  2081	/**
-  2082	 * emac_xdp_setup - add/remove an XDP program
-  2083	 * @emac: emac device
-  2084	 * @prog: XDP program
-  2085	 **/
-  2086	static int emac_xdp_setup(struct prueth_emac *emac, struct netdev_bpf *bpf)
-> 2087	{
-  2088		struct bpf_prog *prog = bpf->prog;
-  2089	
-  2090		if (!emac->xdpi.prog && !prog)
-  2091			return 0;
-  2092	
-  2093		WRITE_ONCE(emac->xdp_prog, prog);
-  2094	
-  2095		xdp_attachment_setup(&emac->xdpi, bpf);
-  2096	
-  2097		return 0;
-  2098	}
-  2099	
-  2100	/**
-  2101	 * emac_ndo_bpf - implements ndo_bpf for icssg_prueth
-  2102	 * @ndev: network adapter device
-  2103	 * @xdp: XDP command
-  2104	 **/
-  2105	static int emac_ndo_bpf(struct net_device *ndev, struct netdev_bpf *bpf)
-> 2106	{
-  2107		struct prueth_emac *emac = netdev_priv(ndev);
-  2108	
-  2109		switch (bpf->command) {
-  2110		case XDP_SETUP_PROG:
-  2111			return emac_xdp_setup(emac, bpf);
-  2112		default:
-  2113			return -EINVAL;
-  2114		}
-  2115	}
-  2116	
+ static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
+ {
+-	return seqprop_sequence(&gt->tlb.seqno);
++	return seqprop_sequence(&gt->tlb.seqno, false);
+ }
 
+ static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5
+
