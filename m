@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3BF1494B5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 13:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA27D1DFE4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 14:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726494489; cv=none; b=Xp4Qgu4Ex+lXwssGvUsVyCXepoulTd8+6Xn1q+sH4/ovcJVaCWIenqF2FPg98WR6EFset/ICLlu5iYkvm0jLCQC0IGLlUcgRg2maHk5IAlAdrxp9N5J2L1Nq+sBhGGJJudDNP19h0bH9uyIp88p7WQvn59Xn69F7uXZPQUdWNYQ=
+	t=1726496360; cv=none; b=QPBKNO4U65D6tisWKiBNdaGYzGci5USo1N/uYKrDAh+qhkzZddY5Ae0v+WVTjztJZlY9EoMsZuQizyMyqT7CWoV/TPNTlTHEPTPfRJ0FhxC9vJq03ttibdnA9Vr9oM7lYgu4g+x00jnUYqIHCCiIGJhjpXbmn+Kr6VFbwQe5CMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726494489; c=relaxed/simple;
-	bh=AOjBcr6cDg3FyeUVPjq7M7VhYYKg+v63AkKZy3TZI4A=;
+	s=arc-20240116; t=1726496360; c=relaxed/simple;
+	bh=2m8LFuf9NFqw1hkjJpoCmFIxnFKkqeF6hEP/9jnWeY0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hyQOBPoYOQ5G0fyKBsYoVYm5k4OXqUVQ75KVT/kkn4gI7rT4R/KYIEU42r3U0tXyDLizzRNz7rR9nu/qKDpGuHTzTwaa0tjZoIr/cvJuMbzo+qNcMCUkrQutPpXcuXV89W4EDcbfWQK/ItmIHQZT9nS1I3yEnJ0cSQIRqR95nyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dkkHpdzf; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=ozBDb9VrB80DQ8VqvY+8+sJEqI5IyxWbsRchKURAsfHDNo0DDseyIUzpLHJReA/Mr4uUiG/8QaMVuPA9VJ+VVW7zyDtN8RQhelFHDnHF1/yKc/AmS7vLXoCIbU0Yf7aMaAMwCOdTRqFzTff3ytlgR4y9ukbIaWwQrbrJ4gQIKjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S538xdeY; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dkkHpdzf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S538xdeY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726494486; x=1758030486;
+  t=1726496358; x=1758032358;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AOjBcr6cDg3FyeUVPjq7M7VhYYKg+v63AkKZy3TZI4A=;
-  b=dkkHpdzfmXQiFWAoxn4dPdESZD/umwUtj3IqQqA7+tLq0kW4+2YXpn/m
-   sVgl93+9qDnly0j+SHMgY4BCnRjVFxuPTqd1WNaMmbGltvkwVo7L3Xec4
-   RMu3qB+f4xMX3lua3xtjPU9cQJj2AodN3ZlFRJ6dPGRivxhGDcTTTeJ19
-   Xg8eqJrgxIf0JXqh8hVYUnSWYt3zw5LdUplv3FU5x2RV0jYbL1g3iD99L
-   VmWsIRVQjlxJBObQeq2UGS86NRpOBpLigFIwjXzV7x/RFkjjZOeimb16G
-   FblqTf+FV5NBlzSMRkqa8apd3wiK3Tm6SOYBaEv4wxAaWf2LrQp4YSzUL
-   Q==;
-X-CSE-ConnectionGUID: xSvi4zA8Roi4NcJIaANL9g==
-X-CSE-MsgGUID: oVKBScIHRYCo4E/VOEwu9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="35890388"
+  bh=2m8LFuf9NFqw1hkjJpoCmFIxnFKkqeF6hEP/9jnWeY0=;
+  b=S538xdeYTw64GhSTR5wCxfxm7HcjgM3klqK1VQwO7ZQXzUspRmL705Zi
+   ndyiwXInkAovfnWWWs8M1bLmzbmI1CrnUp0cE6ZtTGHOM+4edWULs8i3a
+   UHzbOl/cHihUgnG0GeBFCSy3eCYB6pDp4PxmG4nZeixcMCuMQbfx77e9b
+   waK0bdG4quBYDnANIQ23S7SVrkr56Buqwqib/X0/ELsYIDIICuwlr835w
+   SmiHYda3UxId3IskYFpKquCrtuR/rnDvC7mXdThwEk74P1Lz3k1qVmaEa
+   DYns9hNJfI0egBISB1oPeZo6iYGU/sY1WkmPNfGJ5U/U76pgpmgLAq9Qm
+   w==;
+X-CSE-ConnectionGUID: pyPtYwT/Rmq5RQDrqIO7Sg==
+X-CSE-MsgGUID: eIL2if5hRFaPyZran7fMDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="29109359"
 X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
-   d="scan'208";a="35890388"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 06:48:05 -0700
-X-CSE-ConnectionGUID: Gi7eGCBfQTCs0MLbaRWrhA==
-X-CSE-MsgGUID: dSjMYdZvQHqefpSMka2fTQ==
+   d="scan'208";a="29109359"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 07:19:10 -0700
+X-CSE-ConnectionGUID: i3gHsT6OR7a6d7JfjwMvig==
+X-CSE-MsgGUID: TyMgE8VdTESqJLFDN3bHjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
-   d="scan'208";a="69640603"
+   d="scan'208";a="68847448"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Sep 2024 06:48:05 -0700
+  by orviesa009.jf.intel.com with ESMTP; 16 Sep 2024 07:19:09 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqC5C-000A74-0r;
-	Mon, 16 Sep 2024 13:48:02 +0000
-Date: Mon, 16 Sep 2024 21:47:03 +0800
+	id 1sqCZG-000A8Y-1l;
+	Mon, 16 Sep 2024 14:19:06 +0000
+Date: Mon, 16 Sep 2024 22:18:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 15748/23714]
- include/linux/uaccess.h:112:17: warning: 'kmask' may be used uninitialized
-Message-ID: <202409162133.aY7fqmYk-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 17157/23714]
+ drivers/md/bcache/request.c:1333:27: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202409162232.mD47BzHq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,230 +65,90 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   37aeb7e817053fbf532b214aa02858b3c23af0b1
-commit: b77633c8236f2383f8d994249b40ed1bd3d012c0 [15748/23714] signal: simplify set_user_sigmask/restore_user_sigmask
-config: arm64-randconfig-001-20240913 (https://download.01.org/0day-ci/archive/20240916/202409162133.aY7fqmYk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409162133.aY7fqmYk-lkp@intel.com/reproduce)
+commit: cb004e127a5500466043986dbc4cc43ec63d849e [17157/23714] Add traffic policy for low cache available.
+config: x86_64-randconfig-123-20240915 (https://download.01.org/0day-ci/archive/20240916/202409162232.mD47BzHq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409162232.mD47BzHq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409162133.aY7fqmYk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409162232.mD47BzHq-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+sparse warnings: (new ones prefixed by >>)
+   drivers/md/bcache/request.c: note: in included file (through drivers/md/bcache/bcache.h):
+   include/uapi/linux/bcache.h:294:38: sparse: sparse: array of flexible structures
+   drivers/md/bcache/request.c: note: in included file (through drivers/md/bcache/bcache.h):
+   drivers/md/bcache/bset.h:231:36: sparse: sparse: array of flexible structures
+>> drivers/md/bcache/request.c:1333:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:1> *to @@     got struct get_bcache_status * @@
+   drivers/md/bcache/request.c:1333:27: sparse:     expected void [noderef] <asn:1> *to
+   drivers/md/bcache/request.c:1333:27: sparse:     got struct get_bcache_status *
+>> drivers/md/bcache/request.c:1346:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got struct set_bcache_status * @@
+   drivers/md/bcache/request.c:1346:33: sparse:     expected void const [noderef] <asn:1> *from
+   drivers/md/bcache/request.c:1346:33: sparse:     got struct set_bcache_status *
 
-All warnings (new ones prefixed by >>):
+vim +1333 drivers/md/bcache/request.c
 
-         | ^~~~~~~~~~~
-   In file included from include/asm-generic/termios.h:6,
-                    from ./arch/arm64/include/generated/uapi/asm/termios.h:1,
-                    from include/uapi/linux/termios.h:6,
-                    from include/linux/tty.h:7,
-                    from kernel/signal.c:23:
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_sigaltstack' at kernel/signal.c:3635:13,
-       inlined from '__se_sys_sigaltstack' at kernel/signal.c:3631:1:
-   include/linux/uaccess.h:112:17: warning: 'new' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler.h:251,
-                    from include/asm-generic/bug.h:5,
-                    from arch/arm64/include/asm/bug.h:37,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from kernel/signal.c:13:
-   include/linux/kasan-checks.h: In function '__se_sys_sigaltstack':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3633:17: note: 'new' declared here
-    3633 |         stack_t new, old;
-         |                 ^~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'do_compat_sigaltstack' at kernel/signal.c:3678:7:
-   include/linux/uaccess.h:112:17: warning: 'uss32' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'do_compat_sigaltstack':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3677:32: note: 'uss32' declared here
-    3677 |                 compat_stack_t uss32;
-         |                                ^~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_rt_tgsigqueueinfo' at kernel/signal.c:3496:6,
-       inlined from '__se_sys_rt_tgsigqueueinfo' at kernel/signal.c:3491:1:
-   include/linux/uaccess.h:112:17: warning: 'info' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function '__se_sys_rt_tgsigqueueinfo':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3494:19: note: 'info' declared here
-    3494 |         siginfo_t info;
-         |                   ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_rt_sigqueueinfo' at kernel/signal.c:3454:6,
-       inlined from '__se_sys_rt_sigqueueinfo' at kernel/signal.c:3450:1:
-   include/linux/uaccess.h:112:17: warning: 'info' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function '__se_sys_rt_sigqueueinfo':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3453:19: note: 'info' declared here
-    3453 |         siginfo_t info;
-         |                   ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_sigprocmask' at kernel/signal.c:3783:7,
-       inlined from '__se_sys_sigprocmask' at kernel/signal.c:3774:1:
-   include/linux/uaccess.h:112:17: warning: 'new_set' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function '__se_sys_sigprocmask':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3777:31: note: 'new_set' declared here
-    3777 |         old_sigset_t old_set, new_set;
-         |                               ^~~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_rt_sigprocmask' at kernel/signal.c:2887:7,
-       inlined from '__se_sys_rt_sigprocmask' at kernel/signal.c:2874:1:
-   include/linux/uaccess.h:112:17: warning: 'new_set' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function '__se_sys_rt_sigprocmask':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:2877:27: note: 'new_set' declared here
-    2877 |         sigset_t old_set, new_set;
-         |                           ^~~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'set_user_sigmask' at kernel/signal.c:2836:6:
->> include/linux/uaccess.h:112:17: warning: 'kmask' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'set_user_sigmask':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:2830:18: note: 'kmask' declared here
-    2830 |         sigset_t kmask;
-         |                  ^~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_rt_sigtimedwait' at kernel/signal.c:3281:6,
-       inlined from '__se_sys_rt_sigtimedwait' at kernel/signal.c:3268:1:
-   include/linux/uaccess.h:112:17: warning: 'these' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function '__se_sys_rt_sigtimedwait':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3272:18: note: 'these' declared here
-    3272 |         sigset_t these;
-         |                  ^~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'copy_siginfo_from_user32' at kernel/signal.c:3125:6:
-   include/linux/uaccess.h:112:17: warning: 'from' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'copy_siginfo_from_user32':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3123:31: note: 'from' declared here
-    3123 |         struct compat_siginfo from;
-         |                               ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_rt_sigaction' at kernel/signal.c:3834:13,
-       inlined from '__se_sys_rt_sigaction' at kernel/signal.c:3822:1:
-   include/linux/uaccess.h:112:17: warning: 'new_sa' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function '__se_sys_rt_sigaction':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3827:28: note: 'new_sa' declared here
-    3827 |         struct k_sigaction new_sa, old_sa;
-         |                            ^~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'restore_altstack' at kernel/signal.c:3648:6:
-   include/linux/uaccess.h:112:17: warning: 'new' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'restore_altstack':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:3647:17: note: 'new' declared here
-    3647 |         stack_t new;
-         |                 ^~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from '__do_sys_rt_sigsuspend' at kernel/signal.c:4053:6,
-       inlined from '__se_sys_rt_sigsuspend' at kernel/signal.c:4045:1,
-       inlined from '__arm64_sys_rt_sigsuspend' at kernel/signal.c:4045:1:
-   include/linux/uaccess.h:112:17: warning: 'newset' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function '__arm64_sys_rt_sigsuspend':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/signal.c:4047:18: note: 'newset' declared here
-    4047 |         sigset_t newset;
-         |                  ^~~~~~
-
-
-vim +/kmask +112 include/linux/uaccess.h
-
-d597580d373774 Al Viro        2017-03-20  104  
-d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  108  {
-d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
-9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
-9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
-d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  114  	}
-d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
-d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro        2017-03-20  117  	return res;
-d597580d373774 Al Viro        2017-03-20  118  }
-d597580d373774 Al Viro        2017-03-20  119  #else
-d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  122  #endif
-d597580d373774 Al Viro        2017-03-20  123  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  1315	
+  1316	static int bcache_get_write_status(struct cached_dev *dc, unsigned long arg)
+  1317	{
+  1318		struct get_bcache_status a;
+  1319		uint64_t cache_sectors;
+  1320		struct cache_set *c = dc->disk.c;
+  1321	
+  1322		if (c == NULL)
+  1323			return -ENODEV;
+  1324	
+  1325		a.writeback_sector_size_per_sec = dc->writeback_sector_size_per_sec;
+  1326		a.writeback_io_num_per_sec = dc->writeback_io_num_per_sec;
+  1327		a.front_io_num_per_sec = dc->front_io_num_per_sec;
+  1328		cache_sectors = c->nbuckets * c->sb.bucket_size -
+  1329			atomic_long_read(&c->flash_dev_dirty_sectors);
+  1330		a.dirty_rate = div64_u64(bcache_dev_sectors_dirty(&dc->disk) * 100,
+  1331			cache_sectors);
+  1332		a.available = 100 - c->gc_stats.in_use;
+> 1333		if (copy_to_user((struct get_bcache_status *)arg, &a,
+  1334			sizeof(struct get_bcache_status)))
+  1335			return -EFAULT;
+  1336		return 0;
+  1337	}
+  1338	
+  1339	static int bcache_set_write_status(struct cached_dev *dc, unsigned long arg)
+  1340	{
+  1341		struct set_bcache_status a;
+  1342		struct cache_set *c = dc->disk.c;
+  1343	
+  1344		if (c == NULL)
+  1345			return -ENODEV;
+> 1346		if (copy_from_user(&a, (struct set_bcache_status *)arg,
+  1347			sizeof(struct set_bcache_status)))
+  1348			return -EFAULT;
+  1349	
+  1350		if (c->traffic_policy_start != a.traffic_policy_start)
+  1351			pr_info("%s traffic policy %s", dc->disk.disk->disk_name,
+  1352			       (a.traffic_policy_start == true) ? "enable" : "disable");
+  1353		if (c->force_write_through != a.force_write_through)
+  1354			pr_info("%s force write through %s", dc->disk.disk->disk_name,
+  1355			       (a.force_write_through == true) ? "enable" : "disable");
+  1356		if (a.trigger_gc) {
+  1357			pr_info("trigger %s gc", dc->disk.disk->disk_name);
+  1358			atomic_set(&c->sectors_to_gc, -1);
+  1359			wake_up_gc(c);
+  1360		}
+  1361		if ((a.cutoff_writeback_sync >= MIN_CUTOFF_WRITEBACK_SYNC) &&
+  1362			(a.cutoff_writeback_sync <= MAX_CUTOFF_WRITEBACK_SYNC)) {
+  1363			c->cutoff_writeback_sync = a.cutoff_writeback_sync;
+  1364		}
+  1365	
+  1366		dc->max_sector_size = a.write_token_sector_size;
+  1367		dc->max_io_num = a.write_token_io_num;
+  1368		c->traffic_policy_start = a.traffic_policy_start;
+  1369		c->force_write_through = a.force_write_through;
+  1370		c->gc_sectors = a.gc_sectors;
+  1371		dc->writeback_state = a.writeback_state;
+  1372		return 0;
+  1373	}
+  1374	
 
 -- 
 0-DAY CI Kernel Test Service
