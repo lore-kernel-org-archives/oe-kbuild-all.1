@@ -1,155 +1,186 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2588518E20
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 08:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59EE146586
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 08:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726475789; cv=none; b=AK1hmAdtz1wD7l9hkaQMaavjrDkJlTbXxeRqfH1XOd5KPENjFycpmWc6isoQ0NTikFLxnX6fK50ROa0r/4rMUkYVUTfsalzKl6U1LqMKnb/aV/N+SVjCHJNlUjz/cxVBKw5wMTqX6NOUAD5FyLw0C8Y1E2gF6D5Q99h2WAcRPNk=
+	t=1726476013; cv=none; b=AHD7dgV63+a8/0ILz6Qpcvm9hjjgrGMi2Gpfm6G0V0wJeQTAFFdkaJwn0h0jMStwhvv/bbXtqunAeOQzGkuxjPOE2YMpPX5f6Vbz8sojOyQrwJMFWVkUU5UhkxxlmoCx1BXT4wMJfZt7WIb9yP1ezq3HAu6OVOqS/uWOrxlvWCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726475789; c=relaxed/simple;
-	bh=ExwIcThVvO+7ZAUVFxCZRYWIdFsONsYB9CaICjRnUgU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=COERBqtV6olwq9CywRtdLCk2PMKBI9GJL5xXlqZ6nF39fvi/JIYojxu0/csVBRcEGByI/zqjec+Isfs2Fuk+UTeSkRI7vB1ic1jPEu4Lu6a9ddHGlMfzY/zFtwqQFrpVgAJS1azwwu6gBSXJClBMHbN1sbtuNDBp+/O/g2Kbbvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xz4OHicY; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1726476013; c=relaxed/simple;
+	bh=3tezeYk8/oQD4basQb0gA+dGgId/HoFid+ijykAqs54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=aDNI8X4+NgWAJ/xp2Xq8BXkSjfva1larK67BieOd+2AVPvTNTcS36vU7Yqj0c8HV3CPWDX6pJHJWWmXPeKqTYAIJkK4U7oQluXoMJwDc7phonznHPQkWgdAEwV0X+wze/SxyM2jcVkI552Fk2rjuOnYd0UkHyqhAMxhAYgMZgSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e3kVF+nq; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xz4OHicY"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e3kVF+nq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726475786;
+	s=mimecast20190719; t=1726476010;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SZghuNl8RSxhnXryd0EQnOpNodf1ePXadDKLScPEidI=;
-	b=Xz4OHicYetMR0XuOwvwxsaRFx2F4xM6ynnukJWYqbxj0pA0NKZreD4uiZEIcY33io8jpvp
-	PR2a1vrmnhmNgK/cVnTTTUW8FEb4tWJso4Yww6CsdlRqy2plU5xi23L3f4RG2sCKjYP18X
-	Yrk6VjTgSljWs7eS28zbBnY/vOsHEls=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=veTIA8crxMcOp+vthNk0ANAtv78UFR8BCP1ThmDnOAE=;
+	b=e3kVF+nqJd8HTM5/5sGwW3cQzn94SGRnt0GmhCYz12GPjyFfPs+XOGQrSmp9SlsmzX3LqM
+	i5xG8EI2gXpVzfB5xEUhlAWhfnNa0rE4gOpd13TV6qTgpLVg7YDhqRr1nfWj9OGsjmIs1j
+	WurF9yfDhOk93SVWtCUWCrVYoDnbUzA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-43-2GoeiYhOMfCwgRjhAlY5eQ-1; Mon, 16 Sep 2024 04:36:24 -0400
-X-MC-Unique: 2GoeiYhOMfCwgRjhAlY5eQ-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3787ea79dceso1020898f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 01:36:24 -0700 (PDT)
+ us-mta-148-DgAfKrqNMHeLO4HbcGEDDA-1; Mon, 16 Sep 2024 04:40:09 -0400
+X-MC-Unique: DgAfKrqNMHeLO4HbcGEDDA-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3780c8d689bso1763171f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 01:40:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726475784; x=1727080584;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SZghuNl8RSxhnXryd0EQnOpNodf1ePXadDKLScPEidI=;
-        b=HTNm5RON1CV7kc34ygjTu6pUnPXj+UsCKhwaQG53vYqhC9TLfp0XhM54PNGPCLKxa7
-         Q1NspS0MFT4lh+3dC/Q0hPnL7OD2gQ/uEs2qakqs2LaY9Z7GHgb2pCOCYrHursaqi9LA
-         rCNLBOXkQMzG7cUguqYZ3h2wg3QtKC8jaHeothWtatOQy99n+iU4V8rUHIqBrQNiqwW7
-         xTpluz/hynUxRqtp2iDL58hUk8zdDwqiU+4FHQOo02qEiVIENGafVshV5b+O2PV4Mnhb
-         0R1V2cMQgbA0kYiPPInbmtOyvnnlrV+n63fBuuivCvIY9CxiF45MmfzNmtQEO0Dt2fJt
-         pPuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2qce9ope2vm66y8BkbVrm0KvZrRLTon1OImw9EFS1L+frcf3YWOinSj8yR/ORvHxYlj1cqdADS3sg1rVz@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZ58g36k4se3Rv5S9ZbrfHvWIcdPz/Bqh2kqc/wlzQFXwo3gMx
-	NqXdfTqBAHrzkUssKnhUh25DFmP5dZz5DxbuaWzQRQV+jAJzsudUtSRf1utc06lBZ8sW/rbyT7v
-	IrL0v66Z7C9DajRJRxW4ygMrVjZl8xlFxKpeb0hI1QT8qSy0DDEOMdAEQqQuxZmE=
-X-Received: by 2002:adf:facb:0:b0:374:babf:ac4d with SMTP id ffacd0b85a97d-378d625360bmr4960088f8f.58.1726475783578;
-        Mon, 16 Sep 2024 01:36:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHeUS2MF6BwNmrHrtyITHuRjTmMKPOYmdWcd0GIjcbKqPN/sItyo4uvsPMndSeuH50X7fkZOA==
-X-Received: by 2002:adf:facb:0:b0:374:babf:ac4d with SMTP id ffacd0b85a97d-378d625360bmr4960068f8f.58.1726475783006;
-        Mon, 16 Sep 2024 01:36:23 -0700 (PDT)
-Received: from localhost (red-hat-inc.vlan560.asr1.mad1.gblx.net. [159.63.51.90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e72e49d5sm6620646f8f.17.2024.09.16.01.36.22
+        d=1e100.net; s=20230601; t=1726476008; x=1727080808;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=veTIA8crxMcOp+vthNk0ANAtv78UFR8BCP1ThmDnOAE=;
+        b=cHEF1j6QSl+K5QBCpBKD3IoCF6SHziepjgqO6KgPwy+wjxKYh4/V3haKwqvLu7XgwK
+         1VpddKWNuYHwWBmqsScws1Rh926/XPdNZgfdlIAM8vjb5AWZUFogEcUmzry9Qz4GB1iW
+         lZk8vvkHdALpGO/MaQgKxUUguI/YTfDU7MeWxIdG6qu5immq7JWxf0yHY37tqx7rU6y7
+         +h/s+L1ntjCVmUR+xDzAP3bc6h+sIl7kEhFTfebviKoxGojXEqDIeK7ACXY2QTUFXvKZ
+         G1glAgRuMnVyPXOsFeGtUXjiUN1w9E4rhMhpyZISYuwp9ZRgZiLxYIRaj6LzuRYgvZxx
+         o+0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUxPGOxvK9feWOd5mLFgtJ/Rh2hsrfxLqUmd4nSxjXfwXMw7wLbptDpuI+5Qb1zW9LbHfG1fL7AIUu11PYu@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZgqK4ucPmZH5XLEjvrybIQ5aLfcoFd+Q7HezlFEOTzIq/u2Y6
+	GKjhcKRHNtOGqcqEtypici1oxsaCUFO5qtrsB7QiEgT4UVIFHv6nhI03F3CNgZBl/+IOPlgJVIU
+	Ewxe9nJFDMb88A0DDtIlHCnqfy/QkvKiPZT5oP4ofA8bk3oowJ+3v6gf36a98dRqDG+l1U9Y=
+X-Received: by 2002:adf:a458:0:b0:374:bfe5:bbf2 with SMTP id ffacd0b85a97d-378c2cfec81mr8291019f8f.23.1726476007641;
+        Mon, 16 Sep 2024 01:40:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHjkHKX55+OZKHOULxziyOYPMnm544RHvaoALWM7Ap8oLjTHl78WxK78L7OHW+ju2++VNt0UA==
+X-Received: by 2002:adf:a458:0:b0:374:bfe5:bbf2 with SMTP id ffacd0b85a97d-378c2cfec81mr8290979f8f.23.1726476006731;
+        Mon, 16 Sep 2024 01:40:06 -0700 (PDT)
+Received: from redhat.com ([2a02:14f:1ec:9b4:46f5:ba16:343e:7485])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e7804483sm6523541f8f.92.2024.09.16.01.40.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 01:36:22 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot
- <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Julius Werner
- <jwerner@chromium.org>, Hugues Bruant <hugues.bruant@gmail.com>,
- intel-gfx@lists.freedesktop.org, Brian Norris <briannorris@chromium.org>,
- dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- chrome-platform@lists.linux.dev, Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v3] firmware: coreboot: Don't register a pdev if
- screen_info data is present
-In-Reply-To: <eeac1c3c-4a21-4cd5-b513-8e55cffe0bae@suse.de>
-References: <20240913213246.1549213-1-javierm@redhat.com>
- <202409151528.CIWZRPBq-lkp@intel.com>
- <eeac1c3c-4a21-4cd5-b513-8e55cffe0bae@suse.de>
-Date: Mon, 16 Sep 2024 10:36:21 +0200
-Message-ID: <8734m0atbu.fsf@minerva.mail-host-address-is-not-set>
+        Mon, 16 Sep 2024 01:40:05 -0700 (PDT)
+Date: Mon, 16 Sep 2024 04:40:00 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Srujana Challa <schalla@marvell.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vamsi Attunuru <vattunuru@marvell.com>,
+	Shijith Thotton <sthotton@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>
+Subject: Re: drivers/vdpa/octeon_ep/octep_vdpa_hw.c:143 octep_process_mbox()
+ warn: missing error code? 'ret'
+Message-ID: <20240916043819-mutt-send-email-mst@kernel.org>
+References: <7e8141cb-44e6-477c-b77e-aa9b4bc5af3a@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <7e8141cb-44e6-477c-b77e-aa9b4bc5af3a@stanley.mountain>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Mon, Sep 16, 2024 at 10:35:28AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   98f7e32f20d28ec452afb208f9cffc08448a2652
+> commit: 8b6c724cdab85d8923dd8c474a5a9464228379c5 virtio: vdpa: vDPA driver for Marvell OCTEON DPU devices
+> date:   10 weeks ago
+> config: i386-randconfig-141-20240912 (https://download.01.org/0day-ci/archive/20240916/202409160431.bRhZWhiU-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202409160431.bRhZWhiU-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:143 octep_process_mbox() warn: missing error code? 'ret'
+> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:478 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+> 
+> Old smatch warnings:
+> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:479 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:480 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:481 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:514 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
+> 
+> vim +/ret +143 drivers/vdpa/octeon_ep/octep_vdpa_hw.c
+> 
+> 8b6c724cdab85d Srujana Challa 2024-06-14  102  static int octep_process_mbox(struct octep_hw *oct_hw, u16 id, u16 qid, void *buffer,
+> 8b6c724cdab85d Srujana Challa 2024-06-14  103  			      u32 buf_size, bool write)
+> 8b6c724cdab85d Srujana Challa 2024-06-14  104  {
+> 8b6c724cdab85d Srujana Challa 2024-06-14  105  	struct octep_mbox __iomem *mbox = octep_get_mbox(oct_hw);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  106  	struct pci_dev *pdev = oct_hw->pdev;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  107  	u32 *p = (u32 *)buffer;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  108  	u16 data_wds;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  109  	int ret, i;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  110  	u32 val;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  111  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  112  	if (!IS_ALIGNED(buf_size, 4))
+> 8b6c724cdab85d Srujana Challa 2024-06-14  113  		return -EINVAL;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  114  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  115  	/* Make sure mbox space is available */
+> 8b6c724cdab85d Srujana Challa 2024-06-14  116  	ret = octep_wait_for_mbox_avail(mbox);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  117  	if (ret) {
+> 8b6c724cdab85d Srujana Challa 2024-06-14  118  		dev_warn(&pdev->dev, "Timeout waiting for previous mbox data to be consumed\n");
+> 8b6c724cdab85d Srujana Challa 2024-06-14  119  		return ret;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  120  	}
+> 8b6c724cdab85d Srujana Challa 2024-06-14  121  	data_wds = buf_size / 4;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  122  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  123  	if (write) {
+> 8b6c724cdab85d Srujana Challa 2024-06-14  124  		for (i = 1; i <= data_wds; i++) {
+> 8b6c724cdab85d Srujana Challa 2024-06-14  125  			octep_write32_word(mbox, i, *p);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  126  			p++;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  127  		}
+> 8b6c724cdab85d Srujana Challa 2024-06-14  128  	}
+> 8b6c724cdab85d Srujana Challa 2024-06-14  129  	octep_write32_word(mbox, 0, (u32)qid);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  130  	octep_write_sts(mbox, 0);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  131  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  132  	octep_write_hdr(mbox, id, MBOX_REQ_SIG);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  133  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  134  	ret = octep_wait_for_mbox_rsp(mbox);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  135  	if (ret) {
+> 8b6c724cdab85d Srujana Challa 2024-06-14  136  		dev_warn(&pdev->dev, "Timeout waiting for mbox : %d response\n", id);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  137  		return ret;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  138  	}
+> 8b6c724cdab85d Srujana Challa 2024-06-14  139  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  140  	val = octep_read_sig(mbox);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  141  	if ((val & 0xFFFF) != MBOX_RSP_SIG) {
+> 8b6c724cdab85d Srujana Challa 2024-06-14  142  		dev_warn(&pdev->dev, "Invalid Signature from mbox : %d response\n", id);
+> 8b6c724cdab85d Srujana Challa 2024-06-14 @143  		return ret;
+> 
+> return -EINVAL;
+> 
+> The other warnings are because we should use %p to print pointers.  Depening on
+> the .config the kernel will mask out pointers so that they aren't disclosed to
+> the users.  Otherwise it risks being an information leak to defeat KSALR.
+> 
+> 8b6c724cdab85d Srujana Challa 2024-06-14  144  	}
+> 8b6c724cdab85d Srujana Challa 2024-06-14  145  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  146  	val = octep_read_sts(mbox);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  147  	if (val & MBOX_RC_MASK) {
+> 8b6c724cdab85d Srujana Challa 2024-06-14  148  		ret = MBOX_RSP_TO_ERR(val);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  149  		dev_warn(&pdev->dev, "Error while processing mbox : %d, err %d\n", id, ret);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  150  		return ret;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  151  	}
+> 8b6c724cdab85d Srujana Challa 2024-06-14  152  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  153  	if (!write)
+> 8b6c724cdab85d Srujana Challa 2024-06-14  154  		for (i = 1; i <= data_wds; i++)
+> 8b6c724cdab85d Srujana Challa 2024-06-14  155  			*p++ = octep_read32_word(mbox, i);
+> 8b6c724cdab85d Srujana Challa 2024-06-14  156  
+> 8b6c724cdab85d Srujana Challa 2024-06-14  157  	return 0;
+> 8b6c724cdab85d Srujana Challa 2024-06-14  158  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-Hello Thomas and Tzung-Bi,
 
-> Hi
->
-> Am 15.09.24 um 09:44 schrieb kernel test robot:
->> Hi Javier,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on chrome-platform/for-next]
->> [also build test ERROR on chrome-platform/for-firmware-next linus/master v6.11-rc7 next-20240913]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/firmware-coreboot-Don-t-register-a-pdev-if-screen_info-data-is-present/20240914-053323
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
->> patch link:    https://lore.kernel.org/r/20240913213246.1549213-1-javierm%40redhat.com
->> patch subject: [PATCH v3] firmware: coreboot: Don't register a pdev if screen_info data is present
->> config: riscv-randconfig-001-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/config)
->> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202409151528.CIWZRPBq-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>>> ld.lld: error: undefined symbol: screen_info
->>     >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/google/framebuffer-coreboot.c:27)
->>     >>>               drivers/firmware/google/framebuffer-coreboot.o:(framebuffer_probe) in archive vmlinux.a
->>     >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/google/framebuffer-coreboot.c:27)
->>     >>>               drivers/firmware/google/framebuffer-coreboot.o:(framebuffer_probe) in archive vmlinux.a
->
-> Not all platforms define screen_info. Maybe fix this by following
-
-Yes, after reading the build errors reported by the robot I remembered
-that we had similar issues with sysfb, for example commit 1260b9a7020
-("drivers/firmware: fix SYSFB depends to prevent build failures") fixed
-one of those.
-
-> Tzung-Bi's advice of removing the local variables and then guard the
-> test by CONFIG_SYSFB. If SYSFB has been defined, screen_info has to be 
-> there. It's not a super pretty solution, though.
->
-
-If possible I would prefer to avoid the ifdefery in the driver. I also
-believe that the local variables makes the code easier to read. But if
-you folks think that's better to drop them, I can do it in the next rev.
-
-Another option is to restrict the architectures where this driver could
-be build. As far as I understand it is mainly for x86 and ARM64 arches.
-
-These two have a screen_info defined so the driver will build correctly.
-I can include a preparatory patch that adds a "depends on x86 || ARM64".
-
-> Best regards
-> Thomas
->
+Indeed. 
+Srujana Challa, pls post a fixup patch ASAP, I will squash it.
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+MST
 
