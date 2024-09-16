@@ -1,186 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59EE146586
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 08:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7517142E77;
+	Mon, 16 Sep 2024 08:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726476013; cv=none; b=AHD7dgV63+a8/0ILz6Qpcvm9hjjgrGMi2Gpfm6G0V0wJeQTAFFdkaJwn0h0jMStwhvv/bbXtqunAeOQzGkuxjPOE2YMpPX5f6Vbz8sojOyQrwJMFWVkUU5UhkxxlmoCx1BXT4wMJfZt7WIb9yP1ezq3HAu6OVOqS/uWOrxlvWCg=
+	t=1726476518; cv=none; b=qmikrUxeuy0fqivdqLccr9PkXCpVbgthjC3cdV+PD3T9DRb4IwblSSkne0AjgwHqXVW5LinzFh/2avJ6fuHK5JzX5K4acm1FyQhTnt3wR/zdmE79id+Ks2wqSujV8WCRUlB7eYXxQi1yXptCat+PG3FZIoVoMxGPSB9zgP9fdow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726476013; c=relaxed/simple;
-	bh=3tezeYk8/oQD4basQb0gA+dGgId/HoFid+ijykAqs54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=aDNI8X4+NgWAJ/xp2Xq8BXkSjfva1larK67BieOd+2AVPvTNTcS36vU7Yqj0c8HV3CPWDX6pJHJWWmXPeKqTYAIJkK4U7oQluXoMJwDc7phonznHPQkWgdAEwV0X+wze/SxyM2jcVkI552Fk2rjuOnYd0UkHyqhAMxhAYgMZgSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e3kVF+nq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726476518; c=relaxed/simple;
+	bh=wMEw+O32kPOdB78c5Nosgma+FyxCKzmalJs08g+2P6k=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 MIME-Version:Content-Type; b=PdYtxBvyWX0Nl6m9fgw4K5MuaS2Lb5pO6qniysYuB0yzCn6xbAQsCYIPJw1x/wCPzYNDPMB2/KflkbwFfaZbRMbKdLOLjF1OkodE5RaDniIcNYbsG/HLDdH6KAyyKO2qj+83DXGncidpePt3X6Rg36ocL/dyqcVek1aV65Ez0OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=USOTt8lU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e3kVF+nq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726476010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=veTIA8crxMcOp+vthNk0ANAtv78UFR8BCP1ThmDnOAE=;
-	b=e3kVF+nqJd8HTM5/5sGwW3cQzn94SGRnt0GmhCYz12GPjyFfPs+XOGQrSmp9SlsmzX3LqM
-	i5xG8EI2gXpVzfB5xEUhlAWhfnNa0rE4gOpd13TV6qTgpLVg7YDhqRr1nfWj9OGsjmIs1j
-	WurF9yfDhOk93SVWtCUWCrVYoDnbUzA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-148-DgAfKrqNMHeLO4HbcGEDDA-1; Mon, 16 Sep 2024 04:40:09 -0400
-X-MC-Unique: DgAfKrqNMHeLO4HbcGEDDA-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3780c8d689bso1763171f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 01:40:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726476008; x=1727080808;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=veTIA8crxMcOp+vthNk0ANAtv78UFR8BCP1ThmDnOAE=;
-        b=cHEF1j6QSl+K5QBCpBKD3IoCF6SHziepjgqO6KgPwy+wjxKYh4/V3haKwqvLu7XgwK
-         1VpddKWNuYHwWBmqsScws1Rh926/XPdNZgfdlIAM8vjb5AWZUFogEcUmzry9Qz4GB1iW
-         lZk8vvkHdALpGO/MaQgKxUUguI/YTfDU7MeWxIdG6qu5immq7JWxf0yHY37tqx7rU6y7
-         +h/s+L1ntjCVmUR+xDzAP3bc6h+sIl7kEhFTfebviKoxGojXEqDIeK7ACXY2QTUFXvKZ
-         G1glAgRuMnVyPXOsFeGtUXjiUN1w9E4rhMhpyZISYuwp9ZRgZiLxYIRaj6LzuRYgvZxx
-         o+0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUxPGOxvK9feWOd5mLFgtJ/Rh2hsrfxLqUmd4nSxjXfwXMw7wLbptDpuI+5Qb1zW9LbHfG1fL7AIUu11PYu@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZgqK4ucPmZH5XLEjvrybIQ5aLfcoFd+Q7HezlFEOTzIq/u2Y6
-	GKjhcKRHNtOGqcqEtypici1oxsaCUFO5qtrsB7QiEgT4UVIFHv6nhI03F3CNgZBl/+IOPlgJVIU
-	Ewxe9nJFDMb88A0DDtIlHCnqfy/QkvKiPZT5oP4ofA8bk3oowJ+3v6gf36a98dRqDG+l1U9Y=
-X-Received: by 2002:adf:a458:0:b0:374:bfe5:bbf2 with SMTP id ffacd0b85a97d-378c2cfec81mr8291019f8f.23.1726476007641;
-        Mon, 16 Sep 2024 01:40:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHjkHKX55+OZKHOULxziyOYPMnm544RHvaoALWM7Ap8oLjTHl78WxK78L7OHW+ju2++VNt0UA==
-X-Received: by 2002:adf:a458:0:b0:374:bfe5:bbf2 with SMTP id ffacd0b85a97d-378c2cfec81mr8290979f8f.23.1726476006731;
-        Mon, 16 Sep 2024 01:40:06 -0700 (PDT)
-Received: from redhat.com ([2a02:14f:1ec:9b4:46f5:ba16:343e:7485])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e7804483sm6523541f8f.92.2024.09.16.01.40.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 01:40:05 -0700 (PDT)
-Date: Mon, 16 Sep 2024 04:40:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Srujana Challa <schalla@marvell.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vamsi Attunuru <vattunuru@marvell.com>,
-	Shijith Thotton <sthotton@marvell.com>,
-	Nithin Dabilpuram <ndabilpuram@marvell.com>
-Subject: Re: drivers/vdpa/octeon_ep/octep_vdpa_hw.c:143 octep_process_mbox()
- warn: missing error code? 'ret'
-Message-ID: <20240916043819-mutt-send-email-mst@kernel.org>
-References: <7e8141cb-44e6-477c-b77e-aa9b4bc5af3a@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="USOTt8lU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1E99C4CECC;
+	Mon, 16 Sep 2024 08:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726476518;
+	bh=wMEw+O32kPOdB78c5Nosgma+FyxCKzmalJs08g+2P6k=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=USOTt8lUX27HLEXxrYmbGOmiP8iqbleNMBLZuxTQo9fRhtUethCdjUtScIFQPnFle
+	 9euuarKiL4tE1ecRTn4A4NcyndFNkad4mODto3TGJ6B/tJEYW9utnOVlRMc+6YbZks
+	 AWdSnZdDvTB3s+QmTEgFjofJYj17qGKKUlLHK3XF5kmLQiYOiunTM9LUGiOinEOuXY
+	 IL8/NF0a34Mwc+AAvYSA1dHS0VKZzFAGgb5DtCAUOWHHGekURykmSX6Lr9dZ2uNXun
+	 JvDkoNKXuYqA4crqQp6zm7ia0zXz1sUeyZyocTXqkN4Da4IJ+Ge+td7xvGmfldoMgy
+	 WTKBn4qBHAW5A==
+From: Kalle Valo <kvalo@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Rameshkumar Sundaram <quic_ramess@quicinc.com>,  llvm@lists.linux.dev,
+  oe-kbuild-all@lists.linux.dev,  Jeff Johnson <jjohnson@kernel.org>,
+  ath12k@lists.infradead.org,  Kalle Valo <quic_kvalo@quicinc.com>
+Subject: Re: [ath:ath12k-mlo 34/63]
+ drivers/net/wireless/ath/ath12k/mac.c:4289:8: warning: variable 'ret' is
+ used uninitialized whenever 'if' condition is true
+References: <202409151616.hnCxh90B-lkp@intel.com>
+Date: Mon, 16 Sep 2024 11:48:34 +0300
+In-Reply-To: <202409151616.hnCxh90B-lkp@intel.com> (kernel test robot's
+	message of "Sun, 15 Sep 2024 16:57:47 +0800")
+Message-ID: <87ikuwdlwd.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <7e8141cb-44e6-477c-b77e-aa9b4bc5af3a@stanley.mountain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-On Mon, Sep 16, 2024 at 10:35:28AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   98f7e32f20d28ec452afb208f9cffc08448a2652
-> commit: 8b6c724cdab85d8923dd8c474a5a9464228379c5 virtio: vdpa: vDPA driver for Marvell OCTEON DPU devices
-> date:   10 weeks ago
-> config: i386-randconfig-141-20240912 (https://download.01.org/0day-ci/archive/20240916/202409160431.bRhZWhiU-lkp@intel.com/config)
+kernel test robot <lkp@intel.com> writes:
+
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-mlo
+> head:   8f61af03fddc0a30bdf49e06a13eafff3cec91b0
+> commit: ec3755e39b7ae8f7ed9853e6169fa5e307b9fb90 [34/63] wifi: ath12k: modify ath12k_mac_op_set_key for MLO
+> config: x86_64-allyesconfig
+> (https://download.01.org/0day-ci/archive/20240915/202409151616.hnCxh90B-lkp@intel.com/config)
 > compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> 
+> reproduce (this is a W=1 build):
+> (https://download.01.org/0day-ci/archive/20240915/202409151616.hnCxh90B-lkp@intel.com/reproduce)
+>
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202409160431.bRhZWhiU-lkp@intel.com/
-> 
-> New smatch warnings:
-> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:143 octep_process_mbox() warn: missing error code? 'ret'
-> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:478 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
-> 
-> Old smatch warnings:
-> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:479 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
-> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:480 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
-> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:481 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
-> drivers/vdpa/octeon_ep/octep_vdpa_hw.c:514 octep_hw_caps_read() warn: argument 3 to %016llx specifier is cast from pointer
-> 
-> vim +/ret +143 drivers/vdpa/octeon_ep/octep_vdpa_hw.c
-> 
-> 8b6c724cdab85d Srujana Challa 2024-06-14  102  static int octep_process_mbox(struct octep_hw *oct_hw, u16 id, u16 qid, void *buffer,
-> 8b6c724cdab85d Srujana Challa 2024-06-14  103  			      u32 buf_size, bool write)
-> 8b6c724cdab85d Srujana Challa 2024-06-14  104  {
-> 8b6c724cdab85d Srujana Challa 2024-06-14  105  	struct octep_mbox __iomem *mbox = octep_get_mbox(oct_hw);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  106  	struct pci_dev *pdev = oct_hw->pdev;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  107  	u32 *p = (u32 *)buffer;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  108  	u16 data_wds;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  109  	int ret, i;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  110  	u32 val;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  111  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  112  	if (!IS_ALIGNED(buf_size, 4))
-> 8b6c724cdab85d Srujana Challa 2024-06-14  113  		return -EINVAL;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  114  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  115  	/* Make sure mbox space is available */
-> 8b6c724cdab85d Srujana Challa 2024-06-14  116  	ret = octep_wait_for_mbox_avail(mbox);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  117  	if (ret) {
-> 8b6c724cdab85d Srujana Challa 2024-06-14  118  		dev_warn(&pdev->dev, "Timeout waiting for previous mbox data to be consumed\n");
-> 8b6c724cdab85d Srujana Challa 2024-06-14  119  		return ret;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  120  	}
-> 8b6c724cdab85d Srujana Challa 2024-06-14  121  	data_wds = buf_size / 4;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  122  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  123  	if (write) {
-> 8b6c724cdab85d Srujana Challa 2024-06-14  124  		for (i = 1; i <= data_wds; i++) {
-> 8b6c724cdab85d Srujana Challa 2024-06-14  125  			octep_write32_word(mbox, i, *p);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  126  			p++;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  127  		}
-> 8b6c724cdab85d Srujana Challa 2024-06-14  128  	}
-> 8b6c724cdab85d Srujana Challa 2024-06-14  129  	octep_write32_word(mbox, 0, (u32)qid);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  130  	octep_write_sts(mbox, 0);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  131  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  132  	octep_write_hdr(mbox, id, MBOX_REQ_SIG);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  133  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  134  	ret = octep_wait_for_mbox_rsp(mbox);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  135  	if (ret) {
-> 8b6c724cdab85d Srujana Challa 2024-06-14  136  		dev_warn(&pdev->dev, "Timeout waiting for mbox : %d response\n", id);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  137  		return ret;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  138  	}
-> 8b6c724cdab85d Srujana Challa 2024-06-14  139  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  140  	val = octep_read_sig(mbox);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  141  	if ((val & 0xFFFF) != MBOX_RSP_SIG) {
-> 8b6c724cdab85d Srujana Challa 2024-06-14  142  		dev_warn(&pdev->dev, "Invalid Signature from mbox : %d response\n", id);
-> 8b6c724cdab85d Srujana Challa 2024-06-14 @143  		return ret;
-> 
-> return -EINVAL;
-> 
-> The other warnings are because we should use %p to print pointers.  Depening on
-> the .config the kernel will mask out pointers so that they aren't disclosed to
-> the users.  Otherwise it risks being an information leak to defeat KSALR.
-> 
-> 8b6c724cdab85d Srujana Challa 2024-06-14  144  	}
-> 8b6c724cdab85d Srujana Challa 2024-06-14  145  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  146  	val = octep_read_sts(mbox);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  147  	if (val & MBOX_RC_MASK) {
-> 8b6c724cdab85d Srujana Challa 2024-06-14  148  		ret = MBOX_RSP_TO_ERR(val);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  149  		dev_warn(&pdev->dev, "Error while processing mbox : %d, err %d\n", id, ret);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  150  		return ret;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  151  	}
-> 8b6c724cdab85d Srujana Challa 2024-06-14  152  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  153  	if (!write)
-> 8b6c724cdab85d Srujana Challa 2024-06-14  154  		for (i = 1; i <= data_wds; i++)
-> 8b6c724cdab85d Srujana Challa 2024-06-14  155  			*p++ = octep_read32_word(mbox, i);
-> 8b6c724cdab85d Srujana Challa 2024-06-14  156  
-> 8b6c724cdab85d Srujana Challa 2024-06-14  157  	return 0;
-> 8b6c724cdab85d Srujana Challa 2024-06-14  158  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409151616.hnCxh90B-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> drivers/net/wireless/ath/ath12k/mac.c:4289:8: warning: variable
+>> 'ret' is used uninitialized whenever 'if' condition is true
+>> [-Wsometimes-uninitialized]
 
-
-Indeed. 
-Srujana Challa, pls post a fixup patch ASAP, I will squash it.
+I fixed this now.
 
 -- 
-MST
+https://patchwork.kernel.org/project/linux-wireless/list/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
