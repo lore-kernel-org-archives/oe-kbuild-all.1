@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CDDD512
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 04:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0690528FA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 05:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726461058; cv=none; b=gXb6i/UvJaNO6xvHonRclbaNLK2nxRhzS9/sxQaBECxWm4CwKeWU3BCZ6IqJRD8Wtkvn/iGzyCqi8I6LZWoRdiJfT3BVR4wjCbsK5cM7fTI1Udh0+SM/Np5uVXbfjZEvFe/8+P+1DHUwi2mYjYKbFKn2JSnuWHPw0AKrHWwjDEo=
+	t=1726462918; cv=none; b=XpSB9+ce6JQYgC8K1mVHxzG/SFZOjmaKFgVP6veZ38wGZjXnYJuLj8tUTN/ATUUnr7jTXYFoY9ebvCIY5Dg0xVPEp7flkRkuh+hahA3V2P7STLAgBi1Ly+4Liy1b7J5pQ3A3P/gYD+7W3/evq0YSTxZlMRKYmWgG6SOyQJfRBOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726461058; c=relaxed/simple;
-	bh=kGKwQsa5LY7zTU/w6kahcoUb6uO4yOJn+ssgNH3DOqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ubOVkW75q/cMloukn9gGZAzToEYAt/m/bfgwLMOqdzGGnbXGK+paDT+a7NSxiU94dl/H+1zf0GNSiUaK6qempmBN24AawCvBFIOB1GBcwQTfnQ5sC75MhdQbCBmFMWuM2nspmkPhn4jmb6u2CrI4g5PKF/SfnTwyyYjEpULRudE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMfmKDI9; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1726462918; c=relaxed/simple;
+	bh=ckNie9EHovC8XyGiaMAd7nO/vrcGYq5dRX5Ek72+rRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PeGSCX3zkC5Dst6IKpiOaTU99bykYXpowW4q8pN+IaeIbG9G09venwkKpu7TmyBIAQ6vafaijt0wbdkwmRY8hRHBiG4h8XmQdblPwTBOARo1RRoIlJCsU4qoJYeYfFTzOxIF47tkeIl3yY9O/HgI2BpJpeeRW8KjPnciY4uUcV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GOX49+uW; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMfmKDI9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOX49+uW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726461056; x=1757997056;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kGKwQsa5LY7zTU/w6kahcoUb6uO4yOJn+ssgNH3DOqA=;
-  b=UMfmKDI914ApbDK/JCzCRofoZUaI1v4S8sedP0j+FpRr3XANWciEXda/
-   dDOeBpo8LkEIM60diLmvQX2uYDEY4dV7QQDZhi22ETCLVTlDs6Vm3aX1p
-   Pw/TnYqoc66djaUfoFUlOOPmO2kv6A8MT1MAFM2vu3TH/EFQWeLN1wSci
-   cMJcoMyqgBy+SXbUk2EK98ES2ZQOLRmw9CySfqn8Z/umZr3u5MBEAgIdW
-   TpLnaEBIVXVde9qJDF38OgJD4FmZX1e1U3FrJhOaM9Uhan9OpsUKIx5xL
-   Ky24qWJjdLNOxv/khb1TVtb7XQbnFe8ym1d1CZgoM5rED7nrSc7P4qrWf
-   Q==;
-X-CSE-ConnectionGUID: O4z09+dOQ1aPsr2f7qokKw==
-X-CSE-MsgGUID: EW0xtETTSq6UX8akZV/Sfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25408621"
+  t=1726462916; x=1757998916;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ckNie9EHovC8XyGiaMAd7nO/vrcGYq5dRX5Ek72+rRU=;
+  b=GOX49+uWDbqY7zL8V15K3p5s/uIosytflyl7pJ2r0P31q07hMXr3umeN
+   6kDSKRcG9LrM6wy1f+hxaph9RqQJfhlAuaqkCBep/XwdT7fpzLhMt1nol
+   X4fN7wg8cs/nplNPvpLVxgQMXk5uzLsBqHsT9Id2TtMBvWDFjNQY75EQi
+   Bnn4PvnojeF1c7dYpH6Pf0Ux167D5aeoyYPlvlRCBHOk2oqOxuJd0CsSt
+   1/3VVkadK6nXiiYfVyrIEvKCaYLTWiE5fyCU3aa98juorHdJtq8j2aCD7
+   OxToBso6HpDydQdg4bAmKXJHBZMSrhSBmVoPbzT9oOjxpeuZ6lTfmOZ0s
+   g==;
+X-CSE-ConnectionGUID: lipTFZ8HSpKiRZFACIxHwA==
+X-CSE-MsgGUID: ewKWVVx/S+mZYiMQ7cNAmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25155861"
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="25408621"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 21:30:54 -0700
-X-CSE-ConnectionGUID: HX9MfthFQUe7lhJiZsCfPg==
-X-CSE-MsgGUID: xhk4qz6rTWiCFPYmrYmGPA==
+   d="scan'208";a="25155861"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 22:01:56 -0700
+X-CSE-ConnectionGUID: RMEMWsAqTxufJKpJRqUDZg==
+X-CSE-MsgGUID: TE4LOofjRwyffQWmjIeOmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="68860743"
+   d="scan'208";a="72860125"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Sep 2024 21:30:51 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Sep 2024 22:01:52 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sq3Nx-0009O0-1N;
-	Mon, 16 Sep 2024 04:30:49 +0000
-Date: Mon, 16 Sep 2024 12:30:23 +0800
+	id 1sq3ry-0009PE-1C;
+	Mon, 16 Sep 2024 05:01:50 +0000
+Date: Mon, 16 Sep 2024 13:01:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, Alex Hung <alex.hung@amd.com>,
-	Alexander Deucher <alexander.deucher@amd.com>,
-	Melissa Wen <mwen@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	harry.wentland@amd.com, sunpeng.li@amd.com,
-	Mark Pearson <mpearson-lenovo@squebb.ca>
-Subject: Re: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if
- available for eDP
-Message-ID: <202409161225.xuQVKkoR-lkp@intel.com>
-References: <20240911213537.2338164-11-superm1@kernel.org>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 5503/10952] error: couldn't read
+ tools/sched_ext/scx_rusty/src/bpf/.output/rusty.skel.rs: No such file or
+ directory (os error 2)
+Message-ID: <202409161229.4CaKQU8v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,76 +66,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911213537.2338164-11-superm1@kernel.org>
 
-Hi Mario,
+Hi Dan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on amd-pstate/linux-next]
-[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.11]
-[cannot apply to next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-amd-display-switch-amdgpu_dm_connector-to-use-struct-drm_edid/20240912-093827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20240911213537.2338164-11-superm1%40kernel.org
-patch subject: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if available for eDP
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   df2c80fc64e69be0095e3315c470353b01ce0c31
+commit: 6bacfda06c7bc4a51d082ec01f02384789695a40 [5503/10952] rue/scx/sched_ext: Add scx_rusty, a rust userspace hybrid scheduler
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240916/202409161229.4CaKQU8v-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161229.4CaKQU8v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409161225.xuQVKkoR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409161229.4CaKQU8v-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c: In function 'dm_helpers_probe_acpi_edid':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:883:28: warning: unused variable 'ddev' [-Wunused-variable]
-     883 |         struct drm_device *ddev = connector->dev;
-         |                            ^~~~
-
-
-vim +/ddev +883 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c
-
-   878	
-   879	static int
-   880	dm_helpers_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
-   881	{
-   882		struct drm_connector *connector = data;
- > 883		struct drm_device *ddev = connector->dev;
-   884		struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
-   885		unsigned char start = block * EDID_LENGTH;
-   886		void *edid;
-   887		int r;
-   888	
-   889		if (!acpidev)
-   890			return -ENODEV;
-   891	
-   892		/* fetch the entire edid from BIOS */
-   893		r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
-   894		if (r < 0) {
-   895			DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
-   896			return r;
-   897		}
-   898		if (len > r || start > r || start + len > r) {
-   899			r = -EINVAL;
-   900			goto cleanup;
-   901		}
-   902	
-   903		memcpy(buf, edid + start, len);
-   904		r = 0;
-   905	
-   906	cleanup:
-   907		kfree(edid);
-   908	
-   909		return r;
-   910	}
-   911	
+   Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+   Warning: can't set `group_imports = StdExternalCrate`, unstable features are only available in nightly channel.
+   Warning: can't set `version = Two`, unstable features are only available in nightly channel.
+>> error: couldn't read tools/sched_ext/scx_rusty/src/bpf/.output/rusty.skel.rs: No such file or directory (os error 2)
+   --> tools/sched_ext/scx_rusty/src/main.rs:6:1
+   |
+   6 | mod rusty;
+   | ^^^^^^^^^^
 
 -- 
 0-DAY CI Kernel Test Service
