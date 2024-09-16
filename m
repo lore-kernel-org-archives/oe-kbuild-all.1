@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BE31B85EE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 03:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CDDD512
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Sep 2024 04:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726457992; cv=none; b=rz3x0vsnBHgnEDkfYLbJiE6JiwWJmmhnGJu45FNCh/RnEZbm1uSV4VBTVQczLUYj9yFv4C1T84+2OY7jAi+HBQRjK9hdntn4QfDT0af7jqWdy/11D4SuPEnBrhhOj65zWrYjHr/TVMIIDcl0NGI0B9AIz3+e+X5DOJ6wEavNLkg=
+	t=1726461058; cv=none; b=gXb6i/UvJaNO6xvHonRclbaNLK2nxRhzS9/sxQaBECxWm4CwKeWU3BCZ6IqJRD8Wtkvn/iGzyCqi8I6LZWoRdiJfT3BVR4wjCbsK5cM7fTI1Udh0+SM/Np5uVXbfjZEvFe/8+P+1DHUwi2mYjYKbFKn2JSnuWHPw0AKrHWwjDEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726457992; c=relaxed/simple;
-	bh=tH1BoqBerxPg6UhEygpY2OqTYVQlMPWoQDxvmPDbOfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bhdoHiviTUY75UgB4Cx8bqfBeDzl1IvFYsdyi2AKQQyNcviKI7p7MIIxhAHXnhfRBiMY2w08GztrfQel2BVqPMq6aOLVOthjQ1jB5krcG6cFvraByVeHj6m3JuwpZLHsUayQ0sJ3WCi3eJ/8udFUSfBk3L98e0e+sUIAUz4eSbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5hR4DxF; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1726461058; c=relaxed/simple;
+	bh=kGKwQsa5LY7zTU/w6kahcoUb6uO4yOJn+ssgNH3DOqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ubOVkW75q/cMloukn9gGZAzToEYAt/m/bfgwLMOqdzGGnbXGK+paDT+a7NSxiU94dl/H+1zf0GNSiUaK6qempmBN24AawCvBFIOB1GBcwQTfnQ5sC75MhdQbCBmFMWuM2nspmkPhn4jmb6u2CrI4g5PKF/SfnTwyyYjEpULRudE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMfmKDI9; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5hR4DxF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMfmKDI9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726457990; x=1757993990;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tH1BoqBerxPg6UhEygpY2OqTYVQlMPWoQDxvmPDbOfs=;
-  b=J5hR4DxFgni4jhD1IOzIK+rCk8Vh53awxBjQ+VC2rHRVdxP9ynQZ99nV
-   g+Y6vsA/I3wrSQ1h2mO7k5KaXi5VA4ZkiayHYZYG0tOs9APhTnYYzlQAD
-   LlvTdUO5BP6xyj7cAGI6RJJGR8XlxTXlzwpQMNzlnxFdlCH8WrytIrWhd
-   L9wpYjrLCrvsOassm3b6mpM1mNIaIMO2gbv+5W0WABjI1I/IDdlpSwGgK
-   u2cYZqqigExLkNtYaiua4y9NCT1Z28SHIFt7nEvFKFKpV8qI4tSoBmEsz
-   wwD9eE9w3m8qd+oUv5IZQCT6Gw9tG08aRZGwRaK0iXM79U+DAd2AkE/Ns
+  t=1726461056; x=1757997056;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kGKwQsa5LY7zTU/w6kahcoUb6uO4yOJn+ssgNH3DOqA=;
+  b=UMfmKDI914ApbDK/JCzCRofoZUaI1v4S8sedP0j+FpRr3XANWciEXda/
+   dDOeBpo8LkEIM60diLmvQX2uYDEY4dV7QQDZhi22ETCLVTlDs6Vm3aX1p
+   Pw/TnYqoc66djaUfoFUlOOPmO2kv6A8MT1MAFM2vu3TH/EFQWeLN1wSci
+   cMJcoMyqgBy+SXbUk2EK98ES2ZQOLRmw9CySfqn8Z/umZr3u5MBEAgIdW
+   TpLnaEBIVXVde9qJDF38OgJD4FmZX1e1U3FrJhOaM9Uhan9OpsUKIx5xL
+   Ky24qWJjdLNOxv/khb1TVtb7XQbnFe8ym1d1CZgoM5rED7nrSc7P4qrWf
    Q==;
-X-CSE-ConnectionGUID: jWWK9r2MQzKJ+aEvpXPGmw==
-X-CSE-MsgGUID: FsmRf3TkR7eEoF+I/gOkDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="24815543"
+X-CSE-ConnectionGUID: O4z09+dOQ1aPsr2f7qokKw==
+X-CSE-MsgGUID: EW0xtETTSq6UX8akZV/Sfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25408621"
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="24815543"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 20:39:49 -0700
-X-CSE-ConnectionGUID: s11limhzQumVgD/ET62JkA==
-X-CSE-MsgGUID: z0sVtGpgQRGknN43TEeuag==
+   d="scan'208";a="25408621"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 21:30:54 -0700
+X-CSE-ConnectionGUID: HX9MfthFQUe7lhJiZsCfPg==
+X-CSE-MsgGUID: xhk4qz6rTWiCFPYmrYmGPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; 
-   d="scan'208";a="68456449"
+   d="scan'208";a="68860743"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Sep 2024 20:39:49 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Sep 2024 21:30:51 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sq2aY-0009Jy-1v;
-	Mon, 16 Sep 2024 03:39:46 +0000
-Date: Mon, 16 Sep 2024 11:39:30 +0800
+	id 1sq3Nx-0009O0-1N;
+	Mon, 16 Sep 2024 04:30:49 +0000
+Date: Mon, 16 Sep 2024 12:30:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1625/13950] ls2k500sfb.c:undefined reference to
- `fg_console'
-Message-ID: <202409161114.sOtMxgv1-lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>, Alex Hung <alex.hung@amd.com>,
+	Alexander Deucher <alexander.deucher@amd.com>,
+	Melissa Wen <mwen@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	harry.wentland@amd.com, sunpeng.li@amd.com,
+	Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: Re: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if
+ available for eDP
+Message-ID: <202409161225.xuQVKkoR-lkp@intel.com>
+References: <20240911213537.2338164-11-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,31 +69,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240911213537.2338164-11-superm1@kernel.org>
 
-Hi Chong,
+Hi Mario,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   84404f248a61323e09909849803ea4efce81742f
-commit: 8248d42b7c5f4338a54f26d8efebec8614b43466 [1625/13950] fbdev: add ls2k500sfb driver for ls2k500 bmc.
-config: loongarch-randconfig-r064-20240916 (https://download.01.org/0day-ci/archive/20240916/202409161114.sOtMxgv1-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161114.sOtMxgv1-lkp@intel.com/reproduce)
+[auto build test WARNING on amd-pstate/linux-next]
+[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.11]
+[cannot apply to next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-amd-display-switch-amdgpu_dm_connector-to-use-struct-drm_edid/20240912-093827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20240911213537.2338164-11-superm1%40kernel.org
+patch subject: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if available for eDP
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409161114.sOtMxgv1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409161225.xuQVKkoR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/video/fbdev/ls2k500sfb.o: in function `.L152':
->> ls2k500sfb.c:(.text+0xf9c): undefined reference to `fg_console'
->> loongarch64-linux-ld: ls2k500sfb.c:(.text+0xfa0): undefined reference to `fg_console'
-   loongarch64-linux-ld: net/ipv4/inet_hashtables.o: in function `inet_ehash_nolisten':
-   inet_hashtables.c:(.text+0x2ff0): undefined reference to `sysctl_local_port_allocation'
-   loongarch64-linux-ld: inet_hashtables.c:(.text+0x3000): undefined reference to `sysctl_local_port_allocation'
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c: In function 'dm_helpers_probe_acpi_edid':
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:883:28: warning: unused variable 'ddev' [-Wunused-variable]
+     883 |         struct drm_device *ddev = connector->dev;
+         |                            ^~~~
+
+
+vim +/ddev +883 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c
+
+   878	
+   879	static int
+   880	dm_helpers_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
+   881	{
+   882		struct drm_connector *connector = data;
+ > 883		struct drm_device *ddev = connector->dev;
+   884		struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
+   885		unsigned char start = block * EDID_LENGTH;
+   886		void *edid;
+   887		int r;
+   888	
+   889		if (!acpidev)
+   890			return -ENODEV;
+   891	
+   892		/* fetch the entire edid from BIOS */
+   893		r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
+   894		if (r < 0) {
+   895			DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
+   896			return r;
+   897		}
+   898		if (len > r || start > r || start + len > r) {
+   899			r = -EINVAL;
+   900			goto cleanup;
+   901		}
+   902	
+   903		memcpy(buf, edid + start, len);
+   904		r = 0;
+   905	
+   906	cleanup:
+   907		kfree(edid);
+   908	
+   909		return r;
+   910	}
+   911	
 
 -- 
 0-DAY CI Kernel Test Service
