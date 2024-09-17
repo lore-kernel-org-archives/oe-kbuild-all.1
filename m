@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA93139B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 00:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6240F7F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 00:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726532080; cv=none; b=X4X3FfARVuhZ0+alNtImVVhJVPpedQQNOJsXSQyh4h2pM+2bZmG7RD65Gg0td12z1nNle/r7qYhULIljhCzaHR2rV1rqDKoHfaUzhIuDjf45gQ30GO45vAdb99TeZYSjb/0m6kgdkImYPzNJ2Di+ur68ANBhq/KBqzd1eKVj7Hg=
+	t=1726532679; cv=none; b=cfX8b06v99tGtbiKCqomHUnND7psgoEnWXFvZOky3WyRizXjkIct1C1XuJmCdo2BhoUo7CCQ6ACB40d7WQKJ0pIRsDkgVVoTP4nRb2l7N/2bU5AHUzGFrBcQsjm6vtS2Aw35w6U7eyDqNtrFibYcXLBT7pNhPJbS+0Cgq/NzUKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726532080; c=relaxed/simple;
-	bh=tCcGLltr+YGNVWR6fde+PgFXmyfBfStokIEm9tuGk9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z87W5Ve7fPU4aj9aDLpfsmGza0rHRnCv2/WTWPEo+RrYLsLARCE4FfB9tyUXk9uOTv/BcP61Rr9Ndn726oxHLyeqYVAwo9zDsO4IEKeAEdTdoEvJJwxgFhluFAp5aiCJ5zSm4JKaEHKbpHDgCnRPO6w7eRWZW5W57Aplgh7DzfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNGjxbYn; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1726532679; c=relaxed/simple;
+	bh=ns/v92vECtD5sw1/jfJMXDVV1lfob+UsmPsQyAaXIQU=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JUMvEWY2eLKUIRP9iWJjg6Wm6LC57E/jwZoz4xly2mzg0ERCarAErGgo1MGXzm4heBwaY08JhOgU9XLUU/WGUJ2AKGb2USXaOm38tQOGYAeqMfnhjejFhRzjupjnQIcLACTLWIs+iPo7vfkvs7aoh2IBz95sEn0+m+sd2FGyGIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvILj+fH; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNGjxbYn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvILj+fH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726532078; x=1758068078;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tCcGLltr+YGNVWR6fde+PgFXmyfBfStokIEm9tuGk9o=;
-  b=KNGjxbYnEcQBhZxzlrYPuS3NLuX2kBeFWGEJAKt6uqjqqKNq7rrIC6Ik
-   igHKzgHYuwp6UP3GDSgl18tmK1a1yJsb9KwqU0S/AbQP38QPHjbvap0Ol
-   lNQkR699tDEX6BrkB3ufVq4Yc1JKYFe3sXh852B++RYSKeGrcG6dJSisr
-   afnWrFraHk9BBL2r17WcSYO9rDViPjzmcggmAOxIrf7YmiUU/vnCKNxww
-   AYgb7FlvrhC2pJNh8iphQi/BSLtJiic3tEz9CSL93/932kJsdBqLD2vGb
-   +wCEwnp0w7Nb3nlQzIyYl4hzH4HBIUBlog18CpjrHyAUW5Ss2ejA3fbdL
-   w==;
-X-CSE-ConnectionGUID: NCLeGW3VReirMoOZleCwUw==
-X-CSE-MsgGUID: 5khB2/r5Q3ijWEN0lM/GYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="36514967"
+  t=1726532677; x=1758068677;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=ns/v92vECtD5sw1/jfJMXDVV1lfob+UsmPsQyAaXIQU=;
+  b=RvILj+fHDCN35OREvZ2DkD0iSy41no8+/tnPuO9cpYXSJSbYFMxJFI0C
+   SBMRQMvz0LH1OxCj87iV508KZQ+5HXuwMviDGUP56vqiQo246hIsgxoHK
+   FbPsy+Gcdw/lI45TmGl8bxcRPiAfa/GVjjFMpxgeif2rpooCulMPDKpZF
+   SO5lxgRRvXDBvvypqbOPZitbGqJjXlMlbBZFv7ULMd6BIA5irYvw2yA/g
+   9cTGulRrlzvgIxWRSaYQlR7h+5QKh6Emv6b8XNU/kou9kcDEw/pZSFQsk
+   WovQMmmS5oEqDsMIYJlvglv8eRsvFjNmMi7aWxi9kMv5gaViLB6XFUAIZ
+   A==;
+X-CSE-ConnectionGUID: jHlEpW9JQ4+97hf3O+nblA==
+X-CSE-MsgGUID: qcmZg+L2QVaQ/u8Gfn6Jvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="35955423"
 X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
-   d="scan'208";a="36514967"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 17:14:37 -0700
-X-CSE-ConnectionGUID: z8auRaxCTL6MF4srLrwfFw==
-X-CSE-MsgGUID: Ner6p1APTamt9/SEfUQWXw==
+   d="scan'208";a="35955423"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 17:24:37 -0700
+X-CSE-ConnectionGUID: 1K7c9w9pRd6Zc+SV4zk7ow==
+X-CSE-MsgGUID: j2pfG2zBQYeNqBpWHByisQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
-   d="scan'208";a="69256529"
+   d="scan'208";a="99879347"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Sep 2024 17:14:35 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 Sep 2024 17:24:35 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqLrU-000Ad0-3A;
-	Tue, 17 Sep 2024 00:14:32 +0000
-Date: Tue, 17 Sep 2024 08:13:48 +0800
+	id 1sqM1B-000AdG-0K;
+	Tue, 17 Sep 2024 00:24:33 +0000
+Date: Tue, 17 Sep 2024 08:23:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naveen N Rao <naveen@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: arch/powerpc/kernel/trace/ftrace.c:752:46: sparse: sparse: cast
- truncates bits from constant value (200000000 becomes 0)
-Message-ID: <202409170855.Lb8k7eyz-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Jai Luthra <j-luthra@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y 45/107] kismet: WARNING: unmet direct
+ dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+Message-ID: <202409170810.7p9NDBGB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,103 +62,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a430d95c5efa2b545d26a094eb5f624e36732af0
-commit: f3993a0330e2d11e42c095810c6c33084024df46 powerpc/ftrace: Extend ftrace support for large kernels to ppc32
-date:   1 year, 1 month ago
-config: powerpc-randconfig-r132-20240916 (https://download.01.org/0day-ci/archive/20240917/202409170855.Lb8k7eyz-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240917/202409170855.Lb8k7eyz-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
+head:   96b0ebd82722d16e9ab646cd3a73080e6f790747
+commit: cf0136753f9892c69092d959eb86c8e06e706138 [45/107] media: i2c: add DS90UB960 driver
+config: nios2-kismet-CONFIG_GPIOLIB_IRQCHIP-CONFIG_PINCTRL_STMFX-0-0 (https://download.01.org/0day-ci/archive/20240917/202409170810.7p9NDBGB-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240917/202409170810.7p9NDBGB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409170855.Lb8k7eyz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409170810.7p9NDBGB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/powerpc/kernel/trace/ftrace.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
->> arch/powerpc/kernel/trace/ftrace.c:752:46: sparse: sparse: cast truncates bits from constant value (200000000 becomes 0)
-   arch/powerpc/kernel/trace/ftrace.c:752:72: sparse: sparse: cast truncates bits from constant value (200000000 becomes 0)
-
-vim +752 arch/powerpc/kernel/trace/ftrace.c
-
-84ade0a6655bee arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2022-05-16  720  
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  721  int __init ftrace_dyn_arch_init(void)
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  722  {
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  723  	unsigned int *tramp[] = { ftrace_tramp_text, ftrace_tramp_init };
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  724  	unsigned long addr = FTRACE_REGS_ADDR;
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  725  	long reladdr;
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  726  	int i;
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  727  	u32 stub_insns[] = {
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  728  #ifdef CONFIG_PPC_KERNEL_PCREL
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  729  		/* pla r12,addr */
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  730  		PPC_PREFIX_MLS | __PPC_PRFX_R(1),
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  731  		PPC_INST_PADDI | ___PPC_RT(_R12),
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  732  		PPC_RAW_MTCTR(_R12),
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  733  		PPC_RAW_BCTR()
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  734  #elif defined(CONFIG_PPC64)
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  735  		PPC_RAW_LD(_R12, _R13, offsetof(struct paca_struct, kernel_toc)),
-e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  736  		PPC_RAW_ADDIS(_R12, _R12, 0),
-e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  737  		PPC_RAW_ADDI(_R12, _R12, 0),
-e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  738  		PPC_RAW_MTCTR(_R12),
-e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  739  		PPC_RAW_BCTR()
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  740  #else
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  741  		PPC_RAW_LIS(_R12, 0),
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  742  		PPC_RAW_ADDI(_R12, _R12, 0),
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  743  		PPC_RAW_MTCTR(_R12),
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  744  		PPC_RAW_BCTR()
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  745  #endif
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  746  	};
-af8b9f352ffd43 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  747  
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  748  	if (IS_ENABLED(CONFIG_PPC_KERNEL_PCREL)) {
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  749  		for (i = 0; i < 2; i++) {
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  750  			reladdr = addr - (unsigned long)tramp[i];
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  751  
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08 @752  			if (reladdr >= (long)SZ_8G || reladdr < -(long)SZ_8G) {
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  753  				pr_err("Address of %ps out of range of pcrel address.\n",
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  754  					(void *)addr);
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  755  				return -1;
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  756  			}
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  757  
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  758  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  759  			tramp[i][0] |= IMM_H18(reladdr);
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  760  			tramp[i][1] |= IMM_L(reladdr);
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  761  			add_ftrace_tramp((unsigned long)tramp[i]);
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  762  		}
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  763  	} else if (IS_ENABLED(CONFIG_PPC64)) {
-af8b9f352ffd43 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  764  		reladdr = addr - kernel_toc_addr();
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  765  
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  766  		if (reladdr >= (long)SZ_2G || reladdr < -(long long)SZ_2G) {
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  767  			pr_err("Address of %ps out of range of kernel_toc.\n",
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  768  				(void *)addr);
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  769  			return -1;
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  770  		}
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  771  
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  772  		for (i = 0; i < 2; i++) {
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  773  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  774  			tramp[i][1] |= PPC_HA(reladdr);
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  775  			tramp[i][2] |= PPC_LO(reladdr);
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  776  			add_ftrace_tramp((unsigned long)tramp[i]);
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  777  		}
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  778  	} else {
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  779  		for (i = 0; i < 2; i++) {
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  780  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  781  			tramp[i][0] |= PPC_HA(addr);
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  782  			tramp[i][1] |= PPC_LO(addr);
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  783  			add_ftrace_tramp((unsigned long)tramp[i]);
-f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  784  		}
-7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  785  	}
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  786  
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  787  	return 0;
-67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  788  }
-6794c78243bfda arch/powerpc/kernel/ftrace.c       Steven Rostedt   2009-02-09  789  
-
-:::::: The code at line 752 was first introduced by commit
-:::::: 7e3a68be42e10f5fa5890e97afc0afd992355bc3 powerpc/64: vmlinux support building with PCREL addresing
-
-:::::: TO: Nicholas Piggin <npiggin@gmail.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+   WARNING: unmet direct dependencies detected for OF_GPIO
+     Depends on [n]: GPIOLIB [=n] && OF [=y] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - VIDEO_DS90UB960 [=y] && MEDIA_SUPPORT [=y] && OF [=y] && I2C [=y] && VIDEO_DEV [=y]
+   
+   WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP
+     Depends on [n]: GPIOLIB [=n]
+     Selected by [y]:
+     - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y]
 
 -- 
 0-DAY CI Kernel Test Service
