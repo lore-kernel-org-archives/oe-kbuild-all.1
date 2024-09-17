@@ -1,112 +1,190 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D057641E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 11:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B8A1EB35;
+	Tue, 17 Sep 2024 11:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726573834; cv=none; b=EYiDhL4XUS4T7gl0YrLAjjr9zlbf5uHvW0Xib5uxQyLmA14UH0SNtBsdvKpSx7XQ5MoCjon1YU7VT8NVa6v44mo6k4MJ7ruK4H8UJ8oExlDxVMFu7G66Sm5zQz3S4tFFCDhVtnmP352ugAbLLpID3zMfoWcnOsgQ5fiUXt6IMnY=
+	t=1726574290; cv=none; b=D4WkFyG7hEnv/P3bwDqzWZgJLcW1dvvIz5dzc6vBaVv1jzPwU+lbtYg4cZxQO6YGeAyaE1I80itInycyISXSG3Pr6clk7Fqy91p8mgx0/xw47ZRBnLucVkL2apTmGrj7q01a9QDNrbMFvCYh8SNbCbE9BuZfDAwkT5WGZb8CQsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726573834; c=relaxed/simple;
-	bh=V7zuHvgXuRc8iq2E+pOOYB04xiPvo3LhqGRkCJZlQZs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=G8RYqzhdYkiAjN3d1FfqQX3syXDxtcoGJ/7xMTAEeIYAorPtuNYtCz6deWeKxp1V8IVGeJimjzS8EqRv55pmQKhfG3EBnckrTTmQAnS/6DSIeqZN3AMSnQfBW7vtQs864RbtqlNpYkzBwBJH/C3KZccMZ5/opIrK6uIIbMeI/2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BYufc599; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0W9NCMyQ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1726574290; c=relaxed/simple;
+	bh=rNtMyRI9Qdo+E11cUe4G7hmk/ddhcuAu+3msnYiIg0s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZWZKnEfttnrXHyYXAM4p3MTMtmgJp5iw7+WMpZABiXryWoFX4HbfhTIdRVlJ/Se7k70tooLouAfJwX8pMq4cAHhbIIAhG9+kWe0UQEXBy50MThYAQ9Bvu2JTF3Ws3cJU4/7Ne5sWH9qs+LynuFjjm9tXmBr++pN7OKHgqT6dDek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fIwzpc7h; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BYufc599";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0W9NCMyQ"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1726573826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zNebPkkCATOz/8G2Ty+8PI8yqXvC2oGmbRAGfEPpIEQ=;
-	b=BYufc599OW5+qnbK4980v4vs8tbQ87dmQIKHUIPm3bX0LdTh0yIimmqTGgpRF4pdPWiMQ/
-	9atAPwy9bSVufVu+YVSgJRUcHYhyAZXzi70kAHjGnnew2XCIKo6bSYoarnmjAdCO8coEc+
-	nGYLJhoqUfmAsEP1lx4eG7K9Ilf00dKu7Y4/Wv8fktbDVILaQe2r8tZhjww40k8cslhg0+
-	vxwi/ZrPIiQuKFeSlDldo1u+YI/eJCpR28+wc0QfOP/DxCzgbjls4tyLRTIT1q6YwvvynM
-	xzD5E20+n5g/hImN0kKjIE50A5ZLyfqcK3N4s46/l+BF23pdTEpg8rSLzjDZ/g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1726573826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zNebPkkCATOz/8G2Ty+8PI8yqXvC2oGmbRAGfEPpIEQ=;
-	b=0W9NCMyQ+egH0HM5V0+4TQQneA5B2GzQAI0DJcSHVUfp/Ie0VUkXoSOjbkPqE/A0+QEHRs
-	mDGYjLCZ8ngz+7CA==
-To: Will Deacon <will@kernel.org>, "Christoph Lameter (Ampere)" <cl@gentwo.org>
-Cc: kernel test robot <lkp@intel.com>, Christoph Lameter via B4 Relay
- <devnull+cl.gentwo.org@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Peter Zijlstra <peterz@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>, Boqun Feng
- <boqun.feng@gmail.com>, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-arch@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v3] Avoid memory barrier in read_seqcount() through load
- acquire
-In-Reply-To: <20240917073703.GB27290@willie-the-truck>
-References: <20240912-seq_optimize-v3-1-8ee25e04dffa@gentwo.org>
- <202409132135.ki3Mp5EA-lkp@intel.com>
- <766fe92a-13da-f299-0ecf-f8a477d58a79@gentwo.org>
- <20240917073703.GB27290@willie-the-truck>
-Date: Tue, 17 Sep 2024 13:50:25 +0200
-Message-ID: <87r09i1ou6.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fIwzpc7h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726574288; x=1758110288;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rNtMyRI9Qdo+E11cUe4G7hmk/ddhcuAu+3msnYiIg0s=;
+  b=fIwzpc7hWHMAI/USu1FH+SlGDuRuP2EtOquQNup9DUr2PefhjmiLK/LV
+   vJEiuRRp950nJGQIhEu0qbitpf/oyQFCgXUgNpsDBivMa9fwOqPQbxtY1
+   O3TfN68vemhlxP6qVkeXTXFeljbohwTcguB+EzQ7r0ePMLCk+c/DUxAa6
+   0w3ZvBOczqvaKGEld01T94tUKymWLasRTG0/SLgn5SrMZnBgt0R5TdXe6
+   Vz+v7V9AHQ3dCbB3aTMkbQ0Kbm9PUd6fPFvYdG+Elm4CJfoav9pBLEkEA
+   wBBORchItDsFhjDpBkozlHCyVLNLa/7Mi0ei/tVzOZ00eVA36xMFZLNQq
+   Q==;
+X-CSE-ConnectionGUID: rx9tOTOLTRO4goXnArZEFw==
+X-CSE-MsgGUID: ZexyT8yMS/Kh/m8uL62OyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="36802748"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="36802748"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 04:58:08 -0700
+X-CSE-ConnectionGUID: d7uqc18DS7KM1+Nfy8XA9A==
+X-CSE-MsgGUID: vny/MWLmTMeKNdlNG+gdbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="69133134"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 17 Sep 2024 04:58:07 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sqWqK-000B6s-10;
+	Tue, 17 Sep 2024 11:58:04 +0000
+Date: Tue, 17 Sep 2024 19:57:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:sframe-2.1 3/5] mm/init-mm.c:45:26: error: expected
+ expression
+Message-ID: <202409172221.nJprwP5F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Cc+ i915 people
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe-2.1
+head:   5b35eb7c617539f21cbe3764b0ee0c77567b0f22
+commit: a0737313b793121a36e5830518ba23e53131d9fc [3/5] unwind: Introduce sframe user space unwinding
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240917/202409172221.nJprwP5F-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409172221.nJprwP5F-lkp@intel.com/reproduce)
 
-On Tue, Sep 17 2024 at 08:37, Will Deacon wrote:
-> On Mon, Sep 16, 2024 at 10:52:18AM -0700, Christoph Lameter (Ampere) wrote:
->> On Fri, 13 Sep 2024, kernel test robot wrote:
->> 
->> > >> drivers/gpu/drm/i915/gt/intel_tlb.h:21:47: error: macro "seqprop_sequence" requires 2 arguments, but only 1 given
->> 
->> From 15d86bc9589f16947c5fb0f34d2947eacd48f853 Mon Sep 17 00:00:00 2001
->> From: Christoph Lameter <cl@gentwo.org>
->> Date: Mon, 16 Sep 2024 10:44:16 -0700
->> Subject: [PATCH] Update Intel DRM use of seqprop_sequence
->> 
->> One of Intels drivers uses seqprop_sequence() for its tlb sequencing.
->> We added a parameter so that we can use acquire. Its pretty safe to
->> assume that this will work without acquire.
->>
->> Signed-off-by: Christoph Lameter <cl@linux.com>
->> ---
->>  drivers/gpu/drm/i915/gt/intel_tlb.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
->> index 337327af92ac..81998c4cd4fb 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_tlb.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
->> @@ -18,7 +18,7 @@ void intel_gt_fini_tlb(struct intel_gt *gt);
->> 
->>  static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
->>  {
->> -	return seqprop_sequence(&gt->tlb.seqno);
->> +	return seqprop_sequence(&gt->tlb.seqno, false);
->>  }
->
-> Yikes, why is the driver using the seqlock internals here? It's a bit of
-> a pity, as a quick grep suggest that this is the _only_ user of
-> 'seqcount_mutex_t', yet it's still having to work around the API.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409172221.nJprwP5F-lkp@intel.com/
 
-Why the hell can't i915 use the proper interfaces and has to bypass the
-core code? Just because C allows that does not make it correct.
+All errors (new ones prefixed by >>):
 
-Can the i915 people please remove this blatant violation of layering?
+   In file included from mm/init-mm.c:8:
+   In file included from include/linux/mman.h:5:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/init-mm.c:13:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from mm/init-mm.c:13:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from mm/init-mm.c:13:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> mm/init-mm.c:45:26: error: expected expression
+      45 |         INIT_MM_CONTEXT(init_mm),
+         |                                 ^
+   13 warnings and 1 error generated.
 
-Thanks,
 
-        tglx
+vim +45 mm/init-mm.c
 
+    18	
+    19	/*
+    20	 * For dynamically allocated mm_structs, there is a dynamically sized cpumask
+    21	 * at the end of the structure, the size of which depends on the maximum CPU
+    22	 * number the system can see. That way we allocate only as much memory for
+    23	 * mm_cpumask() as needed for the hundreds, or thousands of processes that
+    24	 * a system typically runs.
+    25	 *
+    26	 * Since there is only one init_mm in the entire system, keep it simple
+    27	 * and size this cpu_bitmask to NR_CPUS.
+    28	 */
+    29	struct mm_struct init_mm = {
+    30		.mm_mt		= MTREE_INIT_EXT(mm_mt, MM_MT_FLAGS, init_mm.mmap_lock),
+    31		.pgd		= swapper_pg_dir,
+    32		.mm_users	= ATOMIC_INIT(2),
+    33		.mm_count	= ATOMIC_INIT(1),
+    34		.write_protect_seq = SEQCNT_ZERO(init_mm.write_protect_seq),
+    35		MMAP_LOCK_INITIALIZER(init_mm)
+    36		.page_table_lock =  __SPIN_LOCK_UNLOCKED(init_mm.page_table_lock),
+    37		.arg_lock	=  __SPIN_LOCK_UNLOCKED(init_mm.arg_lock),
+    38		.mmlist		= LIST_HEAD_INIT(init_mm.mmlist),
+    39	#ifdef CONFIG_PER_VMA_LOCK
+    40		.mm_lock_seq	= 0,
+    41	#endif
+    42		.user_ns	= &init_user_ns,
+    43		.cpu_bitmap	= CPU_BITS_NONE,
+    44	#ifdef INIT_MM_CONTEXT
+  > 45		INIT_MM_CONTEXT(init_mm),
+    46	#endif
+    47	#ifdef INIT_MM_SFRAME
+    48		INIT_MM_SFRAME,
+    49	#endif
+    50	};
+    51	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
