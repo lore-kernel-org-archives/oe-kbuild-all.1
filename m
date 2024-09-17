@@ -1,168 +1,93 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F189211C92
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 02:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87967A31
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 03:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726538855; cv=none; b=p9jHBEzgls0MwD9i5z9ed8CaUkjdS1MM8SfdzmbnKCUJElYcItAamel6TOAgH9of7c5JhHNBsbQ81pTwvx6SWfYzGXcx0BIOkJSuaa+pRnnlMYnszB7Crc37Dt8LeOvNYowJyLPbdk+q17s4ShN1XAAxqLYOel7ZM0GpPAXPgSU=
+	t=1726544570; cv=none; b=CUDifd7X55QMUsUjsaSns7mkTpfdcRuKLteSM1CbGdOsGAjzNozlE5UpnP4DXhPb0+51/LZL46XE3yhJ9ewnmn5mnP3YWfa6ub22Tras+VSL0oiwmjBTY6mS8GpHBYQx5+V1shk81PS8o0M/4oEvHJvgRI1p37iJCNGFebLPIw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726538855; c=relaxed/simple;
-	bh=tLXRKMgmpsO6AZfn4tf1wp2I0uiZCv0QMBZTYecHVsw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HtzIa6TqH/TMBs8Jm5jBWGRdxFLk57w76ezBe6jG3xhh2vDVrBpcVAP7iJ87PguoLYmc1INhJULM9HAODmDocyQg4sGG7utnUDsrL/lDaC7SNC4b+K2minbyQsa/grHhJYqZ/ZSjxzIPE++qEoOnd+fTsr78tnlikhPQbQFzujM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=cIgmHqcQ; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+	s=arc-20240116; t=1726544570; c=relaxed/simple;
+	bh=l5XQljP0LJ1d+GOe8ilhuR7mE9kZVw228mR7/m8dXis=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dWK57blUT4TUHoxRoE1GKgOjSL+XMUuNPF0LZmpPHukVTuMLsd9gPZ97ZKnGukiU4Wq/nB07s4/aISQF+n3Cp9YcUVHlBG35sdGn6nePzmQFnygVt1pAeaXF0haU2LYPjdxmTBQSlhXlhqZ/FXU1IrOnQrlmAewC85n/wVuqTRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hnq+cBAz; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="cIgmHqcQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1726538849;
-	bh=1xaWizmP3mrgQIfgfrus1NA1o02VIYu2gs2JVI2mD0M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cIgmHqcQ3P9ODkIBXU2pGjebaemrR+7iOCYznbXFpylTzE/82KVINQOJt4VcdzvF5
-	 UrXZD36xcwl5nTucvzbqMLvjGIcoHnWptzE4tzfB33jNF9hW9tUE1sy2jhEVR4q2Cq
-	 zHN49Jl1hcbNeSLPqWDbP3dqZMFWYoWH+lIQyKBmQXMJbvDBiqE3XuJ76cNP6xVigG
-	 tLcTh9NX5O4WE2tqT259HV7lPlUo4VDO3EfFJUESVQ5K38Y9P+UTQM7eGJapbAQmCp
-	 9TIueUN6mdSKxB4WeH16gd9evTs3qu2UWRpzfYEKAVhqSqPXapADm5UG3zP1x6pwFr
-	 8AdBfh5fqlgLw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4X74t91Zkxz4xZf;
-	Tue, 17 Sep 2024 12:07:28 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: kernel test robot <lkp@intel.com>, Naveen N Rao <naveen@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Christophe
- Leroy <christophe.leroy@csgroup.eu>
-Subject: Re: arch/powerpc/kernel/trace/ftrace.c:752:46: sparse: sparse: cast
- truncates bits from constant value (200000000 becomes 0)
-In-Reply-To: <202409170855.Lb8k7eyz-lkp@intel.com>
-References: <202409170855.Lb8k7eyz-lkp@intel.com>
-Date: Tue, 17 Sep 2024 12:07:28 +1000
-Message-ID: <87bk0nqbhb.fsf@mail.lhotse>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hnq+cBAz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726544567; x=1758080567;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l5XQljP0LJ1d+GOe8ilhuR7mE9kZVw228mR7/m8dXis=;
+  b=Hnq+cBAzAnXw8aSIbQFAkM0At6zQGipraJISHZeQGZPWqCZ1nuGfPHek
+   eKJIZTkxsebTmgxJKWsitYD+jRtF2TINMgK2PoQhcCP317cV7l6/wC33p
+   viFWcr+LMXxosDGS9uS3WB0C9Y36r7/4zubgUaZcm90LDRPYv8xkOHf2m
+   CgCLlw5rU9ffl0tjBuAoyehXhzRfer3Boz/TkunPpC6sbIzA8fjYKk28Q
+   3VgpXxYkM9JewRzIc/Tyok/n6zQcR4QX5etkNUBh3/P1OdYX62jKZQ1tW
+   g1qc5Z2wKRRLNju5bZ5s2VrhpjiLLa1N2B7Sd8zmo7tgXvTjrzquaZHnm
+   Q==;
+X-CSE-ConnectionGUID: zeWddLd+Qj6C8+jO5HNqNw==
+X-CSE-MsgGUID: 8bmQnMAPRrWAp0lu9Uia7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="47899160"
+X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
+   d="scan'208";a="47899160"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 20:42:47 -0700
+X-CSE-ConnectionGUID: uQ38+QGsTTW5wZXXEkxbXg==
+X-CSE-MsgGUID: thftB2x/Twub7dbqcTSBfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
+   d="scan'208";a="68733382"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Sep 2024 20:42:44 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sqP6w-000Ako-0e;
+	Tue, 17 Sep 2024 03:42:42 +0000
+Date: Tue, 17 Sep 2024 11:41:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 20/48] ls2k500sfb.c:undefined reference to
+ `fg_console'
+Message-ID: <202409171155.ruB5bjER-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot <lkp@intel.com> writes:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   a430d95c5efa2b545d26a094eb5f624e36732af0
-> commit: f3993a0330e2d11e42c095810c6c33084024df46 powerpc/ftrace: Extend ftrace support for large kernels to ppc32
-> date:   1 year, 1 month ago
-> config: powerpc-randconfig-r132-20240916 (https://download.01.org/0day-ci/archive/20240917/202409170855.Lb8k7eyz-lkp@intel.com/config)
- 
-  CONFIG_PPC32=y
-  # CONFIG_PPC64 is not set
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   df2c80fc64e69be0095e3315c470353b01ce0c31
+commit: 3a50da023fae0cfab612bffb333d4b1343299208 [20/48] fbdev: add ls2k500sfb driver for ls2k500 bmc.
+config: loongarch-randconfig-r064-20240916 (https://download.01.org/0day-ci/archive/20240917/202409171155.ruB5bjER-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409171155.ruB5bjER-lkp@intel.com/reproduce)
 
-32-bit build.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409171155.ruB5bjER-lkp@intel.com/
 
-> compiler: powerpc-linux-gcc (GCC) 14.1.0
-> reproduce: (https://download.01.org/0day-ci/archive/20240917/202409170855.Lb8k7eyz-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409170855.Lb8k7eyz-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->    arch/powerpc/kernel/trace/ftrace.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
->    include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
->>> arch/powerpc/kernel/trace/ftrace.c:752:46: sparse: sparse: cast truncates bits from constant value (200000000 becomes 0)
->    arch/powerpc/kernel/trace/ftrace.c:752:72: sparse: sparse: cast truncates bits from constant value (200000000 becomes 0)
->
-> vim +752 arch/powerpc/kernel/trace/ftrace.c
->
-> 84ade0a6655bee arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2022-05-16  720  
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  721  int __init ftrace_dyn_arch_init(void)
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  722  {
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  723  	unsigned int *tramp[] = { ftrace_tramp_text, ftrace_tramp_init };
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  724  	unsigned long addr = FTRACE_REGS_ADDR;
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  725  	long reladdr;
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  726  	int i;
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  727  	u32 stub_insns[] = {
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  728  #ifdef CONFIG_PPC_KERNEL_PCREL
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  729  		/* pla r12,addr */
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  730  		PPC_PREFIX_MLS | __PPC_PRFX_R(1),
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  731  		PPC_INST_PADDI | ___PPC_RT(_R12),
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  732  		PPC_RAW_MTCTR(_R12),
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  733  		PPC_RAW_BCTR()
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  734  #elif defined(CONFIG_PPC64)
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  735  		PPC_RAW_LD(_R12, _R13, offsetof(struct paca_struct, kernel_toc)),
-> e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  736  		PPC_RAW_ADDIS(_R12, _R12, 0),
-> e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  737  		PPC_RAW_ADDI(_R12, _R12, 0),
-> e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  738  		PPC_RAW_MTCTR(_R12),
-> e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  739  		PPC_RAW_BCTR()
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  740  #else
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  741  		PPC_RAW_LIS(_R12, 0),
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  742  		PPC_RAW_ADDI(_R12, _R12, 0),
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  743  		PPC_RAW_MTCTR(_R12),
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  744  		PPC_RAW_BCTR()
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  745  #endif
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  746  	};
-> af8b9f352ffd43 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  747  
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  748  	if (IS_ENABLED(CONFIG_PPC_KERNEL_PCREL)) {
+All errors (new ones prefixed by >>):
 
-In practice this is 64-bit only code, but I guess sparse doesn't know that.
+   loongarch64-linux-ld: kernel/cgroup/cpuset.o: in function `cpuset_cgroup_stat_show_comm.constprop.0.isra.0':
+   cpuset.c:(.text+0xe74): undefined reference to `get_idle_time'
+   loongarch64-linux-ld: kernel/cgroup/cpuset.o: in function `.L141':
+   cpuset.c:(.text+0x1270): undefined reference to `get_idle_time'
+   loongarch64-linux-ld: drivers/video/fbdev/ls2k500sfb.o: in function `.L152':
+>> ls2k500sfb.c:(.text+0xf9c): undefined reference to `fg_console'
+>> loongarch64-linux-ld: ls2k500sfb.c:(.text+0xfa0): undefined reference to `fg_console'
 
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  749  		for (i = 0; i < 2; i++) {
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  750  			reladdr = addr - (unsigned long)tramp[i];
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  751  
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08 @752  			if (reladdr >= (long)SZ_8G || reladdr < -(long)SZ_8G) {
-
-We could use s64 for these casts?
-
-cheers
-
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  753  				pr_err("Address of %ps out of range of pcrel address.\n",
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  754  					(void *)addr);
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  755  				return -1;
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  756  			}
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  757  
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  758  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  759  			tramp[i][0] |= IMM_H18(reladdr);
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  760  			tramp[i][1] |= IMM_L(reladdr);
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  761  			add_ftrace_tramp((unsigned long)tramp[i]);
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  762  		}
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  763  	} else if (IS_ENABLED(CONFIG_PPC64)) {
-> af8b9f352ffd43 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  764  		reladdr = addr - kernel_toc_addr();
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  765  
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  766  		if (reladdr >= (long)SZ_2G || reladdr < -(long long)SZ_2G) {
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  767  			pr_err("Address of %ps out of range of kernel_toc.\n",
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  768  				(void *)addr);
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  769  			return -1;
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  770  		}
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  771  
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  772  		for (i = 0; i < 2; i++) {
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  773  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  774  			tramp[i][1] |= PPC_HA(reladdr);
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  775  			tramp[i][2] |= PPC_LO(reladdr);
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  776  			add_ftrace_tramp((unsigned long)tramp[i]);
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  777  		}
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  778  	} else {
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  779  		for (i = 0; i < 2; i++) {
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  780  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  781  			tramp[i][0] |= PPC_HA(addr);
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  782  			tramp[i][1] |= PPC_LO(addr);
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  783  			add_ftrace_tramp((unsigned long)tramp[i]);
-> f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  784  		}
-> 7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  785  	}
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  786  
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  787  	return 0;
-> 67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  788  }
-> 6794c78243bfda arch/powerpc/kernel/ftrace.c       Steven Rostedt   2009-02-09  789  
->
-> :::::: The code at line 752 was first introduced by commit
-> :::::: 7e3a68be42e10f5fa5890e97afc0afd992355bc3 powerpc/64: vmlinux support building with PCREL addresing
->
-> :::::: TO: Nicholas Piggin <npiggin@gmail.com>
-> :::::: CC: Michael Ellerman <mpe@ellerman.id.au>
->
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
