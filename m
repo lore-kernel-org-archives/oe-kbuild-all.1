@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB15F510
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 21:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E84F510
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 21:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726609555; cv=none; b=Ftb66pejtyaZMiIlgJN997FKs5vbXOf1T3eJguA9yuj30DIkBjhEyuinh3+aI4+5UQfPJzy9y20W7/LeiyA1HuzDgiiBPD/Bsf0y8iDjdbl3A5G+8t8gVuF8OBkSVceQC3GuEChcElnlQyjMjRyWSH4qC6J6ytqoxB49jwpQcdk=
+	t=1726610146; cv=none; b=ayXY75VvlBPgw0I5+KHMg8yIjikApMcor1mJCimR1+89oGDDh9XKEyw5bRNzzAAUI1RpkcZYYwCsNhRsbOvOMK8VsZJjuoOKbK+rxU8BGi745iSoYU/oCTd4bIFP4UGPAGC7WUL32D6LL7sweakfsM4nyO96KYfPPwCPaoLQrpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726609555; c=relaxed/simple;
-	bh=h2jgFdseHk7aFTqGihWfGELWE5znx1xt9Qib14dHjN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q/sPr8RI7lSqQ4WQrXLpzNdxBQq4QdtcLliMQe18Bpmmq0CIeM3DKemDh6K+F2SicRWm4p5bsrZsKmP2XIqVg1ioG/iLfgVCazSzdSVVRxShuzOYzBQmEdDG9j81k9CP4E/f+sSz4kNQv9mDSVfS43N7lGnPsHF930lLLnCPCQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2Uc1XlY; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1726610146; c=relaxed/simple;
+	bh=+AFqWWyWaq05afPQy3AivvhmYeYAKKcg49OqfhX0Yv4=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bEbnXCnC7MaEHVSqXDtLyDHCU4veITWLMKE0wrkxIouk5Huaq4IaL1Nht8Lc+yQyiw17/ZlBWMTpHhOx5ONlT8xiwebwq7c+FEQXpp231O6iCM6C9kz5Ba8pEpYrRcFOH53A3jOhu3KLXjQi1H3hkox7LFLG2Sy9ikK6gHEfYdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNvv3yRW; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2Uc1XlY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNvv3yRW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726609553; x=1758145553;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h2jgFdseHk7aFTqGihWfGELWE5znx1xt9Qib14dHjN8=;
-  b=T2Uc1XlYBwYRidtkVLgMQvWUFMY4eM+AUT/OEBRppo5YzGvD8jPexeYM
-   zDNenTH9fKyrtchtIeb+QiEOpPZh5LB3kNyBxnMwAJWrMiz1+xAy3eZ3b
-   JXKgirETAyHwzChhvQAa2fC9yR8+zgXIDnIrC4NZjL9cgCbEA3nvSbWhN
-   3aof4fvakbx+hZZE+hVOSUByKC6xugT/lnXaik4VjnSnnRNP1L+wrAtvl
-   w+lhxCPyI4GWDwUpGRIxx9RKrwANeds0M42q8BmjC/GEHKTBZaIQps5tf
-   GI8ZRFVuqNwrU4gwzT0MaQrqdCveyzLxg8U8nYMnBaImriFLHHa8pvOsw
+  t=1726610145; x=1758146145;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=+AFqWWyWaq05afPQy3AivvhmYeYAKKcg49OqfhX0Yv4=;
+  b=HNvv3yRWLFqtC9E675UMxh/YqJ5bA35IVCo7bvY9hDz4Kb0e8v3v+1H7
+   VoeCz2/zqkkidi4zcbpTu10vL+tgrVrdixnLAUkudjhs0Ae4O0Cz1MS5D
+   rfz6LKkE2nyLbEa0Y+oT3DfEK1dnAaXhBs99Ol0F3igj4MxPuLCQ4ZFf6
+   CGYV52Mx5u6hhpuApXSrSicd6KwHdB3vt1KxPZIsOCzfwKh0c/gV/Xdjz
+   m9qMO/CdRy9Ch9rbVBDw933fMq95FxDdBS+VCv/WXz0y8VBJNmv1T6Psk
+   k18+wwPrBhdVkc7FAwTzeDFqlE4oJFakKKqf0lQc1AjTONhRlmwjZVcYA
    g==;
-X-CSE-ConnectionGUID: LOYyLP2vSzK4uPBqjLnYKg==
-X-CSE-MsgGUID: ySxGZeDXT+qycyrZNl0mDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="36852853"
+X-CSE-ConnectionGUID: vqVKNgL7Qk6qI5cKVGyGYg==
+X-CSE-MsgGUID: 2Rms9WLdTJCrCQb9WBy8ug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25439620"
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="36852853"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 14:45:47 -0700
-X-CSE-ConnectionGUID: jIssziE4RLu2Nr6rTGQy6A==
-X-CSE-MsgGUID: V9GyluG3QmCJ5vft+jj/uA==
+   d="scan'208";a="25439620"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 14:55:44 -0700
+X-CSE-ConnectionGUID: GyFg2K7sTomcCOW+LU/7jg==
+X-CSE-MsgGUID: mXVWMCRpScGxMiOSrzLAPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="92639786"
+   d="scan'208";a="69428785"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Sep 2024 14:45:42 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 Sep 2024 14:55:42 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqg0x-000Bda-2h;
-	Tue, 17 Sep 2024 21:45:39 +0000
-Date: Wed, 18 Sep 2024 05:44:52 +0800
+	id 1sqgAd-000Bdq-3B;
+	Tue, 17 Sep 2024 21:55:39 +0000
+Date: Wed, 18 Sep 2024 05:55:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 3066/14977] htmldocs: Warning:
- Documentation/dma-buf-test-exporter.txt references a file that doesn't
- exist: Documentation/dma-buf-sharing.txt
-Message-ID: <202409180549.s0MIDk7T-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Jai Luthra <j-luthra@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y 45/107] kismet: WARNING: unmet direct
+ dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+Message-ID: <202409180515.w3kneRKB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,32 +62,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Shuming,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   3516b574d9cb19c39dc921a07a37c8a2fcaf0009
-commit: 2526990f17d5ceac745910b95b83973586a6a455 [3066/14977] MGS-7263 VX504X08X-SW-99002-r31p0-01eac0
-reproduce: (https://download.01.org/0day-ci/archive/20240918/202409180549.s0MIDk7T-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
+head:   96b0ebd82722d16e9ab646cd3a73080e6f790747
+commit: cf0136753f9892c69092d959eb86c8e06e706138 [45/107] media: i2c: add DS90UB960 driver
+config: nios2-kismet-CONFIG_GPIOLIB_IRQCHIP-CONFIG_PINCTRL_STMFX-0-0 (https://download.01.org/0day-ci/archive/20240918/202409180515.w3kneRKB-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240918/202409180515.w3kneRKB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409180549.s0MIDk7T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409180515.w3kneRKB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
->> Warning: Documentation/dma-buf-test-exporter.txt references a file that doesn't exist: Documentation/dma-buf-sharing.txt
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: drivers/gpu/arm/midgard/debug/mali_kbase_debug_ktrace.c references a file that doesn't exist: Documentation/filesystems/seq_file.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Warning: tools/power/cpupower/man/cpupower-powercap-info.1 references a file that doesn't exist: Documentation/power/powercap/powercap.txt
-   Using alabaster theme
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+   WARNING: unmet direct dependencies detected for OF_GPIO
+     Depends on [n]: GPIOLIB [=n] && OF [=y] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - VIDEO_DS90UB960 [=y] && MEDIA_SUPPORT [=y] && OF [=y] && I2C [=y] && VIDEO_DEV [=y]
+   
+   WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP
+     Depends on [n]: GPIOLIB [=n]
+     Selected by [y]:
+     - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y]
 
 -- 
 0-DAY CI Kernel Test Service
