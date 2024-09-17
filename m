@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF5B178CDF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 13:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C1D15AAD6;
+	Tue, 17 Sep 2024 13:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726578018; cv=none; b=HnWLVfAHK7IcH+o3wprVzfhXMzxuKMZtr4wCvO8Nt1GnNH8FZlLXhyHCbFfx06IGu6rHGbuLc/1JhXunHWu2IgymZPoUU/XqNvG/AKvYxmrYqJMRpAXJMhIuVCe6ChJ77k2QP6pMlNsbZ7vrYns9JLyTMLFnbPao4R3GSJXrXtU=
+	t=1726578701; cv=none; b=dG6DSZZ7SYKnIfRJNatoyE/K4DHL3IBL84EM3L1GHuSVabg7livzZbNAr7WoaM/FU6O2lOZtuRI2vTSRs7J4VehQj0wM4DAwz80HHa3zIvW3mWy5UAVkiP/7DyeWqH7WXEzQhx/23hEhZ1knxROwRMJ78NnL0nFDq3kOjgmz0Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726578018; c=relaxed/simple;
-	bh=JOdvYIqmUYTtMKaDOGC+daUs92mV0q64yRhtThKeRzg=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KzerjxYtJBFUz+Ad0OM/ntQqxAZt1hYXapH5XNhiTo8EeSaRw8gviNdW1OLAf2WMPVHXDtkhws6WjtRnFo+fwSxAL8kri1SED/Zn5T5WuqreOFsre26NNR8gor3mH/OFavliIJYETdL6D9mtqIsgX6Yyf+7+gV5hFb92vYxxmGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bHceEhJH; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1726578701; c=relaxed/simple;
+	bh=lkESKpXU+MF7+xoa6BnSI0UBz9GwikaNUEaYyPRetTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=slZdHIk61S9eXy92LYZ/YF1nUmyV7el/SDH3iGadGGwLSjWXGTlPdQqzYLtZeskzQ7YjrdBTNgE78GIDSMwYmcQkjHCybOLC8Lc5nCVbYG7DTlcmsshdb38EJGXJrLVPyr3C5bMQuPwvkeUfNMBP4mLYmD/wd34aE93OAlldpag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aov0kXyn; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bHceEhJH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aov0kXyn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726578015; x=1758114015;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=JOdvYIqmUYTtMKaDOGC+daUs92mV0q64yRhtThKeRzg=;
-  b=bHceEhJHjMYvWAz55MLrj1XgH77EgxJoyXk3YGtfIDFuvGawost6LYuC
-   bKBBWtCt7sXQ3kuJ91zaHvaOerafhVfwu+AKtAOEoKZaiQJmQwvBQuiND
-   llrw9DIFiqQth2K9+T+KwJjc68a5UI1XhND4OutM9cii1jHomUxJpqx1L
-   dgpvw1ixgw4qu5Nf5kPMO1txGKm7D68CqECLmPo3xn1M7KsrZcuQ2JoMb
-   fogCn9phJbIg7sDb6HRhk8WnbSRl8PWyZ+Iy6Jzi1mi97LPP7yfLMcA4q
-   LieviKsv940akfRiElmj9sC7HihxKdyTHoVjW4wgu5IYBk68GrZ9WZE81
+  t=1726578700; x=1758114700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lkESKpXU+MF7+xoa6BnSI0UBz9GwikaNUEaYyPRetTQ=;
+  b=aov0kXync7HcNM0ebzT7KD5KeBGwX52jjrvKlDuZvz1glCJPkqsRR4bK
+   G0qO8rpuYdK2sdkJWfppAzARNB1J0UkprIcoj02oMgLjWM1+yXK8Z9JRd
+   Xak5ccg69yItS7OAwEw/7tPdPpjBuZZxmjtq1q1OpHN6Xs8YxHdBlQLfZ
+   3zfsrXuA+sV0UAB+8E7c0s6xZVM83GOwCQcx8Af9giea1W7dNVcivWnfq
+   s7sqDyPbXDNHgZA3ksyVssA/hqefLAXv4brMx6W4JRykKfC5G/e0gwkFk
+   jI3nTqLsBjk0QzSHcaWVg5eXczvuXtFV33dH+YFmNo6albE1K/bvxBxyz
    g==;
-X-CSE-ConnectionGUID: Cfw9+/oTRVSuB/jkcoJmdA==
-X-CSE-MsgGUID: nvF1whK6Tr2YQOjn2WyVLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="25369845"
+X-CSE-ConnectionGUID: oUd79UU+SfWQr3Vt8Nd+1A==
+X-CSE-MsgGUID: v9qvEXGuS2ukiiLSoVmY9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="36810449"
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="25369845"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 06:00:14 -0700
-X-CSE-ConnectionGUID: 5PyPRhBKSdCpqFBmDEQfTA==
-X-CSE-MsgGUID: JqvouTGBQCOoosLlA2Xnlg==
+   d="scan'208";a="36810449"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 06:11:15 -0700
+X-CSE-ConnectionGUID: LMYZnRjiQ8KQjsWnK4eXDg==
+X-CSE-MsgGUID: uNFwk5dsQeqmGtyDMELdQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="69155016"
+   d="scan'208";a="69151853"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Sep 2024 06:00:12 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Sep 2024 06:11:14 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqXoQ-000BAc-2V;
-	Tue, 17 Sep 2024 13:00:10 +0000
-Date: Tue, 17 Sep 2024 20:59:36 +0800
+	id 1sqXz5-000BBG-0r;
+	Tue, 17 Sep 2024 13:11:11 +0000
+Date: Tue, 17 Sep 2024 21:10:46 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Jai Luthra <j-luthra@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y 45/107] kismet: WARNING: unmet direct
- dependencies detected for GPIOLIB_IRQCHIP when selected by
- PINCTRL_IPROC_GPIO
-Message-ID: <202409172026.gThq8HDj-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:sframe-2.1 5/5] kernel/unwind/user.c:179:19: warning:
+ shift count >= width of type
+Message-ID: <202409172133.Uqcuvsht-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,28 +62,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   96b0ebd82722d16e9ab646cd3a73080e6f790747
-commit: cf0136753f9892c69092d959eb86c8e06e706138 [45/107] media: i2c: add DS90UB960 driver
-config: nios2-kismet-CONFIG_GPIOLIB_IRQCHIP-CONFIG_PINCTRL_IPROC_GPIO-0-0 (https://download.01.org/0day-ci/archive/20240917/202409172026.gThq8HDj-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240917/202409172026.gThq8HDj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe-2.1
+head:   5b35eb7c617539f21cbe3764b0ee0c77567b0f22
+commit: 5b35eb7c617539f21cbe3764b0ee0c77567b0f22 [5/5] unwind: Add deferred interfaces
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20240917/202409172133.Uqcuvsht-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409172133.Uqcuvsht-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409172026.gThq8HDj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409172133.Uqcuvsht-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_IPROC_GPIO
-   WARNING: unmet direct dependencies detected for OF_GPIO
-     Depends on [n]: GPIOLIB [=n] && OF [=y] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - VIDEO_DS90UB960 [=y] && MEDIA_SUPPORT [=y] && OF [=y] && I2C [=y] && VIDEO_DEV [=y]
-   
-   WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP
-     Depends on [n]: GPIOLIB [=n]
-     Selected by [y]:
-     - PINCTRL_IPROC_GPIO [=y] && PINCTRL [=y] && OF_GPIO [=y] && (ARCH_BCM_IPROC || COMPILE_TEST [=y])
+All warnings (new ones prefixed by >>):
+
+>> kernel/unwind/user.c:179:19: warning: shift count >= width of type [-Wshift-count-overflow]
+     179 |                 cookie &= ((1UL << 48) - 1);
+         |                                 ^  ~~
+   1 warning generated.
+
+
+vim +179 kernel/unwind/user.c
+
+   165	
+   166	{
+   167		BUILD_BUG_ON(NR_CPUS > 65535);
+   168	
+   169		if (WARN_ON_ONCE(in_nmi()))
+   170			return -EINVAL;
+   171	
+   172		local_irq_disable();
+   173	
+   174		if (!current->unwind_ctx_cookie) {
+   175			u64 cpu = smp_processor_id();
+   176			u64 cookie;
+   177	
+   178			cookie = __this_cpu_read(ctx_ctr);
+ > 179			cookie &= ((1UL << 48) - 1);
+   180			cookie |= ((cpu << 48) + 1);
+   181			__this_cpu_write(ctx_ctr, cookie);
+   182	
+   183			current->unwind_ctx_cookie = cookie;
+   184			task_work_add(current, &current->unwind_work, TWA_RESUME);
+   185		}
+   186	
+   187		*ctx_cookie = current->unwind_ctx_cookie;
+   188		current->unwind_pending |= (1 << callback->unwind_priv.idx);
+   189	
+   190		local_irq_enable();
+   191	
+   192		return 0;
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
