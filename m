@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66820208D0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 23:17:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4249443
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 23:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726615071; cv=none; b=iPVXaUi22mJJONDDRQGCODjL2gR4VCA/Aa4lvMfqWsj4jY6Rqv4mDCrOE+Mlt6j+N0ei1CNKCVcTBV4zv47/Dqx1yM7p2vjzExrItBEexMCtQFxejEfe7iVyjgfEomdNxU6C/45XXowhW7wor8PReiMdR75+27dxu3yiZhdFQzs=
+	t=1726615672; cv=none; b=QvjrobUUNU9wdQV+x6E7Bpshs1uWcQa5G00zMSl1I3FwiTq8nUL+HfyLxR6KVNYkxHHAhwtYxakU23oDtSF5dNU3Jy3WFccE/G8vCk/7QjtcU9TKezEPJckr3SXjJgUGtG3eiDJzsWlJbmOC5gBCzDlYg++ycz0FUNdaheLHGxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726615071; c=relaxed/simple;
-	bh=v+Cz0BiUCo9XQSifPPIbAW7wzmZJeaVNTLtPwb1HaiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M1Tb1lqLNwYAvQvMaEoK8CV9ODjSmmZe1oq98V/g3IyD8FVJjDYiaNcJerDimMTEKmgpQRmGKNOrINJrCnQaR28yV3wJzCPEOqWtwEcmahHtcr00smArKGwOv8yfDgYfF2ykBIz1poqdmOLD9duzV37G2FUvcU07DTTtGLXygLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hohLoaXA; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1726615672; c=relaxed/simple;
+	bh=g/Pmz/qEI8/+jiFosDjqPR6jxKOpIH0jm0dHkxIFKUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=noN5F/87SLQyODPz2ZGJcF5MOGPdHOZ+0f8VrDHtKuCIt7cdrXKJU9+oOpA29rdIcWtAQGLp5+w/g+j95eONhNrPwVyyQd/j2eNuK/pf7Yt1/qvHRHF43fEB0KCoJLnICoqfb02X+5YulJ9gNN022a3kvLQkOAe8Wm7bmikeNOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgZFPlT6; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hohLoaXA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgZFPlT6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726615069; x=1758151069;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v+Cz0BiUCo9XQSifPPIbAW7wzmZJeaVNTLtPwb1HaiA=;
-  b=hohLoaXA01gT2eGtJOb0dSolQFS18oCwVoXT0laIStR70ThxrcqWhCB+
-   Lj8IayVbHGeApNkNRiPzgEz5ZB/TZQ7vKmUW7Sc6UyeXbeNRujb8yx66J
-   mVmEurqurJ83IncaqfCjVydAhRUl/RIQlGzpjHc+vATaYeuvSU3Zex0K7
-   knoMjvdygg709R+QKppDW7gApy+Av3K3unn5dJpC/jB9AvWoP8uUlyCRL
-   yRKXOMpe9ibvzSY+XFGSrwLlYltM/UgOhYaZpMuB0RKuZHE3n0cUGYGnw
-   PUeQ5w2Fj3JjIpgZTGENYEQYqiNzg1txtPvu/LKXjtwUB+ZYY4e9hJySG
-   w==;
-X-CSE-ConnectionGUID: N7O4PmSUSxSr/ZiWhCuDcg==
-X-CSE-MsgGUID: G3suBVUgTLWWPPRt1pjt9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="13564610"
+  t=1726615669; x=1758151669;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g/Pmz/qEI8/+jiFosDjqPR6jxKOpIH0jm0dHkxIFKUo=;
+  b=JgZFPlT6CWveEHjZsPvLc270RCZmiTKn6BGbBI9K52qwUCfbnRWjtPwa
+   xyp5XUNB0pSYTJtTW28nR90SvNi/n+sK4escbhm0zxH/Y4RcuhUC+57Bn
+   9xbBesLd6bL8p88/V5zW5VIpZ9uyjPN494KUZEX+ShYp35hy/JgEomFtR
+   /d/hb50Q2rFcr6yl4B1Ekh4WIWEbJr9ZmJogopWgXObHKca29sBTMKNH5
+   mdCWTxVbNkLlnk3ZwqYPBoEhjh2O0Y5WecTrL1Ikgox192lTKoBlrWSxp
+   SUCFbK+mU+gYKwlTIO4J0EN2wv9Wsk171KKu1G0DO8cShhaI+jaCoBqju
+   g==;
+X-CSE-ConnectionGUID: Wa6MCEBSTQSKA7oiwxVPDQ==
+X-CSE-MsgGUID: AHOYkbWmTUOrZAmu3LFiLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="13564688"
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="13564610"
+   d="scan'208";a="13564688"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 16:17:48 -0700
-X-CSE-ConnectionGUID: b8/0KlrAT5Opa1gH6K10hg==
-X-CSE-MsgGUID: gwnBTkf/RU6KXSHEtHkEKA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 16:27:49 -0700
+X-CSE-ConnectionGUID: g8bjz9r1SHau+a2kJmRXsQ==
+X-CSE-MsgGUID: f5WYcql2TvquIJ8/uTGtmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="69834917"
+   d="scan'208";a="69836022"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Sep 2024 16:17:47 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Sep 2024 16:27:47 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqhS4-000Bh4-38;
-	Tue, 17 Sep 2024 23:17:44 +0000
-Date: Wed, 18 Sep 2024 07:17:22 +0800
+	id 1sqhbl-000BhK-0T;
+	Tue, 17 Sep 2024 23:27:45 +0000
+Date: Wed, 18 Sep 2024 07:27:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 3093/14977] htmldocs: Warning:
- /sys/bus/coresight/devices/mali-source-ela/regs/SIGMASKn_0-7 is defined 2
- times:  ./Documentation/ABI/testing/sysfs-device-mali-coresight-source:184
-  ./Documentation/ABI/testing/sysfs-device-mali-coresight-source:199
-Message-ID: <202409180701.OQCKbDS6-lkp@intel.com>
+To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] crypto: lib/mpi - Extend support for scope-based
+ resource management
+Message-ID: <202409180725.ZV8DCvII-lkp@intel.com>
+References: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,30 +64,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
 
-Hi Jiyu,
+Hi Markus,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   3516b574d9cb19c39dc921a07a37c8a2fcaf0009
-commit: 17c7a8b9f566aa74780249dbd6ad28020edcb5c7 [3093/14977] MGS-7377 [#mali] VX504X08X-SW-99002-r45p0-01eac0
-reproduce: (https://download.01.org/0day-ci/archive/20240918/202409180701.OQCKbDS6-lkp@intel.com/reproduce)
+[auto build test ERROR on herbert-crypto-2.6/master]
+[also build test ERROR on herbert-cryptodev-2.6/master linus/master v6.11 next-20240917]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/crypto-lib-mpi-Extend-support-for-scope-based-resource-management/20240917-173519
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/crypto-2.6.git master
+patch link:    https://lore.kernel.org/r/bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc%40web.de
+patch subject: [PATCH] crypto: lib/mpi - Extend support for scope-based resource management
+config: i386-buildonly-randconfig-002-20240918 (https://download.01.org/0day-ci/archive/20240918/202409180725.ZV8DCvII-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409180725.ZV8DCvII-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409180701.OQCKbDS6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409180725.ZV8DCvII-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-   Warning: drivers/gpu/arm/midgard/debug/mali_kbase_debug_ktrace.c references a file that doesn't exist: Documentation/filesystems/seq_file.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Warning: tools/power/cpupower/man/cpupower-powercap-info.1 references a file that doesn't exist: Documentation/power/powercap/powercap.txt
->> Warning: /sys/bus/coresight/devices/mali-source-ela/regs/SIGMASKn_0-7 is defined 2 times:  ./Documentation/ABI/testing/sysfs-device-mali-coresight-source:184  ./Documentation/ABI/testing/sysfs-device-mali-coresight-source:199
-   Using alabaster theme
+   In file included from include/linux/irqflags.h:17,
+                    from arch/x86/include/asm/special_insns.h:10,
+                    from arch/x86/include/asm/processor.h:25,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from crypto/dh.c:9:
+   include/linux/mpi.h: In function '__free_mpi_free':
+>> include/linux/mpi.h:49:48: error: 'T_' undeclared (first use in this function)
+      49 | DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
+         |                                                ^~
+   include/linux/cleanup.h:62:78: note: in definition of macro 'DEFINE_FREE'
+      62 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
+         |                                                                              ^~~~~
+   include/linux/mpi.h:49:48: note: each undeclared identifier is reported only once for each function it appears in
+      49 | DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
+         |                                                ^~
+   include/linux/cleanup.h:62:78: note: in definition of macro 'DEFINE_FREE'
+      62 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
+         |                                                                              ^~~~~
+>> include/linux/cleanup.h:62:60: warning: unused variable '_T' [-Wunused-variable]
+      62 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
+         |                                                            ^~
+   include/linux/mpi.h:49:1: note: in expansion of macro 'DEFINE_FREE'
+      49 | DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
+         | ^~~~~~~~~~~
+
+
+vim +/T_ +49 include/linux/mpi.h
+
+    45	
+    46	/*-- mpiutil.c --*/
+    47	MPI mpi_alloc(unsigned nlimbs);
+    48	void mpi_free(MPI a);
+  > 49	DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
+    50	
 
 -- 
 0-DAY CI Kernel Test Service
