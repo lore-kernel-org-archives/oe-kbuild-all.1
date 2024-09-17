@@ -1,123 +1,304 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70FA2905
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 13:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139F91917D9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 15:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726579911; cv=none; b=nK6LrKRif+KoEUYQNym4TTWDCXmqeKcQQNBlo+HhjbBBxdl5ZkhZAdFdrK7Df6599EK0d8H1gP7PCC3/q1MlLj1mR+T9K4LOoiCURC81cI2CXjhb24iFK0JO9dWzMpD5nKlo+wTM7ScrZGyv2UyD2eoxCBwWFIeyyo3PUNLbJG8=
+	t=1726587226; cv=none; b=T1dJvVj02PFuvZiv2GIo5ZxCNc/zZo5RfD1Z6XAmLBQI+7btvf/ggF25Ac2JXHG70db3SupyS5k93scy+VBPqOKQJXk4JCLf5hD5UWGxYW563xC1tqN/6tvNm87V2Mp9uUXA7H00BWOuHSxTlRnFipF3Bu1Tf5VOzTUzqvx+fiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726579911; c=relaxed/simple;
-	bh=NWFk9NHie12hcPfjJj4nE+gfKggU0+otIkF5fnVFvp8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BVoj7fyouj0nlfjpYdsHVaQnLFqjAjqFqVPsk9oCfYXFwbmu/MAazAunOnIu+/xFy9NT+J/JgGREBSYx07Pddr6AOOM+CJLB4lf7hHXBuuavfX20shRHmjcgn9dUC61JjtpPshAckMasq/w5oOMK/hqct0fKUssT8JHunhCp2fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Kd495+iX; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1726587226; c=relaxed/simple;
+	bh=UP0ePiuBhyNAtCGaVCaqxKevTJ9XZaruaAe1h3go58E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=slC8pK+uOlzFPYo3qmSrr8jJOioCD4A7DxkZrHl10AfAm7jiJpGTbr6z++eD0eQTObixi1mJevlWqS2R7weoDasPuqi2SSUDV/ugAhR8yByJueaBXaf/v3iUjO9DduET8ow5W7Fz3tljczOVZh5znjZXW1RHgKIKm3L43+d6PSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gnewLwWr; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Kd495+iX"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48HATi78031838;
-	Tue, 17 Sep 2024 13:31:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:subject:to:cc:references:from:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
-	7IWxwt8KwlEw5iqAgD+/NF7LVw8Gi72/5MfOvIcE8fc=; b=Kd495+iXB40qBttd
-	3ChmLv2XWyK8L+y/AcVzmeKw5Mzw2B8MIJB4HX1rIzMd6g3ezgjCyVADwClEz/S4
-	IYI7LFHVBX1O3mvwVm41jlVefOINKnogDguVpwSWduzeZlB8/9LENDuxZF78Xl2g
-	1H31GLCM+2RcIKzMCt/3fyX4DZ55/x6UGllPQBKC4ryxZFQd+466PqWmMKpEtnR2
-	R/kt3cCOcwM0AJMsj+5g5ZTjtELTWghEWmkp4pKQFECf1EG6kT64LCycwYZqW3Pl
-	lsGu6Z222hwx4Md3DowwDgARnxwPzH+ByTfKlp/RbBMPA5jTEY6I/5GesbEV46qJ
-	FkWT6g==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41n3uj8d39-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Sep 2024 13:31:38 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48HAv25W001871;
-	Tue, 17 Sep 2024 13:31:38 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 41nqh3n37q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Sep 2024 13:31:37 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48HDVavH19792224
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 17 Sep 2024 13:31:36 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 423602004B;
-	Tue, 17 Sep 2024 13:31:36 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DE4CC20040;
-	Tue, 17 Sep 2024 13:31:33 +0000 (GMT)
-Received: from [9.61.253.65] (unknown [9.61.253.65])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 17 Sep 2024 13:31:33 +0000 (GMT)
-Message-ID: <6f2158e4-f648-4d51-90e0-0816a6cc321e@linux.ibm.com>
-Date: Tue, 17 Sep 2024 19:01:31 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 10289/12187] eeh_pseries.c:undefined reference
- to `eeh_pe_inject_mmio_error'
-To: Michael Ellerman <mpe@ellerman.id.au>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-References: <202409170509.VWC6jadC-lkp@intel.com> <87ed5jqdqp.fsf@mail.lhotse>
-Content-Language: en-US
-From: Narayana Murty N <nnmlinux@linux.ibm.com>
-In-Reply-To: <87ed5jqdqp.fsf@mail.lhotse>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: FuzCBdnTtylxpS5rp3pE1voDvkHZVOWG
-X-Proofpoint-GUID: FuzCBdnTtylxpS5rp3pE1voDvkHZVOWG
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gnewLwWr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726587207; x=1758123207;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UP0ePiuBhyNAtCGaVCaqxKevTJ9XZaruaAe1h3go58E=;
+  b=gnewLwWrTkWtlpuNyA4ZJxnUXAobCNENuf49Qk4PT+gd/qk7mqYYzSSI
+   fYjMUyZOJoEyLxRHU4xDRpqlHzxLg8EtzI6Dr9fhidenpItqLduxJyjrx
+   RdgAjLBBUipKh9DpChiBAsRLMIf3maWuzSO8w8CNN9F7Lts0zMZ2+Qe32
+   c4l1jP4QgKY4mBGKePqsJAVxWl5JeCKO7Fa0Go5ga0bh2h05TuC+u+UWJ
+   nN+P9uQKf37zTgpj3RHPb5YQAVeMxZLlXPJYDo17KLtromyVihJLIbJ66
+   Kv0aSTOmNmpCOiV55EFT7mhmLHA2vCgHTCsqWpmJg0sCjxqFeGj051Sdw
+   g==;
+X-CSE-ConnectionGUID: 8ueX/gY4SSmCXYvhqLFRxA==
+X-CSE-MsgGUID: RmJOl79QQvWeEV3y3lhTkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="24935091"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="24935091"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 08:33:21 -0700
+X-CSE-ConnectionGUID: jnSaeIrOR2KwyN/VdNasyg==
+X-CSE-MsgGUID: 1u+0U1hwQ7u59FyY9F2HIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="99916205"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 17 Sep 2024 08:33:19 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sqaCb-000BFF-1V;
+	Tue, 17 Sep 2024 15:33:17 +0000
+Date: Tue, 17 Sep 2024 23:32:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 24/64]
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:13: error: function declaration
+ isn't a prototype
+Message-ID: <202409172323.pmhPlu77-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-17_05,2024-09-16_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=999 adultscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1011 bulkscore=0 suspectscore=0 mlxscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409170094
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5555d4db7c17da13679698166b603fefd40445cc
+commit: a6f552f0abf27513c692c5dcd8e470c9dbea8b53 [24/64] ANDROID: KVM: arm64: Notify pKVM modules of PSCI events
+config: arm64-randconfig-004-20240917 (https://download.01.org/0day-ci/archive/20240917/202409172323.pmhPlu77-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409172323.pmhPlu77-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409172323.pmhPlu77-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:28:40: warning: 'enum pkvm_psci_notification' declared inside parameter list will not be visible outside of this definition or declaration
+      28 | static void (*pkvm_psci_notifier)(enum pkvm_psci_notification, struct user_pt_regs *);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:35: warning: 'enum pkvm_psci_notification' declared inside parameter list will not be visible outside of this definition or declaration
+      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:58: error: parameter 1 ('notif') has incomplete type
+      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:13: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |             ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'pkvm_psci_notify':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:32:36: error: type of formal parameter 1 is incomplete
+      32 |                 pkvm_psci_notifier(notif, &host_ctxt->regs);
+         |                                    ^~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:35:51: warning: 'enum pkvm_psci_notification' declared inside parameter list will not be visible outside of this definition or declaration
+      35 | int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:35:5: warning: no previous prototype for '__pkvm_register_psci_notifier' [-Wmissing-prototypes]
+      35 | int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_cpu_suspend':
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:191:26: error: 'PKVM_PSCI_CPU_SUSPEND' undeclared (first use in this function); did you mean 'KVM_PSCI_FN_CPU_SUSPEND'?
+     191 |         pkvm_psci_notify(PKVM_PSCI_CPU_SUSPEND, host_ctxt);
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+         |                          KVM_PSCI_FN_CPU_SUSPEND
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:191:26: note: each undeclared identifier is reported only once for each function it appears in
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_system_suspend':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:223:26: error: 'PKVM_PSCI_SYSTEM_SUSPEND' undeclared (first use in this function); did you mean 'KVM_CAP_ARM_SYSTEM_SUSPEND'?
+     223 |         pkvm_psci_notify(PKVM_PSCI_SYSTEM_SUSPEND, host_ctxt);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                          KVM_CAP_ARM_SYSTEM_SUSPEND
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function '__kvm_host_psci_cpu_entry':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:251:26: error: 'PKVM_PSCI_CPU_ENTRY' undeclared (first use in this function)
+     251 |         pkvm_psci_notify(PKVM_PSCI_CPU_ENTRY, host_ctxt);
+         |                          ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-On 17/09/24 6:48 AM, Michael Ellerman wrote:
-> kernel test robot <lkp@intel.com> writes:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   7083504315d64199a329de322fce989e1e10f4f7
->> commit: b0e2b828dfca645a228f8c89d12fbc2baecfb7ea [10289/12187] powerpc/pseries/eeh: Fix pseries_eeh_err_inject
->> config: powerpc64-randconfig-003-20231031 (https://download.01.org/0day-ci/archive/20240917/202409170509.VWC6jadC-lkp@intel.com/config)
->> compiler: powerpc64-linux-gcc (GCC) 13.3.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409170509.VWC6jadC-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202409170509.VWC6jadC-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>     powerpc64-linux-ld: arch/powerpc/platforms/pseries/eeh_pseries.o: in function `pseries_eeh_err_inject':
->>>> eeh_pseries.c:(.text+0x9d0): undefined reference to `eeh_pe_inject_mmio_error'
-> Cause by CONFIG_DEBUG_FS=n.
->
-> Looks like eeh_debugfs_break_device() needs to be moved out of the
-> #ifdef CONFIG_DEBUG_FS block, and renamed.
->
-> cheers
+vim +29 arch/arm64/kvm/hyp/nvhe/psci-relay.c
 
-yes Michael Ellerman, it is fixed by new patch 
-https://lore.kernel.org/all/20240917132445.3868016-1-nnmlinux@linux.ibm.com/ 
-.
+    27	
+    28	static void (*pkvm_psci_notifier)(enum pkvm_psci_notification, struct user_pt_regs *);
+  > 29	static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+    30	{
+    31		if (smp_load_acquire(&pkvm_psci_notifier))
+    32			pkvm_psci_notifier(notif, &host_ctxt->regs);
+    33	}
+    34	
+    35	int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
+    36	{
+    37		/*
+    38		 * Paired with smp_load_acquire(&pkvm_psci_notifier) in
+    39		 * pkvm_psci_notify(). Ensure memory stores hapenning during a pKVM module
+    40		 * init are observed before executing the callback.
+    41		 */
+    42		return cmpxchg_release(&pkvm_psci_notifier, NULL, cb) ? -EBUSY : 0;
+    43	}
+    44	
+    45	#define INVALID_CPU_ID	UINT_MAX
+    46	
+    47	struct psci_boot_args {
+    48		atomic_t lock;
+    49		unsigned long pc;
+    50		unsigned long r0;
+    51	};
+    52	
+    53	#define PSCI_BOOT_ARGS_UNLOCKED		0
+    54	#define PSCI_BOOT_ARGS_LOCKED		1
+    55	
+    56	#define PSCI_BOOT_ARGS_INIT					\
+    57		((struct psci_boot_args){				\
+    58			.lock = ATOMIC_INIT(PSCI_BOOT_ARGS_UNLOCKED),	\
+    59		})
+    60	
+    61	static DEFINE_PER_CPU(struct psci_boot_args, cpu_on_args) = PSCI_BOOT_ARGS_INIT;
+    62	static DEFINE_PER_CPU(struct psci_boot_args, suspend_args) = PSCI_BOOT_ARGS_INIT;
+    63	
+    64	#define	is_psci_0_1(what, func_id)					\
+    65		(kvm_host_psci_config.psci_0_1_ ## what ## _implemented &&	\
+    66		 (func_id) == kvm_host_psci_config.function_ids_0_1.what)
+    67	
+    68	static bool is_psci_0_1_call(u64 func_id)
+    69	{
+    70		return (is_psci_0_1(cpu_suspend, func_id) ||
+    71			is_psci_0_1(cpu_on, func_id) ||
+    72			is_psci_0_1(cpu_off, func_id) ||
+    73			is_psci_0_1(migrate, func_id));
+    74	}
+    75	
+    76	static bool is_psci_0_2_call(u64 func_id)
+    77	{
+    78		/* SMCCC reserves IDs 0x00-1F with the given 32/64-bit base for PSCI. */
+    79		return (PSCI_0_2_FN(0) <= func_id && func_id <= PSCI_0_2_FN(31)) ||
+    80		       (PSCI_0_2_FN64(0) <= func_id && func_id <= PSCI_0_2_FN64(31));
+    81	}
+    82	
+    83	static unsigned long psci_call(unsigned long fn, unsigned long arg0,
+    84				       unsigned long arg1, unsigned long arg2)
+    85	{
+    86		struct arm_smccc_res res;
+    87	
+    88		arm_smccc_1_1_smc(fn, arg0, arg1, arg2, &res);
+    89		return res.a0;
+    90	}
+    91	
+    92	static unsigned long psci_forward(struct kvm_cpu_context *host_ctxt)
+    93	{
+    94		return psci_call(cpu_reg(host_ctxt, 0), cpu_reg(host_ctxt, 1),
+    95				 cpu_reg(host_ctxt, 2), cpu_reg(host_ctxt, 3));
+    96	}
+    97	
+    98	static unsigned int find_cpu_id(u64 mpidr)
+    99	{
+   100		unsigned int i;
+   101	
+   102		/* Reject invalid MPIDRs */
+   103		if (mpidr & ~MPIDR_HWID_BITMASK)
+   104			return INVALID_CPU_ID;
+   105	
+   106		for (i = 0; i < NR_CPUS; i++) {
+   107			if (cpu_logical_map(i) == mpidr)
+   108				return i;
+   109		}
+   110	
+   111		return INVALID_CPU_ID;
+   112	}
+   113	
+   114	static __always_inline bool try_acquire_boot_args(struct psci_boot_args *args)
+   115	{
+   116		return atomic_cmpxchg_acquire(&args->lock,
+   117					      PSCI_BOOT_ARGS_UNLOCKED,
+   118					      PSCI_BOOT_ARGS_LOCKED) ==
+   119			PSCI_BOOT_ARGS_UNLOCKED;
+   120	}
+   121	
+   122	static __always_inline void release_boot_args(struct psci_boot_args *args)
+   123	{
+   124		atomic_set_release(&args->lock, PSCI_BOOT_ARGS_UNLOCKED);
+   125	}
+   126	
+   127	static int psci_cpu_on(u64 func_id, struct kvm_cpu_context *host_ctxt)
+   128	{
+   129		DECLARE_REG(u64, mpidr, host_ctxt, 1);
+   130		DECLARE_REG(unsigned long, pc, host_ctxt, 2);
+   131		DECLARE_REG(unsigned long, r0, host_ctxt, 3);
+   132	
+   133		unsigned int cpu_id;
+   134		struct psci_boot_args *boot_args;
+   135		struct kvm_nvhe_init_params *init_params;
+   136		int ret;
+   137	
+   138		/*
+   139		 * Find the logical CPU ID for the given MPIDR. The search set is
+   140		 * the set of CPUs that were online at the point of KVM initialization.
+   141		 * Booting other CPUs is rejected because their cpufeatures were not
+   142		 * checked against the finalized capabilities. This could be relaxed
+   143		 * by doing the feature checks in hyp.
+   144		 */
+   145		cpu_id = find_cpu_id(mpidr);
+   146		if (cpu_id == INVALID_CPU_ID)
+   147			return PSCI_RET_INVALID_PARAMS;
+   148	
+   149		boot_args = per_cpu_ptr(&cpu_on_args, cpu_id);
+   150		init_params = per_cpu_ptr(&kvm_init_params, cpu_id);
+   151	
+   152		/* Check if the target CPU is already being booted. */
+   153		if (!try_acquire_boot_args(boot_args))
+   154			return PSCI_RET_ALREADY_ON;
+   155	
+   156		boot_args->pc = pc;
+   157		boot_args->r0 = r0;
+   158		wmb();
+   159	
+   160		ret = psci_call(func_id, mpidr,
+   161				__hyp_pa(&kvm_hyp_cpu_entry),
+   162				__hyp_pa(init_params));
+   163	
+   164		/* If successful, the lock will be released by the target CPU. */
+   165		if (ret != PSCI_RET_SUCCESS)
+   166			release_boot_args(boot_args);
+   167	
+   168		return ret;
+   169	}
+   170	
+   171	static int psci_cpu_suspend(u64 func_id, struct kvm_cpu_context *host_ctxt)
+   172	{
+   173		DECLARE_REG(u64, power_state, host_ctxt, 1);
+   174		DECLARE_REG(unsigned long, pc, host_ctxt, 2);
+   175		DECLARE_REG(unsigned long, r0, host_ctxt, 3);
+   176		int ret;
+   177	
+   178		struct psci_boot_args *boot_args;
+   179		struct kvm_nvhe_init_params *init_params;
+   180	
+   181		boot_args = this_cpu_ptr(&suspend_args);
+   182		init_params = this_cpu_ptr(&kvm_init_params);
+   183	
+   184		/*
+   185		 * No need to acquire a lock before writing to boot_args because a core
+   186		 * can only suspend itself. Racy CPU_ON calls use a separate struct.
+   187		 */
+   188		boot_args->pc = pc;
+   189		boot_args->r0 = r0;
+   190	
+ > 191		pkvm_psci_notify(PKVM_PSCI_CPU_SUSPEND, host_ctxt);
+   192		trace_hyp_exit();
+   193	
+   194		/*
+   195		 * Will either return if shallow sleep state, or wake up into the entry
+   196		 * point if it is a deep sleep state.
+   197		 */
+   198		ret = psci_call(func_id, power_state,
+   199				__hyp_pa(&kvm_hyp_cpu_resume),
+   200				__hyp_pa(init_params));
+   201	
+   202		return ret;
+   203	}
+   204	
 
-regards,
-
-Narayana Murty
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
