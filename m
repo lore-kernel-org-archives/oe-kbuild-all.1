@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4249443
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 23:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20930A29;
+	Tue, 17 Sep 2024 23:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726615672; cv=none; b=QvjrobUUNU9wdQV+x6E7Bpshs1uWcQa5G00zMSl1I3FwiTq8nUL+HfyLxR6KVNYkxHHAhwtYxakU23oDtSF5dNU3Jy3WFccE/G8vCk/7QjtcU9TKezEPJckr3SXjJgUGtG3eiDJzsWlJbmOC5gBCzDlYg++ycz0FUNdaheLHGxU=
+	t=1726616451; cv=none; b=DlY8cQSpPmVliIPGjczNj45Uj9wfEtF6a+oBm2oa/QOl0auXiPRBx0dhqmOAa/XwKaDLTR5bJQLhaypm6Wx5UnL4K38RDna9atJV+098dM6A60x+RV9VVpdtanVwWEC1Ba5YlRFeeL9ENIwDuX6f9rk7GBw6iTNc243G6Ev2ByE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726615672; c=relaxed/simple;
-	bh=g/Pmz/qEI8/+jiFosDjqPR6jxKOpIH0jm0dHkxIFKUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=noN5F/87SLQyODPz2ZGJcF5MOGPdHOZ+0f8VrDHtKuCIt7cdrXKJU9+oOpA29rdIcWtAQGLp5+w/g+j95eONhNrPwVyyQd/j2eNuK/pf7Yt1/qvHRHF43fEB0KCoJLnICoqfb02X+5YulJ9gNN022a3kvLQkOAe8Wm7bmikeNOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgZFPlT6; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1726616451; c=relaxed/simple;
+	bh=fiGOHXl2nzwT0mxv79wAgSj5B24XwW6x2xZcJMbNfEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kSw5woTGkA91FfmK3sCcV/PYVJ/ZonUg/RtMbvsyqFRcDxy1YTsrQwHDA+X6qF1sE5Wwc1BYRCjE8T72CWAL294Lm1iHBzJ0PyOAr20t+aDwLdfKqAiTdgmRjLHZ+DXd0h8iD/H+Vc+Uithj/lpS315G20noNjLOR9JkP4eHuT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwzuBMbx; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgZFPlT6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwzuBMbx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726615669; x=1758151669;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g/Pmz/qEI8/+jiFosDjqPR6jxKOpIH0jm0dHkxIFKUo=;
-  b=JgZFPlT6CWveEHjZsPvLc270RCZmiTKn6BGbBI9K52qwUCfbnRWjtPwa
-   xyp5XUNB0pSYTJtTW28nR90SvNi/n+sK4escbhm0zxH/Y4RcuhUC+57Bn
-   9xbBesLd6bL8p88/V5zW5VIpZ9uyjPN494KUZEX+ShYp35hy/JgEomFtR
-   /d/hb50Q2rFcr6yl4B1Ekh4WIWEbJr9ZmJogopWgXObHKca29sBTMKNH5
-   mdCWTxVbNkLlnk3ZwqYPBoEhjh2O0Y5WecTrL1Ikgox192lTKoBlrWSxp
-   SUCFbK+mU+gYKwlTIO4J0EN2wv9Wsk171KKu1G0DO8cShhaI+jaCoBqju
-   g==;
-X-CSE-ConnectionGUID: Wa6MCEBSTQSKA7oiwxVPDQ==
-X-CSE-MsgGUID: AHOYkbWmTUOrZAmu3LFiLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="13564688"
+  t=1726616450; x=1758152450;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fiGOHXl2nzwT0mxv79wAgSj5B24XwW6x2xZcJMbNfEk=;
+  b=HwzuBMbxdo8UOkzuPp2r/g5SnG2t9pY3Zyod21E13HaT2jwKFSQgi9aF
+   qLsNMev0/aAYpX5xOnWQo+jINcQ2qRlAe+aVlpKII8ixCkKQmM6Wc0CQv
+   hKpeohpGOdiXm43ztDqLrYGRCJqpo9rO9kezF+x276mW6UCxK4+gqPMPu
+   0aCWWSvfuftRB4JeMxzezxS3TPeLo1FDHESCfgpAapZ/8e3uOreyEPKU4
+   csWlELqMXmXQ9vDG+j09RwrX6lEfdAuHvkVDkxNVAZHXp8NNzk2u7RIU8
+   uX2NZN5Y/DOsm9Hc20K+vdADPtGmcUJKGiNuqUeHhjF16aGB93cadNDF+
+   A==;
+X-CSE-ConnectionGUID: 2PnkgGpYT36fMakYVflckw==
+X-CSE-MsgGUID: uC4fM3UiQDaoZhf4v9TUhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="36640632"
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="13564688"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 16:27:49 -0700
-X-CSE-ConnectionGUID: g8bjz9r1SHau+a2kJmRXsQ==
-X-CSE-MsgGUID: f5WYcql2TvquIJ8/uTGtmw==
+   d="scan'208";a="36640632"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 16:40:50 -0700
+X-CSE-ConnectionGUID: QrFMUZMWSn+G59CTDkMojA==
+X-CSE-MsgGUID: neIUYby9T7KEhStpZ5enCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="69836022"
+   d="scan'208";a="70156067"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Sep 2024 16:27:47 -0700
+  by orviesa008.jf.intel.com with ESMTP; 17 Sep 2024 16:40:48 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqhbl-000BhK-0T;
-	Tue, 17 Sep 2024 23:27:45 +0000
-Date: Wed, 18 Sep 2024 07:27:43 +0800
+	id 1sqhoL-000Bi2-1c;
+	Tue, 17 Sep 2024 23:40:45 +0000
+Date: Wed, 18 Sep 2024 07:40:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] crypto: lib/mpi - Extend support for scope-based
- resource management
-Message-ID: <202409180725.ZV8DCvII-lkp@intel.com>
-References: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
+To: Arnaud Vrac <avrac@freebox.fr>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Marc Gonzalez <mgonzalez@freebox.fr>
+Subject: [linux-next:master 7253/12283]
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c:156:19: error: unused function
+ 'pll_cmp_to_fdata'
+Message-ID: <202409180728.PLGhrkab-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,72 +65,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
 
-Hi Markus,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on herbert-crypto-2.6/master]
-[also build test ERROR on herbert-cryptodev-2.6/master linus/master v6.11 next-20240917]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/crypto-lib-mpi-Extend-support-for-scope-based-resource-management/20240917-173519
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/crypto-2.6.git master
-patch link:    https://lore.kernel.org/r/bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc%40web.de
-patch subject: [PATCH] crypto: lib/mpi - Extend support for scope-based resource management
-config: i386-buildonly-randconfig-002-20240918 (https://download.01.org/0day-ci/archive/20240918/202409180725.ZV8DCvII-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409180725.ZV8DCvII-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4f3e012d4cfd1d9bf837870c961f462ca9f23ebe
+commit: caedbf17c48dcd9f076aa7157c1bb8ab8082c418 [7253/12283] drm/msm: add msm8998 hdmi phy/pll support
+config: arm64-randconfig-004-20240918 (https://download.01.org/0day-ci/archive/20240918/202409180728.PLGhrkab-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409180728.PLGhrkab-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409180725.ZV8DCvII-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409180728.PLGhrkab-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/irqflags.h:17,
-                    from arch/x86/include/asm/special_insns.h:10,
-                    from arch/x86/include/asm/processor.h:25,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from crypto/dh.c:9:
-   include/linux/mpi.h: In function '__free_mpi_free':
->> include/linux/mpi.h:49:48: error: 'T_' undeclared (first use in this function)
-      49 | DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
-         |                                                ^~
-   include/linux/cleanup.h:62:78: note: in definition of macro 'DEFINE_FREE'
-      62 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   include/linux/mpi.h:49:48: note: each undeclared identifier is reported only once for each function it appears in
-      49 | DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
-         |                                                ^~
-   include/linux/cleanup.h:62:78: note: in definition of macro 'DEFINE_FREE'
-      62 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
->> include/linux/cleanup.h:62:60: warning: unused variable '_T' [-Wunused-variable]
-      62 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                            ^~
-   include/linux/mpi.h:49:1: note: in expansion of macro 'DEFINE_FREE'
-      49 | DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
-         | ^~~~~~~~~~~
+>> drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c:156:19: error: unused function 'pll_cmp_to_fdata' [-Werror,-Wunused-function]
+   static inline u64 pll_cmp_to_fdata(u32 pll_cmp, unsigned long ref_clk)
+                     ^
+   1 error generated.
 
 
-vim +/T_ +49 include/linux/mpi.h
+vim +/pll_cmp_to_fdata +156 drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
 
-    45	
-    46	/*-- mpiutil.c --*/
-    47	MPI mpi_alloc(unsigned nlimbs);
-    48	void mpi_free(MPI a);
-  > 49	DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(T_)) mpi_free(T_))
-    50	
+   155	
+ > 156	static inline u64 pll_cmp_to_fdata(u32 pll_cmp, unsigned long ref_clk)
+   157	{
+   158		u64 fdata = ((u64)pll_cmp) * ref_clk * 10;
+   159	
+   160		do_div(fdata, HDMI_PLL_CMP_CNT);
+   161	
+   162		return fdata;
+   163	}
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
