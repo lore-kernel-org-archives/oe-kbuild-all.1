@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C355167D80
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 10:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C83615D5A6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 10:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726568107; cv=none; b=u7+K8x+snbakg3QtvHwneTL4PG665cRhc66ltZ9pqICnDO/TC3BYcA4YDTnm1vCf5L4MD5CVP1cB4jk3NtGswt5madDThARVJ2fZpetk0JJXiD1HkcdjGmYlOQQqVXKt2obLVg9hmHRI6ACqpftjUtjsuTUjMDovwXMlTZiynFg=
+	t=1726568768; cv=none; b=k1fV0IY2+ozVq4Ccuj5HpLGBbnMj93BYFCNg1+96cROohI5tgCogswXGhCve5zKq4lyt2DWsp6Sxy6OI2c3pdYsijBvDYFOQZLG62nWwaH15xqdbjCAif8r4SEdF4K7gkQ3mOrcAW5Efwza1ukeTfHwgULSO/PxpQz9FIFL/o+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726568107; c=relaxed/simple;
-	bh=/HvRQ6dmTvWR5rQyuJxyg0Q4T3I9QXnlxi4mS3WRlwU=;
+	s=arc-20240116; t=1726568768; c=relaxed/simple;
+	bh=iKN13BcXJcr0NwbSh2K+UINLm8X3rHig5H0nyCccAgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=huuD857aFCdxjUtUa7VfC1YpsAEmthAAj7uiameJe3SHcnHQz4jGOkiIHAnQAYhmabC56LeYurf87j5fbOwxyX0cyJdJT9iTirVpYK8X2yZCfayuie4sJJB6+mVZy7R89FfrvteYj9nrlfRgPQS1CXLT2e2vcePd6t+1KZUm02k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdU+2LOG; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=a3hRhaFiKF0Z257a79QBorNvYtNRXb6RcitYsd5psBDnRPAU4EHfUMf6sUVCh8agsC0W3JLCV4hn+3i1lRrQ9yRR8/4uHOlBN1z/ua8Ou0kunlR8D7T75Q0y4WjbYaZXmQOpLZfCYCLBAMZ5z0fswgtZoP9QxN7Uot7D3Qx3K8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AXs77KkK; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdU+2LOG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AXs77KkK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726568105; x=1758104105;
+  t=1726568767; x=1758104767;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/HvRQ6dmTvWR5rQyuJxyg0Q4T3I9QXnlxi4mS3WRlwU=;
-  b=gdU+2LOGuL5xPc7lvCXrH7otjHJRyYa6IKB1ODQF6jjwSebQvohHsMwl
-   awcFLJwAXsN3F0jhEpFd2kbVE6FBXvBY/QhsP0CKJ2Tl6LTXvF6HnRCQj
-   izAtkbaoxqaGXEe/rz1bCKV568zgsTH714vaXGsw1nWBbsU5BKzzth1Mg
-   x1hwIJPQc+otCAJrK6nvRR/gAPGpzXpvQsrSVk5B0efl/h/5eq6WppVeo
-   5jPTuT1jcRgAI4TVPjvc2aJvNBpYcKcUwqcwowXUOjjdaVP3rwZWDi7uU
-   /t/njno3WF+GY/X88Ta0Je+0CEPqYHLyiPZKiDn2/HG6qF+yT9jWhBU0c
-   w==;
-X-CSE-ConnectionGUID: Eeu7HAptTGuBrGQ9lhA95w==
-X-CSE-MsgGUID: 9BmWPen2Q9+hrU5XXtBPEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="29200701"
+  bh=iKN13BcXJcr0NwbSh2K+UINLm8X3rHig5H0nyCccAgg=;
+  b=AXs77KkKRRalu82sOGi/Emb5bKYNmffMwXP6VWa7n4i7Hje9CWaXKHcp
+   zVwEybmaSPlIWkuKtaxnLQPwKr3qjsjUXO5GWXc+QQ/WwtGMw5yVRxvlf
+   FZ+WHLFJ6L5YhMA3wJ7UPlHF3CN7y52QQzAdIQMHDCqs+62DAv0crbuIS
+   HknJ3TCXw60ryl/8FLVXJfPzwg2J+RQE3p2SQrxz6r45bIxPNtV8v2hYI
+   KjLLjt3n4nxqdmt4wQhZ+Yucom24bsN7JQGgDMimUfyrEzc69rUCvFTxn
+   /mfj7NR120pRgIiE31RhiJ6nYnFzACdvRIp/Ixf3s6qg6UReDdKncR60f
+   A==;
+X-CSE-ConnectionGUID: MAMcpVxgRLGRQ8MKA3CVFQ==
+X-CSE-MsgGUID: KvSyXSKDQu6BP9aOUalm1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="36554250"
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="29200701"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 03:15:04 -0700
-X-CSE-ConnectionGUID: xLpDXJx1QCiVQODp2srxBg==
-X-CSE-MsgGUID: +ylqlzJ8QuG0/E4gCwLE1g==
+   d="scan'208";a="36554250"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 03:26:06 -0700
+X-CSE-ConnectionGUID: 9agw7zS0Smi6jaSS+p6DCA==
+X-CSE-MsgGUID: iMUdISYMQzqk5k/gf9PCYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="92435840"
+   d="scan'208";a="69366213"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Sep 2024 03:15:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Sep 2024 03:26:03 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqVEZ-000B3i-2a;
-	Tue, 17 Sep 2024 10:14:59 +0000
-Date: Tue, 17 Sep 2024 18:14:57 +0800
+	id 1sqVPF-000B3y-06;
+	Tue, 17 Sep 2024 10:26:01 +0000
+Date: Tue, 17 Sep 2024 18:25:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe-2.1 5/5] fork.c:undefined reference to
- `unwind_task_free'
-Message-ID: <202409171826.TKOcTuUe-lkp@intel.com>
+Subject: [opencloudos:next 7251/10952] loongarch64-linux-ld:
+ cpuset.c:undefined reference to `get_iowait_time'
+Message-ID: <202409171833.WG2q1Apk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +66,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe-2.1
-head:   5b35eb7c617539f21cbe3764b0ee0c77567b0f22
-commit: 5b35eb7c617539f21cbe3764b0ee0c77567b0f22 [5/5] unwind: Add deferred interfaces
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240917/202409171826.TKOcTuUe-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409171826.TKOcTuUe-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   df2c80fc64e69be0095e3315c470353b01ce0c31
+commit: 4366f3277270b446deb234bf30fdcfedbc749282 [7251/10952] cpustat: make get_iowait_time external
+config: loongarch-randconfig-r064-20240916 (https://download.01.org/0day-ci/archive/20240917/202409171833.WG2q1Apk-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409171833.WG2q1Apk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409171826.TKOcTuUe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409171833.WG2q1Apk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   or1k-linux-ld: kernel/fork.o: in function `__put_task_struct':
->> fork.c:(.text+0x12b4): undefined reference to `unwind_task_free'
->> fork.c:(.text+0x12b4): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `unwind_task_free'
-   or1k-linux-ld: kernel/fork.o: in function `copy_process':
->> fork.c:(.text+0x2250): undefined reference to `unwind_task_init'
->> fork.c:(.text+0x2250): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `unwind_task_init'
+   loongarch64-linux-ld: kernel/cgroup/cpuset.o: in function `cpuset_cgroup_stat_show_comm.constprop.0.isra.0':
+   cpuset.c:(.text+0xdd4): undefined reference to `get_idle_time'
+>> loongarch64-linux-ld: cpuset.c:(.text+0xdec): undefined reference to `get_iowait_time'
+   loongarch64-linux-ld: kernel/cgroup/cpuset.o: in function `.L136':
+   cpuset.c:(.text+0x11d0): undefined reference to `get_idle_time'
+   loongarch64-linux-ld: kernel/cgroup/cpuset.o: in function `.L137':
+>> cpuset.c:(.text+0x11ec): undefined reference to `get_iowait_time'
+   loongarch64-linux-ld: drivers/video/fbdev/ls2k500sfb.o: in function `.L152':
+   ls2k500sfb.c:(.text+0xfdc): undefined reference to `fg_console'
+   loongarch64-linux-ld: ls2k500sfb.c:(.text+0xfe0): undefined reference to `fg_console'
 
 -- 
 0-DAY CI Kernel Test Service
