@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4098A93D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Sep 2024 01:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7407F18C22;
+	Tue, 17 Sep 2024 01:49:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726537785; cv=none; b=hmdUmi87a/SD+MUWMgq6VIflXrUP1jmlp++izLi/g/6TunhQnIROaR5wEibrfPaD6rEmPPz9Lewm/QEE/821dLSTnL61NnBUscT29K4b2nnHPp59lrnE+7YZAwMpgzVz3tuNySjbZR0sUUug6+KsJApM8MwBCnlKuBhFtu+O1t4=
+	t=1726537787; cv=none; b=cAgtWdOW/7Z/KM3z1xUoGeT+wf6YZ81kGVMMD1S1WAxKD/PSpPxbqHOu2rEYcF5ISlMt/zAe51ZMGjtE5aTyTeiv745jkyyCfBAm+DSPHQumJSZBwMRXsdjqIb7PIN66CFfOUPrwKIIP0SzPMqzOKnWGbWLDNn/78dg0emFaxYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726537785; c=relaxed/simple;
-	bh=NbOMlFHD53WxzHeq7t15Hgu47c3rGVA32W5Nuk5iMDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XBYxFA+rukzFZqD6pZEUcm2Hrk1cHXw5LhkgTMO/oTQkwaXz8NXUKRhywN8BW/H2JWqJSq7STWV1ON8umOcy1PMNV9QCFX4zSm1qw4zQcVHlDmum4H5wmdGFY7p30iMgWzk1yt/c7v04mP8auFMi3DeNi6vsYKMkrvABvu5f4qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQMnIWez; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1726537787; c=relaxed/simple;
+	bh=Eo77KNdi/8iemFjT6AdTWrK/OwDDlJo3jkg/LP3tlvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=an6xPIA+4jO2ZpNESZI7YI4uEpbSb9CWHQPuUmSZipTGAXR0sMQfb3eWnYE7USHxXNe5T/4eEU2Oig1o5FzHyiMRcqbLXobLyxNeipUy+0W+YLZm5KuafcpLrUC34I3nh7wzJS22rziSjWYvZN/hqUgpyMeqkRWfUEKM3VtW0cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9Du/XMP; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQMnIWez"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9Du/XMP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726537783; x=1758073783;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NbOMlFHD53WxzHeq7t15Hgu47c3rGVA32W5Nuk5iMDg=;
-  b=CQMnIWezo9wlUD7LbwTBtCPDBw7oi5PxcuYXgYCQZhJviSMjJ9+1Jgcz
-   K7lIrv0dYnP1v00D/psLwyuSjXN+Z9+Pe8kFlcAd2ahIadzkCqO42hL3K
-   KDoJh6aY+ajLEnAF3bYqc2NnsWYZN8EkNN5q7VXYvZuxrnn+3/TSCNboS
-   G7f1fngEhOKjm5XVkYEckm6xlw0etfyB9HOc84X51Wlnxwi0sHOA7zXoZ
-   uyHXV1FY8frh9h1FnO0iNvMqeZFH+2jQAUQElS6Uq1cw1sO90OhcegeWA
-   TVq/mdj/DvQLgVMJqWA2XHlfKAMX8TbWFSR7aTLkAA/LXXuGsQpwu9n9W
-   A==;
-X-CSE-ConnectionGUID: BeQe0/zfQgGvoEIbUTfvJQ==
-X-CSE-MsgGUID: o/XhD9ITQxCzmslNR4D4og==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="25505114"
+  t=1726537786; x=1758073786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Eo77KNdi/8iemFjT6AdTWrK/OwDDlJo3jkg/LP3tlvI=;
+  b=f9Du/XMPYKCwEW4cBs0GVacxJPIfDoMpVAN3pNyu8WDq8kuX36wd+nt/
+   v2zLZvlh7yoDcSw1xuW/h7yf+Hv92rn/azq5cq9RQy2dna9Gavt1zCkn4
+   EmQAOcFqc+TU5kX5uco3mimlKEa8I0OtbRYDs+EssOPhf1xmyjPzzecBa
+   Sozk6QG6L3izg6DzIG2LOKOhADzJFqX/HHKE4vlDnjxzWQVgIHgedz7/w
+   bHDWb+RB7MKr/VLr7YfwgXs4fvYLuLq4H4lezoeTILGeOrR8dtklZRzZb
+   xSlxdahAKubnWcZym958RPCj/gXTXj/F0xP+oitMGkwnK3RSGd3ywSbMi
+   g==;
+X-CSE-ConnectionGUID: +AlJMOi0SW2pCw7LE5bZ9g==
+X-CSE-MsgGUID: UXIHeLfETcele2nY2cTY6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="25505118"
 X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
-   d="scan'208";a="25505114"
+   d="scan'208";a="25505118"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 18:49:42 -0700
-X-CSE-ConnectionGUID: bmmvkZ59RIKGUlSuf180dA==
-X-CSE-MsgGUID: B3uKY8UiRcWW3M1pkD1oyA==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 18:49:43 -0700
+X-CSE-ConnectionGUID: frMDvjj/Tz2Ey4ppVYuKoQ==
+X-CSE-MsgGUID: +VrRC8pQSDeB8SGeqHKZyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
-   d="scan'208";a="73405343"
+   d="scan'208";a="73405347"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 16 Sep 2024 18:49:41 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqNLW-000Ah6-30;
+	id 1sqNLW-000Ah4-2v;
 	Tue, 17 Sep 2024 01:49:38 +0000
-Date: Tue, 17 Sep 2024 09:48:51 +0800
+Date: Tue, 17 Sep 2024 09:48:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: arch/powerpc/platforms/44x/uic.c:40:12: sparse: sparse: symbol
- 'primary_uic' was not declared. Should it be static?
-Message-ID: <202409170900.BtJZbhrx-lkp@intel.com>
+To: Steve Sistare <steven.sistare@oracle.com>, iommu@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V1 6/9] iommufd: IOMMU_IOAS_MAP_FILE implementation
+Message-ID: <202409170940.No0O836I-lkp@intel.com>
+References: <1726319158-283074-7-git-send-email-steven.sistare@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +65,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1726319158-283074-7-git-send-email-steven.sistare@oracle.com>
 
-Hi Christophe,
+Hi Steve,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a430d95c5efa2b545d26a094eb5f624e36732af0
-commit: d5d1a1a55a7f227c0f41847b0598982f0a93170d powerpc/platforms: Move files from 4xx to 44x
-date:   3 months ago
-config: powerpc-randconfig-r132-20240916 (https://download.01.org/0day-ci/archive/20240917/202409170900.BtJZbhrx-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240917/202409170900.BtJZbhrx-lkp@intel.com/reproduce)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.11 next-20240916]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steve-Sistare/mm-gup-repin_folio_unhugely/20240914-210746
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/1726319158-283074-7-git-send-email-steven.sistare%40oracle.com
+patch subject: [PATCH V1 6/9] iommufd: IOMMU_IOAS_MAP_FILE implementation
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240917/202409170940.No0O836I-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240917/202409170940.No0O836I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409170900.BtJZbhrx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409170940.No0O836I-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/platforms/44x/uic.c:40:12: sparse: sparse: symbol 'primary_uic' was not declared. Should it be static?
-   arch/powerpc/platforms/44x/uic.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
---
->> arch/powerpc/platforms/44x/pci.c:116:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *cell @@     got unsigned int const [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:116:54: sparse:     expected restricted __be32 const [usertype] *cell
-   arch/powerpc/platforms/44x/pci.c:116:54: sparse:     got unsigned int const [usertype] *
->> arch/powerpc/platforms/44x/pci.c:117:74: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 const [usertype] *in_addr @@     got unsigned int const [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:117:74: sparse:     expected restricted __be32 const [usertype] *in_addr
-   arch/powerpc/platforms/44x/pci.c:117:74: sparse:     got unsigned int const [usertype] *
-   arch/powerpc/platforms/44x/pci.c:118:52: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *cell @@     got unsigned int const [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:118:52: sparse:     expected restricted __be32 const [usertype] *cell
-   arch/powerpc/platforms/44x/pci.c:118:52: sparse:     got unsigned int const [usertype] *
->> arch/powerpc/platforms/44x/pci.c:1528:30: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/powerpc/platforms/44x/pci.c:1528:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned char const volatile [noderef] [usertype] __iomem *addr @@     got unsigned char [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:1528:30: sparse:     expected unsigned char const volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/44x/pci.c:1528:30: sparse:     got unsigned char [usertype] *
-   arch/powerpc/platforms/44x/pci.c:1531:33: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/powerpc/platforms/44x/pci.c:1531:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *addr @@     got unsigned short [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:1531:33: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/44x/pci.c:1531:33: sparse:     got unsigned short [usertype] *
-   arch/powerpc/platforms/44x/pci.c:1534:33: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/powerpc/platforms/44x/pci.c:1534:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:1534:33: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/44x/pci.c:1534:33: sparse:     got unsigned int [usertype] *
-   arch/powerpc/platforms/44x/pci.c:1585:24: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/powerpc/platforms/44x/pci.c:1585:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned char volatile [noderef] [usertype] __iomem *addr @@     got unsigned char [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:1585:24: sparse:     expected unsigned char volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/44x/pci.c:1585:24: sparse:     got unsigned char [usertype] *
-   arch/powerpc/platforms/44x/pci.c:1588:27: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/powerpc/platforms/44x/pci.c:1588:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got unsigned short [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:1588:27: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/44x/pci.c:1588:27: sparse:     got unsigned short [usertype] *
-   arch/powerpc/platforms/44x/pci.c:1591:27: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/powerpc/platforms/44x/pci.c:1591:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/powerpc/platforms/44x/pci.c:1591:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/44x/pci.c:1591:27: sparse:     got unsigned int [usertype] *
-   arch/powerpc/platforms/44x/pci.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +/primary_uic +40 arch/powerpc/platforms/44x/uic.c
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'ictx' not described in 'iopt_map_file_pages'
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'iopt' not described in 'iopt_map_file_pages'
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'iova' not described in 'iopt_map_file_pages'
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'file' not described in 'iopt_map_file_pages'
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'start' not described in 'iopt_map_file_pages'
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'length' not described in 'iopt_map_file_pages'
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'iommu_prot' not described in 'iopt_map_file_pages'
+>> drivers/iommu/iommufd/io_pagetable.c:458: warning: Function parameter or struct member 'flags' not described in 'iopt_map_file_pages'
 
-e58923ed14370e arch/powerpc/sysdev/uic.c David Gibson 2007-04-18  39  
-e58923ed14370e arch/powerpc/sysdev/uic.c David Gibson 2007-04-18 @40  struct uic *primary_uic;
-e58923ed14370e arch/powerpc/sysdev/uic.c David Gibson 2007-04-18  41  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
-:::::: The code at line 40 was first introduced by commit
-:::::: e58923ed14370e0facc5eb2c3923216adc3bf260 [POWERPC] Add arch/powerpc driver for UIC, PPC4xx interrupt controller
 
-:::::: TO: David Gibson <david@gibson.dropbear.id.au>
-:::::: CC: Paul Mackerras <paulus@samba.org>
+vim +458 drivers/iommu/iommufd/io_pagetable.c
+
+   448	
+   449	/**
+   450	 * iopt_map_file_pages() - Like iopt_map_user_pages, but map @file starting
+   451	 * at byte offset @start.
+   452	 */
+   453	int iopt_map_file_pages(struct iommufd_ctx *ictx, struct io_pagetable *iopt,
+   454				unsigned long *iova,
+   455				struct file *file, unsigned long start,
+   456				unsigned long length, int iommu_prot,
+   457				unsigned int flags)
+ > 458	{
+   459		struct iopt_pages *pages;
+   460	
+   461		pages = iopt_alloc_file_pages(file, start, length,
+   462					      iommu_prot & IOMMU_WRITE);
+   463		if (IS_ERR(pages))
+   464			return PTR_ERR(pages);
+   465		return iopt_map_common(ictx, iopt, pages, iova, length,
+   466				       start - pages->start,
+   467				       iommu_prot, flags);
+   468	}
+   469	
 
 -- 
 0-DAY CI Kernel Test Service
