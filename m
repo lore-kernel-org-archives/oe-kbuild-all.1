@@ -1,78 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD1517C98E;
-	Wed, 18 Sep 2024 20:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12A114B94A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 20:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726691457; cv=none; b=Nn7fOfrA83dNjA9nQRzy4/68tDcI1E1tTUjbIbSXVJo2wKAGT1ZeMADmMsKgT427koiDaGY6TIPQ6eWKdMB2ho7UHIJAoFieAP3Pr+usfHwtLugngcTx7OVs2dRxTOuVkWg+TcG+SgssNuBZa1cNFSjdC7dZCzP4RRGtuAgWgks=
+	t=1726692052; cv=none; b=BgPfFEVlEiQ4xlwYwZT00HzXJDOo6gX/XExb9jJrHFCNAVVVgg7mKVbeA6Rtj0mzudG6EkKrGI0vtRpVktEsKHi13mmix0ACGPvmsKoZ+UEqmPPzCEWabti+koE0HQu1QDknDCENzVo6Dex0/uWerCiS5JRYHR9oYZ1V5s7Br94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726691457; c=relaxed/simple;
-	bh=v8crAcUcgAosNzF9JtGxdHujIVkHQ2sPvfBZI7YKIEI=;
+	s=arc-20240116; t=1726692052; c=relaxed/simple;
+	bh=H8NpjiUe8uVSwUUfMIFx4tX57qwo9fipUI5iLFyDtCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ShB6CuthqvtQ1TMviOhKAm0hTCtX3Hw07qY5OC+8JRKhH9Ac3yJnyghCIgbZrrx0hvTOarNWSkI0v7Ux1zsGv6nPHXgt35Hxike+7spS6ynbNiQg6JPpSF7tLqyDtwsjGsZ0KnxV+jfpwOXEYcHNtMaVAPZCwQphLweCzW0L0UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOFxpgC/; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=rtVLDshra641NebppAxMsto4Unl2Vj7qzWzfUsZ2VsB/Xf94ZliBDmFn7jpR3BJ9B8O7rAHsU27bPRI5yGvdG+vNMPAtJ5outeNI2Z5FM9PikHIqSJswRmkgC0EPZkWbeRL2GQSjt5oEXTkGKc3qZvAZ8I2aqFOT4zAATos37U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJY74GGL; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOFxpgC/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJY74GGL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726691456; x=1758227456;
+  t=1726692051; x=1758228051;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=v8crAcUcgAosNzF9JtGxdHujIVkHQ2sPvfBZI7YKIEI=;
-  b=nOFxpgC/jgbzYFsWzmRaZsAK9M/1PV5oKFUwY+0gmpNAM0JzNSy6jqoX
-   V5GBpdjrN6Q1t6x1xC1lG/cAzDBMU3KbhZlbzLhvQkZ7mkz7iDHGABWNW
-   BO88xqGZQbX0nexNRCecH7MBGyO9X0Gq7EEXOf4dXt44M/OUtMHs/uwfX
-   x6rad9t2LKFdKznSBFxvZuyb7QMfyCZwS0WP0KRC1JKnSV2p4K4b0aswk
-   8CHF2uZ4/Zs9J0ItSaifYevPhZT1xmbb91W2csYkMogXW4LqXnoVMh1F2
-   2VWZwLLfTNri0Rtrr1JEC8fq0zwox8Lo2EkQCO8LRDAO0o9su8Unw93zJ
-   A==;
-X-CSE-ConnectionGUID: /KwAeizXQrCXoSMmKLyJcA==
-X-CSE-MsgGUID: WCLBQfaETO6QIi6bXHBMdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36211530"
+  bh=H8NpjiUe8uVSwUUfMIFx4tX57qwo9fipUI5iLFyDtCg=;
+  b=IJY74GGL6Wd13BHVmLrF4zZlRq9oTt7yZZrNOY818eqrQ69WCuz1Rm0k
+   l5Ffn/0Yd0Y6D15a3/G5GFfp2qIz48UIWoJTbmvIm1jVG0vdaG1ozHsEb
+   kT33Vt//3rHEugLnJWAjn+KkuPY9AWNrU9KMWZ62JQfb66Srbl8Gw9r44
+   dfIXl6ePapOJhndTd+nyy12CduQcEs29EaKIu8WMI+r650juL+icL18xf
+   0XVmyhE53J47heG9aGP45jg8Jk946ZSZYv40iYDmSgVHosd/7HV6MaV09
+   hezyMCRtv11GGAYmJ+CBrltRvck3NqOgkt6Pdh05Z1kxcOdI8k4k1rLty
+   Q==;
+X-CSE-ConnectionGUID: 8ZhL/9OVTAer5x8KpgsGvg==
+X-CSE-MsgGUID: VS7dU+L+QsqXyHKqAIluXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="37002020"
 X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="36211530"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 13:30:55 -0700
-X-CSE-ConnectionGUID: G03l2KzpRg6lUZ1ybq6Pkw==
-X-CSE-MsgGUID: KgXze0/ERmmsxsK33VvTNA==
+   d="scan'208";a="37002020"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 13:40:49 -0700
+X-CSE-ConnectionGUID: 8uRKfh3ARUyvybs64jNFrQ==
+X-CSE-MsgGUID: gPS2WFfsSSmvC4IHnjreyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="107154632"
+   d="scan'208";a="74488842"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Sep 2024 13:30:48 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 Sep 2024 13:40:48 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sr1K1-000Cc6-1d;
-	Wed, 18 Sep 2024 20:30:45 +0000
-Date: Thu, 19 Sep 2024 04:30:20 +0800
+	id 1sr1Th-000CcZ-2P;
+	Wed, 18 Sep 2024 20:40:45 +0000
+Date: Thu, 19 Sep 2024 04:40:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-Message-ID: <202409190310.ViHBRe12-lkp@intel.com>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+To: NeilBrown <neilb@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH - RFC] VFS: disable new delegations during
+ delegation-breaking operations
+Message-ID: <202409190404.Yjqn3KXY-lkp@intel.com>
+References: <172646129988.17050.4729474250083101679@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,424 +63,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+In-Reply-To: <172646129988.17050.4729474250083101679@noble.neil.brown.name>
 
-Hi Anshuman,
+Hi NeilBrown,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus brauner-vfs/vfs.all dennis-percpu/for-next linus/master v6.11]
-[cannot apply to akpm-mm/mm-everything next-20240918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/m68k-mm-Change-pmd_val/20240917-153331
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20240917073117.1531207-8-anshuman.khandual%40arm.com
-patch subject: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-config: arm-footbridge_defconfig (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/VFS-disable-new-delegations-during-delegation-breaking-operations/20240916-123616
+base:   98f7e32f20d28ec452afb208f9cffc08448a2652
+patch link:    https://lore.kernel.org/r/172646129988.17050.4729474250083101679%40noble.neil.brown.name
+patch subject: [PATCH - RFC] VFS: disable new delegations during delegation-breaking operations
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240919/202409190404.Yjqn3KXY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190404.Yjqn3KXY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409190310.ViHBRe12-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409190404.Yjqn3KXY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:30:
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:8: error: array initializer must be an initializer list or wide string literal
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |               ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
---
-     163 | _SIG_SET_BINOP(sigandnsets, _sig_andn)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:140:3: note: expanded from macro '_SIG_SET_BINOP'
-     140 |                 r->sig[3] = op(a3, b3);                                 \
-         |                 ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:163:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     163 | _SIG_SET_BINOP(sigandnsets, _sig_andn)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:141:3: note: expanded from macro '_SIG_SET_BINOP'
-     141 |                 r->sig[2] = op(a2, b2);                                 \
-         |                 ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:27: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:10: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                 ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:20: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:3: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                 ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/arm/kernel/asm-offsets.c:12:
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: passing 'const volatile pmdval_t *' (aka 'const volatile unsigned int *') to parameter of type 'pmdval_t *' (aka 'unsigned int *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                 ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-   arch/arm/include/asm/pgtable.h:154:25: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                 ^
-   include/asm-generic/rwonce.h:47:28: note: expanded from macro 'READ_ONCE'
-      47 | #define READ_ONCE(x)                                                    \
-         |                                                                         ^
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/asm-generic/pgtable-nop4d.h:21:34: note: passing argument to parameter 'pgd' here
-      21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
-         |                                  ^
-   29 warnings and 18 errors generated.
-   make[3]: *** [scripts/Makefile.build:117: arch/arm/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1194: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   fs/smb/server/vfs.c: In function 'ksmbd_vfs_rename':
+>> fs/smb/server/vfs.c:784:12: error: 'struct renamedata' has no member named 'delegated_inode'; did you mean 'delegated_inode_new'?
+     784 |         rd.delegated_inode      = NULL,
+         |            ^~~~~~~~~~~~~~~
+         |            delegated_inode_new
+>> fs/smb/server/vfs.c:784:39: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     784 |         rd.delegated_inode      = NULL,
+         |                                       ^
 
 
-vim +1245 include/linux/pgtable.h
+vim +784 fs/smb/server/vfs.c
 
-  1242	
-  1243	static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-  1244	{
-> 1245		pgd_t old_pgd = pgdp_get(pgd);
-  1246	
-  1247		if (pgd_none(old_pgd))
-  1248			return 1;
-  1249		if (unlikely(pgd_bad(old_pgd))) {
-  1250			pgd_clear_bad(pgd);
-  1251			return 1;
-  1252		}
-  1253		return 0;
-  1254	}
-  1255	
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  682  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  683  int ksmbd_vfs_rename(struct ksmbd_work *work, const struct path *old_path,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  684  		     char *newname, int flags)
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  685  {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  686  	struct dentry *old_parent, *new_dentry, *trap;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  687  	struct dentry *old_child = old_path->dentry;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  688  	struct path new_path;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  689  	struct qstr new_last;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  690  	struct renamedata rd;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  691  	struct filename *to;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  692  	struct ksmbd_share_config *share_conf = work->tcon->share_conf;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  693  	struct ksmbd_file *parent_fp;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  694  	int new_type;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  695  	int err, lookup_flags = LOOKUP_NO_SYMLINKS;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  696  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  697  	if (ksmbd_override_fsids(work))
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  698  		return -ENOMEM;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  699  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  700  	to = getname_kernel(newname);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  701  	if (IS_ERR(to)) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  702  		err = PTR_ERR(to);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  703  		goto revert_fsids;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  704  	}
+4b637fc1890260 fs/cifsd/vfs.c      Namjae Jeon       2021-06-18  705  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  706  retry:
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  707  	err = vfs_path_parent_lookup(to, lookup_flags | LOOKUP_BENEATH,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  708  				     &new_path, &new_last, &new_type,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  709  				     &share_conf->vfs_path);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  710  	if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  711  		goto out1;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  712  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  713  	if (old_path->mnt != new_path.mnt) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  714  		err = -EXDEV;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  715  		goto out2;
+4b637fc1890260 fs/cifsd/vfs.c      Namjae Jeon       2021-06-18  716  	}
+4b637fc1890260 fs/cifsd/vfs.c      Namjae Jeon       2021-06-18  717  
+40b268d384a222 fs/smb/server/vfs.c Namjae Jeon       2023-06-15  718  	err = mnt_want_write(old_path->mnt);
+40b268d384a222 fs/smb/server/vfs.c Namjae Jeon       2023-06-15  719  	if (err)
+40b268d384a222 fs/smb/server/vfs.c Namjae Jeon       2023-06-15  720  		goto out2;
+40b268d384a222 fs/smb/server/vfs.c Namjae Jeon       2023-06-15  721  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  722  	trap = lock_rename_child(old_child, new_path.dentry);
+a8b0026847b8c4 fs/smb/server/vfs.c Al Viro           2023-11-20  723  	if (IS_ERR(trap)) {
+a8b0026847b8c4 fs/smb/server/vfs.c Al Viro           2023-11-20  724  		err = PTR_ERR(trap);
+a8b0026847b8c4 fs/smb/server/vfs.c Al Viro           2023-11-20  725  		goto out_drop_write;
+a8b0026847b8c4 fs/smb/server/vfs.c Al Viro           2023-11-20  726  	}
+4b637fc1890260 fs/cifsd/vfs.c      Namjae Jeon       2021-06-18  727  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  728  	old_parent = dget(old_child->d_parent);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  729  	if (d_unhashed(old_child)) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  730  		err = -EINVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  731  		goto out3;
+c36fca8630dda0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-30  732  	}
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  733  
+4274a9dc6aeb9f fs/smb/server/vfs.c Namjae Jeon       2023-11-20  734  	parent_fp = ksmbd_lookup_fd_inode(old_child->d_parent);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  735  	if (parent_fp) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  736  		if (parent_fp->daccess & FILE_DELETE_LE) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  737  			pr_err("parent dir is opened with delete access\n");
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  738  			err = -ESHARE;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  739  			ksmbd_fd_put(work, parent_fp);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  740  			goto out3;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  741  		}
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  742  		ksmbd_fd_put(work, parent_fp);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  743  	}
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  744  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  745  	new_dentry = lookup_one_qstr_excl(&new_last, new_path.dentry,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  746  					  lookup_flags | LOOKUP_RENAME_TARGET);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  747  	if (IS_ERR(new_dentry)) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  748  		err = PTR_ERR(new_dentry);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  749  		goto out3;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  750  	}
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  751  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  752  	if (d_is_symlink(new_dentry)) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  753  		err = -EACCES;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  754  		goto out4;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  755  	}
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  756  
+4973b04d3ea577 fs/smb/server/vfs.c Marios Makassikis 2024-04-15  757  	/*
+4973b04d3ea577 fs/smb/server/vfs.c Marios Makassikis 2024-04-15  758  	 * explicitly handle file overwrite case, for compatibility with
+4973b04d3ea577 fs/smb/server/vfs.c Marios Makassikis 2024-04-15  759  	 * filesystems that may not support rename flags (e.g: fuse)
+4973b04d3ea577 fs/smb/server/vfs.c Marios Makassikis 2024-04-15  760  	 */
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  761  	if ((flags & RENAME_NOREPLACE) && d_is_positive(new_dentry)) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  762  		err = -EEXIST;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  763  		goto out4;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  764  	}
+4973b04d3ea577 fs/smb/server/vfs.c Marios Makassikis 2024-04-15  765  	flags &= ~(RENAME_NOREPLACE);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  766  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  767  	if (old_child == trap) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  768  		err = -EINVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  769  		goto out4;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  770  	}
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  771  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  772  	if (new_dentry == trap) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  773  		err = -ENOTEMPTY;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  774  		goto out4;
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee      2021-09-25  775  	}
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  776  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  777  	rd.old_mnt_idmap	= mnt_idmap(old_path->mnt),
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  778  	rd.old_dir		= d_inode(old_parent),
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  779  	rd.old_dentry		= old_child,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  780  	rd.new_mnt_idmap	= mnt_idmap(new_path.mnt),
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  781  	rd.new_dir		= new_path.dentry->d_inode,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  782  	rd.new_dentry		= new_dentry,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  783  	rd.flags		= flags,
+48b47f0caaa8a9 fs/smb/server/vfs.c Namjae Jeon       2023-05-12 @784  	rd.delegated_inode	= NULL,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  785  	err = vfs_rename(&rd);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  786  	if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  787  		ksmbd_debug(VFS, "vfs_rename failed err %d\n", err);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  788  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  789  out4:
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  790  	dput(new_dentry);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  791  out3:
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  792  	dput(old_parent);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  793  	unlock_rename(old_parent, new_path.dentry);
+a8b0026847b8c4 fs/smb/server/vfs.c Al Viro           2023-11-20  794  out_drop_write:
+40b268d384a222 fs/smb/server/vfs.c Namjae Jeon       2023-06-15  795  	mnt_drop_write(old_path->mnt);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  796  out2:
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  797  	path_put(&new_path);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  798  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  799  	if (retry_estale(err, lookup_flags)) {
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  800  		lookup_flags |= LOOKUP_REVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  801  		goto retry;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  802  	}
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  803  out1:
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  804  	putname(to);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  805  revert_fsids:
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon       2023-04-21  806  	ksmbd_revert_fsids(work);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  807  	return err;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  808  }
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  809  
 
 -- 
 0-DAY CI Kernel Test Service
