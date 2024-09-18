@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8E7136663
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 05:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854262E630;
+	Wed, 18 Sep 2024 05:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726636141; cv=none; b=LVJHB7c/uVsEHCOto3Md83Z10/fhBmSVxgbC3PMfwPhflP4wixDz4jWILTf7PwsdV+nqhenyeNFcIe0AG6VLtx1LDyQKtPfgAinxj9EBup/uqYmyEunT9pRTqPmcMtD7osIiCjODtA3+s1YkV5KkxiFgSo0XQup91owHOcz5RD0=
+	t=1726636145; cv=none; b=H6hVy/S3DxOswj4ypWpQssarTaFVym9rRwygQ5iGPvm5Vp8rPX1dioJGuZy6XdZkL4U1ZBp29v+UCoEpTp8YKO/VQ38kcM1BG9rVzq7/Cbp+lW7WmQaxJ1UU41FifgkGvLiB/q3NisBq7cmEFDOd4MntkLITED9PB1hySYiD9vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726636141; c=relaxed/simple;
-	bh=VANSrgJhnd8vlDS2qGuVERpUxlgC2gEJskeNzMOerXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h7n4IK4LMWkRWrR3ouwwY1Zeh4eYHxIQL5/+5Aw1bBugpFDNMVeWKJ9nP9O2MUZbGr4K7tF3svYrz8FCIWlyoF7bVoopZT+0UEwuouQROOlEP0pKQYXxXo8kO/BUQnqP8QGncq4kYlEeb9pu92590q1akVhJUtICEh/iFwp6LGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grd7j2vB; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1726636145; c=relaxed/simple;
+	bh=As9YAcSfIVcVorbigO5cjdtcP7FT++p9qmX0oJ0wRCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ll8aHiZPaRFAqKCZ7LtZeTnlSnzAys+gb40kFsfxjAM059Qp1/wFb4yy0P9s6c/fDvAeHSb8d/XsghbSVf6pqpHo61kfVnXfUSKDj2tIdqDK49nusL0K/zai3QN8eyawwi5UpGRnUriw/CnpWkJQvXYbnGPpKc/DwSs8/qFeKrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KHF0fzUT; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grd7j2vB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KHF0fzUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726636140; x=1758172140;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VANSrgJhnd8vlDS2qGuVERpUxlgC2gEJskeNzMOerXs=;
-  b=grd7j2vBX8MWTjDDTCSmBBCMXIkMphX/vdsnaYuNbHzugaSmDVmlgKxg
-   mRktAxQf7zRl7eCmf5v0wcyy69wCBZ0HJVXXoo6ELjk61wVRGShA3DY9m
-   CaVoVp5WPxv6yd9cBWnxtJWsw2u4k9LCmAeosEcVOt4XAHF8CQSET0ekX
-   Y/6BZHDeBU5rH6/9ZilKTNp2xsFzK6QOIvFANEa6QXzcOOTwJHchDuaGh
-   2PFP0Xvrjm1mCNbd68TGJSoQBp67XKnqWfDHfJ1quoWdOO6CLBPMVTCoP
-   W4FFTDEIeGeLDQJJEdT5PX7wPIVdxeBYAeyUhU4m6ImJmx696Pu+9P/3H
-   g==;
-X-CSE-ConnectionGUID: P+Roa0wyShCb8Yczx4chMA==
-X-CSE-MsgGUID: XVf64pdrTTCjI+RUXQ3t0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25470506"
+  t=1726636144; x=1758172144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=As9YAcSfIVcVorbigO5cjdtcP7FT++p9qmX0oJ0wRCQ=;
+  b=KHF0fzUTxcWz6htmGbg07jlGIrsUuG5DsARkB5eoNqRnhPJEj4CsT4Oh
+   65mCFHe5rijV9t4+1/z68+Mav53c6ny0hlmvEGUaVNwmS/qgJCrJIp9R7
+   Tme4NjjpUro7yz01bt7FZDRkvmyfzxFBDdK8QxSXe9+YyVf1BDvELdX9X
+   JBnXuAmQZl0CLdu/XRRCs9uPLLX4BvfbWzxCeTvviYWIskMU8bDE/zp70
+   sD0Uy5Vqplc31IJhuJnsySjHu1ga8+lOrjPz9cP7ejyiugDO9suYsgnTt
+   86aMe5uyUL7ClBNKLJioujBb4KKBP8roljaQ5HJwFnI8WSURqXDZMv3g4
+   A==;
+X-CSE-ConnectionGUID: 7YymPOPJQBKzUI1AQ3zO6A==
+X-CSE-MsgGUID: UNxLpMIlReq3uU+maGohvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25685992"
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="25470506"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 22:09:00 -0700
-X-CSE-ConnectionGUID: 4YdcdvIGQsSuAXglY6kS4w==
-X-CSE-MsgGUID: t3hNFmNjRAqxM3503ONzwg==
+   d="scan'208";a="25685992"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 22:09:04 -0700
+X-CSE-ConnectionGUID: Cy3mqgGyTzamROZvS8CXGw==
+X-CSE-MsgGUID: fdUzLaH/TGeu2Fmg+0hK+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
-   d="scan'208";a="73976512"
+   d="scan'208";a="73779548"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Sep 2024 22:08:58 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Sep 2024 22:08:58 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqmvv-000Bt2-1v;
+	id 1sqmvv-000Bt8-24;
 	Wed, 18 Sep 2024 05:08:55 +0000
 Date: Wed, 18 Sep 2024 13:08:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Josef Bacik <josef@toxicpanda.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: [jlayton:mgtime 7/12] fs/inode.c:2755:58: error: macro
- "mgtime_counter_inc" passed 1 arguments, but takes just 0
-Message-ID: <202409181245.Jp27U6pb-lkp@intel.com>
+To: Md Sadre Alam <quic_mdalam@quicinc.com>, axboe@kernel.dk,
+	song@kernel.org, yukuai3@huawei.com, agk@redhat.com,
+	snitzer@kernel.org, mpatocka@redhat.com, adrian.hunter@intel.com,
+	quic_asutoshd@quicinc.com, ritesh.list@gmail.com,
+	ulf.hansson@linaro.org, andersson@kernel.org,
+	konradybcio@kernel.org, kees@kernel.org, gustavoars@kernel.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-raid@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-mmc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
+	quic_varada@quicinc.com, quic_mdalam@quicinc.com
+Subject: Re: [PATCH v2 1/3] dm-inlinecrypt: Add inline encryption support
+Message-ID: <202409181233.1FrQNVtU-lkp@intel.com>
+References: <20240916085741.1636554-2-quic_mdalam@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,154 +72,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240916085741.1636554-2-quic_mdalam@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
-head:   70acbf7bd012d16994dccb4070cf18ac9b8c0923
-commit: 1cce6091bbab563762f4a4d6b662613d831b4388 [7/12] fs: add percpu counters for significant multigrain timestamp events
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20240918/202409181245.Jp27U6pb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409181245.Jp27U6pb-lkp@intel.com/reproduce)
+Hi Md,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on device-mapper-dm/for-next]
+[also build test WARNING on axboe-block/for-next linus/master song-md/md-next v6.11 next-20240917]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/dm-inlinecrypt-Add-inline-encryption-support/20240916-170452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+patch link:    https://lore.kernel.org/r/20240916085741.1636554-2-quic_mdalam%40quicinc.com
+patch subject: [PATCH v2 1/3] dm-inlinecrypt: Add inline encryption support
+config: csky-randconfig-r111-20240918 (https://download.01.org/0day-ci/archive/20240918/202409181233.1FrQNVtU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240918/202409181233.1FrQNVtU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409181245.Jp27U6pb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409181233.1FrQNVtU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/md/dm-inline-crypt.c:120:26: sparse: sparse: cast to restricted __le64
+   drivers/md/dm-inline-crypt.c:214:32: sparse: sparse: self-comparison always evaluates to false
 
-   fs/inode.c: In function 'inode_set_ctime_current':
->> fs/inode.c:2755:58: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
-    2755 |                         mgtime_counter_inc(mg_fine_stamps);
-         |                                                          ^
-   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
-     166 | #define mgtime_counter_inc()    do { } while (0)
-         | 
->> fs/inode.c:2755:25: error: 'mgtime_counter_inc' undeclared (first use in this function); did you mean 'percpu_counter_inc'?
-    2755 |                         mgtime_counter_inc(mg_fine_stamps);
-         |                         ^~~~~~~~~~~~~~~~~~
-         |                         percpu_counter_inc
-   fs/inode.c:2755:25: note: each undeclared identifier is reported only once for each function it appears in
-   fs/inode.c:2758:44: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
-    2758 |         mgtime_counter_inc(mg_ctime_updates);
-         |                                            ^
-   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
-     166 | #define mgtime_counter_inc()    do { } while (0)
-         | 
-   fs/inode.c:2772:50: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
-    2772 |                 mgtime_counter_inc(mg_ctime_swaps);
-         |                                                  ^
-   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
-     166 | #define mgtime_counter_inc()    do { } while (0)
-         | 
-   fs/inode.c: In function 'inode_set_ctime_deleg':
-   fs/inode.c:2845:50: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
-    2845 |                 mgtime_counter_inc(mg_ctime_swaps);
-         |                                                  ^
-   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
-     166 | #define mgtime_counter_inc()    do { } while (0)
-         | 
-   fs/inode.c:2845:17: error: 'mgtime_counter_inc' undeclared (first use in this function); did you mean 'percpu_counter_inc'?
-    2845 |                 mgtime_counter_inc(mg_ctime_swaps);
-         |                 ^~~~~~~~~~~~~~~~~~
-         |                 percpu_counter_inc
---
-   kernel/time/timekeeping.c: In function 'ktime_get_real_ts64_mg':
->> kernel/time/timekeeping.c:2467:50: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
-    2467 |                 mgtime_counter_inc(mg_floor_swaps);
-         |                                                  ^
-   In file included from kernel/time/timekeeping.c:30:
-   kernel/time/timekeeping_internal.h:18: note: macro "mgtime_counter_inc" defined here
-      18 | #define mgtime_counter_inc()    do { } while (0)
-         | 
->> kernel/time/timekeeping.c:2467:17: error: 'mgtime_counter_inc' undeclared (first use in this function); did you mean 'percpu_counter_inc'?
-    2467 |                 mgtime_counter_inc(mg_floor_swaps);
-         |                 ^~~~~~~~~~~~~~~~~~
-         |                 percpu_counter_inc
-   kernel/time/timekeeping.c:2467:17: note: each undeclared identifier is reported only once for each function it appears in
+vim +120 drivers/md/dm-inline-crypt.c
 
-
-vim +/mgtime_counter_inc +2755 fs/inode.c
-
-  2713	
-  2714	/**
-  2715	 * inode_set_ctime_current - set the ctime to current_time
-  2716	 * @inode: inode
-  2717	 *
-  2718	 * Set the inode's ctime to the current value for the inode. Returns the
-  2719	 * current value that was assigned. If this is not a multigrain inode, then we
-  2720	 * set it to the later of the coarse time and floor value.
-  2721	 *
-  2722	 * If it is multigrain, then we first see if the coarse-grained timestamp is
-  2723	 * distinct from what we have. If so, then we'll just use that. If we have to
-  2724	 * get a fine-grained timestamp, then do so. After that, we try to swap the new
-  2725	 * value into i_ctime_nsec. We take the resulting ctime, regardless of the
-  2726	 * outcome of the swap.
-  2727	 */
-  2728	struct timespec64 inode_set_ctime_current(struct inode *inode)
-  2729	{
-  2730		struct timespec64 now;
-  2731		u32 cns, cur;
-  2732	
-  2733		ktime_get_coarse_real_ts64_mg(&now);
-  2734		now = timestamp_truncate(now, inode);
-  2735	
-  2736		/* Just return that if this is not a multigrain fs */
-  2737		if (!is_mgtime(inode)) {
-  2738			inode_set_ctime_to_ts(inode, now);
-  2739			goto out;
-  2740		}
-  2741	
-  2742		/*
-  2743		 * We only need a fine-grained time if someone has queried it,
-  2744		 * and the current coarse grained time isn't later than what's
-  2745		 * already there.
-  2746		 */
-  2747		cns = smp_load_acquire(&inode->i_ctime_nsec);
-  2748		if (cns & I_CTIME_QUERIED) {
-  2749			struct timespec64 ctime = { .tv_sec = inode->i_ctime_sec,
-  2750						    .tv_nsec = cns & ~I_CTIME_QUERIED };
-  2751	
-  2752			if (timespec64_compare(&now, &ctime) <= 0) {
-  2753				ktime_get_real_ts64_mg(&now);
-  2754				now = timestamp_truncate(now, inode);
-> 2755				mgtime_counter_inc(mg_fine_stamps);
-  2756			}
-  2757		}
-  2758		mgtime_counter_inc(mg_ctime_updates);
-  2759	
-  2760		/* No need to cmpxchg if it's exactly the same */
-  2761		if (cns == now.tv_nsec && inode->i_ctime_sec == now.tv_sec) {
-  2762			trace_ctime_xchg_skip(inode, &now);
-  2763			goto out;
-  2764		}
-  2765		cur = cns;
-  2766	retry:
-  2767		/* Try to swap the nsec value into place. */
-  2768		if (try_cmpxchg(&inode->i_ctime_nsec, &cur, now.tv_nsec)) {
-  2769			/* If swap occurred, then we're (mostly) done */
-  2770			inode->i_ctime_sec = now.tv_sec;
-  2771			trace_ctime_ns_xchg(inode, cns, now.tv_nsec, cur);
-  2772			mgtime_counter_inc(mg_ctime_swaps);
-  2773		} else {
-  2774			/*
-  2775			 * Was the change due to someone marking the old ctime QUERIED?
-  2776			 * If so then retry the swap. This can only happen once since
-  2777			 * the only way to clear I_CTIME_QUERIED is to stamp the inode
-  2778			 * with a new ctime.
-  2779			 */
-  2780			if (!(cns & I_CTIME_QUERIED) && (cns | I_CTIME_QUERIED) == cur) {
-  2781				cns = cur;
-  2782				goto retry;
-  2783			}
-  2784			/* Otherwise, keep the existing ctime */
-  2785			now.tv_sec = inode->i_ctime_sec;
-  2786			now.tv_nsec = cur & ~I_CTIME_QUERIED;
-  2787		}
-  2788	out:
-  2789		return now;
-  2790	}
-  2791	EXPORT_SYMBOL(inode_set_ctime_current);
-  2792	
+   109	
+   110	static void crypt_inline_encrypt_submit(struct dm_target *ti, struct bio *bio)
+   111	{
+   112		struct inlinecrypt_config *cc = ti->private;
+   113		u64 dun[BLK_CRYPTO_DUN_ARRAY_SIZE];
+   114	
+   115		bio_set_dev(bio, cc->dev->bdev);
+   116		if (bio_sectors(bio)) {
+   117			memset(dun, 0, BLK_CRYPTO_MAX_IV_SIZE);
+   118			bio->bi_iter.bi_sector = cc->start +
+   119				dm_target_offset(ti, bio->bi_iter.bi_sector);
+ > 120			dun[0] = le64_to_cpu(bio->bi_iter.bi_sector + cc->iv_offset);
+   121			bio_crypt_set_ctx(bio, cc->blk_key, dun, GFP_KERNEL);
+   122		}
+   123	
+   124		submit_bio_noacct(bio);
+   125	}
+   126	
 
 -- 
 0-DAY CI Kernel Test Service
