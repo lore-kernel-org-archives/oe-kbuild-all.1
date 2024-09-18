@@ -1,110 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B688641C79;
-	Wed, 18 Sep 2024 02:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8E7136663
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 05:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726626414; cv=none; b=FSskMDCgGpqS63J1I24DTHTl5SCYfmCi0FaxDNmcHasQt/cm7n3oaJagy/a1w3GVCU11qHGeKy31jOTdU/P+rJ9e17f/DhdC4pCFx55WVpLzcYMxwPa7vEvYRsYMF2LQd3Gw9fLa0WoFT9pHI53/tPwVl60eO2auj1TNGtdKTRY=
+	t=1726636141; cv=none; b=LVJHB7c/uVsEHCOto3Md83Z10/fhBmSVxgbC3PMfwPhflP4wixDz4jWILTf7PwsdV+nqhenyeNFcIe0AG6VLtx1LDyQKtPfgAinxj9EBup/uqYmyEunT9pRTqPmcMtD7osIiCjODtA3+s1YkV5KkxiFgSo0XQup91owHOcz5RD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726626414; c=relaxed/simple;
-	bh=zHccpoxi6k4rCaf90hrPUWrqkjxWOnkOK309CcwZhEc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bNej4/H6xYlAgr7dzgyWIqT3S5q4i3l2sE8AquteEfgjrHaZjzwprfRNWoiiosAyPz7GRz8RajQ2O37C+w40T4GyQRODfcRfo4Olg5OM5m269VlEfr48t7RRIfr7f0fLW2UFfhaxkt4gLOrWvrM2Sj4Q0iVyfg39R6GaJC9Rv1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aDEwFnJ+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726636141; c=relaxed/simple;
+	bh=VANSrgJhnd8vlDS2qGuVERpUxlgC2gEJskeNzMOerXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=h7n4IK4LMWkRWrR3ouwwY1Zeh4eYHxIQL5/+5Aw1bBugpFDNMVeWKJ9nP9O2MUZbGr4K7tF3svYrz8FCIWlyoF7bVoopZT+0UEwuouQROOlEP0pKQYXxXo8kO/BUQnqP8QGncq4kYlEeb9pu92590q1akVhJUtICEh/iFwp6LGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grd7j2vB; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aDEwFnJ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27930C4CED1;
-	Wed, 18 Sep 2024 02:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726626414;
-	bh=zHccpoxi6k4rCaf90hrPUWrqkjxWOnkOK309CcwZhEc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=aDEwFnJ+CBmnRkq0efo1uoM/5w8WPq8XhShZi8zzVS3l4J7/TYt6OUuKGqzEympMO
-	 EXdc/Bqm8NzRkqPE62JloRoG69evhbRjzOMjD4HKnNkn7UxdJstSOhknwd0a1c47xl
-	 edYHbmefS47ilUXnBTZaowr5aAC0RfcEGC3B4/eCdszr0tOFjGa+stIg22SRtIcQ6F
-	 7GrAydc27cZzTOARgi8ySKX9n750voWIEP/MhugQpUJuTrLb+S5989+tvR1ywcI4ec
-	 VQZCmUmE4njOGNcrpFVmxbyxzeHY+yvL9wucE+j0fzA7in5T4IFdyPvI3TmTDeh4hx
-	 ApqVC9s5yT79w==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a8d64b27c45so817619566b.3;
-        Tue, 17 Sep 2024 19:26:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVryODtsGHfHiDoEVegwXv6qdk4lJQuBUgeU7vbUvrDidAoptI0FXe7Cj4Y7T8LNz2PIEIO3+jrDvs=@lists.linux.dev, AJvYcCWzQblP/Q1paOvQ2+wrfmmCNC5JgQua0ZZmUu0A1PV6BkH2CujDLU7P/B5HD2+eRb6ybjAVod+Enh9vLafc6Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTz5Ubs7sfQtfENjFTSh1MhzUWAmlsSPFdq1+OI8A9jupP3u/x
-	Jm0zKa/DOa2N6EJ/2iyqniLvDGDOQhMFirSqpZVN94EZO8GDdXfYss5CBMxnTKeMVOlEUeFOErq
-	nQJRFB4BQ0bPdsJj5m2vfKpDPtvM=
-X-Google-Smtp-Source: AGHT+IHdH78oOHxe4W0yPL8blfmsq1Fswk5TE5U6eoGCMbCOPlWVAd6hKOZYEBwjJguzK50lsYiLmKhC5icAgnuVfY8=
-X-Received: by 2002:a17:907:2d87:b0:a8d:7046:a1bd with SMTP id
- a640c23a62f3a-a9047d03d80mr1407013366b.28.1726626412527; Tue, 17 Sep 2024
- 19:26:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grd7j2vB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726636140; x=1758172140;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VANSrgJhnd8vlDS2qGuVERpUxlgC2gEJskeNzMOerXs=;
+  b=grd7j2vBX8MWTjDDTCSmBBCMXIkMphX/vdsnaYuNbHzugaSmDVmlgKxg
+   mRktAxQf7zRl7eCmf5v0wcyy69wCBZ0HJVXXoo6ELjk61wVRGShA3DY9m
+   CaVoVp5WPxv6yd9cBWnxtJWsw2u4k9LCmAeosEcVOt4XAHF8CQSET0ekX
+   Y/6BZHDeBU5rH6/9ZilKTNp2xsFzK6QOIvFANEa6QXzcOOTwJHchDuaGh
+   2PFP0Xvrjm1mCNbd68TGJSoQBp67XKnqWfDHfJ1quoWdOO6CLBPMVTCoP
+   W4FFTDEIeGeLDQJJEdT5PX7wPIVdxeBYAeyUhU4m6ImJmx696Pu+9P/3H
+   g==;
+X-CSE-ConnectionGUID: P+Roa0wyShCb8Yczx4chMA==
+X-CSE-MsgGUID: XVf64pdrTTCjI+RUXQ3t0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25470506"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="25470506"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 22:09:00 -0700
+X-CSE-ConnectionGUID: 4YdcdvIGQsSuAXglY6kS4w==
+X-CSE-MsgGUID: t3hNFmNjRAqxM3503ONzwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="73976512"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 17 Sep 2024 22:08:58 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sqmvv-000Bt2-1v;
+	Wed, 18 Sep 2024 05:08:55 +0000
+Date: Wed, 18 Sep 2024 13:08:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Josef Bacik <josef@toxicpanda.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: [jlayton:mgtime 7/12] fs/inode.c:2755:58: error: macro
+ "mgtime_counter_inc" passed 1 arguments, but takes just 0
+Message-ID: <202409181245.Jp27U6pb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240909133159.2024688-4-jvetter@kalrayinc.com>
- <202409101549.CyV0mJ2S-lkp@intel.com> <c78987ba-6b54-4433-b5dc-3b3b9f98354a@app.fastmail.com>
-In-Reply-To: <c78987ba-6b54-4433-b5dc-3b3b9f98354a@app.fastmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Wed, 18 Sep 2024 10:26:41 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTaQugaXoUWEVgrJ_3i9z4tep05BF1wQ9QQifgqw5B+vQ@mail.gmail.com>
-Message-ID: <CAJF2gTTaQugaXoUWEVgrJ_3i9z4tep05BF1wQ9QQifgqw5B+vQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] Use generic io memcpy functions on the csky architecture
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, Julian Vetter <jvetter@kalrayinc.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Andrew Morton <akpm@linux-foundation.org>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, 
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, loongarch@lists.linux.dev, 
-	Yann Sionneau <ysionneau@kalrayinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Sep 10, 2024 at 5:16=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Tue, Sep 10, 2024, at 07:27, kernel test robot wrote:
->
-> > 6a9bfa83709a84e Julian Vetter 2024-09-09  55          while (count >=3D
-> > NATIVE_STORE_SIZE) {
-> > 6a9bfa83709a84e Julian Vetter 2024-09-09  56                  if
-> > (IS_ENABLED(CONFIG_64BIT))
-> > 6a9bfa83709a84e Julian Vetter 2024-09-09 @57
-> >                       __raw_writeq(get_unaligned((uintptr_t *)from), to=
-);
-> > 6a9bfa83709a84e Julian Vetter 2024-09-09  58                  else
->
-> Right, this one actually has to be a preprocessor conditional
-> because __raw_writeq is not defined.
-All 32-bit ISAs didn't support __raw_writeq.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
+head:   70acbf7bd012d16994dccb4070cf18ac9b8c0923
+commit: 1cce6091bbab563762f4a4d6b662613d831b4388 [7/12] fs: add percpu counters for significant multigrain timestamp events
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20240918/202409181245.Jp27U6pb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409181245.Jp27U6pb-lkp@intel.com/reproduce)
 
-e.g.: include/asm-generic/io.h
-#ifdef CONFIG_64BIT
-#ifndef __raw_writeq
-#define __raw_writeq __raw_writeq
-static inline void __raw_writeq(u64 value, volatile void __iomem *addr)
-{
-        *(volatile u64 __force *)addr =3D value;
-}
-#endif
-#endif /* CONFIG_64BIT */
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409181245.Jp27U6pb-lkp@intel.com/
 
-e.g.: arch/riscv/include/asm/mmio.h
-#ifdef CONFIG_64BIT
-#define __raw_writeq __raw_writeq
-static inline void __raw_writeq(u64 val, volatile void __iomem *addr)
-{
-        asm volatile("sd %0, 0(%1)" : : "r" (val), "r" (addr));
-}
-#endif
+All errors (new ones prefixed by >>):
 
->
->      Arnd
+   fs/inode.c: In function 'inode_set_ctime_current':
+>> fs/inode.c:2755:58: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
+    2755 |                         mgtime_counter_inc(mg_fine_stamps);
+         |                                                          ^
+   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
+     166 | #define mgtime_counter_inc()    do { } while (0)
+         | 
+>> fs/inode.c:2755:25: error: 'mgtime_counter_inc' undeclared (first use in this function); did you mean 'percpu_counter_inc'?
+    2755 |                         mgtime_counter_inc(mg_fine_stamps);
+         |                         ^~~~~~~~~~~~~~~~~~
+         |                         percpu_counter_inc
+   fs/inode.c:2755:25: note: each undeclared identifier is reported only once for each function it appears in
+   fs/inode.c:2758:44: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
+    2758 |         mgtime_counter_inc(mg_ctime_updates);
+         |                                            ^
+   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
+     166 | #define mgtime_counter_inc()    do { } while (0)
+         | 
+   fs/inode.c:2772:50: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
+    2772 |                 mgtime_counter_inc(mg_ctime_swaps);
+         |                                                  ^
+   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
+     166 | #define mgtime_counter_inc()    do { } while (0)
+         | 
+   fs/inode.c: In function 'inode_set_ctime_deleg':
+   fs/inode.c:2845:50: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
+    2845 |                 mgtime_counter_inc(mg_ctime_swaps);
+         |                                                  ^
+   fs/inode.c:166: note: macro "mgtime_counter_inc" defined here
+     166 | #define mgtime_counter_inc()    do { } while (0)
+         | 
+   fs/inode.c:2845:17: error: 'mgtime_counter_inc' undeclared (first use in this function); did you mean 'percpu_counter_inc'?
+    2845 |                 mgtime_counter_inc(mg_ctime_swaps);
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 percpu_counter_inc
+--
+   kernel/time/timekeeping.c: In function 'ktime_get_real_ts64_mg':
+>> kernel/time/timekeeping.c:2467:50: error: macro "mgtime_counter_inc" passed 1 arguments, but takes just 0
+    2467 |                 mgtime_counter_inc(mg_floor_swaps);
+         |                                                  ^
+   In file included from kernel/time/timekeeping.c:30:
+   kernel/time/timekeeping_internal.h:18: note: macro "mgtime_counter_inc" defined here
+      18 | #define mgtime_counter_inc()    do { } while (0)
+         | 
+>> kernel/time/timekeeping.c:2467:17: error: 'mgtime_counter_inc' undeclared (first use in this function); did you mean 'percpu_counter_inc'?
+    2467 |                 mgtime_counter_inc(mg_floor_swaps);
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 percpu_counter_inc
+   kernel/time/timekeeping.c:2467:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
+vim +/mgtime_counter_inc +2755 fs/inode.c
 
---=20
-Best Regards
- Guo Ren
+  2713	
+  2714	/**
+  2715	 * inode_set_ctime_current - set the ctime to current_time
+  2716	 * @inode: inode
+  2717	 *
+  2718	 * Set the inode's ctime to the current value for the inode. Returns the
+  2719	 * current value that was assigned. If this is not a multigrain inode, then we
+  2720	 * set it to the later of the coarse time and floor value.
+  2721	 *
+  2722	 * If it is multigrain, then we first see if the coarse-grained timestamp is
+  2723	 * distinct from what we have. If so, then we'll just use that. If we have to
+  2724	 * get a fine-grained timestamp, then do so. After that, we try to swap the new
+  2725	 * value into i_ctime_nsec. We take the resulting ctime, regardless of the
+  2726	 * outcome of the swap.
+  2727	 */
+  2728	struct timespec64 inode_set_ctime_current(struct inode *inode)
+  2729	{
+  2730		struct timespec64 now;
+  2731		u32 cns, cur;
+  2732	
+  2733		ktime_get_coarse_real_ts64_mg(&now);
+  2734		now = timestamp_truncate(now, inode);
+  2735	
+  2736		/* Just return that if this is not a multigrain fs */
+  2737		if (!is_mgtime(inode)) {
+  2738			inode_set_ctime_to_ts(inode, now);
+  2739			goto out;
+  2740		}
+  2741	
+  2742		/*
+  2743		 * We only need a fine-grained time if someone has queried it,
+  2744		 * and the current coarse grained time isn't later than what's
+  2745		 * already there.
+  2746		 */
+  2747		cns = smp_load_acquire(&inode->i_ctime_nsec);
+  2748		if (cns & I_CTIME_QUERIED) {
+  2749			struct timespec64 ctime = { .tv_sec = inode->i_ctime_sec,
+  2750						    .tv_nsec = cns & ~I_CTIME_QUERIED };
+  2751	
+  2752			if (timespec64_compare(&now, &ctime) <= 0) {
+  2753				ktime_get_real_ts64_mg(&now);
+  2754				now = timestamp_truncate(now, inode);
+> 2755				mgtime_counter_inc(mg_fine_stamps);
+  2756			}
+  2757		}
+  2758		mgtime_counter_inc(mg_ctime_updates);
+  2759	
+  2760		/* No need to cmpxchg if it's exactly the same */
+  2761		if (cns == now.tv_nsec && inode->i_ctime_sec == now.tv_sec) {
+  2762			trace_ctime_xchg_skip(inode, &now);
+  2763			goto out;
+  2764		}
+  2765		cur = cns;
+  2766	retry:
+  2767		/* Try to swap the nsec value into place. */
+  2768		if (try_cmpxchg(&inode->i_ctime_nsec, &cur, now.tv_nsec)) {
+  2769			/* If swap occurred, then we're (mostly) done */
+  2770			inode->i_ctime_sec = now.tv_sec;
+  2771			trace_ctime_ns_xchg(inode, cns, now.tv_nsec, cur);
+  2772			mgtime_counter_inc(mg_ctime_swaps);
+  2773		} else {
+  2774			/*
+  2775			 * Was the change due to someone marking the old ctime QUERIED?
+  2776			 * If so then retry the swap. This can only happen once since
+  2777			 * the only way to clear I_CTIME_QUERIED is to stamp the inode
+  2778			 * with a new ctime.
+  2779			 */
+  2780			if (!(cns & I_CTIME_QUERIED) && (cns | I_CTIME_QUERIED) == cur) {
+  2781				cns = cur;
+  2782				goto retry;
+  2783			}
+  2784			/* Otherwise, keep the existing ctime */
+  2785			now.tv_sec = inode->i_ctime_sec;
+  2786			now.tv_nsec = cur & ~I_CTIME_QUERIED;
+  2787		}
+  2788	out:
+  2789		return now;
+  2790	}
+  2791	EXPORT_SYMBOL(inode_set_ctime_current);
+  2792	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
