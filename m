@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E50D23B0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 07:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7CA273DC;
+	Wed, 18 Sep 2024 07:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726643524; cv=none; b=DdOj4BWHqMN7wMNQ+VaqGIXM3z6ZHcA0l/oXWRjHTSgUmhp128R+UmzLoX3VZFY19ZuFHUctorMTxBoZv93bIfo5gNykAf60ko5uG81B7+Tsve0gSmLarqvRuGt+Y/Twf5iCNuHicX9QxVZ4TJrwD/C1Cat9WTRR4A1qE7mM1jY=
+	t=1726644726; cv=none; b=Vp68SJ8Z14//zAwP5eFVjWefJMVYSrk/UEqBE3eSOoNJRHNb+QmYrHKinCTdbm9SzsWkbnr0MzS1kAGt4wR1w2rGi5X9VgfC30MfLcy+HNK0ghrxmRISDilkRBw86BjBhgnoFTDsrSYwG/z8m0sBNWswdpZ0BrrcnbLlHXUM+Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726643524; c=relaxed/simple;
-	bh=fcN0EU12c41G+/4ifmWpyJ3QguD+P4ppsPcFlPufLcw=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=stmvtpioB/Yw/YmhPYLCt6+LJVSxfoXSBcQjU1WIrrxK6ZrQZbo59yXFIv2ADADtTtoa4qDStkiMak0JU04Kxlt+RoyHiWxZXwbfgLKDTI8cathVPAg4e+VMflXDF7Fieo48ahY3il76L6N9+Ef15EsCQJxpKJ9oZPziXA1yA+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8tMWJph; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1726644726; c=relaxed/simple;
+	bh=SOw9R90Sl/sSnltxJAdxMkI/Qf3vTl9cFFj/gFAsxZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HM6hstf2qdGWnKfF8u0AJ8AIONsYGAnBka9HQUUP9tl8wF74YYMCl91rxpoHqhwTkS3r4yFdkluLbH/ChPMHrXmlSXczQfLH1501kEHkomfmGDLjoaSZAzEhrHp/Ju0hn/3SAkishW7fy4hvbJwRxv9kSjjC0tR2R/m7jJ5PHJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sk9L93Lq; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8tMWJph"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sk9L93Lq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726643523; x=1758179523;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=fcN0EU12c41G+/4ifmWpyJ3QguD+P4ppsPcFlPufLcw=;
-  b=H8tMWJpho75LdVtLYrLg04pLOfgJnx+EDaoHLfVP3WKKmSFQi/JjjUL6
-   H1mXMzNM9RVzNjgLEudJsTwAdkQyi8XxSO1Tx4iYLkvwbkySfsYclfxYP
-   /mJlZOyqtsuGYiOrkmk9JLRy8sU47muozJoRCSEQPTxI91JqrZ5DG25nH
-   Ys8iuASKlBO23Hp8EfBc8bmPZWrGWZ4fUWqd+ZOHUFZ6/b1rxqt/fLkMc
-   ti/RXbRhGN3OXQwuNZj1ZMcMSCiVGkCO//xJguJOQwogVl8VYFXv9neC8
-   920RC8nUMWN4m9/JfckouAsiX+P3rMsl6tm1/RRsM9k4YwjXwgjBjnt0B
-   A==;
-X-CSE-ConnectionGUID: IOwSjTQtRpegzAN7IMyt/Q==
-X-CSE-MsgGUID: gREbo32sTxOfGyCIjAdTbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="43057977"
+  t=1726644724; x=1758180724;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SOw9R90Sl/sSnltxJAdxMkI/Qf3vTl9cFFj/gFAsxZc=;
+  b=Sk9L93LqGuh6YpVI3M1yFTltVQ+3aveKUnRiVMABeWnPHveS3arneMaO
+   y5fAf6aY5grlkPVmvx8DWoJYjDJ38QIuAg+0xlL2asHTXoqjabMnIaR5f
+   KBfXU/BCub/F8ayIwafB9guNJjD4SM08rZTPAolmgZJVXdKwzdIcqUdd5
+   h5Zl8Qbs6iEHkukUaMJJFnKqqQEnYLAin1hWIgTik2l2tryw3tOGIINah
+   xGnPhcnQfoHkAIr9F5Ji0EJBnzgMQf1CHhauIbJl3dk5ucJUtspWdUCvm
+   5tLO+pyR2WIFYqCKLsMnEF2eGV0o/Utf51GI8aaP3V6tNOP+8QGndnGtV
+   g==;
+X-CSE-ConnectionGUID: xx1wQGsKTnmX+ltorOjjIQ==
+X-CSE-MsgGUID: E64xVhl7TXaSYNMWPAPeLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25358528"
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="43057977"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 00:12:02 -0700
-X-CSE-ConnectionGUID: xN+IvopqTDW7IhbN5EF7RQ==
-X-CSE-MsgGUID: W+Yh5ooIRnWl+jO+v47yPw==
+   d="scan'208";a="25358528"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 00:32:03 -0700
+X-CSE-ConnectionGUID: rkQDapKVThalQz0Tr/P90Q==
+X-CSE-MsgGUID: tuNs6n35QOKVvQrkEup22Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="69547362"
+   d="scan'208";a="73805449"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Sep 2024 00:12:01 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Sep 2024 00:32:01 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqor0-000BxO-1b;
-	Wed, 18 Sep 2024 07:11:58 +0000
-Date: Wed, 18 Sep 2024 15:10:58 +0800
+	id 1sqpAN-000Bz2-1O;
+	Wed, 18 Sep 2024 07:31:59 +0000
+Date: Wed, 18 Sep 2024 15:31:29 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Jai Luthra <j-luthra@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y 47/107] kismet: WARNING: unmet direct
- dependencies detected for OF_GPIO when selected by VIDEO_DS90UB953
-Message-ID: <202409181532.8651punV-lkp@intel.com>
+To: Arend van Spriel <arend.vanspriel@broadcom.com>,
+	Kalle Valo <kvalo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	brcm80211@lists.linux.dev,
+	Arend van Spriel <arend.vanspriel@broadcom.com>,
+	Chung-Hsien Hsu <chung-hsien.hsu@infineon.com>,
+	Chi-hsien Lin <chi-hsien.lin@infineon.com>
+Subject: Re: [RFT 3/3] wifi: brcmfmac: cyw: support external SAE
+ authentication in station mode
+Message-ID: <202409181714.QfWaGA1c-lkp@intel.com>
+References: <20240915140049.181380-4-arend.vanspriel@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +68,183 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240915140049.181380-4-arend.vanspriel@broadcom.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   96b0ebd82722d16e9ab646cd3a73080e6f790747
-commit: d1a221d48b45bc73a80c3e86a028dfe60f8a34b2 [47/107] media: i2c: add DS90UB953 driver
-config: nios2-kismet-CONFIG_OF_GPIO-CONFIG_VIDEO_DS90UB953-0-0 (https://download.01.org/0day-ci/archive/20240918/202409181532.8651punV-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240918/202409181532.8651punV-lkp@intel.com/reproduce)
+Hi Arend,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 34c44eb31de9cb7202ff070900463d6c706392c4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arend-van-Spriel/wifi-brcmfmac-support-per-vendor-cfg80211-callbacks-and-firmware-events/20240915-220310
+base:   34c44eb31de9cb7202ff070900463d6c706392c4
+patch link:    https://lore.kernel.org/r/20240915140049.181380-4-arend.vanspriel%40broadcom.com
+patch subject: [RFT 3/3] wifi: brcmfmac: cyw: support external SAE authentication in station mode
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240918/202409181714.QfWaGA1c-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409181714.QfWaGA1c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409181532.8651punV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409181714.QfWaGA1c-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for OF_GPIO when selected by VIDEO_DS90UB953
-   WARNING: unmet direct dependencies detected for OF_GPIO
-     Depends on [n]: GPIOLIB [=n] && OF [=y] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - VIDEO_DS90UB953 [=y] && MEDIA_SUPPORT [=y] && OF [=y] && I2C [=y] && VIDEO_DEV [=y]
+All warnings (new ones prefixed by >>):
+
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c: In function 'brcmf_cyw_mgmt_tx':
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:118:13: warning: variable 'timeout' set but not used [-Wunused-but-set-variable]
+     118 |         s32 timeout;
+         |             ^~~~~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c: At top level:
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:52:42: warning: 'brcmf_cyw_event_map' defined but not used [-Wunused-const-variable=]
+      52 | static const struct brcmf_fweh_event_map brcmf_cyw_event_map = {
+         |                                          ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/timeout +118 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c
+
+    51	
+  > 52	static const struct brcmf_fweh_event_map brcmf_cyw_event_map = {
+    53		.items = {
+    54			{ BRCMF_E_EXT_AUTH_REQ, BRCMF_CYW_E_EXT_AUTH_REQ },
+    55			{ BRCMF_E_EXT_AUTH_FRAME_RX, BRCMF_CYW_E_EXT_AUTH_FRAME_RX },
+    56			{ BRCMF_E_MGMT_FRAME_TXSTATUS, BRCMF_CYW_E_MGMT_FRAME_TXS },
+    57			{
+    58				BRCMF_E_MGMT_FRAME_OFFCHAN_DONE,
+    59				BRCMF_CYW_E_MGMT_FRAME_TXS_OC
+    60			},
+    61		},
+    62		.n_items = 1
+    63	};
+    64	
+    65	static int brcmf_cyw_alloc_fweh_info(struct brcmf_pub *drvr)
+    66	{
+    67		struct brcmf_fweh_info *fweh;
+    68	
+    69		fweh = kzalloc(struct_size(fweh, evt_handler, BRCMF_CYW_E_LAST),
+    70			       GFP_KERNEL);
+    71		if (!fweh)
+    72			return -ENOMEM;
+    73	
+    74		fweh->num_event_codes = BRCMF_CYW_E_LAST;
+    75		drvr->fweh = fweh;
+    76		return 0;
+    77	}
+    78	
+    79	static int brcmf_cyw_activate_events(struct brcmf_if *ifp)
+    80	{
+    81		struct brcmf_fweh_info *fweh = ifp->drvr->fweh;
+    82		struct brcmf_eventmsgs_ext *eventmask_msg;
+    83		u32 msglen;
+    84		int err;
+    85	
+    86		msglen = sizeof(*eventmask_msg) + fweh->event_mask_len;
+    87		eventmask_msg = kzalloc(msglen, GFP_KERNEL);
+    88		if (!eventmask_msg)
+    89			return -ENOMEM;
+    90		eventmask_msg->ver = EVENTMSGS_VER;
+    91		eventmask_msg->command = CYW_EVENTMSGS_SET_MASK;
+    92		eventmask_msg->len = fweh->event_mask_len;
+    93		memcpy(eventmask_msg->mask, fweh->event_mask, fweh->event_mask_len);
+    94	
+    95		err = brcmf_fil_iovar_data_set(ifp, "event_msgs_ext", eventmask_msg,
+    96					       msglen);
+    97		kfree(eventmask_msg);
+    98		return err;
+    99	}
+   100	
+   101	static
+   102	int brcmf_cyw_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
+   103			      struct cfg80211_mgmt_tx_params *params, u64 *cookie)
+   104	{
+   105		struct brcmf_cfg80211_info *cfg = wiphy_to_cfg(wiphy);
+   106		struct ieee80211_channel *chan = params->chan;
+   107		struct brcmf_pub *drvr = cfg->pub;
+   108		const u8 *buf = params->buf;
+   109		size_t len = params->len;
+   110		const struct ieee80211_mgmt *mgmt;
+   111		struct brcmf_cfg80211_vif *vif;
+   112		s32 err = 0;
+   113		bool ack = false;
+   114		s32 chan_nr;
+   115		u32 freq;
+   116		struct brcmf_mf_params_le *mf_params;
+   117		u32 mf_params_len;
+ > 118		s32 timeout;
+   119	
+   120		brcmf_dbg(TRACE, "Enter\n");
+   121	
+   122		mgmt = (const struct ieee80211_mgmt *)buf;
+   123	
+   124		if (!ieee80211_is_auth(mgmt->frame_control))
+   125			return brcmf_cfg80211_mgmt_tx(wiphy, wdev, params, cookie);
+   126	
+   127		*cookie = 0;
+   128		vif = container_of(wdev, struct brcmf_cfg80211_vif, wdev);
+   129	
+   130		reinit_completion(&vif->mgmt_tx);
+   131		clear_bit(BRCMF_MGMT_TX_ACK, &vif->mgmt_tx_status);
+   132		clear_bit(BRCMF_MGMT_TX_NOACK, &vif->mgmt_tx_status);
+   133		clear_bit(BRCMF_MGMT_TX_OFF_CHAN_COMPLETED,
+   134			  &vif->mgmt_tx_status);
+   135		mf_params_len = offsetof(struct brcmf_mf_params_le, data) +
+   136				(len - DOT11_MGMT_HDR_LEN);
+   137		mf_params = kzalloc(mf_params_len, GFP_KERNEL);
+   138		if (!mf_params)
+   139			return -ENOMEM;
+   140	
+   141		mf_params->dwell_time = cpu_to_le32(MGMT_AUTH_FRAME_DWELL_TIME);
+   142		mf_params->len = cpu_to_le16(len - DOT11_MGMT_HDR_LEN);
+   143		mf_params->frame_control = mgmt->frame_control;
+   144	
+   145		if (chan)
+   146			freq = chan->center_freq;
+   147		else
+   148			brcmf_fil_cmd_int_get(vif->ifp, BRCMF_C_GET_CHANNEL,
+   149					      &freq);
+   150		chan_nr = ieee80211_frequency_to_channel(freq);
+   151		mf_params->channel = cpu_to_le32(chan_nr);
+   152		memcpy(&mf_params->da[0], &mgmt->da[0], ETH_ALEN);
+   153		memcpy(&mf_params->bssid[0], &mgmt->bssid[0], ETH_ALEN);
+   154		mf_params->packet_id = cpu_to_le32(*cookie);
+   155		memcpy(mf_params->data, &buf[DOT11_MGMT_HDR_LEN],
+   156		       le16_to_cpu(mf_params->len));
+   157	
+   158		brcmf_dbg(TRACE, "Auth frame, cookie=%d, fc=%04x, len=%d, channel=%d\n",
+   159			  le32_to_cpu(mf_params->packet_id),
+   160			  le16_to_cpu(mf_params->frame_control),
+   161			  le16_to_cpu(mf_params->len),
+   162			  le32_to_cpu(mf_params->channel));
+   163	
+   164		vif->mgmt_tx_id = le32_to_cpu(mf_params->packet_id);
+   165		set_bit(BRCMF_MGMT_TX_SEND_FRAME, &vif->mgmt_tx_status);
+   166	
+   167		err = brcmf_fil_bsscfg_data_set(vif->ifp, "mgmt_frame",
+   168						mf_params, mf_params_len);
+   169		if (err) {
+   170			bphy_err(drvr, "Failed to send Auth frame: err=%d\n",
+   171				 err);
+   172			goto tx_status;
+   173		}
+   174	
+   175		timeout =
+   176			wait_for_completion_timeout(&vif->mgmt_tx,
+   177						    MGMT_AUTH_FRAME_WAIT_TIME);
+   178		if (test_bit(BRCMF_MGMT_TX_ACK, &vif->mgmt_tx_status)) {
+   179			brcmf_dbg(TRACE, "TX Auth frame operation is success\n");
+   180			ack = true;
+   181		} else {
+   182			bphy_err(drvr, "TX Auth frame operation is failed: status=%ld)\n",
+   183				 vif->mgmt_tx_status);
+   184		}
+   185	
+   186	tx_status:
+   187		cfg80211_mgmt_tx_status(wdev, *cookie, buf, len, ack,
+   188					GFP_KERNEL);
+   189		kfree(mf_params);
+   190		return err;
+   191	}
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
