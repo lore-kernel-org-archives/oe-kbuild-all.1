@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7CA273DC;
-	Wed, 18 Sep 2024 07:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2657335BA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 09:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726644726; cv=none; b=Vp68SJ8Z14//zAwP5eFVjWefJMVYSrk/UEqBE3eSOoNJRHNb+QmYrHKinCTdbm9SzsWkbnr0MzS1kAGt4wR1w2rGi5X9VgfC30MfLcy+HNK0ghrxmRISDilkRBw86BjBhgnoFTDsrSYwG/z8m0sBNWswdpZ0BrrcnbLlHXUM+Ao=
+	t=1726650855; cv=none; b=OmeLcth+fUiulTCsC2R+yVZQnGIHsEOtZ75zTPHE7mZCcv/IkT3Ha/09Y8xcFXYZbOEXeQ7tFc9B3dOrb7mquSTjofI3efT5SDV3dZ+wRBVTvBkhOsazz4ZOzacZVDozQEOwjXPsN3fdigrrklPPfgACAMVynh/11mTmMvKnoMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726644726; c=relaxed/simple;
-	bh=SOw9R90Sl/sSnltxJAdxMkI/Qf3vTl9cFFj/gFAsxZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HM6hstf2qdGWnKfF8u0AJ8AIONsYGAnBka9HQUUP9tl8wF74YYMCl91rxpoHqhwTkS3r4yFdkluLbH/ChPMHrXmlSXczQfLH1501kEHkomfmGDLjoaSZAzEhrHp/Ju0hn/3SAkishW7fy4hvbJwRxv9kSjjC0tR2R/m7jJ5PHJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sk9L93Lq; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1726650855; c=relaxed/simple;
+	bh=4LHmhI5iJTI+3h0IFjqDKJW3uKtSK1cyhY+PMjqiST4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ugl60qACnVIModPaBiAB4FwDTwdq9wMmx+mZLj0VT1eM3Z+8bCCN68Lc0UR4Pzv13QOl1bUrDRRvM00pb06AaHDhvbcgkmm2xQosnclWXWDkOYnA+Vm6mDXHs6Q47ngL7b0FiKu0kXpPX/awmf+5tTcxslXiIUjbCPylYZ7/0RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OwWxujXT; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sk9L93Lq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwWxujXT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726644724; x=1758180724;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SOw9R90Sl/sSnltxJAdxMkI/Qf3vTl9cFFj/gFAsxZc=;
-  b=Sk9L93LqGuh6YpVI3M1yFTltVQ+3aveKUnRiVMABeWnPHveS3arneMaO
-   y5fAf6aY5grlkPVmvx8DWoJYjDJ38QIuAg+0xlL2asHTXoqjabMnIaR5f
-   KBfXU/BCub/F8ayIwafB9guNJjD4SM08rZTPAolmgZJVXdKwzdIcqUdd5
-   h5Zl8Qbs6iEHkukUaMJJFnKqqQEnYLAin1hWIgTik2l2tryw3tOGIINah
-   xGnPhcnQfoHkAIr9F5Ji0EJBnzgMQf1CHhauIbJl3dk5ucJUtspWdUCvm
-   5tLO+pyR2WIFYqCKLsMnEF2eGV0o/Utf51GI8aaP3V6tNOP+8QGndnGtV
-   g==;
-X-CSE-ConnectionGUID: xx1wQGsKTnmX+ltorOjjIQ==
-X-CSE-MsgGUID: E64xVhl7TXaSYNMWPAPeLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25358528"
+  t=1726650854; x=1758186854;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4LHmhI5iJTI+3h0IFjqDKJW3uKtSK1cyhY+PMjqiST4=;
+  b=OwWxujXTHxmX54XSN0jRnB+eRSMFTF8IEDq/IBrjJN0MQEw4UoisSQz8
+   sKQ+mIcpBrkJwpVO6xPpJQMfaBGsDY/P4VDmt+qRmO0pTflF5Cq1gi1ES
+   6W0ItoTeIY4gNcvvPlchj4hKYVQhjAdtV4WBFqMTQLenVymeL9RkUNfY/
+   rvIqp9gmp+16JfA+6CWEbFRzY/n+9iftyZmNBfOQC+aQNoz7S7t/Q59F+
+   /AqmCAqG3vVqgf66h6DsVONtT+ISiSRg6y6G93XXgxvbtYmlSN3zd4seJ
+   FqjA1i0NyM0NwfpLppdAk7c7GVhRv1GYGLNuYiFdCa17fU9KztceKnssm
+   w==;
+X-CSE-ConnectionGUID: NzBh5hHqS3uPLgk/EPQ9fw==
+X-CSE-MsgGUID: A5WlgHe2R5qmJUnYMDX5rA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="36928384"
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="25358528"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 00:32:03 -0700
-X-CSE-ConnectionGUID: rkQDapKVThalQz0Tr/P90Q==
-X-CSE-MsgGUID: tuNs6n35QOKVvQrkEup22Q==
+   d="scan'208";a="36928384"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 02:14:13 -0700
+X-CSE-ConnectionGUID: Qn4uCO61TeGJTwnJAL645w==
+X-CSE-MsgGUID: a5jQ2674TDSn6deslhhiBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="73805449"
+   d="scan'208";a="100165367"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Sep 2024 00:32:01 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Sep 2024 02:14:12 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqpAN-000Bz2-1O;
-	Wed, 18 Sep 2024 07:31:59 +0000
-Date: Wed, 18 Sep 2024 15:31:29 +0800
+	id 1sqqlE-000C70-3A;
+	Wed, 18 Sep 2024 09:14:08 +0000
+Date: Wed, 18 Sep 2024 17:13:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arend van Spriel <arend.vanspriel@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	Arend van Spriel <arend.vanspriel@broadcom.com>,
-	Chung-Hsien Hsu <chung-hsien.hsu@infineon.com>,
-	Chi-hsien Lin <chi-hsien.lin@infineon.com>
-Subject: Re: [RFT 3/3] wifi: brcmfmac: cyw: support external SAE
- authentication in station mode
-Message-ID: <202409181714.QfWaGA1c-lkp@intel.com>
-References: <20240915140049.181380-4-arend.vanspriel@broadcom.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: [jgunthorpe:smmuv3_nesting 19/21]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3267:23: sparse: sparse: cast to
+ restricted __le64
+Message-ID: <202409181759.h5S6XN32-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,183 +63,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240915140049.181380-4-arend.vanspriel@broadcom.com>
 
-Hi Arend,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 34c44eb31de9cb7202ff070900463d6c706392c4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arend-van-Spriel/wifi-brcmfmac-support-per-vendor-cfg80211-callbacks-and-firmware-events/20240915-220310
-base:   34c44eb31de9cb7202ff070900463d6c706392c4
-patch link:    https://lore.kernel.org/r/20240915140049.181380-4-arend.vanspriel%40broadcom.com
-patch subject: [RFT 3/3] wifi: brcmfmac: cyw: support external SAE authentication in station mode
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240918/202409181714.QfWaGA1c-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409181714.QfWaGA1c-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux smmuv3_nesting
+head:   f877814753bee37493de05928d0c4f78bbf1a9dc
+commit: 25bad32e9208dde096dc2620a659b8700e6e6aec [19/21] iommu/arm-smmu-v3: Add arm_smmu_cache_invalidate_user
+config: arm64-randconfig-r132-20240918 (https://download.01.org/0day-ci/archive/20240918/202409181759.h5S6XN32-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce: (https://download.01.org/0day-ci/archive/20240918/202409181759.h5S6XN32-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409181714.QfWaGA1c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409181759.h5S6XN32-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1699:46: sparse: sparse: restricted __le64 degrades to integer
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1696:27: sparse: sparse: restricted __le64 degrades to integer
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1696:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1696:25: sparse:     expected restricted __le64
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1696:25: sparse:     got unsigned long long
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3267:23: sparse: sparse: cast to restricted __le64
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3268:23: sparse: sparse: cast to restricted __le64
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3352:23: sparse: sparse: restricted __le64 degrades to integer
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through include/linux/resource_ext.h, include/linux/acpi.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c: In function 'brcmf_cyw_mgmt_tx':
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:118:13: warning: variable 'timeout' set but not used [-Wunused-but-set-variable]
-     118 |         s32 timeout;
-         |             ^~~~~~~
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c: At top level:
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:52:42: warning: 'brcmf_cyw_event_map' defined but not used [-Wunused-const-variable=]
-      52 | static const struct brcmf_fweh_event_map brcmf_cyw_event_map = {
-         |                                          ^~~~~~~~~~~~~~~~~~~
+vim +3267 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-
-vim +/timeout +118 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c
-
-    51	
-  > 52	static const struct brcmf_fweh_event_map brcmf_cyw_event_map = {
-    53		.items = {
-    54			{ BRCMF_E_EXT_AUTH_REQ, BRCMF_CYW_E_EXT_AUTH_REQ },
-    55			{ BRCMF_E_EXT_AUTH_FRAME_RX, BRCMF_CYW_E_EXT_AUTH_FRAME_RX },
-    56			{ BRCMF_E_MGMT_FRAME_TXSTATUS, BRCMF_CYW_E_MGMT_FRAME_TXS },
-    57			{
-    58				BRCMF_E_MGMT_FRAME_OFFCHAN_DONE,
-    59				BRCMF_CYW_E_MGMT_FRAME_TXS_OC
-    60			},
-    61		},
-    62		.n_items = 1
-    63	};
-    64	
-    65	static int brcmf_cyw_alloc_fweh_info(struct brcmf_pub *drvr)
-    66	{
-    67		struct brcmf_fweh_info *fweh;
-    68	
-    69		fweh = kzalloc(struct_size(fweh, evt_handler, BRCMF_CYW_E_LAST),
-    70			       GFP_KERNEL);
-    71		if (!fweh)
-    72			return -ENOMEM;
-    73	
-    74		fweh->num_event_codes = BRCMF_CYW_E_LAST;
-    75		drvr->fweh = fweh;
-    76		return 0;
-    77	}
-    78	
-    79	static int brcmf_cyw_activate_events(struct brcmf_if *ifp)
-    80	{
-    81		struct brcmf_fweh_info *fweh = ifp->drvr->fweh;
-    82		struct brcmf_eventmsgs_ext *eventmask_msg;
-    83		u32 msglen;
-    84		int err;
-    85	
-    86		msglen = sizeof(*eventmask_msg) + fweh->event_mask_len;
-    87		eventmask_msg = kzalloc(msglen, GFP_KERNEL);
-    88		if (!eventmask_msg)
-    89			return -ENOMEM;
-    90		eventmask_msg->ver = EVENTMSGS_VER;
-    91		eventmask_msg->command = CYW_EVENTMSGS_SET_MASK;
-    92		eventmask_msg->len = fweh->event_mask_len;
-    93		memcpy(eventmask_msg->mask, fweh->event_mask, fweh->event_mask_len);
-    94	
-    95		err = brcmf_fil_iovar_data_set(ifp, "event_msgs_ext", eventmask_msg,
-    96					       msglen);
-    97		kfree(eventmask_msg);
-    98		return err;
-    99	}
-   100	
-   101	static
-   102	int brcmf_cyw_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
-   103			      struct cfg80211_mgmt_tx_params *params, u64 *cookie)
-   104	{
-   105		struct brcmf_cfg80211_info *cfg = wiphy_to_cfg(wiphy);
-   106		struct ieee80211_channel *chan = params->chan;
-   107		struct brcmf_pub *drvr = cfg->pub;
-   108		const u8 *buf = params->buf;
-   109		size_t len = params->len;
-   110		const struct ieee80211_mgmt *mgmt;
-   111		struct brcmf_cfg80211_vif *vif;
-   112		s32 err = 0;
-   113		bool ack = false;
-   114		s32 chan_nr;
-   115		u32 freq;
-   116		struct brcmf_mf_params_le *mf_params;
-   117		u32 mf_params_len;
- > 118		s32 timeout;
-   119	
-   120		brcmf_dbg(TRACE, "Enter\n");
-   121	
-   122		mgmt = (const struct ieee80211_mgmt *)buf;
-   123	
-   124		if (!ieee80211_is_auth(mgmt->frame_control))
-   125			return brcmf_cfg80211_mgmt_tx(wiphy, wdev, params, cookie);
-   126	
-   127		*cookie = 0;
-   128		vif = container_of(wdev, struct brcmf_cfg80211_vif, wdev);
-   129	
-   130		reinit_completion(&vif->mgmt_tx);
-   131		clear_bit(BRCMF_MGMT_TX_ACK, &vif->mgmt_tx_status);
-   132		clear_bit(BRCMF_MGMT_TX_NOACK, &vif->mgmt_tx_status);
-   133		clear_bit(BRCMF_MGMT_TX_OFF_CHAN_COMPLETED,
-   134			  &vif->mgmt_tx_status);
-   135		mf_params_len = offsetof(struct brcmf_mf_params_le, data) +
-   136				(len - DOT11_MGMT_HDR_LEN);
-   137		mf_params = kzalloc(mf_params_len, GFP_KERNEL);
-   138		if (!mf_params)
-   139			return -ENOMEM;
-   140	
-   141		mf_params->dwell_time = cpu_to_le32(MGMT_AUTH_FRAME_DWELL_TIME);
-   142		mf_params->len = cpu_to_le16(len - DOT11_MGMT_HDR_LEN);
-   143		mf_params->frame_control = mgmt->frame_control;
-   144	
-   145		if (chan)
-   146			freq = chan->center_freq;
-   147		else
-   148			brcmf_fil_cmd_int_get(vif->ifp, BRCMF_C_GET_CHANNEL,
-   149					      &freq);
-   150		chan_nr = ieee80211_frequency_to_channel(freq);
-   151		mf_params->channel = cpu_to_le32(chan_nr);
-   152		memcpy(&mf_params->da[0], &mgmt->da[0], ETH_ALEN);
-   153		memcpy(&mf_params->bssid[0], &mgmt->bssid[0], ETH_ALEN);
-   154		mf_params->packet_id = cpu_to_le32(*cookie);
-   155		memcpy(mf_params->data, &buf[DOT11_MGMT_HDR_LEN],
-   156		       le16_to_cpu(mf_params->len));
-   157	
-   158		brcmf_dbg(TRACE, "Auth frame, cookie=%d, fc=%04x, len=%d, channel=%d\n",
-   159			  le32_to_cpu(mf_params->packet_id),
-   160			  le16_to_cpu(mf_params->frame_control),
-   161			  le16_to_cpu(mf_params->len),
-   162			  le32_to_cpu(mf_params->channel));
-   163	
-   164		vif->mgmt_tx_id = le32_to_cpu(mf_params->packet_id);
-   165		set_bit(BRCMF_MGMT_TX_SEND_FRAME, &vif->mgmt_tx_status);
-   166	
-   167		err = brcmf_fil_bsscfg_data_set(vif->ifp, "mgmt_frame",
-   168						mf_params, mf_params_len);
-   169		if (err) {
-   170			bphy_err(drvr, "Failed to send Auth frame: err=%d\n",
-   171				 err);
-   172			goto tx_status;
-   173		}
-   174	
-   175		timeout =
-   176			wait_for_completion_timeout(&vif->mgmt_tx,
-   177						    MGMT_AUTH_FRAME_WAIT_TIME);
-   178		if (test_bit(BRCMF_MGMT_TX_ACK, &vif->mgmt_tx_status)) {
-   179			brcmf_dbg(TRACE, "TX Auth frame operation is success\n");
-   180			ack = true;
-   181		} else {
-   182			bphy_err(drvr, "TX Auth frame operation is failed: status=%ld)\n",
-   183				 vif->mgmt_tx_status);
-   184		}
-   185	
-   186	tx_status:
-   187		cfg80211_mgmt_tx_status(wdev, *cookie, buf, len, ack,
-   188					GFP_KERNEL);
-   189		kfree(mf_params);
-   190		return err;
-   191	}
-   192	
+  3253	
+  3254	/*
+  3255	 * Convert, in place, the raw invalidation command into an internal format that
+  3256	 * can be passed to arm_smmu_cmdq_issue_cmdlist(). Internally commands are
+  3257	 * stored in CPU endian.
+  3258	 *
+  3259	 * Enforce the VMID on the command.
+  3260	 */
+  3261	static int
+  3262	arm_smmu_convert_user_cmd(struct arm_smmu_nested_domain *nested_domain,
+  3263				  struct iommu_hwpt_arm_smmuv3_invalidate *cmd)
+  3264	{
+  3265		u16 vmid = nested_domain->s2_parent->s2_cfg.vmid;
+  3266	
+> 3267		cmd->cmd[0] = le64_to_cpu(cmd->cmd[0]);
+  3268		cmd->cmd[1] = le64_to_cpu(cmd->cmd[1]);
+  3269	
+  3270		switch (cmd->cmd[0] & CMDQ_0_OP) {
+  3271		case CMDQ_OP_TLBI_NSNH_ALL:
+  3272			/* Convert to NH_ALL */
+  3273			cmd->cmd[0] = CMDQ_OP_TLBI_NH_ALL |
+  3274				      FIELD_PREP(CMDQ_TLBI_0_VMID, vmid);
+  3275			cmd->cmd[1] = 0;
+  3276			break;
+  3277		case CMDQ_OP_TLBI_NH_VA:
+  3278		case CMDQ_OP_TLBI_NH_VAA:
+  3279		case CMDQ_OP_TLBI_NH_ALL:
+  3280		case CMDQ_OP_TLBI_NH_ASID:
+  3281			cmd->cmd[0] &= ~CMDQ_TLBI_0_VMID;
+  3282			cmd->cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_VMID, vmid);
+  3283			break;
+  3284		default:
+  3285			return -EIO;
+  3286		}
+  3287		return 0;
+  3288	}
+  3289	
 
 -- 
 0-DAY CI Kernel Test Service
