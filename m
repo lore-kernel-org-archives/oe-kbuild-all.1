@@ -1,65 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4FB1C985A;
-	Wed, 18 Sep 2024 21:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF153107A0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 22:03:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726693977; cv=none; b=Cl5NSu1ky+o1l2uUdQfFYIsiMBM0g2wv5waZUkZn5PbmrDjlLJ92WJRlu+xu+YPq9KM7ueSEn4VQj4AQ5I8YRpcDlc2pgaMhU6f545MauYPDPO1cv/rCq95sSd5mfiDydd3x7saiGkeOyxt8HPp5b3ZxgP3UlDgXrJi9b7pFLb8=
+	t=1726697037; cv=none; b=YF9XnyzE1nevzSmQhIAyP5GjLRQcdfng++q0dC/7+hcE/GvwvXqIYt2NB6PJ8MjbmlbjjTJzkoV3MumcWCxGI1XVNNSVbyOKG1ARAPXQ2wo6uJ34o9qKVt7MT1CusQtBQmnjlj+pJcC0BcoyBoUZ0iA5GtzTfx02ywTuY4swkv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726693977; c=relaxed/simple;
-	bh=EuIAYQen4UEyM5aIIdtqLWQXGCDcfNVSaN6O6Jib6yg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZJHe8LL1aK9pNC6cXAmqoYdrEC0jX2M3nXTvjJ30pfsEDki4rG2MeTmjO2m7cPNm+aihRjX6OyGyozvjNo8rRbtevN296HarAO9lEjoMPboyGF37zFTCEwpHZEtTtHPi/vqSPhZF8w9bixKj2Tb8z+N4zVRqrYqWYwo+n39k8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ta25809g; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1726697037; c=relaxed/simple;
+	bh=Sw2zQLUIX3vBGkY+LpF8aqfNZtbYV3WnCSM0JcfoRIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gDfKg5+J11MGEAIcOFug2gXgO+BJpGDiCCft8r8SpNIF7zPxdTdmHLjjlogpjJTHgeHdTExwh9OHoKrC8z0gMDtSKVrZ7w0F9imUVDbndSj9FXt47w5cfsuTcwyzCuzWAHmBIi/w68D+af+YMWCpppAZ+/PbXNdLv4iSpoFUnMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4KX6BfT; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ta25809g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4KX6BfT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726693975; x=1758229975;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EuIAYQen4UEyM5aIIdtqLWQXGCDcfNVSaN6O6Jib6yg=;
-  b=Ta25809gclqGjnpwwhb2pIr9nEnuoS7w0CE5JR4SZUyFsB3GijjvE7D7
-   1lIeAhxOq0waDwjsTvZowISXMmUX+StbYUHrumgm7PYBjBkwMJ0ztJuKK
-   DYMdX344m/055e0bYfDxVAc6q/LBhfsdDXJqeNIg681NfR69pozgSHroR
-   cNUIPz6KZxcC00h3fXNNpAVGo1huCYRTliKGyNNRfNgfRzMfzbHPy6krE
-   n0V4odrye4IDMYOYUh9NQyD9AZPUjKZ2h9DhnwWupuqXXU6ysVGpOSnQN
-   dorSH1JwVThGh3Hn44gs0GwSAl5wH8PcISzqj9LAHjfP0aOlegkPxMM4O
+  t=1726697035; x=1758233035;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Sw2zQLUIX3vBGkY+LpF8aqfNZtbYV3WnCSM0JcfoRIE=;
+  b=g4KX6BfTtWyaN1lt4zk3KIlfUkiamjLHmQmfGIy42KgkaVF5WhB8afMS
+   dIv1yd0DOByTmUWJ//gkoOiw+e6joLQ+rQdbnZVVY+UhAw5QDKjFVn0Ke
+   FCMwrdy7A3VZbyyi3JBUltqW+AsN7ja0Wc7LT624FFaf1L1LuXOTwM855
+   XS8j+EGvRWinx8RJ5dVOAwozCa2uU2imSFtqcao3dTcG2EzOL8OqAlCsv
+   X/0LhP1TK+S4kgY84RnMlEeUaHDDZ2E7bxPPdxN/dkRMT9NIRMFugUbmJ
+   RlbhqR800vaA3Ni4SF7zRKWM9oraDmPkvOp8d8rU/9bkSalvPXhELMs2n
    w==;
-X-CSE-ConnectionGUID: dHBGrmUvRvyO0IfBNDHa6w==
-X-CSE-MsgGUID: 4xXk0Kn6QwWujmGIH/voUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="29371535"
-X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="29371535"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 14:12:54 -0700
-X-CSE-ConnectionGUID: TfTSnpzaRZOE0gtisMt6sg==
-X-CSE-MsgGUID: idQGEEQ8Q8CujhvjrhfCbw==
+X-CSE-ConnectionGUID: +QBpxMgGT8Wikv/G5IeNDg==
+X-CSE-MsgGUID: 7S/OQXJpRgGMLSfYIHsvKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="29375892"
+X-IronPort-AV: E=Sophos;i="6.10,240,1719903600"; 
+   d="scan'208";a="29375892"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 15:03:54 -0700
+X-CSE-ConnectionGUID: lDUcPo4wQGCD7L5Rlh//Hg==
+X-CSE-MsgGUID: WRssu+HwRRKJCVESyDacZg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="70164644"
+X-IronPort-AV: E=Sophos;i="6.10,240,1719903600"; 
+   d="scan'208";a="70551194"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Sep 2024 14:12:52 -0700
+  by orviesa008.jf.intel.com with ESMTP; 18 Sep 2024 15:03:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sr1yj-000Cdo-0n;
-	Wed, 18 Sep 2024 21:12:49 +0000
-Date: Thu, 19 Sep 2024 05:11:49 +0800
+	id 1sr2m6-000Cfo-0n;
+	Wed, 18 Sep 2024 22:03:50 +0000
+Date: Thu, 19 Sep 2024 06:03:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Kemnade <andreas@kemnade.info>, tony@atomide.com,
-	Sebastian Reichel <sre@kernel.org>, linux-omap@vger.kernel.org,
-	devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>, linux-pm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH 3/3] power: supply: initial support for TWL6030/32
-Message-ID: <202409190409.0mOjgpq4-lkp@intel.com>
-References: <20240918084132.928295-4-andreas@kemnade.info>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-error-cleanup-2024-09-17 53/53]
+ sound/core/init.c:189:17: error: 'ret' undeclared; did you mean 'net'?
+Message-ID: <202409190651.rwt9ZgB1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,155 +61,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240918084132.928295-4-andreas@kemnade.info>
 
-Hi Andreas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on sre-power-supply/for-next]
-[also build test WARNING on lee-mfd/for-mfd-next lee-leds/for-leds-next linus/master v6.11 next-20240918]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-power-supply-Add-TI-TWL603X-charger/20240918-164406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20240918084132.928295-4-andreas%40kemnade.info
-patch subject: [PATCH 3/3] power: supply: initial support for TWL6030/32
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240919/202409190409.0mOjgpq4-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190409.0mOjgpq4-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-17
+head:   6e744db4fc836ed345a41eec70b1318a5658e4d4
+commit: 6e744db4fc836ed345a41eec70b1318a5658e4d4 [53/53] ALSA: indicate error message on function, not caller (snd_card_new())
+config: x86_64-rhel-8.3-kunit (https://download.01.org/0day-ci/archive/20240919/202409190651.rwt9ZgB1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190651.rwt9ZgB1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409190409.0mOjgpq4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409190651.rwt9ZgB1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/power/supply/twl6030_charger.c:20:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/power/supply/twl6030_charger.c:20:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/power/supply/twl6030_charger.c:20:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/power/supply/twl6030_charger.c:24:
-   In file included from include/linux/usb/otg.h:13:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/power/supply/twl6030_charger.c:360:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     360 |                 u8 intstat;
-         |                 ^
-   8 warnings generated.
+   sound/core/init.c: In function 'snd_card_new':
+>> sound/core/init.c:189:17: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+     189 |                 ret = -ENOMEM;
+         |                 ^~~
+         |                 net
+   sound/core/init.c:189:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +360 drivers/power/supply/twl6030_charger.c
+vim +189 sound/core/init.c
 
-   345	
-   346	static int twl6030_charger_usb_get_property(struct power_supply *psy,
-   347						    enum power_supply_property psp,
-   348						    union power_supply_propval *val)
-   349	{
-   350		struct twl6030_charger_info *charger = power_supply_get_drvdata(psy);
-   351		int ret;
-   352		u8 stat1;
-   353	
-   354		ret = twl6030_charger_read(CONTROLLER_STAT1, &stat1);
-   355		if (ret)
-   356			return ret;
-   357	
-   358		switch (psp) {
-   359		case POWER_SUPPLY_PROP_STATUS:
- > 360			u8 intstat;
-   361	
-   362			if (!(stat1 & VBUS_DET)) {
-   363				val->intval = POWER_SUPPLY_STATUS_NOT_CHARGING;
-   364				break;
-   365			}
-   366			ret = twl6030_charger_read(CHARGERUSB_STATUS_INT2, &intstat);
-   367			if (ret)
-   368				return ret;
-   369	
-   370			if (intstat & CHARGE_DONE)
-   371				val->intval = POWER_SUPPLY_STATUS_FULL;
-   372			else if (intstat & CURRENT_TERM)
-   373				val->intval = POWER_SUPPLY_STATUS_NOT_CHARGING;
-   374			else
-   375				val->intval = POWER_SUPPLY_STATUS_CHARGING;
-   376			break;
-   377		case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-   378			if (!charger->channel_vusb)
-   379				return -ENODATA;
-   380	
-   381			ret = iio_read_channel_processed_scale(charger->channel_vusb, &val->intval, 1000);
-   382			if (ret < 0)
-   383				return ret;
-   384	
-   385			break;
-   386		case POWER_SUPPLY_PROP_ONLINE:
-   387			val->intval = !!(stat1 & VBUS_DET);
-   388			break;
-   389		case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
-   390			val->intval = charger->input_current_limit;
-   391			break;
-   392		default:
-   393			return -EINVAL;
-   394		}
-   395	
-   396		return 0;
-   397	}
-   398	
+   155	
+   156	/**
+   157	 *  snd_card_new - create and initialize a soundcard structure
+   158	 *  @parent: the parent device object
+   159	 *  @idx: card index (address) [0 ... (SNDRV_CARDS-1)]
+   160	 *  @xid: card identification (ASCII string)
+   161	 *  @module: top level module for locking
+   162	 *  @extra_size: allocate this extra size after the main soundcard structure
+   163	 *  @card_ret: the pointer to store the created card instance
+   164	 *
+   165	 *  The function allocates snd_card instance via kzalloc with the given
+   166	 *  space for the driver to use freely.  The allocated struct is stored
+   167	 *  in the given card_ret pointer.
+   168	 *
+   169	 *  Return: Zero if successful or a negative error code.
+   170	 */
+   171	int snd_card_new(struct device *parent, int idx, const char *xid,
+   172			    struct module *module, int extra_size,
+   173			    struct snd_card **card_ret)
+   174	{
+   175		struct snd_card *card;
+   176		int err;
+   177	
+   178		if (snd_BUG_ON(!card_ret)) {
+   179			err = -EINVAL;
+   180			goto err;
+   181		}
+   182	
+   183		*card_ret = NULL;
+   184	
+   185		if (extra_size < 0)
+   186			extra_size = 0;
+   187		card = kzalloc(sizeof(*card) + extra_size, GFP_KERNEL);
+   188		if (!card) {
+ > 189			ret = -ENOMEM;
+   190			goto err;
+   191		}
+   192	
+   193		err = snd_card_init(card, parent, idx, xid, module, extra_size);
+   194		if (err < 0)
+   195			goto err; /* card is freed by error handler */
+   196	
+   197		*card_ret = card;
+   198	err:
+   199		if (ret < 0)
+   200			dev_err(parent, "%s_new() failed with err %d\n", __func__, err);
+   201	
+   202		return err;
+   203	}
+   204	EXPORT_SYMBOL(snd_card_new);
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
