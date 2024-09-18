@@ -1,59 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B717417B50D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 09:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D8A17BEB7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Sep 2024 09:55:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726653316; cv=none; b=hrWkVGgPpNPWcjHC9R9NOhc6q6K0m+MsYlRBrcYnKptiGfmM9DgqIEMKggtiJ9C4cqPEBFus7rRZ4O/hSyNztzcNCXgn8WPijd1GYSWx+1WW+HMLLriNIeXygn6TPAKFc7nDQLaM+MbiVTyeqagbSCYPUQw9Ll7sn60px0nCVM4=
+	t=1726653316; cv=none; b=oravY2UUy9n2yjKV952gWHT2EmKDFlvRGVce1uWgU/hb5ff+4gFHfB67jq/j3zTvBk7t0kjVnJaS7uoHtTBwYTG4Y/rsW3LTXFe23qajl0pXNcW01ZEZu5bbtDMCqH41xnXwBKWluy7dR0iq/wnIivcg6z+dMy5tBE6O2dexPrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1726653316; c=relaxed/simple;
-	bh=8DPl91Aac5wv5IlM121AkK+oLARY8TpdnrYer05Z8Kw=;
+	bh=sjZtiD1L8YhMVFew9V0PL6jGFkvwr+zQJ6qptzixh9w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oAVIbVEyZ5tbiuwWmoHKxPZuq2GtVEKSDgJf5PXWuzsTBo11+QjIkJPzygmTbJ/skqkI1gsQU365Ky1ifGwOdSIhNABagCEzDVPq/d/5rSd2M4OSaFIOKa12bvA1MwJHGS9sTbM1/HCwzXsS9sO5V5fb1MLmBJEnqfy8W5C0SzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D91ohBDd; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ujFIj7AC2Jf4PKWgYT186Ic4KC5AVTNyX1W9KV6+XVG11ttRBfdMdDcW8Lh96lsu83H9VK2yyGq6g6p1JNnc0wDWaHbnh9RkV1UHibAUg/HK4iJMY2FpNccL/Yza1x3uCZoP61I73unezlGqgYdkM4BhdCsFsI45LLMb2M7yIqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NvpiAmEl; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D91ohBDd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NvpiAmEl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726653314; x=1758189314;
+  t=1726653315; x=1758189315;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8DPl91Aac5wv5IlM121AkK+oLARY8TpdnrYer05Z8Kw=;
-  b=D91ohBDdsKNON6Wv2Qr8xHGxlYsDUvsXnKUxm9Vpv/X3NZ8mUUCCCZaw
-   qEzkXHj6v58MoP3rJMffnV7FT5MDoYLuZmvy83m832Tm/VLgfuFaHGqfH
-   hoPQ9vvdbgL1tEG76lru7N3/fLHKiVgnZoZ/JI++fwtHdW6MtIq01EgPJ
-   uOfPXTXp/yzZ6HbQEyl3EbQ0C9UhuheZsqJJ3mR64dN2IHszl+uooKyye
-   naPvEvQVgxIw/tZcs+tnJT3dDwzL0Zj6z3aWZgMZilKPHAf6idZ2GiZt+
-   QyfERo4CbXnknTzXZqDis+jvRInAYj3AAa2QNP6skRGqvTyll4Fx5QQk5
-   w==;
-X-CSE-ConnectionGUID: 18ttlYX2RgqvTZT61FxwTA==
-X-CSE-MsgGUID: GjwzCl0UQVOfMhlQouX5UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25648713"
+  bh=sjZtiD1L8YhMVFew9V0PL6jGFkvwr+zQJ6qptzixh9w=;
+  b=NvpiAmElBRmr3rF1ZK3dAgGYBodsE7D/4mOIHKWeOt7vpcmr8MnyvyHN
+   npNlFLLMTm6ngvABp4V4utKOIXebWLUdF5blZECwy6xnZev9iM5s1B8GH
+   V5CxIBYPa01tmB84hU4U0zQogouOxe3Y3MbiuI574hJ9PRnedy+RQAYOk
+   E8k9VU9uxenqsKV09IORxaupDqJ+Dqj65AbeQ0WiJWMDN2/YM/La7vlFD
+   VJMEH0JeSQRjF/d4WDHEPVhA0hxDYAGcwSivYaRxNhZc8wHZeMAfCMsYM
+   AAW2psTdDfFmv4TPTTrKHHPKpz/s+YGvqdhxlEZNuKnH0DRVpvYm9zn/8
+   A==;
+X-CSE-ConnectionGUID: UN8e2wAMTLC+3QTizm5+rg==
+X-CSE-MsgGUID: L/1ueP0bTb2U15dmwMLSXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="25648717"
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="25648713"
+   d="scan'208";a="25648717"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 02:55:14 -0700
-X-CSE-ConnectionGUID: /aTUzwkdQ0OF1+5N7CoVWw==
-X-CSE-MsgGUID: ltEvXVuUS1OL4CWgqSCU6w==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 02:55:15 -0700
+X-CSE-ConnectionGUID: 8WV8Bq6gSwm2ofuQrQEdxg==
+X-CSE-MsgGUID: L3Xvf+daR+a83Vbxg4lrGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="69973963"
+   d="scan'208";a="69973964"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Sep 2024 02:55:12 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Sep 2024 02:55:13 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqrOv-000C90-3D;
-	Wed, 18 Sep 2024 09:55:09 +0000
-Date: Wed, 18 Sep 2024 17:54:43 +0800
+	id 1sqrOw-000C92-03;
+	Wed, 18 Sep 2024 09:55:10 +0000
+Date: Wed, 18 Sep 2024 17:54:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 2833/14977] versioncheck:
- ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4805: need
- linux/version.h
-Message-ID: <202409181756.ChW5n8nh-lkp@intel.com>
+To: Peichen Huang <PeiChen.Huang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Cruise Hung <cruise.hung@amd.com>,
+	George Shen <george.shen@amd.com>,
+	Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+	Alex Hung <alex.hung@amd.com>
+Subject: [linux-next:master 12160/12393]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:5768: warning: Function
+ parameter or struct member 'tps' not described in
+ 'dc_process_dmub_dpia_set_tps_notification'
+Message-ID: <202409181703.IBSWVJgA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +70,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   3516b574d9cb19c39dc921a07a37c8a2fcaf0009
-commit: 5b8ac604125a9fd4944cd9661ac3f4fc32f045dd [2833/14977] LF-1762-8 mxc: gpu: replace '---help---' in Kconfig files with 'help'
-reproduce: (https://download.01.org/0day-ci/archive/20240918/202409181756.ChW5n8nh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   55bcd2e0d04c1171d382badef1def1fd04ef66c5
+commit: fbeaa2f6f9b432a689e7d7e6b71459500338b8f5 [12160/12393] drm/amd/display: Restructure dpia link training
+config: parisc-randconfig-001-20240127 (https://download.01.org/0day-ci/archive/20240918/202409181703.IBSWVJgA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409181703.IBSWVJgA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409181756.ChW5n8nh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409181703.IBSWVJgA-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.71.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 17717: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4805: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 200: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 605: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 552: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1389: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 546: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 881: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 611: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 608: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 176: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2677: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1542: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 869: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7517: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 450: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1856: need linux/version.h
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:5768: warning: Function parameter or struct member 'tps' not described in 'dc_process_dmub_dpia_set_tps_notification'
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:5768: warning: Excess function parameter 'ts' description in 'dc_process_dmub_dpia_set_tps_notification'
+
+
+vim +5768 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c
+
+  5757	
+  5758	/**
+  5759	 * dc_process_dmub_dpia_set_tps_notification - Submits tps notification
+  5760	 *
+  5761	 * @dc: [in] dc structure
+  5762	 * @link_index: [in] link index
+  5763	 * @ts: [in] request tps
+  5764	 *
+  5765	 * Submits set_tps_notification command to dmub via inbox message
+  5766	 */
+  5767	void dc_process_dmub_dpia_set_tps_notification(const struct dc *dc, uint32_t link_index, uint8_t tps)
+> 5768	{
+  5769		union dmub_rb_cmd cmd = {0};
+  5770	
+  5771		cmd.set_tps_notification.header.type = DMUB_CMD__DPIA;
+  5772		cmd.set_tps_notification.header.sub_type = DMUB_CMD__DPIA_SET_TPS_NOTIFICATION;
+  5773		cmd.set_tps_notification.tps_notification.instance = dc->links[link_index]->ddc_hw_inst;
+  5774		cmd.set_tps_notification.tps_notification.tps = tps;
+  5775	
+  5776		dc_wake_and_execute_dmub_cmd(dc->ctx, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
+  5777	}
+  5778	
 
 -- 
 0-DAY CI Kernel Test Service
