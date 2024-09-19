@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894F917C8B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 06:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC0018E76D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 06:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726726709; cv=none; b=dSuzvgIZAA+A3RPSUCdfUSIl6sudcHkxq/e4Egsy4v5npMoto2E7l7A7RXRNHD0yMLfXi1qzSGbePLiNN4PdnL//hNwzxjJMaYKJiszTvmfKWqifstTdj4QbFbZf1AYGqLLwjlaDrhrVS+0qReH/eRMehqwMYhpLxpLoOaXHOCo=
+	t=1726728600; cv=none; b=FAw966wEh8j6idJ0Sj4mhyUzK6JSqppYzpr+uxg4NXDEFHjy/7Hc7zfLAs25lN42Azofwwuz2mgnpCPJ/N5JuOUfOZgY8vOmTxfnv2V9e1Vab1/o9lC0mbbuy7Muvr2nnzTJMyqGPJQvm+pbN3wFs8jGEI5Lf1+Aic0hsUIMcYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726726709; c=relaxed/simple;
-	bh=1lrDfl4YrRnYJolGK18YagHpkzksvU8kcDi7KXK0gto=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bcge2C8IWamUL/VgW3/i0j9Ba0P56B/9TSEpSUiV3tO1mbamjSgPOvDFy115KpeVpU65Z9sntq6ONUnB7BPU1tiYLGm+27fxrmkNJdpSKMXfD6AGjixKn/ePpjh2sYx7Hp33zBpp9lP7j/KgHgD/D7/mM+1zPhVyaqKxGKao5SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdGjWRBn; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1726728600; c=relaxed/simple;
+	bh=pqGvSqI8y7nHPfuiivCjh5i8iO5fCHQsxlKUrl7kYes=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rYfoT0+jYfcbb2vyZfY1+YQeb4k0etRbHqXAJo7gN9158bqj1JhWRI3auZ32/3O0X3G1dFC9dVI9XqyGpQHod39o85/212FqBhDvrKd1t+S2je6z5+bldApbUR62iDbzN74AMX+y9BggsEY6He+8YI/eh9vbGSW7zaPZVzkkW8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAeoCY00; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdGjWRBn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAeoCY00"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726726707; x=1758262707;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1lrDfl4YrRnYJolGK18YagHpkzksvU8kcDi7KXK0gto=;
-  b=gdGjWRBnYPviPRwMBfNyvXD0uWTJvMAYXKNuwMgY+fliSzMyqF80ff64
-   tzYtLDGMVQFRTNONrxsgMVm2xWLsqIHfVic2hjFUMB6SixXHo4HsAt3Nf
-   GoVp8gtXsV4E/5SVAR593+1qlo90AdIFZ3YfmlKg5Ij+mwJwzgoVnhDCc
-   St2Uk1NHraSquxcxbAJLRPZNL78QuOQly83GLfNVgGsHIjNn/hU0wDAUy
-   ntk+3WFevyJJTpvgTac6cy7G+ZFspJuZIeImdJqxoOXlGdKViWWW74wvD
-   C/85dgU3TfOjNPwWO9eDKfepvHYtpfmwsat0fgm7sIMG80MILmhLF0lVH
+  t=1726728599; x=1758264599;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pqGvSqI8y7nHPfuiivCjh5i8iO5fCHQsxlKUrl7kYes=;
+  b=LAeoCY00qZYvHdNl2oAYgL0HKDoZytZDtyyLlnjQOe5mmiRw0qGpQMe8
+   EY5twkgIyacx7WusTmvoCwXDxkWOP5oYujlde2j54jThV4QuIhH1IZWoL
+   ZnWDqTRn2FLF63jA4erHIoBRuTXQ3FT1GlUMxpoqNFatiuKsjhVZGyWxZ
+   tGMLLsXuoFCGX0e6ruoFzypMKhJNq5nmvCvmUJgLlR3yJU/LpAHIMhGED
+   ZR4P1FgTiH6Jq6cs442hoh9lIivlWEk27/Q1/7hROcl+EZymDYabV4lON
+   pZd7SxLJAmRU+xflHM/f3Qv4+tRLU8P4fEwpUSVawu/r3WHHcl7jHzJGy
    w==;
-X-CSE-ConnectionGUID: 6ZO3+so4RMulzfF2vcNVyw==
-X-CSE-MsgGUID: CPIFkxbhQcidQfhj92tpMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="29457916"
+X-CSE-ConnectionGUID: ZB5NIH5bROycGuFmoMK6gw==
+X-CSE-MsgGUID: GExRfX8pRgmhDQ3jczbs8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36244864"
 X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="29457916"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 23:18:26 -0700
-X-CSE-ConnectionGUID: m1qKH+8QR7umR6XL4OeNzw==
-X-CSE-MsgGUID: DvdmLe/fSwaC9I2Sw6nbyQ==
+   d="scan'208";a="36244864"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 23:49:58 -0700
+X-CSE-ConnectionGUID: 2Kww1MV+QwaTXCTwPAbZ+Q==
+X-CSE-MsgGUID: PCw4xIUmTZixykvk6/w5dA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="69835786"
+   d="scan'208";a="93107178"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Sep 2024 23:18:25 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Sep 2024 23:49:52 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srAUh-000CzK-1K;
-	Thu, 19 Sep 2024 06:18:23 +0000
-Date: Thu, 19 Sep 2024 14:17:59 +0800
+	id 1srAz7-000D12-26;
+	Thu, 19 Sep 2024 06:49:49 +0000
+Date: Thu, 19 Sep 2024 14:49:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 3143/16779] versioncheck:
- ./drivers/mxc/hantro_v4l2/vsi-v4l2-dec.c: 41 linux/version.h not needed.
-Message-ID: <202409191430.zB7Az3j9-lkp@intel.com>
+To: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org,
+	david@redhat.com, willy@infradead.org,
+	kirill.shutemov@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, ryan.roberts@arm.com,
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, cl@gentwo.org,
+	vbabka@suse.cz, mhocko@suse.com, apopple@nvidia.com,
+	dave.hansen@linux.intel.com, will@kernel.org, baohua@kernel.org,
+	jack@suse.cz, mark.rutland@arm.com, hughd@google.com,
+	aneesh.kumar@kernel.org, yang@os.amperecomputing.com,
+	peterx@redhat.com, ioworker0@gmail.com, jglisse@google.com,
+	wangkefeng.wang@huawei.com, ziy@nvidia.com,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Dev Jain <dev.jain@arm.com>
+Subject: Re: [PATCH v4 1/2] mm: Abstract THP allocation
+Message-ID: <202409191416.9etlfugV-lkp@intel.com>
+References: <20240916094309.1226908-2-dev.jain@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,42 +73,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240916094309.1226908-2-dev.jain@arm.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   60c5d539014532e8a81ac01467dc47b2c67b77c7
-commit: f1fcb1c8a2f7ad2ec43d55871b3771768884c5d3 [3143/16779] arm64: imx8mx: vpu: add vsi v4l2 decoder and encoder
-reproduce: (https://download.01.org/0day-ci/archive/20240919/202409191430.zB7Az3j9-lkp@intel.com/reproduce)
+Hi Dev,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.11 next-20240918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dev-Jain/mm-Abstract-THP-allocation/20240916-174543
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240916094309.1226908-2-dev.jain%40arm.com
+patch subject: [PATCH v4 1/2] mm: Abstract THP allocation
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240919/202409191416.9etlfugV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409191416.9etlfugV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409191430.zB7Az3j9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409191416.9etlfugV-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.71.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
->> ./drivers/mxc/hantro_v4l2/vsi-v4l2-dec.c: 41 linux/version.h not needed.
->> ./drivers/mxc/hantro_v4l2/vsi-v4l2-enc.c: 41 linux/version.h not needed.
->> ./drivers/mxc/hantro_v4l2/vsi-v4l2.c: 41 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   mm/huge_memory.c: In function 'vma_alloc_anon_folio_pmd':
+>> mm/huge_memory.c:1152:23: warning: unused variable 'haddr' [-Wunused-variable]
+    1152 |         unsigned long haddr = addr & HPAGE_PMD_MASK;
+         |                       ^~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +/haddr +1152 mm/huge_memory.c
+
+  1148	
+  1149	static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,
+  1150						      unsigned long addr)
+  1151	{
+> 1152		unsigned long haddr = addr & HPAGE_PMD_MASK;
+  1153		gfp_t gfp = vma_thp_gfp_mask(vma);
+  1154		const int order = HPAGE_PMD_ORDER;
+  1155		struct folio *folio = vma_alloc_folio(gfp, order, vma, haddr, true);
+  1156	
+  1157		if (unlikely(!folio)) {
+  1158			count_vm_event(THP_FAULT_FALLBACK);
+  1159			count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
+  1160			goto out;
+  1161		}
+  1162	
+  1163		VM_BUG_ON_FOLIO(!folio_test_large(folio), folio);
+  1164		if (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {
+  1165			folio_put(folio);
+  1166			count_vm_event(THP_FAULT_FALLBACK);
+  1167			count_vm_event(THP_FAULT_FALLBACK_CHARGE);
+  1168			count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
+  1169			count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
+  1170			return NULL;
+  1171		}
+  1172		folio_throttle_swaprate(folio, gfp);
+  1173	
+  1174		folio_zero_user(folio, addr);
+  1175		/*
+  1176		 * The memory barrier inside __folio_mark_uptodate makes sure that
+  1177		 * folio_zero_user writes become visible before the set_pmd_at()
+  1178		 * write.
+  1179		 */
+  1180		__folio_mark_uptodate(folio);
+  1181	out:
+  1182		return folio;
+  1183	}
+  1184	
 
 -- 
 0-DAY CI Kernel Test Service
