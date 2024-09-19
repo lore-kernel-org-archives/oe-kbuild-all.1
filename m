@@ -1,159 +1,147 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58FB51A0B08;
-	Thu, 19 Sep 2024 17:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF0555884;
+	Thu, 19 Sep 2024 19:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726768163; cv=none; b=AoHTwasalOxjfqy99Hd338/1hd0ttlM/tl98iGnp0BWuZvgYv2gN4ODDOfG529bFtF8rvekSw/8J8ZmGktnopj8Oa+lViNa7jKlnsaey/9DilaPA0tvXJePJX7WmMgdZ5oMQM17FK8odvoHx0xvRiesTRptNWseC/UgTyjly4HA=
+	t=1726775060; cv=none; b=kni1NoS1T28OeisA2MTtMujwhnSpNpV8hu2a2b/keKUQPUn9pSkk1JsD0NLZNpkGdX6ILgqdIml4DO9wIgwMe+8i4JYwrSqHoS452+riehnlNFDwc1PQQCrKPNWX5j3rtUYlZgpJ1PzwbqFAymcgKp8WRgUXgMvwcpAiU3IzElE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726768163; c=relaxed/simple;
-	bh=Xzcxh0emf1BR3pfAuhfeoZgf9JYWV+PUBPOkNS+SmKQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YcGpU96KRSopHhXBuYBX52S+H0FKGeBolPp1tEA1GAskQPsXp1va7xPnVunAAGYQqynmJinV6SUuw9qBUCSx0SvKv3lYZIwzPLAXDnUeQZffB6Hf1VChHkLUkQMENpDoNOqNF6wAJ5+/wnxhoZIf5uBSZP8zKKtxgKim/O+5wPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10F3A1007;
-	Thu, 19 Sep 2024 10:49:50 -0700 (PDT)
-Received: from [10.57.82.79] (unknown [10.57.82.79])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 973013F64C;
-	Thu, 19 Sep 2024 10:49:12 -0700 (PDT)
-Message-ID: <5bd51798-cb47-4a7b-be40-554b5a821fe7@arm.com>
-Date: Thu, 19 Sep 2024 19:49:09 +0200
+	s=arc-20240116; t=1726775060; c=relaxed/simple;
+	bh=2hRqAHASlfIZuux8VpsPxQok60ErE1TRbUHCd7YpKEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R4gDquIfHp46hibwBCbycq3LFG5sHa/32ihKaIb026bb99gSWMomT2A5AT9R6zG1OXNvrnr47SQ9u95/aZMzZH+7Ips5ACI1gWRHzmF4FvN678QXqk0+6SZmqTYJnNEBYCClD0IaJRwGO9AInLC4P5C57dxUVDi6xL9z+MGxGY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8Z0iWAp; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8Z0iWAp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726775058; x=1758311058;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2hRqAHASlfIZuux8VpsPxQok60ErE1TRbUHCd7YpKEk=;
+  b=H8Z0iWApcX2weVFAAJkP/IN8PPMW70WJnuAXLCpd2t5WUzg33Zn1FPJI
+   IpeYpgc+07EhsjmxWQRP8x6lwwV7DbVBHWCILBlsIVi0lg88qOI4RIt6S
+   nkozxn8mj1Vh+Key/SpbRVkQyiRc2xuWHRpvNaNpL4Z56XrSmUsFM4hEE
+   QqBG8lwOP/kQDrGuxUi0gzNb5LIVdiqiew3jqJB7cm4/+xxB8s0eKruMB
+   D8C5gYuuprcd14O2leU3j0EY6L6whPFL5kDFOs2jE6StLx4QA6RTY1lVN
+   ddDZXy8/cC0zl5ECk97SVAcFuwsE+BIsuIYIeBAomJmgvtSgZ/0ek1DDM
+   Q==;
+X-CSE-ConnectionGUID: 8Qoja556TzWGvY/O0gKUBQ==
+X-CSE-MsgGUID: MnDp0U3QTCezWTVl4wsBRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25950280"
+X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
+   d="scan'208";a="25950280"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 12:44:18 -0700
+X-CSE-ConnectionGUID: tCrg+SLzTB2nOTZMcFVYCg==
+X-CSE-MsgGUID: M71sTAbLQcG8NtCsYNE/gQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
+   d="scan'208";a="69649950"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Sep 2024 12:44:15 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1srN4X-000Dbw-0T;
+	Thu, 19 Sep 2024 19:44:13 +0000
+Date: Fri, 20 Sep 2024 03:44:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-i2c@vger.kernel.org, Sanket.Goswami@amd.com,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Patil.Reddy@amd.com, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v5 4/8] i2c: amd-asf: Add ACPI support for AMD ASF
+ Controller
+Message-ID: <202409192333.P0Nve307-lkp@intel.com>
+References: <20240913121110.1611340-5-Shyam-sundar.S-k@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-Content-Language: en-GB
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
- kernel test robot <lkp@intel.com>, linux-mm@kvack.org, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, "Mike Rapoport (IBM)"
- <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Christoph Lameter <cl@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
- <202409190310.ViHBRe12-lkp@intel.com>
- <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
- <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
- <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
- <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240913121110.1611340-5-Shyam-sundar.S-k@amd.com>
 
-On 19/09/2024 18:06, Russell King (Oracle) wrote:
-> On Thu, Sep 19, 2024 at 05:48:58PM +0200, Ryan Roberts wrote:
->>> 32-bit arm uses, in some circumstances, an array because each level 1
->>> page table entry is actually two descriptors. It needs to be this way
->>> because each level 2 table pointed to by each level 1 entry has 256
->>> entries, meaning it only occupies 1024 bytes in a 4096 byte page.
->>>
->>> In order to cut down on the wastage, treat the level 1 page table as
->>> groups of two entries, which point to two consecutive 1024 byte tables
->>> in the level 2 page.
->>>
->>> The level 2 entry isn't suitable for the kernel's use cases (there are
->>> no bits to represent accessed/dirty and other important stuff that the
->>> Linux MM wants) so we maintain the hardware page tables and a separate
->>> set that Linux uses in the same page. Again, the software tables are
->>> consecutive, so from Linux's perspective, the level 2 page tables
->>> have 512 entries in them and occupy one full page.
->>>
->>> This is documented in arch/arm/include/asm/pgtable-2level.h
->>>
->>> However, what this means is that from the software perspective, the
->>> level 1 page table descriptors are an array of two entries, both of
->>> which need to be setup when creating a level 2 page table, but only
->>> the first one should ever be dereferenced when walking the tables,
->>> otherwise the code that walks the second level of page table entries
->>> will walk off the end of the software table into the actual hardware
->>> descriptors.
->>>
->>> I've no idea what the idea is behind introducing pgd_get() and what
->>> it's semantics are, so I can't comment further.
->>
->> The helper is intended to read the value of the entry pointed to by the passed
->> in pointer. And it shoiuld be read in a "single copy atomic" manner, meaning no
->> tearing. Further, the PTL is expected to be held when calling the getter. If the
->> HW can write to the entry such that its racing with the lock holder (i.e. HW
->> update of access/dirty) then READ_ONCE() should be suitable for most
->> architectures. If there is no possibility of racing (because HW doesn't write to
->> the entry), then a simple dereference would be sufficient, I think (which is
->> what the core code was already doing in most cases).
-> 
-> The core code should be making no access to the PGD entries on 32-bit
-> ARM since the PGD level does not exist. Writes are done at PMD level
-> in arch code. Reads are done by core code at PMD level.
-> 
-> It feels to me like pgd_get() just doesn't fit the model to which 32-bit
-> ARM was designed to use decades ago, so I want full details about what
-> pgd_get() is going to be used for and how it is going to be used,
-> because I feel completely in the dark over this new development. I fear
-> that someone hasn't understood the Linux page table model if they're
-> wanting to access stuff at levels that effectively "aren't implemented"
-> in the architecture specific kernel model of the page tables.
+Hi Shyam,
 
-This change isn't as big and scary as I think you fear. The core-mm today
-dereferences pgd pointers (and p4d, pud, pmd pointers) directly in its code. See
-follow_pfnmap_start(), gup_fast_pgd_leaf(), and many other sites. These changes
-aim to abstract those dereferences into an inline function that the architecture
-can override and implement if it so wishes.
+kernel test robot noticed the following build warnings:
 
-The core-mm implements default versions of these helper functions which do
-READ_ONCE(), but does not currently use them consistently.
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on linus/master v6.11 next-20240919]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-From Anshuman's comments earlier in this thread, it looked to me like the arm
-pgd_t type is too big to read with READ_ONCE() - it can't be atomically read on
-that arch. So my proposal was to implement the override for arm to do exactly
-what the core-mm used to do, which is a pointer dereference. So that would
-result in exact same behaviour for the arm arch.
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/i2c-piix4-Change-the-parameter-list-of-piix4_transaction-function/20240913-201353
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240913121110.1611340-5-Shyam-sundar.S-k%40amd.com
+patch subject: [PATCH v5 4/8] i2c: amd-asf: Add ACPI support for AMD ASF Controller
+config: arm-randconfig-003-20240919 (https://download.01.org/0day-ci/archive/20240919/202409192333.P0Nve307-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409192333.P0Nve307-lkp@intel.com/reproduce)
 
-> 
-> Essentially, on 32-bit 2-level ARM, the PGD is merely indexed by the
-> virtual address. As far as the kernel is concerned, each entry is
-> 64-bit, and the generic kernel code has no business accessing that
-> through the pgd pointer.
-> 
-> The pgd pointer is passed through the PUD and PMD levels, where it is
-> typecast down through the kernel layers to a pmd_t pointer, where it
-> becomes a 32-bit quantity. This results in only the _first_ level 1
-> pointer being dereferenced by kernel code to a 32-bit pmd_t quantity.
-> pmd_page_vaddr() converts this pmd_t quantity to a pte pointer (which
-> points at the software level 2 page tables, not the hardware page
-> tables.)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409192333.P0Nve307-lkp@intel.com/
 
-As an aside, my understanding of Linux's pgtable model differs from what you
-describe. As I understand it, Linux's logical page table model has 5 levels
-(pgd, p4d, pud, pmd, pte). If an arch doesn't support all 5 levels, then the
-middle levels can be folded away (p4d first, then pud, then pmd). But the
-core-mm still logically walks all 5 levels. So if the HW supports 2 levels,
-those levels are (pgd, pte). But you are suggesting that arm exposes pmd and
-pte, which is not what Linux expects? (Perhaps you call it the pmd in the arch,
-but that is being folded and accessed through the pgd helpers in core code, I
-believe?
+All warnings (new ones prefixed by >>):
 
-> 
-> So, as I'm now being told that the kernel wants to dereference the
-> pgd level despite the model I describe above, alarm bells are ringing.
-> I want full information please.
-> 
+   In file included from drivers/i2c/busses/i2c-amd-asf-plat.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/i2c/busses/i2c-amd-asf-plat.c:52:56: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+      52 |                  "SMBus ASF adapter%s at 0x%llx", amd_asf_port_name, asf_dev->port_addr->start);
+         |                                            ~~~~                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            %x
+   2 warnings generated.
 
-This is not new; the kernel already dereferences the pgd pointers.
 
-Thanks,
-Ryan
+vim +52 drivers/i2c/busses/i2c-amd-asf-plat.c
 
+    30	
+    31	static int amd_asf_probe(struct platform_device *pdev)
+    32	{
+    33		struct amd_asf_dev *asf_dev;
+    34	
+    35		asf_dev = devm_kzalloc(&pdev->dev, sizeof(*asf_dev), GFP_KERNEL);
+    36		if (!asf_dev)
+    37			return dev_err_probe(&pdev->dev, -ENOMEM, "Failed to allocate memory\n");
+    38	
+    39		asf_dev->dev = &pdev->dev;
+    40		asf_dev->mmio_cfg.use_mmio = true;
+    41		platform_set_drvdata(pdev, asf_dev);
+    42	
+    43		asf_dev->port_addr = platform_get_resource(pdev, IORESOURCE_IO, 0);
+    44		if (!asf_dev->port_addr)
+    45			return dev_err_probe(&pdev->dev, -EINVAL, "missing IO resources\n");
+    46	
+    47		asf_dev->adap.owner = THIS_MODULE;
+    48		asf_dev->adap.dev.parent = &pdev->dev;
+    49	
+    50		i2c_set_adapdata(&asf_dev->adap, asf_dev);
+    51		snprintf(asf_dev->adap.name, sizeof(asf_dev->adap.name),
+  > 52			 "SMBus ASF adapter%s at 0x%llx", amd_asf_port_name, asf_dev->port_addr->start);
+    53	
+    54		return devm_i2c_add_adapter(&pdev->dev, &asf_dev->adap);
+    55	}
+    56	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
