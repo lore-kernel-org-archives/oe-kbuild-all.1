@@ -1,141 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876F7191F74
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 17:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58FB51A0B08;
+	Thu, 19 Sep 2024 17:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726767796; cv=none; b=PBTGQNM5k4s/U27MTN7r8xGq5RF5sFGAFClC6sqW9xHqvtd2TpYyXLHfQa8kKbJMPePd9E3N+lIhMoUWej2RfQz51RfdPDn031QkLEVG9K8oRpe8ADdm7n3VLn8TPfahdUDiBIbaxLwRlvEJ/vXAql+VLSjcrlx/46FTX+SZ5dQ=
+	t=1726768163; cv=none; b=AoHTwasalOxjfqy99Hd338/1hd0ttlM/tl98iGnp0BWuZvgYv2gN4ODDOfG529bFtF8rvekSw/8J8ZmGktnopj8Oa+lViNa7jKlnsaey/9DilaPA0tvXJePJX7WmMgdZ5oMQM17FK8odvoHx0xvRiesTRptNWseC/UgTyjly4HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726767796; c=relaxed/simple;
-	bh=qHCtoOAHi/tQEbmOVSQXWLgavfkekkXPt3qKWLJk6g4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TLyKfEkG2uPRttmzOqs7jefvXxSNv5nSqwCA7hGQMYbF64CaIpO+Fafd9T6iKXrbb503qKgLQFcAfsid71Ni0mLI+OR5RYUv7FOACh2vYbzStJc0JiZ2TsabYPNHgeALqVRwLYZPXsZZgcLsLYVHVwkAMQG5mrAlg9H2dPX3sCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+VEPAFi; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+VEPAFi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726767794; x=1758303794;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qHCtoOAHi/tQEbmOVSQXWLgavfkekkXPt3qKWLJk6g4=;
-  b=S+VEPAFirPyT62JL4gQB15vwwWVW+eT4MX+YFwStpVEylSU1qUgOZwey
-   y7mJ03kXK0oiqJ240j+bzSZwJwBDRKEri36U65ll875vSt4PKPc/qjevX
-   HYXKsRBXSmvgocvSH73cDC96shWMuApB+j6XdMbV3Ogt8Us7yNp20N1FL
-   DelBSsliVOLcrTG3W1Tju3xCWaSem4ufr/woi6Jmf2CCT5yagOzRPRJAD
-   5Il/h3cA9hlAS9FOpzwhaPtQbFSv6nkuqY+apRtGHLBuYuBNAhE2J9UOa
-   +W5nZxrtwg85dQjN/5ZnOb8qJDow5MTe3DfY0uawCJImJP7LeTn5sJsxp
-   g==;
-X-CSE-ConnectionGUID: zZFRGarqQHG8UCL/yVe/6g==
-X-CSE-MsgGUID: Kdr7yLinRtaELdjDeZepkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="43218768"
-X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
-   d="scan'208";a="43218768"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 10:43:14 -0700
-X-CSE-ConnectionGUID: 7UOO4gZ9StGgZFIFX7jKXA==
-X-CSE-MsgGUID: RAkTbk1ZQ86wt+Hm3BfMzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
-   d="scan'208";a="70849724"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Sep 2024 10:43:10 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1srLBL-000DXQ-2J;
-	Thu, 19 Sep 2024 17:43:07 +0000
-Date: Fri, 20 Sep 2024 01:42:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 58/98] fs/ceph/mds_client.c:1179:80: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202409200140.Z3noKazG-lkp@intel.com>
+	s=arc-20240116; t=1726768163; c=relaxed/simple;
+	bh=Xzcxh0emf1BR3pfAuhfeoZgf9JYWV+PUBPOkNS+SmKQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YcGpU96KRSopHhXBuYBX52S+H0FKGeBolPp1tEA1GAskQPsXp1va7xPnVunAAGYQqynmJinV6SUuw9qBUCSx0SvKv3lYZIwzPLAXDnUeQZffB6Hf1VChHkLUkQMENpDoNOqNF6wAJ5+/wnxhoZIf5uBSZP8zKKtxgKim/O+5wPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10F3A1007;
+	Thu, 19 Sep 2024 10:49:50 -0700 (PDT)
+Received: from [10.57.82.79] (unknown [10.57.82.79])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 973013F64C;
+	Thu, 19 Sep 2024 10:49:12 -0700 (PDT)
+Message-ID: <5bd51798-cb47-4a7b-be40-554b5a821fe7@arm.com>
+Date: Thu, 19 Sep 2024 19:49:09 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
+Content-Language: en-GB
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+ kernel test robot <lkp@intel.com>, linux-mm@kvack.org, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, "Mike Rapoport (IBM)"
+ <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Christoph Lameter <cl@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
+References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+ <202409190310.ViHBRe12-lkp@intel.com>
+ <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
+ <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
+ <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
+ <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   45d184515738e4fdb0e2ab06857b080fae646152
-commit: 0a4720566de5c4b03079dc6e2cb5fab31f3db981 [58/98] ceph: add mds request pid info into debugfs
-config: arm64-randconfig-r132-20240919 (https://download.01.org/0day-ci/archive/20240920/202409200140.Z3noKazG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240920/202409200140.Z3noKazG-lkp@intel.com/reproduce)
+On 19/09/2024 18:06, Russell King (Oracle) wrote:
+> On Thu, Sep 19, 2024 at 05:48:58PM +0200, Ryan Roberts wrote:
+>>> 32-bit arm uses, in some circumstances, an array because each level 1
+>>> page table entry is actually two descriptors. It needs to be this way
+>>> because each level 2 table pointed to by each level 1 entry has 256
+>>> entries, meaning it only occupies 1024 bytes in a 4096 byte page.
+>>>
+>>> In order to cut down on the wastage, treat the level 1 page table as
+>>> groups of two entries, which point to two consecutive 1024 byte tables
+>>> in the level 2 page.
+>>>
+>>> The level 2 entry isn't suitable for the kernel's use cases (there are
+>>> no bits to represent accessed/dirty and other important stuff that the
+>>> Linux MM wants) so we maintain the hardware page tables and a separate
+>>> set that Linux uses in the same page. Again, the software tables are
+>>> consecutive, so from Linux's perspective, the level 2 page tables
+>>> have 512 entries in them and occupy one full page.
+>>>
+>>> This is documented in arch/arm/include/asm/pgtable-2level.h
+>>>
+>>> However, what this means is that from the software perspective, the
+>>> level 1 page table descriptors are an array of two entries, both of
+>>> which need to be setup when creating a level 2 page table, but only
+>>> the first one should ever be dereferenced when walking the tables,
+>>> otherwise the code that walks the second level of page table entries
+>>> will walk off the end of the software table into the actual hardware
+>>> descriptors.
+>>>
+>>> I've no idea what the idea is behind introducing pgd_get() and what
+>>> it's semantics are, so I can't comment further.
+>>
+>> The helper is intended to read the value of the entry pointed to by the passed
+>> in pointer. And it shoiuld be read in a "single copy atomic" manner, meaning no
+>> tearing. Further, the PTL is expected to be held when calling the getter. If the
+>> HW can write to the entry such that its racing with the lock holder (i.e. HW
+>> update of access/dirty) then READ_ONCE() should be suitable for most
+>> architectures. If there is no possibility of racing (because HW doesn't write to
+>> the entry), then a simple dereference would be sufficient, I think (which is
+>> what the core code was already doing in most cases).
+> 
+> The core code should be making no access to the PGD entries on 32-bit
+> ARM since the PGD level does not exist. Writes are done at PMD level
+> in arch code. Reads are done by core code at PMD level.
+> 
+> It feels to me like pgd_get() just doesn't fit the model to which 32-bit
+> ARM was designed to use decades ago, so I want full details about what
+> pgd_get() is going to be used for and how it is going to be used,
+> because I feel completely in the dark over this new development. I fear
+> that someone hasn't understood the Linux page table model if they're
+> wanting to access stuff at levels that effectively "aren't implemented"
+> in the architecture specific kernel model of the page tables.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409200140.Z3noKazG-lkp@intel.com/
+This change isn't as big and scary as I think you fear. The core-mm today
+dereferences pgd pointers (and p4d, pud, pmd pointers) directly in its code. See
+follow_pfnmap_start(), gup_fast_pgd_leaf(), and many other sites. These changes
+aim to abstract those dereferences into an inline function that the architecture
+can override and implement if it so wishes.
 
-sparse warnings: (new ones prefixed by >>)
->> fs/ceph/mds_client.c:1179:80: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
-   fs/ceph/mds_client.c:1179:80: sparse:     expected struct task_struct *tsk
-   fs/ceph/mds_client.c:1179:80: sparse:     got struct task_struct [noderef] __rcu *parent
+The core-mm implements default versions of these helper functions which do
+READ_ONCE(), but does not currently use them consistently.
 
-vim +1179 fs/ceph/mds_client.c
+From Anshuman's comments earlier in this thread, it looked to me like the arm
+pgd_t type is too big to read with READ_ONCE() - it can't be atomically read on
+that arch. So my proposal was to implement the override for arm to do exactly
+what the core-mm used to do, which is a pointer dereference. So that would
+result in exact same behaviour for the arm arch.
 
-  1148	
-  1149	/*
-  1150	 * Register an in-flight request, and assign a tid.  Link to directory
-  1151	 * are modifying (if any).
-  1152	 *
-  1153	 * Called under mdsc->mutex.
-  1154	 */
-  1155	static void __register_request(struct ceph_mds_client *mdsc,
-  1156				       struct ceph_mds_request *req,
-  1157				       struct inode *dir)
-  1158	{
-  1159		int ret = 0;
-  1160	
-  1161		req->r_tid = ++mdsc->last_tid;
-  1162		if (req->r_num_caps) {
-  1163			ret = ceph_reserve_caps(mdsc, &req->r_caps_reservation,
-  1164						req->r_num_caps);
-  1165			if (ret < 0) {
-  1166				pr_err("__register_request %p "
-  1167				       "failed to reserve caps: %d\n", req, ret);
-  1168				/* set req->r_err to fail early from __do_request */
-  1169				req->r_err = ret;
-  1170				return;
-  1171			}
-  1172		}
-  1173		dout("__register_request %p tid %lld\n", req, req->r_tid);
-  1174		ceph_mdsc_get_request(req);
-  1175		insert_request(&mdsc->request_tree, req);
-  1176	
-  1177		req->r_cred = get_current_cred();
-  1178		if (pid_alive(current)) {
-> 1179			req->r_pid = task_pid_nr_ns(current, task_active_pid_ns(current->parent));
-  1180		} else {
-  1181			req->r_pid = -1;
-  1182		}
-  1183	
-  1184		if (mdsc->oldest_tid == 0 && req->r_op != CEPH_MDS_OP_SETFILELOCK)
-  1185			mdsc->oldest_tid = req->r_tid;
-  1186	
-  1187		if (dir) {
-  1188			struct ceph_inode_info *ci = ceph_inode(dir);
-  1189	
-  1190			ihold(dir);
-  1191			req->r_unsafe_dir = dir;
-  1192			spin_lock(&ci->i_unsafe_lock);
-  1193			list_add_tail(&req->r_unsafe_dir_item, &ci->i_unsafe_dirops);
-  1194			spin_unlock(&ci->i_unsafe_lock);
-  1195		}
-  1196	}
-  1197	
+> 
+> Essentially, on 32-bit 2-level ARM, the PGD is merely indexed by the
+> virtual address. As far as the kernel is concerned, each entry is
+> 64-bit, and the generic kernel code has no business accessing that
+> through the pgd pointer.
+> 
+> The pgd pointer is passed through the PUD and PMD levels, where it is
+> typecast down through the kernel layers to a pmd_t pointer, where it
+> becomes a 32-bit quantity. This results in only the _first_ level 1
+> pointer being dereferenced by kernel code to a 32-bit pmd_t quantity.
+> pmd_page_vaddr() converts this pmd_t quantity to a pte pointer (which
+> points at the software level 2 page tables, not the hardware page
+> tables.)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+As an aside, my understanding of Linux's pgtable model differs from what you
+describe. As I understand it, Linux's logical page table model has 5 levels
+(pgd, p4d, pud, pmd, pte). If an arch doesn't support all 5 levels, then the
+middle levels can be folded away (p4d first, then pud, then pmd). But the
+core-mm still logically walks all 5 levels. So if the HW supports 2 levels,
+those levels are (pgd, pte). But you are suggesting that arm exposes pmd and
+pte, which is not what Linux expects? (Perhaps you call it the pmd in the arch,
+but that is being folded and accessed through the pgd helpers in core code, I
+believe?
+
+> 
+> So, as I'm now being told that the kernel wants to dereference the
+> pgd level despite the model I describe above, alarm bells are ringing.
+> I want full information please.
+> 
+
+This is not new; the kernel already dereferences the pgd pointers.
+
+Thanks,
+Ryan
+
