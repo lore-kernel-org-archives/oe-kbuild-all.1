@@ -1,72 +1,62 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1531D1A00FE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 17:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876F7191F74
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 17:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726765611; cv=none; b=lgvRMSota+FJnIMXwFuK+hUECa0NlgLEl5JebulbptxFCY3NZSzYJBVJt7sOhKMFGrkT+Zjbk89kPsfW0wJNqz8hqVcEJJfo0Yg7LLKHoRJuU4lJjDevv7ZLAZHO/8K47+sf9vPFZpiH61a7bAULZTAu0svDOIv4/PMoPOp7jVo=
+	t=1726767796; cv=none; b=PBTGQNM5k4s/U27MTN7r8xGq5RF5sFGAFClC6sqW9xHqvtd2TpYyXLHfQa8kKbJMPePd9E3N+lIhMoUWej2RfQz51RfdPDn031QkLEVG9K8oRpe8ADdm7n3VLn8TPfahdUDiBIbaxLwRlvEJ/vXAql+VLSjcrlx/46FTX+SZ5dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726765611; c=relaxed/simple;
-	bh=7HJt2DixLXCURCjuSi2NMOTOCwUujocSNiFrKecg27w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i89VeOkWZ8R3piYs298CxCaXC/jlZ27vfqwyNiaUaI6EHjtgZk8HZDuTeDmOTEpxWbspOjRsGSbDXqk+yqbpOqczF7g4cu5DhII/LfIESaUIvRFpBPvFaQP9d7/02VH5yBy6PpxHZU1gs0pO9A+ZOzthd05EREgngLotJ1m/bIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=an6X8ydO; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1726767796; c=relaxed/simple;
+	bh=qHCtoOAHi/tQEbmOVSQXWLgavfkekkXPt3qKWLJk6g4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TLyKfEkG2uPRttmzOqs7jefvXxSNv5nSqwCA7hGQMYbF64CaIpO+Fafd9T6iKXrbb503qKgLQFcAfsid71Ni0mLI+OR5RYUv7FOACh2vYbzStJc0JiZ2TsabYPNHgeALqVRwLYZPXsZZgcLsLYVHVwkAMQG5mrAlg9H2dPX3sCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+VEPAFi; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="an6X8ydO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6mai/1zkLhhmEUxeaWpVi/QzAXrwkM3agGKBk9/iEkI=; b=an6X8ydO0MniShvTb/kpEMvXPv
-	jWLqY50FB2LvcWzWy8CtBFmRJwZfNMPEQcghAdDVBIoqGCOjNjnZdDrif3ndrOsa2ngT/EZbvi5MF
-	+Wkpw7PEe7rSe1w56jAKK+KK0WJziDrsSj3FS0RaP0CxvtHB1lL1yMgZ8+U1LOqRGtUXQCiJ9kZfL
-	YFRDBt5yNl0lgh5jSYrNZULtzwo05DU9D2w5/h7RlIY888f5fJ8OJAh9c5a4vepDklpkZzaLsXPm2
-	LdYt2BmHE3DVdLcbvY0KpuXlN1jlcqFVXbL1vNbNJxdRRtWfrUzI01+wCM2Gh2BBLa6q1eaTh3xr3
-	S6z0dMkQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53624)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1srKbe-0000gQ-2J;
-	Thu, 19 Sep 2024 18:06:14 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1srKbV-0001gs-1e;
-	Thu, 19 Sep 2024 18:06:05 +0100
-Date: Thu, 19 Sep 2024 18:06:05 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-Message-ID: <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
- <202409190310.ViHBRe12-lkp@intel.com>
- <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
- <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
- <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+VEPAFi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726767794; x=1758303794;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qHCtoOAHi/tQEbmOVSQXWLgavfkekkXPt3qKWLJk6g4=;
+  b=S+VEPAFirPyT62JL4gQB15vwwWVW+eT4MX+YFwStpVEylSU1qUgOZwey
+   y7mJ03kXK0oiqJ240j+bzSZwJwBDRKEri36U65ll875vSt4PKPc/qjevX
+   HYXKsRBXSmvgocvSH73cDC96shWMuApB+j6XdMbV3Ogt8Us7yNp20N1FL
+   DelBSsliVOLcrTG3W1Tju3xCWaSem4ufr/woi6Jmf2CCT5yagOzRPRJAD
+   5Il/h3cA9hlAS9FOpzwhaPtQbFSv6nkuqY+apRtGHLBuYuBNAhE2J9UOa
+   +W5nZxrtwg85dQjN/5ZnOb8qJDow5MTe3DfY0uawCJImJP7LeTn5sJsxp
+   g==;
+X-CSE-ConnectionGUID: zZFRGarqQHG8UCL/yVe/6g==
+X-CSE-MsgGUID: Kdr7yLinRtaELdjDeZepkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="43218768"
+X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
+   d="scan'208";a="43218768"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 10:43:14 -0700
+X-CSE-ConnectionGUID: 7UOO4gZ9StGgZFIFX7jKXA==
+X-CSE-MsgGUID: RAkTbk1ZQ86wt+Hm3BfMzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
+   d="scan'208";a="70849724"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 19 Sep 2024 10:43:10 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1srLBL-000DXQ-2J;
+	Thu, 19 Sep 2024 17:43:07 +0000
+Date: Fri, 20 Sep 2024 01:42:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 58/98] fs/ceph/mds_client.c:1179:80: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202409200140.Z3noKazG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,77 +65,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Thu, Sep 19, 2024 at 05:48:58PM +0200, Ryan Roberts wrote:
-> > 32-bit arm uses, in some circumstances, an array because each level 1
-> > page table entry is actually two descriptors. It needs to be this way
-> > because each level 2 table pointed to by each level 1 entry has 256
-> > entries, meaning it only occupies 1024 bytes in a 4096 byte page.
-> > 
-> > In order to cut down on the wastage, treat the level 1 page table as
-> > groups of two entries, which point to two consecutive 1024 byte tables
-> > in the level 2 page.
-> > 
-> > The level 2 entry isn't suitable for the kernel's use cases (there are
-> > no bits to represent accessed/dirty and other important stuff that the
-> > Linux MM wants) so we maintain the hardware page tables and a separate
-> > set that Linux uses in the same page. Again, the software tables are
-> > consecutive, so from Linux's perspective, the level 2 page tables
-> > have 512 entries in them and occupy one full page.
-> > 
-> > This is documented in arch/arm/include/asm/pgtable-2level.h
-> > 
-> > However, what this means is that from the software perspective, the
-> > level 1 page table descriptors are an array of two entries, both of
-> > which need to be setup when creating a level 2 page table, but only
-> > the first one should ever be dereferenced when walking the tables,
-> > otherwise the code that walks the second level of page table entries
-> > will walk off the end of the software table into the actual hardware
-> > descriptors.
-> > 
-> > I've no idea what the idea is behind introducing pgd_get() and what
-> > it's semantics are, so I can't comment further.
-> 
-> The helper is intended to read the value of the entry pointed to by the passed
-> in pointer. And it shoiuld be read in a "single copy atomic" manner, meaning no
-> tearing. Further, the PTL is expected to be held when calling the getter. If the
-> HW can write to the entry such that its racing with the lock holder (i.e. HW
-> update of access/dirty) then READ_ONCE() should be suitable for most
-> architectures. If there is no possibility of racing (because HW doesn't write to
-> the entry), then a simple dereference would be sufficient, I think (which is
-> what the core code was already doing in most cases).
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   45d184515738e4fdb0e2ab06857b080fae646152
+commit: 0a4720566de5c4b03079dc6e2cb5fab31f3db981 [58/98] ceph: add mds request pid info into debugfs
+config: arm64-randconfig-r132-20240919 (https://download.01.org/0day-ci/archive/20240920/202409200140.Z3noKazG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240920/202409200140.Z3noKazG-lkp@intel.com/reproduce)
 
-The core code should be making no access to the PGD entries on 32-bit
-ARM since the PGD level does not exist. Writes are done at PMD level
-in arch code. Reads are done by core code at PMD level.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409200140.Z3noKazG-lkp@intel.com/
 
-It feels to me like pgd_get() just doesn't fit the model to which 32-bit
-ARM was designed to use decades ago, so I want full details about what
-pgd_get() is going to be used for and how it is going to be used,
-because I feel completely in the dark over this new development. I fear
-that someone hasn't understood the Linux page table model if they're
-wanting to access stuff at levels that effectively "aren't implemented"
-in the architecture specific kernel model of the page tables.
+sparse warnings: (new ones prefixed by >>)
+>> fs/ceph/mds_client.c:1179:80: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/ceph/mds_client.c:1179:80: sparse:     expected struct task_struct *tsk
+   fs/ceph/mds_client.c:1179:80: sparse:     got struct task_struct [noderef] __rcu *parent
 
-Essentially, on 32-bit 2-level ARM, the PGD is merely indexed by the
-virtual address. As far as the kernel is concerned, each entry is
-64-bit, and the generic kernel code has no business accessing that
-through the pgd pointer.
+vim +1179 fs/ceph/mds_client.c
 
-The pgd pointer is passed through the PUD and PMD levels, where it is
-typecast down through the kernel layers to a pmd_t pointer, where it
-becomes a 32-bit quantity. This results in only the _first_ level 1
-pointer being dereferenced by kernel code to a 32-bit pmd_t quantity.
-pmd_page_vaddr() converts this pmd_t quantity to a pte pointer (which
-points at the software level 2 page tables, not the hardware page
-tables.)
-
-So, as I'm now being told that the kernel wants to dereference the
-pgd level despite the model I describe above, alarm bells are ringing.
-I want full information please.
+  1148	
+  1149	/*
+  1150	 * Register an in-flight request, and assign a tid.  Link to directory
+  1151	 * are modifying (if any).
+  1152	 *
+  1153	 * Called under mdsc->mutex.
+  1154	 */
+  1155	static void __register_request(struct ceph_mds_client *mdsc,
+  1156				       struct ceph_mds_request *req,
+  1157				       struct inode *dir)
+  1158	{
+  1159		int ret = 0;
+  1160	
+  1161		req->r_tid = ++mdsc->last_tid;
+  1162		if (req->r_num_caps) {
+  1163			ret = ceph_reserve_caps(mdsc, &req->r_caps_reservation,
+  1164						req->r_num_caps);
+  1165			if (ret < 0) {
+  1166				pr_err("__register_request %p "
+  1167				       "failed to reserve caps: %d\n", req, ret);
+  1168				/* set req->r_err to fail early from __do_request */
+  1169				req->r_err = ret;
+  1170				return;
+  1171			}
+  1172		}
+  1173		dout("__register_request %p tid %lld\n", req, req->r_tid);
+  1174		ceph_mdsc_get_request(req);
+  1175		insert_request(&mdsc->request_tree, req);
+  1176	
+  1177		req->r_cred = get_current_cred();
+  1178		if (pid_alive(current)) {
+> 1179			req->r_pid = task_pid_nr_ns(current, task_active_pid_ns(current->parent));
+  1180		} else {
+  1181			req->r_pid = -1;
+  1182		}
+  1183	
+  1184		if (mdsc->oldest_tid == 0 && req->r_op != CEPH_MDS_OP_SETFILELOCK)
+  1185			mdsc->oldest_tid = req->r_tid;
+  1186	
+  1187		if (dir) {
+  1188			struct ceph_inode_info *ci = ceph_inode(dir);
+  1189	
+  1190			ihold(dir);
+  1191			req->r_unsafe_dir = dir;
+  1192			spin_lock(&ci->i_unsafe_lock);
+  1193			list_add_tail(&req->r_unsafe_dir_item, &ci->i_unsafe_dirops);
+  1194			spin_unlock(&ci->i_unsafe_lock);
+  1195		}
+  1196	}
+  1197	
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
