@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC040198E84
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 08:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F56B199FA7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 09:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726736303; cv=none; b=RJ9PlaeMhr2OgeD+tqeug/46UuwnKxo+YgWudH+yETV26jOEgYn9H0eht2iJbi/FgCj4+vGwKo7qRuK+8vaXishgxqqDZ9AoR+sjhuTpP9c+N8h5tiJgBBzV+5LtHYYSk/Mi3hd7TzxcSAUDBIUO1KQbsE4RcUjhjKfMwg3WMJI=
+	t=1726737114; cv=none; b=jeEbUB/C5+/jXg/8k+VwtdHR30cIbxDnT9rFpx03B90/NAbLlPi9OMnqhU4TUPElIAU3f5zuw3te2I21/HfZ8K3bPcTyyfVUEdTWaYDEoGjSj3WxJcq7Hk0gfJOymub8zX9JWXYsgN73jN6cTvUQnxDhs59mVJ6zH3vNGE70Kok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726736303; c=relaxed/simple;
-	bh=Xm7sv8UXsail7gevUUuGHKRIlpV192FyltCvLKTIvRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=VLzxFhik0aTZo937dS0qHgvwwZ9tR3I1fIWUpjlAVbttkEOCAiC/db+wMXaF0tBMDYjrhbeSvy4YYlNXhAxdRYAbGE8aN+tz+k/L0MsdnUen/TYnstqC5MOlt4lU+q+lpyRFLAF5JzUDHgIwyejqyqzeiEdN8tNPnkJrcbUnQNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DujjDfU3; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726737114; c=relaxed/simple;
+	bh=GRaM6wOTqW6/lUjG+bM3shCBbIIJiMeQtQqlr5Drc4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mybe4neL2pWX3SDKgwwPkG1npSHyliq4GYLt+yNbqEBqcC2a4KfrzEIXQQEIfZtRwIIIb8EKW5NVepI4PZjsZrgnyObNCwC+fI7iz6VXZHT0mgh5EHPVdJyUK1yVVpJ5lorMywCCISGS1GWNGCfvznHlE6/0A6t8LTkyi5CI7JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KxWAU0sA; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DujjDfU3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726736302; x=1758272302;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Xm7sv8UXsail7gevUUuGHKRIlpV192FyltCvLKTIvRY=;
-  b=DujjDfU3teeGaMa30cNbiJR97I9553b7HohZLChNP/Ovmpds9v5yw9Ob
-   4tsYhUzU/hbnG4sDaTT0hvrZkAHmYJAmrk32pUQB2TjvI4XWw6UVQreE5
-   pn5HaxPkEbAEL1yssEzvwWA1E9dZ5ABydBpiFDXeA3K2iOSJiYkA60yWd
-   lfzqQ2ZQUdQ73c78GIPBekV7ZYSym3w3XlLj9CGzYPhzcPSpbad5aRWw7
-   gRb+52OGVv3V1uoviBTaTvlR9YeL0SR41pNqMUUMC/AwcXR9LfGAH9muD
-   VmCNicaImRTMCYT5bix4XM/WyktK/x//lsQyo9gz4j//iXkW97YSi6rMT
-   A==;
-X-CSE-ConnectionGUID: 1lDbmj+XTXulkhwcwuMH5w==
-X-CSE-MsgGUID: GZWF8FjCR1CLGSsiiZP2xg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="43203820"
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="43203820"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 01:58:21 -0700
-X-CSE-ConnectionGUID: AROtHpNzTeudKvnElpJQ3Q==
-X-CSE-MsgGUID: 2H1ehCFXTw6rRcNWQjNc6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="69747968"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Sep 2024 01:58:20 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1srCzR-000D72-1m;
-	Thu, 19 Sep 2024 08:58:17 +0000
-Date: Thu, 19 Sep 2024 16:57:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wei Fang <wei.fang@nxp.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net 1/3] net: enetc: remove xdp_drops statistic from
- enetc_xdp_drop()
-Message-ID: <Zuvnd29QNu93qtg9@3bb1e60d1c37>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KxWAU0sA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=XSYMeRXWsqrG7F+YI4a+nTQDZpFZ8nCNoB9zSp4g67c=; b=KxWAU0sAe0pRV5nAR7txSNGzJO
+	XItJFBQrVuo5+4RSvbrFlqhDYvmkcSNIXEF68oEPTYwT+q2A1ztZDqeCU7pgQ5zkeuBwY9fqcBchi
+	4tvviAn87X1iy16W61vx5GnGCbZRricPB3EC7Ak7ApdDDKI/kEIyNBWxUtRDWMmFwgziStsxXWAxP
+	xnQJ5ixS87mwS0FPpD6dgfSy2lwrJdqsOXeSEhaUnKkK+5R2prDQOPpvO6fPHZovTNcqWgnlTPRQs
+	7ljx1NENkRmTCWVNLz+cyLfxQ+KwhrA2wFu4yR38fJzRWYlqoMw/lW9y+mYenxEqWEJk1iom421Zq
+	bTaPfakA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:59440)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1srDBz-0000GJ-37;
+	Thu, 19 Sep 2024 10:11:15 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1srDBn-0001Rd-0M;
+	Thu, 19 Sep 2024 10:11:03 +0100
+Date: Thu, 19 Sep 2024 10:11:02 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
+Message-ID: <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
+References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+ <202409190310.ViHBRe12-lkp@intel.com>
+ <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +73,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240919084104.661180-2-wei.fang@nxp.com>
+In-Reply-To: <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi,
+On Thu, Sep 19, 2024 at 01:25:08PM +0530, Anshuman Khandual wrote:
+> arm (32) platform currently overrides pgdp_get() helper in the platform but
+> defines that like the exact same version as the generic one, albeit with a
+> typo which can be fixed with something like this.
 
-Thanks for your patch.
+pgdp_get() was added to arm in eba2591d99d1 ("mm: Introduce
+pudp/p4dp/pgdp_get() functions") with the typo you've spotted. It seems
+it was added with no users, otherwise the error would have been spotted
+earlier. I'm not a fan of adding dead code to the kernel for this
+reason.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> Regardless there is another problem here. On arm platform there are multiple
+> pgd_t definitions available depending on various configs but some are arrays
+> instead of a single data element, although platform pgdp_get() helper remains
+> the same for all.
+> 
+> arch/arm/include/asm/page-nommu.h:typedef unsigned long pgd_t[2];
+> arch/arm/include/asm/pgtable-2level-types.h:typedef struct { pmdval_t pgd[2]; } pgd_t;
+> arch/arm/include/asm/pgtable-2level-types.h:typedef pmdval_t pgd_t[2];
+> arch/arm/include/asm/pgtable-3level-types.h:typedef struct { pgdval_t pgd; } pgd_t;
+> arch/arm/include/asm/pgtable-3level-types.h:typedef pgdval_t pgd_t;
+> 
+> I guess it might need different pgdp_get() variants depending applicable pgd_t
+> definition. Will continue looking into this further but meanwhile copied Russel
+> King in case he might be able to give some direction.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+That's Russel*L*, thanks.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net 1/3] net: enetc: remove xdp_drops statistic from enetc_xdp_drop()
-Link: https://lore.kernel.org/stable/20240919084104.661180-2-wei.fang%40nxp.com
+32-bit arm uses, in some circumstances, an array because each level 1
+page table entry is actually two descriptors. It needs to be this way
+because each level 2 table pointed to by each level 1 entry has 256
+entries, meaning it only occupies 1024 bytes in a 4096 byte page.
+
+In order to cut down on the wastage, treat the level 1 page table as
+groups of two entries, which point to two consecutive 1024 byte tables
+in the level 2 page.
+
+The level 2 entry isn't suitable for the kernel's use cases (there are
+no bits to represent accessed/dirty and other important stuff that the
+Linux MM wants) so we maintain the hardware page tables and a separate
+set that Linux uses in the same page. Again, the software tables are
+consecutive, so from Linux's perspective, the level 2 page tables
+have 512 entries in them and occupy one full page.
+
+This is documented in arch/arm/include/asm/pgtable-2level.h
+
+However, what this means is that from the software perspective, the
+level 1 page table descriptors are an array of two entries, both of
+which need to be setup when creating a level 2 page table, but only
+the first one should ever be dereferenced when walking the tables,
+otherwise the code that walks the second level of page table entries
+will walk off the end of the software table into the actual hardware
+descriptors.
+
+I've no idea what the idea is behind introducing pgd_get() and what
+it's semantics are, so I can't comment further.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
