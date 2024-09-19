@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72A7171A7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 01:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7B01CF8B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 02:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726710669; cv=none; b=saJ4azYEWbatKlb/c6ULrGC6ypYHzYw04oKgZgvEs8gkVCtMZF0LK1xbQ3Bxelz4EgvimZjTjfMutmAPPL4JLHg4FDa/KMrkyXO/YegpbuXUhUYQxL3FMQP/oC1UpIonpTP/VUkCWWGoBPMpOz2m2/GgbGqkjToXgdBP53dTunw=
+	t=1726711929; cv=none; b=DXO0LYyTxETxzD4HGfVTfcEbHSbs8qgj+ZLqDhX2aAObMEagrkELqhLLfm30qD/rEydiuQ/h2B7dAW95oRz/SyNqlGreyRIQrI1TQTIGa+enR7wo0HKd/DBw+4rqwHbbAV1XCNz5xZQx+SiC7o7KgLmGcq2Urvj0uDiYexUnC7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726710669; c=relaxed/simple;
-	bh=bq5XVGJhOUssVaQsQJa4EXSuW70ktn5ArNHkNSi8o84=;
+	s=arc-20240116; t=1726711929; c=relaxed/simple;
+	bh=H5xQAQL0ey+YPXWadgFvY3dZXFvDNm/72iD/vAq/ago=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r1saEk6fwm/PELobqbRjhYVHUpWeGwdMMoNn0BwzMMigaanHyyGFltJ2BvPB0Vkv5PvSFeVCMOqC5nRR0Csec42LkSXZz+/Gn7ABUWlrQ1+O/a8aMq/eGFYL0P0CmaJSg/TPS3h9vGgmyYSROoQNcb/tsVDkDtmb2xzjW+VQLaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EViG3WTK; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=qnsY/OKZwzLqpVYu1Ij6j/tOLG8+H30SkpjT2HoMyBDm+C+bSlPQBy1mSimpNIRl2WicNDYSwzKnm0j7mS4qT+n0FsHlmg8FXVyCugwrh8zJsga+P/pb0fH1a/d/pEPinun+nU3CmYqyz/I/FLdMtHIPdcNVJ+q+Xwh9emN/7zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFU+2p80; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EViG3WTK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFU+2p80"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726710667; x=1758246667;
+  t=1726711927; x=1758247927;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bq5XVGJhOUssVaQsQJa4EXSuW70ktn5ArNHkNSi8o84=;
-  b=EViG3WTKfqv3qUq/PEIIn/U52DnqkL1gcuUWR/ZmOyXChT3Cxhg1A6zT
-   dABFwJ5hmcO3J2o41PbbDPp09RKQXvxn1w1ysvbaKW0jhqNN+MY66XJf0
-   JxrabsybdvED4stPB3d8mjDowC6oh9fzwh1R4hTx7xpRMZo1T1TYfU9JZ
-   V5b9zu6aeKBsERIfZEnwwEprlUqTk5IJX11D3M2ZYYHh9cOsZ39QojTRf
-   GtWwx8acrZQs6+gxySw45BYQJEQrYgR9OuYELTE7f0rweH0QogjtkxdiP
-   M1e5RZtvs4+7RBPKCsFWOumwk8A67KkOE0pomIRunOxH/KoICGbjRDi4Y
-   g==;
-X-CSE-ConnectionGUID: jQJ6T1mPRJyCl2ucZAQFTA==
-X-CSE-MsgGUID: jZPck+BkQq6IYxTP+QO54Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="13583750"
+  bh=H5xQAQL0ey+YPXWadgFvY3dZXFvDNm/72iD/vAq/ago=;
+  b=EFU+2p80gZRMSuCDNZX5I6t3v1WpdgxNVOBWqR6kmrMVI9pvXdbbXLif
+   Yx7Xm8lICyc0lXNGiq4B2OsAGS4Ji1nlUuM8sIpoFFU3nxHbEIzC4u0U8
+   xxvVXGay2YVIERoLEFQX+b5bs/oGMkq5o/sCagBtdXnBlCq/auKpRToRh
+   k2Z1tr3zwBx82WYFyJn01tnvK7VIqiORjPJ2mUPIHRp2wa5rOMV52U+Ak
+   qWe5yRwwreGs91HXShnLqBhQgCuYjdICcn4fGUAEDUW44vwrWSJpyQRed
+   LEgMkOIucp2zItc30keHkdtTb0i+YnAw7972g6BWItcFcOJQlSaSZAnj3
+   A==;
+X-CSE-ConnectionGUID: XNurwWWhR8Gs3ppTZbziDg==
+X-CSE-MsgGUID: SD4qkQ46RMGGJmZDFQwxHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36237010"
 X-IronPort-AV: E=Sophos;i="6.10,240,1719903600"; 
-   d="scan'208";a="13583750"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 18:51:06 -0700
-X-CSE-ConnectionGUID: mX7DV9WuR8i9xr+k7GMxNQ==
-X-CSE-MsgGUID: EiH87qedTVyQOHypWE598w==
+   d="scan'208";a="36237010"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 19:12:06 -0700
+X-CSE-ConnectionGUID: myONPzDTQrmXEPTAxy+dZg==
+X-CSE-MsgGUID: H6bVfyziQI+juSeFFXQU2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,240,1719903600"; 
-   d="scan'208";a="70012634"
+   d="scan'208";a="70065264"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Sep 2024 18:51:03 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Sep 2024 19:12:05 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sr6Jx-000Cna-2E;
-	Thu, 19 Sep 2024 01:51:01 +0000
-Date: Thu, 19 Sep 2024 09:50:36 +0800
+	id 1sr6eI-000CoU-1n;
+	Thu, 19 Sep 2024 02:12:02 +0000
+Date: Thu, 19 Sep 2024 10:11:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lilit Janpoladyan <lilitj@amazon.com>, kvm@vger.kernel.org,
-	maz@kernel.org, oliver.upton@linux.dev, james.morse@arm.com,
-	suzuki.poulose@arm.com, yuzenghui@huawei.com,
-	nh-open-source@amazon.com
+To: Neeraj Upadhyay <Neeraj.Upadhyay@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/8] KVM: return value from kvm_arch_sync_dirty_log
-Message-ID: <202409190941.BQaCqQSk-lkp@intel.com>
-References: <20240918152807.25135-5-lilitj@amazon.com>
+Subject: Re: [RFC 4/6] percpu-refcount-torture: Extend test with runtime mode
+ switches
+Message-ID: <202409190905.Cy8vmSdT-lkp@intel.com>
+References: <20240916050811.473556-5-Neeraj.Upadhyay@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,77 +63,207 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240918152807.25135-5-lilitj@amazon.com>
+In-Reply-To: <20240916050811.473556-5-Neeraj.Upadhyay@amd.com>
 
-Hi Lilit,
+Hi Neeraj,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on powerpc/topic/ppc-kvm]
-[also build test ERROR on v6.11]
-[cannot apply to kvmarm/next kvm/queue linus/master kvm/linux-next next-20240918]
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on linus/master dennis-percpu/for-next v6.11 next-20240918]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lilit-Janpoladyan/arm64-add-an-interface-for-stage-2-page-tracking/20240918-233004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
-patch link:    https://lore.kernel.org/r/20240918152807.25135-5-lilitj%40amazon.com
-patch subject: [PATCH 4/8] KVM: return value from kvm_arch_sync_dirty_log
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240919/202409190941.BQaCqQSk-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190941.BQaCqQSk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neeraj-Upadhyay/percpu-refcount-Add-managed-mode-for-RCU-released-objects/20240916-131210
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20240916050811.473556-5-Neeraj.Upadhyay%40amd.com
+patch subject: [RFC 4/6] percpu-refcount-torture: Extend test with runtime mode switches
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240919/202409190905.Cy8vmSdT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190905.Cy8vmSdT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409190941.BQaCqQSk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409190905.Cy8vmSdT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/s390/kvm/kvm-s390.c: In function 'kvm_arch_sync_dirty_log':
->> arch/s390/kvm/kvm-s390.c:705:25: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
-     705 |                         return;
-         |                         ^~~~~~
-   arch/s390/kvm/kvm-s390.c:680:5: note: declared here
-     680 | int kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/percpu-refcount-torture.c: In function 'percpu_ref_test_cleanup':
+   lib/percpu-refcount-torture.c:206:17: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
+     206 |                 kfree(busted_late_release_tasks);
+         |                 ^~~~~
+   lib/percpu-refcount-torture.c: In function 'percpu_ref_torture_init':
+   lib/percpu-refcount-torture.c:273:16: error: implicit declaration of function 'kcalloc' [-Werror=implicit-function-declaration]
+     273 |         refs = kcalloc(nrefs, sizeof(refs[0]), GFP_KERNEL);
+         |                ^~~~~~~
+   lib/percpu-refcount-torture.c:273:14: warning: assignment to 'struct percpu_ref *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     273 |         refs = kcalloc(nrefs, sizeof(refs[0]), GFP_KERNEL);
+         |              ^
+   lib/percpu-refcount-torture.c:290:27: warning: assignment to 'long int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     290 |         num_per_ref_users = kcalloc(nrefs, sizeof(num_per_ref_users[0]), GFP_KERNEL);
+         |                           ^
+>> lib/percpu-refcount-torture.c:299:28: warning: assignment to 'struct mutex *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     299 |         ref_switch_mutexes = kcalloc(nrefs, sizeof(ref_switch_mutexes[0]), GFP_KERNEL);
+         |                            ^
+   lib/percpu-refcount-torture.c:309:24: warning: assignment to 'struct task_struct **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     309 |         ref_user_tasks = kcalloc(nusers, sizeof(ref_user_tasks[0]), GFP_KERNEL);
+         |                        ^
+   lib/percpu-refcount-torture.c:316:21: warning: assignment to 'atomic_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     316 |         ref_running = kcalloc(nrefs, sizeof(ref_running[0]), GFP_KERNEL);
+         |                     ^
+   lib/percpu-refcount-torture.c:346:44: warning: assignment to 'struct task_struct **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     346 |                 busted_early_release_tasks = kcalloc(nrefs,
+         |                                            ^
+   lib/percpu-refcount-torture.c:363:43: warning: assignment to 'struct task_struct **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     363 |                 busted_late_release_tasks = kcalloc(nrefs, sizeof(busted_late_release_tasks[0]),
+         |                                           ^
+   cc1: some warnings being treated as errors
 
 
-vim +/return +705 arch/s390/kvm/kvm-s390.c
+vim +299 lib/percpu-refcount-torture.c
 
-5b5865e81387b9 Lilit Janpoladyan     2024-09-18  679  
-522a3b6f0285f5 Lilit Janpoladyan     2024-09-18  680  int kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  681  {
-0959e168678d2d Janosch Frank         2018-07-17  682  	int i;
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  683  	gfn_t cur_gfn, last_gfn;
-0959e168678d2d Janosch Frank         2018-07-17  684  	unsigned long gaddr, vmaddr;
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  685  	struct gmap *gmap = kvm->arch.gmap;
-0959e168678d2d Janosch Frank         2018-07-17  686  	DECLARE_BITMAP(bitmap, _PAGE_ENTRIES);
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  687  
-0959e168678d2d Janosch Frank         2018-07-17  688  	/* Loop over all guest segments */
-0959e168678d2d Janosch Frank         2018-07-17  689  	cur_gfn = memslot->base_gfn;
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  690  	last_gfn = memslot->base_gfn + memslot->npages;
-0959e168678d2d Janosch Frank         2018-07-17  691  	for (; cur_gfn <= last_gfn; cur_gfn += _PAGE_ENTRIES) {
-0959e168678d2d Janosch Frank         2018-07-17  692  		gaddr = gfn_to_gpa(cur_gfn);
-0959e168678d2d Janosch Frank         2018-07-17  693  		vmaddr = gfn_to_hva_memslot(memslot, cur_gfn);
-0959e168678d2d Janosch Frank         2018-07-17  694  		if (kvm_is_error_hva(vmaddr))
-0959e168678d2d Janosch Frank         2018-07-17  695  			continue;
-0959e168678d2d Janosch Frank         2018-07-17  696  
-0959e168678d2d Janosch Frank         2018-07-17  697  		bitmap_zero(bitmap, _PAGE_ENTRIES);
-0959e168678d2d Janosch Frank         2018-07-17  698  		gmap_sync_dirty_log_pmd(gmap, bitmap, gaddr, vmaddr);
-0959e168678d2d Janosch Frank         2018-07-17  699  		for (i = 0; i < _PAGE_ENTRIES; i++) {
-0959e168678d2d Janosch Frank         2018-07-17  700  			if (test_bit(i, bitmap))
-0959e168678d2d Janosch Frank         2018-07-17  701  				mark_page_dirty(kvm, cur_gfn + i);
-0959e168678d2d Janosch Frank         2018-07-17  702  		}
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  703  
-1763f8d09d522b Christian Borntraeger 2016-02-03  704  		if (fatal_signal_pending(current))
-1763f8d09d522b Christian Borntraeger 2016-02-03 @705  			return;
-70c88a00fbf659 Christian Borntraeger 2016-02-02  706  		cond_resched();
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  707  	}
-522a3b6f0285f5 Lilit Janpoladyan     2024-09-18  708  	return 0;
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  709  }
-15f36ebd34b5b2 Jason J. Herne        2012-08-02  710  
+   256	
+   257	static int __init percpu_ref_torture_init(void)
+   258	{
+   259		DEFINE_TORTURE_RANDOM(rand);
+   260		struct torture_random_state *trsp = &rand;
+   261		int flags;
+   262		int err;
+   263		int ref_idx;
+   264		int i;
+   265	
+   266		if (!torture_init_begin("percpu-refcount", verbose))
+   267			return -EBUSY;
+   268	
+   269		atomic_set(&running, nusers);
+   270		/* Order @running with later increment and decrement operations */
+   271		smp_mb();
+   272	
+ > 273		refs = kcalloc(nrefs, sizeof(refs[0]), GFP_KERNEL);
+   274		if (!refs) {
+   275			TOROUT_ERRSTRING("out of memory");
+   276			err = -ENOMEM;
+   277			goto init_err;
+   278		}
+   279		for (i = 0; i < nrefs; i++) {
+   280			flags = (torture_random(trsp) & 1) ? PERCPU_REF_INIT_ATOMIC :
+   281								PERCPU_REF_REL_MANAGED;
+   282			err = percpu_ref_init(&refs[i], percpu_ref_test_release,
+   283					      flags, GFP_KERNEL);
+   284			if (err)
+   285				goto init_err;
+   286			if (!(flags & PERCPU_REF_REL_MANAGED))
+   287				percpu_ref_switch_to_managed(&refs[i]);
+   288		}
+   289	
+   290		num_per_ref_users = kcalloc(nrefs, sizeof(num_per_ref_users[0]), GFP_KERNEL);
+   291		if (!num_per_ref_users) {
+   292			TOROUT_ERRSTRING("out of memory");
+   293			err = -ENOMEM;
+   294			goto init_err;
+   295		}
+   296		for (i = 0; i < nrefs; i++)
+   297			num_per_ref_users[i] = 0;
+   298	
+ > 299		ref_switch_mutexes = kcalloc(nrefs, sizeof(ref_switch_mutexes[0]), GFP_KERNEL);
+   300		if (!ref_switch_mutexes) {
+   301			TOROUT_ERRSTRING("out of memory");
+   302			err = -ENOMEM;
+   303			goto init_err;
+   304		}
+   305	
+   306		for (i = 0; i < nrefs; i++)
+   307			mutex_init(&ref_switch_mutexes[i]);
+   308	
+   309		ref_user_tasks = kcalloc(nusers, sizeof(ref_user_tasks[0]), GFP_KERNEL);
+   310		if (!ref_user_tasks) {
+   311			TOROUT_ERRSTRING("out of memory");
+   312			err = -ENOMEM;
+   313			goto init_err;
+   314		}
+   315	
+   316		ref_running = kcalloc(nrefs, sizeof(ref_running[0]), GFP_KERNEL);
+   317		if (!ref_running) {
+   318			TOROUT_ERRSTRING("out of memory");
+   319			err = -ENOMEM;
+   320			goto init_err;
+   321		}
+   322	
+   323		for (i = 0; i < nusers; i++) {
+   324			ref_idx = torture_random(trsp) % nrefs;
+   325			atomic_inc(&ref_running[ref_idx]);
+   326			num_per_ref_users[ref_idx]++;
+   327			/* Order increments with subquent reads */
+   328			smp_mb();
+   329			err = torture_create_kthread(percpu_ref_test_thread,
+   330						     &refs[ref_idx], ref_user_tasks[i]);
+   331			if (torture_init_error(err))
+   332				goto init_err;
+   333		}
+   334	
+   335		err = torture_create_kthread(percpu_ref_manager_thread, NULL, ref_manager_task);
+   336		if (torture_init_error(err))
+   337			goto init_err;
+   338	
+   339		/* Drop initial reference, after test threads have started running */
+   340		udelay(1);
+   341		for (i = 0; i < nrefs; i++)
+   342			percpu_ref_put(&refs[i]);
+   343	
+   344	
+   345		if (busted_early_ref_release) {
+   346			busted_early_release_tasks = kcalloc(nrefs,
+   347							     sizeof(busted_early_release_tasks[0]),
+   348							     GFP_KERNEL);
+   349			if (!busted_early_release_tasks) {
+   350				TOROUT_ERRSTRING("out of memory");
+   351				err = -ENOMEM;
+   352				goto init_err;
+   353			}
+   354			for (i = 0; i < nrefs; i++) {
+   355				err = torture_create_kthread(percpu_ref_busted_early_thread,
+   356						     &refs[i], busted_early_release_tasks[i]);
+   357				if (torture_init_error(err))
+   358					goto init_err;
+   359			}
+   360		}
+   361	
+   362		if (busted_late_ref_release) {
+   363			busted_late_release_tasks = kcalloc(nrefs, sizeof(busted_late_release_tasks[0]),
+   364							    GFP_KERNEL);
+   365			if (!busted_late_release_tasks) {
+   366				TOROUT_ERRSTRING("out of memory");
+   367				err = -ENOMEM;
+   368				goto init_err;
+   369			}
+   370			for (i = 0; i < nrefs; i++) {
+   371				err = torture_create_kthread(percpu_ref_busted_late_thread,
+   372						     &refs[i], busted_late_release_tasks[i]);
+   373				if (torture_init_error(err))
+   374					goto init_err;
+   375			}
+   376		}
+   377		if (stutter) {
+   378			err = torture_stutter_init(stutter, stutter);
+   379			if (torture_init_error(err))
+   380				goto init_err;
+   381		}
+   382	
+   383		err = torture_onoff_init(onoff_holdoff * HZ, onoff_interval, NULL);
+   384		if (torture_init_error(err))
+   385			goto init_err;
+   386	
+   387		torture_init_end();
+   388		return 0;
+   389	init_err:
+   390		torture_init_end();
+   391		percpu_ref_test_cleanup();
+   392		return err;
+   393	}
+   394	
 
 -- 
 0-DAY CI Kernel Test Service
