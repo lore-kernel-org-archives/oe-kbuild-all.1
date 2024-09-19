@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F35717555;
-	Thu, 19 Sep 2024 21:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3164013E02D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 22:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726781847; cv=none; b=FM6MBYHCC87Wz7Q1XYZ1sNguG6945526ab8gXj2HC6+BDS35pql37kXjwdnl/0VI2AQTqkqphJmcmPjlLL2iMwZcb7h5bNf0mM7kOFweHUARlqY0TVcocP+6P7NaYq1jLbLe9w0vtEjOLLZExzT/vx397JORBZozC2wbf+l6ERs=
+	t=1726784249; cv=none; b=U3UR9GxxnjTxtzDbO/AYhUVEdBvPXO0+Z2wwlHpCWaYEy1+pkCNObjvutfyGdm0CCwbiU7uvFbR7e6P0qji3htpptXJkS2YxHS5dpm30uA/5Iorgb6A4jEZtVELbNKSeHYnyHY+mjMqz8kMAj4LYbVmsgIPA8v1ZpaSZKJYtfww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726781847; c=relaxed/simple;
-	bh=sHbuLlehMIq/ke7fqp+E061SSPEI+N9sg9YQuNMzVMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k/b9gB66oWpvsZquOezoKv8JjNZdfcNF6Sw5SNiWudHMRqGWSmG1RbGDMw30xs+wnKIQ0PZvBb63jVOOQr/evygGbNYppQrBtNQkWfvoesm8dqiqqfqeB9vhBgyQQllgCJYNipLlzm8ml9g37Y4PdqJV5VHBaZnugRvWjJPG8J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zsw6shlW; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1726784249; c=relaxed/simple;
+	bh=TOk9WCGi961w2AyfoeiRtCnid2OdtOWt1xL+8Z31S+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fT4dIoWjZ7qIk95j8+247l2yjkyeB060rxvhzgMK28RBmHeTUi5PILKoqK+qTlbXMgLHTxbdYX+vDu4jMyPbht34x0vLI8D78DM0b5r24HY61YxTBPzWP7Jga44IfV5Tgrv+Vm9dEqUCHL36t/PzEEAq6lYeEh5k7Apyqg6POe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nes79Vox; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zsw6shlW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nes79Vox"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726781846; x=1758317846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sHbuLlehMIq/ke7fqp+E061SSPEI+N9sg9YQuNMzVMI=;
-  b=Zsw6shlW4EnPBFOb/oJsz+mGpiwjJ9C8/kR4kI1wO9lADmE/bCXA2OzT
-   Sw6yuwxMa/DTYSTxX/L3pmIE5re8mbTumojTRMVW92Azbkc0q6l8XtlUv
-   d13+Q95qtGuh8tnUNAwAAjn3Z/LCDxZUY9Fp7mNMzoZCeWSrNB2tC+hKW
-   P2+7QEcVuU8yBODn/StCLjGrhS4/Nqg5S/BedNxyAdahkJhnyi6/PTu0c
-   MtF5IIN7eO5DvKfTwLLcZ2xlaxN6sAtZcFZUfJZmTgAsrdaVXvBdRqXPH
-   jV41c17zjRR7oswZDzbU5ZYcx8fr61oBWV5wDCqGpbne6E4gOoqT+Y0Xb
-   g==;
-X-CSE-ConnectionGUID: IntFJ02XSzWc12aY4Zek6w==
-X-CSE-MsgGUID: 9NTCX85YSaizhR6KQqpjNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25959892"
-X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
-   d="scan'208";a="25959892"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 14:37:24 -0700
-X-CSE-ConnectionGUID: NHe/MZlAT2O4j33i74+Ifw==
-X-CSE-MsgGUID: BFiJaLAdRzKHv2QXUHI0Ew==
+  t=1726784247; x=1758320247;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TOk9WCGi961w2AyfoeiRtCnid2OdtOWt1xL+8Z31S+U=;
+  b=nes79VoxwiF5vgS+gS7E4OW54waiQALpieWGwwxxtZEsO100Pp/ZOKi/
+   xytSYV+iouIwcTwgTR1VDZ1wGFNRMCTS8XrCE8QQSAaT7p38PxMbBqgBP
+   ZQhjIaPkVCpQumOerV6vNPh6R8LlQGJXU+anIE5Tzhvrx82BktrBjIzfL
+   /ewpiUM3fVeKey0R6fKqAw+QXw8M6hAAjf1x63Vnba+SrBvlLy0hCYMmq
+   AMhF8JXvv23SRDm6Vr5iRe6BG0CVHs4S64jGoJFNuXNN9VyGHZX+ZYDId
+   jxcD5H8JxsYLVxza73WdRVLJ2Keb75i3YMMIFXvJj6cElbA3CvDo/DdKh
+   Q==;
+X-CSE-ConnectionGUID: yJKd7y/xS26Gxa1O/FN3mw==
+X-CSE-MsgGUID: oZh6OhYpRjCLSDKQry67tQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="48307847"
+X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; 
+   d="scan'208";a="48307847"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 15:17:27 -0700
+X-CSE-ConnectionGUID: EWUUJ0gcTPqbYEE6cxhwYg==
+X-CSE-MsgGUID: Ur05kUpITHeRAe0M1jyjVg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
-   d="scan'208";a="70376330"
+X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; 
+   d="scan'208";a="70328189"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 19 Sep 2024 14:37:22 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 19 Sep 2024 15:17:25 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srOpz-000Dic-2H;
-	Thu, 19 Sep 2024 21:37:19 +0000
-Date: Fri, 20 Sep 2024 05:36:19 +0800
+	id 1srPSl-000DkO-1s;
+	Thu, 19 Sep 2024 22:17:23 +0000
+Date: Fri, 20 Sep 2024 06:17:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
-	tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH v2 3/3] drm/amdgpu: use drm_file name
-Message-ID: <202409200113.0AEe5YG9-lkp@intel.com>
-References: <20240916133223.1023773-3-pierre-eric.pelloux-prayer@amd.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.0.x-imx 3074/16779] versioncheck:
+ ./drivers/gpu/arm/midgard/mali_kbase_kinstr_jm.h: 69 linux/version.h not
+ needed.
+Message-ID: <202409200606.PwxkICVp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,104 +62,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240916133223.1023773-3-pierre-eric.pelloux-prayer@amd.com>
 
-Hi Pierre-Eric,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-exynos/exynos-drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11 next-20240919]
-[cannot apply to drm/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-use-drm_file-name-in-fdinfo/20240916-213521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20240916133223.1023773-3-pierre-eric.pelloux-prayer%40amd.com
-patch subject: [PATCH v2 3/3] drm/amdgpu: use drm_file name
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240920/202409200113.0AEe5YG9-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409200113.0AEe5YG9-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   60c5d539014532e8a81ac01467dc47b2c67b77c7
+commit: 1e42ada4935d69861999ca692cdaedc5e1dbcd0b [3074/16779] MGS-7263 VX504X08X-SW-99002-r38p0-01eac0
+reproduce: (https://download.01.org/0day-ci/archive/20240920/202409200606.PwxkICVp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409200113.0AEe5YG9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409200606.PwxkICVp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:997:32: warning: variable 'file' is uninitialized when used here [-Wuninitialized]
-     997 |         r = mutex_lock_interruptible(&file->name_lock);
-         |                                       ^~~~
-   include/linux/mutex.h:162:72: note: expanded from macro 'mutex_lock_interruptible'
-     162 | #define mutex_lock_interruptible(lock) mutex_lock_interruptible_nested(lock, 0)
-         |                                                                        ^~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:990:23: note: initialize the variable 'file' to silence this warning
-     990 |         struct drm_file *file;
-         |                              ^
-         |                               = NULL
-   1 warning generated.
-
-
-vim +/file +997 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-
-   984	
-   985	#if defined(CONFIG_DEBUG_FS)
-   986	static int amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused)
-   987	{
-   988		struct amdgpu_device *adev = m->private;
-   989		struct drm_device *dev = adev_to_drm(adev);
-   990		struct drm_file *file;
-   991		int r;
-   992	
-   993		r = mutex_lock_interruptible(&dev->filelist_mutex);
-   994		if (r)
-   995			return r;
-   996	
- > 997		r = mutex_lock_interruptible(&file->name_lock);
-   998		if (r)
-   999			goto out;
-  1000	
-  1001		list_for_each_entry(file, &dev->filelist, lhead) {
-  1002			struct task_struct *task;
-  1003			struct drm_gem_object *gobj;
-  1004			struct pid *pid;
-  1005			int id;
-  1006	
-  1007			/*
-  1008			 * Although we have a valid reference on file->pid, that does
-  1009			 * not guarantee that the task_struct who called get_pid() is
-  1010			 * still alive (e.g. get_pid(current) => fork() => exit()).
-  1011			 * Therefore, we need to protect this ->comm access using RCU.
-  1012			 */
-  1013			rcu_read_lock();
-  1014			pid = rcu_dereference(file->pid);
-  1015			task = pid_task(pid, PIDTYPE_TGID);
-  1016			seq_printf(m, "pid %8d command %s", pid_nr(pid),
-  1017					   task ? task->comm : "<unknown>");
-  1018			if (file->name) {
-  1019				seq_putc(m, '/');
-  1020				seq_puts(m, file->name);
-  1021			}
-  1022			seq_puts(m, ":\n");
-  1023			rcu_read_unlock();
-  1024	
-  1025			spin_lock(&file->table_lock);
-  1026			idr_for_each_entry(&file->object_idr, gobj, id) {
-  1027				struct amdgpu_bo *bo = gem_to_amdgpu_bo(gobj);
-  1028	
-  1029				amdgpu_bo_print_info(id, bo, m);
-  1030			}
-  1031			spin_unlock(&file->table_lock);
-  1032		}
-  1033		mutex_unlock(&file->name_lock);
-  1034	out:
-  1035		mutex_unlock(&dev->filelist_mutex);
-  1036		return 0;
-  1037	}
-  1038	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.71.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_driver.c: 3216: need linux/version.h
+   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_policy.c: 426: need linux/version.h
+   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_time.c: 206: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware.c: 2745: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware_no_mali.c: 1577: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.c: 2334: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.h: 358: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_reset_gpu.c: 694: need linux/version.h
+   ./drivers/gpu/arm/midgard/ipa/mali_kbase_ipa.c: 772: need linux/version.h
+   ./drivers/gpu/arm/midgard/jm/mali_kbase_jm_defs.h: 894: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase.h: 769: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_bits.h: 31: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_debug_job_fault.c: 573: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_defs.h: 1986: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_fence.c: 153: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_fence.h: 293: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_fence_ops.c: 85: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_gpuprops.c: 913: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_jd_debugfs.c: 244: need linux/version.h
+>> ./drivers/gpu/arm/midgard/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
+   ./drivers/gpu/arm/midgard/mali_kbase_mem_linux.h: 467: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_mem_pool.c: 29 linux/version.h not needed.
+   ./drivers/gpu/arm/midgard/mali_kbase_sync.h: 219: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_sync_android.c: 35 linux/version.h not needed.
+   ./drivers/gpu/arm/midgard/mali_kbase_utility.h: 52: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware_func.c: 7136: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 5738: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4957: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 209: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 618: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 495: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1187: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 544: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 984: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 669: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 253: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 175: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 104: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3177: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1375: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 153: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7407: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_parameter.h: 480: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 374: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 145: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 1058: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2118: need linux/version.h
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./include/linux/priority_control_manager.h: 27 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
