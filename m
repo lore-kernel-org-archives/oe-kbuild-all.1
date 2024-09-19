@@ -1,157 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC0018E76D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 06:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197D1191F7B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 07:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726728600; cv=none; b=FAw966wEh8j6idJ0Sj4mhyUzK6JSqppYzpr+uxg4NXDEFHjy/7Hc7zfLAs25lN42Azofwwuz2mgnpCPJ/N5JuOUfOZgY8vOmTxfnv2V9e1Vab1/o9lC0mbbuy7Muvr2nnzTJMyqGPJQvm+pbN3wFs8jGEI5Lf1+Aic0hsUIMcYQ=
+	t=1726729950; cv=none; b=tbTx/krSgRV5Oj9xtx3hITKFIWYIZbZFvXnweKi6JeDsm2yOoOFgIdy9xBgrVVnWwRb6kFWSWMpaemVGJt8NKs2MmpdBL3l/GLBbts88L1hFhS8Ku+p+6YmBs2B+Hvo+u1pWr+R5KMDkVOcaVrwtr5qeTE7LPtuNVpXONdPglIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726728600; c=relaxed/simple;
-	bh=pqGvSqI8y7nHPfuiivCjh5i8iO5fCHQsxlKUrl7kYes=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rYfoT0+jYfcbb2vyZfY1+YQeb4k0etRbHqXAJo7gN9158bqj1JhWRI3auZ32/3O0X3G1dFC9dVI9XqyGpQHod39o85/212FqBhDvrKd1t+S2je6z5+bldApbUR62iDbzN74AMX+y9BggsEY6He+8YI/eh9vbGSW7zaPZVzkkW8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAeoCY00; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAeoCY00"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726728599; x=1758264599;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pqGvSqI8y7nHPfuiivCjh5i8iO5fCHQsxlKUrl7kYes=;
-  b=LAeoCY00qZYvHdNl2oAYgL0HKDoZytZDtyyLlnjQOe5mmiRw0qGpQMe8
-   EY5twkgIyacx7WusTmvoCwXDxkWOP5oYujlde2j54jThV4QuIhH1IZWoL
-   ZnWDqTRn2FLF63jA4erHIoBRuTXQ3FT1GlUMxpoqNFatiuKsjhVZGyWxZ
-   tGMLLsXuoFCGX0e6ruoFzypMKhJNq5nmvCvmUJgLlR3yJU/LpAHIMhGED
-   ZR4P1FgTiH6Jq6cs442hoh9lIivlWEk27/Q1/7hROcl+EZymDYabV4lON
-   pZd7SxLJAmRU+xflHM/f3Qv4+tRLU8P4fEwpUSVawu/r3WHHcl7jHzJGy
-   w==;
-X-CSE-ConnectionGUID: ZB5NIH5bROycGuFmoMK6gw==
-X-CSE-MsgGUID: GExRfX8pRgmhDQ3jczbs8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36244864"
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="36244864"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 23:49:58 -0700
-X-CSE-ConnectionGUID: 2Kww1MV+QwaTXCTwPAbZ+Q==
-X-CSE-MsgGUID: PCw4xIUmTZixykvk6/w5dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="93107178"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Sep 2024 23:49:52 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1srAz7-000D12-26;
-	Thu, 19 Sep 2024 06:49:49 +0000
-Date: Thu, 19 Sep 2024 14:49:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org,
-	david@redhat.com, willy@infradead.org,
-	kirill.shutemov@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, ryan.roberts@arm.com,
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, cl@gentwo.org,
-	vbabka@suse.cz, mhocko@suse.com, apopple@nvidia.com,
-	dave.hansen@linux.intel.com, will@kernel.org, baohua@kernel.org,
-	jack@suse.cz, mark.rutland@arm.com, hughd@google.com,
-	aneesh.kumar@kernel.org, yang@os.amperecomputing.com,
-	peterx@redhat.com, ioworker0@gmail.com, jglisse@google.com,
-	wangkefeng.wang@huawei.com, ziy@nvidia.com,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	Dev Jain <dev.jain@arm.com>
-Subject: Re: [PATCH v4 1/2] mm: Abstract THP allocation
-Message-ID: <202409191416.9etlfugV-lkp@intel.com>
-References: <20240916094309.1226908-2-dev.jain@arm.com>
+	s=arc-20240116; t=1726729950; c=relaxed/simple;
+	bh=/jgnX+ABOI2z3m4Qx4fkTR24jfiYP85AWYoL8PMuYjs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ciYiejdOEn+bg7W8fR3EeB9fnRC3bFspuk9U7AbVEKRC5/nR6jW7EpNtO08kl9SJ3eKtAF6rY8BEN+vj8fcq38YI2W+B5czy7Bx5yzXucYoqQiPzvb0tidLFMAqktP0DuWz37NTogm+YMCfZSXpBKp5pP40oNg++3RZyFn6NxaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 190C81007;
+	Thu, 19 Sep 2024 00:12:50 -0700 (PDT)
+Received: from [10.163.34.169] (unknown [10.163.34.169])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 109FE3F64C;
+	Thu, 19 Sep 2024 00:12:11 -0700 (PDT)
+Message-ID: <6191a730-1a0f-476e-8041-a0a51094b6b3@arm.com>
+Date: Thu, 19 Sep 2024 12:42:08 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240916094309.1226908-2-dev.jain@arm.com>
-
-Hi Dev,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.11 next-20240918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dev-Jain/mm-Abstract-THP-allocation/20240916-174543
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240916094309.1226908-2-dev.jain%40arm.com
-patch subject: [PATCH v4 1/2] mm: Abstract THP allocation
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240919/202409191416.9etlfugV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409191416.9etlfugV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409191416.9etlfugV-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   mm/huge_memory.c: In function 'vma_alloc_anon_folio_pmd':
->> mm/huge_memory.c:1152:23: warning: unused variable 'haddr' [-Wunused-variable]
-    1152 |         unsigned long haddr = addr & HPAGE_PMD_MASK;
-         |                       ^~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 4/7] mm: Use pmdp_get() for accessing PMD entries
+To: kernel test robot <lkp@intel.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ "Mike Rapoport (IBM)" <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ x86@kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
+References: <20240917073117.1531207-5-anshuman.khandual@arm.com>
+ <202409190244.JcrD4CwD-lkp@intel.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <202409190244.JcrD4CwD-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +/haddr +1152 mm/huge_memory.c
 
-  1148	
-  1149	static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,
-  1150						      unsigned long addr)
-  1151	{
-> 1152		unsigned long haddr = addr & HPAGE_PMD_MASK;
-  1153		gfp_t gfp = vma_thp_gfp_mask(vma);
-  1154		const int order = HPAGE_PMD_ORDER;
-  1155		struct folio *folio = vma_alloc_folio(gfp, order, vma, haddr, true);
-  1156	
-  1157		if (unlikely(!folio)) {
-  1158			count_vm_event(THP_FAULT_FALLBACK);
-  1159			count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
-  1160			goto out;
-  1161		}
-  1162	
-  1163		VM_BUG_ON_FOLIO(!folio_test_large(folio), folio);
-  1164		if (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {
-  1165			folio_put(folio);
-  1166			count_vm_event(THP_FAULT_FALLBACK);
-  1167			count_vm_event(THP_FAULT_FALLBACK_CHARGE);
-  1168			count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
-  1169			count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
-  1170			return NULL;
-  1171		}
-  1172		folio_throttle_swaprate(folio, gfp);
-  1173	
-  1174		folio_zero_user(folio, addr);
-  1175		/*
-  1176		 * The memory barrier inside __folio_mark_uptodate makes sure that
-  1177		 * folio_zero_user writes become visible before the set_pmd_at()
-  1178		 * write.
-  1179		 */
-  1180		__folio_mark_uptodate(folio);
-  1181	out:
-  1182		return folio;
-  1183	}
-  1184	
+On 9/19/24 00:37, kernel test robot wrote:
+> Hi Anshuman,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on char-misc/char-misc-testing]
+> [also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus brauner-vfs/vfs.all dennis-percpu/for-next linus/master v6.11]
+> [cannot apply to akpm-mm/mm-everything next-20240918]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/m68k-mm-Change-pmd_val/20240917-153331
+> base:   char-misc/char-misc-testing
+> patch link:    https://lore.kernel.org/r/20240917073117.1531207-5-anshuman.khandual%40arm.com
+> patch subject: [PATCH V2 4/7] mm: Use pmdp_get() for accessing PMD entries
+> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240919/202409190244.JcrD4CwD-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190244.JcrD4CwD-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409190244.JcrD4CwD-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/asm-generic/bug.h:22,
+>                     from arch/openrisc/include/asm/bug.h:5,
+>                     from include/linux/bug.h:5,
+>                     from include/linux/mmdebug.h:5,
+>                     from include/linux/mm.h:6,
+>                     from include/linux/pagemap.h:8,
+>                     from mm/pgtable-generic.c:10:
+>    mm/pgtable-generic.c: In function 'pmd_clear_bad':
+>>> arch/openrisc/include/asm/pgtable.h:369:36: error: lvalue required as unary '&' operand
+>      369 |                __FILE__, __LINE__, &(e), pgd_val(e))
+>          |                                    ^
+>    include/linux/printk.h:437:33: note: in definition of macro 'printk_index_wrap'
+>      437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+>          |                                 ^~~~~~~~~~~
+>    arch/openrisc/include/asm/pgtable.h:368:9: note: in expansion of macro 'printk'
+>      368 |         printk(KERN_ERR "%s:%d: bad pgd %p(%08lx).\n", \
+>          |         ^~~~~~
+>    include/asm-generic/pgtable-nop4d.h:25:50: note: in expansion of macro 'pgd_ERROR'
+>       25 | #define p4d_ERROR(p4d)                          (pgd_ERROR((p4d).pgd))
+>          |                                                  ^~~~~~~~~
+>    include/asm-generic/pgtable-nopud.h:32:50: note: in expansion of macro 'p4d_ERROR'
+>       32 | #define pud_ERROR(pud)                          (p4d_ERROR((pud).p4d))
+>          |                                                  ^~~~~~~~~
+>    include/asm-generic/pgtable-nopmd.h:36:50: note: in expansion of macro 'pud_ERROR'
+>       36 | #define pmd_ERROR(pmd)                          (pud_ERROR((pmd).pud))
+>          |                                                  ^~~~~~~~~
+>    mm/pgtable-generic.c:54:9: note: in expansion of macro 'pmd_ERROR'
+>       54 |         pmd_ERROR(pmdp_get(pmd));
+>          |         ^~~~~~~~~
+> 
+> 
+> vim +369 arch/openrisc/include/asm/pgtable.h
+> 
+> 61e85e367535a7 Jonas Bonn 2011-06-04  363  
+> 61e85e367535a7 Jonas Bonn 2011-06-04  364  #define pte_ERROR(e) \
+> 61e85e367535a7 Jonas Bonn 2011-06-04  365  	printk(KERN_ERR "%s:%d: bad pte %p(%08lx).\n", \
+> 61e85e367535a7 Jonas Bonn 2011-06-04  366  	       __FILE__, __LINE__, &(e), pte_val(e))
+> 61e85e367535a7 Jonas Bonn 2011-06-04  367  #define pgd_ERROR(e) \
+> 61e85e367535a7 Jonas Bonn 2011-06-04  368  	printk(KERN_ERR "%s:%d: bad pgd %p(%08lx).\n", \
+> 61e85e367535a7 Jonas Bonn 2011-06-04 @369  	       __FILE__, __LINE__, &(e), pgd_val(e))
+> 61e85e367535a7 Jonas Bonn 2011-06-04  370  
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This build failure can be fixed with dropping address output from
+pxd_ERROR() helpers as is being done for the x86 platform. Similar
+fix is also required for the UM architecture as well.
+
+diff --git a/arch/openrisc/include/asm/pgtable.h b/arch/openrisc/include/asm/pgtable.h
+index 60c6ce7ff2dc..831efb71ab54 100644
+--- a/arch/openrisc/include/asm/pgtable.h
++++ b/arch/openrisc/include/asm/pgtable.h
+@@ -362,11 +362,11 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+ #define pfn_pte(pfn, prot)  __pte((((pfn) << PAGE_SHIFT)) | pgprot_val(prot))
+ 
+ #define pte_ERROR(e) \
+-       printk(KERN_ERR "%s:%d: bad pte %p(%08lx).\n", \
+-              __FILE__, __LINE__, &(e), pte_val(e))
++       printk(KERN_ERR "%s:%d: bad pte (%08lx).\n", \
++              __FILE__, __LINE__, pte_val(e))
+ #define pgd_ERROR(e) \
+-       printk(KERN_ERR "%s:%d: bad pgd %p(%08lx).\n", \
+-              __FILE__, __LINE__, &(e), pgd_val(e))
++       printk(KERN_ERR "%s:%d: bad pgd (%08lx).\n", \
++              __FILE__, __LINE__, pgd_val(e))
+ 
+ extern pgd_t swapper_pg_dir[PTRS_PER_PGD]; /* defined in head.S */
