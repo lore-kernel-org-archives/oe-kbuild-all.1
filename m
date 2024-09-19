@@ -1,124 +1,84 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CCD4198842;
-	Thu, 19 Sep 2024 07:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC040198E84
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Sep 2024 08:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726732523; cv=none; b=s/hu0A7pht27tuqEAyMOlsMz7W1n6tPiczk+ozfH6f1jacMTdNa1DtAHBNC63L0x8Fd6CtOcV+1Pie0VXzpN9rEQdYpV6hXQwWLxRNcPUrHOMnR/7WsRS+O4HFt/+O6VyEYG5lt4IsF0Hs1dc8r3/pbEyY+Vm/MgkaGEx2bVIkY=
+	t=1726736303; cv=none; b=RJ9PlaeMhr2OgeD+tqeug/46UuwnKxo+YgWudH+yETV26jOEgYn9H0eht2iJbi/FgCj4+vGwKo7qRuK+8vaXishgxqqDZ9AoR+sjhuTpP9c+N8h5tiJgBBzV+5LtHYYSk/Mi3hd7TzxcSAUDBIUO1KQbsE4RcUjhjKfMwg3WMJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726732523; c=relaxed/simple;
-	bh=vcFB/ifStaTfpFcCwe3/ujVWgWHMMcWMbHSX2N+2PTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IDgTl32gXqyD+CTBUe6UAIQuIKM+xDMch/Dx1h+lGzXDcy2S7c7o1TiwzkRViJ/zD3YK3Fk3cL4/gWJfPcqgo8scwgbxPSMMg7YEhYesBhGw09aJJxWSWzAlST+0F7R/FwH6cjVlSum1tigGsQ/bOU8jFB+BfGRPSWGxWMTSN8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 157351007;
-	Thu, 19 Sep 2024 00:55:49 -0700 (PDT)
-Received: from [10.163.34.169] (unknown [10.163.34.169])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D82B3F71A;
-	Thu, 19 Sep 2024 00:55:10 -0700 (PDT)
-Message-ID: <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
-Date: Thu, 19 Sep 2024 13:25:08 +0530
+	s=arc-20240116; t=1726736303; c=relaxed/simple;
+	bh=Xm7sv8UXsail7gevUUuGHKRIlpV192FyltCvLKTIvRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=VLzxFhik0aTZo937dS0qHgvwwZ9tR3I1fIWUpjlAVbttkEOCAiC/db+wMXaF0tBMDYjrhbeSvy4YYlNXhAxdRYAbGE8aN+tz+k/L0MsdnUen/TYnstqC5MOlt4lU+q+lpyRFLAF5JzUDHgIwyejqyqzeiEdN8tNPnkJrcbUnQNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DujjDfU3; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DujjDfU3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726736302; x=1758272302;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Xm7sv8UXsail7gevUUuGHKRIlpV192FyltCvLKTIvRY=;
+  b=DujjDfU3teeGaMa30cNbiJR97I9553b7HohZLChNP/Ovmpds9v5yw9Ob
+   4tsYhUzU/hbnG4sDaTT0hvrZkAHmYJAmrk32pUQB2TjvI4XWw6UVQreE5
+   pn5HaxPkEbAEL1yssEzvwWA1E9dZ5ABydBpiFDXeA3K2iOSJiYkA60yWd
+   lfzqQ2ZQUdQ73c78GIPBekV7ZYSym3w3XlLj9CGzYPhzcPSpbad5aRWw7
+   gRb+52OGVv3V1uoviBTaTvlR9YeL0SR41pNqMUUMC/AwcXR9LfGAH9muD
+   VmCNicaImRTMCYT5bix4XM/WyktK/x//lsQyo9gz4j//iXkW97YSi6rMT
+   A==;
+X-CSE-ConnectionGUID: 1lDbmj+XTXulkhwcwuMH5w==
+X-CSE-MsgGUID: GZWF8FjCR1CLGSsiiZP2xg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="43203820"
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
+   d="scan'208";a="43203820"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 01:58:21 -0700
+X-CSE-ConnectionGUID: AROtHpNzTeudKvnElpJQ3Q==
+X-CSE-MsgGUID: 2H1ehCFXTw6rRcNWQjNc6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
+   d="scan'208";a="69747968"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 19 Sep 2024 01:58:20 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1srCzR-000D72-1m;
+	Thu, 19 Sep 2024 08:58:17 +0000
+Date: Thu, 19 Sep 2024 16:57:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wei Fang <wei.fang@nxp.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net 1/3] net: enetc: remove xdp_drops statistic from
+ enetc_xdp_drop()
+Message-ID: <Zuvnd29QNu93qtg9@3bb1e60d1c37>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-To: kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
- "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- "Mike Rapoport (IBM)" <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- x86@kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- Dimitri Sivanich <dimitri.sivanich@hpe.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Muchun Song
- <muchun.song@linux.dev>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
- <202409190310.ViHBRe12-lkp@intel.com>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <202409190310.ViHBRe12-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240919084104.661180-2-wei.fang@nxp.com>
 
-On 9/19/24 02:00, kernel test robot wrote:
-> Hi Anshuman,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on char-misc/char-misc-testing]
-> [also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus brauner-vfs/vfs.all dennis-percpu/for-next linus/master v6.11]
-> [cannot apply to akpm-mm/mm-everything next-20240918]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/m68k-mm-Change-pmd_val/20240917-153331
-> base:   char-misc/char-misc-testing
-> patch link:    https://lore.kernel.org/r/20240917073117.1531207-8-anshuman.khandual%40arm.com
-> patch subject: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-> config: arm-footbridge_defconfig (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409190310.ViHBRe12-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from arch/arm/kernel/asm-offsets.c:12:
->    In file included from include/linux/mm.h:30:
->>> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
->     1245 |         pgd_t old_pgd = pgdp_get(pgd);
->          |                         ^
->    arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
->      154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
->          |                                            ^
->    include/linux/pgtable.h:1243:48: note: 'pgd' declared here
->     1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
->          |                                                ^
+Hi,
 
-arm (32) platform currently overrides pgdp_get() helper in the platform but
-defines that like the exact same version as the generic one, albeit with a
-typo which can be fixed with something like this.
+Thanks for your patch.
 
-diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
-index be91e376df79..aedb32d49c2a 100644
---- a/arch/arm/include/asm/pgtable.h
-+++ b/arch/arm/include/asm/pgtable.h
-@@ -151,7 +151,7 @@ extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
- 
- extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
- 
--#define pgdp_get(pgpd)         READ_ONCE(*pgdp)
-+#define pgdp_get(pgdp)         READ_ONCE(*pgdp)
- 
- #define pud_page(pud)          pmd_page(__pmd(pud_val(pud)))
- #define pud_write(pud)         pmd_write(__pmd(pud_val(pud)))
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Regardless there is another problem here. On arm platform there are multiple
-pgd_t definitions available depending on various configs but some are arrays
-instead of a single data element, although platform pgdp_get() helper remains
-the same for all.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-arch/arm/include/asm/page-nommu.h:typedef unsigned long pgd_t[2];
-arch/arm/include/asm/pgtable-2level-types.h:typedef struct { pmdval_t pgd[2]; } pgd_t;
-arch/arm/include/asm/pgtable-2level-types.h:typedef pmdval_t pgd_t[2];
-arch/arm/include/asm/pgtable-3level-types.h:typedef struct { pgdval_t pgd; } pgd_t;
-arch/arm/include/asm/pgtable-3level-types.h:typedef pgdval_t pgd_t;
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net 1/3] net: enetc: remove xdp_drops statistic from enetc_xdp_drop()
+Link: https://lore.kernel.org/stable/20240919084104.661180-2-wei.fang%40nxp.com
 
-I guess it might need different pgdp_get() variants depending applicable pgd_t
-definition. Will continue looking into this further but meanwhile copied Russel
-King in case he might be able to give some direction.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
