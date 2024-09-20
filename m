@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE81F1EF1D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 17:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BC727466
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 17:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726852869; cv=none; b=XejWIAc8gDql9xiBXc1kKwPopS1I7LGMVgTP4uhyPFxPnXlyOPmnesMqOb9xj8lISaex+zVvF7cj4Tmf3SvkWBpvE6NgXxzO/+KR9P/ziDjIUFF2aWKPqisABCOoFhBbyBJux19IV1fX8IBQEHLHZDWdu4/o9TsGP5YplCTZBwI=
+	t=1726853527; cv=none; b=UhafAPrCp5dGZlJceRxMuJiPytUU/vtnXhQwSwpP51qCoFGtoshzptZQa6ZMhUfe2GhhUeY/4Vvm521NGfsWjqfVseakpJzUvP8IO1YLWCXNA0pLIyBX2QIH/PD1P6je5K9AOeJTCbulU6nY0yp37JfUNWoFQrCMb2U69eKja4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726852869; c=relaxed/simple;
-	bh=o/WQ321vGq5r6GWnXzdiK11oCOXcE9eV07SXcDtvewU=;
+	s=arc-20240116; t=1726853527; c=relaxed/simple;
+	bh=FxpoiSCSHMCry+F41Mt+sJNSvrkENFovGc1lCr3FPc4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CWWskyex1WDlcTYnb8Atg3KAwPNquissikeSa+HOzmKYFtMahDh6mTIzWNFsB675g9H6ayaU43bH/0zD4nJTMBet6YQrrC6BLJNEMQZc1unTiDzDuuExw7+8hq4shLSj7VoT3Hn0/96sobxvfNXKdCt+HjyBTpP3ZYKTP3AAw3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsPGw4bS; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Gig0BW5tHTdNVHMuiboQoPBuLwZNz70AV2UEpnykQvyjo1WF3ReXAJ5YrGzY6j8O4VFZArsLgXFLUhpJdscumeRr5PO7cfayKKCQiYHfGrDa39tsgM6/3UFDGis/uPRyK6ycEt9wVhIQ1nbWnwzpmPyo/HbpNQQ7FWqyJxLKAyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7IA5GP/; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsPGw4bS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7IA5GP/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726852867; x=1758388867;
+  t=1726853526; x=1758389526;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o/WQ321vGq5r6GWnXzdiK11oCOXcE9eV07SXcDtvewU=;
-  b=jsPGw4bSugGk3sWHuWL/OcbLmaGmQ9uhCAvrY9DGa14j6rGdckTxxtBF
-   WuLKv/0W0sHBTwCtp0j196dp0/OVPhFYp8VNXr701Sz6I8BKyD9pKE8Et
-   tST13yEPDG15MOMOdobBHYIwdXsphTrJrWskvtCBmoXbjbcacf9uy+R6A
-   1O/NDnGZNlnXdeqV8XSyPJNtthbh2VIjfcDiJ3dHXC1oiGQvjOmOhAIsj
-   SKNv6A6KyEJCvdMfrveIMRz5Kz2/Dzqp7N69eDCeBzEZl3uBE0HHZAx7v
-   w12+O5avH/ekONhf5iYzp1wJAnqrggr7LoQdrnhB8DsKL8xg2a0M5ReaJ
+  bh=FxpoiSCSHMCry+F41Mt+sJNSvrkENFovGc1lCr3FPc4=;
+  b=g7IA5GP/PyTVRxR2+nlx/Kyz1fi+ek+E3mKlpjZHtpz1/YPKz26hXZH9
+   0NRneYgPzE1IDutcEz91EOCwzvXCECmgi7aB331ulyjv3Xxbu4VzIrYg/
+   Q8b4kjxhjCSjsKrPSWTERs72QJPQCdTyF6vTTbaUiwGJ75B98pr56Frq0
+   rG+muDvdGWTFrqH8lMcp1xERqOxOu+o8JqvLFzZR3eZkhqmPn74pPsDFP
+   c2FKg23YpA2loP2JTl/o8GDQgxtg2NmBw2rBAVFAnjYR/pZ1546evDrwS
+   V0biUXbNPHeTLGD+QvOk32ntpsowmjGzoWr6REfxCyATF6iHz8xTaz/Zc
    A==;
-X-CSE-ConnectionGUID: l9DEeh+BSbGqjEcLTQ2rzw==
-X-CSE-MsgGUID: yzRrAZWKQJqylwUguvt+oA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="37243884"
+X-CSE-ConnectionGUID: DK3YXN8NThWpQ3qaU+D5iw==
+X-CSE-MsgGUID: xMm6XC3oQiO2QwubZDTt5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="25742235"
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="37243884"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 10:21:06 -0700
-X-CSE-ConnectionGUID: /vQYSv6rRcWIVsnIzuP/2w==
-X-CSE-MsgGUID: GYJzho//Q3mA5ElCx2zANw==
+   d="scan'208";a="25742235"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 10:32:06 -0700
+X-CSE-ConnectionGUID: m5KUoVqiTMq9yWj5O9slIw==
+X-CSE-MsgGUID: uDoriMdKRSWLJGXlT3GG4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="70374302"
+   d="scan'208";a="101109664"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Sep 2024 10:21:04 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Sep 2024 10:32:04 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srhJV-000EiD-21;
-	Fri, 20 Sep 2024 17:21:01 +0000
-Date: Sat, 21 Sep 2024 01:20:57 +0800
+	id 1srhU9-000Eid-3D;
+	Fri, 20 Sep 2024 17:32:02 +0000
+Date: Sat, 21 Sep 2024 01:31:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Andy Chiu <andybnac@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: arch/riscv/kernel/signal.c:129:15: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202409210356.qCeOh9PA-lkp@intel.com>
+To: "Duan, YayongX" <yayongx.duan@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Emmanuel Berthier <emmanuel.berthier@intel.com>
+Subject: [intel-lts:4.19/android_s 1327/30000] arch/x86/kernel/smp.c:126
+ store_regs() warn: inconsistent indenting
+Message-ID: <202409210122.cToa3YVu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,80 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   baeb9a7d8b60b021d907127509c44507539c15e5
-commit: 3aff0c459e77ac0fb1c4d6884433467f797f7357 RISC-V: Drop invalid test from CONFIG_AS_HAS_OPTION_ARCH
-date:   7 months ago
-config: riscv-randconfig-r113-20240920 (https://download.01.org/0day-ci/archive/20240921/202409210356.qCeOh9PA-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce: (https://download.01.org/0day-ci/archive/20240921/202409210356.qCeOh9PA-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: cd7b77710e3d52d58e97881a7c6ba82586573ba9 [1327/30000] Debug: Add register dump
+config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240921/202409210122.cToa3YVu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409210356.qCeOh9PA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409210122.cToa3YVu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/signal.c:129:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
-   arch/riscv/kernel/signal.c:129:15: sparse:     expected void [noderef] __user *datap
-   arch/riscv/kernel/signal.c:129:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:129:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
-   arch/riscv/kernel/signal.c:129:15: sparse:     expected void [noderef] __user *datap
-   arch/riscv/kernel/signal.c:129:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:129:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
-   arch/riscv/kernel/signal.c:129:15: sparse:     expected void [noderef] __user *datap
-   arch/riscv/kernel/signal.c:129:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:129:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
-   arch/riscv/kernel/signal.c:129:15: sparse:     expected void [noderef] __user *datap
-   arch/riscv/kernel/signal.c:129:15: sparse:     got void *
+smatch warnings:
+arch/x86/kernel/smp.c:126 store_regs() warn: inconsistent indenting
 
-vim +129 arch/riscv/kernel/signal.c
+vim +126 arch/x86/kernel/smp.c
 
-8ee0b41898fa26 Greentime Hu 2023-06-05  110  
-8ee0b41898fa26 Greentime Hu 2023-06-05  111  /*
-8ee0b41898fa26 Greentime Hu 2023-06-05  112   * Restore Vector extension context from the user's signal frame. This function
-8ee0b41898fa26 Greentime Hu 2023-06-05  113   * assumes a valid extension header. So magic and size checking must be done by
-8ee0b41898fa26 Greentime Hu 2023-06-05  114   * the caller.
-8ee0b41898fa26 Greentime Hu 2023-06-05  115   */
-8ee0b41898fa26 Greentime Hu 2023-06-05  116  static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
-8ee0b41898fa26 Greentime Hu 2023-06-05  117  {
-8ee0b41898fa26 Greentime Hu 2023-06-05  118  	long err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  119  	struct __sc_riscv_v_state __user *state = sc_vec;
-8ee0b41898fa26 Greentime Hu 2023-06-05  120  	void __user *datap;
-8ee0b41898fa26 Greentime Hu 2023-06-05  121  
-8ee0b41898fa26 Greentime Hu 2023-06-05  122  	/* Copy everything of __sc_riscv_v_state except datap. */
-8ee0b41898fa26 Greentime Hu 2023-06-05  123  	err = __copy_from_user(&current->thread.vstate, &state->v_state,
-8ee0b41898fa26 Greentime Hu 2023-06-05  124  			       offsetof(struct __riscv_v_ext_state, datap));
-8ee0b41898fa26 Greentime Hu 2023-06-05  125  	if (unlikely(err))
-8ee0b41898fa26 Greentime Hu 2023-06-05  126  		return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  127  
-8ee0b41898fa26 Greentime Hu 2023-06-05  128  	/* Copy the pointer datap itself. */
-8ee0b41898fa26 Greentime Hu 2023-06-05 @129  	err = __get_user(datap, &state->v_state.datap);
-8ee0b41898fa26 Greentime Hu 2023-06-05  130  	if (unlikely(err))
-8ee0b41898fa26 Greentime Hu 2023-06-05  131  		return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  132  	/*
-8ee0b41898fa26 Greentime Hu 2023-06-05  133  	 * Copy the whole vector content from user space datap. Use
-8ee0b41898fa26 Greentime Hu 2023-06-05  134  	 * copy_from_user to prevent information leak.
-8ee0b41898fa26 Greentime Hu 2023-06-05  135  	 */
-8ee0b41898fa26 Greentime Hu 2023-06-05  136  	err = copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
-8ee0b41898fa26 Greentime Hu 2023-06-05  137  	if (unlikely(err))
-8ee0b41898fa26 Greentime Hu 2023-06-05  138  		return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  139  
-7df56cbc27e423 Andy Chiu    2024-01-15  140  	riscv_v_vstate_set_restore(current, regs);
-8ee0b41898fa26 Greentime Hu 2023-06-05  141  
-8ee0b41898fa26 Greentime Hu 2023-06-05  142  	return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  143  }
-8ee0b41898fa26 Greentime Hu 2023-06-05  144  #else
-8ee0b41898fa26 Greentime Hu 2023-06-05  145  #define save_v_state(task, regs) (0)
-8ee0b41898fa26 Greentime Hu 2023-06-05  146  #define __restore_v_state(task, regs) (0)
-8ee0b41898fa26 Greentime Hu 2023-06-05  147  #endif
-8ee0b41898fa26 Greentime Hu 2023-06-05  148  
-
-:::::: The code at line 129 was first introduced by commit
-:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigcontext save/restore for vector
-
-:::::: TO: Greentime Hu <greentime.hu@sifive.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+   121	
+   122	/* Store regs of this CPU for RAM dump decoding help */
+   123	static inline void store_regs(struct pt_regs *regs)
+   124	{
+   125	        struct pt_regs *print_regs;
+ > 126	       print_regs = &get_cpu_var(cpu_regs);
+   127	       crash_setup_regs(print_regs, regs);
+   128	
+   129	       /* Flush CPU cache */
+   130	       wbinvd();
+   131	}
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
