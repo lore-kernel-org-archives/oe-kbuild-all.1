@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AA123D2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 12:01:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B15524B4A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 12:22:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726833708; cv=none; b=IZmFn/P+zx4ORHfE7vEu4XCLeEAralI9a+MUsmHveFtzJ58t0zuuMi76oe6i4AzAZ9733kucpwvV+z57hFqvZUPIQZp1d51FA6uYN5Fv/vWwLwmfub9CdCglb0F5VlBa2TJdTolHvVZXL854WD2LExEiaQTJDzJld4WEclztRNk=
+	t=1726834970; cv=none; b=Kxlir/InvmHK7Vi5BNkJM+bxCzO7jXmGpy4KE6d8UD7lOftZp3opAxe/CKSl+VoSLC5+xASkAK9P9JRCwkt7MXQI1Ok4FqBSwOPzeYREBIVtp5EHmGIUmHAJk51hO4GGgWCawx34QrxJgiIfKrRtKYeoTTHuTwbDB6B2U52WESM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726833708; c=relaxed/simple;
-	bh=eEZFzLl0tXKfDkwJFk0CZeVjPB5PlCq3Ygi58FLUZck=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j+IUOTm1NxMXCxlugQ0vSjDyMWiPjV3kuza4wU7e0Tb55rWsfB6mgFwilZGg/jekIWk+5DdQ+D8u4ZmIeO76KX91iFVHsMiC1yFqr2q9HmTT4+NH41SCYlZUQBgtT4vASFvfgVr0LFVgDLjlkqx85C5EutBB8NYwIYmBdnHVv3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2WwtoB5; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1726834970; c=relaxed/simple;
+	bh=HMWW2sLwFdiqJVrNS3cHK9xqZmCqHq8A/g+IcxBpYwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HcG6AC6YSBPHL4La2JnQ0vPp1wMp5kFlObOQb8mOGgqbwm7aBeLc/pq5/oEfHYPhuu3+JGriejG6F9RMlJ4nfne+2P8BO0obNXhuaskQ6bHYv+wSpTpzE+xar/Yldwr2sBebJ9NKjFKB/Wwg7I2GofebZsHGze1WS7xL7gRbod4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gkLqDndF; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2WwtoB5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gkLqDndF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726833706; x=1758369706;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eEZFzLl0tXKfDkwJFk0CZeVjPB5PlCq3Ygi58FLUZck=;
-  b=m2WwtoB51SPW0P6LhZRXPGUnrh3vqfcnV7hiS13SloITXZ0xL2dGwMyV
-   JWuvkV3qRbPKC6fbzPgH59SgiO4Rfw+xwYJS4QUqzlD29nYy+HJVXSGJc
-   IbNSnjIpfp8kAZ1zlpq04U6rfNgt5qmK1NcBkrfp/g9BYZOaYggpG5NEF
-   KXb+joGNy4TPvt90RLTXP2a/hMHyQ559IkaMMwTPnitJ8wi2dyNRgvv36
-   RJlRUNyER6Qedzi+JrSW1osVdI7B/w4HAzTSSF4v+rPLpVszO8VKa/sX8
-   Wg5iSErgyDlAUIjJeCGvfvrmcgb+gxfhdXoHvLGCcNAmTbfF8l5Ox/Yam
-   Q==;
-X-CSE-ConnectionGUID: wEUnioqRRuel13t7mEoN/A==
-X-CSE-MsgGUID: 3qHkkl9yT7KHPkD9QjEpOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="37209450"
+  t=1726834969; x=1758370969;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HMWW2sLwFdiqJVrNS3cHK9xqZmCqHq8A/g+IcxBpYwY=;
+  b=gkLqDndF8xW0cZPuYT6+NzSi0sUmuuGbLOPd9i3uXPbE046a/3z4m3IZ
+   LSq1iAgENZ7/eHly144Zp7ni0lOvcIpTijOCVXhUFGSuktKGjki3S9Ly4
+   lpkjwRRDKZjP8NIuZaD8mm1K8Xhg7KiKfXEKohGS70CquMKnDKblsy576
+   86qDJuka0z2ycRXE9vzJO0orVkh1pka6qZw/1pi1VhPl8eViLRzy3HiQO
+   J7I2qlG8enAZ2zpyybykIt4PJZnR2XxyU/AkKZTQLF30xi8sd2mSVNOkE
+   yW+RAqioDgFFHWdlLRHQ138qrNNSFlxtBJgXpD4rpIESqGKlh2BdPxsi/
+   A==;
+X-CSE-ConnectionGUID: 1A4Lqqy3RyaTwlVFhKV65w==
+X-CSE-MsgGUID: mDLXmGSwQJa88C0go4kfTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="37211591"
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="37209450"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 05:01:45 -0700
-X-CSE-ConnectionGUID: d+nE1U5JSVi/OAAtyGYNKQ==
-X-CSE-MsgGUID: mYZByq5/QoaGQm8mOOrw5Q==
+   d="scan'208";a="37211591"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 05:22:48 -0700
+X-CSE-ConnectionGUID: SymLz1ELRPu3GVNLTQU3ag==
+X-CSE-MsgGUID: 85RSuJgkT8m5UiHjRbktpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="74809328"
+   d="scan'208";a="74395896"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Sep 2024 05:01:44 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Sep 2024 05:22:46 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srcKU-000ELR-0R;
-	Fri, 20 Sep 2024 12:01:42 +0000
-Date: Fri, 20 Sep 2024 20:00:46 +0800
+	id 1srceq-000EMX-2C;
+	Fri, 20 Sep 2024 12:22:44 +0000
+Date: Fri, 20 Sep 2024 20:21:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Yunsheng Lin <linyunsheng@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 4983/16779] versioncheck:
- ./drivers/gpu/arm/hwtracing/sources/ela/coresight_mali_source_ela_core.c:
- 438: need linux/version.h
-Message-ID: <202409201933.GqDG5fCc-lkp@intel.com>
+Subject: Re: [PATCH net 2/2] page_pool: fix IOMMU crash when driver has
+ already unbound
+Message-ID: <202409202015.m6CpfKx0-lkp@intel.com>
+References: <20240918111826.863596-3-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,98 +63,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240918111826.863596-3-linyunsheng@huawei.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   60c5d539014532e8a81ac01467dc47b2c67b77c7
-commit: 781cc840e467a70acf384e0cb906443de85478eb [4983/16779] MGS-7413 [#nxp] reorder the directory
-reproduce: (https://download.01.org/0day-ci/archive/20240920/202409201933.GqDG5fCc-lkp@intel.com/reproduce)
+Hi Yunsheng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunsheng-Lin/page_pool-fix-timing-for-checking-and-disabling-napi_local/20240918-192701
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240918111826.863596-3-linyunsheng%40huawei.com
+patch subject: [PATCH net 2/2] page_pool: fix IOMMU crash when driver has already unbound
+config: x86_64-randconfig-123-20240920 (https://download.01.org/0day-ci/archive/20240920/202409202015.m6CpfKx0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409202015.m6CpfKx0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409201933.GqDG5fCc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409202015.m6CpfKx0-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.71.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/gpu/arm/hwtracing/sources/ela/coresight_mali_source_ela_core.c: 438: need linux/version.h
->> ./drivers/gpu/arm/hwtracing/sources/etm/coresight_mali_source_etm_core.c: 280: need linux/version.h
->> ./drivers/gpu/arm/hwtracing/sources/itm/coresight_mali_source_itm_core.c: 265: need linux/version.h
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_model_error_generator.c: 172: need linux/version.h
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_driver.c: 3407: need linux/version.h
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_policy.c: 439: need linux/version.h
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_time.c: 334: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware.c: 3101: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware_no_mali.c: 1611: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.c: 2898: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.h: 434: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu_fence_debugfs.c: 22 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_reset_gpu.c: 616: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_sync_debugfs.c: 919: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_tiler_heap_reclaim.c: 370: need linux/version.h
-   ./drivers/gpu/arm/midgard/ipa/mali_kbase_ipa.c: 731: need linux/version.h
-   ./drivers/gpu/arm/midgard/jm/mali_kbase_jm_defs.h: 869: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase.h: 884: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_bits.h: 31: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_debug_job_fault.c: 536: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_defs.h: 2086: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_fence.c: 55: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_fence.h: 248: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_fence_ops.c: 95: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_gpuprops.c: 897: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_gwt.c: 253: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/mali_kbase_kinstr_prfcnt.c: 2059: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem.h: 2592: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem_linux.h: 513: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem_migrate.c: 708: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem_migrate.h: 119: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_sync.h: 209: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_sync_android.c: 35 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/mali_kbase_utility.h: 52: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_malisw.h: 29 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/thirdparty/mali_kbase_mmap.c: 399: need linux/version.h
-   ./drivers/gpu/arm/midgard/tl/mali_kbase_timeline_io.c: 456: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware_func.c: 7135: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 5744: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4951: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 209: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 618: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 495: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1188: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 545: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 985: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 629: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 253: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 175: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 104: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3177: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1375: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 153: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7408: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_parameter.h: 480: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 374: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 145: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 1058: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2082: need linux/version.h
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./include/linux/priority_control_manager.h: 27 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+sparse warnings: (new ones prefixed by >>)
+>> net/core/page_pool.c:394:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted netmem_ref volatile @@     got restricted unsigned long @@
+   net/core/page_pool.c:394:9: sparse:     expected restricted netmem_ref volatile
+   net/core/page_pool.c:394:9: sparse:     got restricted unsigned long
+   net/core/page_pool.c:798:9: sparse: sparse: context imbalance in 'page_pool_return_page' - different lock contexts for basic block
+   net/core/page_pool.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'page_pool_put_unrefed_netmem' - unexpected unlock
+
+vim +394 net/core/page_pool.c
+
+   386	
+   387	static void page_pool_item_del(struct page_pool *pool, netmem_ref netmem)
+   388	{
+   389		struct page_pool_item *item = netmem_to_page(netmem)->pp_item;
+   390		struct page_pool_item *items = pool->items;
+   391		unsigned int idx = item->pp_idx;
+   392	
+   393		DEBUG_NET_WARN_ON_ONCE(items[idx].pp_netmem != netmem);
+ > 394		WRITE_ONCE(items[idx].pp_netmem, (unsigned long __bitwise)NULL);
+   395		netmem_set_pp_item(netmem, NULL);
+   396	}
+   397	
 
 -- 
 0-DAY CI Kernel Test Service
