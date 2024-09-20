@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF22482CD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 14:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDA017BB06;
+	Fri, 20 Sep 2024 14:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726841758; cv=none; b=F46fVp6hqnGKLvWNr55lxdMMzLICIpVgEqg3caoxFFEQZz0r+ciq9YsoSWkKtzgkYwhwFsbTYcxXleJBzE3KegVpxusJuoTlKIW6Yt0pgN4KJ0TIYv5+KdDkpWKMpiT2tPu2ASalmqEFo49wM6gw+EkhfJC60xabxLYPajd9ZaE=
+	t=1726842360; cv=none; b=Q8hMJDdBEX/Md4C3R9ffrfEVv8tsqbEUBJIbG3xa+T/RhhEYY3FoZWJ9r9aBIJkuam9wNKDG4Q6nEPxXNwUuMcMURWqcFloHuWrPF+daAGsvEj4CKaNwX7jXuCfEtW45/E7q37Wx9leBcB1CtsHja+J7KY2vSdRnsAZL/M1XZf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726841758; c=relaxed/simple;
-	bh=s7Z2yD8W7Bt3nmb50tK0LRarYt+RKLWXM8GL8UX0Rx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kmlmGlGgZgDp/sJtkjaM7yvD98a97cW0VTelU4wAEReuVi2YJ03VeSmRCaa7Ddh+lfjy+fk46EgMeEUmqd1mqKNi+FELXCgjfuRZ59obCuFjGFUR6oaSdFMUJMtUisozojBtzNR0jU2NyVTxrMvRBeD5P+8mg6G9N5U0js040kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCCp+CX6; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1726842360; c=relaxed/simple;
+	bh=+9pRaSgM2TSiWBfyUh9smEH2QqQGRBBKZosdi4yEFq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hAvP1ZC02cnlZYwGfj4HsKJdB4t+K5Ri9tu+X+DY8QzujBpicIrkBWlHrhLe7y1OSv/lPSsyKMyPvPC4tZdCv+IgYU12SEnpAQ8PR/JqnJtNC9Ezzz8hAHB5K2bMdo5DYLYoSoSCk1q6rUAvWAsPpf2+wg8lI0QMRU2oSK2yCCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ys8hyTci; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCCp+CX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ys8hyTci"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726841756; x=1758377756;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s7Z2yD8W7Bt3nmb50tK0LRarYt+RKLWXM8GL8UX0Rx0=;
-  b=eCCp+CX6gpVTxLTvDb5LAKDOu5zK6PK5CIs1wDAPviNh8ODZBuO4RvtD
-   +zNVl1JOPFatO5Trcb4sHSTQBA5Q98kcWRfy/NDqdYI+x/058xOgqebpl
-   NYqEA7hMF7YZbScNBkuXXa8T2QVLRnPklsNpdv7WDrHUc/cyknRC9ro6X
-   e/z990tSrQZepYBeoOJzyaXstL1zPDgYGIdLW5Zcn1N6FvaFl72PearhM
-   rGy3EmAhx9u5wAEYlQ8a0wdLgjzpWPW43p+1q5xus5/wWPUZV6nVMzIQl
-   VUXFA81QTgE1Clc8V+NEzLABV9O6phUjagdPhOtzp1t5OxDKwspQLhY0F
+  t=1726842359; x=1758378359;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+9pRaSgM2TSiWBfyUh9smEH2QqQGRBBKZosdi4yEFq4=;
+  b=Ys8hyTciVuBuEzAcKnr12MVmsp5/tewehsRW85axyM5eHLt0M4H0kEOQ
+   SavJh1Fe2Xeuo0bS4Iyn9TjABDRKBUV41JLEUpLaG612GkGhL98Zf1xS5
+   shTAlRsFpok4h1x8SResBEpwqv58CYNQvsncHIhapC/rAlr3Ry80LmvEw
+   ow2pPItnVl9agXzqSDdFJACvLF/pkyBjhmRyKoWxYPj6gCqcrCc7fqcUW
+   vSxxq0+bGZwt+7qVN9WpDGbcaFT5OypFFF/8dhrLa3ciusCTcVyByKoF5
+   xWGK9aI4zyHake3K02uEjK4c07e+5Upn1i9EkmlTDkyPbcsYycnWf+IqY
    A==;
-X-CSE-ConnectionGUID: 8Acs/2DLQZGI42UbczSKXg==
-X-CSE-MsgGUID: 71najzkjSv6lG3foL6rBew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25368167"
+X-CSE-ConnectionGUID: VCFoNRhxQBSBDu5wI912Bg==
+X-CSE-MsgGUID: GDVsb+k7RLWPatxWTlNc/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="28747478"
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="25368167"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 07:15:55 -0700
-X-CSE-ConnectionGUID: 0HSFcw4RTlqhiywCFHqGiA==
-X-CSE-MsgGUID: 0IRX3fBkQ0m1d94Fa+Dgew==
+   d="scan'208";a="28747478"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 07:25:58 -0700
+X-CSE-ConnectionGUID: 5uot3sBDR6OXPe60tNX0Cw==
+X-CSE-MsgGUID: +U59R566SqKvf6rhEoeCGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="75259432"
+   d="scan'208";a="70448960"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Sep 2024 07:15:55 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 20 Sep 2024 07:25:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sreQK-000EWL-0M;
-	Fri, 20 Sep 2024 14:15:52 +0000
-Date: Fri, 20 Sep 2024 22:15:01 +0800
+	id 1srea0-000EX3-1L;
+	Fri, 20 Sep 2024 14:25:52 +0000
+Date: Fri, 20 Sep 2024 22:25:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 4621/16779] versioncheck:
- ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40
- linux/version.h not needed.
-Message-ID: <202409202209.dBQC84HN-lkp@intel.com>
+To: Andreas Hindborg <a.hindborg@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 06/14] rust: hrtimer: allow timer restart from timer
+ handler
+Message-ID: <202409202251.Sfvd2aUn-lkp@intel.com>
+References: <20240917222739.1298275-7-a.hindborg@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +74,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240917222739.1298275-7-a.hindborg@kernel.org>
 
-Hi Dong,
+Hi Andreas,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   d023c381fa6161a7af966abaad8e7d9a997f07e7
-commit: df8db0096d064c633b7ee07c8b21dae16e7cd677 [4621/16779] net: ethernet: sdk_fman: replace '---help---' in Kconfig files with 'help'
-reproduce: (https://download.01.org/0day-ci/archive/20240920/202409202209.dBQC84HN-lkp@intel.com/reproduce)
+[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Hindborg/rust-time-Add-Ktime-from_ns/20240918-063405
+base:   98f7e32f20d28ec452afb208f9cffc08448a2652
+patch link:    https://lore.kernel.org/r/20240917222739.1298275-7-a.hindborg%40kernel.org
+patch subject: [PATCH v2 06/14] rust: hrtimer: allow timer restart from timer handler
+config: riscv-randconfig-002-20240920 (https://download.01.org/0day-ci/archive/20240920/202409202251.Sfvd2aUn-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409202251.Sfvd2aUn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409202209.dBQC84HN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409202251.Sfvd2aUn-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.71.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./net/tsn/genl_tsn.c: 12 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   1 warning generated.
+   clang diag: include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>> error[E0053]: method `from` has an incompatible type for trait
+   --> rust/kernel/hrtimer.rs:316:20
+   |
+   316 |     fn from(value: bindings::hrtimer_restart) -> Self {
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                    |
+   |                    expected `u32`, found `i32`
+   |                    help: change the parameter type to match the trait: `u32`
+   |
+   = note: expected signature `fn(u32) -> TimerRestart`
+   found signature `fn(i32) -> TimerRestart`
 
 -- 
 0-DAY CI Kernel Test Service
