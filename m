@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDA017BB06;
-	Fri, 20 Sep 2024 14:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F244D8BC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 14:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726842360; cv=none; b=Q8hMJDdBEX/Md4C3R9ffrfEVv8tsqbEUBJIbG3xa+T/RhhEYY3FoZWJ9r9aBIJkuam9wNKDG4Q6nEPxXNwUuMcMURWqcFloHuWrPF+daAGsvEj4CKaNwX7jXuCfEtW45/E7q37Wx9leBcB1CtsHja+J7KY2vSdRnsAZL/M1XZf8=
+	t=1726843619; cv=none; b=OPJmm5EUoGgkKw74dq/oNLK/Jc+QoBRLB7q+cenqrzC8+6LjijyR/MXG20vphpIV1JCzIAl61m7npHS0O10DKXg08kt9Qe+Yq962F/0zF6K9TTphZ+1o8slr2S8Q1TM6I8qz6k3GYWjK6MyMod3ZHpsZ6kShBvzddWd53PYaJcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726842360; c=relaxed/simple;
-	bh=+9pRaSgM2TSiWBfyUh9smEH2QqQGRBBKZosdi4yEFq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hAvP1ZC02cnlZYwGfj4HsKJdB4t+K5Ri9tu+X+DY8QzujBpicIrkBWlHrhLe7y1OSv/lPSsyKMyPvPC4tZdCv+IgYU12SEnpAQ8PR/JqnJtNC9Ezzz8hAHB5K2bMdo5DYLYoSoSCk1q6rUAvWAsPpf2+wg8lI0QMRU2oSK2yCCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ys8hyTci; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1726843619; c=relaxed/simple;
+	bh=ysBTmCjA8EtAdYnNoqznzZds8kYAkwo2L31YU7ZJWGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bbgSBlE4Eqyr8yDU6hYdbut8XfIEVZyd80FSPG9dgWbTnfkgTaCOaUfkFGmkPxkBZKR0bCTTuJMOajkXQ6KlBC/wQAWTqS6lHH4eb9gd/RrLeXWKQdEH95s0knnsCz3OjaYsy51wN6xRIDB7YAyU0MI1W17tnRVHXrEDdFYFAw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUnJMDZb; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ys8hyTci"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUnJMDZb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726842359; x=1758378359;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+9pRaSgM2TSiWBfyUh9smEH2QqQGRBBKZosdi4yEFq4=;
-  b=Ys8hyTciVuBuEzAcKnr12MVmsp5/tewehsRW85axyM5eHLt0M4H0kEOQ
-   SavJh1Fe2Xeuo0bS4Iyn9TjABDRKBUV41JLEUpLaG612GkGhL98Zf1xS5
-   shTAlRsFpok4h1x8SResBEpwqv58CYNQvsncHIhapC/rAlr3Ry80LmvEw
-   ow2pPItnVl9agXzqSDdFJACvLF/pkyBjhmRyKoWxYPj6gCqcrCc7fqcUW
-   vSxxq0+bGZwt+7qVN9WpDGbcaFT5OypFFF/8dhrLa3ciusCTcVyByKoF5
-   xWGK9aI4zyHake3K02uEjK4c07e+5Upn1i9EkmlTDkyPbcsYycnWf+IqY
+  t=1726843617; x=1758379617;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ysBTmCjA8EtAdYnNoqznzZds8kYAkwo2L31YU7ZJWGE=;
+  b=TUnJMDZbj+CxnzZPRyHEyiZVIl/Oh2wU5LwdZHy7GVYEee7KhOXvfaSq
+   xcBIfMoZBPXMOL2QARNOZ+9ltx+nnPeGMiTDfKhJXi/nHsGGvEVMAoagx
+   LWlIM8FHwp+0vA5kgK7mKGilYJzE43HB58IPWKgqhVtwwFRTm/fWlVvDe
+   lVjErBjcICA0qhMrn7QDupWqszdVVUHKefTbvM3n4+wAunE7CBRcwxAv1
+   P+0YPPxzdLy4dvOFSMeDXFa0CgMIkhNhelM6JG/WzdtuG/POIFBnVi8Ai
+   R56zKB7bbR0JT/bjJK0Qou5RD+/aMnyDZCseCYdxr2DY3crb22quO7Mtq
    A==;
-X-CSE-ConnectionGUID: VCFoNRhxQBSBDu5wI912Bg==
-X-CSE-MsgGUID: GDVsb+k7RLWPatxWTlNc/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="28747478"
+X-CSE-ConnectionGUID: RuLt4huiQSqtLuZHy+izRw==
+X-CSE-MsgGUID: NJiH44a9QZW9jCBJKy9qWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="29582535"
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="28747478"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 07:25:58 -0700
-X-CSE-ConnectionGUID: 5uot3sBDR6OXPe60tNX0Cw==
-X-CSE-MsgGUID: +U59R566SqKvf6rhEoeCGg==
+   d="scan'208";a="29582535"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 07:46:57 -0700
+X-CSE-ConnectionGUID: AGXSzTjcTn6C9JM91iLgVQ==
+X-CSE-MsgGUID: plw61WVFT0eyDhqMBrwYHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="70448960"
+   d="scan'208";a="75091622"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Sep 2024 07:25:54 -0700
+  by orviesa003.jf.intel.com with ESMTP; 20 Sep 2024 07:46:55 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srea0-000EX3-1L;
-	Fri, 20 Sep 2024 14:25:52 +0000
-Date: Fri, 20 Sep 2024 22:25:32 +0800
+	id 1sreuL-000EY1-02;
+	Fri, 20 Sep 2024 14:46:53 +0000
+Date: Fri, 20 Sep 2024 22:46:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Hindborg <a.hindborg@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 06/14] rust: hrtimer: allow timer restart from timer
- handler
-Message-ID: <202409202251.Sfvd2aUn-lkp@intel.com>
-References: <20240917222739.1298275-7-a.hindborg@kernel.org>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [jgunthorpe:fwctl 17/19] include/linux/cxl/mailbox.h:66:24: error:
+ field 'mbox_wait' has incomplete type
+Message-ID: <202409202254.fuZ7sAda-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,49 +61,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240917222739.1298275-7-a.hindborg@kernel.org>
 
-Hi Andreas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Hindborg/rust-time-Add-Ktime-from_ns/20240918-063405
-base:   98f7e32f20d28ec452afb208f9cffc08448a2652
-patch link:    https://lore.kernel.org/r/20240917222739.1298275-7-a.hindborg%40kernel.org
-patch subject: [PATCH v2 06/14] rust: hrtimer: allow timer restart from timer handler
-config: riscv-randconfig-002-20240920 (https://download.01.org/0day-ci/archive/20240920/202409202251.Sfvd2aUn-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409202251.Sfvd2aUn-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux fwctl
+head:   3175f4c0e49e730b73cd11048737516e461acf09
+commit: 0490d2063eae6efc3c0ae64c562489926e4876e1 [17/19] fwctl/cxl: Add driver for CXL mailbox for handling CXL features commands (RFC)
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240920/202409202254.fuZ7sAda-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409202254.fuZ7sAda-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409202251.Sfvd2aUn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409202254.fuZ7sAda-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-   |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning generated.
-   clang diag: include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
->> error[E0053]: method `from` has an incompatible type for trait
-   --> rust/kernel/hrtimer.rs:316:20
-   |
-   316 |     fn from(value: bindings::hrtimer_restart) -> Self {
-   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-   |                    |
-   |                    expected `u32`, found `i32`
-   |                    help: change the parameter type to match the trait: `u32`
-   |
-   = note: expected signature `fn(u32) -> TimerRestart`
-   found signature `fn(i32) -> TimerRestart`
+   In file included from drivers/fwctl/cxl/cxl.c:7:
+>> include/linux/cxl/mailbox.h:66:24: error: field 'mbox_wait' has incomplete type
+      66 |         struct rcuwait mbox_wait;
+         |                        ^~~~~~~~~
+   drivers/fwctl/cxl/cxl.c: In function 'cxlctl_info':
+>> drivers/fwctl/cxl/cxl.c:45:16: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+      45 |         info = kzalloc(sizeof(*info), GFP_KERNEL);
+         |                ^~~~~~~
+>> drivers/fwctl/cxl/cxl.c:45:14: warning: assignment to 'struct fwctl_info_cxl *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      45 |         info = kzalloc(sizeof(*info), GFP_KERNEL);
+         |              ^
+   drivers/fwctl/cxl/cxl.c: In function 'cxlctl_validate_set_features':
+>> drivers/fwctl/cxl/cxl.c:66:13: error: implicit declaration of function 'copy_from_user' [-Werror=implicit-function-declaration]
+      66 |         if (copy_from_user(&uuid, u64_to_user_ptr(send_cmd->in.payload),
+         |             ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/mbox_wait +66 include/linux/cxl/mailbox.h
+
+b92a097067314d Dave Jiang 2024-07-18  45  
+b92a097067314d Dave Jiang 2024-07-18  46  /**
+b92a097067314d Dave Jiang 2024-07-18  47   * struct cxl_mailbox - context for CXL mailbox operations
+b92a097067314d Dave Jiang 2024-07-18  48   * @host: device that hosts the mailbox
+b92a097067314d Dave Jiang 2024-07-18  49   * @adev: auxiliary device for fw-ctl
+e5c38a2af470e8 Dave Jiang 2024-07-18  50   * @enabled_cmds: Hardware commands found enabled in CEL.
+e5c38a2af470e8 Dave Jiang 2024-07-18  51   * @exclusive_cmds: Commands that are kernel-internal only
+b92a097067314d Dave Jiang 2024-07-18  52   * @payload_size: Size of space for payload
+b92a097067314d Dave Jiang 2024-07-18  53   *                (CXL 3.1 8.2.8.4.3 Mailbox Capabilities Register)
+b92a097067314d Dave Jiang 2024-07-18  54   * @mbox_mutex: mutex protects device mailbox and firmware
+b92a097067314d Dave Jiang 2024-07-18  55   * @mbox_wait: rcuwait for mailbox
+b92a097067314d Dave Jiang 2024-07-18  56   * @mbox_send: @dev specific transport for transmitting mailbox commands
+69f846d7538bdd Dave Jiang 2024-07-18  57   * @features: number of supported features
+b92a097067314d Dave Jiang 2024-07-18  58   */
+b92a097067314d Dave Jiang 2024-07-18  59  struct cxl_mailbox {
+b92a097067314d Dave Jiang 2024-07-18  60  	struct device *host;
+b92a097067314d Dave Jiang 2024-07-18  61  	struct auxiliary_device adev; /* For fw-ctl */
+e5c38a2af470e8 Dave Jiang 2024-07-18  62  	DECLARE_BITMAP(enabled_cmds, CXL_MEM_COMMAND_ID_MAX);
+e5c38a2af470e8 Dave Jiang 2024-07-18  63  	DECLARE_BITMAP(exclusive_cmds, CXL_MEM_COMMAND_ID_MAX);
+b92a097067314d Dave Jiang 2024-07-18  64  	size_t payload_size;
+b92a097067314d Dave Jiang 2024-07-18  65  	struct mutex mbox_mutex; /* lock to protect mailbox context */
+b92a097067314d Dave Jiang 2024-07-18 @66  	struct rcuwait mbox_wait;
+b92a097067314d Dave Jiang 2024-07-18  67  	int (*mbox_send)(struct cxl_mailbox *cxl_mbox, struct cxl_mbox_cmd *cmd);
+69f846d7538bdd Dave Jiang 2024-07-18  68  	int num_features;
+69f846d7538bdd Dave Jiang 2024-07-18  69  	struct cxl_feat_entry *entries;
+b92a097067314d Dave Jiang 2024-07-18  70  };
+b92a097067314d Dave Jiang 2024-07-18  71  
+
+:::::: The code at line 66 was first introduced by commit
+:::::: b92a097067314dc5012317d92d936ef453466886 cxl: Move mailbox related bits to the same context
+
+:::::: TO: Dave Jiang <dave.jiang@intel.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
