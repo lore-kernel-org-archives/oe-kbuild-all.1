@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030CEEBE;
-	Fri, 20 Sep 2024 04:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C885DEEC8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 04:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726806562; cv=none; b=Zc5NWk6d6kPCwgZv+6fX0g/MwSNhevG+VDjCun2f0hzGAsGGOnm1fXij/1NEbVvd+lIRUuVsGSrvlQ37cyd/XWGWixeAkExWrW2vuT7duO1FhAdWUrBMjGQ6iIWTca4itMPAEqsAwCLKlaDe+CsUl8QwOMFX5XHsFs+qSwEBZXM=
+	t=1726807821; cv=none; b=nRCMs4aaQI2fE0eeqBqZIxlsPR0EEQKKEZP9jknO3qaYAHdNX8gZ9oXG7OJga/r4FnVQn4pKOBPaBisIGxCrUCULdYGWxiRtes188Z4VPnF0wsIWKHXGgHZ6T7ivMg77Zd8UZp3EiDfBXfHYmJNYi8TORpX4z0T3SR+pGdD/MyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726806562; c=relaxed/simple;
-	bh=7OI69Dbq64XO6NFe8O3Ks+AB5DeVlameRcJBVDTMDzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B9hTM+JSnbkj+7rQzp3bhm/y+bcevO0eIJogSGrmeN7lRcat2pFTOtK9C5vuvv/ZGr3ml91UBBm3rCuqDtHsaL3i5ZbZFToMQOX2+FnE8eDpb0euaZ3rm5KRsZ802ZhOScnOIlOsvTYZ/QoF0XoIX3tlfSjhkQEaUWxbJhjvuig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3G5jYtc; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1726807821; c=relaxed/simple;
+	bh=7ewElyAQ5g0ROd0D4B6ECB3D0m3movhS/uYKmSpCeDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YD5o0k8Sxeql+Dcui28qDxFBeB/L8vxkCXvQuJ4aVc3OGY8n2jMfzgwCRwJq5ot5PGzWQYy3kH7nstCGMUVuW3/34nXi6N4ZAvUQvQBYUqPZSMktbuGgcV2yfih6JQ2SUvvoMXjsn9iyIZ/NlbLwnkzEmT6Q3iE8TVO6Qf8hm9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1XAwA9v; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3G5jYtc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1XAwA9v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726806560; x=1758342560;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7OI69Dbq64XO6NFe8O3Ks+AB5DeVlameRcJBVDTMDzw=;
-  b=Q3G5jYtc1hHAaOWyU1rs+o9TvGf37NusH601BFhwfF2krAyqH6RDUwl8
-   rahp7MFdI3PwA8/Y6sNuuICNlD7ExJIx3XWLmzauo1OGQZhQUvikDptFo
-   /ETx72J2E+b4unk0uz+EiLI5motCYYW8oE8NdgUrTEbHp+xGvj1JbH1qs
-   r6TixXmhzuPfWwDyJqFX6ggHuM4yfwPaI135SxyaU+Sb79xo5NEFMC3L1
-   u0sfWol+Kcyq039JWtzGufYoiXI5oGA//N3CV46KnXEzvTchiViTTIc8L
-   quEqjLDvSei6PGjVsAD6/vMNET3E5Wyk/ziiQSwqdy/a6sf0lQtH9V+/W
-   g==;
-X-CSE-ConnectionGUID: Sr7xhwmfRTKc/oHJxw/Pxw==
-X-CSE-MsgGUID: DLerBhdLQ2G+LwTHNwwbnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25745768"
+  t=1726807819; x=1758343819;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7ewElyAQ5g0ROd0D4B6ECB3D0m3movhS/uYKmSpCeDA=;
+  b=B1XAwA9vqI4kMn2jKOqrRxop0InPm/LMphBpvxpyQ1qnXNUYqOGJt2T4
+   eSYQo7ncoZb/zxeSA7qO2NNcv1SJSwJTee6sduVGoMfAO/gJViY+4/Z0s
+   0dz6mTNvYU24oQkm977oiQ+2bGdGqJ548yTnJ5P2WM7qNaTdbfpAMxquk
+   vlKIdhKGPis6qMRGuSB3fziJhw6ccUfVltgqNZuB4/peck/8dzFdNcnBp
+   LcIVKW4Q/kEE0khzY1IaPXNu6M7s/zq7P3+ZAkNAZwKlPo5RNVALw+w8A
+   pME/2CRXXesu03u/Mm6CwK/GdtyrVmEG20tu6FJtaobzd2lzC5o1zJesT
+   w==;
+X-CSE-ConnectionGUID: Yv7vVh3rSD2peVUHgavQ2w==
+X-CSE-MsgGUID: XghkCfT1RryAB6l/EP9Wsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="37166657"
 X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; 
-   d="scan'208";a="25745768"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 21:29:19 -0700
-X-CSE-ConnectionGUID: mIXwfmt3Q36E5AYC2QmlEg==
-X-CSE-MsgGUID: klCmEn5HRjiekeu+HFuJKw==
+   d="scan'208";a="37166657"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 21:50:19 -0700
+X-CSE-ConnectionGUID: 5EDh6nM4SxmY/vEMJrsqrQ==
+X-CSE-MsgGUID: VVwxjASgQ8u90lDUsr+q8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; 
-   d="scan'208";a="70404987"
+   d="scan'208";a="70303166"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Sep 2024 21:29:17 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 19 Sep 2024 21:50:18 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srVGc-000Dxo-1w;
-	Fri, 20 Sep 2024 04:29:14 +0000
-Date: Fri, 20 Sep 2024 12:28:56 +0800
+	id 1srVax-000Dyg-2t;
+	Fri, 20 Sep 2024 04:50:15 +0000
+Date: Fri, 20 Sep 2024 12:50:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	linux-pci@vger.kernel.org, bhelgaas@google.com,
-	manivannan.sadhasivam@linaro.org, logang@deltatee.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, sumanesh.samanta@broadcom.com,
-	sathya.prakash@broadcom.com, sjeaugey@nvidia.com,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>
-Subject: Re: [PATCH 1/2 v2] PCI/portdrv: Enable reporting inter-switch P2P
- links
-Message-ID: <202409201219.feYAxGor-lkp@intel.com>
-References: <1726733624-2142-2-git-send-email-shivasharan.srikanteshwara@broadcom.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-remove-absolute-percpu 4/5] kallsyms.c:undefined reference
+ to `symbol_absolute'
+Message-ID: <202409201233.ruVsyeRD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,63 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1726733624-2142-2-git-send-email-shivasharan.srikanteshwara@broadcom.com>
 
-Hi Shivasharan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on next-20240919]
-[cannot apply to pci/for-linus linus/master v6.11]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivasharan-S/PCI-portdrv-Enable-reporting-inter-switch-P2P-links/20240919-162626
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1726733624-2142-2-git-send-email-shivasharan.srikanteshwara%40broadcom.com
-patch subject: [PATCH 1/2 v2] PCI/portdrv: Enable reporting inter-switch P2P links
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240920/202409201219.feYAxGor-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409201219.feYAxGor-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-remove-absolute-percpu
+head:   67e86d7019bb6713f5e8a2a2d46a42dd4f56720e
+commit: 664e6ea70ed0b9558e678dd5d293978eda4d642e [4/5] scripts/kallsyms: Remove support for absolute per-CPU variables
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240920/202409201233.ruVsyeRD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409201233.ruVsyeRD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409201219.feYAxGor-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409201233.ruVsyeRD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/pci/pcie/portdrv.c:86: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Determine if device supports Inter switch P2P links.
-
-
-vim +86 drivers/pci/pcie/portdrv.c
-
-    84	
-    85	/**
-  > 86	 * Determine if device supports Inter switch P2P links.
-    87	 *
-    88	 * Return value: true if inter switch P2P is supported, return false otherwise.
-    89	 */
-    90	static bool pcie_port_is_p2p_supported(struct pci_dev *dev)
-    91	{
-    92		/* P2P link attribute is supported on upstream ports only */
-    93		if (pci_pcie_type(dev) != PCI_EXP_TYPE_UPSTREAM)
-    94			return false;
-    95	
-    96		/*
-    97		 * Currently Broadcom PEX switches are supported.
-    98		 */
-    99		if (dev->vendor == PCI_VENDOR_ID_LSI_LOGIC &&
-   100		    (dev->device == PCI_DEVICE_ID_BRCM_PEX_89000_HLC ||
-   101		     dev->device == PCI_DEVICE_ID_BRCM_PEX_89000_LLC))
-   102			return pcie_brcm_is_p2p_supported(dev);
-   103	
-   104		return false;
-   105	}
-   106	
+   scripts/kallsyms.c: In function 'write_src':
+>> scripts/kallsyms.c:479:33: warning: implicit declaration of function 'symbol_absolute' [-Wimplicit-function-declaration]
+     479 |                                 symbol_absolute(table[i]) ? "absolute" : "relative",
+         |                                 ^~~~~~~~~~~~~~~
+   /usr/bin/ld: /tmp/ccH04tyT.o: in function `write_src':
+>> kallsyms.c:(.text+0x780): undefined reference to `symbol_absolute'
+   collect2: error: ld returned 1 exit status
+   make[3]: *** [scripts/Makefile.host:116: scripts/kallsyms] Error 1
+   make[3]: Target 'scripts/' not remade because of errors.
+   make[2]: *** [Makefile:1178: scripts] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
