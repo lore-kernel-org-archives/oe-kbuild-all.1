@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BC727466
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 17:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D31F1C683;
+	Fri, 20 Sep 2024 19:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726853527; cv=none; b=UhafAPrCp5dGZlJceRxMuJiPytUU/vtnXhQwSwpP51qCoFGtoshzptZQa6ZMhUfe2GhhUeY/4Vvm521NGfsWjqfVseakpJzUvP8IO1YLWCXNA0pLIyBX2QIH/PD1P6je5K9AOeJTCbulU6nY0yp37JfUNWoFQrCMb2U69eKja4w=
+	t=1726858993; cv=none; b=jAOvbhOLVNYVY57OK9IVC51jxLPnkFtpqwiGQL850ahLihtKvCOCsomnlYu0akcyMUywejgKFacc9I8geGpwhF/y2J1GM8HQt5p8bK1XFVTVRP7E+VB9xbaFzm7wViY3KOqTHPH6AHUzkVT4WMAnUw+NFmN5yEmXvTvQPDsE1/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726853527; c=relaxed/simple;
-	bh=FxpoiSCSHMCry+F41Mt+sJNSvrkENFovGc1lCr3FPc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gig0BW5tHTdNVHMuiboQoPBuLwZNz70AV2UEpnykQvyjo1WF3ReXAJ5YrGzY6j8O4VFZArsLgXFLUhpJdscumeRr5PO7cfayKKCQiYHfGrDa39tsgM6/3UFDGis/uPRyK6ycEt9wVhIQ1nbWnwzpmPyo/HbpNQQ7FWqyJxLKAyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7IA5GP/; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1726858993; c=relaxed/simple;
+	bh=7Q7+KeVGkXMtge0WI5A4RFOfCVgyPMwcsJdLT75EXB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KK0jMVQpB/oiRHiIIBKPilwlMN6fJPMQefvBf6dYK2ydtCj9t4pzMFPiyZuHZqoNGBZ8HGXiebo1mInkF8UkYpSJm9HYAfVfFLBHlSunhtU+eG/819piUmJMW5qOH36qsOJThZFHcExNEDJrQWgNfun+cx3YTV3qsigfUcvSvxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nareAHyU; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7IA5GP/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nareAHyU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726853526; x=1758389526;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FxpoiSCSHMCry+F41Mt+sJNSvrkENFovGc1lCr3FPc4=;
-  b=g7IA5GP/PyTVRxR2+nlx/Kyz1fi+ek+E3mKlpjZHtpz1/YPKz26hXZH9
-   0NRneYgPzE1IDutcEz91EOCwzvXCECmgi7aB331ulyjv3Xxbu4VzIrYg/
-   Q8b4kjxhjCSjsKrPSWTERs72QJPQCdTyF6vTTbaUiwGJ75B98pr56Frq0
-   rG+muDvdGWTFrqH8lMcp1xERqOxOu+o8JqvLFzZR3eZkhqmPn74pPsDFP
-   c2FKg23YpA2loP2JTl/o8GDQgxtg2NmBw2rBAVFAnjYR/pZ1546evDrwS
-   V0biUXbNPHeTLGD+QvOk32ntpsowmjGzoWr6REfxCyATF6iHz8xTaz/Zc
-   A==;
-X-CSE-ConnectionGUID: DK3YXN8NThWpQ3qaU+D5iw==
-X-CSE-MsgGUID: xMm6XC3oQiO2QwubZDTt5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="25742235"
-X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="25742235"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 10:32:06 -0700
-X-CSE-ConnectionGUID: m5KUoVqiTMq9yWj5O9slIw==
-X-CSE-MsgGUID: uDoriMdKRSWLJGXlT3GG4Q==
+  t=1726858991; x=1758394991;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7Q7+KeVGkXMtge0WI5A4RFOfCVgyPMwcsJdLT75EXB4=;
+  b=nareAHyU35mmLu2zyUYsyDBVi3RLcat/Y9Z34ajittFa3opBsBAhbztf
+   c2R3GXBiJwVv5SqgY9ddFD44wB6TEaqNoxvQw9WAzuHb5OlO9fWSVjN5C
+   fhtbZD8+XJMX7KkQJ4tr1LKluwxYxQw6lhqpzUOvcrbjsDmbglMo2zjqY
+   rrXssCCO6JCgzdBvZmCWvvptFkhP5DZ15PDY2emT7dNYw0Xsj4yecfTPW
+   jslIjmtS/Q4a2dgJVtKoQ9WF5495IyMWDp9j2Wd7TxL4udPkOqx8gJ7JK
+   xMx3phkK+MRqnLzbW5zeEbZH6DGm5VEfCNU68fIz1x4YVyVY7uBvTHuz7
+   w==;
+X-CSE-ConnectionGUID: jbv+r69YQp2SglRbTc5K4Q==
+X-CSE-MsgGUID: qQ8baoPTRVK+HsbtujWkTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="37249734"
+X-IronPort-AV: E=Sophos;i="6.10,245,1719903600"; 
+   d="scan'208";a="37249734"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 12:03:10 -0700
+X-CSE-ConnectionGUID: +B+NGknoT/OGQilQiesp3A==
+X-CSE-MsgGUID: iXgwZvuoRBuoGDh2y5jPEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
-   d="scan'208";a="101109664"
+X-IronPort-AV: E=Sophos;i="6.10,245,1719903600"; 
+   d="scan'208";a="74950412"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Sep 2024 10:32:04 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 20 Sep 2024 12:03:08 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srhU9-000Eid-3D;
-	Fri, 20 Sep 2024 17:32:02 +0000
-Date: Sat, 21 Sep 2024 01:31:34 +0800
+	id 1sriuH-000EmT-1n;
+	Fri, 20 Sep 2024 19:03:05 +0000
+Date: Sat, 21 Sep 2024 03:03:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Duan, YayongX" <yayongx.duan@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Emmanuel Berthier <emmanuel.berthier@intel.com>
-Subject: [intel-lts:4.19/android_s 1327/30000] arch/x86/kernel/smp.c:126
- store_regs() warn: inconsistent indenting
-Message-ID: <202409210122.cToa3YVu-lkp@intel.com>
+To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, alistair@popple.id.au, joel@jms.id.au,
+	jk@ozlabs.org, andrew@codeconstruct.com.au, eajames@linux.ibm.com,
+	ninad@linux.ibm.com
+Subject: Re: [PATCH 12/15] fsi: occ: Get device number from FSI minor number
+ API
+Message-ID: <202409210200.8czVX7S4-lkp@intel.com>
+References: <20240917171647.1403910-13-eajames@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +66,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240917171647.1403910-13-eajames@linux.ibm.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   84d5fc421289417e51781e27e64fbb0fc44216ae
-commit: cd7b77710e3d52d58e97881a7c6ba82586573ba9 [1327/30000] Debug: Add register dump
-config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240921/202409210122.cToa3YVu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Eddie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.11 next-20240920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/fsi-hub-Set-master-index-to-link-number-plus-one/20240918-012109
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240917171647.1403910-13-eajames%40linux.ibm.com
+patch subject: [PATCH 12/15] fsi: occ: Get device number from FSI minor number API
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240921/202409210200.8czVX7S4-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409210200.8czVX7S4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409210122.cToa3YVu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409210200.8czVX7S4-lkp@intel.com/
 
-smatch warnings:
-arch/x86/kernel/smp.c:126 store_regs() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +126 arch/x86/kernel/smp.c
+   In file included from drivers/fsi/fsi-occ.c:3:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2237:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/fsi/fsi-occ.c:708:2: warning: void function 'occ_remove' should not return a value [-Wreturn-mismatch]
+     708 |         return 0;
+         |         ^      ~
+   5 warnings generated.
 
-   121	
-   122	/* Store regs of this CPU for RAM dump decoding help */
-   123	static inline void store_regs(struct pt_regs *regs)
-   124	{
-   125	        struct pt_regs *print_regs;
- > 126	       print_regs = &get_cpu_var(cpu_regs);
-   127	       crash_setup_regs(print_regs, regs);
-   128	
-   129	       /* Flush CPU cache */
-   130	       wbinvd();
-   131	}
-   132	
+
+vim +/occ_remove +708 drivers/fsi/fsi-occ.c
+
+   689	
+   690	static void occ_remove(struct platform_device *pdev)
+   691	{
+   692		struct occ *occ = platform_get_drvdata(pdev);
+   693	
+   694		misc_deregister(&occ->mdev);
+   695	
+   696		mutex_lock(&occ->occ_lock);
+   697		kvfree(occ->buffer);
+   698		occ->buffer = NULL;
+   699		mutex_unlock(&occ->occ_lock);
+   700	
+   701		if (occ->platform_hwmon)
+   702			device_for_each_child(&pdev->dev, NULL, occ_unregister_platform_child);
+   703		else
+   704			device_for_each_child(&pdev->dev, NULL, occ_unregister_of_child);
+   705	
+   706		fsi_free_minor(occ->devt);
+   707	
+ > 708		return 0;
+   709	}
+   710	
 
 -- 
 0-DAY CI Kernel Test Service
