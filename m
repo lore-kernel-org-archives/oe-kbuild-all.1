@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14774189B9B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 22:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561F4502B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Sep 2024 22:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726871241; cv=none; b=UfHHUCKxIsK9YDi9ChKkqzvEaPqSZuxWy4NBG1BwV7adG/i6HGA+gnLjTG5wT/s2R3BHzaYHA0o1aOhKNVJoGaJiKs1RD60DmQQ4uZlH2eVM+clpO6JzQOCWAzgD/tHU7onXY8TNkGBbCifdzkzBTMmRL5D46wlO6mGT297T2XQ=
+	t=1726872500; cv=none; b=rA2mkWiqfb5/D8GWyWY//BQrJo8RH37g9oqNYaDoT6UPYWln6Ozgsy3FTShI7VP3YzYw+hq4SgOajjW3U3RehluCS9Hnmqfu/FobVDNddDEho1MD9b1SNpHs4W5vouBhK2CcfoKL2Qq31p+Yv6U5r31vuilcS+8l7gMRaM2tLPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726871241; c=relaxed/simple;
-	bh=mnse6JRW33NUZeWz9UPCc0FVTPqLPMRROSHmjlpbwBQ=;
+	s=arc-20240116; t=1726872500; c=relaxed/simple;
+	bh=hdmouBA2Fkx5bePjcBX+6GnwNambaYOZzqM9ICWCgk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rav4vdYX9OQTHzA/YzjtALPkduWV2EuUe1iuWKf6w+FqQ8iSsAbTGZuizCoBZ3QceDmeV+B2PrjaR6eHYIdHrG12dtrzvwmJHum+DQ6QAC38nR63q5KKLKwGMEiSbpsFs8vVSmwufK47AaFQGRC0MfQxOiKgKqiZbzLWnOGGjNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6NaszE0; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=to6riasME/JvRT2qL7ptAfdhdwZbOVlDIU4bISy64yfqh84A52Fw9TRPm1M5z9Zla1+LfGrzCKqfsD7e9/8Vi4Mtp+AkdUb4I0Ciq8PcsrQNBFBeXaodggaPKUt2Zl2lGjyC88Beau9g0xCe7+z5GLnFFMjOP4CrPwO/Xt/rQdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZpsfZywA; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6NaszE0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZpsfZywA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726871238; x=1758407238;
+  t=1726872498; x=1758408498;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mnse6JRW33NUZeWz9UPCc0FVTPqLPMRROSHmjlpbwBQ=;
-  b=i6NaszE0sQwhrZYTg7yNuJoYE692wvsd6f59E6bjihLicV+AlDZyzqYH
-   KbonMPscZjADBxZseNHzICjZw7zgTFks5ToN5e3f38o0c7c+EmxdzBuJ6
-   20eXgs03lWY5Ubvc3rXcvf5dz+7KSE2SAs0nqteLYn0hZvIlfIbujrP05
-   /5CFb1uYKgPi3JrTfVZx7lcT+UO7BnOojXgRbhXyjibVdmV6NWXgvfjQT
-   74OHid9l4uI3C8KVMuo2HTKe4hwC9Ou3PfExcWu+QubTo7gyZff3dAyOj
-   bAuzUBZmst7RAlluGYhTtGBB20Cgi1uiaJytpVfaAk98TbnSEJMLLFcLX
-   w==;
-X-CSE-ConnectionGUID: VIf/pIfsT9KInk+HyBXEhw==
-X-CSE-MsgGUID: /a60Y/WFSN2kHSwNQtwkEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="13615975"
+  bh=hdmouBA2Fkx5bePjcBX+6GnwNambaYOZzqM9ICWCgk0=;
+  b=ZpsfZywAXufnXu75rIJnk8aKTDF4wL08SHp/0kzxoccw177/hgQzMbPz
+   SNIw4Y0OqxLuq8urL3x07ipY0AtT/sE6mit5ngD22kKZLqjv2z69AlfVo
+   Uk1MrK8DPxtrWczp82Xs4C+2lK7W1nzGpAGL0pfYI+KKgWX3dC4st9kei
+   oBbRV3AQiMWlvjOp8+zRGjOC2+K3EHzI2CZFzCsu9OOJ5o3gQw6YDn5fM
+   s2lz3a4+rTFEcnfDj5pH6R3MOprSxyx0QFg9aphXNmwDDIRJKIdLYnyJt
+   qiKzpSjTyK2omxjxdl2Jby/7rwdeI7b6+mRiGiyN+VY2it7sBBQ4accgL
+   g==;
+X-CSE-ConnectionGUID: KzOfpUlkS42rxNii1HWAHw==
+X-CSE-MsgGUID: 5itmqcF4RCeFN1d81ntevg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="13616473"
 X-IronPort-AV: E=Sophos;i="6.10,245,1719903600"; 
-   d="scan'208";a="13615975"
+   d="scan'208";a="13616473"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 15:27:17 -0700
-X-CSE-ConnectionGUID: sJUZl9mqQ0OaHefyV9va4A==
-X-CSE-MsgGUID: H2i8J1E7STO99RLm7jyqqA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 15:48:18 -0700
+X-CSE-ConnectionGUID: qasY6n63QBe3Sm1c8KOMDg==
+X-CSE-MsgGUID: /7e4d6ORRjuY9159fwd43A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,245,1719903600"; 
-   d="scan'208";a="101175360"
+   d="scan'208";a="101178881"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Sep 2024 15:27:16 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Sep 2024 15:48:17 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srm5p-000Etz-2m;
-	Fri, 20 Sep 2024 22:27:13 +0000
-Date: Sat, 21 Sep 2024 06:26:48 +0800
+	id 1srmQA-000EuZ-17;
+	Fri, 20 Sep 2024 22:48:14 +0000
+Date: Sat, 21 Sep 2024 06:47:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-generic-group-baseline 29/39] fs/xfs/xfs_iwalk.c:658:6:
- warning: variable 'pag' is used uninitialized whenever 'if' condition is
- false
-Message-ID: <202409210633.0ACii8dN-lkp@intel.com>
+Subject: [android-common:android12-5.10 381/30000]
+ drivers/firmware/arm_scmi/driver.o: warning: objtool:
+ scmi_devm_protocol_match()+0x6d: unreachable instruction
+Message-ID: <202409210610.8kkt8E6x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,104 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-generic-group-baseline
-head:   1100a98f36e1f548982992baf62d53dff0eb3fc4
-commit: dc6fdc94e49dd59fad494aecf6e0c32e55b20b1c [29/39] xfs: switch perag iteration from the for_each macros to a while based iterator
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240921/202409210633.0ACii8dN-lkp@intel.com/config)
+Hi Cristian,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   7b9f6a0ecd235bca2b4329476f817a6182ea8d8a
+commit: bfacf9cff579b764d5148218d4f99d98fb2827b0 [381/30000] FROMLIST: firmware: arm_scmi: introduce devres get/put protocols operations
+config: x86_64-buildonly-randconfig-002-20240912 (https://download.01.org/0day-ci/archive/20240921/202409210610.8kkt8E6x-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409210633.0ACii8dN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409210610.8kkt8E6x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409210633.0ACii8dN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409210610.8kkt8E6x-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/xfs/xfs_iwalk.c:658:6: warning: variable 'pag' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     658 |         if (error)
-         |             ^~~~~
-   fs/xfs/xfs_iwalk.c:661:40: note: uninitialized use occurs here
-     661 |         while ((pag = xfs_perag_next_from(mp, pag, start_agno))) {
-         |                                               ^~~
-   fs/xfs/xfs_iwalk.c:658:2: note: remove the 'if' if its condition is always true
-     658 |         if (error)
-         |         ^~~~~~~~~~
-     659 |                 return error;
-   fs/xfs/xfs_iwalk.c:651:23: note: initialize the variable 'pag' to silence this warning
-     651 |         struct xfs_perag        *pag;
-         |                                     ^
-         |                                      = NULL
-   1 warning generated.
+>> drivers/firmware/arm_scmi/driver.o: warning: objtool: scmi_devm_protocol_match()+0x6d: unreachable instruction
 
 
-vim +658 fs/xfs/xfs_iwalk.c
-
-40786717c88c2d Darrick J. Wong   2019-07-03  634  
-40786717c88c2d Darrick J. Wong   2019-07-03  635  /*
-40786717c88c2d Darrick J. Wong   2019-07-03  636   * Walk all the inodes in the filesystem using multiple threads to process each
-40786717c88c2d Darrick J. Wong   2019-07-03  637   * AG.
-40786717c88c2d Darrick J. Wong   2019-07-03  638   */
-40786717c88c2d Darrick J. Wong   2019-07-03  639  int
-40786717c88c2d Darrick J. Wong   2019-07-03  640  xfs_iwalk_threaded(
-40786717c88c2d Darrick J. Wong   2019-07-03  641  	struct xfs_mount	*mp,
-40786717c88c2d Darrick J. Wong   2019-07-03  642  	xfs_ino_t		startino,
-13d59a2a61cbbb Darrick J. Wong   2019-07-03  643  	unsigned int		flags,
-40786717c88c2d Darrick J. Wong   2019-07-03  644  	xfs_iwalk_fn		iwalk_fn,
-40786717c88c2d Darrick J. Wong   2019-07-03  645  	unsigned int		inode_records,
-3e5a428b264eca Darrick J. Wong   2019-07-03  646  	bool			polled,
-40786717c88c2d Darrick J. Wong   2019-07-03  647  	void			*data)
-40786717c88c2d Darrick J. Wong   2019-07-03  648  {
-dc6fdc94e49dd5 Christoph Hellwig 2024-09-20  649  	xfs_agnumber_t		start_agno = XFS_INO_TO_AGNO(mp, startino);
-40786717c88c2d Darrick J. Wong   2019-07-03  650  	struct xfs_pwork_ctl	pctl;
-6f4118fc6482b1 Dave Chinner      2021-06-02  651  	struct xfs_perag	*pag;
-40786717c88c2d Darrick J. Wong   2019-07-03  652  	int			error;
-40786717c88c2d Darrick J. Wong   2019-07-03  653  
-dc6fdc94e49dd5 Christoph Hellwig 2024-09-20  654  	ASSERT(start_agno < mp->m_sb.sb_agcount);
-13d59a2a61cbbb Darrick J. Wong   2019-07-03  655  	ASSERT(!(flags & ~XFS_IWALK_FLAGS_ALL));
-40786717c88c2d Darrick J. Wong   2019-07-03  656  
-f83d436aef5def Darrick J. Wong   2021-01-22  657  	error = xfs_pwork_init(mp, &pctl, xfs_iwalk_ag_work, "xfs_iwalk");
-40786717c88c2d Darrick J. Wong   2019-07-03 @658  	if (error)
-40786717c88c2d Darrick J. Wong   2019-07-03  659  		return error;
-40786717c88c2d Darrick J. Wong   2019-07-03  660  
-dc6fdc94e49dd5 Christoph Hellwig 2024-09-20  661  	while ((pag = xfs_perag_next_from(mp, pag, start_agno))) {
-40786717c88c2d Darrick J. Wong   2019-07-03  662  		struct xfs_iwalk_ag	*iwag;
-40786717c88c2d Darrick J. Wong   2019-07-03  663  
-40786717c88c2d Darrick J. Wong   2019-07-03  664  		if (xfs_pwork_ctl_want_abort(&pctl))
-40786717c88c2d Darrick J. Wong   2019-07-03  665  			break;
-40786717c88c2d Darrick J. Wong   2019-07-03  666  
-10634530f7ba94 Dave Chinner      2024-01-16  667  		iwag = kzalloc(sizeof(struct xfs_iwalk_ag),
-10634530f7ba94 Dave Chinner      2024-01-16  668  				GFP_KERNEL | __GFP_NOFAIL);
-40786717c88c2d Darrick J. Wong   2019-07-03  669  		iwag->mp = mp;
-6f4118fc6482b1 Dave Chinner      2021-06-02  670  
-6f4118fc6482b1 Dave Chinner      2021-06-02  671  		/*
-9b2e5a234c89f0 Darrick J. Wong   2023-04-11  672  		 * perag is being handed off to async work, so take a passive
-6f4118fc6482b1 Dave Chinner      2021-06-02  673  		 * reference for the async work to release.
-6f4118fc6482b1 Dave Chinner      2021-06-02  674  		 */
-9b2e5a234c89f0 Darrick J. Wong   2023-04-11  675  		iwag->pag = xfs_perag_hold(pag);
-40786717c88c2d Darrick J. Wong   2019-07-03  676  		iwag->iwalk_fn = iwalk_fn;
-40786717c88c2d Darrick J. Wong   2019-07-03  677  		iwag->data = data;
-40786717c88c2d Darrick J. Wong   2019-07-03  678  		iwag->startino = startino;
-40786717c88c2d Darrick J. Wong   2019-07-03  679  		iwag->sz_recs = xfs_iwalk_prefetch(inode_records);
-27c14b5daa8286 Darrick J. Wong   2020-11-14  680  		iwag->lastino = NULLFSINO;
-40786717c88c2d Darrick J. Wong   2019-07-03  681  		xfs_pwork_queue(&pctl, &iwag->pwork);
-0c11d62f4b2952 Christoph Hellwig 2024-09-20  682  		startino = XFS_AGINO_TO_INO(mp, pag_agno(pag) + 1, 0);
-e6b1a5306e2df8 Christoph Hellwig 2024-09-10  683  		if (flags & XFS_IWALK_SAME_AG)
-13d59a2a61cbbb Darrick J. Wong   2019-07-03  684  			break;
-40786717c88c2d Darrick J. Wong   2019-07-03  685  	}
-6f4118fc6482b1 Dave Chinner      2021-06-02  686  	if (pag)
-c4d5660afbdcd3 Dave Chinner      2023-02-13  687  		xfs_perag_rele(pag);
-3e5a428b264eca Darrick J. Wong   2019-07-03  688  	if (polled)
-3e5a428b264eca Darrick J. Wong   2019-07-03  689  		xfs_pwork_poll(&pctl);
-40786717c88c2d Darrick J. Wong   2019-07-03  690  	return xfs_pwork_destroy(&pctl);
-40786717c88c2d Darrick J. Wong   2019-07-03  691  }
-40786717c88c2d Darrick J. Wong   2019-07-03  692  
-
-:::::: The code at line 658 was first introduced by commit
-:::::: 40786717c88c2d4cb426cc2eb99ac50000e5a910 xfs: multithreaded iwalk implementation
-
-:::::: TO: Darrick J. Wong <darrick.wong@oracle.com>
-:::::: CC: Darrick J. Wong <darrick.wong@oracle.com>
+objdump-func vmlinux.o scmi_devm_protocol_match:
+0000 00000000029aefe2 <scmi_devm_protocol_match>:
+0000  29aefe2:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	29aefe3: R_X86_64_NONE	__fentry__-0x4
+0005  29aefe7:	55                   	push   %rbp
+0006  29aefe8:	48 89 e5             	mov    %rsp,%rbp
+0009  29aefeb:	41 57                	push   %r15
+000b  29aefed:	41 56                	push   %r14
+000d  29aefef:	53                   	push   %rbx
+000e  29aeff0:	48 89 d3             	mov    %rdx,%rbx
+0011  29aeff3:	49 89 f6             	mov    %rsi,%r14
+0014  29aeff6:	e8 00 00 00 00       	call   29aeffb <scmi_devm_protocol_match+0x19>	29aeff7: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+0019  29aeffb:	4d 85 f6             	test   %r14,%r14
+001c  29aeffe:	74 48                	je     29af048 <scmi_devm_protocol_match+0x66>
+001e  29af000:	48 85 db             	test   %rbx,%rbx
+0021  29af003:	74 43                	je     29af048 <scmi_devm_protocol_match+0x66>
+0023  29af005:	49 bf 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%r15
+002d  29af00f:	e8 00 00 00 00       	call   29af014 <scmi_devm_protocol_match+0x32>	29af010: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+0032  29af014:	49 83 c6 08          	add    $0x8,%r14
+0036  29af018:	4c 89 f0             	mov    %r14,%rax
+0039  29af01b:	48 c1 e8 03          	shr    $0x3,%rax
+003d  29af01f:	42 8a 04 38          	mov    (%rax,%r15,1),%al
+0041  29af023:	84 c0                	test   %al,%al
+0043  29af025:	75 2c                	jne    29af053 <scmi_devm_protocol_match+0x71>
+0045  29af027:	48 89 d8             	mov    %rbx,%rax
+0048  29af02a:	45 8a 36             	mov    (%r14),%r14b
+004b  29af02d:	48 c1 e8 03          	shr    $0x3,%rax
+004f  29af031:	42 8a 04 38          	mov    (%rax,%r15,1),%al
+0053  29af035:	84 c0                	test   %al,%al
+0055  29af037:	75 2e                	jne    29af067 <scmi_devm_protocol_match+0x85>
+0057  29af039:	31 c0                	xor    %eax,%eax
+0059  29af03b:	44 3a 33             	cmp    (%rbx),%r14b
+005c  29af03e:	0f 94 c0             	sete   %al
+005f  29af041:	5b                   	pop    %rbx
+0060  29af042:	41 5e                	pop    %r14
+0062  29af044:	41 5f                	pop    %r15
+0064  29af046:	5d                   	pop    %rbp
+0065  29af047:	c3                   	ret
+0066  29af048:	e8 00 00 00 00       	call   29af04d <scmi_devm_protocol_match+0x6b>	29af049: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+006b  29af04d:	0f 0b                	ud2
+006d  29af04f:	31 c0                	xor    %eax,%eax
+006f  29af051:	eb ee                	jmp    29af041 <scmi_devm_protocol_match+0x5f>
+0071  29af053:	44 89 f1             	mov    %r14d,%ecx
+0074  29af056:	80 e1 07             	and    $0x7,%cl
+0077  29af059:	38 c1                	cmp    %al,%cl
+0079  29af05b:	7c ca                	jl     29af027 <scmi_devm_protocol_match+0x45>
+007b  29af05d:	4c 89 f7             	mov    %r14,%rdi
+007e  29af060:	e8 00 00 00 00       	call   29af065 <scmi_devm_protocol_match+0x83>	29af061: R_X86_64_PLT32	__asan_report_load1_noabort-0x4
+0083  29af065:	eb c0                	jmp    29af027 <scmi_devm_protocol_match+0x45>
+0085  29af067:	89 d9                	mov    %ebx,%ecx
+0087  29af069:	80 e1 07             	and    $0x7,%cl
+008a  29af06c:	38 c1                	cmp    %al,%cl
+008c  29af06e:	7c c9                	jl     29af039 <scmi_devm_protocol_match+0x57>
+008e  29af070:	48 89 df             	mov    %rbx,%rdi
+0091  29af073:	e8 00 00 00 00       	call   29af078 <scmi_devm_protocol_match+0x96>	29af074: R_X86_64_PLT32	__asan_report_load1_noabort-0x4
+0096  29af078:	eb bf                	jmp    29af039 <scmi_devm_protocol_match+0x57>
 
 -- 
 0-DAY CI Kernel Test Service
