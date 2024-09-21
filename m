@@ -1,78 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA972868D;
-	Sat, 21 Sep 2024 19:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BF52C182
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Sep 2024 20:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726948453; cv=none; b=d+C56d1AQ/bPGSBDQXpXs+yryjGwPXO0zifa/KM87yae8W/59aurlwsyckhb3LMs37UYzYdBLgUVYEEdVMACWfXcQs2MDPkAlKJ6mh17G4vmBeFYgS8xsW/KIG+dQwP4CM8yLKdTuSC4+LZg85w03LMjmnd8U4wGUG5UAgAPjm8=
+	t=1726949590; cv=none; b=u9xWKQ2f9TjQgRpBbxDOJL02lIeitYP477lJqrtU9VqawpKp88dPrHcqZ4b9lm00CiXEh9HdUqluwdo9W4xt5Oq6PMKPJdBpVI5Pod60jGIcGxX9HxTh+TYjhS/iomUa2tT4p364QhnDoLA6YsWFLk1u7dVWhSh+Dh7JCccyOOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726948453; c=relaxed/simple;
-	bh=qbXKiapCk2YXBtlswI/GeCkM3I4qQK1mE6LOkTqbgGc=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=A4pJFAfCrzgUHNwP36dPC+d6fMAlRQqg+6I8qky+ZpSQNLYHptEp4+kndyXrXF4qGkmvaRNXSRtvnDvV/iTfVSNDs6Gx8tw2+hagwTX8Lwmxuln8nP9162A6bYJH0lZcOXdpIzXPycw4LtHpS8GY3UDPkR+ZT7kp1+iCJI1BIuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRq77pPO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726949590; c=relaxed/simple;
+	bh=2LaE7s9et2N14HjYXhT51Fsax+ENK9fdMBCkMpnqIMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sw7tL5Dhv7mY2fuGbpZWSzrOqsF3mvs4NVp7tZ73gje0HIejtA/9rYJ2CnvqOierMMceqiWzQdCzGAU8D6qY1Piw1oH+7fXGwW0WpR4W2v4PqRBW/KPc5QPw5QYzBHnjQwPfge4GWHSkX8mnAg5EXTrgn4hG259jKh7cPkfSmXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nECiQ2fJ; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRq77pPO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928A2C4CEC2;
-	Sat, 21 Sep 2024 19:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726948452;
-	bh=qbXKiapCk2YXBtlswI/GeCkM3I4qQK1mE6LOkTqbgGc=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=GRq77pPOLe6gr6d9BPlks466UbXW7OYl28xtmU6JuzZkWJ02+5gUCZIZ0mmAR/9KX
-	 pmPcJXwAQQvrVnMlw98BsPKhVMxveWNFf8i+YiDrolOikLDgus/Khv6ZIBfFgjYMxw
-	 WMxbe9FZAwbE1Gu9N4HD3rlcEgYrpFHlDDALBHG4RaFbtH1EPFvUwndYnEUTBBneJP
-	 3v7ADTsOQlc5+qkpy0jXspklwroqKv7xBigNgqcvWCagop4cG2tp4LyCx/UzgwQG4J
-	 f3D9i3nzYjmERHNkqiuAoqQKWp4CE1TOkpbQGQMMvxNTEc9l+IY2WSv8YuNFLmEonH
-	 MsjIu2bnnRGRQ==
-Message-ID: <cae4d71b611c36dab4003fa4ec3bab61.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nECiQ2fJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726949588; x=1758485588;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2LaE7s9et2N14HjYXhT51Fsax+ENK9fdMBCkMpnqIMk=;
+  b=nECiQ2fJNEt8skXAK/phZUiANtQwO7+9numE9IltHSp+LGmaElNY3MLq
+   buUGm3nJO7ftLUYbQc0eHUnjiwgNTEzqAaurYBSYgqfidvZZoulNOOE2a
+   lKGVQVGE1WaVg1Ga8ZmvxU5m+2o1zFjJ9zVNuFSGY/vuyz2rCDur7ysBy
+   /NvudSgajD1QayhJJMY4134ZFYJzK6LexIw8YZMoi6Q9gUh8ojVqSdALV
+   QD+130Jpy4INDr5ckVuyOKv7UGLebOPUu6BQNp50A2eMgWzvWA/UOhUI7
+   zGgXtX8Rciv985fZN09gIkEvjreTJH+52is7wAFBUln6V44mN9PVwGdqI
+   Q==;
+X-CSE-ConnectionGUID: tKnyq0G7TnaFpsx5mzfE4g==
+X-CSE-MsgGUID: kPSzZeWPQIq2QMAViS+9pA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25811084"
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
+   d="scan'208";a="25811084"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 13:13:08 -0700
+X-CSE-ConnectionGUID: pzAoklU8TtWXVWo/gxTbvw==
+X-CSE-MsgGUID: O6pFFoutQwibYy9FjG/9TA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
+   d="scan'208";a="93985081"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Sep 2024 13:13:06 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ss6TX-000FmQ-1j;
+	Sat, 21 Sep 2024 20:13:03 +0000
+Date: Sun, 22 Sep 2024 04:12:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Luke D. Jones" <luke@ljones.dev>, platform-driver-x86@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
+	corentin.chary@gmail.com, "Luke D. Jones" <luke@ljones.dev>
+Subject: Re: [PATCH v3 1/5] platform/x86: asus-armoury: move existing tunings
+ to asus-armoury module
+Message-ID: <202409220341.XurF2eMb-lkp@intel.com>
+References: <20240918094250.82430-2-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d9e0ade6-8a7e-4ba4-974f-142ad246ce5d@linaro.org>
-References: <67cf80cf-d96d-4249-ac34-6085d4b32948@suswa.mountain> <d9e0ade6-8a7e-4ba4-974f-142ad246ce5d@linaro.org>
-Subject: Re: drivers/spmi/spmi-pmic-arb.c:1782 spmi_pmic_arb_register_buses() error: uninitialized symbol 'ret'.
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-To: Abel Vesa <abel.vesa@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>, oe-kbuild@lists.linux.dev
-Date: Sat, 21 Sep 2024 12:54:10 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240918094250.82430-2-luke@ljones.dev>
 
-Quoting Neil Armstrong (2024-09-18 03:34:22)
-> On 18/09/2024 12:29, Dan Carpenter wrote:
-> > 9799873717398e8 Abel Vesa 2024-05-07  1767    struct device_node *child;
-> > 9799873717398e8 Abel Vesa 2024-05-07  1768    int ret;
-> > 9799873717398e8 Abel Vesa 2024-05-07  1769
-> > 9799873717398e8 Abel Vesa 2024-05-07  1770    /* legacy mode doesn't pr=
-ovide child node for the bus */
-> > 9799873717398e8 Abel Vesa 2024-05-07  1771    if (of_device_is_compatib=
-le(node, "qcom,spmi-pmic-arb"))
-> > 9799873717398e8 Abel Vesa 2024-05-07  1772            return spmi_pmic_=
-arb_bus_init(pdev, node, pmic_arb);
-> > 9799873717398e8 Abel Vesa 2024-05-07  1773
-> > 9799873717398e8 Abel Vesa 2024-05-07  1774    for_each_available_child_=
-of_node(node, child) {
-> > 9799873717398e8 Abel Vesa 2024-05-07  1775            if (of_node_name_=
-eq(child, "spmi")) {
-> > 9799873717398e8 Abel Vesa 2024-05-07  1776                    ret =3D s=
-pmi_pmic_arb_bus_init(pdev, child, pmic_arb);
-> > 9799873717398e8 Abel Vesa 2024-05-07  1777                    if (ret)
-> > 9799873717398e8 Abel Vesa 2024-05-07  1778                            r=
-eturn ret;
-> > 9799873717398e8 Abel Vesa 2024-05-07  1779            }
-> > 9799873717398e8 Abel Vesa 2024-05-07  1780    }
-> > 9799873717398e8 Abel Vesa 2024-05-07  1781
-> > 9799873717398e8 Abel Vesa 2024-05-07 @1782    return ret;
-> >=20
-> > Is it possible to not have an spmi node?
->=20
-> It's possible but not allowed per the bindings.
->=20
+Hi Luke,
 
-Seems that we should just return 0 here then and squelch the warning.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240918]
+[also build test WARNING on v6.11]
+[cannot apply to linus/master v6.11 v6.11-rc7 v6.11-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/platform-x86-asus-armoury-move-existing-tunings-to-asus-armoury-module/20240918-174540
+base:   next-20240918
+patch link:    https://lore.kernel.org/r/20240918094250.82430-2-luke%40ljones.dev
+patch subject: [PATCH v3 1/5] platform/x86: asus-armoury: move existing tunings to asus-armoury module
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240922/202409220341.XurF2eMb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220341.XurF2eMb-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409220341.XurF2eMb-lkp@intel.com/
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: module hid-asus uses symbol asus_wmi_evaluate_method from namespace ASUS_WMI, but does not import it.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [m]:
+   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
