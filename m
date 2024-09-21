@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA56816DEDF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Sep 2024 15:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2653A47
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Sep 2024 15:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726932250; cv=none; b=frJ3Xw403Kvjn7PoSDRfihDO4WssU8Mvvs6EPG1LRIL0M9y6rzg6RxIvw/DozAUjFZ17AGCNLqDOighV0d5MbvgPWU2QkvQ3XhYwOjTsL0NyeHk+txpkqxAHhl3n2K5SxxGsWhKHH6ycWwEbxqzxqFVTLss9qbjiHGa81g1IBlc=
+	t=1726934097; cv=none; b=q+J9kZ9fV7bwnurqVYKhqjDmfjUMxk8iuEA6tESnlbx8WCeFsy64rc/K9amWiwF/kxzgzkgUPeeDEKLje5sby90sknALWMR9wXmV49s0GvIslBYsDa3rkLYhrsE2Gc5KMExW/Owl29dREDWLgj/7na1TCBcI3uinktbWe+tzn74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726932250; c=relaxed/simple;
-	bh=9M8xY4X6DlGBTIWQx481WUGS7WaIMhXPF5MZNj2Hggk=;
+	s=arc-20240116; t=1726934097; c=relaxed/simple;
+	bh=QsTbLV9zPnAozS/PUJoB41HE6fHeZnhTo7UwhRhgZzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QbjmZLZN9GN1oE1hdedEWuOAh7712VtlmmbB1H1UmgToHqqCgydZyHsUOJFdOZZLYToXMNoairechIhCct09R6gtyElnnCrrayuQGyVrWpaDZ8xCWzqhMYy+VcO3YDtnyQLszZ3AcZLdvWtDAL1ReeVzCudnhPgmcl4fZ0LYT+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbbNHG//; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=aUZA6JcaqmKeV3LY/y4MJRIv85t0pmOW2WQeyOofdbV7pRxE8M+av7hBZPmB4oDWIaa8bkAuW45NLnICXduaTE+uPb/jRIPRWlyeKioJ1nrh/+08ykrp3vtazgSHleG+lZ7recEAP7sb+y6EaF3AtY+9TKwkU8LBF8iwpPicTHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eGWBDtAx; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbbNHG//"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eGWBDtAx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726932248; x=1758468248;
+  t=1726934094; x=1758470094;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9M8xY4X6DlGBTIWQx481WUGS7WaIMhXPF5MZNj2Hggk=;
-  b=HbbNHG//KN8S144ytTwoO8rigWdyMzZxVyWpsEf+L0NegsEkL20DUMyD
-   AIbAG2k1c7iE91f6pbVH3wLm0eTGSQbTdUF74j8MgskUrM8jZn2p/ieP1
-   mS+9aycWfYZ12SOE9VLj7+wQlQDHYqfg0pUyIMnYuotdwPBuwqCyk1q2f
-   TkYXDRoPl+TChV9G+XSz3x9W5/mgdcfUxe/25fICjyCJFxAjnUjqHA2ll
-   1ygUFVPZ2GogXiHuPtKhvuY+9abtjWHz8AK75bH9iKFVN89MSBJ8dijRF
-   Pm9wg+ulVZuKC88bWbiaZ/DrV6tBWP+LGi7FrS2rC1J0qmv2jcPEZ4JUi
-   Q==;
-X-CSE-ConnectionGUID: DxbsIbI/RROmuq8VLSJ8nA==
-X-CSE-MsgGUID: UAyCXKMHRCuA314EjAw7iQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="37296184"
+  bh=QsTbLV9zPnAozS/PUJoB41HE6fHeZnhTo7UwhRhgZzY=;
+  b=eGWBDtAxqFK0aAioKj0nNmtZRWLfDbQiPZ5Cev3zg0ojbz2+f8KjqRVC
+   UnYZ4Ab2hmtcN9BthG+svZ/DRn88Yg0B+4OrEZZ2BpXWN7DlW5dR9Tf8L
+   oT+WqGnDH/llwQKgknHLsO7DIiTi26il7D8NBAUjBAYh2E2qXCPSf3zvx
+   WL6+6GLugqvGQJXoC09IR4Vahp9zkNsggNj/rLfslLxON7xB2OAnS9UP+
+   kxNeuDN8mSvDvrpZcn7CcXolhf+ixp5HvqUaQU2BYonZQAKi/CBfK+xz+
+   dg3B+7CdWeMm58D1cVngWFYO/JWNsA1CGR/ff4Mm9suinLoPoTPu5K7cS
+   A==;
+X-CSE-ConnectionGUID: 4nqwkVjLQhiIPKkGq6aXZA==
+X-CSE-MsgGUID: lYjA8rAwQhOVh5Q4BuyCzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36590245"
 X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
-   d="scan'208";a="37296184"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 08:23:55 -0700
-X-CSE-ConnectionGUID: fBKpoB8VQCWyaZl3q1z4bQ==
-X-CSE-MsgGUID: swrj/mANTD2HpzpX5M0kDw==
+   d="scan'208";a="36590245"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 08:54:54 -0700
+X-CSE-ConnectionGUID: L4yThpwRRhKVxLKCpTTrug==
+X-CSE-MsgGUID: hKPuIAaIQ362XALwplR2xQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
-   d="scan'208";a="70650593"
+   d="scan'208";a="93949340"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Sep 2024 08:23:53 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 21 Sep 2024 08:54:53 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ss1xe-000FX1-0P;
-	Sat, 21 Sep 2024 15:23:50 +0000
-Date: Sat, 21 Sep 2024 23:23:34 +0800
+	id 1ss2Rf-000FYT-08;
+	Sat, 21 Sep 2024 15:54:51 +0000
+Date: Sat, 21 Sep 2024 23:54:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [linux-next:master 11265/12481]
- drivers/net/ethernet/cirrus/ep93xx_eth.c:805:40: sparse: sparse: incorrect
- type in argument 2 (different address spaces)
-Message-ID: <202409212354.9CiUem7B-lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:djwong-wtf 113/300] fs/xfs/xfs_mount.c:834:17: error:
+ implicit declaration of function 'xfs_initialize_rtgroup'; did you mean
+ 'xfs_initialize_perag'?
+Message-ID: <202409212307.nu35BDdx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,114 +63,488 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   62f92d634458a1e308bb699986b9147a6d670457
-commit: 770e709e38bf90d3144d82218550730290bc1918 [11265/12481] net: cirrus: add DT support for Cirrus EP93xx
-config: arm-randconfig-r112-20240921 (https://download.01.org/0day-ci/archive/20240921/202409212354.9CiUem7B-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce: (https://download.01.org/0day-ci/archive/20240921/202409212354.9CiUem7B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git djwong-wtf
+head:   75b997687eb231c2269caf06c35d90dd5f92e925
+commit: 56f8b82a3b69af4ac61f0682e68aa76cf098b288 [113/300] xfs: create incore realtime group structures
+config: um-randconfig-r072-20240921 (https://download.01.org/0day-ci/archive/20240921/202409212307.nu35BDdx-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409212307.nu35BDdx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409212354.9CiUem7B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409212307.nu35BDdx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/cirrus/ep93xx_eth.c:805:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned char const [usertype] *addr @@     got void [noderef] __iomem * @@
-   drivers/net/ethernet/cirrus/ep93xx_eth.c:805:40: sparse:     expected unsigned char const [usertype] *addr
-   drivers/net/ethernet/cirrus/ep93xx_eth.c:805:40: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +805 drivers/net/ethernet/cirrus/ep93xx_eth.c
+   fs/xfs/xfs_mount.c: In function 'xfs_mountfs':
+>> fs/xfs/xfs_mount.c:834:17: error: implicit declaration of function 'xfs_initialize_rtgroup'; did you mean 'xfs_initialize_perag'? [-Werror=implicit-function-declaration]
+     834 |         error = xfs_initialize_rtgroup(mp, 0, sbp->sb_rgcount);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 xfs_initialize_perag
+   cc1: some warnings being treated as errors
+--
+   fs/xfs/xfs_log_recover.c: In function 'xlog_do_recover':
+>> fs/xfs/xfs_log_recover.c:3409:17: error: implicit declaration of function 'xfs_initialize_rtgroup'; did you mean 'xfs_initialize_perag'? [-Werror=implicit-function-declaration]
+    3409 |         error = xfs_initialize_rtgroup(mp, old_rgcount, sbp->sb_rgcount);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 xfs_initialize_perag
+   cc1: some warnings being treated as errors
 
-   766	
-   767	static int ep93xx_eth_probe(struct platform_device *pdev)
-   768	{
-   769		struct net_device *dev;
-   770		struct ep93xx_priv *ep;
-   771		struct resource *mem;
-   772		void __iomem *base_addr;
-   773		struct device_node *np;
-   774		u32 phy_id;
-   775		int irq;
-   776		int err;
-   777	
-   778		if (pdev == NULL)
-   779			return -ENODEV;
-   780	
-   781		mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   782		irq = platform_get_irq(pdev, 0);
-   783		if (!mem || irq < 0)
-   784			return -ENXIO;
-   785	
-   786		base_addr = ioremap(mem->start, resource_size(mem));
-   787		if (!base_addr)
-   788			return dev_err_probe(&pdev->dev, -EIO, "Failed to ioremap ethernet registers\n");
-   789	
-   790		np = of_parse_phandle(pdev->dev.of_node, "phy-handle", 0);
-   791		if (!np)
-   792			return dev_err_probe(&pdev->dev, -ENODEV, "Please provide \"phy-handle\"\n");
-   793	
-   794		err = of_property_read_u32(np, "reg", &phy_id);
-   795		of_node_put(np);
-   796		if (err)
-   797			return dev_err_probe(&pdev->dev, -ENOENT, "Failed to locate \"phy_id\"\n");
-   798	
-   799		dev = alloc_etherdev(sizeof(struct ep93xx_priv));
-   800		if (dev == NULL) {
-   801			err = -ENOMEM;
-   802			goto err_out;
-   803		}
-   804	
- > 805		eth_hw_addr_set(dev, base_addr + 0x50);
-   806		dev->ethtool_ops = &ep93xx_ethtool_ops;
-   807		dev->netdev_ops = &ep93xx_netdev_ops;
-   808		dev->features |= NETIF_F_SG | NETIF_F_HW_CSUM;
-   809	
-   810		ep = netdev_priv(dev);
-   811		ep->dev = dev;
-   812		SET_NETDEV_DEV(dev, &pdev->dev);
-   813		netif_napi_add(dev, &ep->napi, ep93xx_poll);
-   814	
-   815		platform_set_drvdata(pdev, dev);
-   816	
-   817		ep->res = request_mem_region(mem->start, resource_size(mem),
-   818					     dev_name(&pdev->dev));
-   819		if (ep->res == NULL) {
-   820			dev_err(&pdev->dev, "Could not reserve memory region\n");
-   821			err = -ENOMEM;
-   822			goto err_out;
-   823		}
-   824	
-   825		ep->base_addr = base_addr;
-   826		ep->irq = irq;
-   827	
-   828		ep->mii.phy_id = phy_id;
-   829		ep->mii.phy_id_mask = 0x1f;
-   830		ep->mii.reg_num_mask = 0x1f;
-   831		ep->mii.dev = dev;
-   832		ep->mii.mdio_read = ep93xx_mdio_read;
-   833		ep->mii.mdio_write = ep93xx_mdio_write;
-   834		ep->mdc_divisor = 40;	/* Max HCLK 100 MHz, min MDIO clk 2.5 MHz.  */
-   835	
-   836		if (is_zero_ether_addr(dev->dev_addr))
-   837			eth_hw_addr_random(dev);
-   838	
-   839		err = register_netdev(dev);
-   840		if (err) {
-   841			dev_err(&pdev->dev, "Failed to register netdev\n");
-   842			goto err_out;
-   843		}
-   844	
-   845		printk(KERN_INFO "%s: ep93xx on-chip ethernet, IRQ %d, %pM\n",
-   846				dev->name, ep->irq, dev->dev_addr);
-   847	
-   848		return 0;
+
+vim +834 fs/xfs/xfs_mount.c
+
+   648	
+   649	/*
+   650	 * This function does the following on an initial mount of a file system:
+   651	 *	- reads the superblock from disk and init the mount struct
+   652	 *	- if we're a 32-bit kernel, do a size check on the superblock
+   653	 *		so we don't mount terabyte filesystems
+   654	 *	- init mount struct realtime fields
+   655	 *	- allocate inode hash table for fs
+   656	 *	- init directory manager
+   657	 *	- perform recovery and init the log manager
+   658	 */
+   659	int
+   660	xfs_mountfs(
+   661		struct xfs_mount	*mp)
+   662	{
+   663		struct xfs_sb		*sbp = &(mp->m_sb);
+   664		struct xfs_inode	*rip;
+   665		struct xfs_ino_geometry	*igeo = M_IGEO(mp);
+   666		uint			quotamount = 0;
+   667		uint			quotaflags = 0;
+   668		int			error = 0;
+   669	
+   670		xfs_sb_mount_common(mp, sbp);
+   671	
+   672		/*
+   673		 * Check for a mismatched features2 values.  Older kernels read & wrote
+   674		 * into the wrong sb offset for sb_features2 on some platforms due to
+   675		 * xfs_sb_t not being 64bit size aligned when sb_features2 was added,
+   676		 * which made older superblock reading/writing routines swap it as a
+   677		 * 64-bit value.
+   678		 *
+   679		 * For backwards compatibility, we make both slots equal.
+   680		 *
+   681		 * If we detect a mismatched field, we OR the set bits into the existing
+   682		 * features2 field in case it has already been modified; we don't want
+   683		 * to lose any features.  We then update the bad location with the ORed
+   684		 * value so that older kernels will see any features2 flags. The
+   685		 * superblock writeback code ensures the new sb_features2 is copied to
+   686		 * sb_bad_features2 before it is logged or written to disk.
+   687		 */
+   688		if (xfs_sb_has_mismatched_features2(sbp)) {
+   689			xfs_warn(mp, "correcting sb_features alignment problem");
+   690			sbp->sb_features2 |= sbp->sb_bad_features2;
+   691			mp->m_update_sb = true;
+   692		}
+   693	
+   694	
+   695		/* always use v2 inodes by default now */
+   696		if (!(mp->m_sb.sb_versionnum & XFS_SB_VERSION_NLINKBIT)) {
+   697			mp->m_sb.sb_versionnum |= XFS_SB_VERSION_NLINKBIT;
+   698			mp->m_features |= XFS_FEAT_NLINK;
+   699			mp->m_update_sb = true;
+   700		}
+   701	
+   702		/*
+   703		 * If we were given new sunit/swidth options, do some basic validation
+   704		 * checks and convert the incore dalign and swidth values to the
+   705		 * same units (FSB) that everything else uses.  This /must/ happen
+   706		 * before computing the inode geometry.
+   707		 */
+   708		error = xfs_validate_new_dalign(mp);
+   709		if (error)
+   710			goto out;
+   711	
+   712		xfs_alloc_compute_maxlevels(mp);
+   713		xfs_bmap_compute_maxlevels(mp, XFS_DATA_FORK);
+   714		xfs_bmap_compute_maxlevels(mp, XFS_ATTR_FORK);
+   715		xfs_mount_setup_inode_geom(mp);
+   716		xfs_rmapbt_compute_maxlevels(mp);
+   717		xfs_refcountbt_compute_maxlevels(mp);
+   718	
+   719		xfs_agbtree_compute_maxlevels(mp);
+   720	
+   721		/*
+   722		 * Check if sb_agblocks is aligned at stripe boundary.  If sb_agblocks
+   723		 * is NOT aligned turn off m_dalign since allocator alignment is within
+   724		 * an ag, therefore ag has to be aligned at stripe boundary.  Note that
+   725		 * we must compute the free space and rmap btree geometry before doing
+   726		 * this.
+   727		 */
+   728		error = xfs_update_alignment(mp);
+   729		if (error)
+   730			goto out;
+   731	
+   732		/* enable fail_at_unmount as default */
+   733		mp->m_fail_unmount = true;
+   734	
+   735		super_set_sysfs_name_id(mp->m_super);
+   736	
+   737		error = xfs_sysfs_init(&mp->m_kobj, &xfs_mp_ktype,
+   738				       NULL, mp->m_super->s_id);
+   739		if (error)
+   740			goto out;
+   741	
+   742		error = xfs_sysfs_init(&mp->m_stats.xs_kobj, &xfs_stats_ktype,
+   743				       &mp->m_kobj, "stats");
+   744		if (error)
+   745			goto out_remove_sysfs;
+   746	
+   747		xchk_stats_register(mp->m_scrub_stats, mp->m_debugfs);
+   748	
+   749		error = xfs_error_sysfs_init(mp);
+   750		if (error)
+   751			goto out_remove_scrub_stats;
+   752	
+   753		error = xfs_errortag_init(mp);
+   754		if (error)
+   755			goto out_remove_error_sysfs;
+   756	
+   757		error = xfs_uuid_mount(mp);
+   758		if (error)
+   759			goto out_remove_errortag;
+   760	
+   761		/*
+   762		 * Update the preferred write size based on the information from the
+   763		 * on-disk superblock.
+   764		 */
+   765		mp->m_allocsize_log =
+   766			max_t(uint32_t, sbp->sb_blocklog, mp->m_allocsize_log);
+   767		mp->m_allocsize_blocks = 1U << (mp->m_allocsize_log - sbp->sb_blocklog);
+   768	
+   769		/* set the low space thresholds for dynamic preallocation */
+   770		xfs_set_low_space_thresholds(mp);
+   771	
+   772		/*
+   773		 * If enabled, sparse inode chunk alignment is expected to match the
+   774		 * cluster size. Full inode chunk alignment must match the chunk size,
+   775		 * but that is checked on sb read verification...
+   776		 */
+   777		if (xfs_has_sparseinodes(mp) &&
+   778		    mp->m_sb.sb_spino_align !=
+   779				XFS_B_TO_FSBT(mp, igeo->inode_cluster_size_raw)) {
+   780			xfs_warn(mp,
+   781		"Sparse inode block alignment (%u) must match cluster size (%llu).",
+   782				 mp->m_sb.sb_spino_align,
+   783				 XFS_B_TO_FSBT(mp, igeo->inode_cluster_size_raw));
+   784			error = -EINVAL;
+   785			goto out_remove_uuid;
+   786		}
+   787	
+   788		/*
+   789		 * Check that the data (and log if separate) is an ok size.
+   790		 */
+   791		error = xfs_check_sizes(mp);
+   792		if (error)
+   793			goto out_remove_uuid;
+   794	
+   795		/*
+   796		 * Initialize realtime fields in the mount structure
+   797		 */
+   798		error = xfs_rtmount_init(mp);
+   799		if (error) {
+   800			xfs_warn(mp, "RT mount failed");
+   801			goto out_remove_uuid;
+   802		}
+   803	
+   804		/*
+   805		 *  Copies the low order bits of the timestamp and the randomly
+   806		 *  set "sequence" number out of a UUID.
+   807		 */
+   808		mp->m_fixedfsid[0] =
+   809			(get_unaligned_be16(&sbp->sb_uuid.b[8]) << 16) |
+   810			 get_unaligned_be16(&sbp->sb_uuid.b[4]);
+   811		mp->m_fixedfsid[1] = get_unaligned_be32(&sbp->sb_uuid.b[0]);
+   812	
+   813		error = xfs_da_mount(mp);
+   814		if (error) {
+   815			xfs_warn(mp, "Failed dir/attr init: %d", error);
+   816			goto out_remove_uuid;
+   817		}
+   818	
+   819		/*
+   820		 * Initialize the precomputed transaction reservations values.
+   821		 */
+   822		xfs_trans_init(mp);
+   823	
+   824		/*
+   825		 * Allocate and initialize the per-ag data.
+   826		 */
+   827		error = xfs_initialize_perag(mp, 0, sbp->sb_agcount,
+   828				mp->m_sb.sb_dblocks, &mp->m_maxagi);
+   829		if (error) {
+   830			xfs_warn(mp, "Failed per-ag init: %d", error);
+   831			goto out_free_dir;
+   832		}
+   833	
+ > 834		error = xfs_initialize_rtgroup(mp, 0, sbp->sb_rgcount);
+   835		if (error) {
+   836			xfs_warn(mp, "Failed rtgroup init: %d", error);
+   837			goto out_free_perag;
+   838		}
+   839	
+   840		if (XFS_IS_CORRUPT(mp, !sbp->sb_logblocks)) {
+   841			xfs_warn(mp, "no log defined");
+   842			error = -EFSCORRUPTED;
+   843			goto out_free_rtgroup;
+   844		}
+   845	
+   846		error = xfs_inodegc_register_shrinker(mp);
+   847		if (error)
+   848			goto out_fail_wait;
    849	
-   850	err_out:
-   851		ep93xx_eth_remove(pdev);
-   852		return err;
-   853	}
-   854	
+   850		/*
+   851		 * Log's mount-time initialization. The first part of recovery can place
+   852		 * some items on the AIL, to be handled when recovery is finished or
+   853		 * cancelled.
+   854		 */
+   855		error = xfs_log_mount(mp, mp->m_logdev_targp,
+   856				      XFS_FSB_TO_DADDR(mp, sbp->sb_logstart),
+   857				      XFS_FSB_TO_BB(mp, sbp->sb_logblocks));
+   858		if (error) {
+   859			xfs_warn(mp, "log mount failed");
+   860			goto out_inodegc_shrinker;
+   861		}
+   862	
+   863		/*
+   864		 * If logged xattrs are still enabled after log recovery finishes, then
+   865		 * they'll be available until unmount.  Otherwise, turn them off.
+   866		 */
+   867		if (xfs_sb_version_haslogxattrs(&mp->m_sb))
+   868			xfs_set_using_logged_xattrs(mp);
+   869		else
+   870			xfs_clear_using_logged_xattrs(mp);
+   871	
+   872		/* Enable background inode inactivation workers. */
+   873		xfs_inodegc_start(mp);
+   874		xfs_blockgc_start(mp);
+   875	
+   876		/*
+   877		 * Now that we've recovered any pending superblock feature bit
+   878		 * additions, we can finish setting up the attr2 behaviour for the
+   879		 * mount. The noattr2 option overrides the superblock flag, so only
+   880		 * check the superblock feature flag if the mount option is not set.
+   881		 */
+   882		if (xfs_has_noattr2(mp)) {
+   883			mp->m_features &= ~XFS_FEAT_ATTR2;
+   884		} else if (!xfs_has_attr2(mp) &&
+   885			   (mp->m_sb.sb_features2 & XFS_SB_VERSION2_ATTR2BIT)) {
+   886			mp->m_features |= XFS_FEAT_ATTR2;
+   887		}
+   888	
+   889		if (xfs_has_metadir(mp)) {
+   890			error = xfs_mount_setup_metadir(mp);
+   891			if (error)
+   892				goto out_free_metadir;
+   893		}
+   894	
+   895		/*
+   896		 * Get and sanity-check the root inode.
+   897		 * Save the pointer to it in the mount structure.
+   898		 */
+   899		error = xfs_iget(mp, NULL, sbp->sb_rootino, XFS_IGET_UNTRUSTED,
+   900				 XFS_ILOCK_EXCL, &rip);
+   901		if (error) {
+   902			xfs_warn(mp,
+   903				"Failed to read root inode 0x%llx, error %d",
+   904				sbp->sb_rootino, -error);
+   905			goto out_free_metadir;
+   906		}
+   907	
+   908		ASSERT(rip != NULL);
+   909	
+   910		if (XFS_IS_CORRUPT(mp, !S_ISDIR(VFS_I(rip)->i_mode))) {
+   911			xfs_warn(mp, "corrupted root inode %llu: not a directory",
+   912				(unsigned long long)rip->i_ino);
+   913			xfs_iunlock(rip, XFS_ILOCK_EXCL);
+   914			error = -EFSCORRUPTED;
+   915			goto out_rele_rip;
+   916		}
+   917		mp->m_rootip = rip;	/* save it */
+   918	
+   919		xfs_iunlock(rip, XFS_ILOCK_EXCL);
+   920	
+   921		/*
+   922		 * Initialize realtime inode pointers in the mount structure
+   923		 */
+   924		error = xfs_rtmount_inodes(mp);
+   925		if (error) {
+   926			/*
+   927			 * Free up the root inode.
+   928			 */
+   929			xfs_warn(mp, "failed to read RT inodes");
+   930			goto out_rele_rip;
+   931		}
+   932	
+   933		/* Make sure the summary counts are ok. */
+   934		error = xfs_check_summary_counts(mp);
+   935		if (error)
+   936			goto out_rtunmount;
+   937	
+   938		/*
+   939		 * If this is a read-only mount defer the superblock updates until
+   940		 * the next remount into writeable mode.  Otherwise we would never
+   941		 * perform the update e.g. for the root filesystem.
+   942		 */
+   943		if (mp->m_update_sb && !xfs_is_readonly(mp)) {
+   944			error = xfs_sync_sb(mp, false);
+   945			if (error) {
+   946				xfs_warn(mp, "failed to write sb changes");
+   947				goto out_rtunmount;
+   948			}
+   949		}
+   950	
+   951		/*
+   952		 * Initialise the XFS quota management subsystem for this mount
+   953		 */
+   954		if (XFS_IS_QUOTA_ON(mp)) {
+   955			error = xfs_qm_newmount(mp, &quotamount, &quotaflags);
+   956			if (error)
+   957				goto out_rtunmount;
+   958		} else {
+   959			/*
+   960			 * If a file system had quotas running earlier, but decided to
+   961			 * mount without -o uquota/pquota/gquota options, revoke the
+   962			 * quotachecked license.
+   963			 */
+   964			if (mp->m_sb.sb_qflags & XFS_ALL_QUOTA_ACCT) {
+   965				xfs_notice(mp, "resetting quota flags");
+   966				error = xfs_mount_reset_sbqflags(mp);
+   967				if (error)
+   968					goto out_rtunmount;
+   969			}
+   970		}
+   971	
+   972		/*
+   973		 * Finish recovering the file system.  This part needed to be delayed
+   974		 * until after the root and real-time bitmap inodes were consistently
+   975		 * read in.  Temporarily create per-AG space reservations for metadata
+   976		 * btree shape changes because space freeing transactions (for inode
+   977		 * inactivation) require the per-AG reservation in lieu of reserving
+   978		 * blocks.
+   979		 */
+   980		error = xfs_fs_reserve_ag_blocks(mp);
+   981		if (error && error == -ENOSPC)
+   982			xfs_warn(mp,
+   983		"ENOSPC reserving per-AG metadata pool, log recovery may fail.");
+   984		error = xfs_log_mount_finish(mp);
+   985		xfs_fs_unreserve_ag_blocks(mp);
+   986		if (error) {
+   987			xfs_warn(mp, "log mount finish failed");
+   988			goto out_rtunmount;
+   989		}
+   990	
+   991		/*
+   992		 * Now the log is fully replayed, we can transition to full read-only
+   993		 * mode for read-only mounts. This will sync all the metadata and clean
+   994		 * the log so that the recovery we just performed does not have to be
+   995		 * replayed again on the next mount.
+   996		 *
+   997		 * We use the same quiesce mechanism as the rw->ro remount, as they are
+   998		 * semantically identical operations.
+   999		 */
+  1000		if (xfs_is_readonly(mp) && !xfs_has_norecovery(mp))
+  1001			xfs_log_clean(mp);
+  1002	
+  1003		/*
+  1004		 * Complete the quota initialisation, post-log-replay component.
+  1005		 */
+  1006		if (quotamount) {
+  1007			ASSERT(mp->m_qflags == 0);
+  1008			mp->m_qflags = quotaflags;
+  1009	
+  1010			xfs_qm_mount_quotas(mp);
+  1011		}
+  1012	
+  1013		/*
+  1014		 * Now we are mounted, reserve a small amount of unused space for
+  1015		 * privileged transactions. This is needed so that transaction
+  1016		 * space required for critical operations can dip into this pool
+  1017		 * when at ENOSPC. This is needed for operations like create with
+  1018		 * attr, unwritten extent conversion at ENOSPC, etc. Data allocations
+  1019		 * are not allowed to use this reserved space.
+  1020		 *
+  1021		 * This may drive us straight to ENOSPC on mount, but that implies
+  1022		 * we were already there on the last unmount. Warn if this occurs.
+  1023		 */
+  1024		if (!xfs_is_readonly(mp)) {
+  1025			error = xfs_reserve_blocks(mp, xfs_default_resblks(mp));
+  1026			if (error)
+  1027				xfs_warn(mp,
+  1028		"Unable to allocate reserve blocks. Continuing without reserve pool.");
+  1029	
+  1030			/* Reserve AG blocks for future btree expansion. */
+  1031			error = xfs_fs_reserve_ag_blocks(mp);
+  1032			if (error && error != -ENOSPC)
+  1033				goto out_agresv;
+  1034		}
+  1035	
+  1036		return 0;
+  1037	
+  1038	 out_agresv:
+  1039		xfs_fs_unreserve_ag_blocks(mp);
+  1040		xfs_qm_unmount_quotas(mp);
+  1041	 out_rtunmount:
+  1042		xfs_rtunmount_inodes(mp);
+  1043	 out_rele_rip:
+  1044		xfs_irele(rip);
+  1045		/* Clean out dquots that might be in memory after quotacheck. */
+  1046		xfs_qm_unmount(mp);
+  1047	 out_free_metadir:
+  1048		if (mp->m_metadirip)
+  1049			xfs_irele(mp->m_metadirip);
+  1050	
+  1051		/*
+  1052		 * Inactivate all inodes that might still be in memory after a log
+  1053		 * intent recovery failure so that reclaim can free them.  Metadata
+  1054		 * inodes and the root directory shouldn't need inactivation, but the
+  1055		 * mount failed for some reason, so pull down all the state and flee.
+  1056		 */
+  1057		xfs_inodegc_flush(mp);
+  1058	
+  1059		/*
+  1060		 * Flush all inode reclamation work and flush the log.
+  1061		 * We have to do this /after/ rtunmount and qm_unmount because those
+  1062		 * two will have scheduled delayed reclaim for the rt/quota inodes.
+  1063		 *
+  1064		 * This is slightly different from the unmountfs call sequence
+  1065		 * because we could be tearing down a partially set up mount.  In
+  1066		 * particular, if log_mount_finish fails we bail out without calling
+  1067		 * qm_unmount_quotas and therefore rely on qm_unmount to release the
+  1068		 * quota inodes.
+  1069		 */
+  1070		xfs_unmount_flush_inodes(mp);
+  1071		xfs_log_mount_cancel(mp);
+  1072	 out_inodegc_shrinker:
+  1073		shrinker_free(mp->m_inodegc_shrinker);
+  1074	 out_fail_wait:
+  1075		if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp)
+  1076			xfs_buftarg_drain(mp->m_logdev_targp);
+  1077		xfs_buftarg_drain(mp->m_ddev_targp);
+  1078	 out_free_rtgroup:
+  1079		xfs_free_rtgroup_range(mp, 0, mp->m_sb.sb_rgcount);
+  1080	 out_free_perag:
+  1081		xfs_free_perag_range(mp, 0, mp->m_sb.sb_agcount);
+  1082	 out_free_dir:
+  1083		xfs_da_unmount(mp);
+  1084	 out_remove_uuid:
+  1085		xfs_uuid_unmount(mp);
+  1086	 out_remove_errortag:
+  1087		xfs_errortag_del(mp);
+  1088	 out_remove_error_sysfs:
+  1089		xfs_error_sysfs_del(mp);
+  1090	 out_remove_scrub_stats:
+  1091		xchk_stats_unregister(mp->m_scrub_stats);
+  1092		xfs_sysfs_del(&mp->m_stats.xs_kobj);
+  1093	 out_remove_sysfs:
+  1094		xfs_sysfs_del(&mp->m_kobj);
+  1095	 out:
+  1096		return error;
+  1097	}
+  1098	
 
 -- 
 0-DAY CI Kernel Test Service
