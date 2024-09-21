@@ -1,62 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA9A176FDB;
-	Sat, 21 Sep 2024 17:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2653BF9E6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Sep 2024 17:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726939743; cv=none; b=WPDDYvWJ3TNNOw8YHn9G7/8HIs+3Ni0dkjkh/4W70RV3UtWeR2lMFq257ctHtDkS9IX6ezToCQPRqpDFIONub14Tp5cG7twtk6geNHEAxZ7axYF+OZiJNrFkgINWRVK4h1zCPz8x1ENE+0QSEwei3ImvHXbqMPW3FwTI2hScPt0=
+	t=1726940344; cv=none; b=qltfp6X/shAFY5tqftCHYF/yqg0osRrbDU6hueRO7Br7NC70ugGHGrooxGY2tL87JPzFfbGRyYC3J5oAxVHCiy24ZFUUqppx6hKpVN2u0FAcoCCTogP5/LH/J6lcjMYGalxwXp7f0pQazWxQ8pi7wI6K7Kv3InXyWX0HllyFRJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726939743; c=relaxed/simple;
-	bh=XkZ8EqP3YUt9TcIO8/N9L/IuUrNSlk9YL/IUUQn9iOI=;
+	s=arc-20240116; t=1726940344; c=relaxed/simple;
+	bh=ilV8DV0/0cA2R2gNxR9zCw8bK2HJq8L4H4tzzud9HTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UiGKpp4WBRiVqeC0ZNkTptwTCFfzoP8WJBFXAEOTk5qXVb1MMdnsfxG5/V66wh70MlLgeyRL0u8G6IDWAFm/C5iCH3w2eGMF6b5pNB1gXDRCidlJLByCilPYRcQ5xBhvg1N1aC3rGZIzedLRnh/9rcjXM7k0jf0nKLi4RdoK6aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFyejPFo; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=bYfAbFpyaJkozToxUwggXmoNqzEKYk7aBIOB5j22OvT6R/rPqgcvZpQEh5CshvIluqn8nnJDn/P9dA9HBCUbyHSCGf2OS2+hJrXnTjg40hJHhCrZ0X92tvq/7fLHPPZ/AERvynwwrERdS3A/KmT49jd6D5mQAXu/H2JxxO5N1+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iwUV9wTw; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFyejPFo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwUV9wTw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726939741; x=1758475741;
+  t=1726940343; x=1758476343;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XkZ8EqP3YUt9TcIO8/N9L/IuUrNSlk9YL/IUUQn9iOI=;
-  b=OFyejPFoj0sUXHiL4kS0PkpuVdXfNIGVlhyMvz4XYDZ95lP6wtwupKdQ
-   CZxEY5ZhMFZk/cLGdKEUElvsq+Z7RVLU13SWVdZLKN/0EqTOcEyFijoVJ
-   Fo4asxs4PQ1rPg2qsGkHtw7BMw6ViMKCaXA5Oc/ePiPeFPnhtIG2L7Qca
-   +lWSMe1krwl+J8Sav8OsQApwRBZJEex1zf7arW1SuVvml0dhU4iOI2aL5
-   Z8tBvpGWT/LLQFrm9jBMWp0ckVbMivHYMeOdHhprYgTVptItoF8ybFcsU
-   qJfUmBlfHnXpsRys0u9OYHvZ+hwu6RdudYBcCvT8iPCe1Zkac6s8CUB7c
+  bh=ilV8DV0/0cA2R2gNxR9zCw8bK2HJq8L4H4tzzud9HTk=;
+  b=iwUV9wTwdtc8YcGeeIqFxmpBj1RFml5vYarVDotwVGHPOmIVu1dap8/f
+   Qnw1BgOlmlfVhxSIxqNexsrhvMS29cCtAH/iFHAc47OTs/L6W/pxChrnJ
+   sOg6dNqM4zm68wHkBXgBPJCfWaWrPVhmF8X69Y5nUGnOc1EEecxeacPgf
+   OSRC8T44PihfnsxzW3X2WwnmdwrTQ33bTgnIPUfzlQOQk2CGTHG3zWOl3
+   vBuse5rdh8fQHIvTb7YKuwOB57ZnazeZRqKelJVrfwuQnEY47XMjaCeH3
+   LjJZ37fwAlWuFa8MaMhC2hw440Nw6gMmtF9uNzLcYinRd6tG/CdcE4BbX
    A==;
-X-CSE-ConnectionGUID: gwOOU64STPWZ2HptZHep8w==
-X-CSE-MsgGUID: 7xqWmOZVSqG+Z7ZPugeMzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29719652"
+X-CSE-ConnectionGUID: WSJKT723SfOhLcuCiaFqug==
+X-CSE-MsgGUID: lm1pla3wR+Wn5YtPWb0mhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26053196"
 X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
-   d="scan'208";a="29719652"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 10:29:01 -0700
-X-CSE-ConnectionGUID: yQNEjcEbQOaj15Zd8ov60A==
-X-CSE-MsgGUID: mJr0SVTNRAC6LaO1gJyAFA==
+   d="scan'208";a="26053196"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 10:39:02 -0700
+X-CSE-ConnectionGUID: HcJg7Uy9QoiT9dVw1Sxmeg==
+X-CSE-MsgGUID: RpNSW0pYQDerDgobzML/PA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
-   d="scan'208";a="70914300"
+   d="scan'208";a="70670154"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Sep 2024 10:28:58 -0700
+  by orviesa009.jf.intel.com with ESMTP; 21 Sep 2024 10:38:59 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ss3ui-000Fdp-0H;
-	Sat, 21 Sep 2024 17:28:56 +0000
-Date: Sun, 22 Sep 2024 01:28:00 +0800
+	id 1ss44O-000FeN-1P;
+	Sat, 21 Sep 2024 17:38:56 +0000
+Date: Sun, 22 Sep 2024 01:38:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srujana Challa <schalla@marvell.com>, virtualization@lists.linux.dev,
-	kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mst@redhat.com, jasowang@redhat.com,
-	eperezma@redhat.com, ndabilpuram@marvell.com, jerinj@marvell.com
-Subject: Re: [PATCH v2 1/2] vhost-vdpa: introduce module parameter for
- no-IOMMU mode
-Message-ID: <202409220134.x63FmsHx-lkp@intel.com>
-References: <20240920140530.775307-2-schalla@marvell.com>
+To: Igor Prusov <ivprusov@salutedevices.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	kernel@salutedevices.com, prusovigor@gmail.com,
+	David Yang <yangxiaohua@everest-semi.com>,
+	Martin Kurbanov <mmkurbanov@salutedevices.com>
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: add ES7243E ADC driver
+Message-ID: <202409220118.t4hCju9t-lkp@intel.com>
+References: <20240920-es7243e-adc-v2-2-0be019735b81@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,42 +71,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240920140530.775307-2-schalla@marvell.com>
+In-Reply-To: <20240920-es7243e-adc-v2-2-0be019735b81@salutedevices.com>
 
-Hi Srujana,
+Hi Igor,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mst-vhost/linux-next]
-[also build test WARNING on linus/master v6.11 next-20240920]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on baeb9a7d8b60b021d907127509c44507539c15e5]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Srujana-Challa/vhost-vdpa-introduce-module-parameter-for-no-IOMMU-mode/20240920-220751
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20240920140530.775307-2-schalla%40marvell.com
-patch subject: [PATCH v2 1/2] vhost-vdpa: introduce module parameter for no-IOMMU mode
-config: x86_64-randconfig-122-20240921 (https://download.01.org/0day-ci/archive/20240922/202409220134.x63FmsHx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220134.x63FmsHx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Prusov/ASoC-dt-bindings-Add-Everest-ES7243E/20240920-235246
+base:   baeb9a7d8b60b021d907127509c44507539c15e5
+patch link:    https://lore.kernel.org/r/20240920-es7243e-adc-v2-2-0be019735b81%40salutedevices.com
+patch subject: [PATCH v2 2/2] ASoC: codecs: add ES7243E ADC driver
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240922/202409220118.t4hCju9t-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220118.t4hCju9t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409220134.x63FmsHx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409220118.t4hCju9t-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/vhost/vdpa.c:39:6: sparse: sparse: symbol 'vhost_vdpa_noiommu' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/vhost_vdpa_noiommu +39 drivers/vhost/vdpa.c
+>> sound/soc/codecs/es7243e.c:23: warning: expecting prototype for es7243e.c(). Prototype was for ES7243E_RESET() instead
 
-    38	
-  > 39	bool vhost_vdpa_noiommu;
-    40	module_param_named(enable_vhost_vdpa_unsafe_noiommu_mode,
-    41			   vhost_vdpa_noiommu, bool, 0644);
-    42	MODULE_PARM_DESC(enable_vhost_vdpa_unsafe_noiommu_mode, "Enable UNSAFE, no-IOMMU mode.  This mode provides no device isolation, no DMA translation, no host kernel protection, cannot be used for device assignment to virtual machines, requires RAWIO permissions, and will taint the kernel.  If you do not know what this is for, step away. (default: false)");
-    43	
+
+vim +23 sound/soc/codecs/es7243e.c
+
+    22	
+  > 23	#define ES7243E_RESET			0x00
+    24	#define ES7243E_CLK1			0x01
+    25	#define  ES7243E_CLK1_ANA_ON		BIT(1)
+    26	#define  ES7243E_CLK1_ADC_ON		BIT(3)
+    27	#define ES7243E_CLK2			0x02
+    28	#define  ES7243E_CLK2_BCLK_INV		BIT(0)
+    29	#define ES7243E_ADC_OSR			0x03
+    30	#define ES7243E_MCLK_PRE		0x04
+    31	#define ES7243E_CF_DSP_DIV		0x05
+    32	#define ES7243E_BCLK_DIV		0x06
+    33	#define ES7243E_CLK7			0x07
+    34	#define  ES7243E_CLK7_LRCK_DIV_HI	GENMASK(3, 0)
+    35	#define ES7243E_LRCK_DIV		0x08
+    36	#define ES7243E_S1_SEL			0x09
+    37	#define ES7243E_S3_SEL			0x0A
+    38	#define ES7243E_SDP			0x0B
+    39	#define  ES7243E_SDP_MUTE		GENMASK(7, 6)
+    40	#define  ES7243E_SDP_LRP		BIT(5)
+    41	#define  ES7243E_SDP_WL			GENMASK(4, 2)
+    42	#define  ES7243E_SDP_FMT		GENMASK(1, 0)
+    43	#define ES7243E_TDM			0x0B
+    44	#define ES7243E_ADCCTL1			0x0D
+    45	#define  ES7243E_ADCCTL1_SCALE		GENMASK(2, 0)
+    46	#define ES7243E_ADC_VOL			0x0E
+    47	#define ES7243E_ADCCTL2			0x0F
+    48	#define ES7243E_AUTOMUTE1		0x10
+    49	#define ES7243E_AUTOMUTE2		0x11
+    50	#define ES7243E_AUTOMUTE3		0x12
+    51	#define ES7243E_AUTOMUTE4		0x13
+    52	#define ES7243E_ADC_HPF1		0x14
+    53	#define ES7243E_ADC_HPF2		0x15
+    54	#define ES7243E_PDN			0x16
+    55	#define  ES7243E_PDN_ANA		BIT(7)
+    56	#define  ES7243E_PDN_BIAS		BIT(6)
+    57	#define  ES7243E_PDN_MOD1_RST		BIT(5)
+    58	#define  ES7243E_PDN_MOD2_RST		BIT(4)
+    59	#define  ES7243E_PDN_MOD1		BIT(3)
+    60	#define  ES7243E_PDN_MOD2		BIT(2)
+    61	#define  ES7243E_PDN_PGA1		BIT(1)
+    62	#define  ES7243E_PDN_PGA2		BIT(0)
+    63	#define ES7243E_VMIDSEL			0x17
+    64	#define ES7243E_ADC_BIAS_0x18		0x18
+    65	#define ES7243E_PGA_BIAS		0x19
+    66	#define ES7243E_ADC_BIAS_0x1A		0x1A
+    67	#define ES7243E_ADC_MICBIAS		0x1B
+    68	#define ES7243E_ADC_VRPBIAS		0x1C
+    69	#define ES7243E_ADC_LP			0x1D
+    70	#define ES7243E_ADC_PGA_LP		0x1E
+    71	#define ES7243E_ADC_VMID		0x1F
+    72	#define ES7243E_PGA1			0x20
+    73	#define	 ES7243E_PGA1_EN		BIT(4)
+    74	#define ES7243E_PGA2			0x21
+    75	#define	 ES7243E_PGA2_EN		BIT(4)
+    76	#define ES7243E_DLL_PWN			0xF9
+    77	#define ES7243E_I2C_CONFIG		0xFC
+    78	#define ES7243E_FLAG			0xFA
+    79	#define ES7243E_CHIP_ID1		0xFD
+    80	#define ES7243E_CHIP_ID2		0xFE
+    81	#define ES7243E_CHIP_VER		0xFF
+    82	
 
 -- 
 0-DAY CI Kernel Test Service
