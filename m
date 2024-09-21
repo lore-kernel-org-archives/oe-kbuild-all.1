@@ -1,517 +1,260 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39B28472;
-	Sat, 21 Sep 2024 03:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF63C26AFB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Sep 2024 04:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726888832; cv=none; b=WWYqzHmjzDlm9xEj5DYauT2WAuqrzHnR91lE0+f+brNl33So46yjjTwrhjvzfTMz6sq36L7mkCiutecnoHNYsirM483TDyGlQGMZz1sfPxIOiNQ1BiNP9EzHY5NonZ5nTEQ1Qy9LIcc/d/vWppZsDCRwZqcbYrwzNYQtbvNX5L4=
+	t=1726892789; cv=none; b=ehPl/Ps/eTIqQY9baDY2KCjZ6H2cedllMeGaUCr7hmK7qoUfZsfnNPC22Em306IhbWHbmkMf425nTEJjrK/q1LzewcdtdHie81EZWLd0XCIs+Vd08ED3JbasELaL+JNO9DliQdp2oEXoqpchUWSQ3gFDIjnEI6T61VOVyuyDc3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726888832; c=relaxed/simple;
-	bh=V5ey0igcDwwbs73lEsbLazaatMkRVOPhGekTzMA4Ax0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sZSEJNONX3vtUaau9zMpf+Oc1P/8zn8BnlsbMJJUYKyLQi7G0UVjQ5Mhe7HzoV5DocWB7nCyNTjonbz/o2xgXoMwHBz6bVEZ8dPNSO6HSLon97xEtyQ8HACffzZi01t41WcdEnHS2NnfhDDbQFXHHgHMVdpToD4vPskiUFwLV8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CD6pG9xz; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726892789; c=relaxed/simple;
+	bh=Fpv0Tk6kCABdiXz6WbUMjQMtB8CCKjmJTOWT1Hmn4ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lSRaGd/XPGO0s1fJjxkj5Ix4J/XZ5NmaDJsqcyALSipjRbiaoEo5NHEe2J09yb3sMGpkZ8CNv0ZKR8jnm73AGN+JjpUeMNax7YN9YtUzEBwX7x1y2eM8wF2C9q5GDzPh/GbTrgG+zTutF0PcMzacsNdKirqSbaO34Ug2xtLnB2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RP+Ox3Y8; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CD6pG9xz"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20688fbaeafso28777865ad.0;
-        Fri, 20 Sep 2024 20:20:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726888830; x=1727493630; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X/VxWmaDb4AYjOAUc2BLb7YbS9j595x2peRM7lG6eAg=;
-        b=CD6pG9xzFgfHIzvNr7YFyDdBkCKx/WuI5ScaHMlvk7wxVO6mf7DpCng0Kn/+tILQUT
-         vAWlaF82JeCDHxtYCASLiHgfR5bXFa6H+rtylbHUcpblZ8HCkTpdaRAq2yG1J5JXlDC/
-         OBuUz83CiXDTZWK+Sem0qdIM+SFRY2db3RSC9du/0F90mYSqfUmJYRvWJCYWuWybpusN
-         7Fvqfs+ai874E9uakXig+/u/Q3phx5zQ8r+B9nzSyrAavDAGV7UA8cAV0nB6aZo9C7YF
-         tJzEqjx12kkTTLkDEHe+JrTh5IK20tRVsUpJgCSstjROPxb1WYEgpIlHBjtsj7m8BFOq
-         254Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726888830; x=1727493630;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=X/VxWmaDb4AYjOAUc2BLb7YbS9j595x2peRM7lG6eAg=;
-        b=q/I9DF3Banf8XyOB5U0NMgJV0vW0uRzzkHG/qoL29kOctbt4Tov2sg0+7I4rD6h6Km
-         BGw0FAZiNRTGU11UBWBaw1lfOxW8uYwAN/Ws8ponzFXLjPtv1MtMNg+6PZhU4z/kX7N7
-         6D8DfX1fWEXN5DOTaokVwLgdSOWxCNRRa96BxGbKYE8m4ZPf/3OCSH3Av5mqI//8mryd
-         NfogLcW64bcaiiSUHRv2tuHdPa2nmcxS+yZe5BT9Qd4cuCOtAS5zBzZgRKTmIKXVNjNY
-         JCw0EknuG8eJmqTY+yAa6EsX69bXT5oIuQUMxooKwd09Q8ljlXbkvJGNZYWkMJd34csP
-         kWyA==
-X-Forwarded-Encrypted: i=1; AJvYcCU8gT1Gt5L866HZ13epmftY7H7rwF3OPrtURNGkBsxsYhgIqKluvDrIYCrgY89dR5TfybLMyEzMCNReh6+q@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhimDJVxTXaAp8d6MV7jhz+59LHuTeD/NB1BKrW/2ssH18sAUd
-	TRZpjSgOPbOVVLVRn1Y2XgZ4x7Ja5FwDbI7zC5BqVAt+Nt6j22NI
-X-Google-Smtp-Source: AGHT+IHpH8SmTgOi3EiF9qiZjXWp8C1zo+uiQjfX5IU5/SdQtmGEFzxnUqtNifzFHP5a+ddy55v8og==
-X-Received: by 2002:a17:903:244b:b0:205:809c:d490 with SMTP id d9443c01a7336-208d837f89emr98482245ad.16.1726888829489;
-        Fri, 20 Sep 2024 20:20:29 -0700 (PDT)
-Received: from [192.168.50.122] ([117.147.90.205])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2079472e148sm100976175ad.245.2024.09.20.20.20.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Sep 2024 20:20:28 -0700 (PDT)
-Message-ID: <4a846674-bd88-4c1f-9bd8-5d61ffee3f7c@gmail.com>
-Date: Sat, 21 Sep 2024 11:19:14 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RP+Ox3Y8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726892787; x=1758428787;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Fpv0Tk6kCABdiXz6WbUMjQMtB8CCKjmJTOWT1Hmn4ys=;
+  b=RP+Ox3Y8Y2uAX0p4uCmCwnpG1izrT4B/+RyG99/TKnBWD/nuPmd12q57
+   oxs9rPv7fN7hanBvxPDYJ1e+NEveqNUadCNGL6HG+uBEHy/DYNKpmLgSd
+   PXSQl/0U41yh/iZCFZATRQo65aUIzLy5FWgXuqSOo8MAsQOClm8PzgDAu
+   MihCGQQZsXLuE9jvSIjoUJ0EkocvIHgkQakLEwUXC0WO1tISdYASR9bFS
+   WIzD2XvD5afHA6fiA5JbtAh2dz7yHbVZS0EHiRl2b8tsinrjHLEP74bvW
+   HaupUuNfIQGuloF+e99JmdVPIak07fC/DGvRv6ax6Hn55Uf7t9uifmcpC
+   A==;
+X-CSE-ConnectionGUID: GwaRErcRT9q6ojsA7TUc2g==
+X-CSE-MsgGUID: 0PTdWahxRf+RXP6u0XC+dw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="36494597"
+X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
+   d="scan'208";a="36494597"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 21:26:26 -0700
+X-CSE-ConnectionGUID: OLGFEPyjQ3m0bf5gc2/nFw==
+X-CSE-MsgGUID: 0U2w01M5S8KNs8/Xz8zeQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
+   d="scan'208";a="75063097"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 20 Sep 2024 21:26:25 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1srrhP-000F71-0A;
+	Sat, 21 Sep 2024 04:26:23 +0000
+Date: Sat, 21 Sep 2024 12:25:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 384/30000]
+ drivers/firmware/arm_scmi/notify.o: warning: objtool:
+ scmi_devm_notifier_match()+0x1ae: unreachable instruction
+Message-ID: <202409211255.xHoxO7bo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next 2/2] bpf: Add BPF_CALL_FUNC* to simplify code
-To: kernel test robot <lkp@intel.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- Jiri Olsa <jolsa@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org
-References: <20240920153706.919154-1-chen.dylane@gmail.com>
- <202409210927.QzQakLAf-lkp@intel.com>
-From: Tao Chen <chen.dylane@gmail.com>
-In-Reply-To: <202409210927.QzQakLAf-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-在 2024/9/21 09:52, kernel test robot 写道:
-> Hi Tao,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on bpf-next/master]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Chen/bpf-Add-BPF_CALL_FUNC-to-simplify-code/20240920-233936
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20240920153706.919154-1-chen.dylane%40gmail.com
-> patch subject: [PATCH bpf-next 2/2] bpf: Add BPF_CALL_FUNC* to simplify code
-> config: arm-randconfig-001-20240921 (https://download.01.org/0day-ci/archive/20240921/202409210927.QzQakLAf-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409210927.QzQakLAf-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409210927.QzQakLAf-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from kernel/bpf/core.c:21:
->     In file included from include/linux/filter.h:9:
->     In file included from include/linux/bpf.h:21:
->     In file included from include/linux/kallsyms.h:13:
->     In file included from include/linux/mm.h:2228:
->     include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
->       517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
->           |                               ~~~~~~~~~~~ ^ ~~~
->>> kernel/bpf/core.c:2010:36: error: called object type 'u8 *' (aka 'unsigned char *') is not a function or function pointer
->      2010 |                 BPF_R0 = BPF_CALL_FUNC(insn->imm)(BPF_R1, BPF_R2, BPF_R3,
->           |                          ~~~~~~~~~~~~~~~~~~~~~~~~^
->     kernel/bpf/core.c:2015:41: error: called object type 'u8 *' (aka 'unsigned char *') is not a function or function pointer
->      2015 |                 BPF_R0 = BPF_CALL_FUNC_ARGS(insn->imm)(BPF_R1, BPF_R2,
->           |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
->     1 warning and 2 errors generated.
-> 
-> 
+Hi Cristian,
 
-My bad, the bot+bpf-ci seems no problem, i will check this issue, thank 
-you for your reminder.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-> vim +2010 kernel/bpf/core.c
-> 
->    1744	
->    1745	select_insn:
->    1746		goto *jumptable[insn->code];
->    1747	
->    1748		/* Explicitly mask the register-based shift amounts with 63 or 31
->    1749		 * to avoid undefined behavior. Normally this won't affect the
->    1750		 * generated code, for example, in case of native 64 bit archs such
->    1751		 * as x86-64 or arm64, the compiler is optimizing the AND away for
->    1752		 * the interpreter. In case of JITs, each of the JIT backends compiles
->    1753		 * the BPF shift operations to machine instructions which produce
->    1754		 * implementation-defined results in such a case; the resulting
->    1755		 * contents of the register may be arbitrary, but program behaviour
->    1756		 * as a whole remains defined. In other words, in case of JIT backends,
->    1757		 * the AND must /not/ be added to the emitted LSH/RSH/ARSH translation.
->    1758		 */
->    1759		/* ALU (shifts) */
->    1760	#define SHT(OPCODE, OP)					\
->    1761		ALU64_##OPCODE##_X:				\
->    1762			DST = DST OP (SRC & 63);		\
->    1763			CONT;					\
->    1764		ALU_##OPCODE##_X:				\
->    1765			DST = (u32) DST OP ((u32) SRC & 31);	\
->    1766			CONT;					\
->    1767		ALU64_##OPCODE##_K:				\
->    1768			DST = DST OP IMM;			\
->    1769			CONT;					\
->    1770		ALU_##OPCODE##_K:				\
->    1771			DST = (u32) DST OP (u32) IMM;		\
->    1772			CONT;
->    1773		/* ALU (rest) */
->    1774	#define ALU(OPCODE, OP)					\
->    1775		ALU64_##OPCODE##_X:				\
->    1776			DST = DST OP SRC;			\
->    1777			CONT;					\
->    1778		ALU_##OPCODE##_X:				\
->    1779			DST = (u32) DST OP (u32) SRC;		\
->    1780			CONT;					\
->    1781		ALU64_##OPCODE##_K:				\
->    1782			DST = DST OP IMM;			\
->    1783			CONT;					\
->    1784		ALU_##OPCODE##_K:				\
->    1785			DST = (u32) DST OP (u32) IMM;		\
->    1786			CONT;
->    1787		ALU(ADD,  +)
->    1788		ALU(SUB,  -)
->    1789		ALU(AND,  &)
->    1790		ALU(OR,   |)
->    1791		ALU(XOR,  ^)
->    1792		ALU(MUL,  *)
->    1793		SHT(LSH, <<)
->    1794		SHT(RSH, >>)
->    1795	#undef SHT
->    1796	#undef ALU
->    1797		ALU_NEG:
->    1798			DST = (u32) -DST;
->    1799			CONT;
->    1800		ALU64_NEG:
->    1801			DST = -DST;
->    1802			CONT;
->    1803		ALU_MOV_X:
->    1804			switch (OFF) {
->    1805			case 0:
->    1806				DST = (u32) SRC;
->    1807				break;
->    1808			case 8:
->    1809				DST = (u32)(s8) SRC;
->    1810				break;
->    1811			case 16:
->    1812				DST = (u32)(s16) SRC;
->    1813				break;
->    1814			}
->    1815			CONT;
->    1816		ALU_MOV_K:
->    1817			DST = (u32) IMM;
->    1818			CONT;
->    1819		ALU64_MOV_X:
->    1820			switch (OFF) {
->    1821			case 0:
->    1822				DST = SRC;
->    1823				break;
->    1824			case 8:
->    1825				DST = (s8) SRC;
->    1826				break;
->    1827			case 16:
->    1828				DST = (s16) SRC;
->    1829				break;
->    1830			case 32:
->    1831				DST = (s32) SRC;
->    1832				break;
->    1833			}
->    1834			CONT;
->    1835		ALU64_MOV_K:
->    1836			DST = IMM;
->    1837			CONT;
->    1838		LD_IMM_DW:
->    1839			DST = (u64) (u32) insn[0].imm | ((u64) (u32) insn[1].imm) << 32;
->    1840			insn++;
->    1841			CONT;
->    1842		ALU_ARSH_X:
->    1843			DST = (u64) (u32) (((s32) DST) >> (SRC & 31));
->    1844			CONT;
->    1845		ALU_ARSH_K:
->    1846			DST = (u64) (u32) (((s32) DST) >> IMM);
->    1847			CONT;
->    1848		ALU64_ARSH_X:
->    1849			(*(s64 *) &DST) >>= (SRC & 63);
->    1850			CONT;
->    1851		ALU64_ARSH_K:
->    1852			(*(s64 *) &DST) >>= IMM;
->    1853			CONT;
->    1854		ALU64_MOD_X:
->    1855			switch (OFF) {
->    1856			case 0:
->    1857				div64_u64_rem(DST, SRC, &AX);
->    1858				DST = AX;
->    1859				break;
->    1860			case 1:
->    1861				AX = div64_s64(DST, SRC);
->    1862				DST = DST - AX * SRC;
->    1863				break;
->    1864			}
->    1865			CONT;
->    1866		ALU_MOD_X:
->    1867			switch (OFF) {
->    1868			case 0:
->    1869				AX = (u32) DST;
->    1870				DST = do_div(AX, (u32) SRC);
->    1871				break;
->    1872			case 1:
->    1873				AX = abs((s32)DST);
->    1874				AX = do_div(AX, abs((s32)SRC));
->    1875				if ((s32)DST < 0)
->    1876					DST = (u32)-AX;
->    1877				else
->    1878					DST = (u32)AX;
->    1879				break;
->    1880			}
->    1881			CONT;
->    1882		ALU64_MOD_K:
->    1883			switch (OFF) {
->    1884			case 0:
->    1885				div64_u64_rem(DST, IMM, &AX);
->    1886				DST = AX;
->    1887				break;
->    1888			case 1:
->    1889				AX = div64_s64(DST, IMM);
->    1890				DST = DST - AX * IMM;
->    1891				break;
->    1892			}
->    1893			CONT;
->    1894		ALU_MOD_K:
->    1895			switch (OFF) {
->    1896			case 0:
->    1897				AX = (u32) DST;
->    1898				DST = do_div(AX, (u32) IMM);
->    1899				break;
->    1900			case 1:
->    1901				AX = abs((s32)DST);
->    1902				AX = do_div(AX, abs((s32)IMM));
->    1903				if ((s32)DST < 0)
->    1904					DST = (u32)-AX;
->    1905				else
->    1906					DST = (u32)AX;
->    1907				break;
->    1908			}
->    1909			CONT;
->    1910		ALU64_DIV_X:
->    1911			switch (OFF) {
->    1912			case 0:
->    1913				DST = div64_u64(DST, SRC);
->    1914				break;
->    1915			case 1:
->    1916				DST = div64_s64(DST, SRC);
->    1917				break;
->    1918			}
->    1919			CONT;
->    1920		ALU_DIV_X:
->    1921			switch (OFF) {
->    1922			case 0:
->    1923				AX = (u32) DST;
->    1924				do_div(AX, (u32) SRC);
->    1925				DST = (u32) AX;
->    1926				break;
->    1927			case 1:
->    1928				AX = abs((s32)DST);
->    1929				do_div(AX, abs((s32)SRC));
->    1930				if (((s32)DST < 0) == ((s32)SRC < 0))
->    1931					DST = (u32)AX;
->    1932				else
->    1933					DST = (u32)-AX;
->    1934				break;
->    1935			}
->    1936			CONT;
->    1937		ALU64_DIV_K:
->    1938			switch (OFF) {
->    1939			case 0:
->    1940				DST = div64_u64(DST, IMM);
->    1941				break;
->    1942			case 1:
->    1943				DST = div64_s64(DST, IMM);
->    1944				break;
->    1945			}
->    1946			CONT;
->    1947		ALU_DIV_K:
->    1948			switch (OFF) {
->    1949			case 0:
->    1950				AX = (u32) DST;
->    1951				do_div(AX, (u32) IMM);
->    1952				DST = (u32) AX;
->    1953				break;
->    1954			case 1:
->    1955				AX = abs((s32)DST);
->    1956				do_div(AX, abs((s32)IMM));
->    1957				if (((s32)DST < 0) == ((s32)IMM < 0))
->    1958					DST = (u32)AX;
->    1959				else
->    1960					DST = (u32)-AX;
->    1961				break;
->    1962			}
->    1963			CONT;
->    1964		ALU_END_TO_BE:
->    1965			switch (IMM) {
->    1966			case 16:
->    1967				DST = (__force u16) cpu_to_be16(DST);
->    1968				break;
->    1969			case 32:
->    1970				DST = (__force u32) cpu_to_be32(DST);
->    1971				break;
->    1972			case 64:
->    1973				DST = (__force u64) cpu_to_be64(DST);
->    1974				break;
->    1975			}
->    1976			CONT;
->    1977		ALU_END_TO_LE:
->    1978			switch (IMM) {
->    1979			case 16:
->    1980				DST = (__force u16) cpu_to_le16(DST);
->    1981				break;
->    1982			case 32:
->    1983				DST = (__force u32) cpu_to_le32(DST);
->    1984				break;
->    1985			case 64:
->    1986				DST = (__force u64) cpu_to_le64(DST);
->    1987				break;
->    1988			}
->    1989			CONT;
->    1990		ALU64_END_TO_LE:
->    1991			switch (IMM) {
->    1992			case 16:
->    1993				DST = (__force u16) __swab16(DST);
->    1994				break;
->    1995			case 32:
->    1996				DST = (__force u32) __swab32(DST);
->    1997				break;
->    1998			case 64:
->    1999				DST = (__force u64) __swab64(DST);
->    2000				break;
->    2001			}
->    2002			CONT;
->    2003	
->    2004		/* CALL */
->    2005		JMP_CALL:
->    2006			/* Function call scratches BPF_R1-BPF_R5 registers,
->    2007			 * preserves BPF_R6-BPF_R9, and stores return value
->    2008			 * into BPF_R0.
->    2009			 */
->> 2010			BPF_R0 = BPF_CALL_FUNC(insn->imm)(BPF_R1, BPF_R2, BPF_R3,
->    2011							       BPF_R4, BPF_R5);
->    2012			CONT;
->    2013	
->    2014		JMP_CALL_ARGS:
->    2015			BPF_R0 = BPF_CALL_FUNC_ARGS(insn->imm)(BPF_R1, BPF_R2,
->    2016								    BPF_R3, BPF_R4,
->    2017								    BPF_R5,
->    2018								    insn + insn->off + 1);
->    2019			CONT;
->    2020	
->    2021		JMP_TAIL_CALL: {
->    2022			struct bpf_map *map = (struct bpf_map *) (unsigned long) BPF_R2;
->    2023			struct bpf_array *array = container_of(map, struct bpf_array, map);
->    2024			struct bpf_prog *prog;
->    2025			u32 index = BPF_R3;
->    2026	
->    2027			if (unlikely(index >= array->map.max_entries))
->    2028				goto out;
->    2029	
->    2030			if (unlikely(tail_call_cnt >= MAX_TAIL_CALL_CNT))
->    2031				goto out;
->    2032	
->    2033			tail_call_cnt++;
->    2034	
->    2035			prog = READ_ONCE(array->ptrs[index]);
->    2036			if (!prog)
->    2037				goto out;
->    2038	
->    2039			/* ARG1 at this point is guaranteed to point to CTX from
->    2040			 * the verifier side due to the fact that the tail call is
->    2041			 * handled like a helper, that is, bpf_tail_call_proto,
->    2042			 * where arg1_type is ARG_PTR_TO_CTX.
->    2043			 */
->    2044			insn = prog->insnsi;
->    2045			goto select_insn;
->    2046	out:
->    2047			CONT;
->    2048		}
->    2049		JMP_JA:
->    2050			insn += insn->off;
->    2051			CONT;
->    2052		JMP32_JA:
->    2053			insn += insn->imm;
->    2054			CONT;
->    2055		JMP_EXIT:
->    2056			return BPF_R0;
->    2057		/* JMP */
->    2058	#define COND_JMP(SIGN, OPCODE, CMP_OP)				\
->    2059		JMP_##OPCODE##_X:					\
->    2060			if ((SIGN##64) DST CMP_OP (SIGN##64) SRC) {	\
->    2061				insn += insn->off;			\
->    2062				CONT_JMP;				\
->    2063			}						\
->    2064			CONT;						\
->    2065		JMP32_##OPCODE##_X:					\
->    2066			if ((SIGN##32) DST CMP_OP (SIGN##32) SRC) {	\
->    2067				insn += insn->off;			\
->    2068				CONT_JMP;				\
->    2069			}						\
->    2070			CONT;						\
->    2071		JMP_##OPCODE##_K:					\
->    2072			if ((SIGN##64) DST CMP_OP (SIGN##64) IMM) {	\
->    2073				insn += insn->off;			\
->    2074				CONT_JMP;				\
->    2075			}						\
->    2076			CONT;						\
->    2077		JMP32_##OPCODE##_K:					\
->    2078			if ((SIGN##32) DST CMP_OP (SIGN##32) IMM) {	\
->    2079				insn += insn->off;			\
->    2080				CONT_JMP;				\
->    2081			}						\
->    2082			CONT;
->    2083		COND_JMP(u, JEQ, ==)
->    2084		COND_JMP(u, JNE, !=)
->    2085		COND_JMP(u, JGT, >)
->    2086		COND_JMP(u, JLT, <)
->    2087		COND_JMP(u, JGE, >=)
->    2088		COND_JMP(u, JLE, <=)
->    2089		COND_JMP(u, JSET, &)
->    2090		COND_JMP(s, JSGT, >)
->    2091		COND_JMP(s, JSLT, <)
->    2092		COND_JMP(s, JSGE, >=)
->    2093		COND_JMP(s, JSLE, <=)
->    2094	#undef COND_JMP
->    2095		/* ST, STX and LDX*/
->    2096		ST_NOSPEC:
->    2097			/* Speculation barrier for mitigating Speculative Store Bypass.
->    2098			 * In case of arm64, we rely on the firmware mitigation as
->    2099			 * controlled via the ssbd kernel parameter. Whenever the
->    2100			 * mitigation is enabled, it works for all of the kernel code
->    2101			 * with no need to provide any additional instructions here.
->    2102			 * In case of x86, we use 'lfence' insn for mitigation. We
->    2103			 * reuse preexisting logic from Spectre v1 mitigation that
->    2104			 * happens to produce the required code on x86 for v4 as well.
->    2105			 */
->    2106			barrier_nospec();
->    2107			CONT;
->    2108	#define LDST(SIZEOP, SIZE)						\
->    2109		STX_MEM_##SIZEOP:						\
->    2110			*(SIZE *)(unsigned long) (DST + insn->off) = SRC;	\
->    2111			CONT;							\
->    2112		ST_MEM_##SIZEOP:						\
->    2113			*(SIZE *)(unsigned long) (DST + insn->off) = IMM;	\
->    2114			CONT;							\
->    2115		LDX_MEM_##SIZEOP:						\
->    2116			DST = *(SIZE *)(unsigned long) (SRC + insn->off);	\
->    2117			CONT;							\
->    2118		LDX_PROBE_MEM_##SIZEOP:						\
->    2119			bpf_probe_read_kernel_common(&DST, sizeof(SIZE),	\
->    2120				      (const void *)(long) (SRC + insn->off));	\
->    2121			DST = *((SIZE *)&DST);					\
->    2122			CONT;
->    2123	
->    2124		LDST(B,   u8)
->    2125		LDST(H,  u16)
->    2126		LDST(W,  u32)
->    2127		LDST(DW, u64)
->    2128	#undef LDST
->    2129	
-> 
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   7b9f6a0ecd235bca2b4329476f817a6182ea8d8a
+commit: 0c203b198e652674b4b8f7cd61e7d1261e941ac0 [384/30000] FROMLIST: firmware: arm_scmi: introduce new devres notification ops
+config: x86_64-buildonly-randconfig-002-20240912 (https://download.01.org/0day-ci/archive/20240921/202409211255.xHoxO7bo-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409211255.xHoxO7bo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409211255.xHoxO7bo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/firmware/arm_scmi/notify.o: warning: objtool: scmi_devm_notifier_match()+0x1ae: unreachable instruction
+
+
+objdump-func vmlinux.o scmi_devm_notifier_match:
+0000 00000000029b31f1 <scmi_devm_notifier_match>:
+0000  29b31f1:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	29b31f2: R_X86_64_NONE	__fentry__-0x4
+0005  29b31f6:	55                   	push   %rbp
+0006  29b31f7:	48 89 e5             	mov    %rsp,%rbp
+0009  29b31fa:	41 57                	push   %r15
+000b  29b31fc:	41 56                	push   %r14
+000d  29b31fe:	41 55                	push   %r13
+000f  29b3200:	41 54                	push   %r12
+0011  29b3202:	53                   	push   %rbx
+0012  29b3203:	48 89 d3             	mov    %rdx,%rbx
+0015  29b3206:	49 89 f6             	mov    %rsi,%r14
+0018  29b3209:	e8 00 00 00 00       	call   29b320e <scmi_devm_notifier_match+0x1d>	29b320a: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+001d  29b320e:	4d 85 f6             	test   %r14,%r14
+0020  29b3211:	0f 84 81 01 00 00    	je     29b3398 <scmi_devm_notifier_match+0x1a7>
+0026  29b3217:	48 85 db             	test   %rbx,%rbx
+0029  29b321a:	0f 84 78 01 00 00    	je     29b3398 <scmi_devm_notifier_match+0x1a7>
+002f  29b3220:	4d 8d 7e 08          	lea    0x8(%r14),%r15
+0033  29b3224:	49 bd 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%r13
+003d  29b322e:	4c 89 f8             	mov    %r15,%rax
+0040  29b3231:	48 c1 e8 03          	shr    $0x3,%rax
+0044  29b3235:	42 8a 04 28          	mov    (%rax,%r13,1),%al
+0048  29b3239:	84 c0                	test   %al,%al
+004a  29b323b:	0f 85 66 01 00 00    	jne    29b33a7 <scmi_devm_notifier_match+0x1b6>
+0050  29b3241:	4c 8d 63 08          	lea    0x8(%rbx),%r12
+0054  29b3245:	45 8a 3f             	mov    (%r15),%r15b
+0057  29b3248:	4c 89 e0             	mov    %r12,%rax
+005a  29b324b:	48 c1 e8 03          	shr    $0x3,%rax
+005e  29b324f:	42 8a 04 28          	mov    (%rax,%r13,1),%al
+0062  29b3253:	84 c0                	test   %al,%al
+0064  29b3255:	0f 85 67 01 00 00    	jne    29b33c2 <scmi_devm_notifier_match+0x1d1>
+006a  29b325b:	45 3a 3c 24          	cmp    (%r12),%r15b
+006e  29b325f:	75 7b                	jne    29b32dc <scmi_devm_notifier_match+0xeb>
+0070  29b3261:	4d 8d 7e 09          	lea    0x9(%r14),%r15
+0074  29b3265:	4c 89 f8             	mov    %r15,%rax
+0077  29b3268:	48 c1 e8 03          	shr    $0x3,%rax
+007b  29b326c:	42 8a 04 28          	mov    (%rax,%r13,1),%al
+007f  29b3270:	84 c0                	test   %al,%al
+0081  29b3272:	0f 85 65 01 00 00    	jne    29b33dd <scmi_devm_notifier_match+0x1ec>
+0087  29b3278:	4c 8d 63 09          	lea    0x9(%rbx),%r12
+008b  29b327c:	45 8a 3f             	mov    (%r15),%r15b
+008e  29b327f:	4c 89 e0             	mov    %r12,%rax
+0091  29b3282:	48 c1 e8 03          	shr    $0x3,%rax
+0095  29b3286:	42 8a 04 28          	mov    (%rax,%r13,1),%al
+0099  29b328a:	84 c0                	test   %al,%al
+009b  29b328c:	0f 85 66 01 00 00    	jne    29b33f8 <scmi_devm_notifier_match+0x207>
+00a1  29b3292:	45 3a 3c 24          	cmp    (%r12),%r15b
+00a5  29b3296:	75 4b                	jne    29b32e3 <scmi_devm_notifier_match+0xf2>
+00a7  29b3298:	4d 8d 7e 18          	lea    0x18(%r14),%r15
+00ab  29b329c:	4c 89 f8             	mov    %r15,%rax
+00ae  29b329f:	48 c1 e8 03          	shr    $0x3,%rax
+00b2  29b32a3:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+00b7  29b32a8:	74 08                	je     29b32b2 <scmi_devm_notifier_match+0xc1>
+00b9  29b32aa:	4c 89 ff             	mov    %r15,%rdi
+00bc  29b32ad:	e8 00 00 00 00       	call   29b32b2 <scmi_devm_notifier_match+0xc1>	29b32ae: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
+00c1  29b32b2:	4c 8d 63 18          	lea    0x18(%rbx),%r12
+00c5  29b32b6:	4d 8b 3f             	mov    (%r15),%r15
+00c8  29b32b9:	4c 89 e0             	mov    %r12,%rax
+00cb  29b32bc:	48 c1 e8 03          	shr    $0x3,%rax
+00cf  29b32c0:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+00d4  29b32c5:	74 08                	je     29b32cf <scmi_devm_notifier_match+0xde>
+00d6  29b32c7:	4c 89 e7             	mov    %r12,%rdi
+00d9  29b32ca:	e8 00 00 00 00       	call   29b32cf <scmi_devm_notifier_match+0xde>	29b32cb: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
+00de  29b32cf:	4d 3b 3c 24          	cmp    (%r12),%r15
+00e2  29b32d3:	74 25                	je     29b32fa <scmi_devm_notifier_match+0x109>
+00e4  29b32d5:	e8 00 00 00 00       	call   29b32da <scmi_devm_notifier_match+0xe9>	29b32d6: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+00e9  29b32da:	eb 0c                	jmp    29b32e8 <scmi_devm_notifier_match+0xf7>
+00eb  29b32dc:	e8 00 00 00 00       	call   29b32e1 <scmi_devm_notifier_match+0xf0>	29b32dd: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+00f0  29b32e1:	eb 05                	jmp    29b32e8 <scmi_devm_notifier_match+0xf7>
+00f2  29b32e3:	e8 00 00 00 00       	call   29b32e8 <scmi_devm_notifier_match+0xf7>	29b32e4: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+00f7  29b32e8:	45 31 ff             	xor    %r15d,%r15d
+00fa  29b32eb:	41 0f b6 c7          	movzbl %r15b,%eax
+00fe  29b32ef:	5b                   	pop    %rbx
+00ff  29b32f0:	41 5c                	pop    %r12
+0101  29b32f2:	41 5d                	pop    %r13
+0103  29b32f4:	41 5e                	pop    %r14
+0105  29b32f6:	41 5f                	pop    %r15
+0107  29b32f8:	5d                   	pop    %rbp
+0108  29b32f9:	c3                   	ret
+0109  29b32fa:	4d 8d 7e 10          	lea    0x10(%r14),%r15
+010d  29b32fe:	4c 89 f8             	mov    %r15,%rax
+0110  29b3301:	48 c1 e8 03          	shr    $0x3,%rax
+0114  29b3305:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+0119  29b330a:	74 08                	je     29b3314 <scmi_devm_notifier_match+0x123>
+011b  29b330c:	4c 89 ff             	mov    %r15,%rdi
+011e  29b330f:	e8 00 00 00 00       	call   29b3314 <scmi_devm_notifier_match+0x123>	29b3310: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
+0123  29b3314:	4c 8d 63 10          	lea    0x10(%rbx),%r12
+0127  29b3318:	4d 8b 3f             	mov    (%r15),%r15
+012a  29b331b:	4c 89 e0             	mov    %r12,%rax
+012d  29b331e:	48 c1 e8 03          	shr    $0x3,%rax
+0131  29b3322:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+0136  29b3327:	74 08                	je     29b3331 <scmi_devm_notifier_match+0x140>
+0138  29b3329:	4c 89 e7             	mov    %r12,%rdi
+013b  29b332c:	e8 00 00 00 00       	call   29b3331 <scmi_devm_notifier_match+0x140>	29b332d: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
+0140  29b3331:	49 8b 04 24          	mov    (%r12),%rax
+0144  29b3335:	4c 89 f9             	mov    %r15,%rcx
+0147  29b3338:	48 09 c1             	or     %rax,%rcx
+014a  29b333b:	4c 89 f9             	mov    %r15,%rcx
+014d  29b333e:	41 0f 94 c7          	sete   %r15b
+0151  29b3342:	48 85 c9             	test   %rcx,%rcx
+0154  29b3345:	74 47                	je     29b338e <scmi_devm_notifier_match+0x19d>
+0156  29b3347:	48 85 c0             	test   %rax,%rax
+0159  29b334a:	74 42                	je     29b338e <scmi_devm_notifier_match+0x19d>
+015b  29b334c:	e8 00 00 00 00       	call   29b3351 <scmi_devm_notifier_match+0x160>	29b334d: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+0160  29b3351:	49 83 c6 0c          	add    $0xc,%r14
+0164  29b3355:	4c 89 f0             	mov    %r14,%rax
+0167  29b3358:	48 c1 e8 03          	shr    $0x3,%rax
+016b  29b335c:	42 8a 04 28          	mov    (%rax,%r13,1),%al
+016f  29b3360:	84 c0                	test   %al,%al
+0171  29b3362:	0f 85 ab 00 00 00    	jne    29b3413 <scmi_devm_notifier_match+0x222>
+0177  29b3368:	48 83 c3 0c          	add    $0xc,%rbx
+017b  29b336c:	45 8b 36             	mov    (%r14),%r14d
+017e  29b336f:	48 89 d8             	mov    %rbx,%rax
+0181  29b3372:	48 c1 e8 03          	shr    $0x3,%rax
+0185  29b3376:	42 8a 04 28          	mov    (%rax,%r13,1),%al
+0189  29b337a:	84 c0                	test   %al,%al
+018b  29b337c:	0f 85 af 00 00 00    	jne    29b3431 <scmi_devm_notifier_match+0x240>
+0191  29b3382:	44 3b 33             	cmp    (%rbx),%r14d
+0194  29b3385:	41 0f 94 c7          	sete   %r15b
+0198  29b3389:	e9 5d ff ff ff       	jmp    29b32eb <scmi_devm_notifier_match+0xfa>
+019d  29b338e:	e8 00 00 00 00       	call   29b3393 <scmi_devm_notifier_match+0x1a2>	29b338f: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+01a2  29b3393:	e9 53 ff ff ff       	jmp    29b32eb <scmi_devm_notifier_match+0xfa>
+01a7  29b3398:	e8 00 00 00 00       	call   29b339d <scmi_devm_notifier_match+0x1ac>	29b3399: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+01ac  29b339d:	0f 0b                	ud2
+01ae  29b339f:	45 31 ff             	xor    %r15d,%r15d
+01b1  29b33a2:	e9 44 ff ff ff       	jmp    29b32eb <scmi_devm_notifier_match+0xfa>
+01b6  29b33a7:	44 89 f9             	mov    %r15d,%ecx
+01b9  29b33aa:	80 e1 07             	and    $0x7,%cl
+01bc  29b33ad:	38 c1                	cmp    %al,%cl
+01be  29b33af:	0f 8c 8c fe ff ff    	jl     29b3241 <scmi_devm_notifier_match+0x50>
+01c4  29b33b5:	4c 89 ff             	mov    %r15,%rdi
+01c7  29b33b8:	e8 00 00 00 00       	call   29b33bd <scmi_devm_notifier_match+0x1cc>	29b33b9: R_X86_64_PLT32	__asan_report_load1_noabort-0x4
+01cc  29b33bd:	e9 7f fe ff ff       	jmp    29b3241 <scmi_devm_notifier_match+0x50>
+01d1  29b33c2:	44 89 e1             	mov    %r12d,%ecx
+01d4  29b33c5:	80 e1 07             	and    $0x7,%cl
+01d7  29b33c8:	38 c1                	cmp    %al,%cl
+01d9  29b33ca:	0f 8c 8b fe ff ff    	jl     29b325b <scmi_devm_notifier_match+0x6a>
+01df  29b33d0:	4c 89 e7             	mov    %r12,%rdi
+01e2  29b33d3:	e8 00 00 00 00       	call   29b33d8 <scmi_devm_notifier_match+0x1e7>	29b33d4: R_X86_64_PLT32	__asan_report_load1_noabort-0x4
+01e7  29b33d8:	e9 7e fe ff ff       	jmp    29b325b <scmi_devm_notifier_match+0x6a>
+01ec  29b33dd:	44 89 f9             	mov    %r15d,%ecx
+01ef  29b33e0:	80 e1 07             	and    $0x7,%cl
+01f2  29b33e3:	38 c1                	cmp    %al,%cl
+01f4  29b33e5:	0f 8c 8d fe ff ff    	jl     29b3278 <scmi_devm_notifier_match+0x87>
+01fa  29b33eb:	4c 89 ff             	mov    %r15,%rdi
+01fd  29b33ee:	e8 00 00 00 00       	call   29b33f3 <scmi_devm_notifier_match+0x202>	29b33ef: R_X86_64_PLT32	__asan_report_load1_noabort-0x4
+0202  29b33f3:	e9 80 fe ff ff       	jmp    29b3278 <scmi_devm_notifier_match+0x87>
+0207  29b33f8:	44 89 e1             	mov    %r12d,%ecx
+020a  29b33fb:	80 e1 07             	and    $0x7,%cl
+020d  29b33fe:	38 c1                	cmp    %al,%cl
+020f  29b3400:	0f 8c 8c fe ff ff    	jl     29b3292 <scmi_devm_notifier_match+0xa1>
+0215  29b3406:	4c 89 e7             	mov    %r12,%rdi
+0218  29b3409:	e8 00 00 00 00       	call   29b340e <scmi_devm_notifier_match+0x21d>	29b340a: R_X86_64_PLT32	__asan_report_load1_noabort-0x4
+021d  29b340e:	e9 7f fe ff ff       	jmp    29b3292 <scmi_devm_notifier_match+0xa1>
+0222  29b3413:	44 89 f1             	mov    %r14d,%ecx
+0225  29b3416:	80 e1 07             	and    $0x7,%cl
+0228  29b3419:	80 c1 03             	add    $0x3,%cl
+022b  29b341c:	38 c1                	cmp    %al,%cl
+022d  29b341e:	0f 8c 44 ff ff ff    	jl     29b3368 <scmi_devm_notifier_match+0x177>
+0233  29b3424:	4c 89 f7             	mov    %r14,%rdi
+0236  29b3427:	e8 00 00 00 00       	call   29b342c <scmi_devm_notifier_match+0x23b>	29b3428: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
+023b  29b342c:	e9 37 ff ff ff       	jmp    29b3368 <scmi_devm_notifier_match+0x177>
+0240  29b3431:	89 d9                	mov    %ebx,%ecx
+0242  29b3433:	80 e1 07             	and    $0x7,%cl
+0245  29b3436:	80 c1 03             	add    $0x3,%cl
+0248  29b3439:	38 c1                	cmp    %al,%cl
+024a  29b343b:	0f 8c 41 ff ff ff    	jl     29b3382 <scmi_devm_notifier_match+0x191>
+0250  29b3441:	48 89 df             	mov    %rbx,%rdi
+0253  29b3444:	e8 00 00 00 00       	call   29b3449 <scmi_devm_notifier_match+0x258>	29b3445: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
+0258  29b3449:	e9 34 ff ff ff       	jmp    29b3382 <scmi_devm_notifier_match+0x191>
+
 -- 
-Best Regards
-Dylane Chen
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
