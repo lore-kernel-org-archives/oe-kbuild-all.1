@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C5E282F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Sep 2024 22:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A7661FCF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Sep 2024 22:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726958291; cv=none; b=J5h26eCskebxzMFoEO+ABF+JF+7XngY7swLoufuHzYuT6WB++kActQAYDZym7p1LGfrr6Jgaop5H/BnPIzIkyS7x7Tdzp4rVt/UYyWM/byVk5I3UwGou30Xdszspox6mN0XvmVcgA9KxkM+J6vWLucZX64QvzbEp0e/50RgXnTg=
+	t=1726958892; cv=none; b=p07p6nGIpaGEn+5RmTxOlTGdei0DaqFCWWGra2KNl6n0P/cLDy4kekBBPWJ2sLAALN2e+7ULDH4FOm5gyhHwcJaMAnMW0aQR5mEcBFWQ0l5o1TEJUeySO3mq9oQF2yhmilDFzWxWj0QqW1scqnsoMcfz0Zdo7ONd69cnom6rApI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726958291; c=relaxed/simple;
-	bh=Vd9W86HAyKPkzX08pxjXleoqEzUZleZgUjoPTCqC0WU=;
+	s=arc-20240116; t=1726958892; c=relaxed/simple;
+	bh=kFGakh2Go+h9Q1VkdhoXWYP8+uF8x2caQLOkdhdx8Lc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aVDEy2zB6RcrKb0aH/kYIrhG8jI4mf4pnlHEDGlhANi6p7IYaQv8io1ZJHaBUCLv9s8hH0kpyQ98MdQImjziT/6CMk2RMI48bItmC1pKH2xHcsP31xpR44bto5tS+5bav6pF82XZg77i9TB5oNWzkSNqhoOm0PDHEbPqGhjdYaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghLEZ40X; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=qU0qBbm76N/eAy524qldtSH4ZfkSUneMyLCNe0Cqkyx53T7mz6A+1G9yacZcS/a+durL9UKslLC0ttvi4amu18p5hyTo04o1BFA6p560pG3D6z/DXi16L+5lrvNVwXh6YAa/A5XYSUoJaW4Jicg/XQqu/zsmIrew20KNKKxiMis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2qQYgTr; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghLEZ40X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2qQYgTr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726958290; x=1758494290;
+  t=1726958891; x=1758494891;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vd9W86HAyKPkzX08pxjXleoqEzUZleZgUjoPTCqC0WU=;
-  b=ghLEZ40XDd1xm+pZxX4XgqB/3n2qgLxnzfAuYN4IizWWwcWjITLRtYHu
-   OTgJrRMpA8zi1AYIdRyGvlK2Gq+kuOFYLLWYyGP5R6y3sNvrhu1gfIltr
-   fH7FCDm6em9+pFrKPCXFj90VIqG/xjnEoJcLtBj+ZqZh7pJrDMvwLXPV6
-   +ONuL1rMeYfEP2QzVMyIxKYiUUVw7V1zbpFIyeDt/Ib4UBu8MCc1V32Ay
-   pH4imyTxFvb6UohLjT3c+isEgZycmqQIoPAPpqDHh4EGH9OC0e15nE1Gf
-   PhaIIS0XyHUEx5+38W9ERwA85AQqoYjS6SW/sV5bUEde1lluElRcYMuMl
+  bh=kFGakh2Go+h9Q1VkdhoXWYP8+uF8x2caQLOkdhdx8Lc=;
+  b=U2qQYgTrXBA4WMXc7oQu55I02yqYTTobMtZexOuiT2/5m6YrSJ70muzn
+   Sy2QIPbkSMAIZWhAoBfmKIY+C496WqOIjsIWzydM7nbbInG4NqG5Znbv3
+   Jj16MnKUxT2e0nYahmbvaygJyejIGCWbhHBz8JvvEMuz5Lkcu3OpEGb1H
+   IX+CeHc3341aGleUqtGJaQcd5k6obd8haRPOn9yYExYNtmkNADedphMKz
+   NdoY/e/Qc1PSmAFcfl5GQXvJvNOFushnwwjY8+KlSGYf8BpIAzH/k89wU
+   4PWwO4Bw+iB+qx8a/MYlZbU79IivLZgNkRYEq39FCR329ugkoM9AvbY/H
    g==;
-X-CSE-ConnectionGUID: VBBY92LeTXWK0FcfiSTuxg==
-X-CSE-MsgGUID: IIXkAwnoSeW2K5IMQPB4EA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36600718"
+X-CSE-ConnectionGUID: HhpLh2m5SXSqz21fb/E8MQ==
+X-CSE-MsgGUID: iPgKALw/Qhqd7CPPIz0wxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="37310284"
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="36600718"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 15:38:10 -0700
-X-CSE-ConnectionGUID: T4UUHxQpTuWOMO7wpBQIKw==
-X-CSE-MsgGUID: IzK7xcMjQLqYLfp81naI8Q==
+   d="scan'208";a="37310284"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 15:48:10 -0700
+X-CSE-ConnectionGUID: iUCtl16YSaSBM3+Uywgo1A==
+X-CSE-MsgGUID: 32KJRjXCSvq43EBwbjCbzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="70262283"
+   d="scan'208";a="75442535"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Sep 2024 15:38:08 -0700
+  by orviesa003.jf.intel.com with ESMTP; 21 Sep 2024 15:48:09 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ss8ju-000FqW-0U;
-	Sat, 21 Sep 2024 22:38:06 +0000
-Date: Sun, 22 Sep 2024 06:37:23 +0800
+	id 1ss8ta-000Fqo-12;
+	Sat, 21 Sep 2024 22:48:06 +0000
+Date: Sun, 22 Sep 2024 06:47:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:59: warning:
- '%u' directive output may be truncated writing between 1 and 10 bytes into a
- region of size 6
-Message-ID: <202409220629.TsR7ErYk-lkp@intel.com>
+To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 19314/30000]
+ drivers/ub/urma/uburma/uburma_cmd.c:156:6: warning: no previous prototype
+ for 'uburma_jfr_event_cb'
+Message-ID: <202409220650.QvCRtuNe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,156 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   88264981f2082248e892a706b2c5004650faac54
-commit: 5874e0c9f25661c2faefe4809907166defae3d7f net: atlantic: Avoid warning about potential string truncation
-date:   4 weeks ago
-config: x86_64-randconfig-012-20240922 (https://download.01.org/0day-ci/archive/20240922/202409220629.TsR7ErYk-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220629.TsR7ErYk-lkp@intel.com/reproduce)
+Hi Yizhen,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   108b9a92793f61e1abf94d341c676515421e57a2
+commit: 79b60243a9ff771b76add8e16cfe55cc4f5edef2 [19314/30000] ub: uburma add cmd create jfr implementation.
+config: arm64-randconfig-004-20240912 (https://download.01.org/0day-ci/archive/20240922/202409220650.QvCRtuNe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220650.QvCRtuNe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409220629.TsR7ErYk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409220650.QvCRtuNe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c: In function 'aq_ethtool_get_strings':
->> drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:59: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
-     278 |                                 snprintf(tc_string, 8, "TC%u ", tc);
-         |                                                           ^~
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:56: note: directive argument in the range [0, 4294967294]
-     278 |                                 snprintf(tc_string, 8, "TC%u ", tc);
-         |                                                        ^~~~~~~
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:33: note: 'snprintf' output between 5 and 14 bytes into a destination of size 8
-     278 |                                 snprintf(tc_string, 8, "TC%u ", tc);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/uburma/uburma_cmd.c:144:6: warning: no previous prototype for 'uburma_jfs_event_cb' [-Wmissing-prototypes]
+     144 | void uburma_jfs_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/uburma/uburma_cmd.c:156:6: warning: no previous prototype for 'uburma_jfr_event_cb' [-Wmissing-prototypes]
+     156 | void uburma_jfr_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
 
 
-vim +278 drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c
+vim +/uburma_jfr_event_cb +156 drivers/ub/urma/uburma/uburma_cmd.c
 
-   261	
-   262		cfg = aq_nic_get_cfg(nic);
-   263	
-   264		switch (stringset) {
-   265		case ETH_SS_STATS: {
-   266			const int rx_stat_cnt = ARRAY_SIZE(aq_ethtool_queue_rx_stat_names);
-   267			const int tx_stat_cnt = ARRAY_SIZE(aq_ethtool_queue_tx_stat_names);
-   268			char tc_string[8];
-   269			unsigned int tc;
-   270	
-   271			memset(tc_string, 0, sizeof(tc_string));
-   272			memcpy(p, aq_ethtool_stat_names,
-   273			       sizeof(aq_ethtool_stat_names));
-   274			p = p + sizeof(aq_ethtool_stat_names);
-   275	
-   276			for (tc = 0; tc < cfg->tcs; tc++) {
-   277				if (cfg->is_qos)
- > 278					snprintf(tc_string, 8, "TC%u ", tc);
-   279	
-   280				for (i = 0; i < cfg->vecs; i++) {
-   281					for (si = 0; si < rx_stat_cnt; si++) {
-   282						ethtool_sprintf(&p,
-   283						     aq_ethtool_queue_rx_stat_names[si],
-   284						     tc_string,
-   285						     AQ_NIC_CFG_TCVEC2RING(cfg, tc, i));
-   286					}
-   287					for (si = 0; si < tx_stat_cnt; si++) {
-   288						ethtool_sprintf(&p,
-   289						     aq_ethtool_queue_tx_stat_names[si],
-   290						     tc_string,
-   291						     AQ_NIC_CFG_TCVEC2RING(cfg, tc, i));
-   292					}
-   293				}
-   294			}
-   295	#if IS_REACHABLE(CONFIG_PTP_1588_CLOCK)
-   296			if (nic->aq_ptp) {
-   297				const int rx_ring_cnt = aq_ptp_get_ring_cnt(nic, ATL_RING_RX);
-   298				const int tx_ring_cnt = aq_ptp_get_ring_cnt(nic, ATL_RING_TX);
-   299				unsigned int ptp_ring_idx =
-   300					aq_ptp_ring_idx(nic->aq_nic_cfg.tc_mode);
-   301	
-   302				snprintf(tc_string, 8, "PTP ");
-   303	
-   304				for (i = 0; i < max(rx_ring_cnt, tx_ring_cnt); i++) {
-   305					for (si = 0; si < rx_stat_cnt; si++) {
-   306						ethtool_sprintf(&p,
-   307							 aq_ethtool_queue_rx_stat_names[si],
-   308							 tc_string,
-   309							 i ? PTP_HWST_RING_IDX : ptp_ring_idx);
-   310					}
-   311					if (i >= tx_ring_cnt)
-   312						continue;
-   313					for (si = 0; si < tx_stat_cnt; si++) {
-   314						ethtool_sprintf(&p,
-   315							 aq_ethtool_queue_tx_stat_names[si],
-   316							 tc_string,
-   317							 i ? PTP_HWST_RING_IDX : ptp_ring_idx);
-   318					}
-   319				}
-   320			}
-   321	#endif
-   322	#if IS_ENABLED(CONFIG_MACSEC)
-   323			if (!nic->macsec_cfg)
-   324				break;
-   325	
-   326			memcpy(p, aq_macsec_stat_names, sizeof(aq_macsec_stat_names));
-   327			p = p + sizeof(aq_macsec_stat_names);
-   328			for (i = 0; i < AQ_MACSEC_MAX_SC; i++) {
-   329				struct aq_macsec_txsc *aq_txsc;
-   330	
-   331				if (!(test_bit(i, &nic->macsec_cfg->txsc_idx_busy)))
-   332					continue;
-   333	
-   334				for (si = 0;
-   335					si < ARRAY_SIZE(aq_macsec_txsc_stat_names);
-   336					si++) {
-   337					ethtool_sprintf(&p,
-   338						 aq_macsec_txsc_stat_names[si], i);
-   339				}
-   340				aq_txsc = &nic->macsec_cfg->aq_txsc[i];
-   341				for (sa = 0; sa < MACSEC_NUM_AN; sa++) {
-   342					if (!(test_bit(sa, &aq_txsc->tx_sa_idx_busy)))
-   343						continue;
-   344					for (si = 0;
-   345					     si < ARRAY_SIZE(aq_macsec_txsa_stat_names);
-   346					     si++) {
-   347						ethtool_sprintf(&p,
-   348							 aq_macsec_txsa_stat_names[si],
-   349							 i, sa);
-   350					}
-   351				}
-   352			}
-   353			for (i = 0; i < AQ_MACSEC_MAX_SC; i++) {
-   354				struct aq_macsec_rxsc *aq_rxsc;
-   355	
-   356				if (!(test_bit(i, &nic->macsec_cfg->rxsc_idx_busy)))
-   357					continue;
-   358	
-   359				aq_rxsc = &nic->macsec_cfg->aq_rxsc[i];
-   360				for (sa = 0; sa < MACSEC_NUM_AN; sa++) {
-   361					if (!(test_bit(sa, &aq_rxsc->rx_sa_idx_busy)))
-   362						continue;
-   363					for (si = 0;
-   364					     si < ARRAY_SIZE(aq_macsec_rxsa_stat_names);
-   365					     si++) {
-   366						ethtool_sprintf(&p,
-   367							 aq_macsec_rxsa_stat_names[si],
-   368							 i, sa);
-   369					}
-   370				}
-   371			}
-   372	#endif
-   373			break;
-   374		}
-   375		case ETH_SS_PRIV_FLAGS:
-   376			memcpy(p, aq_ethtool_priv_flag_names,
-   377			       sizeof(aq_ethtool_priv_flag_names));
-   378			break;
-   379		}
-   380	}
-   381	
+   155	
+ > 156	void uburma_jfr_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
+   157	{
+   158		struct uburma_jfr_uobj *jfr_uobj;
+   159	
+   160		if (event->element.jfr == NULL)
+   161			return;
+   162	
+   163		jfr_uobj = (struct uburma_jfr_uobj *)event->element.jfr->jfr_cfg.jfr_context;
+   164		uburma_write_async_event(ctx, event->element.jfr->urma_jfr, event->event_type,
+   165					 &jfr_uobj->async_event_list, &jfr_uobj->async_events_reported);
+   166	}
+   167	
 
 -- 
 0-DAY CI Kernel Test Service
