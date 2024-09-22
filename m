@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523F91940AA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 11:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6F113174B;
+	Sun, 22 Sep 2024 12:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727005016; cv=none; b=E42n/e50KMjy6NA2byN4ZeCvnHMd67dCPZB5dBvjzRF8lq3nUWy9YIyCf2uV09RlZ6Mj8LwmTH8BKTwl2COtxyUFajw93vQQjU6OwVzz7QDzhcz3xn15l2RK74Wm2vxQYLh5iuPkDJmx5Df9hn7s2f5JObMDZK0JSmzQj/XtWGc=
+	t=1727006877; cv=none; b=DUUkZuwotm6OWKZbyQze+6Fn6gnb4LkTDcAQC13gm0siV2G7nfVqIakInB0GYXtdMp3o+xxk0hFLyWDzpr+hoJdnfkHm5mQxNCgt7i8xUVFhgDNgxF1jxKM/6OSGyxySAF1BnaHiMsonTNH8lhIkbZAfQaDdkVwXCVdjS5pwDJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727005016; c=relaxed/simple;
-	bh=8iZZwK0PfVH2Z9hha2nnerzECeFdznDDonb2vITPbag=;
+	s=arc-20240116; t=1727006877; c=relaxed/simple;
+	bh=6Yn20Cb26XflRJmGempQTmukZeHYKOIL6db8imNJFxE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k9HU1pQq3Q4TVXXlm/wB8hBsf+ox8bYesk3o1zmGOVARIsLlHcc/jh9Qc9EnPA8JiEsgaD20TnoE4FAs0tuNhrZFi5qagMxQRmJHGowx8nAhh2j7gUlhqbBGeiWlvYZtPCmEtSELR84PdhAgTj2KCBk4dPPJwPdaEZsOxenJJ/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JaTkCgiZ; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=olAQNDfZth/DT3ANf4TNcLBuFuNJynEN5msjFhxzbY+CTa8FYL6h6bv/VtpJQ+N4WtiLkEJbnInhwyTzALYPLj13d+eSBRHcHF0ZnMfxp2AbgwS8bT+0BisAm+GlF6MegrGuDkBKkxmrmkB5nzoEw/ZYHUFr0nhnWw+VkzyfdqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Scxol5WI; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JaTkCgiZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Scxol5WI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727005014; x=1758541014;
+  t=1727006875; x=1758542875;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8iZZwK0PfVH2Z9hha2nnerzECeFdznDDonb2vITPbag=;
-  b=JaTkCgiZrDRdoi+grStxPPFv7ZcIgaHY9vz6LUrU7ZhMudHlYc04F0qh
-   0VROf7COihrZbpTFUKH2kfWatUynXtJS/SC9LNL8JbLVklOBmK3QRw0ge
-   9l6a3n5f62LX42qjzGC9ZkJaB8BW3r41nRy/jQZuiOcrZU5q7ZZzz4fu2
-   YjI3Nim22mVckGCZbvgAvIjjul1MOEoDCETQ26z3wz3K9CQeR+YY3Sxw0
-   QZJAdBbsLiwrK13e3LQhVWtIpo9MdpRJn2ynpwNQNQx7fsZsAnnAO7jba
-   BNSQm/+CFxGLqKEYFqymrYUw5fmNnLeS4YuO/zQCBhNmStsmT8dMSB3JC
-   g==;
-X-CSE-ConnectionGUID: 2i7mFNUBT5anrOe7SuFV0w==
-X-CSE-MsgGUID: yKmA04VmRKKRLPkZPbbyjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26115683"
+  bh=6Yn20Cb26XflRJmGempQTmukZeHYKOIL6db8imNJFxE=;
+  b=Scxol5WIhgwCdc44NfjoecmjUps+/sJm2MidaIFj1U8FF4WEq5MGlFw7
+   JD7tW8tqzRaLNwIidFqc1h4YCMS6Hto1JCJRXPg8ARRtzI5+M19UFU4og
+   EqONEQSeQLmYb02nxHPpSuOoHFR7ZJbCbQpsJh+ateoZUGTVeQ0DwVSbi
+   j9nhppDa5/T0DjvENLzkqcIHrLFxKpocR3m/1c5OrO1HLUzWqxPaMRqG5
+   bEwzODssxGmZAHtDZzjNVtAHGYkQQ55uaREliESfyX0WosYa7SNgul33+
+   XNRpNSE1FW6haqr7XwE+Y4b2HiDTU9RPbuQZyZCFZzZHrRmOXz6owCIi1
+   Q==;
+X-CSE-ConnectionGUID: A290L9zLS5eW8ciAD43cGA==
+X-CSE-MsgGUID: Naup2/fxQciSSpKXOLflkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36624804"
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="26115683"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 04:36:54 -0700
-X-CSE-ConnectionGUID: tlKz8dFoR++Zx61QuQddbg==
-X-CSE-MsgGUID: yRYILjnRSIyvgGR4mQBsJg==
+   d="scan'208";a="36624804"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 05:07:54 -0700
+X-CSE-ConnectionGUID: tSwRNaicS8GK2BpnVBXfqg==
+X-CSE-MsgGUID: INf2E4iQToS+dpIWvgkoPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="75339159"
+   d="scan'208";a="70671955"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2024 04:36:52 -0700
+  by orviesa010.jf.intel.com with ESMTP; 22 Sep 2024 05:07:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssKtW-000GI2-0Y;
-	Sun, 22 Sep 2024 11:36:50 +0000
-Date: Sun, 22 Sep 2024 19:36:15 +0800
+	id 1ssLNW-000GJ6-2Z;
+	Sun, 22 Sep 2024 12:07:50 +0000
+Date: Sun, 22 Sep 2024 20:07:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Potapenko <glider@google.com>
-Subject: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space
- '__user' of expression
-Message-ID: <202409221923.Z2I9fBpk-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:for-kernelci 5/13] arch/x86/kernel/cpu/common.c:763:22: error:
+ call to undeclared function 'per_cpu_offset'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202409222044.9qXlncXt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,82 +63,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ilya,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   88264981f2082248e892a706b2c5004650faac54
-commit: 3a8f6f3b469b4075919a3613e182f9a70df92d46 kmsan: enable on s390
-date:   3 months ago
-config: s390-randconfig-r121-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221923.Z2I9fBpk-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce: (https://download.01.org/0day-ci/archive/20240922/202409221923.Z2I9fBpk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-kernelci
+head:   14ae2a343392bbe36953a6a4088b44a50c4f9611
+commit: 4f9082c38c9d2268ddccecf03551c99ca49933bc [5/13] x86/percpu: Get rid of absolute per-CPU variable placement
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240922/202409222044.9qXlncXt-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409222044.9qXlncXt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409221923.Z2I9fBpk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409222044.9qXlncXt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space '__user' of expression
-   mm/kmsan/hooks.c:271:75: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const *user_addr @@     got void [noderef] __user *to @@
-   mm/kmsan/hooks.c:271:75: sparse:     expected void const *user_addr
-   mm/kmsan/hooks.c:271:75: sparse:     got void [noderef] __user *to
-   mm/kmsan/hooks.c:280:50: sparse: sparse: cast removes address space '__user' of expression
-   mm/kmsan/hooks.c:306:59: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:319:79: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:325:79: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:421:78: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +/__user +269 mm/kmsan/hooks.c
+>> arch/x86/kernel/cpu/common.c:763:22: error: call to undeclared function 'per_cpu_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     763 |         wrmsrl(MSR_GS_BASE, per_cpu_offset(cpu));
+         |                             ^
+   1 error generated.
 
-b073d7f8aee4eb Alexander Potapenko 2022-09-15  247  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  248  void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
-75cf0290271bf6 Alexander Potapenko 2022-09-15  249  			size_t left)
-75cf0290271bf6 Alexander Potapenko 2022-09-15  250  {
-75cf0290271bf6 Alexander Potapenko 2022-09-15  251  	unsigned long ua_flags;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  252  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  253  	if (!kmsan_enabled || kmsan_in_runtime())
-75cf0290271bf6 Alexander Potapenko 2022-09-15  254  		return;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  255  	/*
-75cf0290271bf6 Alexander Potapenko 2022-09-15  256  	 * At this point we've copied the memory already. It's hard to check it
-75cf0290271bf6 Alexander Potapenko 2022-09-15  257  	 * before copying, as the size of actually copied buffer is unknown.
-75cf0290271bf6 Alexander Potapenko 2022-09-15  258  	 */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  259  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  260  	/* copy_to_user() may copy zero bytes. No need to check. */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  261  	if (!to_copy)
-75cf0290271bf6 Alexander Potapenko 2022-09-15  262  		return;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  263  	/* Or maybe copy_to_user() failed to copy anything. */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  264  	if (to_copy <= left)
-75cf0290271bf6 Alexander Potapenko 2022-09-15  265  		return;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  266  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
-f926e9326f3a79 Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
-f926e9326f3a79 Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
-75cf0290271bf6 Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
-75cf0290271bf6 Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  273  	} else {
-75cf0290271bf6 Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
-75cf0290271bf6 Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
-75cf0290271bf6 Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
-75cf0290271bf6 Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
-75cf0290271bf6 Alexander Potapenko 2022-09-15  278  		 * bytes.
-75cf0290271bf6 Alexander Potapenko 2022-09-15  279  		 */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
-75cf0290271bf6 Alexander Potapenko 2022-09-15  281  						to_copy - left);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  282  	}
-75cf0290271bf6 Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  284  }
-75cf0290271bf6 Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  286  
 
-:::::: The code at line 269 was first introduced by commit
-:::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
+vim +/per_cpu_offset +763 arch/x86/kernel/cpu/common.c
 
-:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   734	
+   735	/**
+   736	 * switch_gdt_and_percpu_base - Switch to direct GDT and runtime per CPU base
+   737	 * @cpu:	The CPU number for which this is invoked
+   738	 *
+   739	 * Invoked during early boot to switch from early GDT and early per CPU to
+   740	 * the direct GDT and the runtime per CPU area. On 32-bit the percpu base
+   741	 * switch is implicit by loading the direct GDT. On 64bit this requires
+   742	 * to update GSBASE.
+   743	 */
+   744	void __init switch_gdt_and_percpu_base(int cpu)
+   745	{
+   746		load_direct_gdt(cpu);
+   747	
+   748	#ifdef CONFIG_X86_64
+   749		/*
+   750		 * No need to load %gs. It is already correct.
+   751		 *
+   752		 * Writing %gs on 64bit would zero GSBASE which would make any per
+   753		 * CPU operation up to the point of the wrmsrl() fault.
+   754		 *
+   755		 * Set GSBASE to the new offset. Until the wrmsrl() happens the
+   756		 * early mapping is still valid. That means the GSBASE update will
+   757		 * lose any prior per CPU data which was not copied over in
+   758		 * setup_per_cpu_areas().
+   759		 *
+   760		 * This works even with stackprotector enabled because the
+   761		 * per CPU stack canary is 0 in both per CPU areas.
+   762		 */
+ > 763		wrmsrl(MSR_GS_BASE, per_cpu_offset(cpu));
+   764	#else
+   765		/*
+   766		 * %fs is already set to __KERNEL_PERCPU, but after switching GDT
+   767		 * it is required to load FS again so that the 'hidden' part is
+   768		 * updated from the new GDT. Up to this point the early per CPU
+   769		 * translation is active. Any content of the early per CPU data
+   770		 * which was not copied over in setup_per_cpu_areas() is lost.
+   771		 */
+   772		loadsegment(fs, __KERNEL_PERCPU);
+   773	#endif
+   774	}
+   775	
 
 -- 
 0-DAY CI Kernel Test Service
