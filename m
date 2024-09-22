@@ -1,206 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABAF155CA8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 01:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726968238; cv=fail; b=KW2OPSNwkIgDdfL+rqfVwfujaAvlYrja3QSXIrJHqw6auC58hMg7JnSgnUH2n/xBm+Epboo8nf4LfIjxgVz5xwoGwjgW7UC+qx7mO23fMnRBa+lasw0bnhu2RN/BdvxI2QCX5xsa2TwXKBF8oA5alUvuIEyIQ2B7R/ZRYlyCsXs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726968238; c=relaxed/simple;
-	bh=LZw9cqAC8qK2PXsE/5wpXXkcVB18E+SUnUFMJ8F9URo=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=cRg5z4MMFJFIvixyQLr9ujtDv3lEaap/+PMnRvRL2S9UppwBDWgCf02DJoeZPFogpBAVk4R51S7K6XzbQcN39C0Sqh8fIs8MXdcZj5wPALucJXATM/UPe1h5UdB+88uG2rKsqkCpzgDwYeRs6a/FQcn17VxP5uw6kCiCuDkR2So=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=afOQeyAf; arc=fail smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763F339ADD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 01:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726968855; cv=none; b=WrLzGEwE/LLVG9BacBeMYRE20vdluHKuzy3pOjEGfbtXhY9uyQ/RqCS0jyrU5Lt6T3UHkgZi2kYdddRMHld5ZQXjGagXR+APZKrmtEJ/yubFnOobGVV3jV8zUG4YSsA6kbZEFTim//IxewQLKjy5Vpcdd5sanOUpVNALPQ+/oXQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726968855; c=relaxed/simple;
+	bh=DOWQGQDJ9RBMQBvvixgN5toK2ri0kdQk/sko2aTkC6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hUv2ptQQssyNCa6IFsBD4tolHIb1wTTFLk7ocN+RXIOXnIbR1/I8yV4+6sU6QV8rMTMykz76q9UvcEjd/X2lDYLuUeGxS2enDTI94PACxTWYbeSnV5ge3lkB3ftMj7wVnHg+vNHxtsiZXaHuXeaHo84RYcoH4+fm/TlB2B+68yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUFjXutj; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="afOQeyAf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUFjXutj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726968235; x=1758504235;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=LZw9cqAC8qK2PXsE/5wpXXkcVB18E+SUnUFMJ8F9URo=;
-  b=afOQeyAfkDxy/bfuK4of4aoXN4cpvRbOwZ2nL3VH0+0h92fqe1BF24Hn
-   QG6AAp9ck/aMwWw00usg1oSlaBA1EDpmxrtAGKMsSbSmU92spE63ydjWd
-   iKC/8CWAVtKdbxTiDo2Ypi+fhFzd3fLYZMgy3lcmZ1lb4BcP1WHIbZhpW
-   yieuB5mByg+IexPgEaDqt/njouebTuNWGCPAYcXTOHirzqlce+ZnXhdoE
-   kjYVVCrcizuFey1dUYpc9CgLFOxKTIzXe8FWwQ1pEdD80I2cd6ss2Y84e
-   fue54U59S4/Q+6BQA88WRvOInWQsGassVxmhBA/4x5x4tYzznFVm1ju5e
-   g==;
-X-CSE-ConnectionGUID: b5hP616XSCKoy+dhSLTKYQ==
-X-CSE-MsgGUID: ms6k9b7VQr+aNF1ghsqIRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29730719"
+  t=1726968854; x=1758504854;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DOWQGQDJ9RBMQBvvixgN5toK2ri0kdQk/sko2aTkC6A=;
+  b=jUFjXutjCN6xUK64X+IeK29rQI97wC/M3Adq18IW53jsGuruGCnblb5R
+   4MZjA4whEt6raT66I76dq1vPCTkCWu/CotdnWWzpIwJ2PYT5vkS3o+MBZ
+   hlmY+LbjP90XARS+navzbepOS9Ne86Mk9N/fXlglVahFaCPGFyRDrOLTp
+   ss98rQ1Vj+rFlDTJXPpdtfSWngfsiMhqINnkGVdDZdgJo6r5cEHFDHRTl
+   zl3A6DPeyCWqmQ27FIr+bA6fDhswNerGf4WdFS6HyPEojyoN2r9r9RwTq
+   t4jPFMuHz4UWmWcT/PG0phpsf6dXFCHY+tIypqKt7rYZa6j+dLl8Y4I73
+   Q==;
+X-CSE-ConnectionGUID: rvwPCwMMTe+M+wAceXZhuQ==
+X-CSE-MsgGUID: AILPsqj9S0mQkQTgRoAFCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36605199"
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="29730719"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 18:23:55 -0700
-X-CSE-ConnectionGUID: PQyzGPrsQ+CAzWZFtEaetg==
-X-CSE-MsgGUID: 4ycem8GIRdWAAO8OGOvKRA==
+   d="scan'208";a="36605199"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 18:34:13 -0700
+X-CSE-ConnectionGUID: M7shVjeHT+WvW+pbBaAN6w==
+X-CSE-MsgGUID: ie1WPE4wRHCApYVrRtYrwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="101413914"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Sep 2024 18:23:55 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sat, 21 Sep 2024 18:23:54 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sat, 21 Sep 2024 18:23:54 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sat, 21 Sep 2024 18:23:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HGpk0p0hNqCEKXsHFJab7ny0B9rYZtJICesmWaPHPdg+6xvyEi/BSG13ADMCDbZRG9QLENWnwi3/QJGnKOM2Wu82f1eX1JVSMzEvm5U8jRGiXubR4xyv23iPLyj3iDc/N2TUJfMfKGUofPfoMGjrfSXkoXtCufTcu1VfIONBBJ7kFCzOauHuz59qV+S9eLRzK3fuawVAWPpnQSodtUjqtT0WiZcMNxF9x1fxXwQCqpfasWFgwErTDctyhhRkauhKGzahDTnNWw5NwXHm2G5uB8GQad/MaQHGghDxTnmciia004I5nD6oO3oVBIB33n4wTjCNd1+NARiBPqscbN1aPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eRNq4kY7g9ZFt5dec5I/7U4dRZUTxiWyenDsgCgn8Hc=;
- b=GOmjSJTXyqjVyA8uLxy0+Zpr+5EJKYGGY++qb/OnvBUwHa2Ge+/XfYOW20H3FW0PIDXvWfffR7m4ROuEzRsxHNt9nBJB0fuz8d7G5L6wNKFYgisuQd6qm0HSP/yt068bRXOL5oZ5bjrw9KohdbGI8qQec5ASqgzKwJaFAQcslA9lm/tUpVvC1Solja6rKQLFOxBEN0YqU22IW9CsoOrYynn8vIqtxtf78a3gsU2I8CoRsfPCW3p/OUW1puZK+HO+u3z4bUy7KlGuSdeAb+GWM6mP6+46i5A6q5OnT3TLumm3kB11npnCSqvCeTW+DI5Yyw/4OFhT7ZJ+a1M6k0Bqrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by SN7PR11MB6945.namprd11.prod.outlook.com (2603:10b6:806:2a8::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.24; Sun, 22 Sep
- 2024 01:23:51 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.7982.022; Sun, 22 Sep 2024
- 01:23:51 +0000
-Date: Sun, 22 Sep 2024 09:23:38 +0800
+   d="scan'208";a="71521257"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 21 Sep 2024 18:34:11 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ssBUH-000FwA-16;
+	Sun, 22 Sep 2024 01:34:09 +0000
+Date: Sun, 22 Sep 2024 09:33:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anjali Kulkarni <anjali.k.kulkarni@oracle.com>, <davem@davemloft.net>,
-	<Liam.Howlett@oracle.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <oleg@redhat.com>, <akpm@linux-foundation.org>,
-	<axboe@kernel.dk>, <brauner@kernel.org>, <mhocko@suse.com>,
-	<alexjlzheng@tencent.com>, <willy@infradead.org>,
-	<michael.christie@oracle.com>, <linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <shuah@kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <anjali.k.kulkarni@oracle.com>,
-	<peili.io@oracle.com>
-Subject: Re: [PATCH net-next 2/2] connector/cn_proc: Selftest for threads case
-Message-ID: <Zu9xmkQYUkRhSx9k@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240920000933.185090-3-anjali.k.kulkarni@oracle.com>
-X-ClientProxiedBy: SG2PR04CA0161.apcprd04.prod.outlook.com (2603:1096:4::23)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.0.x-imx 1073/16782]
+ drivers/video/fbdev/mxc/mxc_edid.c:190:5: warning: no previous prototype for
+ 'mxc_edid_fb_mode_is_equal'
+Message-ID: <202409221103.vHMPNwpP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SN7PR11MB6945:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46dfbf60-1a52-45ea-05fb-08dcdaa53759
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Z6J41HcguVMp5A758tGc2y2lk0vuUPCUsYTxyukhg8FHSD3QH4pHsqxzVapG?=
- =?us-ascii?Q?RjWBkeeOPllEov4NYt9p2NQsp1xnOH2MtSGOw2fevgiQ5inb9/CBm1mKqw7A?=
- =?us-ascii?Q?CA+ycfxIz2K6zLFqgLJIn2CoYRxpzjGBJTxFY1+aeRQJUXvk/cJO6K1IS5Rs?=
- =?us-ascii?Q?dh8BE1Qzralc9z08GmI9vr1lDkRt8hsF/pJVWO8lzZl44NuuBHcg5qcHIDyg?=
- =?us-ascii?Q?A6w2QuRsshz5JTz/pNgJdX/+jicEIw3HktAgaVNuKLP41LQLE9A5BjQoLDo8?=
- =?us-ascii?Q?BWhWV5xpZZhftP0DrNHCDQis8Us7+OgCg/wiDMI1R70Iwt9TpOSspcMhG7ca?=
- =?us-ascii?Q?vUK7K3z0ijrDbPrNAOWXLBE3iIBCAEzRaw0eamjs1Yurleejhe9XHXLBQ6vS?=
- =?us-ascii?Q?Yv7qTpsy6M0LTUmr01PN35i1Y1b8jEYCBS0UdP7fAQwDEZsCAH70Ys/mqfHy?=
- =?us-ascii?Q?+pKBy5fc4JahBHd6MYrZcb4IySrTObPb1FdQl7GZwjXSiwdl8GHFgNZ6VPpT?=
- =?us-ascii?Q?JjNfcXxJDFfOUxT2zDafUBzv/1OYP/pxndbzeoenWbhjJJ7L61aCoJoeMMAO?=
- =?us-ascii?Q?DyDzDVj7ZwDq7StRInfy8nKbIlt+LMwnRqbydQ22ZsaCyRMOJstKLbsae8lb?=
- =?us-ascii?Q?6Hy6cpFxmHgt1HRkpv5N+DqRk7AXAStbrDxaU2OYd0NxsUCfGr/wWerbfCRU?=
- =?us-ascii?Q?4/LLxDMCSr283wg3zbQTfdnqeySaTqooTOUguZc8o6sumjO7asLBFHDxXB/C?=
- =?us-ascii?Q?uNIrqqJ8lGMygy5vdsmHXjOOLezEqkGyriR8MHpSIETQ4VPd7FdYBfnnH/gj?=
- =?us-ascii?Q?/WHEljmduv9U4K4/q+EXVnQmceuJFfpiIEg9wjI9yvEHUqNqywJoCJ+VDBtC?=
- =?us-ascii?Q?qATwP9u+2SwSk9lz2epbWlMM/ib2TrnEyGHp2zxaCcZWM3JTszW/d45uJ+Y0?=
- =?us-ascii?Q?ygeLBrtbt8VjL86cqYDnL0Tux9E1MgZKvnLcoFwrGGeQG8i85lN0noHI/Eqg?=
- =?us-ascii?Q?YVxTBp31Sl0dxXYF4awvdCFgdGSbN3Xl4uQ1rjPevv2HoLofo/e3FxQy/+rG?=
- =?us-ascii?Q?Urd/t+R7+tIk5DMOUoYZLGqCzAGOAKrLgXKj0Gb7sG0ddZ5VzMwJTeWb1mil?=
- =?us-ascii?Q?IlgyNvI6oE9RdOa9WOz362G81tyqWXL72JmhVp7eJUgg5Lf/ttnbvZcunnMC?=
- =?us-ascii?Q?rd9OphOMFaFKazsqS2JgTlT5otRfwSAaA3Jbk1nZtTmR+0yG7tQAsWEvn/zm?=
- =?us-ascii?Q?CRcAYFqBO/VlhqZWiojP1KvmJv6KZcDZm8oRvMLiM/cqk4/qsqbwfYb/4BbK?=
- =?us-ascii?Q?hc4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oHNQLH6Jz0rizU65j74RDiz3Fbl3VhH+NUiW8tMR4dl6kELjxkF9arC/U97R?=
- =?us-ascii?Q?JQRIUxyWPeQtUQr7MQ0jkTVJwUW7IMMSgr1nOICRwzWQo9EXpickwqCEHnxk?=
- =?us-ascii?Q?lbpxRLL/rVlcJoFAD7HLgTMmqG29TtsOUgfe8RV3SzrQHnSj7V0gNyvyXkIa?=
- =?us-ascii?Q?ek56VrqlBTBUyyV254c66uvlMrYhYIak56rO5DSVXEy6J56g+lpcu48zH9X2?=
- =?us-ascii?Q?rJZWvb58cMNRNtzmchjrk5/KSfoezwRCaFohk0f6Anxx6QDWfEbUKdMXwaQS?=
- =?us-ascii?Q?K4EWpqTaLqGhYnndB4np/s3DaX8ztlohyuc0ekqam7XGyWPcwdHc9Ay+YPHA?=
- =?us-ascii?Q?chCuAodoCSYkFSkPVrDTcmEvyNTjDbSLjwD5lbMIBO6E6X/E8D1Yt0FqCtjb?=
- =?us-ascii?Q?YsJosKlRMHOAVCc2UGHpvG/XqfcYnWzXqi4XJIGwtqvf2lgzV/+i5PkBxUrM?=
- =?us-ascii?Q?8YnVztPiqgVvo89yEsub9s692uwN7SfIZCE3+t6FicUF3cYb2SCIV4eM/oXZ?=
- =?us-ascii?Q?7Xb/XDmEFmBInIJupJTL1cVdQGAr1vSXBOkZw7IOBXMcHxwM84oe2F+jB7pv?=
- =?us-ascii?Q?JGOyngBesO6frL4dwnmxhRQF0wkc4iBvgwS87SwXK+bwb56dQ9eX6nqY83PD?=
- =?us-ascii?Q?wVonJjp4m/yvXhjRxasSOS65rYO32FyQQiVFjfn64fBDb1HPOnDQKIlxTS15?=
- =?us-ascii?Q?BVQbfBlvzFl5x0n3eQ1s1VP81zqoxJniTjcYYmKLxMNtgsyt5G8oTPSoPo/Y?=
- =?us-ascii?Q?eBpP7S4sY3HoTKcH/RQ0H5RiGVi5cQTGN8yYDU/vhJlt1pILWoBTKV1XAW29?=
- =?us-ascii?Q?bYaNb8wN0n1IT5FZUDxPNA6Tc19k2NYMFnfDfMHmUmd5a2TNrcyxhqGN1tyP?=
- =?us-ascii?Q?MGIBqNQ9MRq3RDN+ApZxP5UIOfeFy4RWhGx/EM16rZKIli93h+xQg+RFijNT?=
- =?us-ascii?Q?uScE2pggF9nPMRA96hYSsjX0bDTaro3NfunO1TtVKkreL9im7LxXMLoQIZVl?=
- =?us-ascii?Q?DZhz31OR+PRqF1yu65PhA4kuMGEAXGGb8qElg3ZFMPEYw5A+Su5ErczAP7Se?=
- =?us-ascii?Q?7mPK1XC7/qagwY/9BMtZhITgzku5P7NrnF5PB1QL8D84oEem07PbqNP9tGgT?=
- =?us-ascii?Q?CPOf6ngIcvhJqhjI3wOQM8xNgTNDlxlaZQmN0Pkt6BC4fpC7slBaLF1EfCO2?=
- =?us-ascii?Q?5jBRmFuDLXxvwUGgDR9km8KMSZxkubkaRki827/IUCCP1iDAdt5wmfIvkxlk?=
- =?us-ascii?Q?BY0FlMD62DQ6IJ58c3BlR/Gt4hl2gDVERG/OyQ3v/JaXNF46yu8A3Ou5BJoZ?=
- =?us-ascii?Q?w2sr9d9JdVrBXAGroG/eN70LhYdU3XYTSd8w9km+FNDuFyTQGdNc94vHwwpW?=
- =?us-ascii?Q?lsUBjCirhk+bmNeSDvacwr+p9eCMNpHqCf4KGo9UCxblRIWecWtEuCnPowgM?=
- =?us-ascii?Q?Pb8qzI+AEGoSeYFxao3vYeet7tFaWI2CIHgxKkG6YqNV12YLLeW2Zi1przyA?=
- =?us-ascii?Q?k6o2WhiVjys5NPLWEZwyAvGc6N6yLsv+xbabJ5b7r8LBc9HmKI90gMEE2vg1?=
- =?us-ascii?Q?knRA0ICePrZPSPZ52AAOC72b7NH30In9X9HlDZIv?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46dfbf60-1a52-45ea-05fb-08dcdaa53759
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2024 01:23:51.6939
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NEmXz31vJjwlDv/ixBYiMoi6YY6ctF8OVwXRbgu432DtSNtFYv3qQxJXqclaj3SEe0G1mG/BXCYu9SO7Gw+7iQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6945
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Anjali,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anjali-Kulkarni/connector-cn_proc-Handle-threads-for-proc-connector/20240920-081249
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240920000933.185090-3-anjali.k.kulkarni%40oracle.com
-patch subject: [PATCH net-next 2/2] connector/cn_proc: Selftest for threads case
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   d023c381fa6161a7af966abaad8e7d9a997f07e7
+commit: 5186caddfc7d3885dd5dfd4c6d15caad2f900c4c [1073/16782] video: fbdev: mxc: add Northwest Logic DSI driver support
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240922/202409221103.vHMPNwpP-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409212201.l94GHFkW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409221103.vHMPNwpP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409212201.l94GHFkW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409221103.vHMPNwpP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from ../../../../include/uapi/linux/netlink.h:7,
-                    from proc_filter.c:11:
->> ../../../../include/uapi/linux/types.h:10:2: warning: #warning "Attempt to use kernel headers from user space, see https://kernelnewbies.org/KernelHeaders" [-Wcpp]
-      10 | #warning "Attempt to use kernel headers from user space, see https://kernelnewbies.org/KernelHeaders"
-         |  ^~~~~~~
+>> drivers/video/fbdev/mxc/mxc_edid.c:190:5: warning: no previous prototype for 'mxc_edid_fb_mode_is_equal' [-Wmissing-prototypes]
+     190 | int mxc_edid_fb_mode_is_equal(bool use_aspect,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/mxc/mxc_edid.c: In function 'get_detailed_timing':
+>> drivers/video/fbdev/mxc/mxc_edid.c:257:48: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     257 |                 DPRINTK("Aspect ratio: 16:9\n");
+         |                                                ^
+   drivers/video/fbdev/mxc/mxc_edid.c:259:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     259 |                 DPRINTK("Aspect ratio: 4:3\n");
+         |                                               ^
+
+
+vim +/mxc_edid_fb_mode_is_equal +190 drivers/video/fbdev/mxc/mxc_edid.c
+
+   184	
+   185	/*
+   186	 * We have a special version of fb_mode_is_equal that ignores
+   187	 * pixclock, since for many CEA modes, 2 frequencies are supported
+   188	 * e.g. 640x480 @ 60Hz or 59.94Hz
+   189	 */
+ > 190	int mxc_edid_fb_mode_is_equal(bool use_aspect,
+   191				const struct fb_videomode *mode1,
+   192				const struct fb_videomode *mode2)
+   193	{
+   194		u32 mask;
+   195	
+   196		if (use_aspect)
+   197			mask = ~0;
+   198		else
+   199			mask = ~FB_VMODE_ASPECT_MASK;
+   200	
+   201		return (mode1->xres         == mode2->xres &&
+   202			mode1->yres         == mode2->yres &&
+   203			mode1->hsync_len    == mode2->hsync_len &&
+   204			mode1->vsync_len    == mode2->vsync_len &&
+   205			mode1->left_margin  == mode2->left_margin &&
+   206			mode1->right_margin == mode2->right_margin &&
+   207			mode1->upper_margin == mode2->upper_margin &&
+   208			mode1->lower_margin == mode2->lower_margin &&
+   209			mode1->sync         == mode2->sync &&
+   210			/* refresh check, 59.94Hz and 60Hz have the same parameter
+   211			 * in struct of mxc_cea_mode */
+   212			abs(mode1->refresh - mode2->refresh) <= 1 &&
+   213			(mode1->vmode & mask) == (mode2->vmode & mask));
+   214	}
+   215	
+   216	static void get_detailed_timing(unsigned char *block,
+   217					struct fb_videomode *mode)
+   218	{
+   219		mode->xres = H_ACTIVE;
+   220		mode->yres = V_ACTIVE;
+   221		mode->pixclock = PIXEL_CLOCK;
+   222		mode->pixclock /= 1000;
+   223		mode->pixclock = KHZ2PICOS(mode->pixclock);
+   224		mode->right_margin = H_SYNC_OFFSET;
+   225		mode->left_margin = (H_ACTIVE + H_BLANKING) -
+   226			(H_ACTIVE + H_SYNC_OFFSET + H_SYNC_WIDTH);
+   227		mode->upper_margin = V_BLANKING - V_SYNC_OFFSET -
+   228			V_SYNC_WIDTH;
+   229		mode->lower_margin = V_SYNC_OFFSET;
+   230		mode->hsync_len = H_SYNC_WIDTH;
+   231		mode->vsync_len = V_SYNC_WIDTH;
+   232		if (HSYNC_POSITIVE)
+   233			mode->sync |= FB_SYNC_HOR_HIGH_ACT;
+   234		if (VSYNC_POSITIVE)
+   235			mode->sync |= FB_SYNC_VERT_HIGH_ACT;
+   236		mode->refresh = PIXEL_CLOCK/((H_ACTIVE + H_BLANKING) *
+   237					     (V_ACTIVE + V_BLANKING));
+   238		if (INTERLACED) {
+   239			mode->yres *= 2;
+   240			mode->upper_margin *= 2;
+   241			mode->lower_margin *= 2;
+   242			mode->vsync_len *= 2;
+   243			mode->vmode |= FB_VMODE_INTERLACED;
+   244		}
+   245		mode->flag = FB_MODE_IS_DETAILED;
+   246	
+   247		if ((H_SIZE / 16) == (V_SIZE / 9))
+   248			mode->vmode |= FB_VMODE_ASPECT_16_9;
+   249		else if ((H_SIZE / 4) == (V_SIZE / 3))
+   250			mode->vmode |= FB_VMODE_ASPECT_4_3;
+   251		else if ((mode->xres / 16) == (mode->yres / 9))
+   252			mode->vmode |= FB_VMODE_ASPECT_16_9;
+   253		else if ((mode->xres / 4) == (mode->yres / 3))
+   254			mode->vmode |= FB_VMODE_ASPECT_4_3;
+   255	
+   256		if (mode->vmode & FB_VMODE_ASPECT_16_9)
+ > 257			DPRINTK("Aspect ratio: 16:9\n");
+   258		if (mode->vmode & FB_VMODE_ASPECT_4_3)
+   259			DPRINTK("Aspect ratio: 4:3\n");
+   260		DPRINTK("      %d MHz ",  PIXEL_CLOCK/1000000);
+   261		DPRINTK("%d %d %d %d ", H_ACTIVE, H_ACTIVE + H_SYNC_OFFSET,
+   262		       H_ACTIVE + H_SYNC_OFFSET + H_SYNC_WIDTH, H_ACTIVE + H_BLANKING);
+   263		DPRINTK("%d %d %d %d ", V_ACTIVE, V_ACTIVE + V_SYNC_OFFSET,
+   264		       V_ACTIVE + V_SYNC_OFFSET + V_SYNC_WIDTH, V_ACTIVE + V_BLANKING);
+   265		DPRINTK("%sHSync %sVSync\n\n", (HSYNC_POSITIVE) ? "+" : "-",
+   266		       (VSYNC_POSITIVE) ? "+" : "-");
+   267	}
+   268	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
