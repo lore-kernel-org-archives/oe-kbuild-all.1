@@ -1,108 +1,146 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9097C61FCF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 11:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523F91940AA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 11:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727004283; cv=none; b=TDaXSgj2et0hpF5p9AYItU4I2fnyDyoaysIpjaQRAfkRXj8gYd3H9WpDlM2PXQwk9Fxjxan2Er6qVDpxAXdmYnzlNQNXUjpJqhl5Sg+1Olt7pFvfW35+Nebd4r92YxOUGq/78ETKqi8qlNFJJhEpQuuvpbLsc28jDAR2ZyKrOq4=
+	t=1727005016; cv=none; b=E42n/e50KMjy6NA2byN4ZeCvnHMd67dCPZB5dBvjzRF8lq3nUWy9YIyCf2uV09RlZ6Mj8LwmTH8BKTwl2COtxyUFajw93vQQjU6OwVzz7QDzhcz3xn15l2RK74Wm2vxQYLh5iuPkDJmx5Df9hn7s2f5JObMDZK0JSmzQj/XtWGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727004283; c=relaxed/simple;
-	bh=dsadym4dEXm//vaT3TC0w7GSJgE09cbWE6tEXWb5yIs=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=Bec13SLuT2K8kYnPRwZw05tw6rtCYZ2Hfci+xixIth7BebVEeTppy1gtd+MPHqrsXf1V6qPS5TWA2QbtsFCaDqx+qJygih9N5DsHKCwt0volZ5rK+CJmkiZMYLQfoY0n6YUYxtgyhAV9d7/rKwDx6Igv7MT65SeaztsrJpyD1o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=U2DjVAGe; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1727005016; c=relaxed/simple;
+	bh=8iZZwK0PfVH2Z9hha2nnerzECeFdznDDonb2vITPbag=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k9HU1pQq3Q4TVXXlm/wB8hBsf+ox8bYesk3o1zmGOVARIsLlHcc/jh9Qc9EnPA8JiEsgaD20TnoE4FAs0tuNhrZFi5qagMxQRmJHGowx8nAhh2j7gUlhqbBGeiWlvYZtPCmEtSELR84PdhAgTj2KCBk4dPPJwPdaEZsOxenJJ/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JaTkCgiZ; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="U2DjVAGe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=BQoT8FdfEkd5jPNCFSWUxcN9N438Xa7+DM7EFAuDWk0=;
-  b=U2DjVAGeYpTsuNgFcZPmo4p2P4mCNLE/nbt658AKFpO6pYH+2spaXoMv
-   CksOes1VPjRs1d3m1c3frqmBWJvwXAq0YjE0nIf5+tyx9APwsUAT9vLbc
-   biXn56HAOcOSNYQXGLp0z7Z7SwBCjsfC9lZMxqvtnog4HIzyioyz/yWwy
-   o=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.10,249,1719871200"; 
-   d="scan'208";a="184415402"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 13:24:39 +0200
-Date: Sun, 22 Sep 2024 13:24:39 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Tom Zanussi <tom.zanussi@linux.intel.com>, 
-    Herbert Xu <herbert@gondor.apana.org.au>, linux-kernel@vger.kernel.org, 
-    oe-kbuild-all@lists.linux.dev
-Subject: drivers/crypto/intel/qat/qat_common/adf_sysfs.c:25:9-35: opportunity
- for str_up_down(adf_dev_started ( accel_dev )) (fwd)
-Message-ID: <alpine.DEB.2.22.394.2409221324000.3517@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JaTkCgiZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727005014; x=1758541014;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8iZZwK0PfVH2Z9hha2nnerzECeFdznDDonb2vITPbag=;
+  b=JaTkCgiZrDRdoi+grStxPPFv7ZcIgaHY9vz6LUrU7ZhMudHlYc04F0qh
+   0VROf7COihrZbpTFUKH2kfWatUynXtJS/SC9LNL8JbLVklOBmK3QRw0ge
+   9l6a3n5f62LX42qjzGC9ZkJaB8BW3r41nRy/jQZuiOcrZU5q7ZZzz4fu2
+   YjI3Nim22mVckGCZbvgAvIjjul1MOEoDCETQ26z3wz3K9CQeR+YY3Sxw0
+   QZJAdBbsLiwrK13e3LQhVWtIpo9MdpRJn2ynpwNQNQx7fsZsAnnAO7jba
+   BNSQm/+CFxGLqKEYFqymrYUw5fmNnLeS4YuO/zQCBhNmStsmT8dMSB3JC
+   g==;
+X-CSE-ConnectionGUID: 2i7mFNUBT5anrOe7SuFV0w==
+X-CSE-MsgGUID: yKmA04VmRKKRLPkZPbbyjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26115683"
+X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
+   d="scan'208";a="26115683"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 04:36:54 -0700
+X-CSE-ConnectionGUID: tlKz8dFoR++Zx61QuQddbg==
+X-CSE-MsgGUID: yRYILjnRSIyvgGR4mQBsJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
+   d="scan'208";a="75339159"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2024 04:36:52 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ssKtW-000GI2-0Y;
+	Sun, 22 Sep 2024 11:36:50 +0000
+Date: Sun, 22 Sep 2024 19:36:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Potapenko <glider@google.com>
+Subject: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space
+ '__user' of expression
+Message-ID: <202409221923.Z2I9fBpk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi Ilya,
 
-
----------- Forwarded message ----------
-Date: Sun, 22 Sep 2024 18:14:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/crypto/intel/qat/qat_common/adf_sysfs.c:25:9-35: opportunity
-    for str_up_down(adf_dev_started ( accel_dev ))
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tom Zanussi <tom.zanussi@linux.intel.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   88264981f2082248e892a706b2c5004650faac54
-commit: a4b16dad46576ce08ecb660fc923d0857dcae107 crypto: qat - Move driver to drivers/crypto/intel/qat
-date:   1 year, 6 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 6 months ago
-config: csky-randconfig-r051-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221848.0jTifKtq-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
+commit: 3a8f6f3b469b4075919a3613e182f9a70df92d46 kmsan: enable on s390
+date:   3 months ago
+config: s390-randconfig-r121-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221923.Z2I9fBpk-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce: (https://download.01.org/0day-ci/archive/20240922/202409221923.Z2I9fBpk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409221848.0jTifKtq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409221923.Z2I9fBpk-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/crypto/intel/qat/qat_common/adf_sysfs.c:25:9-35: opportunity for str_up_down(adf_dev_started ( accel_dev ))
+sparse warnings: (new ones prefixed by >>)
+>> mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:271:75: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const *user_addr @@     got void [noderef] __user *to @@
+   mm/kmsan/hooks.c:271:75: sparse:     expected void const *user_addr
+   mm/kmsan/hooks.c:271:75: sparse:     got void [noderef] __user *to
+   mm/kmsan/hooks.c:280:50: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:306:59: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:319:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:325:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:421:78: sparse: sparse: Using plain integer as NULL pointer
 
-vim +25 drivers/crypto/intel/qat/qat_common/adf_sysfs.c
+vim +/__user +269 mm/kmsan/hooks.c
 
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  14
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  15  static ssize_t state_show(struct device *dev, struct device_attribute *attr,
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  16  			  char *buf)
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  17  {
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  18  	struct adf_accel_dev *accel_dev;
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  19  	char *state;
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  20
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  21  	accel_dev = adf_devmgr_pci_to_accel_dev(to_pci_dev(dev));
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  22  	if (!accel_dev)
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  23  		return -EINVAL;
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  24
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27 @25  	state = adf_dev_started(accel_dev) ? "up" : "down";
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  26  	return sysfs_emit(buf, "%s\n", state);
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  27  }
-5ee52118ac1481 drivers/crypto/qat/qat_common/adf_sysfs.c Giovanni Cabiddu 2022-06-27  28
+b073d7f8aee4eb Alexander Potapenko 2022-09-15  247  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  248  void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  249  			size_t left)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  250  {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  251  	unsigned long ua_flags;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  252  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  253  	if (!kmsan_enabled || kmsan_in_runtime())
+75cf0290271bf6 Alexander Potapenko 2022-09-15  254  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  255  	/*
+75cf0290271bf6 Alexander Potapenko 2022-09-15  256  	 * At this point we've copied the memory already. It's hard to check it
+75cf0290271bf6 Alexander Potapenko 2022-09-15  257  	 * before copying, as the size of actually copied buffer is unknown.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  258  	 */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  259  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  260  	/* copy_to_user() may copy zero bytes. No need to check. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  261  	if (!to_copy)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  262  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  263  	/* Or maybe copy_to_user() failed to copy anything. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  264  	if (to_copy <= left)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  265  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  266  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
+f926e9326f3a79 Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
+f926e9326f3a79 Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  273  	} else {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
+75cf0290271bf6 Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
+75cf0290271bf6 Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
+75cf0290271bf6 Alexander Potapenko 2022-09-15  278  		 * bytes.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  279  		 */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  281  						to_copy - left);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  282  	}
+75cf0290271bf6 Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  284  }
+75cf0290271bf6 Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  286  
 
-:::::: The code at line 25 was first introduced by commit
-:::::: 5ee52118ac1481dd8a8f7e6a9bfe6ee05ac6ec92 crypto: qat - expose device state through sysfs for 4xxx
+:::::: The code at line 269 was first introduced by commit
+:::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
 
-:::::: TO: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
