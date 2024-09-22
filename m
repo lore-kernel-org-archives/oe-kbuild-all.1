@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740C7EEC5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 21:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B062F52F62
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 21:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727041935; cv=none; b=jALlhfRW1Zn2Y850svAIKFJtNm1O7fG6XjPXhytz9uAUnTGbQesWdDTljyaxJkNYmAtV8/R/s5W22j+qk9GthsZZL7v0dxB8qmRqXMxUhUhXtqi775xn36zbDgWdl1SJy4pu+FLBrGeM5nqVNqHta+75G/xbUBFDnMHFr37bvBc=
+	t=1727041937; cv=none; b=lKutTSgti3vTn8quJoFCIW/ReUL5pPFZ+25wBtJLCau3FrQQYQ6wUseEpP+GrErxROWwNUWIN/uceKowPknBUWeFGGUVAcEozw59up3YCS9jsvdirL3tG2w+doDaq7m4zT0C2ExiwFM/nLMbh2i1P8iT83iPYuHQZxMGnUvBrjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727041935; c=relaxed/simple;
-	bh=FhGgwt/FFFMe/g1Rlx+4ya4kf1FT/nMdWHDoJU3hhQI=;
+	s=arc-20240116; t=1727041937; c=relaxed/simple;
+	bh=mUlmnmjPDGr7wElWa9TaIEJaeHNqG1QTp0xOA3PI4K4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BJKG0+jo4CE06Xk16aaEJudv4URM8ifdZQ0tfAH332P6IhigygQwJR6fVjHrfEh3nJa7HEUa338ZQOkuk+bopffx/WJBythwnXl1FfEBHME6xKfGsMM5LBLdZ+XAsSbn5pws0Q2duJ7E/IU9yiOc4NA4ZI4xgjGrj2nY/0mT5Pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yt+UtbKW; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=HtwQQIyneg/z2G6VlSn8VsGqwT/LKtaQoB61fmotBuYzmFU19ATOIkPyDGvc3UqrF1zZHmOI+smoRd4+6S/jHAS434zGqnMmrJ0/mvYpBGjf2ET8/7qKAjxoPAmh4FNgxwHla2YENVnFtqcEh+hfhMZOdQB8zOoIkdrQuMAvQtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqwQAx47; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yt+UtbKW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqwQAx47"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727041934; x=1758577934;
+  t=1727041936; x=1758577936;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FhGgwt/FFFMe/g1Rlx+4ya4kf1FT/nMdWHDoJU3hhQI=;
-  b=Yt+UtbKWpWEe3uA0r6gn1hwsFMrRL5IWb64+rEQ+6r3IlYZ2we3zhaGK
-   ku/ZmhTrijXk1Vb/byOiifHkYcj8bzTHt32tTaH7ejueRRHo63kHF7sJH
-   ckhV6iL8k708VEbJmMAk4KaUp2Q3zs31KFkN8bWneYo2zb+9n5kQQiwT5
-   A3WdZSLC6q/V8MvosYKxUxgVwwqXYagJFILqi0EDhTIr35LTToTy8zezA
-   2DzptCBHdRoIQW1YjiXU8k8VbodLwcT7cDpiy65crC75z7nQcnoBZ91Jj
-   lZZOfeV/1SULi53Vkhz5+wFfx6Q7iHjuh3rtywXCoKe148qrjhSpmWY9a
-   Q==;
-X-CSE-ConnectionGUID: IwV6q7KJQiKRDgqaDTVloA==
-X-CSE-MsgGUID: pIoE94SXRzuhg30m5U8RNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25804764"
+  bh=mUlmnmjPDGr7wElWa9TaIEJaeHNqG1QTp0xOA3PI4K4=;
+  b=JqwQAx47ZS8pR0r6+EtAeYi6ldf1rWYt0dfvIWcF8tgMX78+uz7AkgS6
+   fabwjS3CGI1ar3oOZ1R9bd4+qBaySGlRO1sMMJV7qvFjoJ7v7wzSnZhoV
+   xswR2PKNvT1avQyfjuiIFKmqz7hBmVwed0lzl0AFD0BXXz8IrmqtBzaYv
+   kJgD6lcXGgWYwDQuY7KIbTfh/4vNwfQObI7Nz+k1oXmeQc+5KTXD8hrF8
+   cLy0gfJQW2YZKTS3Giy4Tb8u6p6MCc/6EgaYOCAixeZ+Kal1mZN9rhMc4
+   L/5UyHlVY0Slp1O3Ig2RkdkxcgAvDNxfC6Rxw+JmA2/KMigxdZ4Ez9+oj
+   g==;
+X-CSE-ConnectionGUID: BKIsUZb6QY2buqc58JqmGw==
+X-CSE-MsgGUID: cZlsI0BUSyeSHdDR6mSf9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25804766"
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="25804764"
+   d="scan'208";a="25804766"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 14:52:13 -0700
-X-CSE-ConnectionGUID: pWeOu6aSR4S6nnOj0/1ExQ==
-X-CSE-MsgGUID: ZymA+UzaTmKkcOyErkz+dg==
+X-CSE-ConnectionGUID: qDUGG0dRRz2xT4wTWjsAfw==
+X-CSE-MsgGUID: ICB39EkyT2WvEaXMkcVDfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="70876408"
+   d="scan'208";a="70876409"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 22 Sep 2024 14:52:12 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssUUz-000Gga-1i;
+	id 1ssUUz-000GgY-1f;
 	Sun, 22 Sep 2024 21:52:09 +0000
-Date: Mon, 23 Sep 2024 05:51:26 +0800
+Date: Mon, 23 Sep 2024 05:51:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@garyguo.net>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [nbdd0121:rnvme-device-id-without-macro 1/1] error:
- `core::mem::MaybeUninit::<T>::as_mut_ptr` is not yet stable as a const fn
-Message-ID: <202409230552.kuk0QwBP-lkp@intel.com>
+Subject: [jimc:dyndbg_trace_v4_5c 69/99]
+ drivers/net/ethernet/mellanox/mlx5/core/fpga/conn.c:385:9: sparse: sparse:
+ Initializer entry defined twice
+Message-ID: <202409230518.m18D5B7w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +64,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/nbdd0121/linux rnvme-device-id-without-macro
-head:   c2e2bb0c0ced07e4133c2353d87bf238cba96ca1
-commit: c2e2bb0c0ced07e4133c2353d87bf238cba96ca1 [1/1] DeviceId without macros
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240923/202409230552.kuk0QwBP-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409230552.kuk0QwBP-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dyndbg_trace_v4_5c
+head:   215f1e90281215ee6e5cddaa1a4fbe1dbb4e4c9b
+commit: 523772afc85127a8125cbe2b14e99a4b9e0756a7 [69/99] dyndbg: move flags field to a new structure
+config: i386-randconfig-061-20240923 (https://download.01.org/0day-ci/archive/20240923/202409230518.m18D5B7w-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409230518.m18D5B7w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409230552.kuk0QwBP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409230518.m18D5B7w-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/mellanox/mlx5/core/fpga/conn.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>> drivers/net/ethernet/mellanox/mlx5/core/fpga/conn.c:385:9: sparse: sparse: Initializer entry defined twice
+   drivers/net/ethernet/mellanox/mlx5/core/fpga/conn.c:385:9: sparse:   also defined here
 
->> error[E0658]: inline-const is experimental
-   --> rust/kernel/device_id.rs:57:28
-   |
-   57 |         let mut raw_ids = [const { MaybeUninit::<T::RawType>::uninit() }; N];
-   |                            ^^^^^
-   |
-   = note: see issue #76001 <https://github.com/rust-lang/rust/issues/76001> for more information
-   = help: add `#![feature(inline_const)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
---
->> error[E0658]: inline-const is experimental
-   --> rust/kernel/device_id.rs:58:26
-   |
-   58 |         let mut infos = [const { MaybeUninit::uninit() }; N];
-   |                          ^^^^^
-   |
-   = note: see issue #76001 <https://github.com/rust-lang/rust/issues/76001> for more information
-   = help: add `#![feature(inline_const)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
---
->> warning: unused import: `core::marker::PhantomData`
-   --> rust/kernel/device_id.rs:8:5
-   |
-   8 | use core::marker::PhantomData;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(unused_imports)]` on by default
---
->> error: `core::mem::MaybeUninit::<T>::as_mut_ptr` is not yet stable as a const fn
-   --> rust/kernel/device_id.rs:68:17
-   |
-   68 |                 raw_ids[i].as_mut_ptr()
-   |                 ^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: add `#![feature(const_maybe_uninit_as_mut_ptr)]` to the crate attributes to enable
---
->> error: `core::ptr::mut_ptr::<impl *mut T>::write` is not yet stable as a const fn
-   --> rust/kernel/device_id.rs:68:17
-   |
-   68 | /                 raw_ids[i].as_mut_ptr()
-   69 | |                     .byte_offset(T::DRIVER_DATA_OFFSET as _)
-   70 | |                     .cast::<usize>()
-   71 | |                     .write(i);
-   | |_____________________________^
-   |
-   = help: add `#![feature(const_ptr_write)]` to the crate attributes to enable
+vim +385 drivers/net/ethernet/mellanox/mlx5/core/fpga/conn.c
+
+537a50574175a2 Ilan Tayari 2017-03-27  364  
+537a50574175a2 Ilan Tayari 2017-03-27  365  static inline void mlx5_fpga_conn_cqes(struct mlx5_fpga_conn *conn,
+537a50574175a2 Ilan Tayari 2017-03-27  366  				       unsigned int budget)
+537a50574175a2 Ilan Tayari 2017-03-27  367  {
+537a50574175a2 Ilan Tayari 2017-03-27  368  	struct mlx5_cqe64 *cqe;
+537a50574175a2 Ilan Tayari 2017-03-27  369  
+537a50574175a2 Ilan Tayari 2017-03-27  370  	while (budget) {
+537a50574175a2 Ilan Tayari 2017-03-27  371  		cqe = mlx5_cqwq_get_cqe(&conn->cq.wq);
+537a50574175a2 Ilan Tayari 2017-03-27  372  		if (!cqe)
+537a50574175a2 Ilan Tayari 2017-03-27  373  			break;
+537a50574175a2 Ilan Tayari 2017-03-27  374  
+537a50574175a2 Ilan Tayari 2017-03-27  375  		budget--;
+537a50574175a2 Ilan Tayari 2017-03-27  376  		mlx5_cqwq_pop(&conn->cq.wq);
+537a50574175a2 Ilan Tayari 2017-03-27  377  		mlx5_fpga_conn_handle_cqe(conn, cqe);
+537a50574175a2 Ilan Tayari 2017-03-27  378  		mlx5_cqwq_update_db_record(&conn->cq.wq);
+537a50574175a2 Ilan Tayari 2017-03-27  379  	}
+537a50574175a2 Ilan Tayari 2017-03-27  380  	if (!budget) {
+537a50574175a2 Ilan Tayari 2017-03-27  381  		tasklet_schedule(&conn->cq.tasklet);
+537a50574175a2 Ilan Tayari 2017-03-27  382  		return;
+537a50574175a2 Ilan Tayari 2017-03-27  383  	}
+537a50574175a2 Ilan Tayari 2017-03-27  384  
+537a50574175a2 Ilan Tayari 2017-03-27 @385  	mlx5_fpga_dbg(conn->fdev, "Re-arming CQ with cc# %u\n", conn->cq.wq.cc);
+537a50574175a2 Ilan Tayari 2017-03-27  386  	/* ensure cq space is freed before enabling more cqes */
+537a50574175a2 Ilan Tayari 2017-03-27  387  	wmb();
+537a50574175a2 Ilan Tayari 2017-03-27  388  	mlx5_fpga_conn_arm_cq(conn);
+537a50574175a2 Ilan Tayari 2017-03-27  389  }
+537a50574175a2 Ilan Tayari 2017-03-27  390  
+
+:::::: The code at line 385 was first introduced by commit
+:::::: 537a50574175a2b68b0612ffb48cb044a394c7b4 net/mlx5: FPGA, Add high-speed connection routines
+
+:::::: TO: Ilan Tayari <ilant@mellanox.com>
+:::::: CC: Saeed Mahameed <saeedm@mellanox.com>
 
 -- 
 0-DAY CI Kernel Test Service
