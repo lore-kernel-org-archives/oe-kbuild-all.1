@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191B66FD3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 14:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6358C11
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 15:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727016358; cv=none; b=XE8OJgUODEdmkgdh+cKnOSNDYy5kKHndnKqEB4WenpLJEwso9B1A60YWVgSZWuSLIkCw+EW34XXa8azvBJB8pEkVEdbw38rcYmIWjnszvRbUdEf7Zj1iOMkGYnFUUVh9zAJnuwItZ4oAi7/cOVFg6eUVyOle0h1Th/nw4oTGcXo=
+	t=1727019661; cv=none; b=XN672cAizTYMm+cxZHN7g2wAJapCtYmDeSV8XEAyg51j5N+7Ic5WM+uKYP55181uFYK4glLEfwh85luIsCKcumn+93xecpRDfP3Zwyx9wf1aSwnMwv+70M03P1jGQqlNmvEOFiZ/HTjsSf5Zc6tnllKjvfl7Da61sRm9GnvjdsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727016358; c=relaxed/simple;
-	bh=snn/GiDDg5kxjzwa0NcAgjqZVKOFXzg0sPDvk0z2YSY=;
+	s=arc-20240116; t=1727019661; c=relaxed/simple;
+	bh=T0oAMCdypEnb7Ig5nHHj2Gc6UhmZX9V1GRVkLw0PGjk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DND3qsj0kX+oqkR1eEAv2LWS2xk6JqVEA8qW5d8J9ODqDoirhdIoW9OfRwa5SxtVKB7fACW+WCN+N7aZk8GGdlVVQP3k/r9yOuXvMN1uIcGnn/y621Y71qjjQziuIk8Lc3dnPeGhRLk99Sj51XVXCqGNu2HT8BKehBHDeXvjftU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4i6c9Jd; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Pjw71n6Y1GmIHg/CQC4+3t/iERUv8hZiTXpvSOO4I+WzWhV3QvcLDrKG2X+fw8huNf+VHFrrulQ0eezh2Y6PbH+fLW9E7jYD2ENaX0NSi5z3KuSMcMuYhuS287pB1mup38RJIK3XtMy0HYtiCcJ3mfFMlwZNHNQJS57GpVrWKEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KA5TFjlw; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4i6c9Jd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KA5TFjlw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727016357; x=1758552357;
+  t=1727019659; x=1758555659;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=snn/GiDDg5kxjzwa0NcAgjqZVKOFXzg0sPDvk0z2YSY=;
-  b=A4i6c9Jd9dd8LQHRo04khrNh8c49URFbenr+6zt+W43jMCmdc33yYLlO
-   81+A4Zvcb+dIc7tffxmWlvn/zZxsSDend6liK7MP9QhY4cywx8sJbUGpQ
-   aofwZzXuhdkN8pFPSXx2eXd9aq4sEHj/tolCxXirG86pcEiiwo9PFSvv8
-   pFJOlAJN2jzVMpYchQ0RXVjnwwQvKuvBXbEZwLiJCSBMnpnlLBHGu49pW
-   c1uO7b+xTe8j1ojpkBuDiiESPITsimqfPqlysRtKLbAjQmCXgzN70z63/
-   /Tq84i/cPcutDHCcdDIJYSo+QtrDwLzDfV6Jw1ISR/W0KQXR1iyXfVUMh
-   A==;
-X-CSE-ConnectionGUID: rheeD2RZRRalE1G4Q8osHA==
-X-CSE-MsgGUID: 5JCZ0kDfS06c5aOAuxrLbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36538297"
+  bh=T0oAMCdypEnb7Ig5nHHj2Gc6UhmZX9V1GRVkLw0PGjk=;
+  b=KA5TFjlwKC8hybiOrqSUT5DFWdptGuMiJgdRqc6LSZYh9xzfuHOcxzeN
+   HJGBxv7DuWFsLmDidzYQNAl9iY7reKBeYR6SduxROFpuYVcpBXgwE+Pwe
+   OAWf/UEph/mZiz9HlXt6jRZu0iicy/qXVP4btY9HJn4D8YXor1ErDSGmb
+   i5N0TROuY5CDoDmChDZvh1D17AfmNhna2cbcRJtpNPO5fPvfYY72bQuau
+   XZ6q535B6fK5fotgVc/ZD2cP9dcdXYMh1AnfIIg78G1XPoehu4/v+XkQ/
+   t7NP2V+cYloVYhrSYkIwpTZ3uWZQ2Y4ASBztZGf8HEhxRjzoR5eCDOyLh
+   Q==;
+X-CSE-ConnectionGUID: W9tTj6bjQxaL1F1nzYEUhQ==
+X-CSE-MsgGUID: uLvz7YMUROK3SWRoPB6nGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36556283"
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="36538297"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 07:45:56 -0700
-X-CSE-ConnectionGUID: Tu18ZyYuTS2fzprVd6iPzA==
-X-CSE-MsgGUID: CdPxYdISQCy6w6AydK2TWg==
+   d="scan'208";a="36556283"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 08:40:58 -0700
+X-CSE-ConnectionGUID: agz9QQ+0R/K7m+N+0uHAUA==
+X-CSE-MsgGUID: ec3K2ys4RGesOo9wmuLi1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="71645350"
+   d="scan'208";a="108259782"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 22 Sep 2024 07:45:56 -0700
+  by orviesa001.jf.intel.com with ESMTP; 22 Sep 2024 08:40:57 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssNqT-000GNe-0w;
-	Sun, 22 Sep 2024 14:45:53 +0000
-Date: Sun, 22 Sep 2024 22:45:45 +0800
+	id 1ssOhi-000GQg-2W;
+	Sun, 22 Sep 2024 15:40:54 +0000
+Date: Sun, 22 Sep 2024 23:40:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, ranjan-dutta <ranjan.dutta@intel.com>
-Subject: [intel-lts:6.1/linux 4/8]
- sound/soc/intel/avs/boards/pcm3168a.c:70:33: warning: 'avs_pcm3168a_ops'
- defined but not used
-Message-ID: <202409222231.zmlEi4Hm-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/5]
+ include/trace/hooks/logbuf.h:15:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202409222344.TesIhum1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
-head:   5404e6dd8524e9cc698099c8780a6889e24ecbfd
-commit: 18205f4e41775d5f7de02051280bb078d48ac34b [4/8] ASoC: Intel: avs: Add pcm3168a machine board
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240922/202409222231.zmlEi4Hm-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409222231.zmlEi4Hm-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   a3c4f110f54b76cbd94691d217eac14144225136
+commit: 9b44f2fb794ccd5a17777e317bec959558d21f9e [1/5] ANDROID: vendor_hooks:add restricted hook for logbuf
+config: i386-randconfig-r132-20240922 (https://download.01.org/0day-ci/archive/20240922/202409222344.TesIhum1-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409222344.TesIhum1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409222231.zmlEi4Hm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409222344.TesIhum1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/printk/printk.c:293:5: sparse: sparse: context imbalance in 'console_srcu_read_lock' - wrong count at exit
+   kernel/printk/printk.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
+   include/linux/srcu.h:301:9: sparse: sparse: context imbalance in 'console_srcu_read_unlock' - unexpected unlock
+   kernel/printk/printk.c: note: in included file:
+>> include/trace/hooks/logbuf.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/logbuf.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/logbuf.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
->> sound/soc/intel/avs/boards/pcm3168a.c:70:33: warning: 'avs_pcm3168a_ops' defined but not used [-Wunused-const-variable=]
-      70 | static const struct snd_soc_ops avs_pcm3168a_ops = {
-         |                                 ^~~~~~~~~~~~~~~~
+vim +15 include/trace/hooks/logbuf.h
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_PMC_CORE
-   Depends on [n]: X86_PLATFORM_DEVICES [=n] && PCI [=y] && ACPI
-   Selected by [m]:
-   - DWMAC_INTEL_PLAT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_PLATFORM [=m] && OF [=y] && COMMON_CLK [=y] && STMMAC_ETH [=m]
-
-
-vim +/avs_pcm3168a_ops +70 sound/soc/intel/avs/boards/pcm3168a.c
-
-    69	
-  > 70	static const struct snd_soc_ops avs_pcm3168a_ops = {
-    71		.hw_params = avs_pcm3168a_hw_params,
-    72	};
-    73	
+    14	
+  > 15	DECLARE_RESTRICTED_HOOK(android_rvh_logbuf,
+    16		TP_PROTO(struct printk_ringbuffer *rb, struct printk_record *r),
+    17		TP_ARGS(rb, r), true)
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
