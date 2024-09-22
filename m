@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AB919307E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 03:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF8E126C06;
+	Sun, 22 Sep 2024 03:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726975699; cv=none; b=KCWaxj2/S5FvTOQCE7QKFt8ciDDnPf6tNw78kznxArj/Fn5zeGYeUnjrJQ07aFfFo+oC7H6qXbmZi286cqEISgXVAyQMpyrnhOO2o4+4XdgXMCsZqAeUhKgbMk+tckYgxOGXQcYXlSW+zP4EhA3C0ltmitOsHiubq3k+Jf8JKdg=
+	t=1726976538; cv=none; b=dKEZoghhq/5N55+aZhk1dAsQHIvl3vXF2LjILi/5eX20+plDpjlhKapdYDa8YzXDLnpEuz9IMrdTbXILQn53j3VLYbj6SUjGBmSCqwXJEsFuuxBf0trB9kddgpgQDmkqOV2eog8Of1+Q5ChsEMnzQt6n8C1qld9MGA2etotWCSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726975699; c=relaxed/simple;
-	bh=+G7aSUmwDuUt0p/LDk204kh0s6gbpM/RTwsBV0AMTvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDp5BeOsHPhjjfKaU31n8EpacullXULlKBDm+vth1+DLMS6Txgo8iZZ5I8QjnVSleRyJQrgBRrVEyZLNh3+2qqF9p89+DQ8N+/BI6zL0Xva/RTJ2jLvgG0o/nsQnD4LKlvL/PQVnQLLzYscl4ydhPKVGKApZ06k+nRr1MGt/0rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k7uzVA+V; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1726976538; c=relaxed/simple;
+	bh=wizCxCVLJ52oD70kvuI8PpPw1dGbD5jBEovylcm46cg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Hj8o2zHjwMuLWIS+upnzAGif4gH+etUCL/9bFl4fHq9aILZ4GBAMExU0Di0yLWljggFpuG9K49L+7YErWdIebDH27X9aXndGEbh37+vSnre59GldkgGFlnmt17LY+Ee4bu69FsKNa54WFSbr1fQE4c+/ZpES9QxbWEl+RhmNt+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KR16hSj0; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k7uzVA+V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KR16hSj0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726975698; x=1758511698;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+G7aSUmwDuUt0p/LDk204kh0s6gbpM/RTwsBV0AMTvY=;
-  b=k7uzVA+VkJPDWJ5YwBBAHHJB7DJsCMwySlEbHatUnfunyqTJpmQU8olm
-   hDmulP5EzVFQzoJYsvuziB9JqNL1L/6H2RQG+IoBCJ/AcFrIA2hnb5LAd
-   eznPPfZ6FlluLgRAQ86hDPMNXhe5+sjACBvNE6+8T0IGHOCr5upUu0Eh/
-   Miz9mEu/ExCEHe4BLMnxhONqFt0BmINzBWe7ixXvdjhYRcQhcYOwWQZQi
-   XIgOK5mHyIJZBiU9flXpDMdWdCJD+vMJeC7ZTXuRGsSWgrMvJ+1/WM7Bw
-   ueFPfPyP6aLJccpS2qfkLyO0yD/o6fJnOz3AWJmOgP0idTEf8Xj1JZKTe
-   g==;
-X-CSE-ConnectionGUID: G6nnNVHyS1W/gbmAXxcZqQ==
-X-CSE-MsgGUID: c448TQ9bSvuyR1wQHQ8noA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29840786"
+  t=1726976536; x=1758512536;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wizCxCVLJ52oD70kvuI8PpPw1dGbD5jBEovylcm46cg=;
+  b=KR16hSj0LbgpkpYEGVV3okvj92bzBq7ZGppDIi4NF/10cF72lwjsCeMV
+   P0Np06YSPoSCvwjSa+u95XGOfP8EQAZQyel9i3IMihcZf/TmgRmXhsx4D
+   TG4kSa7BAVvnix8Ajgd52WGpblpc3OAojpRLlmxbZC0wxIWIggPBTDlAl
+   qUPXbB5t3OrOXQIAL2fFkJBDou2mIoZ7vrUnrpOfqaiSnV0uYB5hjdOBG
+   PhRWEZxvx7pCm3kEDWBklqgT7SYWSIAtLv1qK+zSDfl+Mxrp9f2RY/5Ig
+   giC/eq5T42a8/GPMW+yVZBgAT+vpHcPoVml6Me4gVFUluItQAoFpqOcXL
+   w==;
+X-CSE-ConnectionGUID: zwO+3pvgTTWgkdqrrV+AtQ==
+X-CSE-MsgGUID: iLm8qBvJTuK9IE5h2kTDbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26099286"
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="29840786"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 20:28:15 -0700
-X-CSE-ConnectionGUID: br8Nw1GMTEGrzYuSQxpMjw==
-X-CSE-MsgGUID: zVSMal4RQymK+3g4hgxP8Q==
+   d="scan'208";a="26099286"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 20:42:15 -0700
+X-CSE-ConnectionGUID: Ey5I3YQHSY6nFwSxaJwC2w==
+X-CSE-MsgGUID: nfEpDfR7QUGTZAk2+y2Zbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="70747358"
+   d="scan'208";a="71153594"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Sep 2024 20:28:14 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 Sep 2024 20:42:14 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssDGd-000Fzo-0t;
-	Sun, 22 Sep 2024 03:28:11 +0000
-Date: Sun, 22 Sep 2024 11:27:22 +0800
+	id 1ssDUB-000G0E-1Y;
+	Sun, 22 Sep 2024 03:42:11 +0000
+Date: Sun, 22 Sep 2024 11:41:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vasileios Amoiridis <vassilisamir@gmail.com>, jic23@kernel.org,
-	lars@metafoo.de, mazziesaccount@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vasileios Amoiridis <vassilisamir@gmail.com>
-Subject: Re: [PATCH v1 1/2] iio: Drop usage of iio_validate_own_trigger()
-Message-ID: <202409221140.AyQ2zQ81-lkp@intel.com>
-References: <20240921181939.392517-2-vassilisamir@gmail.com>
+To: Florian Westphal <fw@strlen.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: [nf-next:testing 4/5] net/netfilter/nf_nat_masquerade.c:273:6:
+ warning: variable 'ret' is uninitialized when used here
+Message-ID: <202409221130.jIDto0hf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,54 +62,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240921181939.392517-2-vassilisamir@gmail.com>
 
-Hi Vasileios,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8bea3878a1511bceadc2fbf284b00bcc5a2ef28d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vasileios-Amoiridis/iio-Drop-usage-of-iio_validate_own_trigger/20240922-022124
-base:   8bea3878a1511bceadc2fbf284b00bcc5a2ef28d
-patch link:    https://lore.kernel.org/r/20240921181939.392517-2-vassilisamir%40gmail.com
-patch subject: [PATCH v1 1/2] iio: Drop usage of iio_validate_own_trigger()
-config: arc-randconfig-002-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221140.AyQ2zQ81-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409221140.AyQ2zQ81-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
+head:   eb5a3496084f9a3ea3fb4c4d22b4c661d46a2743
+commit: ecc701a3bd9890f83ea89337c64d4f14aba9f091 [4/5] netfilter: nf_nat: use skb_drop_reason
+config: arm-aspeed_g4_defconfig (https://download.01.org/0day-ci/archive/20240922/202409221130.jIDto0hf-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409221130.jIDto0hf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409221140.AyQ2zQ81-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409221130.jIDto0hf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iio/light/rohm-bu27008.c:1389:29: error: initialization of 'int (*)(struct iio_dev *, struct iio_trigger *)' from incompatible pointer type 'int (*)(struct iio_trigger *, struct iio_dev *)' [-Werror=incompatible-pointer-types]
-    1389 |         .validate_trigger = iio_trigger_validate_own_device,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/rohm-bu27008.c:1389:29: note: (near initialization for 'bu27008_info.validate_trigger')
-   cc1: some warnings being treated as errors
---
->> drivers/iio/accel/kionix-kx022a.c:876:35: error: initialization of 'int (*)(struct iio_dev *, struct iio_trigger *)' from incompatible pointer type 'int (*)(struct iio_trigger *, struct iio_dev *)' [-Werror=incompatible-pointer-types]
-     876 |         .validate_trigger       = iio_trigger_validate_own_device,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/accel/kionix-kx022a.c:876:35: note: (near initialization for 'kx022a_info.validate_trigger')
-   cc1: some warnings being treated as errors
+   In file included from net/netfilter/nf_nat_masquerade.c:5:
+   In file included from include/linux/inetdevice.h:9:
+   In file included from include/linux/ip.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm/include/asm/cacheflush.h:10:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> net/netfilter/nf_nat_masquerade.c:273:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     273 |         if (ret == NF_DROP)
+         |             ^~~
+   net/netfilter/nf_nat_masquerade.c:253:9: note: initialize the variable 'ret' to silence this warning
+     253 |         int ret;
+         |                ^
+         |                 = 0
+   2 warnings generated.
 
 
-vim +1389 drivers/iio/light/rohm-bu27008.c
+vim +/ret +273 net/netfilter/nf_nat_masquerade.c
 
-  1382	
-  1383	static const struct iio_info bu27008_info = {
-  1384		.read_raw = &bu27008_read_raw,
-  1385		.write_raw = &bu27008_write_raw,
-  1386		.write_raw_get_fmt = &bu27008_write_raw_get_fmt,
-  1387		.read_avail = &bu27008_read_avail,
-  1388		.update_scan_mode = bu27008_update_scan_mode,
-> 1389		.validate_trigger = iio_trigger_validate_own_device,
-  1390	};
-  1391	
+   243	
+   244	unsigned int
+   245	nf_nat_masquerade_ipv6(struct sk_buff *skb, const struct nf_nat_range2 *range,
+   246			       const struct net_device *out)
+   247	{
+   248		enum ip_conntrack_info ctinfo;
+   249		struct nf_conn_nat *nat;
+   250		struct in6_addr src;
+   251		struct nf_conn *ct;
+   252		struct nf_nat_range2 newrange;
+   253		int ret;
+   254	
+   255		ct = nf_ct_get(skb, &ctinfo);
+   256		WARN_ON(!(ct && (ctinfo == IP_CT_NEW || ctinfo == IP_CT_RELATED ||
+   257				 ctinfo == IP_CT_RELATED_REPLY)));
+   258	
+   259		if (nat_ipv6_dev_get_saddr(nf_ct_net(ct), out,
+   260					   &ipv6_hdr(skb)->daddr, 0, &src) < 0)
+   261			return NF_DROP_REASON(skb, SKB_DROP_REASON_NETFILTER_DROP, EADDRNOTAVAIL);
+   262	
+   263		nat = nf_ct_nat_ext_add(ct);
+   264		if (nat)
+   265			nat->masq_index = out->ifindex;
+   266	
+   267		newrange.flags		= range->flags | NF_NAT_RANGE_MAP_IPS;
+   268		newrange.min_addr.in6	= src;
+   269		newrange.max_addr.in6	= src;
+   270		newrange.min_proto	= range->min_proto;
+   271		newrange.max_proto	= range->max_proto;
+   272	
+ > 273		if (ret == NF_DROP)
+   274			return NF_DROP_REASON(skb, SKB_DROP_REASON_NETFILTER_DROP, EPERM);
+   275	
+   276		return ret;
+   277	}
+   278	EXPORT_SYMBOL_GPL(nf_nat_masquerade_ipv6);
+   279	
 
 -- 
 0-DAY CI Kernel Test Service
