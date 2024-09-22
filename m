@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A580F1E885
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 22:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BF9273FC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 23:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727043195; cv=none; b=Kf4+iesft8DM6SVFqV8WzkfqyuCjyCSJTxawiYhJ+EILsLgbcxeQEGDgOBARigBROMc5swbrHEBSRcf9KKZDjo2DEiE2w0NSM3t4FF3YY6pfqqWAOsRIgA0MXi3ka2i+nK1HHqWGUmH53vs0urf0lge44TFdmiHRLD1NrprPCdQ=
+	t=1727046859; cv=none; b=I9bF4ruZXvfkcF6yfrs1AcN7dPK+dlcYvQKqC4pESMs1B2gXqIgY33CqgU9OSwNEELIA5zJlqxBja8uVxpkYYISN+f/E/nZI8aHc5/lZJGHFpPm1lCYG4fDLBjke8vSi4nFo+Nm4r4fQEPV6F7pq7MTSa2HUYNRUaNYdCcZoymg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727043195; c=relaxed/simple;
-	bh=rh1rTo3Gj3cAig6/PEUTbSJgDwBmDMCizYcfTkGAyzA=;
+	s=arc-20240116; t=1727046859; c=relaxed/simple;
+	bh=IdpF0M66TSPTxZWUPx+AX/98VKbTiKIysVFsicW14ME=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L3nWoZH74EViAqxGxks+MdOZ4dEwMGWbDPbGPlqvUO6IvKJ2q63OyOyGBvaJEFtN/8feH46S4uqHDkwFPqwzZViIsKmAur9WB2K3Ic/He986baa+rWw3URT4lvJl5XMX4evckZuAGuOiKHhnw1mw7hrdfg/OOvHeVwWevWVtqpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrRshsmm; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=DTNQ/DKGerFhh1t3V+A/FlFWhVS/33rbbWrC3zJQzcpfcwJAEu/Xa8Uw8MD1m3lcWDnP+HytH2TpJqPYaD572Six3/BHkKF3ZD9Imtrvxq78Vool6jEDUg68GSzOZmJBRrgHkSOBjUqep4eysWqxCKFVLDHzw5YqfFL0Pg9E/wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCZeJ77/; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrRshsmm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCZeJ77/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727043194; x=1758579194;
+  t=1727046857; x=1758582857;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rh1rTo3Gj3cAig6/PEUTbSJgDwBmDMCizYcfTkGAyzA=;
-  b=mrRshsmmk0hJQSEHG6pVPD2jIjlDiB+b+p+VVlf0h99b2ln0AevQCqoE
-   ZXqMNISomXTZ0Q0XtgF9OQErpTVR5s/cF7DxxPZa7mZ5yClqb5NuppyHu
-   KYZxH+LokAEQsaFvb+guQ8n8o4GjxcGlZqm15gfheoUfTZesFM05K6aSD
-   9ZxW/iIysTM5ifew+BfFG5ys1MA4sl3j9aSfTcgy8vyWiNhTbgZ/RCum/
-   0DAYtPG75QLAmXObHYsZNILWDMXjNwwnpiMUtR4LT2BYGA5qEMgEeJhHg
-   mw2SILAJ5lf+Cvs47Xvlp1jsv2f0E/uLR2x2wFXb9MiySx+7ivi0gsnSP
-   g==;
-X-CSE-ConnectionGUID: WlCWtF2+RRyJwLjxySOF7A==
-X-CSE-MsgGUID: BNWCeYuTQHeKF+oq4TdhYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="37351920"
+  bh=IdpF0M66TSPTxZWUPx+AX/98VKbTiKIysVFsicW14ME=;
+  b=CCZeJ77/T0Z14/XYY+WPGgm5tLYJO71Oz0YMu1thI9YYztIo3xP5Y36B
+   Bb5pNwn1U67t2PVFawYH3KuDMsX27zE7ggY1wrcMb1pdAEtX1FRBWBJ/x
+   s98QsbVVhH6Zeq4NfNozhkmk4UtHSwplHMLQQincRBfTouMHWaPNYliWj
+   4c4HlVVgeBMYL7lCXDftk9DYP812E1xK+nQ1sqlh1htc7VAJeXmIOSifE
+   bhNZ0MKByThgOXBzEtcpzYBhwGk/N3M1bwtHNhOwfzXy2Wct7WUFdsOX9
+   BuBft8r4aj8GTmcjvRVPp7NkSCvdTjXlKt1TOcoVW+l1czncqNNbgGpAk
+   w==;
+X-CSE-ConnectionGUID: RzCnC2HvSPiz9jAtUm40Jw==
+X-CSE-MsgGUID: sM68hKSwRwOyl6RN/AM0EQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="37352891"
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="37351920"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 15:13:13 -0700
-X-CSE-ConnectionGUID: HVX19IhpQMOpr72Z5L/aRQ==
-X-CSE-MsgGUID: gvH42ND6RHm4FC0Ehkbe1A==
+   d="scan'208";a="37352891"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 16:14:16 -0700
+X-CSE-ConnectionGUID: 8G0KDz1qR9mNWnLLee0cIw==
+X-CSE-MsgGUID: tgsVyuC6QjKAZn22kWWztw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="70473723"
+   d="scan'208";a="75839666"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Sep 2024 15:13:12 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Sep 2024 16:14:15 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssUpJ-000Ggw-2e;
-	Sun, 22 Sep 2024 22:13:09 +0000
-Date: Mon, 23 Sep 2024 06:12:30 +0800
+	id 1ssVmO-000GjG-0L;
+	Sun, 22 Sep 2024 23:14:12 +0000
+Date: Mon, 23 Sep 2024 07:13:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [dtor-input:for-linus 4/40] arch/arm/mach-pxa/spitz.c:406:9: error:
- implicit declaration of function 'PROPERTY_ENTRY_ARRAY_U32'; did you mean
- 'PROPERTY_ENTRY_U8_ARRAY_LEN'?
-Message-ID: <202409230614.BBJikfMj-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-writeback 10/13] fs/netfs/misc.c:66:47: sparse:
+ sparse: cast truncates bits from constant value (5555555555555555 becomes
+ 55555555)
+Message-ID: <202409230730.Er4Vhikj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,43 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-head:   b2142a22ef22466575feaccc74a2995c62cae7e8
-commit: 1b05a701375107b2c2beae9c518b8e1a3819e086 [4/40] ARM: spitz: Use software nodes/properties for the matrix keypad
-config: arm-randconfig-001-20240923 (https://download.01.org/0day-ci/archive/20240923/202409230614.BBJikfMj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409230614.BBJikfMj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   1b8d06c4ea0b6eb74b52b9dadb866a92c0cc5b69
+commit: 337b2692901cf0b9e8a951acb48a8bac964dff6d [10/13] pgpriv2 support fixes 3
+config: i386-randconfig-063-20240922 (https://download.01.org/0day-ci/archive/20240923/202409230730.Er4Vhikj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409230730.Er4Vhikj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409230614.BBJikfMj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409230730.Er4Vhikj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/netfs/misc.c: note: in included file (through include/linux/mmzone.h, include/linux/swap.h):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>> fs/netfs/misc.c:66:47: sparse: sparse: cast truncates bits from constant value (5555555555555555 becomes 55555555)
+   fs/netfs/misc.c:94:52: sparse: sparse: cast truncates bits from constant value (5555555555555555 becomes 55555555)
 
->> arch/arm/mach-pxa/spitz.c:406:9: error: implicit declaration of function 'PROPERTY_ENTRY_ARRAY_U32'; did you mean 'PROPERTY_ENTRY_U8_ARRAY_LEN'? [-Wimplicit-function-declaration]
-     406 |         PROPERTY_ENTRY_ARRAY_U32("linux,keymap", spitz_keymap),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         PROPERTY_ENTRY_U8_ARRAY_LEN
->> arch/arm/mach-pxa/spitz.c:406:9: error: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   arch/arm/mach-pxa/spitz.c:406:9: note: (near initialization for 'spitz_mkp_properties[0].name')
->> arch/arm/mach-pxa/spitz.c:406:9: error: initializer element is not constant
-   arch/arm/mach-pxa/spitz.c:406:9: note: (near initialization for 'spitz_mkp_properties[0].name')
+vim +66 fs/netfs/misc.c
 
-
-vim +406 arch/arm/mach-pxa/spitz.c
-
-   404	
-   405	static const struct property_entry spitz_mkp_properties[] = {
- > 406		PROPERTY_ENTRY_ARRAY_U32("linux,keymap", spitz_keymap),
-   407		PROPERTY_ENTRY_REF_ARRAY("row-gpios", spitz_mkp_row_gpios),
-   408		PROPERTY_ENTRY_REF_ARRAY("col-gpios", spitz_mkp_col_gpios),
-   409		PROPERTY_ENTRY_U32("col-scan-delay-us", 10),
-   410		PROPERTY_ENTRY_U32("debounce-delay-ms", 10),
-   411		PROPERTY_ENTRY_BOOL("wakeup-source"),
-   412		{ }
-   413	};
-   414	
+    52	
+    53	/*
+    54	 * Delete the head of a rolling queue.
+    55	 */
+    56	struct folio_queue *netfs_delete_buffer_head(struct netfs_io_request *wreq)
+    57	{
+    58		struct folio_queue *head = wreq->buffer, *next = head->next;
+    59	
+    60		if (next)
+    61			next->prev = NULL;
+    62		netfs_stat_d(&netfs_n_folioq);
+    63		trace_netfs_folioq(wreq, head, netfs_trace_folioq_delete);
+    64		set_bit(0, &head->dead);
+    65		for (int i = 0; i < folioq_nr_slots(head); i++)
+  > 66			head->vec.folios[i] = (void *)0x5555555555555555UL;
+    67		kfree(head);
+    68		wreq->buffer = next;
+    69		return next;
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
