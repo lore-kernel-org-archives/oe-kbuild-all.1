@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11513A267
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 05:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA00155353;
+	Sun, 22 Sep 2024 06:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726983321; cv=none; b=LiLp+qLJPPazmhCtM77VqLXQOrMjUquwfkGfJG75TOg1tgtJ20B0GudPsVbnzYzsFsGO4J9ZXKe5lITIDVrcolwaMVKLw0BQMLobE92M58wYhvFvHOQZZLS6noYXfDW9Qf8d93xDogtuOttFenCUp761jh1tu6aWmm0L363CPUU=
+	t=1726985783; cv=none; b=oQrAKQEf6GswknmI7qxER/4o9lcjSnUnRtEkCbLromCOxoyQc3ZarZmxu6QP3G89G47j/DehqvdHlq1hj+Hcdet+f0dtSn39oBnPSqaY3tI+c+nT+ididQXmfZDrx7iS4x/IENe2jf0Y/VPFHJ5u5UpRyFDIpVdkfgljeuoh+eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726983321; c=relaxed/simple;
-	bh=aluTR4IXljmSoVdHK4hmTlPOphK/ap0V9WHmu2e4mMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mZ7/VnSJJ6h7ZeWSTZELAHUeZtQhuTTfzcNciyBZ2kD81QLVf1ymVSsuROjuf/xgPwcQQfuBIQntIrE85QM3Kr5b9KBarslDW9ro588prGGrLt9XDX+YX2mpMsrCokmlLZpGWZq4ViPoZvea0Pw7caGguIQnDQmJJu1Aci+yMBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FanDi3VJ; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1726985783; c=relaxed/simple;
+	bh=jLQBBH7PkiFVYfQSNKJyJOqxcJmkYuHF6kgWcROQ/ug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FlG+ThUUS25kv+HMlSko/waCD3d8GMcekVbmGhHkiSq99AjOb2spPXFeKz8BPXoTOG8SVgYcz2YpRxra198ge4CwoA7WUqN7q2qvtUj4MI/d9+oZbs6w2NDIJRz1IaK4a2d4ySyqHUZrglNm94TFUzbdZGMl276PPmJ8nrXPX9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SS0c3Wda; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FanDi3VJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SS0c3Wda"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726983319; x=1758519319;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aluTR4IXljmSoVdHK4hmTlPOphK/ap0V9WHmu2e4mMA=;
-  b=FanDi3VJhvb+w2I0YZMPhtBhU6SSuv0HXSukfDDObLDp/oEtuqY3qOv8
-   KRYknaI9KiWhmV5bdGT3qXLVH/hVC/YCoWVUeFdgKfzwSmwxyU3vqowcH
-   3xyBGtRfcnWRIQGHHFMGUkChM5KK4P4Ub7z//FAXvwBEKHmnytenMlonr
-   pwYwLMeAHv8cgRo6fAUjobvdW6yUUvfJr7BeT7YxKtrbTL+QkJQQaS/i5
-   79n8QVv+tjA+Mz9B0J2Ep6S/sdo1l9AUjtw6jBtCyY4ISCJrLRlno2TQT
-   ERlq4DwKueWtIr7HQ2reVCrgmrYudrT1GAlkghEG1k+MDj/Wvn4SrzPwX
-   Q==;
-X-CSE-ConnectionGUID: zsyDvI1NRN6OSfRYcvDI5w==
-X-CSE-MsgGUID: 1IX24XjoR+OXO2oXenN+uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25824588"
+  t=1726985782; x=1758521782;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jLQBBH7PkiFVYfQSNKJyJOqxcJmkYuHF6kgWcROQ/ug=;
+  b=SS0c3WdaFj++3iu6Kvyk5dM01OLFpf8lu5FtggJqPf1rHW1ocOOkjCsI
+   8XL/Qe6Nbg6CoFo8V/n+nLUNjaZNGSwEvKwUORWpOmGFl/GkoblwTZCgX
+   IWQppUe50N7Az65+t7m3fOm+G4qHfIvCDju8hetU2b1YYWb+5+a71JWfQ
+   wIBqaUt2Nrh/Xk14khCnnqQ8NkpzyhtZL69Z9pK2c4eA6uQ+9bl71Bm+3
+   s5pWif0X+4KlvH1VR9F5F8zybHyP7mZGngqS9nyG5c7wu7MzJ6B4TDg8v
+   Vch5gu18ddbE5bxjd5Gu/NBVYIX4ymB444Jt9w8aUNgRAyACp+ElInnqO
+   g==;
+X-CSE-ConnectionGUID: lIIShd0zSieYYafAOxOqag==
+X-CSE-MsgGUID: CTR6hB3jQeiCnmx35AoRvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25774846"
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="25824588"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 22:35:18 -0700
-X-CSE-ConnectionGUID: 0NXoWxQZT+GvCWOqBfSCkQ==
-X-CSE-MsgGUID: V/kcg4kvRbiTXFUxyxYC7A==
+   d="scan'208";a="25774846"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 23:16:21 -0700
+X-CSE-ConnectionGUID: bfyp8GGcT8qNJwbNe9Xe3Q==
+X-CSE-MsgGUID: j8L92sxcQNCqzwD8e3wgvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="70722549"
+   d="scan'208";a="71045957"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Sep 2024 22:35:17 -0700
+  by orviesa006.jf.intel.com with ESMTP; 21 Sep 2024 23:16:17 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssFFa-000G3q-1t;
-	Sun, 22 Sep 2024 05:35:14 +0000
-Date: Sun, 22 Sep 2024 13:34:50 +0800
+	id 1ssFtH-000G4s-0m;
+	Sun, 22 Sep 2024 06:16:15 +0000
+Date: Sun, 22 Sep 2024 14:16:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 11353/16782]
- drivers/vhost/xen.c:291:37: error: 'struct vhost_virtqueue' has no member
- named 'desc_maps'
-Message-ID: <202409221515.ElaCqD63-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Lorenzo Bianconi <lorenzo@kernel.org>, upstream@airoha.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] watchdog: Add support for Airoha EN7851 watchdog
+Message-ID: <202409221503.OVlRRuM7-lkp@intel.com>
+References: <20240919122759.10456-2-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,328 +68,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240919122759.10456-2-ansuelsmth@gmail.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   d023c381fa6161a7af966abaad8e7d9a997f07e7
-commit: 47126913dee809f495dd6de10dff6a8ba627d817 [11353/16782] LF-11837-1 vhost_xen: Implement Xen grant/foreign mappings module for vhost
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240922/202409221515.ElaCqD63-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409221515.ElaCqD63-lkp@intel.com/reproduce)
+Hi Christian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on groeck-staging/hwmon-next linus/master v6.11 next-20240920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/watchdog-Add-support-for-Airoha-EN7851-watchdog/20240919-203006
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240919122759.10456-2-ansuelsmth%40gmail.com
+patch subject: [PATCH 2/2] watchdog: Add support for Airoha EN7851 watchdog
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240922/202409221503.OVlRRuM7-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409221503.OVlRRuM7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409221515.ElaCqD63-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409221503.OVlRRuM7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from drivers/vhost/xen.c:14:
-   drivers/vhost/xen.c: In function 'vhost_xen_find_map':
->> drivers/vhost/xen.c:291:37: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |                                     ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/vhost/xen.c:291:9: note: in expansion of macro 'list_for_each_entry'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5:
->> drivers/vhost/xen.c:291:37: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |                                     ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/vhost/xen.c:291:9: note: in expansion of macro 'list_for_each_entry'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
->> drivers/vhost/xen.c:291:37: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |                                     ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/vhost/xen.c:291:9: note: in expansion of macro 'list_for_each_entry'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_types.h:373:27: error: expression in static assertion is not an integer
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/vhost/xen.c:291:9: note: in expansion of macro 'list_for_each_entry'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
->> drivers/vhost/xen.c:291:37: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |                                     ^~
-   include/linux/list.h:761:27: note: in definition of macro 'list_entry_is_head'
-     761 |         (&pos->member == (head))
-         |                           ^~~~
-   drivers/vhost/xen.c:291:9: note: in expansion of macro 'list_for_each_entry'
-     291 |         list_for_each_entry(map, &vq->desc_maps, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/vhost/xen.c: At top level:
->> drivers/vhost/xen.c:302:6: error: redefinition of 'vhost_xen_unmap_desc_all'
-     302 | void vhost_xen_unmap_desc_all(struct vhost_virtqueue *vq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/vhost/xen.c:23:
-   drivers/vhost/vhost.h:268:20: note: previous definition of 'vhost_xen_unmap_desc_all' with type 'void(struct vhost_virtqueue *)'
-     268 | static inline void vhost_xen_unmap_desc_all(struct vhost_virtqueue *vq) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/xen.c: In function 'vhost_xen_unmap_desc_all':
-   drivers/vhost/xen.c:309:31: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     309 |         while (!list_empty(&vq->desc_maps)) {
-         |                               ^~
-   drivers/vhost/xen.c:310:36: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     310 |                 map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-         |                                    ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   drivers/vhost/xen.c:310:23: note: in expansion of macro 'list_entry'
-     310 |                 map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-         |                       ^~~~~~~~~~
-   drivers/vhost/xen.c:310:36: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     310 |                 map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-         |                                    ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/vhost/xen.c:310:23: note: in expansion of macro 'list_entry'
-     310 |                 map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-         |                       ^~~~~~~~~~
-   drivers/vhost/xen.c:310:36: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     310 |                 map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-         |                                    ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/vhost/xen.c:310:23: note: in expansion of macro 'list_entry'
-     310 |                 map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-         |                       ^~~~~~~~~~
->> include/linux/compiler_types.h:373:27: error: expression in static assertion is not an integer
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/vhost/xen.c:310:23: note: in expansion of macro 'list_entry'
-     310 |                 map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-         |                       ^~~~~~~~~~
-   drivers/vhost/xen.c: At top level:
->> drivers/vhost/xen.c:319:7: error: redefinition of 'vhost_xen_map_desc'
-     319 | void *vhost_xen_map_desc(struct vhost_virtqueue *vq, u64 addr, u32 size,
-         |       ^~~~~~~~~~~~~~~~~~
-   drivers/vhost/vhost.h:269:21: note: previous definition of 'vhost_xen_map_desc' with type 'void *(struct vhost_virtqueue *, u64,  u32,  int)' {aka 'void *(struct vhost_virtqueue *, long long unsigned int,  unsigned int,  int)'}
-     269 | static inline void *vhost_xen_map_desc(struct vhost_virtqueue *vq, u64 addr,
-         |                     ^~~~~~~~~~~~~~~~~~
-   drivers/vhost/xen.c: In function 'vhost_xen_map_desc':
-   drivers/vhost/xen.c:366:38: error: 'struct vhost_virtqueue' has no member named 'desc_maps'
-     366 |         list_add_tail(&map->next, &vq->desc_maps);
-         |                                      ^~
-   drivers/vhost/xen.c: At top level:
->> drivers/vhost/xen.c:375:6: error: redefinition of 'vhost_xen_unmap_desc'
-     375 | void vhost_xen_unmap_desc(struct vhost_virtqueue *vq, void *ptr, u32 size)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vhost.h:266:20: note: previous definition of 'vhost_xen_unmap_desc' with type 'void(struct vhost_virtqueue *, void *, u32)' {aka 'void(struct vhost_virtqueue *, void *, unsigned int)'}
-     266 | static inline void vhost_xen_unmap_desc(struct vhost_virtqueue *vq, void *ptr,
-         |                    ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/watchdog/airoha_wdt.c:17:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/watchdog/airoha_wdt.c:17:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/watchdog/airoha_wdt.c:17:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/watchdog/airoha_wdt.c:155:26: error: call to undeclared function 'FIELD_MAX'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     155 |         wdog_dev->max_timeout = FIELD_MAX(WDT_TIMER_VAL) / airoha_wdt->wdt_freq;
+         |                                 ^
+   6 warnings and 1 error generated.
 
 
-vim +291 drivers/vhost/xen.c
+vim +/FIELD_MAX +155 drivers/watchdog/airoha_wdt.c
 
-   285	
-   286	static struct vhost_xen_map *vhost_xen_find_map(struct vhost_virtqueue *vq,
-   287			unsigned long vaddr, int count)
-   288	{
-   289		struct vhost_xen_map *map;
-   290	
- > 291		list_for_each_entry(map, &vq->desc_maps, next) {
-   292			if (map->vaddr != vaddr)
-   293				continue;
-   294			if (count && map->count != count)
-   295				continue;
-   296			return map;
-   297		}
-   298	
-   299		return NULL;
-   300	}
-   301	
- > 302	void vhost_xen_unmap_desc_all(struct vhost_virtqueue *vq)
-   303	{
-   304		struct vhost_xen_map *map;
-   305	
-   306		if (!xen_domain())
-   307			return;
-   308	
-   309		while (!list_empty(&vq->desc_maps)) {
-   310			map = list_entry(vq->desc_maps.next, struct vhost_xen_map, next);
-   311			list_del(&map->next);
-   312	
-   313			pr_debug("%s: dom%d: vaddr 0x%lx count %u\n",
-   314					__func__, map->domid, map->vaddr, map->count);
-   315			vhost_xen_put_map(map);
-   316		}
-   317	}
-   318	
- > 319	void *vhost_xen_map_desc(struct vhost_virtqueue *vq, u64 addr, u32 size,
-   320			int access)
-   321	{
-   322		struct vhost_xen_map *map;
-   323		unsigned long offset = xen_offset_in_page(addr);
-   324		int count = XEN_PFN_UP(offset + size);
-   325		int ret;
-   326	
-   327		if (!xen_domain() || guest_domid == DOMID_INVALID)
-   328			return ERR_PTR(-ENODEV);
-   329	
-   330		if ((nogrant && (addr & XEN_GRANT_DMA_ADDR_OFF)) ||
-   331				(!nogrant && !(addr & XEN_GRANT_DMA_ADDR_OFF))) {
-   332			pr_err("%s: Descriptor from dom%d cannot be mapped via Xen %s mappings (addr 0x%llx)\n",
-   333					__func__, guest_domid, nogrant ? "foreign" : "grant", addr);
-   334			return ERR_PTR(-EINVAL);
-   335		}
-   336	
-   337		map = vhost_xen_ops->alloc_map(count);
-   338		if (!map)
-   339			return ERR_PTR(-ENOMEM);
-   340	
-   341		map->domid = guest_domid;
-   342		ret = vhost_xen_ops->map_pages(map, addr, access == VHOST_ACCESS_RO);
-   343		if (ret) {
-   344			pr_err("%s: Failed to map pages from dom%d (ret=%d)\n",
-   345					__func__, map->domid, ret);
-   346			vhost_xen_ops->free_map(map);
-   347			return ERR_PTR(ret);
-   348		}
-   349	
-   350		/*
-   351		 * Consider allocating xen_alloc_unpopulated_contiguous_pages() instead of
-   352		 * xen_alloc_unpopulated_pages() to avoid mapping as with the later
-   353		 * map->pages are not guaranteed to be contiguous.
-   354		 */
-   355		if (map->count > 1) {
-   356			map->vaddr = (unsigned long)vmap(map->pages, map->count, VM_MAP,
-   357					PAGE_KERNEL);
-   358			if (!map->vaddr) {
-   359				pr_err("%s: Failed to create virtual mappings\n", __func__);
-   360				vhost_xen_put_map(map);
-   361				return ERR_PTR(-ENOMEM);
-   362			}
-   363		} else
-   364			map->vaddr = (unsigned long)pfn_to_kaddr(page_to_xen_pfn(map->pages[0]));
-   365	
-   366		list_add_tail(&map->next, &vq->desc_maps);
-   367	
-   368		pr_debug("%s: dom%d: addr 0x%llx size 0x%x (access 0x%x) -> vaddr 0x%lx count %u (paddr 0x%llx)\n",
-   369				__func__, map->domid, addr, size, access, map->vaddr, map->count,
-   370				page_to_phys(map->pages[0]));
-   371	
-   372		return (void *)(map->vaddr + offset);
-   373	}
-   374	
- > 375	void vhost_xen_unmap_desc(struct vhost_virtqueue *vq, void *ptr, u32 size)
-   376	{
-   377		struct vhost_xen_map *map;
-   378		unsigned long offset = xen_offset_in_page(ptr);
-   379		int count = XEN_PFN_UP(offset + size);
-   380	
-   381		if (!xen_domain())
-   382			return;
-   383	
-   384		map = vhost_xen_find_map(vq, (unsigned long)ptr & XEN_PAGE_MASK, count);
-   385		if (map) {
-   386			list_del(&map->next);
-   387	
-   388			pr_debug("%s: dom%d: vaddr 0x%lx count %u\n",
-   389					__func__, map->domid, map->vaddr, map->count);
-   390			vhost_xen_put_map(map);
-   391		}
-   392	}
-   393	
+   125	
+   126	static int airoha_wdt_probe(struct platform_device *pdev)
+   127	{
+   128		struct device *dev = &pdev->dev;
+   129		struct watchdog_device *wdog_dev;
+   130		struct airoha_wdt_desc *airoha_wdt;
+   131		int ret;
+   132	
+   133		airoha_wdt = devm_kzalloc(dev, sizeof(*airoha_wdt), GFP_KERNEL);
+   134		if (!airoha_wdt)
+   135			return -ENOMEM;
+   136	
+   137		airoha_wdt->base = devm_platform_ioremap_resource(pdev, 0);
+   138		if (IS_ERR(airoha_wdt->base))
+   139			return PTR_ERR(airoha_wdt->base);
+   140	
+   141		ret = device_property_read_u32(dev, "clock-frequency",
+   142					       &airoha_wdt->wdt_freq);
+   143		if (ret)
+   144			return -EINVAL;
+   145	
+   146		/* Watchdog ticks at half the bus rate */
+   147		airoha_wdt->wdt_freq /= 2;
+   148	
+   149		/* Initialize struct watchdog device */
+   150		wdog_dev = &airoha_wdt->wdog_dev;
+   151		wdog_dev->timeout = heartbeat;
+   152		wdog_dev->info = &airoha_wdt_info;
+   153		wdog_dev->ops = &airoha_wdt_ops;
+   154		/* Bus 300MHz, watchdog 150MHz, 28 seconds */
+ > 155		wdog_dev->max_timeout = FIELD_MAX(WDT_TIMER_VAL) / airoha_wdt->wdt_freq;
+   156		wdog_dev->parent = dev;
+   157	
+   158		watchdog_set_drvdata(wdog_dev, airoha_wdt);
+   159		watchdog_set_nowayout(wdog_dev, nowayout);
+   160		watchdog_stop_on_unregister(wdog_dev);
+   161	
+   162		ret = devm_watchdog_register_device(dev, wdog_dev);
+   163		if (ret)
+   164			return ret;
+   165	
+   166		platform_set_drvdata(pdev, airoha_wdt);
+   167		return 0;
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
