@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6F113174B;
-	Sun, 22 Sep 2024 12:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAE9632
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 12:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727006877; cv=none; b=DUUkZuwotm6OWKZbyQze+6Fn6gnb4LkTDcAQC13gm0siV2G7nfVqIakInB0GYXtdMp3o+xxk0hFLyWDzpr+hoJdnfkHm5mQxNCgt7i8xUVFhgDNgxF1jxKM/6OSGyxySAF1BnaHiMsonTNH8lhIkbZAfQaDdkVwXCVdjS5pwDJQ=
+	t=1727008797; cv=none; b=uSmrqSaqelD91ZD6qKm7UO9kP2Kr9YpBmuVWJa0Z8kTgYU7If3M30Zx3jfRxqo/HVAAL2dGXru6Ng2xWFihNXoIxGFo8f2y0l6fmZcRJTMAAi+RgEA9aT3mDgRCGaVmTWPaDJHOwc6HX28OPGqhHVQvKvEx1umkkgIRqZb+lGIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727006877; c=relaxed/simple;
-	bh=6Yn20Cb26XflRJmGempQTmukZeHYKOIL6db8imNJFxE=;
+	s=arc-20240116; t=1727008797; c=relaxed/simple;
+	bh=T+E7B/UGebNG/RbgoEeLr0kMsiyTwKUGHSeOEMhw5rA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=olAQNDfZth/DT3ANf4TNcLBuFuNJynEN5msjFhxzbY+CTa8FYL6h6bv/VtpJQ+N4WtiLkEJbnInhwyTzALYPLj13d+eSBRHcHF0ZnMfxp2AbgwS8bT+0BisAm+GlF6MegrGuDkBKkxmrmkB5nzoEw/ZYHUFr0nhnWw+VkzyfdqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Scxol5WI; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=H0BZ+bAhtUsmmQdVFpQpzY2MNQdspkAELmJbeqRTDUvgyz5GORRjG0djsGyMrlmrIzKioq6t67Tet7ejtlwHolNL2wYe0RUVjwHvEjMuJzERD3pez3xA7jFRelgfQrfO722ypbD+rzG20QdUDovSgzkv+1CpX4gjIntW3vst4qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M4HDIxRm; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Scxol5WI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4HDIxRm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727006875; x=1758542875;
+  t=1727008795; x=1758544795;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6Yn20Cb26XflRJmGempQTmukZeHYKOIL6db8imNJFxE=;
-  b=Scxol5WIhgwCdc44NfjoecmjUps+/sJm2MidaIFj1U8FF4WEq5MGlFw7
-   JD7tW8tqzRaLNwIidFqc1h4YCMS6Hto1JCJRXPg8ARRtzI5+M19UFU4og
-   EqONEQSeQLmYb02nxHPpSuOoHFR7ZJbCbQpsJh+ateoZUGTVeQ0DwVSbi
-   j9nhppDa5/T0DjvENLzkqcIHrLFxKpocR3m/1c5OrO1HLUzWqxPaMRqG5
-   bEwzODssxGmZAHtDZzjNVtAHGYkQQ55uaREliESfyX0WosYa7SNgul33+
-   XNRpNSE1FW6haqr7XwE+Y4b2HiDTU9RPbuQZyZCFZzZHrRmOXz6owCIi1
-   Q==;
-X-CSE-ConnectionGUID: A290L9zLS5eW8ciAD43cGA==
-X-CSE-MsgGUID: Naup2/fxQciSSpKXOLflkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36624804"
+  bh=T+E7B/UGebNG/RbgoEeLr0kMsiyTwKUGHSeOEMhw5rA=;
+  b=M4HDIxRm2iJps5DfSXhKkMpizIZY0YJVrc57yIFEDa3HX/ctaJ/ZU+l+
+   afUo4fZ6bbC8U9qfJ+LJUv382xGSLwDQDUNTm66ODq9aFwc+AIwrYra77
+   q79bfokaIiUrdO8PEVSp0+G+fZRAwLLuKf8VNBqFDgAD5epHd3vJCXBfc
+   oZEMKVZYlPAb3yYrVmosOyTlY4ifLUGLt3nVGqgKX80ZxfH1B8iX+dbwB
+   nVifQ7OlVrdaTbqsqIGil9aL5wYcOfqlP1/BkAUBI7NfTOYkb/nPHODWF
+   4EECq4DWgw3ZJVpodlTGNZZZyRcYBACL6c3gTXCg/oKTkXpgRlfnf+u0a
+   A==;
+X-CSE-ConnectionGUID: KcWfYDODSwKLVMfKUig02w==
+X-CSE-MsgGUID: y9Vr4ZZKSTWu91DPZSHkZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36533450"
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="36624804"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 05:07:54 -0700
-X-CSE-ConnectionGUID: tSwRNaicS8GK2BpnVBXfqg==
-X-CSE-MsgGUID: INf2E4iQToS+dpIWvgkoPQ==
+   d="scan'208";a="36533450"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 05:39:55 -0700
+X-CSE-ConnectionGUID: vaiw0bkhSZGUCAGKW/PZcQ==
+X-CSE-MsgGUID: v/wDccsfRJesGHA6BnTyIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="70671955"
+   d="scan'208";a="71234691"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 22 Sep 2024 05:07:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Sep 2024 05:39:53 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssLNW-000GJ6-2Z;
-	Sun, 22 Sep 2024 12:07:50 +0000
-Date: Sun, 22 Sep 2024 20:07:13 +0800
+	id 1ssLsV-000GJo-0T;
+	Sun, 22 Sep 2024 12:39:51 +0000
+Date: Sun, 22 Sep 2024 20:38:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:for-kernelci 5/13] arch/x86/kernel/cpu/common.c:763:22: error:
- call to undeclared function 'per_cpu_offset'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202409222044.9qXlncXt-lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h:29:1: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202409222040.EPSCh9v9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +64,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-kernelci
-head:   14ae2a343392bbe36953a6a4088b44a50c4f9611
-commit: 4f9082c38c9d2268ddccecf03551c99ca49933bc [5/13] x86/percpu: Get rid of absolute per-CPU variable placement
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240922/202409222044.9qXlncXt-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409222044.9qXlncXt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   88264981f2082248e892a706b2c5004650faac54
+commit: 782fe08e9861d00ce8aca370453dd9ceb9a23d50 soc: fsl: qbman: FSL_DPAA depends on COMPILE_TEST
+date:   10 weeks ago
+config: sparc64-randconfig-r133-20240922 (https://download.01.org/0day-ci/archive/20240922/202409222040.EPSCh9v9-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240922/202409222040.EPSCh9v9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409222044.9qXlncXt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409222040.EPSCh9v9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, ...):
+>> drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h:29:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] fd_status @@     got restricted __be32 const [usertype] status @@
+   drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h:29:1: sparse:     expected unsigned int [usertype] fd_status
+   drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h:29:1: sparse:     got restricted __be32 const [usertype] status
+   drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, drivers/net/ethernet/freescale/dpaa/dpaa_eth_trace.h):
+>> drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h:29:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] fd_status @@     got restricted __be32 const [usertype] status @@
+   drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h:29:1: sparse:     expected unsigned int [usertype] fd_status
+   drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h:29:1: sparse:     got restricted __be32 const [usertype] status
+>> drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2745:24: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file (through include/linux/module.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file:
+>> include/soc/fsl/qman.h:245:16: sparse: sparse: cast to restricted __be32
+>> include/soc/fsl/qman.h:245:16: sparse: sparse: cast from restricted __be16
 
->> arch/x86/kernel/cpu/common.c:763:22: error: call to undeclared function 'per_cpu_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     763 |         wrmsrl(MSR_GS_BASE, per_cpu_offset(cpu));
-         |                             ^
-   1 error generated.
+vim +29 drivers/net/ethernet/freescale/dpaa/./dpaa_eth_trace.h
 
+eb11ddf36eb87f Madalin Bucur           2016-11-15  16  
+eb11ddf36eb87f Madalin Bucur           2016-11-15  17  #define fd_format_name(format)	{ qm_fd_##format, #format }
+eb11ddf36eb87f Madalin Bucur           2016-11-15  18  #define fd_format_list	\
+eb11ddf36eb87f Madalin Bucur           2016-11-15  19  	fd_format_name(contig),	\
+eb11ddf36eb87f Madalin Bucur           2016-11-15  20  	fd_format_name(sg)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  21  
+eb11ddf36eb87f Madalin Bucur           2016-11-15  22  /* This is used to declare a class of events.
+eb11ddf36eb87f Madalin Bucur           2016-11-15  23   * individual events of this type will be defined below.
+eb11ddf36eb87f Madalin Bucur           2016-11-15  24   */
+eb11ddf36eb87f Madalin Bucur           2016-11-15  25  
+eb11ddf36eb87f Madalin Bucur           2016-11-15  26  /* Store details about a frame descriptor and the FQ on which it was
+eb11ddf36eb87f Madalin Bucur           2016-11-15  27   * transmitted/received.
+eb11ddf36eb87f Madalin Bucur           2016-11-15  28   */
+eb11ddf36eb87f Madalin Bucur           2016-11-15 @29  DECLARE_EVENT_CLASS(dpaa_eth_fd,
+eb11ddf36eb87f Madalin Bucur           2016-11-15  30  	/* Trace function prototype */
+eb11ddf36eb87f Madalin Bucur           2016-11-15  31  	TP_PROTO(struct net_device *netdev,
+eb11ddf36eb87f Madalin Bucur           2016-11-15  32  		 struct qman_fq *fq,
+eb11ddf36eb87f Madalin Bucur           2016-11-15  33  		 const struct qm_fd *fd),
+eb11ddf36eb87f Madalin Bucur           2016-11-15  34  
+eb11ddf36eb87f Madalin Bucur           2016-11-15  35  	/* Repeat argument list here */
+eb11ddf36eb87f Madalin Bucur           2016-11-15  36  	TP_ARGS(netdev, fq, fd),
+eb11ddf36eb87f Madalin Bucur           2016-11-15  37  
+eb11ddf36eb87f Madalin Bucur           2016-11-15  38  	/* A structure containing the relevant information we want to record.
+eb11ddf36eb87f Madalin Bucur           2016-11-15  39  	 * Declare name and type for each normal element, name, type and size
+eb11ddf36eb87f Madalin Bucur           2016-11-15  40  	 * for arrays. Use __string for variable length strings.
+eb11ddf36eb87f Madalin Bucur           2016-11-15  41  	 */
+eb11ddf36eb87f Madalin Bucur           2016-11-15  42  	TP_STRUCT__entry(
+eb11ddf36eb87f Madalin Bucur           2016-11-15  43  		__field(u32,	fqid)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  44  		__field(u64,	fd_addr)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  45  		__field(u8,	fd_format)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  46  		__field(u16,	fd_offset)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  47  		__field(u32,	fd_length)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  48  		__field(u32,	fd_status)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  49  		__string(name,	netdev->name)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  50  	),
+eb11ddf36eb87f Madalin Bucur           2016-11-15  51  
+eb11ddf36eb87f Madalin Bucur           2016-11-15  52  	/* The function that assigns values to the above declared fields */
+eb11ddf36eb87f Madalin Bucur           2016-11-15  53  	TP_fast_assign(
+eb11ddf36eb87f Madalin Bucur           2016-11-15  54  		__entry->fqid = fq->fqid;
+eb11ddf36eb87f Madalin Bucur           2016-11-15  55  		__entry->fd_addr = qm_fd_addr_get64(fd);
+eb11ddf36eb87f Madalin Bucur           2016-11-15  56  		__entry->fd_format = qm_fd_get_format(fd);
+eb11ddf36eb87f Madalin Bucur           2016-11-15  57  		__entry->fd_offset = qm_fd_get_offset(fd);
+eb11ddf36eb87f Madalin Bucur           2016-11-15  58  		__entry->fd_length = qm_fd_get_length(fd);
+eb11ddf36eb87f Madalin Bucur           2016-11-15  59  		__entry->fd_status = fd->status;
+2c92ca849fcc6e Steven Rostedt (Google  2024-05-16  60) 		__assign_str(name);
+eb11ddf36eb87f Madalin Bucur           2016-11-15  61  	),
+eb11ddf36eb87f Madalin Bucur           2016-11-15  62  
+eb11ddf36eb87f Madalin Bucur           2016-11-15  63  	/* This is what gets printed when the trace event is triggered */
+eb11ddf36eb87f Madalin Bucur           2016-11-15  64  	TP_printk("[%s] fqid=%d, fd: addr=0x%llx, format=%s, off=%u, len=%u, status=0x%08x",
+eb11ddf36eb87f Madalin Bucur           2016-11-15  65  		  __get_str(name), __entry->fqid, __entry->fd_addr,
+eb11ddf36eb87f Madalin Bucur           2016-11-15  66  		  __print_symbolic(__entry->fd_format, fd_format_list),
+eb11ddf36eb87f Madalin Bucur           2016-11-15  67  		  __entry->fd_offset, __entry->fd_length, __entry->fd_status)
+eb11ddf36eb87f Madalin Bucur           2016-11-15  68  );
+eb11ddf36eb87f Madalin Bucur           2016-11-15  69  
 
-vim +/per_cpu_offset +763 arch/x86/kernel/cpu/common.c
+:::::: The code at line 29 was first introduced by commit
+:::::: eb11ddf36eb87f3d568248370be4fdaaefb5043c dpaa_eth: add trace points
 
-   734	
-   735	/**
-   736	 * switch_gdt_and_percpu_base - Switch to direct GDT and runtime per CPU base
-   737	 * @cpu:	The CPU number for which this is invoked
-   738	 *
-   739	 * Invoked during early boot to switch from early GDT and early per CPU to
-   740	 * the direct GDT and the runtime per CPU area. On 32-bit the percpu base
-   741	 * switch is implicit by loading the direct GDT. On 64bit this requires
-   742	 * to update GSBASE.
-   743	 */
-   744	void __init switch_gdt_and_percpu_base(int cpu)
-   745	{
-   746		load_direct_gdt(cpu);
-   747	
-   748	#ifdef CONFIG_X86_64
-   749		/*
-   750		 * No need to load %gs. It is already correct.
-   751		 *
-   752		 * Writing %gs on 64bit would zero GSBASE which would make any per
-   753		 * CPU operation up to the point of the wrmsrl() fault.
-   754		 *
-   755		 * Set GSBASE to the new offset. Until the wrmsrl() happens the
-   756		 * early mapping is still valid. That means the GSBASE update will
-   757		 * lose any prior per CPU data which was not copied over in
-   758		 * setup_per_cpu_areas().
-   759		 *
-   760		 * This works even with stackprotector enabled because the
-   761		 * per CPU stack canary is 0 in both per CPU areas.
-   762		 */
- > 763		wrmsrl(MSR_GS_BASE, per_cpu_offset(cpu));
-   764	#else
-   765		/*
-   766		 * %fs is already set to __KERNEL_PERCPU, but after switching GDT
-   767		 * it is required to load FS again so that the 'hidden' part is
-   768		 * updated from the new GDT. Up to this point the early per CPU
-   769		 * translation is active. Any content of the early per CPU data
-   770		 * which was not copied over in setup_per_cpu_areas() is lost.
-   771		 */
-   772		loadsegment(fs, __KERNEL_PERCPU);
-   773	#endif
-   774	}
-   775	
+:::::: TO: Madalin Bucur <madalin.bucur@nxp.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
