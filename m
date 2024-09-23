@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D1342042
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Sep 2024 23:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89EC15D1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 00:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727048719; cv=none; b=KnLwEJiMMzf+qIGU3jiqRyrmH8Ec1oppOe6qk9oBIcBSwl5AkQc+uoBZL2pZBd+e53wi0dSICKL/DXNuUba6x0YKeEZctAItgvr/m72GwSz0JdAVbcISizgN0dRp3/H/PRY5znwFdka1qPU/P8GM+LKx/KnpF0Lc7cDixNBk4lk=
+	t=1727051199; cv=none; b=nBHY2G8Cv/hlCp7PAbRcyP9ktD0ITAr1dRjypOFLIhPva5Gcyu1neGl45Ww6TtVaWAvN0NAtqWZw1XcnL0jYAkTq9ssQ/ATa0kYRr2MqGQV5ddaQ1v41+LKLBu9cjPMi3IChgMO9CpmtBjWes5uLoXeKK2KF2MBJfwb7sK6jAQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727048719; c=relaxed/simple;
-	bh=ScT84scBtrHkoCi69DewJn+zJYX4QtY0nT6N0BBHdDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C/nMHBOy0TW6hXcKkI5hw8QaVbx7Is3IiLBG0lPqQ3D2aaX1cWd6vfxI88xyd/wDq3Vd0Y3S/HWOMSwS7uDH3cIwtxCTpcLy7HjLv+hD2BJvNfOZJalfEcNZ15EZ9fnxYow6+3IPqwNUwYW17b5bFplpa0v5I2jJXuA+FwucKjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VF6CiRhu; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1727051199; c=relaxed/simple;
+	bh=r9eZSjpPPRZxuaTB8vAtuP+JbDLZI+RKHFsHrPdgMvw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qPTdmXXb6gDct4s4niuBTs0gziMkSDTt1x4rrU8QhnAUI+li2+LFlxoZZnrQiPpO59kFqa9K/FAI5hwA9fEgcjLfnvxYIM2qztTVcJCZhM9oOnXZe3SBBZMGvTl0tphJYacrJcGHEvvxk/sbQ+p1FUjk8wzpaaHhl9IJ3A2+Y04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C0J4B0Ul; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VF6CiRhu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C0J4B0Ul"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727048717; x=1758584717;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ScT84scBtrHkoCi69DewJn+zJYX4QtY0nT6N0BBHdDQ=;
-  b=VF6CiRhuBsiQM2xNzIUGfQfo+doBFirvhmdelw6lX0mYJmn5lWnmX6bz
-   DHaR06n3O4Wi2QOWTFwULe+JHefGf+SBiBkFPPfwZtZR13d8V0lgkvhU9
-   Gq5h16uQuu5Amm26SK3d+E7wtOneeoqO+QGZabWj+5qH89gPmW8ua6iCb
-   dEOvd6pN6c1gNzuJUU0ZXmyAmP+TF4YRPIl0NGsD+W3Ko9mewTMu/GfWU
-   zs61XTX6Fai6sMc7GhODJablcRG55n6Rxxs/qaFoShqMlb0wfnimWZrrG
-   cmkjyhOiakdCjxwvv4vuQtxhbnKiSrDsBXIF8bkZQB1yAgpU0Byg0Xnb4
-   A==;
-X-CSE-ConnectionGUID: VwMoOVg0Q3G1e9dn7iKSVg==
-X-CSE-MsgGUID: pSKH/E7LR3SgsC/nNcQfvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="51400802"
+  t=1727051198; x=1758587198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r9eZSjpPPRZxuaTB8vAtuP+JbDLZI+RKHFsHrPdgMvw=;
+  b=C0J4B0UlDTLyWarNEmnZnCqSLqX8nGPrUXKHVS7IDuiDusm1ybE3j9hS
+   OMlcbOuQXjUXcOymYPtYBYhOluqPbX2aScqoUbCwPwICtsCb9F6t2dkBq
+   DpLmQxBjL8HTUg2qJAb6cglX/b/7eiDgJU/OGQJTI0Zgk6UPk/TJMpUfl
+   Cm/2BpPrrJWsi91QY7K0NefRW+6c31kjFN73iKkE+3DTmA86vdqdIrhE7
+   YZbZDm4m2wgYIfEx+9XAvtayB8wjg179Ip78jSxGEmfbPjR2jqNgSFnlE
+   3AZkDgmnMAg0DbyL9Oia9XXT0R5viycLz9qSL4/xuX78Lwv4fysMVjfqp
+   Q==;
+X-CSE-ConnectionGUID: 3laaxPSiR9KGVk/TovTsyw==
+X-CSE-MsgGUID: CZUZgIwpThWj/eeIhD4tfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26136441"
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="51400802"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 16:45:17 -0700
-X-CSE-ConnectionGUID: EYtWML9rStmJTxzY/golmA==
-X-CSE-MsgGUID: fLaZTziHQQGIYUMzrSq6EA==
+   d="scan'208";a="26136441"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 17:26:37 -0700
+X-CSE-ConnectionGUID: Aux9It25RsqZ1Y4jrXdx1g==
+X-CSE-MsgGUID: Ah3+FQaFS6KkFoPqV8L0XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="101624334"
+   d="scan'208";a="71338470"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Sep 2024 16:45:15 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Sep 2024 17:26:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssWGO-000GkM-37;
-	Sun, 22 Sep 2024 23:45:12 +0000
-Date: Mon, 23 Sep 2024 07:45:05 +0800
+	id 1ssWuN-000Glc-2K;
+	Mon, 23 Sep 2024 00:26:31 +0000
+Date: Mon, 23 Sep 2024 08:26:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Hindborg <a.hindborg@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [nbdd0121:rnvme-device-id-without-macro 54/69] warning: field `dev`
- is never read
-Message-ID: <202409230729.aEgSPr6L-lkp@intel.com>
+To: Dipendra Khadka <kdipendra88@gmail.com>, sgoutham@marvell.com,
+	gakula@marvell.com, sbhatta@marvell.com, hkelam@marvell.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, Dipendra Khadka <kdipendra88@gmail.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: net: nic: Add error pointer check in
+ otx2_flows.c
+Message-ID: <202409230844.gM9kqV79-lkp@intel.com>
+References: <20240922185235.50413-1-kdipendra88@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,112 +67,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240922185235.50413-1-kdipendra88@gmail.com>
 
-tree:   https://github.com/nbdd0121/linux rnvme-device-id-without-macro
-head:   d401b76fe0c1420b142e21e601ee4029af53021f
-commit: cde6959b6956df83daade091da491001d0c3819f [54/69] rust: add dma pool and coherent allocator
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240923/202409230729.aEgSPr6L-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409230729.aEgSPr6L-lkp@intel.com/reproduce)
+Hi Dipendra,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dipendra-Khadka/Staging-net-nic-Add-error-pointer-check-in-otx2_flows-c/20240923-025325
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240922185235.50413-1-kdipendra88%40gmail.com
+patch subject: [PATCH] Staging: net: nic: Add error pointer check in otx2_flows.c
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240923/202409230844.gM9kqV79-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409230844.gM9kqV79-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409230729.aEgSPr6L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409230844.gM9kqV79-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: field `dev` is never read
-   --> rust/kernel/dma.rs:77:5
-   |
-   75 | pub struct Pool<T> {
-   |            ---- field in this struct
-   76 |     ptr: *mut bindings::dma_pool,
-   77 |     dev: ARef<Device>,
-   |     ^^^
-   |
-   = note: `#[warn(dead_code)]` on by default
---
->> warning: unsafe function's docs miss `# Safety` section
-   --> rust/kernel/dma.rs:24:5
-   |
-   24 |     unsafe fn allocation_data(data: &Self::DataSource) -> Self::AllocationData;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
-   = note: `-W clippy::missing-safety-doc` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::missing_safety_doc)]`
---
->> warning: missing documentation for an associated function
-   --> rust/kernel/dma.rs:23:5
-   |
-   23 |     fn free(cpu_addr: *mut (), dma_handle: u64, size: usize, alloc_data: &Self::AllocationData);
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
---
->> warning: missing documentation for an associated function
-   --> rust/kernel/dma.rs:24:5
-   |
-   24 |     unsafe fn allocation_data(data: &Self::DataSource) -> Self::AllocationData;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
---
->> warning: missing documentation for a struct
-   --> rust/kernel/dma.rs:27:1
-   |
-   27 | pub struct CoherentAllocator;
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
---
->> warning: missing documentation for a function
-   --> rust/kernel/dma.rs:42:1
-   |
-   42 | / pub fn try_alloc_coherent<T>(
-   43 | |     dev: ARef<Device>,
-   44 | |     count: usize,
-   45 | |     atomic: bool,
-   46 | | ) -> Result<CoherentAllocation<T, CoherentAllocator>> {
-   | |_____________________________________________________^
---
->> warning: missing documentation for a struct
-   --> rust/kernel/dma.rs:75:1
-   |
-   75 | pub struct Pool<T> {
-   | ^^^^^^^^^^^^^^^^^^
---
->> warning: missing documentation for a struct
-   --> rust/kernel/dma.rs:150:1
-   |
-   150 | pub struct CoherentAllocation<T, A: Allocator> {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
---
->> warning: missing documentation for a struct field
-   --> rust/kernel/dma.rs:152:5
-   |
-   152 |     pub dma_handle: u64,
-   |     ^^^^^^^^^^^^^^^^^^^
---
->> warning: unsafe function's docs miss `# Safety` section
-   --> rust/kernel/dma.rs:214:5
-   |
-   214 | /     pub unsafe fn from_parts(
-   215 | |         data: &A::DataSource,
-   216 | |         ptr: usize,
-   217 | |         dma_handle: u64,
-   218 | |         count: usize,
-   219 | |     ) -> Self {
-   | |_____________^
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
---
->> warning: missing documentation for an associated function
-   --> rust/kernel/dma.rs:214:5
-   |
-   214 | /     pub unsafe fn from_parts(
-   215 | |         data: &A::DataSource,
-   216 | |         ptr: usize,
-   217 | |         dma_handle: u64,
-   218 | |         count: usize,
-   219 | |     ) -> Self {
-   | |_____________^
-..
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c: In function 'otx2_alloc_mcam_entries':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c:124:39: error: 'bfvf' undeclared (first use in this function); did you mean 'pfvf'?
+     124 |                         mutex_unlock(&bfvf->mbox.lock);
+         |                                       ^~~~
+         |                                       pfvf
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c:124:39: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c: In function 'otx2_mcam_entry_init':
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c:207:31: error: 'bfvf' undeclared (first use in this function); did you mean 'pfvf'?
+     207 |                 mutex_unlock(&bfvf->mbox.lock);
+         |                               ^~~~
+         |                               pfvf
+
+
+vim +124 drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c
+
+    71	
+    72	int otx2_alloc_mcam_entries(struct otx2_nic *pfvf, u16 count)
+    73	{
+    74		struct otx2_flow_config *flow_cfg = pfvf->flow_cfg;
+    75		struct npc_mcam_alloc_entry_req *req;
+    76		struct npc_mcam_alloc_entry_rsp *rsp;
+    77		int ent, allocated = 0;
+    78	
+    79		/* Free current ones and allocate new ones with requested count */
+    80		otx2_free_ntuple_mcam_entries(pfvf);
+    81	
+    82		if (!count)
+    83			return 0;
+    84	
+    85		flow_cfg->flow_ent = devm_kmalloc_array(pfvf->dev, count,
+    86							sizeof(u16), GFP_KERNEL);
+    87		if (!flow_cfg->flow_ent) {
+    88			netdev_err(pfvf->netdev,
+    89				   "%s: Unable to allocate memory for flow entries\n",
+    90				    __func__);
+    91			return -ENOMEM;
+    92		}
+    93	
+    94		mutex_lock(&pfvf->mbox.lock);
+    95	
+    96		/* In a single request a max of NPC_MAX_NONCONTIG_ENTRIES MCAM entries
+    97		 * can only be allocated.
+    98		 */
+    99		while (allocated < count) {
+   100			req = otx2_mbox_alloc_msg_npc_mcam_alloc_entry(&pfvf->mbox);
+   101			if (!req)
+   102				goto exit;
+   103	
+   104			req->contig = false;
+   105			req->count = (count - allocated) > NPC_MAX_NONCONTIG_ENTRIES ?
+   106					NPC_MAX_NONCONTIG_ENTRIES : count - allocated;
+   107	
+   108			/* Allocate higher priority entries for PFs, so that VF's entries
+   109			 * will be on top of PF.
+   110			 */
+   111			if (!is_otx2_vf(pfvf->pcifunc)) {
+   112				req->priority = NPC_MCAM_HIGHER_PRIO;
+   113				req->ref_entry = flow_cfg->def_ent[0];
+   114			}
+   115	
+   116			/* Send message to AF */
+   117			if (otx2_sync_mbox_msg(&pfvf->mbox))
+   118				goto exit;
+   119	
+   120			rsp = (struct npc_mcam_alloc_entry_rsp *)otx2_mbox_get_rsp
+   121				(&pfvf->mbox.mbox, 0, &req->hdr);
+   122	
+   123			if (IS_ERR(rsp)) {
+ > 124				mutex_unlock(&bfvf->mbox.lock);
+   125				return PTR_ERR(rsp);
+   126			}
+   127	
+   128			for (ent = 0; ent < rsp->count; ent++)
+   129				flow_cfg->flow_ent[ent + allocated] = rsp->entry_list[ent];
+   130	
+   131			allocated += rsp->count;
+   132	
+   133			/* If this request is not fulfilled, no need to send
+   134			 * further requests.
+   135			 */
+   136			if (rsp->count != req->count)
+   137				break;
+   138		}
+   139	
+   140		/* Multiple MCAM entry alloc requests could result in non-sequential
+   141		 * MCAM entries in the flow_ent[] array. Sort them in an ascending order,
+   142		 * otherwise user installed ntuple filter index and MCAM entry index will
+   143		 * not be in sync.
+   144		 */
+   145		if (allocated)
+   146			sort(&flow_cfg->flow_ent[0], allocated,
+   147			     sizeof(flow_cfg->flow_ent[0]), mcam_entry_cmp, NULL);
+   148	
+   149	exit:
+   150		mutex_unlock(&pfvf->mbox.lock);
+   151	
+   152		flow_cfg->max_flows = allocated;
+   153	
+   154		if (allocated) {
+   155			pfvf->flags |= OTX2_FLAG_MCAM_ENTRIES_ALLOC;
+   156			pfvf->flags |= OTX2_FLAG_NTUPLE_SUPPORT;
+   157		}
+   158	
+   159		if (allocated != count)
+   160			netdev_info(pfvf->netdev,
+   161				    "Unable to allocate %d MCAM entries, got only %d\n",
+   162				    count, allocated);
+   163		return allocated;
+   164	}
+   165	EXPORT_SYMBOL(otx2_alloc_mcam_entries);
+   166	
 
 -- 
 0-DAY CI Kernel Test Service
