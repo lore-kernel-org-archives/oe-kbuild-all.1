@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E900E19CD1B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 15:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2F319CC27
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 15:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727105257; cv=none; b=jPuvfluVs31ITRCGTQKgK7RFcv6JuS93V5SI/XDR29DN8EyUeHyjznAzomcm4SpeybtiVUmYv78giTfKNjJGK9S3keVygphrH3/B/777paKvcyYo80m1iexEf2fVVR2y3beITUDQQv8T84uZ9EAcf9Nh/Mp1JBO23OA+jYdp/Mw=
+	t=1727107116; cv=none; b=NQ0/g2RUqn6ZC+8eFlEbcNq/IcIvVRGfdXn/zRtM2IiICwufnYRnewaTnSQY0tZiM5oTbdpwmwhd922BocxAsn5+HLIGCqjN/KeswRndz9VF9ZZT8RikKPTZaTyKiBF/jHFx2rZE3QOryXaz6Lw1rJdUrau4NFV53JWHC1u6UFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727105257; c=relaxed/simple;
-	bh=If4cOtf68oXmojws/mU/2bq+xWWra5iuKuFDg7ScKaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BygqNu4rqqd9wwmjghYXW69EkmVqm2cliusqskmhehZG9gP/asXN9TAE4cvjETjrgnpzZIMtOUBODiD8YLXF5vR2fJRHaUWgTg/m53MJ5hg0n3vqhtULJtijlqN3KtWFuc6nH1jtKRxeSldCb/q1GGzZAFzCID620a0xSvGYOyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Po2tkGA6; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1727107116; c=relaxed/simple;
+	bh=dB/s03J1ijWZEItzL1EbaJOmrjSCtJOL2i697tdgEgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SE4tUlKmCj6AM/pkmfN7/aF7QeTlV9X67WvGKn+n0rEd4OD6EXESnhrL6bGx8113nX6wPmM3R7y+0gu9H8p99YTlM6MYttsQ7YgD9kPMQ+5E9UpJmNJPlqtpfeTZmzg/B83n66Rde3ACCUP5pL/tV8hRWKCDgcoQR6/Dc/H+q9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W9w/UAck; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Po2tkGA6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W9w/UAck"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727105255; x=1758641255;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=If4cOtf68oXmojws/mU/2bq+xWWra5iuKuFDg7ScKaA=;
-  b=Po2tkGA6EB+rvNsOeBO5jN7lrc8WfHKwitV5e9OYhXrX0AjrYBjMkb2r
-   utKJ36T7bS3FBkcZokuXHSmUbb1J8Wec4zPKjojUmcSP6azNsOnSYb8jR
-   Fh+1RN6W2XGhsalMl/FCAJWdL8G5bUAMvXOpKuDVTDhol8A35QSUPZoxK
-   IaG6vQp99doLfwVUnmucBFv0ZXq5AkdMfF+Oli2XS1EqLfDbVSRaeo8IQ
-   vPcsU7WueyZVnHtT9596Rsn0P5eLSNkbYUcRvG1hjbqU6c5KTzK23YRcV
-   KUidPGcauMlWwZarJVUCRHS6suc/hYrmnH+J/ty2kW/U/frl7JYSTReSV
-   A==;
-X-CSE-ConnectionGUID: Ste2Q7IjQlGiIy2EUPhxGg==
-X-CSE-MsgGUID: u32G9L+7SN6AIA9smiQQyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="29947011"
+  t=1727107114; x=1758643114;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dB/s03J1ijWZEItzL1EbaJOmrjSCtJOL2i697tdgEgA=;
+  b=W9w/UAck5F4nei10BoMeamooOcSeSrXx0CbFpfo75FRA1A1zmedb4fR2
+   fJNBeQtD5j6Xs1b6F7wXxOX2fTFjROy2xxjdRKUalasHtQGpQxZnrFLA6
+   UW6l5ah8jTGd0ZdYQOCybpX8G2Ek2f5GhivpZohShhM2Cs867woJGrM/5
+   sHsLAJ4mu3pWGEJXLSpi51qmbX12AjajJROK6MYPll8vGojetCtJRTtX7
+   RhVplBnRZAi+MC/1e7mJsuJdGqtkzR4wRTikNXNQQQTymZ7TWbRurvBFV
+   5GNZI7LbL/AbbQ5z5hAki/qW41ueGkOWxwADLSI+EWo51bpm0pIMAwgbR
+   g==;
+X-CSE-ConnectionGUID: YWOXMTKqTFS+U71uglc3Cg==
+X-CSE-MsgGUID: jtoEvtybTfGOqD2J8TWKbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="29785878"
 X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="29947011"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 08:27:32 -0700
-X-CSE-ConnectionGUID: B+pBW9z3TsS2UdBpfM4xrA==
-X-CSE-MsgGUID: c2CpntMZRJmfVm/lixOjSw==
+   d="scan'208";a="29785878"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 08:58:33 -0700
+X-CSE-ConnectionGUID: pxoA7IRaQyuYaeZfnDCn0Q==
+X-CSE-MsgGUID: 9SFeaq//T+eJh+7O7ro38w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="71371806"
+   d="scan'208";a="75870740"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2024 08:27:30 -0700
+  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2024 08:58:31 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sskyF-000HJq-1Z;
-	Mon, 23 Sep 2024 15:27:27 +0000
-Date: Mon, 23 Sep 2024 23:27:11 +0800
+	id 1sslSG-000HLQ-37;
+	Mon, 23 Sep 2024 15:58:28 +0000
+Date: Mon, 23 Sep 2024 23:57:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2181/2441]
- drivers/usb/host/xhci-plat.c:476:40: error: 'xhci_plat_phytium_pe220x'
- undeclared here (not in a function)
-Message-ID: <202409232311.wQ713GLR-lkp@intel.com>
+To: Bruno Sobreira =?iso-8859-1?Q?Fran=E7a?= <brunofrancadevsec@gmail.com>,
+	akpm@linux-foundation.org, davidgow@google.com,
+	linux-kernel@vger.kernel.org, rmoar@google.com
+Cc: oe-kbuild-all@lists.linux.dev, kunit-dev@googlegroups.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Bruno Sobreira =?iso-8859-1?Q?Fran=E7a?= <brunofrancadevsec@gmail.com>
+Subject: Re: [PATCH] lib/math: Add int_log test suite
+Message-ID: <202409232338.5jngSmX9-lkp@intel.com>
+References: <20240922172549.159928-1-brunofrancadevsec@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,43 +67,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240922172549.159928-1-brunofrancadevsec@gmail.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: 666b19bb8aeab2412d1cc496ef9fe000827cff86 [2181/2441] usb: xhci: xhci-plat: Support for Phytium Pe220x Add XHCI_RESET_ON_RESUME quirk for Phytium Pe220x Phytium Pe220x xHCI host controller does not have suspend/resume support. Therefore, use of the XHCI_RESET_ON_RESUME quirk is mandatory in order to avoid failures after resume.
-config: x86_64-buildonly-randconfig-006-20240923 (https://download.01.org/0day-ci/archive/20240923/202409232311.wQ713GLR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232311.wQ713GLR-lkp@intel.com/reproduce)
+Hi Bruno,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240920]
+[also build test WARNING on linus/master]
+[cannot apply to akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything v6.11 v6.11-rc7 v6.11-rc6 v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bruno-Sobreira-Fran-a/lib-math-Add-int_log-test-suite/20240923-012721
+base:   next-20240920
+patch link:    https://lore.kernel.org/r/20240922172549.159928-1-brunofrancadevsec%40gmail.com
+patch subject: [PATCH] lib/math: Add int_log test suite
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240923/202409232338.5jngSmX9-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232338.5jngSmX9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409232311.wQ713GLR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409232338.5jngSmX9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/usb/host/xhci-plat.c:476:40: error: 'xhci_plat_phytium_pe220x' undeclared here (not in a function)
-     476 |         { "PHYT0039", (kernel_ulong_t)&xhci_plat_phytium_pe220x },
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/thread_info.h:12,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/alpha/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/kref.h:16,
+                    from include/kunit/test.h:22,
+                    from lib/math/tests/int_log_kunit.c:2:
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^
+   lib/math/tests/int_log_kunit.c:22:10: note: in expansion of macro 'U64_MAX'
+      22 |         {U64_MAX, 536870911, "Log base 2 of MAX"},
+         |          ^~~~~~~
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^
+   lib/math/tests/int_log_kunit.c:33:10: note: in expansion of macro 'U64_MAX'
+      33 |         {U64_MAX, 161614247, "Log base 10 of MAX"}
+         |          ^~~~~~~
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
-   Depends on [n]: PCI [=n]
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
    Selected by [y]:
-   - X86 [=y]
+   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 
-vim +/xhci_plat_phytium_pe220x +476 drivers/usb/host/xhci-plat.c
+vim +25 include/linux/limits.h
 
-   472	
-   473	static const struct acpi_device_id usb_xhci_acpi_match[] = {
-   474		/* XHCI-compliant USB Controller */
-   475		{ "PNP0D10", },
- > 476		{ "PHYT0039", (kernel_ulong_t)&xhci_plat_phytium_pe220x },
-   477		{ }
-   478	};
-   479	MODULE_DEVICE_TABLE(acpi, usb_xhci_acpi_match);
-   480	
+3c9d017cc283df Andy Shevchenko 2023-08-04  14  
+54d50897d544c8 Masahiro Yamada 2019-03-07  15  #define U8_MAX		((u8)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  16  #define S8_MAX		((s8)(U8_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  17  #define S8_MIN		((s8)(-S8_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  18  #define U16_MAX		((u16)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  19  #define S16_MAX		((s16)(U16_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  20  #define S16_MIN		((s16)(-S16_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  21  #define U32_MAX		((u32)~0U)
+3f50f132d8400e John Fastabend  2020-03-30  22  #define U32_MIN		((u32)0)
+54d50897d544c8 Masahiro Yamada 2019-03-07  23  #define S32_MAX		((s32)(U32_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  24  #define S32_MIN		((s32)(-S32_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07 @25  #define U64_MAX		((u64)~0ULL)
+54d50897d544c8 Masahiro Yamada 2019-03-07  26  #define S64_MAX		((s64)(U64_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  27  #define S64_MIN		((s64)(-S64_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  28  
 
 -- 
 0-DAY CI Kernel Test Service
