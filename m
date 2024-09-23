@@ -1,223 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BD23F9D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 19:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9751CA84
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 20:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727121290; cv=none; b=R20GNXVB7rAaDWvfCI1nJR+q4TcTtRYQl8gETEj1w7ERyXeUzHWQYIaRvETB3Wh8rdAHsdxegfflittWABV7Zt2y3sQnuaB8hsqp+9bqLmOX62bbjIaqsAPVcyWt43X+13vzyTSXzS3ZbZdUMSlebhiT1/7YnDWJqV632ynXrKQ=
+	t=1727121946; cv=none; b=mhlIvd03wa0e4ZminC/Um1sXLd/kbgWBYs+bc4o7FXU4WERD10gg55EKaWsUdqOQeuphhft81s5mZbhjcgMVsPwr8ksize3yqmzjCR2iZ2W+l4LKAnuHTsXy2aGIkAORp89SkDoT0MW8sn3J8qwJ4qNROgA/N7V8NtYiFvVrMzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727121290; c=relaxed/simple;
-	bh=76UXzeByq3wxL1f4vfdIb7pJAMXsF8MyETpYSkG1n8Q=;
+	s=arc-20240116; t=1727121946; c=relaxed/simple;
+	bh=vYQLfq3+j5GZ6dy8/Mx3vR8HV1qDa6f2vwyWwx9K5zs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qRFHQwCzRE0dSvp0dw3TnNVYU2YPfsZNUXfttRxyCOI9rjY5Kfhd9ElyVMNuJknhpSrMqEtg/t7sZBQPcBa2EfLibHZorHNTNmvB2WO2qU/ecXjkTjpaSFNSK+ME9Dj9AkKqfbaA5puC7ptBQoIJ7zqKHwaAWgB4jIuvXh7pD94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNe2tRUr; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=TML33t7gvY3N2HSAypwycweaT162x/YqE5MrNxYu24dyjZaw4FPE74n1/4KxVZ5A+brlQChbN5Acsk15BKqP9gGnECPZzN3wE1sk8gfY81oy+Lre//nkIKsawn33YWBMe2o4Xp7zYsto2pkD9X23hcd46dtR1xKvY1jkaKRaN1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6avfF0G; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNe2tRUr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6avfF0G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727121288; x=1758657288;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=76UXzeByq3wxL1f4vfdIb7pJAMXsF8MyETpYSkG1n8Q=;
-  b=jNe2tRUrwoPq6VY7HcDriMB2tVb0XYeR1QIOrTOt3itnYXcqZtkTKAlc
-   pJZsDQOpyPDQM2AghyiPiDnSqWMhR8lVCO0+K7O7fedB5St8V8QIwCzqQ
-   H6dRjlGcO4OUsTMuEV/+taFfDwlPK7e2zM3S94SFsgCAVRkYQj7RSyAxc
-   Ud89FU91dlaok2PDD3SujEkcDY03Z+tSbH8W7rHyBMDmBvMtmPysY2+kE
-   q0vRNeLFu0NwjLd/G/cOCpALBdT6U29Mz61XCxvij1fmq5HpJFkepLQyR
-   cfwv0INrUCtcNrqip4lyOY+cfs5H0rTJi2s3fLNVY3CZRZJnUNK4Scs+M
-   Q==;
-X-CSE-ConnectionGUID: 1JaXKTm3QryGzNiTlIdaQQ==
-X-CSE-MsgGUID: r69//T91QN+EEY2KxXnP1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="28982404"
+  t=1727121945; x=1758657945;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vYQLfq3+j5GZ6dy8/Mx3vR8HV1qDa6f2vwyWwx9K5zs=;
+  b=a6avfF0G06V9xns6empcb/aIIvqS2VzxeDEtdsVyCFpzGrvsDlNYnbbg
+   90BmWD3QcUPI9+p2d15YzU7jq3RqXBeMXykBenXH6adSAUaxPWR04Xn7M
+   weajuvNRca9vf+ahz1z+suymhP0VUBprTp/cga19ow91M/p4Pduc5X+Wz
+   tkynaLdmMrwHdSbWY+CTpLktbSvHwq+7vfnRBf4z4BC/0s973GEp0QDTK
+   WAdbnByLZGYIuM8RFAhlveGBGgZNIIOMs6HUtflPTrzY6KziP31c/jrSf
+   E72MiQcPYefC1JDGq0WWI0wHiUN1OFWCVoAys2fzr9tpR5ij/mfIYmJ68
+   g==;
+X-CSE-ConnectionGUID: Dg0EtUEgQTqP04fAfqzTlA==
+X-CSE-MsgGUID: V0vYX5PSR0+Us0DsjxRgSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26183984"
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="28982404"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 12:54:44 -0700
-X-CSE-ConnectionGUID: xsXxBYCbS5CNZuGLKZpHng==
-X-CSE-MsgGUID: syODOAAKRBKrzZND96GBkA==
+   d="scan'208";a="26183984"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 13:05:44 -0700
+X-CSE-ConnectionGUID: H0FwaxYBRHGSszziuO8cUw==
+X-CSE-MsgGUID: 4dMasNMCRfWFmhZuzk9Zmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="75554831"
+   d="scan'208";a="75946862"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2024 12:54:42 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 Sep 2024 13:05:42 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssp8q-000HYc-0c;
-	Mon, 23 Sep 2024 19:54:40 +0000
-Date: Tue, 24 Sep 2024 03:54:34 +0800
+	id 1sspJU-000HZ9-1n;
+	Mon, 23 Sep 2024 20:05:40 +0000
+Date: Tue, 24 Sep 2024 04:04:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: drivers/gpu/drm/i915/display/intel_display.c:1909:20: error:
- arithmetic between different enumeration types ('enum tc_port' and 'enum
- port')
-Message-ID: <202409240317.ZiYfocHc-lkp@intel.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
+Subject: [samba-ksmbd:ksmbd-for-next-next 3/4] fs/smb/server/smb2pdu.c:2070:
+ warning: Function parameter or struct member 'coptions' not described in
+ 'smb2_create_open_flags'
+Message-ID: <202409240317.7UrEkD87-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Maarten,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
-commit: 44e694958b95395bd1c41508c88c8ca141bf9bd7 drm/xe/display: Implement display support
-date:   9 months ago
-config: riscv-randconfig-r053-20240923 (https://download.01.org/0day-ci/archive/20240924/202409240317.ZiYfocHc-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240317.ZiYfocHc-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
+head:   073f3e59284343a926e47db3d7373aad7bfa4e8b
+commit: 676fc89e7fdf5873f3f0df11a684400348e175b3 [3/4] ksmbd: fix open failure from block and char device file
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409240317.7UrEkD87-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240317.7UrEkD87-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409240317.ZiYfocHc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409240317.7UrEkD87-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/display/intel_display.c:28:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2177:
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/gpu/drm/i915/display/intel_display.c:89:
-   drivers/gpu/drm/i915/display/intel_frontbuffer.h:46:21: error: field has incomplete type 'struct i915_active'
-      46 |         struct i915_active write;
-         |                            ^
-   drivers/gpu/drm/i915/display/intel_frontbuffer.h:46:9: note: forward declaration of 'struct i915_active'
-      46 |         struct i915_active write;
-         |                ^
-   drivers/gpu/drm/i915/display/intel_display.c:314:17: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-     314 |         power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
-     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
-         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1889:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
-    1889 |                 return PHY_D + port - PORT_D_XELPD;
-         |                        ~~~~~ ^ ~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1891:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
-    1891 |                 return PHY_F + port - PORT_TC1;
-         |                        ~~~~~ ^ ~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1893:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
-    1893 |                 return PHY_B + port - PORT_TC1;
-         |                        ~~~~~ ^ ~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1895:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
-    1895 |                 return PHY_C + port - PORT_TC1;
-         |                        ~~~~~ ^ ~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1900:15: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
-    1900 |         return PHY_A + port - PORT_A;
-         |                ~~~~~ ^ ~~~~
->> drivers/gpu/drm/i915/display/intel_display.c:1909:20: error: arithmetic between different enumeration types ('enum tc_port' and 'enum port') [-Werror,-Wenum-enum-conversion]
-    1909 |                 return TC_PORT_1 + port - PORT_TC1;
-         |                        ~~~~~~~~~ ^ ~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1911:20: error: arithmetic between different enumeration types ('enum tc_port' and 'enum port') [-Werror,-Wenum-enum-conversion]
-    1911 |                 return TC_PORT_1 + port - PORT_C;
-         |                        ~~~~~~~~~ ^ ~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1939:10: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    1939 |         set_bit(POWER_DOMAIN_PIPE(pipe), mask->bits);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
-     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
-         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1940:10: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    1940 |         set_bit(POWER_DOMAIN_TRANSCODER(cpu_transcoder), mask->bits);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
-     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
-         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:1943:11: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    1943 |                 set_bit(POWER_DOMAIN_PIPE_PANEL_FITTER(pipe), mask->bits);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:122:11: note: expanded from macro 'POWER_DOMAIN_PIPE_PANEL_FITTER'
-     122 |                 ((pipe) + POWER_DOMAIN_PIPE_PANEL_FITTER_A)
-         |                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:2943:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    2943 |         power_domain = POWER_DOMAIN_PIPE(crtc->pipe);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
-     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
-         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:3335:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    3335 |         power_domain = POWER_DOMAIN_PIPE(crtc->pipe);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
-     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
-         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:3426:17: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    3426 |         power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
-     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
-         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:3464:18: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    3464 |                 power_domain = POWER_DOMAIN_PIPE(pipe);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
-     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
-         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:3542:18: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    3542 |                 power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
-     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
-         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:3647:14: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-    3647 |                                                        POWER_DOMAIN_TRANSCODER(pipe_config->cpu_transcoder)))
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
-     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
-         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ACPI_WMI
-   Depends on [n]: X86_PLATFORM_DEVICES [=n] && ACPI [=y]
-   Selected by [m]:
-   - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (m && MODULES [=y] || y && KUNIT [=n]=y) && ACPI [=y]
+>> fs/smb/server/smb2pdu.c:2070: warning: Function parameter or struct member 'coptions' not described in 'smb2_create_open_flags'
+>> fs/smb/server/smb2pdu.c:2070: warning: Function parameter or struct member 'mode' not described in 'smb2_create_open_flags'
+>> fs/smb/server/smb2pdu.c:2070: warning: Excess function parameter 'is_dir' description in 'smb2_create_open_flags'
 
 
-vim +1909 drivers/gpu/drm/i915/display/intel_display.c
+vim +2070 fs/smb/server/smb2pdu.c
 
-358633e71c0747 drivers/gpu/drm/i915/display/intel_display.c Matt Roper    2019-07-09  1902  
-ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1903  enum tc_port intel_port_to_tc(struct drm_i915_private *dev_priv, enum port port)
-ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1904  {
-358633e71c0747 drivers/gpu/drm/i915/display/intel_display.c Matt Roper    2019-07-09  1905  	if (!intel_phy_is_tc(dev_priv, intel_port_to_phy(dev_priv, port)))
-320c670c048d3b drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28  1906  		return TC_PORT_NONE;
-ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1907  
-005e95377249cb drivers/gpu/drm/i915/display/intel_display.c Matt Roper    2021-03-19  1908  	if (DISPLAY_VER(dev_priv) >= 12)
-1d8ca002456b6c drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28 @1909  		return TC_PORT_1 + port - PORT_TC1;
-1d8ca002456b6c drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28  1910  	else
-1d8ca002456b6c drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28  1911  		return TC_PORT_1 + port - PORT_C;
-ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1912  }
-ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1913  
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2054  
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2055  /**
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2056   * smb2_create_open_flags() - convert smb open flags to unix open flags
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2057   * @file_present:	is file already present
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2058   * @access:		file access flags
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2059   * @disposition:	file disposition flags
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2060   * @may_flags:		set with MAY_ flags
+e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2061   * @is_dir:		is creating open flags for directory
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2062   *
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2063   * Return:      file open flags
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2064   */
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2065  static int smb2_create_open_flags(bool file_present, __le32 access,
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2066  				  __le32 disposition,
+e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2067  				  int *may_flags,
+676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2068  				  __le32 coptions,
+676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2069  				  umode_t mode)
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16 @2070  {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2071  	int oflags = O_NONBLOCK | O_LARGEFILE;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2072  
+676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2073  	if (coptions & FILE_DIRECTORY_FILE_LE || S_ISDIR(mode)) {
+e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2074  		access &= ~FILE_WRITE_DESIRE_ACCESS_LE;
+e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2075  		ksmbd_debug(SMB, "Discard write access to a directory\n");
+e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2076  	}
+e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2077  
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2078  	if (access & FILE_READ_DESIRED_ACCESS_LE &&
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2079  	    access & FILE_WRITE_DESIRE_ACCESS_LE) {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2080  		oflags |= O_RDWR;
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2081  		*may_flags = MAY_OPEN | MAY_READ | MAY_WRITE;
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2082  	} else if (access & FILE_WRITE_DESIRE_ACCESS_LE) {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2083  		oflags |= O_WRONLY;
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2084  		*may_flags = MAY_OPEN | MAY_WRITE;
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2085  	} else {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2086  		oflags |= O_RDONLY;
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2087  		*may_flags = MAY_OPEN | MAY_READ;
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2088  	}
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2089  
+676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2090  	if (access == FILE_READ_ATTRIBUTES_LE || S_ISBLK(mode) || S_ISCHR(mode))
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2091  		oflags |= O_PATH;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2092  
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2093  	if (file_present) {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2094  		switch (disposition & FILE_CREATE_MASK_LE) {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2095  		case FILE_OPEN_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2096  		case FILE_CREATE_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2097  			break;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2098  		case FILE_SUPERSEDE_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2099  		case FILE_OVERWRITE_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2100  		case FILE_OVERWRITE_IF_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2101  			oflags |= O_TRUNC;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2102  			break;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2103  		default:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2104  			break;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2105  		}
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2106  	} else {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2107  		switch (disposition & FILE_CREATE_MASK_LE) {
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2108  		case FILE_SUPERSEDE_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2109  		case FILE_CREATE_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2110  		case FILE_OPEN_IF_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2111  		case FILE_OVERWRITE_IF_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2112  			oflags |= O_CREAT;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2113  			break;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2114  		case FILE_OPEN_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2115  		case FILE_OVERWRITE_LE:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2116  			oflags &= ~O_CREAT;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2117  			break;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2118  		default:
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2119  			break;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2120  		}
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2121  	}
+6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2122  
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2123  	return oflags;
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2124  }
+e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2125  
 
-:::::: The code at line 1909 was first introduced by commit
-:::::: 1d8ca002456b6c504b0af2d159c4776ba6b1ad81 drm/i915: Add PORT_TCn aliases to enum port
+:::::: The code at line 2070 was first introduced by commit
+:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
 
-:::::: TO: Ville Syrjälä <ville.syrjala@linux.intel.com>
-:::::: CC: Ville Syrjälä <ville.syrjala@linux.intel.com>
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
