@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698C4194C6E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 10:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BD417543
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 10:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727085613; cv=none; b=TqT2ZN4EwEqgZKAxdZiAcbkQq0MgHHZCRGTX53mvHiohKG5jLypKeU5HvA0k8tXAXAE9EJnyrJ9a3Iuj0l87BF7Okl0ztYiaGGTx/JoqtIKiFsHmCwwYx0W9uvktZLBR6BQsGXArUq2GAbb07NP4Z+SDrbVRHoMCDMjg0Ula5cQ=
+	t=1727088709; cv=none; b=RGu2UoZLGnppPULTKAvZWUtyW8yem9hKqjrr7Ars3Xt5tVIVNp/l5ERBDe2CVWTAISaHbhZLm1mSVV/GmzPXSfSjB9OykFM1dw1PKKp1JTRwL/dWp5LQrnGsvlMudNFlQQrtQguptiZhM1+prYLmxJBkpp2EcgFP6aO3HMpLrTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727085613; c=relaxed/simple;
-	bh=OaN6Z2LFO28UlZChxX8Te2k9bgQedqtJ4mdP5Yd0n0k=;
+	s=arc-20240116; t=1727088709; c=relaxed/simple;
+	bh=e2Yaig/iJ1AkGOtc0f6h04krWBM3wR68mWcQbs+0+xg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RZXQl3MAT7b1vlfYsUKb5bJ+4voW7co9BmoDtLUjiJsroJUNOR8lvEyJWiGduHBCy2QHvDkcsm1yt+btfYa0B+btXsT9ArHBAGRvlNi2EC00ESwTdfCdz9dxb+29crGAkKcjFbhX3nje3ftWKmXIvvUsV5X89J36k1bCnfBwZy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVQ/cKCY; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=rGa79kiNfUDiU7zufJNrxfyEYy3PLRrr+iT+cynHu3TVjicTDVG0lqY41uXXNidsO1hmYTRIwrH9gid5Wi7p0YOyv3V9CSTNDCexociVQ7KpahOw4HpaZEv3JwHeQU4ndmh30jA+/HlrebkJhE7+oczYJ/DkpZQHl68rnFkofXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjsVbRIo; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVQ/cKCY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjsVbRIo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727085611; x=1758621611;
+  t=1727088707; x=1758624707;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OaN6Z2LFO28UlZChxX8Te2k9bgQedqtJ4mdP5Yd0n0k=;
-  b=DVQ/cKCYQ4Ru7uW+1nEJTrs5cv6Ot4ydq732X7Tji+Xp2C45GwYYKugG
-   bOOBCy3DphnhXH/TQqg+D49VDlgqTDjdJgU2rRMhPtQ/3sFyJMM+ZF7bQ
-   UOFWzd3xQQigkAyS/uMd1n37p0+QWfUWlYvM1d4mtfpilfnEhJvrZTsz1
-   1yUwDKVJnGZLjKBYsbdGEtQLFnuKu1yvrWyl9XNqtdR59X/uHNdU5nE9y
-   polNhOg0nMPux+R+AqVljFCLtTEzv+OQBAi0EE+r74qARAyNqVeWAem58
-   BKFAszZB1i7vdksha8FuYd3+Fs3FqiuXuEz+CuHBqWbVue/34or+QavIN
+  bh=e2Yaig/iJ1AkGOtc0f6h04krWBM3wR68mWcQbs+0+xg=;
+  b=JjsVbRIov7F9YDWDF+U+mtC0bsU3g85pgEV58OOGzBWxsyaqi2vhH2NJ
+   eXTGOWwlE8cn6bXoGZXX3mseRDHfshGcstpaF5Hh3HRRkfC4365RgqMzf
+   kgU/t8NDpypSKJ186pv9keypuI3tXaFqciQrgwHK01GdwXn+Y7WEkpYVH
+   PZ+zWhzdIyNHtkYKNX+1yJjE8PRTA0NPv++KiBXnfDK6WR3omgIFbqx+6
+   xP4AOPXMpjHLa3YonQkwjapt/stzUfGT4XbDKO8wpDAtKYa6V/2AhR11S
+   wsk3bav7D0w146clRLCe8hqbVzbjmCnBvyhIpmWsgjK5E7JJX2ex5Temy
    w==;
-X-CSE-ConnectionGUID: bxwwO15fTEW4uM6VasrF3Q==
-X-CSE-MsgGUID: 0IRYrx49QaexpXLJqBSvdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29811299"
+X-CSE-ConnectionGUID: 46YmPqdhTcyUIR+FXiAi0A==
+X-CSE-MsgGUID: MFeqjGqcQTOELAxSNmmGag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26124698"
 X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="29811299"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 03:00:10 -0700
-X-CSE-ConnectionGUID: gpKqVIkfRv+GAKvayWrjIg==
-X-CSE-MsgGUID: oW0bsmG8QaWj/pawtj8j2w==
+   d="scan'208";a="26124698"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 03:51:22 -0700
+X-CSE-ConnectionGUID: dTRn7zA9RT+aqqg6VCUhoA==
+X-CSE-MsgGUID: kI/N9FrMQ4ep2rWYz2nRMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="75782380"
+   d="scan'208";a="75971512"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2024 03:00:08 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Sep 2024 03:51:20 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssfrR-000H6w-2N;
-	Mon, 23 Sep 2024 10:00:05 +0000
-Date: Mon, 23 Sep 2024 18:00:03 +0800
+	id 1ssgf0-000H7q-1T;
+	Mon, 23 Sep 2024 10:51:18 +0000
+Date: Mon, 23 Sep 2024 18:50:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1217/2441] htmldocs:
- Warning: drivers/acpi/pfru/Kconfig references a file that doesn't exist:
- file:Documentation/x86/pfru_update.rst
-Message-ID: <202409231726.hVKnLbIM-lkp@intel.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 11/120] kismet: WARNING: unmet direct
+ dependencies detected for APPLE_ADMAC when selected by
+ SND_SOC_APPLE_MACAUDIO
+Message-ID: <202409231824.lVNIG3hC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,35 +65,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: e8903d73b4653bdb70ac265d9d13d997f0421a8c [1217/2441] drivers/acpi: Introduce Platform Firmware Runtime Update device driver
-reproduce: (https://download.01.org/0day-ci/archive/20240923/202409231726.hVKnLbIM-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   79e5f455d8c4ad8e5ba25ab4ec5945bdce3d1a91
+commit: 5c35f3969b33f8ef71a7a03aa86ea3c285a7552f [11/120] ASoC: apple: Add macaudio machine driver
+config: arm64-kismet-CONFIG_APPLE_ADMAC-CONFIG_SND_SOC_APPLE_MACAUDIO-0-0 (https://download.01.org/0day-ci/archive/20240923/202409231824.lVNIG3hC-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240923/202409231824.lVNIG3hC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409231726.hVKnLbIM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409231824.lVNIG3hC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/networking/j1939.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/input/sun4i-lradc-keys.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/misc-devices/xilinx_sdfec.rst
-   Warning: dist/templates/kernel.template.spec references a file that doesn't exist: linux-%%{kernel_unamer}/tools/perf/Documentation/examples.txt
->> Warning: drivers/acpi/pfru/Kconfig references a file that doesn't exist: file:Documentation/x86/pfru_update.rst
-   Warning: drivers/media/v4l2-core/v4l2-fwnode.c references a file that doesn't exist: Documentation/acpi/dsd
-   Warning: drivers/net/ethernet/faraday/ftgmac100.c references a file that doesn't exist: Documentation/networking/phy.txt
-   Warning: drivers/net/ethernet/pensando/ionic/ionic_if.h references a file that doesn't exist: Documentation/networking/checksum-
-   Warning: fs/cifs/cifsfs.c references a file that doesn't exist: Documentation/workqueue.txt
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/kunit/
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
-   Depends on [n]: PCI [=n]
-   Selected by [y]:
-   - X86 [=y]
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for APPLE_ADMAC when selected by SND_SOC_APPLE_MACAUDIO
+   WARNING: unmet direct dependencies detected for SND_SOC_CS42L83
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=n]
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
+   
+   WARNING: unmet direct dependencies detected for APPLE_ADMAC
+     Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
+   
+   WARNING: unmet direct dependencies detected for SND_SOC_TAS2764
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=n]
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
+   
+   WARNING: unmet direct dependencies detected for SND_SOC_TAS2770
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=n]
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
 
 -- 
 0-DAY CI Kernel Test Service
