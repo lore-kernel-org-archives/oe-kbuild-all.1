@@ -1,109 +1,97 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5189678C93
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 11:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EA01F93E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 12:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727091504; cv=none; b=Aejqzz4TiQhcmtXy6DBxv0kNvDZjORRSnwzkrTTiJmLSDAl59PtW2Gy4cOM+LqeAxJqCBI4DI7xiOW/sqCaQUxkVfBqcsCTPNVDVTqD6FNs9HIiDLdKVIF/Cr2sYomM73rLvw9nnz1kTHyR0lOoglFLAaolvURfgXzjETetmPh4=
+	t=1727092948; cv=none; b=aALeoI94de4ns/TyNw7eApxqhmR2H3DyWLQWZP9uG7MiDyJdY+XAxP+DvH+oP+8dngQ84adXOlCfNK1zmlY6JW5lTifZyxduYsvn4au8SJJ1wVSLYkwXrWjWMAWvUqHSIwnXOoybs40MtW/tFJ7+ufj44UfhI4RFG5sax07C7jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727091504; c=relaxed/simple;
-	bh=YAiSWhUrR5JiO5lE7ztvPXTh44kgCnezoatX9mIcItQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KptTLwMPkymJ0wUnKU9GLLnIoX0ckiD4l1BAMkQcFfwn1/i5nXZZ9oTWqxdQmK7RhNOWLS4yrbT+QPvVdIkyYPPoeJzbR6X8ZuMD8IIHQvw2zTbvBixX4LRXZTpQRgk2Km7Lr/sdg5pNaIioS3TxBDd3accV7VeEzJ3t5q0XncI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=o7uGGs9l; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1727092948; c=relaxed/simple;
+	bh=/zeC8c/iI2JPcS+OY3+3LQ7gI4iNWqhSGPBwLy3OcXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LVSZlH01SwLLlneU8jtdHR72aSaq8uE/9KDHfN7r7kdAuEmdfl5QY6NFsQT2uCbtwK+IV7ndmur66c7QhAiOIw0VLuPrJcOOIjh/RaLbFkIxSTIgZYu5l/JNi/EIW3I9ORA37UXXpLW9S7xc78fvOo38c+gHh2zpC7qGbp8JLko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHifLLNw; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="o7uGGs9l"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 78EB2E0003;
-	Mon, 23 Sep 2024 11:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727091499;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRKDM+ERUy1fSPEQ1Q6yO9Gip+sAL3A0aurt/1j4xGQ=;
-	b=o7uGGs9lpH6VLWwwk7hGi1ntl6GKyYUpWlRW6wk+CjI0XAFwTaO2uph14Va5rzSjp7B4Z6
-	4oD9vF9aVltKHYDLbtruUsTOoG+1U1ul3CUiY85lCBGdQb4bzdDaSAeqDGjkHpGR7q8tqg
-	H36/BKoesVY9laJS8sc7a5GKv8TpJWkL37Ep08tdN3MyxmwZdgHfGBFQU+20BwrRGD/H2j
-	wlfchnbjJ6nw2i3aQ7QjAiBugsHLsut+750suFyEK/49O2mBJwXGFJanLbIXOfK8g4H6Ut
-	WKXGz5mRUweAvR9/j0f9Ev2ieu4kSAqas5CD8gTJxucpUUu+6bKsTNX8MkCtuQ==
-Date: Mon, 23 Sep 2024 13:38:18 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Christophe
- Leroy <christophe.leroy@csgroup.eu>
-Subject: Re: drivers/soc/fsl/qe/qmc.c:2002:30: warning: unused variable
- 'qmc_data_qe'
-Message-ID: <20240923133818.03cc9327@bootlin.com>
-In-Reply-To: <202409231229.EFlvN9m0-lkp@intel.com>
-References: <202409231229.EFlvN9m0-lkp@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHifLLNw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727092947; x=1758628947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/zeC8c/iI2JPcS+OY3+3LQ7gI4iNWqhSGPBwLy3OcXg=;
+  b=HHifLLNwEbdxHDkSP1xnHgSnIpfiF2ZtKq/2gVhXmwa3JExW7kRVg072
+   XvxKpB5btGD52nf95tM/Bdrf2wgGeYQe7d+ZO1WJ40dyaahfom+Ivs1BR
+   yI3f6uTXhgJXS+fqSBstSap8H6M7OByfYEcWK2CkxExHZ5bfPW5e15NeM
+   okTrHZ/7rLXrNklUhZlDFEMKgmI0S1REUE1NIoSZgO/D9UI4N6FnrijFn
+   x9xBewI8pPfV+ORcyYYnQLAHhWRB5XaNTb8GzNUW0tBkQLeTmsR1ia6Hq
+   XwfOhCYxH99bO0iY565XBiuVKBUKBYkckcntHO4RsQMKa1/+SMJabCKEG
+   g==;
+X-CSE-ConnectionGUID: 56qv8ip1S3i+A1NPeh54rQ==
+X-CSE-MsgGUID: R841kBZdRCCQ2o7B3xfdIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="43508431"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="43508431"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 05:02:26 -0700
+X-CSE-ConnectionGUID: ihoc8zbnQOq+DaWWqRWrnQ==
+X-CSE-MsgGUID: OWHZDAkOQ5WRiIR6X/N0cQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="75815105"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2024 05:02:23 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sshlk-000HAI-23;
+	Mon, 23 Sep 2024 12:02:20 +0000
+Date: Mon, 23 Sep 2024 20:02:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1448/2441] htmldocs:
+ Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file
+ that doesn't exist: Documentation/driver-api/ioasid.rst
+Message-ID: <202409231951.dnwjZXwp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   63759dec7a1be60e43e98e4257de936b546e4656
+commit: 2336b804587bad15f1c80013b1c80ed607d92839 [1448/2441] docs: cgroup-v1: Add IOASIDs controller
+reproduce: (https://download.01.org/0day-ci/archive/20240923/202409231951.dnwjZXwp-lkp@intel.com/reproduce)
 
-On Mon, 23 Sep 2024 12:53:23 +0800
-kernel test robot <lkp@intel.com> wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409231951.dnwjZXwp-lkp@intel.com/
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
-> commit: eb680d563089e55b20cb7730ed881638fe4425b7 soc: fsl: cpm1: qmc: Add support for QUICC Engine (QE) implementation
-> date:   3 weeks ago
-> config: powerpc-randconfig-r054-20240923 (https://download.01.org/0day-ci/archive/20240923/202409231229.EFlvN9m0-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409231229.EFlvN9m0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409231229.EFlvN9m0-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/soc/fsl/qe/qmc.c:12:
->    In file included from include/linux/dma-mapping.h:11:
->    In file included from include/linux/scatterlist.h:8:
->    In file included from include/linux/mm.h:2228:
->    include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
->      514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
->          |                               ~~~~~~~~~~~ ^ ~~~
-> >> drivers/soc/fsl/qe/qmc.c:2002:30: warning: unused variable 'qmc_data_qe' [-Wunused-const-variable]  
->     2002 | static const struct qmc_data qmc_data_qe = {
->          |                              ^~~~~~~~~~~
->    2 warnings generated.
-> 
-> 
-> vim +/qmc_data_qe +2002 drivers/soc/fsl/qe/qmc.c
-> 
->   2001	
-> > 2002	static const struct qmc_data qmc_data_qe = {  
->   2003		.version = QMC_QE,
->   2004		.tstate = 0x30000000,
->   2005		.rstate = 0x30000000,
->   2006		.zistate = 0x00000200,
->   2007		.zdstate_hdlc = 0x80FFFFE0,
->   2008		.zdstate_transp = 0x003FFFE2,
->   2009		.rpack = 0x80000000,
->   2010	};
->   2011	
-> 
+All warnings (new ones prefixed by >>):
 
-This issue has been already detected:
-  https://lore.kernel.org/oe-kbuild-all/202409071707.ou2KFNKO-lkp@intel.com/
-and a patch has been already sent to fix it:
-  https://lore.kernel.org/lkml/20240909121129.57067-1-herve.codina@bootlin.com/
+>> Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
+   Warning: Documentation/bpf/ringbuf.rst references a file that doesn't exist: Documentation/litmus_tests/bpf-rb/_
+   Warning: Documentation/devicetree/bindings/cpu/cpu-topology.txt references a file that doesn't exist: Documentation/devicetree/bindings/riscv/cpus.txt
+   Warning: Documentation/devicetree/bindings/timer/ingenic,tcu.txt references a file that doesn't exist: Documentation/mips/ingenic-tcu.txt
+   Warning: Documentation/driver-api/gpio/driver.rst references a file that doesn't exist: Documentation/driver-model/design-patterns.txt
+   Warning: Documentation/hwmon/inspur-ipsps1.rst references a file that doesn't exist: Documentation/i2c/instantiating-devices
 
-Best regards,
-Hervé
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
+   Depends on [n]: PCI [=n]
+   Selected by [y]:
+   - X86 [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
