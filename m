@@ -1,163 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44AF19F470
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 19:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BD23F9D5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 19:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727120687; cv=none; b=brHMpMgx1aIYOK0QbjgRLGMjDHxs2SlUbfZ0uMfz60fH1G0aKip5l0vnO+yU7iUsimge9mvYPSVcuNixOixnlVYSju5a4I5/ZHq3OKDcDtOX+igXlc3gZ9AdEVb2bkbgr90LCs6fhM6iQr8o+oLFcTiPANRmCmJRqMqP61nd/ds=
+	t=1727121290; cv=none; b=R20GNXVB7rAaDWvfCI1nJR+q4TcTtRYQl8gETEj1w7ERyXeUzHWQYIaRvETB3Wh8rdAHsdxegfflittWABV7Zt2y3sQnuaB8hsqp+9bqLmOX62bbjIaqsAPVcyWt43X+13vzyTSXzS3ZbZdUMSlebhiT1/7YnDWJqV632ynXrKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727120687; c=relaxed/simple;
-	bh=Clkk71o0s79HGUcEPbrwaa9UXB/yqp1hOLGuoxrDjV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CkXfVFWOMElubnmN4YL1Uf67kRNee3AMahpnK2sAk1uzj5JKG/C++hmBO/RhljjlPbLGYnubfrkpI4HCSOVPK8geEwkG9Zi9wZ7Yytu24AKcDg4zz3B+MKaw8rFWmG0tRHRSeYkn7WFrdy7U8KMsO9uFJoRSAIdnfDxS+lQhsdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PnPn24Wm; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1727121290; c=relaxed/simple;
+	bh=76UXzeByq3wxL1f4vfdIb7pJAMXsF8MyETpYSkG1n8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qRFHQwCzRE0dSvp0dw3TnNVYU2YPfsZNUXfttRxyCOI9rjY5Kfhd9ElyVMNuJknhpSrMqEtg/t7sZBQPcBa2EfLibHZorHNTNmvB2WO2qU/ecXjkTjpaSFNSK+ME9Dj9AkKqfbaA5puC7ptBQoIJ7zqKHwaAWgB4jIuvXh7pD94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNe2tRUr; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PnPn24Wm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNe2tRUr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727120685; x=1758656685;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Clkk71o0s79HGUcEPbrwaa9UXB/yqp1hOLGuoxrDjV8=;
-  b=PnPn24Wmdakqby7eV5vnHGZgjKVbRQfG+2b3cTETYfh766Ggof2pLWDz
-   JUKwxiYKOXSamdY7xEb/TyQzMbRjL7TC4h0IRK4J4Gcq5vs6ltVhYWTfL
-   +Sqrxslpb96SceB0O6Qu6GWa7EncT3dKwrLzjwW9JKGY/SjKlOu+bjOML
-   VBWLP60I1C7gOmm64eAFB91xSf5I9VG0mwybtny0MDSCXRKCIN/dfHXaw
-   xYzezXUYHE4PqcYDeTlIrlcfkNBh/94WDx1TXSouEyrlCsAw9qIg60MCs
-   8x2GjmX+a7SoPp4dbW/qQK43xNK8xHrANqBn6vIDCHZeqAoY5Pc1ra01y
-   w==;
-X-CSE-ConnectionGUID: Upmmi9qTQouydFctdLUtKQ==
-X-CSE-MsgGUID: ZrzkVrq0RCudUtQ8Fo7pvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="25602857"
+  t=1727121288; x=1758657288;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=76UXzeByq3wxL1f4vfdIb7pJAMXsF8MyETpYSkG1n8Q=;
+  b=jNe2tRUrwoPq6VY7HcDriMB2tVb0XYeR1QIOrTOt3itnYXcqZtkTKAlc
+   pJZsDQOpyPDQM2AghyiPiDnSqWMhR8lVCO0+K7O7fedB5St8V8QIwCzqQ
+   H6dRjlGcO4OUsTMuEV/+taFfDwlPK7e2zM3S94SFsgCAVRkYQj7RSyAxc
+   Ud89FU91dlaok2PDD3SujEkcDY03Z+tSbH8W7rHyBMDmBvMtmPysY2+kE
+   q0vRNeLFu0NwjLd/G/cOCpALBdT6U29Mz61XCxvij1fmq5HpJFkepLQyR
+   cfwv0INrUCtcNrqip4lyOY+cfs5H0rTJi2s3fLNVY3CZRZJnUNK4Scs+M
+   Q==;
+X-CSE-ConnectionGUID: 1JaXKTm3QryGzNiTlIdaQQ==
+X-CSE-MsgGUID: r69//T91QN+EEY2KxXnP1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="28982404"
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="25602857"
+   d="scan'208";a="28982404"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 12:44:45 -0700
-X-CSE-ConnectionGUID: tEv9MQoSStOASbPCzWw2iQ==
-X-CSE-MsgGUID: O+i2Mu1OSs+QdEZ2xYMJkQ==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 12:54:44 -0700
+X-CSE-ConnectionGUID: xsXxBYCbS5CNZuGLKZpHng==
+X-CSE-MsgGUID: syODOAAKRBKrzZND96GBkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="75553711"
+   d="scan'208";a="75554831"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2024 12:44:42 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2024 12:54:42 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssozA-000HYI-05;
-	Mon, 23 Sep 2024 19:44:40 +0000
-Date: Tue, 24 Sep 2024 03:44:13 +0800
+	id 1ssp8q-000HYc-0c;
+	Mon, 23 Sep 2024 19:54:40 +0000
+Date: Tue, 24 Sep 2024 03:54:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dipendra Khadka <kdipendra88@gmail.com>, andrew@lunn.ch,
-	florian.fainelli@broadcom.com, davem@davemloft.net,
-	edumazet@google.com, bcm-kernel-feedback-list@broadcom.com,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, Dipendra Khadka <kdipendra88@gmail.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 net] net: Add error pointer check in bcmsysport.c
-Message-ID: <202409240305.PgIkDx1K-lkp@intel.com>
-References: <20240923053900.1310-1-kdipendra88@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_display.c:1909:20: error:
+ arithmetic between different enumeration types ('enum tc_port' and 'enum
+ port')
+Message-ID: <202409240317.ZiYfocHc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240923053900.1310-1-kdipendra88@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dipendra,
+Hi Maarten,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dipendra-Khadka/net-Add-error-pointer-check-in-bcmsysport-c/20240923-134407
-base:   net/main
-patch link:    https://lore.kernel.org/r/20240923053900.1310-1-kdipendra88%40gmail.com
-patch subject: [PATCH v2 net] net: Add error pointer check in bcmsysport.c
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409240305.PgIkDx1K-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240305.PgIkDx1K-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
+commit: 44e694958b95395bd1c41508c88c8ca141bf9bd7 drm/xe/display: Implement display support
+date:   9 months ago
+config: riscv-randconfig-r053-20240923 (https://download.01.org/0day-ci/archive/20240924/202409240317.ZiYfocHc-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240317.ZiYfocHc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409240305.PgIkDx1K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409240317.ZiYfocHc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/broadcom/bcmsysport.c: In function 'bcm_sysport_map_queues':
->> drivers/net/ethernet/broadcom/bcmsysport.c:2341:24: error: implicit declaration of function 'PRT_ERR'; did you mean 'PTR_ERR'? [-Werror=implicit-function-declaration]
-    2341 |                 return PRT_ERR(dp);
-         |                        ^~~~~~~
-         |                        PTR_ERR
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpu/drm/i915/display/intel_display.c:28:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2177:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display.c:89:
+   drivers/gpu/drm/i915/display/intel_frontbuffer.h:46:21: error: field has incomplete type 'struct i915_active'
+      46 |         struct i915_active write;
+         |                            ^
+   drivers/gpu/drm/i915/display/intel_frontbuffer.h:46:9: note: forward declaration of 'struct i915_active'
+      46 |         struct i915_active write;
+         |                ^
+   drivers/gpu/drm/i915/display/intel_display.c:314:17: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+     314 |         power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1889:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1889 |                 return PHY_D + port - PORT_D_XELPD;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1891:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1891 |                 return PHY_F + port - PORT_TC1;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1893:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1893 |                 return PHY_B + port - PORT_TC1;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1895:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1895 |                 return PHY_C + port - PORT_TC1;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1900:15: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1900 |         return PHY_A + port - PORT_A;
+         |                ~~~~~ ^ ~~~~
+>> drivers/gpu/drm/i915/display/intel_display.c:1909:20: error: arithmetic between different enumeration types ('enum tc_port' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1909 |                 return TC_PORT_1 + port - PORT_TC1;
+         |                        ~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1911:20: error: arithmetic between different enumeration types ('enum tc_port' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1911 |                 return TC_PORT_1 + port - PORT_C;
+         |                        ~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1939:10: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1939 |         set_bit(POWER_DOMAIN_PIPE(pipe), mask->bits);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1940:10: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1940 |         set_bit(POWER_DOMAIN_TRANSCODER(cpu_transcoder), mask->bits);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1943:11: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1943 |                 set_bit(POWER_DOMAIN_PIPE_PANEL_FITTER(pipe), mask->bits);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:122:11: note: expanded from macro 'POWER_DOMAIN_PIPE_PANEL_FITTER'
+     122 |                 ((pipe) + POWER_DOMAIN_PIPE_PANEL_FITTER_A)
+         |                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:2943:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    2943 |         power_domain = POWER_DOMAIN_PIPE(crtc->pipe);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3335:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3335 |         power_domain = POWER_DOMAIN_PIPE(crtc->pipe);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3426:17: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3426 |         power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3464:18: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3464 |                 power_domain = POWER_DOMAIN_PIPE(pipe);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3542:18: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3542 |                 power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3647:14: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3647 |                                                        POWER_DOMAIN_TRANSCODER(pipe_config->cpu_transcoder)))
+         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ACPI_WMI
+   Depends on [n]: X86_PLATFORM_DEVICES [=n] && ACPI [=y]
+   Selected by [m]:
+   - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (m && MODULES [=y] || y && KUNIT [=n]=y) && ACPI [=y]
 
 
-vim +2341 drivers/net/ethernet/broadcom/bcmsysport.c
+vim +1909 drivers/gpu/drm/i915/display/intel_display.c
 
-  2330	
-  2331	static int bcm_sysport_map_queues(struct net_device *dev,
-  2332					  struct net_device *slave_dev)
-  2333	{
-  2334		struct dsa_port *dp = dsa_port_from_netdev(slave_dev);
-  2335		struct bcm_sysport_priv *priv = netdev_priv(dev);
-  2336		struct bcm_sysport_tx_ring *ring;
-  2337		unsigned int num_tx_queues;
-  2338		unsigned int q, qp, port;
-  2339	
-  2340		if (IS_ERR(dp))
-> 2341			return PRT_ERR(dp);
-  2342	
-  2343		/* We can't be setting up queue inspection for non directly attached
-  2344		 * switches
-  2345		 */
-  2346		if (dp->ds->index)
-  2347			return 0;
-  2348	
-  2349		port = dp->index;
-  2350	
-  2351		/* On SYSTEMPORT Lite we have twice as less queues, so we cannot do a
-  2352		 * 1:1 mapping, we can only do a 2:1 mapping. By reducing the number of
-  2353		 * per-port (slave_dev) network devices queue, we achieve just that.
-  2354		 * This need to happen now before any slave network device is used such
-  2355		 * it accurately reflects the number of real TX queues.
-  2356		 */
-  2357		if (priv->is_lite)
-  2358			netif_set_real_num_tx_queues(slave_dev,
-  2359						     slave_dev->num_tx_queues / 2);
-  2360	
-  2361		num_tx_queues = slave_dev->real_num_tx_queues;
-  2362	
-  2363		if (priv->per_port_num_tx_queues &&
-  2364		    priv->per_port_num_tx_queues != num_tx_queues)
-  2365			netdev_warn(slave_dev, "asymmetric number of per-port queues\n");
-  2366	
-  2367		priv->per_port_num_tx_queues = num_tx_queues;
-  2368	
-  2369		for (q = 0, qp = 0; q < dev->num_tx_queues && qp < num_tx_queues;
-  2370		     q++) {
-  2371			ring = &priv->tx_rings[q];
-  2372	
-  2373			if (ring->inspect)
-  2374				continue;
-  2375	
-  2376			/* Just remember the mapping actual programming done
-  2377			 * during bcm_sysport_init_tx_ring
-  2378			 */
-  2379			ring->switch_queue = qp;
-  2380			ring->switch_port = port;
-  2381			ring->inspect = true;
-  2382			priv->ring_map[qp + port * num_tx_queues] = ring;
-  2383			qp++;
-  2384		}
-  2385	
-  2386		return 0;
-  2387	}
-  2388	
+358633e71c0747 drivers/gpu/drm/i915/display/intel_display.c Matt Roper    2019-07-09  1902  
+ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1903  enum tc_port intel_port_to_tc(struct drm_i915_private *dev_priv, enum port port)
+ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1904  {
+358633e71c0747 drivers/gpu/drm/i915/display/intel_display.c Matt Roper    2019-07-09  1905  	if (!intel_phy_is_tc(dev_priv, intel_port_to_phy(dev_priv, port)))
+320c670c048d3b drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28  1906  		return TC_PORT_NONE;
+ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1907  
+005e95377249cb drivers/gpu/drm/i915/display/intel_display.c Matt Roper    2021-03-19  1908  	if (DISPLAY_VER(dev_priv) >= 12)
+1d8ca002456b6c drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28 @1909  		return TC_PORT_1 + port - PORT_TC1;
+1d8ca002456b6c drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28  1910  	else
+1d8ca002456b6c drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä 2020-10-28  1911  		return TC_PORT_1 + port - PORT_C;
+ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1912  }
+ac213c1b45f7dc drivers/gpu/drm/i915/intel_display.c         Paulo Zanoni  2018-05-21  1913  
+
+:::::: The code at line 1909 was first introduced by commit
+:::::: 1d8ca002456b6c504b0af2d159c4776ba6b1ad81 drm/i915: Add PORT_TCn aliases to enum port
+
+:::::: TO: Ville Syrjälä <ville.syrjala@linux.intel.com>
+:::::: CC: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
