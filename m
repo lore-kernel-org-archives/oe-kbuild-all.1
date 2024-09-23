@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9751CA84
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 20:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F268815E88;
+	Mon, 23 Sep 2024 20:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727121946; cv=none; b=mhlIvd03wa0e4ZminC/Um1sXLd/kbgWBYs+bc4o7FXU4WERD10gg55EKaWsUdqOQeuphhft81s5mZbhjcgMVsPwr8ksize3yqmzjCR2iZ2W+l4LKAnuHTsXy2aGIkAORp89SkDoT0MW8sn3J8qwJ4qNROgA/N7V8NtYiFvVrMzE=
+	t=1727122548; cv=none; b=Px8mDFsTxGUZ4dWPdsrurkW9yKZSIXoq5mamHgKLM8RCNKh7IqydVdbdf5xfY9HALxAmW0xvrbcEpNZBZhtCGU+1bXwcGDGwVK/v35Cl/Uyy2vYdL7KpWp7/ebZu6m4+t8T1r0iowbFNRZ8tmlTK4Yhm9ZNm3AKxLUvG8T26P9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727121946; c=relaxed/simple;
-	bh=vYQLfq3+j5GZ6dy8/Mx3vR8HV1qDa6f2vwyWwx9K5zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TML33t7gvY3N2HSAypwycweaT162x/YqE5MrNxYu24dyjZaw4FPE74n1/4KxVZ5A+brlQChbN5Acsk15BKqP9gGnECPZzN3wE1sk8gfY81oy+Lre//nkIKsawn33YWBMe2o4Xp7zYsto2pkD9X23hcd46dtR1xKvY1jkaKRaN1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6avfF0G; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1727122548; c=relaxed/simple;
+	bh=wNpFDbj7PPOA+nXw14Q42Hk1QSaBxdvFRbuXkuNfBjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hzD7h+dix9+BavYHrZwJjmqXwOZbQAa3UTR/QHl7A71MIqvbRJ9j2KXvPAhyapXE/EfVl1YOkZESsjX9h+/i/lOCWU5y0i5tjhgkaGTijXRHdjXTTPE5RbXhrFp9e3MpAJvWozj3wZtg5znGVjBWCj9wQuYflKx4mtAs47dnrN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZhwpZ3WV; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6avfF0G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZhwpZ3WV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727121945; x=1758657945;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vYQLfq3+j5GZ6dy8/Mx3vR8HV1qDa6f2vwyWwx9K5zs=;
-  b=a6avfF0G06V9xns6empcb/aIIvqS2VzxeDEtdsVyCFpzGrvsDlNYnbbg
-   90BmWD3QcUPI9+p2d15YzU7jq3RqXBeMXykBenXH6adSAUaxPWR04Xn7M
-   weajuvNRca9vf+ahz1z+suymhP0VUBprTp/cga19ow91M/p4Pduc5X+Wz
-   tkynaLdmMrwHdSbWY+CTpLktbSvHwq+7vfnRBf4z4BC/0s973GEp0QDTK
-   WAdbnByLZGYIuM8RFAhlveGBGgZNIIOMs6HUtflPTrzY6KziP31c/jrSf
-   E72MiQcPYefC1JDGq0WWI0wHiUN1OFWCVoAys2fzr9tpR5ij/mfIYmJ68
+  t=1727122546; x=1758658546;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wNpFDbj7PPOA+nXw14Q42Hk1QSaBxdvFRbuXkuNfBjI=;
+  b=ZhwpZ3WVUm9yDxhNbzt0scmaZVE7+OkOpPdq10dR2BiuJleDG9wSJx7n
+   HsWw9G3W11K9fJ502cUX7vMxcX2rH+vSpOrNBWM2Qg0daaAr4fqtG75YY
+   P2Cgsnw78guWKieETsxnoC5lk8z25Y175m7kndk4eqxiOcuv6sHcIMvBU
+   9VnATyxyznnYlm+f2KQG5lEfFByN+uKipJLfA68PRbQ/vxzhWg+t1TFr5
+   u87Z9V9EyDnLmWJy8XlUbGOAvDqKoeK9qTkCJ+Z61z+qTlDdqJdfVth99
+   3NtaejloH9P7nvzzrMNpo6Y89dBcm6h+WaAvcuKvMWOci7qUH98vI2+e5
    g==;
-X-CSE-ConnectionGUID: Dg0EtUEgQTqP04fAfqzTlA==
-X-CSE-MsgGUID: V0vYX5PSR0+Us0DsjxRgSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26183984"
+X-CSE-ConnectionGUID: slZwifbgT6SCCirkN7j0zg==
+X-CSE-MsgGUID: Oj77JOmISs+n8RPHoURQwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26282283"
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="26183984"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 13:05:44 -0700
-X-CSE-ConnectionGUID: H0FwaxYBRHGSszziuO8cUw==
-X-CSE-MsgGUID: 4dMasNMCRfWFmhZuzk9Zmw==
+   d="scan'208";a="26282283"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 13:15:46 -0700
+X-CSE-ConnectionGUID: ixLLyd4cQxiDz4dSSrcPAg==
+X-CSE-MsgGUID: IdpIgqqcQAqalR2buqrdiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="75946862"
+   d="scan'208";a="76103494"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Sep 2024 13:05:42 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Sep 2024 13:15:43 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sspJU-000HZ9-1n;
-	Mon, 23 Sep 2024 20:05:40 +0000
-Date: Tue, 24 Sep 2024 04:04:55 +0800
+	id 1sspTA-000HZm-2m;
+	Mon, 23 Sep 2024 20:15:40 +0000
+Date: Tue, 24 Sep 2024 04:15:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Subject: [samba-ksmbd:ksmbd-for-next-next 3/4] fs/smb/server/smb2pdu.c:2070:
- warning: Function parameter or struct member 'coptions' not described in
- 'smb2_create_open_flags'
-Message-ID: <202409240317.7UrEkD87-lkp@intel.com>
+To: Oliver Neukum <oneukum@suse.com>, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, stable@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH] usb: yurex: make waiting on yurex_write interruptible
+Message-ID: <202409240433.Bl9ay4Ua-lkp@intel.com>
+References: <20240923141649.148563-1-oneukum@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,106 +64,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240923141649.148563-1-oneukum@suse.com>
 
-tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-head:   073f3e59284343a926e47db3d7373aad7bfa4e8b
-commit: 676fc89e7fdf5873f3f0df11a684400348e175b3 [3/4] ksmbd: fix open failure from block and char device file
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409240317.7UrEkD87-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240317.7UrEkD87-lkp@intel.com/reproduce)
+Hi Oliver,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.11 next-20240923]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/usb-yurex-make-waiting-on-yurex_write-interruptible/20240923-221833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240923141649.148563-1-oneukum%40suse.com
+patch subject: [PATCH] usb: yurex: make waiting on yurex_write interruptible
+config: x86_64-buildonly-randconfig-004-20240924 (https://download.01.org/0day-ci/archive/20240924/202409240433.Bl9ay4Ua-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240433.Bl9ay4Ua-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409240317.7UrEkD87-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409240433.Bl9ay4Ua-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/smb/server/smb2pdu.c:2070: warning: Function parameter or struct member 'coptions' not described in 'smb2_create_open_flags'
->> fs/smb/server/smb2pdu.c:2070: warning: Function parameter or struct member 'mode' not described in 'smb2_create_open_flags'
->> fs/smb/server/smb2pdu.c:2070: warning: Excess function parameter 'is_dir' description in 'smb2_create_open_flags'
+>> drivers/usb/misc/yurex.c:444:6: warning: variable 'retval' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     444 |         if (count == 0)
+         |             ^~~~~~~~~~
+   drivers/usb/misc/yurex.c:524:9: note: uninitialized use occurs here
+     524 |         return retval;
+         |                ^~~~~~
+   drivers/usb/misc/yurex.c:444:2: note: remove the 'if' if its condition is always false
+     444 |         if (count == 0)
+         |         ^~~~~~~~~~~~~~~
+     445 |                 goto error;
+         |                 ~~~~~~~~~~
+   drivers/usb/misc/yurex.c:433:24: note: initialize the variable 'retval' to silence this warning
+     433 |         int i, set = 0, retval;
+         |                               ^
+         |                                = 0
+   1 warning generated.
 
 
-vim +2070 fs/smb/server/smb2pdu.c
+vim +444 drivers/usb/misc/yurex.c
 
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2054  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2055  /**
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2056   * smb2_create_open_flags() - convert smb open flags to unix open flags
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2057   * @file_present:	is file already present
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2058   * @access:		file access flags
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2059   * @disposition:	file disposition flags
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2060   * @may_flags:		set with MAY_ flags
-e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2061   * @is_dir:		is creating open flags for directory
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2062   *
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2063   * Return:      file open flags
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2064   */
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2065  static int smb2_create_open_flags(bool file_present, __le32 access,
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2066  				  __le32 disposition,
-e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2067  				  int *may_flags,
-676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2068  				  __le32 coptions,
-676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2069  				  umode_t mode)
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16 @2070  {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2071  	int oflags = O_NONBLOCK | O_LARGEFILE;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2072  
-676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2073  	if (coptions & FILE_DIRECTORY_FILE_LE || S_ISDIR(mode)) {
-e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2074  		access &= ~FILE_WRITE_DESIRE_ACCESS_LE;
-e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2075  		ksmbd_debug(SMB, "Discard write access to a directory\n");
-e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2076  	}
-e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2077  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2078  	if (access & FILE_READ_DESIRED_ACCESS_LE &&
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2079  	    access & FILE_WRITE_DESIRE_ACCESS_LE) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2080  		oflags |= O_RDWR;
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2081  		*may_flags = MAY_OPEN | MAY_READ | MAY_WRITE;
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2082  	} else if (access & FILE_WRITE_DESIRE_ACCESS_LE) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2083  		oflags |= O_WRONLY;
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2084  		*may_flags = MAY_OPEN | MAY_WRITE;
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2085  	} else {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2086  		oflags |= O_RDONLY;
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2087  		*may_flags = MAY_OPEN | MAY_READ;
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2088  	}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2089  
-676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2090  	if (access == FILE_READ_ATTRIBUTES_LE || S_ISBLK(mode) || S_ISCHR(mode))
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2091  		oflags |= O_PATH;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2092  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2093  	if (file_present) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2094  		switch (disposition & FILE_CREATE_MASK_LE) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2095  		case FILE_OPEN_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2096  		case FILE_CREATE_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2097  			break;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2098  		case FILE_SUPERSEDE_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2099  		case FILE_OVERWRITE_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2100  		case FILE_OVERWRITE_IF_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2101  			oflags |= O_TRUNC;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2102  			break;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2103  		default:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2104  			break;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2105  		}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2106  	} else {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2107  		switch (disposition & FILE_CREATE_MASK_LE) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2108  		case FILE_SUPERSEDE_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2109  		case FILE_CREATE_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2110  		case FILE_OPEN_IF_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2111  		case FILE_OVERWRITE_IF_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2112  			oflags |= O_CREAT;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2113  			break;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2114  		case FILE_OPEN_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2115  		case FILE_OVERWRITE_LE:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2116  			oflags &= ~O_CREAT;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2117  			break;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2118  		default:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2119  			break;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2120  		}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2121  	}
-6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2122  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2123  	return oflags;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2124  }
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2125  
-
-:::::: The code at line 2070 was first introduced by commit
-:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
-
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  428  
+1cc373c654acde Sudip Mukherjee     2014-10-10  429  static ssize_t yurex_write(struct file *file, const char __user *user_buffer,
+1cc373c654acde Sudip Mukherjee     2014-10-10  430  			   size_t count, loff_t *ppos)
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  431  {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  432  	struct usb_yurex *dev;
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  433  	int i, set = 0, retval;
+7e10f14ebface4 Ben Hutchings       2018-08-15  434  	char buffer[16 + 1];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  435  	char *data = buffer;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  436  	unsigned long long c, c2 = 0;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  437  	signed long timeout = 0;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  438  	DEFINE_WAIT(wait);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  439  
+7e10f14ebface4 Ben Hutchings       2018-08-15  440  	count = min(sizeof(buffer) - 1, count);
+113ad911ad4a1c Arjun Sreedharan    2014-08-19  441  	dev = file->private_data;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  442  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  443  	/* verify that we actually have some data to write */
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29 @444  	if (count == 0)
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  445  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  446  
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  447  	retval = mutex_lock_interruptible(&dev->io_mutex);
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  448  	if (retval < 0)
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  449  		return -EINTR;
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  450  
+aafb00a977cf7d Johan Hovold        2019-10-09  451  	if (dev->disconnected) {		/* already disconnected */
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  452  		mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  453  		retval = -ENODEV;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  454  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  455  	}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  456  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  457  	if (copy_from_user(buffer, user_buffer, count)) {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  458  		mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  459  		retval = -EFAULT;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  460  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  461  	}
+7e10f14ebface4 Ben Hutchings       2018-08-15  462  	buffer[count] = 0;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  463  	memset(dev->cntl_buffer, CMD_PADDING, YUREX_BUF_SIZE);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  464  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  465  	switch (buffer[0]) {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  466  	case CMD_ANIMATE:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  467  	case CMD_LED:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  468  		dev->cntl_buffer[0] = buffer[0];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  469  		dev->cntl_buffer[1] = buffer[1];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  470  		dev->cntl_buffer[2] = CMD_EOF;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  471  		break;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  472  	case CMD_READ:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  473  	case CMD_VERSION:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  474  		dev->cntl_buffer[0] = buffer[0];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  475  		dev->cntl_buffer[1] = 0x00;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  476  		dev->cntl_buffer[2] = CMD_EOF;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  477  		break;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  478  	case CMD_SET:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  479  		data++;
+0d9b6d49fe39bd Gustavo A. R. Silva 2020-07-07  480  		fallthrough;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  481  	case '0' ... '9':
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  482  		set = 1;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  483  		c = c2 = simple_strtoull(data, NULL, 0);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  484  		dev->cntl_buffer[0] = CMD_SET;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  485  		for (i = 1; i < 6; i++) {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  486  			dev->cntl_buffer[i] = (c>>32) & 0xff;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  487  			c <<= 8;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  488  		}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  489  		buffer[6] = CMD_EOF;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  490  		break;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  491  	default:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  492  		mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  493  		return -EINVAL;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  494  	}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  495  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  496  	/* send the data as the control msg */
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  497  	prepare_to_wait(&dev->waitq, &wait, TASK_INTERRUPTIBLE);
+aadd6472d904c3 Greg Kroah-Hartman  2012-05-01  498  	dev_dbg(&dev->interface->dev, "%s - submit %c\n", __func__,
+aadd6472d904c3 Greg Kroah-Hartman  2012-05-01  499  		dev->cntl_buffer[0]);
+f176ede3a3bde5 Alan Stern          2020-08-10  500  	retval = usb_submit_urb(dev->cntl_urb, GFP_ATOMIC);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  501  	if (retval >= 0)
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  502  		timeout = schedule_timeout(YUREX_WRITE_TIMEOUT);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  503  	finish_wait(&dev->waitq, &wait);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  504  
+372c93131998c0 Johan Hovold        2020-12-14  505  	/* make sure URB is idle after timeout or (spurious) CMD_ACK */
+372c93131998c0 Johan Hovold        2020-12-14  506  	usb_kill_urb(dev->cntl_urb);
+372c93131998c0 Johan Hovold        2020-12-14  507  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  508  	mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  509  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  510  	if (retval < 0) {
+45714104b9e85f Greg Kroah-Hartman  2012-04-20  511  		dev_err(&dev->interface->dev,
+45714104b9e85f Greg Kroah-Hartman  2012-04-20  512  			"%s - failed to send bulk msg, error %d\n",
+45714104b9e85f Greg Kroah-Hartman  2012-04-20  513  			__func__, retval);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  514  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  515  	}
+93907620b30860 Oliver Neukum       2024-09-12  516  	if (set && timeout) {
+93907620b30860 Oliver Neukum       2024-09-12  517  		spin_lock_irq(&dev->lock);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  518  		dev->bbu = c2;
+93907620b30860 Oliver Neukum       2024-09-12  519  		spin_unlock_irq(&dev->lock);
+93907620b30860 Oliver Neukum       2024-09-12  520  	}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  521  	return timeout ? count : -EIO;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  522  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  523  error:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  524  	return retval;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  525  }
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  526  
 
 -- 
 0-DAY CI Kernel Test Service
