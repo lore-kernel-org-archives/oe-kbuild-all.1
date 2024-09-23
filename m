@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B8ABE49
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 14:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC401474BC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 14:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727102792; cv=none; b=ThgRIyPafvYM5BuFDCy5HHJuD/0uXqe1tsa9pPeCQHdcel5ei3TI5bkzK0hmE0Ouk6x8vAXEbjHHO9HaknYeBc/TnVa2mkrUlJRqcamH2UGcsKi9GALy+wJbYyHaJWosG6YOcJ6XBcOZXMMY/oSYAmmZ4ZjK+PcrCu3BwEPJ5Ds=
+	t=1727103430; cv=none; b=G3efrReANj0iyUnhj0MRnwAbIVWLjBuYVQjv8ONX6Y4nQcTzXhK03502hPqJ02F4K89GE8sYBncxuXjwBVXtEo8d5JXwH79Lz7xot/q6KC2ZQv9jOirvCBWtRj2S2Qqwj0/rOtWMSzyIyKJOBCJVkTzWi2hDZFKNG70YfveUiQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727102792; c=relaxed/simple;
-	bh=3Ji5AEhHM9oHgJM5t/g+R7fN3F0matsIBolhtg/HuhI=;
+	s=arc-20240116; t=1727103430; c=relaxed/simple;
+	bh=z6lbWLJGOw4PzZpM+LT3H0A2MF1Xz+OQALfEK8AndwY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q6ZwhcIGsSNIWC/g+N+pH+xNFm2l/4gX1Yxe4+gipKmdolGbM9XI0qyDWeXJcEoVUj9ecucswJL/+0UjNDA8yF2LiMjNuv0AfCP2CNN5bwBRwlGxFBGsP0L/SKQbYSmyRI2W3h/Swqhj5C4IvoBqMvmQYuYYWQHIOdVQ4lfMYBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmWuwZbn; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=TRPE7LRtQgXaGALyyBbH4pprWwwTobMXd8lce64Y3K0m//yuBggSLmBI9nXE1HfDfMgDLY/7yZC5JANr1QBfYbeKhjkWjtkF7bcTFEkd8yBJvicxrAxiKHZ8f8YujCUs4fI0g+LPZsCv+2C79o8AA7Dqx2+tz5KmD0meze+051A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LvWMjvN+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmWuwZbn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LvWMjvN+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727102791; x=1758638791;
+  t=1727103428; x=1758639428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3Ji5AEhHM9oHgJM5t/g+R7fN3F0matsIBolhtg/HuhI=;
-  b=kmWuwZbn0X4cMJtsNLKdZkWFMryA1tZdzWaGMg+pr15XJt1iEI7k+roH
-   NQ6pZoF0eLiVV5tw120qdGICfIFmeEofRatuqKKshdLICh49GzPUAt5QL
-   Q1PlTb9/Yq51JoTAmYH6yp0JOxdKeZu/nZAcemkFadVSmcnSySSyy8bGS
-   3IcyF1v0967jQBTnzrjKjjdHKaQbqikOT6xHMa4Q/gKfAZtquQ7CJSiQe
-   wUf+RSH7ULnJ+IFZaUUV81v6uDt/fkhQDa7wbnhRz39hO4wJTaS1ryGjP
-   t2ah9jTzucfwwqH4JrxHINF4vesjjx3zYqFIzVC9oDiBBsNiFu4tTRS6O
-   Q==;
-X-CSE-ConnectionGUID: vfkmvsVXRdavEmIUdNuLig==
-X-CSE-MsgGUID: pD5FKpUNR92cNKnAPqQ1Gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26005668"
+  bh=z6lbWLJGOw4PzZpM+LT3H0A2MF1Xz+OQALfEK8AndwY=;
+  b=LvWMjvN+KC4qusWFGcUjchH76NO6rcvboATyPNGAFYhostWbISSc0vru
+   dmQOW+gYtdsLm+YvEyB+/hQN+jl3JEKetwL0U6n9B7x2B9m8uhk161U2P
+   ahGhK2pAoycuH3Z5rPlbfCHbPXDasqu4vem0KEQHxOfbbjbXLUDyIS3PL
+   UCZNgwVn0/qIIHsQX+6bpZQQnJPDPCJKHKAZKHRCap3lzskHHxI7wkJ3e
+   EipnA4aCpUTKYn0Sh+iphREnhFboaZdIWTRYTNxlSn8+x0E+D59ZApqpB
+   SkCBQH5rXAvrDpIfauSQ0Pohp40mdz2wEpKjLnLtrheY4BWGBmbkk9BoT
+   w==;
+X-CSE-ConnectionGUID: kvQVNunVRK22Q9WaZ9XeiA==
+X-CSE-MsgGUID: hPf2vqzPToKWFlOZUi0lpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="25879870"
 X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="26005668"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 07:46:30 -0700
-X-CSE-ConnectionGUID: +xGsPk7FSg+Ri872P4TTow==
-X-CSE-MsgGUID: U7ub65ceQpCKcSCaHaNMFg==
+   d="scan'208";a="25879870"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 07:56:32 -0700
+X-CSE-ConnectionGUID: QTTaBRdKQKKVhzCaZuQnzA==
+X-CSE-MsgGUID: MhTG18/IQOuWJ1PSRVPHpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="101824957"
+   d="scan'208";a="71088761"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Sep 2024 07:46:29 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2024 07:56:28 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sskKY-000HIA-0l;
-	Mon, 23 Sep 2024 14:46:26 +0000
-Date: Mon, 23 Sep 2024 22:45:43 +0800
+	id 1sskUE-000HIW-1Z;
+	Mon, 23 Sep 2024 14:56:26 +0000
+Date: Mon, 23 Sep 2024 22:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 114/120] kismet: WARNING: unmet direct
- dependencies detected for REGULATOR_FIXED_VOLTAGE when selected by
- SND_SOC_APPLE_MACAUDIO
-Message-ID: <202409232215.4WR2QE9g-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1008/2441]
+ kernel/dma/pool.c:77:44: error: 'zone_dma_bits' undeclared
+Message-ID: <202409232206.yK1PJJiw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,28 +66,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   79e5f455d8c4ad8e5ba25ab4ec5945bdce3d1a91
-commit: 0602b407fa37a6fad397b3e1868bbb08181e0601 [114/120] macaudio: Fix missing kconfig requirement
-config: arm64-kismet-CONFIG_REGULATOR_FIXED_VOLTAGE-CONFIG_SND_SOC_APPLE_MACAUDIO-0-0 (https://download.01.org/0day-ci/archive/20240923/202409232215.4WR2QE9g-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240923/202409232215.4WR2QE9g-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   63759dec7a1be60e43e98e4257de936b546e4656
+commit: e82bab3a18d74d251a66047ba23778c818311870 [1008/2441] dma-pool: Only allocate from CMA when in same memory zone
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240923/202409232206.yK1PJJiw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232206.yK1PJJiw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409232215.4WR2QE9g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409232206.yK1PJJiw-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for REGULATOR_FIXED_VOLTAGE when selected by SND_SOC_APPLE_MACAUDIO
-   WARNING: unmet direct dependencies detected for APPLE_ADMAC
-     Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE [=n] || COMPILE_TEST [=y])
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE [=n] || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for REGULATOR_FIXED_VOLTAGE
-     Depends on [n]: REGULATOR [=n]
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE [=n] || COMPILE_TEST [=y])
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/dma-direct.h:9,
+                    from kernel/dma/pool.c:9:
+   kernel/dma/pool.c: In function 'cma_in_zone':
+>> kernel/dma/pool.c:77:44: error: 'zone_dma_bits' undeclared (first use in this function)
+      77 |                 return end <= DMA_BIT_MASK(zone_dma_bits);
+         |                                            ^~~~~~~~~~~~~
+   include/linux/dma-mapping.h:148:28: note: in definition of macro 'DMA_BIT_MASK'
+     148 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                            ^
+   kernel/dma/pool.c:77:44: note: each undeclared identifier is reported only once for each function it appears in
+      77 |                 return end <= DMA_BIT_MASK(zone_dma_bits);
+         |                                            ^~~~~~~~~~~~~
+   include/linux/dma-mapping.h:148:28: note: in definition of macro 'DMA_BIT_MASK'
+     148 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                            ^
+
+
+vim +/zone_dma_bits +77 kernel/dma/pool.c
+
+    59	
+    60	static bool cma_in_zone(gfp_t gfp)
+    61	{
+    62		unsigned long size;
+    63		phys_addr_t end;
+    64		struct cma *cma;
+    65	
+    66		cma = dev_get_cma_area(NULL);
+    67		if (!cma)
+    68			return false;
+    69	
+    70		size = cma_get_size(cma);
+    71		if (!size)
+    72			return false;
+    73	
+    74		/* CMA can't cross zone boundaries, see cma_activate_area() */
+    75		end = cma_get_base(cma) + size - 1;
+    76		if (IS_ENABLED(CONFIG_ZONE_DMA) && (gfp & GFP_DMA))
+  > 77			return end <= DMA_BIT_MASK(zone_dma_bits);
+    78		if (IS_ENABLED(CONFIG_ZONE_DMA32) && (gfp & GFP_DMA32))
+    79			return end <= DMA_BIT_MASK(32);
+    80		return true;
+    81	}
+    82	
 
 -- 
 0-DAY CI Kernel Test Service
