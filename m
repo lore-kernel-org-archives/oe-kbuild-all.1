@@ -1,129 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC401474BC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 14:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0487119CD0B;
+	Mon, 23 Sep 2024 15:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727103430; cv=none; b=G3efrReANj0iyUnhj0MRnwAbIVWLjBuYVQjv8ONX6Y4nQcTzXhK03502hPqJ02F4K89GE8sYBncxuXjwBVXtEo8d5JXwH79Lz7xot/q6KC2ZQv9jOirvCBWtRj2S2Qqwj0/rOtWMSzyIyKJOBCJVkTzWi2hDZFKNG70YfveUiQ0=
+	t=1727104887; cv=none; b=XzXfIrvEHnO1aonMK2tAuhSAodDnDNikobDHU7HWNfoMaPxU5jv0LDvmd0G3IrV0T1QOS0x4MM4BPn+4ecIG4FLhf3g52Tnib/l4L3uBd3Z5Lq60MrmFbVcM+/cFnRKB2Hf0SPud9JpXSTixHJ8DOR9TjmbcSFMjMcrHO7cS75o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727103430; c=relaxed/simple;
-	bh=z6lbWLJGOw4PzZpM+LT3H0A2MF1Xz+OQALfEK8AndwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TRPE7LRtQgXaGALyyBbH4pprWwwTobMXd8lce64Y3K0m//yuBggSLmBI9nXE1HfDfMgDLY/7yZC5JANr1QBfYbeKhjkWjtkF7bcTFEkd8yBJvicxrAxiKHZ8f8YujCUs4fI0g+LPZsCv+2C79o8AA7Dqx2+tz5KmD0meze+051A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LvWMjvN+; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LvWMjvN+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727103428; x=1758639428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z6lbWLJGOw4PzZpM+LT3H0A2MF1Xz+OQALfEK8AndwY=;
-  b=LvWMjvN+KC4qusWFGcUjchH76NO6rcvboATyPNGAFYhostWbISSc0vru
-   dmQOW+gYtdsLm+YvEyB+/hQN+jl3JEKetwL0U6n9B7x2B9m8uhk161U2P
-   ahGhK2pAoycuH3Z5rPlbfCHbPXDasqu4vem0KEQHxOfbbjbXLUDyIS3PL
-   UCZNgwVn0/qIIHsQX+6bpZQQnJPDPCJKHKAZKHRCap3lzskHHxI7wkJ3e
-   EipnA4aCpUTKYn0Sh+iphREnhFboaZdIWTRYTNxlSn8+x0E+D59ZApqpB
-   SkCBQH5rXAvrDpIfauSQ0Pohp40mdz2wEpKjLnLtrheY4BWGBmbkk9BoT
-   w==;
-X-CSE-ConnectionGUID: kvQVNunVRK22Q9WaZ9XeiA==
-X-CSE-MsgGUID: hPf2vqzPToKWFlOZUi0lpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="25879870"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="25879870"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 07:56:32 -0700
-X-CSE-ConnectionGUID: QTTaBRdKQKKVhzCaZuQnzA==
-X-CSE-MsgGUID: MhTG18/IQOuWJ1PSRVPHpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="71088761"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2024 07:56:28 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sskUE-000HIW-1Z;
-	Mon, 23 Sep 2024 14:56:26 +0000
-Date: Mon, 23 Sep 2024 22:56:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1008/2441]
- kernel/dma/pool.c:77:44: error: 'zone_dma_bits' undeclared
-Message-ID: <202409232206.yK1PJJiw-lkp@intel.com>
+	s=arc-20240116; t=1727104887; c=relaxed/simple;
+	bh=bMSKhr+4rYP/5MGeIk1qblZn7/5eBVdbQ9Yv1NT8p2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mbo8K/7lCpAuQsAkuMXmnCQMnP9xtR3kIIpMVtEFtMW4BqZ2VDi4D0H8pJtQFlKAY5RPZ4oF0Z9uS2OavOgn4ZFjJLMhTTzpT+nO2igjlJdb16BJ0H3OTRju/0oVF4cdzrZT18ICxTm+Q0wgA/MhDi4tVy595z/xGwRTTQOo0KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80143FEC;
+	Mon, 23 Sep 2024 08:21:53 -0700 (PDT)
+Received: from [10.57.84.103] (unknown [10.57.84.103])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B4B793F64C;
+	Mon, 23 Sep 2024 08:21:20 -0700 (PDT)
+Message-ID: <ebf8d9c6-867d-4e50-9e98-5d7f854278d8@arm.com>
+Date: Mon, 23 Sep 2024 16:21:18 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
+Content-Language: en-GB
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+ kernel test robot <lkp@intel.com>, linux-mm@kvack.org, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, "Mike Rapoport (IBM)"
+ <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Christoph Lameter <cl@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
+References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+ <202409190310.ViHBRe12-lkp@intel.com>
+ <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
+ <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
+ <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
+ <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
+ <5bd51798-cb47-4a7b-be40-554b5a821fe7@arm.com>
+ <ZuyIwdnbYcm3ZkkB@shell.armlinux.org.uk>
+ <9e68ffad-8a7e-40d7-a6f3-fa989a834068@arm.com>
+ <Zu1EwTItDrnkTVTB@shell.armlinux.org.uk>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <Zu1EwTItDrnkTVTB@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: e82bab3a18d74d251a66047ba23778c818311870 [1008/2441] dma-pool: Only allocate from CMA when in same memory zone
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240923/202409232206.yK1PJJiw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232206.yK1PJJiw-lkp@intel.com/reproduce)
+>> Let's just rewind a bit. This thread exists because the kernel test robot failed
+>> to compile pgd_none_or_clear_bad() (a core-mm function) for the arm architecture
+>> after Anshuman changed the direct pgd dereference to pgdp_get(). The reason
+>> compilation failed is because arm defines its own pgdp_get() override, but it is
+>> broken (there is a typo).
+> 
+> Let's not rewind, because had you fully read and digested my reply, you
+> would have seen why this isn't a problem... but let me spell it out.
+> 
+>>
+>> Code before Anshuman's change:
+>>
+>> static inline int pgd_none_or_clear_bad(pgd_t *pgd)
+>> {
+>> 	if (pgd_none(*pgd))
+>> 		return 1;
+>> 	if (unlikely(pgd_bad(*pgd))) {
+>> 		pgd_clear_bad(pgd);
+>> 		return 1;
+>> 	}
+>> 	return 0;
+>> }
+> 
+> This isn't a problem as the code stands. While there is a dereference
+> in C, that dereference is a simple struct copy, something that we use
+> everywhere in the kernel. However, that is as far as it goes, because
+> neither pgd_none() and pgd_bad() make use of their argument, and thus
+> the compiler will optimise it away, resulting in no actual access to
+> the page tables - _as_ _intended_.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409232206.yK1PJJiw-lkp@intel.com/
+Right. Are you saying you depend upon those loads being optimized away for
+correctness or performance reasons?
 
-All errors (new ones prefixed by >>):
+> 
+> If these are going to be converted to pgd_get(), then we need pgd_get()
+> to _also_ be optimised away, 
 
-   In file included from include/linux/dma-direct.h:9,
-                    from kernel/dma/pool.c:9:
-   kernel/dma/pool.c: In function 'cma_in_zone':
->> kernel/dma/pool.c:77:44: error: 'zone_dma_bits' undeclared (first use in this function)
-      77 |                 return end <= DMA_BIT_MASK(zone_dma_bits);
-         |                                            ^~~~~~~~~~~~~
-   include/linux/dma-mapping.h:148:28: note: in definition of macro 'DMA_BIT_MASK'
-     148 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                            ^
-   kernel/dma/pool.c:77:44: note: each undeclared identifier is reported only once for each function it appears in
-      77 |                 return end <= DMA_BIT_MASK(zone_dma_bits);
-         |                                            ^~~~~~~~~~~~~
-   include/linux/dma-mapping.h:148:28: note: in definition of macro 'DMA_BIT_MASK'
-     148 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                            ^
+OK, agreed.
 
+So perhaps the best approach is to modify the existing default pxdp_get()
+implementations to just do a C dereference. That will ensure that there are no
+intended consequences, unlike moving to READ_ONCE() by default. Then riscv
+(which I think is the only arch to actually use pxdp_get() currently?) will need
+its own pxdp_get() overrides, which use READ_ONCE(). arm64 would also define its
+own overrides in terms of READ_ONCE() to ensure single copy atomicity in the
+presence of HW updates.
 
-vim +/zone_dma_bits +77 kernel/dma/pool.c
+How does that sound to you?
 
-    59	
-    60	static bool cma_in_zone(gfp_t gfp)
-    61	{
-    62		unsigned long size;
-    63		phys_addr_t end;
-    64		struct cma *cma;
-    65	
-    66		cma = dev_get_cma_area(NULL);
-    67		if (!cma)
-    68			return false;
-    69	
-    70		size = cma_get_size(cma);
-    71		if (!size)
-    72			return false;
-    73	
-    74		/* CMA can't cross zone boundaries, see cma_activate_area() */
-    75		end = cma_get_base(cma) + size - 1;
-    76		if (IS_ENABLED(CONFIG_ZONE_DMA) && (gfp & GFP_DMA))
-  > 77			return end <= DMA_BIT_MASK(zone_dma_bits);
-    78		if (IS_ENABLED(CONFIG_ZONE_DMA32) && (gfp & GFP_DMA32))
-    79			return end <= DMA_BIT_MASK(32);
-    80		return true;
-    81	}
-    82	
+> and if e.g. this is the only place that
+> pgd_get() is going to be used, the suggestion I made in my previous
+> email is entirely reasonable, since we know that the result of pgd_get()
+> will not actually be used.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I guess you could do that as an arm-specific override, but I don't think it adds
+anything over using my proposed reworked default? Your call.
+
+> 
+>> As an aside, the kernel also dereferences p4d, pud, pmd and pte pointers in
+>> various circumstances.
+> 
+> I already covered these in my previous reply.
+> 
+>> And other changes in this series are also replacing those
+>> direct dereferences with calls to similar helpers. The fact that these are all
+>> folded (by a custom arm implementation if I've understood the below correctly)
+>> just means that each dereference is returning what you would call the pmd from
+>> the HW perspective, I think?
+> 
+> It'll "return" the first of each pair of level-1 page table entries,
+> which is pgd[0] or *p4d, *pud, *pmd - but all of these except *pmd
+> need to be optimised away, so throwing lots of READ_ONCE() around
+> this code without considering this is certainly the wrong approach.
+
+Yep, got it.
+
+> 
+>>>> The core-mm today
+>>>> dereferences pgd pointers (and p4d, pud, pmd pointers) directly in its code. See
+>>>> follow_pfnmap_start(),
+>>>
+>>> Doesn't seem to exist at least not in 6.11.
+>>
+>> Appologies, I'm on mm-unstable and that isn't upstream yet. See follow_pte() in
+>> v6.11 or __apply_to_page_range(), or pgd_none_or_clear_bad() as per above.
+> 
+> Looking at follow_pte(), it's not a problem.
+> 
+> I think we wouldn't be having this conversation before:
+> 
+> commit a32618d28dbe6e9bf8ec508ccbc3561a7d7d32f0
+> Author: Russell King <rmk+kernel@arm.linux.org.uk>
+> Date:   Tue Nov 22 17:30:28 2011 +0000
+> 
+>     ARM: pgtable: switch to use pgtable-nopud.h
+> 
+> where:
+> -#define pgd_none(pgd)          (0)
+> -#define pgd_bad(pgd)           (0)
+> 
+> existed before this commit - and thus the dereference in things like:
+> 
+> 	pgd_none(*pgd)
+> 
+> wouldn't even be visible to beyond the preprocessor step.
+> 
+
