@@ -1,81 +1,143 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A70EAF6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 06:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0001946D0;
+	Mon, 23 Sep 2024 09:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727073498; cv=none; b=AlhSJtI6ol2qykjFziYM1kY4U4fOyhTkG+Wv0d03FELP5EpkXgza7PWrjZHx+AQ13vba1et5JTIMIqlBfbuv9+YysMpu83p26OwgtCKQKyF8Cf5CsBBdVeBt6Des2Z5tFPXuYbiG46uv3UsvAujBCmi7kHCCrSnbOuHUWTOKeOA=
+	t=1727083751; cv=none; b=B3yQAABF8OCuMVYGspLDlzGvCaJcx6qdPfm6wHh3p3EMUG+ci4XrReseXhidVYBAD70bkCyYb5aSe+Kgk/7vobwIt8x8OaSNYNd04szspmuNnangrFLFjN8Fe5+VXigxj9GlnpvMpza26XHieMJsEukLsZlM2yboGN+0hk5z1pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727073498; c=relaxed/simple;
-	bh=LE5Y70/D+IdyXH+CLIcB0nN7fGObMqsBbkUoeTItoqc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QeIK/s6EupfUEcB+ndKVZz1orDNFhLVZbA1IKiL2A4MdI8LjjSZrjWUtYAKB9/ej/XyhlHooEMlBeMLEg9mdEMco+QNyXaopVQuFHDUY/7BFcDHTO9pcYSho15B+yAQuSzmwYGitCpgjunAe4dFbXjLAThJsjurqtiI/UozP27c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4XBtbQ2CzDz4f3kvg
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 14:37:54 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 288051A08FC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 14:38:11 +0800 (CST)
-Received: from [10.67.109.184] (unknown [10.67.109.184])
-	by APP4 (Coremail) with SMTP id gCh0CgAnqMTPDPFmNC9uCA--.34217S2;
-	Mon, 23 Sep 2024 14:38:09 +0800 (CST)
-Message-ID: <2bd9fdba-d916-4453-a0d9-a1a5b827a454@huaweicloud.com>
-Date: Mon, 23 Sep 2024 14:38:07 +0800
+	s=arc-20240116; t=1727083751; c=relaxed/simple;
+	bh=Bk59W87LVlCacjN9E/LG78wZaPbF/uY6XmFf+lXdy7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rppYUw5IXROghVwbqSor0yPI0jRBjjFVLGGHSS0YoG/smIGip8NrjRx4CLkhKC3bg211wbvwTD40pWrjzWgM+NdqGZS36ChGe5vwCs2Pqw+QgDIgidjlaMeS6PcRowrmeZgKHZndz+0yZGx4bF3xC+NFRQ6QCKIZfAQD/GToOAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RO6GkOS7; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RO6GkOS7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727083748; x=1758619748;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bk59W87LVlCacjN9E/LG78wZaPbF/uY6XmFf+lXdy7c=;
+  b=RO6GkOS7lRUq/B/tBF9vX7WcrxsVEQG/juf0flWCIZXsVL4WL12zCe7f
+   TqNVoimseI4/PpKUcz9a4QyyIEfvIMQi8u2B9ptKYpFFzgVLUrpbwSD11
+   0TCEesrJ0xn7I11MNYQsDmxJjR5xKB9ERP3Jw+B4gjk12FIyjF1LmkUU6
+   nW8DqDg0Y4eCRq9WbFHRg7R9fBA6GawL/LIesEONpvcHk7qEbQ/FDcPDC
+   BxkTXMhc243z3HQGkpCdnMhk+pRwUQa1VCbqeziSw/i5qZEwO5QTR7bQ1
+   7aUiSF+o6r5TQpjGVVMaybDxTUdgaWXnnQo79xkceXDvmLBLm92cgTtpq
+   w==;
+X-CSE-ConnectionGUID: mtEdST92QgyxvUnxu1oY8w==
+X-CSE-MsgGUID: 8ckivjBVQqe2ZOL2YUeCMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26176309"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="26176309"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 02:29:08 -0700
+X-CSE-ConnectionGUID: DoMW2LYSR52TYrXcqpGd8Q==
+X-CSE-MsgGUID: nq3kfNiSTNW5ixeU8AHArA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="70595878"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 23 Sep 2024 02:29:06 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ssfNQ-000H5O-0X;
+	Mon, 23 Sep 2024 09:29:04 +0000
+Date: Mon, 23 Sep 2024 17:28:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arend van Spriel <arend.vanspriel@broadcom.com>,
+	Kalle Valo <kvalo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	brcm80211@lists.linux.dev,
+	Arend van Spriel <arend.vanspriel@broadcom.com>,
+	Chung-Hsien Hsu <chung-hsien.hsu@infineon.com>,
+	Chi-hsien Lin <chi-hsien.lin@infineon.com>
+Subject: Re: [RFT v2 3/3] wifi: brcmfmac: cyw: support external SAE
+ authentication in station mode
+Message-ID: <202409231704.8hLEAwe6-lkp@intel.com>
+References: <20240918191109.41960-4-arend.vanspriel@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5.10] bpf: Fix mismatch memory accounting for devmap maps
-To: kernel test robot <lkp@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-References: <Zu1QdPBf_QnYCxbS@3bb1e60d1c37>
-Content-Language: en-US
-From: Pu Lehui <pulehui@huaweicloud.com>
-In-Reply-To: <Zu1QdPBf_QnYCxbS@3bb1e60d1c37>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAnqMTPDPFmNC9uCA--.34217S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruw15GrWUGw1kAFyDAr1xuFg_yoWxZrb_tr
-	4j9F98G3yUJr4rKF48trsavrWkKFWkZr9Yqr4xCrWxGwnrJFn8ZF4agFyfZas7Xas5ZFyY
-	gFyqqwnF9w4SqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbO8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
-	j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kfnx
-	nUUI43ZEXa7IU1CPfJUUUUU==
-X-CM-SenderInfo: psxovxtxl6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240918191109.41960-4-arend.vanspriel@broadcom.com>
 
+Hi Arend,
 
+kernel test robot noticed the following build warnings:
 
-On 2024/9/20 18:37, kernel test robot wrote:
-> Hi,
-> 
-> Thanks for your patch.
-> 
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> 
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
-> 
-> Rule: The upstream commit ID must be specified with a separate line above the commit text.
-> Subject: [PATCH 5.10] bpf: Fix mismatch memory accounting for devmap maps
-> Link: https://lore.kernel.org/stable/20240920103950.3931497-1-pulehui%40huaweicloud.com
-> 
-> Please ignore this mail if the patch is not relevant for upstream.
-> 
+[auto build test WARNING on 5a4d42c1688c88f3be6aef46b0ea6c32694cd2b8]
 
-This fix only involves 5.10, other versions are no problem.
+url:    https://github.com/intel-lab-lkp/linux/commits/Arend-van-Spriel/wifi-brcmfmac-support-per-vendor-cfg80211-callbacks-and-firmware-events/20240919-031359
+base:   5a4d42c1688c88f3be6aef46b0ea6c32694cd2b8
+patch link:    https://lore.kernel.org/r/20240918191109.41960-4-arend.vanspriel%40broadcom.com
+patch subject: [RFT v2 3/3] wifi: brcmfmac: cyw: support external SAE authentication in station mode
+config: i386-randconfig-r132-20240922 (https://download.01.org/0day-ci/archive/20240923/202409231704.8hLEAwe6-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409231704.8hLEAwe6-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409231704.8hLEAwe6-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:152:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] channel @@     got restricted __le32 [usertype] @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:152:28: sparse:     expected restricted __le16 [usertype] channel
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:152:28: sparse:     got restricted __le32 [usertype]
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:159:9: sparse: sparse: cast to restricted __le32
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:159:9: sparse: sparse: cast from restricted __le16
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:217:9: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int @@     got restricted __le32 [addressable] [assigned] [usertype] ssid_len @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:217:9: sparse:     expected unsigned int
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:217:9: sparse:     got restricted __le32 [addressable] [assigned] [usertype] ssid_len
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:254:33: sparse: sparse: cast to restricted __be32
+
+vim +217 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c
+
+   192	
+   193	static int
+   194	brcmf_cyw_external_auth(struct wiphy *wiphy, struct net_device *dev,
+   195				struct cfg80211_external_auth_params *params)
+   196	{
+   197		struct brcmf_if *ifp;
+   198		struct brcmf_pub *drvr;
+   199		struct brcmf_auth_req_status_le auth_status;
+   200		int ret = 0;
+   201	
+   202		brcmf_dbg(TRACE, "Enter\n");
+   203	
+   204		ifp = netdev_priv(dev);
+   205		drvr = ifp->drvr;
+   206		if (params->status == WLAN_STATUS_SUCCESS) {
+   207			auth_status.flags = cpu_to_le16(BRCMF_EXTAUTH_SUCCESS);
+   208		} else {
+   209			bphy_err(drvr, "External authentication failed: status=%d\n",
+   210				 params->status);
+   211			auth_status.flags = cpu_to_le16(BRCMF_EXTAUTH_FAIL);
+   212		}
+   213	
+   214		memcpy(auth_status.peer_mac, params->bssid, ETH_ALEN);
+   215		auth_status.ssid_len = cpu_to_le32(min_t(u8, params->ssid.ssid_len,
+   216							 IEEE80211_MAX_SSID_LEN));
+ > 217		memcpy(auth_status.ssid, params->ssid.ssid, auth_status.ssid_len);
+   218	
+   219		ret = brcmf_fil_iovar_data_set(ifp, "auth_status", &auth_status,
+   220					       sizeof(auth_status));
+   221		if (ret < 0)
+   222			bphy_err(drvr, "auth_status iovar failed: ret=%d\n", ret);
+   223	
+   224		return ret;
+   225	}
+   226	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
