@@ -1,109 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F032F44
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 04:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DE31C3D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 05:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727067218; cv=none; b=Kp/vC4hrJ9klQuxLmvpiYmvtLjhx31ccLHeLgly2XxkHKYJFTivL9DY7CS0VztD2coNHJkDzL/3jxFBNQdezSS2gCIOnv5UqH96hk4jyTPInekT5n4yFH1IdC1Lf0b0UdWxf/vZBhMjzUgRCPyq3a6/X3PTJcT0Ody1W98RMFoA=
+	t=1727070777; cv=none; b=c1NAu53mX2tfNmxrWLc9484WO8OzA4WOiNjNU/aiykM+n6YHNj4EbAUbsPcsQoUb59fqIVFClatc9Mz66IW5XXurYILCXZK8pEwq49N8hYELYWzz9aS/yg0r3YPT0gr7HQD2/t6/hilzFtMlVvx0a/elJWQuivMvedZP/2nw7nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727067218; c=relaxed/simple;
-	bh=u71Qf2SkDRLp4O4wF7193daelVI1zw1JCVVZqTIzMDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jdut/jxYXunNBbhNyhD/7i3CbCrm9iUJ5qSXXll3LgfQMUDIyuIyUBkSJLSZkqxV4nFzOS7m8x/DezB5ElgQr4krfflIWaTlZH1As78TVkEH+Bir+4+pwlg9WBsSOcPMEofdMzw7G+ZwaSbIsgD+xTbMyNklbQU2wB8qJsQ0xFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QKGSY40w; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727070777; c=relaxed/simple;
+	bh=jdFNWa2lQIKNDOLjiJa6F8zBHQYysX18WWS31rkDF3E=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=t3zqq08SJvSW1y4If/yX0xtsq6/dfFp/lrlKk5jqxK4agnfAGeuhj6E6ztwWQUoxOA0ptJbrh99u3i1rG+crvwoYcgt86PYsE+mXomUIWyBeq787lS1bXFwNpFP4YTmbUhz3nH97YrdvPQbpydJvSLd1EtjlXOO02kD1WyZTYEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=thyKlhEB; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKGSY40w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727067217; x=1758603217;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="thyKlhEB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u71Qf2SkDRLp4O4wF7193daelVI1zw1JCVVZqTIzMDQ=;
-  b=QKGSY40wGOBFNdZ1FovvpXkXBFkdTayJLHMGqEL7Q/9I8NIG2wnEkx/8
-   sKwwe+YsBxI82huhXUE7uK0CVywqnJNYV+oPl4hM+OWqNZS0pfw2/O0CJ
-   84+qofcacYRqfHMFZHUnquKUeJyId0vheVtss3heNjkEK49t/roTcdBpa
-   JH7/G2IiVn8jotAZw8kmDx9mtdNpXAZBKPHVBoKgRSzTiBpvhPNIRZqbo
-   s6P346EuvAXkqmbfR16Z92/H4U+wTz/tI8pGUp0Dlz3iuCvgEv82ev3es
-   I4g2VKj1T/EN9oWrOgo9Gf7p3ZrDLNTd799wJZRWkM4Re83KQ9x3bkg00
-   g==;
-X-CSE-ConnectionGUID: iHp0lntcR4Ka9E7Obx5ekQ==
-X-CSE-MsgGUID: PL8ZxKRbTLGLJx6NuxtPJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="43514509"
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="43514509"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 21:53:36 -0700
-X-CSE-ConnectionGUID: pTvhCv6aTWWC+NZrcU9cWA==
-X-CSE-MsgGUID: gYaKa9FaQASbWtkmtYnZNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="108380474"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Sep 2024 21:53:35 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ssb4m-000Gue-2H;
-	Mon, 23 Sep 2024 04:53:32 +0000
-Date: Mon, 23 Sep 2024 12:53:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: drivers/soc/fsl/qe/qmc.c:2002:30: warning: unused variable
- 'qmc_data_qe'
-Message-ID: <202409231229.EFlvN9m0-lkp@intel.com>
+  bh=VH/2p6QFE5M8vhp2WtPeQxRJLuM/ISYqgGthCFfJcfo=;
+  b=thyKlhEBY8cbyg8JQcL3uQbSDlx0OzPhcozydjLV310VkzRuIgfOKvyx
+   3+gmFwDxueegKDGUfaC4ljJltMz6WUAzscr4/PbJ00KkWZ7fm6iCK+her
+   ex8WW6FpDrwYIx0H9oNold+tToGknhdpeeuwKnO/P7PaAU1Ntwl6vnRZz
+   U=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.10,250,1719871200"; 
+   d="scan'208";a="184474004"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 07:52:45 +0200
+Date: Mon, 23 Sep 2024 07:52:44 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Frank Wang <frank.wang@rock-chips.com>
+cc: Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org, 
+    oe-kbuild-all@lists.linux.dev
+Subject: drivers/usb/typec/tcpm/tcpm.c:6356:20-21: WARNING opportunity for
+ max() (fwd)
+Message-ID: <a27853fb-d0b4-c5b3-c26f-fdc088eea558@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+
+
+
+---------- Forwarded message ----------
+Date: Mon, 23 Sep 2024 10:57:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/usb/typec/tcpm/tcpm.c:6356:20-21: WARNING opportunity for max()
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Frank Wang <frank.wang@rock-chips.com>
+CC: Guenter Roeck <linux@roeck-us.net>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
-commit: eb680d563089e55b20cb7730ed881638fe4425b7 soc: fsl: cpm1: qmc: Add support for QUICC Engine (QE) implementation
-date:   3 weeks ago
-config: powerpc-randconfig-r054-20240923 (https://download.01.org/0day-ci/archive/20240923/202409231229.EFlvN9m0-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409231229.EFlvN9m0-lkp@intel.com/reproduce)
+commit: 8be558dcffe69b078b34b1fa93b82acaf4ce4957 usb: typec: tcpm: add get max power support
+date:   1 year, 3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 1 year, 3 months ago
+config: arc-randconfig-r054-20240923 (https://download.01.org/0day-ci/archive/20240923/202409231009.2efXAh9b-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409231229.EFlvN9m0-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202409231009.2efXAh9b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/usb/typec/tcpm/tcpm.c:6356:20-21: WARNING opportunity for max()
 
-   In file included from drivers/soc/fsl/qe/qmc.c:12:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/soc/fsl/qe/qmc.c:2002:30: warning: unused variable 'qmc_data_qe' [-Wunused-const-variable]
-    2002 | static const struct qmc_data qmc_data_qe = {
-         |                              ^~~~~~~~~~~
-   2 warnings generated.
+vim +6356 drivers/usb/typec/tcpm/tcpm.c
 
-
-vim +/qmc_data_qe +2002 drivers/soc/fsl/qe/qmc.c
-
-  2001	
-> 2002	static const struct qmc_data qmc_data_qe = {
-  2003		.version = QMC_QE,
-  2004		.tstate = 0x30000000,
-  2005		.rstate = 0x30000000,
-  2006		.zistate = 0x00000200,
-  2007		.zdstate_hdlc = 0x80FFFFE0,
-  2008		.zdstate_transp = 0x003FFFE2,
-  2009		.rpack = 0x80000000,
-  2010	};
-  2011	
+f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  6342
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6343  static int tcpm_psy_get_input_power_limit(struct tcpm_port *port,
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6344  					  union power_supply_propval *val)
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6345  {
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6346  	unsigned int src_mv, src_ma, max_src_uw = 0;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6347  	unsigned int i, tmp;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6348
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6349  	for (i = 0; i < port->nr_source_caps; i++) {
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6350  		u32 pdo = port->source_caps[i];
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6351
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6352  		if (pdo_type(pdo) == PDO_TYPE_FIXED) {
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6353  			src_mv = pdo_fixed_voltage(pdo);
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6354  			src_ma = pdo_max_current(pdo);
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6355  			tmp = src_mv * src_ma;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16 @6356  			max_src_uw = tmp > max_src_uw ? tmp : max_src_uw;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6357  		}
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6358  	}
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6359
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6360  	val->intval = max_src_uw;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6361  	return 0;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6362  }
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6363
 
 -- 
 0-DAY CI Kernel Test Service
