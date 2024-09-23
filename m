@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE952907
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 23:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEE68172A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 23:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727135247; cv=none; b=VPj3cu7WTvNh9XukXO4AnYo4Do0m/cyf9l5Ch9Le5ZjKseCZV/XvAHkER4bY8vjlZeGzspAt2RNlUAPT7d2e4GDW4WgXrWLyfNiwcFk2ECzXMSL+2kYjB32c+xaqxW7S3JQh91tuaMowq5GvWtVTyJfbl6hGwBion7fyzwEBXR4=
+	t=1727135695; cv=none; b=Rtfd0S4TayhJ9xxTdHIai4TDyc29j0iWids707b+CdRzbBUK7irmAs9XwNkZjKCO513Ws2ld8XaHxN4oOYD/p+V4kbFQ6l/RkmPxjID5JJMGx2K+31NYz/I8XhyGRvELIlMm3Q0MyP+C1A0TkHb7m4p7P0Gb+QBHXjCEbuWuIwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727135247; c=relaxed/simple;
-	bh=5Uj5mtdoOAx4kTnVRoWRzMXPTIVr/7eKH1rcTgJl9kw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q3IUpU75x2vK/59TnPPmh+MOkj4Kym+HohHNDgdSDLLQ32uf/Bdh0fjY679VJ1CMA8w2yuGUGu9qyT9aKpOTknYVyqBeCefFmJsW2IVog8SQJK9uvi54gGoJd539PP3YI3sPLBHz3btumuTfxZpwahbV/DzAqmOTbhUluhxy49o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IhRVnrq3; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1727135695; c=relaxed/simple;
+	bh=NlU0qZSAQMt2YvJ9+HFA+NBdfvP1oFOC4Ez8Y1XLDzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ckm1Wu/oEfzPZBuZtBUs1v0zLpAFgJt/8mUeChfGyEKlV70rna/6eY5gwsbVQQE0muj8ajsuJ/61RwHRTtkWdhZhnvowroBTx40cea9Nz9+m2bt0kFtd7SGrxedY7rGq0cWCPbiRA8Vqj90MKkpd8DlLSW7ZmFObzptaQ+EWM9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEPT+6RS; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IhRVnrq3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEPT+6RS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727135246; x=1758671246;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5Uj5mtdoOAx4kTnVRoWRzMXPTIVr/7eKH1rcTgJl9kw=;
-  b=IhRVnrq3ZRxKgKll0WUA2xlOCyJNTuOY33HKoU0a5W1nbrMYKulDRQTo
-   TC8bLrPrBbqMwsh6yY+E+M8hfo88ruKzLfFjY/3vpYKlr7x1U1dj4fHZP
-   /9l7qhXVBrs+8endJVV77H7qYhSQ53Qn+E+F+iVqrWxfekVUtJtEdgF3Q
-   PabzHZQ3sZ/kKemO1LP/AV3QcMJ9Ds3/qccf16uTsYR4yQQWO5awSogqH
-   MmNdXgmXeOz1PRmNvZnF1PvHBmfBTjQJtvUqPw3y2tRXRQR8Lgj1PBSe9
-   SIyBUkoYfkcmcytqqqejlp0i7LjvDNpVP0Ghu6EKnzwQVvWSw+Z2N/bOs
-   g==;
-X-CSE-ConnectionGUID: CSKQUcjzQea6z66gbGg2lA==
-X-CSE-MsgGUID: S/t0WCrnSQONIdtHcu+riw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26201988"
+  t=1727135694; x=1758671694;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NlU0qZSAQMt2YvJ9+HFA+NBdfvP1oFOC4Ez8Y1XLDzw=;
+  b=hEPT+6RSQXcJpyCuFJNjM4SlDgJWWtHtn6kkODZtOUYPNgCpZX9JTkDe
+   MTVFn+47jqTL+3MU1TisLc6icYbWRLp0cVKTa/3YJCfSXPc9UFKKzWmg/
+   vA/reQgtLtc1VXDNmJconIfOWW7mdoakZ8T/wlP2YHtKpQj/c8KdOY2fi
+   vnzx6X4ctlNvPBv7rcMunrqOIhXta8xewSMbfElPBMBbVriDsFO5+Amhs
+   LdzFEy8IHXFSTSFO9sGluAqmRtM5AUjV5PEpO9GkqYaqAUDowZ35GLtVb
+   b1nI7Bs9Pik0B4/wSfcgueam1TA5HfSeLzp+AniDNh/81UCFKpPro2nk/
+   w==;
+X-CSE-ConnectionGUID: sIl9/7C8TEqFzXp2bG8zhQ==
+X-CSE-MsgGUID: 3EVcKBFvRpqRF9/2OsTTCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26228656"
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="26201988"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 16:47:25 -0700
-X-CSE-ConnectionGUID: Ka2oBSuyTKOd3Z5PG+7EYQ==
-X-CSE-MsgGUID: ZyAwx6NvSC2ErgBnx4lVTA==
+   d="scan'208";a="26228656"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 16:54:53 -0700
+X-CSE-ConnectionGUID: KoHwqwHuTiyqAuDfRT862w==
+X-CSE-MsgGUID: 0/68c1RSQ0+9Vz6TsXHdNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="94575117"
+   d="scan'208";a="76151452"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2024 16:44:51 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Sep 2024 16:54:50 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sssjX-000HhL-0L;
-	Mon, 23 Sep 2024 23:44:47 +0000
-Date: Tue, 24 Sep 2024 07:44:06 +0800
+	id 1ssstD-000Hht-1m;
+	Mon, 23 Sep 2024 23:54:47 +0000
+Date: Tue, 24 Sep 2024 07:54:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
-	p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	jitao.shi@mediatek.com, mac.shen@mediatek.com,
-	peng.liu@mediatek.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 1/1] drm/mediatek: dp: Add sdp path reset
-Message-ID: <202409240700.ARp9pDUk-lkp@intel.com>
-References: <20240923133610.23728-1-liankun.yang@mediatek.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2211/2441]
+ include/linux/device.h:1775:9: warning: 'ie' is used uninitialized
+Message-ID: <202409240741.my95PqIF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,57 +65,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240923133610.23728-1-liankun.yang@mediatek.com>
 
-Hi Liankun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pza/reset/next]
-[also build test ERROR on linus/master v6.11 next-20240923]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liankun-Yang/drm-mediatek-dp-Add-sdp-path-reset/20240923-213747
-base:   https://git.pengutronix.de/git/pza/linux reset/next
-patch link:    https://lore.kernel.org/r/20240923133610.23728-1-liankun.yang%40mediatek.com
-patch subject: [PATCH v1 1/1] drm/mediatek: dp: Add sdp path reset
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409240700.ARp9pDUk-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240700.ARp9pDUk-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   63759dec7a1be60e43e98e4257de936b546e4656
+commit: 7ed14911c89112b6b74bc41a23e143e1699c53ee [2211/2441] Build report error when config IOASID disable
+config: x86_64-randconfig-075-20240923 (https://download.01.org/0day-ci/archive/20240924/202409240741.my95PqIF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240741.my95PqIF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409240700.ARp9pDUk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409240741.my95PqIF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/mediatek/mtk_dp.c: In function 'mtk_dp_sdp_path_reset':
->> drivers/gpu/drm/mediatek/mtk_dp.c:1058:33: error: 'SDP_RESET_SW_DP_ENC0_P0' undeclared (first use in this function); did you mean 'SDP_PACKET_W_DP_ENC1_P0'?
-    1058 |                                 SDP_RESET_SW_DP_ENC0_P0,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                 SDP_PACKET_W_DP_ENC1_P0
-   drivers/gpu/drm/mediatek/mtk_dp.c:1058:33: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/pci.h:37,
+                    from drivers/dma/idxd/device.c:6:
+   include/linux/device.h: In function 'idxd_wq_request_irq':
+>> include/linux/device.h:1775:9: warning: 'ie' is used uninitialized [-Wuninitialized]
+    1775 |         dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~
+   drivers/dma/idxd/device.c:1371:32: note: 'ie' was declared here
+    1371 |         struct idxd_irq_entry *ie;
+         |                                ^~
 
 
-vim +1058 drivers/gpu/drm/mediatek/mtk_dp.c
+vim +/ie +1775 include/linux/device.h
 
-  1054	
-  1055	static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
-  1056	{
-  1057		mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-> 1058					SDP_RESET_SW_DP_ENC0_P0,
-  1059					SDP_RESET_SW_DP_ENC0_P0);
-  1060	
-  1061		/* Wait for sdp path reset to complete */
-  1062		usleep_range(1000, 5000);
-  1063		mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-  1064					0, SDP_RESET_SW_DP_ENC0_P0);
-  1065	}
-  1066	
+99bcf217183e02 Joe Perches  2010-06-27  1749  
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1750  /*
+663336ee262809 Joe Perches  2018-05-09  1751   * #defines for all the dev_<level> macros to prefix with whatever
+663336ee262809 Joe Perches  2018-05-09  1752   * possible use of #define dev_fmt(fmt) ...
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1753   */
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1754  
+663336ee262809 Joe Perches  2018-05-09  1755  #define dev_emerg(dev, fmt, ...)					\
+663336ee262809 Joe Perches  2018-05-09  1756  	_dev_emerg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+663336ee262809 Joe Perches  2018-05-09  1757  #define dev_crit(dev, fmt, ...)						\
+663336ee262809 Joe Perches  2018-05-09  1758  	_dev_crit(dev, dev_fmt(fmt), ##__VA_ARGS__)
+663336ee262809 Joe Perches  2018-05-09  1759  #define dev_alert(dev, fmt, ...)					\
+663336ee262809 Joe Perches  2018-05-09  1760  	_dev_alert(dev, dev_fmt(fmt), ##__VA_ARGS__)
+663336ee262809 Joe Perches  2018-05-09  1761  #define dev_err(dev, fmt, ...)						\
+663336ee262809 Joe Perches  2018-05-09  1762  	_dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
+663336ee262809 Joe Perches  2018-05-09  1763  #define dev_warn(dev, fmt, ...)						\
+663336ee262809 Joe Perches  2018-05-09  1764  	_dev_warn(dev, dev_fmt(fmt), ##__VA_ARGS__)
+663336ee262809 Joe Perches  2018-05-09  1765  #define dev_notice(dev, fmt, ...)					\
+663336ee262809 Joe Perches  2018-05-09  1766  	_dev_notice(dev, dev_fmt(fmt), ##__VA_ARGS__)
+663336ee262809 Joe Perches  2018-05-09  1767  #define dev_info(dev, fmt, ...)						\
+663336ee262809 Joe Perches  2018-05-09  1768  	_dev_info(dev, dev_fmt(fmt), ##__VA_ARGS__)
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1769  
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1770  #if defined(CONFIG_DYNAMIC_DEBUG)
+663336ee262809 Joe Perches  2018-05-09  1771  #define dev_dbg(dev, fmt, ...)						\
+663336ee262809 Joe Perches  2018-05-09  1772  	dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1773  #elif defined(DEBUG)
+663336ee262809 Joe Perches  2018-05-09  1774  #define dev_dbg(dev, fmt, ...)						\
+663336ee262809 Joe Perches  2018-05-09 @1775  	dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1776  #else
+663336ee262809 Joe Perches  2018-05-09  1777  #define dev_dbg(dev, fmt, ...)						\
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1778  ({									\
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1779  	if (0)								\
+663336ee262809 Joe Perches  2018-05-09  1780  		dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1781  })
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1782  #endif
+6f586e663e3b36 Hiroshi Doyu 2012-09-04  1783  
+
+:::::: The code at line 1775 was first introduced by commit
+:::::: 663336ee2628096df0ce2b546b148cb74b5249fe device: Add #define dev_fmt similar to #define pr_fmt
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
