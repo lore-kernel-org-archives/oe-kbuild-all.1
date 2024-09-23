@@ -1,124 +1,83 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1CE2AEE7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 14:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C301946AA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 14:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727100612; cv=none; b=ijI4G6EGeffelEYGgQMnWOuEVksYINK/m+tveuxradiQYwFwGCQmn8Zd8j8Kz/Lv+v7/fGQZ/OwSySI15Q2c4Xt8GCa77V+D1D0lId3GA2GZ6v513fJeGXHs3McjdHBWZc+hr7sDlYXTFIIP/fwFQ8CcJcc+TiJydEnLLdOWsg8=
+	t=1727101170; cv=none; b=F/h543yFyYKsWHp2IyQZ8LSEihcngnfrSNNoX8htvY009KuwNY5o0X1V/T2DYwodsOYheV1ZJmPmdSxdBWHmK/nEeCxJhtABWQIn3IAukAKUgFlUxz28WEkne/31hUeNGcp/117lZt6vawQUMHaZy9JxMlRQf4eEY9HZ6P7JNRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727100612; c=relaxed/simple;
-	bh=4vxE9g9Xu+6JTwSgT8PG0zHujevxi2qE/ZYkoWGNd4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QI0tJfP9krcnHtaXOjkJSQLkbaZWUu7Vuh7IwmK0IZeKheEiI9gJhTFMJajLX2z9r2JOOwv0e0XDxxSnL+FnToRCnxCJ4nvQt+tmZP2ZsoGrM1xfXmYCm19tC0mSDKiodJ2k0GFVDiLpF5s+IS4QETyh1Ob2wK8D+QexSDu0lTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.17])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4XC4Xm2pKvz1HJp8;
-	Mon, 23 Sep 2024 22:06:16 +0800 (CST)
-Received: from dggpeml500003.china.huawei.com (unknown [7.185.36.200])
-	by mail.maildlp.com (Postfix) with ESMTPS id D36B61A0188;
-	Mon, 23 Sep 2024 22:10:04 +0800 (CST)
-Received: from [10.174.177.173] (10.174.177.173) by
- dggpeml500003.china.huawei.com (7.185.36.200) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 23 Sep 2024 22:10:04 +0800
-Message-ID: <a2548f24-b68d-d7ce-3826-6fa1a19bf70b@huawei.com>
-Date: Mon, 23 Sep 2024 22:10:03 +0800
+	s=arc-20240116; t=1727101170; c=relaxed/simple;
+	bh=MJp1bPFthQYAG8Y+hEOvxPN2bhbOYJmrg3+mi147ISQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=NyhzJiMNLa1XeyvIgn8ZG0+MyDtroF5PfvRU1dNnw9sdNZH12bBUGvrSCkTIqIbuJpREq8hTEcUTyauibMUgZZ9ySxOLevuQkgNZA65HgwGSfsGUuED0FnirP2T8UWzz2r96yMgrNVf8YhQRBrxK6DO0FcdRyc9c66wwjej4UjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjjKGusL; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjjKGusL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727101169; x=1758637169;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=MJp1bPFthQYAG8Y+hEOvxPN2bhbOYJmrg3+mi147ISQ=;
+  b=VjjKGusLSxZuk0WV30TmmPM/qvXRGYDkQTuDzhWGW9ejATellsP5irV5
+   gYgfjcNQRmAwXv38yRl+ZwkBKru9eBMj9o+O4w09ST01IQwuNj8clj/8f
+   cSp/Jfahj7l3DsOkk3BOZTYK07+QUbZMUgjWEqjNoe29PtvPgJSOqetrX
+   U0xwgH28dtUF2ZjhDJ3K8hxvAHldniyT31m0lY0D8vPTLd76r18BAd2x1
+   W6GRJGqSp9tpxjgr/nQLkNozWv7qBmBg6zEdXX+/IZzzMdEefLmD3GL/6
+   VhB8sUVugtyjy5B6R4RjVwPQWkSfIkU9yH66rUmkkWbQEmC+Iz5murq0q
+   A==;
+X-CSE-ConnectionGUID: XTwBDAQaQoy0s9KQBU2pjg==
+X-CSE-MsgGUID: lZZpJvhRQVyW4sFjRS2dWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="25918997"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="25918997"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 07:19:29 -0700
+X-CSE-ConnectionGUID: +yuhQcCXQqOzwWtd3NXmTg==
+X-CSE-MsgGUID: +NnfFWmKSFSdI+SG7hAXQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="70669813"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 23 Sep 2024 07:19:28 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ssjuP-000HHE-1c;
+	Mon, 23 Sep 2024 14:19:25 +0000
+Date: Mon, 23 Sep 2024 22:18:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] usb: yurex: make waiting on yurex_write interruptible
+Message-ID: <ZvF4t6MtUWOT6yY1@483fc80b4b15>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: kernel/sched/ext.c:3701:16: error: 'struct task_group' has no
- member named 'idle'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Tejun Heo <tj@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, David
- Vernet <dvernet@meta.com>, Xie XiuQi <xiexiuqi@huawei.com>
-References: <202409220859.UiCAoFOW-lkp@intel.com>
-From: Yu Liao <liaoyu15@huawei.com>
-In-Reply-To: <202409220859.UiCAoFOW-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500003.china.huawei.com (7.185.36.200)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240923141649.148563-1-oneukum@suse.com>
 
 Hi,
 
-On 2024/9/22 9:02, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   88264981f2082248e892a706b2c5004650faac54
-> commit: 8195136669661fdfe54e9a8923c33b31c92fc1da sched_ext: Add cgroup support
-> date:   2 weeks ago
-> config: sparc-randconfig-002-20240922 (https://download.01.org/0day-ci/archive/20240922/202409220859.UiCAoFOW-lkp@intel.com/config)
-> compiler: sparc-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220859.UiCAoFOW-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409220859.UiCAoFOW-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from kernel/sched/build_policy.c:63:
->    kernel/sched/ext.c: In function 'scx_cgroup_warn_missing_idle':
->>> kernel/sched/ext.c:3701:16: error: 'struct task_group' has no member named 'idle'
->     3701 |         if (!tg->idle)
->          |                ^~
->    kernel/sched/ext.c: In function 'scx_ops_disable_workfn':
->    kernel/sched/ext.c:4455:17: error: implicit declaration of function 'stack_trace_print'; did you mean 'event_trace_printk'? [-Wimplicit-function-declaration]
->     4455 |                 stack_trace_print(ei->bt, ei->bt_len, 2);
->          |                 ^~~~~~~~~~~~~~~~~
->          |                 event_trace_printk
->    kernel/sched/ext.c: In function 'scx_ops_exit_kind':
->    kernel/sched/ext.c:4834:30: error: implicit declaration of function 'stack_trace_save'; did you mean 'stack_tracer_enable'? [-Wimplicit-function-declaration]
->     4834 |                 ei->bt_len = stack_trace_save(ei->bt, SCX_EXIT_BT_LEN, 1);
->          |                              ^~~~~~~~~~~~~~~~
->          |                              stack_tracer_enable
-> --
->    kernel/sched/core.c: In function 'cpu_idle_read_s64':
->>> kernel/sched/core.c:9626:27: error: 'struct task_group' has no member named 'idle'
->     9626 |         return css_tg(css)->idle;
->          |                           ^~
->    kernel/sched/core.c: In function 'cpu_idle_write_s64':
->>> kernel/sched/core.c:9634:15: error: implicit declaration of function 'sched_group_set_idle'; did you mean 'scx_group_set_idle'? [-Wimplicit-function-declaration]
->     9634 |         ret = sched_group_set_idle(css_tg(css), idle);
->          |               ^~~~~~~~~~~~~~~~~~~~
->          |               scx_group_set_idle
->    kernel/sched/core.c: In function 'cpu_idle_read_s64':
->    kernel/sched/core.c:9627:1: warning: control reaches end of non-void function [-Wreturn-type]
->     9627 | }
->          | ^
-> 
+Thanks for your patch.
 
-I post a RFC PATCH series:
-https://lore.kernel.org/all/20240923135431.2440320-1-liaoyu15@huawei.com/T/#t
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Best regards,
-Yu
-> 
-> vim +3701 kernel/sched/ext.c
-> 
->   3694	
->   3695	static void scx_cgroup_warn_missing_idle(struct task_group *tg)
->   3696	{
->   3697		if (scx_ops_enable_state() == SCX_OPS_DISABLED ||
->   3698		    cgroup_warned_missing_idle)
->   3699			return;
->   3700	
->> 3701		if (!tg->idle)
->   3702			return;
->   3703	
->   3704		pr_warn("sched_ext: \"%s\" does not implement cgroup cpu.idle\n",
->   3705			scx_ops.name);
->   3706		cgroup_warned_missing_idle = true;
->   3707	}
->   3708	
-> 
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] usb: yurex: make waiting on yurex_write interruptible
+Link: https://lore.kernel.org/stable/20240923141649.148563-1-oneukum%40suse.com
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
 
