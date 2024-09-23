@@ -1,52 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44631A0B0D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 19:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551215E86
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 19:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727118227; cv=none; b=MRowVN3KPtBn5eaN0bjVawIHTSomPed79gECdVWcruZsl2U98a213v3lrxf+gFkJkByYfvAlpTkhHN/dZnEdtoI6uFgT04y3rJXEERHhKYzv7j9CJVV8y1Z9Fny5GHK+m/YKSl5oF1RucWYHQWx3ecGG5Fct58zn/qS2OTOaxRo=
+	t=1727119445; cv=none; b=MjEmjIMz53xkBHgFKn58m7XpB2+a5JVDGSyxhzvFauUlUDTFkYwfZJenEU0jEpwSNRDBCfaIniKGxQ8gHmxWR/096MEdnjNtGyhKRF2c+WHc0yvtG9wuYosq1DByLg5ZAIl5iVX/sJhba0PV10ZyRahrmD1jTTSDW4tRVoi+zT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727118227; c=relaxed/simple;
-	bh=fNFfq9FDmY6J/MWbXriLHaXffNcFbBTPihxHUC14IJQ=;
+	s=arc-20240116; t=1727119445; c=relaxed/simple;
+	bh=G4NDEUZGLonhNaN8aPQlXa7Hk08D1Q8LqYWiV4OKwmE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r2E8JSG+ecPFETEBPVyPcgE2jytpl9d1R8macYXepQF+7CcmHiuG+FiEo9MIfWZ0mQ9euPYLa0eY5Uhsf8KqbM+Mxo3G1cYBEHPCfJsMk4geuV5AH+vRnN4CsEkH4tHQAoZBUMtjG2dujJDNr6rEnKiQ7GjHEl8q5TrmdsFSbd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJchsBW0; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Ey58F850Z4Fanv83/edUrA7D7Vo5CWvMwOvp7j9/NOrzmfwmNNQOWgo8JxzUTyEaqHMkx819ReZWptcer/lyyZ8pxDC9I4e4RKbDOWYTUKRk1FgEWyvx+zkPyHBTNo3lrW1LRpzlqKwCEMVjrOOEuaVjMGcCnTE+OJw6rn6cuLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HjSuJOVo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJchsBW0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HjSuJOVo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727118226; x=1758654226;
+  t=1727119443; x=1758655443;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fNFfq9FDmY6J/MWbXriLHaXffNcFbBTPihxHUC14IJQ=;
-  b=lJchsBW0y3HvOZsGszOjUp0U5KgPEk7AJ+3ygCJsleycAgLBApLU5nAA
-   uoK/qJ4jCgFaG13ESeL5wAbjbA1X7eFhXog5qTYgaccNZ+wNGnGWYaJNR
-   rfffOYAowBJ/ymodITw9LIOcYHtLDwtSKJ58lrKajB07KgaHShPrjdhay
-   M5JTD1VXJNjnXZ85A1Lbitjs5MA0SkP5mGU4fPL5q7F4Y4VGkHDhMtEAZ
-   jfiwXzpvGpu4ORtAUZ8ADV0Z7pmOmgtlmja0fBVoECu9i6Psq6hBoR/Ar
-   0+fckRgRQs0l/EgIWVY8aHbVPmeYbCiFyU6dVuI+T/XFyO6TAEeUPGaMU
-   w==;
-X-CSE-ConnectionGUID: eOJIOyFuTtyXByr14F00oA==
-X-CSE-MsgGUID: B98YqM5qTvCDw2wbb8Jevw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26038175"
+  bh=G4NDEUZGLonhNaN8aPQlXa7Hk08D1Q8LqYWiV4OKwmE=;
+  b=HjSuJOVoDinFccL93MliwndP7+/UzkFFg1fUwNhe91clKjR7z4lrdvRp
+   sPi6QJSMJRddObU/iFsvAf5w7tGBiJForoDqhsL6n77RFTIunMl0IyIyu
+   n58tYCFqRohJln/qE8f2Y98iTQyZvldJeKCLIKXn3YiCICYrComM/L98v
+   jRFFx6yQXa43/5R58xM4W8Fp7BkQe1ML/6BsGqDfrzDPuB+HgLifhZj4u
+   2mNdqKjvBKYhdKh5cvuC6tSPmn8Wpn35jJu7coR3ReiglTZ8sWWthdgbg
+   UeIBYf8npJjsJi3LsmQVeF92r5Qbc9qS90fkF5HKFNgRRBQbZiZArKUrp
+   Q==;
+X-CSE-ConnectionGUID: zIONa2qASS6w6Z6by8qumQ==
+X-CSE-MsgGUID: 1jQSxPKgRdyBs5OC4++fzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="48614081"
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="26038175"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 12:03:45 -0700
-X-CSE-ConnectionGUID: neY7uUELRsm+Fbu9cWuYEA==
-X-CSE-MsgGUID: nJcuKPvCQu6yTj9NNLWPRw==
+   d="scan'208";a="48614081"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 12:23:46 -0700
+X-CSE-ConnectionGUID: sNW67daiTfatQiVQE24VOg==
+X-CSE-MsgGUID: xK6rvisiT0Wnao4FzDwzxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="71607804"
+   d="scan'208";a="76095389"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Sep 2024 12:03:42 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Sep 2024 12:23:42 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssoLT-000HWi-0U;
-	Mon, 23 Sep 2024 19:03:39 +0000
-Date: Tue, 24 Sep 2024 03:03:04 +0800
+	id 1ssoep-000HX8-1H;
+	Mon, 23 Sep 2024 19:23:39 +0000
+Date: Tue, 24 Sep 2024 03:23:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
 	sagazchen@tencent.com, kernelxing@tencent.com,
@@ -54,10 +54,10 @@ To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
 	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
 	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2167/2441]
- versioncheck: ./kernel/tkernel/irqlatency/irqlatency.c: 25 linux/version.h
- not needed.
-Message-ID: <202409240334.QvVhjh76-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 253/2441]
+ drivers/iommu/rockchip-iommu.c:1129:10: error: 'const struct iommu_ops' has
+ no member named 'add_device'
+Message-ID: <202409240343.fsDOVU8g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,120 +69,64 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
 head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: 22599f9f53faee0e993fc4ae321de5ee3e95299a [2167/2441] irqlatency: add irq latency monitor support
-reproduce: (https://download.01.org/0day-ci/archive/20240924/202409240334.QvVhjh76-lkp@intel.com/reproduce)
+commit: 9c3888559fa80ba17dadeee3aa6c603fab6db09b [253/2441] iommu: Remove add_device()/remove_device() code-paths
+config: arm64-randconfig-004-20240923 (https://download.01.org/0day-ci/archive/20240924/202409240343.fsDOVU8g-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240343.fsDOVU8g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409240334.QvVhjh76-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409240343.fsDOVU8g-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c: 4719: need linux/version.h
-   ./drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.c: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.h: 13 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/hinic/hinic_ethtool.c: 2728: need linux/version.h
-   ./drivers/net/ethernet/huawei/hinic/hinic_main.c: 3394: need linux/version.h
-   ./drivers/net/ethernet/huawei/hinic/hinic_tx.c: 1368: need linux/version.h
-   ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.c: 497: need linux/version.h
-   ./drivers/net/ethernet/intel/i40e/kcompat.c: 2759: need linux/version.h
-   ./drivers/net/ethernet/intel/iavf/kcompat.c: 2495: need linux/version.h
-   ./drivers/net/ethernet/intel/ice/kcompat.c: 1360: need linux/version.h
-   ./drivers/net/ethernet/intel/ice/kcompat_sles_defs.h: 152: need linux/version.h
-   ./drivers/net/ethernet/intel/ice/kcompat_std_defs.h: 127: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbe/kcompat.c: 2964: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbe/kcompat_ethtool.c: 1148: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbevf/kcompat.c: 2719: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbevf/kcompat_ethtool.c: 1148: need linux/version.h
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 35 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/lpfc/lpfc.h: 25 linux/version.h not needed.
-   ./drivers/scsi/lpfc/lpfc_attr.c: 8282: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_auth.c: 2296: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_crtn.h: 719: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_ct.c: 3782: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_els.c: 11238: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_hbadisc.c: 7236: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_init.c: 16102: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_scsi.c: 7667: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_sli.c: 22519: need linux/version.h
-   ./drivers/scsi/mpt3sas/mpt3sas_base.h: 2490: need linux/version.h
-   ./drivers/scsi/mpt3sas/mpt3sas_config.c: 46 linux/version.h not needed.
-   ./drivers/scsi/mpt3sas/mpt3sas_debugfs.c: 43 linux/version.h not needed.
-   ./drivers/scsi/mpt3sas/mpt3sas_transport.c: 2654: need linux/version.h
-   ./drivers/scsi/mpt3sas/mpt3sas_trigger_diag.c: 47 linux/version.h not needed.
-   ./drivers/scsi/mpt3sas/mpt3sas_warpdrive.c: 615: need linux/version.h
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
->> ./kernel/tkernel/irqlatency/irqlatency.c: 25 linux/version.h not needed.
-   ./net/toa/toa.h: 7 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   drivers/iommu/rockchip-iommu.c:1127:16: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+    1127 |         .map = rk_iommu_map,
+         |                ^~~~~~~~~~~~
+   drivers/iommu/rockchip-iommu.c:1127:16: note: (near initialization for 'rk_iommu_ops.map')
+>> drivers/iommu/rockchip-iommu.c:1129:10: error: 'const struct iommu_ops' has no member named 'add_device'
+    1129 |         .add_device = rk_iommu_add_device,
+         |          ^~~~~~~~~~
+>> drivers/iommu/rockchip-iommu.c:1129:23: error: initialization of 'void (*)(struct iommu_domain *)' from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
+    1129 |         .add_device = rk_iommu_add_device,
+         |                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/rockchip-iommu.c:1129:23: note: (near initialization for 'rk_iommu_ops.flush_iotlb_all')
+>> drivers/iommu/rockchip-iommu.c:1130:10: error: 'const struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
+    1130 |         .remove_device = rk_iommu_remove_device,
+         |          ^~~~~~~~~~~~~
+         |          probe_device
+   drivers/iommu/rockchip-iommu.c:1130:26: error: initialization of 'void (*)(struct iommu_domain *)' from incompatible pointer type 'void (*)(struct device *)' [-Werror=incompatible-pointer-types]
+    1130 |         .remove_device = rk_iommu_remove_device,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/rockchip-iommu.c:1130:26: note: (near initialization for 'rk_iommu_ops.iotlb_sync_map')
+   cc1: some warnings being treated as errors
+
+
+vim +1129 drivers/iommu/rockchip-iommu.c
+
+5fd577c3eac3bdb Jeffy Chen   2018-03-23  1121  
+c68a292152d322b Daniel Kurtz 2014-11-03  1122  static const struct iommu_ops rk_iommu_ops = {
+bcd516a32416aad Joerg Roedel 2015-03-26  1123  	.domain_alloc = rk_iommu_domain_alloc,
+bcd516a32416aad Joerg Roedel 2015-03-26  1124  	.domain_free = rk_iommu_domain_free,
+c68a292152d322b Daniel Kurtz 2014-11-03  1125  	.attach_dev = rk_iommu_attach_device,
+c68a292152d322b Daniel Kurtz 2014-11-03  1126  	.detach_dev = rk_iommu_detach_device,
+c68a292152d322b Daniel Kurtz 2014-11-03  1127  	.map = rk_iommu_map,
+c68a292152d322b Daniel Kurtz 2014-11-03  1128  	.unmap = rk_iommu_unmap,
+c68a292152d322b Daniel Kurtz 2014-11-03 @1129  	.add_device = rk_iommu_add_device,
+c68a292152d322b Daniel Kurtz 2014-11-03 @1130  	.remove_device = rk_iommu_remove_device,
+c68a292152d322b Daniel Kurtz 2014-11-03  1131  	.iova_to_phys = rk_iommu_iova_to_phys,
+57c26957bd87a9f Jeffy Chen   2018-03-23  1132  	.device_group = rk_iommu_device_group,
+c68a292152d322b Daniel Kurtz 2014-11-03  1133  	.pgsize_bitmap = RK_IOMMU_PGSIZE_BITMAP,
+5fd577c3eac3bdb Jeffy Chen   2018-03-23  1134  	.of_xlate = rk_iommu_of_xlate,
+c68a292152d322b Daniel Kurtz 2014-11-03  1135  };
+c68a292152d322b Daniel Kurtz 2014-11-03  1136  
+
+:::::: The code at line 1129 was first introduced by commit
+:::::: c68a292152d322b2d03f88d7f1d91d6bfa9d22bc iommu/rockchip: rk3288 iommu driver
+
+:::::: TO: Daniel Kurtz <djkurtz@chromium.org>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
