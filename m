@@ -1,168 +1,222 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0487119CD0B;
-	Mon, 23 Sep 2024 15:21:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4839A199FC6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Sep 2024 15:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727104887; cv=none; b=XzXfIrvEHnO1aonMK2tAuhSAodDnDNikobDHU7HWNfoMaPxU5jv0LDvmd0G3IrV0T1QOS0x4MM4BPn+4ecIG4FLhf3g52Tnib/l4L3uBd3Z5Lq60MrmFbVcM+/cFnRKB2Hf0SPud9JpXSTixHJ8DOR9TjmbcSFMjMcrHO7cS75o=
+	t=1727105255; cv=none; b=YPv8cFk28jMjO3MyFvcX0gHfACwBiLZri81tpP7gHcga8VXxwVJtiMfuU2VP33wBSOI3wztED2iE7PUwctOznmyWsZDVVG1bXoImYyCvJsUHxT1qDHNrNYNSw/unxoIAystgO7iNzJZLpsK6aQuwPML2CDzhQyu0N0y/kTN/kv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727104887; c=relaxed/simple;
-	bh=bMSKhr+4rYP/5MGeIk1qblZn7/5eBVdbQ9Yv1NT8p2s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mbo8K/7lCpAuQsAkuMXmnCQMnP9xtR3kIIpMVtEFtMW4BqZ2VDi4D0H8pJtQFlKAY5RPZ4oF0Z9uS2OavOgn4ZFjJLMhTTzpT+nO2igjlJdb16BJ0H3OTRju/0oVF4cdzrZT18ICxTm+Q0wgA/MhDi4tVy595z/xGwRTTQOo0KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80143FEC;
-	Mon, 23 Sep 2024 08:21:53 -0700 (PDT)
-Received: from [10.57.84.103] (unknown [10.57.84.103])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B4B793F64C;
-	Mon, 23 Sep 2024 08:21:20 -0700 (PDT)
-Message-ID: <ebf8d9c6-867d-4e50-9e98-5d7f854278d8@arm.com>
-Date: Mon, 23 Sep 2024 16:21:18 +0100
+	s=arc-20240116; t=1727105255; c=relaxed/simple;
+	bh=NTF1Ano3mKcGX3BDRGoMK1XxNMP1i/Oa//AJJik8qkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fTSv2xLt4gKavR1O7PBdm0vwVSqhqwvaSuNjEvmlmO69x7UHo5g6/Vi4g2DQShsb7morXLbWP9c3Q86Ps++Y3Znh93LP1Li6Z3qkAlP1cZfhQG5UQRLT5hTV1sjaPNWyxBsLm5epyzd+EOs9ZuIm8Ld2tTU/kmJrys0Ksj6MyyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GGgxQlU0; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GGgxQlU0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727105253; x=1758641253;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NTF1Ano3mKcGX3BDRGoMK1XxNMP1i/Oa//AJJik8qkQ=;
+  b=GGgxQlU0an+AMdd8dVHiSpEkb4OihlJmk569NPIWtfwg5zaxyjkfRWMn
+   awpmjx+b6kqvOutlRuLKq/099rjxDlsSkMAe6SXTl9KQ+nukrEAHFdhDL
+   Gqo230DejZD/smOcTmalaz9+xacQNcJXaRxyZtDSlIk68nkaAF/yZaNgY
+   UlyU76Y+PtoZl+V+dekmz/86vrgOU+yNyrpyLEPme8pw/ABixVcqsOfxn
+   NY4+8IJmlYdBq0mmxpO+3Q4yx/T/bKNXMmfbVmmfX6Qdsd05vadCsIfb0
+   4TihCGyQ/X8cMJ/JmlqxKtAkKjLe1DoXKdB1OlfAaDuvYYJhYfyjZWC7L
+   w==;
+X-CSE-ConnectionGUID: MuG6owrPRTe6P2eaY1FOow==
+X-CSE-MsgGUID: kYY9T0H5SNGFczjvdGkk6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="29947007"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="29947007"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 08:27:31 -0700
+X-CSE-ConnectionGUID: 6q3IyxkXR2mdNYgcK4HsGA==
+X-CSE-MsgGUID: zm2MewC+QqG675fZWg2dOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="71371794"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2024 08:27:30 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sskyF-000HJo-1V;
+	Mon, 23 Sep 2024 15:27:27 +0000
+Date: Mon, 23 Sep 2024 23:27:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dave Airlie <airlied@redhat.com>
+Subject: include/linux/fortify-string.h:562:25: error: call to
+ '__read_overflow2_field' declared with attribute warning: detected read
+ beyond size of field (2nd parameter); maybe use struct_group()?
+Message-ID: <202409232316.5U75bLW8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-Content-Language: en-GB
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
- kernel test robot <lkp@intel.com>, linux-mm@kvack.org, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, "Mike Rapoport (IBM)"
- <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Christoph Lameter <cl@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
- <202409190310.ViHBRe12-lkp@intel.com>
- <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
- <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
- <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
- <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
- <5bd51798-cb47-4a7b-be40-554b5a821fe7@arm.com>
- <ZuyIwdnbYcm3ZkkB@shell.armlinux.org.uk>
- <9e68ffad-8a7e-40d7-a6f3-fa989a834068@arm.com>
- <Zu1EwTItDrnkTVTB@shell.armlinux.org.uk>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <Zu1EwTItDrnkTVTB@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->> Let's just rewind a bit. This thread exists because the kernel test robot failed
->> to compile pgd_none_or_clear_bad() (a core-mm function) for the arm architecture
->> after Anshuman changed the direct pgd dereference to pgdp_get(). The reason
->> compilation failed is because arm defines its own pgdp_get() override, but it is
->> broken (there is a typo).
-> 
-> Let's not rewind, because had you fully read and digested my reply, you
-> would have seen why this isn't a problem... but let me spell it out.
-> 
->>
->> Code before Anshuman's change:
->>
->> static inline int pgd_none_or_clear_bad(pgd_t *pgd)
->> {
->> 	if (pgd_none(*pgd))
->> 		return 1;
->> 	if (unlikely(pgd_bad(*pgd))) {
->> 		pgd_clear_bad(pgd);
->> 		return 1;
->> 	}
->> 	return 0;
->> }
-> 
-> This isn't a problem as the code stands. While there is a dereference
-> in C, that dereference is a simple struct copy, something that we use
-> everywhere in the kernel. However, that is as far as it goes, because
-> neither pgd_none() and pgd_bad() make use of their argument, and thus
-> the compiler will optimise it away, resulting in no actual access to
-> the page tables - _as_ _intended_.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
+commit: 377b5b397d073c0aae36b833a5bcac0e6f349243 Merge tag 'amd-drm-next-6.10-2024-04-19' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
+date:   5 months ago
+config: riscv-randconfig-r062-20240830 (https://download.01.org/0day-ci/archive/20240923/202409232316.5U75bLW8-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232316.5U75bLW8-lkp@intel.com/reproduce)
 
-Right. Are you saying you depend upon those loads being optimized away for
-correctness or performance reasons?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409232316.5U75bLW8-lkp@intel.com/
 
-> 
-> If these are going to be converted to pgd_get(), then we need pgd_get()
-> to _also_ be optimised away, 
+All errors (new ones prefixed by >>):
 
-OK, agreed.
+   In file included from include/linux/string.h:369,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:13,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/os_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services.h:35,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:26:
+   In function 'fortify_memcpy_chk',
+       inlined from 'dc_stream_remove_writeback' at drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:523:5:
+>> include/linux/fortify-string.h:562:25: error: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Werror=attribute-warning]
+     562 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-So perhaps the best approach is to modify the existing default pxdp_get()
-implementations to just do a C dereference. That will ensure that there are no
-intended consequences, unlike moving to READ_ONCE() by default. Then riscv
-(which I think is the only arch to actually use pxdp_get() currently?) will need
-its own pxdp_get() overrides, which use READ_ONCE(). arm64 would also define its
-own overrides in terms of READ_ONCE() to ensure single copy atomicity in the
-presence of HW updates.
 
-How does that sound to you?
+vim +/__read_overflow2_field +562 include/linux/fortify-string.h
 
-> and if e.g. this is the only place that
-> pgd_get() is going to be used, the suggestion I made in my previous
-> email is entirely reasonable, since we know that the result of pgd_get()
-> will not actually be used.
+a28a6e860c6cf2 Francis Laniel 2021-02-25  497  
+f68f2ff91512c1 Kees Cook      2021-04-20  498  /*
+f68f2ff91512c1 Kees Cook      2021-04-20  499   * To make sure the compiler can enforce protection against buffer overflows,
+f68f2ff91512c1 Kees Cook      2021-04-20  500   * memcpy(), memmove(), and memset() must not be used beyond individual
+f68f2ff91512c1 Kees Cook      2021-04-20  501   * struct members. If you need to copy across multiple members, please use
+f68f2ff91512c1 Kees Cook      2021-04-20  502   * struct_group() to create a named mirror of an anonymous struct union.
+f68f2ff91512c1 Kees Cook      2021-04-20  503   * (e.g. see struct sk_buff.) Read overflow checking is currently only
+f68f2ff91512c1 Kees Cook      2021-04-20  504   * done when a write overflow is also present, or when building with W=1.
+f68f2ff91512c1 Kees Cook      2021-04-20  505   *
+f68f2ff91512c1 Kees Cook      2021-04-20  506   * Mitigation coverage matrix
+f68f2ff91512c1 Kees Cook      2021-04-20  507   *					Bounds checking at:
+f68f2ff91512c1 Kees Cook      2021-04-20  508   *					+-------+-------+-------+-------+
+f68f2ff91512c1 Kees Cook      2021-04-20  509   *					| Compile time  |   Run time    |
+f68f2ff91512c1 Kees Cook      2021-04-20  510   * memcpy() argument sizes:		| write | read  | write | read  |
+f68f2ff91512c1 Kees Cook      2021-04-20  511   *        dest     source   length      +-------+-------+-------+-------+
+f68f2ff91512c1 Kees Cook      2021-04-20  512   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
+f68f2ff91512c1 Kees Cook      2021-04-20  513   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  514   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
+f68f2ff91512c1 Kees Cook      2021-04-20  515   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  516   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
+f68f2ff91512c1 Kees Cook      2021-04-20  517   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  518   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
+f68f2ff91512c1 Kees Cook      2021-04-20  519   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  520   *					+-------+-------+-------+-------+
+f68f2ff91512c1 Kees Cook      2021-04-20  521   *
+f68f2ff91512c1 Kees Cook      2021-04-20  522   * y = perform deterministic compile-time bounds checking
+f68f2ff91512c1 Kees Cook      2021-04-20  523   * n = cannot perform deterministic compile-time bounds checking
+f68f2ff91512c1 Kees Cook      2021-04-20  524   * n/a = no run-time bounds checking needed since compile-time deterministic
+f68f2ff91512c1 Kees Cook      2021-04-20  525   * B = can perform run-time bounds checking (currently unimplemented)
+f68f2ff91512c1 Kees Cook      2021-04-20  526   * V = vulnerable to run-time overflow (will need refactoring to solve)
+f68f2ff91512c1 Kees Cook      2021-04-20  527   *
+f68f2ff91512c1 Kees Cook      2021-04-20  528   */
+54d9469bc515dc Kees Cook      2021-06-24  529  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
+f68f2ff91512c1 Kees Cook      2021-04-20  530  					 const size_t p_size,
+f68f2ff91512c1 Kees Cook      2021-04-20  531  					 const size_t q_size,
+f68f2ff91512c1 Kees Cook      2021-04-20  532  					 const size_t p_size_field,
+f68f2ff91512c1 Kees Cook      2021-04-20  533  					 const size_t q_size_field,
+475ddf1fce1ec4 Kees Cook      2023-04-07  534  					 const u8 func)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  535  {
+a28a6e860c6cf2 Francis Laniel 2021-02-25  536  	if (__builtin_constant_p(size)) {
+f68f2ff91512c1 Kees Cook      2021-04-20  537  		/*
+f68f2ff91512c1 Kees Cook      2021-04-20  538  		 * Length argument is a constant expression, so we
+f68f2ff91512c1 Kees Cook      2021-04-20  539  		 * can perform compile-time bounds checking where
+fa35198f39571b Kees Cook      2022-09-19  540  		 * buffer sizes are also known at compile time.
+f68f2ff91512c1 Kees Cook      2021-04-20  541  		 */
+f68f2ff91512c1 Kees Cook      2021-04-20  542  
+f68f2ff91512c1 Kees Cook      2021-04-20  543  		/* Error when size is larger than enclosing struct. */
+fa35198f39571b Kees Cook      2022-09-19  544  		if (__compiletime_lessthan(p_size_field, p_size) &&
+fa35198f39571b Kees Cook      2022-09-19  545  		    __compiletime_lessthan(p_size, size))
+a28a6e860c6cf2 Francis Laniel 2021-02-25  546  			__write_overflow();
+fa35198f39571b Kees Cook      2022-09-19  547  		if (__compiletime_lessthan(q_size_field, q_size) &&
+fa35198f39571b Kees Cook      2022-09-19  548  		    __compiletime_lessthan(q_size, size))
+a28a6e860c6cf2 Francis Laniel 2021-02-25  549  			__read_overflow2();
+f68f2ff91512c1 Kees Cook      2021-04-20  550  
+f68f2ff91512c1 Kees Cook      2021-04-20  551  		/* Warn when write size argument larger than dest field. */
+fa35198f39571b Kees Cook      2022-09-19  552  		if (__compiletime_lessthan(p_size_field, size))
+f68f2ff91512c1 Kees Cook      2021-04-20  553  			__write_overflow_field(p_size_field, size);
+f68f2ff91512c1 Kees Cook      2021-04-20  554  		/*
+f68f2ff91512c1 Kees Cook      2021-04-20  555  		 * Warn for source field over-read when building with W=1
+f68f2ff91512c1 Kees Cook      2021-04-20  556  		 * or when an over-write happened, so both can be fixed at
+f68f2ff91512c1 Kees Cook      2021-04-20  557  		 * the same time.
+f68f2ff91512c1 Kees Cook      2021-04-20  558  		 */
+fa35198f39571b Kees Cook      2022-09-19  559  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
+fa35198f39571b Kees Cook      2022-09-19  560  		     __compiletime_lessthan(p_size_field, size)) &&
+fa35198f39571b Kees Cook      2022-09-19  561  		    __compiletime_lessthan(q_size_field, size))
+f68f2ff91512c1 Kees Cook      2021-04-20 @562  			__read_overflow2_field(q_size_field, size);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  563  	}
+f68f2ff91512c1 Kees Cook      2021-04-20  564  	/*
+f68f2ff91512c1 Kees Cook      2021-04-20  565  	 * At this point, length argument may not be a constant expression,
+f68f2ff91512c1 Kees Cook      2021-04-20  566  	 * so run-time bounds checking can be done where buffer sizes are
+f68f2ff91512c1 Kees Cook      2021-04-20  567  	 * known. (This is not an "else" because the above checks may only
+f68f2ff91512c1 Kees Cook      2021-04-20  568  	 * be compile-time warnings, and we want to still warn for run-time
+f68f2ff91512c1 Kees Cook      2021-04-20  569  	 * overflows.)
+f68f2ff91512c1 Kees Cook      2021-04-20  570  	 */
+f68f2ff91512c1 Kees Cook      2021-04-20  571  
+f68f2ff91512c1 Kees Cook      2021-04-20  572  	/*
+f68f2ff91512c1 Kees Cook      2021-04-20  573  	 * Always stop accesses beyond the struct that contains the
+f68f2ff91512c1 Kees Cook      2021-04-20  574  	 * field, when the buffer's remaining size is known.
+311fb40aa0569a Kees Cook      2022-09-02  575  	 * (The SIZE_MAX test is to optimize away checks where the buffer
+f68f2ff91512c1 Kees Cook      2021-04-20  576  	 * lengths are unknown.)
+f68f2ff91512c1 Kees Cook      2021-04-20  577  	 */
+475ddf1fce1ec4 Kees Cook      2023-04-07  578  	if (p_size != SIZE_MAX && p_size < size)
+3d965b33e40d97 Kees Cook      2023-04-07  579  		fortify_panic(func, FORTIFY_WRITE, p_size, size, true);
+475ddf1fce1ec4 Kees Cook      2023-04-07  580  	else if (q_size != SIZE_MAX && q_size < size)
+3d965b33e40d97 Kees Cook      2023-04-07  581  		fortify_panic(func, FORTIFY_READ, p_size, size, true);
+54d9469bc515dc Kees Cook      2021-06-24  582  
+54d9469bc515dc Kees Cook      2021-06-24  583  	/*
+54d9469bc515dc Kees Cook      2021-06-24  584  	 * Warn when writing beyond destination field size.
+54d9469bc515dc Kees Cook      2021-06-24  585  	 *
+54d9469bc515dc Kees Cook      2021-06-24  586  	 * We must ignore p_size_field == 0 for existing 0-element
+54d9469bc515dc Kees Cook      2021-06-24  587  	 * fake flexible arrays, until they are all converted to
+54d9469bc515dc Kees Cook      2021-06-24  588  	 * proper flexible arrays.
+54d9469bc515dc Kees Cook      2021-06-24  589  	 *
+9f7d69c5cd2390 Kees Cook      2022-09-19  590  	 * The implementation of __builtin_*object_size() behaves
+54d9469bc515dc Kees Cook      2021-06-24  591  	 * like sizeof() when not directly referencing a flexible
+54d9469bc515dc Kees Cook      2021-06-24  592  	 * array member, which means there will be many bounds checks
+54d9469bc515dc Kees Cook      2021-06-24  593  	 * that will appear at run-time, without a way for them to be
+54d9469bc515dc Kees Cook      2021-06-24  594  	 * detected at compile-time (as can be done when the destination
+54d9469bc515dc Kees Cook      2021-06-24  595  	 * is specifically the flexible array member).
+54d9469bc515dc Kees Cook      2021-06-24  596  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
+54d9469bc515dc Kees Cook      2021-06-24  597  	 */
+54d9469bc515dc Kees Cook      2021-06-24  598  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
+54d9469bc515dc Kees Cook      2021-06-24  599  	    p_size != p_size_field && p_size_field < size)
+54d9469bc515dc Kees Cook      2021-06-24  600  		return true;
+54d9469bc515dc Kees Cook      2021-06-24  601  
+54d9469bc515dc Kees Cook      2021-06-24  602  	return false;
+a28a6e860c6cf2 Francis Laniel 2021-02-25  603  }
+a28a6e860c6cf2 Francis Laniel 2021-02-25  604  
 
-I guess you could do that as an arm-specific override, but I don't think it adds
-anything over using my proposed reworked default? Your call.
+:::::: The code at line 562 was first introduced by commit
+:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
 
-> 
->> As an aside, the kernel also dereferences p4d, pud, pmd and pte pointers in
->> various circumstances.
-> 
-> I already covered these in my previous reply.
-> 
->> And other changes in this series are also replacing those
->> direct dereferences with calls to similar helpers. The fact that these are all
->> folded (by a custom arm implementation if I've understood the below correctly)
->> just means that each dereference is returning what you would call the pmd from
->> the HW perspective, I think?
-> 
-> It'll "return" the first of each pair of level-1 page table entries,
-> which is pgd[0] or *p4d, *pud, *pmd - but all of these except *pmd
-> need to be optimised away, so throwing lots of READ_ONCE() around
-> this code without considering this is certainly the wrong approach.
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
-Yep, got it.
-
-> 
->>>> The core-mm today
->>>> dereferences pgd pointers (and p4d, pud, pmd pointers) directly in its code. See
->>>> follow_pfnmap_start(),
->>>
->>> Doesn't seem to exist at least not in 6.11.
->>
->> Appologies, I'm on mm-unstable and that isn't upstream yet. See follow_pte() in
->> v6.11 or __apply_to_page_range(), or pgd_none_or_clear_bad() as per above.
-> 
-> Looking at follow_pte(), it's not a problem.
-> 
-> I think we wouldn't be having this conversation before:
-> 
-> commit a32618d28dbe6e9bf8ec508ccbc3561a7d7d32f0
-> Author: Russell King <rmk+kernel@arm.linux.org.uk>
-> Date:   Tue Nov 22 17:30:28 2011 +0000
-> 
->     ARM: pgtable: switch to use pgtable-nopud.h
-> 
-> where:
-> -#define pgd_none(pgd)          (0)
-> -#define pgd_bad(pgd)           (0)
-> 
-> existed before this commit - and thus the dereference in things like:
-> 
-> 	pgd_none(*pgd)
-> 
-> wouldn't even be visible to beyond the preprocessor step.
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
