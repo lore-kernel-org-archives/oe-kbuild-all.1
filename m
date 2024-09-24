@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827CF1B85CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 05:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A1A45026
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 05:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727155205; cv=none; b=jtwcfeg5n72U7KqfQD57KQ2/WikZI5UJFWkK8yXOXOERHQVoA3kquQz8XXJGKMp6lg0IR9vfXsn8AEPpB1h3+G7QKzFj0nQWSUD+GYs03gSk9GJV8NDJ7wWKEgH8+OWApYgF3quQrNfH9ayDV7zTB+fRiktyluZzNRE8yhHssiY=
+	t=1727156408; cv=none; b=VRKQzhxbYI9LjDMfR7dD1Naij5XZPU7KvCAqn/7mlyeSEF+2JGM7L5yG2tg0M/2yCKbD1HpERd2MeMMJzZsmLyikTnQj24Q6RCrm4z1KG8dZXMAYx+b22KdYYHoLD3Zc1kzvHIM2VrAmRxBOBdfejP84lhMvxmZQ6alea0a9lzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727155205; c=relaxed/simple;
-	bh=ekX8wiviidj7vkQX2eOI+cxKRfzRxzY8/ERJGrAGXtI=;
+	s=arc-20240116; t=1727156408; c=relaxed/simple;
+	bh=a/Tbi+R9Tf2RIYas84kAF2nAlMF4Day5msdi0tI0imQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SaMBYoq7s/y23kpCA6hUu36F8Z88reRAFDwNWoeGMRV8GkaiZXGwijuBcHo5pTjT7rnChb6ednEHtSEEMVeNUoh05GTTxb+x1Ycyti0t1WphHxkfh7mCFcf1ws6uoNYOLSml4BDzRuKbhcMv/3Fs29abm/oJB091964u2dwCkfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EgICXIWq; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=qzFDYZ1sSGClJ1qtTXa3sH6N7O+yi2MtZ6C6pZIOtAe6EXqHQDjnnEhdGg+Ipn5BVIpEH1RmPfZnO+s3qO9pts1KpT++WknuxxFw3CBqrfE4ectJYi72N4mMnrzdK0ijE/lCKb5gh/CeUu+bawZI8gft/D7q8LXEcpkiGQPbt8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3H/Iqch; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EgICXIWq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3H/Iqch"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727155203; x=1758691203;
+  t=1727156406; x=1758692406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ekX8wiviidj7vkQX2eOI+cxKRfzRxzY8/ERJGrAGXtI=;
-  b=EgICXIWq/D7ew6aSRz48bITekVrrCUoCVWuyAMMZIvELEzWQP9SscF50
-   y2m5oalNV7B+InL1fRP/RUaOcdQNcag+PLuv2//p3V+7yZ3ynXItL0iYE
-   6v//unElQVFlQ/7/KmtdlC6yAvyQSDYU6TyiEki/hLG2JnpNbUtYF4MKd
-   Lfr7/3CkYQfjTfdnZo/5CgDq4tb2HX7BXsUmQMINt2DDI5ZVMvzAzki/q
-   G/VvqTC5tDPsEY7pt5Ok6aFe1rMQSX1nv0/HkzyAkS6YDw5bXrTwt+Mxc
-   g3rUGcPNeFKRzgeaa1HKxKd3NgIAPm6GtTMAulURT5y1C57RHVImg70yA
+  bh=a/Tbi+R9Tf2RIYas84kAF2nAlMF4Day5msdi0tI0imQ=;
+  b=I3H/Iqchc5mHoIFfTIRdmNB6Zqy/KqXIK41G7SSK3Ofju2iWdZe0ZHkX
+   8LnW6Fp8q1GVLLgDr9ppfdO2pL5tLilDJ2Y9tnsVTy6wzyQuwjSqqtv9F
+   VFSdGYoWBrY9Tq200swyF4LKe0z4e3w+BWVec3+LEMe6J0t/jQ34FKnxz
+   hFMYmymNWVOrP3ZqJ/bbBLCPwc+GtMnR03nHnXE+/Lsssan5oh6hCAid4
+   csgP8cFEbIwglwasgrfwLb8I4XrbTmZDobP1B+jNZrOJuy/MSH2JEvhIL
+   +6DHk4ErNJeKOd2O5ct0auLKdrgUtuRfJTIZTY53OdpgYEmiGeGRWqmJZ
    A==;
-X-CSE-ConnectionGUID: KYScaKgWQg+NA+IPUd22hg==
-X-CSE-MsgGUID: VrHYW/kPTN2UNVjFu6+nrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="43649208"
+X-CSE-ConnectionGUID: WTz0htnFTYqKlaaYPXu8tg==
+X-CSE-MsgGUID: dgqn+00hTkqXLPCOzcdc+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="36702116"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="43649208"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 22:20:03 -0700
-X-CSE-ConnectionGUID: l+nyt0NsTNSnd8ttRmkxWQ==
-X-CSE-MsgGUID: aXE23nN+R9OJg+eV2FhBsw==
+   d="scan'208";a="36702116"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 22:40:05 -0700
+X-CSE-ConnectionGUID: AUb8naOzSBmlKGzcrrHb1A==
+X-CSE-MsgGUID: SoHkh85aQb2aWi2ExSX0fA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="71620745"
+   d="scan'208";a="75697209"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Sep 2024 22:20:02 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2024 22:40:01 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssxxv-000HyB-14;
-	Tue, 24 Sep 2024 05:19:59 +0000
-Date: Tue, 24 Sep 2024 13:19:05 +0800
+	id 1ssyHH-000Hyv-2O;
+	Tue, 24 Sep 2024 05:39:59 +0000
+Date: Tue, 24 Sep 2024 13:39:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.10/main 285/2981] kernel/sched/cputime.c:256:31: error:
- 'paravirt_steal_enabled' undeclared
-Message-ID: <202409241330.IOls6PVz-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast
+ truncates bits from constant value (8000000000000000 becomes 0)
+Message-ID: <202409241307.hzwOrV5I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +62,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alfred,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/zen-kernel/zen-kernel 6.10/main
-head:   14cddf41a02f74b2d2a6727fe33914a57b4432f6
-commit: d423eb552e8d9ccb6577937f3cf762b783679f8e [285/2981] sched/alt: Headers cleanup
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409241330.IOls6PVz-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   abf2050f51fdca0fd146388f83cddd95a57a008d
+commit: 453924de6212ac159f946b75c6b59918e2e30944 afs: Overhaul invalidation handling to better support RO volumes
+date:   9 months ago
+config: loongarch-randconfig-r121-20240922 (https://download.01.org/0day-ci/archive/20240924/202409241307.hzwOrV5I-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241330.IOls6PVz-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240924/202409241307.hzwOrV5I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241330.IOls6PVz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241307.hzwOrV5I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/afs/callback.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+>> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
+--
+   fs/afs/rotate.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+>> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
 
-   In file included from kernel/sched/build_policy.c:56:
-   kernel/sched/cputime.c: In function 'steal_account_process_time':
->> kernel/sched/cputime.c:256:31: error: 'paravirt_steal_enabled' undeclared (first use in this function)
-     256 |         if (static_key_false(&paravirt_steal_enabled)) {
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:256:31: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/sched/cputime.c:259:25: error: implicit declaration of function 'paravirt_steal_clock' [-Wimplicit-function-declaration]
-     259 |                 steal = paravirt_steal_clock(smp_processor_id());
-         |                         ^~~~~~~~~~~~~~~~~~~~
+vim +70 arch/loongarch/include/asm/cmpxchg.h
 
+720dc7ab252bbd Huacai Chen   2022-08-25  63  
+ddf502717da029 Huacai Chen   2022-10-12  64  static __always_inline unsigned long
+068550631fbe0b Andrzej Hajda 2023-01-18  65  __arch_xchg(volatile void *ptr, unsigned long x, int size)
+5b0b14e550a006 Huacai Chen   2022-05-31  66  {
+5b0b14e550a006 Huacai Chen   2022-05-31  67  	switch (size) {
+720dc7ab252bbd Huacai Chen   2022-08-25  68  	case 1:
+720dc7ab252bbd Huacai Chen   2022-08-25  69  	case 2:
+720dc7ab252bbd Huacai Chen   2022-08-25 @70  		return __xchg_small(ptr, x, size);
+720dc7ab252bbd Huacai Chen   2022-08-25  71  
+5b0b14e550a006 Huacai Chen   2022-05-31  72  	case 4:
+5b0b14e550a006 Huacai Chen   2022-05-31  73  		return __xchg_asm("amswap_db.w", (volatile u32 *)ptr, (u32)x);
+5b0b14e550a006 Huacai Chen   2022-05-31  74  
+5b0b14e550a006 Huacai Chen   2022-05-31  75  	case 8:
+5b0b14e550a006 Huacai Chen   2022-05-31  76  		return __xchg_asm("amswap_db.d", (volatile u64 *)ptr, (u64)x);
+5b0b14e550a006 Huacai Chen   2022-05-31  77  
+5b0b14e550a006 Huacai Chen   2022-05-31  78  	default:
+5b0b14e550a006 Huacai Chen   2022-05-31  79  		BUILD_BUG();
+5b0b14e550a006 Huacai Chen   2022-05-31  80  	}
+5b0b14e550a006 Huacai Chen   2022-05-31  81  
+5b0b14e550a006 Huacai Chen   2022-05-31  82  	return 0;
+5b0b14e550a006 Huacai Chen   2022-05-31  83  }
+5b0b14e550a006 Huacai Chen   2022-05-31  84  
 
-vim +/paravirt_steal_enabled +256 kernel/sched/cputime.c
+:::::: The code at line 70 was first introduced by commit
+:::::: 720dc7ab252bbdf404cab7b909e26b31e602bf7e LoongArch: Add subword xchg/cmpxchg emulation
 
-1fcf54deb767d4 Josh Don            2022-06-29  247  
-03cbc732639ddc Wanpeng Li          2016-08-17  248  /*
-03cbc732639ddc Wanpeng Li          2016-08-17  249   * When a guest is interrupted for a longer amount of time, missed clock
-03cbc732639ddc Wanpeng Li          2016-08-17  250   * ticks are not redelivered later. Due to that, this function may on
-03cbc732639ddc Wanpeng Li          2016-08-17  251   * occasion account more time than the calling functions think elapsed.
-03cbc732639ddc Wanpeng Li          2016-08-17  252   */
-2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  253  static __always_inline u64 steal_account_process_time(u64 maxtime)
-73fbec604432e1 Frederic Weisbecker 2012-06-16  254  {
-73fbec604432e1 Frederic Weisbecker 2012-06-16  255  #ifdef CONFIG_PARAVIRT
-73fbec604432e1 Frederic Weisbecker 2012-06-16 @256  	if (static_key_false(&paravirt_steal_enabled)) {
-2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  257  		u64 steal;
-73fbec604432e1 Frederic Weisbecker 2012-06-16  258  
-73fbec604432e1 Frederic Weisbecker 2012-06-16 @259  		steal = paravirt_steal_clock(smp_processor_id());
-73fbec604432e1 Frederic Weisbecker 2012-06-16  260  		steal -= this_rq()->prev_steal_time;
-2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  261  		steal = min(steal, maxtime);
-2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  262  		account_steal_time(steal);
-2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  263  		this_rq()->prev_steal_time += steal;
-73fbec604432e1 Frederic Weisbecker 2012-06-16  264  
-2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  265  		return steal;
-73fbec604432e1 Frederic Weisbecker 2012-06-16  266  	}
-73fbec604432e1 Frederic Weisbecker 2012-06-16  267  #endif
-807e5b80687c06 Wanpeng Li          2016-06-13  268  	return 0;
-73fbec604432e1 Frederic Weisbecker 2012-06-16  269  }
-73fbec604432e1 Frederic Weisbecker 2012-06-16  270  
-
-:::::: The code at line 256 was first introduced by commit
-:::::: 73fbec604432e1fbfeb1bc59a110dac1f98160f6 sched: Move cputime code to its own file
-
-:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
-:::::: CC: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
