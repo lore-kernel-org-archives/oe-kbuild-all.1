@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA80D146D6E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 22:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF8C176FA5;
+	Tue, 24 Sep 2024 22:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727216869; cv=none; b=FV+amT6gNPDgaVvScsTdu5BhlSxB6MhttvVNeinqWO/ff5na41g+uns3+KhqjOuS+LCWZQxJz6A0Vr6LkbKS8O3Xp1xdbwxG8i/qa2t92AIwTFVNcCvAicfBlJH8rcplkuzhqQR9Nar9sM2BI1lKk5RdWKJahoZWiq7AMsQpO/Y=
+	t=1727218132; cv=none; b=HpyBr8UgC0hPp29JWhVKYf/rvom3jbOvWGTABZ8FEsHeDHpGOoGnlPuEClTtWchiU5sd/+k9Qnw4tnUoXkGPVu7LLzLN1UQZCpY1j56/FIu7mKGM/uX0sIC88BuE84ZAnKqP+UbUOmggfifG7YkWJAM2HAc+bfdoPcy4xLmi6qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727216869; c=relaxed/simple;
-	bh=1KT8JsF7dFmWaU1E+MmbaZVahSXzssNF4xnvWizLijg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nij8E4PjkLe14On4CpZPyEYjC1tCJftJn2JJxerVlda+wRWxUNIsTw3jumZQ7mwdyMwlip/nqJRzZAH58gTO/Ll75SeaCMwF0bFQD0+JJ0olAOFhAEYkIV11dUIZZiVU0DNX/zqPXH92joHotf6Br+6i0Rw2Jam9YoaI8sfmCos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cM8+bKHf; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1727218132; c=relaxed/simple;
+	bh=YFLT7lvUmLlcX+KeUeORCwsDU3A3sva3+huIQHw5Sp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evOsS+TicthxczJATlzEQC1cyTUHCXBIUp79OlUO6Tszr48sLiWb2XgdpQ3y6ho0BCX6D8I4fEN66GgzkP+TLL7V668xOw1Dgo0iPQe1J2WAlsHaij74lT4z7y9YDpqSb0BrTC2gzoZqZvUbnAyVrGMmc2mbwLpNQ33mji8czSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YasrFEI8; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cM8+bKHf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YasrFEI8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727216868; x=1758752868;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1KT8JsF7dFmWaU1E+MmbaZVahSXzssNF4xnvWizLijg=;
-  b=cM8+bKHfDIjj7Dw2hc2ZOy1vml0XAtJT2pxUXiuP4RR563wrL+EzU4wx
-   71Od31OTYho8gMhsKGvrXsnEidZESFlfgdmdNXnL4Z7e9zqEg5ukv4sNL
-   Jom0GRDSI6Qz1r9DPig5cQUyh0gfdXg7xuuafmg83+blR0tCp5Uts/VUj
-   vqIPNiS6ip6Rt+OLjeQyzD95h9rYgvXqYZ52rsnyQpLG6+GYlnTy0QZs9
-   GX+BIKBTq+9sC6UPI/1RbnKXyAKen8zqC55fB1GQiOS881m1gQ7mO7e4T
-   QRBB9vOIl8Pv/mnpQZt4VHOC4C+eeptXlvEGvO9RdYT5R4z4fTpflbZcF
-   Q==;
-X-CSE-ConnectionGUID: GooZqgaqRwSQXMfcbMRJ9A==
-X-CSE-MsgGUID: 75+p1qUOQPqkwmq/ZysniQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="25715478"
+  t=1727218130; x=1758754130;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YFLT7lvUmLlcX+KeUeORCwsDU3A3sva3+huIQHw5Sp0=;
+  b=YasrFEI8pm4K3Ge7VTfKJ0T/Tv6i0R3azLGESU7kLoDgGY2dsMwD15nD
+   gfW7yCfnEcXA1uw8D5L8X20DGw1znC1F+i9gOsk+JWBifL3MI+fWWdjrO
+   oHVkF/EzZnR9G8phgSncgmdGnlUPvB0W442gGdNGE3PWS8sWhblbZdI3F
+   a3qVNnsVBQFGU2wWCBvneHg1rruTotG3rGXfkTBoESdXNgfk1VJGBMSdV
+   Hc349tKxqmTItpMUdudADg7ealfSWALCnu1sdW9nj/+OzmNclKAxCObls
+   DByJwXV77um/M8HFNmL7Zduuex84kfV7lfbVP3MSCMq2t8tK6DtV0/sdq
+   g==;
+X-CSE-ConnectionGUID: Q1RygeYhTnW+esZyodmlgg==
+X-CSE-MsgGUID: Gnnfez7ASmO+iRM8p8Wm0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="36909571"
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="25715478"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:27:46 -0700
-X-CSE-ConnectionGUID: kCEQysbWRNGajWreGhXAzw==
-X-CSE-MsgGUID: EwXPbwzLTy+kFZKXT2M4Wg==
+   d="scan'208";a="36909571"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:48:49 -0700
+X-CSE-ConnectionGUID: VewxNWtFTjy2y+neNWv/nQ==
+X-CSE-MsgGUID: w14Jr1cfTmGEMvrzgefZ/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="72020142"
+   d="scan'208";a="102389047"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2024 15:27:44 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Sep 2024 15:48:46 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stE0T-000Itt-0w;
-	Tue, 24 Sep 2024 22:27:41 +0000
-Date: Wed, 25 Sep 2024 06:27:21 +0800
+	id 1stEKp-000Iun-1x;
+	Tue, 24 Sep 2024 22:48:43 +0000
+Date: Wed, 25 Sep 2024 06:48:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/thermal/testing/thermal-testing.o: warning: objtool:
- .text.tt_add_tz: unexpected end of section
-Message-ID: <202409250637.5QiiHNph-lkp@intel.com>
+To: Julian Vetter <jvetter@kalrayinc.com>, Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+	Yann Sionneau <ysionneau@kalrayinc.com>,
+	Julian Vetter <jvetter@kalrayinc.com>
+Subject: Re: [PATCH v5 1/5] Consolidate __memcpy_{to,from}io and __memset_io
+ into iomap_copy.c
+Message-ID: <202409250603.okc57309-lkp@intel.com>
+References: <20240924121432.798655-2-jvetter@kalrayinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +73,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240924121432.798655-2-jvetter@kalrayinc.com>
 
-Hi Rafael,
+Hi Julian,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   68e5c7d4cefb66de3953a874e670ec8f1ce86a24
-commit: f6a034f2df426e279f1ecad53626bab80c04796a thermal: Introduce a debugfs-based testing facility
-date:   5 weeks ago
-config: x86_64-randconfig-122-20240925 (https://download.01.org/0day-ci/archive/20240925/202409250637.5QiiHNph-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409250637.5QiiHNph-lkp@intel.com/reproduce)
+[auto build test WARNING on arnd-asm-generic/master]
+[also build test WARNING on soc/for-next akpm-mm/mm-nonmm-unstable arm64/for-next/core linus/master v6.11 next-20240924]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Vetter/Consolidate-__memcpy_-to-from-io-and-__memset_io-into-iomap_copy-c/20240924-202154
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/20240924121432.798655-2-jvetter%40kalrayinc.com
+patch subject: [PATCH v5 1/5] Consolidate __memcpy_{to,from}io and __memset_io into iomap_copy.c
+config: arm-mxs_defconfig (https://download.01.org/0day-ci/archive/20240925/202409250603.okc57309-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409250603.okc57309-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409250637.5QiiHNph-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409250603.okc57309-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/thermal/testing/thermal-testing.o: warning: objtool: .text.tt_add_tz: unexpected end of section
->> drivers/thermal/testing/thermal-testing.o: warning: objtool: .text.tt_del_tz: unexpected end of section
->> drivers/thermal/testing/thermal-testing.o: warning: objtool: .text.tt_zone_add_trip: unexpected end of section
+   lib/iomap_copy.c:89:19: error: call to undeclared function 'IS_ALIGNED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      89 |         while (count && !IS_ALIGNED((unsigned long)from, NATIVE_STORE_SIZE)) {
+         |                          ^
+   lib/iomap_copy.c:121:19: error: call to undeclared function 'IS_ALIGNED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     121 |         while (count && !IS_ALIGNED((unsigned long)to, NATIVE_STORE_SIZE)) {
+         |                          ^
+   lib/iomap_copy.c:161:19: error: call to undeclared function 'IS_ALIGNED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     161 |         while (count && !IS_ALIGNED((unsigned long)dst, NATIVE_STORE_SIZE)) {
+         |                          ^
+>> lib/iomap_copy.c:159:12: warning: shift count >= width of type [-Wshift-count-overflow]
+     159 |                 qc |= qc << 32;
+         |                          ^  ~~
+   1 warning and 3 errors generated.
+
+
+vim +159 lib/iomap_copy.c
+
+    84	
+    85	
+    86	#ifndef __memcpy_fromio
+    87	void __memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
+    88	{
+  > 89		while (count && !IS_ALIGNED((unsigned long)from, NATIVE_STORE_SIZE)) {
+    90			*(u8 *)to = __raw_readb(from);
+    91			from++;
+    92			to++;
+    93			count--;
+    94		}
+    95	
+    96		while (count >= NATIVE_STORE_SIZE) {
+    97	#ifdef CONFIG_64BIT
+    98				put_unaligned(__raw_readq(from), (uintptr_t *)to);
+    99	#else
+   100				put_unaligned(__raw_readl(from), (uintptr_t *)to);
+   101	#endif
+   102	
+   103			from += NATIVE_STORE_SIZE;
+   104			to += NATIVE_STORE_SIZE;
+   105			count -= NATIVE_STORE_SIZE;
+   106		}
+   107	
+   108		while (count) {
+   109			*(u8 *)to = __raw_readb(from);
+   110			from++;
+   111			to++;
+   112			count--;
+   113		}
+   114	}
+   115	EXPORT_SYMBOL(__memcpy_fromio);
+   116	#endif
+   117	
+   118	#ifndef __memcpy_toio
+   119	void __memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
+   120	{
+   121		while (count && !IS_ALIGNED((unsigned long)to, NATIVE_STORE_SIZE)) {
+   122			__raw_writeb(*(u8 *)from, to);
+   123			from++;
+   124			to++;
+   125			count--;
+   126		}
+   127	
+   128		while (count >= NATIVE_STORE_SIZE) {
+   129	#ifdef CONFIG_64BIT
+   130				__raw_writeq(get_unaligned((uintptr_t *)from), to);
+   131	#else
+   132				__raw_writel(get_unaligned((uintptr_t *)from), to);
+   133	#endif
+   134	
+   135			from += NATIVE_STORE_SIZE;
+   136			to += NATIVE_STORE_SIZE;
+   137			count -= NATIVE_STORE_SIZE;
+   138		}
+   139	
+   140		while (count) {
+   141			__raw_writeb(*(u8 *)from, to);
+   142			from++;
+   143			to++;
+   144			count--;
+   145		}
+   146	}
+   147	EXPORT_SYMBOL(__memcpy_toio);
+   148	#endif
+   149	
+   150	#ifndef __memset_io
+   151	void __memset_io(volatile void __iomem *dst, int c, size_t count)
+   152	{
+   153		uintptr_t qc = (u8)c;
+   154	
+   155		qc |= qc << 8;
+   156		qc |= qc << 16;
+   157	
+   158		if (IS_ENABLED(CONFIG_64BIT))
+ > 159			qc |= qc << 32;
 
 -- 
 0-DAY CI Kernel Test Service
