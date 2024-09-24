@@ -1,58 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8C11AC456;
-	Tue, 24 Sep 2024 16:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B9D1AC427
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 16:50:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727196635; cv=none; b=bKH/Ov3g5bkmK78Wdhn4lFfnQtmA7UxA6ym4qNlQMaiM/lSnD6l6XlxOqO6ZqXZ8VVsFL1CxLnErM53YIrAurSjOVI3RL61jD46nEj/p8kVQb85+oLnUVQLP1c2MQnGhtnWClgU4iFphdRvwMHbVegtYm8hbIWpEY7l6I32d2rM=
+	t=1727196638; cv=none; b=tjoVGBLCMjZfOAyz6efjLOfg5Y5R3URDc94eGWHOLMnqgpXJdixhlxwVpTOJuHuYWPlVkuZl4mT5jLvqKvhFB3Dz++BGsvtCy9JsDRqXTgP2Pj3GkeIDbavmzpY7v1CYGYym/DbCwK5kbgXZ6wOwiJ2w412yKDMoIaTa6CyRxv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727196635; c=relaxed/simple;
-	bh=K3KhIPwgbjM9WYd/mRoNbyvaqimjcrSZXZiWDO5JN30=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gFjPUZohN/EA2m9H4krIrKDUqHKTNSNTQIz62PKia7SRgrahKswiNzI4EyesI/W7w++qK8HslTFbOxghYzrajH58BziT7qFHc0yAuvs7+66KcFZxMj4UikOqDqZuFCiqdAPrCtdxzX78ZxLkB07Q/yEjfLfnS0O9fbzIhAqUK9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iN3qWt5S; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1727196638; c=relaxed/simple;
+	bh=3w5AXESH6xIZJewtYq5MpPk4X8VvNrZSufuTd7GGFi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qOTnPv5VKlOb/DmqGMCw47+q3zETrX0UIipjdU8nWQR1eAlU6occ6Q7PtPBJprtaej5PIiqTVjUysffCBoascZg2eZumF9lu7l2kHKjG5TQP5z88vPlw1/O71ZfgDkZw0xJWChDw+ln/hDXz6fmyFHLynVxOQc9atT0N7rSy9xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrR7L8kk; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iN3qWt5S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrR7L8kk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727196633; x=1758732633;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K3KhIPwgbjM9WYd/mRoNbyvaqimjcrSZXZiWDO5JN30=;
-  b=iN3qWt5SmZRKawM8vc+fDqUDHPuKE/c1SREFjdeXJDDhixRrhbw9nRq8
-   LFNSO7eIVY+mrJ7X/4pd5A2tVwHE2Rt8nfSKsvGoq0GsAUQEpMDRRlq6X
-   RY2NZ6kUScwEtHZjAVbiL6Tz0J73XPYEj9MccY+RYkdv3Y5L6IvY19DnH
-   JmZNNXsXCn8eplMEcrjkmKZaq4wi2wViOAbJzJjzvobrSCCQu45hpc3dK
-   O2sEvU/NvINJWWLLkXnHoUZn6A45Zef+e4MTyvsmMvDwgZbz53AqoPAOj
-   tsoYSj/oELySian1yyWYCU6AjpCf4fJHV9YWAf5+OPiIv9GcTxF1JPCP2
-   Q==;
-X-CSE-ConnectionGUID: 8oQ5cf7HTFysnSDTEOww6g==
-X-CSE-MsgGUID: GdidHQ/3QK6olFTEKRLc0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="43726035"
+  t=1727196636; x=1758732636;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3w5AXESH6xIZJewtYq5MpPk4X8VvNrZSufuTd7GGFi0=;
+  b=TrR7L8kkQ56dj1M0tUwNKnvPuSUIWFFD/mAImQigKMwkhoAraDnqk0SJ
+   tUIq2m/cTMnZ/Emb/TBop9Fntn2dlJT2Q0Quch7GUmLzN0kv8BXUR+0RI
+   enzw6cLtsFjpk5f5iFA0l5qtpbYOiPb71ALVCpqQ1dTPVGT9VoFqvr5p2
+   8zMHJ08PxQ4CM3An4MebOk6obEu9ruGuuYVHVKmPv9O9+TufwmGFO/eAR
+   l/9J7wXh+l95nAnK4FTKPBX1kr3iOI89Ve7ZzRl0p3I0u4jJrHwmoYLRB
+   Qx1NFLz69Io0JsSvjkqM5KuUmTRx7xMWAMB+cBWWDnbea2SlJDbeHzktY
+   g==;
+X-CSE-ConnectionGUID: r1FT43QBT0uqfyVgEkwI4w==
+X-CSE-MsgGUID: O2yj0SL/TkqWc3mP4R2XZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="43726040"
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="43726035"
+   d="scan'208";a="43726040"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 09:50:32 -0700
-X-CSE-ConnectionGUID: gyiVkz+nSQih+Cu0eY+DkA==
-X-CSE-MsgGUID: BcriO7JHSHqlxxl51wnQhw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 09:50:34 -0700
+X-CSE-ConnectionGUID: GL6BARl6T0azW8KCeXdlPg==
+X-CSE-MsgGUID: DBunaQknS52czotfk8RTag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="71919088"
+   d="scan'208";a="71919109"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 24 Sep 2024 09:50:31 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st8k8-000Ich-33;
+	id 1st8k8-000Ick-39;
 	Tue, 24 Sep 2024 16:50:28 +0000
 Date: Wed, 25 Sep 2024 00:49:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:nr_cpus 1/1] include/linux/threads.h:16:2: error:
- "CONFIG_NR_CPUS not defined"
-Message-ID: <202409250044.OFQyPQyO-lkp@intel.com>
+To: Martin Kletzander <nert.pinx@gmail.com>,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] x86/resctrl: Avoid overflow in MB settings in
+ bw_validate()
+Message-ID: <202409250046.1Kk0NXVZ-lkp@intel.com>
+References: <8d028c5f6f23e92fb83cbf20599366e896abc5b5.1727167989.git.nert.pinx@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,51 +69,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <8d028c5f6f23e92fb83cbf20599366e896abc5b5.1727167989.git.nert.pinx@gmail.com>
 
-tree:   https://github.com/davidhildenbrand/linux nr_cpus
-head:   06e0fc4651a486ac1ce333cccc89b394222431c8
-commit: 06e0fc4651a486ac1ce333cccc89b394222431c8 [1/1] fixup
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240925/202409250044.OFQyPQyO-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409250044.OFQyPQyO-lkp@intel.com/reproduce)
+Hi Martin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on linus/master v6.11 next-20240924]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Kletzander/x86-resctrl-Avoid-overflow-in-MB-settings-in-bw_validate/20240924-165510
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/8d028c5f6f23e92fb83cbf20599366e896abc5b5.1727167989.git.nert.pinx%40gmail.com
+patch subject: [PATCH v3] x86/resctrl: Avoid overflow in MB settings in bw_validate()
+config: x86_64-buildonly-randconfig-001-20240924 (https://download.01.org/0day-ci/archive/20240925/202409250046.1Kk0NXVZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409250046.1Kk0NXVZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409250044.OFQyPQyO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409250046.1Kk0NXVZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/um/os-Linux/skas/process.c:25:
->> include/linux/threads.h:16:2: error: "CONFIG_NR_CPUS not defined"
-      16 | #error "CONFIG_NR_CPUS not defined"
-         |  ^
->> arch/um/os-Linux/skas/process.c:256:19: error: use of undeclared identifier 'CONFIG_NR_CPUS'
-     256 | int userspace_pid[NR_CPUS];
-         |                   ^
-   include/linux/threads.h:20:18: note: expanded from macro 'NR_CPUS'
-      20 | #define NR_CPUS         CONFIG_NR_CPUS
-         |                         ^
-   2 errors generated.
+   arch/x86/kernel/cpu/resctrl/ctrlmondata.c: In function 'bw_validate':
+>> arch/x86/kernel/cpu/resctrl/ctrlmondata.c:58:49: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'u32' {aka 'unsigned int'} [-Wformat=]
+      58 |                 rdt_last_cmd_printf("MB value %ld out of range [%d,%d]\n", bw,
+         |                                               ~~^                          ~~
+         |                                                 |                          |
+         |                                                 long int                   u32 {aka unsigned int}
+         |                                               %d
 
 
-vim +16 include/linux/threads.h
+vim +58 arch/x86/kernel/cpu/resctrl/ctrlmondata.c
 
-     4	
-     5	
-     6	/*
-     7	 * The default limit for the nr of threads is now in
-     8	 * /proc/sys/kernel/threads-max.
-     9	 */
-    10	
-    11	/*
-    12	 * Maximum supported processors.  Setting this smaller saves quite a
-    13	 * bit of memory.  Use nr_cpu_ids instead of this except for static bitmaps.
-    14	 */
-    15	#ifndef CONFIG_NR_CPUS
-  > 16	#error "CONFIG_NR_CPUS not defined"
-    17	#endif
-    18	
+60ec2440c63dea arch/x86/kernel/cpu/intel_rdt_schemata.c    Tony Luck         2016-10-28  25  
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  26  /*
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  27   * Check whether MBA bandwidth percentage value is correct. The value is
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  28   * checked against the minimum and max bandwidth values specified by the
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  29   * hardware. The allocated bandwidth percentage is rounded to the next
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  30   * control step available on the hardware.
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  31   */
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  32  static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  33  {
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  34  	int ret;
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  35  	u32 bw;
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  36  
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  37  	/*
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  38  	 * Only linear delay values is supported for current Intel SKUs.
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  39  	 */
+41215b7947f1b1 arch/x86/kernel/cpu/resctrl/ctrlmondata.c   James Morse       2020-07-08  40  	if (!r->membw.delay_linear && r->membw.arch_needs_linear) {
+c377dcfbee808e arch/x86/kernel/cpu/intel_rdt_ctrlmondata.c Tony Luck         2017-09-25  41  		rdt_last_cmd_puts("No support for non-linear MB domains\n");
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  42  		return false;
+c377dcfbee808e arch/x86/kernel/cpu/intel_rdt_ctrlmondata.c Tony Luck         2017-09-25  43  	}
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  44  
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  45  	ret = kstrtou32(buf, 10, &bw);
+c377dcfbee808e arch/x86/kernel/cpu/intel_rdt_ctrlmondata.c Tony Luck         2017-09-25  46  	if (ret) {
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  47  		rdt_last_cmd_printf("Invalid MB value %s\n", buf);
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  48  		return false;
+c377dcfbee808e arch/x86/kernel/cpu/intel_rdt_ctrlmondata.c Tony Luck         2017-09-25  49  	}
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  50  
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  51  	/* Nothing else to do if software controller is enabled. */
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  52  	if (is_mba_sc(r)) {
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  53  		*data = bw;
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  54  		return true;
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  55  	}
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  56  
+be99ce3b7dd7ba arch/x86/kernel/cpu/resctrl/ctrlmondata.c   Martin Kletzander 2024-09-24  57  	if (bw < r->membw.min_bw || bw > r->default_ctrl) {
+c377dcfbee808e arch/x86/kernel/cpu/intel_rdt_ctrlmondata.c Tony Luck         2017-09-25 @58  		rdt_last_cmd_printf("MB value %ld out of range [%d,%d]\n", bw,
+c377dcfbee808e arch/x86/kernel/cpu/intel_rdt_ctrlmondata.c Tony Luck         2017-09-25  59  				    r->membw.min_bw, r->default_ctrl);
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  60  		return false;
+c377dcfbee808e arch/x86/kernel/cpu/intel_rdt_ctrlmondata.c Tony Luck         2017-09-25  61  	}
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  62  
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  63  	*data = roundup(bw, (unsigned long)r->membw.bw_gran);
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  64  	return true;
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  65  }
+64e8ed3d4a6dcd arch/x86/kernel/cpu/intel_rdt_schemata.c    Vikas Shivappa    2017-04-07  66  
 
 -- 
 0-DAY CI Kernel Test Service
