@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C171B85D0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 03:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1858E1B85D1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 03:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727149024; cv=none; b=FId24iuyVumNtMqf8VU3I1+A0A5b9bdthtDmN9qG5LYGK/gkF8bMgGU85x58mho+gmgGa2tvbaxOPXCclcMSWzIC1vW1EcPqkGPZwuijl0TEZJhjLu6KYjpufpU6I4rJQ+f4xk+j61gcpFAQ1WiPNd9K3g1Ktpcq6ef/EgBKiOU=
+	t=1727149622; cv=none; b=lhOJJ/FOlDm1ycaG5XXtsnVnjm0oTrU5+CWGbSkYo0NyNVoka5ykrpztlndXK+Tax4ymAPaQcptL+T47GZikPRxqtmwwiQLTt9Pjj1cPsx/lc+zq4+0L9hwFHVfWzvmWr6/Qr2A0L/6ZNZj5EV0NACkjHXnHmQINIF/xUbxlsws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727149024; c=relaxed/simple;
-	bh=dZ8z8uhkrmHqP+ssBqLl0I3+csQMX7XIvscFajAsvzU=;
+	s=arc-20240116; t=1727149622; c=relaxed/simple;
+	bh=ZsfPtAmPCws/tonD7SZr9X6Jm5y+tkex/iMmts4C8T8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KFwriyp5OY++G9JnXHHadFJx5U/a7La12iPMBFRred8VfHYR2yL+8SZFdMAS8K2xXOZOe7pBSc1a9/YpYfqP/CNKuKVJTNIHZvL9iwL/IVjcD98/aDjcIfczWfJT6B970Rh6pnNLqZ3H9qB7vrPGsGkT/ThH/5X+LH2zYi1WFg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKY7y/bl; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=qm+VwrXncvfgw+qi11uIYNcpWMZfzYIyIWzN8CmrzxNihv+24Y1obU7HkIT7oUcPm6cbPcACQiJ69LRCusJyOgZpl32TglULWlKCcSI5u/wNz98WJFKbzLpxLkhBKnrvac+23chwz4PBip1nsYho1cizaPAeg6uP7QzxTkrRSfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmQv1JsT; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKY7y/bl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmQv1JsT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727149022; x=1758685022;
+  t=1727149620; x=1758685620;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dZ8z8uhkrmHqP+ssBqLl0I3+csQMX7XIvscFajAsvzU=;
-  b=GKY7y/bl56c/qKM9Y512bqkJyhc9pWNxQHbdIaceWmAZVzVWzRsG6/9o
-   O6987/DwY2lNcoc/EIA8MwY5J9XO0zgCBXvGjYvAWvBT1SdWKfneSKdPr
-   pybAaxJEgZCc4mVZioCTIIh+cQjtrba66XDI/n2IvZVBTn8g4vBciV8pv
-   qOAXD/qny4OuSHKIoI6XuRBIPmy9KuLnsbvwnPMvKAz5Kt59GepWFCqra
-   GB4dAyIzHlVw2/3rPOafxszzgyTTVEyKNXZR8gGzGmytP4nltd6RixVy9
-   uualD2I0xiFEMtNPXnbIK7AtExwwJwf+N8zlaAdTPuHutLSU30peiHpJ7
-   Q==;
-X-CSE-ConnectionGUID: y7Yam/f3SeCC+4QIZBx8FA==
-X-CSE-MsgGUID: mX8LaOK5SEWe852uqWXMMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26273452"
+  bh=ZsfPtAmPCws/tonD7SZr9X6Jm5y+tkex/iMmts4C8T8=;
+  b=fmQv1JsTJ/K+EnH01MH00oT+P8pIASaq24jkbI57AqA/Ir/0OZKOI+Mw
+   VVxRSWgQOQh2TCjBm7ks5Nm/35ciKGRTsUMvyk8IPbBkPIit6Vd5g5SQK
+   zztf9gvUZa172d1OfI+A1YmXX2J9xYrB6t+LWFw3xofHLiehKsCXNeSQX
+   G5Z35CLn+4d0Rb2/CmwPzi+GS+8+1JmfhYQ+AHEYroh4oxKXqNHl2sQSY
+   gHHLOvxI9+8xukdyUL8AGGRnryhbk0Uw6wP/0PrPqoDTiieb+++84Yv6Z
+   W24QwPJQPBzed8fkvL9O4VyZkM4BU8srSDzKW/PGKFbNLVW1EHQx4YIBs
+   w==;
+X-CSE-ConnectionGUID: aDCjN1rbQ1CL/jPghKx2Ww==
+X-CSE-MsgGUID: mEOBOEKPSJe9Ef6FFkb4pA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37502023"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="26273452"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 20:37:02 -0700
-X-CSE-ConnectionGUID: qcFXI50YT0+bcC2qpns59g==
-X-CSE-MsgGUID: 9KoyqNLlQaCT5HQIdPQdsA==
+   d="scan'208";a="37502023"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 20:46:59 -0700
+X-CSE-ConnectionGUID: MQkvF/YbRzimdbu7jEWLqw==
+X-CSE-MsgGUID: jVH5co9ySSG/rak8k4mAuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="76199992"
+   d="scan'208";a="75381335"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 Sep 2024 20:36:59 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2024 20:46:58 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sswMB-000HsM-37;
-	Tue, 24 Sep 2024 03:36:55 +0000
-Date: Tue, 24 Sep 2024 11:36:06 +0800
+	id 1sswVs-000Hsj-0R;
+	Tue, 24 Sep 2024 03:46:56 +0000
+Date: Tue, 24 Sep 2024 11:46:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 249/2441]
- drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but not used
-Message-ID: <202409241137.oR3ifFb4-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: kernel/sched/ext.c:6053:25: error: implicit declaration of function
+ 'move_remote_task_to_local_dsq'; did you mean
+ 'move_local_task_to_local_dsq'?
+Message-ID: <202409241108.jaocHiDJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,66 +63,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: 36c7a040b76bfbfc5555b3a062ecf9d740a6c5e6 [249/2441] iommu/amd: Convert to probe/release_device() call-backs
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240924/202409241137.oR3ifFb4-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241137.oR3ifFb4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   abf2050f51fdca0fd146388f83cddd95a57a008d
+commit: 4c30f5ce4f7af4f639af99e0bdeada8b268b7361 sched_ext: Implement scx_bpf_dispatch[_vtime]_from_dsq()
+date:   2 weeks ago
+config: sparc-randconfig-r133-20240923 (https://download.01.org/0day-ci/archive/20240924/202409241108.jaocHiDJ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240924/202409241108.jaocHiDJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241137.oR3ifFb4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241108.jaocHiDJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iommu/amd_iommu.c: In function 'amd_iommu_uninit_device':
->> drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but not used [-Wunused-but-set-variable]
-     442 |         struct amd_iommu *iommu;
-         |                           ^~~~~
-   drivers/iommu/amd_iommu.c: In function 'amd_iommu_probe_finalize':
-   drivers/iommu/amd_iommu.c:2281:17: error: 'dev_data' undeclared (first use in this function); did you mean '_edata'?
-    2281 |                 dev_data->passthrough = true;
-         |                 ^~~~~~~~
-         |                 _edata
-   drivers/iommu/amd_iommu.c:2281:17: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from kernel/sched/build_policy.c:63:
+   kernel/sched/ext.c: In function 'scx_dispatch_from_dsq':
+>> kernel/sched/ext.c:6053:25: error: implicit declaration of function 'move_remote_task_to_local_dsq'; did you mean 'move_local_task_to_local_dsq'? [-Wimplicit-function-declaration]
+    6053 |                         move_remote_task_to_local_dsq(p, enq_flags,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         move_local_task_to_local_dsq
 
 
-vim +/iommu +442 drivers/iommu/amd_iommu.c
+vim +6053 kernel/sched/ext.c
 
-26018874e3584f arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-06  438  
-36c7a040b76bfb drivers/iommu/amd_iommu.c   Chen Zhuo       2021-11-18  439  static void amd_iommu_uninit_device(struct device *dev)
-657cbb6b6cba0f arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-11-23  440  {
-7aba6cb9ee9db7 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  441  	struct iommu_dev_data *dev_data;
-39ab9555c24110 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01 @442  	struct amd_iommu *iommu;
-39ab9555c24110 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  443  	int devid;
-c1931090a22b96 drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  444  
-7aba6cb9ee9db7 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  445  	devid = get_device_id(dev);
-9ee35e4c6f42e7 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-04-21  446  	if (devid < 0)
-7aba6cb9ee9db7 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  447  		return;
-c1931090a22b96 drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  448  
-39ab9555c24110 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  449  	iommu = amd_iommu_rlookup_table[devid];
-39ab9555c24110 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  450  
-7aba6cb9ee9db7 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  451  	dev_data = search_dev_data(devid);
-c1931090a22b96 drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  452  	if (!dev_data)
-c1931090a22b96 drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  453  		return;
-c1931090a22b96 drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  454  
-b6809ee573cc2f drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  455  	if (dev_data->domain)
-b6809ee573cc2f drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  456  		detach_device(dev);
-b6809ee573cc2f drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  457  
-8fa5f802abf3cd arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-09  458  	/*
-c1931090a22b96 drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  459  	 * We keep dev_data around for unplugged devices and reuse it when the
-c1931090a22b96 drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  460  	 * device is re-plugged - not doing so would introduce a ton of races.
-8fa5f802abf3cd arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-09  461  	 */
-657cbb6b6cba0f arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-11-23  462  }
-b7cc9554bc7364 arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-12-10  463  
-
-:::::: The code at line 442 was first introduced by commit
-:::::: 39ab9555c24110671f8dc671311a26e5c985b592 iommu: Add sysfs bindings for struct iommu_device
-
-:::::: TO: Joerg Roedel <jroedel@suse.de>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+  5977	
+  5978	static bool scx_dispatch_from_dsq(struct bpf_iter_scx_dsq_kern *kit,
+  5979					  struct task_struct *p, u64 dsq_id,
+  5980					  u64 enq_flags)
+  5981	{
+  5982		struct scx_dispatch_q *src_dsq = kit->dsq, *dst_dsq;
+  5983		struct rq *this_rq, *src_rq, *dst_rq, *locked_rq;
+  5984		bool dispatched = false;
+  5985		bool in_balance;
+  5986		unsigned long flags;
+  5987	
+  5988		if (!scx_kf_allowed_if_unlocked() && !scx_kf_allowed(SCX_KF_DISPATCH))
+  5989			return false;
+  5990	
+  5991		/*
+  5992		 * Can be called from either ops.dispatch() locking this_rq() or any
+  5993		 * context where no rq lock is held. If latter, lock @p's task_rq which
+  5994		 * we'll likely need anyway.
+  5995		 */
+  5996		src_rq = task_rq(p);
+  5997	
+  5998		local_irq_save(flags);
+  5999		this_rq = this_rq();
+  6000		in_balance = this_rq->scx.flags & SCX_RQ_IN_BALANCE;
+  6001	
+  6002		if (in_balance) {
+  6003			if (this_rq != src_rq) {
+  6004				raw_spin_rq_unlock(this_rq);
+  6005				raw_spin_rq_lock(src_rq);
+  6006			}
+  6007		} else {
+  6008			raw_spin_rq_lock(src_rq);
+  6009		}
+  6010	
+  6011		locked_rq = src_rq;
+  6012		raw_spin_lock(&src_dsq->lock);
+  6013	
+  6014		/*
+  6015		 * Did someone else get to it? @p could have already left $src_dsq, got
+  6016		 * re-enqueud, or be in the process of being consumed by someone else.
+  6017		 */
+  6018		if (unlikely(p->scx.dsq != src_dsq ||
+  6019			     u32_before(kit->cursor.priv, p->scx.dsq_seq) ||
+  6020			     p->scx.holding_cpu >= 0) ||
+  6021		    WARN_ON_ONCE(src_rq != task_rq(p))) {
+  6022			raw_spin_unlock(&src_dsq->lock);
+  6023			goto out;
+  6024		}
+  6025	
+  6026		/* @p is still on $src_dsq and stable, determine the destination */
+  6027		dst_dsq = find_dsq_for_dispatch(this_rq, dsq_id, p);
+  6028	
+  6029		if (dst_dsq->id == SCX_DSQ_LOCAL) {
+  6030			dst_rq = container_of(dst_dsq, struct rq, scx.local_dsq);
+  6031			if (!task_can_run_on_remote_rq(p, dst_rq, true)) {
+  6032				dst_dsq = &scx_dsq_global;
+  6033				dst_rq = src_rq;
+  6034			}
+  6035		} else {
+  6036			/* no need to migrate if destination is a non-local DSQ */
+  6037			dst_rq = src_rq;
+  6038		}
+  6039	
+  6040		/*
+  6041		 * Move @p into $dst_dsq. If $dst_dsq is the local DSQ of a different
+  6042		 * CPU, @p will be migrated.
+  6043		 */
+  6044		if (dst_dsq->id == SCX_DSQ_LOCAL) {
+  6045			/* @p is going from a non-local DSQ to a local DSQ */
+  6046			if (src_rq == dst_rq) {
+  6047				task_unlink_from_dsq(p, src_dsq);
+  6048				move_local_task_to_local_dsq(p, enq_flags,
+  6049							     src_dsq, dst_rq);
+  6050				raw_spin_unlock(&src_dsq->lock);
+  6051			} else {
+  6052				raw_spin_unlock(&src_dsq->lock);
+> 6053				move_remote_task_to_local_dsq(p, enq_flags,
+  6054							      src_rq, dst_rq);
+  6055				locked_rq = dst_rq;
+  6056			}
+  6057		} else {
+  6058			/*
+  6059			 * @p is going from a non-local DSQ to a non-local DSQ. As
+  6060			 * $src_dsq is already locked, do an abbreviated dequeue.
+  6061			 */
+  6062			task_unlink_from_dsq(p, src_dsq);
+  6063			p->scx.dsq = NULL;
+  6064			raw_spin_unlock(&src_dsq->lock);
+  6065	
+  6066			if (kit->cursor.flags & __SCX_DSQ_ITER_HAS_VTIME)
+  6067				p->scx.dsq_vtime = kit->vtime;
+  6068			dispatch_enqueue(dst_dsq, p, enq_flags);
+  6069		}
+  6070	
+  6071		if (kit->cursor.flags & __SCX_DSQ_ITER_HAS_SLICE)
+  6072			p->scx.slice = kit->slice;
+  6073	
+  6074		dispatched = true;
+  6075	out:
+  6076		if (in_balance) {
+  6077			if (this_rq != locked_rq) {
+  6078				raw_spin_rq_unlock(locked_rq);
+  6079				raw_spin_rq_lock(this_rq);
+  6080			}
+  6081		} else {
+  6082			raw_spin_rq_unlock_irqrestore(locked_rq, flags);
+  6083		}
+  6084	
+  6085		kit->cursor.flags &= ~(__SCX_DSQ_ITER_HAS_SLICE |
+  6086				       __SCX_DSQ_ITER_HAS_VTIME);
+  6087		return dispatched;
+  6088	}
+  6089	
 
 -- 
 0-DAY CI Kernel Test Service
