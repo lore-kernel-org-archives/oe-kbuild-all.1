@@ -1,73 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943651A4E95
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 11:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ACE1A270
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 11:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727175741; cv=none; b=TZ2YRlGSzzWoMyoL5cpNK9U5iWHUiCVILcZSKRrIMzo4u46egIWRJ0iLOIh96MpeGGmnlHrgUuOVKgpozxcQqf5DHqXl7Z6O0ghLBF80ux333Y5aMD/b/TtAIJmem6HY12WywetdzHZt3BMrF5xT+0ISuSmY0T2lAe44w0fdbmM=
+	t=1727176949; cv=none; b=PoE2mlFOPCoQQAHcS8hY4lr7fNQOnI37U6Vw8N9UoCwLmpw2CVOdeV7w/tD/WxebB1cE0fxEcH7uFdbM5YF22/O9cSHiNoGZcK3h7itP76tOgDnJSzpGDbuqMrYQpN3W7qSVKZywAUp+XBElPPuiVmKssyjataOcGQZygyAmfQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727175741; c=relaxed/simple;
-	bh=r+j1MXTxZz2fTAivtAhGK1Hjd2mJcNatuBZE7WbDSz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tRrXa6OaZJ5mCqR1Gcph7uu48ZnnZUKzxFWGQtjW0fCfB1+O1jjIvOOzA/A7iaiozkZzKmE/XqFGQHfpbl8kBJt/4PBGqILcCQVAycM5CO+orIITgakYtmWEW8pTZfYpuHQCZeMvzGmEO3QglVfAsK0p+GamqsyFeLnMbIVvjVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtNFncII; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1727176949; c=relaxed/simple;
+	bh=JAPzjhMxF/AKV4XfmmiMXi92pISRnP/5B+0rJXAsXLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bqoAc1e2wpGmhBROBGNxzfnQFF34Z/eNb1V8cXriBwTVdg8aZQUYGL38egYFU7K1iHjt1NkZPca6X8AQeyGfFxSapuTzu8ee8vrFB+1943AWy7Pn7Jcn6E+Yi2wfU4h5vSRm1nm03/rBYhnaP+TdRG/AMuX94ubveZlLX4UsXec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=guzOrioB; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtNFncII"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guzOrioB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727175738; x=1758711738;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=r+j1MXTxZz2fTAivtAhGK1Hjd2mJcNatuBZE7WbDSz4=;
-  b=OtNFncIIhB0rh8e6xlWW9o9MGsxocyb6vc+9HC01LxY0V8peEjyIV+CJ
-   pXslMzKXPztuGPEZQSioJe/vE+p+sxnxWVUQRG1ympjU5SxKM20zNn1Bm
-   rs7VmJFc/smO7guMt9nEI7txkDooz0oArJHCiZim/Cx6aooUdk8Q+w+oZ
-   VAXCPlvlQ4WeEyk8slUFjqLLzw14EKTjdVdMkzSK5dmydFerBO6eB4dcb
-   J1o4RY6w2vXqwxcuCSYbvB/wgiYeGmhoyWmxAghPJoURq03XgHklqNnnh
-   /4hb7TMF//zxsMf6HIWOtgSRnhotRDiNFs+BeVz1bsVPOTqO1vPAJI7kJ
-   A==;
-X-CSE-ConnectionGUID: ie6KVeH7QZe1wWyu0HOXeA==
-X-CSE-MsgGUID: MFN/S3KjRS6mELUkgov9Iw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="36748454"
+  t=1727176947; x=1758712947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JAPzjhMxF/AKV4XfmmiMXi92pISRnP/5B+0rJXAsXLM=;
+  b=guzOrioBkF33T+w4Ms5siDACPZP4PRp6m6V8Mfw7+/IDkapASOVfP/Dp
+   uEsYGX+UgDaMj7TdIwAHRvaj08O4tuhDWZZh/MMQQUMCk0RObRzak3bSo
+   8/yiSpgUw/BSQ0jwGRIhyahJ217SLAPiezpisnVq7CN2NH8Z7m4h64aXz
+   fmsK+MrPPROBllZNVmvjqdilBa62DlyTfaNxRaUJ1dRaHvDEpmhh+pNn/
+   YORYiIRxaLLRDlT0SWQjIbJDuD1gbSTdbw3o8LADR2W4Plp4159D/yFN/
+   ovHa5YNvBI9PPxJQW+DVStDpRBJYQ9qdgI9yiNa6sSMPrkGtMHQWIjOaT
+   Q==;
+X-CSE-ConnectionGUID: iGI0pbjaTnaoxYYxtPD5pg==
+X-CSE-MsgGUID: e32vO5rRSNuguhZABACQvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="30051394"
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="36748454"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 04:02:17 -0700
-X-CSE-ConnectionGUID: WUmtV44ERIC2jdJW6RHO8Q==
-X-CSE-MsgGUID: TF58PbtjRFeBD/sXxqz0lg==
+   d="scan'208";a="30051394"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 04:22:19 -0700
+X-CSE-ConnectionGUID: Y11kxrblTS+3xJrqPHK8+Q==
+X-CSE-MsgGUID: Q5ooO6X7TP21V2vmlUlAnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="71823482"
+   d="scan'208";a="71722739"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2024 04:02:13 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2024 04:22:16 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st3J5-000IFv-12;
-	Tue, 24 Sep 2024 11:02:11 +0000
-Date: Tue, 24 Sep 2024 19:01:12 +0800
+	id 1st3cT-000IJB-0j;
+	Tue, 24 Sep 2024 11:22:13 +0000
+Date: Tue, 24 Sep 2024 19:21:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hermes Wu <Hermes.Wu@ite.com.tw>, Pin-yen Lin <treapking@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, Kenneth Hung <Kenneth.hung@ite.com.tw>,
-	Hermes Wu <Hermes.wu@ite.com.tw>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater
- items
-Message-ID: <202409241856.OWgR1x3Y-lkp@intel.com>
-References: <20240923094826.13471-3-Hermes.Wu@ite.com.tw>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1438/2441]
+ drivers/iommu/ioasid.c:718: warning: Function parameter or member 'set' not
+ described in 'ioasid_free_all_in_set'
+Message-ID: <202409241927.5Tb4ixE4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,93 +66,210 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240923094826.13471-3-Hermes.Wu@ite.com.tw>
 
-Hi Hermes,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11 next-20240923]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hermes-Wu/drm-bridge-it6505-fix-AUX-read-use-aux-fifo/20240923-175041
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20240923094826.13471-3-Hermes.Wu%40ite.com.tw
-patch subject: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater items
-config: nios2-randconfig-r073-20240924 (https://download.01.org/0day-ci/archive/20240924/202409241856.OWgR1x3Y-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   63759dec7a1be60e43e98e4257de936b546e4656
+commit: 0923b8c205255ce52fcffc2dfa731979ec2e7ec0 [1438/2441] iommu/ioasid: Add ioasid_set iterator helper functions
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240924/202409241927.5Tb4ixE4-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241927.5Tb4ixE4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241856.OWgR1x3Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241927.5Tb4ixE4-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/bridge/ite-it6505.c:2027 it6505_setup_sha1_input() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +2027 drivers/gpu/drm/bridge/ite-it6505.c
+   drivers/iommu/ioasid.c:298: warning: Cannot understand  * @brief Reserve capacity from the system pool
+    on line 298 - I thought it was a doc line
+   drivers/iommu/ioasid.c:325: warning: Cannot understand  * @brief Return capacity to the system pool
+    on line 325 - I thought it was a doc line
+   drivers/iommu/ioasid.c:545: warning: Cannot understand  * @brief Free an ioasid_set if empty. Restore pending notification list.
+    on line 545 - I thought it was a doc line
+>> drivers/iommu/ioasid.c:718: warning: Function parameter or member 'set' not described in 'ioasid_free_all_in_set'
+>> drivers/iommu/ioasid.c:748: warning: Function parameter or member 'set' not described in 'ioasid_set_for_each_ioasid'
+>> drivers/iommu/ioasid.c:748: warning: Function parameter or member 'fn' not described in 'ioasid_set_for_each_ioasid'
+>> drivers/iommu/ioasid.c:748: warning: Function parameter or member 'data' not described in 'ioasid_set_for_each_ioasid'
+>> drivers/iommu/ioasid.c:847: warning: Cannot understand  * @brief
+    on line 847 - I thought it was a doc line
 
-b5c84a9edcd418 Allen Chen  2022-01-14  1996  
-b5c84a9edcd418 Allen Chen  2022-01-14  1997  static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
-b5c84a9edcd418 Allen Chen  2022-01-14  1998  {
-d65feac281ab47 Pin-yen Lin 2023-07-18  1999  	struct device *dev = it6505->dev;
-b5c84a9edcd418 Allen Chen  2022-01-14  2000  	u8 binfo[2];
-9665163df60e16 Hermes Wu   2024-09-23  2001  	int down_stream_count, err, msg_count = 0;
-b5c84a9edcd418 Allen Chen  2022-01-14  2002  
-b5c84a9edcd418 Allen Chen  2022-01-14  2003  	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_BINFO, binfo,
-b5c84a9edcd418 Allen Chen  2022-01-14  2004  			      ARRAY_SIZE(binfo));
-b5c84a9edcd418 Allen Chen  2022-01-14  2005  
-b5c84a9edcd418 Allen Chen  2022-01-14  2006  	if (err < 0) {
-b5c84a9edcd418 Allen Chen  2022-01-14  2007  		dev_err(dev, "Read binfo value Fail");
-b5c84a9edcd418 Allen Chen  2022-01-14  2008  		return err;
-b5c84a9edcd418 Allen Chen  2022-01-14  2009  	}
-b5c84a9edcd418 Allen Chen  2022-01-14  2010  
-b5c84a9edcd418 Allen Chen  2022-01-14  2011  	down_stream_count = binfo[0] & 0x7F;
-b5c84a9edcd418 Allen Chen  2022-01-14  2012  	DRM_DEV_DEBUG_DRIVER(dev, "binfo:0x%*ph", (int)ARRAY_SIZE(binfo),
-b5c84a9edcd418 Allen Chen  2022-01-14  2013  			     binfo);
-b5c84a9edcd418 Allen Chen  2022-01-14  2014  
-b5c84a9edcd418 Allen Chen  2022-01-14  2015  	if ((binfo[0] & BIT(7)) || (binfo[1] & BIT(3))) {
-b5c84a9edcd418 Allen Chen  2022-01-14  2016  		dev_err(dev, "HDCP max cascade device exceed");
-b5c84a9edcd418 Allen Chen  2022-01-14  2017  		return 0;
-b5c84a9edcd418 Allen Chen  2022-01-14  2018  	}
-b5c84a9edcd418 Allen Chen  2022-01-14  2019  
-b5c84a9edcd418 Allen Chen  2022-01-14  2020  	if (!down_stream_count ||
-b5c84a9edcd418 Allen Chen  2022-01-14  2021  	    down_stream_count > MAX_HDCP_DOWN_STREAM_COUNT) {
-b5c84a9edcd418 Allen Chen  2022-01-14  2022  		dev_err(dev, "HDCP down stream count Error %d",
-b5c84a9edcd418 Allen Chen  2022-01-14  2023  			down_stream_count);
-b5c84a9edcd418 Allen Chen  2022-01-14  2024  		return 0;
-b5c84a9edcd418 Allen Chen  2022-01-14  2025  	}
-9665163df60e16 Hermes Wu   2024-09-23  2026  	err =  it6505_get_ksvlist(it6505, sha1_input, down_stream_count * 5);
-b5c84a9edcd418 Allen Chen  2022-01-14 @2027  		if (err < 0)
-b5c84a9edcd418 Allen Chen  2022-01-14  2028  			return err;
-b5c84a9edcd418 Allen Chen  2022-01-14  2029  
-9665163df60e16 Hermes Wu   2024-09-23  2030  	msg_count += down_stream_count * 5;
-b5c84a9edcd418 Allen Chen  2022-01-14  2031  
-b5c84a9edcd418 Allen Chen  2022-01-14  2032  	it6505->hdcp_down_stream_count = down_stream_count;
-b5c84a9edcd418 Allen Chen  2022-01-14  2033  	sha1_input[msg_count++] = binfo[0];
-b5c84a9edcd418 Allen Chen  2022-01-14  2034  	sha1_input[msg_count++] = binfo[1];
-b5c84a9edcd418 Allen Chen  2022-01-14  2035  
-b5c84a9edcd418 Allen Chen  2022-01-14  2036  	it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ,
-b5c84a9edcd418 Allen Chen  2022-01-14  2037  			HDCP_EN_M0_READ);
-b5c84a9edcd418 Allen Chen  2022-01-14  2038  
-b5c84a9edcd418 Allen Chen  2022-01-14  2039  	err = regmap_bulk_read(it6505->regmap, REG_M0_0_7,
-b5c84a9edcd418 Allen Chen  2022-01-14  2040  			       sha1_input + msg_count, 8);
-b5c84a9edcd418 Allen Chen  2022-01-14  2041  
-b5c84a9edcd418 Allen Chen  2022-01-14  2042  	it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ, 0x00);
-b5c84a9edcd418 Allen Chen  2022-01-14  2043  
-b5c84a9edcd418 Allen Chen  2022-01-14  2044  	if (err < 0) {
-b5c84a9edcd418 Allen Chen  2022-01-14  2045  		dev_err(dev, " Warning, Read M value Fail");
-b5c84a9edcd418 Allen Chen  2022-01-14  2046  		return err;
-b5c84a9edcd418 Allen Chen  2022-01-14  2047  	}
-b5c84a9edcd418 Allen Chen  2022-01-14  2048  
-b5c84a9edcd418 Allen Chen  2022-01-14  2049  	msg_count += 8;
-b5c84a9edcd418 Allen Chen  2022-01-14  2050  
-b5c84a9edcd418 Allen Chen  2022-01-14  2051  	return msg_count;
-b5c84a9edcd418 Allen Chen  2022-01-14  2052  }
-b5c84a9edcd418 Allen Chen  2022-01-14  2053  
+
+vim +718 drivers/iommu/ioasid.c
+
+   702	
+   703	/**
+   704	 * ioasid_free_all_in_set
+   705	 *
+   706	 * @brief
+   707	 * Free all PASIDs from system-wide IOASID pool, all subscribers gets
+   708	 * notified and do cleanup of their own.
+   709	 * Note that some references of the IOASIDs within the set can still
+   710	 * be held after the free call. This is OK in that the IOASIDs will be
+   711	 * marked inactive, the only operations can be done is ioasid_put.
+   712	 * No need to track IOASID set states since there is no reclaim phase.
+   713	 *
+   714	 * @param
+   715	 * struct ioasid_set where all IOASIDs within the set will be freed.
+   716	 */
+   717	void ioasid_free_all_in_set(struct ioasid_set *set)
+ > 718	{
+   719		struct ioasid_data *entry;
+   720		unsigned long index;
+   721	
+   722		if (!ioasid_set_is_valid(set))
+   723			return;
+   724	
+   725		if (xa_empty(&set->xa))
+   726			return;
+   727	
+   728		if (!atomic_read(&set->nr_ioasids))
+   729			return;
+   730		spin_lock(&ioasid_allocator_lock);
+   731		xa_for_each(&set->xa, index, entry) {
+   732			ioasid_free_locked(set, index);
+   733			/* Free from per set private pool */
+   734			xa_erase(&set->xa, index);
+   735		}
+   736		spin_unlock(&ioasid_allocator_lock);
+   737	}
+   738	EXPORT_SYMBOL_GPL(ioasid_free_all_in_set);
+   739	
+   740	/**
+   741	 * ioasid_set_for_each_ioasid
+   742	 * @brief
+   743	 * Iterate over all the IOASIDs within the set
+   744	 */
+   745	void ioasid_set_for_each_ioasid(struct ioasid_set *set,
+   746					void (*fn)(ioasid_t id, void *data),
+   747					void *data)
+ > 748	{
+   749		struct ioasid_data *entry;
+   750		unsigned long index;
+   751	
+   752		xa_for_each(&set->xa, index, entry)
+   753			fn(index, data);
+   754	}
+   755	EXPORT_SYMBOL_GPL(ioasid_set_for_each_ioasid);
+   756	
+   757	int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
+   758	{
+   759		struct ioasid_data *data;
+   760	
+   761		data = xa_load(&active_allocator->xa, ioasid);
+   762		if (!data) {
+   763			pr_err("Trying to get unknown IOASID %u\n", ioasid);
+   764			return -EINVAL;
+   765		}
+   766		if (data->state == IOASID_STATE_FREE_PENDING) {
+   767			pr_err("Trying to get IOASID being freed%u\n", ioasid);
+   768			return -EBUSY;
+   769		}
+   770	
+   771		/* Check set ownership if the set is non-null */
+   772		if (set && data->set != set) {
+   773			pr_err("Trying to get IOASID %u outside the set\n", ioasid);
+   774			/* data found but does not belong to the set */
+   775			return -EACCES;
+   776		}
+   777		refcount_inc(&data->refs);
+   778	
+   779		return 0;
+   780	}
+   781	EXPORT_SYMBOL_GPL(ioasid_get_locked);
+   782	
+   783	/**
+   784	 * ioasid_get - obtain a reference to the IOASID
+   785	 * @set:	the ioasid_set to check permission against if not NULL
+   786	 * @ioasid:	the IOASID to get reference
+   787	 *
+   788	 *
+   789	 * Return: 0 on success, error if failed.
+   790	 */
+   791	int ioasid_get(struct ioasid_set *set, ioasid_t ioasid)
+   792	{
+   793		int ret;
+   794	
+   795		spin_lock(&ioasid_allocator_lock);
+   796		ret = ioasid_get_locked(set, ioasid);
+   797		spin_unlock(&ioasid_allocator_lock);
+   798	
+   799		return ret;
+   800	}
+   801	EXPORT_SYMBOL_GPL(ioasid_get);
+   802	
+   803	bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid)
+   804	{
+   805		struct ioasid_data *data;
+   806	
+   807		data = xa_load(&active_allocator->xa, ioasid);
+   808		if (!data) {
+   809			pr_err("Trying to put unknown IOASID %u\n", ioasid);
+   810			return false;
+   811		}
+   812		if (set && data->set != set) {
+   813			pr_err("Trying to drop IOASID %u outside the set\n", ioasid);
+   814			return false;
+   815		}
+   816		if (!refcount_dec_and_test(&data->refs))
+   817			return false;
+   818	
+   819		ioasid_do_free_locked(data);
+   820	
+   821		return true;
+   822	}
+   823	EXPORT_SYMBOL_GPL(ioasid_put_locked);
+   824	
+   825	/**
+   826	 * ioasid_put - Release a reference to an ioasid
+   827	 * @set:	the ioasid_set to check permission against if not NULL
+   828	 * @ioasid:	the IOASID to drop reference
+   829	 *
+   830	 * Put a reference to the IOASID, free it when the number of references drops to
+   831	 * zero.
+   832	 *
+   833	 * Return: %true if the IOASID was freed, %false otherwise.
+   834	 */
+   835	bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid)
+   836	{
+   837		bool ret;
+   838	
+   839		spin_lock(&ioasid_allocator_lock);
+   840		ret = ioasid_put_locked(set, ioasid);
+   841		spin_unlock(&ioasid_allocator_lock);
+   842		return ret;
+   843	}
+   844	EXPORT_SYMBOL_GPL(ioasid_put);
+   845	
+   846	/**
+ > 847	 * @brief
+   848	 * Find the ioasid_set of an IOASID. As long as the IOASID is valid,
+   849	 * the set must be valid since the refcounting is based on the number of IOASID
+   850	 * in the set.
+   851	 *
+   852	 * @param ioasid
+   853	 * @return struct ioasid_set*
+   854	 */
+   855	struct ioasid_set *ioasid_find_set(ioasid_t ioasid)
+   856	{
+   857		struct ioasid_allocator_data *idata;
+   858		struct ioasid_data *ioasid_data;
+   859		struct ioasid_set *set = NULL;
+   860	
+   861		rcu_read_lock();
+   862		idata = rcu_dereference(active_allocator);
+   863		ioasid_data = xa_load(&idata->xa, ioasid);
+   864		if (!ioasid_data) {
+   865			set = ERR_PTR(-ENOENT);
+   866			goto unlock;
+   867		}
+   868		set = ioasid_data->set;
+   869	unlock:
+   870		rcu_read_unlock();
+   871		return set;
+   872	}
+   873	EXPORT_SYMBOL_GPL(ioasid_find_set);
+   874	
 
 -- 
 0-DAY CI Kernel Test Service
