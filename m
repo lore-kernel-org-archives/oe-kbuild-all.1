@@ -1,38 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609A513CF86;
-	Tue, 24 Sep 2024 21:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C7C101DE;
+	Tue, 24 Sep 2024 21:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727212443; cv=none; b=P0bCWpa7HUnQdSvV1K0ZjgbBq21SrHZ7M/mCQqVb5CtN5NNptF+Tkn+5wGxStxVXnV8cfb9QXxwGzRzdz5lcQKK1JukrwD5ULAfR4RdZlj2+36pJhbgJH4c270WJyqQAL6lm8apORakGSmC86Xk9yyGjSsNYN7VFSCjP760ZwsA=
+	t=1727213211; cv=none; b=TmMYu2LyRDDB6k4lRncVHjLUMueXJlLSruNSXyE2Opi9YyrcCe3Nr7ZaD5ALu8Mh9ShrsimObsd569M92uZjJVF+XCm5u0a3BCN2MsfiOlUp9DZRfiTW5m52ffVgzTgw1KKUxTOA+0Gk9+wLe/iAGn0QXob1FcDS0jP8cB6koh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727212443; c=relaxed/simple;
-	bh=rAvMuAgzCiY+2tD6owH9gDdOAwfKPQd9UezfteH+QtQ=;
+	s=arc-20240116; t=1727213211; c=relaxed/simple;
+	bh=XQhbHPNAG/zsIJVKawyKlQTLP+nsHVY3KM1TS0rfOa0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aimrc0NwnePofgC04FKIhObqba/gH/EdIS80OBF5jNhuWA2B0GeawBV8supnR7oiRne65N3myzHaZWxuLunsKWCGKPDlRXXaOcrRhG5aBn7UY7FijKNz1RYYZMbXXaHlEqhJpavqIn6ZnT3xM217j35j3IuMF7CK3/X2X2/mc4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bjtRpoDa; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXtoPDtzjnmHxvWJ6aRLVxnOf3/QTqGIDY+vfw9iAg/ym68N/Hups462bQy0KYiapULMG1GEoOuynv61wZbaF15VE6b4zPzK/eTvPuM/urIgka+jV6eLBlP/ZmDC+4Ry1kRjoOchM7/47SzBJ/bU22T5brEDLb9bUGsZAXQI26I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1+qZPKO; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bjtRpoDa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E91C4CEC4;
-	Tue, 24 Sep 2024 21:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727212442;
-	bh=rAvMuAgzCiY+2tD6owH9gDdOAwfKPQd9UezfteH+QtQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bjtRpoDaOYp1iYreUuvECWjgSmZGVHwUuMQmfwb1qtJJmKRHAZhjUGwEmHtmHiBYw
-	 bnO25TNExC1ZFJ9Hy8AHvEuPnIK93fVT9dvmY2/cGXI5IrXEoXDEN4PGD8UlykFIW2
-	 M+FsWiTk8lQOz/OzP7wewz31kAQPMD2cHaGSTvq4gTs5cfiNMvD6GFRH0Bruo/Ij5d
-	 Se5bzrkFtqQxir4GoDKBoR4wTZl//ePUcwYmKIMeUEpxjHiquMfMw9p4BMUjG9BEP3
-	 bvJASK3rmB6AXo7KuHRBP9ovPV6tFsvuPKl7fzGmyNqUXE+LKZngnsoVhZn2ZafJky
-	 YFWyKHzvoKuZg==
-Date: Tue, 24 Sep 2024 11:14:01 -1000
-From: Tejun Heo <tj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH sched_ext/for-6.12-fixes] sched_ext: Build fix for !CONFIG_SMP
-Message-ID: <ZvMrmRyWklgVjHJ4@slm.duckdns.org>
-References: <202409241108.jaocHiDJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1+qZPKO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727213209; x=1758749209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XQhbHPNAG/zsIJVKawyKlQTLP+nsHVY3KM1TS0rfOa0=;
+  b=U1+qZPKOOP1FpJYoxqylj6d0uvqN7suBlOdjZo8f24wGkZGwylFyVYW5
+   tV1dPe37mIKFjHb5KQGlpRt6rB4icpeD4ARXheYmZ3dgV0fcXgT5qaArM
+   N9dS/WGirS8XKqH458qB0uFL4AAGZcdtLOIstHhXtCNbLIuFQYxXanthI
+   YCt+vfBIKRYTCDgWNpBXk4XBQ+NF93eGGvS23Df6cTY0ZAVmPFX0uOEJu
+   mJWFjpT97PmQRNuayfDxQhSSIs17bXzqYFejThHqY7yJKMKbyyBVvbhsj
+   Gw1FDzjXCvXnC9lpBSDubOiHlqejkmadsGojvLIYzwYanESYY5u5+12Ah
+   w==;
+X-CSE-ConnectionGUID: /w64LLgLTL+cOfPCTSPviw==
+X-CSE-MsgGUID: h6l1ne0lRjm4Uj78Hy6hlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26421470"
+X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
+   d="scan'208";a="26421470"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 14:26:47 -0700
+X-CSE-ConnectionGUID: j3qg5jAPS0KvAZmgypfb6Q==
+X-CSE-MsgGUID: s10Fk9+KTbW8kNRfs4PSKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
+   d="scan'208";a="94887996"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Sep 2024 14:26:40 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stD3O-000IrF-1T;
+	Tue, 24 Sep 2024 21:26:38 +0000
+Date: Wed, 25 Sep 2024 05:26:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: Re: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as
+ platform device
+Message-ID: <202409250533.AEodmhZc-lkp@intel.com>
+References: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -41,41 +83,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202409241108.jaocHiDJ-lkp@intel.com>
+In-Reply-To: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
 
-From 42268ad0eb4142245ea40ab01a5690a40e9c3b41 Mon Sep 17 00:00:00 2001
-From: Tejun Heo <tj@kernel.org>
-Date: Tue, 24 Sep 2024 11:10:07 -1000
+Hi Binbin,
 
-move_remote_task_to_local_dsq() is only defined on SMP configs but
-scx_disaptch_from_dsq() was calling move_remote_task_to_local_dsq() on UP
-configs too causing build failures. Add a dummy
-move_remote_task_to_local_dsq() which triggers a warning.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Tejun Heo <tj@kernel.org>
-Fixes: 4c30f5ce4f7a ("sched_ext: Implement scx_bpf_dispatch[_vtime]_from_dsq()")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202409241108.jaocHiDJ-lkp@intel.com/
----
-Applied to sched_ext/for-6.12-fixes.
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master next-20240924]
+[cannot apply to robh/for-next v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks.
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240924-150942
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as platform device
+config: alpha-kismet-CONFIG_SND_SOC_LOONGSON_CARD-CONFIG_SND_SOC_LOONGSON_I2S_PCI-0-0 (https://download.01.org/0day-ci/archive/20240925/202409250533.AEodmhZc-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240925/202409250533.AEodmhZc-lkp@intel.com/reproduce)
 
- kernel/sched/ext.c | 1 +
- 1 file changed, 1 insertion(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409250533.AEodmhZc-lkp@intel.com/
 
-diff --git a/kernel/sched/ext.c b/kernel/sched/ext.c
-index c09e3dc38c34..d74d1fe06999 100644
---- a/kernel/sched/ext.c
-+++ b/kernel/sched/ext.c
-@@ -2357,6 +2357,7 @@ static bool consume_remote_task(struct rq *this_rq, struct task_struct *p,
- 	}
- }
- #else	/* CONFIG_SMP */
-+static inline void move_remote_task_to_local_dsq(struct task_struct *p, u64 enq_flags, struct rq *src_rq, struct rq *dst_rq) { WARN_ON_ONCE(1); }
- static inline bool task_can_run_on_remote_rq(struct task_struct *p, struct rq *rq, bool trigger_error) { return false; }
- static inline bool consume_remote_task(struct rq *this_rq, struct task_struct *p, struct scx_dispatch_q *dsq, struct rq *task_rq) { return false; }
- #endif	/* CONFIG_SMP */
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD when selected by SND_SOC_LOONGSON_I2S_PCI
+   WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (LOONGARCH || COMPILE_TEST [=n])
+     Selected by [y]:
+     - SND_SOC_LOONGSON_I2S_PCI [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && PCI [=y]
+
 -- 
-2.46.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
