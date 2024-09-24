@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824A217C9B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 02:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7311B977
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 02:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727146441; cv=none; b=mI7/Tzhz31Z4gZ+q0XKJ2K+G5JkLiqGyWwVAP5mgJwdaV8xCvHyqxv5q/5RqtMk5fgR2VNANb8m4esL4PrwulTUYO/ZM9WcawCgbNZ/aw+DEKpAgxwFyHsfzSg9PbN2T18jrx4XzyGYVc6yTOAXKYHc1oYBSXbUhllLp1hYmZAI=
+	t=1727146499; cv=none; b=A1hbGqFdSl1lm9hqOvqLaTDEtNd2YFYPQhyrheaMh2mu3IXZx1WkfH6ctB/ZgiKXXvaOXjNWqstff5c4IL6EOQ8yc7jRFPUTHdsNpgbQ5UV+YnDo/6zmxAgGlrGkGczuu/X5CMG1Ff8dm/kHQp2y8z4fncYD6qh1Fk0fTFTo+qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727146441; c=relaxed/simple;
-	bh=apgwYaa+hCopS3ypAdBFEVBOYmqMwtamZ5UePFaeU0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rZCfz0lNpfloWen/MULmHy6KG5zme95xpvTrJhmKmuGLhpBcXyjKnng0mxheJB1sI9zWXl+xwmFbqry7p2mzjQludU3/d9ur/vGpr6ubNwovWpcd8K3EHiFjC/NeqwOZIJ2Sk4erc34QldMlHg3Iuqd5XZimfo8gFvL9mg41OPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDt1oin7; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1727146499; c=relaxed/simple;
+	bh=vrVPAw2NxO7mEzTUgzvxdeHw+1HH2C0JSWz8AW6sTEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sDEurZdF9/LiEuPCJ4uNXk4vQmlgfffUPjcgZ+ZY2tNBalxYY0OfKX1nh4Wfr1HSz5Roq0WD9pua9a8Pv1I7eiun4xS4IaPBUzDK4+ulK+cb4JvS4ZheBaKN6nV1Iq2FZxRW043Z1vOOgaEpFfUgpfH5ytXb9+RdiCYPa/RJIvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+DUTR61; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDt1oin7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+DUTR61"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727146440; x=1758682440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=apgwYaa+hCopS3ypAdBFEVBOYmqMwtamZ5UePFaeU0k=;
-  b=WDt1oin7AAPD44kp5JnitPeyoDpFjDAoVISoxLzlvI5QcBye76BNRsBR
-   5XECce1+xg/aY/INQykjOe8XG+iSptaQ+JRqlvJi+GqLn2a5RJki0wWvY
-   3izHX2JjCL8NsqIoUMh0qnRWVQ6Yu0ULRqRapp3FWoaSD+Nzx3FBRCM1K
-   dlStpCVaOv9HV2IyIHCbglYB5hwqWrladUgsNHeH0yRhcmN82+y96D0Ur
-   lMlR5mKm2H/1TeWWJX2EiF7915GydCaINMtcmUSvG7JeHx7XBJME7TFfK
-   tU0rbMNdGIaKajhK1nC7XsMLY3pk0KuVC5jvmR40M3JuOn73IYiq6GwHS
+  t=1727146497; x=1758682497;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vrVPAw2NxO7mEzTUgzvxdeHw+1HH2C0JSWz8AW6sTEw=;
+  b=M+DUTR61Cz8RL2AlqcZvPSYFXmNrRLkmCGsRkYqUpMshC+3Bypf2dDWb
+   I2PFoG1EEhVeZ4xozCQJSuRnxU1zNPY9EM9v3X+2yZ1zWdeTFAx7Dp6ft
+   s0Vpu8nBurHEd8XXCTPt6XmVHPPNzdFpQuP/eS3cAL1yHdgTKq3XPKwQT
+   edEJtW8X4P67i8aLGt+iSeHeiTDpxcpwXMmEp1BSLZ8ONVtUQ/JCr5vC0
+   Bz2x+S+cIEO5pA6ODXIw+aKCv6inTayTnCYTP8+7vZtjnc4eAm4fR22zA
+   XUR+2S4DY7I0XbizXMjC+oLudj9/oW9Ik7O1JXw8iTbyc9mXfsPT0RgzG
    w==;
-X-CSE-ConnectionGUID: gsw8kSYmSGGY3AsiGOws2A==
-X-CSE-MsgGUID: ZF5SmLexQMOnH+UswBndZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="25944436"
+X-CSE-ConnectionGUID: tKWRKzXmT/Gu/WXZ+VVezA==
+X-CSE-MsgGUID: 6Ww0N5ZQSLOnREPM9LDW5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="43639112"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="25944436"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 19:53:59 -0700
-X-CSE-ConnectionGUID: 1sjRCsuuS9+8cGhY+cNfwQ==
-X-CSE-MsgGUID: GbyP1ughQqWsQAEca6+Atg==
+   d="scan'208";a="43639112"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 19:54:56 -0700
+X-CSE-ConnectionGUID: 0jMFqPjUQU2wqZh618MMGg==
+X-CSE-MsgGUID: c3+EerkHQy271NTq6/eAig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="76041234"
+   d="scan'208";a="71317221"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2024 19:53:55 -0700
+  by orviesa009.jf.intel.com with ESMTP; 23 Sep 2024 19:54:55 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssvgW-000Hq1-26;
-	Tue, 24 Sep 2024 02:53:52 +0000
+	id 1ssvhU-000Hq9-2K;
+	Tue, 24 Sep 2024 02:54:52 +0000
 Date: Tue, 24 Sep 2024 10:53:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
-	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
-	Peter.Yin@quantatw.com, Jay_Zhang@wiwynn.com
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 3/6] gpio: aspeed: Create llops to handle hardware
- access
-Message-ID: <202409241029.XEkME4VI-lkp@intel.com>
-References: <20240923100611.1597113-4-billy_tsai@aspeedtech.com>
+Subject: [zen:6.10/zen-sauce 5/32]
+ drivers/pci/controller/intel-nvme-remap.c:47:21: error: field has incomplete
+ type 'struct pci_sysdata'
+Message-ID: <202409241057.EFmNXUAt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,137 +62,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240923100611.1597113-4-billy_tsai@aspeedtech.com>
 
-Hi Billy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.11 next-20240923]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240923-180936
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20240923100611.1597113-4-billy_tsai%40aspeedtech.com
-patch subject: [PATCH v5 3/6] gpio: aspeed: Create llops to handle hardware access
-config: alpha-randconfig-r131-20240924 (https://download.01.org/0day-ci/archive/20240924/202409241029.XEkME4VI-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240924/202409241029.XEkME4VI-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.10/zen-sauce
+head:   8544d2d50967e073bbb7f31d422ace7384ac239e
+commit: ab9eefaf928d1345fa09babb311b526b8b6142aa [5/32] ZEN: PCI: Add Intel remapped NVMe device support
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409241057.EFmNXUAt-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241057.EFmNXUAt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241029.XEkME4VI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241057.EFmNXUAt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-aspeed.c:1208:54: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +1208 drivers/gpio/gpio-aspeed.c
+   In file included from drivers/pci/controller/intel-nvme-remap.c:37:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pci/controller/intel-nvme-remap.c:37:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pci/controller/intel-nvme-remap.c:37:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/pci/controller/intel-nvme-remap.c:40:
+   In file included from include/linux/pci.h:1650:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/pci/controller/intel-nvme-remap.c:47:21: error: field has incomplete type 'struct pci_sysdata'
+      47 |         struct pci_sysdata      sysdata;
+         |                                 ^
+   drivers/pci/controller/intel-nvme-remap.c:47:9: note: forward declaration of 'struct pci_sysdata'
+      47 |         struct pci_sysdata      sysdata;
+         |                ^
+   drivers/pci/controller/intel-nvme-remap.c:447:12: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     447 |                 .class = PCI_CLASS_STORAGE_RAID << 8,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci_ids.h:23:33: note: expanded from macro 'PCI_CLASS_STORAGE_RAID'
+      23 | #define PCI_CLASS_STORAGE_RAID          0x0104
+         |                                         ^
+   drivers/pci/controller/intel-nvme-remap.c:446:3: note: previous initialization is here
+     446 |                 PCI_VDEVICE(INTEL, PCI_ANY_ID),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:1048:52: note: expanded from macro 'PCI_VDEVICE'
+    1048 |         .subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, 0, 0
+         |                                                           ^
+   drivers/pci/controller/intel-nvme-remap.c:448:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     448 |                 .class_mask = 0xffffff00,
+         |                               ^~~~~~~~~~
+   drivers/pci/controller/intel-nvme-remap.c:446:3: note: previous initialization is here
+     446 |                 PCI_VDEVICE(INTEL, PCI_ANY_ID),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:1048:55: note: expanded from macro 'PCI_VDEVICE'
+    1048 |         .subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, 0, 0
+         |                                                              ^
+   15 warnings and 1 error generated.
 
-  1183	
-  1184	static int __init aspeed_gpio_probe(struct platform_device *pdev)
-  1185	{
-  1186		const struct of_device_id *gpio_id;
-  1187		struct gpio_irq_chip *girq;
-  1188		struct aspeed_gpio *gpio;
-  1189		int rc, irq, i, banks, err;
-  1190		u32 ngpio;
-  1191	
-  1192		gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
-  1193		if (!gpio)
-  1194			return -ENOMEM;
-  1195	
-  1196		gpio->base = devm_platform_ioremap_resource(pdev, 0);
-  1197		if (IS_ERR(gpio->base))
-  1198			return PTR_ERR(gpio->base);
-  1199	
-  1200		gpio->dev = &pdev->dev;
-  1201	
-  1202		raw_spin_lock_init(&gpio->lock);
-  1203	
-  1204		gpio_id = of_match_node(aspeed_gpio_of_table, pdev->dev.of_node);
-  1205		if (!gpio_id)
-  1206			return -EINVAL;
-  1207	
-> 1208		gpio->clk = devm_clk_get_enabled(&pdev->dev, 0);
-  1209		if (IS_ERR(gpio->clk)) {
-  1210			dev_warn(&pdev->dev,
-  1211					"Failed to get clock from devicetree, debouncing disabled\n");
-  1212			gpio->clk = NULL;
-  1213		}
-  1214	
-  1215		gpio->config = gpio_id->data;
-  1216	
-  1217		if (!gpio->config->llops->reg_bit_set || !gpio->config->llops->reg_bit_get ||
-  1218		    !gpio->config->llops->reg_bank_get)
-  1219			return -EINVAL;
-  1220	
-  1221		gpio->chip.parent = &pdev->dev;
-  1222		err = of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpio);
-  1223		gpio->chip.ngpio = (u16) ngpio;
-  1224		if (err)
-  1225			gpio->chip.ngpio = gpio->config->nr_gpios;
-  1226		gpio->chip.direction_input = aspeed_gpio_dir_in;
-  1227		gpio->chip.direction_output = aspeed_gpio_dir_out;
-  1228		gpio->chip.get_direction = aspeed_gpio_get_direction;
-  1229		gpio->chip.request = aspeed_gpio_request;
-  1230		gpio->chip.free = aspeed_gpio_free;
-  1231		gpio->chip.get = aspeed_gpio_get;
-  1232		gpio->chip.set = aspeed_gpio_set;
-  1233		gpio->chip.set_config = aspeed_gpio_set_config;
-  1234		gpio->chip.label = dev_name(&pdev->dev);
-  1235		gpio->chip.base = -1;
-  1236	
-  1237		if (gpio->config->require_dcache) {
-  1238			/* Allocate a cache of the output registers */
-  1239			banks = DIV_ROUND_UP(gpio->chip.ngpio, 32);
-  1240			gpio->dcache = devm_kcalloc(&pdev->dev, banks, sizeof(u32), GFP_KERNEL);
-  1241			if (!gpio->dcache)
-  1242				return -ENOMEM;
-  1243			/*
-  1244			 * Populate it with initial values read from the HW
-  1245			 */
-  1246			for (i = 0; i < banks; i++)
-  1247				gpio->dcache[i] =
-  1248					gpio->config->llops->reg_bank_get(gpio, (i << 5), reg_rdata);
-  1249		}
-  1250	
-  1251		if (gpio->config->llops->privilege_init)
-  1252			gpio->config->llops->privilege_init(gpio);
-  1253	
-  1254		/* Set up an irqchip */
-  1255		irq = platform_get_irq(pdev, 0);
-  1256		if (irq < 0)
-  1257			return irq;
-  1258		gpio->irq = irq;
-  1259		girq = &gpio->chip.irq;
-  1260		gpio_irq_chip_set_chip(girq, &aspeed_gpio_irq_chip);
-  1261	
-  1262		girq->parent_handler = aspeed_gpio_irq_handler;
-  1263		girq->num_parents = 1;
-  1264		girq->parents = devm_kcalloc(&pdev->dev, 1, sizeof(*girq->parents), GFP_KERNEL);
-  1265		if (!girq->parents)
-  1266			return -ENOMEM;
-  1267		girq->parents[0] = gpio->irq;
-  1268		girq->default_type = IRQ_TYPE_NONE;
-  1269		girq->handler = handle_bad_irq;
-  1270		girq->init_valid_mask = aspeed_init_irq_valid_mask;
-  1271	
-  1272		gpio->offset_timer =
-  1273			devm_kzalloc(&pdev->dev, gpio->chip.ngpio, GFP_KERNEL);
-  1274		if (!gpio->offset_timer)
-  1275			return -ENOMEM;
-  1276	
-  1277		rc = devm_gpiochip_add_data(&pdev->dev, &gpio->chip, gpio);
-  1278		if (rc < 0)
-  1279			return rc;
-  1280	
-  1281		return 0;
-  1282	}
-  1283	
+
+vim +47 drivers/pci/controller/intel-nvme-remap.c
+
+    35	
+    36	#include <linux/ahci-remap.h>
+    37	#include <linux/irq.h>
+    38	#include <linux/kernel.h>
+    39	#include <linux/module.h>
+  > 40	#include <linux/pci.h>
+    41	
+    42	#define AHCI_PCI_BAR_STANDARD 5
+    43	
+    44	struct nvme_remap_dev {
+    45		struct pci_dev		*dev;		/* AHCI device */
+    46		struct pci_bus		*bus;		/* our fake PCI bus */
+  > 47		struct pci_sysdata	sysdata;
+    48		int			irq_base;	/* our fake interrupts */
+    49	
+    50		/*
+    51		 * When we detect an all-ones write to a BAR register, this flag
+    52		 * is set, so that we return the BAR size on the next read (a
+    53		 * standard PCI behaviour).
+    54		 * This includes the assumption that an all-ones BAR write is
+    55		 * immediately followed by a read of the same register.
+    56		 */
+    57		bool			bar_sizing;
+    58	
+    59		/*
+    60		 * Resources copied from the AHCI device, to be regarded as
+    61		 * resources on our fake bus.
+    62		 */
+    63		struct resource		ahci_resources[PCI_NUM_RESOURCES];
+    64	
+    65		/* Resources corresponding to the NVMe devices. */
+    66		struct resource		remapped_dev_mem[AHCI_MAX_REMAP];
+    67	
+    68		/* Number of remapped NVMe devices found. */
+    69		int			num_remapped_devices;
+    70	};
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
