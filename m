@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1858E1B85D1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 03:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6301B85F3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 04:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727149622; cv=none; b=lhOJJ/FOlDm1ycaG5XXtsnVnjm0oTrU5+CWGbSkYo0NyNVoka5ykrpztlndXK+Tax4ymAPaQcptL+T47GZikPRxqtmwwiQLTt9Pjj1cPsx/lc+zq4+0L9hwFHVfWzvmWr6/Qr2A0L/6ZNZj5EV0NACkjHXnHmQINIF/xUbxlsws=
+	t=1727151483; cv=none; b=ShcH0cQTiOTEvGptE9Fplpjv656b8NIhCfLUpcLKSxqTYNdggbDoxbofptU5KpdPU+XGqDiLXaAPAbzhzhQd/MkzNA91SKKB17a+GjUTZwmBGkWZPL7qyNGLG8DTeab4+osBF87cEfL4hYolt0IZSkwH9i9xewS+9YARrQ+Qo9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727149622; c=relaxed/simple;
-	bh=ZsfPtAmPCws/tonD7SZr9X6Jm5y+tkex/iMmts4C8T8=;
+	s=arc-20240116; t=1727151483; c=relaxed/simple;
+	bh=h30nOLi3j+7/oatA5qTwKu9cVecjevorhh4z7KxPmVY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qm+VwrXncvfgw+qi11uIYNcpWMZfzYIyIWzN8CmrzxNihv+24Y1obU7HkIT7oUcPm6cbPcACQiJ69LRCusJyOgZpl32TglULWlKCcSI5u/wNz98WJFKbzLpxLkhBKnrvac+23chwz4PBip1nsYho1cizaPAeg6uP7QzxTkrRSfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmQv1JsT; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=gE2UPWq9tqr7qgMVqIvWfBz+wshLq386UWAs/+2FPRFlAXuydI7OYoWuWYQEH+H0aiyQBzYr1OLguUkPYt+EPbauHQ0J6V0fG03gRFHKkh/y2pZURK1nrkcwc8/rNzEBsjT8KOJi15MUftIUZJRw5gXWM4uhClOe5eUoqE5RrmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+P2zwFe; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmQv1JsT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+P2zwFe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727149620; x=1758685620;
+  t=1727151482; x=1758687482;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZsfPtAmPCws/tonD7SZr9X6Jm5y+tkex/iMmts4C8T8=;
-  b=fmQv1JsTJ/K+EnH01MH00oT+P8pIASaq24jkbI57AqA/Ir/0OZKOI+Mw
-   VVxRSWgQOQh2TCjBm7ks5Nm/35ciKGRTsUMvyk8IPbBkPIit6Vd5g5SQK
-   zztf9gvUZa172d1OfI+A1YmXX2J9xYrB6t+LWFw3xofHLiehKsCXNeSQX
-   G5Z35CLn+4d0Rb2/CmwPzi+GS+8+1JmfhYQ+AHEYroh4oxKXqNHl2sQSY
-   gHHLOvxI9+8xukdyUL8AGGRnryhbk0Uw6wP/0PrPqoDTiieb+++84Yv6Z
-   W24QwPJQPBzed8fkvL9O4VyZkM4BU8srSDzKW/PGKFbNLVW1EHQx4YIBs
-   w==;
-X-CSE-ConnectionGUID: aDCjN1rbQ1CL/jPghKx2Ww==
-X-CSE-MsgGUID: mEOBOEKPSJe9Ef6FFkb4pA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37502023"
+  bh=h30nOLi3j+7/oatA5qTwKu9cVecjevorhh4z7KxPmVY=;
+  b=i+P2zwFe/p/Ad9RRd7r8gsUYQsErpr6qBquKd/aEWD4stD12PvJuz51Z
+   RKg6sMkQhZz3GNfISmmo/qoAkx7Uk9tddpFpTKl50NOVJFN0SIy1Hk3w4
+   BML3kv/CzDfUMuUjSuF56t3kzuDRM2bjsCoqoLEdBZe/zC6CQAD5rmkam
+   S+7lN4eFhF62Ykg1MDrSMYzyqkylrrkBwxlKuSgl3TjWe5rVP9NeLRDBv
+   QWTgEiB+Zy8vdBYaWi+67hSJBhcd7UAqC9oCh3f9vODwjMCYPPp97qxvr
+   I8fXJKXVLm0dk3mMWFBvsNemJaHGhZEHHx/I/5gnp8aAAxJzGqbW3GW0b
+   g==;
+X-CSE-ConnectionGUID: QosA9PMsRkmLJNsXvWwbfQ==
+X-CSE-MsgGUID: mFEB5/tRQuORNwb4SgSS7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="48659110"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="37502023"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 20:46:59 -0700
-X-CSE-ConnectionGUID: MQkvF/YbRzimdbu7jEWLqw==
-X-CSE-MsgGUID: jVH5co9ySSG/rak8k4mAuQ==
+   d="scan'208";a="48659110"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 21:18:01 -0700
+X-CSE-ConnectionGUID: qAhGBFWNS16yRQhjW2LCdA==
+X-CSE-MsgGUID: /zqqE3nARHOVf4kDoCms8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="75381335"
+   d="scan'208";a="71548645"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2024 20:46:58 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2024 21:17:59 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sswVs-000Hsj-0R;
-	Tue, 24 Sep 2024 03:46:56 +0000
-Date: Tue, 24 Sep 2024 11:46:31 +0800
+	id 1sswzs-000Hth-3C;
+	Tue, 24 Sep 2024 04:17:56 +0000
+Date: Tue, 24 Sep 2024 12:17:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/sched/ext.c:6053:25: error: implicit declaration of function
- 'move_remote_task_to_local_dsq'; did you mean
- 'move_local_task_to_local_dsq'?
-Message-ID: <202409241108.jaocHiDJ-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.10/main 365/2981] kernel/sched/alt_core.c:7515:43: error:
+ incompatible integer to pointer conversion passing 'int' to parameter of
+ type 'const struct cpumask *'
+Message-ID: <202409241217.wrJpDxtJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,144 +63,263 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   abf2050f51fdca0fd146388f83cddd95a57a008d
-commit: 4c30f5ce4f7af4f639af99e0bdeada8b268b7361 sched_ext: Implement scx_bpf_dispatch[_vtime]_from_dsq()
-date:   2 weeks ago
-config: sparc-randconfig-r133-20240923 (https://download.01.org/0day-ci/archive/20240924/202409241108.jaocHiDJ-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240924/202409241108.jaocHiDJ-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.10/main
+head:   14cddf41a02f74b2d2a6727fe33914a57b4432f6
+commit: b73f8b552e87f0d177977350d93be82249264143 [365/2981] sched/alt: [Sync] 596ff4a09b89 cpumask: re-introduce constant-sized cpumask optimizations
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409241217.wrJpDxtJ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241217.wrJpDxtJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241108.jaocHiDJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241217.wrJpDxtJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:63:
-   kernel/sched/ext.c: In function 'scx_dispatch_from_dsq':
->> kernel/sched/ext.c:6053:25: error: implicit declaration of function 'move_remote_task_to_local_dsq'; did you mean 'move_local_task_to_local_dsq'? [-Wimplicit-function-declaration]
-    6053 |                         move_remote_task_to_local_dsq(p, enq_flags,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         move_local_task_to_local_dsq
+         | ^
+         | static 
+   kernel/sched/alt_core.c:1100:3: error: call to undeclared function 'trace_ipi_send_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1100 |                 smp_send_reschedule(cpu);
+         |                 ^
+   include/linux/smp.h:140:2: note: expanded from macro 'smp_send_reschedule'
+     140 |         trace_ipi_send_cpu(cpu, _RET_IP_, NULL);  \
+         |         ^
+   kernel/sched/alt_core.c:1231:6: warning: no previous prototype for function 'hrtick_start' [-Wmissing-prototypes]
+    1231 | void hrtick_start(struct rq *rq, u64 delay)
+         |      ^
+   kernel/sched/alt_core.c:1231:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1231 | void hrtick_start(struct rq *rq, u64 delay)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:1420:3: error: call to undeclared function 'rseq_migrate'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1420 |                 rseq_migrate(p);
+         |                 ^
+   kernel/sched/alt_core.c:1904:3: error: call to undeclared function 'trace_ipi_send_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1904 |                 smp_send_reschedule(cpu);
+         |                 ^
+   include/linux/smp.h:140:2: note: expanded from macro 'smp_send_reschedule'
+     140 |         trace_ipi_send_cpu(cpu, _RET_IP_, NULL);  \
+         |         ^
+   kernel/sched/alt_core.c:2467:6: warning: no previous prototype for function 'sched_ttwu_pending' [-Wmissing-prototypes]
+    2467 | void sched_ttwu_pending(void *arg)
+         |      ^
+   kernel/sched/alt_core.c:2467:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2467 | void sched_ttwu_pending(void *arg)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:2504:6: warning: no previous prototype for function 'send_call_function_single_ipi' [-Wmissing-prototypes]
+    2504 | void send_call_function_single_ipi(int cpu)
+         |      ^
+   kernel/sched/alt_core.c:2504:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2504 | void send_call_function_single_ipi(int cpu)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:3212:2: error: call to undeclared function 'rseq_migrate'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3212 |         rseq_migrate(p);
+         |         ^
+   kernel/sched/alt_core.c:3324:2: error: call to undeclared function 'rseq_migrate'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3324 |         rseq_migrate(p);
+         |         ^
+   kernel/sched/alt_core.c:3641:2: error: call to undeclared function 'rseq_preempt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3641 |         rseq_preempt(prev);
+         |         ^
+   kernel/sched/alt_core.c:4080:6: warning: no previous prototype for function 'scheduler_tick' [-Wmissing-prototypes]
+    4080 | void scheduler_tick(void)
+         |      ^
+   kernel/sched/alt_core.c:4080:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4080 | void scheduler_tick(void)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:5594:3: error: call to undeclared function 'cpuset_read_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5594 |                 cpuset_read_lock();
+         |                 ^
+   kernel/sched/alt_core.c:5594:3: note: did you mean 'cpus_read_lock'?
+   include/linux/cpu.h:155:20: note: 'cpus_read_lock' declared here
+     155 | static inline void cpus_read_lock(void) { }
+         |                    ^
+   kernel/sched/alt_core.c:5642:4: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5642 |                         cpuset_read_unlock();
+         |                         ^
+   kernel/sched/alt_core.c:5674:3: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5674 |                 cpuset_read_unlock();
+         |                 ^
+   kernel/sched/alt_core.c:5688:3: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5688 |                 cpuset_read_unlock();
+         |                 ^
+   kernel/sched/alt_core.c:7047:5: error: conflicting types for 'task_can_attach'
+    7047 | int task_can_attach(struct task_struct *p,
+         |     ^
+   include/linux/sched.h:1786:12: note: previous declaration is here
+    1786 | extern int task_can_attach(struct task_struct *p);
+         |            ^
+   kernel/sched/alt_core.c:7284:5: warning: no previous prototype for function 'sched_cpu_activate' [-Wmissing-prototypes]
+    7284 | int sched_cpu_activate(unsigned int cpu)
+         |     ^
+   kernel/sched/alt_core.c:7284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7284 | int sched_cpu_activate(unsigned int cpu)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7323:5: warning: no previous prototype for function 'sched_cpu_deactivate' [-Wmissing-prototypes]
+    7323 | int sched_cpu_deactivate(unsigned int cpu)
+         |     ^
+   kernel/sched/alt_core.c:7323:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7323 | int sched_cpu_deactivate(unsigned int cpu)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7387:5: warning: no previous prototype for function 'sched_cpu_starting' [-Wmissing-prototypes]
+    7387 | int sched_cpu_starting(unsigned int cpu)
+         |     ^
+   kernel/sched/alt_core.c:7387:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7387 | int sched_cpu_starting(unsigned int cpu)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7515:43: error: call to undeclared function 'cpu_coregroup_mask'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    7515 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+         |                                                         ^
+>> kernel/sched/alt_core.c:7515:43: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const struct cpumask *' [-Wint-conversion]
+    7515 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cpumask.h:161:64: note: passing argument to parameter 'srcp' here
+     161 | static inline unsigned int cpumask_first(const struct cpumask *srcp)
+         |                                                                ^
+   kernel/sched/alt_core.c:7517:31: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const struct cpumask *' [-Wint-conversion]
+    7517 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7490:30: note: expanded from macro 'TOPOLOGY_CPUMASK'
+    7490 |         if (cpumask_and(topo, topo, mask)) {                                    \
+         |                                     ^~~~
+   include/linux/cpumask.h:634:33: note: passing argument to parameter 'src2p' here
+     634 |                                const struct cpumask *src2p)
+         |                                                      ^
+   kernel/sched/alt_core.c:7517:31: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const struct cpumask *' [-Wint-conversion]
+    7517 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7491:22: note: expanded from macro 'TOPOLOGY_CPUMASK'
+    7491 |                 cpumask_copy(topo, mask);                                       \
+         |                                    ^~~~
+   include/linux/cpumask.h:834:27: note: passing argument to parameter 'srcp' here
+     834 |                                 const struct cpumask *srcp)
+         |                                                       ^
+>> kernel/sched/alt_core.c:7517:3: error: member reference type 'int' is not a pointer
+    7517 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7496:41: note: expanded from macro 'TOPOLOGY_CPUMASK'
+    7496 |                 bitmap_complement(cpumask_bits(topo), cpumask_bits(mask),       \
+         |                                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/cpumask.h:29:39: note: expanded from macro 'cpumask_bits'
+      29 | #define cpumask_bits(maskp) ((maskp)->bits)
+         |                              ~~~~~~~  ^
+   kernel/sched/alt_core.c:7532:13: warning: no previous prototype for function 'sched_init_smp' [-Wmissing-prototypes]
+    7532 | void __init sched_init_smp(void)
+         |             ^
+   kernel/sched/alt_core.c:7532:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7532 | void __init sched_init_smp(void)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7592:13: warning: no previous prototype for function 'sched_init' [-Wmissing-prototypes]
+    7592 | void __init sched_init(void)
+         |             ^
+   kernel/sched/alt_core.c:7592:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7592 | void __init sched_init(void)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7950:20: warning: no previous prototype for function 'sched_create_group' [-Wmissing-prototypes]
+    7950 | struct task_group *sched_create_group(struct task_group *parent)
+         |                    ^
+   kernel/sched/alt_core.c:7950:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7950 | struct task_group *sched_create_group(struct task_group *parent)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7961:6: warning: no previous prototype for function 'sched_online_group' [-Wmissing-prototypes]
+    7961 | void sched_online_group(struct task_group *tg, struct task_group *parent)
+         |      ^
+   kernel/sched/alt_core.c:7961:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7961 | void sched_online_group(struct task_group *tg, struct task_group *parent)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7972:6: warning: no previous prototype for function 'sched_destroy_group' [-Wmissing-prototypes]
+    7972 | void sched_destroy_group(struct task_group *tg)
+         |      ^
+   kernel/sched/alt_core.c:7972:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7972 | void sched_destroy_group(struct task_group *tg)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7978:6: warning: no previous prototype for function 'sched_release_group' [-Wmissing-prototypes]
+    7978 | void sched_release_group(struct task_group *tg)
+         |      ^
+   kernel/sched/alt_core.c:7978:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7978 | void sched_release_group(struct task_group *tg)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:8046:5: warning: no previous prototype for function 'sched_group_set_shares' [-Wmissing-prototypes]
+    8046 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
+         |     ^
+   kernel/sched/alt_core.c:8046:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    8046 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:8116:20: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+    8116 |         .legacy_cftypes = cpu_legacy_files,
+         |                           ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8115:20: note: previous initialization is here
+    8115 |         .legacy_cftypes = cpu_files,
+         |                           ^~~~~~~~~
+   26 warnings and 17 errors generated.
 
 
-vim +6053 kernel/sched/ext.c
+vim +7515 kernel/sched/alt_core.c
 
-  5977	
-  5978	static bool scx_dispatch_from_dsq(struct bpf_iter_scx_dsq_kern *kit,
-  5979					  struct task_struct *p, u64 dsq_id,
-  5980					  u64 enq_flags)
-  5981	{
-  5982		struct scx_dispatch_q *src_dsq = kit->dsq, *dst_dsq;
-  5983		struct rq *this_rq, *src_rq, *dst_rq, *locked_rq;
-  5984		bool dispatched = false;
-  5985		bool in_balance;
-  5986		unsigned long flags;
-  5987	
-  5988		if (!scx_kf_allowed_if_unlocked() && !scx_kf_allowed(SCX_KF_DISPATCH))
-  5989			return false;
-  5990	
-  5991		/*
-  5992		 * Can be called from either ops.dispatch() locking this_rq() or any
-  5993		 * context where no rq lock is held. If latter, lock @p's task_rq which
-  5994		 * we'll likely need anyway.
-  5995		 */
-  5996		src_rq = task_rq(p);
-  5997	
-  5998		local_irq_save(flags);
-  5999		this_rq = this_rq();
-  6000		in_balance = this_rq->scx.flags & SCX_RQ_IN_BALANCE;
-  6001	
-  6002		if (in_balance) {
-  6003			if (this_rq != src_rq) {
-  6004				raw_spin_rq_unlock(this_rq);
-  6005				raw_spin_rq_lock(src_rq);
-  6006			}
-  6007		} else {
-  6008			raw_spin_rq_lock(src_rq);
-  6009		}
-  6010	
-  6011		locked_rq = src_rq;
-  6012		raw_spin_lock(&src_dsq->lock);
-  6013	
-  6014		/*
-  6015		 * Did someone else get to it? @p could have already left $src_dsq, got
-  6016		 * re-enqueud, or be in the process of being consumed by someone else.
-  6017		 */
-  6018		if (unlikely(p->scx.dsq != src_dsq ||
-  6019			     u32_before(kit->cursor.priv, p->scx.dsq_seq) ||
-  6020			     p->scx.holding_cpu >= 0) ||
-  6021		    WARN_ON_ONCE(src_rq != task_rq(p))) {
-  6022			raw_spin_unlock(&src_dsq->lock);
-  6023			goto out;
-  6024		}
-  6025	
-  6026		/* @p is still on $src_dsq and stable, determine the destination */
-  6027		dst_dsq = find_dsq_for_dispatch(this_rq, dsq_id, p);
-  6028	
-  6029		if (dst_dsq->id == SCX_DSQ_LOCAL) {
-  6030			dst_rq = container_of(dst_dsq, struct rq, scx.local_dsq);
-  6031			if (!task_can_run_on_remote_rq(p, dst_rq, true)) {
-  6032				dst_dsq = &scx_dsq_global;
-  6033				dst_rq = src_rq;
-  6034			}
-  6035		} else {
-  6036			/* no need to migrate if destination is a non-local DSQ */
-  6037			dst_rq = src_rq;
-  6038		}
-  6039	
-  6040		/*
-  6041		 * Move @p into $dst_dsq. If $dst_dsq is the local DSQ of a different
-  6042		 * CPU, @p will be migrated.
-  6043		 */
-  6044		if (dst_dsq->id == SCX_DSQ_LOCAL) {
-  6045			/* @p is going from a non-local DSQ to a local DSQ */
-  6046			if (src_rq == dst_rq) {
-  6047				task_unlink_from_dsq(p, src_dsq);
-  6048				move_local_task_to_local_dsq(p, enq_flags,
-  6049							     src_dsq, dst_rq);
-  6050				raw_spin_unlock(&src_dsq->lock);
-  6051			} else {
-  6052				raw_spin_unlock(&src_dsq->lock);
-> 6053				move_remote_task_to_local_dsq(p, enq_flags,
-  6054							      src_rq, dst_rq);
-  6055				locked_rq = dst_rq;
-  6056			}
-  6057		} else {
-  6058			/*
-  6059			 * @p is going from a non-local DSQ to a non-local DSQ. As
-  6060			 * $src_dsq is already locked, do an abbreviated dequeue.
-  6061			 */
-  6062			task_unlink_from_dsq(p, src_dsq);
-  6063			p->scx.dsq = NULL;
-  6064			raw_spin_unlock(&src_dsq->lock);
-  6065	
-  6066			if (kit->cursor.flags & __SCX_DSQ_ITER_HAS_VTIME)
-  6067				p->scx.dsq_vtime = kit->vtime;
-  6068			dispatch_enqueue(dst_dsq, p, enq_flags);
-  6069		}
-  6070	
-  6071		if (kit->cursor.flags & __SCX_DSQ_ITER_HAS_SLICE)
-  6072			p->scx.slice = kit->slice;
-  6073	
-  6074		dispatched = true;
-  6075	out:
-  6076		if (in_balance) {
-  6077			if (this_rq != locked_rq) {
-  6078				raw_spin_rq_unlock(locked_rq);
-  6079				raw_spin_rq_lock(this_rq);
-  6080			}
-  6081		} else {
-  6082			raw_spin_rq_unlock_irqrestore(locked_rq, flags);
-  6083		}
-  6084	
-  6085		kit->cursor.flags &= ~(__SCX_DSQ_ITER_HAS_SLICE |
-  6086				       __SCX_DSQ_ITER_HAS_VTIME);
-  6087		return dispatched;
-  6088	}
-  6089	
+d821e3e8509258 Alfred Chen 2019-08-19  7488  
+d821e3e8509258 Alfred Chen 2019-08-19  7489  #define TOPOLOGY_CPUMASK(name, mask, last)\
+4076e7f2335228 Alfred Chen 2021-07-10  7490  	if (cpumask_and(topo, topo, mask)) {					\
+b99c6a31af83d8 Alfred Chen 2020-12-25  7491  		cpumask_copy(topo, mask);					\
+4076e7f2335228 Alfred Chen 2021-07-10  7492  		printk(KERN_INFO "sched: cpu#%02d topo: 0x%08lx - "#name,	\
+4076e7f2335228 Alfred Chen 2021-07-10  7493  		       cpu, (topo++)->bits[0]);					\
+b99c6a31af83d8 Alfred Chen 2020-12-25  7494  	}									\
+d821e3e8509258 Alfred Chen 2019-08-19  7495  	if (!last)								\
+b73f8b552e87f0 Alfred Chen 2023-04-08  7496  		bitmap_complement(cpumask_bits(topo), cpumask_bits(mask),	\
+b73f8b552e87f0 Alfred Chen 2023-04-08  7497  				  nr_cpumask_bits);
+d821e3e8509258 Alfred Chen 2019-08-19  7498  
+d821e3e8509258 Alfred Chen 2019-08-19  7499  static void sched_init_topology_cpumask(void)
+d821e3e8509258 Alfred Chen 2019-08-19  7500  {
+d821e3e8509258 Alfred Chen 2019-08-19  7501  	int cpu;
+4076e7f2335228 Alfred Chen 2021-07-10  7502  	cpumask_t *topo;
+d821e3e8509258 Alfred Chen 2019-08-19  7503  
+d821e3e8509258 Alfred Chen 2019-08-19  7504  	for_each_online_cpu(cpu) {
+d821e3e8509258 Alfred Chen 2019-08-19  7505  		/* take chance to reset time slice for idle tasks */
+d821e3e8509258 Alfred Chen 2019-08-19  7506  		cpu_rq(cpu)->idle->time_slice = sched_timeslice_ns;
+d821e3e8509258 Alfred Chen 2019-08-19  7507  
+b99c6a31af83d8 Alfred Chen 2020-12-25  7508  		topo = per_cpu(sched_cpu_topo_masks, cpu) + 1;
+82f4452315a839 Alfred Chen 2020-11-09  7509  
+b73f8b552e87f0 Alfred Chen 2023-04-08  7510  		bitmap_complement(cpumask_bits(topo), cpumask_bits(cpumask_of(cpu)),
+b73f8b552e87f0 Alfred Chen 2023-04-08  7511  				  nr_cpumask_bits);
+d821e3e8509258 Alfred Chen 2019-08-19  7512  #ifdef CONFIG_SCHED_SMT
+d821e3e8509258 Alfred Chen 2019-08-19  7513  		TOPOLOGY_CPUMASK(smt, topology_sibling_cpumask(cpu), false);
+d821e3e8509258 Alfred Chen 2019-08-19  7514  #endif
+d821e3e8509258 Alfred Chen 2019-08-19 @7515  		per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+b99c6a31af83d8 Alfred Chen 2020-12-25  7516  		per_cpu(sched_cpu_llc_mask, cpu) = topo;
+d821e3e8509258 Alfred Chen 2019-08-19 @7517  		TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+d821e3e8509258 Alfred Chen 2019-08-19  7518  
+d821e3e8509258 Alfred Chen 2019-08-19  7519  		TOPOLOGY_CPUMASK(core, topology_core_cpumask(cpu), false);
+d821e3e8509258 Alfred Chen 2019-08-19  7520  
+d821e3e8509258 Alfred Chen 2019-08-19  7521  		TOPOLOGY_CPUMASK(others, cpu_online_mask, true);
+d821e3e8509258 Alfred Chen 2019-08-19  7522  
+4076e7f2335228 Alfred Chen 2021-07-10  7523  		per_cpu(sched_cpu_topo_end_mask, cpu) = topo;
+617d32624ea559 Alfred Chen 2020-11-03  7524  		printk(KERN_INFO "sched: cpu#%02d llc_id = %d, llc_mask idx = %d\n",
+617d32624ea559 Alfred Chen 2020-11-03  7525  		       cpu, per_cpu(sd_llc_id, cpu),
+617d32624ea559 Alfred Chen 2020-11-03  7526  		       (int) (per_cpu(sched_cpu_llc_mask, cpu) -
+b99c6a31af83d8 Alfred Chen 2020-12-25  7527  			      per_cpu(sched_cpu_topo_masks, cpu)));
+d821e3e8509258 Alfred Chen 2019-08-19  7528  	}
+d821e3e8509258 Alfred Chen 2019-08-19  7529  }
+d821e3e8509258 Alfred Chen 2019-08-19  7530  #endif
+d821e3e8509258 Alfred Chen 2019-08-19  7531  
+
+:::::: The code at line 7515 was first introduced by commit
+:::::: d821e3e85092581709b1b5f9ab8cacf0ce70c1a8 Project C v5.7.5-r2
+
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
