@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54770152166;
-	Tue, 24 Sep 2024 08:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B086F1537D9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 08:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727166986; cv=none; b=ejPnQ1NhpvcQmk6G7oskjoHWTghjRq8K1uyNNowWahwfeO2DTWRVBl7Xszgc3R5lKtU2WI0zcWIWpsKflNNuf2b4Gppyms5Silx1GM4xrZJxhXbRMRfZUzGNMUmopXiDVcAKBy7u623GsLVWCnelznRxpi80dxTit5q5iKc8Utw=
+	t=1727167572; cv=none; b=DQh+F27s53C8g8G3MBP6XU0iB3eUNuBd7l9Qs3aX7pSWfIcRyDaGhfA21qVdOD75jCxjDdzEXJ7bnraZ8n6vGHFqhrkO2gjGLuUIvJRIQZDcQDkGgNU6co1T1dr1oS4YuwRQ7DW/Ofbhr2EhjrSCsQbeKAUMDt/2E9T7QTaEHsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727166986; c=relaxed/simple;
-	bh=PvzIDLbN8wYzUdxseQkJ7a5/7NPNZ7NDS7H743Xb3Q8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4+z4XJtt0cbyqIEJzTDBrT5w43fXtzQC9bkOSOieOOxeeS2fhKosBCIvRu8vHwYC2hGPC4rofNDpW70M8pGmMPpnOnZ7TrbrF7xAa0A70nWWrbdFTMMn5DM6cG1a3aRKruloZNjemz0Y6bC7sIu90YriQPQsvp72V7Mo+NLdjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXqFu27e; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1727167572; c=relaxed/simple;
+	bh=Ce69RvO5h0xWZhvC2+Rg6PshsL5YrP6R63bLK1StmlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=CgPdRwJc6l5iL09/we0xCC0OYn/VJ/GH3R/shBTljvGmMVkCIUVzxnTy80g/F0qYnv0FPbyr8M0fBJfLbk67PrSNkGNB7O/Lbgs/4RHRmIW9gVQbVeqr8m47vC/S9cAcBdxTFOYkLbk5Nigy6JwQ1UNapQDO9RkqKGsevu9mUxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WkTe3WzG; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXqFu27e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WkTe3WzG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727166984; x=1758702984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PvzIDLbN8wYzUdxseQkJ7a5/7NPNZ7NDS7H743Xb3Q8=;
-  b=SXqFu27esVJf3MhtvUUmsWc2x33m999OJY9n7f+Jx3lMcjyZR16IfNC+
-   UiDCgIKsowjICkuABtaGR+9+jLF8ODxo8fLofeWd4gSaIV/36khYohWxx
-   bU0k5t28FlGgufmbdUqISPh2fM3CnM0jp+QICAr12Ni4hFXIOtcA61mvb
-   j6ZCR1vWUqRMivhCtvT6fuZVKFaK8ly/nLK690/JMZOUHHqqZjGqiPKZv
-   p1mOA9F7dPqsXH1X4JmcdZJ9fMvZ4hnHTmmiWECdEAcFkXnyWmWNgXwN1
-   HMirvom8tULzd+WdHd/JmMljqHa53VhblQGPhz0TqugxOGpzl4xG8kucq
-   A==;
-X-CSE-ConnectionGUID: EROJGAU/RH+XFcaMgS2iHQ==
-X-CSE-MsgGUID: f0xubNdDRwC5dN11fWmhqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26265855"
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="26265855"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 01:36:14 -0700
-X-CSE-ConnectionGUID: mR6sbNqWTsmmqkMgOlNOkQ==
-X-CSE-MsgGUID: +RdeeoJkSHCaXSPHQDPqUA==
+  t=1727167571; x=1758703571;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Ce69RvO5h0xWZhvC2+Rg6PshsL5YrP6R63bLK1StmlY=;
+  b=WkTe3WzGN0zvtMoRMX3CiC5DUjFcV3p3PcoehVh/7rRUTqDn0TwVPnZ/
+   /yMS/ehDaSA46jlVQ6xIr2ItO8oAOEZRF++C3m52syOwdSlqX+2bIa4um
+   ebnBWGacWdxUsZDHkKABxQXTL+yoURObScJPiwWstpHFOX8r9DrjBlh2C
+   HVAYIqgzDRbIZLHLA5oNHd1PtXfbXlXcHVxjWTf9X3mbtCvmuyXkXklmh
+   IpjgwOjmj87W0jd3st6rwjuTSUrMuEJ02LhaW57fn9HvJAZLM40OOvKgO
+   6M6WAOR9xsN5yx2ufDutFGZjkDfPdF54+Hm+EJ3i+Iho46ZYNorP6ozQ5
+   w==;
+X-CSE-ConnectionGUID: 2XsgFr4RSZa/OAn17toOqQ==
+X-CSE-MsgGUID: RpR/ONmHTlKyXW0+BKWL3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26242903"
+X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
+   d="scan'208";a="26242903"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 01:46:10 -0700
+X-CSE-ConnectionGUID: N0Azc3ZLRKWQoTzs/Bfavw==
+X-CSE-MsgGUID: /8cJdfqpTN2nkk5bJ6BK9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="76114021"
+   d="scan'208";a="75869777"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Sep 2024 01:36:09 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Sep 2024 01:46:09 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st11i-000I7N-1b;
-	Tue, 24 Sep 2024 08:36:06 +0000
-Date: Tue, 24 Sep 2024 16:35:51 +0800
+	id 1st1BO-000I7x-2V;
+	Tue, 24 Sep 2024 08:46:06 +0000
+Date: Tue, 24 Sep 2024 16:45:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: yushengjin <yushengjin@uniontech.com>, pablo@netfilter.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kadlec@netfilter.org, roopa@nvidia.com, razor@blackwall.org,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, bridge@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	yushengjin <yushengjin@uniontech.com>
-Subject: Re: [PATCH v2] net/bridge: Optimizing read-write locks in ebtables.c
-Message-ID: <202409241627.NkoKxMEE-lkp@intel.com>
-References: <2860814445452DE8+20240924022437.119730-1-yushengjin@uniontech.com>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCHv2] usb: yurex: make waiting on yurex_write interruptible
+Message-ID: <ZvJ8I9B3nIMpWGnY@5849f93d069a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,263 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2860814445452DE8+20240924022437.119730-1-yushengjin@uniontech.com>
+In-Reply-To: <20240924084415.300557-1-oneukum@suse.com>
 
-Hi yushengjin,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on netfilter-nf/main]
-[also build test ERROR on horms-ipvs/master linus/master v6.11 next-20240924]
-[cannot apply to nf-next/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/yushengjin/net-bridge-Optimizing-read-write-locks-in-ebtables-c/20240924-102547
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/2860814445452DE8%2B20240924022437.119730-1-yushengjin%40uniontech.com
-patch subject: [PATCH v2] net/bridge: Optimizing read-write locks in ebtables.c
-config: mips-bmips_stb_defconfig (https://download.01.org/0day-ci/archive/20240924/202409241627.NkoKxMEE-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241627.NkoKxMEE-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241627.NkoKxMEE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from net/bridge/netfilter/ebtables.c:17:
-   In file included from include/linux/netfilter/x_tables.h:6:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/mips/include/asm/cacheflush.h:13:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/bridge/netfilter/ebtables.c:1006:16: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1006 |                 s = &per_cpu(ebt_recseq, cpu);
-         |                              ^~~~~~~~~~
-         |                              xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:235:20: note: expanded from macro 'per_cpu_ptr'
-     235 |         __verify_pcpu_ptr(ptr);                                         \
-         |                           ^
-   include/linux/percpu-defs.h:219:47: note: expanded from macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
->> net/bridge/netfilter/ebtables.c:1006:16: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1006 |                 s = &per_cpu(ebt_recseq, cpu);
-         |                              ^~~~~~~~~~
-         |                              xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |                           ^
-   include/linux/percpu-defs.h:231:23: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |                              ^
-   include/linux/compiler.h:177:31: note: expanded from macro 'RELOC_HIDE'
-     177 |      __ptr = (unsigned long) (ptr);                             \
-         |                               ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
->> net/bridge/netfilter/ebtables.c:1006:16: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1006 |                 s = &per_cpu(ebt_recseq, cpu);
-         |                              ^~~~~~~~~~
-         |                              xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |                           ^
-   include/linux/percpu-defs.h:231:49: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |                                                        ^
-   include/linux/compiler.h:177:31: note: expanded from macro 'RELOC_HIDE'
-     177 |      __ptr = (unsigned long) (ptr);                             \
-         |                               ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
->> net/bridge/netfilter/ebtables.c:1006:16: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1006 |                 s = &per_cpu(ebt_recseq, cpu);
-         |                              ^~~~~~~~~~
-         |                              xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |                           ^
-   include/linux/percpu-defs.h:231:23: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |                              ^
-   include/linux/compiler.h:178:13: note: expanded from macro 'RELOC_HIDE'
-     178 |     (typeof(ptr)) (__ptr + (off)); })
-         |             ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
->> net/bridge/netfilter/ebtables.c:1006:16: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1006 |                 s = &per_cpu(ebt_recseq, cpu);
-         |                              ^~~~~~~~~~
-         |                              xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |                           ^
-   include/linux/percpu-defs.h:231:49: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |                                                        ^
-   include/linux/compiler.h:178:13: note: expanded from macro 'RELOC_HIDE'
-     178 |     (typeof(ptr)) (__ptr + (off)); })
-         |             ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
-   net/bridge/netfilter/ebtables.c:1111:28: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1111 |                 seqcount_t *s = &per_cpu(ebt_recseq, cpu);
-         |                                          ^~~~~~~~~~
-         |                                          xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:235:20: note: expanded from macro 'per_cpu_ptr'
-     235 |         __verify_pcpu_ptr(ptr);                                         \
-         |                           ^
-   include/linux/percpu-defs.h:219:47: note: expanded from macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
-   net/bridge/netfilter/ebtables.c:1111:28: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1111 |                 seqcount_t *s = &per_cpu(ebt_recseq, cpu);
-         |                                          ^~~~~~~~~~
-         |                                          xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |                           ^
-   include/linux/percpu-defs.h:231:23: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |                              ^
-   include/linux/compiler.h:177:31: note: expanded from macro 'RELOC_HIDE'
-     177 |      __ptr = (unsigned long) (ptr);                             \
-         |                               ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
-   net/bridge/netfilter/ebtables.c:1111:28: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1111 |                 seqcount_t *s = &per_cpu(ebt_recseq, cpu);
-         |                                          ^~~~~~~~~~
-         |                                          xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |                           ^
-   include/linux/percpu-defs.h:231:49: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |                                                        ^
-   include/linux/compiler.h:177:31: note: expanded from macro 'RELOC_HIDE'
-     177 |      __ptr = (unsigned long) (ptr);                             \
-         |                               ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
-   net/bridge/netfilter/ebtables.c:1111:28: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1111 |                 seqcount_t *s = &per_cpu(ebt_recseq, cpu);
-         |                                          ^~~~~~~~~~
-         |                                          xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |                           ^
-   include/linux/percpu-defs.h:231:23: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |                              ^
-   include/linux/compiler.h:178:13: note: expanded from macro 'RELOC_HIDE'
-     178 |     (typeof(ptr)) (__ptr + (off)); })
-         |             ^
-   include/linux/netfilter/x_tables.h:346:29: note: 'xt_recseq' declared here
-     346 | DECLARE_PER_CPU(seqcount_t, xt_recseq);
-         |                             ^
-   net/bridge/netfilter/ebtables.c:1111:28: error: use of undeclared identifier 'ebt_recseq'; did you mean 'xt_recseq'?
-    1111 |                 seqcount_t *s = &per_cpu(ebt_recseq, cpu);
-         |                                          ^~~~~~~~~~
-         |                                          xt_recseq
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:236:20: note: expanded from macro 'per_cpu_ptr'
-     236 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-
-
-vim +1006 net/bridge/netfilter/ebtables.c
-
-   987	
-   988	
-   989	static void get_counters(const struct ebt_counter *oldcounters,
-   990				 struct ebt_counter *counters, unsigned int nentries)
-   991	{
-   992		int i, cpu;
-   993		struct ebt_counter *counter_base;
-   994		seqcount_t *s;
-   995	
-   996		/* counters of cpu 0 */
-   997		memcpy(counters, oldcounters,
-   998		       sizeof(struct ebt_counter) * nentries);
-   999	
-  1000		/* add other counters to those of cpu 0 */
-  1001		for_each_possible_cpu(cpu) {
-  1002	
-  1003			if (cpu == 0)
-  1004				continue;
-  1005	
-> 1006			s = &per_cpu(ebt_recseq, cpu);
-  1007			counter_base = COUNTER_BASE(oldcounters, nentries, cpu);
-  1008			for (i = 0; i < nentries; i++) {
-  1009				u64 bcnt, pcnt;
-  1010				unsigned int start;
-  1011	
-  1012				do {
-  1013					start = read_seqcount_begin(s);
-  1014					bcnt = counter_base[i].bcnt;
-  1015					pcnt = counter_base[i].pcnt;
-  1016				} while (read_seqcount_retry(s, start));
-  1017	
-  1018				ADD_COUNTER(counters[i], bcnt, pcnt);
-  1019				cond_resched();
-  1020			}
-  1021		}
-  1022	}
-  1023	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCHv2] usb: yurex: make waiting on yurex_write interruptible
+Link: https://lore.kernel.org/stable/20240924084415.300557-1-oneukum%40suse.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
