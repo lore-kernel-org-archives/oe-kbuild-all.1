@@ -1,63 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769F818D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 01:09:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81DB1B85DF;
+	Tue, 24 Sep 2024 01:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727140198; cv=none; b=ZRpYp5myyGUe9p9Gv/zwV0FdYRtajY1uRa0M0HKoW65HLGjt14RXBbGt1xhqeenyI5cKHY4o5yv7wDRGDIqA6Yxb3No3FdcTt042loHj3ElZQuPbe70faDbhTYSHErZioVjlZZ2HauY+ijbTPsrCJ4AuEMedLTGabu5gbiG/vZs=
+	t=1727140200; cv=none; b=jr5GGy4Y8ddZrpktnw6n9/ScyKr+jrUTnQFv9ibLK5WlZMBNYevfcCg6As9IbwAROzhtS8Zp6JGOQa8I1XAvwPMdekIexqlGDyGnk8wgLQcFRH+WNHDUauIyZHTFHcDQDzQJCkksmrCfO67XfXGAw5rfSHTVfiEupBoJNb2wt8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727140198; c=relaxed/simple;
-	bh=zGYvZljthCA1qnUBKZqpkFlUowWVQ0Ujn9tZalVnIcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P+nLvuWUMdvbQvYimvHvMwmkK7ECmHJzb7HgkZGUJcVG1vwZam19vJEK0qiX80SP3LvZxPQJV4m78b0/NZYRA5b7MwApcbmilh34/XiNNjkiXFnE9ytlbo7pYi3AeLBJdeOHLkCQEvy561UKc9zbxf5ZmqGlEJ/z5j3WJrch/v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WWX/RV/8; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1727140200; c=relaxed/simple;
+	bh=moV2zLeHFU9ICjjabYswCIKJ83Q3EhyizzysDPkZHb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=neG5ZlntIwgScQnYK2BfkIOLQSbTbK43mzIaQwt+rtj4/9IX+jNK+QYxfHUZOuUs52P7kG5IgPcC3g4XN2+goYlxMvheQZ06kSsecvhrYaPUr89iheSX9PLZQCognJNEpGmpIQVgZOOGBqIlyAwqjsWjyiz/boBtGroCWGy2vZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cb81UliD; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WWX/RV/8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cb81UliD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727140196; x=1758676196;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zGYvZljthCA1qnUBKZqpkFlUowWVQ0Ujn9tZalVnIcw=;
-  b=WWX/RV/8TTO4Yu9I1cAt7K07D8hnOYoZ39jqJVnjLDW+gY7GaCOsgHtr
-   kYYjtzNaDeQloQIQeQfVndqdXwpEVGYTqzJCz+i1DMvWqqzuCbBbZWihU
-   Dqm8Uc2j7c0HhXH0L1ZI/puk2+mTabJFLdZUwOJi3KgW4Yhgie7V8+NTQ
-   s1ZgisIW/X8vy2uHsDXnYsSBTNe6JP8XouRUUn9nkbfAKeXnEnsU4u/6f
-   l/AHy2JgF2GCDg/IPyBjiDgz10mqYWxpo57XNPW6MRfFwUjnF3G3m5jnC
-   bRMVMn1XWdigGGezCXkUjfvFRYefa2XlaVBc+3X1IrLdOnuOxcl6lIgmU
-   g==;
-X-CSE-ConnectionGUID: Kz7GwO11QU2/eZkQ5LoyHQ==
-X-CSE-MsgGUID: S/Ma1Lh4Q5OwKgLvPvvJBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37479255"
+  t=1727140199; x=1758676199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=moV2zLeHFU9ICjjabYswCIKJ83Q3EhyizzysDPkZHb4=;
+  b=cb81UliDYNT4Ijozg+6ZSMvQobG7M38yRAhu3UUZ2C+uUIl0D/5d00/K
+   p599ac1EpLvsvgFiu2ruNJWro98QejE7I07LQr7ymw6c6MZOMpaBf2nfN
+   oQ2Ve9yG12f/vjsXzhV5l85JPl/KTDOblfj/qn4Xttge2dY7grDuu0LMJ
+   sp7sJt1NkufIZeHibw4/aI8pw6TWfFWNS+Aoml8JOlxC1Eofz8lAHAp2G
+   pDEdN7dP5nRiQfLKLfQUjL/YMHjpL8uM0UgfF+CoP6vVEOOLy8hJ9BIQO
+   mceQA6ub2FMcsRt0lf/P5jYQPBH2/hZ2S/Q4U8+w9yH1LwKslWwjjG9kD
+   A==;
+X-CSE-ConnectionGUID: lHYQ0jsYQQap53IjHomPNA==
+X-CSE-MsgGUID: PJtxb6EoTGqftIvtNIwf8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37479258"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="37479255"
+   d="scan'208";a="37479258"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 18:09:55 -0700
-X-CSE-ConnectionGUID: XjHB3NmhTieToZcTSTFTwQ==
-X-CSE-MsgGUID: Rm1qnDEoTZG4elkNjdWbVA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 18:09:56 -0700
+X-CSE-ConnectionGUID: zxpuOZbGTD+sVOcZfs4p5A==
+X-CSE-MsgGUID: 0LmOncA4T92wi79gKfhj1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="71292998"
+   d="scan'208";a="71292986"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Sep 2024 18:09:53 -0700
+  by orviesa009.jf.intel.com with ESMTP; 23 Sep 2024 18:09:52 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssu3p-000HlR-2j;
+	id 1ssu3p-000HlT-2m;
 	Tue, 24 Sep 2024 01:09:49 +0000
-Date: Tue, 24 Sep 2024 09:09:07 +0800
+Date: Tue, 24 Sep 2024 09:09:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1010/2441]
- kernel/dma/mapping.c:557:72: error: macro "alloc_pages" passed 5 arguments,
- but takes just 2
-Message-ID: <202409240901.O2by61Zq-lkp@intel.com>
+To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
+	p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	jitao.shi@mediatek.com, mac.shen@mediatek.com,
+	peng.liu@mediatek.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v1 1/1] drm/mediatek: dp: Add sdp path reset
+Message-ID: <202409240818.3cqdkw5o-lkp@intel.com>
+References: <20240923133610.23728-1-liankun.yang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,78 +69,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240923133610.23728-1-liankun.yang@mediatek.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: 0764432a5ada7a09ce36b0e980ec40340fae2a30 [1010/2441] dma-mapping: add a new dma_alloc_pages API
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240924/202409240901.O2by61Zq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240901.O2by61Zq-lkp@intel.com/reproduce)
+Hi Liankun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pza/reset/next]
+[also build test ERROR on linus/master v6.11 next-20240923]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Liankun-Yang/drm-mediatek-dp-Add-sdp-path-reset/20240923-213747
+base:   https://git.pengutronix.de/git/pza/linux reset/next
+patch link:    https://lore.kernel.org/r/20240923133610.23728-1-liankun.yang%40mediatek.com
+patch subject: [PATCH v1 1/1] drm/mediatek: dp: Add sdp path reset
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409240818.3cqdkw5o-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240818.3cqdkw5o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409240901.O2by61Zq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409240818.3cqdkw5o-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/dma/mapping.c:10:
-   include/linux/dma-direct.h:87:7: error: conflicting types for 'dma_direct_alloc_pages'; have 'void *(struct device *, size_t,  dma_addr_t *, gfp_t,  long unsigned int)' {aka 'void *(struct device *, long unsigned int,  long long unsigned int *, unsigned int,  long unsigned int)'}
-      87 | void *dma_direct_alloc_pages(struct device *dev, size_t size,
-         |       ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-direct.h:82:14: note: previous declaration of 'dma_direct_alloc_pages' with type 'struct page *(struct device *, size_t,  dma_addr_t *, enum dma_data_direction,  gfp_t)' {aka 'struct page *(struct device *, long unsigned int,  long long unsigned int *, enum dma_data_direction,  unsigned int)'}
-      82 | struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
-         |              ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-direct.h:89:6: error: conflicting types for 'dma_direct_free_pages'; have 'void(struct device *, size_t,  void *, dma_addr_t,  long unsigned int)' {aka 'void(struct device *, long unsigned int,  void *, long long unsigned int,  long unsigned int)'}
-      89 | void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-direct.h:84:6: note: previous declaration of 'dma_direct_free_pages' with type 'void(struct device *, size_t,  struct page *, dma_addr_t,  enum dma_data_direction)' {aka 'void(struct device *, long unsigned int,  struct page *, long long unsigned int,  enum dma_data_direction)'}
-      84 | void dma_direct_free_pages(struct device *dev, size_t size,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/mapping.c: In function 'dma_alloc_pages':
->> kernel/dma/mapping.c:557:72: error: macro "alloc_pages" passed 5 arguments, but takes just 2
-     557 |                 page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
-         |                                                                        ^
-   In file included from include/linux/mm.h:10,
-                    from include/linux/memblock.h:13,
-                    from kernel/dma/mapping.c:8:
-   include/linux/gfp.h:540: note: macro "alloc_pages" defined here
-     540 | #define alloc_pages(gfp_mask, order) \
-         | 
->> kernel/dma/mapping.c:557:22: error: assignment to 'struct page *' from incompatible pointer type 'struct page * (*)(struct device *, size_t,  dma_addr_t *, enum dma_data_direction,  gfp_t)' {aka 'struct page * (*)(struct device *, long unsigned int,  long long unsigned int *, enum dma_data_direction,  unsigned int)'} [-Werror=incompatible-pointer-types]
-     557 |                 page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
-         |                      ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpu/drm/mediatek/mtk_dp.c:9:
+   In file included from include/drm/display/drm_dp_helper.h:27:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:39:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/mediatek/mtk_dp.c:1058:5: error: use of undeclared identifier 'SDP_RESET_SW_DP_ENC0_P0'
+    1058 |                                 SDP_RESET_SW_DP_ENC0_P0,
+         |                                 ^
+   drivers/gpu/drm/mediatek/mtk_dp.c:1059:5: error: use of undeclared identifier 'SDP_RESET_SW_DP_ENC0_P0'
+    1059 |                                 SDP_RESET_SW_DP_ENC0_P0);
+         |                                 ^
+   drivers/gpu/drm/mediatek/mtk_dp.c:1064:8: error: use of undeclared identifier 'SDP_RESET_SW_DP_ENC0_P0'
+    1064 |                                 0, SDP_RESET_SW_DP_ENC0_P0);
+         |                                    ^
+   4 warnings and 3 errors generated.
 
 
-vim +/alloc_pages +557 kernel/dma/mapping.c
+vim +/SDP_RESET_SW_DP_ENC0_P0 +1058 drivers/gpu/drm/mediatek/mtk_dp.c
 
-   541	
-   542	struct page *dma_alloc_pages(struct device *dev, size_t size,
-   543			dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-   544	{
-   545		const struct dma_map_ops *ops = get_dma_ops(dev);
-   546		struct page *page;
-   547	
-   548		if (WARN_ON_ONCE(!dev->coherent_dma_mask))
-   549			return NULL;
-   550		if (WARN_ON_ONCE(gfp & (__GFP_DMA | __GFP_DMA32 | __GFP_HIGHMEM)))
-   551			return NULL;
-   552	
-   553		size = PAGE_ALIGN(size);
-   554		if (dma_alloc_direct(dev, ops))
-   555			page = dma_direct_alloc_pages(dev, size, dma_handle, dir, gfp);
-   556		else if (ops->alloc_pages)
- > 557			page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
-   558		else
-   559			return NULL;
-   560	
-   561		debug_dma_map_page(dev, page, 0, size, dir, *dma_handle);
-   562	
-   563		return page;
-   564	}
-   565	EXPORT_SYMBOL_GPL(dma_alloc_pages);
-   566	
+  1054	
+  1055	static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
+  1056	{
+  1057		mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
+> 1058					SDP_RESET_SW_DP_ENC0_P0,
+  1059					SDP_RESET_SW_DP_ENC0_P0);
+  1060	
+  1061		/* Wait for sdp path reset to complete */
+  1062		usleep_range(1000, 5000);
+  1063		mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
+  1064					0, SDP_RESET_SW_DP_ENC0_P0);
+  1065	}
+  1066	
 
 -- 
 0-DAY CI Kernel Test Service
