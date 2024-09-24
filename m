@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5B61547E7;
-	Tue, 24 Sep 2024 08:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8BB1547E2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 08:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727168234; cv=none; b=ld+6ciMkBk6vn8GFkKd2gqc72i9jrpYbU2rLTM93hZqvpLeI2WMSC1zSG1gspAffvsnkvPFRYRZa5C1daQqFB9I/cdH0re8/cdla7kDaBoZJI3pxarTVIm+gxvtPhZr8hUYmVFyepuU7GttOdqn/MHW1vt+eItMqTVkSQMBtxto=
+	t=1727168235; cv=none; b=SzNs8buhbeydHTozjLjChg+VXgwU0/9Aw+6p0lMqfgVFwBZJVNRCDS7NT8rM/fMn5MyRfKaN0XfFIpT6FvgY1NtKQv1ftiBAeL78CwYl16a/i47TOlM4w8raq1GlHVd/1uDqdY3raTIT7btL7PD4lz/8DDHfEH5Oy6ms5WqALH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727168234; c=relaxed/simple;
-	bh=c5V/FhKYmN/NiWbuZqcPh2gHFeHCO0C+1fUnB5C/rZQ=;
+	s=arc-20240116; t=1727168235; c=relaxed/simple;
+	bh=U1ss8//5WJtkxBEK/nqS3lDObtNdWjlSKvB2d69XIc4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jw/L5d2IZ+Rf9QwpaLUDVsJmTTATovd0NrBYrTDyrVAwmA5RLEVqxNjXBIRFxhl+KvuGvp9wSQgVJHpBy914K9tbIGoAkKWQRUfTm4MfIbfRx7x8iPo9KTV2vvk8EffzzlEPERhXKB15jyvK7bfNteQ7M8ncrg2FKsGj6KEZU1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BXjOowxZ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=tbjCZuK3Pv/trgdM6Lgpja+e4RvmhVHS2+CsB+KXL2zz79J3/6eYvFnloQ7Rpp+YniDM4NHs9U5BrU8vVYxxWiG/akuC5xDHZo2LiLmRvbpfbdpnuXGmNBSzPM3ubw7WNzA8tnLjoTVKw8Hu6ofDMHsMcZVbCS80tF3EHONnkj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VPGsfWl9; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BXjOowxZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VPGsfWl9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727168233; x=1758704233;
+  t=1727168234; x=1758704234;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c5V/FhKYmN/NiWbuZqcPh2gHFeHCO0C+1fUnB5C/rZQ=;
-  b=BXjOowxZdVEsBOAvRnTqBHXwcFYRu3zGFVM0tLYMEsIO2kgXarCn+LwM
-   PFUakVSLcxRAZ11ioMMeDKs6BwmQxbyd3KE4uJ3MLBkYoBj6yDeuOomil
-   ezWNYuzdfIg+IgrF6kWZnYrITq2Vro0oY2whHJxq0z0EoGcJGorlUogJB
-   Z0MEW7KbyXk6VNaj6Io1ZF9y1e+S6pDm3kACTj6zkd+bW7wbB+KojWw2S
-   AZH8uYbBoXr+2OEuNgMh90k7UI79sn1a2XdZh8GvveOex4ZT161axD5NS
-   5wfThHAhFz152e4xX8caOXg7H7bB/f+jDn4gHkjXi8u5giUzo+4kkGeUI
-   w==;
-X-CSE-ConnectionGUID: RTHwILYcRXqmIJaEaVlfTA==
-X-CSE-MsgGUID: TBfGHULuR4mc1bgZP8Rugw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="48681196"
+  bh=U1ss8//5WJtkxBEK/nqS3lDObtNdWjlSKvB2d69XIc4=;
+  b=VPGsfWl9Y/wLYsCn1c9EGnEsxkpR+ibhNE4MoGmsldMFrm8pSmE3lL8U
+   BZf76RU4hI6p4ILfS4V+zmlo+9DJMzstIZYPkifNeVyGPgXX/JZzw12P/
+   D45DCEj6PYI1hzZqPZzgm177+3stScugBZAWXiYmJG46phZd7lAzjFB4Q
+   1oQ50z8kMNwtbDpZDEITNkXB072LcgJ8yTaFxT/d7RDOX/y1kmpXuAw69
+   i7cS19RJ9AS0bc3f027D/NbiNgh5MOnbtxKRugEPECuh6lYLpHE0mWB+y
+   5FPNESzR3x1tToz8T6wBJ0/82RsMsrpUEmWAju1SF4PVpJMnOeJ9Nzy+b
+   Q==;
+X-CSE-ConnectionGUID: 1hpT6d7QTEeWusE3PeZRcA==
+X-CSE-MsgGUID: Rw97ARTXRo+q/zJKGCpZZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="48681200"
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="48681196"
+   d="scan'208";a="48681200"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 01:57:11 -0700
-X-CSE-ConnectionGUID: 9rvvElBZQwacdskS1TqtvA==
-X-CSE-MsgGUID: xVhQmANoShub5WDLAIn3Vw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 01:57:13 -0700
+X-CSE-ConnectionGUID: F2ardt+pQXW2Cvl1oKzJpg==
+X-CSE-MsgGUID: nWcILfPBTc+D3prPCaddrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="108802264"
+   d="scan'208";a="108802286"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 24 Sep 2024 01:57:10 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st1M3-000I8l-0Q;
+	id 1st1M3-000I8u-0k;
 	Tue, 24 Sep 2024 08:57:07 +0000
-Date: Tue, 24 Sep 2024 16:56:58 +0800
+Date: Tue, 24 Sep 2024 16:57:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:asahi 2767/2965] error[E0599]: no function or associated
- item named `new_with_class` found for struct `Lock` in the current scope
-Message-ID: <202409241627.RpTCQos9-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1434/2441]
+ drivers/iommu/ioasid.c:527: warning: Cannot understand  * @brief Free an
+ ioasid_set if empty. Restore pending notification list.
+Message-ID: <202409241646.pzgC4plP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,32 +67,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux asahi
-head:   3416d14cd345b3311b6020714a3bfad7f3dc8b58
-commit: 8bf419c887bc5cf6785503b7436ef4328d94702e [2767/2965] rust: sync: Classless Lock::new() and pin_init()
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240924/202409241627.RpTCQos9-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241627.RpTCQos9-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   63759dec7a1be60e43e98e4257de936b546e4656
+commit: dc05c36e47d0a11399068744f5c60658b58a2929 [1434/2441] iommu/ioasid: Redefine IOASID set and allocation APIs
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240924/202409241646.pzgC4plP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241646.pzgC4plP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241627.RpTCQos9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241646.pzgC4plP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0599]: no function or associated item named `new_with_class` found for struct `Lock` in the current scope
-   --> rust/doctests_kernel_generated.rs:3949:18
-   |
-   3949 |             d <- new_spinlock!(Inner { a: 20, b: 30 }),
-   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ function or associated item not found in `Lock<_, SpinLockBackend>`
-   |
-   = note: this error originates in the macro `new_spinlock` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: there is an associated function `new_with_key` with a similar name
-   -->  rust/kernel/sync/lock/spinlock.rs:14:33
-   |
-   14   |         $crate::sync::SpinLock::new_with_key(
-   |                                 ~~~~~~~~~~~~
+   drivers/iommu/ioasid.c:280: warning: Cannot understand  * @brief Reserve capacity from the system pool
+    on line 280 - I thought it was a doc line
+   drivers/iommu/ioasid.c:307: warning: Cannot understand  * @brief Return capacity to the system pool
+    on line 307 - I thought it was a doc line
+>> drivers/iommu/ioasid.c:527: warning: Cannot understand  * @brief Free an ioasid_set if empty. Restore pending notification list.
+    on line 527 - I thought it was a doc line
+
+
+vim +527 drivers/iommu/ioasid.c
+
+   525	
+   526	/**
+ > 527	 * @brief Free an ioasid_set if empty. Restore pending notification list.
+   528	 *
+   529	 * @param set to be freed
+   530	 * @return
+   531	 */
+   532	int ioasid_set_free(struct ioasid_set *set)
+   533	{
+   534		int ret = 0;
+   535	
+   536		spin_lock(&ioasid_allocator_lock);
+   537		ret = ioasid_set_free_locked(set);
+   538		spin_unlock(&ioasid_allocator_lock);
+   539		return ret;
+   540	}
+   541	EXPORT_SYMBOL_GPL(ioasid_set_free);
+   542	
 
 -- 
 0-DAY CI Kernel Test Service
