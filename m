@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E081A726D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 14:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38B01A76A6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 15:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727187988; cv=none; b=RBEGPp1NH8jzG+wQeJ7KSR21c5Z58oskACfso2ypMhmqfNDfdr438Gph9cuFsIpVCMwocFEMOiIQc6zJqRtMYlsZxmZTKeUUEYPzT6iSSu0Xw7KZWDzEgzeet4hqSoQlcNzBVM2m8s2L8F6fBIZGXCQ5Qsf6WSAQwN0nww0D3Q4=
+	t=1727190448; cv=none; b=YuWcuKgTGgE5I5aAOW+7MP7kV0K8FeTy67Xxz9ADFdNT2apMpmOx/izbjMHEWafIlD+xEF+PzZyw5jnUMFd69ZHFhjySvs19XpuWAbRCu9nsdxmbD9ZEeztJvwF1co4Dz5qCK+sU7nWIEuFE7jk2VSXpp6nUQKU0yvIlaI2yu48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727187988; c=relaxed/simple;
-	bh=3LMJAcYxJNKHurl6O+d8ujdKU3DOW4RVDMS0/cpf8Q8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=afP4qHyTW4Mf1vcQn7HJ9lHOPLQU3nk/5QbNTrOskQ8QkrnnNxlxn49Zk8yULK0uW0hly4Wl0NG5yQXB1FWaUvdkdsQWs1AAD+1qMplNrKgEOJ1a1Z9WG+Pmwc5xwhDutdN0ahb0Yq/1bOBz91dzUWXVd7RQpsGh/bWqqTM4opI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ATwzjEXr; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1727190448; c=relaxed/simple;
+	bh=kATl7V87QdChzLtPnK/t+I6IE7XjFqPl1Kc31zJmz00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KX7aHBSBAvpgMKxRkbSt+EdU+WCHyRmZ8LxoS0mvb9QDwMVWO5w2epG3RbPJYoxB1PPMb6RhubLMe0oAkelQWogexz9zw6Cpo2iIBzxZ6/DLGkx/dNXMrVD7fKyiBcnG/DBpr/yHc5g19Ni+HjvMrREb+J7GBgAqXcqQjn16zRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EpnliHT3; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ATwzjEXr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EpnliHT3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727187985; x=1758723985;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3LMJAcYxJNKHurl6O+d8ujdKU3DOW4RVDMS0/cpf8Q8=;
-  b=ATwzjEXrCmsWMonxXEQPe9tkkDfS8eqkXeyDsLuCplVGhWlGsmpSrSAL
-   LQDPPWHjDuiO76RpgiJOhPzVXW212O5Jp3BD5xbiudkfGmgYj26lul2BY
-   JqYJkTzwJwb/Y0BZSLwsii7k+eLJ1gics4O/8Iq1hslpmmtl+1FOnrfu7
-   jYy8spuFPC76svBNkvKnAeJknvb5q1Uf3ugYIcMtBlE8Oan0ojgyOIxfF
-   x3ATcgkFbLLWnZ0cd9WXYmStb6eOQqHZ6Cf+NedaovhsvpmySlZ7jJFF4
-   ioLdnG5ymsXbMhVN6q3tH9nR2orxXauZPrhOi45rjCD8LEmhJG5Y/S1Tl
-   Q==;
-X-CSE-ConnectionGUID: uRpBC/dhRcOlxelkDJuyFQ==
-X-CSE-MsgGUID: b0xP2uA1RSCpO9mt/zd7kA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26332879"
+  t=1727190447; x=1758726447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kATl7V87QdChzLtPnK/t+I6IE7XjFqPl1Kc31zJmz00=;
+  b=EpnliHT364TdvoNrbogiGsmxT+rKloAIT7dKNyE/b82MMAsNdhTCcyoj
+   3nnQqasMXOJVuJ8H0x8HhGULJqfU8m4fFMz4a8YuE+cnn76XqZA6fat3t
+   /JN0hR4pJ8cR090zRADsI8uNz6+YZP2W56AX4u8GecTUNr7kYHUcqctrr
+   7yFpQfeJhocBCjDpua8Fmo/eUQyOemxySaz7RH1je+IbFJTb21HLZsIPK
+   PTGfV4RF/LXs/C2IgplDPuo9Qr+anBquUySOGiyppJpQHo4W3CEjz0q7k
+   b1GW0SQixeoXHvYLsRydmAS1DbyHwSMPSgVARPSXTwsJDgfxjSbonKwM1
+   A==;
+X-CSE-ConnectionGUID: jmAdDYI/Q8OCs0zY7RHnVA==
+X-CSE-MsgGUID: A6FXKWn4QKKwC33yBYREdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="43661851"
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="26332879"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 07:26:25 -0700
-X-CSE-ConnectionGUID: GvFfgXY+SLCS0kapL0rFPg==
-X-CSE-MsgGUID: vfe5yD5SSzyJwgiJB1BXVQ==
+   d="scan'208";a="43661851"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 08:07:26 -0700
+X-CSE-ConnectionGUID: mhRNl/lxSS+vyBW2tEu4Gg==
+X-CSE-MsgGUID: V6E1uOI1TYyxIn2QbN59aA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="71573259"
+   d="scan'208";a="71741772"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Sep 2024 07:26:21 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 Sep 2024 08:07:23 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st6Ud-000IS1-1g;
-	Tue, 24 Sep 2024 14:26:19 +0000
-Date: Tue, 24 Sep 2024 22:25:19 +0800
+	id 1st78L-000ITW-07;
+	Tue, 24 Sep 2024 15:07:21 +0000
+Date: Tue, 24 Sep 2024 23:06:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1445/2441]
- drivers/iommu/intel/iommu.c:3465:25: error: implicit declaration of function
- 'intel_svm_add_pasid_notifier'
-Message-ID: <202409242225.XZJFT33m-lkp@intel.com>
+To: "qiwu.chen" <qiwuchen55@gmail.com>, corbet@lwn.net, oleg@redhat.com,
+	catalin.marinas@arm.com, will@kernel.org, paulmck@kernel.org,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org, "qiwu.chen" <qiwu.chen@transsion.com>
+Subject: Re: [PATCH v4 1/2] panic: add option to dump task maps info in
+ panic_print
+Message-ID: <202409242252.cefLq5jM-lkp@intel.com>
+References: <20240924074341.37272-1-qiwu.chen@transsion.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,75 +66,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240924074341.37272-1-qiwu.chen@transsion.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: 8f38c592c86070d845b998402d61acac9a1f1cbb [1445/2441] iommu/vt-d: Listen to IOASID notifications
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240924/202409242225.XZJFT33m-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409242225.XZJFT33m-lkp@intel.com/reproduce)
+Hi qiwu.chen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on brauner-vfs/vfs.all akpm-mm/mm-everything linus/master v6.11 next-20240924]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/qiwu-chen/arm64-show-signal-info-for-global-init/20240924-154508
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20240924074341.37272-1-qiwu.chen%40transsion.com
+patch subject: [PATCH v4 1/2] panic: add option to dump task maps info in panic_print
+config: arm-stm32_defconfig (https://download.01.org/0day-ci/archive/20240924/202409242252.cefLq5jM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409242252.cefLq5jM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409242225.XZJFT33m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409242252.cefLq5jM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/iommu/intel/iommu.c: In function 'init_dmars':
->> drivers/iommu/intel/iommu.c:3465:25: error: implicit declaration of function 'intel_svm_add_pasid_notifier' [-Werror=implicit-function-declaration]
-    3465 |                         intel_svm_add_pasid_notifier();
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   kernel/panic.c: In function 'dump_task_maps_info':
+>> kernel/panic.c:235:17: error: implicit declaration of function 'get_vma_name'; did you mean 'arch_vma_name'? [-Wimplicit-function-declaration]
+     235 |                 get_vma_name(vma, &path, &name, &name_fmt);
+         |                 ^~~~~~~~~~~~
+         |                 arch_vma_name
 
 
-vim +/intel_svm_add_pasid_notifier +3465 drivers/iommu/intel/iommu.c
+vim +235 kernel/panic.c
 
-  3444	
-  3445		if (!dmar_map_gfx)
-  3446			iommu_identity_mapping |= IDENTMAP_GFX;
-  3447	
-  3448		check_tylersburg_isoch();
-  3449	
-  3450		ret = si_domain_init(hw_pass_through);
-  3451		if (ret)
-  3452			goto free_iommu;
-  3453	
-  3454		/* PASID is needed for scalable mode irrespective to SVM */
-  3455		if (scalable_mode_support()) {
-  3456			ioasid_install_capacity(intel_pasid_max_id);
-  3457			/* We should not run out of IOASIDs at boot */
-  3458			host_pasid_set = ioasid_set_alloc(NULL, PID_MAX_DEFAULT,
-  3459							  IOASID_SET_TYPE_NULL);
-  3460			if (IS_ERR_OR_NULL(host_pasid_set)) {
-  3461				pr_err("Failed to allocate host PASID set %lu\n",
-  3462					PTR_ERR(host_pasid_set));
-  3463				intel_iommu_sm = 0;
-  3464			} else {
-> 3465				intel_svm_add_pasid_notifier();
-  3466			}
-  3467		}
-  3468	
-  3469		/*
-  3470		 * for each drhd
-  3471		 *   enable fault log
-  3472		 *   global invalidate context cache
-  3473		 *   global invalidate iotlb
-  3474		 *   enable translation
-  3475		 */
-  3476		for_each_iommu(iommu, drhd) {
-  3477			if (drhd->ignored) {
-  3478				/*
-  3479				 * we always have to disable PMRs or DMA may fail on
-  3480				 * this device
-  3481				 */
-  3482				if (force_on)
-  3483					iommu_disable_protect_mem_regions(iommu);
-  3484				continue;
-  3485			}
-  3486	
-  3487			iommu_flush_write_buffer(iommu);
-  3488	
+   210	
+   211	/*
+   212	 * This function is called in panic proccess if the PANIC_PRINT_TASK_MAPS_INFO
+   213	 * flag is specified in panic_print, which is helpful to debug panic issues due
+   214	 * to an unhandled falut in user mode such as kill init.
+   215	 */
+   216	static void dump_task_maps_info(struct task_struct *tsk)
+   217	{
+   218		struct pt_regs *user_ret = task_pt_regs(tsk);
+   219		struct mm_struct *mm = tsk->mm;
+   220		struct vm_area_struct *vma;
+   221	
+   222		if (!mm || !user_mode(user_ret))
+   223			return;
+   224	
+   225		pr_info("Dump task %s:%d maps start\n", tsk->comm, task_pid_nr(tsk));
+   226		mmap_read_lock(mm);
+   227		VMA_ITERATOR(vmi, mm, 0);
+   228		for_each_vma(vmi, vma) {
+   229			int flags = vma->vm_flags;
+   230			unsigned long long pgoff = ((loff_t)vma->vm_pgoff) << PAGE_SHIFT;
+   231			const struct path *path;
+   232			const char *name_fmt, *name;
+   233			char name_buf[SZ_256];
+   234	
+ > 235			get_vma_name(vma, &path, &name, &name_fmt);
+   236			if (path) {
+   237				name = d_path(path, name_buf, sizeof(name_buf));
+   238				name = IS_ERR(name) ? "?" : name;
+   239			} else if (name || name_fmt) {
+   240				snprintf(name_buf, sizeof(name_buf), name_fmt ?: "%s", name);
+   241				name = name_buf;
+   242			}
+   243	
+   244			if (name)
+   245				pr_info("%08lx-%08lx %c%c%c%c %08llx %s\n",
+   246					vma->vm_start, vma->vm_end,
+   247					flags & VM_READ ? 'r' : '-',
+   248					flags & VM_WRITE ? 'w' : '-',
+   249					flags & VM_EXEC ? 'x' : '-',
+   250					flags & VM_MAYSHARE ? 's' : 'p',
+   251					pgoff, name);
+   252	
+   253		}
+   254		mmap_read_unlock(mm);
+   255		pr_info("Dump task %s:%d maps end\n", tsk->comm, task_pid_nr(tsk));
+   256	}
+   257	
 
 -- 
 0-DAY CI Kernel Test Service
