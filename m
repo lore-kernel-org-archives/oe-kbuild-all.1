@@ -1,231 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6DC1EEF9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 13:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E081A726D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 14:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727185925; cv=none; b=V1APn/thTDq8BJe6aCFVNi3UVJ2yVzphPliu2DqQB0hDI9ObPCV4jWHipBzQNsMSCXQh52Z/5dmfuqem0ed8ULLWa3kyitpRukYODjf39o4k9mMx7noXGrwCXZYgmLvPEgIcWb8MajOW4dVXD4jewA4MnpsK77V1O3sTOd0POm8=
+	t=1727187988; cv=none; b=RBEGPp1NH8jzG+wQeJ7KSR21c5Z58oskACfso2ypMhmqfNDfdr438Gph9cuFsIpVCMwocFEMOiIQc6zJqRtMYlsZxmZTKeUUEYPzT6iSSu0Xw7KZWDzEgzeet4hqSoQlcNzBVM2m8s2L8F6fBIZGXCQ5Qsf6WSAQwN0nww0D3Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727185925; c=relaxed/simple;
-	bh=A+qo8g3Ct4l2aVKYHULyrvn5fl2LtDJL7INuSDsWXcg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RUZPoC9UF+zmJTrwknjYv93+IxtEXx8i9OgA9aBsL5PLyp5zpA4RkPxNPEq6merDdzd4547yGF0rxu7eyQR8qL7iUz9H1er+sBIAU+T4h0HKQDoCoT9HVjeKCw4H+4i9NyoYYR+hn94cmzIuaPyBNcGqYYDsFGltHymYHThJ93g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AZh0HaOJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727187988; c=relaxed/simple;
+	bh=3LMJAcYxJNKHurl6O+d8ujdKU3DOW4RVDMS0/cpf8Q8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=afP4qHyTW4Mf1vcQn7HJ9lHOPLQU3nk/5QbNTrOskQ8QkrnnNxlxn49Zk8yULK0uW0hly4Wl0NG5yQXB1FWaUvdkdsQWs1AAD+1qMplNrKgEOJ1a1Z9WG+Pmwc5xwhDutdN0ahb0Yq/1bOBz91dzUWXVd7RQpsGh/bWqqTM4opI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ATwzjEXr; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AZh0HaOJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9B4C4AF09
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 13:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727185925;
-	bh=A+qo8g3Ct4l2aVKYHULyrvn5fl2LtDJL7INuSDsWXcg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=AZh0HaOJE/Hdvhpzl0bffMlPmu33gpIAZsP3T5RTWpfVym2uT3IspHXUj+4pNmrCy
-	 ucSfHzhQIWzSkTyBJR8JcToCmNIzg4TR69s5wVFAYvlWX2BERHe/DBzSpVdeMdLHFM
-	 kNxVhONr75ddSE3ljqR51n9aOv8PoktnJ/701bue6mfwI8MDij6GqEYI3l20K3za+6
-	 0L0J4RKTfEXXlPqlxnuPpGsVUx8DC+tW7fCFupiB886fb6Q8rOfiFBBUfj6oMnkY+h
-	 +wzIVGYOlItCzcS8X0WL3O+z6ofw/JIu8jTc6LvU/m9b4gVccmlLD6TxA4POOpLd2j
-	 mNp8CGb57ehPw==
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-27806115eafso2609400fac.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 06:52:05 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyxCgPAFJ/dnHYJObql3Xi2U8vQPC0jXz6xnKAMlCHgYcP9m9RP
-	vFDKX20GpPDd0VdDpBS82n9DDqV1xvjiplO/PDuYvJuJKQS+agDEUAoC4CL8KizSnh2U76lNtOx
-	T4w5V5EaEcm9qX/vswYtQC/oQ5H0=
-X-Google-Smtp-Source: AGHT+IG9SXSBSu+l7G8jF2L/kwFhNll8dKh6vSzmTwNPjKlKZensz01MHdfXNOMcMqdIm2jCFQZrrjGQ08dXBlJU84I=
-X-Received: by 2002:a05:6870:3802:b0:277:f5d8:b77b with SMTP id
- 586e51a60fabf-2803a7b8273mr12652814fac.32.1727185924618; Tue, 24 Sep 2024
- 06:52:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ATwzjEXr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727187985; x=1758723985;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3LMJAcYxJNKHurl6O+d8ujdKU3DOW4RVDMS0/cpf8Q8=;
+  b=ATwzjEXrCmsWMonxXEQPe9tkkDfS8eqkXeyDsLuCplVGhWlGsmpSrSAL
+   LQDPPWHjDuiO76RpgiJOhPzVXW212O5Jp3BD5xbiudkfGmgYj26lul2BY
+   JqYJkTzwJwb/Y0BZSLwsii7k+eLJ1gics4O/8Iq1hslpmmtl+1FOnrfu7
+   jYy8spuFPC76svBNkvKnAeJknvb5q1Uf3ugYIcMtBlE8Oan0ojgyOIxfF
+   x3ATcgkFbLLWnZ0cd9WXYmStb6eOQqHZ6Cf+NedaovhsvpmySlZ7jJFF4
+   ioLdnG5ymsXbMhVN6q3tH9nR2orxXauZPrhOi45rjCD8LEmhJG5Y/S1Tl
+   Q==;
+X-CSE-ConnectionGUID: uRpBC/dhRcOlxelkDJuyFQ==
+X-CSE-MsgGUID: b0xP2uA1RSCpO9mt/zd7kA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26332879"
+X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
+   d="scan'208";a="26332879"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 07:26:25 -0700
+X-CSE-ConnectionGUID: GvFfgXY+SLCS0kapL0rFPg==
+X-CSE-MsgGUID: vfe5yD5SSzyJwgiJB1BXVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
+   d="scan'208";a="71573259"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 24 Sep 2024 07:26:21 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1st6Ud-000IS1-1g;
+	Tue, 24 Sep 2024 14:26:19 +0000
+Date: Tue, 24 Sep 2024 22:25:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1445/2441]
+ drivers/iommu/intel/iommu.c:3465:25: error: implicit declaration of function
+ 'intel_svm_add_pasid_notifier'
+Message-ID: <202409242225.XZJFT33m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202409240317.7UrEkD87-lkp@intel.com>
-In-Reply-To: <202409240317.7UrEkD87-lkp@intel.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 24 Sep 2024 22:51:53 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8xbs3HeGMEj8_JR4djLhCKgF76Lfw3GKPC3-tRDU4KDw@mail.gmail.com>
-Message-ID: <CAKYAXd8xbs3HeGMEj8_JR4djLhCKgF76Lfw3GKPC3-tRDU4KDw@mail.gmail.com>
-Subject: Re: [samba-ksmbd:ksmbd-for-next-next 3/4] fs/smb/server/smb2pdu.c:2070:
- warning: Function parameter or struct member 'coptions' not described in 'smb2_create_open_flags'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Sep 24, 2024 at 5:05=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-Hi,
->
-> tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-> head:   073f3e59284343a926e47db3d7373aad7bfa4e8b
-> commit: 676fc89e7fdf5873f3f0df11a684400348e175b3 [3/4] ksmbd: fix open fa=
-ilure from block and char device file
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/202409=
-24/202409240317.7UrEkD87-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240924/202409240317.7UrEkD87-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409240317.7UrEkD87-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> fs/smb/server/smb2pdu.c:2070: warning: Function parameter or struct me=
-mber 'coptions' not described in 'smb2_create_open_flags'
-> >> fs/smb/server/smb2pdu.c:2070: warning: Function parameter or struct me=
-mber 'mode' not described in 'smb2_create_open_flags'
-> >> fs/smb/server/smb2pdu.c:2070: warning: Excess function parameter 'is_d=
-ir' description in 'smb2_create_open_flags'
-I have fixed these warnings and pushed the updated patches to queue.
-Thanks for your report!
->
->
-> vim +2070 fs/smb/server/smb2pdu.c
->
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2054
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2055  /**
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2056   * =
-smb2_create_open_flags() - convert smb open flags to unix open flags
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2057   * =
-@file_present: is file already present
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2058   * =
-@access:               file access flags
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2059   * =
-@disposition:  file disposition flags
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2060   * =
-@may_flags:            set with MAY_ flags
-> e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2061   * =
-@is_dir:               is creating open flags for directory
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2062   *
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2063   * =
-Return:      file open flags
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2064   */
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2065  sta=
-tic int smb2_create_open_flags(bool file_present, __le32 access,
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2066     =
-                         __le32 disposition,
-> e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2067     =
-                         int *may_flags,
-> 676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2068     =
-                         __le32 coptions,
-> 676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2069     =
-                         umode_t mode)
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16 @2070  {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2071    i=
-nt oflags =3D O_NONBLOCK | O_LARGEFILE;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2072
-> 676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2073    i=
-f (coptions & FILE_DIRECTORY_FILE_LE || S_ISDIR(mode)) {
-> e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2074     =
-       access &=3D ~FILE_WRITE_DESIRE_ACCESS_LE;
-> e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2075     =
-       ksmbd_debug(SMB, "Discard write access to a directory\n");
-> e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2076    }
-> e2e33caa5dc2ea fs/smb/server/smb2pdu.c Hobin Woo    2024-07-05  2077
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2078    i=
-f (access & FILE_READ_DESIRED_ACCESS_LE &&
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2079     =
-   access & FILE_WRITE_DESIRE_ACCESS_LE) {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2080     =
-       oflags |=3D O_RDWR;
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2081     =
-       *may_flags =3D MAY_OPEN | MAY_READ | MAY_WRITE;
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2082    }=
- else if (access & FILE_WRITE_DESIRE_ACCESS_LE) {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2083     =
-       oflags |=3D O_WRONLY;
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2084     =
-       *may_flags =3D MAY_OPEN | MAY_WRITE;
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2085    }=
- else {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2086     =
-       oflags |=3D O_RDONLY;
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2087     =
-       *may_flags =3D MAY_OPEN | MAY_READ;
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2088    }
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2089
-> 676fc89e7fdf58 fs/smb/server/smb2pdu.c Namjae Jeon  2024-09-23  2090    i=
-f (access =3D=3D FILE_READ_ATTRIBUTES_LE || S_ISBLK(mode) || S_ISCHR(mode))
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2091     =
-       oflags |=3D O_PATH;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2092
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2093    i=
-f (file_present) {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2094     =
-       switch (disposition & FILE_CREATE_MASK_LE) {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2095     =
-       case FILE_OPEN_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2096     =
-       case FILE_CREATE_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2097     =
-               break;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2098     =
-       case FILE_SUPERSEDE_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2099     =
-       case FILE_OVERWRITE_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2100     =
-       case FILE_OVERWRITE_IF_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2101     =
-               oflags |=3D O_TRUNC;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2102     =
-               break;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2103     =
-       default:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2104     =
-               break;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2105     =
-       }
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2106    }=
- else {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2107     =
-       switch (disposition & FILE_CREATE_MASK_LE) {
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2108     =
-       case FILE_SUPERSEDE_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2109     =
-       case FILE_CREATE_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2110     =
-       case FILE_OPEN_IF_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2111     =
-       case FILE_OVERWRITE_IF_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2112     =
-               oflags |=3D O_CREAT;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2113     =
-               break;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2114     =
-       case FILE_OPEN_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2115     =
-       case FILE_OVERWRITE_LE:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2116     =
-               oflags &=3D ~O_CREAT;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2117     =
-               break;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2118     =
-       default:
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2119     =
-               break;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2120     =
-       }
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2121    }
-> 6c5e36d13e2a33 fs/ksmbd/smb2pdu.c      Hyunchul Lee 2021-06-23  2122
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2123    r=
-eturn oflags;
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2124  }
-> e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon  2021-03-16  2125
->
-> :::::: The code at line 2070 was first introduced by commit
-> :::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side pr=
-ocedures for SMB3
->
-> :::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-> :::::: CC: Steve French <stfrench@microsoft.com>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   63759dec7a1be60e43e98e4257de936b546e4656
+commit: 8f38c592c86070d845b998402d61acac9a1f1cbb [1445/2441] iommu/vt-d: Listen to IOASID notifications
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240924/202409242225.XZJFT33m-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409242225.XZJFT33m-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409242225.XZJFT33m-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/iommu/intel/iommu.c: In function 'init_dmars':
+>> drivers/iommu/intel/iommu.c:3465:25: error: implicit declaration of function 'intel_svm_add_pasid_notifier' [-Werror=implicit-function-declaration]
+    3465 |                         intel_svm_add_pasid_notifier();
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/intel_svm_add_pasid_notifier +3465 drivers/iommu/intel/iommu.c
+
+  3444	
+  3445		if (!dmar_map_gfx)
+  3446			iommu_identity_mapping |= IDENTMAP_GFX;
+  3447	
+  3448		check_tylersburg_isoch();
+  3449	
+  3450		ret = si_domain_init(hw_pass_through);
+  3451		if (ret)
+  3452			goto free_iommu;
+  3453	
+  3454		/* PASID is needed for scalable mode irrespective to SVM */
+  3455		if (scalable_mode_support()) {
+  3456			ioasid_install_capacity(intel_pasid_max_id);
+  3457			/* We should not run out of IOASIDs at boot */
+  3458			host_pasid_set = ioasid_set_alloc(NULL, PID_MAX_DEFAULT,
+  3459							  IOASID_SET_TYPE_NULL);
+  3460			if (IS_ERR_OR_NULL(host_pasid_set)) {
+  3461				pr_err("Failed to allocate host PASID set %lu\n",
+  3462					PTR_ERR(host_pasid_set));
+  3463				intel_iommu_sm = 0;
+  3464			} else {
+> 3465				intel_svm_add_pasid_notifier();
+  3466			}
+  3467		}
+  3468	
+  3469		/*
+  3470		 * for each drhd
+  3471		 *   enable fault log
+  3472		 *   global invalidate context cache
+  3473		 *   global invalidate iotlb
+  3474		 *   enable translation
+  3475		 */
+  3476		for_each_iommu(iommu, drhd) {
+  3477			if (drhd->ignored) {
+  3478				/*
+  3479				 * we always have to disable PMRs or DMA may fail on
+  3480				 * this device
+  3481				 */
+  3482				if (force_on)
+  3483					iommu_disable_protect_mem_regions(iommu);
+  3484				continue;
+  3485			}
+  3486	
+  3487			iommu_flush_write_buffer(iommu);
+  3488	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
