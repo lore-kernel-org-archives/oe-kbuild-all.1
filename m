@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81DB1B85DF;
-	Tue, 24 Sep 2024 01:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C491A15C0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 01:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727140200; cv=none; b=jr5GGy4Y8ddZrpktnw6n9/ScyKr+jrUTnQFv9ibLK5WlZMBNYevfcCg6As9IbwAROzhtS8Zp6JGOQa8I1XAvwPMdekIexqlGDyGnk8wgLQcFRH+WNHDUauIyZHTFHcDQDzQJCkksmrCfO67XfXGAw5rfSHTVfiEupBoJNb2wt8s=
+	t=1727140795; cv=none; b=TnFCSzLN74aNVWeG2XGNG3Z7SzJw0uRhQVFuFEeLgTCSU/Lz0tEQ66Bn1rpLXQEW1J4WXOiKilvQQvXNwOP2YubsAOoiLq7eeAkhEh76lbKSo2DLLiwsMk9iFqFkBar+o3yvmxR4149UhX2Y1Qjg0r+peWzSV60ZPPni9FkzRjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727140200; c=relaxed/simple;
-	bh=moV2zLeHFU9ICjjabYswCIKJ83Q3EhyizzysDPkZHb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=neG5ZlntIwgScQnYK2BfkIOLQSbTbK43mzIaQwt+rtj4/9IX+jNK+QYxfHUZOuUs52P7kG5IgPcC3g4XN2+goYlxMvheQZ06kSsecvhrYaPUr89iheSX9PLZQCognJNEpGmpIQVgZOOGBqIlyAwqjsWjyiz/boBtGroCWGy2vZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cb81UliD; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1727140795; c=relaxed/simple;
+	bh=Im1Q3hyUqMq/3vi/icCAD/NGp2j96kOjH8NgwOpM6EQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kDgE9ajPHXwLIaOPBTZFp4JkO9+hORnS5Pj1AoUcw0pNl8FOc+YVebGbHGSphc8WygUuFrOd76OYViuCnM7E3FI+yOl4woOd/KEkFbElhLqYP7c4lDmInDXMrjZfjNypAeFOQ0/Np3YzrmXuygmU7g5AS1+dl7QEe+C9z5zligI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E89UFleA; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cb81UliD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E89UFleA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727140199; x=1758676199;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=moV2zLeHFU9ICjjabYswCIKJ83Q3EhyizzysDPkZHb4=;
-  b=cb81UliDYNT4Ijozg+6ZSMvQobG7M38yRAhu3UUZ2C+uUIl0D/5d00/K
-   p599ac1EpLvsvgFiu2ruNJWro98QejE7I07LQr7ymw6c6MZOMpaBf2nfN
-   oQ2Ve9yG12f/vjsXzhV5l85JPl/KTDOblfj/qn4Xttge2dY7grDuu0LMJ
-   sp7sJt1NkufIZeHibw4/aI8pw6TWfFWNS+Aoml8JOlxC1Eofz8lAHAp2G
-   pDEdN7dP5nRiQfLKLfQUjL/YMHjpL8uM0UgfF+CoP6vVEOOLy8hJ9BIQO
-   mceQA6ub2FMcsRt0lf/P5jYQPBH2/hZ2S/Q4U8+w9yH1LwKslWwjjG9kD
-   A==;
-X-CSE-ConnectionGUID: lHYQ0jsYQQap53IjHomPNA==
-X-CSE-MsgGUID: PJtxb6EoTGqftIvtNIwf8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37479258"
+  t=1727140794; x=1758676794;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Im1Q3hyUqMq/3vi/icCAD/NGp2j96kOjH8NgwOpM6EQ=;
+  b=E89UFleAis0xYrYSpvgwk5L2Pret8shlBuRxnWaFswQcKTnaPkhUoHDT
+   w+HE7mpUW+emWz2DIU6Y/b866zmsFubLcLi4FhPyQZq1CYx4C1IhP592H
+   7rwTt1QeQohvtI338xLlQXIRfDZFEmlZERlyMx8nFj4SI8V7L+GY9zCUM
+   5crRENo2VvpHer26puv3rx5GwXz8M/fTdoilBL43IzkuXkbftJvjHwKFF
+   leWgsLiOnGQiTq1Ut//B9sikgi8oBHfl25GZcLp1KMshQ3eHIYy9Czl/+
+   jnqA56oTjybQcRM0fbWbj4ZkPs1r52u6gI+sIDIYgaF3MctRl6GQfHKN3
+   g==;
+X-CSE-ConnectionGUID: bfyUQIRaQtSBvRjP1qNCnA==
+X-CSE-MsgGUID: s9zVb16gTuaBEKq9eahU8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="51533235"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="37479258"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 18:09:56 -0700
-X-CSE-ConnectionGUID: zxpuOZbGTD+sVOcZfs4p5A==
-X-CSE-MsgGUID: 0LmOncA4T92wi79gKfhj1w==
+   d="scan'208";a="51533235"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 18:19:53 -0700
+X-CSE-ConnectionGUID: K9Hr5YxUQXSbF2JqZpr+kQ==
+X-CSE-MsgGUID: vO2/xgwyR+qizMxNfgK+aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="71292986"
+   d="scan'208";a="102083167"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Sep 2024 18:09:52 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 23 Sep 2024 18:19:52 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssu3p-000HlT-2m;
-	Tue, 24 Sep 2024 01:09:49 +0000
-Date: Tue, 24 Sep 2024 09:09:08 +0800
+	id 1ssuDW-000Hly-0L;
+	Tue, 24 Sep 2024 01:19:50 +0000
+Date: Tue, 24 Sep 2024 09:19:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
-	p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	jitao.shi@mediatek.com, mac.shen@mediatek.com,
-	peng.liu@mediatek.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 1/1] drm/mediatek: dp: Add sdp path reset
-Message-ID: <202409240818.3cqdkw5o-lkp@intel.com>
-References: <20240923133610.23728-1-liankun.yang@mediatek.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.10/main 296/2981] kernel/sched/alt_core.c:7209:57: warning:
+ passing argument 1 of 'cpumask_first' makes pointer from integer without a
+ cast
+Message-ID: <202409240923.cCquycxy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,87 +62,231 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240923133610.23728-1-liankun.yang@mediatek.com>
 
-Hi Liankun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pza/reset/next]
-[also build test ERROR on linus/master v6.11 next-20240923]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liankun-Yang/drm-mediatek-dp-Add-sdp-path-reset/20240923-213747
-base:   https://git.pengutronix.de/git/pza/linux reset/next
-patch link:    https://lore.kernel.org/r/20240923133610.23728-1-liankun.yang%40mediatek.com
-patch subject: [PATCH v1 1/1] drm/mediatek: dp: Add sdp path reset
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240924/202409240818.3cqdkw5o-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240818.3cqdkw5o-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.10/main
+head:   14cddf41a02f74b2d2a6727fe33914a57b4432f6
+commit: 8709d450c41654b91b78d6bca880f98164d4b219 [296/2981] sched/alt: [Sync] 95c74abe404d io_uring: move to separate directory
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240924/202409240923.cCquycxy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409240923.cCquycxy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409240818.3cqdkw5o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409240923.cCquycxy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/mediatek/mtk_dp.c:9:
-   In file included from include/drm/display/drm_dp_helper.h:27:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:39:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/mediatek/mtk_dp.c:1058:5: error: use of undeclared identifier 'SDP_RESET_SW_DP_ENC0_P0'
-    1058 |                                 SDP_RESET_SW_DP_ENC0_P0,
-         |                                 ^
-   drivers/gpu/drm/mediatek/mtk_dp.c:1059:5: error: use of undeclared identifier 'SDP_RESET_SW_DP_ENC0_P0'
-    1059 |                                 SDP_RESET_SW_DP_ENC0_P0);
-         |                                 ^
-   drivers/gpu/drm/mediatek/mtk_dp.c:1064:8: error: use of undeclared identifier 'SDP_RESET_SW_DP_ENC0_P0'
-    1064 |                                 0, SDP_RESET_SW_DP_ENC0_P0);
-         |                                    ^
-   4 warnings and 3 errors generated.
+         |      ^~~~~~~~~~~~
+   In file included from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/sched/signal.h:5:
+   kernel/sched/alt_core.c: In function 'resched_curr':
+   include/linux/smp.h:140:9: error: implicit declaration of function 'trace_ipi_send_cpu' [-Werror=implicit-function-declaration]
+     140 |         trace_ipi_send_cpu(cpu, _RET_IP_, NULL);  \
+         |         ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:984:17: note: in expansion of macro 'smp_send_reschedule'
+     984 |                 smp_send_reschedule(cpu);
+         |                 ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:989:6: warning: no previous prototype for 'resched_cpu' [-Wmissing-prototypes]
+     989 | void resched_cpu(int cpu)
+         |      ^~~~~~~~~~~
+   kernel/sched/alt_core.c:1004:6: warning: no previous prototype for 'select_nohz_load_balancer' [-Wmissing-prototypes]
+    1004 | void select_nohz_load_balancer(int stop_tick) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1006:6: warning: no previous prototype for 'set_cpu_sd_state_idle' [-Wmissing-prototypes]
+    1006 | void set_cpu_sd_state_idle(void) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'set_task_cpu':
+   kernel/sched/alt_core.c:1380:9: error: implicit declaration of function 'rseq_migrate'; did you mean 'cant_migrate'? [-Werror=implicit-function-declaration]
+    1380 |         rseq_migrate(p);
+         |         ^~~~~~~~~~~~
+         |         cant_migrate
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:2339:6: warning: no previous prototype for 'sched_ttwu_pending' [-Wmissing-prototypes]
+    2339 | void sched_ttwu_pending(void *arg)
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:2372:6: warning: no previous prototype for 'send_call_function_single_ipi' [-Wmissing-prototypes]
+    2372 | void send_call_function_single_ipi(int cpu)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'prepare_task_switch':
+   kernel/sched/alt_core.c:3449:9: error: implicit declaration of function 'rseq_preempt' [-Werror=implicit-function-declaration]
+    3449 |         rseq_preempt(prev);
+         |         ^~~~~~~~~~~~
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:3887:6: warning: no previous prototype for 'scheduler_tick' [-Wmissing-prototypes]
+    3887 | void scheduler_tick(void)
+         |      ^~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'scheduler_tick':
+   kernel/sched/alt_core.c:3894:9: error: implicit declaration of function 'sched_clock_tick'; did you mean 'scheduler_tick'? [-Werror=implicit-function-declaration]
+    3894 |         sched_clock_tick();
+         |         ^~~~~~~~~~~~~~~~
+         |         scheduler_tick
+   kernel/sched/alt_core.c: In function 'choose_next_task':
+   kernel/sched/alt_core.c:4421:17: error: implicit declaration of function 'hrtick_start'; did you mean 'hrtimer_start'? [-Werror=implicit-function-declaration]
+    4421 |                 hrtick_start(rq, next->time_slice);
+         |                 ^~~~~~~~~~~~
+         |                 hrtimer_start
+   kernel/sched/alt_core.c: In function '__schedule':
+   kernel/sched/alt_core.c:4558:49: error: 'PF_FROZEN' undeclared (first use in this function); did you mean 'PF_ROSE'?
+    4558 |                                 !(prev->flags & PF_FROZEN);
+         |                                                 ^~~~~~~~~
+         |                                                 PF_ROSE
+   kernel/sched/alt_core.c:4558:49: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/sched/alt_core.c: In function 'sched_submit_work':
+   kernel/sched/alt_core.c:4674:13: error: implicit declaration of function 'tsk_is_pi_blocked'; did you mean 'osq_is_locked'? [-Werror=implicit-function-declaration]
+    4674 |         if (tsk_is_pi_blocked(tsk))
+         |             ^~~~~~~~~~~~~~~~~
+         |             osq_is_locked
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:4734:35: warning: no previous prototype for 'schedule_user' [-Wmissing-prototypes]
+    4734 | asmlinkage __visible void __sched schedule_user(void)
+         |                                   ^~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function '__sched_setscheduler':
+   kernel/sched/alt_core.c:5357:17: error: implicit declaration of function 'cpuset_read_lock'; did you mean 'cpus_read_lock'? [-Werror=implicit-function-declaration]
+    5357 |                 cpuset_read_lock();
+         |                 ^~~~~~~~~~~~~~~~
+         |                 cpus_read_lock
+   kernel/sched/alt_core.c:5405:25: error: implicit declaration of function 'cpuset_read_unlock'; did you mean 'cpus_read_unlock'? [-Werror=implicit-function-declaration]
+    5405 |                         cpuset_read_unlock();
+         |                         ^~~~~~~~~~~~~~~~~~
+         |                         cpus_read_unlock
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:6743:5: error: conflicting types for 'task_can_attach'; have 'int(struct task_struct *, const struct cpumask *)'
+    6743 | int task_can_attach(struct task_struct *p,
+         |     ^~~~~~~~~~~~~~~
+   include/linux/sched.h:1786:12: note: previous declaration of 'task_can_attach' with type 'int(struct task_struct *)'
+    1786 | extern int task_can_attach(struct task_struct *p);
+         |            ^~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:6980:5: warning: no previous prototype for 'sched_cpu_activate' [-Wmissing-prototypes]
+    6980 | int sched_cpu_activate(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7019:5: warning: no previous prototype for 'sched_cpu_deactivate' [-Wmissing-prototypes]
+    7019 | int sched_cpu_deactivate(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7083:5: warning: no previous prototype for 'sched_cpu_starting' [-Wmissing-prototypes]
+    7083 | int sched_cpu_starting(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'sched_init_topology_cpumask':
+   kernel/sched/alt_core.c:7205:17: error: implicit declaration of function 'cpumask_complement'; did you mean 'bitmap_complement'? [-Werror=implicit-function-declaration]
+    7205 |                 cpumask_complement(topo, cpumask_of(cpu));
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 bitmap_complement
+   kernel/sched/alt_core.c:7209:57: error: implicit declaration of function 'cpu_coregroup_mask' [-Werror=implicit-function-declaration]
+    7209 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+         |                                                         ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/alt_core.c:7209:57: warning: passing argument 1 of 'cpumask_first' makes pointer from integer without a cast [-Wint-conversion]
+    7209 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                         |
+         |                                                         int
+   In file included from include/linux/smp.h:13:
+   include/linux/cpumask.h:161:64: note: expected 'const struct cpumask *' but argument is of type 'int'
+     161 | static inline unsigned int cpumask_first(const struct cpumask *srcp)
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> kernel/sched/alt_core.c:7211:45: warning: passing argument 3 of 'cpumask_and' makes pointer from integer without a cast [-Wint-conversion]
+    7211 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             int
+   kernel/sched/alt_core.c:7186:37: note: in definition of macro 'TOPOLOGY_CPUMASK'
+    7186 |         if (cpumask_and(topo, topo, mask)) {                                    \
+         |                                     ^~~~
+   include/linux/cpumask.h:634:54: note: expected 'const struct cpumask *' but argument is of type 'int'
+     634 |                                const struct cpumask *src2p)
+         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> kernel/sched/alt_core.c:7211:45: warning: passing argument 2 of 'cpumask_copy' makes pointer from integer without a cast [-Wint-conversion]
+    7211 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             int
+   kernel/sched/alt_core.c:7187:36: note: in definition of macro 'TOPOLOGY_CPUMASK'
+    7187 |                 cpumask_copy(topo, mask);                                       \
+         |                                    ^~~~
+   include/linux/cpumask.h:834:55: note: expected 'const struct cpumask *' but argument is of type 'int'
+     834 |                                 const struct cpumask *srcp)
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:7226:13: warning: no previous prototype for 'sched_init_smp' [-Wmissing-prototypes]
+    7226 | void __init sched_init_smp(void)
+         |             ^~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7278:13: warning: no previous prototype for 'sched_init' [-Wmissing-prototypes]
+    7278 | void __init sched_init(void)
+         |             ^~~~~~~~~~
+   kernel/sched/alt_core.c:7633:20: warning: no previous prototype for 'sched_create_group' [-Wmissing-prototypes]
+    7633 | struct task_group *sched_create_group(struct task_group *parent)
+         |                    ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7644:6: warning: no previous prototype for 'sched_online_group' [-Wmissing-prototypes]
+    7644 | void sched_online_group(struct task_group *tg, struct task_group *parent)
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7655:6: warning: no previous prototype for 'sched_destroy_group' [-Wmissing-prototypes]
+    7655 | void sched_destroy_group(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7661:6: warning: no previous prototype for 'sched_release_group' [-Wmissing-prototypes]
+    7661 | void sched_release_group(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7731:5: warning: no previous prototype for 'sched_group_set_shares' [-Wmissing-prototypes]
+    7731 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7800:27: warning: initialized field overwritten [-Woverride-init]
+    7800 |         .legacy_cftypes = cpu_legacy_files,
+         |                           ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7800:27: note: (near initialization for 'cpu_cgrp_subsys.legacy_cftypes')
+   cc1: some warnings being treated as errors
 
 
-vim +/SDP_RESET_SW_DP_ENC0_P0 +1058 drivers/gpu/drm/mediatek/mtk_dp.c
+vim +/cpumask_first +7209 kernel/sched/alt_core.c
 
-  1054	
-  1055	static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
-  1056	{
-  1057		mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-> 1058					SDP_RESET_SW_DP_ENC0_P0,
-  1059					SDP_RESET_SW_DP_ENC0_P0);
-  1060	
-  1061		/* Wait for sdp path reset to complete */
-  1062		usleep_range(1000, 5000);
-  1063		mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-  1064					0, SDP_RESET_SW_DP_ENC0_P0);
-  1065	}
-  1066	
+d821e3e8509258 Alfred Chen 2019-08-19  7184  
+d821e3e8509258 Alfred Chen 2019-08-19  7185  #define TOPOLOGY_CPUMASK(name, mask, last)\
+4076e7f2335228 Alfred Chen 2021-07-10  7186  	if (cpumask_and(topo, topo, mask)) {					\
+b99c6a31af83d8 Alfred Chen 2020-12-25  7187  		cpumask_copy(topo, mask);					\
+4076e7f2335228 Alfred Chen 2021-07-10  7188  		printk(KERN_INFO "sched: cpu#%02d topo: 0x%08lx - "#name,	\
+4076e7f2335228 Alfred Chen 2021-07-10  7189  		       cpu, (topo++)->bits[0]);					\
+b99c6a31af83d8 Alfred Chen 2020-12-25  7190  	}									\
+d821e3e8509258 Alfred Chen 2019-08-19  7191  	if (!last)								\
+4076e7f2335228 Alfred Chen 2021-07-10  7192  		cpumask_complement(topo, mask)
+d821e3e8509258 Alfred Chen 2019-08-19  7193  
+d821e3e8509258 Alfred Chen 2019-08-19  7194  static void sched_init_topology_cpumask(void)
+d821e3e8509258 Alfred Chen 2019-08-19  7195  {
+d821e3e8509258 Alfred Chen 2019-08-19  7196  	int cpu;
+4076e7f2335228 Alfred Chen 2021-07-10  7197  	cpumask_t *topo;
+d821e3e8509258 Alfred Chen 2019-08-19  7198  
+d821e3e8509258 Alfred Chen 2019-08-19  7199  	for_each_online_cpu(cpu) {
+d821e3e8509258 Alfred Chen 2019-08-19  7200  		/* take chance to reset time slice for idle tasks */
+d821e3e8509258 Alfred Chen 2019-08-19  7201  		cpu_rq(cpu)->idle->time_slice = sched_timeslice_ns;
+d821e3e8509258 Alfred Chen 2019-08-19  7202  
+b99c6a31af83d8 Alfred Chen 2020-12-25  7203  		topo = per_cpu(sched_cpu_topo_masks, cpu) + 1;
+82f4452315a839 Alfred Chen 2020-11-09  7204  
+4076e7f2335228 Alfred Chen 2021-07-10  7205  		cpumask_complement(topo, cpumask_of(cpu));
+d821e3e8509258 Alfred Chen 2019-08-19  7206  #ifdef CONFIG_SCHED_SMT
+d821e3e8509258 Alfred Chen 2019-08-19  7207  		TOPOLOGY_CPUMASK(smt, topology_sibling_cpumask(cpu), false);
+d821e3e8509258 Alfred Chen 2019-08-19  7208  #endif
+d821e3e8509258 Alfred Chen 2019-08-19 @7209  		per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+b99c6a31af83d8 Alfred Chen 2020-12-25  7210  		per_cpu(sched_cpu_llc_mask, cpu) = topo;
+d821e3e8509258 Alfred Chen 2019-08-19 @7211  		TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+d821e3e8509258 Alfred Chen 2019-08-19  7212  
+d821e3e8509258 Alfred Chen 2019-08-19  7213  		TOPOLOGY_CPUMASK(core, topology_core_cpumask(cpu), false);
+d821e3e8509258 Alfred Chen 2019-08-19  7214  
+d821e3e8509258 Alfred Chen 2019-08-19  7215  		TOPOLOGY_CPUMASK(others, cpu_online_mask, true);
+d821e3e8509258 Alfred Chen 2019-08-19  7216  
+4076e7f2335228 Alfred Chen 2021-07-10  7217  		per_cpu(sched_cpu_topo_end_mask, cpu) = topo;
+617d32624ea559 Alfred Chen 2020-11-03  7218  		printk(KERN_INFO "sched: cpu#%02d llc_id = %d, llc_mask idx = %d\n",
+617d32624ea559 Alfred Chen 2020-11-03  7219  		       cpu, per_cpu(sd_llc_id, cpu),
+617d32624ea559 Alfred Chen 2020-11-03  7220  		       (int) (per_cpu(sched_cpu_llc_mask, cpu) -
+b99c6a31af83d8 Alfred Chen 2020-12-25  7221  			      per_cpu(sched_cpu_topo_masks, cpu)));
+d821e3e8509258 Alfred Chen 2019-08-19  7222  	}
+d821e3e8509258 Alfred Chen 2019-08-19  7223  }
+d821e3e8509258 Alfred Chen 2019-08-19  7224  #endif
+d821e3e8509258 Alfred Chen 2019-08-19  7225  
+
+:::::: The code at line 7209 was first introduced by commit
+:::::: d821e3e85092581709b1b5f9ab8cacf0ce70c1a8 Project C v5.7.5-r2
+
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
