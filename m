@@ -1,115 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8BB1547E2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 08:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A1114F9F7;
+	Tue, 24 Sep 2024 09:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727168235; cv=none; b=SzNs8buhbeydHTozjLjChg+VXgwU0/9Aw+6p0lMqfgVFwBZJVNRCDS7NT8rM/fMn5MyRfKaN0XfFIpT6FvgY1NtKQv1ftiBAeL78CwYl16a/i47TOlM4w8raq1GlHVd/1uDqdY3raTIT7btL7PD4lz/8DDHfEH5Oy6ms5WqALH4=
+	t=1727169057; cv=none; b=mM9ZHTN+AhqUA6AV/r3gxitpkSTwTXrwo/q9NwRVQlVLCIGOijO3ZiJakz90jr8wt5/1ZxivOc79HxEhsxzemI9VgR//IdRAlfk048Tg4jljeu3rQaocSgDkpfQ591i7ZlJzF4E37EG2xeY1ovjYBqSUli1Q6HOAz9g3HStTMJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727168235; c=relaxed/simple;
-	bh=U1ss8//5WJtkxBEK/nqS3lDObtNdWjlSKvB2d69XIc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tbjCZuK3Pv/trgdM6Lgpja+e4RvmhVHS2+CsB+KXL2zz79J3/6eYvFnloQ7Rpp+YniDM4NHs9U5BrU8vVYxxWiG/akuC5xDHZo2LiLmRvbpfbdpnuXGmNBSzPM3ubw7WNzA8tnLjoTVKw8Hu6ofDMHsMcZVbCS80tF3EHONnkj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VPGsfWl9; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727169057; c=relaxed/simple;
+	bh=cl6QxBEp6NbMB7XwMBpnznlpfAP8UEaKvAArML0poFw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QvzcnOKw2SSUuCklK34CtzBOJA1gKOB0TsdbyDX3UIXUuVMz468/VCEzOSgHsQevAN7dc4ckfb/FC1TYNkr2gPmx/66mqMwujyoBIWot8HM4Yz1d0UaLWbYKqVyKtmA8IoZw0r5oN2srMltBkcugUdZvhE1HAeTiSepiZfJHXr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Oo+F5Ano; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VPGsfWl9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727168234; x=1758704234;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U1ss8//5WJtkxBEK/nqS3lDObtNdWjlSKvB2d69XIc4=;
-  b=VPGsfWl9Y/wLYsCn1c9EGnEsxkpR+ibhNE4MoGmsldMFrm8pSmE3lL8U
-   BZf76RU4hI6p4ILfS4V+zmlo+9DJMzstIZYPkifNeVyGPgXX/JZzw12P/
-   D45DCEj6PYI1hzZqPZzgm177+3stScugBZAWXiYmJG46phZd7lAzjFB4Q
-   1oQ50z8kMNwtbDpZDEITNkXB072LcgJ8yTaFxT/d7RDOX/y1kmpXuAw69
-   i7cS19RJ9AS0bc3f027D/NbiNgh5MOnbtxKRugEPECuh6lYLpHE0mWB+y
-   5FPNESzR3x1tToz8T6wBJ0/82RsMsrpUEmWAju1SF4PVpJMnOeJ9Nzy+b
-   Q==;
-X-CSE-ConnectionGUID: 1hpT6d7QTEeWusE3PeZRcA==
-X-CSE-MsgGUID: Rw97ARTXRo+q/zJKGCpZZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="48681200"
-X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="48681200"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 01:57:13 -0700
-X-CSE-ConnectionGUID: F2ardt+pQXW2Cvl1oKzJpg==
-X-CSE-MsgGUID: nWcILfPBTc+D3prPCaddrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="108802286"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Sep 2024 01:57:10 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1st1M3-000I8u-0k;
-	Tue, 24 Sep 2024 08:57:07 +0000
-Date: Tue, 24 Sep 2024 16:57:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1434/2441]
- drivers/iommu/ioasid.c:527: warning: Cannot understand  * @brief Free an
- ioasid_set if empty. Restore pending notification list.
-Message-ID: <202409241646.pzgC4plP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Oo+F5Ano"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48NMHrOZ007152;
+	Tue, 24 Sep 2024 09:10:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tyqDmuNItDIyc9GfGP2csWSUJF3TT4bqvFgUh0BiWf0=; b=Oo+F5AnorJcNi5Dc
+	fopQ+nDpFZBZIVHEhVz4LbwT41THcYEzKjjmJDnZHskcBbcRvYqRpt048i6M7AUc
+	v0RxN6TeLiPnwvhmUh/wgIT5TDal1U0Wdpf3KxFUNenu3EV/iNfLIq2F4cJD9gvv
+	FgAXEinZa8I+TJHYqF7volsY6/mLiTnDCPss8B7CsJHktQhQMjyWKUdpYeQ0YRzm
+	5psuLA1WX+U0FfC463zH34xnpNLOZREnP0c8bgUKIYsTOkbKR8LLAqx5RhjQJiGW
+	3iyRBnJNYbZuwwx7FhrAHblLNrSf9JjeHdw0Bv86tQK4zZPjOZvL+po6SzSCY6mq
+	C05Ksg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sn5bqyb7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 09:10:41 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48O9AdTd032031
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 09:10:39 GMT
+Received: from [10.214.227.50] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 24 Sep
+ 2024 02:10:34 -0700
+Message-ID: <e96234cd-2278-4c06-9da5-f3fee90b8a53@quicinc.com>
+Date: Tue, 24 Sep 2024 14:40:21 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 4/5] iommu/arm-smmu: introduction of ACTLR for custom
+ prefetcher settings
+To: kernel test robot <lkp@intel.com>, <robdclark@gmail.com>,
+        <will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+        <jgg@ziepe.ca>, <jsnitsel@redhat.com>, <robh@kernel.org>,
+        <krzysztof.kozlowski@linaro.org>, <quic_c_gdjako@quicinc.com>,
+        <dmitry.baryshkov@linaro.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <iommu@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20240920155813.3434021-5-quic_bibekkum@quicinc.com>
+ <202409230343.Q8KnYl2w-lkp@intel.com>
+Content-Language: en-US
+From: Bibek Kumar Patro <quic_bibekkum@quicinc.com>
+In-Reply-To: <202409230343.Q8KnYl2w-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: E1hNcWbfFYGKPqIgc0dVdRU9C7oDlNJ_
+X-Proofpoint-GUID: E1hNcWbfFYGKPqIgc0dVdRU9C7oDlNJ_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 mlxlogscore=937
+ spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409240063
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   63759dec7a1be60e43e98e4257de936b546e4656
-commit: dc05c36e47d0a11399068744f5c60658b58a2929 [1434/2441] iommu/ioasid: Redefine IOASID set and allocation APIs
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240924/202409241646.pzgC4plP-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241646.pzgC4plP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241646.pzgC4plP-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/iommu/ioasid.c:280: warning: Cannot understand  * @brief Reserve capacity from the system pool
-    on line 280 - I thought it was a doc line
-   drivers/iommu/ioasid.c:307: warning: Cannot understand  * @brief Return capacity to the system pool
-    on line 307 - I thought it was a doc line
->> drivers/iommu/ioasid.c:527: warning: Cannot understand  * @brief Free an ioasid_set if empty. Restore pending notification list.
-    on line 527 - I thought it was a doc line
 
 
-vim +527 drivers/iommu/ioasid.c
+On 9/23/2024 1:06 AM, kernel test robot wrote:
+> All warnings (new ones prefixed by >>):
+> 
+>     In file included from drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:14:
+>     drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: In function 'qcom_smmu_set_actlr_dev':
+>>> drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:266:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+>       266 |         arm_smmu_cb_write(smmu, cbndx, ARM_SMMU_CB_ACTLR, (u64)match->data);
+>           |                                                           ^
+>     drivers/iommu/arm/arm-smmu/arm-smmu.h:533:59: note: in definition of macro 'arm_smmu_cb_write'
+>       533 |         arm_smmu_writel((s), ARM_SMMU_CB((s), (n)), (o), (v))
+>           |
 
-   525	
-   526	/**
- > 527	 * @brief Free an ioasid_set if empty. Restore pending notification list.
-   528	 *
-   529	 * @param set to be freed
-   530	 * @return
-   531	 */
-   532	int ioasid_set_free(struct ioasid_set *set)
-   533	{
-   534		int ret = 0;
-   535	
-   536		spin_lock(&ioasid_allocator_lock);
-   537		ret = ioasid_set_free_locked(set);
-   538		spin_unlock(&ioasid_allocator_lock);
-   539		return ret;
-   540	}
-   541	EXPORT_SYMBOL_GPL(ioasid_set_free);
-   542	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'll fix this warning in next revision after other reviews are received.
+
+regards,
+Bibek
