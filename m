@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF8C176FA5;
-	Tue, 24 Sep 2024 22:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB33818308A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 22:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727218132; cv=none; b=HpyBr8UgC0hPp29JWhVKYf/rvom3jbOvWGTABZ8FEsHeDHpGOoGnlPuEClTtWchiU5sd/+k9Qnw4tnUoXkGPVu7LLzLN1UQZCpY1j56/FIu7mKGM/uX0sIC88BuE84ZAnKqP+UbUOmggfifG7YkWJAM2HAc+bfdoPcy4xLmi6qA=
+	t=1727218730; cv=none; b=Qgqv0aYMbi2Lh25JCrc7bgFJYBRD+l6K3z7pDW/J8+X9Edy/zKpSLq18lD5vM//zXx4IdSVH5jB620NdkeMhjaBDV+Q7uAL++VDXHBOkA9QjBN9MdwkcrJY4NIXqGwVEVd7lBAyXtR421VvUMQfxOC1yHSB48Nh/32WM8He50pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727218132; c=relaxed/simple;
-	bh=YFLT7lvUmLlcX+KeUeORCwsDU3A3sva3+huIQHw5Sp0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evOsS+TicthxczJATlzEQC1cyTUHCXBIUp79OlUO6Tszr48sLiWb2XgdpQ3y6ho0BCX6D8I4fEN66GgzkP+TLL7V668xOw1Dgo0iPQe1J2WAlsHaij74lT4z7y9YDpqSb0BrTC2gzoZqZvUbnAyVrGMmc2mbwLpNQ33mji8czSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YasrFEI8; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1727218730; c=relaxed/simple;
+	bh=zwYAfVMxsFhuigyL4ymSUz0zI+x2d8UtakFsED7kYLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C7susCJ8pZrjg9bNfM0ewlq9HGA/GDixZnNnlZJnZ30yMomTEo68ZAoRW/lFca86gCgm0Ps1BP65yyO3NYsqj8zgJqCo8BcQhszo0tcaPZYgtZ3+Z/KFlhhqzSq5VmkcrrGBzb9qkTFR0lX/pLpAkbpesi7hePKRd3EFqyVVmtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHyl5yUL; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YasrFEI8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHyl5yUL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727218130; x=1758754130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YFLT7lvUmLlcX+KeUeORCwsDU3A3sva3+huIQHw5Sp0=;
-  b=YasrFEI8pm4K3Ge7VTfKJ0T/Tv6i0R3azLGESU7kLoDgGY2dsMwD15nD
-   gfW7yCfnEcXA1uw8D5L8X20DGw1znC1F+i9gOsk+JWBifL3MI+fWWdjrO
-   oHVkF/EzZnR9G8phgSncgmdGnlUPvB0W442gGdNGE3PWS8sWhblbZdI3F
-   a3qVNnsVBQFGU2wWCBvneHg1rruTotG3rGXfkTBoESdXNgfk1VJGBMSdV
-   Hc349tKxqmTItpMUdudADg7ealfSWALCnu1sdW9nj/+OzmNclKAxCObls
-   DByJwXV77um/M8HFNmL7Zduuex84kfV7lfbVP3MSCMq2t8tK6DtV0/sdq
-   g==;
-X-CSE-ConnectionGUID: Q1RygeYhTnW+esZyodmlgg==
-X-CSE-MsgGUID: Gnnfez7ASmO+iRM8p8Wm0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="36909571"
+  t=1727218728; x=1758754728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zwYAfVMxsFhuigyL4ymSUz0zI+x2d8UtakFsED7kYLc=;
+  b=mHyl5yULz9lA9FWOvWfJoQ3b4D0c71BxUcvA4KHQF5CtHqzW9Ucw8aSv
+   bgtcPEWlY7lgk1VfSslFHeN/S3TvCTcdiyP01EaQ6aix6Dd7aqhJDCPgv
+   k5RbNiCDJjrUG4USh5dyUTFaN4tF7piRBUL+Kck6l9UqirgFS1sRTw8hA
+   c1e/N0OyEw16kCvYcxnRa8s9Ul4N98MefgU9OhuucgR3NKZMJdAGFZipJ
+   8ryxf3GwEWnTudNf4VQ3+qi4UjyjfoaGZ0EICNwpkM7HRkk6XM0ik9vQq
+   zH7tmVGA/C/ZOjHrhB+xPYz0HL4/+c1zLSIyY+SRkjQcQRVTuqbnlOs+M
+   w==;
+X-CSE-ConnectionGUID: lOzQi6fHQvWLHg94+U1c3w==
+X-CSE-MsgGUID: +rcSwjX3TWeMX8V0TSkgcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="29956073"
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="36909571"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:48:49 -0700
-X-CSE-ConnectionGUID: VewxNWtFTjy2y+neNWv/nQ==
-X-CSE-MsgGUID: w14Jr1cfTmGEMvrzgefZ/A==
+   d="scan'208";a="29956073"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:58:47 -0700
+X-CSE-ConnectionGUID: F7W2TqUjQO2ChdqR6M7uiw==
+X-CSE-MsgGUID: 9fzLCNkFSBaBsHmqp8SKsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="102389047"
+   d="scan'208";a="71198055"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Sep 2024 15:48:46 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 24 Sep 2024 15:58:46 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stEKp-000Iun-1x;
-	Tue, 24 Sep 2024 22:48:43 +0000
-Date: Wed, 25 Sep 2024 06:48:14 +0800
+	id 1stEUV-000Iv7-2g;
+	Tue, 24 Sep 2024 22:58:43 +0000
+Date: Wed, 25 Sep 2024 06:58:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Vetter <jvetter@kalrayinc.com>, Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
-	Yann Sionneau <ysionneau@kalrayinc.com>,
-	Julian Vetter <jvetter@kalrayinc.com>
-Subject: Re: [PATCH v5 1/5] Consolidate __memcpy_{to,from}io and __memset_io
- into iomap_copy.c
-Message-ID: <202409250603.okc57309-lkp@intel.com>
-References: <20240924121432.798655-2-jvetter@kalrayinc.com>
+To: kernel@openeuler.org, xiongmengbiao <xiongmengbiao@hygon.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 13560/14103] drivers/crypto/ccp/hygon/vpsp.c:91:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202409250631.b3SgU0xM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,126 +62,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240924121432.798655-2-jvetter@kalrayinc.com>
 
-Hi Julian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arnd-asm-generic/master]
-[also build test WARNING on soc/for-next akpm-mm/mm-nonmm-unstable arm64/for-next/core linus/master v6.11 next-20240924]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Vetter/Consolidate-__memcpy_-to-from-io-and-__memset_io-into-iomap_copy-c/20240924-202154
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20240924121432.798655-2-jvetter%40kalrayinc.com
-patch subject: [PATCH v5 1/5] Consolidate __memcpy_{to,from}io and __memset_io into iomap_copy.c
-config: arm-mxs_defconfig (https://download.01.org/0day-ci/archive/20240925/202409250603.okc57309-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409250603.okc57309-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   d25e57f47750555950b12145f98d5168319e6712
+commit: 3ce4cb81ef2b148f6c830c7debb4405e26cded1c [13560/14103] drivers/crypto/ccp: support TKM run on CSV
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240925/202409250631.b3SgU0xM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409250631.b3SgU0xM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409250603.okc57309-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409250631.b3SgU0xM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   lib/iomap_copy.c:89:19: error: call to undeclared function 'IS_ALIGNED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      89 |         while (count && !IS_ALIGNED((unsigned long)from, NATIVE_STORE_SIZE)) {
-         |                          ^
-   lib/iomap_copy.c:121:19: error: call to undeclared function 'IS_ALIGNED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     121 |         while (count && !IS_ALIGNED((unsigned long)to, NATIVE_STORE_SIZE)) {
-         |                          ^
-   lib/iomap_copy.c:161:19: error: call to undeclared function 'IS_ALIGNED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     161 |         while (count && !IS_ALIGNED((unsigned long)dst, NATIVE_STORE_SIZE)) {
-         |                          ^
->> lib/iomap_copy.c:159:12: warning: shift count >= width of type [-Wshift-count-overflow]
-     159 |                 qc |= qc << 32;
-         |                          ^  ~~
-   1 warning and 3 errors generated.
+>> drivers/crypto/ccp/hygon/vpsp.c:91: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Copy the guest data to the host kernel buffer
+>> drivers/crypto/ccp/hygon/vpsp.c:294: warning: Cannot understand  * @brief Directly convert the gpa address into hpa and forward it to PSP,
+    on line 294 - I thought it was a doc line
+>> drivers/crypto/ccp/hygon/vpsp.c:381: warning: Cannot understand  * @brief copy data in gpa to host memory and send it to psp for processing.
+    on line 381 - I thought it was a doc line
 
 
-vim +159 lib/iomap_copy.c
+vim +91 drivers/crypto/ccp/hygon/vpsp.c
 
-    84	
-    85	
-    86	#ifndef __memcpy_fromio
-    87	void __memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
-    88	{
-  > 89		while (count && !IS_ALIGNED((unsigned long)from, NATIVE_STORE_SIZE)) {
-    90			*(u8 *)to = __raw_readb(from);
-    91			from++;
-    92			to++;
-    93			count--;
-    94		}
-    95	
-    96		while (count >= NATIVE_STORE_SIZE) {
-    97	#ifdef CONFIG_64BIT
-    98				put_unaligned(__raw_readq(from), (uintptr_t *)to);
-    99	#else
-   100				put_unaligned(__raw_readl(from), (uintptr_t *)to);
-   101	#endif
-   102	
-   103			from += NATIVE_STORE_SIZE;
-   104			to += NATIVE_STORE_SIZE;
-   105			count -= NATIVE_STORE_SIZE;
-   106		}
+    89	
+    90	/**
+  > 91	 * Copy the guest data to the host kernel buffer
+    92	 * and record the host buffer address in 'hbuf'.
+    93	 * This 'hbuf' is used to restore context information
+    94	 * during asynchronous processing.
+    95	 */
+    96	static int kvm_pv_psp_cmd_pre_op(struct kvm_vpsp *vpsp, gpa_t data_gpa,
+    97			struct vpsp_hbuf_wrapper *hbuf)
+    98	{
+    99		int ret = 0;
+   100		void *data = NULL;
+   101		struct psp_cmdresp_head psp_head;
+   102		uint32_t data_size;
+   103	
+   104		if (unlikely(vpsp->read_guest(vpsp->kvm, data_gpa, &psp_head,
+   105						sizeof(struct psp_cmdresp_head))))
+   106			return -EFAULT;
    107	
-   108		while (count) {
-   109			*(u8 *)to = __raw_readb(from);
-   110			from++;
-   111			to++;
-   112			count--;
-   113		}
-   114	}
-   115	EXPORT_SYMBOL(__memcpy_fromio);
-   116	#endif
-   117	
-   118	#ifndef __memcpy_toio
-   119	void __memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
-   120	{
-   121		while (count && !IS_ALIGNED((unsigned long)to, NATIVE_STORE_SIZE)) {
-   122			__raw_writeb(*(u8 *)from, to);
-   123			from++;
-   124			to++;
-   125			count--;
-   126		}
+   108		data_size = psp_head.buf_size;
+   109		if (check_psp_mem_range(NULL, data_gpa, data_size))
+   110			return -EFAULT;
+   111	
+   112		data = kzalloc(data_size, GFP_KERNEL);
+   113		if (!data)
+   114			return -ENOMEM;
+   115	
+   116		if (unlikely(vpsp->read_guest(vpsp->kvm, data_gpa, data, data_size))) {
+   117			ret = -EFAULT;
+   118			goto end;
+   119		}
+   120	
+   121		hbuf->data = data;
+   122		hbuf->data_size = data_size;
+   123	
+   124	end:
+   125		return ret;
+   126	}
    127	
-   128		while (count >= NATIVE_STORE_SIZE) {
-   129	#ifdef CONFIG_64BIT
-   130				__raw_writeq(get_unaligned((uintptr_t *)from), to);
-   131	#else
-   132				__raw_writel(get_unaligned((uintptr_t *)from), to);
-   133	#endif
-   134	
-   135			from += NATIVE_STORE_SIZE;
-   136			to += NATIVE_STORE_SIZE;
-   137			count -= NATIVE_STORE_SIZE;
-   138		}
-   139	
-   140		while (count) {
-   141			__raw_writeb(*(u8 *)from, to);
-   142			from++;
-   143			to++;
-   144			count--;
-   145		}
-   146	}
-   147	EXPORT_SYMBOL(__memcpy_toio);
-   148	#endif
-   149	
-   150	#ifndef __memset_io
-   151	void __memset_io(volatile void __iomem *dst, int c, size_t count)
-   152	{
-   153		uintptr_t qc = (u8)c;
-   154	
-   155		qc |= qc << 8;
-   156		qc |= qc << 16;
-   157	
-   158		if (IS_ENABLED(CONFIG_64BIT))
- > 159			qc |= qc << 32;
 
 -- 
 0-DAY CI Kernel Test Service
