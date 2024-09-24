@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A1A45026
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 05:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA5941C6E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 06:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727156408; cv=none; b=VRKQzhxbYI9LjDMfR7dD1Naij5XZPU7KvCAqn/7mlyeSEF+2JGM7L5yG2tg0M/2yCKbD1HpERd2MeMMJzZsmLyikTnQj24Q6RCrm4z1KG8dZXMAYx+b22KdYYHoLD3Zc1kzvHIM2VrAmRxBOBdfejP84lhMvxmZQ6alea0a9lzA=
+	t=1727158869; cv=none; b=HAHKG3DPQbqwJyGyoV7wH8BcCP4fyDYOlWlteCuAMGsWI7FzSv0vmJ3RSjuAw0IKIm/CB1mYTPnKEGXd7bLd2tqMo0GFYcPCQ858DcZBUulTAgtzYHF5Ypby2g+K58v4aUcJWXwedmVkLWDrFHYaRYEow+GAGCYpl9mUgCfB1/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727156408; c=relaxed/simple;
-	bh=a/Tbi+R9Tf2RIYas84kAF2nAlMF4Day5msdi0tI0imQ=;
+	s=arc-20240116; t=1727158869; c=relaxed/simple;
+	bh=KpBU+VPjDJ6U5TwCtnxjGn5eo+a61fBnCw7mfQl88VU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qzFDYZ1sSGClJ1qtTXa3sH6N7O+yi2MtZ6C6pZIOtAe6EXqHQDjnnEhdGg+Ipn5BVIpEH1RmPfZnO+s3qO9pts1KpT++WknuxxFw3CBqrfE4ectJYi72N4mMnrzdK0ijE/lCKb5gh/CeUu+bawZI8gft/D7q8LXEcpkiGQPbt8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3H/Iqch; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=LACz3aSko7umnkfW2FvlmiuiVTYDSK1ycJl/9V6vAOpfpIQp6x4CwdZDGGcbYeW1M821SsevUMNuSAE6NnJQHqHPWSAMemAFTsbQY6DpPwJ/++bTmU1kuzjjpeovtY0SZ7OZca1b4/gxq83XsmzwVgcqL9Grr93WYdpES1JKWTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFn/LSDM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3H/Iqch"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFn/LSDM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727156406; x=1758692406;
+  t=1727158867; x=1758694867;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a/Tbi+R9Tf2RIYas84kAF2nAlMF4Day5msdi0tI0imQ=;
-  b=I3H/Iqchc5mHoIFfTIRdmNB6Zqy/KqXIK41G7SSK3Ofju2iWdZe0ZHkX
-   8LnW6Fp8q1GVLLgDr9ppfdO2pL5tLilDJ2Y9tnsVTy6wzyQuwjSqqtv9F
-   VFSdGYoWBrY9Tq200swyF4LKe0z4e3w+BWVec3+LEMe6J0t/jQ34FKnxz
-   hFMYmymNWVOrP3ZqJ/bbBLCPwc+GtMnR03nHnXE+/Lsssan5oh6hCAid4
-   csgP8cFEbIwglwasgrfwLb8I4XrbTmZDobP1B+jNZrOJuy/MSH2JEvhIL
-   +6DHk4ErNJeKOd2O5ct0auLKdrgUtuRfJTIZTY53OdpgYEmiGeGRWqmJZ
-   A==;
-X-CSE-ConnectionGUID: WTz0htnFTYqKlaaYPXu8tg==
-X-CSE-MsgGUID: dgqn+00hTkqXLPCOzcdc+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="36702116"
+  bh=KpBU+VPjDJ6U5TwCtnxjGn5eo+a61fBnCw7mfQl88VU=;
+  b=VFn/LSDMEUmvNzFHs6jhzUQFKE4f4RgNfRYSmnCgcEA1YcCka66V4IlC
+   1F6fig3fm9lLpAH/a7q2lAIcst64dWhjXdmGr6AXxFZ9YNBf6noY1mzdV
+   9IfpYpego9CtmuES/bLD5WzSqI5FR5ajYrJgKDH2/pfmlw1G2/gZG8SYP
+   7TrZzgd383L2MEMv+MzC9wDS9k69VddwPB/nNC1O+PWWbPl1ZA+ODXoxO
+   yOXyz8XR86tdHlWq9HVeCOdlbM1kfs88K93U2Ve5tawbe70qRZzl8DmWn
+   JihY920diIgAZi+TFCP6nGWH9WT19naV6D+Nwe/z1XtwQzml+vuOvtrAQ
+   w==;
+X-CSE-ConnectionGUID: kbPr/jbxQka3ssvP9ueCzg==
+X-CSE-MsgGUID: xIJqRn+2Re2MFcbKN/koGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="48666014"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="36702116"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 22:40:05 -0700
-X-CSE-ConnectionGUID: AUb8naOzSBmlKGzcrrHb1A==
-X-CSE-MsgGUID: SoHkh85aQb2aWi2ExSX0fA==
+   d="scan'208";a="48666014"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 23:21:07 -0700
+X-CSE-ConnectionGUID: x9VbajZRQ3+ZxFm8vLjN1A==
+X-CSE-MsgGUID: u97N0qPLRmqICizaEfvuHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="75697209"
+   d="scan'208";a="76233209"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2024 22:40:01 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Sep 2024 23:21:03 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssyHH-000Hyv-2O;
-	Tue, 24 Sep 2024 05:39:59 +0000
-Date: Tue, 24 Sep 2024 13:39:53 +0800
+	id 1ssyuy-000I0L-1U;
+	Tue, 24 Sep 2024 06:21:00 +0000
+Date: Tue, 24 Sep 2024 14:20:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast
- truncates bits from constant value (8000000000000000 becomes 0)
-Message-ID: <202409241307.hzwOrV5I-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1432/2441]
+ drivers/iommu/ioasid.c:279: warning: Cannot understand  * @brief Reserve
+ capacity from the system pool
+Message-ID: <202409241446.lsCjCiWq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +67,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   abf2050f51fdca0fd146388f83cddd95a57a008d
-commit: 453924de6212ac159f946b75c6b59918e2e30944 afs: Overhaul invalidation handling to better support RO volumes
-date:   9 months ago
-config: loongarch-randconfig-r121-20240922 (https://download.01.org/0day-ci/archive/20240924/202409241307.hzwOrV5I-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240924/202409241307.hzwOrV5I-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   63759dec7a1be60e43e98e4257de936b546e4656
+commit: a440e5d3877a2eca9e48abbbec799292de4b849b [1432/2441] iommu/ioasid: Support setting system-wide capacity
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240924/202409241446.lsCjCiWq-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409241446.lsCjCiWq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409241307.hzwOrV5I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241446.lsCjCiWq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/afs/callback.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
->> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
---
-   fs/afs/rotate.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
->> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+All warnings (new ones prefixed by >>):
 
-vim +70 arch/loongarch/include/asm/cmpxchg.h
+>> drivers/iommu/ioasid.c:279: warning: Cannot understand  * @brief Reserve capacity from the system pool
+    on line 279 - I thought it was a doc line
+>> drivers/iommu/ioasid.c:306: warning: Cannot understand  * @brief Return capacity to the system pool
+    on line 306 - I thought it was a doc line
 
-720dc7ab252bbd Huacai Chen   2022-08-25  63  
-ddf502717da029 Huacai Chen   2022-10-12  64  static __always_inline unsigned long
-068550631fbe0b Andrzej Hajda 2023-01-18  65  __arch_xchg(volatile void *ptr, unsigned long x, int size)
-5b0b14e550a006 Huacai Chen   2022-05-31  66  {
-5b0b14e550a006 Huacai Chen   2022-05-31  67  	switch (size) {
-720dc7ab252bbd Huacai Chen   2022-08-25  68  	case 1:
-720dc7ab252bbd Huacai Chen   2022-08-25  69  	case 2:
-720dc7ab252bbd Huacai Chen   2022-08-25 @70  		return __xchg_small(ptr, x, size);
-720dc7ab252bbd Huacai Chen   2022-08-25  71  
-5b0b14e550a006 Huacai Chen   2022-05-31  72  	case 4:
-5b0b14e550a006 Huacai Chen   2022-05-31  73  		return __xchg_asm("amswap_db.w", (volatile u32 *)ptr, (u32)x);
-5b0b14e550a006 Huacai Chen   2022-05-31  74  
-5b0b14e550a006 Huacai Chen   2022-05-31  75  	case 8:
-5b0b14e550a006 Huacai Chen   2022-05-31  76  		return __xchg_asm("amswap_db.d", (volatile u64 *)ptr, (u64)x);
-5b0b14e550a006 Huacai Chen   2022-05-31  77  
-5b0b14e550a006 Huacai Chen   2022-05-31  78  	default:
-5b0b14e550a006 Huacai Chen   2022-05-31  79  		BUILD_BUG();
-5b0b14e550a006 Huacai Chen   2022-05-31  80  	}
-5b0b14e550a006 Huacai Chen   2022-05-31  81  
-5b0b14e550a006 Huacai Chen   2022-05-31  82  	return 0;
-5b0b14e550a006 Huacai Chen   2022-05-31  83  }
-5b0b14e550a006 Huacai Chen   2022-05-31  84  
 
-:::::: The code at line 70 was first introduced by commit
-:::::: 720dc7ab252bbdf404cab7b909e26b31e602bf7e LoongArch: Add subword xchg/cmpxchg emulation
+vim +279 drivers/iommu/ioasid.c
 
-:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+   277	
+   278	/**
+ > 279	 * @brief Reserve capacity from the system pool
+   280	 *
+   281	 * @param nr_ioasid Number of IOASIDs requested to be reserved, 0 means
+   282	 *	reserve all remaining IDs.
+   283	 *
+   284	 * @return the remaining capacity on success, or errno
+   285	 */
+   286	int ioasid_reserve_capacity(ioasid_t nr_ioasid)
+   287	{
+   288		int ret = 0;
+   289	
+   290		spin_lock(&ioasid_allocator_lock);
+   291		if (nr_ioasid > ioasid_capacity_avail) {
+   292			ret = -ENOSPC;
+   293			goto done_unlock;
+   294		}
+   295		if (!nr_ioasid)
+   296			nr_ioasid = ioasid_capacity_avail;
+   297		ioasid_capacity_avail -= nr_ioasid;
+   298		ret = nr_ioasid;
+   299	done_unlock:
+   300		spin_unlock(&ioasid_allocator_lock);
+   301		return ret;
+   302	}
+   303	EXPORT_SYMBOL_GPL(ioasid_reserve_capacity);
+   304	
+   305	/**
+ > 306	 * @brief Return capacity to the system pool
+   307	 * 	We trust the caller not to return more than it has reserved, we could
+   308	 * 	also track reservation if needed.
+   309	 *
+   310	 * @param nr_ioasid Number of IOASIDs requested to be returned
+   311	 *
+   312	 * @return the remaining capacity on success, or errno
+   313	 */
+   314	int ioasid_cancel_capacity(ioasid_t nr_ioasid)
+   315	{
+   316		int ret = 0;
+   317	
+   318		spin_lock(&ioasid_allocator_lock);
+   319		if (nr_ioasid + ioasid_capacity_avail > ioasid_capacity) {
+   320			ret = -EINVAL;
+   321			goto done_unlock;
+   322		}
+   323		ioasid_capacity_avail += nr_ioasid;
+   324		ret = ioasid_capacity_avail;
+   325	done_unlock:
+   326		spin_unlock(&ioasid_allocator_lock);
+   327		return ret;
+   328	}
+   329	EXPORT_SYMBOL_GPL(ioasid_cancel_capacity);
+   330	
 
 -- 
 0-DAY CI Kernel Test Service
