@@ -1,62 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38B01A76A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Sep 2024 15:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E741AB6D0;
+	Tue, 24 Sep 2024 15:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727190448; cv=none; b=YuWcuKgTGgE5I5aAOW+7MP7kV0K8FeTy67Xxz9ADFdNT2apMpmOx/izbjMHEWafIlD+xEF+PzZyw5jnUMFd69ZHFhjySvs19XpuWAbRCu9nsdxmbD9ZEeztJvwF1co4Dz5qCK+sU7nWIEuFE7jk2VSXpp6nUQKU0yvIlaI2yu48=
+	t=1727190450; cv=none; b=XBJdOEE8Xnvn8dZT8IhbaDFjxzZ0G23ME+It7xP7iIYVvX5ySlWhJqZ+1WaJuq5VBiYuCFdkZhLF1nbO6waKuAMsuTsljn8aK48Z6lfe4Rasko0em0N7IeOWNMR4utz9utfeAGxNw5avIcEzAQCyDXAtNwOMfLTZqXhe2XfqMj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727190448; c=relaxed/simple;
-	bh=kATl7V87QdChzLtPnK/t+I6IE7XjFqPl1Kc31zJmz00=;
+	s=arc-20240116; t=1727190450; c=relaxed/simple;
+	bh=9BUREG+H48qxEiAFJ9joDvMquHrNiWatRuMKp6Dg5sk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KX7aHBSBAvpgMKxRkbSt+EdU+WCHyRmZ8LxoS0mvb9QDwMVWO5w2epG3RbPJYoxB1PPMb6RhubLMe0oAkelQWogexz9zw6Cpo2iIBzxZ6/DLGkx/dNXMrVD7fKyiBcnG/DBpr/yHc5g19Ni+HjvMrREb+J7GBgAqXcqQjn16zRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EpnliHT3; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=ARqmMp5O/RO4JR2Jw5PV/1myRyz+HBsHGY8a9xY27K30YB8fPzV6pUPQP0dYF2bFcaTfmM5oSi0kQ/t0bl4zSxstD696DPru2HlRpP0gIiW+lLWgAKxjUZCIxkt9wcQdyrScNe9qvIvmj36AgckD+3xU2+eJTe6RQgY9BurqPSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKmvm3+4; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EpnliHT3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKmvm3+4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727190447; x=1758726447;
+  t=1727190449; x=1758726449;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kATl7V87QdChzLtPnK/t+I6IE7XjFqPl1Kc31zJmz00=;
-  b=EpnliHT364TdvoNrbogiGsmxT+rKloAIT7dKNyE/b82MMAsNdhTCcyoj
-   3nnQqasMXOJVuJ8H0x8HhGULJqfU8m4fFMz4a8YuE+cnn76XqZA6fat3t
-   /JN0hR4pJ8cR090zRADsI8uNz6+YZP2W56AX4u8GecTUNr7kYHUcqctrr
-   7yFpQfeJhocBCjDpua8Fmo/eUQyOemxySaz7RH1je+IbFJTb21HLZsIPK
-   PTGfV4RF/LXs/C2IgplDPuo9Qr+anBquUySOGiyppJpQHo4W3CEjz0q7k
-   b1GW0SQixeoXHvYLsRydmAS1DbyHwSMPSgVARPSXTwsJDgfxjSbonKwM1
-   A==;
-X-CSE-ConnectionGUID: jmAdDYI/Q8OCs0zY7RHnVA==
-X-CSE-MsgGUID: A6FXKWn4QKKwC33yBYREdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="43661851"
+  bh=9BUREG+H48qxEiAFJ9joDvMquHrNiWatRuMKp6Dg5sk=;
+  b=jKmvm3+4X975/ICvVukVl6AIcnLq0N3INo+Q0/pgxVoK5VHYhYgO+pEJ
+   +4IQgj8Wlr9WYUPrmP74xFGbbY+jpceVIN3cigVTzZuBOV7mF+/HNO46t
+   ONKue+ChpuyoovfVWMFPdHa9N2JRFTYohT3+0dU9gkeINYm9kXtsu4h4Q
+   OD5pw9BDdQHhu/WbbjHUk/TMeKYQuKE8PTeQ3WdpSMRF93b4A2WFys2Yz
+   Jw7fByltHcgLqkgH2BXRaBYDbxEkfHXfekdqqAZnvvGVRn5xn6XMO0AFm
+   wR2ZuXgnAVOqq4cCe9pCjwQTYTXjK1sYiWNQl/FHMhoW2SoAb7opZEEdZ
+   w==;
+X-CSE-ConnectionGUID: 2RoDE/ZARb2GynDzH8I/2g==
+X-CSE-MsgGUID: cxtY6DtsTxmY8MWXf2TBUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="43661861"
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="43661851"
+   d="scan'208";a="43661861"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 08:07:26 -0700
-X-CSE-ConnectionGUID: mhRNl/lxSS+vyBW2tEu4Gg==
-X-CSE-MsgGUID: V6E1uOI1TYyxIn2QbN59aA==
+X-CSE-ConnectionGUID: JVVoS/FvSAOXqdjKE4J5fw==
+X-CSE-MsgGUID: oRV4arL3QeuhUr/0A8oO/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="71741772"
+   d="scan'208";a="71741773"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 24 Sep 2024 08:07:23 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st78L-000ITW-07;
+	id 1st78L-000ITY-0D;
 	Tue, 24 Sep 2024 15:07:21 +0000
 Date: Tue, 24 Sep 2024 23:06:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: "qiwu.chen" <qiwuchen55@gmail.com>, corbet@lwn.net, oleg@redhat.com,
 	catalin.marinas@arm.com, will@kernel.org, paulmck@kernel.org,
 	akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, "qiwu.chen" <qiwu.chen@transsion.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+	"qiwu.chen" <qiwu.chen@transsion.com>
 Subject: Re: [PATCH v4 1/2] panic: add option to dump task maps info in
  panic_print
-Message-ID: <202409242252.cefLq5jM-lkp@intel.com>
+Message-ID: <202409242208.SqjERCDw-lkp@intel.com>
 References: <20240924074341.37272-1-qiwu.chen@transsion.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,25 +83,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/qiwu-chen/arm64-show-sign
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
 patch link:    https://lore.kernel.org/r/20240924074341.37272-1-qiwu.chen%40transsion.com
 patch subject: [PATCH v4 1/2] panic: add option to dump task maps info in panic_print
-config: arm-stm32_defconfig (https://download.01.org/0day-ci/archive/20240924/202409242252.cefLq5jM-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409242252.cefLq5jM-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240924/202409242208.SqjERCDw-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409242208.SqjERCDw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409242252.cefLq5jM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409242208.SqjERCDw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/panic.c: In function 'dump_task_maps_info':
->> kernel/panic.c:235:17: error: implicit declaration of function 'get_vma_name'; did you mean 'arch_vma_name'? [-Wimplicit-function-declaration]
+   In file included from kernel/panic.c:15:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/panic.c:235:3: error: call to undeclared function 'get_vma_name'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      235 |                 get_vma_name(vma, &path, &name, &name_fmt);
-         |                 ^~~~~~~~~~~~
-         |                 arch_vma_name
+         |                 ^
+   1 warning and 1 error generated.
 
 
-vim +235 kernel/panic.c
+vim +/get_vma_name +235 kernel/panic.c
 
    210	
    211	/*
