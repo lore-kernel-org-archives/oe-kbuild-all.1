@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C962AE6C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 21:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51319148838
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 22:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727298944; cv=none; b=eJ0R/+iNTP3cUjFhKsVaRup+CkqthdlIG1zI/BuD8wUYPgj9UGQ4IxWUfoKXlU5EBnj0bEqomuUhDdiw5qOnyT/Nwa/w03U0voxNi3RzCDPNtYvhk7NAj6jXyRyLPtaQtxvH0e+GRdAiEo7nB0T57QXeS0YHNL6FeL0x/t1DzHo=
+	t=1727303207; cv=none; b=tQNWlNbCw6jYjSR2ffjVBsxTgU0imqbCRg9WqozHdo5C3vqGB6rLmhKXdGfFpI4CG3xGgTYdB5vXMq2eHe1rDqPpZamldxbkOnpktJok6V7mVCoGjf8Jo6T/DWJSaavqJ6TT/GKZAdvGv2Fsao+GP50tWOGTsthVUBH1nM05a40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727298944; c=relaxed/simple;
-	bh=qfDNw+wZHSrTvyh20BW6zPJT8BV+q7QNKaMi0srK0B0=;
+	s=arc-20240116; t=1727303207; c=relaxed/simple;
+	bh=tF0jZejooZkn6ekXu0lkiXouPMwONHS5GiS18ZFRC3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DhpfsNL6CUBJvhWECyqXrAjU/xuyC5N3TqrIoign+rI73Kl7+GBHvHp43uz31zYv851lITCUTRgKvSKDL4IMpJAy8UdFO2UWaStnDeDf+rmi/ItbbNWO3xzt+ZcqiAZrbMj2AVgrFKtbWjF+GEZWSEU1ubwAeoTeCUvxPLSxmuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Urf3vgR+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=X3JxswUJJc/OlzR17v1WS/bRQDk5Vxd0FWzIq5HPIglPdBpYAcHqvJo58OK6q2UcBUY5naK1dp3mxPX5PDP+IrMdCf/oeeeyS2mHwj8YbZHlzDjOneIG4y+Wkua/mxcDjTPc6H1iZQlQvpKhpCQJTMhaSiVMPQ86CR0wP53z53g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HVxBQUj8; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Urf3vgR+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HVxBQUj8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727298941; x=1758834941;
+  t=1727303204; x=1758839204;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qfDNw+wZHSrTvyh20BW6zPJT8BV+q7QNKaMi0srK0B0=;
-  b=Urf3vgR+JKLm/FVJmgwLTamQJTY81jj1vAXou1j6oRiifj7RpuIo5Fjd
-   s+0gbYE2eVtv9W2SkRg+SwPBMxfZ42Q7+lAMJQr8kDk86N97WkQbo9ifN
-   2Hy/lns8jz9XLbQ87k7zyeaCaeNCLQ/qiEPXRdyrkY2ev60axzAJ4R2aP
-   SE3inxA7P1eEGsts0wPcWAjsVtOzx5fa9tRykSTZu53CwFvhfY/CaoH0t
-   0UZgBVghxRc8YNfqBzFV52BYqsTHHyjOUadWxKoZUEyHu/qjm1l7Yb58W
-   TvKXzy6hfzQdxGTdyqcOXFu1YleskbNk9FM7i6y3QaJcjV4SSPXVWn0Ep
-   Q==;
-X-CSE-ConnectionGUID: mNtlguBHR3y/0Ay14dHyJg==
-X-CSE-MsgGUID: kkEq7NVaSJWy6Rf5HtmlXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37514615"
+  bh=tF0jZejooZkn6ekXu0lkiXouPMwONHS5GiS18ZFRC3w=;
+  b=HVxBQUj8tAPsXhyG47b71iF86bFOUzW9KGq/NqC4yruxqazmZw8ca3gt
+   C7qBpLeDBUBdJE4GPBbq84OqcOGcVuowF93JTJJfzLrEGNmR+f2ms7McV
+   aS0FbtwPeb44R70bOQzT54EbaqhsJh0guWPIyqKc1LIB6whDXuzLCz20f
+   xK1TcJKxKZdNuhfB9s9kRUMgZUEUxovn2zGOIH4SoZDakohal4ZauVJEj
+   bOs0oDmZ4TlbrBwUzojcRU+Vyq0Nxp1j+KXbuNoBw/XaN8BaAX9ZmZk/u
+   qmHfdLiwqT8HINo9Xnm8tYdGsYOTMUkMRh1cw26l9OWHo5WcIP4IzXxST
+   A==;
+X-CSE-ConnectionGUID: 5ZntiYCZScKf28MhI+PZPg==
+X-CSE-MsgGUID: 3SQRVGMmRLa+xXJ5lOd/Pw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37732374"
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="37514615"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 14:15:41 -0700
-X-CSE-ConnectionGUID: PLaT6ULRTg+8vo1U0Zujwg==
-X-CSE-MsgGUID: p82FvcYXS5q+XPSL+8DBtw==
+   d="scan'208";a="37732374"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 15:26:43 -0700
+X-CSE-ConnectionGUID: 99r5SewzQ72z/D69v6rH6g==
+X-CSE-MsgGUID: OIfGPLkxQJCCMAS9KBgMTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="109372062"
+   d="scan'208";a="95251616"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 25 Sep 2024 14:15:39 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2024 15:26:40 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stZMG-000Jxr-1k;
-	Wed, 25 Sep 2024 21:15:36 +0000
-Date: Thu, 26 Sep 2024 05:14:58 +0800
+	id 1staSz-000Jzz-32;
+	Wed, 25 Sep 2024 22:26:37 +0000
+Date: Thu, 26 Sep 2024 06:26:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, ZhaoLong Wang <wangzhaolong1@huawei.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 7550/14112] main.c:undefined reference to
- `perf_trace_buf_alloc'
-Message-ID: <202409260526.DcjJ8rxS-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 3/2443]
+ drivers/net/ethernet/intel/ice/ice_ptp.c:2761:35: error: implicit
+ declaration of function 'convert_art_ns_to_tsc'
+Message-ID: <202409260619.Cn5af6Vu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,349 +67,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   31022a26e12a84745f84a4e505c128e7cc8a1f33
-commit: 1119ec49ac4ac643e6d7c9a5a834040aef87612e [7550/14112] mm, fs: Add BPF_READAHEAD build option for bpf readhead
-config: loongarch-randconfig-002-20240925 (https://download.01.org/0day-ci/archive/20240926/202409260526.DcjJ8rxS-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260526.DcjJ8rxS-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   9d665359e14c559b74a94a55057e9c0fbd31a81a
+commit: 7d0110e49bdc1f56083058dc9f4ea82ce9ca39f9 [3/2443] ice: update E810 100g nic driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240926/202409260619.Cn5af6Vu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260619.Cn5af6Vu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409260526.DcjJ8rxS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409260619.Cn5af6Vu-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+Note: the opencloudos/linux-5.4/lts/5.4.119-20.0009.spr HEAD 9d665359e14c559b74a94a55057e9c0fbd31a81a builds fine.
+      It only hurts bisectability.
 
-   In file included from drivers/usb/host/xhci-trace.h:25,
-                    from drivers/usb/host/xhci-trace.c:12:
-   In function 'xhci_decode_trb',
-       inlined from 'trace_raw_output_xhci_log_trb' at drivers/usb/host/./xhci-trace.h:110:1:
->> drivers/usb/host/xhci.h:2306:17: warning: null destination pointer [-Wformat-truncation=]
-    2306 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2307 |                         "TRB %08x%08x status '%s' len %d slot %d ep %d type '%s' flags %c:%c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2308 |                         field1, field0,
-         |                         ~~~~~~~~~~~~~~~
-    2309 |                         xhci_trb_comp_code_string(GET_COMP_CODE(field2)),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2310 |                         EVENT_TRB_LEN(field2), TRB_TO_SLOT_ID(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2311 |                         /* Macro decrements 1, maybe it shouldn't?!? */
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2312 |                         TRB_TO_EP_INDEX(field3) + 1,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2313 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2314 |                         field3 & EVENT_DATA ? 'E' : 'e',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2315 |                         field3 & TRB_CYCLE ? 'C' : 'c');
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2486:17: warning: null destination pointer [-Wformat-truncation=]
-    2486 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2487 |                         "%s: info %08x%08x%08x pkt type %d roothub port %d flags %c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2488 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2489 |                         field2, field1, field0 & 0xffffffe0,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2490 |                         TRB_TO_PACKET_TYPE(field0),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2491 |                         TRB_TO_ROOTHUB_PORT(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2492 |                         field3 & TRB_CYCLE ? 'C' : 'c');
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2477:17: warning: null destination pointer [-Wformat-truncation=]
-    2477 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2478 |                         "%s: ctx %08x%08x slot %d speed %d flags %c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2479 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2480 |                         field1, field0,
-         |                         ~~~~~~~~~~~~~~~
-    2481 |                         TRB_TO_SLOT_ID(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~
-    2482 |                         TRB_TO_DEV_SPEED(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~
-    2483 |                         field3 & TRB_CYCLE ? 'C' : 'c');
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2470:17: warning: null destination pointer [-Wformat-truncation=]
-    2470 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2471 |                         "%s: belt %d flags %c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~
-    2472 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2473 |                         TRB_TO_BELT(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~
-    2474 |                         field3 & TRB_CYCLE ? 'C' : 'c');
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2461:17: warning: null destination pointer [-Wformat-truncation=]
-    2461 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2462 |                         "%s: event %08x%08x vf intr %d vf id %d flags %c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2463 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2464 |                         field1, field0,
-         |                         ~~~~~~~~~~~~~~~
-    2465 |                         TRB_TO_VF_INTR_TARGET(field2),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2466 |                         TRB_TO_VF_ID(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~~
-    2467 |                         field3 & TRB_CYCLE ? 'C' : 'c');
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2454:17: warning: null destination pointer [-Wformat-truncation=]
-    2454 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2455 |                         "%s: slot %d flags %c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~
-    2456 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2457 |                         TRB_TO_SLOT_ID(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~
-    2458 |                         field3 & TRB_CYCLE ? 'C' : 'c');
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2443:17: warning: null destination pointer [-Wformat-truncation=]
-    2443 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2444 |                         "%s: deq %08x%08x stream %d slot %d ep %d flags %c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2445 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2446 |                         field1, field0,
-         |                         ~~~~~~~~~~~~~~~
-    2447 |                         TRB_TO_STREAM_ID(field2),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~
-    2448 |                         TRB_TO_SLOT_ID(field3),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~
---
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2359 |                                 field3 & TRB_CYCLE ? 'C' : 'c');
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2337:17: warning: null destination pointer [-Wformat-truncation=]
-    2337 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2338 |                          "Buffer %08x%08x length %d TD size %d intr %d type '%s' flags %c:%c:%c:%c:%c:%c:%c",
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2339 |                                 field1, field0, TRB_LEN(field2), GET_TD_SIZE(field2),
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2340 |                                 GET_INTR_TARGET(field2),
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~
-    2341 |                                 xhci_trb_type_string(type),
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2342 |                                 field3 & TRB_IDT ? 'I' : 'i',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2343 |                                 field3 & TRB_IOC ? 'I' : 'i',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2344 |                                 field3 & TRB_CHAIN ? 'C' : 'c',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2345 |                                 field3 & TRB_NO_SNOOP ? 'S' : 's',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2346 |                                 field3 & TRB_ISP ? 'I' : 'i',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2347 |                                 field3 & TRB_ENT ? 'E' : 'e',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2348 |                                 field3 & TRB_CYCLE ? 'C' : 'c');
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2319:17: warning: null destination pointer [-Wformat-truncation=]
-    2319 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2320 |                         "bRequestType %02x bRequest %02x wValue %02x%02x wIndex %02x%02x wLength %d length %d TD size %d intr %d type '%s' flags %c:%c:%c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2321 |                                 field0 & 0xff,
-         |                                 ~~~~~~~~~~~~~~
-    2322 |                                 (field0 & 0xff00) >> 8,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~
-    2323 |                                 (field0 & 0xff000000) >> 24,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2324 |                                 (field0 & 0xff0000) >> 16,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2325 |                                 (field1 & 0xff00) >> 8,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~
-    2326 |                                 field1 & 0xff,
-         |                                 ~~~~~~~~~~~~~~
-    2327 |                                 (field1 & 0xff000000) >> 16 |
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2328 |                                 (field1 & 0xff0000) >> 16,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2329 |                                 TRB_LEN(field2), GET_TD_SIZE(field2),
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2330 |                                 GET_INTR_TARGET(field2),
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~
-    2331 |                                 xhci_trb_type_string(type),
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2332 |                                 field3 & TRB_IDT ? 'I' : 'i',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2333 |                                 field3 & TRB_IOC ? 'I' : 'i',
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2334 |                                 field3 & TRB_CYCLE ? 'C' : 'c');
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2365:17: warning: null destination pointer [-Wformat-truncation=]
-    2365 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2366 |                         "Buffer %08x%08x length %d TD size %d intr %d type '%s' flags %c:%c:%c:%c:%c:%c:%c:%c",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2367 |                         field1, field0, TRB_LEN(field2), GET_TD_SIZE(field2),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2368 |                         GET_INTR_TARGET(field2),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~
-    2369 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2370 |                         field3 & TRB_BEI ? 'B' : 'b',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2371 |                         field3 & TRB_IDT ? 'I' : 'i',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2372 |                         field3 & TRB_IOC ? 'I' : 'i',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2373 |                         field3 & TRB_CHAIN ? 'C' : 'c',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2374 |                         field3 & TRB_NO_SNOOP ? 'S' : 's',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2375 |                         field3 & TRB_ISP ? 'I' : 'i',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2376 |                         field3 & TRB_ENT ? 'E' : 'e',
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2377 |                         field3 & TRB_CYCLE ? 'C' : 'c');
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2495:17: warning: null destination pointer [-Wformat-truncation=]
-    2495 |                 snprintf(str, size,
-         |                 ^~~~~~~~~~~~~~~~~~~
-    2496 |                         "type '%s' -> raw %08x %08x %08x %08x",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2497 |                         xhci_trb_type_string(type),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2498 |                         field0, field1, field2, field3);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from drivers/usb/host/xhci-trace.h:622:
-   drivers/usb/host/./xhci-trace.h: In function 'trace_raw_output_xhci_log_trb':
->> drivers/usb/host/./xhci-trace.h:127:19: warning: '%s' directive argument is null [-Wformat-overflow=]
-     127 |         TP_printk("%s: %s", xhci_ring_type_string(__entry->type),
-         |                   ^~~~~~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   drivers/usb/host/./xhci-trace.h:127:9: note: in expansion of macro 'TP_printk'
-     127 |         TP_printk("%s: %s", xhci_ring_type_string(__entry->type),
-         |         ^~~~~~~~~
-   In file included from include/trace/trace_events.h:237:
-   drivers/usb/host/./xhci-trace.h:127:24: note: format string is defined here
-     127 |         TP_printk("%s: %s", xhci_ring_type_string(__entry->type),
-         |                        ^~
-   In function 'xhci_decode_ep_context',
-       inlined from 'trace_raw_output_xhci_log_ep_ctx' at drivers/usb/host/./xhci-trace.h:312:1:
->> drivers/usb/host/xhci.h:2801:15: warning: argument 1 null where non-null expected [-Wnonnull]
-    2801 |         ret = sprintf(str, "State %s mult %d max P. Streams %d %s",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2802 |                         xhci_ep_state_string(ep_state), mult,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2803 |                         max_pstr, lsa ? "LSA " : "");
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:32,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/tracepoint.h:15,
-                    from drivers/usb/host/xhci-trace.h:24:
-   include/linux/sprintf.h: In function 'trace_raw_output_xhci_log_ep_ctx':
-   include/linux/sprintf.h:10:20: note: in a call to function 'sprintf' declared 'nonnull'
-      10 | __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
-         |                    ^~~~~~~
-   In function 'xhci_decode_ep_context',
-       inlined from 'trace_raw_output_xhci_log_ep_ctx' at drivers/usb/host/./xhci-trace.h:312:1:
-   drivers/usb/host/xhci.h:2801:15: warning: null destination pointer [-Wformat-overflow=]
-    2801 |         ret = sprintf(str, "State %s mult %d max P. Streams %d %s",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2802 |                         xhci_ep_state_string(ep_state), mult,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2803 |                         max_pstr, lsa ? "LSA " : "");
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/./xhci-trace.h: In function 'trace_raw_output_xhci_log_ep_ctx':
-   drivers/usb/host/./xhci-trace.h:327:19: warning: '%s' directive argument is null [-Wformat-overflow=]
-     327 |         TP_printk("%s", xhci_decode_ep_context(__get_buf(XHCI_MSG_MAX),
-         |                   ^~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   drivers/usb/host/./xhci-trace.h:327:9: note: in expansion of macro 'TP_printk'
-     327 |         TP_printk("%s", xhci_decode_ep_context(__get_buf(XHCI_MSG_MAX),
-         |         ^~~~~~~~~
-   drivers/usb/host/./xhci-trace.h:327:20: note: format string is defined here
-     327 |         TP_printk("%s", xhci_decode_ep_context(__get_buf(XHCI_MSG_MAX),
-         |                    ^~
-   In function 'xhci_decode_slot_context',
-       inlined from 'trace_raw_output_xhci_log_slot_ctx' at drivers/usb/host/./xhci-trace.h:357:1:
-   drivers/usb/host/xhci.h:2546:15: warning: argument 1 null where non-null expected [-Wnonnull]
-    2546 |         ret = sprintf(str, "RS %05x %s%s%s Ctx Entries %d MEL %d us Port# %d/%d",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2547 |                         info & ROUTE_STRING_MASK,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~
-    2548 |                         ({ char *s;
-         |                         ~~~~~~~~~~~
-    2549 |                         switch (speed) {
-         |                         ~~~~~~~~~~~~~~~~
-    2550 |                         case SLOT_SPEED_FS:
-         |                         ~~~~~~~~~~~~~~~~~~~
-    2551 |                                 s = "full-speed";
-         |                                 ~~~~~~~~~~~~~~~~~
-    2552 |                                 break;
-         |                                 ~~~~~~
-    2553 |                         case SLOT_SPEED_LS:
-         |                         ~~~~~~~~~~~~~~~~~~~
-    2554 |                                 s = "low-speed";
-         |                                 ~~~~~~~~~~~~~~~~
-    2555 |                                 break;
-         |                                 ~~~~~~
-    2556 |                         case SLOT_SPEED_HS:
-         |                         ~~~~~~~~~~~~~~~~~~~
-    2557 |                                 s = "high-speed";
-         |                                 ~~~~~~~~~~~~~~~~~
-    2558 |                                 break;
-         |                                 ~~~~~~
-    2559 |                         case SLOT_SPEED_SS:
-         |                         ~~~~~~~~~~~~~~~~~~~
-    2560 |                                 s = "super-speed";
-         |                                 ~~~~~~~~~~~~~~~~~~
-    2561 |                                 break;
-         |                                 ~~~~~~
-    2562 |                         case SLOT_SPEED_SSP:
-         |                         ~~~~~~~~~~~~~~~~~~~~
-    2563 |                                 s = "super-speed plus";
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~
-    2564 |                                 break;
-         |                                 ~~~~~~
-    2565 |                         default:
-         |                         ~~~~~~~~
-    2566 |                                 s = "UNKNOWN speed";
-         |                                 ~~~~~~~~~~~~~~~~~~~~
-    2567 |                         } s; }),
-         |                         ~~~~~~~~
-    2568 |                         mtt ? " multi-TT" : "",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~
-    2569 |                         hub ? " Hub" : "",
-         |                         ~~~~~~~~~~~~~~~~~~
-    2570 |                         (info & LAST_CTX_MASK) >> 27,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2571 |                         info2 & MAX_EXIT,
-         |                         ~~~~~~~~~~~~~~~~~
-    2572 |                         DEVINFO_TO_ROOT_HUB_PORT(info2),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2573 |                         DEVINFO_TO_MAX_PORTS(info2));
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sprintf.h: In function 'trace_raw_output_xhci_log_slot_ctx':
-   include/linux/sprintf.h:10:20: note: in a call to function 'sprintf' declared 'nonnull'
-      10 | __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
-         |                    ^~~~~~~
-..
+All errors (new ones prefixed by >>):
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
+   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_get_syncdevicetime':
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:2761:35: error: implicit declaration of function 'convert_art_ns_to_tsc' [-Werror=implicit-function-declaration]
+    2761 |                         *system = convert_art_ns_to_tsc(hh_ts);
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:2761:35: error: incompatible types when assigning to type 'struct system_counterval_t' from type 'int'
+   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_set_funcs_e822':
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:3249:13: error: implicit declaration of function 'boot_cpu_has' [-Werror=implicit-function-declaration]
+    3249 |         if (boot_cpu_has(X86_FEATURE_ART) &&
+         |             ^~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:3249:26: error: 'X86_FEATURE_ART' undeclared (first use in this function); did you mean 'X86_FEATURE_ANY'?
+    3249 |         if (boot_cpu_has(X86_FEATURE_ART) &&
+         |                          ^~~~~~~~~~~~~~~
+         |                          X86_FEATURE_ANY
+   drivers/net/ethernet/intel/ice/ice_ptp.c:3249:26: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:3250:26: error: 'X86_FEATURE_TSC_KNOWN_FREQ' undeclared (first use in this function)
+    3250 |             boot_cpu_has(X86_FEATURE_TSC_KNOWN_FREQ))
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/convert_art_ns_to_tsc +2761 drivers/net/ethernet/intel/ice/ice_ptp.c
+
+  2745	
+  2746		for (i = 0; i < MAX_HH_LOCK_TRIES; i++) {
+  2747			/* Wait for sync to complete */
+  2748			hh_art_ctl = rd32(hw, GLHH_ART_CTL);
+  2749			if (hh_art_ctl & GLHH_ART_CTL_ACTIVE_M) {
+  2750				udelay(1);
+  2751				continue;
+  2752			} else {
+  2753				u32 hh_ts_lo, hh_ts_hi, tmr_idx;
+  2754				u64 hh_ts;
+  2755	
+  2756				tmr_idx = hw->func_caps.ts_func_info.tmr_index_assoc;
+  2757				/* Read ART time */
+  2758				hh_ts_lo = rd32(hw, GLHH_ART_TIME_L);
+  2759				hh_ts_hi = rd32(hw, GLHH_ART_TIME_H);
+  2760				hh_ts = ((u64)hh_ts_hi << 32) | hh_ts_lo;
+> 2761				*system = convert_art_ns_to_tsc(hh_ts);
+  2762				/* Read Device source clock time */
+  2763				hh_ts_lo = rd32(hw, GLTSYN_HHTIME_L(tmr_idx));
+  2764				hh_ts_hi = rd32(hw, GLTSYN_HHTIME_H(tmr_idx));
+  2765				hh_ts = ((u64)hh_ts_hi << 32) | hh_ts_lo;
+  2766				*device = ns_to_ktime(hh_ts);
+  2767				break;
+  2768			}
+  2769		}
+  2770		/* Release HW lock */
+  2771		hh_lock = rd32(hw, PFHH_SEM + (PFTSYN_SEM_BYTES * hw->pf_id));
+  2772		hh_lock = hh_lock & ~PFHH_SEM_BUSY_M;
+  2773		wr32(hw, PFHH_SEM + (PFTSYN_SEM_BYTES * hw->pf_id), hh_lock);
+  2774	
+  2775		if (i == MAX_HH_LOCK_TRIES)
+  2776			return -ETIMEDOUT;
+  2777	
+  2778		return 0;
+  2779	}
+  2780	
 
 -- 
 0-DAY CI Kernel Test Service
