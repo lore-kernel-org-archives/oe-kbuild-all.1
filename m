@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAC043154
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 14:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A9B1898E3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 14:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727275584; cv=none; b=JwyrAnIX1/DtnFz0PM0gbawSBBPUq6ZNgZyv1MEUpEO8OOi6qTjJfmLG/kihCkKGnq3ni0/mAet3eqF8tKaZGhkLaEtWjdPujyjCAaGAaWzw6SrNe7nvhJAQUsqceivDWUu/SUHIeV7biwmkKiX9t6zusgQ4aCPET7j4DHzLmNk=
+	t=1727276248; cv=none; b=fiMlLBlzvr40Aq+qcyD6rRJM87PmWs9UFInkRTqTtQzNhni6v6msMJfF9WL9nEqTTKwZWzhT7Zc5klhhDV0e6RXdw4MsMjTRzyUBVutY91uvO8IRv+GNWSuKnvBvqf+7HbgOfMNH8fClHTe1XxsgMhFsoySbyycY/qoT5VUCsHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727275584; c=relaxed/simple;
-	bh=3NeKW+z/ZXpmi8GxPc0kBHJywpLSMlqLDWmSo2Xdizg=;
+	s=arc-20240116; t=1727276248; c=relaxed/simple;
+	bh=pA1FxXPvPj/kId1dTT5cxmNAR2xtIimhEfc40tNPI8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XXBT1rwQqatCv+l7WsVABqbUNXMxduhV3H1TYQwbv6Z/ffqJ1y7KXdXtB8lSljHRcsrhNUYRFGDM6mMuHbkmPCFqaoh3FSbOo1rVTGKQ9FUNzrbp8JHLwcasJnqYpBdbpBX1f2DPwm9T23dK0Lmxkpz3J6IZgyk2Em9Uwf4eeYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dN69rvEl; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=TAqEn8e3hu71K7UfFeQw0bXsbc4elO7E42WYhbRlWEdL6iEmGDSAunfxy92uRS2LaZctdDI/5xL47LHztB2/dHichJr7R17eeb3mgEekWlhdn0lNiBdEoUB2NvN4IpM3xPTMR+Jc927/fdpB9w73/3sCpqJDFir85HYsCqJpM7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LutYUKI8; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dN69rvEl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LutYUKI8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727275583; x=1758811583;
+  t=1727276245; x=1758812245;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3NeKW+z/ZXpmi8GxPc0kBHJywpLSMlqLDWmSo2Xdizg=;
-  b=dN69rvElErYGv9W/kOw3Gj9vfhN12lElWVMBM59oDu82bHQgmbCYLV3u
-   ut0MpVv45lSnrgHB6ROettP2foaFDn4NGaglsPIpMAKkZOou7Huq8gSAZ
-   /095jxwp0aO9QEv5aFkzQOyHJMWnefFCQFps3xCYOhWaDa/GsRq78lpnx
-   zUouBqOvOP5H6TnLh7BMJyw1XJjTtlw7x9WWunf4qJmY1T60DIzBFj3WD
-   C5Tw9D4JKLNh7j8fgxlfEr6j8/YqBvDC7pJM6hSkH3pJDKs87+54HeV9K
-   lXnL8PlXqkgXzEmazHu0oMZ6zH8xS6fH/mxo8VrfapLh0T/zdimmQsDEL
-   Q==;
-X-CSE-ConnectionGUID: wfdTZLIySRKRs7RFcrahlA==
-X-CSE-MsgGUID: 79BdLmQXQFmWOElx0WHGGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26470781"
+  bh=pA1FxXPvPj/kId1dTT5cxmNAR2xtIimhEfc40tNPI8s=;
+  b=LutYUKI8pe8LnbKX0TSI4MlC0QET2gKCaS52MptW6aG7oNHB1oyT7eLf
+   Q3lsVD+2S9B23wD+tXrofpZdIP13bxe61XOnagUu/imfCDHteCZSEgPbH
+   Iexq0PPfo6rjlE4+wkK339rTAV+vAxapVa8D54y2+tHZo4yEb/Zphnrtu
+   cdzSQgVCPf6WinF0Kl2KVW9uGIyWCo6N3S+gIfcUFmWo/xyJx8XeLO0Cw
+   AxphVINx24ZEToqd0aXsDEbqEJl0nD13L7tgB/iiVo0Es8GLTEqb0Awsd
+   DYvaaIBX7WFR/Vvw5euZaLrhuTEpeIloVK4wGxqnG7nwY/bfK2605HWXR
+   A==;
+X-CSE-ConnectionGUID: OcPlYKSaQzGN8ql+0F+aUA==
+X-CSE-MsgGUID: 0FThJ9QWTKOLliJcHqL3Qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="48863031"
 X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="26470781"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:46:22 -0700
-X-CSE-ConnectionGUID: baSZIOaET4uFzirqXkXZgA==
-X-CSE-MsgGUID: yX5pEXGpTkuCdgU8/OXlZQ==
+   d="scan'208";a="48863031"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:57:25 -0700
+X-CSE-ConnectionGUID: marKu3KwRgybp+E2xwPd4w==
+X-CSE-MsgGUID: Hr/6q477RkeqLHdXZCmqcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="71941750"
+   d="scan'208";a="76609358"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Sep 2024 07:46:21 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Sep 2024 07:57:22 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stTHW-000JcN-34;
-	Wed, 25 Sep 2024 14:46:18 +0000
-Date: Wed, 25 Sep 2024 22:46:03 +0800
+	id 1stTSB-000Jcr-0c;
+	Wed, 25 Sep 2024 14:57:19 +0000
+Date: Wed, 25 Sep 2024 22:56:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 14108/14122]
- arch/arm64/kernel/cpufeature.c:2313:6: error: redefinition of
- 'mpam_detect_is_enabled'
-Message-ID: <202409252253.TKzwXzes-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 255/2443]
+ drivers/iommu/tegra-smmu.c:793:15: warning: assignment to 'struct
+ iommu_group *' from 'int' makes pointer from integer without a cast
+Message-ID: <202409252210.awEEScJ6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +67,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   81a41d2ac1de43215c014bc71d907a026042e55b
-commit: ab331ac5b797eb3889777f3d8d98a86069c5720e [14108/14122] arm64/mpam: Check mpam_detect_is_enabled() before accessing MPAM registers
-config: arm64-randconfig-001-20240925 (https://download.01.org/0day-ci/archive/20240925/202409252253.TKzwXzes-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   9d665359e14c559b74a94a55057e9c0fbd31a81a
+commit: 0ff8731c5eb159640fc8a8113f4dcd41809c7f47 [255/2443] iommu: Unexport iommu_group_get_for_dev()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240925/202409252210.awEEScJ6-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252253.TKzwXzes-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252210.awEEScJ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409252253.TKzwXzes-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409252210.awEEScJ6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm64/kernel/cpufeature.c:2313:6: error: redefinition of 'mpam_detect_is_enabled'
-    2313 | bool mpam_detect_is_enabled(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/include/asm/ptrace.h:11,
-                    from arch/arm64/include/asm/irqflags.h:10,
-                    from include/linux/irqflags.h:17,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/sched/task_stack.h:9,
-                    from include/linux/elfcore.h:7,
-                    from include/linux/crash_core.h:6,
-                    from include/linux/kexec.h:18,
-                    from include/linux/crash_dump.h:5,
-                    from arch/arm64/kernel/cpufeature.c:67:
-   arch/arm64/include/asm/cpufeature.h:864:20: note: previous definition of 'mpam_detect_is_enabled' with type 'bool(void)' {aka '_Bool(void)'}
-     864 | static inline bool mpam_detect_is_enabled(void)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpufeature.c:2133:13: warning: 'enable_pseudo_nmi' defined but not used [-Wunused-variable]
-    2133 | static bool enable_pseudo_nmi;
-         |             ^~~~~~~~~~~~~~~~~
+   drivers/iommu/tegra-smmu.c: In function 'tegra_smmu_add_device':
+   drivers/iommu/tegra-smmu.c:793:17: error: implicit declaration of function 'iommu_group_get_for_dev'; did you mean 'iommu_group_get_by_id'? [-Werror=implicit-function-declaration]
+     793 |         group = iommu_group_get_for_dev(dev);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 iommu_group_get_by_id
+>> drivers/iommu/tegra-smmu.c:793:15: warning: assignment to 'struct iommu_group *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     793 |         group = iommu_group_get_for_dev(dev);
+         |               ^
+   drivers/iommu/tegra-smmu.c: At top level:
+   drivers/iommu/tegra-smmu.c:893:10: error: 'const struct iommu_ops' has no member named 'add_device'
+     893 |         .add_device = tegra_smmu_add_device,
+         |          ^~~~~~~~~~
+   drivers/iommu/tegra-smmu.c:893:23: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
+     893 |         .add_device = tegra_smmu_add_device,
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/tegra-smmu.c:893:23: note: (near initialization for 'tegra_smmu_ops.map')
+   drivers/iommu/tegra-smmu.c:894:10: error: 'const struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
+     894 |         .remove_device = tegra_smmu_remove_device,
+         |          ^~~~~~~~~~~~~
+         |          probe_device
+   drivers/iommu/tegra-smmu.c:894:26: error: initialization of 'size_t (*)(struct iommu_domain *, long unsigned int,  size_t,  struct iommu_iotlb_gather *)' {aka 'long unsigned int (*)(struct iommu_domain *, long unsigned int,  long unsigned int,  struct iommu_iotlb_gather *)'} from incompatible pointer type 'void (*)(struct device *)' [-Werror=incompatible-pointer-types]
+     894 |         .remove_device = tegra_smmu_remove_device,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/tegra-smmu.c:894:26: note: (near initialization for 'tegra_smmu_ops.unmap')
+   drivers/iommu/tegra-smmu.c:896:16: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+     896 |         .map = tegra_smmu_map,
+         |                ^~~~~~~~~~~~~~
+   drivers/iommu/tegra-smmu.c:896:16: note: (near initialization for 'tegra_smmu_ops.map')
+   drivers/iommu/tegra-smmu.c:896:16: warning: initialized field overwritten [-Woverride-init]
+   drivers/iommu/tegra-smmu.c:896:16: note: (near initialization for 'tegra_smmu_ops.map')
+   drivers/iommu/tegra-smmu.c:897:18: warning: initialized field overwritten [-Woverride-init]
+     897 |         .unmap = tegra_smmu_unmap,
+         |                  ^~~~~~~~~~~~~~~~
+   drivers/iommu/tegra-smmu.c:897:18: note: (near initialization for 'tegra_smmu_ops.unmap')
+   cc1: some warnings being treated as errors
 
 
-vim +/mpam_detect_is_enabled +2313 arch/arm64/kernel/cpufeature.c
+vim +793 drivers/iommu/tegra-smmu.c
 
-  2311	
-  2312	static bool __read_mostly mpam_force_enabled;
-> 2313	bool mpam_detect_is_enabled(void)
-  2314	{
-  2315		return mpam_force_enabled;
-  2316	}
-  2317	
+7f4c9176f760f4 Thierry Reding 2017-10-12  754  
+89184651631713 Thierry Reding 2014-04-16  755  static int tegra_smmu_add_device(struct device *dev)
+7a31f6f48bb6e3 Hiroshi DOYU   2011-11-17  756  {
+89184651631713 Thierry Reding 2014-04-16  757  	struct device_node *np = dev->of_node;
+7f4c9176f760f4 Thierry Reding 2017-10-12  758  	struct tegra_smmu *smmu = NULL;
+d92e1f849830fc Robin Murphy   2017-07-21  759  	struct iommu_group *group;
+89184651631713 Thierry Reding 2014-04-16  760  	struct of_phandle_args args;
+89184651631713 Thierry Reding 2014-04-16  761  	unsigned int index = 0;
+7f4c9176f760f4 Thierry Reding 2017-10-12  762  	int err;
+7a31f6f48bb6e3 Hiroshi DOYU   2011-11-17  763  
+89184651631713 Thierry Reding 2014-04-16  764  	while (of_parse_phandle_with_args(np, "iommus", "#iommu-cells", index,
+89184651631713 Thierry Reding 2014-04-16  765  					  &args) == 0) {
+89184651631713 Thierry Reding 2014-04-16  766  		smmu = tegra_smmu_find(args.np);
+89184651631713 Thierry Reding 2014-04-16  767  		if (smmu) {
+7f4c9176f760f4 Thierry Reding 2017-10-12  768  			err = tegra_smmu_configure(smmu, dev, &args);
+7f4c9176f760f4 Thierry Reding 2017-10-12  769  			of_node_put(args.np);
+7f4c9176f760f4 Thierry Reding 2017-10-12  770  
+7f4c9176f760f4 Thierry Reding 2017-10-12  771  			if (err < 0)
+7f4c9176f760f4 Thierry Reding 2017-10-12  772  				return err;
+7f4c9176f760f4 Thierry Reding 2017-10-12  773  
+89184651631713 Thierry Reding 2014-04-16  774  			/*
+89184651631713 Thierry Reding 2014-04-16  775  			 * Only a single IOMMU master interface is currently
+89184651631713 Thierry Reding 2014-04-16  776  			 * supported by the Linux kernel, so abort after the
+89184651631713 Thierry Reding 2014-04-16  777  			 * first match.
+89184651631713 Thierry Reding 2014-04-16  778  			 */
+89184651631713 Thierry Reding 2014-04-16  779  			dev->archdata.iommu = smmu;
+0b480e44700614 Joerg Roedel   2017-08-09  780  
+0b480e44700614 Joerg Roedel   2017-08-09  781  			iommu_device_link(&smmu->iommu, dev);
+0b480e44700614 Joerg Roedel   2017-08-09  782  
+89184651631713 Thierry Reding 2014-04-16  783  			break;
+7a31f6f48bb6e3 Hiroshi DOYU   2011-11-17  784  		}
+7a31f6f48bb6e3 Hiroshi DOYU   2011-11-17  785  
+7f4c9176f760f4 Thierry Reding 2017-10-12  786  		of_node_put(args.np);
+89184651631713 Thierry Reding 2014-04-16  787  		index++;
+89184651631713 Thierry Reding 2014-04-16  788  	}
+7a31f6f48bb6e3 Hiroshi DOYU   2011-11-17  789  
+7f4c9176f760f4 Thierry Reding 2017-10-12  790  	if (!smmu)
+7f4c9176f760f4 Thierry Reding 2017-10-12  791  		return -ENODEV;
+7f4c9176f760f4 Thierry Reding 2017-10-12  792  
+d92e1f849830fc Robin Murphy   2017-07-21 @793  	group = iommu_group_get_for_dev(dev);
+d92e1f849830fc Robin Murphy   2017-07-21  794  	if (IS_ERR(group))
+d92e1f849830fc Robin Murphy   2017-07-21  795  		return PTR_ERR(group);
+d92e1f849830fc Robin Murphy   2017-07-21  796  
+d92e1f849830fc Robin Murphy   2017-07-21  797  	iommu_group_put(group);
+d92e1f849830fc Robin Murphy   2017-07-21  798  
+89184651631713 Thierry Reding 2014-04-16  799  	return 0;
+7a31f6f48bb6e3 Hiroshi DOYU   2011-11-17  800  }
+7a31f6f48bb6e3 Hiroshi DOYU   2011-11-17  801  
+
+:::::: The code at line 793 was first introduced by commit
+:::::: d92e1f849830fc78c50a00b953361fc1449aa1e2 iommu/tegra-smmu: Add iommu_group support
+
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
