@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CDD13D2BE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 19:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C8614A4F7;
+	Wed, 25 Sep 2024 19:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727292162; cv=none; b=a+HQikVg/bBibJNAJw7/JZM2FaOD9ic/FGJmrz1ur5XgGwEnzFVzwMRUEFawFuFZkoEN8gPXS9QVSPQQEMZXe76XDzALy9FVUWoZip7XaCYjtAYB64Qh5q1CN4kWVFbLSCmcEEZhkn1esaOx9uAeJJxBWmTC2VTo+XG63VYQ7Lw=
+	t=1727294083; cv=none; b=RkMgc7CQQlAPPQo1yBiOEyKXzr/hiPTAUtLUU/bFBgysvhagIIkpVpBeYNW/cuu/+FI5/BoeOy/17GFBlfa34AtkHDqNH+PujFjstmmvchtDqOu0zC6iSa7mUVHMvZh5B1/dABIPmxIrQobRFDzlAdwDjzLTqhkk6csqtsTu4q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727292162; c=relaxed/simple;
-	bh=S0urNNv3r0yAEJslZ4kLYfAM0lYjoGfeqneTwEkgSqA=;
+	s=arc-20240116; t=1727294083; c=relaxed/simple;
+	bh=dbqegwYvBSRS3Y+8mxYKJ6i4FObQFhoOKQBlHdHZZ38=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qEOM4gznonV7bPVMUG6w6abxgQak2XThkPKYbl4+ZCcni+wyC3jAbS4+hqBTNTR6gqsN6XGQZTdcZbLoRvo0rGHt8JCDIHB2ck321+ZT96OgOVKcig5aJurcWtaVDkupHRXV6Msbxrh/MT//DG89879cW0YWnTr8oWU9HAQbyGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h36lVltP; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZOYdBT3jGZ7Pk0mzo4TkgDLt6SN4YVAS+WrZi4WBsz7hV677k/RO9A59yeg2DZdjzjVp05KJhHYvgYYK0i2kGSuzNMNDAWqnr9AVJ9V8E+PEc+h2ZRIwOAxXHjKIkVVkVBynDpKHIGKTtXEMUp2jYUNUW/TqhjV1jIHIYSkfdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/DmlKZP; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h36lVltP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/DmlKZP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727292161; x=1758828161;
+  t=1727294080; x=1758830080;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S0urNNv3r0yAEJslZ4kLYfAM0lYjoGfeqneTwEkgSqA=;
-  b=h36lVltPBjAiPuWzChPDZEIwFBOh/1VPJXEDn89X+QVsWmxDC42dhy02
-   g/mA2rNAlAxMuZI0lN20CDCjD0UOQ3y6bTonpPQMpbgMS32e45N0Met4G
-   sCrpcTD0wMPrHujqQAOd6Nt4HeyyjZWaJx1BJM5nfmDOqijcKYYtMT9SZ
-   Rzd6SGplqy+K4XdNHLwF937S3suSRqCBCnnl2ccumz/PPzFmo2dhoGohv
-   SBbwuMu3GLpdavHubG5qtFapsxwDsVjCD0csfYTuyOBBdhUtQ2GmGOzB0
-   unolFz7PLKlQ9ak9YnW/n5aMBINL+N6kQD73rU3NzC7twmpNYPAUlqRm/
-   w==;
-X-CSE-ConnectionGUID: Up6UUutyTU2HuUo9Ske3iw==
-X-CSE-MsgGUID: frPEk3JeRXuo9WIB8wmGRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37038046"
+  bh=dbqegwYvBSRS3Y+8mxYKJ6i4FObQFhoOKQBlHdHZZ38=;
+  b=n/DmlKZPlXqWBKSYgIcI3Kr2orW2u0sadJ/vdiBJEYwCS8e/0HGHKZIg
+   9G/A5B8MZy/Z1HVP3EkGyErOlODaK+f1F2uDWP8JuSgvr4doTezsFuXSA
+   Jp72uzx/mOhzvErY2CwNvD1Y/J9b+JF3GWyt7vZPe3X2OuKdVMH/u1tIm
+   GCrUDYmnnUVyBuzrrt1s2R8lqF6lUks0LTHbpYIsUA0ZkB/zkiufPh46k
+   nsY/5fC4ev4cpXKT4BTtXcZloKBT4D24pUigbIvvqU9vK13d0s/c83qyk
+   sD89PVhvRlq0CeLnS3aTxpiiwweExNYmosWG+80VyVLg/MeM0dVecCPb2
+   g==;
+X-CSE-ConnectionGUID: vgUMhI0cRwaKHwpp+fYUYw==
+X-CSE-MsgGUID: YDPMWxPURcayUauQVCiQBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26492907"
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="37038046"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 12:22:37 -0700
-X-CSE-ConnectionGUID: 89qIKqssR/OJ8tdOF/G8Ew==
-X-CSE-MsgGUID: eD+PAUJIRDuarBhelvaQFQ==
+   d="scan'208";a="26492907"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 12:54:40 -0700
+X-CSE-ConnectionGUID: iIwzzhDVR+mO3Um0yKvs8w==
+X-CSE-MsgGUID: ILzdMlOyT9u656BlYdo1tA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="76395509"
+   d="scan'208";a="71768508"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Sep 2024 12:22:35 -0700
+  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2024 12:54:37 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stXaq-000Ju7-2K;
-	Wed, 25 Sep 2024 19:22:32 +0000
-Date: Thu, 26 Sep 2024 03:22:30 +0800
+	id 1stY5q-000JvT-2K;
+	Wed, 25 Sep 2024 19:54:34 +0000
+Date: Thu, 26 Sep 2024 03:53:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH v1 1/1] usb: typec: stusb160x: Make use of
  i2c_get_match_data()
-Message-ID: <202409260206.UbcSQv4S-lkp@intel.com>
+Message-ID: <202409260316.cTVWA6xM-lkp@intel.com>
 References: <20240925133952.1067949-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,30 +82,119 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/usb-typec
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/20240925133952.1067949-1-andriy.shevchenko%40linux.intel.com
 patch subject: [PATCH v1 1/1] usb: typec: stusb160x: Make use of i2c_get_match_data()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240926/202409260206.UbcSQv4S-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260206.UbcSQv4S-lkp@intel.com/reproduce)
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240926/202409260316.cTVWA6xM-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260316.cTVWA6xM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409260206.UbcSQv4S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409260316.cTVWA6xM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/usb/typec/stusb160x.c: In function 'stusb160x_probe':
->> drivers/usb/typec/stusb160x.c:647:44: error: passing argument 1 of 'i2c_get_match_data' from incompatible pointer type [-Wincompatible-pointer-types]
+   In file included from drivers/usb/typec/stusb160x.c:10:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/usb/typec/stusb160x.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/usb/typec/stusb160x.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/usb/typec/stusb160x.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/usb/typec/stusb160x.c:647:37: error: incompatible pointer types passing 'struct device *' to parameter of type 'const struct i2c_client *' [-Werror,-Wincompatible-pointer-types]
      647 |         regmap_config = i2c_get_match_data(&client->dev);
          |                                            ^~~~~~~~~~~~
-         |                                            |
-         |                                            struct device *
-   In file included from drivers/usb/typec/stusb160x.c:10:
-   include/linux/i2c.h:360:57: note: expected 'const struct i2c_client *' but argument is of type 'struct device *'
+   include/linux/i2c.h:360:57: note: passing argument to parameter 'client' here
      360 | const void *i2c_get_match_data(const struct i2c_client *client);
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+         |                                                         ^
+   16 warnings and 1 error generated.
 
 
-vim +/i2c_get_match_data +647 drivers/usb/typec/stusb160x.c
+vim +647 drivers/usb/typec/stusb160x.c
 
    633	
    634	static int stusb160x_probe(struct i2c_client *client)
