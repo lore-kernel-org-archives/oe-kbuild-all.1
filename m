@@ -1,61 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF34313D2BE;
-	Wed, 25 Sep 2024 19:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CDD13D2BE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 19:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727292160; cv=none; b=hF751vmqpSm7NN2obcOPGggiD9/gEAmIq+CmDWJVmKnfZaPbBYmrACEi/tsGjB8k2QMoGcS5LpADJCbhN3oJ6IXw/9/2PS0cIv+9N7LtmvbBYh7nuDxgufJzvNZyrUlBjMKTlW89FJ4WKyFYx95VhJCwlhngIRH+vzGesRos4S8=
+	t=1727292162; cv=none; b=a+HQikVg/bBibJNAJw7/JZM2FaOD9ic/FGJmrz1ur5XgGwEnzFVzwMRUEFawFuFZkoEN8gPXS9QVSPQQEMZXe76XDzALy9FVUWoZip7XaCYjtAYB64Qh5q1CN4kWVFbLSCmcEEZhkn1esaOx9uAeJJxBWmTC2VTo+XG63VYQ7Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727292160; c=relaxed/simple;
-	bh=ZC3Nh8jXNyaMx+N0HxCVN/V6DJjNe47xe6VcstUqKyU=;
+	s=arc-20240116; t=1727292162; c=relaxed/simple;
+	bh=S0urNNv3r0yAEJslZ4kLYfAM0lYjoGfeqneTwEkgSqA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iRbpRxAmineov9/ODyGjLxg/ePnoc5GwBdsecgmEYq+wOQM2HXue3w4JCTwxDK5ImSJdUF47rUH0PgAiL/bxURHE3xQVUgWXnIkZ+TbqWDrmQ2LvccKNyD1m/wECS2ox5UEeLjvfMESuFEykR3nvoS5/vtvk8ALlc5ColBmzNWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TcafY0d0; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=qEOM4gznonV7bPVMUG6w6abxgQak2XThkPKYbl4+ZCcni+wyC3jAbS4+hqBTNTR6gqsN6XGQZTdcZbLoRvo0rGHt8JCDIHB2ck321+ZT96OgOVKcig5aJurcWtaVDkupHRXV6Msbxrh/MT//DG89879cW0YWnTr8oWU9HAQbyGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h36lVltP; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TcafY0d0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h36lVltP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727292158; x=1758828158;
+  t=1727292161; x=1758828161;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZC3Nh8jXNyaMx+N0HxCVN/V6DJjNe47xe6VcstUqKyU=;
-  b=TcafY0d0A0DFDTnO2Jhv5LYqM7zvwrp+e9U4C1F6SLB5m1QqB8o3n/Xi
-   FGljRzlw5xVVqqIdU4KfL6YfTEW23V17V9nXrJs5JWMvuhxfQJLmA7hmk
-   +y3xT2qC2WCC5Gvq9pzt/ItCN68OhlmC5fFeTFi/C3E/xC7A8yBWbvxHQ
-   keK0ukB1yD1l5dRdYj3CbMgmY9iAQ16Nhvbz5FHqbjEw03OpsMeMT+93b
-   deAqh4Pyk877t0y7Y/lCR+3k6X5w05NutTQmHLPF9CLtmw6t1jVD3VJ3V
-   MQ4UtJEawxSb48VXsWY3RKk4vPgdS2iFjFlzv19lioV2Vq5rKtM7sbesC
+  bh=S0urNNv3r0yAEJslZ4kLYfAM0lYjoGfeqneTwEkgSqA=;
+  b=h36lVltPBjAiPuWzChPDZEIwFBOh/1VPJXEDn89X+QVsWmxDC42dhy02
+   g/mA2rNAlAxMuZI0lN20CDCjD0UOQ3y6bTonpPQMpbgMS32e45N0Met4G
+   sCrpcTD0wMPrHujqQAOd6Nt4HeyyjZWaJx1BJM5nfmDOqijcKYYtMT9SZ
+   Rzd6SGplqy+K4XdNHLwF937S3suSRqCBCnnl2ccumz/PPzFmo2dhoGohv
+   SBbwuMu3GLpdavHubG5qtFapsxwDsVjCD0csfYTuyOBBdhUtQ2GmGOzB0
+   unolFz7PLKlQ9ak9YnW/n5aMBINL+N6kQD73rU3NzC7twmpNYPAUlqRm/
    w==;
-X-CSE-ConnectionGUID: md4yrn2hR82EVQ/xjMPDFw==
-X-CSE-MsgGUID: e/xc51ctTTy12+PGDdXHPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37038045"
+X-CSE-ConnectionGUID: Up6UUutyTU2HuUo9Ske3iw==
+X-CSE-MsgGUID: frPEk3JeRXuo9WIB8wmGRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37038046"
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="37038045"
+   d="scan'208";a="37038046"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 12:22:36 -0700
-X-CSE-ConnectionGUID: PFGxo2AhRqqCNckHkhVVMg==
-X-CSE-MsgGUID: 1K6uvwN1Sz6MRdtEFKYIpg==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 12:22:37 -0700
+X-CSE-ConnectionGUID: 89qIKqssR/OJ8tdOF/G8Ew==
+X-CSE-MsgGUID: eD+PAUJIRDuarBhelvaQFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="76395530"
+   d="scan'208";a="76395509"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 25 Sep 2024 12:22:35 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stXaq-000Ju5-2G;
+	id 1stXaq-000Ju7-2K;
 	Wed, 25 Sep 2024 19:22:32 +0000
-Date: Thu, 26 Sep 2024 03:22:31 +0800
+Date: Thu, 26 Sep 2024 03:22:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nemesa Garg <nemesa.garg@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Nemesa Garg <nemesa.garg@intel.com>
-Subject: Re: [PATCH v4 3/3] drm/i915/display: Call panel_fitting from
- pipe_config
-Message-ID: <202409260417.AhxuRXmO-lkp@intel.com>
-References: <20240925063032.2311796-4-nemesa.garg@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] usb: typec: stusb160x: Make use of
+ i2c_get_match_data()
+Message-ID: <202409260206.UbcSQv4S-lkp@intel.com>
+References: <20240925133952.1067949-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,211 +66,214 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240925063032.2311796-4-nemesa.garg@intel.com>
+In-Reply-To: <20240925133952.1067949-1-andriy.shevchenko@linux.intel.com>
 
-Hi Nemesa,
+Hi Andy,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11 next-20240925]
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.11 next-20240925]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nemesa-Garg/drm-i915-display-Modify-panel_fitting-code-for-joiner/20240925-143239
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240925063032.2311796-4-nemesa.garg%40intel.com
-patch subject: [PATCH v4 3/3] drm/i915/display: Call panel_fitting from pipe_config
-config: i386-randconfig-015-20240925 (https://download.01.org/0day-ci/archive/20240926/202409260417.AhxuRXmO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260417.AhxuRXmO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/usb-typec-stusb160x-Make-use-of-i2c_get_match_data/20240925-223551
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240925133952.1067949-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] usb: typec: stusb160x: Make use of i2c_get_match_data()
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240926/202409260206.UbcSQv4S-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260206.UbcSQv4S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409260417.AhxuRXmO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409260206.UbcSQv4S-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_display.c:4792:37: error: variable 'fixed_mode' is uninitialized when used here [-Werror,-Wuninitialized]
-    4792 |                 if ((intel_dp_is_edp(intel_dp) && fixed_mode) ||
-         |                                                   ^~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:4656:43: note: initialize the variable 'fixed_mode' to silence this warning
-    4656 |         const struct drm_display_mode *fixed_mode;
-         |                                                  ^
-         |                                                   = NULL
-   1 error generated.
+   drivers/usb/typec/stusb160x.c: In function 'stusb160x_probe':
+>> drivers/usb/typec/stusb160x.c:647:44: error: passing argument 1 of 'i2c_get_match_data' from incompatible pointer type [-Wincompatible-pointer-types]
+     647 |         regmap_config = i2c_get_match_data(&client->dev);
+         |                                            ^~~~~~~~~~~~
+         |                                            |
+         |                                            struct device *
+   In file included from drivers/usb/typec/stusb160x.c:10:
+   include/linux/i2c.h:360:57: note: expected 'const struct i2c_client *' but argument is of type 'struct device *'
+     360 | const void *i2c_get_match_data(const struct i2c_client *client);
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
 
 
-vim +/fixed_mode +4792 drivers/gpu/drm/i915/display/intel_display.c
+vim +/i2c_get_match_data +647 drivers/usb/typec/stusb160x.c
 
-  4645	
-  4646	static int
-  4647	intel_modeset_pipe_config(struct intel_atomic_state *state,
-  4648				  struct intel_crtc *crtc,
-  4649				  const struct intel_link_bw_limits *limits)
-  4650	{
-  4651		struct drm_i915_private *i915 = to_i915(crtc->base.dev);
-  4652		struct intel_crtc_state *crtc_state =
-  4653			intel_atomic_get_new_crtc_state(state, crtc);
-  4654		struct drm_connector *connector;
-  4655		struct drm_connector_state *connector_state;
-  4656		const struct drm_display_mode *fixed_mode;
-  4657		struct intel_dp *intel_dp;
-  4658		int pipe_src_w, pipe_src_h;
-  4659		int base_bpp, ret, i;
-  4660	
-  4661		crtc_state->cpu_transcoder = (enum transcoder) crtc->pipe;
-  4662	
-  4663		crtc_state->framestart_delay = 1;
-  4664	
-  4665		/*
-  4666		 * Sanitize sync polarity flags based on requested ones. If neither
-  4667		 * positive or negative polarity is requested, treat this as meaning
-  4668		 * negative polarity.
-  4669		 */
-  4670		if (!(crtc_state->hw.adjusted_mode.flags &
-  4671		      (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NHSYNC)))
-  4672			crtc_state->hw.adjusted_mode.flags |= DRM_MODE_FLAG_NHSYNC;
-  4673	
-  4674		if (!(crtc_state->hw.adjusted_mode.flags &
-  4675		      (DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_NVSYNC)))
-  4676			crtc_state->hw.adjusted_mode.flags |= DRM_MODE_FLAG_NVSYNC;
-  4677	
-  4678		ret = compute_baseline_pipe_bpp(state, crtc);
-  4679		if (ret)
-  4680			return ret;
-  4681	
-  4682		crtc_state->fec_enable = limits->force_fec_pipes & BIT(crtc->pipe);
-  4683		crtc_state->max_link_bpp_x16 = limits->max_bpp_x16[crtc->pipe];
-  4684	
-  4685		if (crtc_state->pipe_bpp > fxp_q4_to_int(crtc_state->max_link_bpp_x16)) {
-  4686			drm_dbg_kms(&i915->drm,
-  4687				    "[CRTC:%d:%s] Link bpp limited to " FXP_Q4_FMT "\n",
-  4688				    crtc->base.base.id, crtc->base.name,
-  4689				    FXP_Q4_ARGS(crtc_state->max_link_bpp_x16));
-  4690			crtc_state->bw_constrained = true;
-  4691		}
-  4692	
-  4693		base_bpp = crtc_state->pipe_bpp;
-  4694	
-  4695		/*
-  4696		 * Determine the real pipe dimensions. Note that stereo modes can
-  4697		 * increase the actual pipe size due to the frame doubling and
-  4698		 * insertion of additional space for blanks between the frame. This
-  4699		 * is stored in the crtc timings. We use the requested mode to do this
-  4700		 * computation to clearly distinguish it from the adjusted mode, which
-  4701		 * can be changed by the connectors in the below retry loop.
-  4702		 */
-  4703		drm_mode_get_hv_timing(&crtc_state->hw.mode,
-  4704				       &pipe_src_w, &pipe_src_h);
-  4705		drm_rect_init(&crtc_state->pipe_src, 0, 0,
-  4706			      pipe_src_w, pipe_src_h);
-  4707	
-  4708		for_each_new_connector_in_state(&state->base, connector, connector_state, i) {
-  4709			struct intel_encoder *encoder =
-  4710				to_intel_encoder(connector_state->best_encoder);
-  4711	
-  4712			if (connector_state->crtc != &crtc->base)
-  4713				continue;
-  4714	
-  4715			if (!check_single_encoder_cloning(state, crtc, encoder)) {
-  4716				drm_dbg_kms(&i915->drm,
-  4717					    "[ENCODER:%d:%s] rejecting invalid cloning configuration\n",
-  4718					    encoder->base.base.id, encoder->base.name);
-  4719				return -EINVAL;
-  4720			}
-  4721	
-  4722			/*
-  4723			 * Determine output_types before calling the .compute_config()
-  4724			 * hooks so that the hooks can use this information safely.
-  4725			 */
-  4726			if (encoder->compute_output_type)
-  4727				crtc_state->output_types |=
-  4728					BIT(encoder->compute_output_type(encoder, crtc_state,
-  4729									 connector_state));
-  4730			else
-  4731				crtc_state->output_types |= BIT(encoder->type);
-  4732		}
-  4733	
-  4734		/* Ensure the port clock defaults are reset when retrying. */
-  4735		crtc_state->port_clock = 0;
-  4736		crtc_state->pixel_multiplier = 1;
-  4737	
-  4738		/* Fill in default crtc timings, allow encoders to overwrite them. */
-  4739		drm_mode_set_crtcinfo(&crtc_state->hw.adjusted_mode,
-  4740				      CRTC_STEREO_DOUBLE);
-  4741	
-  4742		/* Pass our mode to the connectors and the CRTC to give them a chance to
-  4743		 * adjust it according to limitations or connector properties, and also
-  4744		 * a chance to reject the mode entirely.
-  4745		 */
-  4746		for_each_new_connector_in_state(&state->base, connector, connector_state, i) {
-  4747			struct intel_encoder *encoder =
-  4748				to_intel_encoder(connector_state->best_encoder);
-  4749	
-  4750			if (connector_state->crtc != &crtc->base)
-  4751				continue;
-  4752	
-  4753			ret = encoder->compute_config(encoder, crtc_state,
-  4754						      connector_state);
-  4755			if (ret == -EDEADLK)
-  4756				return ret;
-  4757			if (ret < 0) {
-  4758				drm_dbg_kms(&i915->drm, "[ENCODER:%d:%s] config failure: %d\n",
-  4759					    encoder->base.base.id, encoder->base.name, ret);
-  4760				return ret;
-  4761			}
-  4762		}
-  4763	
-  4764		/* Set default port clock if not overwritten by the encoder. Needs to be
-  4765		 * done afterwards in case the encoder adjusts the mode. */
-  4766		if (!crtc_state->port_clock)
-  4767			crtc_state->port_clock = crtc_state->hw.adjusted_mode.crtc_clock
-  4768				* crtc_state->pixel_multiplier;
-  4769	
-  4770		ret = intel_crtc_compute_config(state, crtc);
-  4771		if (ret == -EDEADLK)
-  4772			return ret;
-  4773		if (ret < 0) {
-  4774			drm_dbg_kms(&i915->drm, "[CRTC:%d:%s] config failure: %d\n",
-  4775				    crtc->base.base.id, crtc->base.name, ret);
-  4776			return ret;
-  4777		}
-  4778	
-  4779		for_each_new_connector_in_state(&state->base, connector,
-  4780						connector_state, i) {
-  4781			struct intel_encoder *encoder =
-  4782				to_intel_encoder(connector_state->best_encoder);
-  4783	
-  4784			if (connector_state->crtc != &crtc->base)
-  4785				continue;
-  4786	
-  4787			intel_dp = enc_to_intel_dp(encoder);
-  4788	
-  4789			if (!intel_dp)
-  4790				continue;
-  4791	
-> 4792			if ((intel_dp_is_edp(intel_dp) && fixed_mode) ||
-  4793			    crtc_state->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
-  4794				return intel_pch_panel_fitting(crtc_state, connector_state);
-  4795		}
-  4796	
-  4797		/* Dithering seems to not pass-through bits correctly when it should, so
-  4798		 * only enable it on 6bpc panels and when its not a compliance
-  4799		 * test requesting 6bpc video pattern.
-  4800		 */
-  4801		crtc_state->dither = (crtc_state->pipe_bpp == 6*3) &&
-  4802			!crtc_state->dither_force_disable;
-  4803		drm_dbg_kms(&i915->drm,
-  4804			    "[CRTC:%d:%s] hw max bpp: %i, pipe bpp: %i, dithering: %i\n",
-  4805			    crtc->base.base.id, crtc->base.name,
-  4806			    base_bpp, crtc_state->pipe_bpp, crtc_state->dither);
-  4807	
-  4808		return 0;
-  4809	}
-  4810	
+   633	
+   634	static int stusb160x_probe(struct i2c_client *client)
+   635	{
+   636		const struct regmap_config *regmap_config;
+   637		struct stusb160x *chip;
+   638		struct fwnode_handle *fwnode;
+   639		int ret;
+   640	
+   641		chip = devm_kzalloc(&client->dev, sizeof(struct stusb160x), GFP_KERNEL);
+   642		if (!chip)
+   643			return -ENOMEM;
+   644	
+   645		i2c_set_clientdata(client, chip);
+   646	
+ > 647		regmap_config = i2c_get_match_data(&client->dev);
+   648	
+   649		chip->regmap = devm_regmap_init_i2c(client, regmap_config);
+   650		if (IS_ERR(chip->regmap)) {
+   651			ret = PTR_ERR(chip->regmap);
+   652			dev_err(&client->dev,
+   653				"Failed to allocate register map:%d\n", ret);
+   654			return ret;
+   655		}
+   656	
+   657		chip->dev = &client->dev;
+   658	
+   659		chip->vsys_supply = devm_regulator_get_optional(chip->dev, "vsys");
+   660		if (IS_ERR(chip->vsys_supply)) {
+   661			ret = PTR_ERR(chip->vsys_supply);
+   662			if (ret != -ENODEV)
+   663				return ret;
+   664			chip->vsys_supply = NULL;
+   665		}
+   666	
+   667		chip->vdd_supply = devm_regulator_get_optional(chip->dev, "vdd");
+   668		if (IS_ERR(chip->vdd_supply)) {
+   669			ret = PTR_ERR(chip->vdd_supply);
+   670			if (ret != -ENODEV)
+   671				return ret;
+   672			chip->vdd_supply = NULL;
+   673		}
+   674	
+   675		chip->vconn_supply = devm_regulator_get_optional(chip->dev, "vconn");
+   676		if (IS_ERR(chip->vconn_supply)) {
+   677			ret = PTR_ERR(chip->vconn_supply);
+   678			if (ret != -ENODEV)
+   679				return ret;
+   680			chip->vconn_supply = NULL;
+   681		}
+   682	
+   683		fwnode = device_get_named_child_node(chip->dev, "connector");
+   684		if (!fwnode)
+   685			return -ENODEV;
+   686	
+   687		/*
+   688		 * This fwnode has a "compatible" property, but is never populated as a
+   689		 * struct device. Instead we simply parse it to read the properties.
+   690		 * This it breaks fw_devlink=on. To maintain backward compatibility
+   691		 * with existing DT files, we work around this by deleting any
+   692		 * fwnode_links to/from this fwnode.
+   693		 */
+   694		fw_devlink_purge_absent_suppliers(fwnode);
+   695	
+   696		/*
+   697		 * When both VDD and VSYS power supplies are present, the low power
+   698		 * supply VSYS is selected when VSYS voltage is above 3.1 V.
+   699		 * Otherwise VDD is selected.
+   700		 */
+   701		if (chip->vdd_supply &&
+   702		    (!chip->vsys_supply ||
+   703		     (regulator_get_voltage(chip->vsys_supply) <= 3100000)))
+   704			chip->main_supply = chip->vdd_supply;
+   705		else
+   706			chip->main_supply = chip->vsys_supply;
+   707	
+   708		if (chip->main_supply) {
+   709			ret = regulator_enable(chip->main_supply);
+   710			if (ret) {
+   711				dev_err(chip->dev,
+   712					"Failed to enable main supply: %d\n", ret);
+   713				goto fwnode_put;
+   714			}
+   715		}
+   716	
+   717		/* Get configuration from chip */
+   718		ret = stusb160x_get_caps(chip);
+   719		if (ret) {
+   720			dev_err(chip->dev, "Failed to get port caps: %d\n", ret);
+   721			goto main_reg_disable;
+   722		}
+   723	
+   724		/* Get optional re-configuration from device tree */
+   725		ret = stusb160x_get_fw_caps(chip, fwnode);
+   726		if (ret) {
+   727			dev_err(chip->dev, "Failed to get connector caps: %d\n", ret);
+   728			goto main_reg_disable;
+   729		}
+   730	
+   731		ret = stusb160x_chip_init(chip);
+   732		if (ret) {
+   733			dev_err(chip->dev, "Failed to init port: %d\n", ret);
+   734			goto main_reg_disable;
+   735		}
+   736	
+   737		chip->port = typec_register_port(chip->dev, &chip->capability);
+   738		if (IS_ERR(chip->port)) {
+   739			ret = PTR_ERR(chip->port);
+   740			goto all_reg_disable;
+   741		}
+   742	
+   743		/*
+   744		 * Default power operation mode initialization: will be updated upon
+   745		 * attach/detach interrupt
+   746		 */
+   747		typec_set_pwr_opmode(chip->port, chip->pwr_opmode);
+   748	
+   749		if (client->irq) {
+   750			chip->role_sw = fwnode_usb_role_switch_get(fwnode);
+   751			if (IS_ERR(chip->role_sw)) {
+   752				ret = dev_err_probe(chip->dev, PTR_ERR(chip->role_sw),
+   753						    "Failed to get usb role switch\n");
+   754				goto port_unregister;
+   755			}
+   756	
+   757			ret = stusb160x_irq_init(chip, client->irq);
+   758			if (ret)
+   759				goto role_sw_put;
+   760		} else {
+   761			/*
+   762			 * If Source or Dual power role, need to enable VDD supply
+   763			 * providing Vbus if present. In case of interrupt support,
+   764			 * VDD supply will be dynamically managed upon attach/detach
+   765			 * interrupt.
+   766			 */
+   767			if (chip->port_type != TYPEC_PORT_SNK && chip->vdd_supply) {
+   768				ret = regulator_enable(chip->vdd_supply);
+   769				if (ret) {
+   770					dev_err(chip->dev,
+   771						"Failed to enable VDD supply: %d\n",
+   772						ret);
+   773					goto port_unregister;
+   774				}
+   775				chip->vbus_on = true;
+   776			}
+   777		}
+   778	
+   779		fwnode_handle_put(fwnode);
+   780	
+   781		return 0;
+   782	
+   783	role_sw_put:
+   784		if (chip->role_sw)
+   785			usb_role_switch_put(chip->role_sw);
+   786	port_unregister:
+   787		typec_unregister_port(chip->port);
+   788	all_reg_disable:
+   789		if (stusb160x_get_vconn(chip))
+   790			stusb160x_set_vconn(chip, false);
+   791	main_reg_disable:
+   792		if (chip->main_supply)
+   793			regulator_disable(chip->main_supply);
+   794	fwnode_put:
+   795		fwnode_handle_put(fwnode);
+   796	
+   797		return ret;
+   798	}
+   799	
 
 -- 
 0-DAY CI Kernel Test Service
