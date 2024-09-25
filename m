@@ -1,59 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603BC2AD11
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 04:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D210A13A896
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 04:30:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727238601; cv=none; b=s+uvV6Do3lDyqBvUdsWKaAb5I429EogtTyf7Sz4wCmmc4ZZhapitGfafpR5/XjtywO665ua/ZN8ogXLQjmITGL0jE9RRtxlNnuh1p39HpSIfWHOgB5ZN6tvrWx+XUiHGQRtRzu4zWnf0BzO0OWlF+OJoEZBmZ4C9g7iUjZo2pXI=
+	t=1727238603; cv=none; b=oWQxM+ajWFA/Z548zD/F7YfckwOwKgeitWCWAOOYfGh2Q8Qv3Flmx8GEFfbah7PFj3ZcjUokhG2XszrKVDutndA2QTRm6QlVlWUtytKt7sn6xge87GPV3DstKedmOMvzdkymfjngPLyarAgoMEZr4LY+5wjrLQEGyEBkTWZzFl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727238601; c=relaxed/simple;
-	bh=OcI455Loq3bDqND5gx7ftN7n9RILjntQ2hzlB+yBegM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cM5bKltAvAETBvyECoot/+ebal6O8gjUEuDifF3426dVi++C2P3ixtZUtKKm6Ka+N/kd3Znx7WxgLvfRdADi1ODxK5Ioq8pgHGuaKlYvwgh9nF/SJ9BdlUWqsRQb43yeSed1np1owmtFEOJzlIW1pZthIArOZxrlh6Zj4bVN8Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DeFPqX3M; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1727238603; c=relaxed/simple;
+	bh=88Hamdqrs751sKw4WbPe7RM1gSHiZTGXQ9Dvvm9fad0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KYPC4fFWjv43nMZU28yzMMVZRBFP8mIQ958bnpC+BdLzyBIQ5YAClL0P2iM/8I9AynBo6xW7alQEijiSoMJWPKfTqFOD1KDUDXzcRKE8a+5S4ZdzglmxUMriXxiUjuAeP2QfYgKH3ft00q6/GOG5jlu7zAkfVYILpxUrQqcjtng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKN34Ybd; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeFPqX3M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKN34Ybd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727238599; x=1758774599;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OcI455Loq3bDqND5gx7ftN7n9RILjntQ2hzlB+yBegM=;
-  b=DeFPqX3M9Gb9Pqs6rM9kc+9GN+Ox6ME17jUO5f8dhenx7bl/AJN6awdt
-   JcKosMDO4yAsBEvEGgEpXUjtgEqEEe7wjV7f7OZSHN/q+XJ0r+fOxbuyX
-   mX1rqCRfcW5Qj4nIc17JALsaEpAP6hEc5x/GYlULNl0ov6a+e0hweFcup
-   ubxkY5G+xCfLC/XPl3P3QrBEtheo4brE/qZedYwTnTz/kYUQIV/XYq3Ft
-   e0Vg01Pow/uuknGmqITPPYuFjiSdY7jeMUyvSHqRVGxc5C/dO1jcsCdXf
-   Ur/Y+nPo7GF5GBLrUE4SME2lhSmE/UmHZmwGwwpgRnvoqkWV5rQgxV1n0
+  t=1727238602; x=1758774602;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=88Hamdqrs751sKw4WbPe7RM1gSHiZTGXQ9Dvvm9fad0=;
+  b=EKN34Ybd5YEBhMOUkdaN+5YUIPyIjPrFwUVRtaO5Tjn6kPOaly+x2ypg
+   8wp+BzIH3jVogtqRGKOew44HkcOUPta8v6nJs2o3GID4iOpKj6zaqOpQm
+   brKUsB2NEa8OBPIedntQXuZ0brGOs+hmf8dvjvDYZBdjKoXADyIYYUbV3
+   Dwiw4Xh9vJS4wJN2uj1+xoUBrALhqtae8yQA76b+vD1IMefnfPAbOcXeq
+   EpsG4KAjokRHgWkROCXndGZL29BnxBP/2nuU+m0dskLjcCunS0scWWSEo
+   MJ8FoKHIBlvvJEeI1ydnx5jMI8GEheVJNPNtaEeM73asaZK7382lgt1Lt
    Q==;
-X-CSE-ConnectionGUID: DS81/IxPRiax1JdQbumBZQ==
-X-CSE-MsgGUID: jZnF4BavREeq3qRWp3sftQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26085150"
+X-CSE-ConnectionGUID: uuR5nJx3RMCMnHOcFLi9Mg==
+X-CSE-MsgGUID: elqxWhvlQdGHs0KFds2uwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26085162"
 X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="26085150"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 21:29:59 -0700
-X-CSE-ConnectionGUID: h9iiwiDJQ9uNgT3Qvo5NOg==
-X-CSE-MsgGUID: KbE9O20xSaGePHZ1mVdwOw==
+   d="scan'208";a="26085162"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 21:30:01 -0700
+X-CSE-ConnectionGUID: IiEJSzoNR7inXt3ce7pHUA==
+X-CSE-MsgGUID: J1vYhL6hRT+PwCrVonfoXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="76034720"
+   d="scan'208";a="76575425"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Sep 2024 21:29:57 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Sep 2024 21:29:57 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stJf1-000J8H-1E;
+	id 1stJf1-000J8F-19;
 	Wed, 25 Sep 2024 04:29:55 +0000
 Date: Wed, 25 Sep 2024 12:29:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miguel Ojeda <ojeda@kernel.org>
+To: Dan Williams <dan.j.williams@intel.com>, hca@linux.ibm.com,
+	gor@linux.ibm.com, agordeev@linux.ibm.com
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 12681/12687] rust/helpers/spinlock.c:10:23:
- error: implicit declaration of function 'spinlock_check' is invalid in C99
-Message-ID: <202409251238.vetlgXE9-lkp@intel.com>
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>, Jan Kara <jack@suse.cz>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Alistair Popple <apopple@nvidia.com>, linux-s390@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH] dcssblk: Mark DAX broken
+Message-ID: <202409251251.i8yVl4yR-lkp@intel.com>
+References: <172721874675.497781.3277495908107141898.stgit@dwillia2-xfh.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,72 +70,240 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <172721874675.497781.3277495908107141898.stgit@dwillia2-xfh.jf.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4d0326b60bb753627437fff0f76bf1525bcda422
-commit: 000e589e413dd734f191ba4e73340559e65f104d [12681/12687] Merge branch 'rust-next' of https://github.com/Rust-for-Linux/linux.git
-config: arm64-randconfig-r122-20240924 (https://download.01.org/0day-ci/archive/20240925/202409251238.vetlgXE9-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251238.vetlgXE9-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on s390/features]
+[also build test WARNING on brauner-vfs/vfs.all akpm-mm/mm-everything linus/master v6.11 next-20240924]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/dcssblk-Mark-DAX-broken/20240925-070047
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/172721874675.497781.3277495908107141898.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH] dcssblk: Mark DAX broken
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240925/202409251251.i8yVl4yR-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409251251.i8yVl4yR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409251238.vetlgXE9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409251251.i8yVl4yR-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from rust/helpers/helpers.c:22:
->> rust/helpers/spinlock.c:10:23: error: implicit declaration of function 'spinlock_check' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           __raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
-                                ^
->> rust/helpers/spinlock.c:10:23: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'raw_spinlock_t *' (aka 'struct raw_spinlock *') [-Wint-conversion]
-           __raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
-                                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:101:52: note: passing argument to parameter 'lock' here
-     extern void __raw_spin_lock_init(raw_spinlock_t *lock, const char *name,
-                                                      ^
-   1 warning and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:229: rust/helpers/helpers.o] Error 1
->> rust/helpers/spinlock.c:10:23: error: implicit declaration of function 'spinlock_check' is invalid in C99 [-Wimplicit-function-declaration]
->> rust/helpers/spinlock.c:10:23: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'raw_spinlock_t *' (aka 'struct raw_spinlock *') [-Wint-conversion]
-   include/linux/spinlock.h:101:52: note: passing argument to parameter 'lock' here
->> clang diag: rust/helpers/spinlock.c:10:23: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'raw_spinlock_t *' (aka 'struct raw_spinlock *') [-Wint-conversion]
-   make[3]: *** [rust/Makefile:304: rust/bindings/bindings_helpers_generated.rs] Error 101
-   make[3]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
-   make[3]: Target 'rust/' not remade because of errors.
-   make[2]: *** [Makefile:1209: prepare] Error 2
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3 [=n])
-   Selected by [m]:
-   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 [=n] || COMPILE_TEST [=y])
+   drivers/s390/block/dcssblk.c: In function 'dcssblk_add_store':
+>> drivers/s390/block/dcssblk.c:571:28: warning: unused variable 'dax_dev' [-Wunused-variable]
+     571 |         struct dax_device *dax_dev;
+         |                            ^~~~~~~
 
 
-vim +/spinlock_check +10 rust/helpers/spinlock.c
+vim +/dax_dev +571 drivers/s390/block/dcssblk.c
 
-876346536c1b59 Andreas Hindborg 2024-08-15   5  
-876346536c1b59 Andreas Hindborg 2024-08-15   6  void rust_helper___spin_lock_init(spinlock_t *lock, const char *name,
-876346536c1b59 Andreas Hindborg 2024-08-15   7  				  struct lock_class_key *key)
-876346536c1b59 Andreas Hindborg 2024-08-15   8  {
-876346536c1b59 Andreas Hindborg 2024-08-15   9  #ifdef CONFIG_DEBUG_SPINLOCK
-876346536c1b59 Andreas Hindborg 2024-08-15 @10  	__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
-876346536c1b59 Andreas Hindborg 2024-08-15  11  #else
-876346536c1b59 Andreas Hindborg 2024-08-15  12  	spin_lock_init(lock);
-876346536c1b59 Andreas Hindborg 2024-08-15  13  #endif
-876346536c1b59 Andreas Hindborg 2024-08-15  14  }
-876346536c1b59 Andreas Hindborg 2024-08-15  15  
-
-:::::: The code at line 10 was first introduced by commit
-:::::: 876346536c1b59a5b1b5e44477b1b3ece77647fd rust: kbuild: split up helpers.c
-
-:::::: TO: Andreas Hindborg <a.hindborg@samsung.com>
-:::::: CC: Miguel Ojeda <ojeda@kernel.org>
+e265834f5da2c4 Dan Williams          2024-09-24  557  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  558  /*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  559   * device attribute for adding devices
+^1da177e4c3f41 Linus Torvalds        2005-04-16  560   */
+^1da177e4c3f41 Linus Torvalds        2005-04-16  561  static ssize_t
+e404e274f62665 Yani Ioannou          2005-05-17  562  dcssblk_add_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  563  {
+af190c53c995bf Christoph Hellwig     2024-02-15  564  	struct queue_limits lim = {
+af190c53c995bf Christoph Hellwig     2024-02-15  565  		.logical_block_size	= 4096,
+f467fee48da450 Christoph Hellwig     2024-06-17  566  		.features		= BLK_FEAT_DAX,
+af190c53c995bf Christoph Hellwig     2024-02-15  567  	};
+b2300b9efe1b81 Hongjie Yang          2008-10-10  568  	int rc, i, j, num_of_segments;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  569  	struct dcssblk_dev_info *dev_info;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  570  	struct segment_info *seg_info, *temp;
+cf7fe690abbbe5 Mathieu Desnoyers     2024-02-15 @571  	struct dax_device *dax_dev;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  572  	char *local_buf;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  573  	unsigned long seg_byte_size;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  574  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  575  	dev_info = NULL;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  576  	seg_info = NULL;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  577  	if (dev != dcssblk_root_dev) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  578  		rc = -EINVAL;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  579  		goto out_nobuf;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  580  	}
+b2300b9efe1b81 Hongjie Yang          2008-10-10  581  	if ((count < 1) || (buf[0] == '\0') || (buf[0] == '\n')) {
+b2300b9efe1b81 Hongjie Yang          2008-10-10  582  		rc = -ENAMETOOLONG;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  583  		goto out_nobuf;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  584  	}
+b2300b9efe1b81 Hongjie Yang          2008-10-10  585  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  586  	local_buf = kmalloc(count + 1, GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  587  	if (local_buf == NULL) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  588  		rc = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  589  		goto out_nobuf;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  590  	}
+b2300b9efe1b81 Hongjie Yang          2008-10-10  591  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  592  	/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  593  	 * parse input
+^1da177e4c3f41 Linus Torvalds        2005-04-16  594  	 */
+b2300b9efe1b81 Hongjie Yang          2008-10-10  595  	num_of_segments = 0;
+3a9f9183bdd341 Ameen Ali             2015-02-24  596  	for (i = 0; (i < count && (buf[i] != '\0') && (buf[i] != '\n')); i++) {
+42cfc6b590c5eb Martin Schwidefsky    2015-08-19  597  		for (j = i; j < count &&
+42cfc6b590c5eb Martin Schwidefsky    2015-08-19  598  			(buf[j] != ':') &&
+b2300b9efe1b81 Hongjie Yang          2008-10-10  599  			(buf[j] != '\0') &&
+42cfc6b590c5eb Martin Schwidefsky    2015-08-19  600  			(buf[j] != '\n'); j++) {
+b2300b9efe1b81 Hongjie Yang          2008-10-10  601  			local_buf[j-i] = toupper(buf[j]);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  602  		}
+b2300b9efe1b81 Hongjie Yang          2008-10-10  603  		local_buf[j-i] = '\0';
+b2300b9efe1b81 Hongjie Yang          2008-10-10  604  		if (((j - i) == 0) || ((j - i) > 8)) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  605  			rc = -ENAMETOOLONG;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  606  			goto seg_list_del;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  607  		}
+b2300b9efe1b81 Hongjie Yang          2008-10-10  608  
+b2300b9efe1b81 Hongjie Yang          2008-10-10  609  		rc = dcssblk_load_segment(local_buf, &seg_info);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  610  		if (rc < 0)
+b2300b9efe1b81 Hongjie Yang          2008-10-10  611  			goto seg_list_del;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  612  		/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  613  		 * get a struct dcssblk_dev_info
+^1da177e4c3f41 Linus Torvalds        2005-04-16  614  		 */
+b2300b9efe1b81 Hongjie Yang          2008-10-10  615  		if (num_of_segments == 0) {
+b2300b9efe1b81 Hongjie Yang          2008-10-10  616  			dev_info = kzalloc(sizeof(struct dcssblk_dev_info),
+b2300b9efe1b81 Hongjie Yang          2008-10-10  617  					GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  618  			if (dev_info == NULL) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  619  				rc = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  620  				goto out;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  621  			}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  622  			strcpy(dev_info->segment_name, local_buf);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  623  			dev_info->segment_type = seg_info->segment_type;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  624  			INIT_LIST_HEAD(&dev_info->seg_list);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  625  		}
+b2300b9efe1b81 Hongjie Yang          2008-10-10  626  		list_add_tail(&seg_info->lh, &dev_info->seg_list);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  627  		num_of_segments++;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  628  		i = j;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  629  
+b2300b9efe1b81 Hongjie Yang          2008-10-10  630  		if ((buf[j] == '\0') || (buf[j] == '\n'))
+b2300b9efe1b81 Hongjie Yang          2008-10-10  631  			break;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  632  	}
+b2300b9efe1b81 Hongjie Yang          2008-10-10  633  
+b2300b9efe1b81 Hongjie Yang          2008-10-10  634  	/* no trailing colon at the end of the input */
+b2300b9efe1b81 Hongjie Yang          2008-10-10  635  	if ((i > 0) && (buf[i-1] == ':')) {
+b2300b9efe1b81 Hongjie Yang          2008-10-10  636  		rc = -ENAMETOOLONG;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  637  		goto seg_list_del;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  638  	}
+820109fb11f24b Wolfram Sang          2022-08-18  639  	strscpy(local_buf, buf, i + 1);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  640  	dev_info->num_of_segments = num_of_segments;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  641  	rc = dcssblk_is_continuous(dev_info);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  642  	if (rc < 0)
+b2300b9efe1b81 Hongjie Yang          2008-10-10  643  		goto seg_list_del;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  644  
+b2300b9efe1b81 Hongjie Yang          2008-10-10  645  	dev_info->start = dcssblk_find_lowest_addr(dev_info);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  646  	dev_info->end = dcssblk_find_highest_addr(dev_info);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  647  
+ef283688f54cc8 Kees Cook             2014-06-10  648  	dev_set_name(&dev_info->dev, "%s", dev_info->segment_name);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  649  	dev_info->dev.release = dcssblk_release_segment;
+521b3d790c16fa Sebastian Ott         2012-10-01  650  	dev_info->dev.groups = dcssblk_dev_attr_groups;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  651  	INIT_LIST_HEAD(&dev_info->lh);
+af190c53c995bf Christoph Hellwig     2024-02-15  652  	dev_info->gd = blk_alloc_disk(&lim, NUMA_NO_NODE);
+74fa8f9c553f7b Christoph Hellwig     2024-02-15  653  	if (IS_ERR(dev_info->gd)) {
+74fa8f9c553f7b Christoph Hellwig     2024-02-15  654  		rc = PTR_ERR(dev_info->gd);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  655  		goto seg_list_del;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  656  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  657  	dev_info->gd->major = dcssblk_major;
+0692ef289f067d Christoph Hellwig     2021-05-21  658  	dev_info->gd->minors = DCSSBLK_MINORS_PER_DISK;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  659  	dev_info->gd->fops = &dcssblk_devops;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  660  	dev_info->gd->private_data = dev_info;
+a41a11b4009580 Gerald Schaefer       2022-10-27  661  	dev_info->gd->flags |= GENHD_FL_NO_PART;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  662  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  663  	seg_byte_size = (dev_info->end - dev_info->start + 1);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  664  	set_capacity(dev_info->gd, seg_byte_size >> 9); // size in sectors
+93098bf0157876 Hongjie Yang          2008-12-25  665  	pr_info("Loaded %s with total size %lu bytes and capacity %lu "
+93098bf0157876 Hongjie Yang          2008-12-25  666  		"sectors\n", local_buf, seg_byte_size, seg_byte_size >> 9);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  667  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  668  	dev_info->save_pending = 0;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  669  	dev_info->is_shared = 1;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  670  	dev_info->dev.parent = dcssblk_root_dev;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  671  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  672  	/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  673  	 *get minor, add to list
+^1da177e4c3f41 Linus Torvalds        2005-04-16  674  	 */
+^1da177e4c3f41 Linus Torvalds        2005-04-16  675  	down_write(&dcssblk_devices_sem);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  676  	if (dcssblk_get_segment_by_name(local_buf)) {
+04f64b5756872b Gerald Schaefer       2008-08-21  677  		rc = -EEXIST;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  678  		goto release_gd;
+04f64b5756872b Gerald Schaefer       2008-08-21  679  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  680  	rc = dcssblk_assign_free_minor(dev_info);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  681  	if (rc)
+b2300b9efe1b81 Hongjie Yang          2008-10-10  682  		goto release_gd;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  683  	sprintf(dev_info->gd->disk_name, "dcssblk%d",
+d0591485e15ccd Gerald Schaefer       2009-06-12  684  		dev_info->gd->first_minor);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  685  	list_add_tail(&dev_info->lh, &dcssblk_devices);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  686  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  687  	if (!try_module_get(THIS_MODULE)) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  688  		rc = -ENODEV;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  689  		goto dev_list_del;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  690  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  691  	/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  692  	 * register the device
+^1da177e4c3f41 Linus Torvalds        2005-04-16  693  	 */
+^1da177e4c3f41 Linus Torvalds        2005-04-16  694  	rc = device_register(&dev_info->dev);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  695  	if (rc)
+521b3d790c16fa Sebastian Ott         2012-10-01  696  		goto put_dev;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  697  
+e265834f5da2c4 Dan Williams          2024-09-24  698  	rc = dcssblk_setup_dax(dev_info);
+fb08a1908cb119 Christoph Hellwig     2021-11-29  699  	if (rc)
+fb08a1908cb119 Christoph Hellwig     2021-11-29  700  		goto out_dax;
+7a2765f6e82063 Dan Williams          2017-01-26  701  
+521b3d790c16fa Sebastian Ott         2012-10-01  702  	get_device(&dev_info->dev);
+1a5db707c859a4 Gerald Schaefer       2021-09-27  703  	rc = device_add_disk(&dev_info->dev, dev_info->gd, NULL);
+1a5db707c859a4 Gerald Schaefer       2021-09-27  704  	if (rc)
+fb08a1908cb119 Christoph Hellwig     2021-11-29  705  		goto out_dax_host;
+436d1bc7fe6e78 Christian Borntraeger 2007-12-04  706  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  707  	switch (dev_info->segment_type) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  708  		case SEG_TYPE_SR:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  709  		case SEG_TYPE_ER:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  710  		case SEG_TYPE_SC:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  711  			set_disk_ro(dev_info->gd,1);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  712  			break;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  713  		default:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  714  			set_disk_ro(dev_info->gd,0);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  715  			break;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  716  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  717  	up_write(&dcssblk_devices_sem);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  718  	rc = count;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  719  	goto out;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  720  
+fb08a1908cb119 Christoph Hellwig     2021-11-29  721  out_dax_host:
+c8f40a0bccefd6 Gerald Schaefer       2023-08-10  722  	put_device(&dev_info->dev);
+fb08a1908cb119 Christoph Hellwig     2021-11-29  723  	dax_remove_host(dev_info->gd);
+1a5db707c859a4 Gerald Schaefer       2021-09-27  724  out_dax:
+1a5db707c859a4 Gerald Schaefer       2021-09-27  725  	kill_dax(dev_info->dax_dev);
+1a5db707c859a4 Gerald Schaefer       2021-09-27  726  	put_dax(dev_info->dax_dev);
+521b3d790c16fa Sebastian Ott         2012-10-01  727  put_dev:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  728  	list_del(&dev_info->lh);
+8b9ab62662048a Christoph Hellwig     2022-06-19  729  	put_disk(dev_info->gd);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  730  	list_for_each_entry(seg_info, &dev_info->seg_list, lh) {
+b2300b9efe1b81 Hongjie Yang          2008-10-10  731  		segment_unload(seg_info->segment_name);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  732  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  733  	put_device(&dev_info->dev);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  734  	up_write(&dcssblk_devices_sem);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  735  	goto out;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  736  dev_list_del:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  737  	list_del(&dev_info->lh);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  738  release_gd:
+8b9ab62662048a Christoph Hellwig     2022-06-19  739  	put_disk(dev_info->gd);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  740  	up_write(&dcssblk_devices_sem);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  741  seg_list_del:
+b2300b9efe1b81 Hongjie Yang          2008-10-10  742  	if (dev_info == NULL)
+b2300b9efe1b81 Hongjie Yang          2008-10-10  743  		goto out;
+b2300b9efe1b81 Hongjie Yang          2008-10-10  744  	list_for_each_entry_safe(seg_info, temp, &dev_info->seg_list, lh) {
+b2300b9efe1b81 Hongjie Yang          2008-10-10  745  		list_del(&seg_info->lh);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  746  		segment_unload(seg_info->segment_name);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  747  		kfree(seg_info);
+b2300b9efe1b81 Hongjie Yang          2008-10-10  748  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  749  	kfree(dev_info);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  750  out:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  751  	kfree(local_buf);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  752  out_nobuf:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  753  	return rc;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  754  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  755  
 
 -- 
 0-DAY CI Kernel Test Service
