@@ -1,63 +1,71 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1193F481AA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 14:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C514917C9BE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 14:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727274719; cv=none; b=uy8ulCEmVo8FJPrcLbvhbjoSOfNzX+CiQVu25uumUMFSmHl/Bf2uWNg19EGiWjtG1TtJz/j9HoBfpN3R7CsvrjENjEQzxkaoTdMD2uFcIPFxoeiUmnNK/IDAdbjfBsKbCbN5HS73b4vKArDSSKGdNv61mbv+YOsW3+nGmTAFmBA=
+	t=1727274987; cv=none; b=OxJ0QQlEbMnpiWHGtLzzIj/sPwRiHH4v3NWKdZNEQE6hHLOLxVdPEzM+5vBHGtmIG742YkkyLknlQR/oF84rkAP6FotDR3avB30VJsuRmtH0FWWd54uAhytQjN6y9Ws/rAS9Ud701ppWZzLHM5CajSsrKRkJH3hKLUF5OhMr8PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727274719; c=relaxed/simple;
-	bh=xpkSCyVuAVhnqduAgNZiU/LxcQhcRNALC0AnIPb1kRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gQTFFTpmjPRnzTZLosiAMgg3m43KthMs2CTbyTnnPvWQejKfR1ZfcdQvaxsQ53CvD8Rih1auDUcdB4PmsrsYnxwl4Bk3YhXWJURI08Dvnc4jv5IH3RwouhUcQ9z8wY+JeuHxmU/AxyllZGOK6AcvupScCTH2zLI8gZWRY2HrT/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tVAJktHx; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1727274987; c=relaxed/simple;
+	bh=Ud1Wh4GTBi6jLxNAiO/ptsjGRRySTSynM9fjc4WRSqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foa8f20uby/v2U8WEGTRR1v/ud2vdeAXITD5QLleD/sagLIBwPykbM7BLQ2Pnu4eMkFNk1jeQqpzVvMCfZnOMsalvkZPh+ma71+zSTYbLsqQnLMhAwZtQ2TsHLMOXEK285GaD7lR0CUGeaQs4HvO6eCtB/b4n1pVP0+zumIq0Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CW6+ZdtE; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tVAJktHx"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42ca4e0299eso56775125e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 07:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727274715; x=1727879515; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bM9SP2rvTqGu03Vlo5S8QNU/05QjrmaE2YALOkKknj4=;
-        b=tVAJktHx9eBqXAeNNH4nTb81E6xTysfZOzuAw2AJRZrp7RFtzMFFD/+fliKmR9xraE
-         JuV+34+Kt7n8oNs/yZzCkHGHWaoTVKYliqZU550kH6LuANRqiDG3mAxX+TYjuwt46sWf
-         8qAS5IJE6TiEr13AjKYo78lifOSJC9n2StRbn95qKxQHuN4//3S3ZG/CbijGb9xYdr/h
-         Pxp+CQ9ZUMcpeibgl+mLGXpp63eGMYc6RHDHe2rB/Vn6sVs0IlTQ5XIwAyAUyiMKJDPZ
-         odxQZtUs3Iocr2kcA+HYBCSaQyIg6WHx/IPEWtyJ9fkOV1ZHk3nJ1U7whzFVc+alJd9v
-         CMPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727274715; x=1727879515;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bM9SP2rvTqGu03Vlo5S8QNU/05QjrmaE2YALOkKknj4=;
-        b=UG2aL1kTPAeLGILJjG/7Zfzo8zyR22TqaGHLvW76o9wtQXISpahRLNw2/97KEFrMAW
-         j2HhRGNr++ReTea6vYeNvfhDl2BQSST0bXb+CWOqaAv3SP3QGn2KiQnpYaAzMVRvYb8K
-         YX2GOGqWQOmMUWI0D0+8soDdPMzS0lBnFZRGMZDPCioHsqtq14aXNz8Hb70zmXJKGRDO
-         Z8id348OIQec7UA88o+DlMjhokzBFrgZUxdaVrKoFK+yzIn79eGWxqpt19j7R9wHEl8S
-         3kF/J332GA59XC4EdIMi0GXIGjRh28iPxrCLRnQkNwYOq+3B0ixbatNz4OBTxDCTz8BL
-         Ak3A==
-X-Forwarded-Encrypted: i=1; AJvYcCVFgicODmGmOaxku7SRrsbtbviNnGsv4qcFp2laGVHRCtXtBKK4Um0akbK1YeVDxeRgdRrSblyUgELT6SWZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIMpxdDT2R5jG7DnInlryBqsDa29TimcnRzOASSoFrzGDdS0VY
-	WNZM0wHtn2hJH9MtRqP47EDCwsxQpgBUPgtB6kqX/wv9H+ApbwGmYijX0W6KDgY=
-X-Google-Smtp-Source: AGHT+IHbpu5DE6tvjsN90CvUnPNvwrMJZvEHP1NfUsXR82Gz+ZtqJynwkONCTq2mRnoJqR6bj2Xo+w==
-X-Received: by 2002:a05:600c:45ce:b0:42b:af1c:66e with SMTP id 5b1f17b1804b1-42e9610c1c6mr19389955e9.9.1727274714978;
-        Wed, 25 Sep 2024 07:31:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a36760sm20776975e9.30.2024.09.25.07.31.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 07:31:54 -0700 (PDT)
-Date: Wed, 25 Sep 2024 17:31:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [mnyman-xhci:for-usb-next 9/10] drivers/usb/host/xhci-ring.c:1405
- xhci_handle_cmd_set_deq() error: uninitialized symbol 'stream_ctx'.
-Message-ID: <b40140f7-cfd8-4cd4-b442-4d3d4318c5db@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CW6+ZdtE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727274986; x=1758810986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ud1Wh4GTBi6jLxNAiO/ptsjGRRySTSynM9fjc4WRSqQ=;
+  b=CW6+ZdtEcKo2jz4cZmf3tABdpCIIPqrYvjbdXgQsK9wSsKA1OOqbUrAa
+   3HIoO9mbThIKqJwLbGYGC0V/naShLxrjO2KzuIoD26ac62IRf77PA8mQX
+   +fn4IHuMHYxm2SK88fUJCeFb2I8NvgsOPtf5s5IWK5ZFp/9pbWyc8Yurb
+   IZpy6m6h5RdwsT/ZuZD5whfMVOvO4Y5ibWGYY+w9aWjZD6XPjFkPuSVUp
+   6pkzpd1ffC8i6Tt4i8nFIzbWY4TIk6MqBlFWPinlTlEFtkOsziXTcnFJa
+   OhWU5LP0QmgOlOX6UDuM0Wv944OsDm/XTNs6tM1Ep2SAlLb4ny7nBsB2s
+   Q==;
+X-CSE-ConnectionGUID: pVZnFB/tReiSiu+DPltoQw==
+X-CSE-MsgGUID: onOCkUD1SpePAf6N2I+1Mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37710322"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="37710322"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:36:26 -0700
+X-CSE-ConnectionGUID: cQ2kt2YvRQeEVrR4a/v3pg==
+X-CSE-MsgGUID: z6MCUjSeSWSLsH3UT/D40A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="76183373"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2024 07:36:20 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stT7q-000JbY-1g;
+	Wed, 25 Sep 2024 14:36:18 +0000
+Date: Wed, 25 Sep 2024 22:35:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409252244.3ZXLJlyK-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,174 +74,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
-head:   645eb2ce6b3e541d3c651f136da8a16f76799526
-commit: fdd9a29e9139a8988b65dce295dfc3f089003ae0 [9/10] xhci: trace stream context at Set TR Deq command completion
-config: powerpc64-randconfig-r072-20240925 (https://download.01.org/0day-ci/archive/20240925/202409252250.WNZonX5o-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+Hi Yikai,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.11 next-20240925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240925/202409252244.3ZXLJlyK-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252244.3ZXLJlyK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409252250.WNZonX5o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409252244.3ZXLJlyK-lkp@intel.com/
 
-smatch warnings:
-drivers/usb/host/xhci-ring.c:1405 xhci_handle_cmd_set_deq() error: uninitialized symbol 'stream_ctx'.
+All errors (new ones prefixed by >>):
 
-vim +/stream_ctx +1405 drivers/usb/host/xhci-ring.c
+   drivers/hwmon/isl28022.c: In function 'isl28022_read_properties':
+>> drivers/hwmon/isl28022.c:396:36: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    char *
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from include/linux/i2c.h:13,
+                    from drivers/hwmon/isl28022.c:11:
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+>> drivers/hwmon/isl28022.c:396:88: error: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                                                                        ^~~
+         |                                                                                        |
+         |                                                                                        u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
+   drivers/hwmon/isl28022.c:406:36: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    char *
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/isl28022.c:406:82: error: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                                                                  ^~~
+         |                                                                                  |
+         |                                                                                  u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
+   drivers/hwmon/isl28022.c:414:28: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                            |
+         |                            char *
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/isl28022.c:414:87: error: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                                                                                   ~~~~^~~~~~~
+         |                                                                                       |
+         |                                                                                       u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
 
-b8200c9479b804 Xenia Ragiadakou 2013-09-09  1332  static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1333  		union xhci_trb *trb, u32 cmd_comp_code)
-ae636747146ea9 Sarah Sharp      2009-04-29  1334  {
-ae636747146ea9 Sarah Sharp      2009-04-29  1335  	unsigned int ep_index;
-e9df17eb1408cf Sarah Sharp      2010-04-02  1336  	unsigned int stream_id;
-ae636747146ea9 Sarah Sharp      2009-04-29  1337  	struct xhci_ring *ep_ring;
-9aad95e292f58d Hans de Goede    2013-10-04  1338  	struct xhci_virt_ep *ep;
-d115b04818e57b John Youn        2009-07-27  1339  	struct xhci_ep_ctx *ep_ctx;
-d115b04818e57b John Youn        2009-07-27  1340  	struct xhci_slot_ctx *slot_ctx;
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1341  	struct xhci_stream_ctx *stream_ctx;
-674f8438c12125 Mathias Nyman    2021-01-29  1342  	struct xhci_td *td, *tmp_td;
-5ceac4402f5d97 Hector Martin    2024-06-11  1343  	bool deferred = false;
-ae636747146ea9 Sarah Sharp      2009-04-29  1344  
-28ccd2962c6655 Matt Evans       2011-03-29  1345  	ep_index = TRB_TO_EP_INDEX(le32_to_cpu(trb->generic.field[3]));
-28ccd2962c6655 Matt Evans       2011-03-29  1346  	stream_id = TRB_TO_STREAM_ID(le32_to_cpu(trb->generic.field[2]));
-b1adc42d440df3 Mathias Nyman    2021-01-29  1347  	ep = xhci_get_virt_ep(xhci, slot_id, ep_index);
-b1adc42d440df3 Mathias Nyman    2021-01-29  1348  	if (!ep)
-b1adc42d440df3 Mathias Nyman    2021-01-29  1349  		return;
-e9df17eb1408cf Sarah Sharp      2010-04-02  1350  
-42f2890aa998d1 Mathias Nyman    2021-01-29  1351  	ep_ring = xhci_virt_ep_to_ring(xhci, ep, stream_id);
-e9df17eb1408cf Sarah Sharp      2010-04-02  1352  	if (!ep_ring) {
-e587b8b270d370 Oliver Neukum    2014-01-08  1353  		xhci_warn(xhci, "WARN Set TR deq ptr command for freed stream ID %u\n",
-e9df17eb1408cf Sarah Sharp      2010-04-02  1354  				stream_id);
-e9df17eb1408cf Sarah Sharp      2010-04-02  1355  		/* XXX: Harmless??? */
-0d4976ec8ec17f Hans de Goede    2014-08-20  1356  		goto cleanup;
-e9df17eb1408cf Sarah Sharp      2010-04-02  1357  	}
-e9df17eb1408cf Sarah Sharp      2010-04-02  1358  
-b1adc42d440df3 Mathias Nyman    2021-01-29  1359  	ep_ctx = xhci_get_ep_ctx(xhci, ep->vdev->out_ctx, ep_index);
-b1adc42d440df3 Mathias Nyman    2021-01-29  1360  	slot_ctx = xhci_get_slot_ctx(xhci, ep->vdev->out_ctx);
-19a7d0d65c4a81 Felipe Balbi     2017-04-07  1361  	trace_xhci_handle_cmd_set_deq(slot_ctx);
-19a7d0d65c4a81 Felipe Balbi     2017-04-07  1362  	trace_xhci_handle_cmd_set_deq_ep(ep_ctx);
-ae636747146ea9 Sarah Sharp      2009-04-29  1363  
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1364  	if (ep->ep_state & EP_HAS_STREAMS && ep->stream_info) {
 
-stream_ctx is only initialized when ep->stream_info is non-NULL.
-Could we change this condition to:
-	if ((ep->ep_state & EP_HAS_STREAMS) && cmd_comp_code == COMP_SUCCESS) {
-instead?
+vim +/dev_err_probe +396 drivers/hwmon/isl28022.c
 
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1365  		stream_ctx = &ep->stream_info->stream_ctx_array[stream_id];
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1366  		trace_xhci_handle_cmd_set_deq_stream(ep->stream_info, stream_id);
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1367  	}
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1368  
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1369  	if (cmd_comp_code != COMP_SUCCESS) {
-ae636747146ea9 Sarah Sharp      2009-04-29  1370  		unsigned int ep_state;
-ae636747146ea9 Sarah Sharp      2009-04-29  1371  		unsigned int slot_state;
-ae636747146ea9 Sarah Sharp      2009-04-29  1372  
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1373  		switch (cmd_comp_code) {
-0b7c105a04ca79 Felipe Balbi     2017-01-23  1374  		case COMP_TRB_ERROR:
-e587b8b270d370 Oliver Neukum    2014-01-08  1375  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd invalid because of stream ID configuration\n");
-ae636747146ea9 Sarah Sharp      2009-04-29  1376  			break;
-0b7c105a04ca79 Felipe Balbi     2017-01-23  1377  		case COMP_CONTEXT_STATE_ERROR:
-e587b8b270d370 Oliver Neukum    2014-01-08  1378  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd failed due to incorrect slot or ep state.\n");
-5071e6b279178f Mathias Nyman    2016-11-11  1379  			ep_state = GET_EP_CTX_STATE(ep_ctx);
-28ccd2962c6655 Matt Evans       2011-03-29  1380  			slot_state = le32_to_cpu(slot_ctx->dev_state);
-ae636747146ea9 Sarah Sharp      2009-04-29  1381  			slot_state = GET_SLOT_STATE(slot_state);
-aa50b29061d3df Xenia Ragiadakou 2013-08-14  1382  			xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
-aa50b29061d3df Xenia Ragiadakou 2013-08-14  1383  					"Slot state = %u, EP state = %u",
-ae636747146ea9 Sarah Sharp      2009-04-29  1384  					slot_state, ep_state);
-ae636747146ea9 Sarah Sharp      2009-04-29  1385  			break;
-0b7c105a04ca79 Felipe Balbi     2017-01-23  1386  		case COMP_SLOT_NOT_ENABLED_ERROR:
-e587b8b270d370 Oliver Neukum    2014-01-08  1387  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd failed because slot %u was not enabled.\n",
-e587b8b270d370 Oliver Neukum    2014-01-08  1388  					slot_id);
-ae636747146ea9 Sarah Sharp      2009-04-29  1389  			break;
-ae636747146ea9 Sarah Sharp      2009-04-29  1390  		default:
-e587b8b270d370 Oliver Neukum    2014-01-08  1391  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd with unknown completion code of %u.\n",
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1392  					cmd_comp_code);
-ae636747146ea9 Sarah Sharp      2009-04-29  1393  			break;
-ae636747146ea9 Sarah Sharp      2009-04-29  1394  		}
-ae636747146ea9 Sarah Sharp      2009-04-29  1395  		/* OK what do we do now?  The endpoint state is hosed, and we
-ae636747146ea9 Sarah Sharp      2009-04-29  1396  		 * should never get to this point if the synchronization between
-ae636747146ea9 Sarah Sharp      2009-04-29  1397  		 * queueing, and endpoint state are correct.  This might happen
-ae636747146ea9 Sarah Sharp      2009-04-29  1398  		 * if the device gets disconnected after we've finished
-ae636747146ea9 Sarah Sharp      2009-04-29  1399  		 * cancelling URBs, which might not be an error...
-ae636747146ea9 Sarah Sharp      2009-04-29  1400  		 */
-ae636747146ea9 Sarah Sharp      2009-04-29  1401  	} else {
-9aad95e292f58d Hans de Goede    2013-10-04  1402  		u64 deq;
-9aad95e292f58d Hans de Goede    2013-10-04  1403  		/* 4.6.10 deq ptr is written to the stream ctx for streams */
-9aad95e292f58d Hans de Goede    2013-10-04  1404  		if (ep->ep_state & EP_HAS_STREAMS) {
-fdd9a29e9139a8 Mathias Nyman    2024-09-12 @1405  			deq = le64_to_cpu(stream_ctx->stream_ring) & SCTX_DEQ_MASK;
-                                                                                          ^^^^^^^^^^
-Warning.  My guess is that if cmd_comp_code is success then ep->stream_info but
-it's hard to tell without more context...
-
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1406  
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1407  			/*
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1408  			 * Cadence xHCI controllers store some endpoint state
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1409  			 * information within Rsvd0 fields of Stream Endpoint
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1410  			 * context. This field is not cleared during Set TR
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1411  			 * Dequeue Pointer command which causes XDMA to skip
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1412  			 * over transfer ring and leads to data loss on stream
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1413  			 * pipe.
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1414  			 * To fix this issue driver must clear Rsvd0 field.
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1415  			 */
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1416  			if (xhci->quirks & XHCI_CDNS_SCTX_QUIRK) {
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1417  				stream_ctx->reserved[0] = 0;
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1418  				stream_ctx->reserved[1] = 0;
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1419  			}
-9aad95e292f58d Hans de Goede    2013-10-04  1420  		} else {
-9aad95e292f58d Hans de Goede    2013-10-04  1421  			deq = le64_to_cpu(ep_ctx->deq) & ~EP_CTX_CYCLE_MASK;
-9aad95e292f58d Hans de Goede    2013-10-04  1422  		}
-aa50b29061d3df Xenia Ragiadakou 2013-08-14  1423  		xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
-9aad95e292f58d Hans de Goede    2013-10-04  1424  			"Successful Set TR Deq Ptr cmd, deq = @%08llx", deq);
-9aad95e292f58d Hans de Goede    2013-10-04  1425  		if (xhci_trb_virt_to_dma(ep->queued_deq_seg,
-9aad95e292f58d Hans de Goede    2013-10-04  1426  					 ep->queued_deq_ptr) == deq) {
-bf161e85fb153c Sarah Sharp      2011-02-23  1427  			/* Update the ring's dequeue segment and dequeue pointer
-bf161e85fb153c Sarah Sharp      2011-02-23  1428  			 * to reflect the new position.
-bf161e85fb153c Sarah Sharp      2011-02-23  1429  			 */
-b1adc42d440df3 Mathias Nyman    2021-01-29  1430  			update_ring_for_set_deq_completion(xhci, ep->vdev,
-b008df60c6369b Andiry Xu        2012-03-05  1431  				ep_ring, ep_index);
-bf161e85fb153c Sarah Sharp      2011-02-23  1432  		} else {
-e587b8b270d370 Oliver Neukum    2014-01-08  1433  			xhci_warn(xhci, "Mismatch between completed Set TR Deq Ptr command & xHCI internal state.\n");
-bf161e85fb153c Sarah Sharp      2011-02-23  1434  			xhci_warn(xhci, "ep deq seg = %p, deq ptr = %p\n",
-9aad95e292f58d Hans de Goede    2013-10-04  1435  				  ep->queued_deq_seg, ep->queued_deq_ptr);
-bf161e85fb153c Sarah Sharp      2011-02-23  1436  		}
-ae636747146ea9 Sarah Sharp      2009-04-29  1437  	}
-674f8438c12125 Mathias Nyman    2021-01-29  1438  	/* HW cached TDs cleared from cache, give them back */
-674f8438c12125 Mathias Nyman    2021-01-29  1439  	list_for_each_entry_safe(td, tmp_td, &ep->cancelled_td_list,
-674f8438c12125 Mathias Nyman    2021-01-29  1440  				 cancelled_td_list) {
-674f8438c12125 Mathias Nyman    2021-01-29  1441  		ep_ring = xhci_urb_to_transfer_ring(ep->xhci, td->urb);
-674f8438c12125 Mathias Nyman    2021-01-29  1442  		if (td->cancel_status == TD_CLEARING_CACHE) {
-674f8438c12125 Mathias Nyman    2021-01-29  1443  			td->cancel_status = TD_CLEARED;
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1444  			xhci_dbg(ep->xhci, "%s: Giveback cancelled URB %p TD\n",
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1445  				 __func__, td->urb);
-674f8438c12125 Mathias Nyman    2021-01-29  1446  			xhci_td_cleanup(ep->xhci, td, ep_ring, td->status);
-5ceac4402f5d97 Hector Martin    2024-06-11  1447  		} else if (td->cancel_status == TD_CLEARING_CACHE_DEFERRED) {
-5ceac4402f5d97 Hector Martin    2024-06-11  1448  			deferred = true;
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1449  		} else {
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1450  			xhci_dbg(ep->xhci, "%s: Keep cancelled URB %p TD as cancel_status is %d\n",
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1451  				 __func__, td->urb, td->cancel_status);
-674f8438c12125 Mathias Nyman    2021-01-29  1452  		}
-674f8438c12125 Mathias Nyman    2021-01-29  1453  	}
-0d4976ec8ec17f Hans de Goede    2014-08-20  1454  cleanup:
-b1adc42d440df3 Mathias Nyman    2021-01-29  1455  	ep->ep_state &= ~SET_DEQ_PENDING;
-b1adc42d440df3 Mathias Nyman    2021-01-29  1456  	ep->queued_deq_seg = NULL;
-b1adc42d440df3 Mathias Nyman    2021-01-29  1457  	ep->queued_deq_ptr = NULL;
-5ceac4402f5d97 Hector Martin    2024-06-11  1458  
-5ceac4402f5d97 Hector Martin    2024-06-11  1459  	if (deferred) {
-5ceac4402f5d97 Hector Martin    2024-06-11  1460  		/* We have more streams to clear */
-5ceac4402f5d97 Hector Martin    2024-06-11  1461  		xhci_dbg(ep->xhci, "%s: Pending TDs to clear, continuing with invalidation\n",
-5ceac4402f5d97 Hector Martin    2024-06-11  1462  			 __func__);
-5ceac4402f5d97 Hector Martin    2024-06-11  1463  		xhci_invalidate_cancelled_tds(ep);
-5ceac4402f5d97 Hector Martin    2024-06-11  1464  	} else {
-e9df17eb1408cf Sarah Sharp      2010-04-02  1465  		/* Restart any rings with pending URBs */
-5ceac4402f5d97 Hector Martin    2024-06-11  1466  		xhci_dbg(ep->xhci, "%s: All TDs cleared, ring doorbell\n", __func__);
-e9df17eb1408cf Sarah Sharp      2010-04-02  1467  		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
-ae636747146ea9 Sarah Sharp      2009-04-29  1468  	}
-5ceac4402f5d97 Hector Martin    2024-06-11  1469  }
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
