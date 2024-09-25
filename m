@@ -1,66 +1,71 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867C38286F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 11:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5D31A3045
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 11:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727263163; cv=none; b=Su18q+LETeujYiE+cJL57eelrlWQTp9lK57K8HKKrq901QprpsIJDNo4hUa7ToCjb4nvrlAIrAeHak13JIXcaHV/06OR+d1MG4BN635yBIj07GhxPowmmrYK0Un+9DLSvc+d626OMpPbDlwVE0BmOokfw5jLwOF8TBZb7MSkQAo=
+	t=1727264364; cv=none; b=K7SlFPjuZJ27leFD1X9FQB0aqpMDevJ16G+lWyZTBwjTZdvZFMUHIQ8JyIanjP+XbwiYS7nLJ4BEuvXuZHLEcGwRyXFacLIytNZQ+xdKUUiX8IMSoNI0z68d63MFSe+tctUW6OC3OeJglDPswRM55IO7ROxkpQFiRYUlISfBIRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727263163; c=relaxed/simple;
-	bh=HYCLZsTqy5zf0vloXvRPm8m+7ps4FJa2z9CDElflmXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HDpKgPB+KZ/WEBxgZxRGoQKyOIUYXBsO6KnKNpRny1xm2BmBgo7gRZqbyWcDX6cpzjhb9luK/bLOvIvK349h8fOoxDJraDOsSDAHy1KbjPhmYaPi8paxL+dkKsjqIvsVQ7Qk+QVMQzcj1WfkznwWQdDyUbyx9xXXuby9chTMmmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pCkIhqLb; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1727264364; c=relaxed/simple;
+	bh=v3Vu+YeTkpjmMPj1uAIp2/vkwpKekQ3F0fZjvvd7h+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJI3HMrWMtawGwPclo4vLyFVCwh52iAdumKvwDvyKHUGFurcftdwMzWbFILse5tu8SKUigg6W92B8gAnJQfppVp8cUFa75TEZ0G35nrXVzpDf4mx/lLyH3x47J6+/hkxBhUQI5LdLZshNYm9A5h+gThrthdJNwwqAd00s11l+Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VqTtzFWb; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pCkIhqLb"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cb57f8b41so84486645e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 04:19:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727263160; x=1727867960; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rwrBVrrl9icLHzRivuAZDS1T409O3kkAvhE/0khG5+4=;
-        b=pCkIhqLb0y8xV3IN3kXAb4fy887n5gd5O4aaa+/hwJKFGggihALANBr/I4pcK0nOS+
-         9z8UtZDZ46aQQeWKCjlpUxXfY3ccaNZmmKkSpv1ZTT1fQ/P9NvjCncxTXWGW8kiLZHQd
-         yEpHBQP2pY7YvtWlcHzC2p2X376ePtSQ0fsHGA3KCWF2ghasjEHDuoat75Zv+v29ovlV
-         5bYvSfmAikPMgD+MSUgvQyDB0KDFkpJ79oPkID+9Zv4SU21B45FWo5JqnNOZkMgUYRa5
-         Uibmr9Vuqk+6MPM/TXC/i1xVh1hFP+kHN8spQqVCx/SBWX8OZA8dy1PgzBKZrTw/X+5s
-         BFUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727263160; x=1727867960;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rwrBVrrl9icLHzRivuAZDS1T409O3kkAvhE/0khG5+4=;
-        b=o4qILmxRN1TXxppzrCpcRW6uuAx+x5G+/FzEY+dqJ68UP1IMawucjUM8hypndJsbgt
-         IYv2+hCY/pispTESDho72I9RXx1B84ao+Y5UT9Kp47AnnoSD4aSpklpJJgwDHbK5/G9V
-         m5Ngx8Ecsr3WQM/IVWj/+4PJpE+brdhOZ+41PC1/fnQzWLxT9X3vmQJ77JSK038Od7MM
-         7JQUC9O1Nb28OoYiE25DWvDk5NDwd24wGUgkaLgoFh7VNmZbOHjnV9BDm74tc96tn1jA
-         /tlVZzYpmohMcG2ZRQD1He1BRfcFIb/Ms7nUq1f7oYx8t7EkRq/wkI6thzBCwVF+ijiz
-         YfnA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGyLzgZMvvoMnq04/8sRO3zLY7IO/8LO1e0hwOb97sZ07pnz9Sq6xHjl+nPvE/oiObhI/zBn70HFH2GXGk@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBAP8lWmbIxpC55iEUZ5rQgLo42Lr0HA/UEXCxoVzxZ+QWwlB/
-	cXjEhwtpTmrXUpIMMGbq1wk61Ah6HA8OTPr8unFy5Z0uKeCanTxgr5EkqTVKY30=
-X-Google-Smtp-Source: AGHT+IHB8K8UidI17kGEGb/MIhX+Sy1vHc9Twgbgv3+Sl3Q/hFmdzsr/NOcZ5Q2PSxDUG453URlY1g==
-X-Received: by 2002:a5d:44c8:0:b0:37c:cc05:7a56 with SMTP id ffacd0b85a97d-37ccc057cacmr643035f8f.10.1727263159645;
-        Wed, 25 Sep 2024 04:19:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ccbe23336sm525435f8f.62.2024.09.25.04.19.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 04:19:19 -0700 (PDT)
-Date: Wed, 25 Sep 2024 14:19:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	Yingbao Jia <yingbao.jia@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 23318/30000]
- drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100
- isst_if_get_tpmi_instance_count() warn: potential spectre issue
- 'isst_common.sst_inst' [r] (local cap)
-Message-ID: <57ac2ceb-93f9-42d6-a585-3f6bc00fa0f6@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VqTtzFWb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727264362; x=1758800362;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v3Vu+YeTkpjmMPj1uAIp2/vkwpKekQ3F0fZjvvd7h+Q=;
+  b=VqTtzFWb8Y3t0ysxoZ0iQOfHx88u9xcrHOqVbnB87TpFX/K1K94B2Apr
+   1b82uRTkgmfjxaATzzruIoeKn7UXqNQSWxmSwsliTTCyMtIpvAk1xssb9
+   +0OthkgazmnYBU3/BgLJrMss5PAUtmYtcX5VzTD28pHsEbnUHYIEF0heI
+   QE2wFNC2afjhY7ZL1aKGUENv01Y8b9gVGokLw0QkltNv0/0FRSmwIcPAp
+   SAyW9mJ2OqEoxZvrWYSn3pLYbzxaWqJI7fnjFQgjN4RFF5Fq1a/s1ITek
+   PsHdq4O65yPzBABekk3CP1E9CHMXjFaaemXbYRFZqwAJtjjHByJqUkdaq
+   Q==;
+X-CSE-ConnectionGUID: ty64Q1RtTP2MiC9JeZAnJg==
+X-CSE-MsgGUID: Mi61e5KnSF6K+qyxu/lcaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26175496"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="26175496"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 04:39:21 -0700
+X-CSE-ConnectionGUID: IohvOObDQ4KPN8wEon43QA==
+X-CSE-MsgGUID: PKefS8E9S/yhLSMgPL+RgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="102564370"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 25 Sep 2024 04:39:17 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stQMU-000JW7-1t;
+	Wed, 25 Sep 2024 11:39:14 +0000
+Date: Wed, 25 Sep 2024 19:39:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fangzheng Zhang <fangzheng.zhang@unisoc.com>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Greg KH <greg@kroah.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, tkjos@google.com,
+	Fangzheng Zhang <fangzheng.zhang@unisoc.com>,
+	Yuming Han <yuming.han@unisoc.com>
+Subject: Re: [PATCH 1/2] mm/slub: Add panic function when slub leaks
+Message-ID: <202409251901.XFGbDalC-lkp@intel.com>
+References: <20240925032256.1782-2-fangzheng.zhang@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,61 +74,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925032256.1782-2-fangzheng.zhang@unisoc.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   ef5e9d0437237465f258a80a0d5d8e1e26872c7a
-commit: 4dc4d762dd6ed4cb851209a87e79d7d936b3fb4c [23318/30000] platform/x86: ISST: Enumerate TPMI SST and create framework
-config: x86_64-randconfig-161-20240925 (https://download.01.org/0day-ci/archive/20240925/202409250439.RGKHfbdX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Fangzheng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.11 next-20240925]
+[cannot apply to vbabka-slab/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fangzheng-Zhang/mm-slub-Add-panic-function-when-slub-leaks/20240925-112601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240925032256.1782-2-fangzheng.zhang%40unisoc.com
+patch subject: [PATCH 1/2] mm/slub: Add panic function when slub leaks
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240925/202409251901.XFGbDalC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409251901.XFGbDalC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409250439.RGKHfbdX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409251901.XFGbDalC-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:104 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
+All errors (new ones prefixed by >>):
 
-vim +100 drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c
+>> mm/slub.c:7354: error: unterminated #ifdef
+    7354 | #ifdef CONFIG_SLUB_LEAK_PANIC
+         | 
 
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   88  static int isst_if_get_tpmi_instance_count(void __user *argp)
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   89  {
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   90  	struct isst_tpmi_instance_count tpmi_inst;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   91  	struct tpmi_sst_struct *sst_inst;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   92  	int i;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   93  
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   94  	if (copy_from_user(&tpmi_inst, argp, sizeof(tpmi_inst)))
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   95  		return -EFAULT;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   96  
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   97  	if (tpmi_inst.socket_id >= topology_max_packages())
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   98  		return -EINVAL;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   99  
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @100  	tpmi_inst.count = isst_common.sst_inst[tpmi_inst.socket_id]->number_of_power_domains;
 
-I believe this is a case where we need to use array_index_nospec().  But you
-work for Intel so I'm sure there are experts you could ask.  ;)  Let me know
-either way so I can learn from this.
+vim +7354 mm/slub.c
 
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  101  
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  102  	sst_inst = isst_common.sst_inst[tpmi_inst.socket_id];
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  103  	tpmi_inst.valid_mask = 0;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @104  	for (i = 0; i < sst_inst->number_of_power_domains; ++i) {
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  105  		struct tpmi_per_power_domain_info *power_domain_info;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  106  
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  107  		power_domain_info = &sst_inst->power_domain_info[i];
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  108  		if (power_domain_info->sst_base)
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  109  			tpmi_inst.valid_mask |= BIT(i);
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  110  	}
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  111  
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  112  	if (copy_to_user(argp, &tpmi_inst, sizeof(tpmi_inst)))
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  113  		return -EFAULT;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  114  
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  115  	return 0;
-4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  116  }
+  7350	
+  7351	/*
+  7352	 * The /sys/module/slub ABI
+  7353	 */
+> 7354	#ifdef CONFIG_SLUB_LEAK_PANIC
+  7355	/*
+  7356	 * What:          /sys/module/slub/parameters/leak_panic
+  7357	 *                /sys/module/slub/parameters/leak_panic_threshold
+  7358	 * Date:          Sep 2024
+  7359	 * KernelVersion: v6.6+
+  7360	 * Description:   Used for slub memory leak check. When the user
+  7361	 *                successfully allocates the slub page, it also performs
+  7362	 *                statistics on the total slub usage in the system.
+  7363	 *                When the usage exceeds the set value
+  7364	 *                (threshold * memtotal / 100), it is considered that
+  7365	 *                there is a risk of slub leakage in the system at this time.
+  7366	 *                A panic operation will be triggered.
+  7367	 * Users:         userspace
+  7368	 */
+  7369	MODULE_PARM_DESC(leak_panic, "Disable/Enable slub_leak_panic");
+  7370	module_param_named(leak_panic, slub_leak_panic_enabled, bool, 0644);
+  7371	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
