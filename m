@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14D018C918;
-	Wed, 25 Sep 2024 12:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B481E1AC433
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 13:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727268144; cv=none; b=QPtI330T3Kot15C8kIFdaUjvKkarKYYS6taGF3+y9cjJ4y2yYmvnTa+g/fhM3SIR3m7rOLWNRNwnM+mZnEWfsvpE0Aaf3v0xlIh++Mmv1lhncbdQ0IdufZaiN0lVWYy7tNC7Kq/ddnYpRx0N+j5kLFwGzXiP7gmGyTuqBnqpy4Y=
+	t=1727269778; cv=none; b=MwPEpo7vxv7baxJohGaYU0+kv1tG5sq+rxkQ0I8lNZEqoJpsKiZFdhyn408grXxxnUcI1H8/VyMgx5FM2cFXX8lFDMSPOSGQK4fzrZUhGEnLeanRGcf2LpPd4CZE78FUr7Wjs3ImCbaL/tgk+MT7D+afpp1FTgCoyOuP1s/GeI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727268144; c=relaxed/simple;
-	bh=WXAQYtZyqCVW4wBSXVV7iEu+jmbm65WGzIo4hviMllI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b039P4faIXlmp+q3YcnRPCiS0K8mAqceX6OiZx9iSjRJixuhkr2jBIrYXjempheaC1W2aW2x9CaV14+wntZ7r6CefTQQ1XNbas7TMBK5i9tFsXV+iHH/GnNluIDYrvqlEicHv91JSFNCv5wuNAts+6Fte2sJCA0xTLWl2ly9a/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4Dpmm5v; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727269778; c=relaxed/simple;
+	bh=T3JNfUWgBdH+hKUK/5fnXfZX4/ZTF7Vbo+o9GxvIhNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p8o8uDGCKXcyJAOm/ZHe8jRBsBnFhMUjO0piQwEcy45sABbL0kv2SGTsxrUaj1rujqEysKc/Vv60zHpn04PQdtTAohvX5HQsdNCprZcvsvBTe3pKKlolpydiIPNYcwgX9LXVKJAfOqDLc/MedessO13izH/1BQsG1absAKw6+Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=miJ50q5R; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4Dpmm5v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727268140; x=1758804140;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WXAQYtZyqCVW4wBSXVV7iEu+jmbm65WGzIo4hviMllI=;
-  b=S4Dpmm5vMVfO8gF1Dr5GTZ+0j6JI535td0TiJHuxJpM/i3PT9swnTHc1
-   KPvaJtIuc2Wqf5ZjUBeZsbz48J6cztfs+HDLoEU6XOX+/2xB0c2DygxgA
-   Sp9sBXBQi8B3KYmdzrbuRUOVUADbEvUXVG/7bGtcgtsmeK6e/g7RYvonY
-   t2BargIdjBsXSv9A7Fghceg3JfgcnIIydzucFB2Ov1Wo7s38ic/pA2Szb
-   sPYRVuYCMrcISgJkuICxNYzs5mB+0xPHKpVD8loUjCItm0yG8JsOi/kG6
-   6z4KBXpVVAy+pqAVb48iEmnNQQYvIu02ioQJ1p3wzdhB3bJAuKi2Dhgbf
-   g==;
-X-CSE-ConnectionGUID: vZE7RICoSHyZEeviibH2qA==
-X-CSE-MsgGUID: hLYWNmXGRouClW7v9ckwQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26176192"
-X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="26176192"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 05:42:20 -0700
-X-CSE-ConnectionGUID: NUqdowHsSfCR8WZAZzCtfg==
-X-CSE-MsgGUID: /B3t6mycQySzKBvhQktK+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="71419940"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Sep 2024 05:42:18 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stRLT-000JXz-2K;
-	Wed, 25 Sep 2024 12:42:15 +0000
-Date: Wed, 25 Sep 2024 20:41:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] pwm: axi-pwmgen: Create a dedicated function for getting
- driver data from a chip
-Message-ID: <202409252009.ZbXikiQJ-lkp@intel.com>
-References: <20240923125418.16558-2-u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="miJ50q5R"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42cbe624c59so58922805e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 06:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727269775; x=1727874575; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rVqWuWEERgwZ9pyHgMy9d7XK7XWIP6rNolKEYZdSUTA=;
+        b=miJ50q5Rx+7gyb3+kZgR6AW7X4Yt9a01R+e9oYogUuy5vUfqLNnhKxDckmzlLfSfIc
+         58J7UfDFAwviuEhbKaagcuHbkyZf0Grg7MJ1epwfpDFJgbWhRzdyqqGnuIasZcLVTM+a
+         Mo3qV9NSGqd8NsOW3eVEHqdVEXLdU4EDnHy0pnM7kIc+yn9xLj3pZhp+zQ/VqHCcXKjO
+         AWFE2ZHm3OkGvtOgNZuKecKhsdNxVo2nU3Xmvg1xBe4W4XELiItKIaoJPpOquwamKMki
+         LfIr+Fu85OFq+LQHA39rSRtf+ITq3UtdsmTxedHlOA4R6lhvd4Y7SmOHW2ZvWjXNdIU/
+         ADLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727269775; x=1727874575;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rVqWuWEERgwZ9pyHgMy9d7XK7XWIP6rNolKEYZdSUTA=;
+        b=euQX/MIzNXpPHWXrKJ8Y06U+rd/4RhNiRgrWVK7nWSFVvTd/Ecf+6wcL7quxtHd9dS
+         qCiSYCPe9tZXCnLPHZsDQPAMzK1VZjbyPIebWnuxUalY5zY9CYOUGpAXMn9FcEkytqP0
+         0pBF7O/6IcZqn2E0fq1UtbrXDcFP1RpDHEtiJfoCeKHgrkMEdOHkStJFQWCDbSTZP1GV
+         9/nYp+eLk2v3Fd7BNN2GkdLihi7O6DCYobVJ7W6Hv+mLpiPnJGDcHVsde+krSnnRTix8
+         DBL1ZexyPXsA7oQ+rksiuMwBxvOvmcijdm8FBlJ7kUBIOREJiqrKQ8hChATaMk8jd50P
+         q1OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhqYgtj//3UYHfFRcqt2YXeFtSYupP0inTs/Mcn0D2LGC8SIpyc6++g2JRJ/hs7BQv/ygZ3A2xeeIJyw/a@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjmBFTXGwn1qj6vvE7xeYWtbWZep4woV+tsopthMzKlDsMVNnf
+	ScQIB/mr92MHqmv4wOWirYrHpGMR1PYbDDigQEwys/k6YZlp3e7x7LVCGXoK/wY=
+X-Google-Smtp-Source: AGHT+IF06Zc2qPgVL0O5UKYNo3HFsDJlGL3fZ3pagCdKs5ykn7TTIfh2g6GWn2uBcUtM5Zrm7EcdsA==
+X-Received: by 2002:a05:600c:4f55:b0:42c:bd5b:cb53 with SMTP id 5b1f17b1804b1-42e96146bfemr18099425e9.23.1727269774800;
+        Wed, 25 Sep 2024 06:09:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e969e1967sm18368295e9.6.2024.09.25.06.09.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 06:09:34 -0700 (PDT)
+Date: Wed, 25 Sep 2024 16:09:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:4.19/android_s 9912/30000] fs/incfs/vfs.c:1222
+ ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
+Message-ID: <c017d49b-4895-4a73-90b9-95f3f2fefa70@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,182 +65,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240923125418.16558-2-u.kleine-koenig@baylibre.com>
 
-Hi Uwe,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 62f92d634458a1e308bb699986b9147a6d670457]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/pwm-axi-pwmgen-Create-a-dedicated-function-for-getting-driver-data-from-a-chip/20240923-205606
-base:   62f92d634458a1e308bb699986b9147a6d670457
-patch link:    https://lore.kernel.org/r/20240923125418.16558-2-u.kleine-koenig%40baylibre.com
-patch subject: [PATCH] pwm: axi-pwmgen: Create a dedicated function for getting driver data from a chip
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240925/202409252009.ZbXikiQJ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252009.ZbXikiQJ-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: 040942fc50b20325bb56737c32b303268bb6f35c [9912/30000] ANDROID: Initial commit of Incremental FS
+config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240922/202409221052.YsEbHigM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409252009.ZbXikiQJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409221052.YsEbHigM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/incfs/vfs.c:1222 ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
+fs/incfs/vfs.c:2153 incfs_mount_fs() warn: passing zero to 'ERR_PTR'
 
-   In file included from drivers/pwm/pwm-axi-pwmgen.c:25:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/pwm/pwm-axi-pwmgen.c:25:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/pwm/pwm-axi-pwmgen.c:25:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/pwm/pwm-axi-pwmgen.c:26:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pwm/pwm-axi-pwmgen.c:58:9: error: returning 'void *' from a function with incompatible result type 'struct axi_pwmgen_ddata'
-      58 |         return pwmchip_get_drvdata(chip);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pwm/pwm-axi-pwmgen.c:64:27: error: initializing 'struct axi_pwmgen_ddata *' with an expression of incompatible type 'struct axi_pwmgen_ddata'
-      64 |         struct axi_pwmgen_ddata *ddata = axi_pwmgen_ddata_from_chip(chip);
-         |                                  ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pwm/pwm-axi-pwmgen.c:108:27: error: initializing 'struct axi_pwmgen_ddata *' with an expression of incompatible type 'struct axi_pwmgen_ddata'
-     108 |         struct axi_pwmgen_ddata *ddata = axi_pwmgen_ddata_from_chip(chip);
-         |                                  ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   16 warnings and 3 errors generated.
+vim +/named_file_dentry +1222 fs/incfs/vfs.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [m]:
-   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+040942fc50b203 Eugene Zemtsov 2019-11-18  1213  	if (parent_dir_path.dentry == mi->mi_index_dir) {
+040942fc50b203 Eugene Zemtsov 2019-11-18  1214  		/* Can't create a file directly inside .index */
+040942fc50b203 Eugene Zemtsov 2019-11-18  1215  		error = -EBUSY;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1216  		goto out;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1217  	}
+040942fc50b203 Eugene Zemtsov 2019-11-18  1218  
+040942fc50b203 Eugene Zemtsov 2019-11-18  1219  	/* Look up a dentry in the parent dir. It should be negative. */
+040942fc50b203 Eugene Zemtsov 2019-11-18  1220  	named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
+040942fc50b203 Eugene Zemtsov 2019-11-18  1221  					file_name);
+040942fc50b203 Eugene Zemtsov 2019-11-18 @1222  	if (!named_file_dentry) {
 
+incfs_lookup_dentry() never returns NULL, only error pointers.  There are some
+VFS functions which return NULL for File NOT Found and error pointer for other
+types of errors.  Explained in my blog:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
-vim +58 drivers/pwm/pwm-axi-pwmgen.c
+But this isn't one of those.
 
-    55	
-    56	static struct axi_pwmgen_ddata axi_pwmgen_ddata_from_chip(struct pwm_chip *chip)
-    57	{
-  > 58		return pwmchip_get_drvdata(chip);
-    59	}
-    60	
-    61	static int axi_pwmgen_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-    62				    const struct pwm_state *state)
-    63	{
-  > 64		struct axi_pwmgen_ddata *ddata = axi_pwmgen_ddata_from_chip(chip);
-    65		unsigned int ch = pwm->hwpwm;
-    66		struct regmap *regmap = ddata->regmap;
-    67		u64 period_cnt, duty_cnt;
-    68		int ret;
-    69	
-    70		if (state->polarity != PWM_POLARITY_NORMAL)
-    71			return -EINVAL;
-    72	
-    73		if (state->enabled) {
-    74			period_cnt = mul_u64_u64_div_u64(state->period, ddata->clk_rate_hz, NSEC_PER_SEC);
-    75			if (period_cnt > UINT_MAX)
-    76				period_cnt = UINT_MAX;
-    77	
-    78			if (period_cnt == 0)
-    79				return -EINVAL;
-    80	
-    81			ret = regmap_write(regmap, AXI_PWMGEN_CHX_PERIOD(ch), period_cnt);
-    82			if (ret)
-    83				return ret;
-    84	
-    85			duty_cnt = mul_u64_u64_div_u64(state->duty_cycle, ddata->clk_rate_hz, NSEC_PER_SEC);
-    86			if (duty_cnt > UINT_MAX)
-    87				duty_cnt = UINT_MAX;
-    88	
-    89			ret = regmap_write(regmap, AXI_PWMGEN_CHX_DUTY(ch), duty_cnt);
-    90			if (ret)
-    91				return ret;
-    92		} else {
-    93			ret = regmap_write(regmap, AXI_PWMGEN_CHX_PERIOD(ch), 0);
-    94			if (ret)
-    95				return ret;
-    96	
-    97			ret = regmap_write(regmap, AXI_PWMGEN_CHX_DUTY(ch), 0);
-    98			if (ret)
-    99				return ret;
-   100		}
-   101	
-   102		return regmap_write(regmap, AXI_PWMGEN_REG_CONFIG, AXI_PWMGEN_LOAD_CONFIG);
-   103	}
-   104	
+This file has other similar issues, which the zero day bot does not find.
+
+040942fc50b203 Eugene Zemtsov 2019-11-18  1223  		error = -EFAULT;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1224  		goto out;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1225  	}
+040942fc50b203 Eugene Zemtsov 2019-11-18  1226  	if (IS_ERR(named_file_dentry)) {
+040942fc50b203 Eugene Zemtsov 2019-11-18  1227  		error = PTR_ERR(named_file_dentry);
+040942fc50b203 Eugene Zemtsov 2019-11-18  1228  		named_file_dentry = NULL;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1229  		goto out;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1230  	}
+040942fc50b203 Eugene Zemtsov 2019-11-18  1231  	if (d_really_is_positive(named_file_dentry)) {
+040942fc50b203 Eugene Zemtsov 2019-11-18  1232  		/* File with this path already exists. */
+040942fc50b203 Eugene Zemtsov 2019-11-18  1233  		error = -EEXIST;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1234  		goto out;
+040942fc50b203 Eugene Zemtsov 2019-11-18  1235  	}
+040942fc50b203 Eugene Zemtsov 2019-11-18  1236  	/* Look up a dentry in the .index dir. It should be negative. */
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
