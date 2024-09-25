@@ -1,80 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6799514A4C1;
-	Wed, 25 Sep 2024 04:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603BC2AD11
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 04:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727237945; cv=none; b=OBR0icJDCFO8ydJUx51WxQv2vb3WZgYTF+BHq17ezqvcXuctVyxH17fSX3cgc2n1qw9rx6zXpsfO/B2BotDPww9Hf9ycIHwxosFB1qkK8hftjDG+lT66lJWN5v0k38FCJauxWi3EWZlYOfgKhgAlNe1bKMGmYx2wbgVKvKImXbo=
+	t=1727238601; cv=none; b=s+uvV6Do3lDyqBvUdsWKaAb5I429EogtTyf7Sz4wCmmc4ZZhapitGfafpR5/XjtywO665ua/ZN8ogXLQjmITGL0jE9RRtxlNnuh1p39HpSIfWHOgB5ZN6tvrWx+XUiHGQRtRzu4zWnf0BzO0OWlF+OJoEZBmZ4C9g7iUjZo2pXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727237945; c=relaxed/simple;
-	bh=lS+NkfW/fPJVCVEP9QZFeM8NSHU7s7NyFWgEgQ6rUrk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ACh34r54lrYAqJ5ZVn6O4OjXyPoaCAcRLDt29un866CKYYnN3BN9TrCF89Cze/kDS+JTQGGzYIaJGTmFY0BXroF0c5TePh2gIl5frjZIobDzIcdLtrGvn7VY7m/BXSNB216zOwjfEqpIVxaxE7igmLyzlRthXRQiVlaUkTF5wW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCTFUbYc; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1727238601; c=relaxed/simple;
+	bh=OcI455Loq3bDqND5gx7ftN7n9RILjntQ2hzlB+yBegM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cM5bKltAvAETBvyECoot/+ebal6O8gjUEuDifF3426dVi++C2P3ixtZUtKKm6Ka+N/kd3Znx7WxgLvfRdADi1ODxK5Ioq8pgHGuaKlYvwgh9nF/SJ9BdlUWqsRQb43yeSed1np1owmtFEOJzlIW1pZthIArOZxrlh6Zj4bVN8Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DeFPqX3M; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCTFUbYc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeFPqX3M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727237944; x=1758773944;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lS+NkfW/fPJVCVEP9QZFeM8NSHU7s7NyFWgEgQ6rUrk=;
-  b=CCTFUbYcK48ocL49uhXQmy11e2r3PKrff6ejg2ZaHfYT1fONxTe1gIzD
-   /oMP3WqIfiN1JOS29yS3INOh0R8xe40Umvx96TgYKO3wb3iTGdJ0dMzqC
-   b1xdQV+qusDztXAml/4z7SAmyoKNdxfFwOor7j2O3Jsz/Y5LuNBe7dZgO
-   T832JTLyg96J2N3OOOKs/bzBjq7VwWI0lhujNhMB+KBLRAzMvIaDNVDzw
-   9YtXrG70TqWuTuMeXp1uV8Tyu3xrlaqHNwUMEBHhIFzlNM9bYBRCi4DYL
-   44E5IMt8XfBivWtzxrftSCjV01mCGsVCINDS2dlxuDP9cNhodqk2hQJ4d
+  t=1727238599; x=1758774599;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OcI455Loq3bDqND5gx7ftN7n9RILjntQ2hzlB+yBegM=;
+  b=DeFPqX3M9Gb9Pqs6rM9kc+9GN+Ox6ME17jUO5f8dhenx7bl/AJN6awdt
+   JcKosMDO4yAsBEvEGgEpXUjtgEqEEe7wjV7f7OZSHN/q+XJ0r+fOxbuyX
+   mX1rqCRfcW5Qj4nIc17JALsaEpAP6hEc5x/GYlULNl0ov6a+e0hweFcup
+   ubxkY5G+xCfLC/XPl3P3QrBEtheo4brE/qZedYwTnTz/kYUQIV/XYq3Ft
+   e0Vg01Pow/uuknGmqITPPYuFjiSdY7jeMUyvSHqRVGxc5C/dO1jcsCdXf
+   Ur/Y+nPo7GF5GBLrUE4SME2lhSmE/UmHZmwGwwpgRnvoqkWV5rQgxV1n0
    Q==;
-X-CSE-ConnectionGUID: xtMdMbXOTMKCj0GNH3rnWg==
-X-CSE-MsgGUID: KXZ2dfm8Tte3XiBNHmNmlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26215369"
+X-CSE-ConnectionGUID: DS81/IxPRiax1JdQbumBZQ==
+X-CSE-MsgGUID: jZnF4BavREeq3qRWp3sftQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26085150"
 X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="26215369"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 21:19:03 -0700
-X-CSE-ConnectionGUID: 6NdU+laSRBSdbMAEKH5Liw==
-X-CSE-MsgGUID: ImcSjgIFQA6RYk9dsdE7cg==
+   d="scan'208";a="26085150"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 21:29:59 -0700
+X-CSE-ConnectionGUID: h9iiwiDJQ9uNgT3Qvo5NOg==
+X-CSE-MsgGUID: KbE9O20xSaGePHZ1mVdwOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="71644054"
+   d="scan'208";a="76034720"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Sep 2024 21:18:57 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Sep 2024 21:29:57 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stJUN-000J7t-0E;
-	Wed, 25 Sep 2024 04:18:55 +0000
-Date: Wed, 25 Sep 2024 12:18:44 +0800
+	id 1stJf1-000J8H-1E;
+	Wed, 25 Sep 2024 04:29:55 +0000
+Date: Wed, 25 Sep 2024 12:29:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: Re: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as
- platform device
-Message-ID: <202409251242.gyf8pdxt-lkp@intel.com>
-References: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 12681/12687] rust/helpers/spinlock.c:10:23:
+ error: implicit declaration of function 'spinlock_check' is invalid in C99
+Message-ID: <202409251238.vetlgXE9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,37 +62,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
 
-Hi Binbin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master next-20240924]
-[cannot apply to robh/for-next v6.11]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240924-150942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as platform device
-config: alpha-kismet-CONFIG_SND_SOC_LOONGSON_CARD-CONFIG_SND_SOC_LOONGSON_I2S_PLATFORM-0-0 (https://download.01.org/0day-ci/archive/20240925/202409251242.gyf8pdxt-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251242.gyf8pdxt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4d0326b60bb753627437fff0f76bf1525bcda422
+commit: 000e589e413dd734f191ba4e73340559e65f104d [12681/12687] Merge branch 'rust-next' of https://github.com/Rust-for-Linux/linux.git
+config: arm64-randconfig-r122-20240924 (https://download.01.org/0day-ci/archive/20240925/202409251238.vetlgXE9-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251238.vetlgXE9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409251242.gyf8pdxt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409251238.vetlgXE9-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD when selected by SND_SOC_LOONGSON_I2S_PLATFORM
-   WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD
-     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (LOONGARCH || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SND_SOC_LOONGSON_I2S_PLATFORM [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && OF [=y]
+All error/warnings (new ones prefixed by >>):
+
+   In file included from rust/helpers/helpers.c:22:
+>> rust/helpers/spinlock.c:10:23: error: implicit declaration of function 'spinlock_check' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           __raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
+                                ^
+>> rust/helpers/spinlock.c:10:23: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'raw_spinlock_t *' (aka 'struct raw_spinlock *') [-Wint-conversion]
+           __raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
+                                ^~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:101:52: note: passing argument to parameter 'lock' here
+     extern void __raw_spin_lock_init(raw_spinlock_t *lock, const char *name,
+                                                      ^
+   1 warning and 1 error generated.
+   make[3]: *** [scripts/Makefile.build:229: rust/helpers/helpers.o] Error 1
+>> rust/helpers/spinlock.c:10:23: error: implicit declaration of function 'spinlock_check' is invalid in C99 [-Wimplicit-function-declaration]
+>> rust/helpers/spinlock.c:10:23: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'raw_spinlock_t *' (aka 'struct raw_spinlock *') [-Wint-conversion]
+   include/linux/spinlock.h:101:52: note: passing argument to parameter 'lock' here
+>> clang diag: rust/helpers/spinlock.c:10:23: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'raw_spinlock_t *' (aka 'struct raw_spinlock *') [-Wint-conversion]
+   make[3]: *** [rust/Makefile:304: rust/bindings/bindings_helpers_generated.rs] Error 101
+   make[3]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
+   make[3]: Target 'rust/' not remade because of errors.
+   make[2]: *** [Makefile:1209: prepare] Error 2
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3 [=n])
+   Selected by [m]:
+   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 [=n] || COMPILE_TEST [=y])
+
+
+vim +/spinlock_check +10 rust/helpers/spinlock.c
+
+876346536c1b59 Andreas Hindborg 2024-08-15   5  
+876346536c1b59 Andreas Hindborg 2024-08-15   6  void rust_helper___spin_lock_init(spinlock_t *lock, const char *name,
+876346536c1b59 Andreas Hindborg 2024-08-15   7  				  struct lock_class_key *key)
+876346536c1b59 Andreas Hindborg 2024-08-15   8  {
+876346536c1b59 Andreas Hindborg 2024-08-15   9  #ifdef CONFIG_DEBUG_SPINLOCK
+876346536c1b59 Andreas Hindborg 2024-08-15 @10  	__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
+876346536c1b59 Andreas Hindborg 2024-08-15  11  #else
+876346536c1b59 Andreas Hindborg 2024-08-15  12  	spin_lock_init(lock);
+876346536c1b59 Andreas Hindborg 2024-08-15  13  #endif
+876346536c1b59 Andreas Hindborg 2024-08-15  14  }
+876346536c1b59 Andreas Hindborg 2024-08-15  15  
+
+:::::: The code at line 10 was first introduced by commit
+:::::: 876346536c1b59a5b1b5e44477b1b3ece77647fd rust: kbuild: split up helpers.c
+
+:::::: TO: Andreas Hindborg <a.hindborg@samsung.com>
+:::::: CC: Miguel Ojeda <ojeda@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
