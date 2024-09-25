@@ -1,62 +1,63 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B481E1AC433
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 13:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BC317BB26
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 13:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727269778; cv=none; b=MwPEpo7vxv7baxJohGaYU0+kv1tG5sq+rxkQ0I8lNZEqoJpsKiZFdhyn408grXxxnUcI1H8/VyMgx5FM2cFXX8lFDMSPOSGQK4fzrZUhGEnLeanRGcf2LpPd4CZE78FUr7Wjs3ImCbaL/tgk+MT7D+afpp1FTgCoyOuP1s/GeI4=
+	t=1727270605; cv=none; b=fCM2I7b7lva+Z1UmzR4LShrdwiyn1BChkaxfchTpMhquFfbp8jHzQKPpmM++1nVXCdV/U7yfErOtI5g16igOR/98SeULOBst7X4h9Yfr93dRg8SgB+4MmLJT+SnY2UcdvOltbiNO8eTuXf0lJGH8k6prPqOYpQ8dr4kSs2I/JwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727269778; c=relaxed/simple;
-	bh=T3JNfUWgBdH+hKUK/5fnXfZX4/ZTF7Vbo+o9GxvIhNA=;
+	s=arc-20240116; t=1727270605; c=relaxed/simple;
+	bh=ePuUQatUSqwQTEo1GXCr0VdJ+0wVkVbuvP+DKZ/n79E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p8o8uDGCKXcyJAOm/ZHe8jRBsBnFhMUjO0piQwEcy45sABbL0kv2SGTsxrUaj1rujqEysKc/Vv60zHpn04PQdtTAohvX5HQsdNCprZcvsvBTe3pKKlolpydiIPNYcwgX9LXVKJAfOqDLc/MedessO13izH/1BQsG1absAKw6+Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=miJ50q5R; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=lJLAEIs702ZUXbNbDTWgs0gFBiFzjobiHQpIePPifer1h6ycEaHi6mFWX6+ZoYn7NpdreLQKrLKI9BGtr7M+HghT3QkZo/pmK2T0DwWYs1pO1KgwLqbq7oDewrHcLnydepQtCL3B3Kd4npYaBYDiSgpnVJmeXAcLKNk9S4up+mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjWrxvoi; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="miJ50q5R"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42cbe624c59so58922805e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 06:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727269775; x=1727874575; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rVqWuWEERgwZ9pyHgMy9d7XK7XWIP6rNolKEYZdSUTA=;
-        b=miJ50q5Rx+7gyb3+kZgR6AW7X4Yt9a01R+e9oYogUuy5vUfqLNnhKxDckmzlLfSfIc
-         58J7UfDFAwviuEhbKaagcuHbkyZf0Grg7MJ1epwfpDFJgbWhRzdyqqGnuIasZcLVTM+a
-         Mo3qV9NSGqd8NsOW3eVEHqdVEXLdU4EDnHy0pnM7kIc+yn9xLj3pZhp+zQ/VqHCcXKjO
-         AWFE2ZHm3OkGvtOgNZuKecKhsdNxVo2nU3Xmvg1xBe4W4XELiItKIaoJPpOquwamKMki
-         LfIr+Fu85OFq+LQHA39rSRtf+ITq3UtdsmTxedHlOA4R6lhvd4Y7SmOHW2ZvWjXNdIU/
-         ADLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727269775; x=1727874575;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rVqWuWEERgwZ9pyHgMy9d7XK7XWIP6rNolKEYZdSUTA=;
-        b=euQX/MIzNXpPHWXrKJ8Y06U+rd/4RhNiRgrWVK7nWSFVvTd/Ecf+6wcL7quxtHd9dS
-         qCiSYCPe9tZXCnLPHZsDQPAMzK1VZjbyPIebWnuxUalY5zY9CYOUGpAXMn9FcEkytqP0
-         0pBF7O/6IcZqn2E0fq1UtbrXDcFP1RpDHEtiJfoCeKHgrkMEdOHkStJFQWCDbSTZP1GV
-         9/nYp+eLk2v3Fd7BNN2GkdLihi7O6DCYobVJ7W6Hv+mLpiPnJGDcHVsde+krSnnRTix8
-         DBL1ZexyPXsA7oQ+rksiuMwBxvOvmcijdm8FBlJ7kUBIOREJiqrKQ8hChATaMk8jd50P
-         q1OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUhqYgtj//3UYHfFRcqt2YXeFtSYupP0inTs/Mcn0D2LGC8SIpyc6++g2JRJ/hs7BQv/ygZ3A2xeeIJyw/a@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjmBFTXGwn1qj6vvE7xeYWtbWZep4woV+tsopthMzKlDsMVNnf
-	ScQIB/mr92MHqmv4wOWirYrHpGMR1PYbDDigQEwys/k6YZlp3e7x7LVCGXoK/wY=
-X-Google-Smtp-Source: AGHT+IF06Zc2qPgVL0O5UKYNo3HFsDJlGL3fZ3pagCdKs5ykn7TTIfh2g6GWn2uBcUtM5Zrm7EcdsA==
-X-Received: by 2002:a05:600c:4f55:b0:42c:bd5b:cb53 with SMTP id 5b1f17b1804b1-42e96146bfemr18099425e9.23.1727269774800;
-        Wed, 25 Sep 2024 06:09:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e969e1967sm18368295e9.6.2024.09.25.06.09.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 06:09:34 -0700 (PDT)
-Date: Wed, 25 Sep 2024 16:09:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 9912/30000] fs/incfs/vfs.c:1222
- ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
-Message-ID: <c017d49b-4895-4a73-90b9-95f3f2fefa70@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjWrxvoi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727270603; x=1758806603;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ePuUQatUSqwQTEo1GXCr0VdJ+0wVkVbuvP+DKZ/n79E=;
+  b=BjWrxvoiaHUym2jqQKP4vH5Kb8H8F2qRjR14A74JXSiRsQN9L/0Ik6wS
+   krNNYL5CGa6XKztRzeB6YSpzWMGe0lpcIXcaPdMLducFU9yPpBDfIXGQr
+   8p14CL/Z04+95iarskipYTXpyXjquE4rb9pjdy12ySarrxnLjo4M23Odn
+   3CuFdoU8vLQbz4BaE/LTnj9PsdmEusTJxmLs1z+je0k/5ZDCoJ1CY3KB5
+   ojBrsq81/K+bL2Dtty/ZQfT3IhxKMAvpf0Z2y/FLdRGOVEi/erYpwOOkn
+   WNqfgnGBnBuSOGrc/CtJENY3ZOeiOuMAEB8hfCm9N/rMDS6d7aWef3CE3
+   Q==;
+X-CSE-ConnectionGUID: y63rdUFOQhy4i9NxAKVDww==
+X-CSE-MsgGUID: qwz1bH3MQYCupinPDg+hzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26415951"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="26415951"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 06:23:22 -0700
+X-CSE-ConnectionGUID: yFufgBRoRZSf+V/htOMKLQ==
+X-CSE-MsgGUID: GoIgJCkWSimf7L9i22IwxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="71780313"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Sep 2024 06:23:19 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stRzB-000JYt-0c;
+	Wed, 25 Sep 2024 13:23:17 +0000
+Date: Wed, 25 Sep 2024 21:22:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2211/2443]
+ drivers/vfio/pci/vfio_pci_core.c:430:5: sparse: sparse: symbol
+ 'vfio_pci_iommu_dev_fault_handler' was not declared. Should it be static?
+Message-ID: <202409252134.SSpOKdHF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,60 +67,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   84d5fc421289417e51781e27e64fbb0fc44216ae
-commit: 040942fc50b20325bb56737c32b303268bb6f35c [9912/30000] ANDROID: Initial commit of Incremental FS
-config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240922/202409221052.YsEbHigM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   9d665359e14c559b74a94a55057e9c0fbd31a81a
+commit: 7ed14911c89112b6b74bc41a23e143e1699c53ee [2211/2443] Build report error when config IOASID disable
+config: x86_64-randconfig-121-20240925 (https://download.01.org/0day-ci/archive/20240925/202409252134.SSpOKdHF-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252134.SSpOKdHF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409221052.YsEbHigM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409252134.SSpOKdHF-lkp@intel.com/
 
-smatch warnings:
-fs/incfs/vfs.c:1222 ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
-fs/incfs/vfs.c:2153 incfs_mount_fs() warn: passing zero to 'ERR_PTR'
+sparse warnings: (new ones prefixed by >>)
+   drivers/vfio/pci/vfio_pci_core.c: note: in included file (through arch/x86/include/asm/bug.h, include/linux/bug.h, include/linux/debug_locks.h, ...):
+   include/linux/instrumentation.h:8:9: sparse: sparse: preprocessor token instrumentation_begin redefined
+   drivers/vfio/pci/vfio_pci_core.c: note: in included file (through include/linux/ioport.h, include/linux/device.h):
+   include/linux/compiler.h:139:9: sparse: this was the original definition
+   drivers/vfio/pci/vfio_pci_core.c:219:25: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:219:43: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:219:56: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:219:65: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:224:25: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:224:44: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:224:57: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:224:66: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:232:39: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:232:58: sparse: sparse: restricted pci_power_t degrades to integer
+>> drivers/vfio/pci/vfio_pci_core.c:430:5: sparse: sparse: symbol 'vfio_pci_iommu_dev_fault_handler' was not declared. Should it be static?
 
-vim +/named_file_dentry +1222 fs/incfs/vfs.c
+vim +/vfio_pci_iommu_dev_fault_handler +430 drivers/vfio/pci/vfio_pci_core.c
 
-040942fc50b203 Eugene Zemtsov 2019-11-18  1213  	if (parent_dir_path.dentry == mi->mi_index_dir) {
-040942fc50b203 Eugene Zemtsov 2019-11-18  1214  		/* Can't create a file directly inside .index */
-040942fc50b203 Eugene Zemtsov 2019-11-18  1215  		error = -EBUSY;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1216  		goto out;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1217  	}
-040942fc50b203 Eugene Zemtsov 2019-11-18  1218  
-040942fc50b203 Eugene Zemtsov 2019-11-18  1219  	/* Look up a dentry in the parent dir. It should be negative. */
-040942fc50b203 Eugene Zemtsov 2019-11-18  1220  	named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
-040942fc50b203 Eugene Zemtsov 2019-11-18  1221  					file_name);
-040942fc50b203 Eugene Zemtsov 2019-11-18 @1222  	if (!named_file_dentry) {
+d9a341570eb8c9 Dave Jiang 2021-11-29  428  
+d9a341570eb8c9 Dave Jiang 2021-11-29  429  
+d2073c40368fe6 Eric Auger 2021-11-09 @430  int vfio_pci_iommu_dev_fault_handler(struct iommu_fault *fault, void *data)
+d2073c40368fe6 Eric Auger 2021-11-09  431  {
+d2073c40368fe6 Eric Auger 2021-11-09  432  	struct vfio_pci_core_device *vdev = (struct vfio_pci_core_device *)data;
+d2073c40368fe6 Eric Auger 2021-11-09  433  	struct vfio_region_dma_fault *reg =
+d2073c40368fe6 Eric Auger 2021-11-09  434  		(struct vfio_region_dma_fault *)vdev->fault_pages;
+d7f86b497e0ad6 Eric Auger 2021-11-09  435  	int head, tail, size, ext_irq_index;
+d2073c40368fe6 Eric Auger 2021-11-09  436  	struct iommu_fault *new;
+d2073c40368fe6 Eric Auger 2021-11-09  437  	int ret = 0;
+d2073c40368fe6 Eric Auger 2021-11-09  438  
+d2073c40368fe6 Eric Auger 2021-11-09  439  	if (WARN_ON(!reg))
+d2073c40368fe6 Eric Auger 2021-11-09  440  		return -ENOENT;
+d2073c40368fe6 Eric Auger 2021-11-09  441  
+d2073c40368fe6 Eric Auger 2021-11-09  442  	new = (struct iommu_fault *)(vdev->fault_pages + reg->offset +
+d2073c40368fe6 Eric Auger 2021-11-09  443  				     reg->head * reg->entry_size);
+d2073c40368fe6 Eric Auger 2021-11-09  444  
+712fbb02163438 Jacob Pan  2021-11-09  445  	/* We need to send page request and relavent unrecoverable fault to userspace */
+712fbb02163438 Jacob Pan  2021-11-09  446  	if (fault->type != IOMMU_FAULT_DMA_UNRECOV &&
+712fbb02163438 Jacob Pan  2021-11-09  447  	    fault->type != IOMMU_FAULT_PAGE_REQ)
+d2073c40368fe6 Eric Auger 2021-11-09  448  		return -ENOENT;
+d2073c40368fe6 Eric Auger 2021-11-09  449  
+d2073c40368fe6 Eric Auger 2021-11-09  450  	mutex_lock(&vdev->fault_queue_lock);
+d2073c40368fe6 Eric Auger 2021-11-09  451  
+ab810c4e40fa95 Liu Yi L   2021-06-25  452  	dev_dbg(&vdev->pdev->dev, "%s, enque fault event\n", __func__);
+d2073c40368fe6 Eric Auger 2021-11-09  453  	head = reg->head;
+d2073c40368fe6 Eric Auger 2021-11-09  454  	tail = reg->tail;
+d2073c40368fe6 Eric Auger 2021-11-09  455  	size = reg->nb_entries;
+d2073c40368fe6 Eric Auger 2021-11-09  456  
+d2073c40368fe6 Eric Auger 2021-11-09  457  	if (CIRC_SPACE(head, tail, size) < 1) {
+d2073c40368fe6 Eric Auger 2021-11-09  458  		ret = -ENOSPC;
+d2073c40368fe6 Eric Auger 2021-11-09  459  		goto unlock;
+d2073c40368fe6 Eric Auger 2021-11-09  460  	}
+d2073c40368fe6 Eric Auger 2021-11-09  461  
+d2073c40368fe6 Eric Auger 2021-11-09  462  	*new = *fault;
+d2073c40368fe6 Eric Auger 2021-11-09  463  	reg->head = (head + 1) % size;
+d2073c40368fe6 Eric Auger 2021-11-09  464  unlock:
+d2073c40368fe6 Eric Auger 2021-11-09  465  	mutex_unlock(&vdev->fault_queue_lock);
+d7f86b497e0ad6 Eric Auger 2021-11-09  466  	if (ret)
+d2073c40368fe6 Eric Auger 2021-11-09  467  		return ret;
+d7f86b497e0ad6 Eric Auger 2021-11-09  468  
+d7f86b497e0ad6 Eric Auger 2021-11-09  469  	ext_irq_index = vfio_pci_get_ext_irq_index(vdev, VFIO_IRQ_TYPE_NESTED,
+d7f86b497e0ad6 Eric Auger 2021-11-09  470  						   VFIO_IRQ_SUBTYPE_DMA_FAULT);
+d7f86b497e0ad6 Eric Auger 2021-11-09  471  	if (ext_irq_index < 0)
+d7f86b497e0ad6 Eric Auger 2021-11-09  472  		return -EINVAL;
+d7f86b497e0ad6 Eric Auger 2021-11-09  473  
+d7f86b497e0ad6 Eric Auger 2021-11-09  474  	mutex_lock(&vdev->igate);
+ab810c4e40fa95 Liu Yi L   2021-06-25  475  	dev_dbg(&vdev->pdev->dev, "%s, signal userspace!\n", __func__);
+d7f86b497e0ad6 Eric Auger 2021-11-09  476  	if (vdev->ext_irqs[ext_irq_index].trigger)
+d7f86b497e0ad6 Eric Auger 2021-11-09  477  		eventfd_signal(vdev->ext_irqs[ext_irq_index].trigger, 1);
+d7f86b497e0ad6 Eric Auger 2021-11-09  478  	mutex_unlock(&vdev->igate);
+d7f86b497e0ad6 Eric Auger 2021-11-09  479  	return 0;
+d2073c40368fe6 Eric Auger 2021-11-09  480  }
+d2073c40368fe6 Eric Auger 2021-11-09  481  
 
-incfs_lookup_dentry() never returns NULL, only error pointers.  There are some
-VFS functions which return NULL for File NOT Found and error pointer for other
-types of errors.  Explained in my blog:
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+:::::: The code at line 430 was first introduced by commit
+:::::: d2073c40368fe63e37a196df6f9b0a2952d90ce6 vfio/pci: Register an iommu fault handler
 
-But this isn't one of those.
-
-This file has other similar issues, which the zero day bot does not find.
-
-040942fc50b203 Eugene Zemtsov 2019-11-18  1223  		error = -EFAULT;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1224  		goto out;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1225  	}
-040942fc50b203 Eugene Zemtsov 2019-11-18  1226  	if (IS_ERR(named_file_dentry)) {
-040942fc50b203 Eugene Zemtsov 2019-11-18  1227  		error = PTR_ERR(named_file_dentry);
-040942fc50b203 Eugene Zemtsov 2019-11-18  1228  		named_file_dentry = NULL;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1229  		goto out;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1230  	}
-040942fc50b203 Eugene Zemtsov 2019-11-18  1231  	if (d_really_is_positive(named_file_dentry)) {
-040942fc50b203 Eugene Zemtsov 2019-11-18  1232  		/* File with this path already exists. */
-040942fc50b203 Eugene Zemtsov 2019-11-18  1233  		error = -EEXIST;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1234  		goto out;
-040942fc50b203 Eugene Zemtsov 2019-11-18  1235  	}
-040942fc50b203 Eugene Zemtsov 2019-11-18  1236  	/* Look up a dentry in the .index dir. It should be negative. */
+:::::: TO: Eric Auger <eric.auger@redhat.com>
+:::::: CC: Jianping Liu <frankjpliu@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
