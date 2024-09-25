@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C29F18FDC5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 23:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6219C13B7BE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 23:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727308129; cv=none; b=RbAQeocsiVOiSfy9WrFQVrRDm9vOSC3MLjo/RtqHMLgzN1LnmElY26rzk8SX2l7oHI2A3+YJqy/9452P9hNoThf9kswDZo0ATjHS/ncBqCTQC5qqhouPeeUMnhkUs168ucwrBkR6zMHuKwGjD6shGxkjXN71tw17L/9KmJKtpXs=
+	t=1727308790; cv=none; b=GtgBXtZJYBqD4FYg9YSi0C1slGfBlINs4H3mdZg7E6OfsJdnJqb0vP5172w6WW7ad8tSIt5MwC7X7vdHr13jeBsasyJhVh7sqj8a+IwjN+rKeiRMXiEuUtL90Hq+en9wGkoIvfjJwcWLjg2bj+JTQko7MQzJt18fFEaWKHuPhl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727308129; c=relaxed/simple;
-	bh=aHkuDQ/+qqwAT8X7p6px3z43XkAl5erd3uFvu519Wfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FoOwFGWCJTyd3rDBCgu1z4DVmDcmsjQEv7BF9yllGKOrg/LCfXVWrE2ThAVq6VyEchaH5QROJ2iHW2vzpP1UPDuh6AVi2/iQ4w3Q+Ut6PoRqunqlGv16SiMQ/vGu+DjAXL5s6GJ4Gs+qRc/f7QjOq2Ab5QLs6sixzIdc/abpdPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mqvbeJUs; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1727308790; c=relaxed/simple;
+	bh=CSK//gxzmcctiDTYayy7uXe9etmH2AVe0UsRHlfWu8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NMvZq9b1CZK87vq5cRk9q/mzzgn7iqA31EluvXP9sN+DzP+rB4PXBksFscaCxDkfd4880oMixuuO2suqR1CQ/Ff7YMhMVnOsZgtcuJoRSI2zY1rOb9IACvd2J+a+71UiUbwFhiGISIzf2tNqHifl8BU6UJX1i+hh3MfWatwa6Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwvOLgMB; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mqvbeJUs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwvOLgMB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727308128; x=1758844128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aHkuDQ/+qqwAT8X7p6px3z43XkAl5erd3uFvu519Wfk=;
-  b=mqvbeJUsSz2ReQLnIJqLHn51Xz/qDHrBdIBlZ2aBl01Lyava87twqwOQ
-   GdYC+6UGhfZ0IBfVNFeeEAgrF6Xqr8F/GNI8TjuKjFES/0LStswnj1EQj
-   Te/NUS5L2EIR5bVtnW/sEE64yO+m3YEjyl61pNmocuh5kXurCHX9TYBuX
-   oxIFT8Kp58I1i5ztiJc0tLkfKvMa/xfi//9Qd+05syeBT6nnyUnp8v+nK
-   O7pynTyzqnOtea/dRL+4aU/aDhyXoGhwzXeub7cnJNCoMGGgoVB8dy5cm
-   t3gjh1rn+Va8gY1lS1JZwTL2vGi1UFJdMGP9WDWNyHG7X4XEstkmoVSYU
+  t=1727308787; x=1758844787;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CSK//gxzmcctiDTYayy7uXe9etmH2AVe0UsRHlfWu8k=;
+  b=NwvOLgMBIhcsjyXLhCfSURHh5/WKl98KVRVms/byV5go3UuGgKlVC+Ty
+   tylkp3vy0SKjBC3mPSll47886Qdo6ox139ajUYS/uF9NIiao7GMDYoRj1
+   aDYqmXF+I7cpr1G2yr/H/9FJK3/o5VwGCWaFeZuDJ4F2bmmpVzwxq2BE0
+   yefQOeMjpE5SyCyp6Pr1dq6G+7T1RjHs+5PH8Z/CPcXe/Jg2ulcxKKXt2
+   Nb3HBxYVw4sySXM3CNh2ZwHwH4+8kIBrLQVz0P1Kznpy2zDfzsZSsiQiB
+   +X7bsBV/0tzx9TTwM7f1b/C7UD5j8O0P1Gqs+FyghtiI0wfwIP2XF8sM0
    Q==;
-X-CSE-ConnectionGUID: jvC6pkIGQqKiKiO8SBOKiw==
-X-CSE-MsgGUID: qhuEFSonQdSltVVhnpFMMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="30178465"
+X-CSE-ConnectionGUID: 1wM1adI8TzKlEt093NO2Nw==
+X-CSE-MsgGUID: t3+FJ3GSTJaPExxECux72w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="29275784"
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="30178465"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 16:48:47 -0700
-X-CSE-ConnectionGUID: Kzl7HeCtRUqcN4Enef0VQg==
-X-CSE-MsgGUID: cpQVzlxFQ+6VODJ0K4NQjA==
+   d="scan'208";a="29275784"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 16:59:47 -0700
+X-CSE-ConnectionGUID: fpWLMYKYTqGUW+XR2+GQ3Q==
+X-CSE-MsgGUID: nczqUb9DS+6lSCV651UHeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="76028034"
+   d="scan'208";a="76327756"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Sep 2024 16:48:43 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2024 16:59:44 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stbkP-000K37-0O;
-	Wed, 25 Sep 2024 23:48:41 +0000
-Date: Thu, 26 Sep 2024 07:48:13 +0800
+	id 1stbv4-000K3N-11;
+	Wed, 25 Sep 2024 23:59:42 +0000
+Date: Thu, 26 Sep 2024 07:58:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1817/2443]
- drivers/vfio/pci/vfio_pci_config.c:1822:12: warning:
- 'vfio_pci_add_emulated_cap_for_vf' defined but not used
-Message-ID: <202409260745.fQySdJOB-lkp@intel.com>
+To: Markus Elfring <Markus.Elfring@web.de>, linux-usb@vger.kernel.org,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: Use common error handling code in
+ update_property_block()
+Message-ID: <202409260728.uNVNmTvy-lkp@intel.com>
+References: <26b7f215-4f83-413c-9dab-737d790053c0@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,100 +68,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <26b7f215-4f83-413c-9dab-737d790053c0@web.de>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   9d665359e14c559b74a94a55057e9c0fbd31a81a
-commit: 5289636fb54a508006db6ceb4ea97ca9fa8e246a [1817/2443] vfio/pci: Emulate PASID/PRI capability for VFs
-config: x86_64-randconfig-006-20240926 (https://download.01.org/0day-ci/archive/20240926/202409260745.fQySdJOB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260745.fQySdJOB-lkp@intel.com/reproduce)
+Hi Markus,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on westeri-thunderbolt/next]
+[also build test ERROR on linus/master v6.11 next-20240925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/thunderbolt-Use-common-error-handling-code-in-update_property_block/20240925-161308
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+patch link:    https://lore.kernel.org/r/26b7f215-4f83-413c-9dab-737d790053c0%40web.de
+patch subject: [PATCH] thunderbolt: Use common error handling code in update_property_block()
+config: arc-randconfig-001-20240926 (https://download.01.org/0day-ci/archive/20240926/202409260728.uNVNmTvy-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260728.uNVNmTvy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409260745.fQySdJOB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409260728.uNVNmTvy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from drivers/vfio/pci/vfio_pci_config.c:23:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/iommu.h:16,
-                    from include/linux/vfio.h:12,
-                    from drivers/vfio/pci/vfio_pci_config.c:26:
-   include/linux/ioasid.h:210:51: error: unknown type name 'ioasid_set_type'
-     210 |                                                   ioasid_set_type type)
-         |                                                   ^~~~~~~~~~~~~~~
-   drivers/vfio/pci/vfio_pci_config.c:2112:1: error: version control conflict marker in file
-    2112 | <<<<<<< HEAD
-         | ^~~~~~~
-   drivers/vfio/pci/vfio_pci_config.c:2127:1: error: version control conflict marker in file
-    2127 | >>>>>>> 64511739a93d... vfio/pci: Emulate PASID/PRI capability for VFs
-         | ^~~~~~~
-   drivers/vfio/pci/vfio_pci_config.c:2127:9: error: invalid suffix "a93d..." on integer constant
-    2127 | >>>>>>> 64511739a93d... vfio/pci: Emulate PASID/PRI capability for VFs
-         |         ^~~~~~~~~~~~~~~
-   drivers/vfio/pci/vfio_pci_config.c: In function 'vfio_pci_config_rw':
-   drivers/vfio/pci/vfio_pci_config.c:2221:23: error: implicit declaration of function 'vfio_config_do_rw'; did you mean 'vfio_config_free'? [-Werror=implicit-function-declaration]
-    2221 |                 ret = vfio_config_do_rw(vdev, buf, count, &pos, iswrite);
-         |                       ^~~~~~~~~~~~~~~~~
-         |                       vfio_config_free
-   drivers/vfio/pci/vfio_pci_config.c: At top level:
-   drivers/vfio/pci/vfio_pci_config.c:2100:15: warning: 'vfio_pci_cap_remaining_dword' defined but not used [-Wunused-function]
-    2100 | static size_t vfio_pci_cap_remaining_dword(struct vfio_pci_core_device *vdev,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/vfio/pci/vfio_pci_config.c:1822:12: warning: 'vfio_pci_add_emulated_cap_for_vf' defined but not used [-Wunused-function]
-    1822 | static int vfio_pci_add_emulated_cap_for_vf(struct vfio_pci_core_device *vdev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vfio/pci/vfio_pci_config.c:333:25: warning: 'virt_perms' defined but not used [-Wunused-variable]
-     333 | static struct perm_bits virt_perms = {
-         |                         ^~~~~~~~~~
-   drivers/vfio/pci/vfio_pci_config.c:328:25: warning: 'unassigned_perms' defined but not used [-Wunused-variable]
-     328 | static struct perm_bits unassigned_perms = {
-         |                         ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/thunderbolt/xdomain.c: In function 'update_property_block':
+>> drivers/thunderbolt/xdomain.c:703:30: error: 'dir' undeclared (first use in this function); did you mean 'idr'?
+     703 |         tb_property_free_dir(dir);
+         |                              ^~~
+         |                              idr
+   drivers/thunderbolt/xdomain.c:703:30: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/vfio_pci_add_emulated_cap_for_vf +1822 drivers/vfio/pci/vfio_pci_config.c
+vim +703 drivers/thunderbolt/xdomain.c
 
-  1821	
-> 1822	static int vfio_pci_add_emulated_cap_for_vf(struct vfio_pci_core_device *vdev,
-  1823				struct pci_dev *pdev, u16 start_epos, __le32 *prev)
-  1824	{
-  1825		__le32 *__prev = prev;
-  1826		u16 epos = start_epos, epos_next = start_epos;
-  1827		int ret = 0;
-  1828	
-  1829		/* Add PASID capability*/
-  1830		ret = vfio_pci_add_pasid_cap(vdev, pdev, epos,
-  1831						&epos_next, &__prev);
-  1832		if (ret)
-  1833			return ret;
-  1834	
-  1835		/* Add PRI capability */
-  1836		epos = epos_next;
-  1837		ret = vfio_pci_add_pri_cap(vdev, pdev, epos,
-  1838					   &epos_next, &__prev);
-  1839	
-  1840		return ret;
-  1841	}
-  1842	
+   645	
+   646	static void update_property_block(struct tb_xdomain *xd)
+   647	{
+   648		mutex_lock(&xdomain_lock);
+   649		mutex_lock(&xd->lock);
+   650		/*
+   651		 * If the local property block is not up-to-date, rebuild it now
+   652		 * based on the global property template.
+   653		 */
+   654		if (!xd->local_property_block ||
+   655		    xd->local_property_block_gen < xdomain_property_block_gen) {
+   656			struct tb_property_dir *dir;
+   657			int ret, block_len;
+   658			u32 *block;
+   659	
+   660			dir = tb_property_copy_dir(xdomain_property_dir);
+   661			if (!dir) {
+   662				dev_warn(&xd->dev, "failed to copy properties\n");
+   663				goto out_unlock;
+   664			}
+   665	
+   666			/* Fill in non-static properties now */
+   667			tb_property_add_text(dir, "deviceid", utsname()->nodename);
+   668			tb_property_add_immediate(dir, "maxhopid", xd->local_max_hopid);
+   669	
+   670			ret = tb_property_format_dir(dir, NULL, 0);
+   671			if (ret < 0) {
+   672				dev_warn(&xd->dev, "local property block creation failed\n");
+   673				goto out_free_dir;
+   674			}
+   675	
+   676			block_len = ret;
+   677			block = kcalloc(block_len, sizeof(*block), GFP_KERNEL);
+   678			if (!block)
+   679				goto out_free_dir;
+   680	
+   681			ret = tb_property_format_dir(dir, block, block_len);
+   682			if (ret) {
+   683				dev_warn(&xd->dev, "property block generation failed\n");
+   684				kfree(block);
+   685				goto out_free_dir;
+   686			}
+   687	
+   688			tb_property_free_dir(dir);
+   689			/* Release the previous block */
+   690			kfree(xd->local_property_block);
+   691			/* Assign new one */
+   692			xd->local_property_block = block;
+   693			xd->local_property_block_len = block_len;
+   694			xd->local_property_block_gen = xdomain_property_block_gen;
+   695		}
+   696	
+   697	out_unlock:
+   698		mutex_unlock(&xd->lock);
+   699		mutex_unlock(&xdomain_lock);
+   700		return;
+   701	
+   702	out_free_dir:
+ > 703		tb_property_free_dir(dir);
+   704		goto out_unlock;
+   705	}
+   706	
 
 -- 
 0-DAY CI Kernel Test Service
