@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9A5157490;
-	Wed, 25 Sep 2024 07:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C0A15B13B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 08:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727250914; cv=none; b=WhMQ0Pa5MS9ZobqBy/gWfNXYHz33ONYZZcBD7kvjQnxVk8R2fCrTeJayARd2BErwh+AVIwSBETu3IQVmI2RiYLHYHL4dgGWPsgUewYyO6HRO8X7vJ5Tb7OgCCzsL9RQxPmBekxF0CazRsWlFv+BrSlBzAliIn/7ZsG03IqgI9cI=
+	t=1727251492; cv=none; b=i/Z6j9gXYTckocZwCzb8RmAFkqmNz6XH16TePqR5Ufj8s0wPn8wVQVLCmja5S1i0IouYUhKxWd40Z7Kg8i2YrMvBnodsFPiQfm5PoynZddtdaMbY3LPVsyPvei7GArOZbmy1kh7vs266vJ53fDAJCdYqUFUEC5D2mESMfBqnAlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727250914; c=relaxed/simple;
-	bh=onnuYLvkaKKSJNLqIp8eCNb0T4hkLx7Ysm2WxJr7wEg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O9jZjnwrKiMYwfVQRSk3KI+yL3BtAlh58nI71D4z/9JHOcN5/uixv9qyloWt3IzmWn5oXUj5s4lsYy0MShKFifT0k5UlFu+TO82pvT5kPA3j0PMXQTo35J1PnUe0qfvz/2pbZZtWnnZsHXa4Ta1LFoEjw0GLJybqlJb4SMrnq4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ul29YE1i; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727251492; c=relaxed/simple;
+	bh=WhQWABjNyyuQ+LGEy3E3HCx8hqIfIoTo+cFgH0oKjJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qvKpSItOgYIJXnZWN4IChosOYXtA9PLFQsK6VsoYIorrbtozCkBK8hQGybwm/wZ0lMwQloHIqGnP76Omcxfz8IobYWJzjuwiKkO26DuKBuL0Tqm/JWcIXfczEdCsPChtcQLZqISnS6TpL7ilry4Nw7e++DF5mjbeIDSEoVLWwl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EYzH4ivB; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ul29YE1i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727250912; x=1758786912;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=onnuYLvkaKKSJNLqIp8eCNb0T4hkLx7Ysm2WxJr7wEg=;
-  b=Ul29YE1iHKm89eHBTXIhVZ6lWl4zotVVgUF+dmnD/qkNjkh8sh4lVZzz
-   MdmzWlPCYZoQScMvHINHyqlEYaQo+xn4sw8/BC5g5+9dSUMk2G3NR3MZP
-   tDfo+WL0maQq1Qz1SGTPJYsbZLxsySQq3PYtjBkPcEiQkP5NYiUM7sW1p
-   thOYUeuvIiGIySvV4kEoIjGBtegtXFtGHcTu4XZF1u06xlYJIp3ACAxaJ
-   WVLf2tCOmkLG5JoZ4AC/9RW/mxARkZFIqSrpZU8TFrqM4tUQvRwnDFEi2
-   TNNdKN6vn912nAGu/2sYGP81ClzznqHeAfFyyDTZRsnrgYzrZbmLpnPrr
-   w==;
-X-CSE-ConnectionGUID: OpSCoiLCTNywRRwXflQb5A==
-X-CSE-MsgGUID: TfQeFteQSyGQIOMzvd6o/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26231808"
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="26231808"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 00:55:09 -0700
-X-CSE-ConnectionGUID: qWQlesjeQNm+CQ8oGSH/1g==
-X-CSE-MsgGUID: PFEEdDF3Q1eojZB8t1AvIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="71837108"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Sep 2024 00:55:08 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stMrZ-000JKd-1I;
-	Wed, 25 Sep 2024 07:55:05 +0000
-Date: Wed, 25 Sep 2024 15:54:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 3/4] block: add support for partition table defined
- in OF
-Message-ID: <202409251530.PSGUVk2k-lkp@intel.com>
-References: <20240923105937.4374-4-ansuelsmth@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EYzH4ivB"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-374b25263a3so3855014f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 01:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727251489; x=1727856289; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x69ZvGgafnxxztweYHeelEL1BFimekU4jsu1BE7fwow=;
+        b=EYzH4ivBxx2pbbdBUY1vH33m4xP5RnO3H+OUn/UFHSDSZJ0y/lUHHjralgOpcJRQeV
+         jvrYzb6iTTVXC37bxD/UuJu4IQ1wLNTeTw3jjFhTscFPipFRyDTlHRQK/zPy3WZnnl64
+         zS5if4K/MKKHVBMcAG35GFshEBSNWm/1ikafZWW58ZxkllOcG3BmFqAGVHMWzv4oqasa
+         1bkicXIFOzYHp1p37lEmgpBZzGKE72hpT8GOE65IHp1UE9pl0F6q2aKGMQjwTAvE/Eq+
+         V5ZGpdlc9vNVXpT/Je76Ipo1GAFctVhf0w/ve7NCWsYkcF2jN1KL6cpjTDzIq/iz9c07
+         u3rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727251489; x=1727856289;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x69ZvGgafnxxztweYHeelEL1BFimekU4jsu1BE7fwow=;
+        b=SoCBkWGOsewYAcsEnS+Uorb14PRzgK/F6R9nvBPUZvzJEsB3nldfIqgoERmbLmfmGu
+         5pGoSMB4jcH1fc0ur2A5mWGMtzl1Ad06huAiPvmrPVC/9Fqijzc37I9URkfabCvzkGZc
+         T19pmnqmot+8C1mw0vfnmjNXInA3ouBt9otBTYW9ruHO51o9YmHgbeb4Pj2jEr23gypS
+         9zPF3iNubM3cZekaMS4AXF8/nONbfi24neV5ech/5locqhDry5k9kAQSzh5TO4S2mXPH
+         fItSxPNfPKHvU+dTsh0gI3uGuE409X8F/3g9apTK36TomyC7FGn0G/tW4ZvH+Y7pszJK
+         aPog==
+X-Forwarded-Encrypted: i=1; AJvYcCU54Rx35r3+nnhkxgLmLEeCHXHOLrES/PQIJ/obhp4rCvCdGXEwccjhk8+Sn7+HkfbCNdOW68JNR27qpPqX@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywwc52/9TQN15uQ7YbXcqxF4X/kk5PJnCNy5GgN2YULmOhp//S5
+	cgvYu7Ra9sF6lxH0TpZM7ayGMSlHwZPKKR3oa4uS14s1accE9YU14YLE8M0qAR8=
+X-Google-Smtp-Source: AGHT+IEtVH9oHtfPGO/6+1DLBUdNsXdqpgtgGG8hb/oVeeV7JVSpXS3jY0P5FYgDBzGMiYrrjloJTQ==
+X-Received: by 2002:a5d:4350:0:b0:374:ca43:cda5 with SMTP id ffacd0b85a97d-37cc22d3e8amr952225f8f.0.1727251488747;
+        Wed, 25 Sep 2024 01:04:48 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc2f9734sm3305047f8f.76.2024.09.25.01.04.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 01:04:47 -0700 (PDT)
+Date: Wed, 25 Sep 2024 11:04:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Meng Wei <wei.meng@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Pan, Kris" <kris.pan@intel.com>, Chang Ying <ying.chang@intel.com>
+Subject: [intel-lts:4.19/android_s 677/30000]
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing()
+ warn: check for integer overflow 'num_routes'
+Message-ID: <1fbc1d2e-f00f-46f2-84c3-4f362e211d1f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,177 +67,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240923105937.4374-4-ansuelsmth@gmail.com>
 
-Hi Christian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on robh/for-next lwn/docs-next linus/master v6.11 next-20240925]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/block-add-support-for-defining-read-only-partitions/20240923-190251
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20240923105937.4374-4-ansuelsmth%40gmail.com
-patch subject: [RFC PATCH 3/4] block: add support for partition table defined in OF
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240925/202409251530.PSGUVk2k-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409251530.PSGUVk2k-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: dcdab0d72b69b6291d08483c0baf62cf92e2a1bc [677/30000] v4l: subdev: Add [GS]_ROUTING subdev ioctls and operations
+config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240920/202409201214.doUEuMvs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409251530.PSGUVk2k-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409201214.doUEuMvs-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing() warn: check for integer overflow 'num_routes'
 
-   In file included from block/partitions/of.c:3:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2237:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from block/partitions/of.c:5:
-   In file included from block/partitions/check.h:4:
-   In file included from block/partitions/../blk.h:7:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from block/partitions/of.c:5:
-   In file included from block/partitions/check.h:4:
-   In file included from block/partitions/../blk.h:7:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from block/partitions/of.c:5:
-   In file included from block/partitions/check.h:4:
-   In file included from block/partitions/../blk.h:7:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> block/partitions/of.c:47:28: error: use of undeclared identifier 'pp'
-      47 |         if (of_property_read_bool(pp, "read-only"))
-         |                                   ^
->> block/partitions/of.c:58:5: warning: no previous prototype for function 'of_partition' [-Wmissing-prototypes]
-      58 | int of_partition(struct parsed_partitions *state)
-         |     ^
-   block/partitions/of.c:58:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      58 | int of_partition(struct parsed_partitions *state)
-         | ^
-         | static 
-   17 warnings and 1 error generated.
+vim +/num_routes +1098 drivers/media/v4l2-core/v4l2-compat-ioctl32.c
 
+dcdab0d72b69b6 Meng Wei 2018-10-26  1082  static int put_v4l2_subdev_routing(struct v4l2_subdev_routing __user *kp,
+dcdab0d72b69b6 Meng Wei 2018-10-26  1083  				   struct v4l2_subdev_routing32 __user *up)
+dcdab0d72b69b6 Meng Wei 2018-10-26  1084  {
+dcdab0d72b69b6 Meng Wei 2018-10-26  1085  	struct v4l2_subdev_route __user *uroutes;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1086  	compat_caddr_t p;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1087  	u32 num_routes;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1088  
+dcdab0d72b69b6 Meng Wei 2018-10-26  1089  	if (!access_ok(VERIFY_WRITE, up, sizeof(*up)) ||
+dcdab0d72b69b6 Meng Wei 2018-10-26  1090  	    get_user(p, &up->routes) ||
+dcdab0d72b69b6 Meng Wei 2018-10-26  1091  	    get_user(num_routes, &kp->num_routes) ||
+                                                             ^^^^^^^^^^
+num_routes comes from the user
 
-vim +/pp +47 block/partitions/of.c
+dcdab0d72b69b6 Meng Wei 2018-10-26  1092  	    assign_in_user(&up->num_routes, &kp->num_routes) ||
+dcdab0d72b69b6 Meng Wei 2018-10-26  1093  	    !access_ok(VERIFY_WRITE, up->reserved, sizeof(*up->reserved)))
+dcdab0d72b69b6 Meng Wei 2018-10-26  1094  		return -EFAULT;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1095  
+dcdab0d72b69b6 Meng Wei 2018-10-26  1096  	uroutes = compat_ptr(p);
+dcdab0d72b69b6 Meng Wei 2018-10-26  1097  
+dcdab0d72b69b6 Meng Wei 2018-10-26 @1098  	if (!access_ok(VERIFY_WRITE, uroutes,
+dcdab0d72b69b6 Meng Wei 2018-10-26  1099  		       num_routes * sizeof(*kp->routes)))
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This can overflow on 32bit systems so it checks less than intended.  Generally,
+integer overflows in access_ok() are treated as bugs without further analysis to
+see if it can actually be exploited.
 
-    25	
-    26	static void add_of_partition(struct parsed_partitions *state, int slot,
-    27				     struct device_node *np)
-    28	{
-    29		struct partition_meta_info *info;
-    30		char tmp[sizeof(info->volname) + 4];
-    31		int a_cells, s_cells;
-    32		const char *partname;
-    33		const __be32 *reg;
-    34		u64 offset, size;
-    35		int len;
-    36	
-    37		reg = of_get_property(np, "reg", &len);
-    38	
-    39		a_cells = of_n_addr_cells(np);
-    40		s_cells = of_n_size_cells(np);
-    41	
-    42		offset = of_read_number(reg, a_cells);
-    43		size = of_read_number(reg + a_cells, s_cells);
-    44	
-    45		put_partition(state, slot, offset, size);
-    46	
-  > 47		if (of_property_read_bool(pp, "read-only"))
-    48			state->parts[slot].flags |= ADDPART_FLAG_READONLY;
-    49	
-    50		info = &state->parts[slot].info;
-    51		partname = of_get_property(np, "label", &len);
-    52		strscpy(info->volname, partname, sizeof(info->volname));
-    53	
-    54		snprintf(tmp, sizeof(tmp), "(%s)", info->volname);
-    55		strlcat(state->pp_buf, tmp, PAGE_SIZE);
-    56	}
-    57	
-  > 58	int of_partition(struct parsed_partitions *state)
+dcdab0d72b69b6 Meng Wei 2018-10-26  1100  		return -EFAULT;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1101  
+dcdab0d72b69b6 Meng Wei 2018-10-26  1102  	return 0;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1103  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
