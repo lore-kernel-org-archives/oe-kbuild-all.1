@@ -1,59 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432DE14B09E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Sep 2024 04:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6799514A4C1;
+	Wed, 25 Sep 2024 04:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727237343; cv=none; b=BYVvnp/oEsqtxnk/4dCXZ/83sDCtaCkBj1dfOhfR0A3LD9aE+abp4cKCCu6Vd/KntEK6DGyDsRxT2kiVoP1vsgCAB2kf4wZ9fnrJm6UxchyuibOFBvoLDo+kZ1qsex+ETrAnJ5cRS8sZM14mPPZLi6Z3moaCu4KS6/Zmm7La15c=
+	t=1727237945; cv=none; b=OBR0icJDCFO8ydJUx51WxQv2vb3WZgYTF+BHq17ezqvcXuctVyxH17fSX3cgc2n1qw9rx6zXpsfO/B2BotDPww9Hf9ycIHwxosFB1qkK8hftjDG+lT66lJWN5v0k38FCJauxWi3EWZlYOfgKhgAlNe1bKMGmYx2wbgVKvKImXbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727237343; c=relaxed/simple;
-	bh=3BOMAtP8PlWKySgPuchMZreV7N4TNixAq4sTN5Y0kX4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KiaTvGdOua9NiSvvXz+2136t3HyMlL6rVLlkudNx+8CGuIkbPlZst+tAAwWzExhWr+Imwenu7acCatUH9I6PG3x8Wioy6ElsVM/ToJliX94iS0j3ORUgWOyiwrxgLKglx6YNVbZrDlUNeQXZD5Rm3kpaQu26+m87/bo5iwiL2Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TgbTe/gV; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1727237945; c=relaxed/simple;
+	bh=lS+NkfW/fPJVCVEP9QZFeM8NSHU7s7NyFWgEgQ6rUrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACh34r54lrYAqJ5ZVn6O4OjXyPoaCAcRLDt29un866CKYYnN3BN9TrCF89Cze/kDS+JTQGGzYIaJGTmFY0BXroF0c5TePh2gIl5frjZIobDzIcdLtrGvn7VY7m/BXSNB216zOwjfEqpIVxaxE7igmLyzlRthXRQiVlaUkTF5wW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCTFUbYc; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TgbTe/gV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCTFUbYc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727237341; x=1758773341;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3BOMAtP8PlWKySgPuchMZreV7N4TNixAq4sTN5Y0kX4=;
-  b=TgbTe/gVGfWX1pLpfaP0NKA0SFzc/gvp8I0PeGRDQivZd44/vfmOV7lo
-   T4eiuZXu/3wApxWRdbL0hWF+aryDB7x+/h27gQ1XR/NiHSi2IOTb0qx1y
-   hSzMRJQSg7el+wn8u2EchHoRwl/8Y9F1lJJ1C6WiHL0fNOYVH9XTk2427
-   bvsQSjyaYhPenZqHyTZKTSqsBGZ43hTwavCbqRTjCCmJl0R9LIOWT8DxV
-   pKhjfrTwZPJTnIcTEPCQxLBQPnnu+KeqlI9PfkFeNfR/OmlqUOyaw4Hh8
-   iVGdgNwzmopiXi4LT7nkMeWRhjiW0l89M2UJyZ7iRI4MTCP9XiolR4hqQ
-   g==;
-X-CSE-ConnectionGUID: gsoZq8cBRjuNnaEzn6KrDw==
-X-CSE-MsgGUID: rhP7mINeT+Sq1r/5K0fOwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="37642285"
+  t=1727237944; x=1758773944;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lS+NkfW/fPJVCVEP9QZFeM8NSHU7s7NyFWgEgQ6rUrk=;
+  b=CCTFUbYcK48ocL49uhXQmy11e2r3PKrff6ejg2ZaHfYT1fONxTe1gIzD
+   /oMP3WqIfiN1JOS29yS3INOh0R8xe40Umvx96TgYKO3wb3iTGdJ0dMzqC
+   b1xdQV+qusDztXAml/4z7SAmyoKNdxfFwOor7j2O3Jsz/Y5LuNBe7dZgO
+   T832JTLyg96J2N3OOOKs/bzBjq7VwWI0lhujNhMB+KBLRAzMvIaDNVDzw
+   9YtXrG70TqWuTuMeXp1uV8Tyu3xrlaqHNwUMEBHhIFzlNM9bYBRCi4DYL
+   44E5IMt8XfBivWtzxrftSCjV01mCGsVCINDS2dlxuDP9cNhodqk2hQJ4d
+   Q==;
+X-CSE-ConnectionGUID: xtMdMbXOTMKCj0GNH3rnWg==
+X-CSE-MsgGUID: KXZ2dfm8Tte3XiBNHmNmlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26215369"
 X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="37642285"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 21:08:59 -0700
-X-CSE-ConnectionGUID: XRAT1GceR9Smk2lxfUbBHA==
-X-CSE-MsgGUID: osHNa+i1QLmMKNsAaTBQqg==
+   d="scan'208";a="26215369"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 21:19:03 -0700
+X-CSE-ConnectionGUID: 6NdU+laSRBSdbMAEKH5Liw==
+X-CSE-MsgGUID: ImcSjgIFQA6RYk9dsdE7cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="72093803"
+   d="scan'208";a="71644054"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2024 21:08:57 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 24 Sep 2024 21:18:57 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stJKg-000J7V-2k;
-	Wed, 25 Sep 2024 04:08:54 +0000
-Date: Wed, 25 Sep 2024 12:08:18 +0800
+	id 1stJUN-000J7t-0E;
+	Wed, 25 Sep 2024 04:18:55 +0000
+Date: Wed, 25 Sep 2024 12:18:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jordan Niethe <jniethe5@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: arch/powerpc/kvm/powerpc.c:1732:52: error: implicit declaration of
- function 'kvmppc_get_vrsave'; did you mean 'kvmppc_get_sr'?
-Message-ID: <202409251137.1cRB00WD-lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: Re: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as
+ platform device
+Message-ID: <202409251242.gyf8pdxt-lkp@intel.com>
+References: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,160 +83,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
 
-Hi Jordan,
+Hi Binbin,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   684a64bf32b6e488004e0ad7f0d7e922798f65b6
-commit: 7028ac8d174f28220f0e2de0cb3346cd3c31976d KVM: PPC: Use accessors for VCPU registers
-date:   1 year ago
-config: powerpc64-randconfig-003-20240925 (https://download.01.org/0day-ci/archive/20240925/202409251137.1cRB00WD-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409251137.1cRB00WD-lkp@intel.com/reproduce)
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master next-20240924]
+[cannot apply to robh/for-next v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240924-150942
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as platform device
+config: alpha-kismet-CONFIG_SND_SOC_LOONGSON_CARD-CONFIG_SND_SOC_LOONGSON_I2S_PLATFORM-0-0 (https://download.01.org/0day-ci/archive/20240925/202409251242.gyf8pdxt-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251242.gyf8pdxt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409251137.1cRB00WD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409251242.gyf8pdxt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_set_vmx_dword':
-   arch/powerpc/kvm/powerpc.c:1061:9: error: implicit declaration of function 'kvmppc_get_vsx_vr'; did you mean 'kvmppc_get_sr'? [-Wimplicit-function-declaration]
-    1061 |         kvmppc_get_vsx_vr(vcpu, index, &val.vval);
-         |         ^~~~~~~~~~~~~~~~~
-         |         kvmppc_get_sr
-   arch/powerpc/kvm/powerpc.c:1063:9: error: implicit declaration of function 'kvmppc_set_vsx_vr'; did you mean 'kvmppc_set_sr'? [-Wimplicit-function-declaration]
-    1063 |         kvmppc_set_vsx_vr(vcpu, index, &val.vval);
-         |         ^~~~~~~~~~~~~~~~~
-         |         kvmppc_set_sr
-   In file included from arch/powerpc/kvm/powerpc.c:25:
-   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_get_one_reg':
-   arch/powerpc/kvm/powerpc.c:1729:52: error: implicit declaration of function 'kvmppc_get_vscr'; did you mean 'kvmppc_get_sr'? [-Wimplicit-function-declaration]
-    1729 |                         val = get_reg_val(reg->id, kvmppc_get_vscr(vcpu));
-         |                                                    ^~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/kvm_ppc.h:412:29: note: in definition of macro 'get_reg_val'
-     412 |         case 4: __u.wval = (reg); break;        \
-         |                             ^~~
->> arch/powerpc/kvm/powerpc.c:1732:52: error: implicit declaration of function 'kvmppc_get_vrsave'; did you mean 'kvmppc_get_sr'? [-Wimplicit-function-declaration]
-    1732 |                         val = get_reg_val(reg->id, kvmppc_get_vrsave(vcpu));
-         |                                                    ^~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/kvm_ppc.h:412:29: note: in definition of macro 'get_reg_val'
-     412 |         case 4: __u.wval = (reg); break;        \
-         |                             ^~~
-   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_set_one_reg':
-   arch/powerpc/kvm/powerpc.c:1780:25: error: implicit declaration of function 'kvmppc_set_vscr'; did you mean 'kvmppc_set_sr'? [-Wimplicit-function-declaration]
-    1780 |                         kvmppc_set_vscr(vcpu, set_reg_val(reg->id, val));
-         |                         ^~~~~~~~~~~~~~~
-         |                         kvmppc_set_sr
->> arch/powerpc/kvm/powerpc.c:1787:25: error: implicit declaration of function 'kvmppc_set_vrsave'; did you mean 'kvmppc_set_sr'? [-Wimplicit-function-declaration]
-    1787 |                         kvmppc_set_vrsave(vcpu, set_reg_val(reg->id, val));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         kvmppc_set_sr
-
-
-vim +1732 arch/powerpc/kvm/powerpc.c
-
-  1701	
-  1702	int kvm_vcpu_ioctl_get_one_reg(struct kvm_vcpu *vcpu, struct kvm_one_reg *reg)
-  1703	{
-  1704		int r = 0;
-  1705		union kvmppc_one_reg val;
-  1706		int size;
-  1707	
-  1708		size = one_reg_size(reg->id);
-  1709		if (size > sizeof(val))
-  1710			return -EINVAL;
-  1711	
-  1712		r = kvmppc_get_one_reg(vcpu, reg->id, &val);
-  1713		if (r == -EINVAL) {
-  1714			r = 0;
-  1715			switch (reg->id) {
-  1716	#ifdef CONFIG_ALTIVEC
-  1717			case KVM_REG_PPC_VR0 ... KVM_REG_PPC_VR31:
-  1718				if (!cpu_has_feature(CPU_FTR_ALTIVEC)) {
-  1719					r = -ENXIO;
-  1720					break;
-  1721				}
-  1722				kvmppc_get_vsx_vr(vcpu, reg->id - KVM_REG_PPC_VR0, &val.vval);
-  1723				break;
-  1724			case KVM_REG_PPC_VSCR:
-  1725				if (!cpu_has_feature(CPU_FTR_ALTIVEC)) {
-  1726					r = -ENXIO;
-  1727					break;
-  1728				}
-  1729				val = get_reg_val(reg->id, kvmppc_get_vscr(vcpu));
-  1730				break;
-  1731			case KVM_REG_PPC_VRSAVE:
-> 1732				val = get_reg_val(reg->id, kvmppc_get_vrsave(vcpu));
-  1733				break;
-  1734	#endif /* CONFIG_ALTIVEC */
-  1735			default:
-  1736				r = -EINVAL;
-  1737				break;
-  1738			}
-  1739		}
-  1740	
-  1741		if (r)
-  1742			return r;
-  1743	
-  1744		if (copy_to_user((char __user *)(unsigned long)reg->addr, &val, size))
-  1745			r = -EFAULT;
-  1746	
-  1747		return r;
-  1748	}
-  1749	
-  1750	int kvm_vcpu_ioctl_set_one_reg(struct kvm_vcpu *vcpu, struct kvm_one_reg *reg)
-  1751	{
-  1752		int r;
-  1753		union kvmppc_one_reg val;
-  1754		int size;
-  1755	
-  1756		size = one_reg_size(reg->id);
-  1757		if (size > sizeof(val))
-  1758			return -EINVAL;
-  1759	
-  1760		if (copy_from_user(&val, (char __user *)(unsigned long)reg->addr, size))
-  1761			return -EFAULT;
-  1762	
-  1763		r = kvmppc_set_one_reg(vcpu, reg->id, &val);
-  1764		if (r == -EINVAL) {
-  1765			r = 0;
-  1766			switch (reg->id) {
-  1767	#ifdef CONFIG_ALTIVEC
-  1768			case KVM_REG_PPC_VR0 ... KVM_REG_PPC_VR31:
-  1769				if (!cpu_has_feature(CPU_FTR_ALTIVEC)) {
-  1770					r = -ENXIO;
-  1771					break;
-  1772				}
-  1773				kvmppc_set_vsx_vr(vcpu, reg->id - KVM_REG_PPC_VR0, &val.vval);
-  1774				break;
-  1775			case KVM_REG_PPC_VSCR:
-  1776				if (!cpu_has_feature(CPU_FTR_ALTIVEC)) {
-  1777					r = -ENXIO;
-  1778					break;
-  1779				}
-  1780				kvmppc_set_vscr(vcpu, set_reg_val(reg->id, val));
-  1781				break;
-  1782			case KVM_REG_PPC_VRSAVE:
-  1783				if (!cpu_has_feature(CPU_FTR_ALTIVEC)) {
-  1784					r = -ENXIO;
-  1785					break;
-  1786				}
-> 1787				kvmppc_set_vrsave(vcpu, set_reg_val(reg->id, val));
-  1788				break;
-  1789	#endif /* CONFIG_ALTIVEC */
-  1790			default:
-  1791				r = -EINVAL;
-  1792				break;
-  1793			}
-  1794		}
-  1795	
-  1796		return r;
-  1797	}
-  1798	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD when selected by SND_SOC_LOONGSON_I2S_PLATFORM
+   WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (LOONGARCH || COMPILE_TEST [=n])
+     Selected by [y]:
+     - SND_SOC_LOONGSON_I2S_PLATFORM [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && OF [=y]
 
 -- 
 0-DAY CI Kernel Test Service
