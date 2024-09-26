@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C65D2C18C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 02:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE6D1F61C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 03:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727316171; cv=none; b=RbMHc1J1q2EEITlCSBPDWKtDEMHNCGA8RiAfr+VDTTHIp4dp6oxQGdjmjbKif9KsuhXRKX9U/7Y4Gk9JbmfPyFlfWF0KpBCsr0McbAvv+Gwhj2wn+1CBvQ2NU6thvwYYOLr8khmc1DZvZpIGh58wv8T/HAkWq8cvPvDDfY10bgA=
+	t=1727321695; cv=none; b=cMWoAImFpKXUmmBLp2q4yJmLGp7dmlpUdaIq7r0NPnfh9uYhXdPeCrjl97DuF+L09zhO3Os4UQn4/L/rK2j7CFlSUZVM6c2yiVsC1ThdN4HYx975B33o9oyaypu/O044ViVqx+mzpqcCWbLGf1NLGxPKvrLWqCxevToXGndDIBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727316171; c=relaxed/simple;
-	bh=CNTuMzyMeTgepB2Wr6Ba2dc74GIWZ8Ga8fXhQfGITeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p/Pk8OLhC7eFD0WEvHSJkeH7BvqJ8Hm7WzsKqJLRTue7PPf/EWHX9YGURP3sNVyu7H0AkXSjc3IhjAhvXhwOJy7SOBZmnPUJZAxI772rlJc9a0i3G5yLxbnBJ+YexTSpjVrf9jLLFJwge9TuTQyfJQGxjooNu8U/ZSWzGTRAk00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDOOv6zs; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1727321695; c=relaxed/simple;
+	bh=/At0ZfQKDRKqgXRUC/2vl4ZDoABUmTw1R9MYz/wjx+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQX4DsKRzBrRHGb9XRtCdFm5VVtboN2fyMfJzCy38ThzvJTJ+feay60iss69V7WtwGjHjMZdYjNgJhL2zwL2XJNBD2L9giGzQMnT1DeWRQpNavreyAZkkHRy4PhJRZG49Xrna2W52Me66V1lvDAcbeBuEcWbBRTLoVC2rRtjEPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9TOdf48; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDOOv6zs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9TOdf48"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727316169; x=1758852169;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CNTuMzyMeTgepB2Wr6Ba2dc74GIWZ8Ga8fXhQfGITeU=;
-  b=fDOOv6zsCA/TeaiC/DCR4ETrh/qXXa4fMCQtL6G3gn4IqlhnmvrTTGTG
-   SchzBOIXSR0QBNCVyzHfAnMARHZ1vX5BGGcXWtTwL0l7IeoLpQvkWcDZr
-   oMkmorYgmwX4i+/ipv+96LWA3VVuG9slRy3mfyr+R7HmsB3XfeARPkput
-   DVtmcaOUbBnqy1zl6OcJdpHwXlAUTmLykKhkeIraYKrOXN3PZFUGQmrvz
-   Ky8SZrvV7Ssor1EuR4ZYSnaeir0L1hqPRRFli+j1PU/bCcyDOWsuTDQnN
-   xSmfwNuo/XOrXdGb+3Lvk8qX0L1Wj4zTusE+BTAMWiv9IOgqEOiXG/TCX
-   A==;
-X-CSE-ConnectionGUID: xhjv1qjXQjGc7Rljgaqpsw==
-X-CSE-MsgGUID: z8d6yIkfSh+03hYhM3zPow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="51808668"
+  t=1727321694; x=1758857694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/At0ZfQKDRKqgXRUC/2vl4ZDoABUmTw1R9MYz/wjx+o=;
+  b=d9TOdf48uLPTm1rsMciPPTm4q9ftkflen3WdYqAEwZYr6JU8f2An0/dt
+   vMdAD6HaoeSn+FDvnza2l6LPMmPlv2Dhe2qUE2r+gLeTFNSR6bz1lOO35
+   FAeSERrrLc6t7K7Q7EbtLtHDUEDoptktQwMWgsDSdxh3+aY3r4sEgdUDl
+   GRSccWaCoXr0eqoQ6yzWzE0wRJnisP2ywsB1d4KPfh+O+qvPFxBeYJkW9
+   oLXPEoDKAc6VIs0viVZC0uu4hpoQLOVvkUvCjZxyfs/mTxp9dc6ksIlhA
+   RdoU6tcl3y1vn4qEaXap6YaiBPMELpJhZI8n7d0b+oDJYC1JdD9RqIXqX
+   w==;
+X-CSE-ConnectionGUID: S+OLJL+jRPmvMXjw5PF2oQ==
+X-CSE-MsgGUID: w64o+xYpS9mvL4QNTqHlNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37543178"
 X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; 
-   d="scan'208";a="51808668"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 19:02:48 -0700
-X-CSE-ConnectionGUID: 3I5zB/rRRNqB2XOpRhksJg==
-X-CSE-MsgGUID: VTzEZFm0SnewmFAGqDPg+w==
+   d="scan'208";a="37543178"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 20:34:53 -0700
+X-CSE-ConnectionGUID: wfbmaoPlRAyGIvvLNywPQw==
+X-CSE-MsgGUID: ncJ91KxCR6G2NdMIJoaDeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; 
-   d="scan'208";a="76483710"
+   d="scan'208";a="102818880"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Sep 2024 19:02:47 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 25 Sep 2024 20:34:49 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stdq8-000K7v-2J;
-	Thu, 26 Sep 2024 02:02:44 +0000
-Date: Thu, 26 Sep 2024 10:02:40 +0800
+	id 1stfHC-000KB5-39;
+	Thu, 26 Sep 2024 03:34:46 +0000
+Date: Thu, 26 Sep 2024 11:34:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2385/14122] kernel/cgroup/cgroup.c:3968:29:
- error: 'cgroup_psi_stat_show' undeclared here (not in a function); did you
- mean 'cgroup_stat_show'?
-Message-ID: <202409260923.Yh7ALQqg-lkp@intel.com>
+To: Eric Yan <eric.yan@oppo.com>, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, yonghong.song@linux.dev,
+	song@kernel.org, john.fastabend@gmail.com, kpsingh@kernel.org,
+	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, eric.yan@oppo.com
+Subject: Re: [PATCH] Add BPF Kernel Function bpf_ptrace_vprintk
+Message-ID: <202409261116.risxWG3M-lkp@intel.com>
+References: <20240925100254.436-1-eric.yan@oppo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,83 +66,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925100254.436-1-eric.yan@oppo.com>
 
-Hi Lu,
+Hi Eric,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   81a41d2ac1de43215c014bc71d907a026042e55b
-commit: 4a69b56540f40550585b9f93c35e415ac90bdecc [2385/14122] sched/psi: Introduce pressure.stat in psi
-config: loongarch-randconfig-r061-20240926 (https://download.01.org/0day-ci/archive/20240926/202409260923.Yh7ALQqg-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260923.Yh7ALQqg-lkp@intel.com/reproduce)
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master linus/master next-20240925]
+[cannot apply to v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Yan/Add-BPF-Kernel-Function-bpf_ptrace_vprintk/20240925-180530
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240925100254.436-1-eric.yan%40oppo.com
+patch subject: [PATCH] Add BPF Kernel Function bpf_ptrace_vprintk
+config: x86_64-buildonly-randconfig-003-20240926 (https://download.01.org/0day-ci/archive/20240926/202409261116.risxWG3M-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409261116.risxWG3M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409260923.Yh7ALQqg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409261116.risxWG3M-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/cgroup/cgroup.c:3968:29: error: 'cgroup_psi_stat_show' undeclared here (not in a function); did you mean 'cgroup_stat_show'?
-    3968 |                 .seq_show = cgroup_psi_stat_show,
-         |                             ^~~~~~~~~~~~~~~~~~~~
-         |                             cgroup_stat_show
+>> kernel/bpf/helpers.c:2530: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * same as bpf_trace_vprintk, except for a trace_marker format requirement
 
 
-vim +3968 kernel/cgroup/cgroup.c
+vim +2530 kernel/bpf/helpers.c
 
-  3929	
-  3930	struct cftype cgroup_v1_psi_files[] = {
-  3931		{
-  3932			.name = "io.pressure",
-  3933			.flags = CFTYPE_NO_PREFIX,
-  3934			.seq_show = cgroup_io_pressure_show,
-  3935			.write = cgroup_io_pressure_write,
-  3936			.poll = cgroup_pressure_poll,
-  3937			.release = cgroup_pressure_release,
-  3938		},
-  3939		{
-  3940			.name = "memory.pressure",
-  3941			.flags = CFTYPE_NO_PREFIX,
-  3942			.seq_show = cgroup_memory_pressure_show,
-  3943			.write = cgroup_memory_pressure_write,
-  3944			.poll = cgroup_pressure_poll,
-  3945			.release = cgroup_pressure_release,
-  3946		},
-  3947		{
-  3948			.name = "cpu.pressure",
-  3949			.flags = CFTYPE_NO_PREFIX,
-  3950			.seq_show = cgroup_cpu_pressure_show,
-  3951			.write = cgroup_cpu_pressure_write,
-  3952			.poll = cgroup_pressure_poll,
-  3953			.release = cgroup_pressure_release,
-  3954		},
-  3955	#ifdef CONFIG_IRQ_TIME_ACCOUNTING
-  3956		{
-  3957			.name = "irq.pressure",
-  3958			.flags = CFTYPE_NO_PREFIX,
-  3959			.seq_show = cgroup_irq_pressure_show,
-  3960			.write = cgroup_irq_pressure_write,
-  3961			.poll = cgroup_pressure_poll,
-  3962			.release = cgroup_pressure_release,
-  3963		},
-  3964	#endif
-  3965		{
-  3966			.name = "pressure.stat",
-  3967			.flags = CFTYPE_NO_PREFIX,
-> 3968			.seq_show = cgroup_psi_stat_show,
-  3969		},
-  3970		{ }	/* terminate */
-  3971	};
-  3972	#endif
-  3973	#else /* CONFIG_PSI */
-  3974	bool cgroup_psi_enabled(void)
-  3975	{
-  3976		return false;
-  3977	}
-  3978	
+  2528	
+  2529	/**
+> 2530	 * same as bpf_trace_vprintk, except for a trace_marker format requirement
+  2531	 */
+  2532	__bpf_kfunc int bpf_ptrace_vprintk(char *fmt, u32 fmt_size, const void *args, u32 args__sz)
+  2533	{
+  2534		struct bpf_bprintf_data data = {
+  2535			.get_bin_args	= true,
+  2536			.get_buf	= true,
+  2537		};
+  2538		int ret, num_args;
+  2539	
+  2540		if (args__sz & 7 || args__sz > MAX_BPRINTF_VARARGS * 8 || (args__sz && !args))
+  2541			return -EINVAL;
+  2542		num_args = args__sz / 8;
+  2543	
+  2544		ret = bpf_bprintf_prepare(fmt, fmt_size, args, num_args, &data);
+  2545		if (ret < 0)
+  2546			return ret;
+  2547	
+  2548		ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt, data.bin_args);
+  2549	
+  2550		tracing_mark_write(data.buf);
+  2551	
+  2552		bpf_bprintf_cleanup(&data);
+  2553	
+  2554		return ret;
+  2555	}
+  2556	
 
 -- 
 0-DAY CI Kernel Test Service
