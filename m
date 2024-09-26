@@ -1,110 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734005647F;
-	Thu, 26 Sep 2024 10:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A221AC8AB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 10:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727345734; cv=none; b=F7HXatC1hnpAB0a04NY4oQ0k85j5UeQhJwFXxZPATrofxAZdGvijaY7xMELh/1MuoV6b4lCLLq5oQpgnFD0eJ9xes4jvrrm2DnLBCgAwSeu0G0vJ4xWuj9PNA4ZlNzsX9qs8buGb/YEBcpiqwKDx9jS4tHqtuieGXHtBY7BKj5w=
+	t=1727346372; cv=none; b=KgnOXeXXKiKlp5X67if8YDGhAU/wLYXGiOsoUIZAX8GTJ/iBYUAI/GmsYbLQ8SXwrznP4OW4MzaprUhHriAfbL6hpY71tYQ/iVLL3GgT8iT57wwO8QnDXu6kOr2ZFrmuzWuS8Q/uFajdpRu2r5nDU4uxq3uAggc4Jw4tzsPHNl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727345734; c=relaxed/simple;
-	bh=kINb+jw4F0MkllBNLvRkeh3xx3jqh2k8qHgQ59Zzb3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e4bsKsEt1CvvuDY6POHBaCts0BseTtUQELV0IDRuFZqVhWdGvaNOK1NlHPUPNOUl9PrEQW2N/FXKDCgGft9dDmdwaHI2f8S8BL9fprV0C1SjDgbfjz8VnhGShYgAvJLzp12wSx5ITj6ORhhXyikyHJEBIjfTftxY9jvByamPTd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=axikU6MG; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1727346372; c=relaxed/simple;
+	bh=2xiEpAqwiURqhbLx9UQ7eaejJ7Cx2bw8HpjcojrX+M4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ONKGXzLbLvK0A2HOeK2UPrTrMwAeSSfrg9NhS4j5e7T8I7QI7Oo9jcztAUGDAvpbzF+8uyDOBtDij3GgSavFC8GBg0dej1Rbh2sPmQ/HZcvReOxITHZknbHwmzESRx6I71UV8fK8fKWG2/B5/cjDxAigBmT173Ge3ZN3mSruiig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=magBxSp6; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="axikU6MG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="magBxSp6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727345732; x=1758881732;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=kINb+jw4F0MkllBNLvRkeh3xx3jqh2k8qHgQ59Zzb3k=;
-  b=axikU6MGDwRojdUuuDSvG4NFROp1+WE30kYeSTpLM2efPX4bFbDaHj4A
-   Uw6bRwUFsDjod35XFkpJ9QbfX70CeT/ZuFg/rC6CXkrpuA5mxDuOCSKkF
-   hkd3ScVQTpoupG8NLHmimf6syulkshIveNM/pSCJD6BdYniH7Qz3HsaE1
-   RJoGMf59MdxZJukNKHYKF3gCOhFCZrNkih09lT0RRqLtgOeNPAvt9cdMh
-   BfEhFUc0tiu5e4vToftkwnW2pSriDzaetYPsL4xAi1p9AxdhJC309AsEo
-   LRWWP5NyKZXa+nfyctnK6Mc/6bY4bQp6l+c8GycyJ5hG7XRozzupsriVb
+  t=1727346369; x=1758882369;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2xiEpAqwiURqhbLx9UQ7eaejJ7Cx2bw8HpjcojrX+M4=;
+  b=magBxSp6jJSYq5R30jwvHAwpQAKCyUeiRez0bZnbgdjFAN0523vutbw8
+   Em1mRLQ/pnZ6IsJY/TxfdheFJDbh5vV3OoT/79TxqTu0tx7aAO6e6Spcc
+   n34tzRnreoU4dUJY2zZcllSemgX/q6KritUFaMn+zT+KTIqyLxBdtW54W
+   GqmdlaWbiQhMIJOzbtlOK8faPeh6w3rAcTfnmmBPSq7GmlA7lUW852UDH
+   RHSR1wlTMOMBqxRasGMn04r7nUenL/w+ZrUxsaI3JQuJC859lUA0qXnEw
+   8m4lCgfsKN2mWP5ieyYons0V7ZNd9JVP1pSGq6DYrjlZgxIt1J0Vzbtm9
    Q==;
-X-CSE-ConnectionGUID: nA7GnoNOTUKQ+lfbrg6Hhw==
-X-CSE-MsgGUID: h+w1hm/CRle5cHdboFWb+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37100461"
+X-CSE-ConnectionGUID: V6MvXVxcSXqDCX2Hr94bgA==
+X-CSE-MsgGUID: LrXsZes6QZKcLKeSN+6D7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26295838"
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="37100461"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 03:15:31 -0700
-X-CSE-ConnectionGUID: 69vM9s0MQeyidzWjIpqTCg==
-X-CSE-MsgGUID: 3b6S4xL4QLWDqvQRAhAvLg==
+   d="scan'208";a="26295838"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 03:26:09 -0700
+X-CSE-ConnectionGUID: GBl5vdDLTrWGZYWGySjx8A==
+X-CSE-MsgGUID: ZXMYfOK2R2+3sCLB+1f5mQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="102871794"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2024 03:15:29 -0700
-Message-ID: <a0ee0cda-e824-43df-a72b-83bb2cdafc74@linux.intel.com>
-Date: Thu, 26 Sep 2024 13:17:38 +0300
+   d="scan'208";a="109570691"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 26 Sep 2024 03:26:07 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stlhE-000KZ1-2r;
+	Thu, 26 Sep 2024 10:26:04 +0000
+Date: Thu, 26 Sep 2024 18:25:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@rivosinc.com>
+Subject: arch/riscv/kvm/vcpu_sbi_sta.c:58:20: sparse: sparse: cast to
+ restricted __le32
+Message-ID: <202409261846.kWf2YRgc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [mnyman-xhci:for-usb-next 9/10] drivers/usb/host/xhci-ring.c:1405
- xhci_handle_cmd_set_deq() error: uninitialized symbol 'stream_ctx'.
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <b40140f7-cfd8-4cd4-b442-4d3d4318c5db@stanley.mountain>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <b40140f7-cfd8-4cd4-b442-4d3d4318c5db@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 25.9.2024 17.31, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
-> head:   645eb2ce6b3e541d3c651f136da8a16f76799526
-> commit: fdd9a29e9139a8988b65dce295dfc3f089003ae0 [9/10] xhci: trace stream context at Set TR Deq command completion
-> config: powerpc64-randconfig-r072-20240925 (https://download.01.org/0day-ci/archive/20240925/202409252250.WNZonX5o-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   11a299a7933e03c83818b431e6a1c53ad387423d
+commit: e9f12b5fff8ad0eefd0340273767d329ef65fd69 RISC-V: KVM: Implement SBI STA extension
+date:   9 months ago
+config: riscv-randconfig-r133-20240926 (https://download.01.org/0day-ci/archive/20240926/202409261846.kWf2YRgc-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce: (https://download.01.org/0day-ci/archive/20240926/202409261846.kWf2YRgc-lkp@intel.com/reproduce)
 
-> fdd9a29e9139a8 Mathias Nyman    2024-09-12  1364  	if (ep->ep_state & EP_HAS_STREAMS && ep->stream_info) {
-> 
-> stream_ctx is only initialized when ep->stream_info is non-NULL.
-> Could we change this condition to:
-> 	if ((ep->ep_state & EP_HAS_STREAMS) && cmd_comp_code == COMP_SUCCESS) {
-> instead?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409261846.kWf2YRgc-lkp@intel.com/
 
-Thanks, this would work, but I'd like to keep the trace message below in cases
-where the ep->stream_info is valid but command is not successful.
+sparse warnings: (new ones prefixed by >>)
+   arch/riscv/kvm/vcpu_sbi_sta.c:55:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const [noderef] __user *__p @@     got unsigned int [usertype] *[assigned] sequence_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:55:13: sparse:     expected unsigned int const [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:55:13: sparse:     got unsigned int [usertype] *[assigned] sequence_ptr
+>> arch/riscv/kvm/vcpu_sbi_sta.c:58:20: sparse: sparse: cast to restricted __le32
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] __user *__p @@     got unsigned int [usertype] *[assigned] sequence_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     expected unsigned int [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     got unsigned int [usertype] *[assigned] sequence_ptr
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int __val @@     got restricted __le32 [usertype] @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     expected unsigned int __val
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     got restricted __le32 [usertype]
+   arch/riscv/kvm/vcpu_sbi_sta.c:64:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long const [noderef] __user *__p @@     got unsigned long long [usertype] *[assigned] steal_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:64:14: sparse:     expected unsigned long long const [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:64:14: sparse:     got unsigned long long [usertype] *[assigned] steal_ptr
+>> arch/riscv/kvm/vcpu_sbi_sta.c:65:25: sparse: sparse: cast to restricted __le64
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [noderef] __user *__p @@     got unsigned long long [usertype] *[assigned] steal_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     expected unsigned long long [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     got unsigned long long [usertype] *[assigned] steal_ptr
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long long __val @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     expected unsigned long long __val
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] __user *__p @@     got unsigned int [usertype] *[assigned] sequence_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     expected unsigned int [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     got unsigned int [usertype] *[assigned] sequence_ptr
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int __val @@     got restricted __le32 [usertype] @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     expected unsigned int __val
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     got restricted __le32 [usertype]
 
-> 
-> fdd9a29e9139a8 Mathias Nyman    2024-09-12  1365  		stream_ctx = &ep->stream_info->stream_ctx_array[stream_id];
-> fdd9a29e9139a8 Mathias Nyman    2024-09-12  1366  		trace_xhci_handle_cmd_set_deq_stream(ep->stream_info, stream_id);
-> fdd9a29e9139a8 Mathias Nyman    2024-09-12  1367  	}
-> fdd9a29e9139a8 Mathias Nyman    2024-09-12  1368
-> c69a059783b241 Xenia Ragiadakou 2013-09-09  1369  	if (cmd_comp_code != COMP_SUCCESS) {
-> ae636747146ea9 Sarah Sharp      2009-04-29  1370  		unsigned int ep_state;
-> ae636747146ea9 Sarah Sharp      2009-04-29  1371  		unsigned int slot_state;
+vim +58 arch/riscv/kvm/vcpu_sbi_sta.c
 
-...
+    24	
+    25	void kvm_riscv_vcpu_record_steal_time(struct kvm_vcpu *vcpu)
+    26	{
+    27		gpa_t shmem = vcpu->arch.sta.shmem;
+    28		u64 last_steal = vcpu->arch.sta.last_steal;
+    29		u32 *sequence_ptr, sequence;
+    30		u64 *steal_ptr, steal;
+    31		unsigned long hva;
+    32		gfn_t gfn;
+    33	
+    34		if (shmem == INVALID_GPA)
+    35			return;
+    36	
+    37		/*
+    38		 * shmem is 64-byte aligned (see the enforcement in
+    39		 * kvm_sbi_sta_steal_time_set_shmem()) and the size of sbi_sta_struct
+    40		 * is 64 bytes, so we know all its offsets are in the same page.
+    41		 */
+    42		gfn = shmem >> PAGE_SHIFT;
+    43		hva = kvm_vcpu_gfn_to_hva(vcpu, gfn);
+    44	
+    45		if (WARN_ON(kvm_is_error_hva(hva))) {
+    46			vcpu->arch.sta.shmem = INVALID_GPA;
+    47			return;
+    48		}
+    49	
+    50		sequence_ptr = (u32 *)(hva + offset_in_page(shmem) +
+    51				       offsetof(struct sbi_sta_struct, sequence));
+    52		steal_ptr = (u64 *)(hva + offset_in_page(shmem) +
+    53				    offsetof(struct sbi_sta_struct, steal));
+    54	
+    55		if (WARN_ON(get_user(sequence, sequence_ptr)))
+    56			return;
+    57	
+  > 58		sequence = le32_to_cpu(sequence);
+    59		sequence += 1;
+    60	
+    61		if (WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr)))
+    62			return;
+    63	
+    64		if (!WARN_ON(get_user(steal, steal_ptr))) {
+  > 65			steal = le64_to_cpu(steal);
+    66			vcpu->arch.sta.last_steal = READ_ONCE(current->sched_info.run_delay);
+    67			steal += vcpu->arch.sta.last_steal - last_steal;
+    68			WARN_ON(put_user(cpu_to_le64(steal), steal_ptr));
+    69		}
+    70	
+    71		sequence += 1;
+    72		WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr));
+    73	
+    74		kvm_vcpu_mark_page_dirty(vcpu, gfn);
+    75	}
+    76	
 
-> ae636747146ea9 Sarah Sharp      2009-04-29  1400  		 */
-> ae636747146ea9 Sarah Sharp      2009-04-29  1401  	} else {
-> 9aad95e292f58d Hans de Goede    2013-10-04  1402  		u64 deq;
-> 9aad95e292f58d Hans de Goede    2013-10-04  1403  		/* 4.6.10 deq ptr is written to the stream ctx for streams */
-> 9aad95e292f58d Hans de Goede    2013-10-04  1404  		if (ep->ep_state & EP_HAS_STREAMS) {
-> fdd9a29e9139a8 Mathias Nyman    2024-09-12 @1405  			deq = le64_to_cpu(stream_ctx->stream_ring) & SCTX_DEQ_MASK;
->                                                                                            ^^^^^^^^^^
-> Warning.  My guess is that if cmd_comp_code is success then ep->stream_info but
-> it's hard to tell without more context...
-
-Most likely yes if endpoint has streams.
-
-I'll fix this
-
-Thanks
-Mathias
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
