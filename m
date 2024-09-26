@@ -1,106 +1,231 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28F9187850;
-	Thu, 26 Sep 2024 21:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC2B18870B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 21:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727385547; cv=none; b=MIgvxBQfIatvTCer5bj9xmgzxtskbNtxtXcyBKOf0TSiAY94Dp7VVDMoKUXANddmru1qEL4+dVirugrX6y7WOiereU3XSq94zgq3COyiNJh46c5HWPVeWWTDDdbii5dKajnnHFtFuPvQCrnTHWC8CYUN0UbSsZzuDKXKoY1E1q0=
+	t=1727386428; cv=none; b=qeKMPR/LdxTmlxuoxJIUowMr4k1m3PKRJPjTZIM8kURE25qIp6RXQr2L9dUtO3ZoX2Zs1nPyIfJaX2m76IoRUrApjzrODrj8oSoO9aN/X741PBxPPLjDGuiyZ6cfJmM74qQFA0/uEwPEcFKpW7crmA17pBV4ASuSoEk8+59Pnso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727385547; c=relaxed/simple;
-	bh=AvcDnkUmv2DqPh64tRKzMWvmnXubSlYFjN4hVlRNLk0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VHP+pNWd3bJmuBCHdf2wF46p2Te+n5xXyGmRxP9TqmMcbUruXdn+bX4gojl94YlIaDkTm3cAjxlkK3gGKHyqpt4AMsm7+3GpVG4ZWs5yPr5lEZXes9/pwBaGsPcO1mEDcwwpyoqDsD5PNcTglG18MKE2XbbREHjhsu4+BIspjxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ODCt56/b; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727386428; c=relaxed/simple;
+	bh=EZajsvn+YlvNNVkWauCWKTZYxLpRZoSbzX0f3/jaINg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OXjA8HQUNhz1428WPKf3E7QmRfqJQvJU5eu70RX9z+nrtTHYIvNpx571Wh4MtD6V9tVzdypTL6gs/ercFZZ+NkoixgEqeTy6E7jhucxHAuTg+B8bCgtLN6/LuIPmwHnr1934v0i7M9unRgCzpeBIUQzxmbyO0RUTKuIkNDWKJKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0MLBZDN; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ODCt56/b"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7dafb321dbcso41704a12.1;
-        Thu, 26 Sep 2024 14:19:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727385545; x=1727990345; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jiL/43w7xPDMaXqaTLOfu6ipmJ7ueyEd94vFcLFVt94=;
-        b=ODCt56/b1xYK9NNfWyw+7AXzGZRHpIV3swkJ2OiEpIA+3HyZWbp7Aa6PM7GhiDZZ/T
-         EtqMDdczdJAa45+qpDikEASmOm5wgjSeAwSuBhTuGt15e0r9R5G0dg5w+LjkCMO2Ijfh
-         aehtQW99oOYwO5jHjaz7FAoZH/s+d8Ie4qI7AgovL/4FnNXYlYf2JauvxjJC7qgCvjsK
-         C45ibbMDl6CW/UGCs0/wLp5HlNDXcGGSIypVKE8LDhxxUobvQk7SX8h8VE1HceXD6Oou
-         r/WHhOlqrhqai8i67WvhuoArAWdULO63kmzKMalIeACiV2QhJ0f11pePvk5FpaNYil6L
-         L6hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727385545; x=1727990345;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jiL/43w7xPDMaXqaTLOfu6ipmJ7ueyEd94vFcLFVt94=;
-        b=qVFb575X/wN0SDYdQ81yqAFKDydKO38sHFHeO4YFXhoZIePOV8SexSIlvX+CfHDQsS
-         qrrc1f2QTqdllvNI3xUSoqVZ/1hdrdMUQxP57FxPzowETYPQZT5htewTxExGNlXcPrQw
-         JB4iRkiExQL+N1Zz+GnitvIgONav373EdKRk5Eriudh9jg2kQMMN0Bpwtr6rDLSP+aEZ
-         1OGAbn7mw9gy9fYmn25DAZh+DwayTs5kFWOA24YXJ4fZZgtELfg6xw7lfYvyFeo+jUNU
-         l3XaSTDDZPT4QAPtZEd/NieYuY768DvTbrgXX87fxcry7f8b34GErjALd+3WMk2osYvz
-         xKMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVeobniT7tuQzu4G62xkoyKQDm30Qdd6XQsshzLlSqmhDt/OwltqAcoicNpGseXSHNYmVfk@lists.linux.dev, AJvYcCWWsNttd58XZ1gpyHGCl5TNXkMkQcGxrkiF7mDKT8r7kBViHlYFX9/3IHqwi7tCuuqTOXYh7ewa/1AUTOHayQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVEvwCz3sppUFqZjnCnt67sB658qn61YwXF6TXNk4TJQK4my6Z
-	F+lGhDI24T2jAfCNvZgdBLKVqAPOOhnrJt7JmIkIq5QdGfTAHp6NUWgi3G02Qy5yibju92KqacJ
-	AdRX5fdxci1ktXoIYKP9KCOdLQkY=
-X-Google-Smtp-Source: AGHT+IE6Z5Ugs5d9ud90HsPwabxzrmKDL6pJfCR6F+I4Hb2fAl23W6NAluXCqFPTFKmt/02r4eYWF2KDbgYnvtdh4g4=
-X-Received: by 2002:a05:6a20:8415:b0:1cf:46ff:973d with SMTP id
- adf61e73a8af0-1d4fa78e94fmr838750637.9.1727385545304; Thu, 26 Sep 2024
- 14:19:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0MLBZDN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727386427; x=1758922427;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EZajsvn+YlvNNVkWauCWKTZYxLpRZoSbzX0f3/jaINg=;
+  b=n0MLBZDNzCg104+eUKAx9RzN+yeiwIlGoJDcmdqsoN87ApT9rg8U1vWj
+   t1b8BtYNgdQOJz8fd25vL56aAF9LHJG4CLa+wogRInkRaEgCtTrdburxy
+   gVGIvTW03kZk4nOwphnVqePIlggtJgutgXf2HoxfU0ePQyeFRbp6ol6Ha
+   uh9lZQ62iONBlCoUV2QEWB5yTTOHxtypkGaoE0Xhsgn2wGibR38vPtkCS
+   DfSUibB3sQV0baDDGCY46/W5H0bT4xyXOfv4jHUJ4X1NDCvSYIldcebLI
+   29vYm2JlVqtHxZm5YQebSywoZNn2L2xXLdGFN0pshdbssYXS6ULDEMpsm
+   Q==;
+X-CSE-ConnectionGUID: UkwliHHDTA2Zz0KwMYvCag==
+X-CSE-MsgGUID: /1GF6LqVR9yYGLXZdEghPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26386666"
+X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
+   d="scan'208";a="26386666"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 14:33:45 -0700
+X-CSE-ConnectionGUID: 0splWfoJQkWsWrhLlMAWNg==
+X-CSE-MsgGUID: JgZRdA+2STCo+K+kP4pE2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
+   d="scan'208";a="95648163"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Sep 2024 14:33:43 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stw7J-000LDV-0N;
+	Thu, 26 Sep 2024 21:33:41 +0000
+Date: Fri, 27 Sep 2024 05:33:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 5206/30000]
+ drivers/gpu/drm/radeon/radeon_vce.c:247:25: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <202409270508.u8KdTEFv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202409160804.eSg9zh1e-lkp@intel.com> <20240916003347.1744345-1-gary@garyguo.net>
-In-Reply-To: <20240916003347.1744345-1-gary@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 26 Sep 2024 23:18:50 +0200
-Message-ID: <CANiq72=qRGkXJoTin69KDgz0YHDaY8uB0vfX=GDZeR7TbhaTdA@mail.gmail.com>
-Subject: Re: [PATCH] rust: fix `ARCH_SLAB_MINALIGN` multiple definition error
-To: Gary Guo <gary@garyguo.net>
-Cc: lkp@intel.com, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, conor.dooley@microchip.com, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, palmer@rivosinc.com, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Sep 16, 2024 at 1:09=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> We use const helpers in form of
->
->     const size_t RUST_CONST_HELPER_ARCH_SLAB_MINALIGN =3D ARCH_SLAB_MINAL=
-IGN;
->
-> to aid generation of constants by bindgen because it is otherwise a
-> macro definition of an expression and bindgen doesn't expand the
-> constant. The helpers are then have `RUST_CONST_HELPER` prefix stripped
-> and exposed to Rust code as if `ARCH_SLAB_MISALIGN` is generated
-> natively by bindgen.
->
-> This works well for most constants, but on RISC-V, `ARCH_SLAB_MINALIGN`
-> is defined directly as literal constant if `!CONFIG_MMU`, and bindgen
-> would generate `ARCH_SLAB_MINALIGN` directly, thus conflict with the
-> one generated through the helper.
->
-> To fix this, we simply need to block bindgen from generating directly
-> without going through helper.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202409160804.eSg9zh1e-lkp@i=
-ntel.com/
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   6be8d57e8dd89fb93f6a1801c246e70ae85fbfaf
+commit: ec4ae62c07d56281aacec51770e0453414a76ded [5206/30000] sw64: gpu/drm: solve driver load cause kernel crash
+config: arm64-randconfig-r131-20240925 (https://download.01.org/0day-ci/archive/20240927/202409270508.u8KdTEFv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240927/202409270508.u8KdTEFv-lkp@intel.com/reproduce)
 
-Applied to `rust-fixes` -- thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409270508.u8KdTEFv-lkp@intel.com/
 
-Cheers,
-Miguel
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/radeon/radeon_vce.c:247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *[addressable] cpu_addr @@
+   drivers/gpu/drm/radeon/radeon_vce.c:247:25: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/radeon/radeon_vce.c:247:25: sparse:     got void *[addressable] cpu_addr
+   drivers/gpu/drm/radeon/radeon_vce.c:368:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:368:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:368:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:369:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:369:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:369:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:370:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:370:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:370:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:372:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:372:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:372:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:373:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:373:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:373:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:374:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:374:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:374:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:375:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:375:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:375:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:376:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:376:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:376:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:377:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:377:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:377:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:378:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:378:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:378:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:379:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:379:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:379:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:380:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:380:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:380:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:381:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:381:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:381:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:382:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:382:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:382:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:383:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:383:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:383:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:385:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:385:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:385:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:386:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:386:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:386:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:387:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:387:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:387:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:388:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:388:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:388:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:389:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:389:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:389:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:392:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:392:27: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:392:27: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:435:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:435:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:435:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:436:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:436:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:436:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:437:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:437:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:437:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:439:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:439:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:439:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:440:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:440:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:440:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:441:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:441:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:441:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:442:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:442:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:442:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:443:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:443:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:443:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:445:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:445:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:445:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:446:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:446:32: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:446:32: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:449:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:449:27: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:449:27: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_vce.c:706:33: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] v @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_vce.c:706:33: sparse:     expected unsigned int [usertype] v
+
+vim +247 drivers/gpu/drm/radeon/radeon_vce.c
+
+   214	
+   215	/**
+   216	 * radeon_vce_resume - pin VCE fw memory
+   217	 *
+   218	 * @rdev: radeon_device pointer
+   219	 *
+   220	 */
+   221	int radeon_vce_resume(struct radeon_device *rdev)
+   222	{
+   223		void *cpu_addr;
+   224		int r;
+   225	
+   226		if (rdev->vce.vcpu_bo == NULL)
+   227			return -EINVAL;
+   228	
+   229		r = radeon_bo_reserve(rdev->vce.vcpu_bo, false);
+   230		if (r) {
+   231			dev_err(rdev->dev, "(%d) failed to reserve VCE bo\n", r);
+   232			return r;
+   233		}
+   234	
+   235		r = radeon_bo_kmap(rdev->vce.vcpu_bo, &cpu_addr);
+   236		if (r) {
+   237			radeon_bo_unreserve(rdev->vce.vcpu_bo);
+   238			dev_err(rdev->dev, "(%d) VCE map failed\n", r);
+   239			return r;
+   240		}
+   241	
+   242		memset(cpu_addr, 0, radeon_bo_size(rdev->vce.vcpu_bo));
+   243		if (rdev->family < CHIP_BONAIRE)
+   244			r = vce_v1_0_load_fw(rdev, cpu_addr);
+   245		else {
+   246			if (IS_ENABLED(CONFIG_SW64))
+ > 247				memcpy_toio(cpu_addr, rdev->vce_fw->data, rdev->vce_fw->size);
+   248			else
+   249				memcpy(cpu_addr, rdev->vce_fw->data, rdev->vce_fw->size);
+   250		}
+   251	
+   252		radeon_bo_kunmap(rdev->vce.vcpu_bo);
+   253	
+   254		radeon_bo_unreserve(rdev->vce.vcpu_bo);
+   255	
+   256		return r;
+   257	}
+   258	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
