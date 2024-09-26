@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BB614A615
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 15:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2C4153BF7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 16:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727363665; cv=none; b=on8iVEpV4yJM8F0ZorQjXluhqu4kVqeygc4KWRNs6sBRGCCQYd03Tuxol4Ll5EMlZKYcSlGynV1VrRa8HUi8+pOzX/dCxRtrU4Z10JWeO3BgiDAS6xCfD6PYt2xP5tlV7X1n+VfBOa495MbSABhKZ40l5Ta4EZvLvrXfHD7A7sQ=
+	t=1727366791; cv=none; b=QNSjO89qcvTMNC7zMXryTBsGwRgGVG5zU8w5VHDxym2pZdjWgguQDkywWQJUneFn3UVa70aKdzd6gXfdnwBj9Lh9tNeRBzMwMi4j6ajKH24DOdOzqi1hLXpyVHl4+WjZEAD+14iqeN2Lg0MVr+/tp1Yva8PFFYV29gsu5WHFTLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727363665; c=relaxed/simple;
-	bh=JuuyEd5ygWXoer3sJn1ctfl6CSW3TtZNYqXUG3o4YMk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G2/E6+BPBGOfzRgeRAisfWdkwq0dYNmROQE9TGpTXbJO4S749O0L3fVq1BAvBnlmGOxVK1ABQ5OVSFeOl4ZdsbAKaCiUKqsVo7nM5JzAbDm/yNXvzEyITibPytDbkVxex6+dTjUR2t6pLXIPCnXzcDY/fKAFWakmjBYFEV+H3ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HASZqoL8; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1727366791; c=relaxed/simple;
+	bh=cAMdUe2pF9mtK87OeqL8PgkuUwdF9Y/98r36nra6ml0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RdSkzIhLYAO9PL6GjFGFlfhy/j70JGii1ZHgM2qXLBxu63vEFFYZcLNgndNngEk0NU4/e3syz5a3jUy3jUxOa1gjgLM3HJG3D0weKnWmx7lNh1N1bbowrRWgw53kNcm1qg0X5imfpBv8ALKyyz6BgRDk/aIXOWHe6OiArAvCzrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hvgQnr2W; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HASZqoL8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hvgQnr2W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727363664; x=1758899664;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JuuyEd5ygWXoer3sJn1ctfl6CSW3TtZNYqXUG3o4YMk=;
-  b=HASZqoL8fHttZbHKKVdgrhXcAyxyDISZ7oqQ2GnrYu5/uDwdY/bkS6Y+
-   HrDundMyTd6bCDTUMyYPQ5+xkNUE4z9WSj2Rla+KVp5HGb5AtVi2lMBgz
-   WBrXrzE1vqjlyGVRIDd25Ysj7CmRKk0E6WjXitIdM4iTFjcvJPdqgEWjY
-   IlF/tuIDe+SOE76L+f+tsuM6aIoONhEJ/xv05Qy7fSL/EijT+G9cT07c8
-   zL5858kNJP02Kkj8p9yYKbxScyDfDn//Vc5BzaESdgV9te2VTLvdBfQf1
-   PhZQI6VGFooFAawBsv9RkKLjZiOtyHEdZXDrVEBp1BhEA6xhttKo0Uf+D
+  t=1727366789; x=1758902789;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cAMdUe2pF9mtK87OeqL8PgkuUwdF9Y/98r36nra6ml0=;
+  b=hvgQnr2WiEGjACPQ4OQ0UwWN+aJA5rQ5A7JnKtWTiDHtM8S3GcGRw3zY
+   2WManlS39Yc1bdDkKD+tVK52FpVz9OIDt//4E+Oea0AgeRtWKWXJ3RcqZ
+   Yo+qfIN/Y641y0NiPhmgOdVgGlRrFdoYRAqADXXKXyBsylqe7UCZfstDf
+   vs+fmBKl5Bb5+CsDhlAxSUsRj/lpkCOkwBj26+5psY/vRIguLMYSNgrLx
+   94wmAzpJDrFcyLxFEAmsl/nnyVr+nEX327vFa7GVIrIiv0kOwrEppw6d4
+   I67wtcFClnnn7rprrVi2glTesIFa3VD68TVlKS7xjnwtBeDbrEKxxxgW2
    g==;
-X-CSE-ConnectionGUID: ueBNo8IST/2Fxd07kEnBAA==
-X-CSE-MsgGUID: 7ZU1XFunQTucJcbC0UZ0UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26339962"
+X-CSE-ConnectionGUID: mQ/UnwbKR7epsTKDilFXNw==
+X-CSE-MsgGUID: /Zjfe9h1SLaDpv85PXqR7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37058997"
 X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
-   d="scan'208";a="26339962"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 08:14:23 -0700
-X-CSE-ConnectionGUID: 0r+AFkz/QiCxr7Zx/aJ8vA==
-X-CSE-MsgGUID: /+5qi4x1Ss2VsX+8SEWUsw==
+   d="scan'208";a="37058997"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 09:06:29 -0700
+X-CSE-ConnectionGUID: mMoWO9o3TfmGP5KoLfsuBQ==
+X-CSE-MsgGUID: rQ73T50mQ0yaki6ZdxYWYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
-   d="scan'208";a="72340291"
+   d="scan'208";a="77138568"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Sep 2024 08:14:19 -0700
+  by orviesa004.jf.intel.com with ESMTP; 26 Sep 2024 09:06:28 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stqC9-000Kqr-1n;
-	Thu, 26 Sep 2024 15:14:17 +0000
-Date: Thu, 26 Sep 2024 23:14:09 +0800
+	id 1str0b-000Kut-0N;
+	Thu, 26 Sep 2024 16:06:25 +0000
+Date: Fri, 27 Sep 2024 00:05:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	heikki.krogerus@linux.intel.com, tzungbi@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jthies@google.com, pmalani@chromium.org,
-	akuchynski@google.com,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/8] usb: typec: Add driver for Thunderbolt 3 Alternate
- Mode
-Message-ID: <202409262224.Bnlmjakc-lkp@intel.com>
-References: <20240925092505.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
+To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1336/14122] include/linux/uaccess.h:213:16:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202409270023.ToC1weNo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,41 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240925092505.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
 
-Hi Abhishek,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on chrome-platform/for-next]
-[also build test WARNING on chrome-platform/for-firmware-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11 next-20240926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Pandit-Subedi/usb-typec-Add-driver-for-Thunderbolt-3-Alternate-Mode/20240926-002931
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240925092505.1.I3080b036e8de0b9957c57c1c3059db7149c5e549%40changeid
-patch subject: [PATCH 1/8] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240926/202409262224.Bnlmjakc-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409262224.Bnlmjakc-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   81a41d2ac1de43215c014bc71d907a026042e55b
+commit: 975e216e36aa3f7aba9d8e1e1d6cbba7cf692ad7 [1336/14122] arm64: add support for machine check error safe
+config: arm64-randconfig-r123-20240926 (https://download.01.org/0day-ci/archive/20240927/202409270023.ToC1weNo-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20240927/202409270023.ToC1weNo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409262224.Bnlmjakc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409270023.ToC1weNo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   lib/iov_iter.c: note: in included file (through include/linux/sched/task.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+>> include/linux/uaccess.h:213:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got void *dst @@
+   include/linux/uaccess.h:213:16: sparse:     expected void const [noderef] __user *ptr
+   include/linux/uaccess.h:213:16: sparse:     got void *dst
+   lib/iov_iter.c: note: in included file:
+   include/net/checksum.h:33:39: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
+   include/net/checksum.h:33:39: sparse:     expected restricted __wsum [usertype] sum
+   include/net/checksum.h:33:39: sparse:     got unsigned int
+   include/net/checksum.h:33:39: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
+   include/net/checksum.h:33:39: sparse:     expected restricted __wsum [usertype] sum
+   include/net/checksum.h:33:39: sparse:     got unsigned int
+   include/net/checksum.h:41:45: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
+   include/net/checksum.h:41:45: sparse:     expected restricted __wsum [usertype] sum
+   include/net/checksum.h:41:45: sparse:     got unsigned int
+   include/net/checksum.h:41:45: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
+   include/net/checksum.h:41:45: sparse:     expected restricted __wsum [usertype] sum
+   include/net/checksum.h:41:45: sparse:     got unsigned int
 
->> drivers/usb/typec/altmodes/thunderbolt.c:15: warning: expecting prototype for USB Typec(). Prototype was for USB_TYPEC_VENDOR_INTEL() instead
+vim +213 include/linux/uaccess.h
 
+ec6347bb43395c Dan Williams 2020-10-05  207  
+59feaaa04e929c Tong Tiangen 2023-12-07  208  #ifndef copy_mc_to_user
+59feaaa04e929c Tong Tiangen 2023-12-07  209  static inline unsigned long __must_check
+59feaaa04e929c Tong Tiangen 2023-12-07  210  copy_mc_to_user(void *dst, const void *src, size_t cnt)
+59feaaa04e929c Tong Tiangen 2023-12-07  211  {
+59feaaa04e929c Tong Tiangen 2023-12-07  212  	check_object_size(src, cnt, true);
+59feaaa04e929c Tong Tiangen 2023-12-07 @213  	return raw_copy_to_user(dst, src, cnt);
+59feaaa04e929c Tong Tiangen 2023-12-07  214  }
+59feaaa04e929c Tong Tiangen 2023-12-07  215  #endif
+59feaaa04e929c Tong Tiangen 2023-12-07  216  
 
-vim +15 drivers/usb/typec/altmodes/thunderbolt.c
+:::::: The code at line 213 was first introduced by commit
+:::::: 59feaaa04e929cf051c9b29e28fb9e1299785280 uaccess: add generic fallback version of copy_mc_to_user()
 
-    14	
-  > 15	#define USB_TYPEC_VENDOR_INTEL		0x8087
-    16	
+:::::: TO: Tong Tiangen <tongtiangen@huawei.com>
+:::::: CC: Tong Tiangen <tongtiangen@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
