@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C051179C4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 05:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1BA18784C;
+	Thu, 26 Sep 2024 05:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727328479; cv=none; b=dm5JVSnonHUBGIIUbzbuSiqGRdTZ81eeevvlyVEZJwRdpT628emfmjwLKAyu2kcDFObf8DXGkaOwPA0a8sWDU7FAkIiXndWJd0gpCptHgUkQpbduf5UmgdvpCG0boyz1sG20kUJfW6JHa6zYC1Ev3RZVi3AH+FrJWyWDSUfNCZc=
+	t=1727330341; cv=none; b=mYkhUVraxTylu1qTGVsQm3xyw/V3fPooDFY/LG1kl3r6l+/4Rx1XhdN7/kFyshdmhUauHTdMcXFvPhUT5uYjQtl15ckOsncCI6qYq3otAI+8cmxbIMZb25Wck2IAapCHxx7siZwvcdE6YJGO48pAjGCfNu0I5O0XrGBfRandtqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727328479; c=relaxed/simple;
-	bh=UZrozBDYdMFb6UkXa6vjz0Wz5g4rgUzLenkJ5QXRK7E=;
+	s=arc-20240116; t=1727330341; c=relaxed/simple;
+	bh=ObSbGI/5whzvxubZhQoqWzsM991QYmAmmmDg3dhUsz0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dgYy8v4eJUt/yw86flGikMUtXpvO7O7Sfvi98wHqyAceXkbqtcix/L1EbZL2RIlNRLLFDEMKUPgWxT97E6+Knc0o57Bd1ir3ELhxrkRmrlWILkTmhe4ifaefpGAdSvpa0W7+DP3CQ1E10y+wLKERieazsG1AjvAYmMDnSzrDFRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVjS7STC; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=KetjJ7NVIAm4054oUNdkhrjj5R1KNud4WTQdrGRYyFWCg+fK6HPNxXIPKWm6K/1QYnwlz2r4RmWCT1tfjxu2XtC9gy65GhFpAelbZ31tENJwS90Cw3zrMv2WQnmY6wYrLfLj0e3L+GlzIaNQyX7QjQDKTNHIMXoJPiN6v7pmEZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UEE18ozi; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVjS7STC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UEE18ozi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727328477; x=1758864477;
+  t=1727330339; x=1758866339;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UZrozBDYdMFb6UkXa6vjz0Wz5g4rgUzLenkJ5QXRK7E=;
-  b=NVjS7STC2q6Xz0nG3aqwBaEPGbQu7L5hZDK+eRWl2jFG2Hn+CHg7DnMC
-   3gZ9z5Mz4z5ujJh56rkv/brb6RjOfWkvNjkAr/UMIxdhewJOgG9h5wZyy
-   VE1ejl5XeqxWLYG7R0BEO9A9tl9VtK5aN90FEm1KqT3Nym/NcORSUYZST
-   CNvAiR2mpagczor2zO91JTqvtvBMIIKScYddKizPQgsjVU8N+5R1WwqJE
-   PVVSgxgkgZBcfVLCxVNY00GrsEhILaTbnlrzfVzCMfUO+scu0S0B1rmVc
-   by6+oXADvHM3vEGMsJ+L0YcLd2j28TBHLPBI+dbNZYBoKe6fvMFrDQvy4
-   w==;
-X-CSE-ConnectionGUID: rviXDiCVRJ+R4mM2sUA9eQ==
-X-CSE-MsgGUID: kp+sQaTtRHG4OCyEdwHLGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="14028227"
+  bh=ObSbGI/5whzvxubZhQoqWzsM991QYmAmmmDg3dhUsz0=;
+  b=UEE18oziN8CbO/kzEhAb8aNwIL317XPEDvTQWzMpdNOQybUoPMk6N+qB
+   +cg1nIM8nHuW5l+mafIMVyNfytCnWRvtChGbrGpe+O72YqLJpcF5j44WV
+   4GZfAgkvLyf2wrfM/WyivyGBC0bDLiUnbDpvHjtsbRRBdvrT29LCzDuFX
+   z027UC1vWxF90/A2pXl3MxN6wm5aKmqlzjM0HA3ey8jrHYiNb/Fv8fDkR
+   e+atRQwIeWXa9yiZTaa4GTk6hnT4g4RoxnJVFMznm43ozQzNZo7VOioRu
+   RMuq7LoHi3LFCs9pHKyUmH/8xH3zo96/yfqp4VTqZHWcMrVA4y+wiUwsT
+   A==;
+X-CSE-ConnectionGUID: F8imqMF0ShmdniMOmceINg==
+X-CSE-MsgGUID: BF8z0hpuTzC9+ww6CtRZuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="48937726"
 X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; 
-   d="scan'208";a="14028227"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 22:27:57 -0700
-X-CSE-ConnectionGUID: lrVoUYroTYufgzsTY6ujiA==
-X-CSE-MsgGUID: zAWN2WwxRBChuSnszzEvJQ==
+   d="scan'208";a="48937726"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 22:58:59 -0700
+X-CSE-ConnectionGUID: +LFQxGnFQtqE56+9kaUp8A==
+X-CSE-MsgGUID: Xah0O/W4TiS3slHKVkG5UA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; 
-   d="scan'208";a="72016304"
+   d="scan'208";a="102842484"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Sep 2024 22:27:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 25 Sep 2024 22:58:55 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sth2f-000KIt-0J;
-	Thu, 26 Sep 2024 05:27:53 +0000
-Date: Thu, 26 Sep 2024 13:27:11 +0800
+	id 1sthWf-000KK3-2D;
+	Thu, 26 Sep 2024 05:58:53 +0000
+Date: Thu, 26 Sep 2024 13:58:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Elfring <Markus.Elfring@web.de>, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: eem: Use common error handling code in
- eem_unwrap()
-Message-ID: <202409261347.SAA10KGy-lkp@intel.com>
-References: <59fadd5a-6574-4379-98ac-cc4f11b675cc@web.de>
+To: ran xiaokai <ranxiaokai627@163.com>, elver@google.com,
+	tglx@linutronix.de, dvyukov@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	Ran Xiaokai <ran.xiaokai@zte.com.cn>
+Subject: Re: [PATCH 2/4] kcsan, debugfs: refactor
+ set_report_filterlist_whitelist() to return a value
+Message-ID: <202409261331.9NyGRPt2-lkp@intel.com>
+References: <20240925143154.2322926-3-ranxiaokai627@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,217 +66,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <59fadd5a-6574-4379-98ac-cc4f11b675cc@web.de>
+In-Reply-To: <20240925143154.2322926-3-ranxiaokai627@163.com>
 
-Hi Markus,
+Hi ran,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.11 next-20240925]
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20240925]
+[cannot apply to v6.11]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/usb-gadget-eem-Use-common-error-handling-code-in-eem_unwrap/20240925-233931
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/59fadd5a-6574-4379-98ac-cc4f11b675cc%40web.de
-patch subject: [PATCH] usb: gadget: eem: Use common error handling code in eem_unwrap()
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240926/202409261347.SAA10KGy-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409261347.SAA10KGy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/ran-xiaokai/kcsan-debugfs-Remove-redundant-call-of-kallsyms_lookup_name/20240925-231034
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240925143154.2322926-3-ranxiaokai627%40163.com
+patch subject: [PATCH 2/4] kcsan, debugfs: refactor set_report_filterlist_whitelist() to return a value
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240926/202409261331.9NyGRPt2-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409261331.9NyGRPt2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409261347.SAA10KGy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409261331.9NyGRPt2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/usb/gadget/function/f_eem.c: In function 'eem_unwrap':
->> drivers/usb/gadget/function/f_eem.c:547:29: error: 'ep' undeclared (first use in this function); did you mean 'up'?
-     547 |         usb_ep_free_request(ep, req);
-         |                             ^~
-         |                             up
-   drivers/usb/gadget/function/f_eem.c:547:29: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/usb/gadget/function/f_eem.c:547:33: error: 'req' undeclared (first use in this function); did you mean 'rq'?
-     547 |         usb_ep_free_request(ep, req);
-         |                                 ^~~
-         |                                 rq
->> drivers/usb/gadget/function/f_eem.c:549:27: error: 'skb2' undeclared (first use in this function); did you mean 'skb'?
-     549 |         dev_kfree_skb_any(skb2);
-         |                           ^~~~
-         |                           skb
+>> kernel/kcsan/debugfs.c:243:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     243 |                 if (kstrtoul(&arg[strlen("microbench=")], 0, &iters))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:256:6: note: uninitialized use occurs here
+     256 |         if (ret < 0)
+         |             ^~~
+   kernel/kcsan/debugfs.c:243:3: note: remove the 'if' if its condition is always true
+     243 |                 if (kstrtoul(&arg[strlen("microbench=")], 0, &iters))
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     244 |                         return -EINVAL;
+>> kernel/kcsan/debugfs.c:238:13: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     238 |         } else if (!strcmp(arg, "off")) {
+         |                    ^~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:256:6: note: uninitialized use occurs here
+     256 |         if (ret < 0)
+         |             ^~~
+   kernel/kcsan/debugfs.c:238:9: note: remove the 'if' if its condition is always false
+     238 |         } else if (!strcmp(arg, "off")) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+     239 |                 WRITE_ONCE(kcsan_enabled, false);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     240 |         } else if (str_has_prefix(arg, "microbench=")) {
+         |         ~~~~~~
+   kernel/kcsan/debugfs.c:236:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     236 |         if (!strcmp(arg, "on")) {
+         |             ^~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:256:6: note: uninitialized use occurs here
+     256 |         if (ret < 0)
+         |             ^~~
+   kernel/kcsan/debugfs.c:236:2: note: remove the 'if' if its condition is always false
+     236 |         if (!strcmp(arg, "on")) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+     237 |                 WRITE_ONCE(kcsan_enabled, true);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     238 |         } else if (!strcmp(arg, "off")) {
+         |         ~~~~~~
+   kernel/kcsan/debugfs.c:229:13: note: initialize the variable 'ret' to silence this warning
+     229 |         ssize_t ret;
+         |                    ^
+         |                     = 0
+   3 warnings generated.
 
 
-vim +547 drivers/usb/gadget/function/f_eem.c
+vim +243 kernel/kcsan/debugfs.c
 
-   387	
-   388	/*
-   389	 * Remove the EEM header.  Note that there can be many EEM packets in a single
-   390	 * USB transfer, so we need to break them out and handle them independently.
-   391	 */
-   392	static int eem_unwrap(struct gether *port,
-   393				struct sk_buff *skb,
-   394				struct sk_buff_head *list)
-   395	{
-   396		struct usb_composite_dev	*cdev = port->func.config->cdev;
-   397		int				status = 0;
-   398	
-   399		do {
-   400			struct sk_buff	*skb2;
-   401			u16		header;
-   402			u16		len = 0;
-   403	
-   404			if (skb->len < EEM_HLEN) {
-   405				status = -EINVAL;
-   406				DBG(cdev, "invalid EEM header\n");
-   407				goto error;
-   408			}
-   409	
-   410			/* remove the EEM header */
-   411			header = get_unaligned_le16(skb->data);
-   412			skb_pull(skb, EEM_HLEN);
-   413	
-   414			/* EEM packet header format:
-   415			 * b0..14:	EEM type dependent (data or command)
-   416			 * b15:		bmType (0 == data, 1 == command)
-   417			 */
-   418			if (header & BIT(15)) {
-   419				struct usb_request	*req;
-   420				struct in_context	*ctx;
-   421				struct usb_ep		*ep;
-   422				u16			bmEEMCmd;
-   423	
-   424				/* EEM command packet format:
-   425				 * b0..10:	bmEEMCmdParam
-   426				 * b11..13:	bmEEMCmd
-   427				 * b14:		reserved (must be zero)
-   428				 * b15:		bmType (1 == command)
-   429				 */
-   430				if (header & BIT(14))
-   431					continue;
-   432	
-   433				bmEEMCmd = (header >> 11) & 0x7;
-   434				switch (bmEEMCmd) {
-   435				case 0: /* echo */
-   436					len = header & 0x7FF;
-   437					if (skb->len < len) {
-   438						status = -EOVERFLOW;
-   439						goto error;
-   440					}
-   441	
-   442					skb2 = skb_clone(skb, GFP_ATOMIC);
-   443					if (unlikely(!skb2)) {
-   444						DBG(cdev, "EEM echo response error\n");
-   445						goto next;
-   446					}
-   447					skb_trim(skb2, len);
-   448					put_unaligned_le16(BIT(15) | BIT(11) | len,
-   449								skb_push(skb2, 2));
-   450	
-   451					ep = port->in_ep;
-   452					req = usb_ep_alloc_request(ep, GFP_ATOMIC);
-   453					if (!req)
-   454						goto free_skb;
-   455	
-   456					req->buf = kmalloc(skb2->len, GFP_KERNEL);
-   457					if (!req->buf)
-   458						goto free_request;
-   459	
-   460					ctx = kmalloc(sizeof(*ctx), GFP_KERNEL);
-   461					if (!ctx) {
-   462						kfree(req->buf);
-   463						goto free_request;
-   464					}
-   465					ctx->skb = skb2;
-   466					ctx->ep = ep;
-   467	
-   468					skb_copy_bits(skb2, 0, req->buf, skb2->len);
-   469					req->length = skb2->len;
-   470					req->complete = eem_cmd_complete;
-   471					req->zero = 1;
-   472					req->context = ctx;
-   473					if (usb_ep_queue(port->in_ep, req, GFP_ATOMIC))
-   474						DBG(cdev, "echo response queue fail\n");
-   475					break;
-   476	
-   477				case 1:  /* echo response */
-   478				case 2:  /* suspend hint */
-   479				case 3:  /* response hint */
-   480				case 4:  /* response complete hint */
-   481				case 5:  /* tickle */
-   482				default: /* reserved */
-   483					continue;
-   484				}
-   485			} else {
-   486				u32		crc, crc2;
-   487				struct sk_buff	*skb3;
-   488	
-   489				/* check for zero-length EEM packet */
-   490				if (header == 0)
-   491					continue;
-   492	
-   493				/* EEM data packet format:
-   494				 * b0..13:	length of ethernet frame
-   495				 * b14:		bmCRC (0 == sentinel, 1 == calculated)
-   496				 * b15:		bmType (0 == data)
-   497				 */
-   498				len = header & 0x3FFF;
-   499				if ((skb->len < len)
-   500						|| (len < (ETH_HLEN + ETH_FCS_LEN))) {
-   501					status = -EINVAL;
-   502					goto error;
-   503				}
-   504	
-   505				/* validate CRC */
-   506				if (header & BIT(14)) {
-   507					crc = get_unaligned_le32(skb->data + len
-   508								- ETH_FCS_LEN);
-   509					crc2 = ~crc32_le(~0,
-   510							skb->data, len - ETH_FCS_LEN);
-   511				} else {
-   512					crc = get_unaligned_be32(skb->data + len
-   513								- ETH_FCS_LEN);
-   514					crc2 = 0xdeadbeef;
-   515				}
-   516				if (crc != crc2) {
-   517					DBG(cdev, "invalid EEM CRC\n");
-   518					goto next;
-   519				}
-   520	
-   521				skb2 = skb_clone(skb, GFP_ATOMIC);
-   522				if (unlikely(!skb2)) {
-   523					DBG(cdev, "unable to unframe EEM packet\n");
-   524					goto next;
-   525				}
-   526				skb_trim(skb2, len - ETH_FCS_LEN);
-   527	
-   528				skb3 = skb_copy_expand(skb2,
-   529							NET_IP_ALIGN,
-   530							0,
-   531							GFP_ATOMIC);
-   532				if (unlikely(!skb3))
-   533					goto free_skb;
-   534	
-   535				dev_kfree_skb_any(skb2);
-   536				skb_queue_tail(list, skb3);
-   537			}
-   538	next:
-   539			skb_pull(skb, len);
-   540		} while (skb->len);
-   541	
-   542	error:
-   543		dev_kfree_skb_any(skb);
-   544		return status;
-   545	
-   546	free_request:
- > 547		usb_ep_free_request(ep, req);
-   548	free_skb:
- > 549		dev_kfree_skb_any(skb2);
-   550		goto next;
-   551	}
-   552	
+dfd402a4c4baae Marco Elver   2019-11-14  222  
+5cbaefe9743bf1 Ingo Molnar   2019-11-20  223  static ssize_t
+5cbaefe9743bf1 Ingo Molnar   2019-11-20  224  debugfs_write(struct file *file, const char __user *buf, size_t count, loff_t *off)
+dfd402a4c4baae Marco Elver   2019-11-14  225  {
+dfd402a4c4baae Marco Elver   2019-11-14  226  	char kbuf[KSYM_NAME_LEN];
+dfd402a4c4baae Marco Elver   2019-11-14  227  	char *arg;
+43d631bf06ec96 Thorsten Blum 2024-06-24  228  	const size_t read_len = min(count, sizeof(kbuf) - 1);
+52313281c8b7ca Ran Xiaokai   2024-09-25  229  	ssize_t ret;
+dfd402a4c4baae Marco Elver   2019-11-14  230  
+dfd402a4c4baae Marco Elver   2019-11-14  231  	if (copy_from_user(kbuf, buf, read_len))
+dfd402a4c4baae Marco Elver   2019-11-14  232  		return -EFAULT;
+dfd402a4c4baae Marco Elver   2019-11-14  233  	kbuf[read_len] = '\0';
+dfd402a4c4baae Marco Elver   2019-11-14  234  	arg = strstrip(kbuf);
+dfd402a4c4baae Marco Elver   2019-11-14  235  
+dfd402a4c4baae Marco Elver   2019-11-14  236  	if (!strcmp(arg, "on")) {
+dfd402a4c4baae Marco Elver   2019-11-14  237  		WRITE_ONCE(kcsan_enabled, true);
+dfd402a4c4baae Marco Elver   2019-11-14 @238  	} else if (!strcmp(arg, "off")) {
+dfd402a4c4baae Marco Elver   2019-11-14  239  		WRITE_ONCE(kcsan_enabled, false);
+a4e74fa5f0d3e2 Marco Elver   2020-07-31  240  	} else if (str_has_prefix(arg, "microbench=")) {
+dfd402a4c4baae Marco Elver   2019-11-14  241  		unsigned long iters;
+dfd402a4c4baae Marco Elver   2019-11-14  242  
+a4e74fa5f0d3e2 Marco Elver   2020-07-31 @243  		if (kstrtoul(&arg[strlen("microbench=")], 0, &iters))
+dfd402a4c4baae Marco Elver   2019-11-14  244  			return -EINVAL;
+dfd402a4c4baae Marco Elver   2019-11-14  245  		microbenchmark(iters);
+dfd402a4c4baae Marco Elver   2019-11-14  246  	} else if (!strcmp(arg, "whitelist")) {
+52313281c8b7ca Ran Xiaokai   2024-09-25  247  		ret = set_report_filterlist_whitelist(true);
+dfd402a4c4baae Marco Elver   2019-11-14  248  	} else if (!strcmp(arg, "blacklist")) {
+52313281c8b7ca Ran Xiaokai   2024-09-25  249  		ret = set_report_filterlist_whitelist(false);
+dfd402a4c4baae Marco Elver   2019-11-14  250  	} else if (arg[0] == '!') {
+52313281c8b7ca Ran Xiaokai   2024-09-25  251  		ret = insert_report_filterlist(&arg[1]);
+dfd402a4c4baae Marco Elver   2019-11-14  252  	} else {
+dfd402a4c4baae Marco Elver   2019-11-14  253  		return -EINVAL;
+dfd402a4c4baae Marco Elver   2019-11-14  254  	}
+dfd402a4c4baae Marco Elver   2019-11-14  255  
+52313281c8b7ca Ran Xiaokai   2024-09-25  256  	if (ret < 0)
+52313281c8b7ca Ran Xiaokai   2024-09-25  257  		return ret;
+52313281c8b7ca Ran Xiaokai   2024-09-25  258  	else
+dfd402a4c4baae Marco Elver   2019-11-14  259  		return count;
+dfd402a4c4baae Marco Elver   2019-11-14  260  }
+dfd402a4c4baae Marco Elver   2019-11-14  261  
 
 -- 
 0-DAY CI Kernel Test Service
