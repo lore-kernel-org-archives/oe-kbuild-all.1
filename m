@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0F718C002
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 11:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686C3347B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 11:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727350095; cv=none; b=mr5RhEyqyT6bgZhC5OsBRigUYNV4pnZyYYSmhQ9nJfSP2R1x50zk0kSvjMpM76bi6uiiYs7IJ+HJ5Iq2wveq9ggbF8IazGtFDYvnYwHi0GwliLWNPLSJqbrXj6UbWuMq0jj9mxpnshsIt47WG0tO2NZAqOrLL0io2+AHG/Vqpkg=
+	t=1727350756; cv=none; b=qWSAdAr7YCb/mQsrTjIvQj6cBjhniJkXZf6H0euXcEETtbJGDDET8q9KokDa2cnEBuQvCSXkYJkE205LAWNhR2PPuk0zWGKvwZiJkuM1x/BNNsWTEUYBOIpwlmBnNV1MK23tcQMAdakJ6lJJ7IT9rvcpO2OY3b892RsNIhQBljo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727350095; c=relaxed/simple;
-	bh=eqSYkpovMfKJ8kW3CltApStL4jI8vpjPVaAYGlhdKMY=;
+	s=arc-20240116; t=1727350756; c=relaxed/simple;
+	bh=cDwf0sosdWgnNGxpCFsNiapuoGPvqeBjbKGPfpjYstA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RN/7ZHn1XTBwLzOdraPvO4p2Moc13mfN+nDjO/I7HDPmCiMBG8E1KxgXXpCy4kW/SIg9n+qonRO+f49O/1OuoWxyKqShuTbDwoNTuwjwsSGBZPq9Z9XksxBLq4evQf4fZ2e0xedXEnUmEz0w46zyn8MRvcVR4qwBr8QMzP0YAzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d98TgDhz; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=PfOcwmnx26SG7SQNR/WnzTl88zlaIBSDqPOk93dkkgBSKsGxp50ZeVDI0OFhG4Z4YrKBhpL8DI7Ov5EJU/V6vfNc6+fZLJJEGtqO4gJC8if7zUGnveuOghDwcu5lNOXoa//8U+Nm+RwlVpcoK1N7a4i8BBTmkadh33DqmW6SzmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWw/AZ6Z; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d98TgDhz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWw/AZ6Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727350093; x=1758886093;
+  t=1727350753; x=1758886753;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eqSYkpovMfKJ8kW3CltApStL4jI8vpjPVaAYGlhdKMY=;
-  b=d98TgDhz3iw5G/nderf6z5sStVljp0K01uLz5+mYtHFg6a1DO56dvoJd
-   npKvroUnM56FDTtnJTIHlIZBKsM4XC+RBWSBHkFkDrykrlTQwLHwM1+VU
-   GtKfsw+4JuCTP5SG+FjUBU8P1k6XXY7Fiv7Zqj+gnOc89fVk48UAlCmex
-   qjBZtniYWER2rNSWl3Btp7pbfp6w/HyhiAtvOUy74IFmI3BtSrW/VEIwe
-   w1DliUs0s9uKWxyn8m85TFt7vxFoT9zA4EEkc5id0oNHrci1HrDwcG6xt
-   KB92n1Ak3bh1ih80f1X3g9GXj/6DDcT7r0MDEM5JloMaPiYFEY5P9/a8R
-   A==;
-X-CSE-ConnectionGUID: MmAVc5xpRlavapyNXg/lgQ==
-X-CSE-MsgGUID: imTTGtiWS4W/nk4nxrS1Rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26592770"
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="26592770"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 04:28:13 -0700
-X-CSE-ConnectionGUID: IxG84eVbQCimiYtANIOlcw==
-X-CSE-MsgGUID: 7Tg6cxfyTGSQm0WcOdHnhA==
+  bh=cDwf0sosdWgnNGxpCFsNiapuoGPvqeBjbKGPfpjYstA=;
+  b=jWw/AZ6Z3APESIttOSlug3h3cllrcb0ItQpklyVjWNHC0TtAV1QWwSh+
+   MeBKSBvjETVcg+42doOfmqjaG5R8xX6GW2MJLVMJwB+1He0OdgSdxxp2d
+   t3l1+eOPWFG2eWSdhEtZva9733c+520PsdMIplrxzNldcEUEGwlmUA5Az
+   9TUj2ue/yszsThW+8gkh+NIG6TYveKNXeFpZ3W9Z5L0X5ifTJLUrNP1TM
+   PRSJbei5ch7Qz6L4Xy84FK14Ok+hOEpjZTu5Dj7wdEqH9BCWk70W2eXOR
+   lwZoYMw3HoWt9/AKu838/xcbVEAGJKpK1nz1PcUiDl7anuokHvyFLjH5B
+   g==;
+X-CSE-ConnectionGUID: lUeimVuhSke6TFAbIOmmzA==
+X-CSE-MsgGUID: PxnUOlGNTCK4t3X3gka/LQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="43908712"
+X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
+   d="scan'208";a="43908712"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 04:39:13 -0700
+X-CSE-ConnectionGUID: DSupI+IXSPabMBb5arzqpg==
+X-CSE-MsgGUID: /gqk3Uy7Sai4I89ojJjznw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="72201184"
+X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
+   d="scan'208";a="76615969"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Sep 2024 04:28:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Sep 2024 04:39:11 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stmfI-000Kdf-2o;
-	Thu, 26 Sep 2024 11:28:08 +0000
-Date: Thu, 26 Sep 2024 19:27:48 +0800
+	id 1stmpx-000Ke8-0S;
+	Thu, 26 Sep 2024 11:39:09 +0000
+Date: Thu, 26 Sep 2024 19:38:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukul Joshi <mukul.joshi@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Subject: [linux-next:master 12634/12811]
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c:954: warning: Function
- parameter or struct member 'queue_cnt' not described in 'get_wave_count'
-Message-ID: <202409261959.rMXKsRHU-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: drivers/ata/pata_buddha.c:75:27: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202409261948.Zj19OPgQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,73 +63,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   92fc9636d1471b7f68bfee70c776f7f77e747b97
-commit: 6ae9e1aba97e4cdaa31a0bfdc07497ad0e915c84 [12634/12811] drm/amdkfd: Update logic for CU occupancy calculations
-config: x86_64-randconfig-r062-20240327 (https://download.01.org/0day-ci/archive/20240926/202409261959.rMXKsRHU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409261959.rMXKsRHU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   11a299a7933e03c83818b431e6a1c53ad387423d
+commit: c7db3832ff19a9a1116c1b3d435c9db165a2f2f8 m68k: io: Mark mmio read addresses as const
+date:   12 months ago
+config: m68k-randconfig-r121-20240926 (https://download.01.org/0day-ci/archive/20240926/202409261948.Zj19OPgQ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240926/202409261948.Zj19OPgQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409261959.rMXKsRHU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409261948.Zj19OPgQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/ata/pata_buddha.c:75:27: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/ata/pata_buddha.c:75:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_buddha.c:75:27: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_buddha.c:75:27: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_buddha.c:77:28: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_buddha.c:77:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_buddha.c:77:28: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_buddha.c:77:28: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_buddha.c:87:35: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_buddha.c:87:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_buddha.c:87:35: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_buddha.c:87:35: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_buddha.c:91:36: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_buddha.c:91:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_buddha.c:91:36: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_buddha.c:91:36: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_buddha.c:236:37: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_buddha.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+   drivers/ata/pata_gayle.c:53:27: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/ata/pata_gayle.c:53:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_gayle.c:53:27: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_gayle.c:53:27: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_gayle.c:55:28: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_gayle.c:55:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_gayle.c:55:28: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_gayle.c:55:28: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_gayle.c:65:35: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_gayle.c:65:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_gayle.c:65:35: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_gayle.c:65:35: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_gayle.c:69:36: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_gayle.c:69:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short volatile [noderef] [usertype] __iomem *port @@     got unsigned short [usertype] * @@
+   drivers/ata/pata_gayle.c:69:36: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *port
+   drivers/ata/pata_gayle.c:69:36: sparse:     got unsigned short [usertype] *
+   drivers/ata/pata_gayle.c:181:29: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/ata/pata_gayle.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c:954: warning: Function parameter or struct member 'queue_cnt' not described in 'get_wave_count'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c:954: warning: Excess function parameter 'wave_cnt' description in 'get_wave_count'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c:954: warning: Excess function parameter 'vmid' description in 'get_wave_count'
+vim +75 drivers/ata/pata_buddha.c
 
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  62  
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  63  /* FIXME: is this needed? */
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  64  static unsigned int pata_buddha_data_xfer(struct ata_queued_cmd *qc,
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  65  					 unsigned char *buf,
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  66  					 unsigned int buflen, int rw)
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  67  {
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  68  	struct ata_device *dev = qc->dev;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  69  	struct ata_port *ap = dev->link->ap;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  70  	void __iomem *data_addr = ap->ioaddr.data_addr;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  71  	unsigned int words = buflen >> 1;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  72  
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  73  	/* Transfer multiple of 2 bytes */
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  74  	if (rw == READ)
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07 @75  		raw_insw((u16 *)data_addr, (u16 *)buf, words);
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  76  	else
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  77  		raw_outsw((u16 *)data_addr, (u16 *)buf, words);
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  78  
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  79  	/* Transfer trailing byte, if any. */
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  80  	if (unlikely(buflen & 0x01)) {
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  81  		unsigned char pad[2] = { };
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  82  
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  83  		/* Point buf to the tail of buffer */
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  84  		buf += buflen - 1;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  85  
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  86  		if (rw == READ) {
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  87  			raw_insw((u16 *)data_addr, (u16 *)pad, 1);
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  88  			*buf = pad[0];
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  89  		} else {
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  90  			pad[0] = *buf;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  91  			raw_outsw((u16 *)data_addr, (u16 *)pad, 1);
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  92  		}
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  93  		words++;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  94  	}
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  95  
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  96  	return words << 1;
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  97  }
+740c68a0cd42aa Bartlomiej Zolnierkiewicz 2019-02-07  98  
 
-vim +954 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+:::::: The code at line 75 was first introduced by commit
+:::::: 740c68a0cd42aab21ad9aaae092ff8a2215966b1 ata: add Buddha PATA controller driver
 
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  939  
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  940  /**
-1fdbbc123f55de Fabio M. De Francesco 2021-04-23  941   * get_wave_count: Read device registers to get number of waves in flight for
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  942   * a particular queue. The method also returns the VMID associated with the
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  943   * queue.
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  944   *
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  945   * @adev: Handle of device whose registers are to be read
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  946   * @queue_idx: Index of queue in the queue-map bit-field
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  947   * @wave_cnt: Output parameter updated with number of waves in flight
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  948   * @vmid: Output parameter updated with VMID of queue whose wave count
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  949   *        is being collected
-3eeb0d037a5435 Srinivasan Shanmugam  2023-05-30  950   * @inst: xcc's instance number on a multi-XCC setup
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  951   */
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  952  static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  953  		struct kfd_cu_occupancy *queue_cnt, uint32_t inst)
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29 @954  {
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  955  	int pipe_idx;
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  956  	int queue_slot;
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  957  	unsigned int reg_val;
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  958  	unsigned int wave_cnt;
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  959  	/*
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  960  	 * Program GRBM with appropriate MEID, PIPEID, QUEUEID and VMID
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  961  	 * parameters to read out waves in flight. Get VMID if there are
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  962  	 * non-zero waves in flight.
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  963  	 */
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  964  	pipe_idx = queue_idx / adev->gfx.mec.num_queue_per_pipe;
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  965  	queue_slot = queue_idx % adev->gfx.mec.num_queue_per_pipe;
-e2069a7b0880cc Mukul Joshi           2022-05-09  966  	soc15_grbm_select(adev, 1, pipe_idx, queue_slot, 0, inst);
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  967  	reg_val = RREG32_SOC15_IP(GC, SOC15_REG_OFFSET(GC, inst,
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  968  				  mmSPI_CSQ_WF_ACTIVE_COUNT_0) + queue_slot);
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  969  	wave_cnt = reg_val & SPI_CSQ_WF_ACTIVE_COUNT_0__COUNT_MASK;
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  970  	if (wave_cnt != 0) {
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  971  		queue_cnt->wave_cnt += wave_cnt;
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  972  		queue_cnt->doorbell_off =
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  973  			(RREG32_SOC15(GC, inst, mmCP_HQD_PQ_DOORBELL_CONTROL) &
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  974  			 CP_HQD_PQ_DOORBELL_CONTROL__DOORBELL_OFFSET_MASK) >>
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  975  			 CP_HQD_PQ_DOORBELL_CONTROL__DOORBELL_OFFSET__SHIFT;
-6ae9e1aba97e4c Mukul Joshi           2024-09-16  976  	}
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  977  }
-43a4bc828c5b15 Ramesh Errabolu       2020-09-29  978  
-
-:::::: The code at line 954 was first introduced by commit
-:::::: 43a4bc828c5b156f08024fd0a966c5c2a3f09af1 drm/amd/amdgpu: Define and implement a function that collects number of waves that are in flight.
-
-:::::: TO: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
