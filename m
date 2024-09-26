@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEFB1552E4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 16:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E975C522A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 16:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727366794; cv=none; b=my0T/6DHHfzPR0NPp7cq3+jCsCqRtb+e9xKtBSEUySh8ITNHIa61Lf/j4YCkEnFg1j/0tzZtGK0wKxAMr5/sYMX8AbhSZ2kSTTEV7Drwze57P953NUcq0aE3m4olzeQ4nDM49r3I7cML1AzPYA23JSKzkiCGkAPuzNM0zaefecs=
+	t=1727368058; cv=none; b=hez18rrGXbE2fMXC0GDp7KqZhfiNzIGjUbllbf22hhzMC11sfR+Hb5Wwm7ds9axwI+hm0QcpT8XQbBraFzd8R/expYmca9Rm4tQE4BDaDKPq5lr8tK3NAd9BYbtfZ+ddqXbwvhsktmQNADKHSLT4FHwRE/osh/6I2emxg6Gozi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727366794; c=relaxed/simple;
-	bh=5gXN89gY9zRr+iSqIH/dJe1+mWVedRXUKzsADSjC5Fg=;
+	s=arc-20240116; t=1727368058; c=relaxed/simple;
+	bh=AD9BbJN250tRx80ZVYcP6ErmsRGSXHBwNXtzmDe2DfU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CDb0X32hs3j1aQS0hMOkenXicJhPw+G3clkygIiaMRFJGOG433w8JEk7Y8nn9n7Ux6HXdFbjkAXmMVwp1w4/hVLdcdSbFuFCTl8w+D0F9CJfwKmtCu+QPjC5gxrOW5HS1GVc9nU7Ngh2uK28JD2u4hfqp51b1193X2XSjnCQ+vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9JoGXoZ; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=vA3opJE1MmBne30BZ+ZnkfU9SNSiPgNSq90bwr7ftL1HOCflsuAVvXd+qNe+k+w5I9rgC/0mzKxIDGyAJ380EXYBYp6IZd0Q+i3VeAjL6hMdRzvWWYc+YA5ENUkzoie4w0qgveNB9JzZmA7sOrnBaDJBbuiXvScDJKv2MLAahSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Clb5lFAA; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9JoGXoZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Clb5lFAA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727366792; x=1758902792;
+  t=1727368056; x=1758904056;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5gXN89gY9zRr+iSqIH/dJe1+mWVedRXUKzsADSjC5Fg=;
-  b=N9JoGXoZ6n7Hlj17v1Pvuhunw5o+RabhlWr1TSzdwW04PYJmAYkwB0k9
-   hHfkbYPCw6vYsFg3z7IAnXMvm8G8J2vXSItCwvphOh243QBNx+0VZexiJ
-   ZRAPCRF21eGh4WgNBkcyL2N6xofnOHYEhdVUnVVBeD/i8+NY091+YYaLW
-   3jDjVTG9CEgzJOKa70u+/Q45rzD37t5dq+fE4iLpKvnRriZPGb9a9ZnxE
-   n6e5t5Z00mC+FRO/E+m+ZG8NA7jqgmS7jtSv6XhfRWXFgsSADSNUyKWRe
-   sELusuWKHzhwxcMmXt9G2254JVfG+hcjphQGbIQFVdGtilwiUOpPMEYuS
+  bh=AD9BbJN250tRx80ZVYcP6ErmsRGSXHBwNXtzmDe2DfU=;
+  b=Clb5lFAAYV0LTiydJ2TITNwIcV0NdQTLkeHP2M9iIC9rCZ3BopmTCZVm
+   44ynGqWdomLkazumP85ZBKa7/cbtLV/VAc4zLnhkRng7Goj169Y7U13S/
+   fJOs4/InTCfQqN04MNqqULouMW2XwbJRTKzzWWIy/6UL4tG3YZisSSm6B
+   cMC03kCiZfiJmoweJinm86ltX/5YW1yTE4QLjpiTQJirVGFBXhSrdg6oc
+   d5BG6g/bPtyYOX9AJQIr5zg8tPCLXrXkZIuxQQaCL+15SLjELlGrgEK5B
+   dpSBhf8eoGYbk/udfew4kXZuI9JmVQDJ6gM3Z2YYoZ+O9VuscYecAyiIe
    g==;
-X-CSE-ConnectionGUID: 0r2iEFCmQSmHA962SoQzoA==
-X-CSE-MsgGUID: NOPj5WYdTBmUIgnUjaSWdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="25982712"
-X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
-   d="scan'208";a="25982712"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 09:06:30 -0700
-X-CSE-ConnectionGUID: 2iiiNbjqRAq95D0tNZc7LA==
-X-CSE-MsgGUID: 35p7xD4CS1uS3B9GbnflLA==
+X-CSE-ConnectionGUID: +ycMfLSOTv2qYNQ+qeD8fQ==
+X-CSE-MsgGUID: V2qzIt4lTTWArIIW4Tr3Qg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37062779"
+X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
+   d="scan'208";a="37062779"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 09:27:34 -0700
+X-CSE-ConnectionGUID: tyvRWy6qR06vVyUck0M/CA==
+X-CSE-MsgGUID: lOtCjtRnS826XXGlLjosbg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
-   d="scan'208";a="72526441"
+X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
+   d="scan'208";a="77146769"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Sep 2024 09:06:27 -0700
+  by orviesa004.jf.intel.com with ESMTP; 26 Sep 2024 09:27:32 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1str0b-000Kuv-0S;
-	Thu, 26 Sep 2024 16:06:25 +0000
-Date: Fri, 27 Sep 2024 00:05:42 +0800
+	id 1strL0-000Kvv-0z;
+	Thu, 26 Sep 2024 16:27:30 +0000
+Date: Fri, 27 Sep 2024 00:26:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 232/2443]
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:728:31: error: 'struct device' has
- no member named 'iommu_fwspec'
-Message-ID: <202409262306.PD5PWMZv-lkp@intel.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Subject: [esmil:d1-6.11.y 38/47]
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:411:9: sparse: sparse: dereference of
+ noderef expression
+Message-ID: <202409270009.HCTBZYuM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,149 +64,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   9d665359e14c559b74a94a55057e9c0fbd31a81a
-commit: af26f4f021e66233136ec1ec03363a08cbef4da0 [232/2443] iommu: Move iommu_fwspec to struct dev_iommu
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240926/202409262306.PD5PWMZv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409262306.PD5PWMZv-lkp@intel.com/reproduce)
+tree:   https://github.com/esmil/linux d1-6.11.y
+head:   d99b769766ff1b1ced32d8d279d28e581e02fa9d
+commit: 9138f6343e92d64026f76f1e0b5bccb5fc3d342d [38/47] [HACK] drm/sun4i: Copy in BSP code for D1 HDMI PHY
+config: hexagon-randconfig-r111-20240926 (https://download.01.org/0day-ci/archive/20240927/202409270009.HCTBZYuM-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce: (https://download.01.org/0day-ci/archive/20240927/202409270009.HCTBZYuM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409262306.PD5PWMZv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409270009.HCTBZYuM-lkp@intel.com/
 
-Note: the opencloudos/linux-5.4/lts/5.4.119-20.0009.spr HEAD 9d665359e14c559b74a94a55057e9c0fbd31a81a builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:411:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:412:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:413:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:414:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:415:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:417:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:421:26: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:432:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:435:26: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:446:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:447:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:448:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:449:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:450:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:454:26: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:479:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:482:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:483:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:484:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:485:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:486:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:487:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:488:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:489:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:490:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:491:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:492:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:493:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:494:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:495:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:498:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:499:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:500:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:501:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:502:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:503:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:504:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:505:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:506:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:507:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:508:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:511:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:512:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:513:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:514:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:515:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:516:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:518:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:519:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:520:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:521:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:522:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:523:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:527:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:527:38: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:528:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:528:38: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:529:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:529:38: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:530:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:530:38: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:535:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:536:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:537:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:538:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:539:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:540:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:541:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:546:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:547:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:548:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:549:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:550:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:557:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:558:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:559:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:560:9: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c:561:9: sparse: sparse: dereference of noderef expression
 
-All errors (new ones prefixed by >>):
+vim +411 drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
 
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:310:5: warning: no previous prototype for 'mdp5_disable' [-Wmissing-prototypes]
-     310 | int mdp5_disable(struct mdp5_kms *mdp5_kms)
-         |     ^~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:326:5: warning: no previous prototype for 'mdp5_enable' [-Wmissing-prototypes]
-     326 | int mdp5_enable(struct mdp5_kms *mdp5_kms)
-         |     ^~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c: In function 'modeset_init':
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:469:35: warning: variable 'hw_cfg' set but not used [-Wunused-but-set-variable]
-     469 |         const struct mdp5_cfg_hw *hw_cfg;
-         |                                   ^~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c: In function 'mdp5_kms_init':
->> drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:728:31: error: 'struct device' has no member named 'iommu_fwspec'
-     728 |                 if (!iommu_dev->iommu_fwspec)
-         |                               ^~
-
-
-vim +728 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-
-e2dd9f9ffa7fff drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2015-10-26  677  
-06c0dd96bfbba8 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2013-11-30  678  struct msm_kms *mdp5_kms_init(struct drm_device *dev)
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  679  {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  680  	struct msm_drm_private *priv = dev->dev_private;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  681  	struct platform_device *pdev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  682  	struct mdp5_kms *mdp5_kms;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  683  	struct mdp5_cfg *config;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  684  	struct msm_kms *kms;
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-09-28  685  	struct msm_gem_address_space *aspace;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  686  	int irq, i, ret;
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo        2019-07-08  687  	struct device *iommu_dev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  688  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  689  	/* priv->kms would have been populated by the MDP5 driver */
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  690  	kms = priv->kms;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  691  	if (!kms)
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  692  		return NULL;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  693  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  694  	mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  695  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  696  	mdp_kms_init(&mdp5_kms->base, &kms_funcs);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  697  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  698  	pdev = mdp5_kms->pdev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  699  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  700  	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  701  	if (irq < 0) {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  702  		ret = irq;
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla        2018-10-20  703  		DRM_DEV_ERROR(&pdev->dev, "failed to get irq: %d\n", ret);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  704  		goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  705  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  706  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  707  	kms->irq = irq;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  708  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  709  	config = mdp5_cfg_get_config(mdp5_kms->cfg);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  710  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  711  	/* make sure things are off before attaching iommu (bootloader could
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  712  	 * have left things on, in which case we'll start getting faults if
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  713  	 * we don't disable):
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  714  	 */
-d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2017-07-28  715  	pm_runtime_get_sync(&pdev->dev);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  716  	for (i = 0; i < MDP5_INTF_NUM_MAX; i++) {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  717  		if (mdp5_cfg_intf_is_virtual(config->hw->intf.connect[i]) ||
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  718  		    !config->hw->intf.base[i])
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  719  			continue;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  720  		mdp5_write(mdp5_kms, REG_MDP5_INTF_TIMING_ENGINE_EN(i), 0);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  721  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  722  		mdp5_write(mdp5_kms, REG_MDP5_INTF_FRAME_LINE_COUNT_EN(i), 0x3);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  723  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  724  	mdelay(16);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  725  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  726  	if (config->platform.iommu) {
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo        2019-07-08  727  		iommu_dev = &pdev->dev;
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo        2019-07-08 @728  		if (!iommu_dev->iommu_fwspec)
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo        2019-07-08  729  			iommu_dev = iommu_dev->parent;
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo        2019-07-08  730  
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo        2019-07-08  731  		aspace = msm_gem_address_space_create(iommu_dev,
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-09-28  732  				config->platform.iommu, "mdp5");
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-09-28  733  		if (IS_ERR(aspace)) {
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-09-28  734  			ret = PTR_ERR(aspace);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  735  			goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  736  		}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  737  
-f59f62d592a055 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2017-06-13  738  		kms->aspace = aspace;
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-09-28  739  
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-09-28  740  		ret = aspace->mmu->funcs->attach(aspace->mmu, iommu_ports,
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  741  				ARRAY_SIZE(iommu_ports));
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  742  		if (ret) {
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla        2018-10-20  743  			DRM_DEV_ERROR(&pdev->dev, "failed to attach iommu: %d\n",
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  744  				ret);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  745  			goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  746  		}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  747  	} else {
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla        2018-10-20  748  		DRM_DEV_INFO(&pdev->dev,
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  749  			 "no iommu, fallback to phys contig buffers for scanout\n");
-52a8988de97f5e drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Luis de Bethencourt 2018-01-17  750  		aspace = NULL;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  751  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  752  
-3c352b66905b29 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2017-10-20  753  	pm_runtime_put_sync(&pdev->dev);
-d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2017-07-28  754  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  755  	ret = modeset_init(mdp5_kms);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  756  	if (ret) {
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla        2018-10-20  757  		DRM_DEV_ERROR(&pdev->dev, "modeset_init failed: %d\n", ret);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  758  		goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  759  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  760  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  761  	dev->mode_config.min_width = 0;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  762  	dev->mode_config.min_height = 0;
-9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-11-05  763  	dev->mode_config.max_width = 0xffff;
-9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark           2016-11-05  764  	dev->mode_config.max_height = 0xffff;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  765  
-1bf6ad622b9be5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Daniel Vetter       2017-05-09  766  	dev->driver->get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  767  	dev->driver->get_scanout_position = mdp5_get_scanoutpos;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  768  	dev->driver->get_vblank_counter = mdp5_get_vblank_counter;
-2bab52af6fe68c drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Brian Masney        2019-05-31  769  	dev->max_vblank_count = 0; /* max_vblank_count is set on each CRTC */
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  770  	dev->vblank_disable_immediate = true;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  771  
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  772  	return kms;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  773  fail:
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  774  	if (kms)
-392ae6e0efa5e2 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  775  		mdp5_kms_destroy(kms);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  776  	return ERR_PTR(ret);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  777  }
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja       2016-06-14  778  
-
-:::::: The code at line 728 was first introduced by commit
-:::::: 518304cbf3b2452e1e592e06bed65baced0a530d drm/msm/mdp5: Find correct node for creating gem address space
-
-:::::: TO: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-:::::: CC: Rob Clark <robdclark@chromium.org>
+   403	
+   404	static int sun20i_d1_hdmi_phy_enable(volatile struct __aw_phy_reg_t __iomem *phy_base)
+   405	{
+   406		int i = 0, status = 0;
+   407	
+   408		pr_info("enter %s\n", __func__);
+   409	
+   410		//enib -> enldo -> enrcal -> encalog -> enbi[3:0] -> enck -> enp2s[3:0] -> enres -> enresck -> entx[3:0]
+ > 411		phy_base->phy_ctl4.bits.reg_slv = 4;     //low power voltage 1.08V, default is 3, set 4 as well as pll_ctl0 bit [24:26]
+   412		phy_base->phy_ctl5.bits.enib = 1;
+   413		phy_base->phy_ctl0.bits.enldo = 1;
+   414		phy_base->phy_ctl0.bits.enldo_fs = 1;
+   415		phy_base->phy_ctl5.bits.enrcal = 1;
+   416	
+   417		phy_base->phy_ctl5.bits.encalog = 1;
+   418	
+   419		for (i = 0; i < AW_PHY_TIMEOUT; i++) {
+   420			udelay(5);
+   421			status = phy_base->phy_pll_sts.bits.phy_rcalend2d_status;
+   422			if (status & 0x1) {
+   423				pr_info("[%s]:phy_rcalend2d_status\n", __func__);
+   424				break;
+   425			}
+   426		}
+   427		if ((i == AW_PHY_TIMEOUT) && !status) {
+   428			pr_err("phy_rcalend2d_status Timeout !\n");
+   429			return -1;
+   430		}
+   431	
+   432		phy_base->phy_ctl0.bits.enbi = 0xF;
+   433		for (i = 0; i < AW_PHY_TIMEOUT; i++) {
+   434			udelay(5);
+   435			status = phy_base->phy_pll_sts.bits.pll_lock_status;
+   436			if (status & 0x1) {
+   437				pr_info("[%s]:pll_lock_status\n", __func__);
+   438				break;
+   439			}
+   440		}
+   441		if ((i == AW_PHY_TIMEOUT) && !status) {
+   442			pr_err("pll_lock_status Timeout! status = 0x%x\n", status);
+   443			return -1;
+   444		}
+   445	
+   446		phy_base->phy_ctl0.bits.enck = 1;
+   447		phy_base->phy_ctl5.bits.enp2s = 0xF;
+   448		phy_base->phy_ctl5.bits.enres = 1;
+   449		phy_base->phy_ctl5.bits.enresck = 1;
+   450		phy_base->phy_ctl0.bits.entx = 0xF;
+   451	
+   452		for (i = 0; i < AW_PHY_TIMEOUT; i++) {
+   453			udelay(5);
+   454			status = phy_base->phy_pll_sts.bits.tx_ready_dly_status;
+   455			if (status & 0x1) {
+   456				pr_info("[%s]:tx_ready_status\n", __func__);
+   457				break;
+   458			}
+   459		}
+   460		if ((i == AW_PHY_TIMEOUT) && !status) {
+   461			pr_err("tx_ready_status Timeout ! status = 0x%x\n", status);
+   462			return -1;
+   463		}
+   464	
+   465		return 0;
+   466	}
+   467	
 
 -- 
 0-DAY CI Kernel Test Service
