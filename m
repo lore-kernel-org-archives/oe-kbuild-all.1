@@ -1,89 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC01215B543
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 20:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28F9187850;
+	Thu, 26 Sep 2024 21:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727383365; cv=none; b=DpH5ZAa0tEVyjMhHGSnJJeDUw4t0YWF6BQ5cT/Os/ibToWoXIl/E1tMViivAXVdmoNNgn4UYbq5KUpGFVr4c5midMcIylKyAaU9kArsA2p4S1w6AIgW7sFDUpirRF/25Q5Rmw1Qj4V9DSEag65nsCZGuGQyLopy5lG5Me/Nmkv4=
+	t=1727385547; cv=none; b=MIgvxBQfIatvTCer5bj9xmgzxtskbNtxtXcyBKOf0TSiAY94Dp7VVDMoKUXANddmru1qEL4+dVirugrX6y7WOiereU3XSq94zgq3COyiNJh46c5HWPVeWWTDDdbii5dKajnnHFtFuPvQCrnTHWC8CYUN0UbSsZzuDKXKoY1E1q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727383365; c=relaxed/simple;
-	bh=14wRSg/2y16ccuejLI68J87uo/D1IRgi0UoTJ2Vncdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fEsuHSATQv+42g3WU5HU3K6qK6aWXUsfqaH9lUL1yDKdTvZyshQpWXxJQQDqozPORjvqYrzz1GdyENu7hS54c07HTnrzifQeFpP3zQGqQFia98SQffr4nZTgMx8DCDAhq9PsgiLBBk+5PUJBKg4UQ1DguehbO+exvLhCIr61WZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZOKs6n5; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727385547; c=relaxed/simple;
+	bh=AvcDnkUmv2DqPh64tRKzMWvmnXubSlYFjN4hVlRNLk0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VHP+pNWd3bJmuBCHdf2wF46p2Te+n5xXyGmRxP9TqmMcbUruXdn+bX4gojl94YlIaDkTm3cAjxlkK3gGKHyqpt4AMsm7+3GpVG4ZWs5yPr5lEZXes9/pwBaGsPcO1mEDcwwpyoqDsD5PNcTglG18MKE2XbbREHjhsu4+BIspjxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ODCt56/b; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZOKs6n5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727383363; x=1758919363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=14wRSg/2y16ccuejLI68J87uo/D1IRgi0UoTJ2Vncdw=;
-  b=YZOKs6n54qcpPnlBesQ2/S0iLI7BRvUQeXODH+RSvJJV7Rc0XmBy/x/x
-   dWzqBWl52V/2w4K7Xa3Wb1NiHyHrumFeFItfGO8tEcJaAa7MW2Bu1rYxe
-   JF7j7c6QXbyvvg0EzecwChlt54HOpoQxP+ggazMTSBzhQWrH4P/U4+w6E
-   ucOku4PLujuYLhYSGkB0vP9Qsks8jcdV3fO0gTioB3uSn84BJ9pNEcoww
-   1APYLm65cRa+igBNwKoNcIkIQlMqqtScvnC6klqdVIg4CBdVIHPxZaB4r
-   D4qovo/QPB86fM2EdeI2y9E6jz0tGvmoBmUKbSjw20A1cnevYFHmP+buA
-   w==;
-X-CSE-ConnectionGUID: zrSS2iaOTyuK6gXZb1clRg==
-X-CSE-MsgGUID: G+SYJthLRXqa493y9Ym19w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="25981676"
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="25981676"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 13:42:43 -0700
-X-CSE-ConnectionGUID: tpPwMKm+QZi5JbWyBGUD0Q==
-X-CSE-MsgGUID: SMem/xFSQl+XpV6N/iWYYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="71970894"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Sep 2024 13:42:42 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stvJv-000LBB-21;
-	Thu, 26 Sep 2024 20:42:39 +0000
-Date: Fri, 27 Sep 2024 04:41:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Drew Fustini <dfustini@tenstorrent.com>,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-	linux-doc@vger.kernel.org
-Subject: [pdp7:b4/th1520-dwmac 10/12] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/net/thead,dwmac.yaml
-Message-ID: <202409270406.No2vpr3D-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ODCt56/b"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7dafb321dbcso41704a12.1;
+        Thu, 26 Sep 2024 14:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727385545; x=1727990345; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jiL/43w7xPDMaXqaTLOfu6ipmJ7ueyEd94vFcLFVt94=;
+        b=ODCt56/b1xYK9NNfWyw+7AXzGZRHpIV3swkJ2OiEpIA+3HyZWbp7Aa6PM7GhiDZZ/T
+         EtqMDdczdJAa45+qpDikEASmOm5wgjSeAwSuBhTuGt15e0r9R5G0dg5w+LjkCMO2Ijfh
+         aehtQW99oOYwO5jHjaz7FAoZH/s+d8Ie4qI7AgovL/4FnNXYlYf2JauvxjJC7qgCvjsK
+         C45ibbMDl6CW/UGCs0/wLp5HlNDXcGGSIypVKE8LDhxxUobvQk7SX8h8VE1HceXD6Oou
+         r/WHhOlqrhqai8i67WvhuoArAWdULO63kmzKMalIeACiV2QhJ0f11pePvk5FpaNYil6L
+         L6hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727385545; x=1727990345;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jiL/43w7xPDMaXqaTLOfu6ipmJ7ueyEd94vFcLFVt94=;
+        b=qVFb575X/wN0SDYdQ81yqAFKDydKO38sHFHeO4YFXhoZIePOV8SexSIlvX+CfHDQsS
+         qrrc1f2QTqdllvNI3xUSoqVZ/1hdrdMUQxP57FxPzowETYPQZT5htewTxExGNlXcPrQw
+         JB4iRkiExQL+N1Zz+GnitvIgONav373EdKRk5Eriudh9jg2kQMMN0Bpwtr6rDLSP+aEZ
+         1OGAbn7mw9gy9fYmn25DAZh+DwayTs5kFWOA24YXJ4fZZgtELfg6xw7lfYvyFeo+jUNU
+         l3XaSTDDZPT4QAPtZEd/NieYuY768DvTbrgXX87fxcry7f8b34GErjALd+3WMk2osYvz
+         xKMg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeobniT7tuQzu4G62xkoyKQDm30Qdd6XQsshzLlSqmhDt/OwltqAcoicNpGseXSHNYmVfk@lists.linux.dev, AJvYcCWWsNttd58XZ1gpyHGCl5TNXkMkQcGxrkiF7mDKT8r7kBViHlYFX9/3IHqwi7tCuuqTOXYh7ewa/1AUTOHayQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVEvwCz3sppUFqZjnCnt67sB658qn61YwXF6TXNk4TJQK4my6Z
+	F+lGhDI24T2jAfCNvZgdBLKVqAPOOhnrJt7JmIkIq5QdGfTAHp6NUWgi3G02Qy5yibju92KqacJ
+	AdRX5fdxci1ktXoIYKP9KCOdLQkY=
+X-Google-Smtp-Source: AGHT+IE6Z5Ugs5d9ud90HsPwabxzrmKDL6pJfCR6F+I4Hb2fAl23W6NAluXCqFPTFKmt/02r4eYWF2KDbgYnvtdh4g4=
+X-Received: by 2002:a05:6a20:8415:b0:1cf:46ff:973d with SMTP id
+ adf61e73a8af0-1d4fa78e94fmr838750637.9.1727385545304; Thu, 26 Sep 2024
+ 14:19:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202409160804.eSg9zh1e-lkp@intel.com> <20240916003347.1744345-1-gary@garyguo.net>
+In-Reply-To: <20240916003347.1744345-1-gary@garyguo.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 26 Sep 2024 23:18:50 +0200
+Message-ID: <CANiq72=qRGkXJoTin69KDgz0YHDaY8uB0vfX=GDZeR7TbhaTdA@mail.gmail.com>
+Subject: Re: [PATCH] rust: fix `ARCH_SLAB_MINALIGN` multiple definition error
+To: Gary Guo <gary@garyguo.net>
+Cc: lkp@intel.com, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, conor.dooley@microchip.com, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, palmer@rivosinc.com, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/pdp7/linux b4/th1520-dwmac
-head:   c4e5c0b7aa139b5a6bfc8f2a3f6f6901d3dfcac3
-commit: 0c2865dfa6aa9fb67ef9b12cf723cce6fa46e959 [10/12] dt-bindings: net: Add T-HEAD dwmac support
-reproduce: (https://download.01.org/0day-ci/archive/20240927/202409270406.No2vpr3D-lkp@intel.com/reproduce)
+On Mon, Sep 16, 2024 at 1:09=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+>
+> We use const helpers in form of
+>
+>     const size_t RUST_CONST_HELPER_ARCH_SLAB_MINALIGN =3D ARCH_SLAB_MINAL=
+IGN;
+>
+> to aid generation of constants by bindgen because it is otherwise a
+> macro definition of an expression and bindgen doesn't expand the
+> constant. The helpers are then have `RUST_CONST_HELPER` prefix stripped
+> and exposed to Rust code as if `ARCH_SLAB_MISALIGN` is generated
+> natively by bindgen.
+>
+> This works well for most constants, but on RISC-V, `ARCH_SLAB_MINALIGN`
+> is defined directly as literal constant if `!CONFIG_MMU`, and bindgen
+> would generate `ARCH_SLAB_MINALIGN` directly, thus conflict with the
+> one generated through the helper.
+>
+> To fix this, we simply need to block bindgen from generating directly
+> without going through helper.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202409160804.eSg9zh1e-lkp@i=
+ntel.com/
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409270406.No2vpr3D-lkp@intel.com/
+Applied to `rust-fixes` -- thanks!
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/net/thead,dwmac.yaml
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
