@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B2A14A4E9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 14:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0694D599;
+	Thu, 26 Sep 2024 14:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727360602; cv=none; b=nb957NoARfyZChqpoSE+eKrDsaRCD6cJAw01abY8LtohXSamo/a4n/5eUojkc1jlzN1/UefA3++cn2mTQMnOdCLGr+UvGCql/pbEkBumldtj0OiBF73Wr1OJb+EPLRB9JBHNMTV+AcJ3F9jjKRmqcC7ioEywD9YUbbR2UrFYJTA=
+	t=1727361208; cv=none; b=YX4y+hbL6+T/QMww8u5d6zdwjkgXxyQaEpGH1dnkFt2jvqNwEEhybIYMXyGHXw2dZImbPrThGq/w5J7U6PxcBqcSgjNZfIEtDCg/Jo+EItIzy+G3fdT1DXWD6mKLd+NbKgPf/rdbHIAwQ1QRjtLn8cfXmJclha18cDZ2eBwcnEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727360602; c=relaxed/simple;
-	bh=XtqOLIdUR3x/UfMY0vCPDY01gWRLFcC57uTV5m6aJVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B23CdBOg2H+bsBlt5xY36jk8mM7GK9fFRsJW43BBuDZ6ffWCfHCkQ18MbiB5frUHPghGK3PP4R4QAc7+9Iotn09PCWpGsl+mcRZvfCRCuYdk9GD0L9Mu9kC1gU176eVobUazY40Tsz5icSSX4lN/lJjFqU1eGLVyrsK7xXXlAWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j4SOv0NH; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1727361208; c=relaxed/simple;
+	bh=I7RjqxILvX5nM6Bur27oArvs62ir65ZtC4vP5appnfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XGtd7rCx6hcb1mlB/KJsFbtYacE05zd3rMaFZYa8LMAKZ3WTggA6RGufjGk2VyATi+3M6EC0uwwXFuKkPEKEdhRbafg7Go5SY19MSYdFrasWOnoVbjrlwbaky2wydeWM80svjE/XH5XQPnAIcKOA+vWdPc8LXIvTiBC4Ja8bMN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O7ZsCnRd; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j4SOv0NH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O7ZsCnRd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727360600; x=1758896600;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XtqOLIdUR3x/UfMY0vCPDY01gWRLFcC57uTV5m6aJVY=;
-  b=j4SOv0NHsyf0pOnsMb//P3VqLYHspzz/KX1k9a3rA1ySGgsz/PSjHA7Q
-   jUk6SGtQl8lrO+8YumYMZg/UB0ir5CjURQI63k8qSA5oHw5jEcHwtC69T
-   rbn0XcQMG6ovdBieKg8MHfjW5Z4+43wMPFbgqvnpyb9Ow+vWYY5MkrSKR
-   WrEWnnhOstgInWPvTewF09ATloOK5TRqr1w/cCc6CPB9Tc7Pd7Xmm16g4
-   BrqyDTKGhY49zQerf+PMc/1NYkJO/SjKJAQWQOLI+q1Bc0itImsW/wjeq
-   fhlv4N4juLfJiUe9S+IoatTpiTC1+/CJZwWmOlAEN/czbWPP0H0RJrvYT
-   Q==;
-X-CSE-ConnectionGUID: TSSJS1ktSMKjp5qRqWMm1w==
-X-CSE-MsgGUID: Q0TGIv1LRa+m3UpiQ3b7HQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37040853"
+  t=1727361206; x=1758897206;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I7RjqxILvX5nM6Bur27oArvs62ir65ZtC4vP5appnfA=;
+  b=O7ZsCnRdiqmjTbrHYZXJNRsEwH8/T34PE0fhH6JFilRLKNps882XR4oj
+   O3lrD3AMvAKJ9a9PflPl3K9EV1APm1PKQQjbe5AJtBNHYssMNF0JKoJpL
+   eY1dzK0T9v6GAcbwh72LI/+1ca/XKfFsmBU4RxT8Dm+kGB9JjFYze8Eos
+   b7empCUe02cMTAZrNCo90jj0vS4VNh66SnEl3RshfsX7lM/Nt6Q2Q4SXu
+   ByLpHS75fHFJpem2urXaODTVboM4vFGW2v65cVawQIGsMiLRbf8M3JcAP
+   et1iM2asilCauYTySjZ3F7QeU9cQghf5xno0cisCjIoBz5cxVr0+bPU4p
+   g==;
+X-CSE-ConnectionGUID: 390libTHT5GKTOmoeVDDEQ==
+X-CSE-MsgGUID: WyPw7QSgTMqfU2xZH+m/dw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="48991882"
 X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
-   d="scan'208";a="37040853"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 07:23:19 -0700
-X-CSE-ConnectionGUID: nEAYdrTSQ82Huths5LvUhg==
-X-CSE-MsgGUID: q777GRWYSt6OPbWpQLuboQ==
+   d="scan'208";a="48991882"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 07:33:21 -0700
+X-CSE-ConnectionGUID: 81tDcjiQTmqFyWNLBrYufw==
+X-CSE-MsgGUID: 3yPc9vsDStSpxOa8G94BDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; 
-   d="scan'208";a="72065901"
+   d="scan'208";a="76259283"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Sep 2024 07:23:18 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Sep 2024 07:33:18 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stpOl-000Knl-1E;
-	Thu, 26 Sep 2024 14:23:15 +0000
-Date: Thu, 26 Sep 2024 22:22:40 +0800
+	id 1stpYS-000KoJ-0U;
+	Thu, 26 Sep 2024 14:33:16 +0000
+Date: Thu, 26 Sep 2024 22:32:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@rivosinc.com>
-Subject: arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: restricted
- __le32 degrades to integer
-Message-ID: <202409262245.0oAITGgt-lkp@intel.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	heikki.krogerus@linux.intel.com, tzungbi@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jthies@google.com, pmalani@chromium.org,
+	akuchynski@google.com,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/8] platform/chrome: cros_ec_typec: Thunderbolt support
+Message-ID: <202409262259.lXP7G1FE-lkp@intel.com>
+References: <20240925092505.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,96 +68,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925092505.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   11a299a7933e03c83818b431e6a1c53ad387423d
-commit: f072b272aa27d57cf7fe6fdedb30fb50f391974e RISC-V: KVM: Use correct restricted types
-date:   8 months ago
-config: riscv-randconfig-r133-20240926 (https://download.01.org/0day-ci/archive/20240926/202409262245.0oAITGgt-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce: (https://download.01.org/0day-ci/archive/20240926/202409262245.0oAITGgt-lkp@intel.com/reproduce)
+Hi Abhishek,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on chrome-platform/for-next]
+[also build test ERROR on chrome-platform/for-firmware-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11 next-20240926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Pandit-Subedi/usb-typec-Add-driver-for-Thunderbolt-3-Alternate-Mode/20240926-002931
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240925092505.7.Ic61ced3cdfb5d6776435356061f12307da719829%40changeid
+patch subject: [PATCH 7/8] platform/chrome: cros_ec_typec: Thunderbolt support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240926/202409262259.lXP7G1FE-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409262259.lXP7G1FE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409262245.0oAITGgt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409262259.lXP7G1FE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: restricted __le32 degrades to integer
->> arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: restricted __le32 degrades to integer
-   arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu_sbi_sta.c:65:13: sparse: sparse: restricted __le32 degrades to integer
-   arch/riscv/kvm/vcpu_sbi_sta.c:65:13: sparse: sparse: restricted __le32 degrades to integer
->> arch/riscv/kvm/vcpu_sbi_sta.c:65:13: sparse: sparse: cast from restricted __le32
->> arch/riscv/kvm/vcpu_sbi_sta.c:68:14: sparse: sparse: restricted __le64 degrades to integer
->> arch/riscv/kvm/vcpu_sbi_sta.c:68:14: sparse: sparse: restricted __le64 degrades to integer
-   arch/riscv/kvm/vcpu_sbi_sta.c:68:14: sparse: sparse: cast to restricted __le64
-   arch/riscv/kvm/vcpu_sbi_sta.c:72:17: sparse: sparse: restricted __le64 degrades to integer
-   arch/riscv/kvm/vcpu_sbi_sta.c:72:17: sparse: sparse: restricted __le64 degrades to integer
->> arch/riscv/kvm/vcpu_sbi_sta.c:72:17: sparse: sparse: cast from restricted __le64
-   arch/riscv/kvm/vcpu_sbi_sta.c:76:9: sparse: sparse: restricted __le32 degrades to integer
-   arch/riscv/kvm/vcpu_sbi_sta.c:76:9: sparse: sparse: restricted __le32 degrades to integer
-   arch/riscv/kvm/vcpu_sbi_sta.c:76:9: sparse: sparse: cast from restricted __le32
+All errors (new ones prefixed by >>):
 
-vim +59 arch/riscv/kvm/vcpu_sbi_sta.c
-
-    24	
-    25	void kvm_riscv_vcpu_record_steal_time(struct kvm_vcpu *vcpu)
-    26	{
-    27		gpa_t shmem = vcpu->arch.sta.shmem;
-    28		u64 last_steal = vcpu->arch.sta.last_steal;
-    29		__le32 __user *sequence_ptr;
-    30		__le64 __user *steal_ptr;
-    31		__le32 sequence_le;
-    32		__le64 steal_le;
-    33		u32 sequence;
-    34		u64 steal;
-    35		unsigned long hva;
-    36		gfn_t gfn;
-    37	
-    38		if (shmem == INVALID_GPA)
-    39			return;
-    40	
-    41		/*
-    42		 * shmem is 64-byte aligned (see the enforcement in
-    43		 * kvm_sbi_sta_steal_time_set_shmem()) and the size of sbi_sta_struct
-    44		 * is 64 bytes, so we know all its offsets are in the same page.
-    45		 */
-    46		gfn = shmem >> PAGE_SHIFT;
-    47		hva = kvm_vcpu_gfn_to_hva(vcpu, gfn);
-    48	
-    49		if (WARN_ON(kvm_is_error_hva(hva))) {
-    50			vcpu->arch.sta.shmem = INVALID_GPA;
-    51			return;
-    52		}
-    53	
-    54		sequence_ptr = (__le32 __user *)(hva + offset_in_page(shmem) +
-    55				       offsetof(struct sbi_sta_struct, sequence));
-    56		steal_ptr = (__le64 __user *)(hva + offset_in_page(shmem) +
-    57				    offsetof(struct sbi_sta_struct, steal));
-    58	
-  > 59		if (WARN_ON(get_user(sequence_le, sequence_ptr)))
-    60			return;
-    61	
-    62		sequence = le32_to_cpu(sequence_le);
-    63		sequence += 1;
-    64	
-  > 65		if (WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr)))
-    66			return;
-    67	
-  > 68		if (!WARN_ON(get_user(steal_le, steal_ptr))) {
-    69			steal = le64_to_cpu(steal_le);
-    70			vcpu->arch.sta.last_steal = READ_ONCE(current->sched_info.run_delay);
-    71			steal += vcpu->arch.sta.last_steal - last_steal;
-  > 72			WARN_ON(put_user(cpu_to_le64(steal), steal_ptr));
-    73		}
-    74	
-    75		sequence += 1;
-    76		WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr));
-    77	
-    78		kvm_vcpu_mark_page_dirty(vcpu, gfn);
-    79	}
-    80	
+   sh4-linux-ld: drivers/platform/chrome/cros_typec_thunderbolt.o: in function `cros_typec_register_displayport':
+>> (.text+0x34c): multiple definition of `cros_typec_register_displayport'; drivers/platform/chrome/cros_ec_typec.o:(.text+0x2118): first defined here
+   sh4-linux-ld: drivers/platform/chrome/cros_typec_thunderbolt.o: in function `cros_typec_displayport_status_update':
+>> (.text+0x37c): multiple definition of `cros_typec_displayport_status_update'; drivers/platform/chrome/cros_ec_typec.o:(.text+0x2148): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
