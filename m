@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FEA33C9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 18:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9A717BEB1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Sep 2024 18:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727375329; cv=none; b=YzULA4nUK2NUDqH94kIoCECmzkOMTLsFOT4NEN13mSBzn4pLh2SkrC+4t/1itCLXrcVDlXuENdgpR0rw5pxpG017OOY8m5Y/QbqF3Ai5a6Vs/zXuhTiXOwH51jAgeykH/J3LcjecjaZDEBmoOk0grJ+KEPAzbpPSYye7aaBTaFE=
+	t=1727376583; cv=none; b=a/PCajS9t7G1Si6o5jgaPxuMdauys5VwGRbEjwUntE7QQr/K8Te71aicUyjClVc0TEndT8o/XzDhRqC5goA4sEA2MXmjeax1ORtNtphYmLyiT601exki1ZP/6SqRua2nZgwPNmr8Du2LKQMwXoHxsNZgRDCw9XJdsU4vdAMKX0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727375329; c=relaxed/simple;
-	bh=l2RNowvxkpp/R1fPswa+6FFL1d6XbYFvYvouUJgLX74=;
+	s=arc-20240116; t=1727376583; c=relaxed/simple;
+	bh=Gx9mMqir6Z5KUeNsj3gPpKDtI2CwgP5rpc/M60NLNUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D6ctGzwDAfjtdCT4sA+1ORgqD/qv+jY+si+2zo19wdFKx/O943Lip53HyxpHNYd7IteMhSqhKb54J+jhnajPfNJEPHby9v2isp5iJJ8IYXZiPVtaln77kR76MTNr0waouzQiV7rcB4jdw3HUtz5pVY4++Dn9fSGeIOajk+6HJPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eVHc1Syg; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=Fu74zD2mM5Xux8pofXNhSIYBIvwGJPEai+MesWWM0VFUIc5WDUySmKbC7IUDm9OcxxoHQnFlgNgFqBXzgwakQC/oksoFagZay6WBJAjIc4F90HSspF0s/RQSqy2S9yjhCXxXbhQiFecBXy/qgoPRjyf03+4c0WbROKlvXNElLTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8l0Ip+6; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eVHc1Syg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8l0Ip+6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727375327; x=1758911327;
+  t=1727376582; x=1758912582;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l2RNowvxkpp/R1fPswa+6FFL1d6XbYFvYvouUJgLX74=;
-  b=eVHc1Syg4Q5Qge3W2ij4jeHWi5SkWT4q4t7poGDQr1iYhspGpwipOQmP
-   LyNnp7yUmVrlniUTRjz6uvtNIff0oSMXccnQVGnbPPyny3wzeULrogKNr
-   mUgqMByyqocH3baXCSXz3URdpeuySy0l8U8MBAmjyK00tsB9fcyiRn38Q
-   1+gyEIHhZGHI+1m7CpxK1OpqZfplugskgrlmfoW8EajciIu3dSf4F1r/e
-   3kXyLZzWK43kx+czeTAIS9C+x5q/i1kVd94aa18QOsgeKsJrVrcdrOtQe
-   U5RueIPPwSUbBus1ihoQdqHr3Y0Xlgt5pFXtPrgNEdiMGqVekjHDx9Jh7
-   Q==;
-X-CSE-ConnectionGUID: +I/cSSQlQIufJuyyeD0k1Q==
-X-CSE-MsgGUID: rdUGE62WRaiUF2RGMsO7uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26662709"
+  bh=Gx9mMqir6Z5KUeNsj3gPpKDtI2CwgP5rpc/M60NLNUg=;
+  b=A8l0Ip+6OcOXFs3LRP0j0wMoB1B7pGUA8W/aAP5kSB7uL7Wj5EtHJEm8
+   i9D1ZLOeqovBgkTctxjXOETuEQ0TRJB83YsLYU14nvdPGdSN2lIVPVq93
+   9iKm8OypRhaM2SDUAXzqHBzAd4Ne5DwZAg13TFXJwvq1BDuWjtjDxiM25
+   NXDcWK48TF/XMTJGWJYl/avvgZIuCPF7ZOvpBtytfw77gKJsoYmPP+DRP
+   yk924g1OPvuwLJHEGtwPFyabEetoD8kavHV6ieSCsXo4+aTTjnO3UI72Z
+   8jcJmEmD26Z0kl8cLHIQkcBbOlo8gR18ebI09vNl1aAljVntFxkUMGbWq
+   A==;
+X-CSE-ConnectionGUID: MbnKjwCGSlWii8DsXlEeMQ==
+X-CSE-MsgGUID: 4TZzZbNnSfewvdKJ8v2eVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="25969894"
 X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="26662709"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 11:28:40 -0700
-X-CSE-ConnectionGUID: 2MDPlUvDSYmLOcuew+C80Q==
-X-CSE-MsgGUID: S6F7gNP4Qy+9hKmYr+8hqQ==
+   d="scan'208";a="25969894"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 11:49:41 -0700
+X-CSE-ConnectionGUID: Ujt5+YoGQMCWro2emZwwxA==
+X-CSE-MsgGUID: RcacPpWISSSdw40rTu3Mag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="72343031"
+   d="scan'208";a="76773504"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Sep 2024 11:28:40 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Sep 2024 11:49:39 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sttED-000L6V-0A;
-	Thu, 26 Sep 2024 18:28:37 +0000
-Date: Fri, 27 Sep 2024 02:28:27 +0800
+	id 1sttYX-000L79-1f;
+	Thu, 26 Sep 2024 18:49:37 +0000
+Date: Fri, 27 Sep 2024 02:49:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hao Chen <chenhao418@huawei.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 14067/14172]
- drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:403:15: error: no member
- named 'start' in 'struct iommu_iotlb_gather'
-Message-ID: <202409270232.uDTz2n2f-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 5053/23779]
+ drivers/platform/x86/intel_atomisp2_pm.o: warning: objtool: missing symbol
+ for section .init.text
+Message-ID: <202409270224.SJPfAkVu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +63,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   2e95e7bae9486cc775ed2aa319bf323f6ba2677b
-commit: e4a624e3e991f56f3783c5fafe8fd075a2be861b [14067/14172] net: hns3: add sync command to sync io-pgtable
-config: arm64-randconfig-r123-20240926 (https://download.01.org/0day-ci/archive/20240927/202409270232.uDTz2n2f-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20240927/202409270232.uDTz2n2f-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   b1d54e6f06c518a52f83edade0da2b959e1c9a4e
+commit: 1073f9d006321689fb82bdac7b7af58e8617f128 [5053/23779] platform/x86: Add Intel AtomISP2 dummy / power-management driver
+config: x86_64-buildonly-randconfig-001-20240926 (https://download.01.org/0day-ci/archive/20240927/202409270224.SJPfAkVu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270224.SJPfAkVu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409270232.uDTz2n2f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409270224.SJPfAkVu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:403:15: error: no member named 'start' in 'struct iommu_iotlb_gather'
-           iotlb_gather.start = iova;
-           ~~~~~~~~~~~~ ^
->> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:404:15: error: no member named 'end' in 'struct iommu_iotlb_gather'
-           iotlb_gather.end = iova + granule - 1;
-           ~~~~~~~~~~~~ ^
->> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:405:15: error: no member named 'pgsize' in 'struct iommu_iotlb_gather'
-           iotlb_gather.pgsize = granule;
-           ~~~~~~~~~~~~ ^
-   3 errors generated.
-
-
-vim +403 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-
-   388	
-   389	#define HNS3_INVALID_PTYPE \
-   390			ARRAY_SIZE(hns3_rx_ptype_tbl)
-   391	
-   392	static void hns3_dma_map_sync(struct device *dev, unsigned long iova)
-   393	{
-   394		struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-   395		struct iommu_iotlb_gather iotlb_gather;
-   396		size_t granule;
-   397	
-   398		if (!domain || domain->type != IOMMU_DOMAIN_DMA)
-   399			return;
-   400	
-   401		granule = 1 << __ffs(domain->pgsize_bitmap);
-   402		iova = ALIGN_DOWN(iova, granule);
- > 403		iotlb_gather.start = iova;
- > 404		iotlb_gather.end = iova + granule - 1;
- > 405		iotlb_gather.pgsize = granule;
-   406	
-   407		iommu_iotlb_sync(domain, &iotlb_gather);
-   408	}
-   409	
+   In file included from drivers/platform/x86/intel_atomisp2_pm.c:15:
+   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'isp_pci_driver_exit': 'cold' [-Wmissing-attributes]
+     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/device.h:1637:1: note: in expansion of macro 'module_exit'
+    1637 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/pci.h:1335:9: note: in expansion of macro 'module_driver'
+    1335 |         module_driver(__pci_driver, pci_register_driver, pci_unregister_driver)
+         |         ^~~~~~~~~~~~~
+   drivers/platform/x86/intel_atomisp2_pm.c:115:1: note: in expansion of macro 'module_pci_driver'
+     115 | module_pci_driver(isp_pci_driver);
+         | ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/pci.h:32,
+                    from drivers/platform/x86/intel_atomisp2_pm.c:17:
+   drivers/platform/x86/intel_atomisp2_pm.c:115:19: note: 'cleanup_module' target declared here
+     115 | module_pci_driver(isp_pci_driver);
+         |                   ^~~~~~~~~~~~~~
+   include/linux/device.h:1633:20: note: in definition of macro 'module_driver'
+    1633 | static void __exit __driver##_exit(void) \
+         |                    ^~~~~~~~
+   drivers/platform/x86/intel_atomisp2_pm.c:115:1: note: in expansion of macro 'module_pci_driver'
+     115 | module_pci_driver(isp_pci_driver);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'isp_pci_driver_init': 'cold' [-Wmissing-attributes]
+     134 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/device.h:1632:1: note: in expansion of macro 'module_init'
+    1632 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/pci.h:1335:9: note: in expansion of macro 'module_driver'
+    1335 |         module_driver(__pci_driver, pci_register_driver, pci_unregister_driver)
+         |         ^~~~~~~~~~~~~
+   drivers/platform/x86/intel_atomisp2_pm.c:115:1: note: in expansion of macro 'module_pci_driver'
+     115 | module_pci_driver(isp_pci_driver);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/platform/x86/intel_atomisp2_pm.c:115:19: note: 'init_module' target declared here
+     115 | module_pci_driver(isp_pci_driver);
+         |                   ^~~~~~~~~~~~~~
+   include/linux/device.h:1628:19: note: in definition of macro 'module_driver'
+    1628 | static int __init __driver##_init(void) \
+         |                   ^~~~~~~~
+   drivers/platform/x86/intel_atomisp2_pm.c:115:1: note: in expansion of macro 'module_pci_driver'
+     115 | module_pci_driver(isp_pci_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/intel_atomisp2_pm.o: warning: objtool: missing symbol for section .init.text
 
 -- 
 0-DAY CI Kernel Test Service
