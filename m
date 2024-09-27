@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E4D14BF8B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 21:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FE61B1500
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 22:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727474328; cv=none; b=BpLckWYF5dgK40N0npbeUyHqiAH2TwoDEtYfidQPO/EMD4s0k1MNmSEmeVq1gIq2TBoJzXzd8TgjJrZpPng3WkgqRmfvjvWKCxN2wm9APHL9vF2Nd+jot+dmzJZinMID1AMPbJPzw2q8o1omeQFxB2D6exQemKP6JH6wzBzEoPc=
+	t=1727474931; cv=none; b=NkSb9ZBNLCoeGAvExaLmuBbOKTjvQ+DReBRXUJWdgdwWLwpHtwiWXLtj4G+dtE9jbGBcXk0YsmBj9RHQv4TXbXO5AQTsCbL/Ig0I7OH8MBy9cXLJK8IfRxHYB51FKNpFuyAptxhgDLcFwpe14COFlpl76Ff/CjLfiniGkr8QGd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727474328; c=relaxed/simple;
-	bh=h6zjR3JaVYXiZnGBwrQz3xeNzfAtEveuQfz6P/uk8us=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xw1gEGREv/eomMJugGnxlWu9jvO4wGtoagEwMEmVnHz2HKq6QSsGKDEC/QwK/LwAffYN5sOir4dLEtg0ny9f7BPrECWHs4scpZRydkFTtZ+BP+k9EA2ffcE7jIUZxAs3Gr015S4oqEYQmsnL/eew3O2m39lu38X3Yr/CfZ6f/Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvchE9sa; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1727474931; c=relaxed/simple;
+	bh=PjwHTGA5BsrsNLC2q0jcT95lWCT2/PR7eV5me+6PLsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZkNd/5H9ue/gioTbLBtmSMfhPU94GfgX3RTITZhHzPoS2+SyJe/foNz7QT9q72QBqpLcsp2iISOQsJIBaVU2NOuv6wgiAjI7TdofqQbftvOTdOKylrArpTXTxmiweQJpnVF6wKs58NCuS7UcgdbCBg28XOOAzeeLSJqfVjnyvV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXrxkB0m; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvchE9sa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXrxkB0m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727474326; x=1759010326;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h6zjR3JaVYXiZnGBwrQz3xeNzfAtEveuQfz6P/uk8us=;
-  b=TvchE9saE+IHHmemdevrzvPDTQf6QzE+8t9R4pqZ8HjOaRtGxveLe1Xj
-   ICA0sH1YfrjYVmcnI1HoUTfknI+gCxh3PyOhOzJv08aIW76qnOw5LfcgF
-   BffIhdfPkGRSHZiFN6krFa/YFFkoOwxcaLmHxfcAFYuSPSOCSCNHUtSWv
-   ktjNc7helSHVxEa8oZ83egfDhBB6SYxAld9F8ChARpqME4N8oc5DOkiRH
-   bI08j/nKfwTZtLaiG7aFa48VSnoWz+IzNaULpUOsMnhdhHtjMjRcq3zbj
-   Pv27W6dOmnmrvZs89xu4EbyqUX7TcgWkduFg/hrXOGIjrQS9+G6rQCVJs
-   w==;
-X-CSE-ConnectionGUID: epFKyIqKQui9ZMCPBkCi2g==
-X-CSE-MsgGUID: UpChfGXsRD2FXLO7Pwj/Uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="44153628"
+  t=1727474929; x=1759010929;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PjwHTGA5BsrsNLC2q0jcT95lWCT2/PR7eV5me+6PLsU=;
+  b=QXrxkB0mg+jZ4oXci1h0EesfJ6RcL9bMNejXyKXmULlI5dtmtMQJe7is
+   Vbftw0yUSM8+jnhHfFATPSh5sh/ymTDjcvES6rPvBjRzku0e1XomN2Glb
+   nrvLGfnGJNNww/3EfZVShOsVB32XNDJF7Isf3S89yQsegDR54WzrOel88
+   nX1nzx6+1QGGj5hP0TUa4OVMkTNZn1sdrifntZRfYb2vblutoRWUjWWu+
+   ktA4gYD1LKzEYBj+CDC0nscWLNiqnV8pZVNzJ5hiaEXDdnKoH/xfzfe8x
+   soOvFKmBqSVP9bsrD2f2adDHFuOsqsoHbRRcYFp8IR7e30LUAziDyBMz4
+   g==;
+X-CSE-ConnectionGUID: Yd9JIp9xSIu7MmIOrB19Ug==
+X-CSE-MsgGUID: J4l315FKQK2noGqfmEqv1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30339293"
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="44153628"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 14:58:45 -0700
-X-CSE-ConnectionGUID: P+fKyzADTvyUFUNuLHUy5w==
-X-CSE-MsgGUID: bSTnrlgEQf+6Xfi6i/2InA==
+   d="scan'208";a="30339293"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 15:08:48 -0700
+X-CSE-ConnectionGUID: +jdEC4j2SnCYNoASp1qIFQ==
+X-CSE-MsgGUID: m2qpjqb4ScKkNMYWZ0WRNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="73452892"
+   d="scan'208";a="72242342"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Sep 2024 14:58:44 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Sep 2024 15:08:44 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suIz3-000Mfb-33;
-	Fri, 27 Sep 2024 21:58:41 +0000
-Date: Sat, 28 Sep 2024 05:57:47 +0800
+	id 1suJ8k-000Mg7-18;
+	Fri, 27 Sep 2024 22:08:42 +0000
+Date: Sat, 28 Sep 2024 06:08:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2413/14216] mm/mem_reliable.c:345:2: error: call
- to undeclared function 'mem_reliable_ctrl_bit_disable'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202409280502.YvJdfMQd-lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409280806.yxX1K5ey-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,95 +74,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-Hi Ma,
+Hi Yikai,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c9fe32fed709da98069e8215f6ecf39ea63f5355
-commit: 425771499c0742a996ab28df143d7a5123102686 [2413/14216] mm: mem_reliable: Introduce proc interface to disable memory reliable features
-config: arm64-randconfig-003-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280502.YvJdfMQd-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280502.YvJdfMQd-lkp@intel.com/reproduce)
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.11 next-20240927]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: x86_64-randconfig-121-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280806.yxX1K5ey-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280806.yxX1K5ey-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409280502.YvJdfMQd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409280806.yxX1K5ey-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwmon/isl28022.c:396:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:396:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:396:36: sparse:     got char *
+   drivers/hwmon/isl28022.c:396:88: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:396:88: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:396:88: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:406:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:406:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:406:36: sparse:     got char *
+   drivers/hwmon/isl28022.c:406:82: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:406:82: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:406:82: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:414:28: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:414:28: sparse:     expected int err
+   drivers/hwmon/isl28022.c:414:28: sparse:     got char *
+   drivers/hwmon/isl28022.c:414:87: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [usertype] shunt @@
+   drivers/hwmon/isl28022.c:414:87: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:414:87: sparse:     got unsigned int [usertype] shunt
+>> drivers/hwmon/isl28022.c:396:36: sparse: sparse: non size-preserving pointer to integer cast
+>> drivers/hwmon/isl28022.c:396:88: sparse: sparse: non size-preserving integer to pointer cast
+   drivers/hwmon/isl28022.c:406:36: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/hwmon/isl28022.c:406:82: sparse: sparse: non size-preserving integer to pointer cast
+   drivers/hwmon/isl28022.c:414:28: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/hwmon/isl28022.c:414:83: sparse: sparse: non size-preserving integer to pointer cast
 
-   In file included from mm/mem_reliable.c:5:
-   In file included from include/linux/mm.h:2181:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> mm/mem_reliable.c:345:2: error: call to undeclared function 'mem_reliable_ctrl_bit_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     345 |         mem_reliable_ctrl_bit_disable(idx);
-         |         ^
-   mm/mem_reliable.c:345:2: note: did you mean 'mem_reliable_ctrl_bit_disabled'?
-   mm/mem_reliable.c:320:13: note: 'mem_reliable_ctrl_bit_disabled' declared here
-     320 | static void mem_reliable_ctrl_bit_disabled(int idx) {}
-         |             ^
-   mm/mem_reliable.c:376:45: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     376 |                 num += global_node_page_state(NR_LRU_BASE + LRU_ACTIVE_FILE);
-         |                                               ~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~
-   mm/mem_reliable.c:377:45: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     377 |                 num += global_node_page_state(NR_LRU_BASE + LRU_INACTIVE_FILE);
-         |                                               ~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   7 warnings and 1 error generated.
+vim +396 drivers/hwmon/isl28022.c
 
-
-vim +/mem_reliable_ctrl_bit_disable +345 mm/mem_reliable.c
-
-   322	
-   323	static void mem_reliable_feature_disable(int idx)
-   324	{
-   325		char *str = NULL;
-   326	
-   327		switch (idx) {
-   328		case MEM_RELIABLE_FALLBACK:
-   329			reliable_allow_fallback = false;
-   330			str = "fallback";
-   331			break;
-   332		case MEM_RELIABLE_SHMEM:
-   333			shmem_reliable = false;
-   334			str = "shmem";
-   335			break;
-   336		case MEM_RELIABLE_PAGECACHE:
-   337			pagecache_reliable = false;
-   338			str = "pagecache";
-   339			break;
-   340		default:
-   341			pr_err("unknown index: %d", idx);
-   342			return;
-   343		}
-   344	
- > 345		mem_reliable_ctrl_bit_disable(idx);
-   346		pr_info("%s is disabled\n", str);
-   347	}
-   348	
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
 
 -- 
 0-DAY CI Kernel Test Service
