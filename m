@@ -1,66 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960F81AFB28;
-	Thu, 26 Sep 2024 23:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA90136A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 00:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727395076; cv=none; b=NbFfQuOxoTYDx/9255fyrOWz16xaA4SPOU0rVF7z7ZlxPhsifVXPbUosLdh1IAU2a0+K9QMqrR/RYsCi084iROR83BNk9kdSzB7dzcWVd8JVXGRZtcv83TllxVK4jnJdgqlqTSmzGDvAa/mq8PJCXcy0I9+CRM0GRjhxuUg3+P8=
+	t=1727395672; cv=none; b=QYhqPLQgKvgTT+L0z0DzyD28PFomjSdPd/VjhX9uuxex4ZxLNQ1ApfSWmNToL5Xd+RI0cub4daOnkLM2/ahgJTbzQETLM6xIIBJuUj3VKOoNlv2N6T0bTyonvZQZNgQcI6w4MVlPiZ3JDjhiLDW35G7y2RqvFvIf9nm2k45Y7Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727395076; c=relaxed/simple;
-	bh=MziFS2olNob6SKEOSye5xeUa8x2Ru9zW+Bw+Q0Ibvxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZGA43Hsdx9Fv4xZoj974pHv607Z+hgjQa0Ogqo1dG9Ps9dmDnrXLazseoj2Eznt/4HEFRumzZjQ8OARnhZNkmL9shwAHaSoG596y10KeMsL01mkg4mr8YmFvYiTj/FEtKVK6p9+tyDoEIOHzMr9sH8AAOWz2oJoj5BuXkIHDWGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AehBvmsT; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1727395672; c=relaxed/simple;
+	bh=QApanHwDHIXwdP0q4yiJXoW38DVaOixQ7oZRWrs8Hr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J5aMlpFGM9HnRi296K5gEdtuqN7Mz97/0nXZbbHuSCXNmJEyUwL+h8Pote3AD78uEhgPaukutTrDwsI+u0Bk0wos3iXYGFzn0XnP705RNKaAhKGWYSsHEKN1WPeyH2ORmXQWqhx89SpQ49f/FblARyHs2xrJm/NwLOJKBygb91A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIZ9W5TW; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AehBvmsT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIZ9W5TW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727395074; x=1758931074;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MziFS2olNob6SKEOSye5xeUa8x2Ru9zW+Bw+Q0Ibvxs=;
-  b=AehBvmsTT7y5AaZQkPdHpdkWJ5bpltrdjBtWXOMHMmsM23LPQvCLeb+U
-   mMaQQK14FeV0D0sjCMs84H7ZOuCdQjDbarhsIehK0gv+caBZHN2H5GllF
-   Kociu1U4oT2dJI5vUdGi0OghpcFT73QwjrkB3OC53daXLG5/0+LTL3vXT
-   /27NMbrHdB8FdCE2vw+6RQoEFeMUbU02zj6OPnq3i9NT6ciiiJMrBaYbn
-   HhUsxSlyO65JkxntC7YKylhC3GAKQyQYC1Vok9mGxu2qkw6loyBkK7Jcx
-   rTpst8pn88KBT+melBUMIncSaPXfgd+CMn3LukhLapqf047SXb9nffgnq
+  t=1727395671; x=1758931671;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QApanHwDHIXwdP0q4yiJXoW38DVaOixQ7oZRWrs8Hr8=;
+  b=OIZ9W5TWq06BF2xnc82JWh+qCKT2s91dkwQVwCm9gcw2PWjrksT3eMuR
+   VFlTq6kv4XLw1fI8A6e9qAAT4yAyWeKEezt3M6wDHE5Ygi3iYw3Qnx7qr
+   KxaFgzuMIvgJ2HmxIg1qWo9lk55o3XzM50wxI8EsLjQBFmwy49wvlxUlb
+   21JEKvJ/WvbqEOZsy5euyIZuUx7IcMFmtDEjcbVHafvS6rhBFx5r8BBCO
+   ji246YtdSyQi5ZA9t3gEHiEeg3do/7XNKLw2FbEk0++owJKzqO/bvZOLX
+   +Y18ZzgkWzdvT6HOMH6I1ptY29/DVEm1bPtrlCnORbx80LN5xyxgFfIq7
    Q==;
-X-CSE-ConnectionGUID: JE4jm8Y+S7+m8RtINbiAwg==
-X-CSE-MsgGUID: QD45w7AcRiObHVckDjpGkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="49057529"
+X-CSE-ConnectionGUID: dcBsQPVLSrunTXIzA8m8gA==
+X-CSE-MsgGUID: juIl0MSsQ4eN9p9Nwse8rw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="49058331"
 X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="49057529"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 16:57:53 -0700
-X-CSE-ConnectionGUID: JX2snRnHQR6FGfk0ZnLrIQ==
-X-CSE-MsgGUID: VuRW/SDuQcaCk130p9fogg==
+   d="scan'208";a="49058331"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 17:07:51 -0700
+X-CSE-ConnectionGUID: icGsGTdwRvq3KoZYp5Hbyw==
+X-CSE-MsgGUID: Ab1lQi5jTWWmseJYJJIJyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="71930803"
+   d="scan'208";a="103127669"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Sep 2024 16:57:49 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2024 17:07:50 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1styMk-000LJN-2b;
-	Thu, 26 Sep 2024 23:57:46 +0000
-Date: Fri, 27 Sep 2024 07:56:47 +0800
+	id 1styWQ-000LJj-3C;
+	Fri, 27 Sep 2024 00:07:46 +0000
+Date: Fri, 27 Sep 2024 08:07:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benno Lossin <benno.lossin@proton.me>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg KH <greg@kroah.com>, Simona Vetter <simona.vetter@ffwll.ch>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] rust: switch uaccess to untrusted data API
-Message-ID: <202409270711.g9QhxwTf-lkp@intel.com>
-References: <20240925205244.873020-3-benno.lossin@proton.me>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl/fwctl 22/25] ./usr/include/fwctl/cxl.h:29:9: error:
+ unknown type name 'uuid_t'
+Message-ID: <202409270848.CvZOWsul-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,48 +61,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240925205244.873020-3-benno.lossin@proton.me>
 
-Hi Benno,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a2f11547052001bd448ccec81dd1e68409078fbb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benno-Lossin/rust-add-untrusted-data-abstraction/20240926-045445
-base:   a2f11547052001bd448ccec81dd1e68409078fbb
-patch link:    https://lore.kernel.org/r/20240925205244.873020-3-benno.lossin%40proton.me
-patch subject: [PATCH v2 2/2] rust: switch uaccess to untrusted data API
-config: x86_64-buildonly-randconfig-002-20240927 (https://download.01.org/0day-ci/archive/20240927/202409270711.g9QhxwTf-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270711.g9QhxwTf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
+head:   b4f2900f53c72de8fc639b62e44763c6a9695d3b
+commit: a35b1a880d87c874f47a8acd68bad9e251a342fd [22/25] fwctl/cxl: Add support for fwctl RPC command to enable CXL feature commands
+config: i386-buildonly-randconfig-002-20240927 (https://download.01.org/0day-ci/archive/20240927/202409270848.CvZOWsul-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270848.CvZOWsul-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409270711.g9QhxwTf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409270848.CvZOWsul-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0658]: use of unstable library feature 'slice_ptr_len'
-   --> rust/kernel/uaccess.rs:214:27
-   |
-   214 |             let len = ptr.len();
-   |                           ^^^
-   |
-   = note: see issue #71146 <https://github.com/rust-lang/rust/issues/71146> for more information
-   = help: add `#![feature(slice_ptr_len)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
---
->> error[E0658]: use of unstable library feature 'slice_ptr_len'
-   --> rust/kernel/uaccess.rs:339:28
-   |
-   339 |         let len = data_ptr.len();
-   |                            ^^^
-   |
-   = note: see issue #71146 <https://github.com/rust-lang/rust/issues/71146> for more information
-   = help: add `#![feature(slice_ptr_len)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
+   In file included from <command-line>:
+   ./usr/include/fwctl/cxl.h:22:9: error: unknown type name '__u32'
+      22 |         __u32 uctx_caps;
+         |         ^~~~~
+>> ./usr/include/fwctl/cxl.h:29:9: error: unknown type name 'uuid_t'
+      29 |         uuid_t uuid;
+         |         ^~~~~~
+   ./usr/include/fwctl/cxl.h:30:9: error: unknown type name '__u32'
+      30 |         __u32 flags;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:31:9: error: unknown type name '__u16'
+      31 |         __u16 offset;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:32:9: error: unknown type name '__u8'
+      32 |         __u8 version;
+         |         ^~~~
+   ./usr/include/fwctl/cxl.h:33:9: error: unknown type name '__u8'
+      33 |         __u8 reserved[9];
+         |         ^~~~
+   ./usr/include/fwctl/cxl.h:34:9: error: unknown type name '__u8'
+      34 |         __u8 data[];
+         |         ^~~~
+   ./usr/include/fwctl/cxl.h:51:9: error: unknown type name '__u32'
+      51 |         __u32 id;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:52:9: error: unknown type name '__u32'
+      52 |         __u32 flags;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:53:9: error: unknown type name '__u16'
+      53 |         __u16 opcode;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:54:9: error: unknown type name '__u16'
+      54 |         __u16 rsvd;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:55:9: error: unknown type name '__u32'
+      55 |         __u32 size;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:56:9: error: unknown type name '__u32'
+      56 |         __u32 rsvd1;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:57:9: error: unknown type name '__u64'
+      57 |         __u64 payload;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:64:9: error: unknown type name '__u32'
+      64 |         __u32 rpc_cmd;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:65:9: error: unknown type name '__u32'
+      65 |         __u32 payload_size;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:66:9: error: unknown type name '__u32'
+      66 |         __u32 version;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:67:9: error: unknown type name '__u32'
+      67 |         __u32 rsvd;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:72:9: error: unknown type name '__u32'
+      72 |         __u32 retval;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:73:9: error: unknown type name '__u32'
+      73 |         __u32 size;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:74:9: error: unknown type name '__aligned_u64'
+      74 |         __aligned_u64 payload[];
+         |         ^~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
