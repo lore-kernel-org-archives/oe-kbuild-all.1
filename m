@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585C1BC075
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 10:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BB9185B7C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 10:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727431395; cv=none; b=Q7OqSb9qceT0bw1beOCQZ1IRnMplr2APNFY6yUX1nbGmYk2WLe9aQMh52OaggD5WPfIwt45YrhQxA9L2qFRzOoAtLHVPNbBxsVKLDN0MlRfUq0HYyYp8qMyrGYVyLF5qC3hLKSaHONS9EIpwIZXSbk6iWETK4bQZVjPCErnYcEU=
+	t=1727431995; cv=none; b=IR9O6NHPRjSA1d/sUgXLUHypxelhoQBIxHRydjC82PRUFqCGP31lJ+NNLvjknguxoHtCALdtM1RyTJpNK2qxe37/z+aoq0SXRNdd74TQhjYcwM7BpnQuXBhTT57rDEbfN2vPAmNeONV1LBanb5CYJgf0EF0mad9W2RCX9v392kA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727431395; c=relaxed/simple;
-	bh=lFbPrpRue2Sh4Otl9W/nWvPjZIr3Df+KW/bk7MYwet0=;
+	s=arc-20240116; t=1727431995; c=relaxed/simple;
+	bh=c9q1v2KRRky31Lxsex/ejdB9DahzvXVraRtegItLdT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bh+GGdB8ImTlpNxqyI76IUJ4aR7r7UzB6kmY7zVRDbeefNo1OI962yGodq7Xg3CSItZa6+EleLcmmss9tKT55D/Td5nR4tLksyc6OHCxylf/8Lai+A23vi296tn546s7VJH7JqgAM3Yq1ZdcUc7m+GVC32sgmr0ZeENg340JFsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lO9dK62P; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Lu7hav8TlpHsacC/wvQUtuy+SagqV4SJ7n6v2EKg3eXf+qF+F3Xyd4P++q7U9d2tH4zPz7PAjz7QcCETdNbRh2LnE/d40Ld63Jlvpo06sm4H9KrGPe2HkjNh/tyBHUNwqxj9MAiwteMBSgzdmM3XytFsC7PBOmhgv4l+L5cmxNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFkDzT6S; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lO9dK62P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFkDzT6S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727431393; x=1758967393;
+  t=1727431994; x=1758967994;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lFbPrpRue2Sh4Otl9W/nWvPjZIr3Df+KW/bk7MYwet0=;
-  b=lO9dK62PeP6xzC3J57Y2i+uwh/liw27xE8laVJdc2kLsEH1rXtOJL5DK
-   rIUWwW0vfBILlL4wrxG30yAitcmAGvjJ9O3ZJfjHml2Kv8QLm2Qt0aN22
-   kve9K6NWxPbpbedND2B5n2VIxzsjOk3bhenBGCLPSpRgYEcSP+aEkGJNq
-   JmYhapjMzMfE+GVzCMCXUo5rizMVHS3iNA6vxgELKr7tAymBh1BG1MYcu
-   1YeRSdSwEhr0YOY6Ks0f2kmoUH8gnUNtdVyh2JN395J45ImMPOFYUI9P6
-   xAdlpCIokGUnEEBhxWB4GqB+4xWNrxxoBF2sH5y1VJSI9eTmXzhZR9sPi
-   w==;
-X-CSE-ConnectionGUID: mYgWE0p6RbK6vaD5XFflvg==
-X-CSE-MsgGUID: w6sSWWJrTpeou86LR9ebBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37708312"
+  bh=c9q1v2KRRky31Lxsex/ejdB9DahzvXVraRtegItLdT4=;
+  b=mFkDzT6SY6T3fE1w8oRBArxIx5nlFeQwLaE9Mxv9AcEn58i6M8F/dLsE
+   v6sLvefBlciIu5OheT4rWnCUiJtEcf5TKzcCjYecLg9WCrbX3bShLBWGt
+   oTj2VaBrhZvXlpHPWPyrkwCJnsEMXNkydDdOLDrZGHGZO2BPHa4wtKkMo
+   D/opU0u8MQYjKTgyRQi8Jo9fwnkfeL/61Z/7OHnrky46Ras9oQraNoa9s
+   CFZ4vFxPlBmTbcmeYCNiw/GIQcpc6Nvz6+c0fVXupF/fqlucjwAe0rSIx
+   B5RtJrtGY001la8qYE0Crz0BcCV8/0FXi3g4422NmBo7cYJi726T8DRwa
+   A==;
+X-CSE-ConnectionGUID: DXsEjWpJSQyFE+FB8hoH6g==
+X-CSE-MsgGUID: fOJvy3g1TOuFk4g+dYRgug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="49098173"
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="37708312"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 03:03:12 -0700
-X-CSE-ConnectionGUID: 6uqbNY4nRdG9xfjl57vHUA==
-X-CSE-MsgGUID: Wc9LCmWcRdGwcmJZat/XIA==
+   d="scan'208";a="49098173"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 03:13:14 -0700
+X-CSE-ConnectionGUID: G6XuC7VuRmyjwhuwzT9OHw==
+X-CSE-MsgGUID: 0xj2cuB2T6uPIMcL5dQIew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="77001807"
+   d="scan'208";a="73279471"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Sep 2024 03:03:11 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Sep 2024 03:13:12 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1su7ob-000Ln5-02;
-	Fri, 27 Sep 2024 10:03:09 +0000
-Date: Fri, 27 Sep 2024 18:02:18 +0800
+	id 1su7yH-000Lnd-15;
+	Fri, 27 Sep 2024 10:13:09 +0000
+Date: Fri, 27 Sep 2024 18:12:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 198/202]
- fs/bcachefs/tests.c:397:17: error: 'struct bkey' has no member named
- 'bversion'; did you mean 'version'?
-Message-ID: <202409271712.EZRpO2Z1-lkp@intel.com>
+To: Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Davor Joja <davor.joja@logicbricks.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 230/1001]
+ drivers/media/i2c/adv7511-v4l2.c:2221:21: warning: no previous prototype for
+ 'adv7511_subdev'
+Message-ID: <202409271846.i8IbN40P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +65,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kent,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   9ee6e6730cfdb671c180b323c6d60374aa5ab6b5
-commit: 8983840debcfd17df76e2a8d3831c3c5970b53a7 [198/202] bcachefs: rename version -> bversion
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240927/202409271712.EZRpO2Z1-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271712.EZRpO2Z1-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
+head:   5365c13a86998da06d845c918f849b30b8735538
+commit: c1d6baee0952a986dc51e9ca168acc6143b4a417 [230/1001] drivers: media: Customized adv7511 for Xylon LogiCVC (deprecated)
+config: i386-buildonly-randconfig-002-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271846.i8IbN40P-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271846.i8IbN40P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271712.EZRpO2Z1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271846.i8IbN40P-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/bset.h:9,
-                    from fs/bcachefs/btree_iter.h:5,
-                    from fs/bcachefs/btree_update.h:5,
-                    from fs/bcachefs/tests.c:5:
-   fs/bcachefs/bkey.h: In function 'bch2_bkey_format_add_key':
-   fs/bcachefs/bkey.h:557:41: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
-     557 |         x(BKEY_FIELD_VERSION_HI,        bversion.hi)                    \
-         |                                         ^~~~~~~~
-   fs/bcachefs/bkey.h:578:50: note: in definition of macro 'x'
-     578 | #define x(id, field) __bkey_format_add(s, id, k->field);
-         |                                                  ^~~~~
-   fs/bcachefs/bkey.h:579:9: note: in expansion of macro 'bkey_fields'
-     579 |         bkey_fields()
-         |         ^~~~~~~~~~~
-   fs/bcachefs/bkey.h:558:41: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
-     558 |         x(BKEY_FIELD_VERSION_LO,        bversion.lo)
-         |                                         ^~~~~~~~
-   fs/bcachefs/bkey.h:578:50: note: in definition of macro 'x'
-     578 | #define x(id, field) __bkey_format_add(s, id, k->field);
-         |                                                  ^~~~~
-   fs/bcachefs/bkey.h:579:9: note: in expansion of macro 'bkey_fields'
-     579 |         bkey_fields()
-         |         ^~~~~~~~~~~
-   In file included from fs/bcachefs/bset.h:10:
-   fs/bcachefs/bkey_methods.h: In function 'bch2_bkey_maybe_mergable':
-   fs/bcachefs/bkey_methods.h:73:34: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
-      73 |                 !bversion_cmp(l->bversion, r->bversion) &&
-         |                                  ^~~~~~~~
-         |                                  version
-   fs/bcachefs/bkey_methods.h:73:47: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
-      73 |                 !bversion_cmp(l->bversion, r->bversion) &&
-         |                                               ^~~~~~~~
-         |                                               version
-   fs/bcachefs/tests.c: In function 'insert_test_extent':
->> fs/bcachefs/tests.c:397:17: error: 'struct bkey' has no member named 'bversion'; did you mean 'version'?
-     397 |         k.k_i.k.bversion.lo = test_version++;
-         |                 ^~~~~~~~
-         |                 version
+>> drivers/media/i2c/adv7511-v4l2.c:2221:21: warning: no previous prototype for 'adv7511_subdev' [-Wmissing-prototypes]
+    2221 | struct v4l2_subdev *adv7511_subdev(struct v4l2_subdev *sd)
+         |                     ^~~~~~~~~~~~~~
 
 
-vim +397 fs/bcachefs/tests.c
+vim +/adv7511_subdev +2221 drivers/media/i2c/adv7511-v4l2.c
 
-   386	
-   387	static int insert_test_extent(struct bch_fs *c,
-   388				      u64 start, u64 end)
-   389	{
-   390		struct bkey_i_cookie k;
-   391		int ret;
-   392	
-   393		bkey_cookie_init(&k.k_i);
-   394		k.k_i.k.p.offset = end;
-   395		k.k_i.k.p.snapshot = U32_MAX;
-   396		k.k_i.k.size = end - start;
- > 397		k.k_i.k.bversion.lo = test_version++;
-   398	
-   399		ret = bch2_btree_insert(c, BTREE_ID_extents, &k.k_i, NULL, 0, 0);
-   400		bch_err_fn(c, ret);
-   401		return ret;
-   402	}
-   403	
+  2220	
+> 2221	struct v4l2_subdev *adv7511_subdev(struct v4l2_subdev *sd)
+  2222	{
+  2223		static struct v4l2_subdev *subdev;
+  2224	
+  2225		if (sd)
+  2226			subdev = sd;
+  2227	
+  2228		return subdev;
+  2229	}
+  2230	EXPORT_SYMBOL(adv7511_subdev);
+  2231	
 
 -- 
 0-DAY CI Kernel Test Service
