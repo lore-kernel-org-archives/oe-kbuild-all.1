@@ -1,71 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FE61B1500
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 22:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E9B1B375A;
+	Fri, 27 Sep 2024 22:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727474931; cv=none; b=NkSb9ZBNLCoeGAvExaLmuBbOKTjvQ+DReBRXUJWdgdwWLwpHtwiWXLtj4G+dtE9jbGBcXk0YsmBj9RHQv4TXbXO5AQTsCbL/Ig0I7OH8MBy9cXLJK8IfRxHYB51FKNpFuyAptxhgDLcFwpe14COFlpl76Ff/CjLfiniGkr8QGd4=
+	t=1727476795; cv=none; b=MNXcJveAkPsmJr4w1IWItbkFn4xx0hRXa9mPN3b1fFlaoEBcOjwN4FawxglcpI9w68nU2IKmpReIoldvyTQqvNkb63xNGjJyy9UPHbjhjWcBt0tEH9mKc4rzFUd2Jmz9cIFfuTN39dr4gVRY4I1jROMC8g2ycRC0i2TU2luI740=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727474931; c=relaxed/simple;
-	bh=PjwHTGA5BsrsNLC2q0jcT95lWCT2/PR7eV5me+6PLsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZkNd/5H9ue/gioTbLBtmSMfhPU94GfgX3RTITZhHzPoS2+SyJe/foNz7QT9q72QBqpLcsp2iISOQsJIBaVU2NOuv6wgiAjI7TdofqQbftvOTdOKylrArpTXTxmiweQJpnVF6wKs58NCuS7UcgdbCBg28XOOAzeeLSJqfVjnyvV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXrxkB0m; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1727476795; c=relaxed/simple;
+	bh=J77Ymn+fLS6ZIblJzGi9l65BaDtISc6bLGcj6BCJdaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=INAYEYtjVjAKsjaKLx8Zn7Dtk1yMkBOgZ4VDpWnvC1B6xexRytGgPD4nE8vxsGwmo/we9JelW54KilOWFKywxiFc6mF7iJnVwjHLI56xj/Wf4SqV62SeoCBhGp9+YpuM7J/QQJyAwzuqcC+NTZWfkhVamTPojSRq3DJRtapZ4xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OC4NqNCV; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXrxkB0m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OC4NqNCV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727474929; x=1759010929;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PjwHTGA5BsrsNLC2q0jcT95lWCT2/PR7eV5me+6PLsU=;
-  b=QXrxkB0mg+jZ4oXci1h0EesfJ6RcL9bMNejXyKXmULlI5dtmtMQJe7is
-   Vbftw0yUSM8+jnhHfFATPSh5sh/ymTDjcvES6rPvBjRzku0e1XomN2Glb
-   nrvLGfnGJNNww/3EfZVShOsVB32XNDJF7Isf3S89yQsegDR54WzrOel88
-   nX1nzx6+1QGGj5hP0TUa4OVMkTNZn1sdrifntZRfYb2vblutoRWUjWWu+
-   ktA4gYD1LKzEYBj+CDC0nscWLNiqnV8pZVNzJ5hiaEXDdnKoH/xfzfe8x
-   soOvFKmBqSVP9bsrD2f2adDHFuOsqsoHbRRcYFp8IR7e30LUAziDyBMz4
+  t=1727476793; x=1759012793;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J77Ymn+fLS6ZIblJzGi9l65BaDtISc6bLGcj6BCJdaM=;
+  b=OC4NqNCVb4XCkA+0eZqkdfRCSL2hufM3QlyE/9zIibOFUTJ5fAMlZp2s
+   LLrrfVP/hAHZLevhAp+u02rpTfpN8behmhA/Keqp4RIGKdtaWcSMxGzD+
+   dMs/DuJhbWDLN8qqQqs2K3527lxMmy4jOCCWUFLNTPauPy09N9ovSOoQA
+   4xbVxe1AI0fZU08zv9zy0tvAX0BSIivxHZRrXx+KdPic5El38kBAiv5BX
+   TkVao76pyW+9Jazubi4CyK7UGMFxSh54Lh+s+vnghKflrS53e0HDvvu/o
+   Oq05c9evWpQReb5waAk7emoY2T/vznMRQ2J+etBonkgxvOa+p7/Fmu6Ez
    g==;
-X-CSE-ConnectionGUID: Yd9JIp9xSIu7MmIOrB19Ug==
-X-CSE-MsgGUID: J4l315FKQK2noGqfmEqv1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30339293"
+X-CSE-ConnectionGUID: HHFFr6HLQ7mDgN/CmmHuCg==
+X-CSE-MsgGUID: lyMjL8k4Tg+sKTg1SmVH3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30341093"
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="30339293"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 15:08:48 -0700
-X-CSE-ConnectionGUID: +jdEC4j2SnCYNoASp1qIFQ==
-X-CSE-MsgGUID: m2qpjqb4ScKkNMYWZ0WRNQ==
+   d="scan'208";a="30341093"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 15:39:53 -0700
+X-CSE-ConnectionGUID: C+vfVv9IQCus3Wk6lGnj6w==
+X-CSE-MsgGUID: BMndFm0gT/2r8bPOxIzt9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="72242342"
+   d="scan'208";a="77049756"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Sep 2024 15:08:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 27 Sep 2024 15:39:51 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suJ8k-000Mg7-18;
-	Fri, 27 Sep 2024 22:08:42 +0000
-Date: Sat, 28 Sep 2024 06:08:36 +0800
+	id 1suJcp-000MhT-2v;
+	Fri, 27 Sep 2024 22:39:47 +0000
+Date: Sat, 28 Sep 2024 06:39:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <202409280806.yxX1K5ey-lkp@intel.com>
-References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
+To: Ben Levinsky <ben.levinsky@xilinx.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Wendy Liang <wendy.liang@xilinx.com>,
+	Ed Mooring <ed.mooring@xilinx.com>, Jason Wu <j.wu@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 21/1001]
+ drivers/remoteproc/zynqmp_r5_remoteproc.c:69: warning: Function parameter or
+ member 'max_banks' not described in 'xlnx_rpu_soc_data'
+Message-ID: <202409280641.xwhdvzKw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,131 +65,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-Hi Yikai,
+Hi Ben,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
-patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
-config: x86_64-randconfig-121-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280806.yxX1K5ey-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280806.yxX1K5ey-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
+head:   5365c13a86998da06d845c918f849b30b8735538
+commit: a5fe1c1d116f2534a25d0fb511bbdeb5d1971a3e [21/1001] remoteproc: Add initial zynqmp R5 remoteproc driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240928/202409280641.xwhdvzKw-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280641.xwhdvzKw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409280806.yxX1K5ey-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409280641.xwhdvzKw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/hwmon/isl28022.c:396:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
-   drivers/hwmon/isl28022.c:396:36: sparse:     expected int err
-   drivers/hwmon/isl28022.c:396:36: sparse:     got char *
-   drivers/hwmon/isl28022.c:396:88: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
-   drivers/hwmon/isl28022.c:396:88: sparse:     expected char const *fmt
-   drivers/hwmon/isl28022.c:396:88: sparse:     got unsigned int [addressable] [assigned] [usertype] val
-   drivers/hwmon/isl28022.c:406:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
-   drivers/hwmon/isl28022.c:406:36: sparse:     expected int err
-   drivers/hwmon/isl28022.c:406:36: sparse:     got char *
-   drivers/hwmon/isl28022.c:406:82: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
-   drivers/hwmon/isl28022.c:406:82: sparse:     expected char const *fmt
-   drivers/hwmon/isl28022.c:406:82: sparse:     got unsigned int [addressable] [assigned] [usertype] val
-   drivers/hwmon/isl28022.c:414:28: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
-   drivers/hwmon/isl28022.c:414:28: sparse:     expected int err
-   drivers/hwmon/isl28022.c:414:28: sparse:     got char *
-   drivers/hwmon/isl28022.c:414:87: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [usertype] shunt @@
-   drivers/hwmon/isl28022.c:414:87: sparse:     expected char const *fmt
-   drivers/hwmon/isl28022.c:414:87: sparse:     got unsigned int [usertype] shunt
->> drivers/hwmon/isl28022.c:396:36: sparse: sparse: non size-preserving pointer to integer cast
->> drivers/hwmon/isl28022.c:396:88: sparse: sparse: non size-preserving integer to pointer cast
-   drivers/hwmon/isl28022.c:406:36: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/hwmon/isl28022.c:406:82: sparse: sparse: non size-preserving integer to pointer cast
-   drivers/hwmon/isl28022.c:414:28: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/hwmon/isl28022.c:414:83: sparse: sparse: non size-preserving integer to pointer cast
+All warnings (new ones prefixed by >>):
 
-vim +396 drivers/hwmon/isl28022.c
+>> drivers/remoteproc/zynqmp_r5_remoteproc.c:69: warning: Function parameter or member 'max_banks' not described in 'xlnx_rpu_soc_data'
 
-   346	
-   347	/*
-   348	 * read property values and make consistency checks.
-   349	 *
-   350	 * following values for shunt range and resistor are allowed:
-   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
-   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
-   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
-   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
-   355	 */
-   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
-   357	{
-   358		u32 val;
-   359		int err;
-   360	
-   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
-   362		if (err == -EINVAL)
-   363			val = 10000;
-   364		else if (err < 0)
-   365			return err;
-   366		data->shunt = val;
-   367	
-   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
-   369		if (err == -EINVAL)
-   370			val = 320000;
-   371		else if (err < 0)
-   372			return err;
-   373	
-   374		switch (val) {
-   375		case 40000:
-   376			data->gain = 1;
-   377			if (data->shunt < 800)
-   378				goto shunt_invalid;
-   379			break;
-   380		case 80000:
-   381			data->gain = 2;
-   382			if (data->shunt < 1600)
-   383				goto shunt_invalid;
-   384			break;
-   385		case 160000:
-   386			data->gain = 4;
-   387			if (data->shunt < 3200)
-   388				goto shunt_invalid;
-   389			break;
-   390		case 320000:
-   391			data->gain = 8;
-   392			if (data->shunt < 6400)
-   393				goto shunt_invalid;
-   394			break;
-   395		default:
- > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
-   397			return -EINVAL;
-   398		}
-   399	
-   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
-   401		if (err == -EINVAL)
-   402			val = 1;
-   403		else if (err < 0)
-   404			return err;
-   405		if (val > 128 || hweight32(val) != 1) {
-   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
-   407			return -EINVAL;
-   408		}
-   409		data->average = val;
-   410	
-   411		return 0;
-   412	
-   413	shunt_invalid:
-   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
-   415		return -EINVAL;
-   416	}
-   417	
+
+vim +69 drivers/remoteproc/zynqmp_r5_remoteproc.c
+
+    51	
+    52	/**
+    53	 * struct xlnx_rpu_soc_data - match data to handle SoC variations
+    54	 * @soc_type:	enum to denote which SOC this is running. on. Some EEMI calls
+    55	 *		behave differently on various SoC's so denote here.
+    56	 * @tcm_bases:	collection of device addresses that SoC has for TCM banks
+    57	 * @num_tcms:	number of entries in the tcm base collection.
+    58	 *		for each core.
+    59	 * @max_rprocs: Maximum number of remoteproc instances allowed per RPU core.
+    60	 * max_banks:	Maximnum number of banks allowed for All Remoteproc instances
+    61	 *		for a given SOC.
+    62	 */
+    63	struct xlnx_rpu_soc_data {
+    64		enum soc_type_t soc_type;
+    65		unsigned int tcm_bases[MAX_BANKS_PER_CORE];
+    66		unsigned int num_tcms;
+    67		unsigned int max_rprocs;
+    68		unsigned int max_banks;
+  > 69	};
+    70	
 
 -- 
 0-DAY CI Kernel Test Service
