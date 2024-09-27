@@ -1,65 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3756165EE3;
-	Fri, 27 Sep 2024 07:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADB317836E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 07:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727422509; cv=none; b=DqNt80GK0M0EJQ8AvrBk6LOayMciuqzZhBMNTW9We6nBGQgDJyiUXRPOTkhjzWWnX+4OhuosGFaHsilhZfURAUKyNi72BSFpqgj2voBpav3wGKCrSY+2SiJLTYJNamznonZAcXMShhgh27xhzY0APxg4qiOhz0YoOCJFg81wheI=
+	t=1727423789; cv=none; b=rAnoM7bIUI4590NtNLzsPsedNS/3DtI6Snztm/g46RNukLgn78nUjKhBPU3nlT99tuRlfCa57VNDom1AYl5gVCqgPJMJJgz3A5eOcIutX/PbGrSu9P6fhkvVSXck7dyi7fAylJoM9A2vLE8FzvBfRjVPi4vryjG1Q2nm5+gZuhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727422509; c=relaxed/simple;
-	bh=dl7KEC3bcA0zG29w0kvbzh2j7JbKLNg0ctUNe/5nXZ8=;
+	s=arc-20240116; t=1727423789; c=relaxed/simple;
+	bh=atxgWhlufWJqB+3x/JTi4Ij5JPZN1vZ5tOZ3v8Z3u6I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HgcbsDZNFHmz/waZ5o4ImsQ4zJfLVnyjUr0c/p4ecclL4zymR7BDtJdLTdI2mRTnmRquCS+f6f/OGOZHuyM/jGMRXU3unINE4uIfwm9JKdvpFANOSFpLzL9d5AR3f/ISIQJUWb9WcRbdtIOKAedO5m2aUiOn9SXEmF2Jtw0LAhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=drrEX/rw; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=tUCgYzIsaGdEYW8xAQKbFPZE6IInuzrCNS0AR+lonFD2J0pA/rZ1L+BHZuHB2lj5wLNrXz5k8ORg23zB3f5EiO8YEFMBvpFH8rhg2R6QzU6VrJFolqQ8stBybRrkMXPMu2oA0znhp8UL7alXME3NmB74Id+xM9aHttMqhTqLR5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=vfGbwadx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j30Al9Zr; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="drrEX/rw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727422508; x=1758958508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dl7KEC3bcA0zG29w0kvbzh2j7JbKLNg0ctUNe/5nXZ8=;
-  b=drrEX/rwneUYonRKN2CJ8cSPQBk7XWnd5JnN1fCj19o5zMeJGESj3Uxg
-   lzC6P9HXOg3l/OzWm7DlFGUyOb+5RQSMV/vG2K7BBVvZ5KXV2r25RMpsp
-   +zhwxIA3N83QJiUDoKLgp81mHSgsE9QrwbugwKIIs36gD6yr4rWjRGgEM
-   8hJYl/e9L9oxGx3s41qFoOEGsIrltcRlOa8PepOk0eGA6yciVWXMO9QO9
-   wOhhwfuGXgm9fsWwORc5dvWtNmUr+PNNuN8MofVXWbNUYzWUclm2Yb3mZ
-   Ls6VCY0lCsllhzQ7fMJsVBDvu6u7gl2l+CStE9BEf+wmbg/XUDyBkZMGj
-   g==;
-X-CSE-ConnectionGUID: FvxQNtMkRyK/GcxKuXKuwA==
-X-CSE-MsgGUID: e2OqQKEERG+NgJDyBZJ6tA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="30270227"
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="30270227"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 00:35:07 -0700
-X-CSE-ConnectionGUID: wXRWhCHvTuKNDOX5qWfodg==
-X-CSE-MsgGUID: bH2h9b3jQhi6nOnMmjKtvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="72444779"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Sep 2024 00:35:04 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1su5VF-000Lex-1x;
-	Fri, 27 Sep 2024 07:35:01 +0000
-Date: Fri, 27 Sep 2024 15:34:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	heikki.krogerus@linux.intel.com, tzungbi@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jthies@google.com, pmalani@chromium.org,
-	akuchynski@google.com,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] platform/chrome: cros_ec_typec: Thunderbolt support
-Message-ID: <202409271548.taoANDmm-lkp@intel.com>
-References: <20240925092505.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="vfGbwadx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j30Al9Zr"
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0F19011400BB;
+	Fri, 27 Sep 2024 03:56:27 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Fri, 27 Sep 2024 03:56:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1727423787; x=1727510187; bh=J+aU+SP6FS
+	WrN8/ayrddri28YUJF01/SouAK9Cfqn+g=; b=vfGbwadxN5yYKWMd7itCK8LVty
+	KWjZxQoZAFpAfcXO4xZH1yp71gQBmKvYIaXE9TQ5pIc7eTerREZCM2ISO4TOM3LI
+	6HmOKIrRBzfNQ6Ta3t/fT0zXv8JZ/ROrmSE4GeWSHrJu9T3zA+ovUruSCCPE9nJz
+	Rw5HKXyYFCqkj2Z7ii7x+jRswo99/udyNnPs+P2PHUEs6nPsZKquclb9Sf+0/jqE
+	Fk6GvUKrGm708zIE5MsxBpcJ4mVQG4804aBLjNPUzUwJ1zuILKMNDrIStYKenj5g
+	t5cZO6FS4pMi0tK7MCltNcY7rCh+bfHf8AenW0/dkKY4BOjvR0FRunfcxXZQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1727423787; x=1727510187; bh=J+aU+SP6FSWrN8/ayrddri28YUJF
+	01/SouAK9Cfqn+g=; b=j30Al9Zre/RPGtqVKXFVkt2XqVPJnKy/F3kkHR6VI42Q
+	5cgUrhRHgZ1NwU6RLBM30oFlNOXravwtstnyIqwsGCFFThh0GMR9y/oglsE20A3H
+	8OClvTTt6LW5Fydkd2aU3GL15ThAgHDyu1Mr6PFm9rYQKu0oSZrC6APfdr7tqchm
+	UD3f0PvtXRIC31YF+0PWyxGpcKUKL0LCC/EFqH4zh+CRfL6kNT7MuId1RDPGRxCx
+	Gbn+1iO67LztLanyA40yQT5DWt9+4PQCM0wVSos3Oo5+HZtYlJP8LjlMYWU199gN
+	dBKUsb4Vf/a6cu4nBvn1qC1sk/QXa0NH4x2kYHA+Fw==
+X-ME-Sender: <xms:KmX2ZlJlVnnsbblQiPsID_7vWRNfbrksCfU_lb8Iy3gUiOJxDcogxA>
+    <xme:KmX2ZhLsXhQ312KxrJBO6gnfK7w3YfjcEexJPpsZ__98eJ4D1TErqe3rd0BrORfKc
+    fj6IREvHCTAmg>
+X-ME-Received: <xmr:KmX2ZtsHeyj3dig2MWypHQg5MDzRbTHyYNKgRktZPjp81Oi3Mj6PIwy_OlFF2-kFZ_ScWjcfnwmWGns-DtGjT0EXykzTMKFcqpP-Bw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddtkedguddvgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+    necuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtf
+    frrghtthgvrhhnpeegheeuhefgtdeluddtleekfeegjeetgeeikeehfeduieffvddufeef
+    leevtddtvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+    pdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehpuh
+    hlvghhuhhisehhuhgrfigvihgtlhhouhgurdgtohhmpdhrtghpthhtoheplhhkphesihhn
+    thgvlhdrtghomhdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhig
+    rdguvghv
+X-ME-Proxy: <xmx:KmX2ZmaGODI6NFZQ9vPhb4pJVXcxvEqmRuwtfoBa0EVLYX8_fObdfg>
+    <xmx:KmX2ZsahHMHT_r7WaNOZIoQ3_8w2GIWhn8GJnixC0bPeq_LZI94xRw>
+    <xmx:KmX2ZqBh90kuuIP8C4ZEF5JXSkls01QUNONVhQP6YsVK2Nipd5WHkw>
+    <xmx:KmX2ZqbiJ_J949A3LoORGhQSyicSSk4GVndaccBR_hOAUq_ipOC-tw>
+    <xmx:K2X2ZiOdNySecq_0phkNQFd0Yvk5CuMu4SIyMpB1JQClwNT3ifaI5QMw>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 27 Sep 2024 03:56:25 -0400 (EDT)
+Date: Fri, 27 Sep 2024 09:56:15 +0200
+From: Greg KH <greg@kroah.com>
+To: Pu Lehui <pulehui@huaweicloud.com>
+Cc: kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.10] bpf: Fix mismatch memory accounting for devmap maps
+Message-ID: <2024092751-thrift-squander-0036@gregkh>
+References: <Zu1QdPBf_QnYCxbS@3bb1e60d1c37>
+ <2bd9fdba-d916-4453-a0d9-a1a5b827a454@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,67 +86,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240925092505.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
+In-Reply-To: <2bd9fdba-d916-4453-a0d9-a1a5b827a454@huaweicloud.com>
 
-Hi Abhishek,
+On Mon, Sep 23, 2024 at 02:38:07PM +0800, Pu Lehui wrote:
+> 
+> 
+> On 2024/9/20 18:37, kernel test robot wrote:
+> > Hi,
+> > 
+> > Thanks for your patch.
+> > 
+> > FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> > 
+> > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+> > 
+> > Rule: The upstream commit ID must be specified with a separate line above the commit text.
+> > Subject: [PATCH 5.10] bpf: Fix mismatch memory accounting for devmap maps
+> > Link: https://lore.kernel.org/stable/20240920103950.3931497-1-pulehui%40huaweicloud.com
+> > 
+> > Please ignore this mail if the patch is not relevant for upstream.
+> > 
+> 
+> This fix only involves 5.10, other versions are no problem.
 
-kernel test robot noticed the following build errors:
+why?  If this is true, then you need to get the relevant bpf maintainers
+to review and ack it.
 
-[auto build test ERROR on chrome-platform/for-next]
-[also build test ERROR on chrome-platform/for-firmware-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Pandit-Subedi/usb-typec-Add-driver-for-Thunderbolt-3-Alternate-Mode/20240926-002931
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240925092505.7.Ic61ced3cdfb5d6776435356061f12307da719829%40changeid
-patch subject: [PATCH 7/8] platform/chrome: cros_ec_typec: Thunderbolt support
-config: i386-randconfig-r133-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271548.taoANDmm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271548.taoANDmm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271548.taoANDmm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/platform/chrome/cros_typec_thunderbolt.o: in function `cros_typec_register_displayport':
->> drivers/platform/chrome/cros_typec_altmode.h:24: multiple definition of `cros_typec_register_displayport'; drivers/platform/chrome/cros_ec_typec.o:drivers/platform/chrome/cros_typec_altmode.h:24: first defined here
-   ld: drivers/platform/chrome/cros_typec_thunderbolt.o: in function `cros_typec_displayport_status_update':
->> drivers/platform/chrome/cros_typec_altmode.h:30: multiple definition of `cros_typec_displayport_status_update'; drivers/platform/chrome/cros_ec_typec.o:drivers/platform/chrome/cros_typec_altmode.h:30: first defined here
-
-
-vim +24 drivers/platform/chrome/cros_typec_altmode.h
-
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  10  
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  11  #if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  12  struct typec_altmode *
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  13  cros_typec_register_displayport(struct cros_typec_port *port,
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  14  				struct typec_altmode_desc *desc,
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  15  				bool ap_mode_entry);
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  16  
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  17  int cros_typec_displayport_status_update(struct typec_altmode *altmode,
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  18  					 struct typec_displayport_data *data);
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  19  #else
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  20  struct typec_altmode *
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  21  cros_typec_register_displayport(struct cros_typec_port *port,
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  22  				struct typec_altmode_desc *desc,
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  23  				bool ap_mode_entry)
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25 @24  {
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  25  	return typec_port_register_altmode(port->port, desc);
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  26  }
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  27  
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  28  int cros_typec_displayport_status_update(struct typec_altmode *altmode,
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  29  					 struct typec_displayport_data *data)
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25 @30  {
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  31  	return 0;
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  32  }
-a57f16462c7621 Abhishek Pandit-Subedi 2024-09-25  33  #endif
-4db96705bb611f Abhishek Pandit-Subedi 2024-09-25  34  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
