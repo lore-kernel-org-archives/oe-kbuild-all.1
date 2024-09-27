@@ -1,83 +1,58 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADB317836E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 07:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05969188A31
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 07:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727423789; cv=none; b=rAnoM7bIUI4590NtNLzsPsedNS/3DtI6Snztm/g46RNukLgn78nUjKhBPU3nlT99tuRlfCa57VNDom1AYl5gVCqgPJMJJgz3A5eOcIutX/PbGrSu9P6fhkvVSXck7dyi7fAylJoM9A2vLE8FzvBfRjVPi4vryjG1Q2nm5+gZuhU=
+	t=1727423835; cv=none; b=UKCZktjXqkuF/hOJVOpL/bQf3e6OqHxeRnmPCVUwDQ5hG+nsWv1a+SC8MEqPFsQrIdrAn5VYskrLvBNvgDaKaHnH7bkoxEqzpg+TBEhYXRrBhKqX2Ljd7D3GNrrmY2xsjktQsSUuxHOBNF16d2aW6dkn3MeIe+dXV/qny+Farsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727423789; c=relaxed/simple;
-	bh=atxgWhlufWJqB+3x/JTi4Ij5JPZN1vZ5tOZ3v8Z3u6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tUCgYzIsaGdEYW8xAQKbFPZE6IInuzrCNS0AR+lonFD2J0pA/rZ1L+BHZuHB2lj5wLNrXz5k8ORg23zB3f5EiO8YEFMBvpFH8rhg2R6QzU6VrJFolqQ8stBybRrkMXPMu2oA0znhp8UL7alXME3NmB74Id+xM9aHttMqhTqLR5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=vfGbwadx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j30Al9Zr; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1727423835; c=relaxed/simple;
+	bh=e8sxeKQArhsRlhyt3ykRBcDTTB7Xbq3VWz9enmo33gQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RTgG5c8CTGAQ9BdKd0QEdupn09Eii+tBBTtvDDiASQheB7xWPnnsWe/gUv650AFwpuJMMbiyh2fcmehIQ0e9sH4h00CeOySHLW2UcjEO7SV7KSJYLcfFfYoOJsTb9lkne7hQjQNP57axRa4W8JOw4n8Rq14gjOuacCMQbnJc5hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBcPsgzx; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="vfGbwadx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j30Al9Zr"
-Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0F19011400BB;
-	Fri, 27 Sep 2024 03:56:27 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Fri, 27 Sep 2024 03:56:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1727423787; x=1727510187; bh=J+aU+SP6FS
-	WrN8/ayrddri28YUJF01/SouAK9Cfqn+g=; b=vfGbwadxN5yYKWMd7itCK8LVty
-	KWjZxQoZAFpAfcXO4xZH1yp71gQBmKvYIaXE9TQ5pIc7eTerREZCM2ISO4TOM3LI
-	6HmOKIrRBzfNQ6Ta3t/fT0zXv8JZ/ROrmSE4GeWSHrJu9T3zA+ovUruSCCPE9nJz
-	Rw5HKXyYFCqkj2Z7ii7x+jRswo99/udyNnPs+P2PHUEs6nPsZKquclb9Sf+0/jqE
-	Fk6GvUKrGm708zIE5MsxBpcJ4mVQG4804aBLjNPUzUwJ1zuILKMNDrIStYKenj5g
-	t5cZO6FS4pMi0tK7MCltNcY7rCh+bfHf8AenW0/dkKY4BOjvR0FRunfcxXZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1727423787; x=1727510187; bh=J+aU+SP6FSWrN8/ayrddri28YUJF
-	01/SouAK9Cfqn+g=; b=j30Al9Zre/RPGtqVKXFVkt2XqVPJnKy/F3kkHR6VI42Q
-	5cgUrhRHgZ1NwU6RLBM30oFlNOXravwtstnyIqwsGCFFThh0GMR9y/oglsE20A3H
-	8OClvTTt6LW5Fydkd2aU3GL15ThAgHDyu1Mr6PFm9rYQKu0oSZrC6APfdr7tqchm
-	UD3f0PvtXRIC31YF+0PWyxGpcKUKL0LCC/EFqH4zh+CRfL6kNT7MuId1RDPGRxCx
-	Gbn+1iO67LztLanyA40yQT5DWt9+4PQCM0wVSos3Oo5+HZtYlJP8LjlMYWU199gN
-	dBKUsb4Vf/a6cu4nBvn1qC1sk/QXa0NH4x2kYHA+Fw==
-X-ME-Sender: <xms:KmX2ZlJlVnnsbblQiPsID_7vWRNfbrksCfU_lb8Iy3gUiOJxDcogxA>
-    <xme:KmX2ZhLsXhQ312KxrJBO6gnfK7w3YfjcEexJPpsZ__98eJ4D1TErqe3rd0BrORfKc
-    fj6IREvHCTAmg>
-X-ME-Received: <xmr:KmX2ZtsHeyj3dig2MWypHQg5MDzRbTHyYNKgRktZPjp81Oi3Mj6PIwy_OlFF2-kFZ_ScWjcfnwmWGns-DtGjT0EXykzTMKFcqpP-Bw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddtkedguddvgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeegheeuhefgtdeluddtleekfeegjeetgeeikeehfeduieffvddufeef
-    leevtddtvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-    pdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehpuh
-    hlvghhuhhisehhuhgrfigvihgtlhhouhgurdgtohhmpdhrtghpthhtoheplhhkphesihhn
-    thgvlhdrtghomhdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhig
-    rdguvghv
-X-ME-Proxy: <xmx:KmX2ZmaGODI6NFZQ9vPhb4pJVXcxvEqmRuwtfoBa0EVLYX8_fObdfg>
-    <xmx:KmX2ZsahHMHT_r7WaNOZIoQ3_8w2GIWhn8GJnixC0bPeq_LZI94xRw>
-    <xmx:KmX2ZqBh90kuuIP8C4ZEF5JXSkls01QUNONVhQP6YsVK2Nipd5WHkw>
-    <xmx:KmX2ZqbiJ_J949A3LoORGhQSyicSSk4GVndaccBR_hOAUq_ipOC-tw>
-    <xmx:K2X2ZiOdNySecq_0phkNQFd0Yvk5CuMu4SIyMpB1JQClwNT3ifaI5QMw>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Sep 2024 03:56:25 -0400 (EDT)
-Date: Fri, 27 Sep 2024 09:56:15 +0200
-From: Greg KH <greg@kroah.com>
-To: Pu Lehui <pulehui@huaweicloud.com>
-Cc: kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5.10] bpf: Fix mismatch memory accounting for devmap maps
-Message-ID: <2024092751-thrift-squander-0036@gregkh>
-References: <Zu1QdPBf_QnYCxbS@3bb1e60d1c37>
- <2bd9fdba-d916-4453-a0d9-a1a5b827a454@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBcPsgzx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727423834; x=1758959834;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e8sxeKQArhsRlhyt3ykRBcDTTB7Xbq3VWz9enmo33gQ=;
+  b=PBcPsgzx/7z6ywPzMJwsgk67bILw7YLcLmDpcU6Q0dD6fajaYHXVHGER
+   8D6LKCOPHZFtoNsoZvJCC7tzdeRdlOkXDl6WVQIBaVkxGfuu6rZvlhzMh
+   TgApuhKjt98nB7oj9R0iVE7S4S+nC+fbxF+yGy9y3Nclr5HZvalTSjtnF
+   dh7S0xwHAnrX5+Lg5qNP1CzBA+HFIbsvVn2epTDlpgZmXxDARJj9+rbcC
+   UH4Jq68//cyVJEWcIxW8sVk87iGIdyvq6a2KgdVmecvZ+teAjaL6ADre+
+   1IPuTgB40/I2mohYTDeDYnOVQYYlQrFVy/hhwUKcVpRWcrUfDExw+BSt4
+   A==;
+X-CSE-ConnectionGUID: tfarse5hT/ubLk94x6PsFQ==
+X-CSE-MsgGUID: Y3TKmzzHSRSbeyl2bikD9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="44028203"
+X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
+   d="scan'208";a="44028203"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 00:57:05 -0700
+X-CSE-ConnectionGUID: rxewMN/QR9qX4G/ohs2kEw==
+X-CSE-MsgGUID: dKyJi0jwTR6jutYPyE87jQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
+   d="scan'208";a="103241860"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 27 Sep 2024 00:57:05 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1su5qY-000LfX-09;
+	Fri, 27 Sep 2024 07:57:02 +0000
+Date: Fri, 27 Sep 2024 15:56:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v3 25/28] warning: unused import:
+ `super::bindings_helper::*`
+Message-ID: <202409271538.CT5dKV1O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,32 +61,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2bd9fdba-d916-4453-a0d9-a1a5b827a454@huaweicloud.com>
 
-On Mon, Sep 23, 2024 at 02:38:07PM +0800, Pu Lehui wrote:
-> 
-> 
-> On 2024/9/20 18:37, kernel test robot wrote:
-> > Hi,
-> > 
-> > Thanks for your patch.
-> > 
-> > FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> > 
-> > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
-> > 
-> > Rule: The upstream commit ID must be specified with a separate line above the commit text.
-> > Subject: [PATCH 5.10] bpf: Fix mismatch memory accounting for devmap maps
-> > Link: https://lore.kernel.org/stable/20240920103950.3931497-1-pulehui%40huaweicloud.com
-> > 
-> > Please ignore this mail if the patch is not relevant for upstream.
-> > 
-> 
-> This fix only involves 5.10, other versions are no problem.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
+head:   4aa82618143fa088b509910cd96db7e0c47134f7
+commit: 47cf4a69304211b874ca06b009787eaa97beea88 [25/28] x86: Use PIE codegen for the core kernel
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240927/202409271538.CT5dKV1O-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271538.CT5dKV1O-lkp@intel.com/reproduce)
 
-why?  If this is true, then you need to get the relevant bpf maintainers
-to review and ack it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271538.CT5dKV1O-lkp@intel.com/
 
-thanks,
+All warnings (new ones prefixed by >>):
 
-greg k-h
+>> warning: unused import: `super::bindings_helper::*`
+   --> rust/bindings/lib.rs:31:13
+   |
+   31 |     pub use super::bindings_helper::*;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+--
+>> warning: unused import: `super::bindings_raw::*`
+   --> rust/bindings/lib.rs:44:9
+   |
+   44 |     use super::bindings_raw::*;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
