@@ -1,134 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AFD1E4AE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 15:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A8B171092;
+	Fri, 27 Sep 2024 16:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727451454; cv=none; b=SM52UGuLdVKI9a7OiJqdwcKUpcUmpwHpy2BhK5mqvd4L0JdMx3Gfx9j7UP2wqYcLc62DpFbIAQgh19qwDvNOsqGIPmILFPrwe+kJYFgjYSENTp86Ny5aSiRTgYPeLS/T4Ci4f46i4XHa/SMa1d836vr1qT9n8VQ4XqgQgcL56Ko=
+	t=1727454191; cv=none; b=jCThO9gzkiWWZDwYs02ptiC80dzlcccNL4laq8ffAv+J2rNCcr6LkVM298grDWzSNwZ4BzHBnTm1vfY2yOuiLtBrdBDZo6pyaind1AcHhzNtmuauzwvnSabYrouRGSUGKkNNcnFm6FeuvG6OMkUGtQXODYB/lVT/IoXwfBrmJlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727451454; c=relaxed/simple;
-	bh=CF4c+e9sp5mBSfZyy3TAKdztM8TedbeQDU2iy94WUF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q29cd/Zl5gGSG1yrPNTFjJMme6IgIiu3Gp2z+oaXcMH1eNu0Aip1/aybJguCvuCjdXOsD/UOSj6RrTqRzjynrRQWMSqqt3qnImnjZX4kkXXJVFL0dY7IY0XomTyQs4cVw+pIKe6u7vq+8O5xgTaZ8bybbnOJHlTlEssl7xXwBvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLEjh8at; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1727454191; c=relaxed/simple;
+	bh=6marIh19WZrGCdY2BxGmhnNoJn18ZK94qKIiudktIY4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mawP+gQp/thEUfs61PqDiz3X/8I/dudFgUaB/D+JWt4yW/7yGL/fE0kNEmUQpt1bOtANUYj4uyha/gF0ECWe/PafGEVgInHY5Ziuz6Oe6cAIb+sTMRSkfucvG270PuhluhPiVJR0YIc30by4O1Hk5Lhx22BsAJSykHt1uIFv8GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=daG2UQ+e; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLEjh8at"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="daG2UQ+e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727451453; x=1758987453;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CF4c+e9sp5mBSfZyy3TAKdztM8TedbeQDU2iy94WUF0=;
-  b=jLEjh8atIl7G6eA7Zm0TXE2wyCaj5LG+hrSl506RDVWgKSJf7hhtyLH4
-   Fq4ItoYvT78H8EL5O0BD77F0aaTgO7qKGdE3hq1X9Jbc2W3LGretmNly7
-   NMfNNhD9dcMbiTK6imrshdZ3ou6OdTiJHO5DqK8s+KIp+8V/r0n1wArwY
-   qvlqJSz3PqG1WqFJocImuWn4Ej+EWqVKzQnq7Y6WUV+1ljx4Mr4TGvsU5
-   cuNqGXWe2l7IqC6QGmtK8ggZg4+wfrYh0cO7n61Y1RyqeJxLRlGgi3Oph
-   kKLh/Ar13BLqXa97ERHMWu0WGjUgcKHNd1jvJhLwfzMRIqEJ0DvHtFUFH
-   A==;
-X-CSE-ConnectionGUID: 1/O/FyvSRe+clDfDVFUUwQ==
-X-CSE-MsgGUID: FALBEVo3QFWe4xe4D2xKIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="37737439"
+  t=1727454190; x=1758990190;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=6marIh19WZrGCdY2BxGmhnNoJn18ZK94qKIiudktIY4=;
+  b=daG2UQ+eUMlbQfcCHGw4oGqvtWr5BXihYM5ulq+QV4OqARImLtLLNeVi
+   uqt9X04oeIEvxaiV0GfWiabfR8j6NSEABFu2kh51z3sumC1mhialwJhNP
+   Wga06TU2byxVQlxii46xhzulpqP8X4p1a24Y74PRQUd4a46G0En7CWEBy
+   +yrDbKvaotlY3IOlaiBhtWxNylL+CmLXnjxloME4sBWm4qKSxDXbLKsX1
+   BIp+DSv4jswqvCB+lHFv8LghF+jnYcNH7UI7DtdV7pyaH8LTvcEN6TEON
+   6mQs9UOWa9L6GYrcf3BStUzMB+q+OOB3sxSIwFMkTIgqHrxvoxPAfdbuU
+   Q==;
+X-CSE-ConnectionGUID: YNjdQ/QgTG+UASjyeUAluQ==
+X-CSE-MsgGUID: VAESinXXSyaP4HRXCuTnqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26736840"
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="37737439"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 08:37:32 -0700
-X-CSE-ConnectionGUID: Nqb9ZyuwQyOJHoQyzdEuiA==
-X-CSE-MsgGUID: 52GCkGOeQRmjTAt3CmPOIw==
+   d="scan'208";a="26736840"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 09:23:09 -0700
+X-CSE-ConnectionGUID: Y+kw/ZaJSjGo3nvgQRBnuA==
+X-CSE-MsgGUID: HgsZ1cA2TqOWddKonwDzFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="72230374"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Sep 2024 08:37:28 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suD26-000MJ7-0m;
-	Fri, 27 Sep 2024 15:37:26 +0000
-Date: Fri, 27 Sep 2024 23:37:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1598/2444]
- drivers/vfio/platform/vfio_platform.c:29:9: error: implicit declaration of
- function 'platform_get_mem_or_io'
-Message-ID: <202409272348.MorJkFiJ-lkp@intel.com>
+   d="scan'208";a="110069715"
+Received: from inaky-mobl1.amr.corp.intel.com (HELO [10.125.108.33]) ([10.125.108.33])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 09:23:09 -0700
+Message-ID: <527f8aca-7703-419c-bfa8-1cfdf65e0fd3@intel.com>
+Date: Fri, 27 Sep 2024 09:23:08 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Jason,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   aabcc6dc6d7f9e12baf1f117341469c84afd545d
-commit: 6c95419e5c4fa83ef61c2c0cbf752d39df4b9f3f [1598/2444] vfio-platform: Add COMPILE_TEST to VFIO_PLATFORM
-config: x86_64-buildonly-randconfig-002-20240927 (https://download.01.org/0day-ci/archive/20240927/202409272348.MorJkFiJ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409272348.MorJkFiJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409272348.MorJkFiJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/vfio/platform/vfio_platform.c:9:
-   In file included from include/linux/vfio.h:12:
-   In file included from include/linux/iommu.h:16:
-   include/linux/ioasid.h:210:9: error: must use 'enum' tag to refer to type 'ioasid_set_type'
-     210 |                                                   ioasid_set_type type)
-         |                                                   ^
-         |                                                   enum 
->> drivers/vfio/platform/vfio_platform.c:29:9: error: implicit declaration of function 'platform_get_mem_or_io' [-Werror,-Wimplicit-function-declaration]
-      29 |         return platform_get_mem_or_io(dev, num);
-         |                ^
-   drivers/vfio/platform/vfio_platform.c:29:9: note: did you mean 'platform_get_resource'?
-   include/linux/platform_device.h:52:25: note: 'platform_get_resource' declared here
-      52 | extern struct resource *platform_get_resource(struct platform_device *,
-         |                         ^
->> drivers/vfio/platform/vfio_platform.c:29:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct resource *' [-Wint-conversion]
-      29 |         return platform_get_mem_or_io(dev, num);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
-   Depends on [n]: PCI [=n]
-   Selected by [y]:
-   - X86 [=y]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [djiang:cxl/fwctl 13/25] drivers/cxl/cxlmem.h:798:44: error:
+ 'counted_by' argument must be a simple declaration reference
+To: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+References: <202409270908.NJPL38kw-lkp@intel.com>
+ <20240927134116.GA3695247@thelio-3990X>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20240927134116.GA3695247@thelio-3990X>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +/platform_get_mem_or_io +29 drivers/vfio/platform/vfio_platform.c
 
-9df85aaa43297c Antonios Motakis 2015-03-16  23  
-9df85aaa43297c Antonios Motakis 2015-03-16  24  static struct resource *get_platform_resource(struct vfio_platform_device *vdev,
-9df85aaa43297c Antonios Motakis 2015-03-16  25  					      int num)
-9df85aaa43297c Antonios Motakis 2015-03-16  26  {
-9df85aaa43297c Antonios Motakis 2015-03-16  27  	struct platform_device *dev = (struct platform_device *) vdev->opaque;
-9df85aaa43297c Antonios Motakis 2015-03-16  28  
-f0953dcfbb5080 Andy Shevchenko  2020-12-09 @29  	return platform_get_mem_or_io(dev, num);
-9df85aaa43297c Antonios Motakis 2015-03-16  30  }
-9df85aaa43297c Antonios Motakis 2015-03-16  31  
+On 9/27/24 6:41 AM, Nathan Chancellor wrote:
+> On Fri, Sep 27, 2024 at 09:39:54AM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
+>> head:   b4f2900f53c72de8fc639b62e44763c6a9695d3b
+>> commit: 5a0496c19151d83cd0d926f8a1488eeaab27509b [13/25] cxl: Add Get Supported Features command for kernel usage
+>> config: arm-randconfig-004-20240927 (https://download.01.org/0day-ci/archive/20240927/202409270908.NJPL38kw-lkp@intel.com/config)
+>> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270908.NJPL38kw-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202409270908.NJPL38kw-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>    In file included from drivers/cxl/port.c:7:
+>>    In file included from drivers/cxl/cxlmem.h:6:
+>>    In file included from include/linux/pci.h:1646:
+>>    In file included from include/linux/dmapool.h:14:
+>>    In file included from include/linux/scatterlist.h:8:
+>>    In file included from include/linux/mm.h:2232:
+>>    include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>>      517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+>>          |                               ~~~~~~~~~~~ ^ ~~~
+>>    In file included from drivers/cxl/port.c:7:
+>>>> drivers/cxl/cxlmem.h:798:44: error: 'counted_by' argument must be a simple declaration reference
+>>      798 |         struct cxl_feat_entry ents[] __counted_by(le32_to_cpu(supported_feats));
+>>          |                                      ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> It seems like this should likely use the __counted_by_le() macro so that
+> it is only used for tracking on little endian targets?
 
-:::::: The code at line 29 was first introduced by commit
-:::::: f0953dcfbb508070e806a0c53aae09cdd3cde744 vfio: platform: Switch to use platform_get_mem_or_io()
+Thank you! That helped address the issue.
 
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Jianping Liu <frankjpliu@tencent.com>
+> 
+>>    include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32_to_cpu'
+>>       89 | #define le32_to_cpu __le32_to_cpu
+>>          |                     ^
+>>    include/uapi/linux/byteorder/little_endian.h:35:26: note: expanded from macro '__le32_to_cpu'
+>>       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+>>          |                          ^
+>>    include/linux/compiler_attributes.h:105:62: note: expanded from macro '__counted_by'
+>>      105 | # define __counted_by(member)           __attribute__((__counted_by__(member)))
+>>          |                                                                       ^~~~~~
+>>    1 warning and 1 error generated.
+>>
+>>
+>> vim +/counted_by +798 drivers/cxl/cxlmem.h
+>>
+>>    793	
+>>    794	struct cxl_mbox_get_sup_feats_out {
+>>    795		__le16 num_entries;
+>>    796		__le16 supported_feats;
+>>    797		u8 reserved[4];
+>>  > 798		struct cxl_feat_entry ents[] __counted_by(le32_to_cpu(supported_feats));
+>>    799	} __packed;
+>>    800	
+>>
+>> -- 
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
+>>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
