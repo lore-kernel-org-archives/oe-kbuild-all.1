@@ -1,135 +1,147 @@
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA901A0BE6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 09:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585C1BC075
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 10:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727430936; cv=none; b=DWxfI+VklW10C7TG9UVHzxSKkVSVFJCAEs2PNQyRKSmb8tEP/cpp86Faea1z1Pp9SuXTaemkfKab9Gfl+nOIJLlPnEmZWenw8DLQdxDbG+76mSTEgY4YPC6V4txurVYApK7on37wBQKo/m7kRg0m3X8LTmCHCPyQ4WQqe4cWyUM=
+	t=1727431395; cv=none; b=Q7OqSb9qceT0bw1beOCQZ1IRnMplr2APNFY6yUX1nbGmYk2WLe9aQMh52OaggD5WPfIwt45YrhQxA9L2qFRzOoAtLHVPNbBxsVKLDN0MlRfUq0HYyYp8qMyrGYVyLF5qC3hLKSaHONS9EIpwIZXSbk6iWETK4bQZVjPCErnYcEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727430936; c=relaxed/simple;
-	bh=VnA47Zt1tLK42DvhfMynoQz9iS5dswX0Ju2s6tG2g3M=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=i16gZEzeHR1hxr03JEJkl6Wl5bXkOEHieYBL3jNyZAl8cXyDXh+d96ld2FCEgysUbMLsu607ISJ0uhY46R1rqSO5B9JSIkp4k0UinSHT962baB6VuwloZI+o+KvOS+qtcjXkXhNvoQz67Y7CIQLtuXN5aJ7b/h8sxb1BdaK1KcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=Gs3y2F44; arc=none smtp.client-ip=212.103.80.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1727431395; c=relaxed/simple;
+	bh=lFbPrpRue2Sh4Otl9W/nWvPjZIr3Df+KW/bk7MYwet0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bh+GGdB8ImTlpNxqyI76IUJ4aR7r7UzB6kmY7zVRDbeefNo1OI962yGodq7Xg3CSItZa6+EleLcmmss9tKT55D/Td5nR4tLksyc6OHCxylf/8Lai+A23vi296tn546s7VJH7JqgAM3Yq1ZdcUc7m+GVC32sgmr0ZeENg340JFsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lO9dK62P; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="Gs3y2F44"
-Received: from localhost (unknown [127.0.0.1])
-	by mx.kolabnow.com (Postfix) with ESMTP id 1D00E302A02;
-	Fri, 27 Sep 2024 11:55:26 +0200 (CEST)
-Authentication-Results: ext-mx-out013.mykolab.com (amavis);
- dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-	content-transfer-encoding:content-type:content-type:message-id
-	:references:in-reply-to:subject:subject:from:from:date:date
-	:mime-version:received:received:received; s=dkim20240523; t=
-	1727430923; x=1729245324; bh=tMGNwHc0WSv8ww/AbbjoPGWbFWMBTPhFAxy
-	PpIwMkNU=; b=Gs3y2F44PRqWeUt15QDVS4PAZPWEIpMGmNX5q72tSGPeBjaa8pb
-	GEJv+qdqm70MRr3JlZPYgwkcsms0K8dHYjeCI0IrHO7i1VTJOl+WTZrm5v5Je5i9
-	0K01r3YWbu6kC91vejsWBBPh2knyW9oNRP75LiXAUbIvt+zSw7aByDC62+d+YUG6
-	wtsquqH7/1odljWrlKqZiP5lcufd3jjK/bbWJptxJhmCBjIUp/IMtceEgjp3gRw/
-	oseJzbEwxSyJBUZyRpVuH3wyRG1dU8dH5abV/MyDsFNpAr6zzsFhHzUrqIu1tXBI
-	GmerC7Ke4iD20o90i5Tt6wyS+GkUM/6a+Tg==
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -1
-X-Spam-Level:
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out013.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id rdsO9j1002ns; Fri, 27 Sep 2024 11:55:23 +0200 (CEST)
-Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
-	by mx.kolabnow.com (Postfix) with ESMTPS id AF461302A00;
-	Fri, 27 Sep 2024 11:55:20 +0200 (CEST)
-Received: from int-subm015.mykolab.com (unknown [10.9.37.15])
-	by int-mx011.mykolab.com (Postfix) with ESMTPS id 98D3C309048F;
-	Fri, 27 Sep 2024 11:55:20 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lO9dK62P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727431393; x=1758967393;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lFbPrpRue2Sh4Otl9W/nWvPjZIr3Df+KW/bk7MYwet0=;
+  b=lO9dK62PeP6xzC3J57Y2i+uwh/liw27xE8laVJdc2kLsEH1rXtOJL5DK
+   rIUWwW0vfBILlL4wrxG30yAitcmAGvjJ9O3ZJfjHml2Kv8QLm2Qt0aN22
+   kve9K6NWxPbpbedND2B5n2VIxzsjOk3bhenBGCLPSpRgYEcSP+aEkGJNq
+   JmYhapjMzMfE+GVzCMCXUo5rizMVHS3iNA6vxgELKr7tAymBh1BG1MYcu
+   1YeRSdSwEhr0YOY6Ks0f2kmoUH8gnUNtdVyh2JN395J45ImMPOFYUI9P6
+   xAdlpCIokGUnEEBhxWB4GqB+4xWNrxxoBF2sH5y1VJSI9eTmXzhZR9sPi
+   w==;
+X-CSE-ConnectionGUID: mYgWE0p6RbK6vaD5XFflvg==
+X-CSE-MsgGUID: w6sSWWJrTpeou86LR9ebBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37708312"
+X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
+   d="scan'208";a="37708312"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 03:03:12 -0700
+X-CSE-ConnectionGUID: 6uqbNY4nRdG9xfjl57vHUA==
+X-CSE-MsgGUID: Wc9LCmWcRdGwcmJZat/XIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
+   d="scan'208";a="77001807"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 27 Sep 2024 03:03:11 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1su7ob-000Ln5-02;
+	Fri, 27 Sep 2024 10:03:09 +0000
+Date: Fri, 27 Sep 2024 18:02:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 198/202]
+ fs/bcachefs/tests.c:397:17: error: 'struct bkey' has no member named
+ 'bversion'; did you mean 'version'?
+Message-ID: <202409271712.EZRpO2Z1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 27 Sep 2024 11:55:20 +0200
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-To: kernel test robot <lkp@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, oe-kbuild-all@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] doc:it_IT: update documents in process/
-In-Reply-To: <202409250825.r3iY80XD-lkp@intel.com>
-References: <20240924224635.21472-1-federico.vaga@vaga.pv.it>
- <202409250825.r3iY80XD-lkp@intel.com>
-Message-ID: <d50ee871d2bdc35192be9729176759a1@vaga.pv.it>
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'll come back with a fix for this warning.
+Hi Kent,
 
-On 2024-09-25 02:41, kernel test robot wrote:
-> Hi Federico,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on next-20240924]
-> [cannot apply to linus/master v6.11]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:
-> https://github.com/intel-lab-lkp/linux/commits/Federico-Vaga/doc-it_IT-update-documents-in-process/20240925-064806
-> base:   git://git.lwn.net/linux.git docs-next
-> patch link:
-> https://lore.kernel.org/r/20240924224635.21472-1-federico.vaga%40vaga.pv.it
-> patch subject: [PATCH v2] doc:it_IT: update documents in process/
-> reproduce:
-> (https://download.01.org/0day-ci/archive/20240925/202409250825.r3iY80XD-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> https://lore.kernel.org/oe-kbuild-all/202409250825.r3iY80XD-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    Documentation/userspace-api/netlink/netlink-raw.rst:
-> :doc:`tc<../../networking/netlink_spec/tc>`
->    Documentation/userspace-api/netlink/netlink-raw.rst:
-> :doc:`tc<../../networking/netlink_spec/tc>`
->    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt
-> references a file that doesn't exist:
-> Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
->    Warning:
-> Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml
-> references a file that doesn't exist:
-> Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->    Warning: Documentation/hwmon/g762.rst references a file that
-> doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->>> Warning: Documentation/translations/it_IT/process/4.Coding.rst 
->>> references a file that doesn't exist: 
->>> Documentation/translations/it_IT/process/clang-format.rst
->>> Warning: Documentation/translations/it_IT/process/coding-style.rst 
->>> references a file that doesn't exist: 
->>> Documentation/translations/it_IT/process/clang-format.rst
->    Warning: Documentation/userspace-api/netlink/index.rst references a
-> file that doesn't exist:
-> Documentation/networking/netlink_spec/index.rst
->    Warning: Documentation/userspace-api/netlink/specs.rst references a
-> file that doesn't exist:
-> Documentation/networking/netlink_spec/index.rst
->    Warning: MAINTAINERS references a file that doesn't exist:
-> Documentation/devicetree/bindings/reserved-memory/qcom
->    Warning: MAINTAINERS references a file that doesn't exist:
-> Documentation/devicetree/bindings/display/exynos/
->    Warning: MAINTAINERS references a file that doesn't exist:
-> Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   9ee6e6730cfdb671c180b323c6d60374aa5ab6b5
+commit: 8983840debcfd17df76e2a8d3831c3c5970b53a7 [198/202] bcachefs: rename version -> bversion
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240927/202409271712.EZRpO2Z1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271712.EZRpO2Z1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271712.EZRpO2Z1-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from fs/bcachefs/bset.h:9,
+                    from fs/bcachefs/btree_iter.h:5,
+                    from fs/bcachefs/btree_update.h:5,
+                    from fs/bcachefs/tests.c:5:
+   fs/bcachefs/bkey.h: In function 'bch2_bkey_format_add_key':
+   fs/bcachefs/bkey.h:557:41: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
+     557 |         x(BKEY_FIELD_VERSION_HI,        bversion.hi)                    \
+         |                                         ^~~~~~~~
+   fs/bcachefs/bkey.h:578:50: note: in definition of macro 'x'
+     578 | #define x(id, field) __bkey_format_add(s, id, k->field);
+         |                                                  ^~~~~
+   fs/bcachefs/bkey.h:579:9: note: in expansion of macro 'bkey_fields'
+     579 |         bkey_fields()
+         |         ^~~~~~~~~~~
+   fs/bcachefs/bkey.h:558:41: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
+     558 |         x(BKEY_FIELD_VERSION_LO,        bversion.lo)
+         |                                         ^~~~~~~~
+   fs/bcachefs/bkey.h:578:50: note: in definition of macro 'x'
+     578 | #define x(id, field) __bkey_format_add(s, id, k->field);
+         |                                                  ^~~~~
+   fs/bcachefs/bkey.h:579:9: note: in expansion of macro 'bkey_fields'
+     579 |         bkey_fields()
+         |         ^~~~~~~~~~~
+   In file included from fs/bcachefs/bset.h:10:
+   fs/bcachefs/bkey_methods.h: In function 'bch2_bkey_maybe_mergable':
+   fs/bcachefs/bkey_methods.h:73:34: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
+      73 |                 !bversion_cmp(l->bversion, r->bversion) &&
+         |                                  ^~~~~~~~
+         |                                  version
+   fs/bcachefs/bkey_methods.h:73:47: error: 'const struct bkey' has no member named 'bversion'; did you mean 'version'?
+      73 |                 !bversion_cmp(l->bversion, r->bversion) &&
+         |                                               ^~~~~~~~
+         |                                               version
+   fs/bcachefs/tests.c: In function 'insert_test_extent':
+>> fs/bcachefs/tests.c:397:17: error: 'struct bkey' has no member named 'bversion'; did you mean 'version'?
+     397 |         k.k_i.k.bversion.lo = test_version++;
+         |                 ^~~~~~~~
+         |                 version
+
+
+vim +397 fs/bcachefs/tests.c
+
+   386	
+   387	static int insert_test_extent(struct bch_fs *c,
+   388				      u64 start, u64 end)
+   389	{
+   390		struct bkey_i_cookie k;
+   391		int ret;
+   392	
+   393		bkey_cookie_init(&k.k_i);
+   394		k.k_i.k.p.offset = end;
+   395		k.k_i.k.p.snapshot = U32_MAX;
+   396		k.k_i.k.size = end - start;
+ > 397		k.k_i.k.bversion.lo = test_version++;
+   398	
+   399		ret = bch2_btree_insert(c, BTREE_ID_extents, &k.k_i, NULL, 0, 0);
+   400		bch_err_fn(c, ret);
+   401		return ret;
+   402	}
+   403	
 
 -- 
-Federico Vaga
-http://www.federicovaga.it/
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
