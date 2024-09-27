@@ -1,154 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BC519AD85
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 17:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C4917ADF0;
+	Fri, 27 Sep 2024 18:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727459442; cv=none; b=iNsFP26MVTbAHssqLnUB4gl8j3gm0o4nlu8VKHOXPKDSKOG9vSkz0DMMU9S35lgz9VIONEb/cQmYloN4UPVghM9iRMzIVeZ+9CoSRcNgJSORbxjnGKEvhv3fVwJpHtvsIcGkH5ndKs+yRfm1gvgMVkEnFT1FU74Hf+sC6LuMas8=
+	t=1727461179; cv=none; b=iuKs3dyoG2wQlZSEjBqL+czJpRz6Bnmiods9GFduoWG5dhx+ufqsLt2DxVavwJUqyZ1fVGJbgXGm94TgBSxK4s6OdyXhpdlVFqV8bsNSJAFF8qeM/1tHimlxjl9CIEdRyCtyvUsr8dbsgxqqqCmpqk4AWrfjQko5TLd8pZ3MlkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727459442; c=relaxed/simple;
-	bh=nTxZ/PYjDffAeNozv7/RTvihY4OwB2WRej0sK1UdwgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S4n4WBW/sS1RqNw7X6OGt32mx28AaW9n6qC8XvaxR+AQzYMC1pyFCO4lx2hOIY9a0CO8tYO4WQFx0ASUrwR0uV6L2cnsWzQvA6c3TXaXljU5sJp3zy/mCMy9vuFMLs5emd4qJsS6ocvAdvcb5w7ZBSoUe+qPEKPuNKdTqfLgJKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UjHE2tdM; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727461179; c=relaxed/simple;
+	bh=xuH1d2vaPlz5jT4/9KGPhuQeCHrYLk+LwemcXt+ZUxE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=UKK+VlrND4XneBvmpKFIweHlYhXaqMne0GsUltK4K1zcCbxGukARI8eB3LMMO+8UNIWkbeYlTDjPGXEzKGm8wGBob6vVyX6zGQX4hY6yJ2YMc5WZJ6jXq5E9xMwMszYTdIQNgQ63UkbJfrM7nly/iipmPFdsWTcEEy2DV4FrohY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GiOjYNZh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UjHE2tdM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727459440; x=1758995440;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nTxZ/PYjDffAeNozv7/RTvihY4OwB2WRej0sK1UdwgE=;
-  b=UjHE2tdMyC+PjOc82UeIAU0olilHksjroq4ewAmZIzH59HEeGnVu2aEz
-   4KA1v/blOEnzyCcfeD1mir7zRINFcUxyL5+H6HAB2mHvDWsoUv75PjRK7
-   GqXBSUKnelzouZOSGrxzHz4j1jhUyNAUxyP0Su6+Pm9TtX/IUQ28nUZ+j
-   AkroVZHv9B2YlUn/FZMKD7rRcq0WZ1Krqnhaedi0HRIc4XNFtvqTn5Fv/
-   zaSkSNkS1c+bjWlNSpKOWHpORBdP2KaWp2jlc0dT8O2Csah4LLQS57bUp
-   t316ykM6BOVrAZ/+5uSNwo3v9LY7w7SSYtHkq+O8PHNeKfuEAefM+W5wJ
-   w==;
-X-CSE-ConnectionGUID: b7OZ2UpyTzSrEir6Gir3kA==
-X-CSE-MsgGUID: 3Jj54pKPS/+sA547Bl8uWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="52027522"
-X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="52027522"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 10:50:39 -0700
-X-CSE-ConnectionGUID: PdSU4k9wSmGflF5SAPNI4Q==
-X-CSE-MsgGUID: A1Fbzq9EQdarbOxwZWf67g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="110097375"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Sep 2024 10:50:36 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suF6v-000MRa-1W;
-	Fri, 27 Sep 2024 17:50:33 +0000
-Date: Sat, 28 Sep 2024 01:50:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2211/2444]
- include/linux/compiler.h:417:45: error: call to '__compiletime_assert_160'
- declared with attribute error: BUILD_BUG failed
-Message-ID: <202409280130.74xxlJ1x-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GiOjYNZh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FDC9C4CEC4;
+	Fri, 27 Sep 2024 18:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727461179;
+	bh=xuH1d2vaPlz5jT4/9KGPhuQeCHrYLk+LwemcXt+ZUxE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=GiOjYNZhIhUq5SE58LOU5zWywjg3kAlYS3JFr0Zzj0WH+COi7HFm8gOGKFvRjOxaQ
+	 Ufo3E2876Pbv5n2qAVhqQ9iJilJZALONxcY31KQO1GeFqODXzxYNLSbX1wXqCj9Get
+	 HEWaolU1iAtcbhQYsu5t2ziQcdALBOUnaCEypBeCyl7EzbumHZYWdjsI426piT9sWW
+	 ThlqD+4hGX4cSbAvTe6xrThdaO9pJSL3YFtwNocUb4exQEmGbeR11qJtZB6a5ZWHUy
+	 wJWCNSApw9vfbBLsuVwvC+bSqBqM16LjWTOO0N5SW3ouDBjSK7gmIPqJqyfrZ7Owbj
+	 ezWg6aWGutOBg==
+Date: Fri, 27 Sep 2024 20:19:36 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Vishnu Sankar <vishnuocv@gmail.com>
+cc: kernel test robot <lkp@intel.com>, bentiss@kernel.org, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    oe-kbuild-all@lists.linux.dev, mpearson-lenovo@squebb.ca, 
+    vsankar@lenovo.com
+Subject: Re: [PATCH] hid: hid-lenovo: Supporting TP-X12-TAB-1/2 Kbd Hotkeys
+ using raw events.
+In-Reply-To: <CABxCQKuya7HUWPPw+3vSigddHa84hGZdtuN-02mxvNdfieLXZQ@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2409272018370.31206@cbobk.fhfr.pm>
+References: <20240917100432.10887-1-vishnuocv@gmail.com> <202409211318.ZsE7JGOi-lkp@intel.com> <CABxCQKuya7HUWPPw+3vSigddHa84hGZdtuN-02mxvNdfieLXZQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   aabcc6dc6d7f9e12baf1f117341469c84afd545d
-commit: 7ed14911c89112b6b74bc41a23e143e1699c53ee [2211/2444] Build report error when config IOASID disable
-config: x86_64-randconfig-075-20240927 (https://download.01.org/0day-ci/archive/20240928/202409280130.74xxlJ1x-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280130.74xxlJ1x-lkp@intel.com/reproduce)
+On Tue, 24 Sep 2024, Vishnu Sankar wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409280130.74xxlJ1x-lkp@intel.com/
+> Sorry for the inconvenience.
+> The base I used was the Master branch.
+> 
+> Should I resubmit this patch again with the base as linus/master next-2024xxxx?
 
-All errors (new ones prefixed by >>):
+Please ideally base your patches on:
 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/seqlock.h:36,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:10,
-                    from drivers/dma/idxd/dma.c:5:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/init.h:5,
-                    from drivers/dma/idxd/dma.c:3:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   drivers/dma/idxd/dma.c: In function 'idxd_register_dma_device':
->> include/linux/compiler.h:417:45: error: call to '__compiletime_assert_160' declared with attribute error: BUILD_BUG failed
-     417 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler.h:398:25: note: in definition of macro '__compiletime_assert'
-     398 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler.h:417:9: note: in expansion of macro '_compiletime_assert'
-     417 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   include/linux/huge_mm.h:287:27: note: in expansion of macro 'BUILD_BUG'
-     287 | #define HPAGE_PMD_SIZE ({ BUILD_BUG(); 0; })
-         |                           ^~~~~~~~~
-   drivers/dma/idxd/dma.c:394:48: note: in expansion of macro 'HPAGE_PMD_SIZE'
-     394 |         idxd_dma->dma_parms.max_segment_size = HPAGE_PMD_SIZE;
-         |                                                ^~~~~~~~~~~~~~
+- topic branch in hid.git for the particular driver you are touching (in 
+  this case it'd be called hid.git#for-6.13/lenovo)
 
+- hid.git#master if a topic branch for your particular driver doesn't 
+  exist in hid.git
 
-vim +/__compiletime_assert_160 +417 include/linux/compiler.h
-
-9a8ab1c39970a4 Daniel Santos 2013-02-21  403  
-9a8ab1c39970a4 Daniel Santos 2013-02-21  404  #define _compiletime_assert(condition, msg, prefix, suffix) \
-9a8ab1c39970a4 Daniel Santos 2013-02-21  405  	__compiletime_assert(condition, msg, prefix, suffix)
-9a8ab1c39970a4 Daniel Santos 2013-02-21  406  
-9a8ab1c39970a4 Daniel Santos 2013-02-21  407  /**
-9a8ab1c39970a4 Daniel Santos 2013-02-21  408   * compiletime_assert - break build and emit msg if condition is false
-9a8ab1c39970a4 Daniel Santos 2013-02-21  409   * @condition: a compile-time constant condition to check
-9a8ab1c39970a4 Daniel Santos 2013-02-21  410   * @msg:       a message to emit if condition is false
-9a8ab1c39970a4 Daniel Santos 2013-02-21  411   *
-9a8ab1c39970a4 Daniel Santos 2013-02-21  412   * In tradition of POSIX assert, this macro will break the build if the
-9a8ab1c39970a4 Daniel Santos 2013-02-21  413   * supplied condition is *false*, emitting the supplied error message if the
-9a8ab1c39970a4 Daniel Santos 2013-02-21  414   * compiler has support to do so.
-9a8ab1c39970a4 Daniel Santos 2013-02-21  415   */
-9a8ab1c39970a4 Daniel Santos 2013-02-21  416  #define compiletime_assert(condition, msg) \
-c62d6b571d573c Jianping Liu  2024-06-11 @417  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-9a8ab1c39970a4 Daniel Santos 2013-02-21  418  
-
-:::::: The code at line 417 was first introduced by commit
-:::::: c62d6b571d573c73ac756831dea55ebcb7921dd1 ock: sync codes to ock 5.4.119-20.0009.21
-
-:::::: TO: Jianping Liu <frankjpliu@tencent.com>
-:::::: CC: Jianping Liu <frankjpliu@tencent.com>
+Thanks,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jiri Kosina
+SUSE Labs
+
