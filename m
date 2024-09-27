@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6199A188CB7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 08:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27FF1607AA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 08:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727424429; cv=none; b=QxY1dFGH8LMHxkrlE148HSZ3tlDFx0CdXAD9apjv/GITZkjvK+FSRrC8sW6BNvPJkkJYQUpqySqkqEEkXCYqnT5pjY0t4XN6zHLNez9lB7ziMoIKI+lPMyOZqr5jlmRIv5OoVWXf9fG+aq6VN57OXQSFpfeRqtmBK0DfMTqWfHA=
+	t=1727425150; cv=none; b=a/G65wlxQf67c5Cn4n8QYJffthLUyZoZBawYkt8Is3PibqsQdPhOD0U8lpbjjs2NxLrXzem5papMXO1n7VfsQsrVqNEOFaqhExpdnv2e9igmV7xgMY75garzYQdC8J79gfNf8L0dGkfBy7gcE90qFoAJ8vNIAzT6056LJ3MBn2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727424429; c=relaxed/simple;
-	bh=Cy0xJnPQmXztCgmKgrCDV/ocFXqu7ui6f26wP9ZdjkM=;
+	s=arc-20240116; t=1727425150; c=relaxed/simple;
+	bh=JGCzF5rEX19POHuGx/Y8tACkY2igV4U8Xa5ug3srQtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SNk+CYmI+ZjDCXeLF+Xt+I916N9St7tETiDdj9UBb6HpOvwW3tFqIXno45I+AD+RRglp98Zb2DXwJ/f8mmTrULFjlZuQs06uFWsrp8qdCXcs9Z74OEKfM24prmi6tRor0IKlbZxXGlEcGGS/knwV1uevN2QpxRq/UGuLQkAQv5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XNN82cYq; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=PAg/F4szprflHL0CTxdK3sgYB5xNjFk12cO6L/JrwqWTv+lHd4fQ3m2FGGsI0+/ZhyfltQHMoT8h/Uxk47eZqo5Xv+n0/FNny2ZjEb3QlFjyj83VZSbrxKP1O6t7BchzMSI4gp7NVDbBYThRrZknMBbX9/yj9izq5Js7ANYC8hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MwQvd3lw; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XNN82cYq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MwQvd3lw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727424428; x=1758960428;
+  t=1727425148; x=1758961148;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cy0xJnPQmXztCgmKgrCDV/ocFXqu7ui6f26wP9ZdjkM=;
-  b=XNN82cYqGf8aFPuvLIuDAgpsud6YQH6WKhCzwYIY1ajPqBIPtvpG+So4
-   jZ/JV4K2J5jMnR4yGR8TSd4B0LVwlMxTPKnIPnfbau6uptIAxZ8xk9n8D
-   LCdvYCVLINL4dk0dAOEBEiFHtcPjNJe2pfHExyPFdyNQ9sfAQ+qS6KcKj
-   96qEgwPaamsjjvTnWbp9fw7nbw2W761D7stOSizXeh7USJZq3bCDmr/D8
-   qwshkB1MIUOspmyrKU4TznIZMn+2kD28pcEd/EzGO/4QQZPDywGmBqolt
-   LvViNx8yyWKKllykTyttyG3R6eOB5jXoiftMNqVUxiSYIUOP5xWiyM3H6
+  bh=JGCzF5rEX19POHuGx/Y8tACkY2igV4U8Xa5ug3srQtg=;
+  b=MwQvd3lwpcYeDUetovIVc/emBWPIVx/wMgcxUCmgu6TuFHqIBE1sdAbQ
+   0Is+muR+yaC/c/gQZZWjw7xSgLRMSpEzm78qgbjtC2BAwNcII2kFK+MWh
+   QCI5UXJQFVjQRI4n30LzhyohVpFtRH9cuth6Q5dRa97ayapQOV0+1tD++
+   oiZMSK3YhC1Ll4F1olD5IVCx9jHBNvrsXjgHCEj9F6QZ86N8YB29VkyoE
+   QFlgBLaoH+SOD92zMXk6KJx4un8C3N5qyzHn7B4Iue1XjBo/h3TD2QVfG
+   MlPu1BRx/mNfBgidGX+cFXUL9b0os01XD16dRduEmu8illN9dFENCaBLT
    g==;
-X-CSE-ConnectionGUID: 8NJEhUWqRFWP/Ys+Os21LQ==
-X-CSE-MsgGUID: QX6JiaAERa6fQzDUIrANrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="30450172"
+X-CSE-ConnectionGUID: g8GpXL65REerPrWv3zvwVg==
+X-CSE-MsgGUID: 6U7dhHy4S3uUp5Z4fXYe4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26507483"
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="30450172"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 01:07:07 -0700
-X-CSE-ConnectionGUID: GIBomdZgQGuRsxbi16EWUg==
-X-CSE-MsgGUID: yjho2PGsS3uhoIsqEp4Scw==
+   d="scan'208";a="26507483"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 01:19:08 -0700
+X-CSE-ConnectionGUID: hR/fbL8tRGirFWirYxu4uA==
+X-CSE-MsgGUID: PMKIokQ7SMGXbK4lakC1ZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="77241254"
+   d="scan'208";a="73251941"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 27 Sep 2024 01:07:05 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Sep 2024 01:19:05 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1su60E-000Lfz-1F;
-	Fri, 27 Sep 2024 08:07:02 +0000
-Date: Fri, 27 Sep 2024 16:06:51 +0800
+	id 1su6Bq-000Lgd-2I;
+	Fri, 27 Sep 2024 08:19:02 +0000
+Date: Fri, 27 Sep 2024 16:18:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manish Narani <manish.narani@xilinx.com>
+To: Conall O'Griofa <conall.ogriofa@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
 	Michal Simek <monstr@monstr.eu>,
-	Piyush Mehta <piyush.mehta@amd.com>,
 	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 636/1001]
- drivers/usb/dwc3/core.c:1232:5: warning: no previous prototype for
- 'dwc3_core_init'
-Message-ID: <202409271631.Nu7ckGku-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 137/1001]
+ include/linux/compiler_types.h:425:45: error: call to
+ '__compiletime_assert_214' declared with attribute error: FIELD_GET: mask is
+ zero
+Message-ID: <202409271644.w7TpK7Oh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,258 +68,485 @@ Content-Disposition: inline
 
 tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
 head:   5365c13a86998da06d845c918f849b30b8735538
-commit: 2790ed87f0ae567824335f9e27bdf0da380bb305 [636/1001] usb: dwc3: Add power management support in DWC3 Xilinx driver
-config: i386-randconfig-004-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271631.Nu7ckGku-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271631.Nu7ckGku-lkp@intel.com/reproduce)
+commit: 9d29858b73b0579e8cff27add03a8b24ecead5f1 [137/1001] drivers: iio: adc: xilinx-ams: Add over temperature interrupts
+config: arc-randconfig-001-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271644.w7TpK7Oh-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271644.w7TpK7Oh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271631.Nu7ckGku-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271644.w7TpK7Oh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/usb/dwc3/core.c:1232:5: warning: no previous prototype for 'dwc3_core_init' [-Wmissing-prototypes]
-    1232 | int dwc3_core_init(struct dwc3 *dwc)
-         |     ^~~~~~~~~~~~~~
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:69:47: note: in expansion of macro '__bf_shf'
+      69 |                                  ~((_mask) >> __bf_shf(_mask)) & (_val) : 0, \
+         |                                               ^~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/bitfield.h:69:44: warning: right shift count is negative [-Wshift-count-negative]
+      69 |                                  ~((_mask) >> __bf_shf(_mask)) & (_val) : 0, \
+         |                                            ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:34: note: in expansion of macro '__bf_cast_unsigned'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:75:56: note: in expansion of macro '__bf_shf'
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                        ^~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/bitfield.h:75:53: warning: left shift count is negative [-Wshift-count-negative]
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                     ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:75:56: note: in expansion of macro '__bf_shf'
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                        ^~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/bitfield.h:75:53: warning: left shift count is negative [-Wshift-count-negative]
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                     ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/bitfield.h:155:44: note: in definition of macro 'FIELD_GET'
+     155 |                 (typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask)); \
+         |                                            ^~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   include/linux/bitfield.h:45:38: note: in definition of macro '__bf_shf'
+      45 | #define __bf_shf(x) (__builtin_ffsll(x) - 1)
+         |                                      ^
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:141:41: note: in expansion of macro 'BIT'
+     141 | #define AMS_ISR1_ALARM_2_MASK           BIT(34)
+         |                                         ^~~
+   drivers/iio/adc/xilinx-ams.c:401:25: note: in expansion of macro 'AMS_ISR1_ALARM_2_MASK'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:155:52: warning: right shift count is negative [-Wshift-count-negative]
+     155 |                 (typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask)); \
+         |                                                    ^~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c: In function 'ams_update_alarm':
+   drivers/iio/adc/xilinx-ams.c:424:51: warning: left shift count >= width of type [-Wshift-count-overflow]
+     424 |                              (AMS_ISR1_ALARM_MASK << AMS_ISR1_ALARM_SHIFT)),
+         |                                                   ^~
+   In file included from include/linux/bits.h:6,
+                    from drivers/iio/adc/xilinx-ams.c:11:
+   drivers/iio/adc/xilinx-ams.c: In function 'ams_get_alarm_mask':
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/iio/adc/xilinx-ams.c:929:24: note: in expansion of macro 'BIT'
+     929 |                 return BIT(AMS_ALARM_BIT_TEMP_OT_REMOTE);
+         |                        ^~~
+   drivers/iio/adc/xilinx-ams.c: In function 'ams_irq':
+   drivers/iio/adc/xilinx-ams.c:1137:42: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1137 |                     (AMS_ISR1_ALARM_MASK << AMS_ISR1_ALARM_SHIFT)) |
+         |                                          ^~
+   In function 'ams_update_ps_alarm',
+       inlined from 'ams_update_alarm' at drivers/iio/adc/xilinx-ams.c:416:3,
+       inlined from 'ams_write_event_config' at drivers/iio/adc/xilinx-ams.c:963:2:
+>> include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_214' declared with attribute error: FIELD_GET: mask is zero
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+     406 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:377:15: note: in expansion of macro 'FIELD_GET'
+     377 |         val = FIELD_GET(AMS_ISR1_ALARM_1_TO_0_MASK, alarm_mask);
+         |               ^~~~~~~~~
+   In function 'ams_update_pl_alarm',
+       inlined from 'ams_update_alarm' at drivers/iio/adc/xilinx-ams.c:419:3,
+       inlined from 'ams_write_event_config' at drivers/iio/adc/xilinx-ams.c:963:2:
+   include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_259' declared with attribute error: FIELD_GET: mask is zero
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+     406 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/iio/adc/xilinx-ams.c:401:15: note: in expansion of macro 'FIELD_GET'
+     401 |         val = FIELD_GET(AMS_ISR1_ALARM_2_MASK, alarm_mask);
+         |               ^~~~~~~~~
 
 
-vim +/dwc3_core_init +1232 drivers/usb/dwc3/core.c
+vim +/__compiletime_assert_214 +425 include/linux/compiler_types.h
 
-  1225	
-  1226	/**
-  1227	 * dwc3_core_init - Low-level initialization of DWC3 Core
-  1228	 * @dwc: Pointer to our controller context structure
-  1229	 *
-  1230	 * Returns 0 on success otherwise negative errno.
-  1231	 */
-> 1232	int dwc3_core_init(struct dwc3 *dwc)
-  1233	{
-  1234		unsigned int		hw_mode;
-  1235		u32			reg;
-  1236		int			ret;
-  1237	
-  1238		hw_mode = DWC3_GHWPARAMS0_MODE(dwc->hwparams.hwparams0);
-  1239	
-  1240		/*
-  1241		 * Write Linux Version Code to our GUID register so it's easy to figure
-  1242		 * out which kernel version a bug was found.
-  1243		 */
-  1244		dwc3_writel(dwc->regs, DWC3_GUID, LINUX_VERSION_CODE);
-  1245	
-  1246		ret = dwc3_phy_setup(dwc);
-  1247		if (ret)
-  1248			return ret;
-  1249	
-  1250		if (!dwc->ulpi_ready) {
-  1251			ret = dwc3_core_ulpi_init(dwc);
-  1252			if (ret) {
-  1253				if (ret == -ETIMEDOUT) {
-  1254					dwc3_core_soft_reset(dwc);
-  1255					ret = -EPROBE_DEFER;
-  1256				}
-  1257				return ret;
-  1258			}
-  1259			dwc->ulpi_ready = true;
-  1260		}
-  1261	
-  1262		if (!dwc->phys_ready) {
-  1263			ret = dwc3_core_get_phy(dwc);
-  1264			if (ret)
-  1265				goto err_exit_ulpi;
-  1266			dwc->phys_ready = true;
-  1267		}
-  1268	
-  1269		ret = dwc3_phy_init(dwc);
-  1270		if (ret)
-  1271			goto err_exit_ulpi;
-  1272	
-  1273		ret = dwc3_core_soft_reset(dwc);
-  1274		if (ret)
-  1275			goto err_exit_phy;
-  1276	
-  1277		if (hw_mode == DWC3_GHWPARAMS0_MODE_DRD &&
-  1278		    !DWC3_VER_IS_WITHIN(DWC3, ANY, 194A)) {
-  1279			if (!dwc->dis_u3_susphy_quirk) {
-  1280				reg = dwc3_readl(dwc->regs, DWC3_GUSB3PIPECTL(0));
-  1281				reg |= DWC3_GUSB3PIPECTL_SUSPHY;
-  1282				dwc3_writel(dwc->regs, DWC3_GUSB3PIPECTL(0), reg);
-  1283			}
-  1284	
-  1285			if (!dwc->dis_u2_susphy_quirk) {
-  1286				reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
-  1287				reg |= DWC3_GUSB2PHYCFG_SUSPHY;
-  1288				dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
-  1289			}
-  1290		}
-  1291	
-  1292		dwc3_core_setup_global_control(dwc);
-  1293		dwc3_core_num_eps(dwc);
-  1294	
-  1295		if (dwc->scratchbuf == NULL) {
-  1296			ret = dwc3_alloc_scratch_buffers(dwc);
-  1297			if (ret) {
-  1298				dev_err(dwc->dev,
-  1299					"Not enough memory for scratch buffers\n");
-  1300				goto err_exit_phy;
-  1301			}
-  1302		}
-  1303	
-  1304		ret = dwc3_setup_scratch_buffers(dwc);
-  1305		if (ret) {
-  1306			dev_err(dwc->dev, "Failed to setup scratch buffers: %d\n", ret);
-  1307			goto err_exit_phy;
-  1308		}
-  1309	
-  1310		/* Set power down scale of suspend_clk */
-  1311		dwc3_set_power_down_clk_scale(dwc);
-  1312	
-  1313		/* Adjust Frame Length */
-  1314		dwc3_frame_length_adjustment(dwc);
-  1315	
-  1316		/* Adjust Reference Clock Period */
-  1317		dwc3_ref_clk_period(dwc);
-  1318	
-  1319		dwc3_set_incr_burst_type(dwc);
-  1320	
-  1321		ret = dwc3_phy_power_on(dwc);
-  1322		if (ret)
-  1323			goto err_exit_phy;
-  1324	
-  1325		dwc3_config_soc_bus(dwc);
-  1326	
-  1327		ret = dwc3_event_buffers_setup(dwc);
-  1328		if (ret) {
-  1329			dev_err(dwc->dev, "failed to setup event buffers\n");
-  1330			goto err_power_off_phy;
-  1331		}
-  1332	
-  1333		/*
-  1334		 * ENDXFER polling is available on version 3.10a and later of
-  1335		 * the DWC_usb3 controller. It is NOT available in the
-  1336		 * DWC_usb31 controller.
-  1337		 */
-  1338		if (DWC3_VER_IS_WITHIN(DWC3, 310A, ANY)) {
-  1339			reg = dwc3_readl(dwc->regs, DWC3_GUCTL2);
-  1340			reg |= DWC3_GUCTL2_RST_ACTBITLATER;
-  1341			dwc3_writel(dwc->regs, DWC3_GUCTL2, reg);
-  1342		}
-  1343	
-  1344		/* SNPS controller when configureed in HOST mode maintains Inter Packet
-  1345		 * Delay (IPD) of ~380ns which works with most of the super-speed hubs
-  1346		 * except VIA-LAB hubs. When IPD is ~380ns HOST controller fails to
-  1347		 * enumerate FS/LS devices when connected behind VIA-LAB hubs.
-  1348		 * Enabling bit 9 of GUCTL1 enables the workaround in HW to reduce the
-  1349		 * ULPI clock latency by 1 cycle, thus reducing the IPD (~360ns) and
-  1350		 * making controller enumerate FS/LS devices connected behind VIA-LAB.
-  1351		 */
-  1352		if (dwc->enable_guctl1_ipd_quirk) {
-  1353			reg = dwc3_readl(dwc->regs, DWC3_GUCTL1);
-  1354			reg |= DWC3_GUCTL1_IPD_QUIRK;
-  1355			dwc3_writel(dwc->regs, DWC3_GUCTL1, reg);
-  1356		}
-  1357	
-  1358		/*
-  1359		 * When configured in HOST mode, after issuing U3/L2 exit controller
-  1360		 * fails to send proper CRC checksum in CRC5 feild. Because of this
-  1361		 * behaviour Transaction Error is generated, resulting in reset and
-  1362		 * re-enumeration of usb device attached. All the termsel, xcvrsel,
-  1363		 * opmode becomes 0 during end of resume. Enabling bit 10 of GUCTL1
-  1364		 * will correct this problem. This option is to support certain
-  1365		 * legacy ULPI PHYs.
-  1366		 */
-  1367		if (dwc->resume_hs_terminations) {
-  1368			reg = dwc3_readl(dwc->regs, DWC3_GUCTL1);
-  1369			reg |= DWC3_GUCTL1_RESUME_OPMODE_HS_HOST;
-  1370			dwc3_writel(dwc->regs, DWC3_GUCTL1, reg);
-  1371		}
-  1372	
-  1373		if (!DWC3_VER_IS_PRIOR(DWC3, 250A)) {
-  1374			reg = dwc3_readl(dwc->regs, DWC3_GUCTL1);
-  1375	
-  1376			/*
-  1377			 * Enable hardware control of sending remote wakeup
-  1378			 * in HS when the device is in the L1 state.
-  1379			 */
-  1380			if (!DWC3_VER_IS_PRIOR(DWC3, 290A))
-  1381				reg |= DWC3_GUCTL1_DEV_L1_EXIT_BY_HW;
-  1382	
-  1383			/*
-  1384			 * Decouple USB 2.0 L1 & L2 events which will allow for
-  1385			 * gadget driver to only receive U3/L2 suspend & wakeup
-  1386			 * events and prevent the more frequent L1 LPM transitions
-  1387			 * from interrupting the driver.
-  1388			 */
-  1389			if (!DWC3_VER_IS_PRIOR(DWC3, 300A))
-  1390				reg |= DWC3_GUCTL1_DEV_DECOUPLE_L1L2_EVT;
-  1391	
-  1392			if (dwc->dis_tx_ipgap_linecheck_quirk)
-  1393				reg |= DWC3_GUCTL1_TX_IPGAP_LINECHECK_DIS;
-  1394	
-  1395			if (dwc->parkmode_disable_ss_quirk)
-  1396				reg |= DWC3_GUCTL1_PARKMODE_DISABLE_SS;
-  1397	
-  1398			if (dwc->parkmode_disable_hs_quirk)
-  1399				reg |= DWC3_GUCTL1_PARKMODE_DISABLE_HS;
-  1400	
-  1401			if (DWC3_VER_IS_WITHIN(DWC3, 290A, ANY) &&
-  1402			    (dwc->maximum_speed == USB_SPEED_HIGH ||
-  1403			     dwc->maximum_speed == USB_SPEED_FULL))
-  1404				reg |= DWC3_GUCTL1_DEV_FORCE_20_CLK_FOR_30_CLK;
-  1405	
-  1406			dwc3_writel(dwc->regs, DWC3_GUCTL1, reg);
-  1407		}
-  1408	
-  1409		/*
-  1410		 * Must config both number of packets and max burst settings to enable
-  1411		 * RX and/or TX threshold.
-  1412		 */
-  1413		if (!DWC3_IP_IS(DWC3) && dwc->dr_mode == USB_DR_MODE_HOST) {
-  1414			u8 rx_thr_num = dwc->rx_thr_num_pkt_prd;
-  1415			u8 rx_maxburst = dwc->rx_max_burst_prd;
-  1416			u8 tx_thr_num = dwc->tx_thr_num_pkt_prd;
-  1417			u8 tx_maxburst = dwc->tx_max_burst_prd;
-  1418	
-  1419			if (rx_thr_num && rx_maxburst) {
-  1420				reg = dwc3_readl(dwc->regs, DWC3_GRXTHRCFG);
-  1421				reg |= DWC31_RXTHRNUMPKTSEL_PRD;
-  1422	
-  1423				reg &= ~DWC31_RXTHRNUMPKT_PRD(~0);
-  1424				reg |= DWC31_RXTHRNUMPKT_PRD(rx_thr_num);
-  1425	
-  1426				reg &= ~DWC31_MAXRXBURSTSIZE_PRD(~0);
-  1427				reg |= DWC31_MAXRXBURSTSIZE_PRD(rx_maxburst);
-  1428	
-  1429				dwc3_writel(dwc->regs, DWC3_GRXTHRCFG, reg);
-  1430			}
-  1431	
-  1432			if (tx_thr_num && tx_maxburst) {
-  1433				reg = dwc3_readl(dwc->regs, DWC3_GTXTHRCFG);
-  1434				reg |= DWC31_TXTHRNUMPKTSEL_PRD;
-  1435	
-  1436				reg &= ~DWC31_TXTHRNUMPKT_PRD(~0);
-  1437				reg |= DWC31_TXTHRNUMPKT_PRD(tx_thr_num);
-  1438	
-  1439				reg &= ~DWC31_MAXTXBURSTSIZE_PRD(~0);
-  1440				reg |= DWC31_MAXTXBURSTSIZE_PRD(tx_maxburst);
-  1441	
-  1442				dwc3_writel(dwc->regs, DWC3_GTXTHRCFG, reg);
-  1443			}
-  1444		}
-  1445	
-  1446		return 0;
-  1447	
-  1448	err_power_off_phy:
-  1449		dwc3_phy_power_off(dwc);
-  1450	err_exit_phy:
-  1451		dwc3_phy_exit(dwc);
-  1452	err_exit_ulpi:
-  1453		dwc3_ulpi_exit(dwc);
-  1454	
-  1455		return ret;
-  1456	}
-  1457	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  411  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  414  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  426  
+
+:::::: The code at line 425 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
