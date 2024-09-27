@@ -1,144 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83104BA4B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 10:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE7E18661B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 10:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727432657; cv=none; b=jVhPa6XCI8kQz/hjc2+8GUvXV8ZlHtJI8/iGsv46MV1t9sV3FxmRv3crJdgmvbNMLBE721mAvLmwdohz+71zEDLZLGX8HjIoCJIZYJfvTt5+YiZEoKAKF/Zo9ZIP+ZoSvHkmbsfMxMZMI3KG9vROS6yJlXWw0QAhJBulyd2NGhA=
+	t=1727433503; cv=none; b=l6k4g+cLdAGLzocQ5bmhJpCWQHRBIgaCWbqgNyiF/nY2E2y7KwIygFGjQlFWEWqjd3xrMdtawG4OUIfUg7ux+VKSXgoFMfocptbNZZfOTlGzjqnzkNaSqhtAtV56Y3oSiw7uXpsTUuZQGUnLL/xXmag6VaD0/5uYgO1BhXH9A0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727432657; c=relaxed/simple;
-	bh=TdRanNICpusWjId+FRryVPNGPZ0gz8enLidiqMip3kQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oBC48Q1wFRVReJfdoxmQODxwK2l/JBSEH0PDXER43cliMoscL+dDthu0ku5U55gBCHugLP2+pw58l+5Qgy7KSYoZqFuRcPjAbHFuLUXc0U/AisG0pQX2s8ydSdXA3plhQfbSzzzSCgL2dUUx32Yr8xXSzSKkkcte2ptOy81JqGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aT/1lnUx; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727433503; c=relaxed/simple;
+	bh=pmFGygZxPJx6aYGNSW60iGtOM7wgq8ixdqA7QVOwsmE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oW/BnMiqtWbUKD3TuBvecSLYCXEis85SzXvX4vma+r8iP7Kf+JVe0XjomnynSYzfc8Bk0B+FMo1kzSMwI79T9hq666eENNzchh8M2ORd4h0Jx2oHs7/xDdanjGXmH0Xos0Oc9CJFOoRRlpWYmSYNs95Zt2w8L99k4QOsohMkoDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=AO6kKomZ; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aT/1lnUx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727432655; x=1758968655;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TdRanNICpusWjId+FRryVPNGPZ0gz8enLidiqMip3kQ=;
-  b=aT/1lnUxBxNFNArXIESeMARrNA83VWfvrv7JM5Sc88jU7mRs8sP+1hRB
-   4mag52RuL/NjYJfe/0C6cQ32LHRoAA3Ww953t6Ssd+XqoMmiE1Fzk+phV
-   PVLr3jSvhFmiLZHgrSFWjQktEBAENr4WECJClpFaC/hKEvoNwU/sUjJnE
-   NeZLAWMEtCeC3CwPZNsscZ3SC20dvkv55Qn89Ic8CUkYJsazI9ulnFsUC
-   KybJw7urbtCc2V0Rghc53rbG4g0EC1Mj3VgXKEaSlpnry8qt2/Ne5ihWC
-   9soW/jee/8ClrcPOgcR0ZQX0waM5frXhp3cwLyu75K2nXp+cv7OsJFu0V
-   A==;
-X-CSE-ConnectionGUID: N8bP5FMLQUm2MqiwKcRjxg==
-X-CSE-MsgGUID: Q59QyRvHRZaTXkc4dGragg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26518287"
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="26518287"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 03:24:13 -0700
-X-CSE-ConnectionGUID: 0DScayLtScqMvw5kj+7Ohw==
-X-CSE-MsgGUID: NDknpu/5SG2oGj2WgVpKpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="77433976"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Sep 2024 03:24:11 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1su88v-000Lnr-1N;
-	Fri, 27 Sep 2024 10:24:09 +0000
-Date: Fri, 27 Sep 2024 18:23:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Katta Dhanunjanrao <katta.dhanunjanrao@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 542/1001]
- drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to
- pointer from integer of different size
-Message-ID: <202409271853.VwuuS9Kd-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="AO6kKomZ"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20551e2f1f8so24260635ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 03:38:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1727433501; x=1728038301; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WqrbFrNE08H46WiKttVLHqe5jR2DtmKYo4FHrvBtyf0=;
+        b=AO6kKomZ79Vd4I+Z9UUN1POLDcYKMca6NQj/gIFjEHliCs9FsLvvFRwaxx9zV8YSRM
+         1CYALVEO8JmRKIS+VnkCfORzvmYW92g241dvn3Q3j6g5WbWZhg9DNBcEq7RLxkWasQf6
+         c/r5fYV5OlgIUsNcKjd18ro4rn8I0MByaKtglYopX8cGvHoGE8SWbQdIZ0HF4WRip5en
+         ulzY4I8zN/uWaxyAWxCnoSE2ibzngOaQZ2EpWe4jOnfGPdRJcJd/QbGAWY+xbXO9i7gU
+         8FkHAfk0xb+qi21LHFnzwM1F9K1ZSxyrTdZG230fnXBkY6WxsM6ac/I3Wff25yp20l7j
+         LqTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727433501; x=1728038301;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WqrbFrNE08H46WiKttVLHqe5jR2DtmKYo4FHrvBtyf0=;
+        b=bfeswKkMU+dPBcuHjINA1lU0cFeAvX1aBBQloj4MOUINgninyLe5e1z6tvfOa+84n+
+         /fNhNgqGQ/s00vM964ZtyKKpyzDqRUmdeT59zPQd26MqpH/JzgmwYcq1c3z5SFevRT9F
+         O5VFotXcgnw+L5KiuF77TO0MPZiYmHQmWZBi1UIAZ0+ktxcYVw8sO+sRshwb2PG/LUoD
+         Vq+ihAmPV39w8N42aySng7fThRnFYzgUM9l/JgDTMsu0pjqJTYIGZGN/6TJN5L9rOyOZ
+         XM6DozY9qHcc3eg1uZfM9Pwx5cX4f5SBOHsSi+lUtN+XQnd/jZBermVmJR/b4I71rBO5
+         BJ0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVXWmotWhlLUlQPordoHVnLF9AQw33WbKFy0mzWNqExKV/L3eS3hLUfN6+H1v/3RtDwAoeCmsT0IAvvqAUw@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaonIgrUX/saL96h2Nv8dO2O728XeSMMI6BUhMHQf5bt7VSkpE
+	r3kLK6hi9t+MKBjNOxbRReN/wjWKekBPQnTiRv+vwhtIly5S2w3pgRV0+ZLw+KOcq2bjkY6msiR
+	/fTl3FYP569aUz7b3h0yOljlNL/8=
+X-Google-Smtp-Source: AGHT+IElrujw1ho77+RmYeFTrDjRjtANTuSZvznuckpa+dCu++SoERn9fwbaf94LuVQfx3xw0AHX1UJXuyrjU4v26KE=
+X-Received: by 2002:a17:902:d502:b0:209:de2e:2198 with SMTP id
+ d9443c01a7336-20b37be631amr51203895ad.49.1727433501303; Fri, 27 Sep 2024
+ 03:38:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202409271243.xjYHZS7H-lkp@intel.com> <1j7caxxyqq.fsf@starbuckisacylon.baylibre.com>
+In-Reply-To: <1j7caxxyqq.fsf@starbuckisacylon.baylibre.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Fri, 27 Sep 2024 12:38:10 +0200
+Message-ID: <CAFBinCA+N=Wk4NHA04KwAPUW1+9ffdpHxgxe+xc_HEtjP8Qk=Q@mail.gmail.com>
+Subject: Re: [clk-meson:clk-meson-next 11/11] drivers/clk/meson/meson8b.c:3700:23:
+ warning: unused variable 'flags'
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: 1514aa2c09d4769c971f314e70fd21418547463e [542/1001] drm: xlnx: dptx: Add HDCP1x support for DPTx subsystem
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240927/202409271853.VwuuS9Kd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271853.VwuuS9Kd-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271853.VwuuS9Kd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/little_endian.h:14,
-                    from include/linux/byteorder/little_endian.h:5,
-                    from arch/x86/include/uapi/asm/byteorder.h:5,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/x86/include/asm/bitops.h:428,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:22,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:10,
-                    from include/linux/sched.h:12,
-                    from include/linux/uaccess.h:8,
-                    from drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:12:
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c: In function 'xdptx_hdcp1x_keymgmt_set_key':
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:128:54: note: in definition of macro '__swab64'
-     128 | #define __swab64(x) (__u64)__builtin_bswap64((__u64)(x))
-         |                                                      ^
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:128:54: note: in definition of macro '__swab64'
-     128 | #define __swab64(x) (__u64)__builtin_bswap64((__u64)(x))
-         |                                                      ^
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
-
-
-vim +41 drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c
-
-    28	
-    29	#define HDCP1X_KEYMGMT_REG_CTRL_RST_MASK	BIT(31)
-    30	#define HDCP1X_KEYMGMT_REG_CTRL_DISABLE_MASK	GENMASK(31, 1)
-    31	#define HDCP1X_KEYMGMT_REG_CTRL_ENABLE_MASK	BIT(0)
-    32	#define HDCP1X_KEYMGMT_REG_TBL_STATUS_RETRY	0x400
-    33	#define HDCP1X_KEYMGMT_TBLID_0			0
-    34	#define HDCP1X_KEYMGMT_REG_TBL_CTRL_WR_MASK	BIT(0)
-    35	#define HDCP1X_KEYMGMT_REG_TBL_CTRL_RD_MASK	BIT(1)
-    36	#define HDCP1X_KEYMGMT_REG_TBL_CTRL_EN_MASK	BIT(31)
-    37	#define HDCP1X_KEYMGMT_REG_TBL_STATUS_DONE_MASK	BIT(0)
-    38	#define HDCP1X_KEYMGMT_MAX_TBLS			8
-    39	#define HDCP1X_KEYS_SIZE			336
-    40	#define HDCP1X_KEYMGMT_MAX_ROWS_PER_TBL		41
-  > 41	#define ntohll(x) be64_to_cpu((__be64 *)x)
-    42	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Fri, Sep 27, 2024 at 10:54=E2=80=AFAM Jerome Brunet <jbrunet@baylibre.co=
+m> wrote:
+>
+> On Fri 27 Sep 2024 at 12:36, kernel test robot <lkp@intel.com> wrote:
+>
+> > tree:   https://github.com/BayLibre/clk-meson.git clk-meson-next
+> > head:   e736da1956cf0880a02ec5023f3487eea7611b5f
+> > commit: e736da1956cf0880a02ec5023f3487eea7611b5f [11/11] clk: meson: me=
+son8b: remove spinlock
+> > config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240=
+927/202409271243.xjYHZS7H-lkp@intel.com/config)
+> > compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240927/202409271243.xjYHZS7H-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202409271243.xjYHZS7H-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >    drivers/clk/meson/meson8b.c: In function 'meson8b_clk_reset_update':
+> >>> drivers/clk/meson/meson8b.c:3700:23: warning: unused variable 'flags'=
+ [-Wunused-variable]
+> >     3700 |         unsigned long flags;
+> >          |                       ^~~~~
+>
+> Silly mistake. I'll amend the commit if that's ok with you Martin ?
+yes, please amend the removal of this line to the commit
