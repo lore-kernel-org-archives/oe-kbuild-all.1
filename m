@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E34C101F2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 14:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02531C0DE4;
+	Fri, 27 Sep 2024 14:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727447731; cv=none; b=mmzItDnB1nmWK0Ajo6wp7Fi1hyburqulqA4PfhIomzAtBtvzxzMrU1HQgK9YOkfhdj3LZmYW61vn1OqYWFpQ/hRYd9pRtIjjaAUOU9W4INPoQSbCfif5wD05BmNh9AE5XmHXZKAjmNklz7uaLwF5wOV5hg7yJhV0RCwJsddQbDY=
+	t=1727448341; cv=none; b=tuzQrSi8prb7P+31aW2jRHWeUVSPRvHNV76KmusHX8ghEcMnTdHIF5TJbN3ju7GHw/R3oGTECTPLYBen6OPboPndm1+/fDYvnLt54oxImsTJaSiHdHFcY6OTTfRlD11Llus33uFlnuw8eD6yiORpOtStlz9abtp/lRSdA1/q/+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727447731; c=relaxed/simple;
-	bh=P2axrJIfPsQ4ke64nhOQ7uG5QNL2TBMwvgvdpEIjKhU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tIeqouoAVyqrYxLKIx+u0yEeNpuivxp7uEo5gF4e7kyDiEcu8Cmbq/dQI6HMWTJEEN4+3iURbKO9/EbAKvACWadn4vH/WwCIJ4SDZsGEQW28KxkJ5QhhyNPHSbR1+evQNnoMGwWdj8wt0+fu0mQzZZ+3g7/tzNpWCIa6iKMh3JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQbloXvk; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1727448341; c=relaxed/simple;
+	bh=4NOrCTeau9vnTJagOo76M5VLvL4NYyvgx/AHngz0/JI=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r91+cGLUu5+nCweKI6yzpZdwL6p5uFPdqsdiS52Dc04rgMxlpRzrUL/mdxAnR6cfw60wv+XGhKsCNaQol1rbnPCO2MV85S4FKp+ruatCcUK1PWawOYX5+5zT7Vs3pBt+TfCdo9D7K5Zu+GV/o8VY/WEHB+UzzECQ3Wr8fOolTvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EaOAaHQR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQbloXvk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EaOAaHQR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727447730; x=1758983730;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P2axrJIfPsQ4ke64nhOQ7uG5QNL2TBMwvgvdpEIjKhU=;
-  b=YQbloXvkSjLF8qtaxICkPHizQU0NGl2Msblsx169z1L4D3mYkncaQqrT
-   bgXe55pqTAo9mwTHj9f5w1AKqK8rYu+s39lsNFCPcK1g4zhvcadV/Ay4j
-   BSkx30q15YamD9ph0u6yBH7T8EpL8jjn1bGXER2v2lXnFVQDDn9szEdB/
-   kB/Nreq0P7NuIWUhYNB/u8CblqkPLacqPkLKlkW9JspWh2voPUlmEYJ/v
-   WIWlpRu+JbhX9IcMKveCAECGmdzqyGtqiyWKxtZRZpG8VRT7ltLQKCkGM
-   Njy6YoturJ8m0T1swEjJCIDa1tQVjHT4HCOWQEaNPkKffNvb7HtKQlg7S
+  t=1727448339; x=1758984339;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=4NOrCTeau9vnTJagOo76M5VLvL4NYyvgx/AHngz0/JI=;
+  b=EaOAaHQRm6EhCCKVwJnNDBnIZpuC3FDJNdoxlbAM9WGMJYtrDDor0Xg0
+   a6sbIqX5jPv7M+8lvTLMS7B3hTS7ZpH96l3i8U8+9c6OJAVRZksbUPYKv
+   XHsF/vJLc5acDIcA4sC8N7TQTSyWte7OOGlTCubFGkC0sjonRspmcWqCj
+   jEcG+umLlDqHdT0jf852ulIkvTeT98qhL2FpObVQjyCv4pvxb0oLqmxRh
+   AvB5SgITCpch8qeMLF3k75upTkC2N0Q+N/hEqmHWorroBw69zLqolG7ei
+   XwyxvKQNoK6+GckKSlfrSwOj4osLon4/v72SVr7KEOzLBC1MWRWMdib+5
    Q==;
-X-CSE-ConnectionGUID: RMaAyd8/RDmFYzMXENyKoQ==
-X-CSE-MsgGUID: GKJIPvrzRoqZFg1cV1FHRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26102269"
+X-CSE-ConnectionGUID: zoPR8VgFS/6mK5BIEeam8Q==
+X-CSE-MsgGUID: JVmjuzZCS26kfFwxQLrKFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30383257"
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="26102269"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 07:35:27 -0700
-X-CSE-ConnectionGUID: KeavtQdIT9eiGL+XL2XWew==
-X-CSE-MsgGUID: mdDKlX42T36v2kk0/vJdYQ==
+   d="scan'208";a="30383257"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 07:45:28 -0700
+X-CSE-ConnectionGUID: 8n7ihUhnSyaQvTm5xxKFgg==
+X-CSE-MsgGUID: 8WfjbmOeTmq9yYnv1iGdcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="72712093"
+   d="scan'208";a="110047254"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Sep 2024 07:35:26 -0700
+  by orviesa001.jf.intel.com with ESMTP; 27 Sep 2024 07:45:27 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suC43-000MEy-2O;
-	Fri, 27 Sep 2024 14:35:23 +0000
-Date: Fri, 27 Sep 2024 22:34:27 +0800
+	id 1suCDk-000MFo-0J;
+	Fri, 27 Sep 2024 14:45:24 +0000
+Date: Fri, 27 Sep 2024 22:44:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dhaval Shah <dhaval.r.shah@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 615/1001]
- aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-Message-ID: <202409272212.IZssspbw-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [namhyung-perf:bpf/slab-iter-v1 1/3] kernel/bpf/slab_iter.c:120:27:
+ warning: bitwise operation between different enumeration types ('enum
+ bpf_reg_type' and 'enum bpf_type_flag')
+Message-ID: <202409272235.FTZRgKoS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,88 +62,159 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: d8acda0778f572993e1eb7f22487ff20113ab13c [615/1001] crypto: xilinx: select AES GCM fallback and userspace kernel config
-config: arm64-randconfig-001-20240927 (https://download.01.org/0day-ci/archive/20240927/202409272212.IZssspbw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409272212.IZssspbw-lkp@intel.com/reproduce)
+TO: Namhyung Kim <namhyung@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/namhyung/linux-perf.git bpf/slab-iter-v1
+head:   4b00a1c2a4965bcd16815d5ec9a53bf967db5c27
+commit: f64d383ac99d6adf90fbe971d24cf7cb3fa36753 [1/3] bpf: Add slab iterator
+config: arm-randconfig-001-20240927 (https://download.01.org/0day-ci/archive/20240927/202409272235.FTZRgKoS-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409272235.FTZRgKoS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409272212.IZssspbw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409272235.FTZRgKoS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
->> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: crypto/algif_aead.o: in function `aead_sendmsg':
->> algif_aead.c:(.text+0x144): undefined reference to `af_alg_sendmsg'
-   aarch64-linux-ld: crypto/algif_aead.o: in function `aead_sock_destruct':
->> algif_aead.c:(.text+0x214): undefined reference to `af_alg_pull_tsgl'
->> aarch64-linux-ld: algif_aead.c:(.text+0x22c): undefined reference to `sock_kzfree_s'
->> aarch64-linux-ld: algif_aead.c:(.text+0x244): undefined reference to `sock_kfree_s'
->> aarch64-linux-ld: algif_aead.c:(.text+0x24c): undefined reference to `af_alg_release_parent'
-   aarch64-linux-ld: crypto/algif_aead.o: in function `aead_accept_parent_nokey':
->> algif_aead.c:(.text+0x2b4): undefined reference to `sock_kmalloc'
->> aarch64-linux-ld: algif_aead.c:(.text+0x2d8): undefined reference to `sock_kmalloc'
-   aarch64-linux-ld: algif_aead.c:(.text+0x2fc): undefined reference to `sock_kfree_s'
-   aarch64-linux-ld: crypto/algif_aead.o: in function `aead_check_key.isra.0':
->> algif_aead.c:(.text+0x52c): undefined reference to `lock_sock_nested'
->> aarch64-linux-ld: algif_aead.c:(.text+0x570): undefined reference to `lock_sock_nested'
->> aarch64-linux-ld: algif_aead.c:(.text+0x5d0): undefined reference to `release_sock'
-   aarch64-linux-ld: algif_aead.c:(.text+0x5d8): undefined reference to `release_sock'
-   aarch64-linux-ld: crypto/algif_aead.o: in function `_aead_recvmsg.isra.0':
->> algif_aead.c:(.text+0x7f4): undefined reference to `af_alg_alloc_areq'
->> aarch64-linux-ld: algif_aead.c:(.text+0x818): undefined reference to `af_alg_wait_for_data'
->> aarch64-linux-ld: algif_aead.c:(.text+0x880): undefined reference to `af_alg_get_rsgl'
->> aarch64-linux-ld: algif_aead.c:(.text+0x9d0): undefined reference to `af_alg_pull_tsgl'
->> aarch64-linux-ld: algif_aead.c:(.text+0xae0): undefined reference to `af_alg_count_tsgl'
-   aarch64-linux-ld: algif_aead.c:(.text+0xb14): undefined reference to `sock_kmalloc'
-   aarch64-linux-ld: algif_aead.c:(.text+0xb5c): undefined reference to `af_alg_pull_tsgl'
->> aarch64-linux-ld: algif_aead.c:(.text+0xc6c): undefined reference to `af_alg_async_cb'
-   aarch64-linux-ld: crypto/algif_aead.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `af_alg_async_cb' which may bind externally can not be used when making a shared object; recompile with -fPIC
->> algif_aead.c:(.text+0xc6c): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: algif_aead.c:(.text+0xc70): undefined reference to `af_alg_async_cb'
->> aarch64-linux-ld: algif_aead.c:(.text+0xd24): undefined reference to `sk_free'
-   aarch64-linux-ld: algif_aead.c:(.text+0xd2c): undefined reference to `af_alg_free_resources'
-   aarch64-linux-ld: crypto/algif_aead.o: in function `aead_recvmsg':
-   algif_aead.c:(.text+0xeb8): undefined reference to `lock_sock_nested'
-   aarch64-linux-ld: algif_aead.c:(.text+0xf0c): undefined reference to `af_alg_wmem_wakeup'
-   aarch64-linux-ld: algif_aead.c:(.text+0xf14): undefined reference to `release_sock'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x10): undefined reference to `af_alg_release'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x18): undefined reference to `sock_no_bind'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x20): undefined reference to `sock_no_connect'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x28): undefined reference to `sock_no_socketpair'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x30): undefined reference to `sock_no_accept'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x38): undefined reference to `sock_no_getname'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x40): undefined reference to `af_alg_poll'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x48): undefined reference to `sock_no_ioctl'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x58): undefined reference to `sock_no_listen'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x60): undefined reference to `sock_no_shutdown'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x90): undefined reference to `sock_no_mmap'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0xe8): undefined reference to `af_alg_release'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0xf0): undefined reference to `sock_no_bind'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0xf8): undefined reference to `sock_no_connect'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x100): undefined reference to `sock_no_socketpair'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x108): undefined reference to `sock_no_accept'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x110): undefined reference to `sock_no_getname'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x118): undefined reference to `af_alg_poll'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x120): undefined reference to `sock_no_ioctl'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x130): undefined reference to `sock_no_listen'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x138): undefined reference to `sock_no_shutdown'
-   aarch64-linux-ld: crypto/algif_aead.o:(.data+0x168): undefined reference to `sock_no_mmap'
-   aarch64-linux-ld: crypto/algif_aead.o: in function `algif_aead_exit':
-   algif_aead.c:(.exit.text+0x10): undefined reference to `af_alg_unregister_type'
-   aarch64-linux-ld: crypto/algif_aead.o: in function `algif_aead_init':
-   algif_aead.c:(.init.text+0x18): undefined reference to `af_alg_register_type'
+   In file included from kernel/bpf/slab_iter.c:3:
+   In file included from include/linux/bpf.h:21:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/bpf/slab_iter.c:120:27: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     120 |                   PTR_TO_BTF_ID_OR_NULL | PTR_TRUSTED },
+         |                   ~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   2 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_USER_API_AEAD
-   Depends on [n]: CRYPTO [=y] && NET [=n]
-   Selected by [y]:
-   - CRYPTO_DEV_ZYNQMP_AES [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && (ZYNQMP_FIRMWARE [=y] || COMPILE_TEST [=y])
+
+vim +120 kernel/bpf/slab_iter.c
+
+   > 3	#include <linux/bpf.h>
+     4	#include <linux/btf_ids.h>
+     5	#include <linux/slab.h>
+     6	#include <linux/kernel.h>
+     7	#include <linux/seq_file.h>
+     8	
+     9	#include "../../mm/slab.h" /* kmem_cache, slab_caches and slab_mutex */
+    10	
+    11	struct bpf_iter__slab {
+    12		__bpf_md_ptr(struct bpf_iter_meta *, meta);
+    13		__bpf_md_ptr(struct kmem_cache *, s);
+    14	};
+    15	
+    16	static void *slab_iter_seq_start(struct seq_file *seq, loff_t *pos)
+    17	{
+    18		loff_t cnt = 0;
+    19		struct kmem_cache *s = NULL;
+    20	
+    21		mutex_lock(&slab_mutex);
+    22	
+    23		/*
+    24		 * Find an entry at the given position in the slab_caches list instead
+    25		 * of keeping a reference (of the last visited entry, if any) out of
+    26		 * slab_mutex. It might miss something if one is deleted in the middle
+    27		 * while it releases the lock.  But it should be rare and there's not
+    28		 * much we can do about it.
+    29		 */
+    30		list_for_each_entry(s, &slab_caches, list) {
+    31			if (cnt == *pos)
+    32				break;
+    33	
+    34			cnt++;
+    35		}
+    36	
+    37		if (cnt != *pos)
+    38			return NULL;
+    39	
+    40		++*pos;
+    41		return s;
+    42	}
+    43	
+    44	static void slab_iter_seq_stop(struct seq_file *seq, void *v)
+    45	{
+    46		struct bpf_iter_meta meta;
+    47		struct bpf_iter__slab ctx = {
+    48			.meta = &meta,
+    49			.s = v,
+    50		};
+    51		struct bpf_prog *prog;
+    52	
+    53		meta.seq = seq;
+    54		prog = bpf_iter_get_info(&meta, true);
+    55		if (prog)
+    56			bpf_iter_run_prog(prog, &ctx);
+    57	
+    58		mutex_unlock(&slab_mutex);
+    59	}
+    60	
+    61	static void *slab_iter_seq_next(struct seq_file *seq, void *v, loff_t *pos)
+    62	{
+    63		struct kmem_cache *s = v;
+    64	
+    65		++*pos;
+    66	
+    67		if (list_last_entry(&slab_caches, struct kmem_cache, list) == s)
+    68			return NULL;
+    69	
+    70		return list_next_entry(s, list);
+    71	}
+    72	
+    73	static int slab_iter_seq_show(struct seq_file *seq, void *v)
+    74	{
+    75		struct bpf_iter_meta meta;
+    76		struct bpf_iter__slab ctx = {
+    77			.meta = &meta,
+    78			.s = v,
+    79		};
+    80		struct bpf_prog *prog;
+    81		int ret = 0;
+    82	
+    83		meta.seq = seq;
+    84		prog = bpf_iter_get_info(&meta, false);
+    85		if (prog)
+    86			ret = bpf_iter_run_prog(prog, &ctx);
+    87	
+    88		return ret;
+    89	}
+    90	
+    91	static const struct seq_operations slab_iter_seq_ops = {
+    92		.start  = slab_iter_seq_start,
+    93		.next   = slab_iter_seq_next,
+    94		.stop   = slab_iter_seq_stop,
+    95		.show   = slab_iter_seq_show,
+    96	};
+    97	
+    98	BTF_ID_LIST_GLOBAL_SINGLE(bpf_slab_btf_id, struct, kmem_cache)
+    99	
+   100	static const struct bpf_iter_seq_info slab_iter_seq_info = {
+   101		.seq_ops		= &slab_iter_seq_ops,
+   102	};
+   103	
+   104	static void bpf_iter_slab_show_fdinfo(const struct bpf_iter_aux_info *aux,
+   105					      struct seq_file *seq)
+   106	{
+   107		seq_puts(seq, "slab iter\n");
+   108	}
+   109	
+   110	DEFINE_BPF_ITER_FUNC(slab, struct bpf_iter_meta *meta,
+   111			     struct kmem_cache *s)
+   112	
+   113	static struct bpf_iter_reg bpf_slab_reg_info = {
+   114		.target			= "slab",
+   115		.feature		= BPF_ITER_RESCHED,
+   116		.show_fdinfo		= bpf_iter_slab_show_fdinfo,
+   117		.ctx_arg_info_size	= 1,
+   118		.ctx_arg_info		= {
+   119			{ offsetof(struct bpf_iter__slab, s),
+ > 120			  PTR_TO_BTF_ID_OR_NULL | PTR_TRUSTED },
+   121		},
+   122		.seq_info		= &slab_iter_seq_info,
+   123	};
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
