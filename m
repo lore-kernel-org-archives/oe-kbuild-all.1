@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4602313BAE2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 19:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6316915B57C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 20:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727466884; cv=none; b=XTK6ujGQYkVVqwFhlk2MxQs3a6yzdPlmbmUYtdcTnc5/fizNEaZlbuM13CwOxcZhTG1gclVk0jN+mtGOLDEyB/L8Mt8Z/iv2X7QFZHY8rZKR/h3ZV7D6c6CU54P1BrTMPwj1yC6BxjO1TeGAiDMIRvoAhw8pP2d40APZf3t9O9Y=
+	t=1727470005; cv=none; b=gX6FR9EGpAxjY+ZeWWGjHx+8Ttu8mhF6jRfc+UwXtajaEbvaE9I5IltzcNsXd2g0b9RmmCvjwcSbWcz06jHYGdmPSBDNXmGfxZXCw8qRLv7dDmuJyvn7XPeUGTsEqeZxVaz+ywykg2DEbxAg5OPG93nZpUmaVtcaot5Dw4ab2Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727466884; c=relaxed/simple;
-	bh=HQ19q1UTyo3cZcCQAAtJgeeM6vWYcEQVcOrIstMBoUQ=;
+	s=arc-20240116; t=1727470005; c=relaxed/simple;
+	bh=AaWakQO6YQepNrsDyuKVRee3sYuV0Y2LFoJ84CbvW38=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ic/3wA6qPxUT/LmKBXI949rOCmWyWKZgXvRwT8iijsLRK9I/ROi2OB3QK0UwPMRwOMihU/ysS60cHIYdChKMQGEDX+kCl62i5/6DfMU6m7h1tQtlILGVkRe6HOQVxY1MYJ+BidXkKyxBtukn0lBjyDS7TjU5UfH7Bpemkcmwmp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lcHkHlE+; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=qHFYMj6TrgWxYtlhXinXNkHiQN1suWhxj8KtwqU8TI5oP7JM+yyY6T0jpXm/kTy0hrj7Otf1IPCZ4USDyjzfAEa4OTz+pacyGhmmFAXm3Fz+VMRnqeWXTgZtZc9Y6rVDyCEVC9fZR7EifUQ/gy5KCUC26xszLwyQZ0TzUVPtF7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbxEbaU1; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lcHkHlE+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbxEbaU1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727466883; x=1759002883;
+  t=1727470003; x=1759006003;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HQ19q1UTyo3cZcCQAAtJgeeM6vWYcEQVcOrIstMBoUQ=;
-  b=lcHkHlE+WPrSIpYNQ1lOx42LXuyQTe54xFTy8xreoM3WpHXViFz6QOGH
-   kL/7CTFPqtjurf0BM0llt4brDG3uK9+HemviVYzpgyz0C3SdJWYuiD0NN
-   MzrLMosuoAkkqTGxLWiCLFqdmditFDTyr+Izzj/zugP5J91Ripqzw0MG3
-   mDePT76I0lep86o6Uk+aJgRrnHwgLNlA049R7/42+S8BE/EjXbmKDJcle
-   uK1ZM5wwYTuB+vgaeS2sX++tAfznYZxdGwsUI8PAzbk5MbPOlWUIcVgks
-   qqIA+6vBiR9ES5b8mbjtlfKxbMtGbkxJ1x8gDAJPfdnYg6bDf2Ipl4db9
-   g==;
-X-CSE-ConnectionGUID: PrNpG0L+SWiJG+8wI9E0XA==
-X-CSE-MsgGUID: Tq4PtqZXRVeTzks9/X6oqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26497050"
+  bh=AaWakQO6YQepNrsDyuKVRee3sYuV0Y2LFoJ84CbvW38=;
+  b=RbxEbaU1X9ODF+SrRJGPaxWG3IowzGMMJ8As9MFELKtyp4Eg+GydyxRg
+   leTB1Cp+mmZNrR/TtBBAT7y36UtdZVfgywhMkim13yAXjw8BQTzXZBTHs
+   4yMlrXrMurZxlq0brHtpOfiMO3mpQUKcdeDqJrPvnvnh6BUuoBROtbGQl
+   0ZZ4HgyduJa2VHF7Q0BcXoVG6XIX7bE16/X20sUruTX6BxpWoZIx56KHH
+   2LQM0YjdGa5bMjT6PsgphoUAO0j2sdSuHkq/bFf6fvUV8KNL/8w1LR6Zp
+   3aauG1EC+lMkbozkz2U06NdyJkBu3sVDaccVYK0qz2cPIfoOgGNOInbbI
+   w==;
+X-CSE-ConnectionGUID: U7V545OPQQ+KxINfujNpEA==
+X-CSE-MsgGUID: 4WmZt9zyTzCOcfTzlwNxFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26805907"
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="26497050"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 12:54:42 -0700
-X-CSE-ConnectionGUID: wH5+5CoRRU2CdHoPbWgQ8w==
-X-CSE-MsgGUID: AEQhKzd6Tj+kZZpOfY0T6A==
+   d="scan'208";a="26805907"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 13:46:43 -0700
+X-CSE-ConnectionGUID: IKyVv2DyQWynWuv2voBpOw==
+X-CSE-MsgGUID: I8mbF8LRRyCC3o7PQ6EGcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="72933739"
+   d="scan'208";a="76729964"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Sep 2024 12:54:40 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 Sep 2024 13:46:41 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suH30-000MYv-0P;
-	Fri, 27 Sep 2024 19:54:38 +0000
-Date: Sat, 28 Sep 2024 03:54:34 +0800
+	id 1suHrL-000MbT-1J;
+	Fri, 27 Sep 2024 20:46:39 +0000
+Date: Sat, 28 Sep 2024 04:45:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 13192/23799]
- drivers/crypto/hisilicon/qm.c:2726: warning: Excess function parameter 'ce'
- description in 'qm_hw_error_init'
-Message-ID: <202409280341.XkIGO1R8-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2613/30000] drivers/tty/tty_buffer.c:177:9:
+ error: implicit declaration of function 'printk_safe_exit'; did you mean
+ 'printk_nmi_exit'?
+Message-ID: <202409280444.fQT7iGoe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +63,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yu'an,
+Hi Hongbo,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3841d75a6dcd12d108aaf56560b99431d18169e4
-commit: 73d33f5c59dc3824444baca6a458427f4de3d8fa [13192/23799] qm: Move all the same logic functions of hisilicon crypto to qm
-config: arm64-randconfig-002-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280341.XkIGO1R8-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   bef6f06e039b8929481350d15d6d8c3ba81c6fd2
+commit: 923efc4dc37c1a7cc91f0dd5dbdc87e0943ad1ae [2613/30000] tty: fix possible deadlock in console_unlock
+config: arm64-randconfig-002-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280444.fQT7iGoe-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280341.XkIGO1R8-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280444.fQT7iGoe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409280341.XkIGO1R8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409280444.fQT7iGoe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/crypto/hisilicon/qm.c:2726: warning: Excess function parameter 'ce' description in 'qm_hw_error_init'
->> drivers/crypto/hisilicon/qm.c:2726: warning: Excess function parameter 'nfe' description in 'qm_hw_error_init'
->> drivers/crypto/hisilicon/qm.c:2726: warning: Excess function parameter 'fe' description in 'qm_hw_error_init'
->> drivers/crypto/hisilicon/qm.c:2726: warning: Excess function parameter 'msi' description in 'qm_hw_error_init'
+   drivers/tty/tty_buffer.c: In function 'tty_buffer_alloc':
+   drivers/tty/tty_buffer.c:175:9: error: implicit declaration of function 'printk_safe_enter'; did you mean 'printk_nmi_enter'? [-Werror=implicit-function-declaration]
+     175 |         printk_safe_enter();
+         |         ^~~~~~~~~~~~~~~~~
+         |         printk_nmi_enter
+>> drivers/tty/tty_buffer.c:177:9: error: implicit declaration of function 'printk_safe_exit'; did you mean 'printk_nmi_exit'? [-Werror=implicit-function-declaration]
+     177 |         printk_safe_exit();
+         |         ^~~~~~~~~~~~~~~~
+         |         printk_nmi_exit
+   cc1: some warnings being treated as errors
 
 
-vim +2726 drivers/crypto/hisilicon/qm.c
+vim +177 drivers/tty/tty_buffer.c
 
-ae67d23af736c7 xuzaibo    2019-04-21  2706  
-ae67d23af736c7 xuzaibo    2019-04-21  2707  /**
-73d33f5c59dc38 Yu'an Wang 2020-04-16  2708   * qm_hw_error_init() - Configure qm hardware error report method.
-ae67d23af736c7 xuzaibo    2019-04-21  2709   * @qm: The qm which we want to configure.
-ae67d23af736c7 xuzaibo    2019-04-21  2710   * @ce: Correctable error configure.
-ae67d23af736c7 xuzaibo    2019-04-21  2711   * @nfe: Non-fatal error configure.
-ae67d23af736c7 xuzaibo    2019-04-21  2712   * @fe: Fatal error configure.
-ae67d23af736c7 xuzaibo    2019-04-21  2713   * @msi: Error reported by message signal interrupt.
-ae67d23af736c7 xuzaibo    2019-04-21  2714   *
-ae67d23af736c7 xuzaibo    2019-04-21  2715   * Hardware errors of qm can be reported either by RAS interrupts which will
-ae67d23af736c7 xuzaibo    2019-04-21  2716   * be handled by UEFI and then PCIe AER or by device MSI. User can configure
-ae67d23af736c7 xuzaibo    2019-04-21  2717   * each error to use either of above two methods. For RAS interrupts, we can
-ae67d23af736c7 xuzaibo    2019-04-21  2718   * configure an error as one of correctable error, non-fatal error or
-ae67d23af736c7 xuzaibo    2019-04-21  2719   * fatal error.
-ae67d23af736c7 xuzaibo    2019-04-21  2720   *
-ae67d23af736c7 xuzaibo    2019-04-21  2721   * Bits indicating errors can be configured to ce, nfe, fe and msi to enable
-ae67d23af736c7 xuzaibo    2019-04-21  2722   * related report methods. Error report will be masked if related error bit
-ae67d23af736c7 xuzaibo    2019-04-21  2723   * does not configure.
-ae67d23af736c7 xuzaibo    2019-04-21  2724   */
-73d33f5c59dc38 Yu'an Wang 2020-04-16  2725  static void qm_hw_error_init(struct hisi_qm *qm)
-ae67d23af736c7 xuzaibo    2019-04-21 @2726  {
-73d33f5c59dc38 Yu'an Wang 2020-04-16  2727  	u32 nfe = qm->err_ini.err_info.nfe;
-73d33f5c59dc38 Yu'an Wang 2020-04-16  2728  	u32 msi = qm->err_ini.err_info.msi;
-73d33f5c59dc38 Yu'an Wang 2020-04-16  2729  	u32 ce = qm->err_ini.err_info.ce;
-73d33f5c59dc38 Yu'an Wang 2020-04-16  2730  	u32 fe = qm->err_ini.err_info.fe;
-73d33f5c59dc38 Yu'an Wang 2020-04-16  2731  
-ae67d23af736c7 xuzaibo    2019-04-21  2732  	if (!qm->ops->hw_error_init) {
-ae67d23af736c7 xuzaibo    2019-04-21  2733  		dev_err(&qm->pdev->dev,
-ae67d23af736c7 xuzaibo    2019-04-21  2734  			"QM version %d doesn't support hw error handling!\n",
-ae67d23af736c7 xuzaibo    2019-04-21  2735  			qm->ver);
-ae67d23af736c7 xuzaibo    2019-04-21  2736  		return;
-ae67d23af736c7 xuzaibo    2019-04-21  2737  	}
-ae67d23af736c7 xuzaibo    2019-04-21  2738  
-efe221f95003ac Zhou Wang  2019-07-11  2739  	qm->ops->hw_error_init(qm, ce, nfe, fe, msi);
-ae67d23af736c7 xuzaibo    2019-04-21  2740  }
-ae67d23af736c7 xuzaibo    2019-04-21  2741  
-
-:::::: The code at line 2726 was first introduced by commit
-:::::: ae67d23af736c75f90795297fddb86dc97e7b3c7 arm64: Add hisilicon Crypto drivers qm/hpre/zip and code format
-
-:::::: TO: xuzaibo <xuzaibo@huawei.com>
-:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
+   142	
+   143	/**
+   144	 *	tty_buffer_alloc	-	allocate a tty buffer
+   145	 *	@port: tty port
+   146	 *	@size: desired size (characters)
+   147	 *
+   148	 *	Allocate a new tty buffer to hold the desired number of characters.
+   149	 *	We round our buffers off in 256 character chunks to get better
+   150	 *	allocation behaviour.
+   151	 *	Return NULL if out of memory or the allocation would exceed the
+   152	 *	per device queue
+   153	 */
+   154	
+   155	static struct tty_buffer *tty_buffer_alloc(struct tty_port *port, size_t size)
+   156	{
+   157		struct llist_node *free;
+   158		struct tty_buffer *p;
+   159	
+   160		/* Round the buffer size out */
+   161		size = __ALIGN_MASK(size, TTYB_ALIGN_MASK);
+   162	
+   163		if (size <= MIN_TTYB_SIZE) {
+   164			free = llist_del_first(&port->buf.free);
+   165			if (free) {
+   166				p = llist_entry(free, struct tty_buffer, free);
+   167				goto found;
+   168			}
+   169		}
+   170	
+   171		/* Should possibly check if this fails for the largest buffer we
+   172		   have queued and recycle that ? */
+   173		if (atomic_read(&port->buf.mem_used) > port->buf.mem_limit)
+   174			return NULL;
+   175		printk_safe_enter();
+   176		p = kmalloc(sizeof(struct tty_buffer) + 2 * size, GFP_ATOMIC);
+ > 177		printk_safe_exit();
+   178		if (p == NULL)
+   179			return NULL;
+   180	
+   181	found:
+   182		tty_buffer_reset(p, size);
+   183		atomic_add(size, &port->buf.mem_used);
+   184		return p;
+   185	}
+   186	
 
 -- 
 0-DAY CI Kernel Test Service
