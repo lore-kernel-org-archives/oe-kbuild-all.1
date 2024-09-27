@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C6214A4E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 06:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FCF15B57C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 06:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727416863; cv=none; b=Sq/Jo6qwijjG2wUe2/19AkEn+m0klT8hhUWN9L5r9tzYehE0zsWLryVlzzutVp/Uwlb/kZvqah4xBL1VKsn67IaFmoihnr4ou2tzV7qvhs6cpe+PToRxk31RO6+ZJ2QBaIVVFBb1IrOAMR6OADJ+0sSVKs3T7RieGyXG3gVYSvg=
+	t=1727416864; cv=none; b=Wg0tZDpRDci3wMO7jSslkI4Fp6IOZd1ISziyY0J1fwHk2YH+10nAPEST1Iz8IWr9jaD0LXuu84lYVZvRcV+1Hbo1az/pbh6VG8r+wDiLhGprk76iTiB0YI4CM6AG1luhDGhP+NkoUce0P1vbn5HfdxaNhoKEXyBx1BH1NT6atuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727416863; c=relaxed/simple;
-	bh=sDuKpwH0n+vsLCBT5J/JggmkSQqm9fk2U/k4T5qdGt8=;
+	s=arc-20240116; t=1727416864; c=relaxed/simple;
+	bh=1CZjH2GMmNuFosenJ1gD9k7hroucOKjhqv8TIy3/mc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FtIFbxxaqzNFSKVBScJHGJGoc+yz3sQgwR+M6cQLDmoZXfhu14UbW6eQXd36MLLvqiEA/ct+euREHEXzRmh9ZEvp2Zt3uBJ5vn6Z/aQK3t+PjSEq7+H0goseQwOIZ1Zrrqrww3Q86BGgT7pJKN/pzGhhsTzCwFevDsHOZ3BhChA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FSdhEHtl; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=FOAxBckED0rpnkJWyL9rT5Uo++EJl07Y3qvLmi08fFRrBQHqxPUKNQSdvTF8ACJWn4eVFDDdzjmx59Net1M0r7H1fAB8MXTP5Z8yaWBwwkE2FibLmsB3ELQrVhb4qELWupHZMengdts3tP8gLePhsP2VoJyMHo2O7tK7LHtxPqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GfTU9tY4; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FSdhEHtl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfTU9tY4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1727416862; x=1758952862;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sDuKpwH0n+vsLCBT5J/JggmkSQqm9fk2U/k4T5qdGt8=;
-  b=FSdhEHtlKHzmBXpvBNjCM6jsehU+5k/kvgs+GZOv8hLNWhF10QXPhZus
-   Mbxelj+rW8UY04wc0g/AudyZa+sEd354v4nzpZ58zdWJfxKR3dozSjwfM
-   268VaZM74SrWXGDl3HF+JEJq7t5kNnlVjYK4J3LJ/24/CSJhllMywNWVW
-   BKYlGIWz3ZgWrt7CK4eoj2AtuCJrA6um7+wuyXuOKnjPaxTUMBPhXK2Qb
-   SIkVFrh9uJbf5nN0hiPQyKrB5GVyznh+7eT9Wy0SJwhwvx8xLkujDlEFi
-   iy5W+ujV/cjr/hVPJLkeFFjENbbzKngU8qfTcV2FwfTD0gq/WPkleGW6/
-   g==;
-X-CSE-ConnectionGUID: aAM68dJbTmChpjp/rF/Y9A==
-X-CSE-MsgGUID: l/1DDmwfSW+gp8JgrQoFEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="49077492"
+  bh=1CZjH2GMmNuFosenJ1gD9k7hroucOKjhqv8TIy3/mc8=;
+  b=GfTU9tY4CEc2y0hyaKpoDzuhM2amvvXk/EZA3tqsv6J1tbPVT3K4VHjz
+   Ac2Mcg6eI3MG2RXOg+cEFldJc6hnxYassduC44D8eQ9LfKF8jwjZhpzJP
+   7eoRiXjkQ1LmjKef73nhyDxBic7k+w7t5406F6G3WMEcEUqfa2Qhn4dhz
+   HqblXSfwFdj4E+kofhrx9yYyMIFtiFW5+rebb+CMYH9/e1lY+0KAC/3aK
+   xZkMOa4HvjM02Fv4+R3+mIngoHafwkExOoIVOtMnPeQE92flsZaz6A5KO
+   OX2rVygyDP9FF4PvwIHYVUirT7Z046izKRexVR+3S6yX6mlxBLEkj/r9F
+   A==;
+X-CSE-ConnectionGUID: qXymTFyDTX+IKht4/eWw3A==
+X-CSE-MsgGUID: f4P7i5tMQ0iHFpMyKn1Agg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37688042"
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="49077492"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 23:01:02 -0700
-X-CSE-ConnectionGUID: ESw1BjsLTZyT/bO8S0Pn2A==
-X-CSE-MsgGUID: llG1Z4HlRICUwAiAgVlfUA==
+   d="scan'208";a="37688042"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 23:01:02 -0700
+X-CSE-ConnectionGUID: cWBA5kK/TniPT3mMxwECjg==
+X-CSE-MsgGUID: ANCoz9TRSrSdrfya8d1uhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="103208735"
+   d="scan'208";a="76782972"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2024 23:01:01 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Sep 2024 23:01:00 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1su42E-000Laf-11;
+	id 1su42E-000Lai-15;
 	Fri, 27 Sep 2024 06:00:58 +0000
-Date: Fri, 27 Sep 2024 14:00:39 +0800
+Date: Fri, 27 Sep 2024 14:00:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-f2fs-stable-linux-4.19.y 289/1172]
- fs/crypto/hkdf.c:47:9: sparse: sparse: Variable length array is used.
-Message-ID: <202409271313.cWCYAj6k-lkp@intel.com>
+To: Petar Stoykov <pd.pstoykov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: drivers/iio/pressure/sdp500.c:130:undefined reference to
+ `crc8_populate_msb'
+Message-ID: <202409271341.0dhpXk7G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +63,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-4.19.y
-head:   b9aeb147225616494256fcf913c559afd4088a05
-commit: 6ad6af5912f72ad8c40baa072c3dabd321695dc1 [289/1172] fscrypt: add an HKDF-SHA512 implementation
-config: x86_64-randconfig-122-20240919 (https://download.01.org/0day-ci/archive/20240927/202409271313.cWCYAj6k-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271313.cWCYAj6k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   075dbe9f6e3c21596c5245826a4ee1f1c1676eb8
+commit: 6ddb86d93cc08c00eccc1a14980f7260e4fbe2bc iio: pressure: Add driver for Sensirion SDP500
+date:   8 weeks ago
+config: sh-randconfig-r054-20240801 (https://download.01.org/0day-ci/archive/20240927/202409271341.0dhpXk7G-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271341.0dhpXk7G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271313.cWCYAj6k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271341.0dhpXk7G-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/crypto/hkdf.c:47:9: sparse: sparse: Variable length array is used.
-   fs/crypto/hkdf.c:120:9: sparse: sparse: Variable length array is used.
-   fs/crypto/hkdf.o: warning: objtool: fscrypt_init_hkdf()+0x97: sibling call from callable instruction with modified stack frame
+All errors (new ones prefixed by >>):
 
-vim +47 fs/crypto/hkdf.c
+   sh4-linux-ld: drivers/iio/pressure/sdp500.o: in function `sdp500_probe':
+>> drivers/iio/pressure/sdp500.c:130:(.text+0xe8): undefined reference to `crc8_populate_msb'
+   sh4-linux-ld: drivers/iio/pressure/sdp500.o: in function `sdp500_read_raw':
+>> drivers/iio/pressure/sdp500.c:74:(.text+0x200): undefined reference to `crc8'
 
-    25	
-    26	/*
-    27	 * HKDF consists of two steps:
-    28	 *
-    29	 * 1. HKDF-Extract: extract a pseudorandom key of length HKDF_HASHLEN bytes from
-    30	 *    the input keying material and optional salt.
-    31	 * 2. HKDF-Expand: expand the pseudorandom key into output keying material of
-    32	 *    any length, parameterized by an application-specific info string.
-    33	 *
-    34	 * HKDF-Extract can be skipped if the input is already a pseudorandom key of
-    35	 * length HKDF_HASHLEN bytes.  However, cipher modes other than AES-256-XTS take
-    36	 * shorter keys, and we don't want to force users of those modes to provide
-    37	 * unnecessarily long master keys.  Thus fscrypt still does HKDF-Extract.  No
-    38	 * salt is used, since fscrypt master keys should already be pseudorandom and
-    39	 * there's no way to persist a random salt per master key from kernel mode.
-    40	 */
-    41	
-    42	/* HKDF-Extract (RFC 5869 section 2.2), unsalted */
-    43	static int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
-    44				unsigned int ikmlen, u8 prk[HKDF_HASHLEN])
-    45	{
-    46		static const u8 default_salt[HKDF_HASHLEN];
-  > 47		SHASH_DESC_ON_STACK(desc, hmac_tfm);
-    48		int err;
-    49	
-    50		err = crypto_shash_setkey(hmac_tfm, default_salt, HKDF_HASHLEN);
-    51		if (err)
-    52			return err;
-    53	
-    54		desc->tfm = hmac_tfm;
-    55		desc->flags = 0;
-    56		err = crypto_shash_digest(desc, ikm, ikmlen, prk);
-    57		shash_desc_zero(desc);
-    58		return err;
-    59	}
-    60	
+
+vim +130 drivers/iio/pressure/sdp500.c
+
+    40	
+    41	static int sdp500_read_raw(struct iio_dev *indio_dev,
+    42				  struct iio_chan_spec const *chan,
+    43				  int *val, int *val2, long mask)
+    44	{
+    45		int ret;
+    46		u8 rxbuf[SDP500_READ_SIZE];
+    47		u8 received_crc, calculated_crc;
+    48		struct sdp500_data *data = iio_priv(indio_dev);
+    49		struct i2c_client *client = to_i2c_client(data->dev);
+    50	
+    51		switch (mask) {
+    52		case IIO_CHAN_INFO_RAW:
+    53			ret = i2c_master_recv(client, rxbuf, SDP500_READ_SIZE);
+    54			if (ret < 0) {
+    55				dev_err(data->dev, "Failed to receive data");
+    56				return ret;
+    57			}
+    58			if (ret != SDP500_READ_SIZE) {
+    59				dev_err(data->dev, "Data is received wrongly");
+    60				return -EIO;
+    61			}
+    62	
+    63			received_crc = rxbuf[2];
+    64			calculated_crc = crc8(sdp500_crc8_table, rxbuf,
+    65					      sizeof(rxbuf) - 1, 0x00);
+    66			if (received_crc != calculated_crc) {
+    67				dev_err(data->dev,
+    68					"calculated crc = 0x%.2X, received 0x%.2X",
+    69					calculated_crc, received_crc);
+    70				return -EIO;
+    71			}
+    72	
+    73			*val = get_unaligned_be16(rxbuf);
+  > 74			return IIO_VAL_INT;
+    75		case IIO_CHAN_INFO_SCALE:
+    76			*val = 1;
+    77			*val2 = 60;
+    78	
+    79			return IIO_VAL_FRACTIONAL;
+    80		default:
+    81			return -EINVAL;
+    82		}
+    83	}
+    84	
+    85	static const struct iio_info sdp500_info = {
+    86		.read_raw = &sdp500_read_raw,
+    87	};
+    88	
+    89	static int sdp500_probe(struct i2c_client *client)
+    90	{
+    91		struct iio_dev *indio_dev;
+    92		struct sdp500_data *data;
+    93		struct device *dev = &client->dev;
+    94		int ret;
+    95		u8 rxbuf[SDP500_READ_SIZE];
+    96	
+    97		ret = devm_regulator_get_enable(dev, "vdd");
+    98		if (ret)
+    99			return dev_err_probe(dev, ret,
+   100				"Failed to get and enable regulator\n");
+   101	
+   102		indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+   103		if (!indio_dev)
+   104			return -ENOMEM;
+   105	
+   106		/* has to be done before the first i2c communication */
+   107		crc8_populate_msb(sdp500_crc8_table, SDP500_CRC8_POLYNOMIAL);
+   108	
+   109		data = iio_priv(indio_dev);
+   110		data->dev = dev;
+   111	
+   112		indio_dev->name = "sdp500";
+   113		indio_dev->channels = sdp500_channels;
+   114		indio_dev->info = &sdp500_info;
+   115		indio_dev->modes = INDIO_DIRECT_MODE;
+   116		indio_dev->num_channels = ARRAY_SIZE(sdp500_channels);
+   117	
+   118		ret = sdp500_start_measurement(data);
+   119		if (ret)
+   120			return dev_err_probe(dev, ret, "Failed to start measurement");
+   121	
+   122		/* First measurement is not correct, read it out to get rid of it */
+   123		i2c_master_recv(client, rxbuf, SDP500_READ_SIZE);
+   124	
+   125		ret = devm_iio_device_register(dev, indio_dev);
+   126		if (ret)
+   127			return dev_err_probe(dev, ret, "Failed to register indio_dev");
+   128	
+   129		return 0;
+ > 130	}
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
