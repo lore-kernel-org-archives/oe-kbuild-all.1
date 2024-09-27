@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835904C74
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 00:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A8EEAF9;
+	Fri, 27 Sep 2024 00:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727398133; cv=none; b=CXmhDvlS594iknTIrl/tAxUf9t+yEj+FLzior+yQ4SkYbwhSMJAG+Zefx9xA8I4HipD6hME8ssbcJRYF6TobvcwNGDHXnQZty3vT4YvO4qRW82o5MAUagrvwpM1k3N0JPc8rSuht+GiQiolTNDgr0or6UTe4oZASKaGx1B0m1Rw=
+	t=1727398135; cv=none; b=NLwN+O+DzXLIybOXL5WopeQV1OuNqA18/piznqmmS3bR7QLLgEOoaXVg7m917FhcPQ3QEWeoyaKuXfA9N8VLUEaaKgi0ZaOtZaRjHMrYm5SsveaQYi36WrmTDBEuOhD+IAzO7j52P73JJMaJ0OuLIB7fWY4UJZkkPHe6GLWI9oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727398133; c=relaxed/simple;
-	bh=qzjcpl2i59jb2pfI6xZv0v/mIWFeZ/tamXxhvkp1Lxc=;
+	s=arc-20240116; t=1727398135; c=relaxed/simple;
+	bh=jVouVqYMHjPTWEYDCbFdVLU0VUboftdkmHsw9R0tgTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=txPJdDpHC5Gljp3TlFKkYs1xTuNw2hvRNidwOi5ydwFbFiF17xqxp2K57RB0MTHU6Zd9BsTr4c2P2vDVu1s/oJ5SvqsXX6PXBou3tj6zFGwCQUqNIrD56/zwTipNRWoo7QJDrnApLD4PMkgds4X/LtauKNUIUjaoGcoluedMVw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cgR/zd5l; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=hd1iP19PIfYpW4fEvswvcnWuC+nqfD5knMVaEC6fhbJn/tyZHb3R6XAQzm2cjyDneEWW3VEp4Q7YKUbxy/SJDSjNT3ksffj2V6qyFOzcBQ73kajA1UHxLXhqD8egD9UJCxrDB6SgOx1cvZjtAhRdrqga/dSS/4FJUUsSXhzEfYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CjHFxtUF; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgR/zd5l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CjHFxtUF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727398132; x=1758934132;
+  t=1727398134; x=1758934134;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qzjcpl2i59jb2pfI6xZv0v/mIWFeZ/tamXxhvkp1Lxc=;
-  b=cgR/zd5lMVb+p9GaaHZj0OAR5HDnlgyyN0AmnAXZrf3eRzrE7pmTHO66
-   XCAfccpq9Cl+MiEWb2znfh2+cp79ooDRoW3pVGZxTbLqUjfNxt5/kE0/m
-   gW/4PftFNheJSO8c+knIn5mzGcYrLg0lkx0zNa2Nh22jDSzw2UVplv1cb
-   nex6JK3RRyuYxmU31eK/lFntMEr8PxCRsDm1Q0qUtXEi/ytPmbRfUz/XM
-   5We3PpZazOkEN2bMkF+2kPrEhnZilV+7Dy6mhX5L46bbwdnqf1l8TuRKJ
-   vFUkt1qUremuQpYiUTskH2QcjKjILn84yf2m8KiVDVKBNydLX+oGUJyj3
-   g==;
-X-CSE-ConnectionGUID: DsEsRN7iTgaJnsQ8sSPHjA==
-X-CSE-MsgGUID: urRE120EQQmbwUzY4FdWbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26662506"
+  bh=jVouVqYMHjPTWEYDCbFdVLU0VUboftdkmHsw9R0tgTk=;
+  b=CjHFxtUFyAtirTnKimsV/JUWuwfEYMkI92ADVPloVa6QXIciq7VggtBU
+   lJmnp98PTlamzdTdi6Bv1897lLPI5lWLea7kwfhEk4DEuGszTAZbC42Mr
+   jxWSO/i/kZD4Zu8JwbXWV7GGrGsuDv0ldTYIUTLLKJb+XLI5cLhDaEVA8
+   +A1n0r2zITsAxShfweUE8BnAFpKwtkLjgyZXKkjEU1rkX4pUI/YTZUsFK
+   Ayr8YKqcnDk+CBOBBppAZ0VgSQtkJWqse/SuFmSW++IWXxNE4JzxZgobF
+   eu1iC73qaow/8V0qWYA411XEXw36o0bL6keN0peuQqT/DZ8vWv+gkE32c
+   Q==;
+X-CSE-ConnectionGUID: 42lw40HuTVeNZGumR/ydcA==
+X-CSE-MsgGUID: R2QA3cVATZORyBrQqZ25CA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37669059"
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="26662506"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 17:48:51 -0700
-X-CSE-ConnectionGUID: iPeYk3UERlO3K8L1ZOxvOg==
-X-CSE-MsgGUID: ZpIzJSLjSvySpb+lG9T1Hw==
+   d="scan'208";a="37669059"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 17:48:52 -0700
+X-CSE-ConnectionGUID: RDmipcLCSEuu2AmBAAvIZw==
+X-CSE-MsgGUID: 3XqQ8LJmQXuYYoBwlb/LgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="77182261"
+   d="scan'208";a="103135394"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Sep 2024 17:48:50 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2024 17:48:50 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stzA7-000LKl-2J;
+	id 1stzA7-000LKp-2R;
 	Fri, 27 Sep 2024 00:48:47 +0000
-Date: Fri, 27 Sep 2024 08:48:36 +0800
+Date: Fri, 27 Sep 2024 08:48:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] vmlinux.o: warning: objtool:
- .text.tick_sched_timer: unexpected end of section
-Message-ID: <202409270847.9lI2Fb7V-lkp@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl/fwctl 21/25] drivers/fwctl/cxl/cxl.c:44:9: error: call
+ to undeclared function 'kzalloc'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202409270849.KwaVae6m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   04612a82bcfa574a944f47923d992b6b4870a4fb
-commit: a94ba5ab288780f141d741107751b4866bc24be3 [1/1] BACKPORT: timekeeping: Use READ/WRITE_ONCE() for tick_do_timer_cpu
-config: x86_64-buildonly-randconfig-005-20240927 (https://download.01.org/0day-ci/archive/20240927/202409270847.9lI2Fb7V-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270847.9lI2Fb7V-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
+head:   b4f2900f53c72de8fc639b62e44763c6a9695d3b
+commit: 69c31732e72a4e65881d0894e34b8f16a9d529c2 [21/25] fwctl/cxl: Add support for get driver information
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240927/202409270849.KwaVae6m-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270849.KwaVae6m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409270847.9lI2Fb7V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409270849.KwaVae6m-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x79: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x47: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x50: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: native_sched_clock+0x72: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: local_clock_noinstr+0x77: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x4f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x44: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x5f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x23: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_nmi_enter+0x30: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x23: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_enter+0x10: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit+0x41: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_exit+0x37: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter+0x26: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __ct_user_enter+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x42: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: cpuidle_enter_state+0x434: return with instrumentation enabled
-   vmlinux.o: warning: objtool: mwait_idle+0x28: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x7f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter+0x44: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poll_idle+0x47: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __x64_sys_waitid+0x3be: call to __tsan_unaligned_read_write8() with UACCESS enabled
->> vmlinux.o: warning: objtool: .text.tick_sched_timer: unexpected end of section
-   vmlinux.o: warning: objtool: futex_cmpxchg_value_locked+0xc4: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: futex_wake_op+0x4a3: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp1+0xf: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp2+0x12: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp4+0x12: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp8+0xf: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp1+0x12: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp2+0x12: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp4+0x12: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp8+0xf: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_switch+0x50: call to write_comp_data.llvm.13943419661926544032() with UACCESS enabled
-   vmlinux.o: warning: objtool: __rseq_handle_notify_resume+0xd80: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: shrink_node+0xde0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: fault_in_writeable+0x11b: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: fault_in_readable+0x11c: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: fillonedir+0x1d2: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: filldir+0x359: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: filldir64+0x359: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: __x64_sys_pselect6+0x123: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: do_sys_poll+0xd56: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: .text.jffs2_erase_pending_blocks: unexpected end of section
-   vmlinux.o: warning: objtool: copy_compat_iovec_from_user+0xdb: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: copy_iovec_from_user+0xd4: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: check_zeroed_user+0x125: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: strncpy_from_user+0x24c: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: strnlen_user+0x1fa: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: csum_and_copy_from_user+0xee: call to __tsan_unaligned_read_write8() with UACCESS enabled
-   vmlinux.o: warning: objtool: csum_and_copy_to_user+0xee: call to __tsan_unaligned_read_write8() with UACCESS enabled
+>> drivers/fwctl/cxl/cxl.c:44:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      44 |         info = kzalloc(sizeof(*info), GFP_KERNEL);
+         |                ^
+>> drivers/fwctl/cxl/cxl.c:44:7: error: incompatible integer to pointer conversion assigning to 'struct fwctl_info_cxl *' from 'int' [-Wint-conversion]
+      44 |         info = kzalloc(sizeof(*info), GFP_KERNEL);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +/kzalloc +44 drivers/fwctl/cxl/cxl.c
+
+    37	
+    38	static void *cxlctl_info(struct fwctl_uctx *uctx, size_t *length)
+    39	{
+    40		struct cxlctl_uctx *cxlctl_uctx =
+    41			container_of(uctx, struct cxlctl_uctx, uctx);
+    42		struct fwctl_info_cxl *info;
+    43	
+  > 44		info = kzalloc(sizeof(*info), GFP_KERNEL);
+    45		if (!info)
+    46			return ERR_PTR(-ENOMEM);
+    47	
+    48		info->uctx_caps = cxlctl_uctx->uctx_caps;
+    49	
+    50		return info;
+    51	}
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
