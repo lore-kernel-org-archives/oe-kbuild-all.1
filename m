@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C66B658
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 03:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A533B1BC5C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 04:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727409357; cv=none; b=iyBE7SHI8yrPHMfXLxl/zVHErIZQhIiHpk8/DGgqM8ciZLO3IE9eUrpFZvSp9rqBufyeLmGD2aLw70vw0dRXtli9thvCcBTp1nx1+ZIF6i4eWKeSLeCCsX6t55CgW1oFruEv49qUb8MF9OZqo8AonbWFNu1x+fT5diJV+kMpStc=
+	t=1727409957; cv=none; b=PP7bAXW4vZcAwpj1i/7eHrbV7sZJNx8CALfbubebszoajkZvhax40yB8lN0SUX/pZ2l4WuFGXayeIMOo7Vj3S61FwibWL4ax3FKCAtT0x2//NWJyOAD0jAr3lumO5k+aYTFsXI66foBbscgMmyfIrl6A+/ZRjtcDYQXNvHxbIfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727409357; c=relaxed/simple;
-	bh=t5b/snR0lPuWFFGCjCMwk8aXn7AlRY2TZFzukLSNLYw=;
+	s=arc-20240116; t=1727409957; c=relaxed/simple;
+	bh=HKB4dEupyWBKTHPz++3ta6i2Gjtzpb8XZyiHiIwRPfQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LNjHSR4koJoIVZKP+z4SjLP3OQlFfLRr8faroC90x1Ff4GaJP72zGFnidCVTSr2NUrMdjWoM5ncZHnTCSi6uFvJ8GvHQClC3a31dzzgFC4XJanoflSxVoOauPipceXPSserkJmK7kHesPojRern5B3B3AG769D7hQHOlQMVAa7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAo4uLa6; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Rd3b4TAkF1vx5M0YMZOwaM23golSWzSY5YJC+tgwiKFEXnE6UEXPpdZroLeBPp0iDxwD5zU51XETOp16n4lt4bnndwSCiyjtEmktlzDYJCEXxOW2yRL/3upHRV5wUd6DyEKpskkfT1fiY6ie6B0cDjc1ylQp7Y/PkZKutT2spoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QjYeubQL; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAo4uLa6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjYeubQL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727409355; x=1758945355;
+  t=1727409956; x=1758945956;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t5b/snR0lPuWFFGCjCMwk8aXn7AlRY2TZFzukLSNLYw=;
-  b=EAo4uLa6jhSwemB+tyKo65C2/+ZbhIp39U0uKIp9J7oTcE6/K6U/fijh
-   fEiQa5pxnhkGsQ6NyefrhEtc67AOwvjN+VUr2JGK2lVuJY+LrTTq/2777
-   dk13QDqcA8hXKKz1fK4XpZDa5vp9uVuWnUz4+B5K4ZMELtInPjMVngBWg
-   TfXrKg9HAwYKm29vNWiRpVeeIeO9QHQPHSIMDFyPrC3/tV7sB7T6G/+uA
-   1MkgZ6rqVaGFWjA6DwAcmpsMa2FNvz3ZN2PIX8zxNBa5spScEuw4lzV9Z
-   J36ax1fsofIFxnRS6j255/Y8ENPQsj/16FJuxkniQ0RQQmVdNtgr++E+L
-   Q==;
-X-CSE-ConnectionGUID: 3MuqBX9eSqCQU6PudfZEPQ==
-X-CSE-MsgGUID: 2XOyzttfTSO9mLsF1Ek9yA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26051514"
+  bh=HKB4dEupyWBKTHPz++3ta6i2Gjtzpb8XZyiHiIwRPfQ=;
+  b=QjYeubQL1Lj3W+9/HNOlW+WiZezDocnpZjP7Gj+wHfRAYvR1MBTJG5N+
+   xAavFwIG60tcDw8xJ9OS73Y159rC4Hk9Zeqr2Ltj/822NuANo87nTEF2a
+   W9PmM5HM1tw7kfcm4ISr2gPzJ48WdRvaUvuwwB1KsnOoi30N3hwD590xq
+   DNthV8cBmClXB6VaTT5ZlTDYg6hzav3Rc+C8l67TQM4ow53DOrLWuD6N3
+   46NJheXxejErDesPGjB7jpXZWkHEDnVDYdb9RsafMHzgLHRTWxyV+xffo
+   3QPLC/TPNbB6ToFyy+A/PsVbF8d1NzUa5cTzQ3ysD1AGvtDuczjCS+5Ax
+   w==;
+X-CSE-ConnectionGUID: TO2Ei7gdQaKwzlzdAsubXA==
+X-CSE-MsgGUID: wMNRXwgTQ8WzWxVKwwUpIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26674458"
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="26051514"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 20:55:54 -0700
-X-CSE-ConnectionGUID: OC0e+peBSs6raWL+koKZ6Q==
-X-CSE-MsgGUID: gawR0oKbQ5ye344tc+ckDw==
+   d="scan'208";a="26674458"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 21:05:56 -0700
+X-CSE-ConnectionGUID: i/Q8i+YOTySp9clZwQOzOw==
+X-CSE-MsgGUID: WL2SzfuBSsCh707fCUJ32Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="95731275"
+   d="scan'208";a="72287375"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Sep 2024 20:55:53 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Sep 2024 21:05:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1su259-000LQt-1A;
-	Fri, 27 Sep 2024 03:55:51 +0000
-Date: Fri, 27 Sep 2024 11:55:10 +0800
+	id 1su2Ep-000LRf-2Z;
+	Fri, 27 Sep 2024 04:05:51 +0000
+Date: Fri, 27 Sep 2024 12:05:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Jian Zhang <zhangjian210@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 13350/23779] ld.lld: error: undefined
- symbol: kfree_skb
-Message-ID: <202409271130.zkdDo9UH-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 11316/30000] arch/arm64/mm/init.c:730:6: sparse:
+ sparse: symbol 'ascend_enable_all_features' was not declared. Should it be
+ static?
+Message-ID: <202409271256.FaGlmrJY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +63,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhao,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   f9510969035e796a27375a80d9d6489440e17a1a
-commit: 6636f4434a9c5c9c645694db206188ee5a6626dd [13350/23779] ext4: report error to userspace by netlink
-config: x86_64-buildonly-randconfig-002-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271130.zkdDo9UH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271130.zkdDo9UH-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   6be8d57e8dd89fb93f6a1801c246e70ae85fbfaf
+commit: 66ae8ddda388386daea0623a65ea2ac85c24ca00 [11316/30000] ascend/arm64: Add ascend_enable_all kernel parameter
+config: arm64-randconfig-r131-20240925 (https://download.01.org/0day-ci/archive/20240927/202409271256.FaGlmrJY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240927/202409271256.FaGlmrJY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271130.zkdDo9UH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271256.FaGlmrJY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/arm64/mm/init.c:746:9: sparse: sparse: mixing declarations and code
+>> arch/arm64/mm/init.c:730:6: sparse: sparse: symbol 'ascend_enable_all_features' was not declared. Should it be static?
 
->> ld.lld: error: undefined symbol: __alloc_skb
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: kfree_skb
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: __nlmsg_put
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: netlink_broadcast
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: init_net
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_init_fs) in archive built-in.a
---
->> ld.lld: error: undefined symbol: __netlink_kernel_create
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_init_fs) in archive built-in.a
---
->> ld.lld: error: undefined symbol: netlink_kernel_release
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_exit_fs) in archive built-in.a
+vim +/ascend_enable_all_features +730 arch/arm64/mm/init.c
+
+   729	
+ > 730	void ascend_enable_all_features(void)
+   731	{
+   732		if (IS_ENABLED(CONFIG_ASCEND_DVPP_MMAP))
+   733			enable_mmap_dvpp = 1;
+   734	
 
 -- 
 0-DAY CI Kernel Test Service
