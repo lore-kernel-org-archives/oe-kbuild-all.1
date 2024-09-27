@@ -1,63 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98331D5AD6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 04:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEF415B0F9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 04:48:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727412481; cv=none; b=QqC/inSuBkp0q7lW/NzHY/6IvqetkGGMNaypZQN4e+tu1uSVYpPGYonmVuqQZOQ2EBZpsrwCNvsm0GqH1mfTOVdh4DufD4i5lcdKVBDu43jJvD4pqH/7yuAyvExmW1vet4IThK7RPbl4SKpk/V9mVYH2hFwztEzy3PHGtlDCzAw=
+	t=1727412483; cv=none; b=k80x/FuRIL59e8vpK9ICkehExyHF6wxRm0GV/sOlO9cXH2c394MrpfjoaFumqn210WTKXQJIEkMKQApJwzjHHVB4FX3MlDtmsoVxK2KBjrMTNqUzFEp1yA6cPgFhJ871T+D72IRY5LM+wxp15VEK7xcmPnR+dqDSbIxbi6Jrg8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727412481; c=relaxed/simple;
-	bh=NvGZH198laStAw0dM/YVVT1O6yNDr7xRED4V24apxRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jV4JtYH+6WkJ9N3nrxrMHRXnDogFyw6IBE+EZkscK+Sci/8Hby6ZCN6Vg60LEcQ31ZfkQla5C964g5LTNbhsDQjK7OuvZDI2Wbi3MBttKrpE1n4vKbogXBZ0OPpNOO1XcWN4VBEcLF8x+EoSwHYow7Rv6lZ/yd0XFBGtLWwmxRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ur7VxCBt; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1727412483; c=relaxed/simple;
+	bh=qC2jhxg7WlhX38LeC4pPC2pcLt1WwpSHbyeFL2HNUh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RzeG9SVxtSu1y4PXrrt87Jnt6ramWfr3OTP7oaIjfydTqAJNAne0IkSOpNPCkBzr4wK/MXOE+vB7x8NoFrHZcJXmrpIPYMbJRVRV1W/oj8Crm6EOFqa3TM14YsHrZ5yUZTjSkoi4V1LGqp5U9TXb4FZSC/H1KvteDzDKNKh1TQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5j+JNNZ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ur7VxCBt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5j+JNNZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727412479; x=1758948479;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NvGZH198laStAw0dM/YVVT1O6yNDr7xRED4V24apxRU=;
-  b=Ur7VxCBtfI0w5XoJm+LNL8O89pCENwFYI/NCcD1hIJzwoPmJrupfXyFy
-   Ogl9PmPIkrP+reLKOS0dFPolERjKaZ2fZV799y4+Ar/1PtC6lAWhvP5qn
-   NPgyuVwr6BHzQ+bKNvt4ofR3IM3YSlEV7GIksBDhIXrxC7qwH46BOHmfE
-   pT/qs+dn4mvh89jRQTLGsnLsis5WLVU6cAIJfDP/h5fbHQ9J2Vk21E5HT
-   DJz+EzumHAykt4xZDSZtPfj2wNORYFSpPeKWELFsvALiQz0BPvPVlk3lX
-   1uJjhn0vhYiQr7D5keDd4DBwggdLEY+dlS0ZKgvGRb0P/wsStHJNxhgzk
+  t=1727412481; x=1758948481;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qC2jhxg7WlhX38LeC4pPC2pcLt1WwpSHbyeFL2HNUh8=;
+  b=T5j+JNNZ/x+qR0B0SkwNJz1QhfabVxHHUPt+q3uMQBHA9k2P/eDS3O06
+   sWnOE0Jiv/2LUdscgj4JWAryuih8K/WDVGqVghNsppG069dVoDvVfXE8f
+   bXzmebKRfyj+9FDiMEkRjVIquPJu3Fgr2XPy+axPeyMuo9VrEA8SKpwT5
+   Ij0Hl5oRzip/aT/39vsCKDpkvKv4EOjdrs7WJaO+UqhxMEBWUy4LBD97H
+   HaUbwAsjxPSo7Mjkm/KSoGA7u1/+DkhW4XKXfRsuKMYrANWH1JBSRI/OT
+   9yiIlqfEOEwsBLzsTUR9qQ9TADVq7KF1f0pwaEM3zTxS3vNpUlzHEzY8y
    A==;
-X-CSE-ConnectionGUID: 35ts8Cr/SdeW5W2dyCaEiA==
-X-CSE-MsgGUID: UgalR7YnTXibNOQ1KJolXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="44061801"
+X-CSE-ConnectionGUID: oPhBQ/NmQhmNL4NGNhDWfg==
+X-CSE-MsgGUID: DwFUnBNDTUiGZsotpopxvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="44061803"
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="44061801"
+   d="scan'208";a="44061803"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 21:47:59 -0700
-X-CSE-ConnectionGUID: CNHqZRBoQjyPmQ/KTfuuzA==
-X-CSE-MsgGUID: XdnziXzHTdyEeRIKrDtNkg==
+X-CSE-ConnectionGUID: /WCBYUQMSe+w08i1SKRseg==
+X-CSE-MsgGUID: fltToOK8R0Chkgi5CP16PA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="76464033"
+   d="scan'208";a="76464027"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Sep 2024 21:47:55 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Sep 2024 21:47:56 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1su2tV-000LUF-25;
+	id 1su2tV-000LUH-2C;
 	Fri, 27 Sep 2024 04:47:53 +0000
-Date: Fri, 27 Sep 2024 12:47:08 +0800
+Date: Fri, 27 Sep 2024 12:47:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2078/2444]
- arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address
- space '<asn:1>' of expression
-Message-ID: <202409271218.Ba0sTOBg-lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409271235.PtMXq9Kx-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,88 +74,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   aabcc6dc6d7f9e12baf1f117341469c84afd545d
-commit: 2779664eca3a100ac10f7d01bcc5e353496294bc [2078/2444] x86: ia32_setup_rt_frame(): consolidate uaccess areas
-config: x86_64-randconfig-122-20240925 (https://download.01.org/0day-ci/archive/20240927/202409271218.Ba0sTOBg-lkp@intel.com/config)
+Hi Yikai,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.11 next-20240926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: i386-randconfig-r133-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271235.PtMXq9Kx-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271218.Ba0sTOBg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271235.PtMXq9Kx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271218.Ba0sTOBg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271235.PtMXq9Kx-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:1> * @@     got unsigned long long [usertype] * @@
-   arch/x86/ia32/ia32_signal.c:354:9: sparse:     expected void const volatile [noderef] <asn:1> *
-   arch/x86/ia32/ia32_signal.c:354:9: sparse:     got unsigned long long [usertype] *
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
+>> drivers/hwmon/isl28022.c:396:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:396:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:396:36: sparse:     got char *
+>> drivers/hwmon/isl28022.c:396:88: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:396:88: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:396:88: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:406:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:406:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:406:36: sparse:     got char *
+   drivers/hwmon/isl28022.c:406:82: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:406:82: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:406:82: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:414:28: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:414:28: sparse:     expected int err
+   drivers/hwmon/isl28022.c:414:28: sparse:     got char *
+>> drivers/hwmon/isl28022.c:414:87: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [usertype] shunt @@
+   drivers/hwmon/isl28022.c:414:87: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:414:87: sparse:     got unsigned int [usertype] shunt
+   drivers/hwmon/isl28022.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +354 arch/x86/ia32/ia32_signal.c
+vim +396 drivers/hwmon/isl28022.c
 
-   303	
-   304	int ia32_setup_rt_frame(int sig, struct ksignal *ksig,
-   305				compat_sigset_t *set, struct pt_regs *regs)
-   306	{
-   307		struct rt_sigframe_ia32 __user *frame;
-   308		void __user *restorer;
-   309		void __user *fp = NULL;
-   310	
-   311		/* unsafe_put_user optimizes that into a single 8 byte store */
-   312		static const struct {
-   313			u8 movl;
-   314			u32 val;
-   315			u16 int80;
-   316			u8  pad;
-   317		} __attribute__((packed)) code = {
-   318			0xb8,
-   319			__NR_ia32_rt_sigreturn,
-   320			0x80cd,
-   321			0,
-   322		};
-   323	
-   324		frame = get_sigframe(ksig, regs, sizeof(*frame), &fp);
-   325	
-   326		if (!user_access_begin(frame, sizeof(*frame)))
-   327			return -EFAULT;
-   328	
-   329		unsafe_put_user(sig, &frame->sig, Efault);
-   330		unsafe_put_user(ptr_to_compat(&frame->info), &frame->pinfo, Efault);
-   331		unsafe_put_user(ptr_to_compat(&frame->uc), &frame->puc, Efault);
-   332	
-   333		/* Create the ucontext.  */
-   334		if (static_cpu_has(X86_FEATURE_XSAVE))
-   335			unsafe_put_user(UC_FP_XSTATE, &frame->uc.uc_flags, Efault);
-   336		else
-   337			unsafe_put_user(0, &frame->uc.uc_flags, Efault);
-   338		unsafe_put_user(0, &frame->uc.uc_link, Efault);
-   339		unsafe_compat_save_altstack(&frame->uc.uc_stack, regs->sp, Efault);
-   340	
-   341		if (ksig->ka.sa.sa_flags & SA_RESTORER)
-   342			restorer = ksig->ka.sa.sa_restorer;
-   343		else
-   344			restorer = current->mm->context.vdso +
-   345				vdso_image_32.sym___kernel_rt_sigreturn;
-   346		unsafe_put_user(ptr_to_compat(restorer), &frame->pretcode, Efault);
-   347	
-   348		/*
-   349		 * Not actually used anymore, but left because some gdb
-   350		 * versions need it.
-   351		 */
-   352		unsafe_put_user(*((u64 *)&code), (u64 __user *)frame->retcode, Efault);
-   353		unsafe_put_sigcontext32(&frame->uc.uc_mcontext, fp, regs, set, Efault);
- > 354		unsafe_put_user(*(__u64 *)set, (__u64 *)&frame->uc.uc_sigmask, Efault);
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+ > 406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+ > 414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
 
 -- 
 0-DAY CI Kernel Test Service
