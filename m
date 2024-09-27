@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA90136A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Sep 2024 00:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F83EAF9;
+	Fri, 27 Sep 2024 00:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727395672; cv=none; b=QYhqPLQgKvgTT+L0z0DzyD28PFomjSdPd/VjhX9uuxex4ZxLNQ1ApfSWmNToL5Xd+RI0cub4daOnkLM2/ahgJTbzQETLM6xIIBJuUj3VKOoNlv2N6T0bTyonvZQZNgQcI6w4MVlPiZ3JDjhiLDW35G7y2RqvFvIf9nm2k45Y7Rw=
+	t=1727396273; cv=none; b=PMFfHk4cIiTGDo6245SRmqywP73a+3eShZEvjYyYLV9VZ3IcpuVeDynlzCKGRtVjOBCLLFJLT147Fb77sa2OibBP4zJzpljvrSVElTGnvsGEmYnz7MOLQzddenzPQELOo/cMLNkl2jGaH4seWTgdQeiuGU6hDk6MfGJgNy2Kl0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727395672; c=relaxed/simple;
-	bh=QApanHwDHIXwdP0q4yiJXoW38DVaOixQ7oZRWrs8Hr8=;
+	s=arc-20240116; t=1727396273; c=relaxed/simple;
+	bh=pJXipiGZHElv2/BHLanSK0trpf6yWj+TFXsXm6sNUVU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J5aMlpFGM9HnRi296K5gEdtuqN7Mz97/0nXZbbHuSCXNmJEyUwL+h8Pote3AD78uEhgPaukutTrDwsI+u0Bk0wos3iXYGFzn0XnP705RNKaAhKGWYSsHEKN1WPeyH2ORmXQWqhx89SpQ49f/FblARyHs2xrJm/NwLOJKBygb91A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIZ9W5TW; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=aHj4gvYUu1M/TL1O74J0EJpYiFXgFYrJHq6Ct8p2qLxb67U8vPD1Rr2VzXTwfa7+Bp5WZp1okQ2WNgrt3HOjNW8nvNZBdB617cijxIA8gDZVIpOixS1l9a24H3hsGMukpNiPJ8tyEjPgJ4nZuPZypoYPOBtAO9Z9uQyrZGTYCXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TksM/zhs; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIZ9W5TW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TksM/zhs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727395671; x=1758931671;
+  t=1727396271; x=1758932271;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QApanHwDHIXwdP0q4yiJXoW38DVaOixQ7oZRWrs8Hr8=;
-  b=OIZ9W5TWq06BF2xnc82JWh+qCKT2s91dkwQVwCm9gcw2PWjrksT3eMuR
-   VFlTq6kv4XLw1fI8A6e9qAAT4yAyWeKEezt3M6wDHE5Ygi3iYw3Qnx7qr
-   KxaFgzuMIvgJ2HmxIg1qWo9lk55o3XzM50wxI8EsLjQBFmwy49wvlxUlb
-   21JEKvJ/WvbqEOZsy5euyIZuUx7IcMFmtDEjcbVHafvS6rhBFx5r8BBCO
-   ji246YtdSyQi5ZA9t3gEHiEeg3do/7XNKLw2FbEk0++owJKzqO/bvZOLX
-   +Y18ZzgkWzdvT6HOMH6I1ptY29/DVEm1bPtrlCnORbx80LN5xyxgFfIq7
+  bh=pJXipiGZHElv2/BHLanSK0trpf6yWj+TFXsXm6sNUVU=;
+  b=TksM/zhs6YV3taszLKjhF5hvTWrRWliBQppDWppgUG/D5Fyl7ht/hBwt
+   WiCUacH5h+O9sCQCkYWX8Iei0cv14zkw74xDgW5CDLDiDb6nY8vZgg1UA
+   K9wL3ykEPQ6nLpEnsP3iq0Cg8OyPgqf6q/RI9hbsjYrxLQlxL4Wk3HlBV
+   rOKwyCEAfJQOMy7cykTfF0ZT8s/RvxznCnGR3ECZO69NqIGQMXdLJ0m8A
+   sUsw5xQUtxX9kEK+8zHZkupIGu/NcZXtuTO47iS9oh4GO0DQ9us8T5A2y
+   E1MceGj6kRoRNmXvTEImzKpkiTQUN69N4ZnbK0LQTNDsQMMGxlioubsMg
    Q==;
-X-CSE-ConnectionGUID: dcBsQPVLSrunTXIzA8m8gA==
-X-CSE-MsgGUID: juIl0MSsQ4eN9p9Nwse8rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="49058331"
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="49058331"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 17:07:51 -0700
-X-CSE-ConnectionGUID: icGsGTdwRvq3KoZYp5Hbyw==
-X-CSE-MsgGUID: Ab1lQi5jTWWmseJYJJIJyA==
+X-CSE-ConnectionGUID: 6+u7X7uuQfenaA5YCwo5FA==
+X-CSE-MsgGUID: 0m1xPkGJQFq+xPpYga+kCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37666929"
+X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
+   d="scan'208";a="37666929"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 17:17:50 -0700
+X-CSE-ConnectionGUID: rWAytr5UQFe82dBn4xCQog==
+X-CSE-MsgGUID: Gs7eDM+ISG2X70Opv74B+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="103127669"
+X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
+   d="scan'208";a="77292693"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2024 17:07:50 -0700
+  by orviesa004.jf.intel.com with ESMTP; 26 Sep 2024 17:17:50 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1styWQ-000LJj-3C;
-	Fri, 27 Sep 2024 00:07:46 +0000
-Date: Fri, 27 Sep 2024 08:07:07 +0800
+	id 1styg7-000LJv-0X;
+	Fri, 27 Sep 2024 00:17:47 +0000
+Date: Fri, 27 Sep 2024 08:17:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djiang:cxl/fwctl 22/25] ./usr/include/fwctl/cxl.h:29:9: error:
- unknown type name 'uuid_t'
-Message-ID: <202409270848.CvZOWsul-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl/fwctl 13/25] drivers/cxl/cxlmem.h:798:56: error: use of
+ undeclared identifier 'supported_feats'
+Message-ID: <202409270801.q5j3vH3U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,82 +64,38 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
 head:   b4f2900f53c72de8fc639b62e44763c6a9695d3b
-commit: a35b1a880d87c874f47a8acd68bad9e251a342fd [22/25] fwctl/cxl: Add support for fwctl RPC command to enable CXL feature commands
-config: i386-buildonly-randconfig-002-20240927 (https://download.01.org/0day-ci/archive/20240927/202409270848.CvZOWsul-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270848.CvZOWsul-lkp@intel.com/reproduce)
+commit: 5a0496c19151d83cd0d926f8a1488eeaab27509b [13/25] cxl: Add Get Supported Features command for kernel usage
+config: x86_64-buildonly-randconfig-001-20240927 (https://download.01.org/0day-ci/archive/20240927/202409270801.q5j3vH3U-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270801.q5j3vH3U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409270848.CvZOWsul-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409270801.q5j3vH3U-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   ./usr/include/fwctl/cxl.h:22:9: error: unknown type name '__u32'
-      22 |         __u32 uctx_caps;
-         |         ^~~~~
->> ./usr/include/fwctl/cxl.h:29:9: error: unknown type name 'uuid_t'
-      29 |         uuid_t uuid;
-         |         ^~~~~~
-   ./usr/include/fwctl/cxl.h:30:9: error: unknown type name '__u32'
-      30 |         __u32 flags;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:31:9: error: unknown type name '__u16'
-      31 |         __u16 offset;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:32:9: error: unknown type name '__u8'
-      32 |         __u8 version;
-         |         ^~~~
-   ./usr/include/fwctl/cxl.h:33:9: error: unknown type name '__u8'
-      33 |         __u8 reserved[9];
-         |         ^~~~
-   ./usr/include/fwctl/cxl.h:34:9: error: unknown type name '__u8'
-      34 |         __u8 data[];
-         |         ^~~~
-   ./usr/include/fwctl/cxl.h:51:9: error: unknown type name '__u32'
-      51 |         __u32 id;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:52:9: error: unknown type name '__u32'
-      52 |         __u32 flags;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:53:9: error: unknown type name '__u16'
-      53 |         __u16 opcode;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:54:9: error: unknown type name '__u16'
-      54 |         __u16 rsvd;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:55:9: error: unknown type name '__u32'
-      55 |         __u32 size;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:56:9: error: unknown type name '__u32'
-      56 |         __u32 rsvd1;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:57:9: error: unknown type name '__u64'
-      57 |         __u64 payload;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:64:9: error: unknown type name '__u32'
-      64 |         __u32 rpc_cmd;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:65:9: error: unknown type name '__u32'
-      65 |         __u32 payload_size;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:66:9: error: unknown type name '__u32'
-      66 |         __u32 version;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:67:9: error: unknown type name '__u32'
-      67 |         __u32 rsvd;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:72:9: error: unknown type name '__u32'
-      72 |         __u32 retval;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:73:9: error: unknown type name '__u32'
-      73 |         __u32 size;
-         |         ^~~~~
-   ./usr/include/fwctl/cxl.h:74:9: error: unknown type name '__aligned_u64'
-      74 |         __aligned_u64 payload[];
-         |         ^~~~~~~~~~~~~
+   In file included from drivers/cxl/port.c:7:
+>> drivers/cxl/cxlmem.h:798:56: error: use of undeclared identifier 'supported_feats'
+     798 |         struct cxl_feat_entry ents[] __counted_by(le32_to_cpu(supported_feats));
+         |                                                               ^
+   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32_to_cpu'
+      89 | #define le32_to_cpu __le32_to_cpu
+         |                     ^
+   1 error generated.
+
+
+vim +/supported_feats +798 drivers/cxl/cxlmem.h
+
+   793	
+   794	struct cxl_mbox_get_sup_feats_out {
+   795		__le16 num_entries;
+   796		__le16 supported_feats;
+   797		u8 reserved[4];
+ > 798		struct cxl_feat_entry ents[] __counted_by(le32_to_cpu(supported_feats));
+   799	} __packed;
+   800	
 
 -- 
 0-DAY CI Kernel Test Service
