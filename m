@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223BE12E75
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 08:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D014A1487E2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 08:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727510649; cv=none; b=bCoCTBja5Phu2G44c83mPbttrZV6oDcUMzRW0sYWwDPKIQXdWEL0ifBEjQGya5jDIdxlAw7UZuocf3a80yVwraG01IJixAm2MRMobVYxZ3BcyWICXPJZbRBZ5oQbcXkQYJEaclNYkW+gOdvBXWq/UlTOeD7QWuYsBOlMXrIEfaw=
+	t=1727511908; cv=none; b=JOC5Sw1Ii8fnHMSUbySHHj/ZFUQb1NeLmQ3oNneOFLHaLwEk6l3fh3Dw413vuzJ/Mss1rQvVMDLI9TbVadmZM6hXq508kDr87L9l6qRNhBRcCg6kgnqgM8n/IiJB94NGeWrmRmFxcKuxhCq5EfmfxPbe4cbmWUUwN/Sz7Aa0zrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727510649; c=relaxed/simple;
-	bh=iYwiwZZbcYBs1YE9u1895Apadus7z72Bxx4TTaVUpUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rtxstXNJr6ra2f7doTVpovGb7ytYMxR4b/IBvvsmktNr2RobLIf3JKhi9yTTiuU6gMyJ4anvrblD/DVXr4AJPJSxOYOOnxpjLdtKI93EjJBs7Fj0X9iZnx89szTurEP60UYZ5ZFfQan+mPbGPqQAzGmzGanxg6KchsaJitWftIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/J9mgu8; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1727511908; c=relaxed/simple;
+	bh=tHcrgZCFxqVdjnac38mq9YidsKyR9R5+AZMnzTFd8S0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cCYpaV9Yvursq/pKofVNPvEED8CPfd0LZgnUtQylvMkgnRiS0elFag+iFocsj2gQodJweW7p84t0IqbJngk4SxJowv29KfPya9BWSI/CJCC/Co2bjgbAU/YaLWFAIFMlZaKnveLzZhyI4hvRtWTyVR9zu49r7r5xpD6M4cEZdZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QI+KO9Yv; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/J9mgu8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QI+KO9Yv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727510648; x=1759046648;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iYwiwZZbcYBs1YE9u1895Apadus7z72Bxx4TTaVUpUc=;
-  b=g/J9mgu8wxRFWvGsVTqVe5+0mizklaPOFoxVIgG+Gf0tbLOEgB0Vuoob
-   oet5ywiLqw4KV6YxUPWMU0Hh/qJGLq6wdpliVKm6zue517ivXMw8+M8Qa
-   94UymdnuhGGHkJ+3zxt+2wc9grf8UAt0rGSIZ1p/wXd3WeiTlF2SB1zaX
-   bP3ZsnguD2Xp2On08g+PgtuyuiPHHpsIdniif5VHGrZR1nKuRDDKa9PLk
-   HpvvcyKXmnhy4M0/DeRFQJeewjJo4QUO/yLMRh403g8ECT/Vhsac9p4Ae
-   TT6zcfTniKcKvunSCDDnuQ4d41WJ+ZnBH9+naVqh4Agz6OLFpatCu3RD+
-   g==;
-X-CSE-ConnectionGUID: +w9dVtKaTAK140euRO52sg==
-X-CSE-MsgGUID: tOwz7xgATjWZP7JM8765pA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="37331702"
+  t=1727511906; x=1759047906;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tHcrgZCFxqVdjnac38mq9YidsKyR9R5+AZMnzTFd8S0=;
+  b=QI+KO9YvLObDtywereqHE7kBeb0YfoIFchRKbtfOyOWkIAbBEde2DmLU
+   2Vtxd/Yd3emdI37FRolxjmL4i4gfRGCctiyf7bH24/2panaYDyGKpHwgW
+   yo9aJtlM/jHMef4WonkyKecTlvprKfovFCYK2FzeWdBRpJAn8a7N0Z8N2
+   2DeHAno7XkiCxk8I40lTONsamZ1+Iq7oVKYgA47mE4ttPcvc4+eBjro01
+   nqDvgvrPfciBKwkY10fp2Wgna6PjAVKoQ6UDqch/qV36CPDh3TjvmKwM3
+   hUNdYAYrr2adFlK3JvSdgA2LvD/3035V3Lfsn/9IHJAGUb5LzihlqNbV8
+   Q==;
+X-CSE-ConnectionGUID: fG050Ry3StKWANjfdjx33w==
+X-CSE-MsgGUID: 92pvpi2NSYqgiLaf5XffuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30547192"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="37331702"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 01:04:08 -0700
-X-CSE-ConnectionGUID: 5dMSq6rWRAaEU6u8vUhqEQ==
-X-CSE-MsgGUID: ZEojGvVpSUqDqljoa2Fw0g==
+   d="scan'208";a="30547192"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 01:25:05 -0700
+X-CSE-ConnectionGUID: WEJl7AqiSvaWHiNZBA8P6Q==
+X-CSE-MsgGUID: XyeLxxhBQ32TiBTlWyQTIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="72831532"
+   d="scan'208";a="103578911"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Sep 2024 01:04:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 28 Sep 2024 01:25:05 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suSQr-000N1Q-1O;
-	Sat, 28 Sep 2024 08:04:01 +0000
-Date: Sat, 28 Sep 2024 16:03:20 +0800
+	id 1suSlC-000N23-0D;
+	Sat, 28 Sep 2024 08:25:02 +0000
+Date: Sat, 28 Sep 2024 16:24:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, bentiss@kernel.org,
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
-	lee@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
-	onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-Message-ID: <202409281513.tYxQaGoH-lkp@intel.com>
-References: <20240927141745.145176-1-wse@tuxedocomputers.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.0.x-imx 104/16788]
+ drivers/soc/imx/secvio/imx-secvio-audit.c:11:5: warning: no previous
+ prototype for 'report_to_audit_notify'
+Message-ID: <202409281648.cm2MetjL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,45 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240927141745.145176-1-wse@tuxedocomputers.com>
 
-Hi Werner,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Werner-Sembach/platform-x86-tuxedo-Add-virtual-LampArray-for-TUXEDO-NB04-devices/20240927-221932
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240927141745.145176-1-wse%40tuxedocomputers.com
-patch subject: [PATCH v3] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
-config: x86_64-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281513.tYxQaGoH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281513.tYxQaGoH-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ac32ba5fe66266329914d2020570364afe217bec
+commit: 81a1a8eade1c5d83dbf1fc9bad8f385ea60f3f26 [104/16788] SSI-87: soc: imx: secvio: Report to audit FW all security violations
+config: arc-randconfig-002-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281648.cm2MetjL-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281648.cm2MetjL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409281513.tYxQaGoH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409281648.cm2MetjL-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/mm/testmmiotrace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
-ERROR: modpost: "hid_destroy_device" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
->> ERROR: modpost: "wmidev_evaluate_method" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
->> ERROR: modpost: "wmi_driver_unregister" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
->> ERROR: modpost: "__wmi_driver_register" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
-ERROR: modpost: "hid_parse_report" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
-ERROR: modpost: "hid_add_device" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
-ERROR: modpost: "hid_allocate_device" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
+>> drivers/soc/imx/secvio/imx-secvio-audit.c:11:5: warning: no previous prototype for 'report_to_audit_notify' [-Wmissing-prototypes]
+      11 | int report_to_audit_notify(struct notifier_block *nb, unsigned long status,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/report_to_audit_notify +11 drivers/soc/imx/secvio/imx-secvio-audit.c
+
+    10	
+  > 11	int report_to_audit_notify(struct notifier_block *nb, unsigned long status,
 
 -- 
 0-DAY CI Kernel Test Service
