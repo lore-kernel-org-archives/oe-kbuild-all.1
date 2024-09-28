@@ -1,59 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5107A1400A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 03:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D89D1400A;
+	Sat, 28 Sep 2024 03:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727493903; cv=none; b=S/OCrAB2rWccUjp7d98IbY7rAvpKZOWDBvBo//9+PsnJGnAY32kD9VpFBs/hJHiPoNCdTrPspzwZGQB6BkZgEcq//R47nVEl5C+8J7r4nIXdDpfn0TEdQbk23WGsrOh+olUKG6nEgrm3ONEAoxj5h/clVEURY2wSTd3jKwH22c0=
+	t=1727493905; cv=none; b=nNZMsjD27LEf5HSnF8e+CWn3I2a/7mtAOnUFmDLgdwQNlRv0IhoneBbpQ5gLpWPZPW9lbBh0bzgvEiKxEWvCRbKs1Zj4icyyy3HAwzzKLKBwVqhid19QFAXMKfCmQXvB5YjOYVk14hwC7CiNa/KcKPZaRSoWVb3P8B2WsOhV5yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727493903; c=relaxed/simple;
-	bh=1lu0uj4SAjLW6czIi5P6eGvSUcaQkuahhwn27u8o0FE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PEVsHyPJ7hMOX+cLslUt77V8FmnBgpsigdFtOwcNWap79dWO5kg3oRk47gn9MDN/w02qnBdXBCcYLE2rQz/YS8miq9M+YDuref/gn3iadPlv+HritaHVMxR4GUHKsQglZe/u1o5HXNNFulNczFdccGVtIwzt+jtn+mZ7yPJNlDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ucgsu7lG; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1727493905; c=relaxed/simple;
+	bh=oSv/hrz5syVfs0mQq+pOXzwhXAzulQxdP2NB6+XqghA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bu9QjJIxp8xETylpyMJwu4eDF2wqiPUx/sRHf2JLn7Zmb7LgEbVjUO5Q+k4MWq34AUE10VP+g4xUTHf2pe+gTvnEHtuTPJe3DEqidLdXqY7RDL8Bs2Sb/LlYdeSXoURgPBfAkyRfCRT1WrLzodtrvn8SDy1mzlHt7MAiLgO08qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EgzUpb2j; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ucgsu7lG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EgzUpb2j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727493902; x=1759029902;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1lu0uj4SAjLW6czIi5P6eGvSUcaQkuahhwn27u8o0FE=;
-  b=Ucgsu7lGfV638QlGUiH5DcLEUbGsrpuGVQDR42bfds3gbRNyNax/+D67
-   SHCKODhSvsgv3mPR48PmZpnqJOOsq2e+OEDHd6YvPEBauV+Ucq929Uf9f
-   u+LRqxsnCHJ1mDg5xPxs4rmH4Dlie8rdFn+k8QDfAQPJWWXyrhYVcWINf
-   cYLxwxw+wPnYRKVlJzo7bbNy3nGeNPgWMPB6s5B9LSFe9wWC9/3mTygBs
-   LFdxvmYyQwFQLH4HmkBNKDA0GgKPOeDJWgT/neWGkpxBePOMOKFqo88m5
-   2+qzt5tv5jyXBM115Ybsk7z3c20FImg6aHLLVEfdNZcRXFYIedeHsvGCa
-   g==;
-X-CSE-ConnectionGUID: TXHcW+UqRoapGH3uK3KvDw==
-X-CSE-MsgGUID: vqnP6iWvR5mfkHauvw8/dA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26519925"
+  t=1727493904; x=1759029904;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oSv/hrz5syVfs0mQq+pOXzwhXAzulQxdP2NB6+XqghA=;
+  b=EgzUpb2jpAGgX+EKZ1M7TjCXDZ4Kz/Bii7lieZ16Up8qhYZ8KS/AeamL
+   nipIv5FHQt2Nh5gQxENyts+GTpunf6Grbicm+5H0gIstKzxEWzaBg4ERs
+   WTCgGjWl4J47lbuny2dujwI2hsKzCX2+jZvz1td4Ck1V4/0RSJui0cy41
+   32klwVQfjYp6rW8i0YkDycE2uLPo7JnL0fRIYV6zfoK8pMPykx/ZImwhx
+   QSvILCW27cnYzkUnYzy4OmlpZiZEKPxC8+hd8gMJg2aM92tNnKU4JA8sv
+   wPpif5lUxRHvtFLwgBGE2eZ/3d5bFnpXlywWTJarqvep/K7hL4GTFxRvO
+   Q==;
+X-CSE-ConnectionGUID: 6cmQTzXvTr2JhOZUvN+DwA==
+X-CSE-MsgGUID: lO/fHYSTS5ub8hrSIBHi4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26519928"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26519925"
+   d="scan'208";a="26519928"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 20:25:00 -0700
-X-CSE-ConnectionGUID: 5pxNflWeTo68ltI0CO/F7A==
-X-CSE-MsgGUID: VZkgHUoLTWOIoTx40n4c6w==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 20:25:03 -0700
+X-CSE-ConnectionGUID: 9JmC+vnRTlKbrrThEK3U5g==
+X-CSE-MsgGUID: rPHb/3AKSrC+aAovPzJwiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="72785975"
+   d="scan'208";a="72785976"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 27 Sep 2024 20:24:59 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suO4m-000Mt6-1S;
+	id 1suO4m-000Mt3-1O;
 	Sat, 28 Sep 2024 03:24:56 +0000
-Date: Sat, 28 Sep 2024 11:24:38 +0800
+Date: Sat, 28 Sep 2024 11:24:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18191/23799] mm/share_pool.c:2435:30:
- error: implicit declaration of function 'huge_pte_none'; did you mean
- 'huge_pte_lock'?
-Message-ID: <202409281115.zfsojOdU-lkp@intel.com>
+To: Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chester Lin <chester62515@gmail.com>,
+	Matthias Brugger <mbrugger@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	NXP S32 Linux Team <s32@nxp.com>,
+	Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>
+Subject: Re: [PATCH v4 3/4] gpio: siul2-s32g2: add NXP S32G2/S32G3 SoCs
+ support
+Message-ID: <202409281117.IOrJBXgL-lkp@intel.com>
+References: <20240926143122.1385658-4-andrei.stefanescu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,157 +78,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240926143122.1385658-4-andrei.stefanescu@oss.nxp.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3841d75a6dcd12d108aaf56560b99431d18169e4
-commit: 4e851c2bb53e45d92e266c65cf0c203624e74710 [18191/23799] ascend: share_pool: Use sharepool_no_page to alloc hugepage
-config: arm64-randconfig-003-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281115.zfsojOdU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281115.zfsojOdU-lkp@intel.com/reproduce)
+Hi Andrei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus robh/for-next linus/master v6.11 next-20240927]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrei-Stefanescu/drivers-provide-devm_platform_get_and_ioremap_resource_byname/20240926-223448
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20240926143122.1385658-4-andrei.stefanescu%40oss.nxp.com
+patch subject: [PATCH v4 3/4] gpio: siul2-s32g2: add NXP S32G2/S32G3 SoCs support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240928/202409281117.IOrJBXgL-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281117.IOrJBXgL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409281115.zfsojOdU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409281117.IOrJBXgL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:1685:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    1685 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:1685:21: error: invalid initializer
-   mm/share_pool.c: In function 'sharepool_no_page':
->> mm/share_pool.c:2435:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    2435 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
->> mm/share_pool.c:2448:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    2448 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
->> mm/share_pool.c:2470:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    2470 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
->> mm/share_pool.c:2472:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    2472 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   mm/share_pool.c: In function 'sp_alloc_pages':
-   mm/share_pool.c:2508:24: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-    2508 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        vmalloc_hugepage
-   mm/share_pool.c:2508:61: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-    2508 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                                                             ^~~~~~~~~~~~~~~~~~
-         |                                                             HUGETLB_ANON_FILE
-   mm/share_pool.c:2508:61: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:2511:1: warning: control reaches end of non-void function [-Wreturn-type]
-    2511 | }
-         | ^
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:2393:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    2393 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   mm/share_pool.c:2274:12: warning: 'proc_stat_show' defined but not used [-Wunused-function]
-    2274 | static int proc_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpio/gpio-siul2-s32g2.c:11:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpio/gpio-siul2-s32g2.c:11:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpio/gpio-siul2-s32g2.c:11:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/gpio/gpio-siul2-s32g2.c:296:32: warning: comparison of distinct pointer types ('typeof ((size)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+     296 |                 conf->num_reg_defaults_raw = do_div(size, conf->reg_stride);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+>> drivers/gpio/gpio-siul2-s32g2.c:296:32: error: incompatible pointer types passing 'resource_size_t *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+     296 |                 conf->num_reg_defaults_raw = do_div(size, conf->reg_stride);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                                      ^
+>> drivers/gpio/gpio-siul2-s32g2.c:296:32: warning: shift count >= width of type [-Wshift-count-overflow]
+     296 |                 conf->num_reg_defaults_raw = do_div(size, conf->reg_stride);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   8 warnings and 1 error generated.
 
 
-vim +2435 mm/share_pool.c
+vim +296 drivers/gpio/gpio-siul2-s32g2.c
 
-  2403	
-  2404	vm_fault_t sharepool_no_page(struct mm_struct *mm,
-  2405				struct vm_area_struct *vma,
-  2406				struct address_space *mapping, pgoff_t idx,
-  2407				unsigned long address, pte_t *ptep, unsigned int flags)
-  2408	{
-  2409		struct hstate *h = hstate_vma(vma);
-  2410		vm_fault_t ret = VM_FAULT_SIGBUS;
-  2411		unsigned long size;
-  2412		struct page *page;
-  2413		pte_t new_pte;
-  2414		spinlock_t *ptl;
-  2415		unsigned long haddr = address & huge_page_mask(h);
-  2416		bool new_page = false;
-  2417		int err;
-  2418	
-  2419	retry:
-  2420		page = find_lock_page(mapping, idx);
-  2421		if (!page) {
-  2422			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  2423			if (idx >= size)
-  2424				goto out;
-  2425	
-  2426			page = alloc_huge_page(vma, haddr, 0);
-  2427			if (IS_ERR(page)) {
-  2428				page = alloc_huge_page_node(hstate_file(vma->vm_file),
-  2429							    numa_mem_id());
-  2430				if (!page)
-  2431					page = ERR_PTR(-ENOMEM);
-  2432			}
-  2433			if (IS_ERR(page)) {
-  2434				ptl = huge_pte_lock(h, mm, ptep);
-> 2435				if (!huge_pte_none(huge_ptep_get(ptep))) {
-  2436					ret = 0;
-  2437					spin_unlock(ptl);
-  2438					goto out;
-  2439				}
-  2440				spin_unlock(ptl);
-  2441				ret = vmf_error(PTR_ERR(page));
-  2442				goto out;
-  2443			}
-  2444			__SetPageUptodate(page);
-  2445			new_page = true;
-  2446	
-  2447			/* sharepool pages are all shared */
-> 2448			err = huge_add_to_page_cache(page, mapping, idx);
-  2449			if (err) {
-  2450				put_page(page);
-  2451				if (err == -EEXIST)
-  2452					goto retry;
-  2453				goto out;
-  2454			}
-  2455		}
-  2456	
-  2457	
-  2458		ptl = huge_pte_lock(h, mm, ptep);
-  2459		size = i_size_read(mapping->host) >> huge_page_shift(h);
-  2460		if (idx >= size)
-  2461			goto backout;
-  2462	
-  2463		ret = 0;
-  2464		if (!huge_pte_none(huge_ptep_get(ptep)))
-  2465			goto backout;
-  2466	
-  2467		page_dup_rmap(page, true);
-  2468		new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-  2469					&& (vma->vm_flags & VM_SHARED)));
-> 2470		set_huge_pte_at(mm, haddr, ptep, new_pte);
-  2471	
-> 2472		hugetlb_count_add(pages_per_huge_page(h), mm);
-  2473	
-  2474		spin_unlock(ptl);
-  2475	
-  2476		if (new_page) {
-  2477			SetPagePrivate(&page[1]);
-  2478		}
-  2479	
-  2480		unlock_page(page);
-  2481	out:
-  2482		return ret;
-  2483	
-  2484	backout:
-  2485		spin_unlock(ptl);
-  2486		unlock_page(page);
-  2487		put_page(page);
-  2488		goto out;
-  2489	}
-  2490	EXPORT_SYMBOL(sharepool_no_page);
-  2491	
+   273	
+   274	static struct regmap *common_regmap_init(struct platform_device *pdev,
+   275						 struct regmap_config *conf,
+   276						 const char *name)
+   277	{
+   278		struct device *dev = &pdev->dev;
+   279		struct resource *res;
+   280		resource_size_t size;
+   281		void __iomem *base;
+   282	
+   283		base = devm_platform_get_and_ioremap_resource_byname(pdev, name, &res);
+   284		if (IS_ERR(base)) {
+   285			dev_err(&pdev->dev, "Failed to get MEM resource: %s\n", name);
+   286			return ERR_PTR(-EINVAL);
+   287		}
+   288	
+   289		size = resource_size(res);
+   290		conf->val_bits = conf->reg_stride * 8;
+   291		conf->max_register = size - conf->reg_stride;
+   292		conf->name = name;
+   293		conf->use_raw_spinlock = true;
+   294	
+   295		if (conf->cache_type != REGCACHE_NONE)
+ > 296			conf->num_reg_defaults_raw = do_div(size, conf->reg_stride);
+   297	
+   298		return devm_regmap_init_mmio(dev, base, conf);
+   299	}
+   300	
 
 -- 
 0-DAY CI Kernel Test Service
