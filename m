@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA06A1DFF0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 19:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099981CA80;
+	Sat, 28 Sep 2024 19:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727552615; cv=none; b=SGPq3TZxHldobyLSfbbywtXyCVXhkeuW9S7oNdDQLv6YIXa6hbgdVkpTcmRNyTNFZ3gxEIAkvaWvLVY/9gKIdqBf1hacmeHLBvxYaKFznge31cW64Y4rqyk8G7P34EAD0v/PHW7Mf5wcsUaeCs3gHxCanZCF9iT6ls6l0eh+040=
+	t=1727553216; cv=none; b=j0x/m35lCSqwX2/IiQ8K+oJFfkmfeEiweayHZ102ye4+wbA5OgV5beacl8DWWJqvOE6bqjMcUHT/aFkh2Ker1EoAUSFMyXD4g3sbzak6Y1tcNRD4N/27NlREyaFRis6Mxq0B9TAwd5apb5SPz6XSAMx8qLNKVDl2rYcTczFC4Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727552615; c=relaxed/simple;
-	bh=jVqIuDAf7y6JbCAI9T29G4pUHO61rDH3tVFIIaKv51o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O+i6sucYqAG/D2kJD3/tBvFhE9j7deKQVj6q+jisQbg9mJu2spT7BHqIGTPE3hScmvDGyQwgrCtJPJprmq4K7LQCSlSPCieMbrjHLH6dVstqpD4Xe1K5NCN92g+5npWIFXQqwV1cXSklcPpdTJ/lDjL1FtAy0pT5cslwdLa/LPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLuvYpax; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1727553216; c=relaxed/simple;
+	bh=TsG2b3fBW6P71XH5avJ2+zbBrCJTD+5CCr5SVzCDjw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=deVwFAMUZwHf6MS21gI/k6NnBSEfAIwPbKT58qaatUSAHQfx57sMiPqdSHgOMRSW8xBzcoQjETTHUZDKCU9Oe3MsTpjP8KbtFeywwCukeT9O3V8vJI8ba7l5u7PKE2+ajUTO1RUg7PatuqRybmH3AhjZmTvAJ9CEXPR6BMfhkiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUmzg8Yu; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLuvYpax"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUmzg8Yu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727552613; x=1759088613;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jVqIuDAf7y6JbCAI9T29G4pUHO61rDH3tVFIIaKv51o=;
-  b=bLuvYpax2vy6J9RXKrQKmqWFBu8Zl4V3ubEA92NyFLi2BwwVMq9Cek/B
-   bWkx0wDQUyosp9pPaOtaOmcmqXR+x2i5c8FKr7isJryniMGEefN7H70dg
-   LHwIyyT3dHgj6l/l72bObSzz1ekpAq+TJDmvOwjUdqyQ5M+hLG+dCJg+z
-   Snx8qcf1zlCrKII977JNW4SoopJjpKdPqUUhrgxY+joPjI6YAl2i/d1XK
-   3SRzjliKS2f3m1p5Oo6cXS664ltFUcw26w4LiXyyKHShgBYz7GqOLOTTa
-   Wep7mrNREIIrncyPhopG7CW2Vg+/Srqiazwj70GyDW3aOyeFnDeQuRhGK
-   A==;
-X-CSE-ConnectionGUID: y9+f9YVZT5+pp4TR/zbWFQ==
-X-CSE-MsgGUID: ki/rDvw9QdGtoyp2bXPG2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26551407"
+  t=1727553215; x=1759089215;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TsG2b3fBW6P71XH5avJ2+zbBrCJTD+5CCr5SVzCDjw4=;
+  b=SUmzg8YuG/fbsk/Eaf9zge6k9Py11ezpERzle7qjdGod59jJftnjjLJt
+   Jbrxkzo1RtuRijB00eGiMACUO5/OH69vzxnCu4bWq3ozxEA5iEHnq0IVl
+   jD4utAshBj36yky3mtzIlFxcbnyrDpon71HqJ3/q66G0U4WNJJjzFNuaP
+   x0WvGh2Al1qKY5qqL+WtVcDUUZJgcxmSDtWjw96kX3O6yXEHVddvsSz7/
+   Qw+5+nDYa7KWfgDLU/7I3iGnZPMcKyHx/CdNwlX0Lbgr56J9bpneR5xZl
+   RzAxGqmGHJhg1n/2NFt4/I0lTn+XOtQ0/oEwadOg1s/ec0vbfF6Dalllu
+   Q==;
+X-CSE-ConnectionGUID: lGxwHdHIQT6xjXGhzvAqpA==
+X-CSE-MsgGUID: cenp4tV8S8usA25w9ruuLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="38036576"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="26551407"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 12:43:33 -0700
-X-CSE-ConnectionGUID: pM7zR3PZR2O+2PcrAWbrqA==
-X-CSE-MsgGUID: yIGs/NrMROekA2GHnTDMXw==
+   d="scan'208";a="38036576"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 12:53:35 -0700
+X-CSE-ConnectionGUID: bEZ9ms7uQpCQW5HKT/DOYQ==
+X-CSE-MsgGUID: 3IHAGF6YTy+64Yig4ZHwfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="77691319"
+   d="scan'208";a="77394217"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Sep 2024 12:43:31 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Sep 2024 12:53:31 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sudLl-000NZ5-0A;
-	Sat, 28 Sep 2024 19:43:29 +0000
-Date: Sun, 29 Sep 2024 03:42:45 +0800
+	id 1sudVR-000NZP-0n;
+	Sat, 28 Sep 2024 19:53:29 +0000
+Date: Sun, 29 Sep 2024 03:53:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 169/16788]
- sound/soc/codecs/pcm512x.c:1594:7: warning: unused variable 'clk_name'
-Message-ID: <202409290318.5h8TieXH-lkp@intel.com>
+To: Seshu Madhavi Puppala <quic_spuppala@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_rampraka@quicinc.com, quic_nitirawa@quicinc.com,
+	quic_bhaskarv@quicinc.com, quic_neersoni@quicinc.com,
+	quic_gaurkash@quicinc.com
+Subject: Re: [PATCH] qcom: ice: Remove ice probe
+Message-ID: <202409290321.quE8sBb5-lkp@intel.com>
+References: <20240928050456.27577-1-quic_spuppala@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,122 +68,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240928050456.27577-1-quic_spuppala@quicinc.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: ffedc20aa7341e69b85228c9fd0327348159ee94 [169/16788] MLK-25015: sound: soc: codecs: pcm512x: set input sclk
-config: i386-buildonly-randconfig-003-20240928 (https://download.01.org/0day-ci/archive/20240929/202409290318.5h8TieXH-lkp@intel.com/config)
+Hi Seshu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.11]
+[also build test ERROR on next-20240927]
+[cannot apply to linus/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Seshu-Madhavi-Puppala/qcom-ice-Remove-ice-probe/20240928-130818
+base:   v6.11
+patch link:    https://lore.kernel.org/r/20240928050456.27577-1-quic_spuppala%40quicinc.com
+patch subject: [PATCH] qcom: ice: Remove ice probe
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240929/202409290321.quE8sBb5-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409290318.5h8TieXH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409290321.quE8sBb5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409290318.5h8TieXH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409290321.quE8sBb5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/codecs/pcm512x.c:1594:7: warning: unused variable 'clk_name' [-Wunused-variable]
-    1594 |         char clk_name[8];
-         |              ^~~~~~~~
-   1 warning generated.
+>> drivers/soc/qcom/ice.c:309:10: error: incompatible integer to pointer conversion returning 'long' from a function with result type 'struct qcom_ice *' [-Wint-conversion]
+     309 |                 return PTR_ERR(base);
+         |                        ^~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/clk_name +1594 sound/soc/codecs/pcm512x.c
+vim +309 drivers/soc/qcom/ice.c
 
-  1590	
-  1591	int pcm512x_probe(struct device *dev, struct regmap *regmap)
-  1592	{
-  1593		struct pcm512x_priv *pcm512x;
-> 1594		char clk_name[8];
-  1595		int i, ret;
-  1596	
-  1597		pcm512x = devm_kzalloc(dev, sizeof(struct pcm512x_priv), GFP_KERNEL);
-  1598		if (!pcm512x)
-  1599			return -ENOMEM;
-  1600	
-  1601		mutex_init(&pcm512x->mutex);
-  1602	
-  1603		dev_set_drvdata(dev, pcm512x);
-  1604		pcm512x->regmap = regmap;
-  1605	
-  1606		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++)
-  1607			pcm512x->supplies[i].supply = pcm512x_supply_names[i];
-  1608	
-  1609		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pcm512x->supplies),
-  1610					      pcm512x->supplies);
-  1611		if (ret != 0) {
-  1612			dev_err(dev, "Failed to get supplies: %d\n", ret);
-  1613			return ret;
-  1614		}
-  1615	
-  1616		pcm512x->supply_nb[0].notifier_call = pcm512x_regulator_event_0;
-  1617		pcm512x->supply_nb[1].notifier_call = pcm512x_regulator_event_1;
-  1618		pcm512x->supply_nb[2].notifier_call = pcm512x_regulator_event_2;
-  1619	
-  1620		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++) {
-  1621			ret = devm_regulator_register_notifier(
-  1622							pcm512x->supplies[i].consumer,
-  1623							&pcm512x->supply_nb[i]);
-  1624			if (ret != 0) {
-  1625				dev_err(dev,
-  1626					"Failed to register regulator notifier: %d\n",
-  1627					ret);
-  1628			}
-  1629		}
-  1630	
-  1631		ret = regulator_bulk_enable(ARRAY_SIZE(pcm512x->supplies),
-  1632					    pcm512x->supplies);
-  1633		if (ret != 0) {
-  1634			dev_err(dev, "Failed to enable supplies: %d\n", ret);
-  1635			return ret;
-  1636		}
-  1637	
-  1638		/* Reset the device, verifying I/O in the process for I2C */
-  1639		ret = regmap_write(regmap, PCM512x_RESET,
-  1640				   PCM512x_RSTM | PCM512x_RSTR);
-  1641		if (ret != 0) {
-  1642			dev_err(dev, "Failed to reset device: %d\n", ret);
-  1643			goto err;
-  1644		}
-  1645	
-  1646		ret = regmap_write(regmap, PCM512x_RESET, 0);
-  1647		if (ret != 0) {
-  1648			dev_err(dev, "Failed to reset device: %d\n", ret);
-  1649			goto err;
-  1650		}
-  1651	
-  1652		/* default to first sclk */
-  1653		pcm512x->num_clocks = 1;
-  1654		pcm512x->sclk_src = PCM512x_SYSCLK_MCLK1;
-  1655	
-  1656		pcm512x->sclk[0] = devm_clk_get(dev, NULL);
-  1657		if (PTR_ERR(pcm512x->sclk[0]) == -EPROBE_DEFER) {
-  1658			ret = -EPROBE_DEFER;
-  1659			goto err;
-  1660		}
-  1661	
-  1662		if (!IS_ERR(pcm512x->sclk[0])) {
-  1663			ret = clk_prepare_enable(pcm512x->sclk[0]);
-  1664			if (ret != 0) {
-  1665				dev_err(dev, "Failed to enable SCLK: %d\n", ret);
-  1666				goto err;
-  1667			}
-  1668		}
-  1669	
-  1670		/* Default to standby mode */
-  1671		ret = regmap_update_bits(pcm512x->regmap, PCM512x_POWER,
-  1672					 PCM512x_RQST, PCM512x_RQST);
-  1673		if (ret != 0) {
-  1674			dev_err(dev, "Failed to request standby: %d\n",
-  1675				ret);
-  1676			goto err_clk;
-  1677		}
-  1678	
-  1679		pm_runtime_set_active(dev);
-  1680		pm_runtime_enable(dev);
-  1681		pm_runtime_idle(dev);
-  1682	
+   250	
+   251	/**
+   252	 * of_qcom_ice_get() - get an ICE instance from a DT node
+   253	 * @dev: device pointer for the consumer device
+   254	 *
+   255	 * This function will provide an ICE instance either by creating one for the
+   256	 * consumer device if its DT node provides the 'ice' reg range and the 'ice'
+   257	 * clock (for legacy DT style). On the other hand, if consumer provides a
+   258	 * phandle via 'qcom,ice' property to an ICE DT, the ICE instance will already
+   259	 * be created and so this function will return that instead.
+   260	 *
+   261	 * Return: ICE pointer on success, NULL if there is no ICE data provided by the
+   262	 * consumer or ERR_PTR() on error.
+   263	 */
+   264	struct qcom_ice *of_qcom_ice_get(struct device *dev)
+   265	{
+   266		struct platform_device *pdev = to_platform_device(dev);
+   267		struct qcom_ice *ice;
+   268		struct device_node *node;
+   269		struct resource *res;
+   270		void __iomem *base;
+   271	
+   272		if (!dev || !dev->of_node)
+   273			return ERR_PTR(-ENODEV);
+   274	
+   275		/*
+   276		 * In order to support legacy style devicetree bindings, we need
+   277		 * to create the ICE instance using the consumer device and the reg
+   278		 * range called 'ice' it provides.
+   279		 */
+   280		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ice");
+   281		if (res) {
+   282			base = devm_ioremap_resource(&pdev->dev, res);
+   283			if (IS_ERR(base))
+   284				return ERR_CAST(base);
+   285	
+   286			/* create ICE instance using consumer dev */
+   287			return qcom_ice_create(&pdev->dev, base);
+   288		}
+   289	
+   290		/*
+   291		 * If the consumer node does not provider an 'ice' reg range
+   292		 * (legacy DT binding), then it must at least provide a phandle
+   293		 * to the ICE devicetree node, otherwise ICE is not supported.
+   294		 */
+   295		node = of_parse_phandle(dev->of_node, "qcom,ice", 0);
+   296		if (!node)
+   297			return NULL;
+   298	
+   299		pdev = of_find_device_by_node(node);
+   300		if (!pdev) {
+   301			dev_err(dev, "Cannot find device node %s\n", node->name);
+   302			ice = ERR_PTR(-EPROBE_DEFER);
+   303			goto out;
+   304		}
+   305	
+   306		base = devm_platform_ioremap_resource(pdev, 0);
+   307		if (IS_ERR(base)) {
+   308			dev_warn(&pdev->dev, "ICE registers not found\n");
+ > 309			return PTR_ERR(base);
+   310		}
+   311	
+   312		ice = qcom_ice_create(&pdev->dev, base);
+   313		if (!ice) {
+   314			dev_err(dev, "Cannot get ice instance from %s\n",
+   315				dev_name(&pdev->dev));
+   316			platform_device_put(pdev);
+   317			ice = ERR_PTR(-EPROBE_DEFER);
+   318			goto out;
+   319		}
+   320	
+   321		ice->link = device_link_add(dev, &pdev->dev, DL_FLAG_AUTOREMOVE_SUPPLIER);
+   322		if (!ice->link) {
+   323			dev_err(&pdev->dev,
+   324				"Failed to create device link to consumer %s\n",
+   325				dev_name(dev));
+   326			platform_device_put(pdev);
+   327			ice = ERR_PTR(-EINVAL);
+   328		}
+   329	
+   330	out:
+   331		of_node_put(node);
+   332	
+   333		return ice;
+   334	}
+   335	EXPORT_SYMBOL_GPL(of_qcom_ice_get);
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
