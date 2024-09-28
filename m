@@ -1,192 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9370E17C7C2;
-	Sat, 28 Sep 2024 20:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAAE3B791
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 21:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727557027; cv=none; b=iS1gt7xKV+fVxgdUYuEa4/SMSq/a0S5tW9u5SWc947H1j00eKmFOB4xix9iuEmWNn0Su2f/EILKznj2hCe4aNYk+Naj9VBvfcAFo5t60eaW7dtUAMUDvj83EnSAvwmF7V6rf2QGxfYQup7CgwIVWUTrysyVZkh85WKQ8j5t+Fu0=
+	t=1727557393; cv=none; b=IkQhCpDHBCayzy3TEUfCRhh6i1xhkdXogkcxKmA0EtY4JpOORWzWl26ESpII0eQWgiksTC6y3IqeHI9RWLeU5DWLPmZI+6YcTIEXr5Pr9u0g6W/rHF3CrT68M3hk8sG0+FUKCfS4RWLUFxcdQd9zYPDALmoGvO5Mu98XGVDLIGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727557027; c=relaxed/simple;
-	bh=OK5RveDLSz5tFyXUinR9c5kALUI2j3KDOCHCIRzL/ug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V+8xzIOEV0nfYtyaSfUyh7CpIuoRW2058wMX1WOkvI/6I3LYcd3iCML7HIun/NCzUHjidu15/b0SwZACNxNeukXpIOqCUnt6DS6Geprw6poCY4ekHWzEEMJbtT1KagIjWcW0WEqQHuPiz0XPTIe3rYywulMGdAOz+pPRmhkGo9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K5ammNvw; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727557393; c=relaxed/simple;
+	bh=nM6lhYbAbYyzwJyL80Y4bCQE2lgGp7MusIiz0feOPS0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=VP9mICGwNCMOEYedZ6r0JVql5KXwFrhLiRLEWmgVgq21tQ25x4BqrV34eEnUWqlgIB2Dh8Oqm+BVY5ZKQI9C1WkVPo6V27ZwyNv8mx1QPPsmRX5jyTnUM2L+N4Lz98mqbLgx3FTYjS4SQxSFJ7R7qaco4nrqo4GzCcz2+P5QsEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=PXeIxw1K; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S15u3jKa; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K5ammNvw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727557025; x=1759093025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OK5RveDLSz5tFyXUinR9c5kALUI2j3KDOCHCIRzL/ug=;
-  b=K5ammNvwqmIX83nFP6U1LVHv8plnNyZYRNKaE8uW8Af6D36VgF1kabOD
-   //XF9rA+yXJuKqPf7VVChGOaflVRr6r7q9gNcyf3T3TuyI7KIX/H5NW/d
-   yt37ebvCyAmquu0bm3r8xJjlqH2mHumz0SAKr1xgjdJ+fdzyAobS1nc2m
-   +hjv3XD4KMIxJDBbMqU9mSFTlnX6dFEEnpH10FXf0QtSvE9iyH3qUv3hV
-   yUxFxovV1qgCMgQio1FqNNy4RfemQOBAc1m5tmS9lUM7yhr835+ChUaWd
-   Vzqd36QX9EO2pOdC8qrQWIKADpf9k/Jb17R2XXPTIuHUmENeJB4k+RUvA
-   Q==;
-X-CSE-ConnectionGUID: AlQDfNU+QVuxtPrUyr7EeQ==
-X-CSE-MsgGUID: CfRhgy3oS8uIHxswtqJCrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="30381436"
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="30381436"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 13:57:05 -0700
-X-CSE-ConnectionGUID: 6qhZtbjVRJmEAVdY4rD6Yw==
-X-CSE-MsgGUID: RZ0r+Ll4ReGVrTFCGCBMVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="96208155"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Sep 2024 13:56:59 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sueUq-000NeZ-27;
-	Sat, 28 Sep 2024 20:56:56 +0000
-Date: Sun, 29 Sep 2024 04:56:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jonathan.Cameron@huawei.com, helgaas@kernel.org, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	wei.huang2@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
-	bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de,
-	paul.e.luse@intel.com, jing2.liu@intel.com
-Subject: Re: [PATCH V6 2/5] PCI/TPH: Add Steering Tag support
-Message-ID: <202409290413.EtVuNEgl-lkp@intel.com>
-References: <20240927215653.1552411-3-wei.huang2@amd.com>
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="PXeIxw1K";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S15u3jKa"
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4C43511401AA;
+	Sat, 28 Sep 2024 17:03:10 -0400 (EDT)
+Received: from phl-imap-01 ([10.202.2.91])
+  by phl-compute-08.internal (MEProxy); Sat, 28 Sep 2024 17:03:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1727557390;
+	 x=1727643790; bh=rt5vDgVI7RDPmKbUpmv/BiTTaPP95ZzA5dXtFam0jSY=; b=
+	PXeIxw1K2HIBGDuNu9VP0jGVGkDjGBGd//UcUOGd8F5jmDSqmw/Mkk2E0b/y2t3w
+	H0Bdmzg5ZL01v7le92cWxn3h5l9W0wM9KeLVdtwGjh3uJD42yz8z2ccUoXWTZfLf
+	ZB5o3De365qbRMW87nt8W7DLGfyn/4cf/S3yUfDpWxOJBNgYdt/iYgdsuiAip9dH
+	bTgsf+rRnH9vsNTX7cOVeRZJ2MMjfN2GOkwvedvhln1tvqYkb3WRnqFlVawD7yJR
+	GZStOkKa6uEZFR7YW9Qh1DPflU0TC8aujQlTOhlSpalotxFheoFqxdHziloJHpSZ
+	Ncm0l+IN6mbGJRnqqBL5wA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727557390; x=
+	1727643790; bh=rt5vDgVI7RDPmKbUpmv/BiTTaPP95ZzA5dXtFam0jSY=; b=S
+	15u3jKa4IR1BUjQkqBFFdE8bgzpxiLX1qva3mzwtmNDMt426N+WRqzn9/glhy1OU
+	bDFZ/eeIqBENxSuf8WbYflmi/Hld2MJPrJkrzoI40iFDMdKEyTFFTQDhsUOCdeNH
+	D2GhGPWMYqFoqY1YVzRaCk1oGNUx66vjePHx8sBpLNrU599GOcmU3Illo1GSZmlR
+	r9QVoOxozRuQUL2lh5JruEL53cVEu9VR+67+9b8NtuJe+dWdmt+eiRLYP/kfuvu5
+	uM0xaGkua/2Xhqaz/QpRv5KhEa4vm4GkkPxdBnMwC2FF9e58YMFL8uzB2ILyu2e8
+	sfGJl+jwo38eNrPLPmxnA==
+X-ME-Sender: <xms:DW_4ZvpJ0QOtFAj8IPYhKyWJGhHKh84nbFEivfOfMmriuJb_XUaMbQ>
+    <xme:DW_4Zpo3Ae-y08dFs-GDR2NkEKdPHecLypqZXdjJTj7458C8SYrqUY-lNTzE3mWJ7
+    FFCvl-usXnIVxEAP50>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdduuddgudeffecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfnuhhkvgculfhonhgvshdfuceolhhukhgvsehljhhonhgvshdrug
+    gvvheqnecuggftrfgrthhtvghrnhepkedvleetfeelfedufffgueekfeehueffveevveet
+    veegveejgedtleetffekffehnecuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgih
+    hthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghr
+    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrd
+    guvghvpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    oheptghorhgvnhhtihhnrdgthhgrrhihsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplh
+    hkphesihhnthgvlhdrtghomhdprhgtphhtthhopegsvghnthhishhssehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hsuhhpvghrmhdusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehilhhpohdrjhgrrhhv
+    ihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepohgvqdhksghuih
+    hlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehhuggvghho
+    vgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvh
+    hgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:DW_4ZsNg0aBU_ShRZJlhecDjmjT97Wpu5jCf-fi7JhYhkkv6U1ILyA>
+    <xmx:DW_4Zi7RvCjYrA3B97msssLj2zOAM5Zamp-YHKN3Y_MpP6hzqo17Xg>
+    <xmx:DW_4Zu4oAPORQm_9ObhQkrEGy6XId7wrH6XtxrdhF-flsuBo3WljjQ>
+    <xmx:DW_4ZqjdJTzz8fLvOiUUeRlFn15dzq__NHpBdVr5rMNU2eaNo1eMYA>
+    <xmx:Dm_4ZnGZgPcBoF2b5NHc-PXQaOfmAd6YoO3MMAYwto3vd5nIhNh7Yrr4>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id A80453360077; Sat, 28 Sep 2024 17:03:09 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927215653.1552411-3-wei.huang2@amd.com>
-
-Hi Wei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master next-20240927]
-[cannot apply to v6.11]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Huang/PCI-Add-TLP-Processing-Hints-TPH-support/20240928-055915
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240927215653.1552411-3-wei.huang2%40amd.com
-patch subject: [PATCH V6 2/5] PCI/TPH: Add Steering Tag support
-config: x86_64-buildonly-randconfig-001-20240929 (https://download.01.org/0day-ci/archive/20240929/202409290413.EtVuNEgl-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409290413.EtVuNEgl-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409290413.EtVuNEgl-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/pci/tph.c:230:19: error: no member named 'msix_base' in 'struct pci_dev'; did you mean 'msix_cap'?
-     230 |         vec_ctrl = pdev->msix_base + msix_idx * PCI_MSIX_ENTRY_SIZE;
-         |                          ^~~~~~~~~
-         |                          msix_cap
-   include/linux/pci.h:350:6: note: 'msix_cap' declared here
-     350 |         u8              msix_cap;       /* MSI-X capability offset */
-         |                         ^
-   drivers/pci/tph.c:236:9: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-     236 |         val |= FIELD_PREP(mask, st_val);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
-      72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-      73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      74 |                                  _pfx "type of reg too small for mask"); \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   include/linux/compiler_types.h:517:22: note: expanded from macro 'compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:505:23: note: expanded from macro '_compiletime_assert'
-     505 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:497:9: note: expanded from macro '__compiletime_assert'
-     497 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   1 warning and 1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_CRC32C_INTEL
-   Depends on [n]: CRYPTO [=y] && !KMSAN [=y] && X86 [=y]
-   Selected by [y]:
-   - ISCSI_TARGET [=y] && TARGET_CORE [=y] && INET [=y] && X86 [=y]
+Date: Sun, 29 Sep 2024 10:02:48 +1300
+From: "Luke Jones" <luke@ljones.dev>
+To: "kernel test robot" <lkp@intel.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+ "Benjamin Tissoires" <bentiss@kernel.org>, "Jiri Kosina" <jikos@kernel.org>,
+ platform-driver-x86@vger.kernel.org,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Hans de Goede" <hdegoede@redhat.com>, corentin.chary@gmail.com,
+ "Mario Limonciello" <superm1@kernel.org>
+Message-Id: <f5ce9899-a5b8-43e1-97cf-086f51230b8d@app.fastmail.com>
+In-Reply-To: <202409280735.meXnoMkl-lkp@intel.com>
+References: <20240926092952.1284435-10-luke@ljones.dev>
+ <202409280735.meXnoMkl-lkp@intel.com>
+Subject: Re: [PATCH v4 9/9] platform/x86: asus-wmi: deprecate bios features
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
-vim +230 drivers/pci/tph.c
 
-   205	
-   206	/* Write ST to MSI-X vector control reg - Return 0 if OK, otherwise -errno */
-   207	static int write_tag_to_msix(struct pci_dev *pdev, int msix_idx, u16 tag)
-   208	{
-   209		struct msi_desc *msi_desc = NULL;
-   210		void __iomem *vec_ctrl;
-   211		u32 val, mask, st_val;
-   212		int err = 0;
-   213	
-   214		msi_lock_descs(&pdev->dev);
-   215	
-   216		/* Find the msi_desc entry with matching msix_idx */
-   217		msi_for_each_desc(msi_desc, &pdev->dev, MSI_DESC_ASSOCIATED) {
-   218			if (msi_desc->msi_index == msix_idx)
-   219				break;
-   220		}
-   221	
-   222		if (!msi_desc) {
-   223			err = -ENXIO;
-   224			goto err_out;
-   225		}
-   226	
-   227		st_val = (u32)tag;
-   228	
-   229		/* Get the vector control register (offset 0xc) pointed by msix_idx */
- > 230		vec_ctrl = pdev->msix_base + msix_idx * PCI_MSIX_ENTRY_SIZE;
-   231		vec_ctrl += PCI_MSIX_ENTRY_VECTOR_CTRL;
-   232	
-   233		val = readl(vec_ctrl);
-   234		mask = PCI_MSIX_ENTRY_CTRL_ST_LOWER | PCI_MSIX_ENTRY_CTRL_ST_UPPER;
-   235		val &= ~mask;
-   236		val |= FIELD_PREP(mask, st_val);
-   237		writel(val, vec_ctrl);
-   238	
-   239		/* Read back to flush the update */
-   240		val = readl(vec_ctrl);
-   241	
-   242	err_out:
-   243		msi_unlock_descs(&pdev->dev);
-   244		return err;
-   245	}
-   246	
+On Sat, 28 Sep 2024, at 12:13 PM, kernel test robot wrote:
+> Hi Luke,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on hid/for-next]
+> [also build test WARNING on linus/master next-20240927]
+> [cannot apply to v6.11]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/platform-x86-asus-wmi-export-symbols-used-for-read-write-WMI/20240926-173528
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git 
+> for-next
+> patch link:    
+> https://lore.kernel.org/r/20240926092952.1284435-10-luke%40ljones.dev
+> patch subject: [PATCH v4 9/9] platform/x86: asus-wmi: deprecate bios 
+> features
+> config: i386-randconfig-061-20240928 
+> (https://download.01.org/0day-ci/archive/20240928/202409280735.meXnoMkl-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 
+> 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20240928/202409280735.meXnoMkl-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202409280735.meXnoMkl-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> drivers/platform/x86/asus-wmi.c:154:35: warning: unused variable 'asus_ally_mcu_quirk' [-Wunused-const-variable]
+>      154 | static const struct dmi_system_id asus_ally_mcu_quirk[] = {
+>          |                                   ^~~~~~~~~~~~~~~~~~~
+>    1 warning generated.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Not sure where this is coming from but it can be cleaned up by https://lore.kernel.org/platform-driver-x86/c19f3530-a065-461f-a5bf-ccc3988cf24c@amd.com/T/#t v2
+
+>
+> vim +/asus_ally_mcu_quirk +154 drivers/platform/x86/asus-wmi.c
+>
+> 0f0ac158d28ff7 Luke D. Jones 2021-10-24  153  
+> d2dfed310aae07 Luke D. Jones 2024-08-06 @154  static const struct 
+> dmi_system_id asus_ally_mcu_quirk[] = {
+> d2dfed310aae07 Luke D. Jones 2024-08-06  155  	{
+> d2dfed310aae07 Luke D. Jones 2024-08-06  156  		.matches = {
+> d2dfed310aae07 Luke D. Jones 2024-08-06  157  
+> 			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+> d2dfed310aae07 Luke D. Jones 2024-08-06  158  		},
+> d2dfed310aae07 Luke D. Jones 2024-08-06  159  	},
+> d2dfed310aae07 Luke D. Jones 2024-08-06  160  	{
+> d2dfed310aae07 Luke D. Jones 2024-08-06  161  		.matches = {
+> d2dfed310aae07 Luke D. Jones 2024-08-06  162  
+> 			DMI_MATCH(DMI_BOARD_NAME, "RC72L"),
+> d2dfed310aae07 Luke D. Jones 2024-08-06  163  		},
+> d2dfed310aae07 Luke D. Jones 2024-08-06  164  	},
+> d2dfed310aae07 Luke D. Jones 2024-08-06  165  	{ },
+> d2dfed310aae07 Luke D. Jones 2024-08-06  166  };
+> d2dfed310aae07 Luke D. Jones 2024-08-06  167  
+>
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
