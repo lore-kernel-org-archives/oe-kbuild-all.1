@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB7118633
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 20:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCBB1EB25
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 20:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727554476; cv=none; b=pOG3SeWwvzpHrsDWefkhnFrvnpIi4rsKbUNloX0MySJed0hxCbhdNrTDUluKA4dmFs8EolfOpMYahi9YIhRcRpoK7WG8ciIesZkcIT1FJZKbCncvI/92eiAfeeBQRdWlYrVJ8sOFdi2/azJi/YNvmyKrWAhCH0KBxpMjSGyK/sw=
+	t=1727554513; cv=none; b=ZFbhrGWtcQ+q6l0bl2Y7xHb74VQTceRNtJ1kIsLx4qCB40/NqtONFixxTO4ifaqliLy65l3f+Tzxyh3VSionL8dHNPm6b0UdddLk/DZCnRVTmz9Hs0AFR14Q3DXH068CbVgh0KR4Or3RcEkMs/yZcKmRsNQjPWVRbR3xZjFyx9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727554476; c=relaxed/simple;
-	bh=HpV7DKe+F8V9Gyxt3TWZfdbNx0R+bDlxt/23vjW6PGg=;
+	s=arc-20240116; t=1727554513; c=relaxed/simple;
+	bh=/Dgki3q4gZ3dJXV7Rg/ZehxEn7KClaxP+pTYPq7pQZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ryoQh8FqvY9qIJ2gB0MtYyD+J4zKV898s4lV6BNk5+x83st3r+oR+aSQN3XMKISJk/RalssAa7WXUIWGYjjdqZrwo1MB7BpMxDN+kZyJMwbsubtiZ9rVOUy+PZ/uy9lQWcqfHMaT0eiIEXYygRWEBUeDCrLvwhMD3Ktr9n4G6sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIh1TPZI; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=eUL8wKoRM8K9CNZIR5SPmBQSx4X/Cng6LT6WM5rl8gITh7OzXGmwV1en3soc/3CPc3Gne0b8pByXyJZYFWolqZj6gChubQlD5vYpSKJy/u4/8WU7NUXHZjjWuoGZ1ymv9Ur5XtC9O9vwYKJ4CZ0+arF069tkrNKtJqSTsWRkqws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bhPY0pJ5; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIh1TPZI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727554474; x=1759090474;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HpV7DKe+F8V9Gyxt3TWZfdbNx0R+bDlxt/23vjW6PGg=;
-  b=oIh1TPZIrl3UYbfhuk7GwiiLO/3f88aJ2hKI+N9BWcGLNk5aeJEgq1hV
-   g97Pf/HWveNPGb9jyrZ5q36mMEV66E3kA5L3kW//F+psaYpE1Ssd3+kR6
-   IhUE+Cy4f6EnKeukpR+YhlviU+rY/3QnsuV2OAfUt04VrRM0biSTon76E
-   uyWm1tZrtGEw5nk/rInivBskXPdI5cLv4ylu9S+jlvBgDpFB7rNkGt3Di
-   4N0cSQVsHGhWs++iQedlfPgdRN1qixiym776wSgO/BWgmdGweWXgD3+12
-   ktC89wK8LH0R3mMMa2AtATxUylWoAfiTCVzQ5VI0jO4zaaTDFp+lhvM1f
-   Q==;
-X-CSE-ConnectionGUID: evpCk8T/SbmnMNJgw5aLsQ==
-X-CSE-MsgGUID: E6YL9y6aTfCGsKXUPv0pvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26840610"
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="26840610"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 13:14:33 -0700
-X-CSE-ConnectionGUID: peToTkoOSK+ZVjE7/y1ynQ==
-X-CSE-MsgGUID: /f/U9yboRo6vlADmG50j6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="73669669"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Sep 2024 13:14:32 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sudpl-000NZt-1Y;
-	Sat, 28 Sep 2024 20:14:29 +0000
-Date: Sun, 29 Sep 2024 04:14:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 4915/16788]
- drivers/firmware/imx/seco_mu.c:173:47: warning: format '%ld' expects
- argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned
- int'}
-Message-ID: <202409290452.XnvEM4kj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bhPY0pJ5"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42e7b7bef42so25895355e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 13:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727554510; x=1728159310; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M17GoL7d+O0NDddGQBSTqbD6rLQRxBpQRjx5XUpnxOs=;
+        b=bhPY0pJ5p50kIL6K6ZruJI0lb3bAIRfstbJFdEIFT2Tcun/HPJdnKSN8UGJyvJo3yA
+         AteAS47PH/KiCXGkyoscP1h01u1P/+h+hNQ4wF8Qt/n2XsVPfMzEm/mGcAGBb9oFGkHG
+         CzRrIiR5O+ZapfAgJZcGRRor4j0HP1MoAIKw0gOaB4elOwXopOGwQpupkMGQBm1wyCHc
+         wikaitT9vBVZ8e1svNjNwROtjKqKHzFHoKqfNebnfxE3qWBonqwnPXF6g2Xh+sRF9xhl
+         eU0PeTIq/YzQdycZMT4Sv78N+QD5GGGthaJVHaigrQhhuTQo3gbo2inVIIXA9lCBxCjO
+         9QIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727554510; x=1728159310;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M17GoL7d+O0NDddGQBSTqbD6rLQRxBpQRjx5XUpnxOs=;
+        b=txxHIeMNfPYPuzaOMo+48m0up9cn4xxpCLeJewmNj/sKnfhA4AQ8sStS/j1zFlirAd
+         MoepPK1Jfw2+idkZAwAJGGMalNGc6MfIPXnHLChYhPrebA6txx8O7vNs5rXqTrmDK4LQ
+         tvdLDXWvGfe79gf0denfLGIQZVu0FgPfq6W7AdKYgn9w9eLIqCVY8AsDobqo9zIbd3HC
+         q6fGPV8tY6NSeq6JviXW6brgeInh78ntEsH5vqzmOATR+SgEebhVZQNHdTMfH2egZAjk
+         QLznuMTUuAudsTJMjuj/UzEMmjNQckSe8RLOeMzUunVyYsrzqnMCVAoTjn8RqlgVl8/Q
+         sZPg==
+X-Forwarded-Encrypted: i=1; AJvYcCW2+o4D6HV5x2JZIdUd5Sxmnf4TpaFPTf4tr0CD1DoNWwzhdNL1eIb15JFcvjnp+WhTln4rymeOHX45u+G7@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDNwc+Q2lzB1oW4AjCAs3rHdStxXDT31hOrXHM3K5Cb7CuY4Mc
+	N+I8pjPhsFJb4c+eDpbIAq/Dc+EdMtARovVZxCzFaQNMWOGqN22mlwoMyRCdfpA=
+X-Google-Smtp-Source: AGHT+IFqG1hbvOQ56tO4m6yVzUKUFnR4vOmV9huyo9dUqY064yMzssnZq0JqsamjI7w0Sa3c/g7jbA==
+X-Received: by 2002:a05:600c:3588:b0:42c:a72a:e8f4 with SMTP id 5b1f17b1804b1-42f58434d37mr54859055e9.14.1727554509537;
+        Sat, 28 Sep 2024 13:15:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57e2fe89sm60739265e9.40.2024.09.28.13.15.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Sep 2024 13:15:08 -0700 (PDT)
+Date: Sat, 28 Sep 2024 23:15:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Otavio Salvador <otavio@ossystems.com.br>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.0.x-imx 515/16788]
+ drivers/media/i2c/mt9m114.c:794 mt9m114_set_fmt() warn: inconsistent returns
+ '&sensor->lock'.
+Message-ID: <33b00d5a-b14c-4ca8-815b-a3b6cab6de38@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,211 +69,81 @@ Content-Disposition: inline
 
 tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
 head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: 5b8f160ce229e143c7ce69cf619a7b3fc947d9d5 [4915/16788] LF-824: fw: imx: seco_mu: Add driver for SECO
-config: i386-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240929/202409290452.XnvEM4kj-lkp@intel.com/config)
+commit: f5eb071582415f1bb836a5f4c0740e51d4f17c83 [515/16788] LF-7052-04: media: i2c: add MT9M114 driver support for iMX93 platform
+config: i386-randconfig-141-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281825.DPhdYY5p-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409290452.XnvEM4kj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409290452.XnvEM4kj-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409281825.DPhdYY5p-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/media/i2c/mt9m114.c:794 mt9m114_set_fmt() warn: inconsistent returns '&sensor->lock'.
+drivers/media/i2c/mt9m114.c:913 mt9m114_get_chip_id() warn: unsigned 'ret' is never less than zero.
 
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:30,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:10,
-                    from include/linux/sched.h:12,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:8,
-                    from drivers/firmware/imx/seco_mu.c:57:
-   drivers/firmware/imx/seco_mu.c: In function 'seco_mu_fops_write':
->> drivers/firmware/imx/seco_mu.c:173:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     173 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:173:17: note: in expansion of macro 'dev_dbg'
-     173 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:193:9: note: in expansion of macro 'miscdev_dbg'
-     193 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:359:9: note: in expansion of macro 'devctx_dbg'
-     359 |         devctx_dbg(dev_ctx, "write from buf (%p)%ld, ppos=%lld\n", buf, size,
-         |         ^~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:187:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:187:17: note: in expansion of macro 'dev_err'
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:197:9: note: in expansion of macro 'miscdev_err'
-     197 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:371:17: note: in expansion of macro 'devctx_err'
-     371 |                 devctx_err(dev_ctx, "User buffer too small(%ld < %lu)\n", size,
-         |                 ^~~~~~~~~~
->> drivers/firmware/imx/seco_mu.c:187:47: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:187:17: note: in expansion of macro 'dev_err'
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:197:9: note: in expansion of macro 'miscdev_err'
-     197 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:371:17: note: in expansion of macro 'devctx_err'
-     371 |                 devctx_err(dev_ctx, "User buffer too small(%ld < %lu)\n", size,
-         |                 ^~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:187:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:187:17: note: in expansion of macro 'dev_err'
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:197:9: note: in expansion of macro 'miscdev_err'
-     197 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:378:17: note: in expansion of macro 'devctx_err'
-     378 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
-         |                 ^~~~~~~~~~
->> drivers/firmware/imx/seco_mu.c:187:47: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:187:17: note: in expansion of macro 'dev_err'
-     187 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:197:9: note: in expansion of macro 'miscdev_err'
-     197 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:378:17: note: in expansion of macro 'devctx_err'
-     378 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
-         |                 ^~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c: In function 'seco_mu_fops_read':
->> drivers/firmware/imx/seco_mu.c:173:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     173 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:173:17: note: in expansion of macro 'dev_dbg'
-     173 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:193:9: note: in expansion of macro 'miscdev_dbg'
-     193 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:462:9: note: in expansion of macro 'devctx_dbg'
-     462 |         devctx_dbg(dev_ctx, "read to buf %p(%ld), ppos=%lld\n", buf, size,
-         |         ^~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:173:47: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     173 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:173:17: note: in expansion of macro 'dev_dbg'
-     173 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/seco_mu.c:193:9: note: in expansion of macro 'miscdev_dbg'
-     193 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/seco_mu.c:489:17: note: in expansion of macro 'devctx_dbg'
-     489 |                 devctx_dbg(dev_ctx, "User buffer too small (%ld < %d)\n",
-         |                 ^~~~~~~~~~
+vim +794 drivers/media/i2c/mt9m114.c
 
+f5eb071582415f1 Guoniu.zhou 2022-06-13  768  static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+f5eb071582415f1 Guoniu.zhou 2022-06-13  769  			  struct v4l2_subdev_state *sd_state,
+f5eb071582415f1 Guoniu.zhou 2022-06-13  770  			  struct v4l2_subdev_format *format)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  771  {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  772  	struct mt9m114 *sensor = to_mt9m114(sd);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  773  	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  774  	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  775  	const struct mt9m114_resolution *new_mode;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  776  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  777  	if (format->pad != 0)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  778  		return -EINVAL;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  779  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  780  	mutex_lock(&sensor->lock);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  781  	new_mode = mt9m114_find_mode(sensor, mbus_fmt->width, mbus_fmt->height);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  782  	if (!new_mode)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  783  	      return -EINVAL;
 
-vim +173 drivers/firmware/imx/seco_mu.c
+unlock before returning
 
-   168	
-   169	/* macro to log operation of a misc device */
-   170	#define miscdev_dbg(p_miscdev, fmt, va_args...)                                \
-   171		({                                                                     \
-   172			struct miscdevice *_p_miscdev = p_miscdev;                     \
- > 173			dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-   174			##va_args);                                                    \
-   175		})
-   176	
-   177	#define miscdev_info(p_miscdev, fmt, va_args...)                               \
-   178		({                                                                     \
-   179			struct miscdevice *_p_miscdev = p_miscdev;                     \
-   180			dev_info((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name, \
-   181			##va_args);                                                    \
-   182		})
-   183	
-   184	#define miscdev_err(p_miscdev, fmt, va_args...)                                \
-   185		({                                                                     \
-   186			struct miscdevice *_p_miscdev = p_miscdev;                     \
- > 187			dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-   188			##va_args);                                                    \
-   189		})
-   190	
+f5eb071582415f1 Guoniu.zhou 2022-06-13  784  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  785  	sensor->curr_mode = new_mode;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  786  	if (sensor->curr_mode != sensor->last_mode) {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  787  		sensor->pending_mode_change = true;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  788  		memcpy(fmt, mbus_fmt, sizeof(*fmt));
+f5eb071582415f1 Guoniu.zhou 2022-06-13  789  		fmt->width  = new_mode->hact;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  790  		fmt->height = new_mode->vact;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  791  	}
+f5eb071582415f1 Guoniu.zhou 2022-06-13  792  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  793  	mutex_unlock(&sensor->lock);
+f5eb071582415f1 Guoniu.zhou 2022-06-13 @794  	return 0;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  795  }
+
+[ snip ]
+
+f5eb071582415f1 Guoniu.zhou 2022-06-13  906  static int mt9m114_get_chip_id(struct mt9m114 *sensor)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  907  {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  908  	struct i2c_client *client = sensor->i2c_client;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  909  	u32 ret;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  910  	u16 chip_id;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  911  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  912  	ret = mt9m114_read16(client, MT9M114_CHIP_ID, &chip_id);
+f5eb071582415f1 Guoniu.zhou 2022-06-13 @913  	if (ret < 0) {
+
+ret is unsigned so it can't be < 0.
+
+f5eb071582415f1 Guoniu.zhou 2022-06-13  914  		v4l_err(client, "Failed to get chip id\n");
+f5eb071582415f1 Guoniu.zhou 2022-06-13  915  		return -ENODEV;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  916  	}
+f5eb071582415f1 Guoniu.zhou 2022-06-13  917  	if (chip_id != 0x2481) {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  918  		v4l_err(client, "chip id 0x%04x mismatch\n", chip_id);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  919  		return -ENODEV;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  920  	}
+f5eb071582415f1 Guoniu.zhou 2022-06-13  921  	v4l_info(client, "chip found @ 0x%02x (%s)\n",
+f5eb071582415f1 Guoniu.zhou 2022-06-13  922  		 client->addr << 1, client->adapter->name);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  923  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  924  	return 0;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  925  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
