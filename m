@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA6C1DFF7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 12:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77331865E2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 13:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727527759; cv=none; b=kE/Kefl2bcOtlizfj7W9/D+kxhuOD+g23GK3S6fFiTJeSJOyeHAiLf1Q6j8zjssnRTTQYkCinJoA4kb6yDM0ROoDw1gBMti4bcKg6o8ig38VQX70yTW2b04kpDEHEk/fTKNDyrjaNmYMmuURdbSv92/9zNUhuR5VTKrQ4RScRLo=
+	t=1727528418; cv=none; b=POYHwRaw5Oq5mEHLw5K92CRL3eMuUO+yWKSyofBPEJq+7y2NamF2O+z6TcqpS/67qRMwzNI5+M6SB1KjUlmIWYzf1bbx4gDYDGobTM8OjnyTZ8gRI+NvNwawq3IDOmRjZTjGDno2g6tCO1gxvYpRfr50zgRUC1Cz1bu2i46VtJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727527759; c=relaxed/simple;
-	bh=aVRZT3Phy6mAb1/YSRnjnLqnINdNnGPpGgxf7ZScbCs=;
+	s=arc-20240116; t=1727528418; c=relaxed/simple;
+	bh=78bCcT/Egf23i7MatALM4YqWN97jm0eBwdPBpLzwt60=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u+UJQzRQLCmlCTDYPmxqVSEhtfE0J4VsQFbynaC+7svesWO7/uLxgY8ac3qehbt9PlTlSJpT+V4CAE7fZfG62S1xfvsRxW/a9F3BqOy/eC2kd8wYYKO1UiRpKicD0WC5brx+UBdy9SA3OcdQvGYpjRHXHwjQNNJHudLklAdhy3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mxsoz+5s; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=qCkoqR9ElJwuvU7uq1Ll8BCdQthYjL7G2QguBzFRoZkTwAWSnxo7/4XSbj9bd2z9DAGSwrKlHlAymU4Ad9vUORmfukdbEc5Egvm99+S66Z/fADDZSoiKJSXsEonTAc8WKWLx75A/EkccpwmQSaeF18Ghr3XF8Lj+vY3gVC0t/9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M1rVJODY; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mxsoz+5s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M1rVJODY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727527757; x=1759063757;
+  t=1727528417; x=1759064417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aVRZT3Phy6mAb1/YSRnjnLqnINdNnGPpGgxf7ZScbCs=;
-  b=Mxsoz+5sz3SL7LyF7U1N5y9FfluzNGcmVKE6qqXlkf8bRbHCe4Jy/u5O
-   NA8ce0LuSJG05vgP0oIk8UHWJhCDTSEOuhBfJDP30vnMPopPUz7rr9Oi/
-   bj3aCb8+P3r/FXyvvxnMRtWBbNiTJaUnwRjxVrMQiTL0+9oh1PnHr0efX
-   +7w4KiXjp1fTJMq5iaCgV5Cvs1YSQJDuzm0fbqKNZ1cub9JxVjKvvQFZP
-   lDvab761jdJRHDknerfR5WKRMKGsbmCR2w1ypnfCjaPXt+jc3X7JwglSr
-   lFqFwD4brSidIUMQdRgYSWXjewdinWk/BTFrrPSozcCT94eF56GglUmss
+  bh=78bCcT/Egf23i7MatALM4YqWN97jm0eBwdPBpLzwt60=;
+  b=M1rVJODYg8o1550e+0P35DOEuQ7Aq4R/gLfXt1FyYRS/pDU6z/IId53f
+   CZYYIhYQ1eCnwb1FJCNUkRuZQ5DLfooX0n37JHR+GNBKhtXAt+tpq/GZn
+   hoCLn0GgsVFoP9BT34j/MOMLlVAobolzApvV7rzSFM0uwuLg4dopOsGOB
+   tQQX7alVQJm1h+GeYitSpHyW5FD3Ls7MZMbhiUmOLUUqgnGIWET2Tg4/N
+   CCTOIyQA8R98g1Sf1takVoPGgnYa3Uw2hIldx+/i3A6ANk3v2Bax7gMzI
+   UPbnGZwMPD+GzBS0/Z3e2lmWyhpUuVpNjH6WstLrCCQ+1s4Sxake7ej+Q
    g==;
-X-CSE-ConnectionGUID: 4CmpNEKXTlm//UbRHHlAOg==
-X-CSE-MsgGUID: kPxOgbXCQLaVLLdGgW6e1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="37243595"
+X-CSE-ConnectionGUID: Y98x8cgrTNGl9fJ9YJ+Xrg==
+X-CSE-MsgGUID: v14vSatVQSmsKgx1zwpTqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="44130754"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="37243595"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 05:49:16 -0700
-X-CSE-ConnectionGUID: T6np9bvOQyK98p+8AP5E4A==
-X-CSE-MsgGUID: cTm1Pw5tRUqFW2wBWwuO7Q==
+   d="scan'208";a="44130754"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 06:00:16 -0700
+X-CSE-ConnectionGUID: DjVvsM8PTVWMJPtQtxl/jg==
+X-CSE-MsgGUID: xovYGDy3RtGM7Cc3t0ueqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="72966819"
+   d="scan'208";a="73127839"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2024 05:49:15 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Sep 2024 06:00:15 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suWsq-000NGp-2u;
-	Sat, 28 Sep 2024 12:49:12 +0000
-Date: Sat, 28 Sep 2024 20:48:34 +0800
+	id 1suX3V-000NH9-0R;
+	Sat, 28 Sep 2024 13:00:13 +0000
+Date: Sat, 28 Sep 2024 20:59:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 5811/16788]
- drivers/gpu/drm/imx/imx-drm-core.c:261:46: warning: format '%ld' expects
- argument of type 'long int', but argument 3 has type 'unsigned int'
-Message-ID: <202409282017.WhgP3UpL-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 591/16788]
+ drivers/clk/imx/clk-imx8mp-audiomix.c:361:12: warning:
+ 'imx_blk_ctrl_runtime_resume' defined but not used
+Message-ID: <202409282008.jvarwmmK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,103 +63,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Peng,
+
+FYI, the error/warning still remains.
+
 tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
 head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: 7ef3dd5fdefe657ab1a96aea0fd0f8a87f4e9322 [5811/16788] Merge remote-tracking branch 'origin/display/lcdif' into display/next
-config: arc-randconfig-002-20240928 (https://download.01.org/0day-ci/archive/20240928/202409282017.WhgP3UpL-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409282017.WhgP3UpL-lkp@intel.com/reproduce)
+commit: e29d7b605da801c22d1690ec319b2a61f3e8c364 [591/16788] LF-10009-7 clk: imx: clk-audiomix: enable runtime pm
+config: i386-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409282008.jvarwmmK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409282008.jvarwmmK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409282017.WhgP3UpL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409282008.jvarwmmK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from drivers/gpu/drm/imx/imx-drm-core.c:9:
-   drivers/gpu/drm/imx/imx-drm-core.c: In function 'add_dpu_bliteng_components':
->> drivers/gpu/drm/imx/imx-drm-core.c:261:46: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'unsigned int' [-Wformat=]
-     261 |                                 dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/gpu/drm/imx/imx-drm-core.c:261:33: note: in expansion of macro 'dev_err'
-     261 |                                 dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-         |                                 ^~~~~~~
-   drivers/gpu/drm/imx/imx-drm-core.c:261:94: note: format string is defined here
-     261 |                                 dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-         |                                                                                            ~~^
-         |                                                                                              |
-         |                                                                                              long int
-         |                                                                                            %d
+>> drivers/clk/imx/clk-imx8mp-audiomix.c:361:12: warning: 'imx_blk_ctrl_runtime_resume' defined but not used [-Wunused-function]
+     361 | static int imx_blk_ctrl_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/imx/clk-imx8mp-audiomix.c:354:12: warning: 'imx_blk_ctrl_runtime_suspend' defined but not used [-Wunused-function]
+     354 | static int imx_blk_ctrl_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +261 drivers/gpu/drm/imx/imx-drm-core.c
+vim +/imx_blk_ctrl_runtime_resume +361 drivers/clk/imx/clk-imx8mp-audiomix.c
 
-ca990b91d10cb4 Xianzhong 2021-06-09  227  
-ca990b91d10cb4 Xianzhong 2021-06-09  228  static void add_dpu_bliteng_components(struct device *dev,
-ca990b91d10cb4 Xianzhong 2021-06-09  229  				       struct component_match **matchptr)
-ca990b91d10cb4 Xianzhong 2021-06-09  230  {
-ca990b91d10cb4 Xianzhong 2021-06-09  231  	/*
-ca990b91d10cb4 Xianzhong 2021-06-09  232  	 * As there may be two dpu bliteng device,
-ca990b91d10cb4 Xianzhong 2021-06-09  233  	 * so need add something in compare data to distinguish.
-ca990b91d10cb4 Xianzhong 2021-06-09  234  	 * Use its parent dpu's of_node as the data here.
-ca990b91d10cb4 Xianzhong 2021-06-09  235  	 */
-ca990b91d10cb4 Xianzhong 2021-06-09  236  	struct device_node *port, *parent;
-ca990b91d10cb4 Xianzhong 2021-06-09  237  	/* assume max dpu number is 8 */
-ca990b91d10cb4 Xianzhong 2021-06-09  238  	struct device_node *dpu[8];
-ca990b91d10cb4 Xianzhong 2021-06-09  239  	int num_dpu = 0;
-ca990b91d10cb4 Xianzhong 2021-06-09  240  	int i, j;
-ca990b91d10cb4 Xianzhong 2021-06-09  241  	bool found = false;
-ca990b91d10cb4 Xianzhong 2021-06-09  242  
-ca990b91d10cb4 Xianzhong 2021-06-09  243  	for (i = 0; ; i++) {
-ca990b91d10cb4 Xianzhong 2021-06-09  244  		port = of_parse_phandle(dev->of_node, "ports", i);
-ca990b91d10cb4 Xianzhong 2021-06-09  245  		if (!port)
-ca990b91d10cb4 Xianzhong 2021-06-09  246  			break;
-ca990b91d10cb4 Xianzhong 2021-06-09  247  
-ca990b91d10cb4 Xianzhong 2021-06-09  248  		parent = of_get_parent(port);
-ca990b91d10cb4 Xianzhong 2021-06-09  249  
-ca990b91d10cb4 Xianzhong 2021-06-09  250  		for (j = 0; j < num_dpu; j++) {
-ca990b91d10cb4 Xianzhong 2021-06-09  251  			if (dpu[j] == parent) {
-ca990b91d10cb4 Xianzhong 2021-06-09  252  				found = true;
-ca990b91d10cb4 Xianzhong 2021-06-09  253  				break;
-ca990b91d10cb4 Xianzhong 2021-06-09  254  			}
-ca990b91d10cb4 Xianzhong 2021-06-09  255  		}
-ca990b91d10cb4 Xianzhong 2021-06-09  256  
-ca990b91d10cb4 Xianzhong 2021-06-09  257  		if (found) {
-ca990b91d10cb4 Xianzhong 2021-06-09  258  			found = false;
-ca990b91d10cb4 Xianzhong 2021-06-09  259  		} else {
-ca990b91d10cb4 Xianzhong 2021-06-09  260  			if (num_dpu >= ARRAY_SIZE(dpu)) {
-ca990b91d10cb4 Xianzhong 2021-06-09 @261  				dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-ca990b91d10cb4 Xianzhong 2021-06-09  262  					ARRAY_SIZE(dpu));
-ca990b91d10cb4 Xianzhong 2021-06-09  263  				of_node_put(parent);
-ca990b91d10cb4 Xianzhong 2021-06-09  264  				of_node_put(port);
-ca990b91d10cb4 Xianzhong 2021-06-09  265  				break;
-ca990b91d10cb4 Xianzhong 2021-06-09  266  			}
-ca990b91d10cb4 Xianzhong 2021-06-09  267  
-ca990b91d10cb4 Xianzhong 2021-06-09  268  			dpu[num_dpu] = parent;
-ca990b91d10cb4 Xianzhong 2021-06-09  269  			num_dpu++;
-ca990b91d10cb4 Xianzhong 2021-06-09  270  
-ca990b91d10cb4 Xianzhong 2021-06-09  271  			component_match_add(dev, matchptr, compare_of, parent);
-ca990b91d10cb4 Xianzhong 2021-06-09  272  		}
-ca990b91d10cb4 Xianzhong 2021-06-09  273  
-ca990b91d10cb4 Xianzhong 2021-06-09  274  		of_node_put(parent);
-ca990b91d10cb4 Xianzhong 2021-06-09  275  		of_node_put(port);
-ca990b91d10cb4 Xianzhong 2021-06-09  276  	}
-ca990b91d10cb4 Xianzhong 2021-06-09  277  }
-ca990b91d10cb4 Xianzhong 2021-06-09  278  
-
-:::::: The code at line 261 was first introduced by commit
-:::::: ca990b91d10cb475435207d848e05b1a8972a626 MLK-15321-4 drm/imx: core: Add bliteng as component of imx-drm
-
-:::::: TO: Xianzhong <xianzhong.li@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+   353	
+ > 354	static int imx_blk_ctrl_runtime_suspend(struct device *dev)
+   355	{
+   356		imx_blk_ctrl_read_write(dev, false);
+   357	
+   358		return 0;
+   359	}
+   360	
+ > 361	static int imx_blk_ctrl_runtime_resume(struct device *dev)
+   362	{
+   363		imx_blk_ctrl_read_write(dev, true);
+   364	
+   365		return 0;
+   366	}
+   367	
 
 -- 
 0-DAY CI Kernel Test Service
