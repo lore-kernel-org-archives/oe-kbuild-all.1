@@ -1,257 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC05187FF3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 14:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C2917C9FA;
+	Sat, 28 Sep 2024 14:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727532685; cv=none; b=XFBdxT4TDFsNjAG8/AX/2Hzy8RHcoe5B1hTgPQDSZOvX6ivfbJ1cxjoIUBA9FfBIWhCZS7s7b3mocgcEK/0MjI6e8RTDrxXOUnbez7WqwTdAQhu/FPTEDns8abq6jsf8v7niyQyj8sYpdoMmmVLod91B0CUW8Aie36zHi9rvXpo=
+	t=1727532851; cv=none; b=PygifmEgCPohihhn5iHw+SHEW2UcNtdE9ZSK1nSQlt5oBI7yDKnAqQ8pSXNWOCtEngUeanASmxr9PRTxsPOxuYAuL78P3O54UwuBornJ8PhgtSja0u5ASxoQnCRqTC2AWomcdJcS7rZI2OUDK88OfBVzbjYxx5bCdjOsVGdkbZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727532685; c=relaxed/simple;
-	bh=590/v72PSY7oSN3qNHZnphO/mDM0r7RMEkSykmcX+FU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZS4kIywtiXj35TYbsAPuFLPhZRCnVR+s3oUvTc39cId2swEnFzx3JkYDwLhmoC/Aq+8+mYAa/9mv08IcY5yYvaLsqMzhGz0Seb7M0gnPQuXWw9GOkwbiQwdkgfy58e8jXxLjPpMjSCm0umrduLyaWNs35gpVUPhEXaBj63hrX+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cA6d+M6n; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727532851; c=relaxed/simple;
+	bh=ErgmS0qH1M7/ozTiDtG+anlSeTKB3BQPSYxTtDg4HTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tTbJdJiZLyFAWGiSE4g1HzkHkSXo8xnGUZ6jAv+6wuJp/fJ8tY6r9jEzKHApwH1ynLZioXtNiBspHvbVVJx9xWQkp4mYq8s+DUibypr1Tz0DQTGDqS1TCelV+hg7OVs+VLCPpbGYNL6W3vtRfX4CgsUKq+FMR0QHQ/YjW7+/udA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIqhBVFA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cA6d+M6n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727532683; x=1759068683;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=590/v72PSY7oSN3qNHZnphO/mDM0r7RMEkSykmcX+FU=;
-  b=cA6d+M6nyWTrPZSxl1uvVg/tijeJeCnqU5LUwsa8yQfnDh98E1+oN+W5
-   HEg3aobKNpfq9FBnivwAzmrFQGxqYSTaqYbyI64BdqBz6XWFxYGW4RTd1
-   P6NNTvcS5GLewYOmtapMll/iD4j+Aggve+kfFyeANhMAjjo3HvXXyNk/d
-   jUqXXdkwPXB60ZKIqz7TvJ3O81oi04+OZa/avByku8YPdGSitt3Nj3xRM
-   hvebvdS03FpvbWG4azDO7iMBRpsS4ZN08/XmiI1JBG9tJ78oe9SZps7rw
-   6BlFZ9uQZIkC5aerEAtuRYcpnnjNaHJ2uLFvh//6fxszQ1V1T3IBpqQ7V
-   Q==;
-X-CSE-ConnectionGUID: 8FqsU1muSEq+78eYMNYBAg==
-X-CSE-MsgGUID: kf+b018yQYCInq3hMfwtog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26829367"
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26829367"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 07:11:18 -0700
-X-CSE-ConnectionGUID: lN47gdbzSjGOXFUPxLylQA==
-X-CSE-MsgGUID: hjYVEFiKQtGXSldKZredqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="73139375"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Sep 2024 07:11:16 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suYAE-000NJL-0n;
-	Sat, 28 Sep 2024 14:11:14 +0000
-Date: Sat, 28 Sep 2024 22:11:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 20162/23799] mm/share_pool.c:4577:64:
- error: 'HUGETLB_ALLOC_BUDDY' undeclared
-Message-ID: <202409282248.mtMRfV3U-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIqhBVFA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97A9EC4CEC3;
+	Sat, 28 Sep 2024 14:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727532850;
+	bh=ErgmS0qH1M7/ozTiDtG+anlSeTKB3BQPSYxTtDg4HTM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TIqhBVFAJLcjosHWIxaP1+YYy3rDLVJsDO/eEZXEmcccLouo57BFN8ZBtoMX/sZPQ
+	 bMLhBEFAvukX5TI+WeX7+cDcUcZ8hK8wbBdCezj/UDjHpZ2lf/zjywqZO1lIGcu/49
+	 64Qpg0CvsY/m52nUpdB9CnIbTOLd6N86k7KPI+Qe1fqvjqKbUNIJDT23FQwyU+5tCb
+	 T12RJFYJhmIGqwHYiKUeaArIh+Y7ICF8eHArks75w9Or93eFXvMJ/E5Otyg8I/HqFW
+	 AO30C6odnBs6Pp6+YuORqQfc1/8x7zJCSTfQre4yRmH/Z29TxXhIDJxLPaE99iAwH1
+	 CvuphGY6Z2DjQ==
+Date: Sat, 28 Sep 2024 15:13:58 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Mariel Tinaco <Mariel.Tinaco@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Lars-Peter
+ Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Conor Dooley <conor+dt@kernel.org>, Marcelo
+ Schmitt <marcelo.schmitt1@gmail.com>, Dimitri Fedrau
+ <dima.fedrau@gmail.com>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 2/2] iio: dac: support the ad8460 Waveform DAC
+Message-ID: <20240928151358.220e3edf@jic23-huawei>
+In-Reply-To: <202409210849.cRodncgA-lkp@intel.com>
+References: <20240912095435.18639-3-Mariel.Tinaco@analog.com>
+	<202409210849.cRodncgA-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3841d75a6dcd12d108aaf56560b99431d18169e4
-commit: 0886320b818787f720824229f153f161c89faf70 [20162/23799] mm/sharepool: Charge Buddy hugepage to memcg
-config: arm64-randconfig-003-20240928 (https://download.01.org/0day-ci/archive/20240928/202409282248.mtMRfV3U-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409282248.mtMRfV3U-lkp@intel.com/reproduce)
+On Sat, 21 Sep 2024 09:11:12 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409282248.mtMRfV3U-lkp@intel.com/
+> Hi Mariel,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on fec496684388685647652ab4213454fbabdab099]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Mariel-Tinaco/dt-bindings-iio-dac-add-docs-for-ad8460/20240912-175718
+> base:   fec496684388685647652ab4213454fbabdab099
+> patch link:    https://lore.kernel.org/r/20240912095435.18639-3-Mariel.Tinaco%40analog.com
+> patch subject: [PATCH v4 2/2] iio: dac: support the ad8460 Waveform DAC
+> config: sparc-randconfig-r071-20240921 (https://download.01.org/0day-ci/archive/20240921/202409210849.cRodncgA-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 14.1.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409210849.cRodncgA-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/dac/ad8460.c:545 ad8460_write_event_value() warn: unsigned 'fault' is never less than zero.
+> drivers/iio/dac/ad8460.c:545 ad8460_write_event_value() warn: error code type promoted to positive: 'fault'
+> drivers/iio/dac/ad8460.c:567 ad8460_read_event_value() warn: unsigned 'fault' is never less than zero.
+> drivers/iio/dac/ad8460.c:567 ad8460_read_event_value() warn: error code type promoted to positive: 'fault'
+> drivers/iio/dac/ad8460.c:585 ad8460_write_event_config() warn: unsigned 'fault' is never less than zero.
+> drivers/iio/dac/ad8460.c:585 ad8460_write_event_config() warn: error code type promoted to positive: 'fault'
+> drivers/iio/dac/ad8460.c:605 ad8460_read_event_config() warn: unsigned 'fault' is never less than zero.
+> drivers/iio/dac/ad8460.c:605 ad8460_read_event_config() warn: error code type promoted to positive: 'fault'
+> 
+> vim +/fault +545 drivers/iio/dac/ad8460.c
+> 
+>    528	
+>    529	static int ad8460_write_event_value(struct iio_dev *indio_dev,
+>    530					    const struct iio_chan_spec *chan,
+>    531					    enum iio_event_type type,
+>    532					    enum iio_event_direction dir,
+>    533					    enum iio_event_info info, int val, int val2)
+>    534	{
+>    535		struct ad8460_state *state = iio_priv(indio_dev);
+>    536		unsigned int fault;
+I fixed this up by making all the local fault variables int instead.
 
-All errors (new ones prefixed by >>):
+Jonathan
 
-   mm/share_pool.c: In function 'mg_sp_group_id_by_pid':
-   mm/share_pool.c:1086:29: warning: ordered comparison of pointer with integer zero [-Wextra]
-    1086 |         if (!spg_ids || num <= 0)
-         |                             ^~
-   mm/share_pool.c: In function 'sp_compact_nodes':
-   mm/share_pool.c:2149:9: error: implicit declaration of function 'sysctl_compaction_handler'; did you mean 'sysctl_memcg_qos_handler'? [-Werror=implicit-function-declaration]
-    2149 |         sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         sysctl_memcg_qos_handler
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:3299:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    3299 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:3299:21: error: invalid initializer
-   mm/share_pool.c: In function 'sharepool_no_page':
-   mm/share_pool.c:4577:32: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-    4577 |                         page = hugetlb_alloc_hugepage(node_id, HUGETLB_ALLOC_BUDDY);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~
-         |                                vmalloc_hugepage
->> mm/share_pool.c:4577:64: error: 'HUGETLB_ALLOC_BUDDY' undeclared (first use in this function)
-    4577 |                         page = hugetlb_alloc_hugepage(node_id, HUGETLB_ALLOC_BUDDY);
-         |                                                                ^~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4577:64: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:4585:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    4585 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
-   mm/share_pool.c:4606:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    4606 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
-   mm/share_pool.c:4631:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    4631 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
-   mm/share_pool.c:4633:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    4633 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   mm/share_pool.c: In function 'sp_alloc_pages':
-   mm/share_pool.c:4797:61: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-    4797 |                 page = hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                                                             ^~~~~~~~~~~~~~~~~~
-         |                                                             HUGETLB_ANON_FILE
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:4492:12: warning: 'proc_overview_show' defined but not used [-Wunused-function]
-    4492 | static int proc_overview_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4440:12: warning: 'proc_stat_show' defined but not used [-Wunused-function]
-    4440 | static int proc_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~
-   mm/share_pool.c:4377:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    4377 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>    537	
+>    538		if (type != IIO_EV_TYPE_THRESH)
+>    539			return -EINVAL;
+>    540	
+>    541		if (info != IIO_EV_INFO_VALUE)
+>    542			return -EINVAL;
+>    543	
+>    544		fault = ad8460_select_fault_type(chan->type, dir);
+>  > 545		if (fault < 0)  
+>    546			return fault;
+>    547	
+>    548		return ad8460_set_fault_threshold(state, fault, val);
+>    549	}
+>    550	
+>    551	static int ad8460_read_event_value(struct iio_dev *indio_dev,
+>    552					   const struct iio_chan_spec *chan,
+>    553					   enum iio_event_type type,
+>    554					   enum iio_event_direction dir,
+>    555					   enum iio_event_info info, int *val, int *val2)
+>    556	{
+>    557		struct ad8460_state *state = iio_priv(indio_dev);
+>    558		unsigned int fault;
+>    559	
+>    560		if (type != IIO_EV_TYPE_THRESH)
+>    561			return -EINVAL;
+>    562	
+>    563		if (info != IIO_EV_INFO_VALUE)
+>    564			return -EINVAL;
+>    565	
+>    566		fault = ad8460_select_fault_type(chan->type, dir);
+>  > 567		if (fault < 0)  
+>    568			return fault;
+>    569	
+>    570		return ad8460_get_fault_threshold(state, fault, val);
+>    571	}
+>    572	
+>    573	static int ad8460_write_event_config(struct iio_dev *indio_dev,
+>    574					     const struct iio_chan_spec *chan,
+>    575					     enum iio_event_type type,
+>    576					     enum iio_event_direction dir, int val)
+>    577	{
+>    578		struct ad8460_state *state = iio_priv(indio_dev);
+>    579		unsigned int fault;
+>    580	
+>    581		if (type != IIO_EV_TYPE_THRESH)
+>    582			return -EINVAL;
+>    583	
+>    584		fault = ad8460_select_fault_type(chan->type, dir);
+>  > 585		if (fault < 0)  
+>    586			return fault;
+>    587	
+>    588		return ad8460_set_fault_threshold_en(state, fault, val);
+>    589	}
+>    590	
+>    591	static int ad8460_read_event_config(struct iio_dev *indio_dev,
+>    592					    const struct iio_chan_spec *chan,
+>    593					    enum iio_event_type type,
+>    594					    enum iio_event_direction dir)
+>    595	{
+>    596		struct ad8460_state *state = iio_priv(indio_dev);
+>    597		unsigned int fault;
+>    598		bool en;
+>    599		int ret;
+>    600	
+>    601		if (type != IIO_EV_TYPE_THRESH)
+>    602			return -EINVAL;
+>    603	
+>    604		fault = ad8460_select_fault_type(chan->type, dir);
+>  > 605		if (fault < 0)  
+>    606			return fault;
+>    607	
+>    608		ret = ad8460_get_fault_threshold_en(state, fault, &en);
+>    609		if (ret)
+>    610			return ret;
+>    611	
+>    612		return en;
+>    613	}
+>    614	
+> 
 
-
-vim +/HUGETLB_ALLOC_BUDDY +4577 mm/share_pool.c
-
-  4541	
-  4542	vm_fault_t sharepool_no_page(struct mm_struct *mm,
-  4543				struct vm_area_struct *vma,
-  4544				struct address_space *mapping, pgoff_t idx,
-  4545				unsigned long address, pte_t *ptep, unsigned int flags)
-  4546	{
-  4547		struct hstate *h = hstate_vma(vma);
-  4548		vm_fault_t ret = VM_FAULT_SIGBUS;
-  4549		unsigned long size;
-  4550		struct page *page;
-  4551		pte_t new_pte;
-  4552		spinlock_t *ptl;
-  4553		unsigned long haddr = address & huge_page_mask(h);
-  4554		bool new_page = false;
-  4555		int err;
-  4556		int node_id;
-  4557		struct sp_area *spa;
-  4558		bool charge_hpage = false;
-  4559		struct mem_cgroup *memcg;
-  4560	
-  4561		spa = vma->vm_private_data;
-  4562		if (!spa) {
-  4563			pr_err("share pool: vma is invalid, not from sp mmap\n");
-  4564			return ret;
-  4565		}
-  4566		node_id = spa->node_id;
-  4567	
-  4568	retry:
-  4569		page = find_lock_page(mapping, idx);
-  4570		if (!page) {
-  4571			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4572			if (idx >= size)
-  4573				goto out;
-  4574	
-  4575			page = alloc_huge_page(vma, haddr, 0);
-  4576			if (IS_ERR(page)) {
-> 4577				page = hugetlb_alloc_hugepage(node_id, HUGETLB_ALLOC_BUDDY);
-  4578				if (!page)
-  4579					page = ERR_PTR(-ENOMEM);
-  4580				else if (!PageKmemcg(page))
-  4581					charge_hpage = true;
-  4582			}
-  4583			if (IS_ERR(page)) {
-  4584				ptl = huge_pte_lock(h, mm, ptep);
-  4585				if (!huge_pte_none(huge_ptep_get(ptep))) {
-  4586					ret = 0;
-  4587					spin_unlock(ptl);
-  4588					goto out;
-  4589				}
-  4590				spin_unlock(ptl);
-  4591				ret = vmf_error(PTR_ERR(page));
-  4592				goto out;
-  4593			}
-  4594	
-  4595			if (charge_hpage &&
-  4596			    mem_cgroup_try_charge_delay(page, vma->vm_mm, GFP_KERNEL, &memcg, true)) {
-  4597				put_page(page);
-  4598				ret = vmf_error(-ENOMEM);
-  4599				goto out;
-  4600			}
-  4601	
-  4602			__SetPageUptodate(page);
-  4603			new_page = true;
-  4604	
-  4605			/* sharepool pages are all shared */
-  4606			err = huge_add_to_page_cache(page, mapping, idx);
-  4607			if (err) {
-  4608				if (charge_hpage) {
-  4609					mem_cgroup_cancel_charge(page, memcg, true);
-  4610					charge_hpage = false;
-  4611				}
-  4612				put_page(page);
-  4613				if (err == -EEXIST)
-  4614					goto retry;
-  4615				goto out;
-  4616			}
-  4617		}
-  4618	
-  4619		ptl = huge_pte_lock(h, mm, ptep);
-  4620		size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4621		if (idx >= size)
-  4622			goto backout;
-  4623	
-  4624		ret = 0;
-  4625		if (!huge_pte_none(huge_ptep_get(ptep)))
-  4626			goto backout;
-  4627	
-  4628		page_dup_rmap(page, true);
-  4629		new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-  4630					&& (vma->vm_flags & VM_SHARED)));
-  4631		set_huge_pte_at(mm, haddr, ptep, new_pte);
-  4632	
-  4633		hugetlb_count_add(pages_per_huge_page(h), mm);
-  4634	
-  4635		if (charge_hpage)
-  4636			mem_cgroup_commit_charge(page, memcg, false, true);
-  4637	
-  4638		spin_unlock(ptl);
-  4639	
-  4640		if (new_page)
-  4641			SetPagePrivate(&page[1]);
-  4642	
-  4643		unlock_page(page);
-  4644	out:
-  4645		return ret;
-  4646	
-  4647	backout:
-  4648		spin_unlock(ptl);
-  4649		unlock_page(page);
-  4650		if (charge_hpage)
-  4651			mem_cgroup_cancel_charge(page, memcg, true);
-  4652		put_page(page);
-  4653		goto out;
-  4654	}
-  4655	EXPORT_SYMBOL(sharepool_no_page);
-  4656	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
