@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366C7175D32
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 11:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72413B1AF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 11:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727521338; cv=none; b=Aor5ofbJjz9xTK8hFBYWmmSncC0pEsf0MRl6532wJG8jwtGgdpppra5iqFNgGeXiL7/qJ1mowY7E7czDW6rH+LHbMynqN2htqpVJa4EWNA0uK78WO9XLE9dY9JoAKEUyZuPGHPlHrKavlJOeUqxAs4MdTOoHuo1E2rS6THCh+xk=
+	t=1727522597; cv=none; b=R6dRttGqQ0y+aAYkd1CU9gTEYQrac/SJHIsHisPuOBM+ptPn2bPiQHkXTxz9xMcqAWMaR6HHeysEvDpZE63hnk/MxjXUHdjFEew3Q//ov7BhpsEmckofyH6OKoKbHfWxk28n1nvmwSt/5mtEbEzIMMR3dV4UT7lrv7twTiJEhvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727521338; c=relaxed/simple;
-	bh=8vX/FexqQrU54V/LJwNqJH1P9C4n1tgqge0ORo624ww=;
+	s=arc-20240116; t=1727522597; c=relaxed/simple;
+	bh=ctAasv1NqvAMS433XojBANkSZ8sNrx6yXMbvGEwhk/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hDpbAAVHbG8W1Ln+z0isyAV4nJnVsHQmAoidNf/m7l7QNTmmMhf8HXrXjpn9n/z4p32nqAAd26Xx7jAU0mfpasuJGC0nPiPGMbtHK0/UghRr3OewqYaCjS6sZ14MZRYrCqITfIrOiSW8jTauHGxLLrSb+piHp+dzsSwauWqiBWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HG2k7+u3; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=QPXMVJozZXe0vC2RLS8bQlIuVHbXCGaAN5mxyB68DZ6HRdYtKtR6FaJcWjPRX71Q7kHpbGqQXXNiaCMPPmraqgsiW5JmjrUHiIMY3hbuPyuLhSwyOx0MRdze/3ZILNXdTzeTMDTeeacHaH1vbpJTdagat+UJG6XfAk+9jlPNAiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kqoljGpF; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HG2k7+u3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kqoljGpF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727521336; x=1759057336;
+  t=1727522594; x=1759058594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8vX/FexqQrU54V/LJwNqJH1P9C4n1tgqge0ORo624ww=;
-  b=HG2k7+u3x+4TPkj1f3vF/GjcZArfcY4setRVrCQmCXh4nfjpHCcL5wY7
-   U92d6AEAwKF5FQPQllITPF8FGJ37Bs+K/vENv1FI2Jo0aLOW0JWiTOcEc
-   Vvi5R5k/ZO8tP62ZO7CBy/9chzkNkGMZxQrrNPqQ/1SWtgbim2Mkvshvm
-   S2ZIC8YWvtLEbsNMNgprbnpmvauSHeYOf+hpsVsiBWD5ah7McASrRebvH
-   u1qoQaYBrnTKCQh/mNgz54u2yYngWkfRpbEePD8w7XyIyi76p1c4WH+/L
-   p7qq9a8Bi9Iwcbkym10hZUDi9aQbZj9iTOLFEx2LwBJK87U+pY+zPJw+e
+  bh=ctAasv1NqvAMS433XojBANkSZ8sNrx6yXMbvGEwhk/U=;
+  b=kqoljGpFq1LXX5Zd18L38wQ30xYgpoX1vmqD31yPt4pyyxX6y2kSUY7g
+   vdfTW5vtCpvNqX5gxfMKM7ayizdVzN2IUddczvcb7+h4ztImWsS329208
+   aBtFhAtmICWBXqu6XpNwmpoF/rtC72MWw+k+XNuZ8RowhsldIdqFJKcEZ
+   3B5bT5L81FFOP/5iyH2KK6mx9Yb9g/gO4VNuVcrvo0/XJi+QkmfIG9K/s
+   zIWWJCEtWYNUNy2XEwqaStKnLkVSd3gGxVkX9aTdW1cmY8Nckhc9tJUSA
+   F80egfvHaEcaB6jp+2ipN57vFGepFKK68+M1vCmwjNLojmdiE2S7oU3Os
    Q==;
-X-CSE-ConnectionGUID: jGPfyGe+TL+pYNbUPUIbXg==
-X-CSE-MsgGUID: gNWmTsjKSz2G2IBIXBxBoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="52076574"
+X-CSE-ConnectionGUID: wNFFeUPdQACALKj2F7ccAg==
+X-CSE-MsgGUID: oMaBCwlrSiSPiwut8YBubg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26794065"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="52076574"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 04:02:14 -0700
-X-CSE-ConnectionGUID: kpwziXCEQdWLVEpccSJn8A==
-X-CSE-MsgGUID: hck5sL5pR3aTjy56C+s/AA==
+   d="scan'208";a="26794065"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 04:23:14 -0700
+X-CSE-ConnectionGUID: wl1/2Yd2SIG0J+fkr0Rogg==
+X-CSE-MsgGUID: 0WbRMowZS4SxQTqZcOYyEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="73107923"
+   d="scan'208";a="72368752"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Sep 2024 04:02:13 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2024 04:23:13 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suVDG-000NCW-1j;
-	Sat, 28 Sep 2024 11:02:10 +0000
-Date: Sat, 28 Sep 2024 19:01:42 +0800
+	id 1suVXa-000ND8-2w;
+	Sat, 28 Sep 2024 11:23:10 +0000
+Date: Sat, 28 Sep 2024 19:22:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:x86/ibt 9/10] arch/x86/um/../kernel/module.c:289:
- undefined reference to `apply_direct_call_offset'
-Message-ID: <202409281901.N6emlpOm-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 2665/16788] i2c-flexio.c:(.text+0xe0):
+ relocation truncated to fit: R_NIOS2_CALL26 against `flexio_sw_reset'
+Message-ID: <202409281949.s01Y5fYt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,126 +62,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/ibt
-head:   4e155f6fbba48ed677042026d7732c6256ffa166
-commit: 76743359658d730ecba565019069d870d30fe3b8 [9/10] x86/ibt: Implement IBT+
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20240928/202409281901.N6emlpOm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281901.N6emlpOm-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ac32ba5fe66266329914d2020570364afe217bec
+commit: 28f7ee66a10609525341c91f1aef06e8548f994f [2665/16788] LF-8343-2: driver: i2c: buses: flexio: rework to use mfd
+config: nios2-randconfig-001-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281949.s01Y5fYt-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281949.s01Y5fYt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409281901.N6emlpOm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409281949.s01Y5fYt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/bin/ld: arch/x86/kernel/module.o: in function `module_finalize':
->> arch/x86/um/../kernel/module.c:289: undefined reference to `apply_direct_call_offset'
->> /usr/bin/ld: arch/x86/um/../kernel/module.c:293: undefined reference to `apply_direct_call_offset'
-   collect2: error: ld returned 1 exit status
-
-
-vim +289 arch/x86/um/../kernel/module.c
-
-   222	
-   223	int module_finalize(const Elf_Ehdr *hdr,
-   224			    const Elf_Shdr *sechdrs,
-   225			    struct module *me)
-   226	{
-   227		const Elf_Shdr *s, *alt = NULL, *locks = NULL,
-   228			*orc = NULL, *orc_ip = NULL,
-   229			*retpolines = NULL, *returns = NULL, *ibt_endbr = NULL,
-   230			*calls = NULL, *tails = NULL, *cfi = NULL;
-   231		char *secstrings = (void *)hdr + sechdrs[hdr->e_shstrndx].sh_offset;
-   232	
-   233		for (s = sechdrs; s < sechdrs + hdr->e_shnum; s++) {
-   234			if (!strcmp(".altinstructions", secstrings + s->sh_name))
-   235				alt = s;
-   236			if (!strcmp(".smp_locks", secstrings + s->sh_name))
-   237				locks = s;
-   238			if (!strcmp(".orc_unwind", secstrings + s->sh_name))
-   239				orc = s;
-   240			if (!strcmp(".orc_unwind_ip", secstrings + s->sh_name))
-   241				orc_ip = s;
-   242			if (!strcmp(".retpoline_sites", secstrings + s->sh_name))
-   243				retpolines = s;
-   244			if (!strcmp(".return_sites", secstrings + s->sh_name))
-   245				returns = s;
-   246			if (!strcmp(".call_sites", secstrings + s->sh_name))
-   247				calls = s;
-   248			if (!strcmp(".tail_call_sites", secstrings + s->sh_name))
-   249				tails = s;
-   250			if (!strcmp(".cfi_sites", secstrings + s->sh_name))
-   251				cfi = s;
-   252			if (!strcmp(".ibt_endbr_seal", secstrings + s->sh_name))
-   253				ibt_endbr = s;
-   254		}
-   255	
-   256		if (retpolines || cfi) {
-   257			void *rseg = NULL, *cseg = NULL;
-   258			unsigned int rsize = 0, csize = 0;
-   259	
-   260			if (retpolines) {
-   261				rseg = (void *)retpolines->sh_addr;
-   262				rsize = retpolines->sh_size;
-   263			}
-   264	
-   265			if (cfi) {
-   266				cseg = (void *)cfi->sh_addr;
-   267				csize = cfi->sh_size;
-   268			}
-   269	
-   270			apply_fineibt(rseg, rseg + rsize, cseg, cseg + csize);
-   271		}
-   272		if (retpolines) {
-   273			void *rseg = (void *)retpolines->sh_addr;
-   274			apply_retpolines(rseg, rseg + retpolines->sh_size);
-   275		}
-   276		if (returns) {
-   277			void *rseg = (void *)returns->sh_addr;
-   278			apply_returns(rseg, rseg + returns->sh_size);
-   279		}
-   280		if (calls) {
-   281			struct callthunk_sites cs = {};
-   282	
-   283			if (calls) {
-   284				cs.call_start = (void *)calls->sh_addr;
-   285				cs.call_end = (void *)calls->sh_addr + calls->sh_size;
-   286			}
-   287	
-   288			callthunks_patch_module_calls(&cs, me);
- > 289			apply_direct_call_offset(cs.call_start, cs.call_end);
-   290		}
-   291		if (tails) {
-   292			void *tseg = (void *)tails->sh_addr;
- > 293			apply_direct_call_offset(tseg, tseg + tails->sh_size);
-   294		}
-   295		if (alt) {
-   296			/* patch .altinstructions */
-   297			void *aseg = (void *)alt->sh_addr;
-   298			apply_alternatives(aseg, aseg + alt->sh_size);
-   299		}
-   300		if (ibt_endbr) {
-   301			void *iseg = (void *)ibt_endbr->sh_addr;
-   302			apply_seal_endbr(iseg, iseg + ibt_endbr->sh_size);
-   303		}
-   304		if (locks) {
-   305			void *lseg = (void *)locks->sh_addr;
-   306			void *text = me->mem[MOD_TEXT].base;
-   307			void *text_end = text + me->mem[MOD_TEXT].size;
-   308			alternatives_smp_module_add(me, me->name,
-   309						    lseg, lseg + locks->sh_size,
-   310						    text, text_end);
-   311		}
-   312	
-   313		if (orc && orc_ip)
-   314			unwind_module_init(me, (void *)orc_ip->sh_addr, orc_ip->sh_size,
-   315					   (void *)orc->sh_addr, orc->sh_size);
-   316	
-   317		return 0;
-   318	}
-   319	
+   nios2-linux-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_init_hardware':
+   i2c-flexio.c:(.text+0xe0): undefined reference to `flexio_sw_reset'
+>> i2c-flexio.c:(.text+0xe0): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_sw_reset'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x104): undefined reference to `flexio_setup_shiftcfg'
+>> i2c-flexio.c:(.text+0x104): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_setup_shiftcfg'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x138): undefined reference to `flexio_setup_shiftctl'
+>> i2c-flexio.c:(.text+0x138): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_setup_shiftctl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x154): undefined reference to `flexio_setup_shiftcfg'
+   i2c-flexio.c:(.text+0x154): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_setup_shiftcfg'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x184): undefined reference to `flexio_setup_shiftctl'
+   i2c-flexio.c:(.text+0x184): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_setup_shiftctl'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x1ac): undefined reference to `flexio_setup_timercfg'
+>> i2c-flexio.c:(.text+0x1ac): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_setup_timercfg'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x1cc): undefined reference to `flexio_writel'
+>> i2c-flexio.c:(.text+0x1cc): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_writel'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x208): undefined reference to `flexio_setup_timerctl'
+>> i2c-flexio.c:(.text+0x208): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_setup_timerctl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x230): undefined reference to `flexio_setup_timercfg'
+   i2c-flexio.c:(.text+0x230): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_setup_timercfg'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x240): undefined reference to `flexio_writel'
+   i2c-flexio.c:(.text+0x240): relocation truncated to fit: R_NIOS2_CALL26 against `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x27c): undefined reference to `flexio_setup_timerctl'
+   i2c-flexio.c:(.text+0x27c): additional relocation overflows omitted from the output
+   nios2-linux-ld: i2c-flexio.c:(.text+0x28c): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x29c): undefined reference to `flexio_writel'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x2a4): undefined reference to `flexio_get_default_ctrl'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x2b4): undefined reference to `flexio_setup_ctrl'
+   nios2-linux-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_master_xfer':
+   i2c-flexio.c:(.text+0x620): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x630): undefined reference to `flexio_writel'
+>> nios2-linux-ld: i2c-flexio.c:(.text+0x668): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x6b8): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x6dc): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x6e8): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x700): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x798): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x7c8): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x80c): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x870): undefined reference to `flexio_writel'
+   nios2-linux-ld: drivers/i2c/busses/i2c-flexio.o:i2c-flexio.c:(.text+0x8c4): more undefined references to `flexio_writel' follow
+   nios2-linux-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_master_xfer':
+   i2c-flexio.c:(.text+0x934): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x958): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x964): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x97c): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x988): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0x99c): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xa18): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xa28): undefined reference to `flexio_writel'
+   nios2-linux-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_isr':
+   i2c-flexio.c:(.text+0xa68): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xac0): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xad0): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xae0): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xafc): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xb24): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xb64): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xba4): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xbb4): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xbdc): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xc24): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xc4c): undefined reference to `flexio_writel'
+   nios2-linux-ld: drivers/i2c/busses/i2c-flexio.o:i2c-flexio.c:(.text+0xc88): more undefined references to `flexio_writel' follow
+   nios2-linux-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_isr':
+   i2c-flexio.c:(.text+0xcb4): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xcd8): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xd10): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xd24): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xd3c): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xd50): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xd6c): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xd88): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xdd8): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xdec): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xdf8): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xe08): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xe1c): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xe34): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xe44): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xe5c): undefined reference to `flexio_writel'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xe78): undefined reference to `flexio_readl'
+   nios2-linux-ld: i2c-flexio.c:(.text+0xe88): undefined reference to `flexio_writel'
 
 -- 
 0-DAY CI Kernel Test Service
