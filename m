@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E30146013
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF42F14A4E2
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 10:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727519414; cv=none; b=QezRE2zcOzR3JejFSxvs7/WiJc7urSyGTQO12j0thINzht/ZXceCcbs1glmrOQiSFR3aHbvxuA3zJlDArLx17UGYtk2izmfVP3j0LNmvOpa3ZrKCD0LqfjH45HE3T3Irwk5QTUwf3MRzcSbqt3KuLWNtack2LzjIfDESibibEmY=
+	t=1727519415; cv=none; b=JJNEWZw5uDnOBBkjv9mYyx7FdRNPN/VrWyY6dvBHS3cfWOCNnyyq2gnHRZJAq0oldEq2poiPV45bcE0IDiTbSvgcgqII5totkGCvJD7DQNXZPSVsTrk+c4kguD/SA1pmmSW1rmJ52iYM4b6+9plkQ186Q1bVHDIgK4Oqy732O00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727519414; c=relaxed/simple;
-	bh=EoHMLhI5oNUFNLnCSptfOl42SgVwGwgfYJAZGMBD9WE=;
+	s=arc-20240116; t=1727519415; c=relaxed/simple;
+	bh=8jrojT3Yw8FYV2VSFTFLMC5NIFY6LlZX2glsJsW1oXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ftow0obJgYotRuKUpNnCeSYpEXDli1SiAr8nXR9j2v/ToQwKtku7OhF2O7MoDYH2G/mMgCwRrbeq75Yjy+O3yMu9qs6SpAHvyIA4A4z8XdFEoVruei0NjMbWYMXamUyFXJmZkjYFGF1yksufpaUiVNH84QWjABNBZNFEbNKv0RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPIz6Euy; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=M/9F5jax0KeG7S7t47oEgnn2KuDs67tWJuteuc/xEqmgF86cB2QMjkVzaKhihlBs2YqtVERaU2UmOC7kyJoMyAWzUsSqsd9DIg3RPIBMGlv/NfY2U9UCSkleLO7DSlRlmFC6iYZrJC2P6M2gDhGqXybL7tdt90lgFtg9tkQUjj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsOF/HGj; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPIz6Euy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsOF/HGj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1727519413; x=1759055413;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EoHMLhI5oNUFNLnCSptfOl42SgVwGwgfYJAZGMBD9WE=;
-  b=mPIz6EuyhbSqwXCkbMpQb0T4RB3A2OHTu8Jg6BMxQhb6Oq5gI8IDE8r3
-   oWFL6VkcauS5PszR5RhDr6f4GQSO3qyhUt8htEof+uy7+rJiF3/EjqzWo
-   vJO4wIqQJqIFXcnvreRFCLfpfagMCLPBiJkG7demqykM3UJRuTuPwetrX
-   7WLY/Ho93MQv/1FEfMUrMddnRZRNVP2P7gjjyTdAPBzUwUMuw1iPTFDvZ
-   QPUd3Zbo9jLQ1KwkjpwVhTWW9zt2pqkXYEbpfdyyZ7eV9Fi1hfbaB439h
-   8zzJAoxHO1ej95FYYc49SKz2MTLa3FgLD7iWi/FlV2hwjD631S7JUvYqu
-   Q==;
-X-CSE-ConnectionGUID: zhcnd3N5RieE+oNbgn3vlQ==
-X-CSE-MsgGUID: rMk61OuYT+2CSR2oIVCqdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="44127406"
+  bh=8jrojT3Yw8FYV2VSFTFLMC5NIFY6LlZX2glsJsW1oXk=;
+  b=UsOF/HGjCh5WZkr1BiZOS6dxZltCj8n0B1H1K/iGe4YpScQ+rdjDV8Lw
+   AvgNiFBA4zVCWNKshk2vxQhaMOkigiiSZkiWNHl4s/ZXaWc9C4WY8qlW/
+   kWuoWa+Zwtv47sCUwDJ2ATOezRI9Dt479Cq5aKBtAHYm63wOvvLh3Fhlc
+   gMo0ylyZAYNiwm4X1vW+9QKTRocfFsjP+TdVMn1bg9u/My7UF8Clx+4JQ
+   Glx2SlSRoryw6nS3QKecsAuhnccm6e9570HEUwXpl8QNGXg8bRqFWjgeE
+   7tJWiwvy3nMuGzYg0wq2nIxE+LaFAU6TF0HFAjgLplhfq10M9VSugU0L6
+   w==;
+X-CSE-ConnectionGUID: VG4Ub10XRluwzwBRJTW7cw==
+X-CSE-MsgGUID: Iw4e+4jBQe2FSeFEpbza5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26792318"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="44127406"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 03:30:13 -0700
-X-CSE-ConnectionGUID: b7nhxpNaTtSr71TUETVcRQ==
-X-CSE-MsgGUID: E2Du9Oa1RAqS9KIdA8625g==
+   d="scan'208";a="26792318"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 03:30:12 -0700
+X-CSE-ConnectionGUID: BT1RrxThTceCFvB9Mh64cQ==
+X-CSE-MsgGUID: 09b4NMVNRSytw/4Wfdtvvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="77312104"
+   d="scan'208";a="103570522"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Sep 2024 03:30:13 -0700
+  by orviesa002.jf.intel.com with ESMTP; 28 Sep 2024 03:30:11 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suUiH-000NAD-0L;
+	id 1suUiH-000NA1-02;
 	Sat, 28 Sep 2024 10:30:09 +0000
-Date: Sat, 28 Sep 2024 18:29:48 +0800
+Date: Sat, 28 Sep 2024 18:30:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 104/16788]
- drivers/soc/imx/secvio/imx-secvio-audit.c:11:5: warning: no previous
- prototype for function 'report_to_audit_notify'
-Message-ID: <202409281807.aGCLfH4G-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 5875/16788]
+ drivers/clk/imx/clk-imx8mm.c:731:23: warning: 'pll_setting_fops' defined but
+ not used
+Message-ID: <202409281817.76SrrpmP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,40 +65,82 @@ Content-Disposition: inline
 
 tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
 head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: 81a1a8eade1c5d83dbf1fc9bad8f385ea60f3f26 [104/16788] SSI-87: soc: imx: secvio: Report to audit FW all security violations
-config: arm-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281807.aGCLfH4G-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281807.aGCLfH4G-lkp@intel.com/reproduce)
+commit: 8edc700dd52e0961f046aa8e47e812efc10ae588 [5875/16788] Merge branch 'clock/next' into next
+config: arc-randconfig-002-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281817.76SrrpmP-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281817.76SrrpmP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409281807.aGCLfH4G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409281817.76SrrpmP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/soc/imx/secvio/imx-secvio-audit.c:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/soc/imx/secvio/imx-secvio-audit.c:11:5: warning: no previous prototype for function 'report_to_audit_notify' [-Wmissing-prototypes]
-      11 | int report_to_audit_notify(struct notifier_block *nb, unsigned long status,
-         |     ^
-   drivers/soc/imx/secvio/imx-secvio-audit.c:11:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      11 | int report_to_audit_notify(struct notifier_block *nb, unsigned long status,
-         | ^
-         | static 
-   2 warnings generated.
+   In file included from include/linux/debugfs.h:16,
+                    from drivers/clk/imx/clk-imx8mm.c:9:
+>> drivers/clk/imx/clk-imx8mm.c:731:23: warning: 'pll_setting_fops' defined but not used [-Wunused-const-variable=]
+     731 | DEFINE_SHOW_ATTRIBUTE(pll_setting);
+         |                       ^~~~~~~~~~~
+   include/linux/seq_file.h:202:37: note: in definition of macro 'DEFINE_SHOW_ATTRIBUTE'
+     202 | static const struct file_operations __name ## _fops = {                 \
+         |                                     ^~~~~~
+>> drivers/clk/imx/clk-imx8mm.c:710:26: warning: 'delta_k_fops' defined but not used [-Wunused-const-variable=]
+     710 | DEFINE_DEBUGFS_ATTRIBUTE(delta_k_fops, NULL, pll_delta_k_set, "%lld\n");
+         |                          ^~~~~~~~~~~~
+   include/linux/debugfs.h:54:37: note: in definition of macro 'DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED'
+      54 | static const struct file_operations __fops = {                          \
+         |                                     ^~~~~~
+   drivers/clk/imx/clk-imx8mm.c:710:1: note: in expansion of macro 'DEFINE_DEBUGFS_ATTRIBUTE'
+     710 | DEFINE_DEBUGFS_ATTRIBUTE(delta_k_fops, NULL, pll_delta_k_set, "%lld\n");
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/report_to_audit_notify +11 drivers/soc/imx/secvio/imx-secvio-audit.c
+vim +/pll_setting_fops +731 drivers/clk/imx/clk-imx8mm.c
 
-    10	
-  > 11	int report_to_audit_notify(struct notifier_block *nb, unsigned long status,
+f2a9d6d7aea21e Jacky Bai 2020-04-07  696  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  697  static int pll_delta_k_set(void *data, u64 val)
+f2a9d6d7aea21e Jacky Bai 2020-04-07  698  {
+f2a9d6d7aea21e Jacky Bai 2020-04-07  699  	struct clk_hw *hw;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  700  	short int delta_k;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  701  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  702  	hw = data;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  703  	delta_k = (short int) (val & KDIV_MASK);
+f2a9d6d7aea21e Jacky Bai 2020-04-07  704  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  705  	clk_set_delta_k(hw, val);
+f2a9d6d7aea21e Jacky Bai 2020-04-07  706  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  707  	pr_debug("the delta k is %d\n", delta_k);
+f2a9d6d7aea21e Jacky Bai 2020-04-07  708  	return 0;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  709  }
+f2a9d6d7aea21e Jacky Bai 2020-04-07 @710  DEFINE_DEBUGFS_ATTRIBUTE(delta_k_fops, NULL, pll_delta_k_set, "%lld\n");
+f2a9d6d7aea21e Jacky Bai 2020-04-07  711  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  712  static int pll_setting_show(struct seq_file *s, void *data)
+f2a9d6d7aea21e Jacky Bai 2020-04-07  713  {
+f2a9d6d7aea21e Jacky Bai 2020-04-07  714  	struct clk_hw *hw;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  715  	u32 pll_div_ctrl0, pll_div_ctrl1;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  716  	u32 mdiv, pdiv, sdiv, kdiv;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  717  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  718  	hw = s->private;;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  719  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  720  	clk_get_pll_setting(hw, &pll_div_ctrl0, &pll_div_ctrl1);
+f2a9d6d7aea21e Jacky Bai 2020-04-07  721  	mdiv = (pll_div_ctrl0 & MDIV_MASK) >> MDIV_SHIFT;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  722  	pdiv = (pll_div_ctrl0 & PDIV_MASK) >> PDIV_SHIFT;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  723  	sdiv = (pll_div_ctrl0 & SDIV_MASK) >> SDIV_SHIFT;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  724  	kdiv = (pll_div_ctrl1 & KDIV_MASK);
+f2a9d6d7aea21e Jacky Bai 2020-04-07  725  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  726  	seq_printf(s, "Mdiv: 0x%x; Pdiv: 0x%x; Sdiv: 0x%x; Kdiv: 0x%x\n",
+f2a9d6d7aea21e Jacky Bai 2020-04-07  727  		mdiv, pdiv, sdiv, kdiv);
+f2a9d6d7aea21e Jacky Bai 2020-04-07  728  
+f2a9d6d7aea21e Jacky Bai 2020-04-07  729  	return 0;
+f2a9d6d7aea21e Jacky Bai 2020-04-07  730  }
+f2a9d6d7aea21e Jacky Bai 2020-04-07 @731  DEFINE_SHOW_ATTRIBUTE(pll_setting);
+f2a9d6d7aea21e Jacky Bai 2020-04-07  732  
+
+:::::: The code at line 731 was first introduced by commit
+:::::: f2a9d6d7aea21e1aaa348eb588bc8022babe83c7 MLK-23751 clk: imx: Add audio PLL debug fs for K-divider monitor control
+
+:::::: TO: Jacky Bai <ping.bai@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
