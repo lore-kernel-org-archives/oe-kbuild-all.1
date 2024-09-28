@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8C4125B9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 01:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3B03C0B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 02:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727487598; cv=none; b=a3DN/bEXxUL4tGnmFgWgoDRlOTCJbsG1kv2QcsOosJnNrBlxrA7wMBVwV9Urq8ykNSG3vxvf3QopYJwvwcBlD8U3h27wgmoGsDnX7O5CuEDipEvBuOuEj59DJinqht9f+xK6ks7sg0GCXtlL4DTZdw9wqgtZfP/m71rvMLKSL5Q=
+	t=1727488861; cv=none; b=MV5RYC6UDQA5KAgv8fPwetpJJpeDe8iexPX7iyMuPC+Rh/PbujEVqtvX8OXnGdDBAGs1CNZ29gwWruKhC2K8irJJsumOpkhMpUZhVJX9tAz2DMXe/zCzX8psShA1Ph73D6x1m96sdkA++vWtuqFcb/wfXE4qecsmokr7CIHVuVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727487598; c=relaxed/simple;
-	bh=FxGDVr5Y8nafmd1rvnsCBi0LlzIEVbtSe+ZV0RXc9Qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IF9shHkIgUd/2wDENP0NcqtvYGgkVsl1B8N4y1f2O7sztwMov5IAYAUHC/TkLllmHR1nHzLNGxLqt3uOT9ksFLd6Z0zI/X8SX887ApkOrZwUEywfL1QVuJ2qgcfLk00iDz+MER1mjKOiHT+pe12haFXoqN4tFR9MD/kIoWo7hQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qj0GXfPt; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1727488861; c=relaxed/simple;
+	bh=31DE8n9SDf2F/erIK1VwAXyXAE2As8q+0EI7xnJca9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qZEP+gZ00WlSPt6JMM8cC3keMdKtbN30S6KSFJJs9HPDmAkC+kkr7arwtTaWJx8OmfzK7QKMKo403Wr0dWbDOweZbyRVyKXCqILEMRrqyTjxxw6/T00zvKWpEeV4ltXNNyC2jUKu/Ue2DRc1JKRABA6k912QaNKNvlyrFtPRhoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHtvHXsB; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qj0GXfPt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHtvHXsB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727487596; x=1759023596;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FxGDVr5Y8nafmd1rvnsCBi0LlzIEVbtSe+ZV0RXc9Qw=;
-  b=Qj0GXfPtTbhoKY9T+WFFG1ig8w3JsoZ0HRoP1rm8z/Z1o2ZlICr6RxdV
-   m8MbrJj05X5P88cVNX+nVTS9byIzncCGDgjia9xLEazpX/JnnSUufQmP3
-   xSvh2VtUU28Vv/Z0vLS5tTgrKyUQCrbH+xFep2KxDwoymsXLbSg94/KKB
-   TuERxczzgdIjfY3tpSH9E1CZ8dbcx2+NMqjGdvhv9mJlic0twreo2skgH
-   A4VcbB4ocelpkpJXhWsmGkOp2wgbTDhcWmY26S2Shsnlj51wmW+BqRvP1
-   0vPvw3sj0fzTrCt+FHJhVmTUk61G4awWWDEgT1qOYdOmNsVh2QHjz69h7
-   g==;
-X-CSE-ConnectionGUID: tyFTyAA6SgKZyA+CcQic8A==
-X-CSE-MsgGUID: lLQccI6ER5+bDRGRYMZVQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26776620"
+  t=1727488860; x=1759024860;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=31DE8n9SDf2F/erIK1VwAXyXAE2As8q+0EI7xnJca9c=;
+  b=mHtvHXsBKyYrfyoLJw5OjHRqVH4Uq0reerqu52Jh5bCIDxDKMyyLeB5Z
+   GbP/ZvFVJydzWconP+KnXPoVJ0JqNd+5y5gcGVBFhm/sGBTuejHEp9w67
+   7yQaqhc7mBz13YNCk+Y2hSyPcAaKr8l+sXySKXgb97gE2h79Q2GjbDqbK
+   wgJ8j+EmXl3UZGXWB8TCIc32LqMY0qEuSE1fKTlfZwS9dOFZJ24DeQuD4
+   Ggx6cqpNft8wqKglDNT0wCYQnGUiO2AADDsun3LiET0rGIjoLmzyR0YTQ
+   cJmXffhC8EEKdDyfT0f3XawGIlMD6ZnDrlZnY1IlJIS8V1mgFjFA9Ji/u
+   Q==;
+X-CSE-ConnectionGUID: QT9mLdzsS7axnAWwsC4r9Q==
+X-CSE-MsgGUID: fUEsF0+XQeqE2oynpO6ZoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30535216"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26776620"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 18:39:56 -0700
-X-CSE-ConnectionGUID: 2WsFdJIuRCufiOEWL4WvEg==
-X-CSE-MsgGUID: dBscSpMpTkKQBSoqhQiEhQ==
+   d="scan'208";a="30535216"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 19:00:59 -0700
+X-CSE-ConnectionGUID: zCEArkfsRiqc7En/2g38Rg==
+X-CSE-MsgGUID: oU2TpRIuSlaCkM1WgDNPZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="77650239"
+   d="scan'208";a="73025900"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Sep 2024 18:39:54 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Sep 2024 19:00:55 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suMR6-000MpL-15;
-	Sat, 28 Sep 2024 01:39:52 +0000
-Date: Sat, 28 Sep 2024 09:39:38 +0800
+	id 1suMlQ-000Mpt-2C;
+	Sat, 28 Sep 2024 02:00:52 +0000
+Date: Sat, 28 Sep 2024 10:00:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 4701/30000] arch/arm64/mm/pmem_reserve.c:13:13:
- warning: no previous prototype for 'setup_reserve_pmem'
-Message-ID: <202409280935.BxmRiHdQ-lkp@intel.com>
+To: Jingyi Wang <quic_jingyw@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, quic_tengfan@quicinc.com,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	quic_tingweiz@quicinc.com, quic_aiquny@quicinc.com,
+	Jingyi Wang <quic_jingyw@quicinc.com>,
+	Xin Liu <quic_liuxin@quicinc.com>,
+	Tingguo Cheng <quic_tingguoc@quicinc.com>
+Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: add base QCS8300 RIDE dts
+Message-ID: <202409280919.8HQTWaY2-lkp@intel.com>
+References: <20240925-qcs8300_initial_dtsi-v2-4-494c40fa2a42@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,67 +75,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925-qcs8300_initial_dtsi-v2-4-494c40fa2a42@quicinc.com>
 
-Hi Zhuling,
+Hi Jingyi,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   bef6f06e039b8929481350d15d6d8c3ba81c6fd2
-commit: db4cd75bc674e6f473c0a7303b1744155352882c [4701/30000] arm64: register persistent memory via protected memory
-config: arm64-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280935.BxmRiHdQ-lkp@intel.com/config)
+[auto build test ERROR on 4d0326b60bb753627437fff0f76bf1525bcda422]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/dt-bindings-arm-qcom-document-QCS8300-SoC-and-reference-board/20240925-184548
+base:   4d0326b60bb753627437fff0f76bf1525bcda422
+patch link:    https://lore.kernel.org/r/20240925-qcs8300_initial_dtsi-v2-4-494c40fa2a42%40quicinc.com
+patch subject: [PATCH v2 4/4] arm64: dts: qcom: add base QCS8300 RIDE dts
+config: arm64-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280919.8HQTWaY2-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280935.BxmRiHdQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280919.8HQTWaY2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409280935.BxmRiHdQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409280919.8HQTWaY2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/mm/pmem_reserve.c:13:13: warning: no previous prototype for 'setup_reserve_pmem' [-Wmissing-prototypes]
-      13 | void __init setup_reserve_pmem(u64 start, u64 size)
-         |             ^~~~~~~~~~~~~~~~~~
->> arch/arm64/mm/pmem_reserve.c:25:13: warning: no previous prototype for 'request_pmem_res_resource' [-Wmissing-prototypes]
-      25 | void __init request_pmem_res_resource(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/mm/pmem_reserve.c:40:13: warning: no previous prototype for 'reserve_pmem' [-Wmissing-prototypes]
-      40 | void __init reserve_pmem(void)
-         |             ^~~~~~~~~~~~
+   In file included from arch/arm64/boot/dts/qcom/qcs8300-ride.dts:11:
+>> arch/arm64/boot/dts/qcom/qcs8300.dtsi:6:10: fatal error: dt-bindings/clock/qcom,qcs8300-gcc.h: No such file or directory
+       6 | #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/setup_reserve_pmem +13 arch/arm64/mm/pmem_reserve.c
+vim +6 arch/arm64/boot/dts/qcom/qcs8300.dtsi
 
-    12	
-  > 13	void __init setup_reserve_pmem(u64 start, u64 size)
-    14	{
-    15		if (pmem_res_cnt >= MAX_REGIONS) {
-    16			pr_err("protected memory regions above upper limit %d\n", MAX_REGIONS);
-    17			return;
-    18		}
-    19	
-    20		pmem_res[pmem_res_cnt].start = start;
-    21		pmem_res[pmem_res_cnt].end = start + size - 1;
-    22		pmem_res_cnt++;
-    23	}
-    24	
-  > 25	void __init request_pmem_res_resource(void)
-    26	{
-    27		struct resource *res;
-    28		int i;
-    29	
-    30		for (i = 0; i < pmem_res_cnt; i++) {
-    31			res = &pmem_res[i];
-    32			res->name = "Persistent Memory (legacy)";
-    33			res->flags = IORESOURCE_MEM;
-    34			res->desc = IORES_DESC_PERSISTENT_MEMORY_LEGACY;
-    35			if (res->start && res->end)
-    36				request_resource(&iomem_resource, res);
-    37		}
-    38	}
-    39	
-  > 40	void __init reserve_pmem(void)
+27f221d22e92b6 Jingyi Wang 2024-09-25  @6  #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25   7  #include <dt-bindings/clock/qcom,rpmh.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25   8  #include <dt-bindings/interconnect/qcom,icc.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25   9  #include <dt-bindings/interconnect/qcom,qcs8300-rpmh.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25  10  #include <dt-bindings/interrupt-controller/arm-gic.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25  11  #include <dt-bindings/mailbox/qcom-ipcc.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25  12  #include <dt-bindings/power/qcom,rpmhpd.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25  13  #include <dt-bindings/power/qcom-rpmpd.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25  14  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+27f221d22e92b6 Jingyi Wang 2024-09-25  15  
 
 -- 
 0-DAY CI Kernel Test Service
