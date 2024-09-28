@@ -1,59 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A129613A40C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 21:59:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F6417B428
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 21:59:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727560743; cv=none; b=K29e5MVfLKqh/E+f17u45XRM5IB/WXRvl7OZXnnFDIR66miQ5Qv/wZBv/Cmrt4YMFe2BUl5JZLemgRMovIR5txRJsfZotbtDW8mm6ZLVdYuKOZV3Y4FUYlo0fxC1xOF+Q4RDuNJ8798VeQFfSpH2JcdYRQFleEj5yd26xF5xOD0=
+	t=1727560747; cv=none; b=kPsC18w3TmI+KBx4ZLEbCjxRd24/ta/RZoq5Ic1J41wTkQEj79sxVQXCT5YnzROgdcnERuX6GUekyJDXziUQuCs1r2+IBpKSq9wH0Ir+u40LckpXHSORRVeHzMxLSoxxgzL0Nf2/FIacvM73lCmY91IXR7XWfeRkKsC0uiiW1iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727560743; c=relaxed/simple;
-	bh=idSUVe7gRcQS5NFEB5NLMDiwfYcQW2zQDtkOm3kFOGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=InCbCIvJMHGVRql1fw2Gn9UJ9Xs9vIuj+GTJ9fqXnZuhumwHy1gyn4jZ/QPUK/u2a4ePPUMEh3ape5FFl1tfcX4/OD0A+sPqjRCn4avOxWtshkiRXjLvLMdQDpHh+0MK/0i5cpE/xaApDhhFcGDrsVV8iM4zhVP634yi808Piw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOnh1uV6; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1727560747; c=relaxed/simple;
+	bh=VoenVUM6zRadsqe4jBg41qjc8F7PTNEo9McuOPGYUzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=opMhYmObGLi7Bw/m3l1CtF6BszUQkDghWHvdEOVE1KQKnJ/L41lvrDsI9Pkqn0s32SN32Jd4073HJefA1QrBHNtH6ALKfy6b2fbqFLuUBfOnAfGOXJDJDuGQJBLliy9lDN1Ly1k9VozT82DbRHvlfjDFperwY3btyfEaRcNhq6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6XOUF8s; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOnh1uV6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6XOUF8s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727560742; x=1759096742;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=idSUVe7gRcQS5NFEB5NLMDiwfYcQW2zQDtkOm3kFOGM=;
-  b=jOnh1uV6RQ9/4d1e//ufzPeg/l3xhc1/8mDly0IBcvDeG4jGG6IeLR7o
-   JDtImts+n26aRBNgWodzPcZqr0YKstOgc+Qcu0FBYmJkdt56eJ85jkIJw
-   vvK/vDnduiEdqzELemfItW70ANW4Z50u6Alwl59+4bNtkRkhycSbCdEvw
-   nRd3leBJhmcX3umkMFJy0Iq3kWPe8iBS3Z01Xi9EOrR57XVgol17EHY7Z
-   bWJ5R2oB1H/Qn6JeHjJcEPPWwjfRn41IdUV8j9YnA8KNnPPe0eDszCyoL
-   9yyPvgA9U55qiooS45ED+NZ6t1ddZhXcNLBSrQY30R80GZyJ0q1laFkVE
-   g==;
-X-CSE-ConnectionGUID: S9vKc0C/RweXniNL3P58iA==
-X-CSE-MsgGUID: jS/Sf/XFQa2CWmvIAAe1zQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="37261312"
+  t=1727560744; x=1759096744;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VoenVUM6zRadsqe4jBg41qjc8F7PTNEo9McuOPGYUzE=;
+  b=A6XOUF8sFzT8O7HsFUUV8RncxPIg/eRrzUEtTZiENJyx/DSwVgo0+KIH
+   EfoJrh9eqY7vtP5BbIOhaHHl2Unu/aUr/XA8fON5kBqbFhX2QgvfpMQd6
+   JRzVyxUKrHWqMYfbSGJntMxkQSmWW+iC0tEDitQEonOZJdEJC0NNU9Kad
+   vvQjsR6Bzau7CIhzqr3RYEH2Bukp4M7KleFMNAB2wXXkeBDPabV/uApr7
+   NfyeuYYzjg5zjkHkFqBXYF0cTA6+JlownYGMXN7mvL6XBcXILm3P5YRp8
+   MXg9m29klmu0gtoBZTnf5lE9fZzvwI+KSWYn3qsYjod40HAQnJnAtTLmI
+   A==;
+X-CSE-ConnectionGUID: u8t8Jl0WSrGbeHsMcIqwfg==
+X-CSE-MsgGUID: AWYU3CTvSCWgzhPhl2KyTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="37261323"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="37261312"
+   d="scan'208";a="37261323"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 14:59:01 -0700
-X-CSE-ConnectionGUID: 1o7LwhmyTB+qIPHHT3YR5Q==
-X-CSE-MsgGUID: S9gSklr3S9KBemjWH0obsQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 14:59:03 -0700
+X-CSE-ConnectionGUID: sGZ5C3E5Rf+BvJ7bUFGPCg==
+X-CSE-MsgGUID: 1UCfB+L1T4yh40P48CPOzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="72458894"
+   d="scan'208";a="72458896"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2024 14:59:00 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sufSr-000Ngi-2u;
+	id 1sufSr-000Ngl-2y;
 	Sat, 28 Sep 2024 21:58:57 +0000
-Date: Sun, 29 Sep 2024 05:58:48 +0800
+Date: Sun, 29 Sep 2024 05:58:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jiantao Xiao <xiaojiantao1@h-partners.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 21084/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3_roh.c:79:53: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202409290547.aSbDInhQ-lkp@intel.com>
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Shawn Sung <shawn.sung@mediatek.com>,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	Singo Chang <singo.chang@mediatek.com>,
+	Nancy Lin <nancy.lin@mediatek.com>,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v5 2/2] drm/mediatek: Add blend_modes to mtk_plane_init()
+ for different SoCs
+Message-ID: <202409290726.oaatx2OR-lkp@intel.com>
+References: <20240925101927.17042-3-jason-jh.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,111 +72,181 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240925101927.17042-3-jason-jh.lin@mediatek.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   bef6f06e039b8929481350d15d6d8c3ba81c6fd2
-commit: 0b68f4778af4fded021ba67f5eb3fb74ff8d7fc1 [21084/30000] net: hns3: support arp proxy
-config: arm64-randconfig-r131-20240925 (https://download.01.org/0day-ci/archive/20240929/202409290547.aSbDInhQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240929/202409290547.aSbDInhQ-lkp@intel.com/reproduce)
+Hi Jason-JH.Lin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on linus/master next-20240927]
+[cannot apply to v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/drm-mediatek-ovl-Add-fmt_convert-function-pointer-to-driver-data/20240925-182056
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240925101927.17042-3-jason-jh.lin%40mediatek.com
+patch subject: [PATCH v5 2/2] drm/mediatek: Add blend_modes to mtk_plane_init() for different SoCs
+config: arm-randconfig-002-20240929 (https://download.01.org/0day-ci/archive/20240929/202409290726.oaatx2OR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409290726.oaatx2OR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409290547.aSbDInhQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409290726.oaatx2OR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/hisilicon/hns3/hns3_roh.c:79:53: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] vlan_tci @@     got unsigned short [usertype] vlan_tci @@
-   drivers/net/ethernet/hisilicon/hns3/hns3_roh.c:79:53: sparse:     expected restricted __be16 [usertype] vlan_tci
-   drivers/net/ethernet/hisilicon/hns3/hns3_roh.c:79:53: sparse:     got unsigned short [usertype] vlan_tci
->> drivers/net/ethernet/hisilicon/hns3/hns3_roh.c:128:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [usertype] vlan_tci @@     got restricted __be16 [usertype] vlan_tci @@
-   drivers/net/ethernet/hisilicon/hns3/hns3_roh.c:128:58: sparse:     expected unsigned short [usertype] vlan_tci
-   drivers/net/ethernet/hisilicon/hns3/hns3_roh.c:128:58: sparse:     got restricted __be16 [usertype] vlan_tci
+All errors (new ones prefixed by >>):
 
-vim +79 drivers/net/ethernet/hisilicon/hns3/hns3_roh.c
+   In file included from drivers/gpu/drm/mediatek/mtk_crtc.h:10,
+                    from drivers/gpu/drm/mediatek/mtk_crtc.c:22:
+>> drivers/gpu/drm/mediatek/mtk_ddp_comp.h:83:9: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+      83 |         const u32 (*get_blend_modes)(struct device *dev);
+         |         ^~~~~
+   drivers/gpu/drm/mediatek/mtk_ddp_comp.h:271:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     271 | const u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
+         | ^~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/mediatek/mtk_crtc.h:10,
+                    from drivers/gpu/drm/mediatek/mtk_disp_color.c:13:
+>> drivers/gpu/drm/mediatek/mtk_ddp_comp.h:83:9: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+      83 |         const u32 (*get_blend_modes)(struct device *dev);
+         |         ^~~~~
+   drivers/gpu/drm/mediatek/mtk_ddp_comp.h:271:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     271 | const u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
+         | ^~~~~
+   In file included from drivers/gpu/drm/mediatek/mtk_disp_color.c:15:
+>> drivers/gpu/drm/mediatek/mtk_disp_drv.h:106:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     106 | const u32 mtk_ovl_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:135:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     135 | const u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:170:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     170 | const u32 mtk_mdp_rdma_get_blend_modes(struct device *dev);
+         | ^~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/mediatek/mtk_mdp_rdma.c:15:
+>> drivers/gpu/drm/mediatek/mtk_disp_drv.h:106:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     106 | const u32 mtk_ovl_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:135:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     135 | const u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:170:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     170 | const u32 mtk_mdp_rdma_get_blend_modes(struct device *dev);
+         | ^~~~~
+   In file included from drivers/gpu/drm/mediatek/mtk_drm_drv.h:10,
+                    from drivers/gpu/drm/mediatek/mtk_mdp_rdma.c:16:
+>> drivers/gpu/drm/mediatek/mtk_ddp_comp.h:83:9: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+      83 |         const u32 (*get_blend_modes)(struct device *dev);
+         |         ^~~~~
+   drivers/gpu/drm/mediatek/mtk_ddp_comp.h:271:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     271 | const u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
+         | ^~~~~
+>> drivers/gpu/drm/mediatek/mtk_mdp_rdma.c:236:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     236 | const u32 mtk_mdp_rdma_get_blend_modes(struct device *dev)
+         | ^~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/mediatek/mtk_crtc.h:10,
+                    from drivers/gpu/drm/mediatek/mtk_disp_ovl.c:18:
+>> drivers/gpu/drm/mediatek/mtk_ddp_comp.h:83:9: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+      83 |         const u32 (*get_blend_modes)(struct device *dev);
+         |         ^~~~~
+   drivers/gpu/drm/mediatek/mtk_ddp_comp.h:271:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     271 | const u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
+         | ^~~~~
+   In file included from drivers/gpu/drm/mediatek/mtk_disp_ovl.c:20:
+>> drivers/gpu/drm/mediatek/mtk_disp_drv.h:106:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     106 | const u32 mtk_ovl_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:135:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     135 | const u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:170:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     170 | const u32 mtk_mdp_rdma_get_blend_modes(struct device *dev);
+         | ^~~~~
+>> drivers/gpu/drm/mediatek/mtk_disp_ovl.c:219:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     219 | const u32 mtk_ovl_get_blend_modes(struct device *dev)
+         | ^~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:20:
+>> drivers/gpu/drm/mediatek/mtk_ddp_comp.h:83:9: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+      83 |         const u32 (*get_blend_modes)(struct device *dev);
+         |         ^~~~~
+   drivers/gpu/drm/mediatek/mtk_ddp_comp.h:271:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     271 | const u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
+         | ^~~~~
+   In file included from drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:21:
+>> drivers/gpu/drm/mediatek/mtk_disp_drv.h:106:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     106 | const u32 mtk_ovl_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:135:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     135 | const u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
+         | ^~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_drv.h:170:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     170 | const u32 mtk_mdp_rdma_get_blend_modes(struct device *dev);
+         | ^~~~~
+>> drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:403:1: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
+     403 | const u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev)
+         | ^~~~~
+   cc1: all warnings being treated as errors
 
-    56	
-    57	int hns3_handle_roh_arp_req(struct sk_buff *skb, struct hns3_nic_priv *priv)
-    58	{
-    59		struct hnae3_handle *h = priv->ae_handle;
-    60		struct hns3_enet_ring *ring;
-    61		struct arphdr *arphdr;
-    62		struct ethhdr *ethhdr;
-    63		int reply_idx, len;
-    64		__be32 *sip, *tip;
-    65	
-    66		/* use same queue num in rx */
-    67		ring = &priv->ring[skb->queue_mapping + h->kinfo.num_tqps];
-    68		reply_idx = ring->arp_reply_tail;
-    69		hns3_roh_arp_reply_idx_move_fd(reply_idx);
-    70		/* This smp_load_acquire() pairs with smp_store_release() in
-    71		 * hns3_handle_roh_arp_reply().
-    72		 */
-    73		if (reply_idx == smp_load_acquire(&ring->arp_reply_head))
-    74			return NETDEV_TX_BUSY;
-    75		len = skb->len;
-    76	
-    77		if (skb_vlan_tagged(skb)) {
-    78			ring->arp_reply[reply_idx].has_vlan = true;
-  > 79			ring->arp_reply[reply_idx].vlan_tci = skb_vlan_tag_get(skb);
-    80			skb_vlan_pop(skb);
-    81			len += VLAN_HLEN;
-    82		} else {
-    83			ring->arp_reply[reply_idx].has_vlan = false;
-    84		}
-    85	
-    86		ethhdr = eth_hdr(skb);
-    87		arphdr = arp_hdr(skb);
-    88	
-    89		hns3_extract_arp_ip_field(arphdr, &sip, &tip, skb->dev->addr_len);
-    90		ether_addr_copy(ring->arp_reply[reply_idx].dest_hw, ethhdr->h_source);
-    91		ether_addr_copy(ring->arp_reply[reply_idx].src_hw, ethhdr->h_dest);
-    92		ring->arp_reply[reply_idx].dest_ip = *sip;
-    93		ring->arp_reply[reply_idx].src_ip = *tip;
-    94		hns3_roh_update_mac_by_ip(be32_to_cpu(*tip),
-    95					  ring->arp_reply[reply_idx].src_hw);
-    96		/* This smp_store_release() pairs with smp_load_acquire() in
-    97		 * hns3_handle_roh_arp_reply(). Ensure that the arp_reply_tail is
-    98		 * update validly.
-    99		 */
-   100		smp_store_release(&ring->arp_reply_tail, reply_idx);
-   101	
-   102		ring = &priv->ring[skb->queue_mapping];
-   103		u64_stats_update_begin(&ring->syncp);
-   104		ring->stats.tx_pkts++;
-   105		ring->stats.tx_bytes += len;
-   106		u64_stats_update_end(&ring->syncp);
-   107	
-   108		dev_kfree_skb_any(skb);
-   109		napi_schedule(&ring->tqp_vector->napi);
-   110		return NETDEV_TX_OK;
-   111	}
-   112	
-   113	static struct sk_buff *setup_arp_reply_skb(struct hns3_arp_reply *arp_reply,
-   114						   struct hns3_nic_priv *priv)
-   115	{
-   116		struct sk_buff *skb = arp_create(ARPOP_REPLY, ETH_P_ARP,
-   117						 arp_reply->dest_ip, priv->netdev,
-   118						 arp_reply->src_ip, arp_reply->dest_hw,
-   119						 arp_reply->src_hw, arp_reply->dest_hw);
-   120		if (!skb)
-   121			return NULL;
-   122	
-   123		skb_reset_mac_header(skb);
-   124		skb_reset_mac_len(skb);
-   125	
-   126		if (arp_reply->has_vlan) {
-   127			skb = vlan_insert_tag_set_proto(skb, htons(ETH_P_8021Q),
- > 128							arp_reply->vlan_tci);
-   129			if (!skb)
-   130				return NULL;
-   131			skb_reset_network_header(skb);
-   132		}
-   133	
-   134		skb_reserve(skb, skb->mac_len);
-   135		return skb;
-   136	}
-   137	
+
+vim +83 drivers/gpu/drm/mediatek/mtk_ddp_comp.h
+
+    48	
+    49	struct mtk_ddp_comp;
+    50	struct cmdq_pkt;
+    51	struct mtk_ddp_comp_funcs {
+    52		int (*power_on)(struct device *dev);
+    53		void (*power_off)(struct device *dev);
+    54		int (*clk_enable)(struct device *dev);
+    55		void (*clk_disable)(struct device *dev);
+    56		void (*config)(struct device *dev, unsigned int w,
+    57			       unsigned int h, unsigned int vrefresh,
+    58			       unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+    59		void (*start)(struct device *dev);
+    60		void (*stop)(struct device *dev);
+    61		void (*register_vblank_cb)(struct device *dev,
+    62					   void (*vblank_cb)(void *),
+    63					   void *vblank_cb_data);
+    64		void (*unregister_vblank_cb)(struct device *dev);
+    65		void (*enable_vblank)(struct device *dev);
+    66		void (*disable_vblank)(struct device *dev);
+    67		unsigned int (*supported_rotations)(struct device *dev);
+    68		unsigned int (*layer_nr)(struct device *dev);
+    69		int (*layer_check)(struct device *dev,
+    70				   unsigned int idx,
+    71				   struct mtk_plane_state *state);
+    72		void (*layer_config)(struct device *dev, unsigned int idx,
+    73				     struct mtk_plane_state *state,
+    74				     struct cmdq_pkt *cmdq_pkt);
+    75		unsigned int (*gamma_get_lut_size)(struct device *dev);
+    76		void (*gamma_set)(struct device *dev,
+    77				  struct drm_crtc_state *state);
+    78		void (*bgclr_in_on)(struct device *dev);
+    79		void (*bgclr_in_off)(struct device *dev);
+    80		void (*ctm_set)(struct device *dev,
+    81				struct drm_crtc_state *state);
+    82		struct device * (*dma_dev_get)(struct device *dev);
+  > 83		const u32 (*get_blend_modes)(struct device *dev);
+    84		const u32 *(*get_formats)(struct device *dev);
+    85		size_t (*get_num_formats)(struct device *dev);
+    86		void (*connect)(struct device *dev, struct device *mmsys_dev, unsigned int next);
+    87		void (*disconnect)(struct device *dev, struct device *mmsys_dev, unsigned int next);
+    88		void (*add)(struct device *dev, struct mtk_mutex *mutex);
+    89		void (*remove)(struct device *dev, struct mtk_mutex *mutex);
+    90		unsigned int (*encoder_index)(struct device *dev);
+    91		enum drm_mode_status (*mode_valid)(struct device *dev, const struct drm_display_mode *mode);
+    92	};
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
