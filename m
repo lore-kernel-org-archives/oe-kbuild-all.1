@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AFC2B9C4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Sep 2024 06:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FA019DF94;
+	Sat, 28 Sep 2024 06:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727505725; cv=none; b=cHgbjRfpGJ6V71M0sC/R2HVoF3aOgybJZxV7ipUEtriWDuXxL1rkjGpPD96vEm+76XAUK1XvzSAu7F9lYl6hJKrii2dRcHm1O43hhnpSQhUrQeFP7m5Fp3KHd7E5dXi4uLsYVHdJ9N6ywKVpOwIa/gp4jZLf5Ldpt9OCSPtXwcQ=
+	t=1727505726; cv=none; b=BJfnn7mFsO/KlJD91PDMFtaE5Hi/26KA6FMJH2ylRiqZKPpOIIGN6kAr0UThjSkeVP97ievdea2Gvq2O6kWFSxI4C65UQcxMZt6QMtCiNSHD2kFDViRwkvlSBTS7DByaRTBD+g26mPwytxUKpz7hVDCFJACXBiNI60OXmkmApeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727505725; c=relaxed/simple;
-	bh=o4+AVdFT1dClL8G93ADFW5HlVETjlKg8/xxLbYVxRhA=;
+	s=arc-20240116; t=1727505726; c=relaxed/simple;
+	bh=Bylns5n1fT35ZTeSGxrZH4yYoCqvVI13kz3gcZYN3p0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e0XWGoX6mN2zC/bS3bwI+QaXfdadwJbpZPit5O/nHV9EDFnd4/LgaCUGjb0MvcX95o0QtoWhPspaY8AYnpY5yrCaUYK4abI0X72v3oDDSHf3z43eLzJ08KWWstujSYtwv9VUVf1jmGStIoTSPvaZs2OXKOGeKneabNBWwDxVSn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYQU8wUE; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=RRR6T2mAvQqvANuonjLpe7Hys4EWqagHTQBUHQscpb24aiO9L+CM7vNjID0/eZxOFikePIE6IpnY9pmMAgM5MK7hgfENUDuaPQfNJm43OxJpI9DQP2hE2frxjsbXxQiDP1aCmZmwteUJAzbpS3TUOhCI4h8PUWkofDtWtn6ewY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUVz5GX3; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYQU8wUE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUVz5GX3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727505724; x=1759041724;
+  t=1727505725; x=1759041725;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o4+AVdFT1dClL8G93ADFW5HlVETjlKg8/xxLbYVxRhA=;
-  b=BYQU8wUEOIvfWppYFJwvLyi//sk2NOIkFlbIe5x8Byh0CRwMva9fS2hx
-   Z0t5KLFU844SuKW1+1hO0qhzGK6bWohZmiySqJdADFyygBTFafWE53qPS
-   GraUg7jmesTyAMwyvG+GOQa5/A1jI4aUGSndlo7Mqg0uJDARIWuXiwp8B
-   2uYFCH5EOe5tKdQkXHfOK9TUIVK8bA4m3bpC9pRQWt70mWchRzdTj1EEp
-   XwgG0GEEnORV6pi3rHL00IeqysF09JBfybZCCxpX0U/3cif9RaJ7byDpN
-   qxYcvP2kPWUc7b8kv2qGG/qXR/D49NcX4GIB3XooABBYC3eRub747d1NO
-   A==;
-X-CSE-ConnectionGUID: r/2ozoU/TjKox7t1raDZQw==
-X-CSE-MsgGUID: RAxKw3KKTdqbDgAfUFbwdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26604303"
+  bh=Bylns5n1fT35ZTeSGxrZH4yYoCqvVI13kz3gcZYN3p0=;
+  b=lUVz5GX3grj78xKUHRhP/KZwHeiaxNRFHCRkrp0KapAo0nu4epZxpe7L
+   L47oGMsn7OMsWzMnhUUxOLpxbGLHqlWeyFS+qH57XqapFqLU0Pb8qxR2a
+   meakGqmpIwHjGMS1wt75DaE6BuEcmav8ueRB67DmS5q+Ol3EPFw8rx5DP
+   aHeBU7wYkngkHCr3+Fkz3uCXO4Yl+BQcP7fy8oYVS0ILloMtZzgRJOk1D
+   KvWaciYWW/BkcWfjAmZNznqouR+Sqn1OATc4Slw+2bzHsqLWOHpCWJxPI
+   pAAHlRGJyqKOEQHaobwbmr0kq0RQ1tq4kPHHu2+vgoEpQYzzdfIeuvMH0
+   Q==;
+X-CSE-ConnectionGUID: KgpJiMk8TzKBikzhggfnew==
+X-CSE-MsgGUID: BWMjzyCtR0SFelzTjhzCow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="37329242"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26604303"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 23:42:03 -0700
-X-CSE-ConnectionGUID: OWaUMHNLSNOtLrkyIhTydg==
-X-CSE-MsgGUID: I+zsTO3rREaUcy+UECg/hg==
+   d="scan'208";a="37329242"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 23:42:03 -0700
+X-CSE-ConnectionGUID: 40xkr53TQdKVpHtd7xOhOg==
+X-CSE-MsgGUID: uysA6x4eRIy6MsVbzAeYPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="72729466"
+   d="scan'208";a="72818521"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Sep 2024 23:42:02 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Sep 2024 23:42:02 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suR9T-000Myj-1a;
+	id 1suR9T-000Myh-1W;
 	Sat, 28 Sep 2024 06:41:59 +0000
-Date: Sat, 28 Sep 2024 14:41:21 +0800
+Date: Sat, 28 Sep 2024 14:41:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18200/23799] mm/share_pool.c:1043:9:
- error: implicit declaration of function 'sysctl_compaction_handler'; did you
- mean 'sysctl_memcg_qos_handler'?
-Message-ID: <202409281442.EoXjS7UC-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:x86/ibt 6/10] arch/x86/kernel/traps.c:328:7: error:
+ call to undeclared function '__do_kernel_cp_fault'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202409281458.omMmG4EU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +63,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhou,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3841d75a6dcd12d108aaf56560b99431d18169e4
-commit: d45b33b72c530e64219ad997947a33f6e07d339c [18200/23799] share pool: Try to compact when memory is insufficient
-config: arm64-randconfig-003-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281442.EoXjS7UC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281442.EoXjS7UC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/ibt
+head:   4e155f6fbba48ed677042026d7732c6256ffa166
+commit: 5bb9d6530a561f5bec514a4be368cb7c2e36a507 [6/10] x86/traps: Prepare for ENDBR poison UD1 usage
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240928/202409281458.omMmG4EU-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281458.omMmG4EU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409281442.EoXjS7UC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409281458.omMmG4EU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/share_pool.c: In function 'sp_compact_nodes':
->> mm/share_pool.c:1043:9: error: implicit declaration of function 'sysctl_compaction_handler'; did you mean 'sysctl_memcg_qos_handler'? [-Werror=implicit-function-declaration]
-    1043 |         sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         sysctl_memcg_qos_handler
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:1772:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    1772 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:1772:21: error: invalid initializer
-   mm/share_pool.c: In function 'sharepool_no_page':
-   mm/share_pool.c:2524:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    2524 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
-   mm/share_pool.c:2537:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    2537 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
-   mm/share_pool.c:2559:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    2559 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
-   mm/share_pool.c:2561:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    2561 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   mm/share_pool.c: In function 'sp_alloc_pages':
-   mm/share_pool.c:2597:24: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-    2597 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        vmalloc_hugepage
-   mm/share_pool.c:2597:61: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-    2597 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                                                             ^~~~~~~~~~~~~~~~~~
-         |                                                             HUGETLB_ANON_FILE
-   mm/share_pool.c:2597:61: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:2600:1: warning: control reaches end of non-void function [-Wreturn-type]
-    2600 | }
-         | ^
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:2482:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    2482 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   mm/share_pool.c:2363:12: warning: 'proc_stat_show' defined but not used [-Wunused-function]
-    2363 | static int proc_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> arch/x86/kernel/traps.c:328:7: error: call to undeclared function '__do_kernel_cp_fault'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     328 |                 if (__do_kernel_cp_fault(regs)) {
+         |                     ^
+   1 error generated.
 
 
-vim +1043 mm/share_pool.c
+vim +/__do_kernel_cp_fault +328 arch/x86/kernel/traps.c
 
-  1039	
-  1040	static unsigned long last_jiffies;
-  1041	static void sp_compact_nodes(struct work_struct *work)
-  1042	{
-> 1043		sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-  1044	
-  1045		kfree(work);
-  1046	}
-  1047	
+   282	
+   283	static noinstr bool handle_bug(struct pt_regs *regs)
+   284	{
+   285		bool handled = false;
+   286		int ud_type, ud_len;
+   287		s32 ud_imm;
+   288	
+   289		/*
+   290		 * Normally @regs are unpoisoned by irqentry_enter(), but handle_bug()
+   291		 * is a rare case that uses @regs without passing them to
+   292		 * irqentry_enter().
+   293		 */
+   294		kmsan_unpoison_entry_regs(regs);
+   295		ud_type = decode_bug(regs->ip, &ud_imm, &ud_len);
+   296		if (ud_type == BUG_NONE)
+   297			return handled;
+   298	
+   299		/*
+   300		 * All lies, just get the WARN/BUG out.
+   301		 */
+   302		instrumentation_begin();
+   303		/*
+   304		 * Since we're emulating a CALL with exceptions, restore the interrupt
+   305		 * state to what it was at the exception site.
+   306		 */
+   307		if (regs->flags & X86_EFLAGS_IF)
+   308			raw_local_irq_enable();
+   309	
+   310		switch (ud_type) {
+   311		case BUG_UD2:
+   312			if (report_bug(regs->ip, regs) == BUG_TRAP_TYPE_WARN ||
+   313			    handle_cfi_failure(regs) == BUG_TRAP_TYPE_WARN) {
+   314				regs->ip += ud_len;
+   315				handled = true;
+   316			}
+   317			break;
+   318	
+   319		case BUG_UD1_UBSAN:
+   320			if (IS_ENABLED(CONFIG_UBSAN_TRAP)) {
+   321				pr_crit("%s at %pS\n",
+   322					report_ubsan_failure(regs, ud_imm),
+   323					(void *)regs->ip);
+   324			}
+   325			break;
+   326	
+   327		case BUG_UD1_ENDBR:
+ > 328			if (__do_kernel_cp_fault(regs)) {
+   329				regs->ip += ud_len;
+   330				handled = true;
+   331			}
+   332			break;
+   333	
+   334		default:
+   335			break;
+   336		}
+   337	
+   338		if (regs->flags & X86_EFLAGS_IF)
+   339			raw_local_irq_disable();
+   340		instrumentation_end();
+   341	
+   342		return handled;
+   343	}
+   344	
 
 -- 
 0-DAY CI Kernel Test Service
