@@ -1,130 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6EB101C8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 16:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3918B224F0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 16:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727625698; cv=none; b=Uu05pwY9/ID92sKZ0oiYnStYGuy/70699KwvB1GCvEKT31OcGSk8osWWRybg3DDR+SSAkxWIIlFCRTkiSc90dW2aiMrnIzIrsXMd5JMVxuSqDDUWCJa5w/44Jp+Rkae9JvEZIec/BQcps7RNGzuwnCTgksG6h7l4Nex3phyJYEU=
+	t=1727628164; cv=none; b=Yr80wgYuF44sat0B9dNe+Zp2bZTFUKzp/utBLKOeANBvPQYT/azzfjjOfNjw+QeQmYoUsUzwXZbkI9rplbFQtWywdzsv5+sKHNJTYqNJy7m36rTLeT9lcwqAbU+g2GUDZr3JhgNENsIaWwlJZU4k7rDuZ7Zv18mlcYLAnf5Bq6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727625698; c=relaxed/simple;
-	bh=hKqaFZhqUuvJIeVTsLp1gxFr9L1cwBHFxNJ+euEDmUQ=;
+	s=arc-20240116; t=1727628164; c=relaxed/simple;
+	bh=13CCw1YGr4dfNCeCRd4tN5uCAlTXv87NeP+SOqiJH0M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=osnEiR8pGHtUgtQWjNCNopUk6KILoznuykrPkZ5q+LwLqzg1xlBymMVKsMj8ZXWoGU/hichWNlfYKv25QAwrQMD3sgIxenUITdvXCCvHjixLxnm0Np467m/xI78VFLiM+UylZH2IHB1OWMQnE/9MaynMEyd9BTNBL357Brtbj34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eG9aNSgN; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=SG4K4W6pP4R7EjBcbesGPBGUnIqdk58ubVPpH4gNoQRG+ysIChC32dX3ZTHypRY1zZ2iC8x8YwAmF+U1mrSYeQ5ikrbYN9ehSRzCfrMayaP08ZbQpowTLCpCl23jqZMER7fkFmsHdVIJEnyKcpxd54fAE7p/IUAu4tnHRZOzh+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/uIW8b1; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eG9aNSgN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/uIW8b1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727625697; x=1759161697;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hKqaFZhqUuvJIeVTsLp1gxFr9L1cwBHFxNJ+euEDmUQ=;
-  b=eG9aNSgNWhsaQcl35INiJcV52xGZg9X1f0ruqLn+LJ8MYpUuBPD4Poy6
-   qCaGfEviJ9NOfYjAWHaJnPI/8C/fKUNRUQ06eyenvuf7sUJHWa2OxYvvb
-   huDGU9Gqq6EtbZrWkZTYdROLjPxhXlDCLo52UL5urU/D3JrAZiaR6hbJa
-   /mrERZ4sVPLEFmt8FJA6KpsfnIAPl38n/jOgC0qXpmhEgs+uBVBMneX3o
-   PnC5zQ0svpxztaxhU7trFN6AqukvnmCWNqUDM4USuV/76aHmKndW13uIV
-   tRDhENMu3sHkkNTmRwOsWc6ESsB+4YjDooKKZrRhABwRiyUiaBs7Q1skc
-   g==;
-X-CSE-ConnectionGUID: dIk5pAYEQK2O+iU4vusr0w==
-X-CSE-MsgGUID: 3lsh52ciSuOVDsiV0uzljw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26807522"
+  t=1727628161; x=1759164161;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=13CCw1YGr4dfNCeCRd4tN5uCAlTXv87NeP+SOqiJH0M=;
+  b=N/uIW8b1FpbXiXEcjkfVOsBce3AvxOkGmsg9Y8pAMStk6+v09fIbejOw
+   39i5iCfIJRvdvlc/onq9w6ccJFLWgYH6ayMRypI2aFK9pwtKtWUSStZGW
+   aBADE4uJI5jdKuBTGSr4U6VAfBJhwPy+kCl0vDL/IjHPq1i4CRW9istaN
+   fW+t6Lw/jNl8PE+Ww+XfDwQDjgCoEF7wMWzOQdf9wCozlPBYnNwA6FfPI
+   Ce6+yKN/iYRiZZruXzpBgfRqF9G1jQSO/9pE8BMBNLm9WcntZKIMtdQLV
+   RNGIEg7VckSp99Maa+FljXnI2BXc/ScaUJOUFr7j5NhsQwirqENn+/Wzj
+   A==;
+X-CSE-ConnectionGUID: kzXmLiUwQMqMecAhei4CPg==
+X-CSE-MsgGUID: Ecz0xEEuQFGCzFZ3mC4RRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26591715"
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="26807522"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 09:01:36 -0700
-X-CSE-ConnectionGUID: bEgnRxa3SAiNdiS6qeof1w==
-X-CSE-MsgGUID: DS2NpUcmTvKhHijZsDh8yg==
+   d="scan'208";a="26591715"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 09:42:41 -0700
+X-CSE-ConnectionGUID: iwqrSg0aQvOqmsqr48+NIg==
+X-CSE-MsgGUID: KZIgsf8PRC+3eLKWXdvM1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="72628802"
+   d="scan'208";a="72923221"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Sep 2024 09:01:34 -0700
+  by orviesa010.jf.intel.com with ESMTP; 29 Sep 2024 09:42:40 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suwMW-000OPb-0i;
-	Sun, 29 Sep 2024 16:01:32 +0000
-Date: Mon, 30 Sep 2024 00:01:02 +0800
+	id 1sux0H-000OTH-0P;
+	Sun, 29 Sep 2024 16:42:37 +0000
+Date: Mon, 30 Sep 2024 00:42:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-error-cleanup-2024-09-25 52/68]
- sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c:65:30: warning:
- unused variable 'card'
-Message-ID: <202409292340.8ncHg5Cb-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 3741/16788]
+ drivers/mtd/spi-nor/macronix.c:50: warning: expecting prototype for
+ spi_nor_macronix_octal_dtr_enable(). Prototype was for
+ spi_nor_macronix_set_octal_dtr() instead
+Message-ID: <202409300029.fxXgsWxE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-25
-head:   bacff4357282f2214245fbe247ea5bda645fa045
-commit: 979669a4a46d8e171b8e126793457c5bd5096202 [52/68] ASoC: mediatek: don't indicate duplicate error message
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240929/202409292340.8ncHg5Cb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409292340.8ncHg5Cb-lkp@intel.com/reproduce)
+Hi Han,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ac32ba5fe66266329914d2020570364afe217bec
+commit: 1bf849437a44122ddac30714bcbf9d0e70feec42 [3741/16788] LF-9906 spi-nor: macronix: fix the macronix octal dtr function
+config: i386-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240930/202409300029.fxXgsWxE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300029.fxXgsWxE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409292340.8ncHg5Cb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409300029.fxXgsWxE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c: In function 'mt8192_rt1015_i2s_hw_params':
->> sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c:65:30: warning: unused variable 'card' [-Wunused-variable]
-      65 |         struct snd_soc_card *card = rtd->card;
-         |                              ^~~~
+>> drivers/mtd/spi-nor/macronix.c:50: warning: expecting prototype for spi_nor_macronix_octal_dtr_enable(). Prototype was for spi_nor_macronix_set_octal_dtr() instead
 
 
-vim +/card +65 sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
+vim +50 drivers/mtd/spi-nor/macronix.c
 
-194ff8db03782d Nícolas F. R. A. Prado 2022-09-22  60  
-18b13ff23fab34 Jiaxin Yu              2020-11-03  61  static int mt8192_rt1015_i2s_hw_params(struct snd_pcm_substream *substream,
-18b13ff23fab34 Jiaxin Yu              2020-11-03  62  				       struct snd_pcm_hw_params *params)
-18b13ff23fab34 Jiaxin Yu              2020-11-03  63  {
-de9e70137f0068 Kuninori Morimoto      2023-09-26  64  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-18b13ff23fab34 Jiaxin Yu              2020-11-03 @65  	struct snd_soc_card *card = rtd->card;
-de9e70137f0068 Kuninori Morimoto      2023-09-26  66  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-18b13ff23fab34 Jiaxin Yu              2020-11-03  67  	struct snd_soc_dai *codec_dai;
-18b13ff23fab34 Jiaxin Yu              2020-11-03  68  	unsigned int rate = params_rate(params);
-18b13ff23fab34 Jiaxin Yu              2020-11-03  69  	unsigned int mclk_fs_ratio = 128;
-18b13ff23fab34 Jiaxin Yu              2020-11-03  70  	unsigned int mclk_fs = rate * mclk_fs_ratio;
-18b13ff23fab34 Jiaxin Yu              2020-11-03  71  	int ret, i;
-18b13ff23fab34 Jiaxin Yu              2020-11-03  72  
-18b13ff23fab34 Jiaxin Yu              2020-11-03  73  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-18b13ff23fab34 Jiaxin Yu              2020-11-03  74  		ret = snd_soc_dai_set_pll(codec_dai, 0,
-18b13ff23fab34 Jiaxin Yu              2020-11-03  75  					  RT1015_PLL_S_BCLK,
-18b13ff23fab34 Jiaxin Yu              2020-11-03  76  					  params_rate(params) * 64,
-18b13ff23fab34 Jiaxin Yu              2020-11-03  77  					  params_rate(params) * 256);
-979669a4a46d8e Kuninori Morimoto      2024-09-11  78  		if (ret)
-18b13ff23fab34 Jiaxin Yu              2020-11-03  79  			return ret;
-18b13ff23fab34 Jiaxin Yu              2020-11-03  80  
-18b13ff23fab34 Jiaxin Yu              2020-11-03  81  		ret = snd_soc_dai_set_sysclk(codec_dai,
-18b13ff23fab34 Jiaxin Yu              2020-11-03  82  					     RT1015_SCLK_S_PLL,
-18b13ff23fab34 Jiaxin Yu              2020-11-03  83  					     params_rate(params) * 256,
-18b13ff23fab34 Jiaxin Yu              2020-11-03  84  					     SND_SOC_CLOCK_IN);
-979669a4a46d8e Kuninori Morimoto      2024-09-11  85  		if (ret)
-18b13ff23fab34 Jiaxin Yu              2020-11-03  86  			return ret;
-18b13ff23fab34 Jiaxin Yu              2020-11-03  87  	}
-18b13ff23fab34 Jiaxin Yu              2020-11-03  88  
-18b13ff23fab34 Jiaxin Yu              2020-11-03  89  	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_fs, SND_SOC_CLOCK_OUT);
-18b13ff23fab34 Jiaxin Yu              2020-11-03  90  }
-18b13ff23fab34 Jiaxin Yu              2020-11-03  91  
+10526d85e4c6cb Boris Brezillon 2020-03-13   41  
+4914f17cd6de25 Haibo Chen      2021-06-04   42  /**
+4914f17cd6de25 Haibo Chen      2021-06-04   43   * spi_nor_macronix_octal_dtr_enable() - Enable octal DTR on Macronix flashes.
+4914f17cd6de25 Haibo Chen      2021-06-04   44   * @nor:		pointer to a 'struct spi_nor'
+4914f17cd6de25 Haibo Chen      2021-06-04   45   * @enable:		whether to enable Octal DTR or switch back to SPI
+4914f17cd6de25 Haibo Chen      2021-06-04   46   *
+4914f17cd6de25 Haibo Chen      2021-06-04   47   * Return: 0 on success, -errno otherwise.
+4914f17cd6de25 Haibo Chen      2021-06-04   48   */
+1bf849437a4412 Han Xu          2023-08-22   49  static int spi_nor_macronix_set_octal_dtr(struct spi_nor *nor, bool enable)
+4914f17cd6de25 Haibo Chen      2021-06-04  @50  {
+4914f17cd6de25 Haibo Chen      2021-06-04   51  	struct spi_mem_op op;
+4914f17cd6de25 Haibo Chen      2021-06-04   52  	u8 *buf = nor->bouncebuf, i;
+4914f17cd6de25 Haibo Chen      2021-06-04   53  	int ret;
+4914f17cd6de25 Haibo Chen      2021-06-04   54  
+4914f17cd6de25 Haibo Chen      2021-06-04   55  	/* Set/unset the octal and DTR enable bits. */
+4914f17cd6de25 Haibo Chen      2021-06-04   56  	ret = spi_nor_write_enable(nor);
+4914f17cd6de25 Haibo Chen      2021-06-04   57  	if (ret)
+4914f17cd6de25 Haibo Chen      2021-06-04   58  		return ret;
+4914f17cd6de25 Haibo Chen      2021-06-04   59  
+4914f17cd6de25 Haibo Chen      2021-06-04   60  	if (enable) {
+4914f17cd6de25 Haibo Chen      2021-06-04   61  		buf[0] = SPINOR_REG_MXIC_OPI_DTR_EN;
+4914f17cd6de25 Haibo Chen      2021-06-04   62  	} else {
+4914f17cd6de25 Haibo Chen      2021-06-04   63  		/*
+4914f17cd6de25 Haibo Chen      2021-06-04   64  		 * The register is 1-byte wide, but 1-byte transactions are not
+4914f17cd6de25 Haibo Chen      2021-06-04   65  		 * allowed in 8D-8D-8D mode. Since there is no register at the
+4914f17cd6de25 Haibo Chen      2021-06-04   66  		 * next location, just initialize the value to 0 and let the
+4914f17cd6de25 Haibo Chen      2021-06-04   67  		 * transaction go on.
+4914f17cd6de25 Haibo Chen      2021-06-04   68  		 */
+4914f17cd6de25 Haibo Chen      2021-06-04   69  		buf[0] = SPINOR_REG_MXIC_SPI_EN;
+4914f17cd6de25 Haibo Chen      2021-06-04   70  		buf[1] = 0x0;
+4914f17cd6de25 Haibo Chen      2021-06-04   71  	}
+4914f17cd6de25 Haibo Chen      2021-06-04   72  
+4914f17cd6de25 Haibo Chen      2021-06-04   73  	op = (struct spi_mem_op)
+4914f17cd6de25 Haibo Chen      2021-06-04   74  		SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_WR_CR2, 1),
+4914f17cd6de25 Haibo Chen      2021-06-04   75  			   SPI_MEM_OP_ADDR(4, SPINOR_REG_MXIC_CR2_MODE, 1),
+4914f17cd6de25 Haibo Chen      2021-06-04   76  			   SPI_MEM_OP_NO_DUMMY,
+4914f17cd6de25 Haibo Chen      2021-06-04   77  			   SPI_MEM_OP_DATA_OUT(enable ? 1 : 2, buf, 1));
+4914f17cd6de25 Haibo Chen      2021-06-04   78  
+4914f17cd6de25 Haibo Chen      2021-06-04   79  	if (!enable)
+4914f17cd6de25 Haibo Chen      2021-06-04   80  		spi_nor_spimem_setup_op(nor, &op, SNOR_PROTO_8_8_8_DTR);
+4914f17cd6de25 Haibo Chen      2021-06-04   81  
+4914f17cd6de25 Haibo Chen      2021-06-04   82  	ret = spi_mem_exec_op(nor->spimem, &op);
+4914f17cd6de25 Haibo Chen      2021-06-04   83  	if (ret)
+4914f17cd6de25 Haibo Chen      2021-06-04   84  		return ret;
+4914f17cd6de25 Haibo Chen      2021-06-04   85  
+4914f17cd6de25 Haibo Chen      2021-06-04   86  	/* Read flash ID to make sure the switch was successful. */
+4914f17cd6de25 Haibo Chen      2021-06-04   87  	op = (struct spi_mem_op)
+4914f17cd6de25 Haibo Chen      2021-06-04   88  		SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_RDID, 1),
+4914f17cd6de25 Haibo Chen      2021-06-04   89  			   SPI_MEM_OP_ADDR(enable ? 4 : 0, 0, 1),
+4914f17cd6de25 Haibo Chen      2021-06-04   90  			   SPI_MEM_OP_DUMMY(enable ? 4 : 0, 1),
+4914f17cd6de25 Haibo Chen      2021-06-04   91  			   SPI_MEM_OP_DATA_IN(SPI_NOR_MAX_ID_LEN, buf, 1));
+4914f17cd6de25 Haibo Chen      2021-06-04   92  
+4914f17cd6de25 Haibo Chen      2021-06-04   93  	if (enable)
+4914f17cd6de25 Haibo Chen      2021-06-04   94  		spi_nor_spimem_setup_op(nor, &op, SNOR_PROTO_8_8_8_DTR);
+4914f17cd6de25 Haibo Chen      2021-06-04   95  
+4914f17cd6de25 Haibo Chen      2021-06-04   96  	ret = spi_mem_exec_op(nor->spimem, &op);
+4914f17cd6de25 Haibo Chen      2021-06-04   97  	if (ret)
+4914f17cd6de25 Haibo Chen      2021-06-04   98  		return ret;
+4914f17cd6de25 Haibo Chen      2021-06-04   99  
+4914f17cd6de25 Haibo Chen      2021-06-04  100  	if (enable) {
+4914f17cd6de25 Haibo Chen      2021-06-04  101  		for (i = 0; i < nor->info->id_len; i++)
+4914f17cd6de25 Haibo Chen      2021-06-04  102  			if (buf[i * 2] != nor->info->id[i])
+4914f17cd6de25 Haibo Chen      2021-06-04  103  				return -EINVAL;
+4914f17cd6de25 Haibo Chen      2021-06-04  104  	} else {
+4914f17cd6de25 Haibo Chen      2021-06-04  105  		if (memcmp(buf, nor->info->id, nor->info->id_len))
+4914f17cd6de25 Haibo Chen      2021-06-04  106  			return -EINVAL;
+4914f17cd6de25 Haibo Chen      2021-06-04  107  	}
+4914f17cd6de25 Haibo Chen      2021-06-04  108  
+4914f17cd6de25 Haibo Chen      2021-06-04  109  	return 0;
+4914f17cd6de25 Haibo Chen      2021-06-04  110  }
+4914f17cd6de25 Haibo Chen      2021-06-04  111  
 
-:::::: The code at line 65 was first introduced by commit
-:::::: 18b13ff23fab34a9d35cec60ed19aceab61dc3f9 ASoC: mediatek: mt8192: add machine driver with mt6359, rt1015 and rt5682
+:::::: The code at line 50 was first introduced by commit
+:::::: 4914f17cd6de259793e4a2c27061c147331571d0 mtd: spi-nor: macronix: add support for Macronix octaflash
 
-:::::: TO: Jiaxin Yu <jiaxin.yu@mediatek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Haibo Chen <haibo.chen@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
