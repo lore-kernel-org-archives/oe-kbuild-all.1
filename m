@@ -1,138 +1,111 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C9134AB;
-	Sun, 29 Sep 2024 02:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D971CAA4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 02:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727577143; cv=none; b=KAmAdcYemvD1DxfsBXRXZ+PPtfIrzv6yJ80U/0yK7rZTlNtwFdTKR+4ptDlj8blkhgUpLk0xDZc7PA0b1XORn0/uD9saBKDsLoKkzrxRKBZtcF1Er/YWjy46q3TPjVrwaTAgW2xX0HmJfWiCTNdd2WTzyPyVvinYziZwOyvho2I=
+	t=1727577734; cv=none; b=smVCHwvOWc25hH5do6wUaqoDc1A4PE78wWkL4ldykS+EIXIy+b6YMFQhsP31HjTIDhnTv0JsWkCdEbCljYnSLYiBWIXK5ifxorTEbLpqJIxByRAuHIcXRvOmYdwFiOvsb5g7mLkafiC4a5POMPS4/gXPntTLHYWeDeyZTsidBL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727577143; c=relaxed/simple;
-	bh=rVSZE1dlHW7HxAknyx/dajqWZLSb6VPV8suLVgss6WQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=DCml7z7FIxDrurhXD54MqPXvt8050gaR5vo+08wuxqnwPV1jBGXJgGZ2VTTh0T0d2O/MjYLY+Eo+PNHgtURgRhpkJvWtXLhdl7vhL4l7U8BjfMRknHvheuMtl6rghJmCPdnybIdBs8104o7BOb0MxmGhX16Wo9b203AK9M1HNAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=A74dzwB8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1727577734; c=relaxed/simple;
+	bh=YPx5QA97jipQMMLwP45wplNXnHwAHBwZK8de9l31+I4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t7ZiQySskAOZGoNUoa44RuVWDh+cCIBO7KcLhESFIlrI6+Vb6QlUxVMzMhrV0n3fRSqd42AzJkfEto/TOEq8jJmzB+9j35dt5Jtza4QzHsixCdRkFOYwtHqWyI+/MDDeh0H7vS2rgrNCP1ztus4g21WAUsln3olmtPwi7l3WNNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gXGcbdIJ; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="A74dzwB8"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48T00r6N010511;
-	Sun, 29 Sep 2024 02:32:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dcx3neHUR3g5MxN44Fj+TGHd8GgiIkyGQl5KK5hlD88=; b=A74dzwB847n4GcRi
-	88QVClSMg32ZF6xMyD09WrJSuzJdrMrPB3jXOE9suNbbqK6y8v4izlpBCr4dthAC
-	e2kZa1s7oBqIqiHZgph0JmgZzgAe/9YYVP5VMOKkP2MfLIVd5g0fTifmXgsSOCi1
-	ixOGhS0BPFp1dkhhGUHlmw+gLVlWgwyeSqwmlBUFuJbGG0bSJZfiCo+irNF4UNph
-	1cJVUfAU5tW5OO8qxIq8jUOObAW2khGWVrsG/dd+VBclUAGGMoTyURj5/TOD6ipE
-	8LQlZUv1ETIv3RS/o6RK3H6CnjJU5os6TGIyPaURgkiUgMwcODGBw9K3FO3JqsDM
-	NRoQ5Q==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41x94h9kg9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 29 Sep 2024 02:32:03 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48T2W1RP026110
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 29 Sep 2024 02:32:01 GMT
-Received: from [10.233.21.53] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 28 Sep
- 2024 19:31:57 -0700
-Message-ID: <8a9cb60a-759c-4ee8-b5d9-39f47a0b9d97@quicinc.com>
-Date: Sun, 29 Sep 2024 10:31:55 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXGcbdIJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727577733; x=1759113733;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YPx5QA97jipQMMLwP45wplNXnHwAHBwZK8de9l31+I4=;
+  b=gXGcbdIJQKgT2C5i2mjwtTkzEUY2wu9aBhUq/To3iAxJczacA/DtxTVc
+   C2r5/5oswIK4hwqkTuYw3jJaLdUF4VN94E8wYaIRKOsM8ygVzwS9jr59G
+   P3OGDYrOewBa7kmXh/5H4iz6PHFQ2xbR6q1NzDRhMgA+mR2UKo2tIN3np
+   zbSbGSOBL4WhwYSGfkNgtqLEk6O8ivXLV7QmPAekmFF50wHLT6GF7LEvv
+   ytU/x/O5/EsggOCXi/cGv6V85HN6JCNs/TRxN8z7JpR3tsm3J9QgysT1X
+   BFEZXBCdvDUMc1JWGxb7g2Yrx6NkxTPK6J+D/POYHuAfGzZjZ5JspCToS
+   g==;
+X-CSE-ConnectionGUID: fAF4fL4aQ4KcfjoNEnrWiw==
+X-CSE-MsgGUID: YGZTeOQ/RoehVEAOc2Nfqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="30390406"
+X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
+   d="scan'208";a="30390406"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 19:42:13 -0700
+X-CSE-ConnectionGUID: jGBL3PlkSTqpE3bOuJ2t/g==
+X-CSE-MsgGUID: LuVzNOm3T9uf/yX7GmShIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
+   d="scan'208";a="77311263"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 28 Sep 2024 19:42:10 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sujst-000NqV-1Z;
+	Sun, 29 Sep 2024 02:42:07 +0000
+Date: Sun, 29 Sep 2024 10:41:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	andi.shyti@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, lee@kernel.org, sre@kernel.org,
+	tsbogend@alpha.franken.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: Re: [PATCH v5 6/6] i2c: Add driver for the RTL9300 I2C controller
+Message-ID: <202409291025.P4M4O1F2-lkp@intel.com>
+References: <20240925215847.3594898-7-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: add base QCS8300 RIDE dts
-To: kernel test robot <lkp@intel.com>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <quic_tengfan@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <quic_tingweiz@quicinc.com>, <quic_aiquny@quicinc.com>,
-        Xin Liu
-	<quic_liuxin@quicinc.com>,
-        Tingguo Cheng <quic_tingguoc@quicinc.com>
-References: <20240925-qcs8300_initial_dtsi-v2-4-494c40fa2a42@quicinc.com>
- <202409280919.8HQTWaY2-lkp@intel.com>
-Content-Language: en-US
-From: Jingyi Wang <quic_jingyw@quicinc.com>
-In-Reply-To: <202409280919.8HQTWaY2-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: PWuhC6yvlohnn0rOVl6bi95TLyTdGtQ2
-X-Proofpoint-ORIG-GUID: PWuhC6yvlohnn0rOVl6bi95TLyTdGtQ2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
- mlxscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409290018
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925215847.3594898-7-chris.packham@alliedtelesis.co.nz>
 
+Hi Chris,
 
+kernel test robot noticed the following build warnings:
 
-On 9/28/2024 10:00 AM, kernel test robot wrote:
-> Hi Jingyi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 4d0326b60bb753627437fff0f76bf1525bcda422]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/dt-bindings-arm-qcom-document-QCS8300-SoC-and-reference-board/20240925-184548
-> base:   4d0326b60bb753627437fff0f76bf1525bcda422
-> patch link:    https://lore.kernel.org/r/20240925-qcs8300_initial_dtsi-v2-4-494c40fa2a42%40quicinc.com
-> patch subject: [PATCH v2 4/4] arm64: dts: qcom: add base QCS8300 RIDE dts
-> config: arm64-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280919.8HQTWaY2-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280919.8HQTWaY2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409280919.8HQTWaY2-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from arch/arm64/boot/dts/qcom/qcs8300-ride.dts:11:
->>> arch/arm64/boot/dts/qcom/qcs8300.dtsi:6:10: fatal error: dt-bindings/clock/qcom,qcs8300-gcc.h: No such file or directory
->        6 | #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
->          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    compilation terminated.
-> 
-> 
-> vim +6 arch/arm64/boot/dts/qcom/qcs8300.dtsi
-> 
-> 27f221d22e92b6 Jingyi Wang 2024-09-25  @6  #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25   7  #include <dt-bindings/clock/qcom,rpmh.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25   8  #include <dt-bindings/interconnect/qcom,icc.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25   9  #include <dt-bindings/interconnect/qcom,qcs8300-rpmh.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25  10  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25  11  #include <dt-bindings/mailbox/qcom-ipcc.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25  12  #include <dt-bindings/power/qcom,rpmhpd.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25  13  #include <dt-bindings/power/qcom-rpmpd.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25  14  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
-> 27f221d22e92b6 Jingyi Wang 2024-09-25  15  
-> 
-compilation err caused by build dependency in the cover letter not merged yet.
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on andi-shyti/i2c/i2c-host sre-power-supply/for-next linus/master v6.11 next-20240927]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/dt-bindings-reset-syscon-reboot-Add-reg-property/20240926-060355
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240925215847.3594898-7-chris.packham%40alliedtelesis.co.nz
+patch subject: [PATCH v5 6/6] i2c: Add driver for the RTL9300 I2C controller
+config: csky-randconfig-r111-20240929 (https://download.01.org/0day-ci/archive/20240929/202409291025.P4M4O1F2-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240929/202409291025.P4M4O1F2-lkp@intel.com/reproduce)
 
-Thanks,
-Jingyi
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409291025.P4M4O1F2-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/i2c/busses/i2c-rtl9300.c:321:27: sparse: sparse: symbol 'rtl9300_i2c_quirks' was not declared. Should it be static?
+
+vim +/rtl9300_i2c_quirks +321 drivers/i2c/busses/i2c-rtl9300.c
+
+   320	
+ > 321	struct i2c_adapter_quirks rtl9300_i2c_quirks = {
+   322		.flags		= I2C_AQ_NO_CLK_STRETCH,
+   323		.max_read_len	= 16,
+   324		.max_write_len	= 16,
+   325	};
+   326	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
