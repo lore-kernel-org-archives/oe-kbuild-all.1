@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD0213B5A0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 07:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71BC1EA73
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 08:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727595624; cv=none; b=ArE+HgrwfHTwWNcTdnyjgHtItvk0amR3VXlZQyHHUqbB3l5AoLVUaKM5AXw7l5I8Ev6/Bjkw5XuTIodYjGRPVjwtYQ69NsUksLq9OpBeYBN3Tk6hrozKjpgaIF3zTN5NmOnHaHEWSFq1dr6xxThvEg1v3b5Gnzr5qpmLevdURkw=
+	t=1727598083; cv=none; b=heyhJqOmmB3fYyseWTYuR8ZNzcsmCdQcbe8vmlF4YqyonBU4ySg4iz1jIQqV5eI1HLm/NSJXjV1u33V6rK6Zd9DNcfuw1f7B6Fi9wVGWonBt0BXt+iayenpnUYI6NVoAui13Qgt6y1RC56/zsp3j2sbWahChygNk0HpxcyIoi+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727595624; c=relaxed/simple;
-	bh=wGxWHk+iodS3mlP5Z/WAVJxfkUca1FSivOYcI33k12Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bibrJkCJpN/Cw4rFx7Vz7f1y7icrD+Z5c+qEkTPGXrXLSqT66UY5yWgyUXH8ATriSFVta7S/xuvdbBWh5vy2RA/62FQoh/Ag01URdHsJUbeWoslEobNxoigXyCOBcJDdp3iC5uC4X/uu7Z02uBGnU1mhu5ohPyc8XXZ3S/nhjUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZgDvVRK2; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1727598083; c=relaxed/simple;
+	bh=T+dnRPylTJHv/gGMHbY/8eA2Y3cuFioATyLS2f5M7EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f9ALPkPLHdoK0cgaW5b+nPSRgmT7myTLWyMubCGLJde7XBiVH8NK0caQD855Mmjh6xia5K+Yf0IEH/tP+/rAGGGFPMJGDGqdpU1/WPRXNPguKbDGAlYz3b3ogB9XgkEM7vXUZku9JWRTixSOuDITkdbvveywJNdAnKVPrzndT6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJn1yF/8; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZgDvVRK2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJn1yF/8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727595623; x=1759131623;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wGxWHk+iodS3mlP5Z/WAVJxfkUca1FSivOYcI33k12Q=;
-  b=ZgDvVRK2Smxd+1FQscRzwuvjEQo1o1IFYk/c0GBrCFKZWXwfaEKydfO8
-   DtFVue14srwdLIyA6sXvVqZwf9NaiDIEv3cZqnXIFLKi/OyQV3fV46nPm
-   KA7amsx+bnP8kM+lOZ4IyBiEAJPYgkkVImbKXoXnagJMqIrngG7+1VYDw
-   RAN6puHzdWH2Y78g2jl5SYd59d1XNKYvJ171ME1ZxWFdBK+UDV/b60K+y
-   xAzDdRirFZBEQgFfCb6UTCl+UZZ2mJRokVHxKSNePMxaCbNaKmLNLR6zA
-   Jerj4RtEJwBCXIXehl0RaymtEMpn79UsG9XrsWQ5hP7qbhDKDEV4X1Pyi
-   w==;
-X-CSE-ConnectionGUID: 0vZDizxCToeK7S9lHQpNQw==
-X-CSE-MsgGUID: 0CoWAj1ASBiSWqn8Rppbcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="14316085"
+  t=1727598081; x=1759134081;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T+dnRPylTJHv/gGMHbY/8eA2Y3cuFioATyLS2f5M7EE=;
+  b=BJn1yF/8HyV/zPa15dXFVIXP8K9z+Yb5x7/X1sdfOqYdkAE1alQCLQb8
+   uNyrIuTpcnh/kbvVz4PxK8WO2FJ6rQs13FhpA6tl/Kplm69ijREEI4/9h
+   wcFlf+wYF6hnEUfWuehQ6bxhwrCqEMhDisQxscwoFotyTgHJW0JxBCf6/
+   edMo8ajFxV4M8lr4GuwkOkODIlAtjyHfRzMhttOfmcBTGBkpS4t/SeT05
+   HxmuXj2EeTZe4Q6LN6aAXrReKMAG8vD6xK4xcZGjqgVbYiwttEZ/+OyLm
+   CBPNGf+tmnz3dDgkl/zuTs8+L9aescUsTsGJaUE7H4uNIrzGmPfOIUn/L
+   Q==;
+X-CSE-ConnectionGUID: qi+5c3FyTzWjhPFc//OsgA==
+X-CSE-MsgGUID: C3N/fGHnTS641ZjyNK6nMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="37264866"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="14316085"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 00:40:19 -0700
-X-CSE-ConnectionGUID: BRz8Q1I7TBONv/YhKerRsA==
-X-CSE-MsgGUID: EYnfQ/ESSlCH4dbbLCZaSw==
+   d="scan'208";a="37264866"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 01:21:21 -0700
+X-CSE-ConnectionGUID: 0Iw6XBTBT8iPhRcX/L3VxQ==
+X-CSE-MsgGUID: wn/iYkvhSXarVIV8go5q2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="96297876"
+   d="scan'208";a="72956021"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Sep 2024 00:40:16 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 Sep 2024 01:21:19 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suoXN-000O0D-23;
-	Sun, 29 Sep 2024 07:40:13 +0000
-Date: Sun, 29 Sep 2024 15:39:55 +0800
+	id 1supB7-000O5v-0J;
+	Sun, 29 Sep 2024 08:21:17 +0000
+Date: Sun, 29 Sep 2024 16:21:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, bentiss@kernel.org,
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
-	lee@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
-	onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO
-Message-ID: <202409291428.gVFlS4L1-lkp@intel.com>
-References: <20240927124152.139099-2-wse@tuxedocomputers.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.0.x-imx 222/16788]
+ drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:412:46: warning:
+ 'mipi_csi2_sd_internal_ops' defined but not used
+Message-ID: <202409291628.Ft9USNP2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,41 +62,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240927124152.139099-2-wse@tuxedocomputers.com>
 
-Hi Werner,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Werner-Sembach/platform-x86-tuxedo-Add-virtual-LampArray-for-TUXEDO/20240927-214157
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240927124152.139099-2-wse%40tuxedocomputers.com
-patch subject: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
-config: x86_64-buildonly-randconfig-003-20240929 (https://download.01.org/0day-ci/archive/20240929/202409291428.gVFlS4L1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291428.gVFlS4L1-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ac32ba5fe66266329914d2020570364afe217bec
+commit: f9b4ed2a18575180b975a6702fd45b6a66d877dc [222/16788] media: mipi csi: add mixel's mipi csi driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240929/202409291628.Ft9USNP2-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291628.Ft9USNP2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409291428.gVFlS4L1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409291628.Ft9USNP2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.o: in function `remove':
->> tuxedo_nb04_wmi_ab_init.c:(.text+0x34): undefined reference to `hid_destroy_device'
-   ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.o: in function `ll_parse':
->> tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0xdbd): undefined reference to `hid_parse_report'
-   ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.o: in function `tuxedo_nb04_virtual_lamp_array_add_device':
->> tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0xeff): undefined reference to `hid_allocate_device'
->> ld: tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0xfbb): undefined reference to `hid_add_device'
->> ld: tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0x1004): undefined reference to `hid_destroy_device'
+    1821 |                          v4l2_subdev_call_wrappers.o->f)                \
+         |                                                     ^~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:401:16: note: in expansion of macro 'v4l2_subdev_call'
+     401 |         return v4l2_subdev_call(sensor_sd, video, s_parm, a);
+         |                ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1822:63: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
+    1822 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
+         |                                                               ^~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:401:16: note: in expansion of macro 'v4l2_subdev_call'
+     401 |         return v4l2_subdev_call(sensor_sd, video, s_parm, a);
+         |                ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1825:48: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
+    1825 |                         __result = __sd->ops->o->f(__sd, ##args);       \
+         |                                                ^~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:401:16: note: in expansion of macro 'v4l2_subdev_call'
+     401 |         return v4l2_subdev_call(sensor_sd, video, s_parm, a);
+         |                ^~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c: In function 'mipi_csis_g_parm':
+   include/media/v4l2-subdev.h:1818:56: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
+    1818 |                 else if (!(__sd->ops->o && __sd->ops->o->f))            \
+         |                                                        ^~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:409:16: note: in expansion of macro 'v4l2_subdev_call'
+     409 |         return v4l2_subdev_call(sensor_sd, video, g_parm, a);
+         |                ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1821:53: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
+    1821 |                          v4l2_subdev_call_wrappers.o->f)                \
+         |                                                     ^~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:409:16: note: in expansion of macro 'v4l2_subdev_call'
+     409 |         return v4l2_subdev_call(sensor_sd, video, g_parm, a);
+         |                ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1822:63: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
+    1822 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
+         |                                                               ^~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:409:16: note: in expansion of macro 'v4l2_subdev_call'
+     409 |         return v4l2_subdev_call(sensor_sd, video, g_parm, a);
+         |                ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1825:48: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
+    1825 |                         __result = __sd->ops->o->f(__sd, ##args);       \
+         |                                                ^~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:409:16: note: in expansion of macro 'v4l2_subdev_call'
+     409 |         return v4l2_subdev_call(sensor_sd, video, g_parm, a);
+         |                ^~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c: At top level:
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:417:28: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Wincompatible-pointer-types]
+     417 |         .enum_frame_size = mipi_csis_enum_framesizes,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:417:28: note: (near initialization for 'mipi_csi2_pad_ops.enum_frame_size')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:418:32: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_interval_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_interval_enum *)' [-Wincompatible-pointer-types]
+     418 |         .enum_frame_interval = mipi_csis_enum_frameintervals,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:418:32: note: (near initialization for 'mipi_csi2_pad_ops.enum_frame_interval')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:419:27: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Wincompatible-pointer-types]
+     419 |         .enum_mbus_code = mipi_csis_enum_mbus_code,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:419:27: note: (near initialization for 'mipi_csi2_pad_ops.enum_mbus_code')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:420:20: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
+     420 |         .get_fmt = mipi_csi2_get_fmt,
+         |                    ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:420:20: note: (near initialization for 'mipi_csi2_pad_ops.get_fmt')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:421:20: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
+     421 |         .set_fmt = mipi_csi2_set_fmt,
+         |                    ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:421:20: note: (near initialization for 'mipi_csi2_pad_ops.set_fmt')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:431:10: error: 'struct v4l2_subdev_video_ops' has no member named 's_parm'
+     431 |         .s_parm = mipi_csis_s_parm,
+         |          ^~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:431:19: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_fract *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_streamparm *)' [-Wincompatible-pointer-types]
+     431 |         .s_parm = mipi_csis_s_parm,
+         |                   ^~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:431:19: note: (near initialization for 'mipi_csi2_video_ops.g_pixelaspect')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:432:10: error: 'struct v4l2_subdev_video_ops' has no member named 'g_parm'
+     432 |         .g_parm = mipi_csis_g_parm,
+         |          ^~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:432:19: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_frame_interval *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_streamparm *)' [-Wincompatible-pointer-types]
+     432 |         .g_parm = mipi_csis_g_parm,
+         |                   ^~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:432:19: note: (near initialization for 'mipi_csi2_video_ops.g_frame_interval')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:497:18: error: initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Wincompatible-pointer-types]
+     497 |         .bound = subdev_notifier_bound,
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:497:18: note: (near initialization for 'subdev_notifier_ops.bound')
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c: In function 'mipi_csis_subdev_host':
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:507:9: error: implicit declaration of function 'v4l2_async_notifier_init'; did you mean 'v4l2_async_nf_init'? [-Wimplicit-function-declaration]
+     507 |         v4l2_async_notifier_init(&csi2dev->subdev_notifier);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         v4l2_async_nf_init
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:531:43: error: 'V4L2_ASYNC_MATCH_FWNODE' undeclared (first use in this function); did you mean 'V4L2_ASYNC_MATCH_TYPE_FWNODE'?
+     531 |                 csi2dev->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                           V4L2_ASYNC_MATCH_TYPE_FWNODE
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:531:43: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:539:9: error: implicit declaration of function 'v4l2_async_notifier_add_subdev'; did you mean 'v4l2_async_register_subdev'? [-Wimplicit-function-declaration]
+     539 |         v4l2_async_notifier_add_subdev(&csi2dev->subdev_notifier,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         v4l2_async_register_subdev
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:545:15: error: implicit declaration of function 'v4l2_async_notifier_register'; did you mean 'v4l2_async_nf_register'? [-Wimplicit-function-declaration]
+     545 |         ret = v4l2_async_notifier_register(&csi2dev->v4l2_dev,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               v4l2_async_nf_register
+   drivers/media/platform/imx8/mxc-mipi-csi2_yav.c: At top level:
+>> drivers/media/platform/imx8/mxc-mipi-csi2_yav.c:412:46: warning: 'mipi_csi2_sd_internal_ops' defined but not used [-Wunused-const-variable=]
+     412 | static const struct v4l2_subdev_internal_ops mipi_csi2_sd_internal_ops = {
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/mipi_csi2_sd_internal_ops +412 drivers/media/platform/imx8/mxc-mipi-csi2_yav.c
+
+   411	
+ > 412	static const struct v4l2_subdev_internal_ops mipi_csi2_sd_internal_ops = {
+   413		.open = mipi_csi2_open,
+   414	};
+   415	
 
 -- 
 0-DAY CI Kernel Test Service
