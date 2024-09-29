@@ -1,62 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE442263A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 18:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC712263A;
+	Sun, 29 Sep 2024 18:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727633871; cv=none; b=NYRZw6WDwSDyc7CwEF1M/t0NxpgPkHoNo822hJOEdxuNCXNYnnh/qkPeKyQsaJxGpFJnmdsiKjadMQ929zAtvU3zVjfdk+tLllh8kmjE/49dzig8qmCW4zuk3xTskBYKy6usbHn0cLQFs+bs1Lwj1mTOFthFWKd2iqzI98ZluEE=
+	t=1727633878; cv=none; b=sn9Su2OBxBx5yxnxlOhXyAcbRkOgvRKa1+o5fkBuaqwH6JWKhqvv3wVCH6NSPF0eu64Qzxq5iVtt6uldXHfoBWPGBzUTQzpB5nYkv6zUdh5qTAoIckAgz4LOfMZsS2X2vst60wmvjyw+VrZtIuvVQOU+pW93Srz4k2qKaCLkj8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727633871; c=relaxed/simple;
-	bh=a4w9+WTWG4zIvvokw90jcsEw2WbRB8NHY4Lwx4rCl5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kN1+U/fPRTr+1STr3cjOtjQnzFu2sqb4yczY90tfiIfPsIYcdDiOHOnvFqiAvvVYjDgdcIhGNZFCaNskSjTrsDE3e0S1BoEHSTQRrniSflSofMXltd3BDsZWTlIXzjIHSQVdJEO6lD5PFYct8bRFPhZ8SuiK6ot16Wu+fDaONsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnCmreIu; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1727633878; c=relaxed/simple;
+	bh=YrUtqYMAsV5VmM/8LxC4dPNex1L7QZp3ecGUAsVJAaI=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZffMBQERjHSKY0LsCXoinplv8JCZQLEPuwFdpQ0dhLbTLd+i5vVN3Hy0Xa1oyo6irCgbFnu4nuU+0tJxFzNyUMPpAz0KZ/DZ+EZy1P/ttuu7dGCbOakrD4ifxTKTyqz/S5YEWmgK/GWPhLMXy4zyI8n7vF0k/oZDSSB81/VUBiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHJDAwo4; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnCmreIu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHJDAwo4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727633869; x=1759169869;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a4w9+WTWG4zIvvokw90jcsEw2WbRB8NHY4Lwx4rCl5E=;
-  b=fnCmreIud76AAJl1jOhhhx6tVFluk/9kGbGyenuw1zNCLUB8Z/6fdeqQ
-   9Smze3cE67OpQv7R8I4WKhPjOnK52AFtB9CE7/Yh0mWRoK6vrCkAWbWZx
-   pm9BpJRi0f0ZI2Wmagfwo06hxVIeDmCTU8IQJ2fOwwNCsbyyQt4lsV8m1
-   XwH5S8vXuR6p/rn8pnQGBZEpjGqsAq/yDI5EztdrSR4EKa/2Zk1nl629Y
-   v8EfLG0Xi8bOK6DMUpmr5Tnmm+ltRh98F5Buw1GtAW08A4Tk3JEQYvIme
-   pkPGn3pBaeL3LQBJ5tnRtf2I8K0jhopfHOPk/SLsx+Xen30WL/s97cGqq
+  t=1727633876; x=1759169876;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=YrUtqYMAsV5VmM/8LxC4dPNex1L7QZp3ecGUAsVJAaI=;
+  b=OHJDAwo4c2t44K/foTHTOQnJnP+5Fs8OJ6L1PiaMtRPuo5a8QQtwzKFK
+   77cKrSSJdmVyqXsiMLJpSMsRwGmHBxMaFFZJJFgynXOjhJ/HGWS+LavfB
+   iGbHyPFDN8n5Qy7XNgFnBHll65TXLXROsD4A8//NEDCev/14pT0P05/4+
+   2Qm/+3LL2jAmlYKfJxYQJl5GRw7BJPdfMEeXhTDXsNXoOWK8n5K80D2LD
+   kXB03NrgPS2znUbgelkmLOTr5cvW6UoGdqEdw+9doj9G15kjZLs4FWV0y
+   QRVYHKVXUFKF1zVdCv+kBbCnvXYomPXcGxozEj5d7GTeyjBbOw5gsCLwA
    A==;
-X-CSE-ConnectionGUID: LUZfybSsSdWEbhIjAWsn6w==
-X-CSE-MsgGUID: gRJeOMraRG6ozRIExxBjDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="26846704"
+X-CSE-ConnectionGUID: D+OrCkQSQYi5eXIsmHzRYw==
+X-CSE-MsgGUID: GaHpHRhzR+CtahQs4P6Jog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="38077293"
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="26846704"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 11:17:48 -0700
-X-CSE-ConnectionGUID: rrb3NES+RnWzlRS0md/Pqw==
-X-CSE-MsgGUID: FYwnB3gJTb+QCnWctRwpCw==
+   d="scan'208";a="38077293"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 11:17:47 -0700
+X-CSE-ConnectionGUID: x1ff++d/QeObYDzGL1x2YA==
+X-CSE-MsgGUID: 7p4e/cTRRs6CeW1M7n+xiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="103866341"
+   d="scan'208";a="103867365"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2024 11:17:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 29 Sep 2024 11:17:45 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suyUJ-000OZB-0D;
+	id 1suyUJ-000OZ9-09;
 	Sun, 29 Sep 2024 18:17:43 +0000
-Date: Mon, 30 Sep 2024 02:17:37 +0800
+Date: Mon, 30 Sep 2024 02:17:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 11997/12031] kernel/sysctl.c:1964:5: warning: no
- previous prototype for 'memory_qos_sysctl_handler'
-Message-ID: <202409300256.RAybhLQs-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [ardb:x86-pie-v2 23/26] block/blk-core.o: warning: objtool:
+ errno_to_blk_status+0x16: can't find switch jump table
+Message-ID: <202409300226.u5kOSLIm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,121 +61,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   6c7ba3824d4ec8a20ab384fa7b838eeb7e5b4e5f
-commit: db44c11cddf0fc44d68950c9a428511637445aa4 [11997/12031] rue/mm: add priority reclaim support
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240930/202409300256.RAybhLQs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300256.RAybhLQs-lkp@intel.com/reproduce)
+TO: Ard Biesheuvel <ardb@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v2
+head:   2b9142b6c6241b0debfe0d21c911c3aaf0c05670
+commit: 73ab629624e08a8d1fad61e724e408d71c5c107f [23/26] x86: Use PIE codegen for the core kernel
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240930/202409300226.u5kOSLIm-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300226.u5kOSLIm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409300256.RAybhLQs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409300226.u5kOSLIm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/sysctl.c:990:5: warning: no previous prototype for 'proc_dointvec_max_map_count' [-Wmissing-prototypes]
-     990 | int proc_dointvec_max_map_count(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c:1918:5: warning: no previous prototype for 'security_switch_handler' [-Wmissing-prototypes]
-    1918 | int security_switch_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sysctl.c:1964:5: warning: no previous prototype for 'memory_qos_sysctl_handler' [-Wmissing-prototypes]
-    1964 | int memory_qos_sysctl_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sysctl.c:1991:5: warning: no previous prototype for 'memory_qos_sysctl_highest_reclaim_prio_handler' [-Wmissing-prototypes]
-    1991 | int memory_qos_sysctl_highest_reclaim_prio_handler(struct ctl_table *table,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sysctl.c:2007:5: warning: no previous prototype for 'memory_qos_sysctl_prio_reclaim_ratio_handler' [-Wmissing-prototypes]
-    2007 | int memory_qos_sysctl_prio_reclaim_ratio_handler(struct ctl_table *table,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/blk-core.o: warning: objtool: errno_to_blk_status+0x16: can't find switch jump table
 --
->> mm/memcontrol.c:2731:6: warning: no previous prototype for 'memory_qos_update' [-Wmissing-prototypes]
-    2731 | void memory_qos_update(void)
-         |      ^~~~~~~~~~~~~~~~~
->> mm/memcontrol.c:2746:5: warning: no previous prototype for 'memory_qos_prio_reclaim_ratio_update' [-Wmissing-prototypes]
-    2746 | int memory_qos_prio_reclaim_ratio_update(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/memcontrol.c:2851:5: warning: no previous prototype for 'mem_cgroup_notify_prio_change' [-Wmissing-prototypes]
-    2851 | int mem_cgroup_notify_prio_change(struct cgroup_subsys_state *css,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/blk-merge.o: warning: objtool: bio_split_to_limits+0x2f: can't find switch jump table
+--
+>> block/blk-mq.o: warning: objtool: blk_mq_submit_bio+0xf1: can't find switch jump table
+--
+>> block/ioctl.o: warning: objtool: blkdev_ioctl+0x80: can't find switch jump table
+--
+>> arch/x86/entry/syscall_64.o: warning: objtool: x64_sys_call+0x1c: can't find switch jump table
+--
+>> arch/x86/events/core.o: warning: objtool: init_hw_perf_events+0x35: can't find switch jump table
+--
+>> arch/x86/events/msr.o: warning: objtool: test_intel+0x34: can't find switch jump table
+--
+>> fs/open.o: warning: objtool: vfs_fallocate+0x4a: can't find switch jump table
+--
+>> fs/read_write.o: warning: objtool: generic_file_llseek+0x28: can't find switch jump table
+--
+>> fs/namei.o: warning: objtool: may_open+0x35: can't find switch jump table
+--
+>> fs/fcntl.o: warning: objtool: __x64_sys_fcntl+0x83: can't find switch jump table
+..
 
 
-vim +/memory_qos_sysctl_handler +1964 kernel/sysctl.c
-
-  1962	
-  1963	#ifdef CONFIG_MEMCG
-> 1964	int memory_qos_sysctl_handler(struct ctl_table *table, int write,
-  1965			void __user *buffer, size_t *lenp, loff_t *ppos)
-  1966	{
-  1967		int error;
-  1968	
-  1969		mutex_lock(&rue_mutex);
-  1970		if (write && !READ_ONCE(rue_installed)) {
-  1971			error = -EBUSY;
-  1972			pr_info("RUE: rue kernel module is not enabled or installed.");
-  1973			goto out;
-  1974		}
-  1975	
-  1976		error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-  1977		if (error)
-  1978			goto out;
-  1979	
-  1980		if (write)
-  1981			memory_qos_update();
-  1982	
-  1983		mutex_unlock(&rue_mutex);
-  1984		return 0;
-  1985	
-  1986	out:
-  1987		mutex_unlock(&rue_mutex);
-  1988		return error;
-  1989	}
-  1990	
-> 1991	int memory_qos_sysctl_highest_reclaim_prio_handler(struct ctl_table *table,
-  1992					int write, void __user *buffer,
-  1993					size_t *lenp, loff_t *ppos)
-  1994	{
-  1995		int error;
-  1996	
-  1997		error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-  1998		if (error)
-  1999			return error;
-  2000	
-  2001		if (write)
-  2002			memory_qos_update();
-  2003	
-  2004		return 0;
-  2005	}
-  2006	
-> 2007	int memory_qos_sysctl_prio_reclaim_ratio_handler(struct ctl_table *table,
-  2008					int write, void __user *buffer,
-  2009					size_t *lenp, loff_t *ppos)
-  2010	{
-  2011		int error;
-  2012		unsigned int old;
-  2013	
-  2014		old = sysctl_vm_qos_prio_reclaim_ratio;
-  2015		error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-  2016		if (error)
-  2017			return error;
-  2018	
-  2019		if (old == sysctl_vm_qos_prio_reclaim_ratio)
-  2020			return 0;
-  2021	
-  2022		if (write) {
-  2023			error = memory_qos_prio_reclaim_ratio_update();
-  2024			if (error) {
-  2025				sysctl_vm_qos_prio_reclaim_ratio = old;
-  2026				return -EINVAL;
-  2027			}
-  2028		}
-  2029	
-  2030		return 0;
-  2031	}
-  2032	#endif
-  2033	
+objdump-func vmlinux.o errno_to_blk_status:
+0000 000000000016d460 <errno_to_blk_status>:
+0000   16d460:	83 c7 79             	add    $0x79,%edi
+0003   16d463:	83 ff 79             	cmp    $0x79,%edi
+0006   16d466:	77 10                	ja     16d478 <errno_to_blk_status+0x18>
+0008   16d468:	48 8d 05 00 00 00 00 	lea    0x0(%rip),%rax        # 16d46f <errno_to_blk_status+0xf>	16d46b: R_X86_64_PC32	.rodata+0x7d28
+000f   16d46f:	48 63 0c b8          	movslq (%rax,%rdi,4),%rcx
+0013   16d473:	48 01 c1             	add    %rax,%rcx
+0016   16d476:	ff e1                	jmp    *%rcx
+0018   16d478:	b0 0a                	mov    $0xa,%al
+001a   16d47a:	c3                   	ret
+001b   16d47b:	31 c0                	xor    %eax,%eax
+001d   16d47d:	c3                   	ret
+001e   16d47e:	b0 10                	mov    $0x10,%al
+0020   16d480:	c3                   	ret
+0021   16d481:	b0 06                	mov    $0x6,%al
+0023   16d483:	c3                   	ret
+0024   16d484:	b0 08                	mov    $0x8,%al
+0026   16d486:	c3                   	ret
+0027   16d487:	b0 13                	mov    $0x13,%al
+0029   16d489:	c3                   	ret
+002a   16d48a:	b0 02                	mov    $0x2,%al
+002c   16d48c:	c3                   	ret
+002d   16d48d:	b0 0b                	mov    $0xb,%al
+002f   16d48f:	c3                   	ret
+0030   16d490:	b0 03                	mov    $0x3,%al
+0032   16d492:	c3                   	ret
+0033   16d493:	b0 05                	mov    $0x5,%al
+0035   16d495:	c3                   	ret
+0036   16d496:	b0 01                	mov    $0x1,%al
+0038   16d498:	c3                   	ret
+0039   16d499:	b0 0e                	mov    $0xe,%al
+003b   16d49b:	c3                   	ret
+003c   16d49c:	b0 0f                	mov    $0xf,%al
+003e   16d49e:	c3                   	ret
+003f   16d49f:	b0 04                	mov    $0x4,%al
+0041   16d4a1:	c3                   	ret
+0042   16d4a2:	b0 0d                	mov    $0xd,%al
+0044   16d4a4:	c3                   	ret
+0045   16d4a5:	b0 09                	mov    $0x9,%al
+0047   16d4a7:	c3                   	ret
+0048   16d4a8:	b0 07                	mov    $0x7,%al
+004a   16d4aa:	c3                   	ret
+004b   16d4ab:	b0 11                	mov    $0x11,%al
+004d   16d4ad:	c3                   	ret
+004e   16d4ae:	b0 0c                	mov    $0xc,%al
+0050   16d4b0:	c3                   	ret
+0051   16d4b1:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
 
 -- 
 0-DAY CI Kernel Test Service
