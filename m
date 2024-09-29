@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D402AEEC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 06:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E87C1F95A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 07:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727593158; cv=none; b=K6AmiRiZpZHO5C/zLcN216PaeVo6e8VsatcNnsWhj8qhSqdLQ/hHEeQb/LB1SxIgyvQplL54YdCRnR44c49FeT46j8C4TzM25LevdDEOt+jrPl4q/hkzuFofeMWUgw+eXkMeMdGGXvSq+AkSoC2PvQZLGk51pjGpAxZ59mGmxXY=
+	t=1727595619; cv=none; b=HqPuaEC5jiJMsfMpFQP7LfYDFXXZQ5FN+anQG+2ScWphLULvslqN17ZBknrl1xYjb1u91mlGJiGqlbZX4kw2VJ+LPCPBtUTgGwORKLKP+jt4836tQ25lKPaFA9toXL7gIIIac5frflWmAPWr1NYsi4Zj1Te3EOM/mJPHVzeMe/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727593158; c=relaxed/simple;
-	bh=dxROwJZ5Rx6gQVDdQX0XToYr4u2tvv30RpjpiiwU7Xw=;
+	s=arc-20240116; t=1727595619; c=relaxed/simple;
+	bh=s+1ZEViU5YHf079+V60nTPLon/LHnUKkQKWNHvl6NlU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=quomgspDxbifrrkWpCQF8kfQE31YwN2gkbT9mPOZ95CUkj3DiVjmWTEN6YOtA8bvLArBRd2BYZX/T5iOSLQBFmZm8YfBd4QYCbufSmk6cQJZo3SAJjB5Vw5wrNG9b2CBd9CWtrlTzWe07+X3WmDsZp5v8jtaphpVxErVgI1YAto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WEWDUWVj; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=SAD6g1+X3syaMHgioD46oL+jav4Stv7t1Lde4KKykAYgGwO5qFYcjVrjxelMz3qeYGcEE9AsZONsaRKculAZeWG9HP8eZOhVljEM5m5heo+bpqOw0aP5NQ6WWxTntzVZS1Hk1p9ZoAhdKU4NDly7Q49mV565emcXrETo/eiK/Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HSdTCBNC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WEWDUWVj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSdTCBNC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727593156; x=1759129156;
+  t=1727595617; x=1759131617;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dxROwJZ5Rx6gQVDdQX0XToYr4u2tvv30RpjpiiwU7Xw=;
-  b=WEWDUWVjaCIJo+dt+Ne+SnoSysvGRmHQuG+3l3a8vdgEsNCv0NmGuNi6
-   zdRygmnnJXfXL8qycgUzkxyvKKaHOf3MnbKgSNpdKynP83YRHbrKA6HcV
-   4bNDKRSx5+5y4OA7KBg0KS4yPq/leXggxoNDV0js6XfoHf1OrQTvHt206
-   wvLMoSY6ZlfhnoiEzl9aJLBYcT6BZtFw8TMnHSDZuAIvIq3zdh7Kc31S0
-   N+cDEHblTVFSCyIbTUMWu7T+tv0WolSHXZ7qAKSzozZo9SHX+0KEKBWPs
-   JnpcSuNJZAub3E9fmzKuGYTGioNOp1cOxy3K8JmsXPFHlJXSJAviW8lbT
-   A==;
-X-CSE-ConnectionGUID: ke4BGUuVRYaIYndnI6TWIw==
-X-CSE-MsgGUID: uj4AgIemQeuiu0ao4JYImg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="37368566"
+  bh=s+1ZEViU5YHf079+V60nTPLon/LHnUKkQKWNHvl6NlU=;
+  b=HSdTCBNCtpLTvaAjfQYeu/4EyEiwb+dNBVq/E0SU2IsY1uMBL54YbC7s
+   1TWIc2nQPnHWWFzRbkel3LLW1kYiAiD/CjEXOvnoWWCDRq6s3dS7ghHj4
+   qFDDGR7ve6BH+FQXPWLHqdhJinyKUAYm2xS3gWk/n6n99A6LdPjTdGUFU
+   4TagYuKgvejIjl9J/PpG2VWhRgVAawYhreiz1B9jd6OJM5c8hLD3jynkL
+   k/RZmWUK8mZ8rg+okjRg0zZJY48sEucOElaEth7CMSPn8m5JR9Z2hF0x5
+   UIN3BrsFuDOFJCXkCzO0xfjvQoW2PXKGAJjey8ZyBZnF3zU1iYnQQoKo2
+   g==;
+X-CSE-ConnectionGUID: 0ZSxPrH2SkaDSxWOJQ24mg==
+X-CSE-MsgGUID: UILohC8OQnGxT0meuhQ63g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="49216384"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="37368566"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 23:59:16 -0700
-X-CSE-ConnectionGUID: NNowLiUFT4aMnk9euDrBNw==
-X-CSE-MsgGUID: KztIG2iMQ/yZBjTZJUgD0w==
+   d="scan'208";a="49216384"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 00:40:17 -0700
+X-CSE-ConnectionGUID: C39FGjH/RSKApgWrI+sS5g==
+X-CSE-MsgGUID: hczBaZjbT6K7b6+PzHg03A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="73281116"
+   d="scan'208";a="72946417"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Sep 2024 23:59:15 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 Sep 2024 00:40:16 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suntg-000NzH-37;
-	Sun, 29 Sep 2024 06:59:12 +0000
-Date: Sun, 29 Sep 2024 14:58:33 +0800
+	id 1suoXN-000O0B-1s;
+	Sun, 29 Sep 2024 07:40:13 +0000
+Date: Sun, 29 Sep 2024 15:39:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Hao Chen <970353908@qq.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18534/23801]
- drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
- functions is not needed.
-Message-ID: <202409291416.g51wPHKv-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 29235/30000]
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c:1195:5: sparse:
+ sparse: symbol 'hclge_tm_vf_tc_dwrr_cfg' was not declared. Should it be
+ static?
+Message-ID: <202409291552.pM1zgESs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +64,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3a5093f2913b14c22e19e60b6bf7a4d8ec2e5c69
-commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [18534/23801] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
-config: x86_64-randconfig-104-20240929 (https://download.01.org/0day-ci/archive/20240929/202409291416.g51wPHKv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   dc55753ca59725e5130059dc4c520e8a91c655c0
+commit: 518ea89ec98b78c749c27d6ba7792e1bdb5779ed [29235/30000] net: hns3: add support for vf multiple tcs
+config: arm64-randconfig-r131-20240925 (https://download.01.org/0day-ci/archive/20240929/202409291552.pM1zgESs-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240929/202409291552.pM1zgESs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409291416.g51wPHKv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409291552.pM1zgESs-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c:1195:5: sparse: sparse: symbol 'hclge_tm_vf_tc_dwrr_cfg' was not declared. Should it be static?
 
-vim +614 drivers/acpi/cppc_acpi.c
+vim +/hclge_tm_vf_tc_dwrr_cfg +1195 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c
 
-   576	
-   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
-   578	{
-   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
-   580		int parsed_core_num = 0;
-   581		int i, ret;
-   582	
-   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
-   584		if (!cpc_pptr)
-   585			return -ENOMEM;
-   586		for_each_possible_cpu(i) {
-   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
-   588			if (!cpc_pptr[i]) {
-   589				ret = -ENOMEM;
-   590				goto out;
-   591			}
-   592		}
-   593	
-   594		/*
-   595		 * We can not use acpi_get_devices() to walk the processor devices
-   596		 * because some processor device is not present.
-   597		 */
-   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
-   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
-   600					  cpc_pptr, (void **)&parsed_core_num);
-   601		if (ret)
-   602			goto out;
-   603		if (parsed_core_num != num_possible_cpus()) {
-   604			ret = -EINVAL;
-   605			goto out;
-   606		}
-   607	
-   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
-   609	
-   610	out:
-   611		for_each_possible_cpu(i) {
-   612			cpc_ptr = cpc_pptr[i];
-   613			if (cpc_ptr)
- > 614				kfree(cpc_ptr);
-   615		}
-   616		kfree(cpc_pptr);
-   617	
-   618		return ret;
-   619	}
-   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
-   621	
+  1194	
+> 1195	int hclge_tm_vf_tc_dwrr_cfg(struct hclge_vport *vport)
+  1196	{
+  1197		struct hnae3_knic_private_info *kinfo = &vport->nic.kinfo;
+  1198		struct hclge_dev *hdev = vport->back;
+  1199		struct hclge_pg_info *pg_info;
+  1200		u8 dwrr;
+  1201		int ret;
+  1202		u32 i;
+  1203	
+  1204		for (i = 0; i < kinfo->tc_info.max_tc; i++) {
+  1205			pg_info = &hdev->tm_info.pg_info[hdev->tm_info.tc_info[i].pgid];
+  1206			dwrr = i < kinfo->tc_info.num_tc ? pg_info->tc_dwrr[i] : 0;
+  1207			ret = hclge_tm_qs_weight_cfg(hdev, vport->qs_offset + i, dwrr);
+  1208			if (ret)
+  1209				return ret;
+  1210		}
+  1211	
+  1212		return 0;
+  1213	}
+  1214	
 
 -- 
 0-DAY CI Kernel Test Service
