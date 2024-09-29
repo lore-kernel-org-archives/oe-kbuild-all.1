@@ -1,170 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161EE5661
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 02:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C9134AB;
+	Sun, 29 Sep 2024 02:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727577073; cv=none; b=B4RkZp9tldp3U8xB/il63IWoj9JPfKRKw9KxV+s6nPf/JAcJzhBLHx97bAVMBHcSpR4NT7ecXYI2p2Up5WtxeX+j9jOw5Bk4QDvNDIKnconH9mzBNO2l5FO4tfOOVxR5Row/00sGlzVRcg+thPI6gUI2gLqzIA+pMAI9f8AMLD0=
+	t=1727577143; cv=none; b=KAmAdcYemvD1DxfsBXRXZ+PPtfIrzv6yJ80U/0yK7rZTlNtwFdTKR+4ptDlj8blkhgUpLk0xDZc7PA0b1XORn0/uD9saBKDsLoKkzrxRKBZtcF1Er/YWjy46q3TPjVrwaTAgW2xX0HmJfWiCTNdd2WTzyPyVvinYziZwOyvho2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727577073; c=relaxed/simple;
-	bh=W9x5ILf7ZJNCiXRhfnsxydvfpTjytNXTpQaae37errw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s6k6xjeAXrB7kBT5sPt1Sa8JRqHETcnAk2zox1q8oJQtGVD5rZgM8+faN6mdda0nhBc3qLXadAhEQbG82pgeMmV3nlmr3A12zaF4G8C31tWQ7MYqWAKQ1KV4OSUs4+mQFVXyWf+ELzgbwR2PAgqSqE+qfW9NPB4mBmksPC+TZLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPEKUhrs; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727577143; c=relaxed/simple;
+	bh=rVSZE1dlHW7HxAknyx/dajqWZLSb6VPV8suLVgss6WQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DCml7z7FIxDrurhXD54MqPXvt8050gaR5vo+08wuxqnwPV1jBGXJgGZ2VTTh0T0d2O/MjYLY+Eo+PNHgtURgRhpkJvWtXLhdl7vhL4l7U8BjfMRknHvheuMtl6rghJmCPdnybIdBs8104o7BOb0MxmGhX16Wo9b203AK9M1HNAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=A74dzwB8; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPEKUhrs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727577071; x=1759113071;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W9x5ILf7ZJNCiXRhfnsxydvfpTjytNXTpQaae37errw=;
-  b=iPEKUhrsL8L/tgNF+u0OhBXh/TDKSUd/ZqSp0RNhqkUziFPSCz3w+Mfo
-   aPywaiQmZ0RQGNeqUvFswgpup0in8Z+R0Y208AGui9p1s9Ldq+Cvyk1+D
-   eylvENf3kXuUKBGmzZj+bTcNClq3QQ1x5vrxAS1DjjNp3Elyih3NWpweT
-   SPeMTvuDDkBo4GY/X++EoeYlDnTwNMga68O3br8GHnUdZQgb04uAsB3Og
-   7yGlvvsMEWqU0OLSu+Sr6D0X4EK69CgQtFLFlEBpJbjEuOArqiy7RCxI7
-   iiYM4okeIaWX3JrxJ+rfScBiDKJU8KNJUP8GfOW7YQf2dzU34Tm16B+0D
-   Q==;
-X-CSE-ConnectionGUID: TKoPuTYiR3GwG/ntOHJU1Q==
-X-CSE-MsgGUID: 0/H4kYOGSrupDojGajhOeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="38077380"
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="38077380"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 19:31:10 -0700
-X-CSE-ConnectionGUID: Cw34+QAGTEWDbpALgiqO8g==
-X-CSE-MsgGUID: YKe8gznaTcOyjqQtX1blBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="73243468"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Sep 2024 19:31:08 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sujiE-000Npz-2c;
-	Sun, 29 Sep 2024 02:31:06 +0000
-Date: Sun, 29 Sep 2024 10:30:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:memblock_align 2/2]
- drivers/acpi/numa/srat.c:596:undefined reference to
- `set_memory_block_size_order'
-Message-ID: <202409291047.IW4OFT7q-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="A74dzwB8"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48T00r6N010511;
+	Sun, 29 Sep 2024 02:32:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dcx3neHUR3g5MxN44Fj+TGHd8GgiIkyGQl5KK5hlD88=; b=A74dzwB847n4GcRi
+	88QVClSMg32ZF6xMyD09WrJSuzJdrMrPB3jXOE9suNbbqK6y8v4izlpBCr4dthAC
+	e2kZa1s7oBqIqiHZgph0JmgZzgAe/9YYVP5VMOKkP2MfLIVd5g0fTifmXgsSOCi1
+	ixOGhS0BPFp1dkhhGUHlmw+gLVlWgwyeSqwmlBUFuJbGG0bSJZfiCo+irNF4UNph
+	1cJVUfAU5tW5OO8qxIq8jUOObAW2khGWVrsG/dd+VBclUAGGMoTyURj5/TOD6ipE
+	8LQlZUv1ETIv3RS/o6RK3H6CnjJU5os6TGIyPaURgkiUgMwcODGBw9K3FO3JqsDM
+	NRoQ5Q==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41x94h9kg9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 29 Sep 2024 02:32:03 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48T2W1RP026110
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 29 Sep 2024 02:32:01 GMT
+Received: from [10.233.21.53] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 28 Sep
+ 2024 19:31:57 -0700
+Message-ID: <8a9cb60a-759c-4ee8-b5d9-39f47a0b9d97@quicinc.com>
+Date: Sun, 29 Sep 2024 10:31:55 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: add base QCS8300 RIDE dts
+To: kernel test robot <lkp@intel.com>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <quic_tengfan@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <quic_tingweiz@quicinc.com>, <quic_aiquny@quicinc.com>,
+        Xin Liu
+	<quic_liuxin@quicinc.com>,
+        Tingguo Cheng <quic_tingguoc@quicinc.com>
+References: <20240925-qcs8300_initial_dtsi-v2-4-494c40fa2a42@quicinc.com>
+ <202409280919.8HQTWaY2-lkp@intel.com>
+Content-Language: en-US
+From: Jingyi Wang <quic_jingyw@quicinc.com>
+In-Reply-To: <202409280919.8HQTWaY2-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: PWuhC6yvlohnn0rOVl6bi95TLyTdGtQ2
+X-Proofpoint-ORIG-GUID: PWuhC6yvlohnn0rOVl6bi95TLyTdGtQ2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409290018
 
-tree:   https://github.com/gourryinverse/linux memblock_align
-head:   f0872fa1a7074d7d5049a450c48eb97dfe49c2a4
-commit: f0872fa1a7074d7d5049a450c48eb97dfe49c2a4 [2/2] acpi,srat: reduce memory block size if CFMWS has a smaller alignment
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240929/202409291047.IW4OFT7q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291047.IW4OFT7q-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409291047.IW4OFT7q-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/acpi/numa/srat.o: in function `acpi_numa_init':
->> drivers/acpi/numa/srat.c:596:(.init.text+0x89c): undefined reference to `set_memory_block_size_order'
 
 
-vim +596 drivers/acpi/numa/srat.c
+On 9/28/2024 10:00 AM, kernel test robot wrote:
+> Hi Jingyi,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 4d0326b60bb753627437fff0f76bf1525bcda422]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/dt-bindings-arm-qcom-document-QCS8300-SoC-and-reference-board/20240925-184548
+> base:   4d0326b60bb753627437fff0f76bf1525bcda422
+> patch link:    https://lore.kernel.org/r/20240925-qcs8300_initial_dtsi-v2-4-494c40fa2a42%40quicinc.com
+> patch subject: [PATCH v2 4/4] arm64: dts: qcom: add base QCS8300 RIDE dts
+> config: arm64-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280919.8HQTWaY2-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280919.8HQTWaY2-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409280919.8HQTWaY2-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from arch/arm64/boot/dts/qcom/qcs8300-ride.dts:11:
+>>> arch/arm64/boot/dts/qcom/qcs8300.dtsi:6:10: fatal error: dt-bindings/clock/qcom,qcs8300-gcc.h: No such file or directory
+>        6 | #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
+>          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    compilation terminated.
+> 
+> 
+> vim +6 arch/arm64/boot/dts/qcom/qcs8300.dtsi
+> 
+> 27f221d22e92b6 Jingyi Wang 2024-09-25  @6  #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25   7  #include <dt-bindings/clock/qcom,rpmh.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25   8  #include <dt-bindings/interconnect/qcom,icc.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25   9  #include <dt-bindings/interconnect/qcom,qcs8300-rpmh.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25  10  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25  11  #include <dt-bindings/mailbox/qcom-ipcc.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25  12  #include <dt-bindings/power/qcom,rpmhpd.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25  13  #include <dt-bindings/power/qcom-rpmpd.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25  14  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+> 27f221d22e92b6 Jingyi Wang 2024-09-25  15  
+> 
+compilation err caused by build dependency in the cover letter not merged yet.
 
-   530	
-   531	int __init acpi_numa_init(void)
-   532	{
-   533		int i, fake_pxm, cnt = 0;
-   534		unsigned long block_sz = memory_block_size_bytes();
-   535		unsigned long cfmw_align = block_sz;
-   536	
-   537		if (acpi_disabled)
-   538			return -EINVAL;
-   539	
-   540		/*
-   541		 * Should not limit number with cpu num that is from NR_CPUS or nr_cpus=
-   542		 * SRAT cpu entries could have different order with that in MADT.
-   543		 * So go over all cpu entries in SRAT to get apicid to node mapping.
-   544		 */
-   545	
-   546		/* SRAT: System Resource Affinity Table */
-   547		if (!acpi_table_parse(ACPI_SIG_SRAT, acpi_parse_srat)) {
-   548			struct acpi_subtable_proc srat_proc[5];
-   549	
-   550			memset(srat_proc, 0, sizeof(srat_proc));
-   551			srat_proc[0].id = ACPI_SRAT_TYPE_CPU_AFFINITY;
-   552			srat_proc[0].handler = acpi_parse_processor_affinity;
-   553			srat_proc[1].id = ACPI_SRAT_TYPE_X2APIC_CPU_AFFINITY;
-   554			srat_proc[1].handler = acpi_parse_x2apic_affinity;
-   555			srat_proc[2].id = ACPI_SRAT_TYPE_GICC_AFFINITY;
-   556			srat_proc[2].handler = acpi_parse_gicc_affinity;
-   557			srat_proc[3].id = ACPI_SRAT_TYPE_GENERIC_AFFINITY;
-   558			srat_proc[3].handler = acpi_parse_gi_affinity;
-   559			srat_proc[4].id = ACPI_SRAT_TYPE_RINTC_AFFINITY;
-   560			srat_proc[4].handler = acpi_parse_rintc_affinity;
-   561	
-   562			acpi_table_parse_entries_array(ACPI_SIG_SRAT,
-   563						sizeof(struct acpi_table_srat),
-   564						srat_proc, ARRAY_SIZE(srat_proc), 0);
-   565	
-   566			cnt = acpi_table_parse_srat(ACPI_SRAT_TYPE_MEMORY_AFFINITY,
-   567						    acpi_parse_memory_affinity, 0);
-   568		}
-   569	
-   570		/* SLIT: System Locality Information Table */
-   571		acpi_table_parse(ACPI_SIG_SLIT, acpi_parse_slit);
-   572	
-   573		/*
-   574		 * CXL Fixed Memory Window Structures (CFMWS) must be parsed
-   575		 * after the SRAT. Create NUMA Nodes for CXL memory ranges that
-   576		 * are defined in the CFMWS and not already defined in the SRAT.
-   577		 * Initialize a fake_pxm as the first available PXM to emulate.
-   578		 */
-   579	
-   580		/* fake_pxm is the next unused PXM value after SRAT parsing */
-   581		for (i = 0, fake_pxm = -1; i < MAX_NUMNODES; i++) {
-   582			if (node_to_pxm_map[i] > fake_pxm)
-   583				fake_pxm = node_to_pxm_map[i];
-   584		}
-   585		last_real_pxm = fake_pxm;
-   586		fake_pxm++;
-   587	
-   588		/*
-   589		 * First parse the CFMWS to determine if the memory block size
-   590		 * should be smaller than 2G. We don't care about larger sizes,
-   591		 * this simply avoids losing memory to smaller alignements.
-   592		 */
-   593		acpi_table_parse_cedt(ACPI_CEDT_TYPE_CFMWS, acpi_align_cfmws,
-   594				      &cfmw_align);
-   595		if (cfmw_align < block_sz && cfmw_align >= SZ_256M)
- > 596			set_memory_block_size_order(ffs(cfmw_align)-1);
-   597	
-   598		/* Then we need to make a pass to fill the numa nodes */
-   599		acpi_table_parse_cedt(ACPI_CEDT_TYPE_CFMWS, acpi_parse_cfmws,
-   600				      &fake_pxm);
-   601	
-   602		if (cnt < 0)
-   603			return cnt;
-   604		else if (!parsed_numa_memblks)
-   605			return -ENOENT;
-   606		return 0;
-   607	}
-   608	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Jingyi
+
