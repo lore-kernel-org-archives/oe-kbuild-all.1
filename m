@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7B7176AC5;
-	Sun, 29 Sep 2024 11:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CD91386B4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 11:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727609973; cv=none; b=jMwHXxUtwtwMMPo2gnCngYwF/e+jcvHi0QHifnvs5cfVb8PGuDFv4yXJqJgQa5br9rng9Lqf3bTk9F8Ji+I079/mWnpuWGQBUfCSkVVKYkv+tv7AidKr9cnlXXvPinEyROEoAvo5JWBB+FtKmUq09u2Bgp7/5GSCAuiWiaUqvqE=
+	t=1727610571; cv=none; b=VcfMqwvzkybxiygOsEUDI8JpGariBKpq1bFf0Js6EzMny/qdbsrcw2uHtwdhGbjiqtPqypyvEyOPzKhQxL9KrU0HQR3Rv3gR89yhxDGRno09165Aa4oPKuoXSioUAeDnKEHhrZkI28O9MfZtDvNbjQQA5S88ASRLdgpX+23aHPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727609973; c=relaxed/simple;
-	bh=znwnUWD288OphyepBDdxWRv6PNjWTuLyFRM5NGqPWSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PMvU3H4rQXji0KoxSu7rUWXqevcFG6hMqz0GM8l+36DhQiafT+gMCi5HMmEr6a2vuS2bNSi2Gh9OsSwrmPpOTt6CFCjWQHccCdszahw8Bsj28pjH7n/J1stcMtUOcZ5X+4JEe2twKNmFFjfkdGXNWQydhKqo+aGtHzOIPDLZ1xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRNN1CSn; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1727610571; c=relaxed/simple;
+	bh=7cDQIzJairXc8vB1D9IGjoB3RExGkyOYsL6xVgX7WT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NCfSwp8KpCKjav0qkukR5EcHMv5Ho5CbRPdTw2BZ+yWNNVRq/Z4UhqOJEHS/8vFBm8J+2Pb3vAJAwGGG1I0hFOn4u6+3H+SAVqt9d0ajOcdi1t3bewNPXDfbaCa/TMDVs8pE9gEgByjn9w+Wr5D1hjFDlodzKy/QGVnwrTBD+jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YPVlt9FB; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRNN1CSn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YPVlt9FB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727609971; x=1759145971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=znwnUWD288OphyepBDdxWRv6PNjWTuLyFRM5NGqPWSM=;
-  b=iRNN1CSn2mnuhS4cxochI2eteWTKUdTTZzfqPve4EibMVHr9vJ3I0Q0u
-   Zvq1+O1PRbSltF3ePBT7NI0VI7e2BxF4w82sNMXj3EnwFTSw5T3LiK7qK
-   uD/KGrHCw+hUlIPTekUj1m9UvTOHHJTUy9swgIMLEq+CLzvQIzZeyvZar
-   XQzxDQU+54pwF7FlP+Z5aGmQrzWrKEGM4SxM9wDj7Z+AuhQo2pgqbijox
-   zw7R6iqa78u6NZ/i9ZWOl2bpU/tIuKeWmLsrNz7TIUrb5e7gCHoGBDgn0
-   JBlu7drYu1h2JTCPDOJuFbEZdc565JVbCqNYFsyga+MaYS92a01yA+UK3
-   Q==;
-X-CSE-ConnectionGUID: 5k4iMupkRlK/qN2xDR1gow==
-X-CSE-MsgGUID: xagaMtxXRxSy7KRXo2weHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="30498522"
+  t=1727610569; x=1759146569;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7cDQIzJairXc8vB1D9IGjoB3RExGkyOYsL6xVgX7WT4=;
+  b=YPVlt9FB2Qs99yD62DLH9wTPxvEwLaC+6pWADv6ZLCMYQcwAN/NlPzup
+   nErj1p23efv+5g6k8+3WBsQ4qcrwB+WK7UUb/m2uPHzapmhulY2mzWy6q
+   rEnsl8YvA7Imz3z8VMKrzXuIslqAIOTDHw1x2ejqwqypCRV3jTtXHNNp0
+   liNtAHggezINgb8G/BlvxkFpcTOK686GRGwbeV5D0YQdfwsFFUEmr+JZW
+   v6x+M21BiCk7SDNKW7nAGvQq4X6iEc8ZocRHGqBW48gAhPMO5oVTcKR66
+   NHTMdt02jgUf3rKkKL4hG5pU/RhY+EQ53KIUQ7BttOZII3F3f0HLlCc9A
+   g==;
+X-CSE-ConnectionGUID: AwTM+aj8SlesNhE9gFG9Pg==
+X-CSE-MsgGUID: MGZFX4VaTbuQafSrAE/mBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26580874"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="30498522"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 04:39:30 -0700
-X-CSE-ConnectionGUID: WPcroV4HQfyJrhqZs4+cOw==
-X-CSE-MsgGUID: oVXNiRWST1iJwMv4E23Gzg==
+   d="scan'208";a="26580874"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 04:49:29 -0700
+X-CSE-ConnectionGUID: IYUre/XuQue4fThiWtO+Uw==
+X-CSE-MsgGUID: HEXMj4PxTiSx6GFAdSBN2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="103806253"
+   d="scan'208";a="103807456"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Sep 2024 04:39:26 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2024 04:49:27 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1susGp-000OFP-2Y;
-	Sun, 29 Sep 2024 11:39:23 +0000
-Date: Sun, 29 Sep 2024 19:39:02 +0800
+	id 1susQW-000OFp-2C;
+	Sun, 29 Sep 2024 11:49:24 +0000
+Date: Sun, 29 Sep 2024 19:49:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karan Tilak Kumar <kartilak@cisco.com>, sebaddel@cisco.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, arulponn@cisco.com,
-	djhawar@cisco.com, gcboffa@cisco.com, mkai2@cisco.com,
-	satishkh@cisco.com, aeasi@cisco.com, jejb@linux.ibm.com,
-	martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Karan Tilak Kumar <kartilak@cisco.com>
-Subject: Re: [PATCH v3 07/14] scsi: fnic: Add and integrate support for FIP
-Message-ID: <202409291955.FcMZfNSt-lkp@intel.com>
-References: <20240927184613.52172-8-kartilak@cisco.com>
+To: Srinivas Neeli <srinivas.neeli@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>, Suraj Gupta <suraj.gupta2@amd.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 578/1001]
+ drivers/net/ethernet/xilinx/xilinx_axienet.h:1022:9: error: implicit
+ declaration of function 'writeq'; did you mean 'writel'?
+Message-ID: <202409291949.gCNLUd9B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,83 +64,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240927184613.52172-8-kartilak@cisco.com>
 
-Hi Karan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karan-Tilak-Kumar/scsi-fnic-Replace-shost_printk-with-dev_info-dev_err/20240928-025906
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20240927184613.52172-8-kartilak%40cisco.com
-patch subject: [PATCH v3 07/14] scsi: fnic: Add and integrate support for FIP
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240929/202409291955.FcMZfNSt-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291955.FcMZfNSt-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
+head:   5365c13a86998da06d845c918f849b30b8735538
+commit: 0ed3324fdd0d04556bd1e130c4b8ae0f73486a05 [578/1001] net: axienet: added multichannel DMA support
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240929/202409291949.gCNLUd9B-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291949.gCNLUd9B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409291955.FcMZfNSt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409291949.gCNLUd9B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/scsi/fnic/fnic_fcs.c:292:21: warning: variable 'fnic_stats' set but not used [-Wunused-but-set-variable]
-     292 |         struct fnic_stats *fnic_stats;
-         |                            ^
-   1 warning generated.
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:24:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1022:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1022 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   In file included from include/linux/if_ether.h:19,
+                    from include/linux/ethtool.h:18,
+                    from include/linux/phy.h:16,
+                    from include/linux/of_mdio.h:12,
+                    from drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:18:
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_rx_bd_free':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:148:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     148 |                 dev_kfree_skb((struct sk_buff *)
+         |                               ^
+   include/linux/skbuff.h:1381:45: note: in definition of macro 'dev_kfree_skb'
+    1381 | #define dev_kfree_skb(a)        consume_skb(a)
+         |                                             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_rx_q_init':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:285:47: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     285 |                 q->rxq_bd_v[i].sw_id_offset = (phys_addr_t)skb;
+         |                                               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_err_handler':
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:625:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     625 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_main.c:51:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1022:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1022 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_tx_hwtstamp':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:584:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     584 |                 skb_hwtstamps((struct sk_buff *)cur_p->ptp_tx_skb);
+         |                               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:646:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     646 |                 skb_pull((struct sk_buff *)cur_p->ptp_tx_skb,
+         |                          ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:649:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     649 |         skb_tstamp_tx((struct sk_buff *)cur_p->ptp_tx_skb, shhwtstamps);
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:650:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     650 |         dev_kfree_skb_any((struct sk_buff *)cur_p->ptp_tx_skb);
+         |                           ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_start_xmit_done':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:751:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     751 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_skb_tstsmp':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:961:53: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     961 |                                 cur_p->ptp_tx_skb = (phys_addr_t)skb_get(skb);
+         |                                                     ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_queue_xmit':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1065:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1065 |             (((phys_addr_t)skb->data & 0x3) || num_frag > 0)) {
+         |               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1117:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1117 |         cur_p->tx_skb = (phys_addr_t)skb;
+         |                         ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1118:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1118 |         cur_p->tx_skb = (phys_addr_t)skb;
+         |                         ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_recv':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1212:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1212 |                 skb = (struct sk_buff *)(cur_p->sw_id_offset);
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1302:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1302 |                 cur_p->sw_id_offset = (phys_addr_t)new_skb;
+         |                                       ^
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_mdio.c:18:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1022:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1022 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:17:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1022:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1022 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   In file included from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/ethernet/xilinx/xilinx_axienet.h:14:
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function 'axienet_bd_free':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:37:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      37 |                 dev_kfree_skb((struct sk_buff *)
+         |                               ^
+   include/linux/skbuff.h:1381:45: note: in definition of macro 'dev_kfree_skb'
+    1381 | #define dev_kfree_skb(a)        consume_skb(a)
+         |                                             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function '__dma_rxq_init':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:172:46: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     172 |                 q->rx_bd_v[i].sw_id_offset = (phys_addr_t)skb;
+         |                                              ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function 'axienet_dma_err_handler':
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:412:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     412 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   cc1: some warnings being treated as errors
 
 
-vim +/fnic_stats +292 drivers/scsi/fnic/fnic_fcs.c
+vim +1022 drivers/net/ethernet/xilinx/xilinx_axienet.h
 
-   289	
-   290	void fnic_handle_fip_frame(struct work_struct *work)
-   291	{
- > 292		struct fnic_stats *fnic_stats;
-   293		struct fnic_frame_list *cur_frame, *next;
-   294		struct fnic *fnic = container_of(work, struct fnic, fip_frame_work);
-   295	
-   296		fnic_stats = &fnic->fnic_stats;
-   297		FNIC_FCS_DBG(KERN_INFO, fnic->lport->host, fnic->fnic_num,
-   298					 "Processing FIP frame\n");
-   299	
-   300		spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
-   301		list_for_each_entry_safe(cur_frame, next, &fnic->fip_frame_queue,
-   302								 links) {
-   303			if (fnic->stop_rx_link_events) {
-   304				list_del(&cur_frame->links);
-   305				spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
-   306				kfree(cur_frame->fp);
-   307				kfree(cur_frame);
-   308				return;
-   309			}
-   310	
-   311			/*
-   312			 * If we're in a transitional state, just re-queue and return.
-   313			 * The queue will be serviced when we get to a stable state.
-   314			 */
-   315			if (fnic->state != FNIC_IN_FC_MODE &&
-   316				fnic->state != FNIC_IN_ETH_MODE) {
-   317				spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
-   318				return;
-   319			}
-   320	
-   321			list_del(&cur_frame->links);
-   322	
-   323			if (fdls_fip_recv_frame(fnic, cur_frame->fp)) {
-   324				kfree(cur_frame->fp);
-   325				kfree(cur_frame);
-   326			}
-   327		}
-   328		spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
-   329	}
-   330	
+  1008	
+  1009	/**
+  1010	 * axienet_dma_bdout - Memory mapped Axi DMA register Buffer Descriptor write.
+  1011	 * @q:		Pointer to DMA queue structure
+  1012	 * @reg:	Address offset from the base address of the Axi DMA core
+  1013	 * @value:	Value to be written into the Axi DMA register
+  1014	 *
+  1015	 * This function writes the desired value into the corresponding Axi DMA
+  1016	 * register.
+  1017	 */
+  1018	static inline void axienet_dma_bdout(struct axienet_dma_q *q,
+  1019					     off_t reg, dma_addr_t value)
+  1020	{
+  1021	#if defined(CONFIG_PHYS_ADDR_T_64BIT)
+> 1022		writeq(value, (q->dma_regs + reg));
+  1023	#else
+  1024		writel(value, (q->dma_regs + reg));
+  1025	#endif
+  1026	}
+  1027	
 
 -- 
 0-DAY CI Kernel Test Service
