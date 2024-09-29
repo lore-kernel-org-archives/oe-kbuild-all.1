@@ -1,125 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A625680
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 14:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46E18F6D;
+	Sun, 29 Sep 2024 14:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727619395; cv=none; b=Bmf/rl7gMxzSymBw+GXWTnTMLdk1FO91Og2f2n+SS2kitpforiNvSkMs4KgxA/46ER8cF6qTFG7vKLKZdAxr1t5focP17jFDe95WrGmp2UBP4s+TAaVnG5csA6r5PQ0/wF8618j3X69kg7xktohJHC21ZqqQlzcWJmn43JmUOd4=
+	t=1727621916; cv=none; b=uuWmtE2VOXtGcA3mddrJiqHOnKaKAxDwC8cwth/I+SVSlslB9aVSRhNwvQbQqP+cFFWq3JVvbFYEbblm/5KXI8c+iWNQNAxYfmhgfIs5WBRte3qeOamRHLJQ4sNOCP09JR1bgTplcIuHI75KVCsccHQXpJxqfOJPqJjHzefV63c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727619395; c=relaxed/simple;
-	bh=UJekgKfbDstuDK3ruUIVocLxdDow5IPtCNom1K0bHtE=;
+	s=arc-20240116; t=1727621916; c=relaxed/simple;
+	bh=EsvOCb8mouWgIp+t2D5j7SiNaCWqYYTwsbWe/Lk3+w0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sek56hjuBPdsUYn5Us4D+MD3X+bX3wifTE3c3pY5TIzmNETDyhtJi0jGqvEpd1bJvtFiYTG2azASDFJ1upUOVF7InWqr+fjENqgm5I1CecxSBuvJIfFjNOKJulg+7RnFlTvaEGw07dNRYM9a8yDdrnaBWEnoMTAcABzkK5LjHWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHsdUlBQ; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=CQQMBaUiN9KG/YtObjhG3qm3Zs90NTrRTm4ZySGZl6kK6lTn97LBi9c2dAiQl+70cPUzjW9ewnl7bwamV7FVJyaJEEpwIlP/rVA9vHrzSg5QVEPKbr8GkpdPa7KcpunoubdgKcrWfP23MDpBZ2fDtbwS/gEL4gfLNbQPQ9LOp94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b9v6Mlng; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHsdUlBQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b9v6Mlng"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727619393; x=1759155393;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UJekgKfbDstuDK3ruUIVocLxdDow5IPtCNom1K0bHtE=;
-  b=hHsdUlBQ1cpP4XXIXkVu4k0h19zcYuyT+HrH+HzJ7STrgp8SbuyU12Ug
-   cPX+Xx/0CpZd57Q73kZgRbPpQNxnI+lDNg2d0/u6qZ0Ri+30Eo7nkZSQj
-   o1vBa3Wlx81TqzMCaGlpwcsFnCPjzez7W/iskZPR9/kleOkT//sCOq6eu
-   0uyJyYKYU1sSX7KLOHxDJ/kFd15A3jT/YSL6SHYdMlAnRTeWHsbx7i4Jp
-   +5zCT9yW6b4/Mdo1lXUadyhwXapIoBqxM0Px2DVeNYLv1569x5nBHdSzT
-   9QMGCYL07upKo80xmPBsqSVQWw1VqKYzx+1lYieREcmoUA/2s1muSH71F
-   w==;
-X-CSE-ConnectionGUID: 8fZuBASqTUaP/aYRCsdB/Q==
-X-CSE-MsgGUID: YBYrLzwiTV6BnbebrxytEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="44231297"
+  t=1727621915; x=1759157915;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EsvOCb8mouWgIp+t2D5j7SiNaCWqYYTwsbWe/Lk3+w0=;
+  b=b9v6MlngV+uwX/3BIPDdVSv4qQn/wyH1Ks5rXIFLEF3Md65jOGkTh/I6
+   uhp4AZznWFjG2lHI25v/cfkYBdYxZmABLOemzz95CQuv3pcT+TRWYKNXE
+   uRmVZaUtbPx3sOduAzE+1F1VytCdZsuBCF9VEbcak4zs+6aoT8XVnyq5T
+   KbLXLdewNi1wm6Ia6WYaK5iEJLQ9jF+WNHE688HHP5Y2KDufz5bbrgLTL
+   +HdP+uWqFCXQPU/7UsZzbWNO9vujcwb8c317olvujI/RMJGUKUul6Rudf
+   c2RBTNb04eMe8D8O+PzNE+CWpg+o3sGPk2jHnJ+20xm5sXYJo8KJC1pjX
+   A==;
+X-CSE-ConnectionGUID: +VIssi3FQG+CzGDUGotlqg==
+X-CSE-MsgGUID: lr5npcHEQhO1DsY7Vg4SPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26840094"
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="44231297"
+   d="scan'208";a="26840094"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 07:16:32 -0700
-X-CSE-ConnectionGUID: MowzJNgETgmKylsOGLXudg==
-X-CSE-MsgGUID: etEhEa1nRc6XUljHjh8ZYA==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 07:58:35 -0700
+X-CSE-ConnectionGUID: q1WNjJDPSJK7ItJR4DWC3A==
+X-CSE-MsgGUID: o9m6U9FKQbWZBnpsPJ/Zfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="96361715"
+   d="scan'208";a="96368322"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Sep 2024 07:16:31 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Sep 2024 07:58:33 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suuiq-000OL7-2s;
-	Sun, 29 Sep 2024 14:16:28 +0000
-Date: Sun, 29 Sep 2024 22:15:50 +0800
+	id 1suvNW-000ONB-1u;
+	Sun, 29 Sep 2024 14:58:30 +0000
+Date: Sun, 29 Sep 2024 22:57:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 3730/16788]
- drivers/spi/spi-nxp-fspi.c:1398:12: error: use of undeclared identifier
- 'nxp_fspi_pm_ops'; did you mean 'nxp_fspi_mem_ops'?
-Message-ID: <202409292240.jEZS4yl1-lkp@intel.com>
+To: Nuno Sa <nuno.sa@analog.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Nuno Sa <noname.nuno@gmail.com>
+Subject: [nsa:b4/dev-adp5589-fw-conversion 7/14]
+ drivers/input/keyboard/adp5589-keys.c:1000:13: warning: format specifies
+ type 'size_t' (aka 'unsigned long') but the argument has type 'u32' (aka
+ 'unsigned int')
+Message-ID: <202409292244.bec1fiwy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: d75346f7d4e000543bb01cb5d719277629167d0f [3730/16788] spi: spi-nxp-fspi: enable runtime pm for fspi
-config: arm-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240929/202409292240.jEZS4yl1-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409292240.jEZS4yl1-lkp@intel.com/reproduce)
+tree:   https://github.com/nunojsa/linux b4/dev-adp5589-fw-conversion
+head:   d8f775093f32be0f662a6093041d941d372d4830
+commit: b6abc9f63f6e47bc7ed2772edeb85381a0f5da67 [7/14] Input: adp5589-keys: add support for fw properties
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240929/202409292244.bec1fiwy-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409292244.bec1fiwy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409292240.jEZS4yl1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409292244.bec1fiwy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/spi/spi-nxp-fspi.c:59:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/spi/spi-nxp-fspi.c:1398:12: error: use of undeclared identifier 'nxp_fspi_pm_ops'; did you mean 'nxp_fspi_mem_ops'?
-    1398 |                 .pm =   &nxp_fspi_pm_ops,
-         |                          ^~~~~~~~~~~~~~~
-         |                          nxp_fspi_mem_ops
-   drivers/spi/spi-nxp-fspi.c:1148:44: note: 'nxp_fspi_mem_ops' declared here
-    1148 | static const struct spi_controller_mem_ops nxp_fspi_mem_ops = {
-         |                                            ^
->> drivers/spi/spi-nxp-fspi.c:1398:11: error: incompatible pointer types initializing 'const struct dev_pm_ops *' with an expression of type 'const struct spi_controller_mem_ops *' [-Werror,-Wincompatible-pointer-types]
-    1398 |                 .pm =   &nxp_fspi_pm_ops,
-         |                         ^~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
+   drivers/input/keyboard/adp5589-keys.c:763:9: warning: implicit conversion from 'unsigned long' to 'int' changes value from 18446744073709551615 to -1 [-Wconstant-conversion]
+     763 |         return INVALID_HWIRQ;
+         |         ~~~~~~ ^~~~~~~~~~~~~
+   include/linux/irq.h:1300:24: note: expanded from macro 'INVALID_HWIRQ'
+    1300 | #define INVALID_HWIRQ   (~0UL)
+         |                          ^~~~
+   drivers/input/keyboard/adp5589-keys.c:970:30: error: no member named 'col_shift' in 'struct adp5589_info'
+     970 |             BIT(col) << kpad->info->col_shift & kpad->keypad_en_mask)
+         |                         ~~~~~~~~~~  ^
+>> drivers/input/keyboard/adp5589-keys.c:1000:13: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'u32' (aka 'unsigned int') [-Wformat]
+     999 |                 dev_err(&client->dev, "Invalid number of keys(%u > %zu) for %s\n",
+         |                                                                    ~~~
+         |                                                                    %u
+    1000 |                         *n_keys, max_keys, prop);
+         |                                  ^~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   2 warnings and 1 error generated.
 
 
-vim +1398 drivers/spi/spi-nxp-fspi.c
+vim +1000 drivers/input/keyboard/adp5589-keys.c
 
-55ab8487e01d18 kuldip dwivedi      2020-09-11  1392  
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1393  static struct platform_driver nxp_fspi_driver = {
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1394  	.driver = {
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1395  		.name	= "nxp-fspi",
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1396  		.of_match_table = nxp_fspi_dt_ids,
-55ab8487e01d18 kuldip dwivedi      2020-09-11  1397  		.acpi_match_table = ACPI_PTR(nxp_fspi_acpi_ids),
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15 @1398  		.pm =   &nxp_fspi_pm_ops,
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1399  	},
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1400  	.probe          = nxp_fspi_probe,
-2dd82e32c20b57 Uwe Kleine-König    2023-03-03  1401  	.remove_new	= nxp_fspi_remove,
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1402  };
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1403  module_platform_driver(nxp_fspi_driver);
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1404  
-
-:::::: The code at line 1398 was first introduced by commit
-:::::: a5356aef6a907c2e2aed0caaa2b88b6021394471 spi: spi-mem: Add driver for NXP FlexSPI controller
-
-:::::: TO: Yogesh Narayan Gaur <yogeshnarayan.gaur@nxp.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   978	
+   979	static int adp5589_parse_key_array(struct adp5589_kpad *kpad, const char *prop,
+   980					   u32 *keys, u32 *n_keys, u32 max_keys,
+   981					   bool reset_key)
+   982	{
+   983		struct i2c_client *client = kpad->client;
+   984		unsigned int key, max_keypad;
+   985		int ret;
+   986	
+   987		ret = device_property_count_u32(&client->dev, prop);
+   988		if (ret < 0)
+   989			return 0;
+   990	
+   991		*n_keys = ret;
+   992	
+   993		if (kpad->info->is_adp5585 && !reset_key) {
+   994			dev_err(&client->dev, "Unlock keys not supported for adp5585\n");
+   995			return -EOPNOTSUPP;
+   996		}
+   997	
+   998		if (*n_keys  > max_keys) {
+   999			dev_err(&client->dev, "Invalid number of keys(%u > %zu) for %s\n",
+> 1000				*n_keys, max_keys, prop);
+  1001			return -EINVAL;
+  1002		}
+  1003	
+  1004		ret = device_property_read_u32_array(&client->dev, prop, keys, *n_keys);
+  1005		if (ret)
+  1006			return ret;
+  1007	
+  1008		max_keypad = (kpad->info->var->max_row_num + 1) * (kpad->info->var->max_col_num + 1);
+  1009	
+  1010		for (key = 0; key < *n_keys; key++) {
+  1011			/* part of the keypad... */
+  1012			if (in_range(keys[key], 1, max_keypad)) {
+  1013				/* is it part of the keypad?! */
+  1014				ret = adp5589_validate_key(kpad, keys[key], false);
+  1015				if (ret)
+  1016					return ret;
+  1017	
+  1018				continue;
+  1019			}
+  1020	
+  1021			/* part of gpio-keys... */
+  1022			if (in_range(keys[key], kpad->info->var->gpi_pin_base,
+  1023				     kpad->info->var->maxgpio)) {
+  1024				/* is the GPI being used as part of the keypad?! */
+  1025				ret = adp5589_validate_key(kpad, keys[key], true);
+  1026				if (ret)
+  1027					return ret;
+  1028	
+  1029				continue;
+  1030			}
+  1031	
+  1032			/* wildcard unlock event... */
+  1033			if (!reset_key && keys[key] == 127)
+  1034				continue;
+  1035	
+  1036			dev_err(&client->dev, "Invalid key(%u) for %s\n", keys[key],
+  1037				prop);
+  1038	
+  1039			return -EINVAL;
+  1040		}
+  1041	
+  1042		return 0;
+  1043	}
+  1044	
 
 -- 
 0-DAY CI Kernel Test Service
