@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43613FB1B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 10:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399CC15B57F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 10:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727607508; cv=none; b=IfE5wze6UFe6ju0+qWuIPEQbMOyFxhb+JjCOZS9YdKX2Vb6XkSeS5rrH0STG/hQSFux+LCh7+s7tiV5+QZAdjDAb/ujA2SRrsYs6ZAr/wAueoaQm2p4Yp+NaB9p7wk6csRczT5RQt6cdHnBkaR73/0QHBf5ECZqoJ3eYOYezNT0=
+	t=1727607510; cv=none; b=di/x4EXBuSTdQGzg964CeLWpy/BSmsd5q0bN6+ESMVbLW7n65fQ+N6d4JU+LC8Xn1CaBack4yNuaj9NwUseRUzAQgPSmJ7xkYytRUhLY7JnDWuwqbVKF+fQVZPKjoiPrI/FFVR0IzLpsgaVfgcUTMqFhRfamcLWteKLpJl9DwdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727607508; c=relaxed/simple;
-	bh=PZ6CWpBD8sppART9Uh9G/xgZiJ9JNFOSquDG0EZKGVw=;
+	s=arc-20240116; t=1727607510; c=relaxed/simple;
+	bh=zhRcND7c6rcAq43ltMpb3pE+87u8TP+L7UylLBx9IX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GdmWWrzexmMtwJg2BFMunXB7D0DZyJJsRk9FmZXo9Pgt0THLj50VxjWL4pi8Jdnc3khMou2UXmxLVXHo1by6e4j0rUHaoim59JWZ8eQBag7ezbeamfb9ISmGW26ReOW7Bz2FQlYIQoz8xjM3Kj8e8ybf5pCPvKZ/iftsSGb6Xvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gE2cP1Yw; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=QDBRtF9c+8IOMVnif+A7mEUzPsHzBn1YKjnwPPKAlAMIPLsw+bVFMOAHkFHPedKlEHky+ZLRwI5yg4EJeyFhZn15WiXSLBfHF3m5aOMg5h+JsdPncPW4Wk2eS5kfdHNCIzFiGTVuCU6p7ulhnbYf/6XeIBvGplT3O79hTNo0YXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVJHe27u; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gE2cP1Yw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVJHe27u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727607506; x=1759143506;
+  t=1727607508; x=1759143508;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PZ6CWpBD8sppART9Uh9G/xgZiJ9JNFOSquDG0EZKGVw=;
-  b=gE2cP1Yw0O22hueJTg1jtXHcwtwZe1u86cBRwE0IteM5IwSL6BXS46+p
-   Ukvu4SIo2C+p/ZER3dIRWY244DKBDSPzquKNSWmMtM9SjxGWblRoahWpx
-   WsWOyaWM3a8Q+bJThj0aZG3KSOfL9omcXTOUOT5QNlhqvnGqxT08v+yPC
-   s36GrqhvPgG1mCtF4mXT4hMvX9sJOKye8hLs/glkbHXl83BcybAVe8JSM
-   JK8iYK2jdgWu6L+w1Zfq0MZzoj4RFPWosHKVr/8ecb10jeR1oDjvKJyEn
-   cA/HODaFnnjNWbAeTbZBgbUa0wgiEpfHJBNj7VWdRimU8JTiEJ74Bt7XY
-   Q==;
-X-CSE-ConnectionGUID: Mi6Cs6xfRz6mzmgyzEA9EQ==
-X-CSE-MsgGUID: pvzO2Rg4QUa4vIOq7F6NgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="38062413"
+  bh=zhRcND7c6rcAq43ltMpb3pE+87u8TP+L7UylLBx9IX4=;
+  b=TVJHe27uttxx6rx5R4VNWq/npETssBEubtYl451Eu9MEfeonroZR0JxH
+   n3UAgTKG9Za0yUXKX9hd5qMYOHtZtuwD0LIgWr4sINdkQAfh9R3uX700u
+   2cHrG6q9fO5S+b2ZK+HHpy3W7XoBdhWwsk/XX2nj+B7G/hYd6PNmVpFR7
+   Zk/+wCG3I+YYBAxdT/3abP9xTIH1hMWmuhqKaMOituLotEw/ViZyRu0fo
+   jb0JX02xILfyr0cOnY1771qn6Xl++o4z+zhOnynMTLqi1Ba1qvzOu+sKh
+   WVYbOHUcLJN8D/aCenlrzak4ZOBT12sMrZ4x8S4Q0ZVvLvHaNrVVmK2q/
+   g==;
+X-CSE-ConnectionGUID: JhGwfu4YTmWrxbsOqIktAg==
+X-CSE-MsgGUID: 5oRwib+cTJSR5LWLa2B6Jw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="38062415"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="38062413"
+   d="scan'208";a="38062415"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 03:58:26 -0700
-X-CSE-ConnectionGUID: +vGkKWDHSReM2EifK2d63A==
-X-CSE-MsgGUID: fmkDLoC+Su2gffoH+0g2JA==
+X-CSE-ConnectionGUID: /BKbPNnOQFSH/v4Cr/ntSA==
+X-CSE-MsgGUID: InRzS7YgSF6Z4u1WAYeYbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="72581960"
+   d="scan'208";a="72581962"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 29 Sep 2024 03:58:24 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1surd8-000ODd-1J;
+	id 1surd8-000ODZ-14;
 	Sun, 29 Sep 2024 10:58:22 +0000
-Date: Sun, 29 Sep 2024 18:57:38 +0800
+Date: Sun, 29 Sep 2024 18:57:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 5875/16788]
- arch/arm/mach-imx/busfreq-imx.c:102:19: error: a randomized struct can only
- be initialized with a designated initializer
-Message-ID: <202409291842.WLJARvdj-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 4960/16788]
+ drivers/pinctrl/freescale/pinctrl-imx.c:83:5: warning: no previous prototype
+ for 'imx_scmi_dt_node_to_map'
+Message-ID: <202409291846.q8IDbqMu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,143 +63,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dong,
+Hi Peng,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
 tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
 head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: 8edc700dd52e0961f046aa8e47e812efc10ae588 [5875/16788] Merge branch 'clock/next' into next
-config: arm-randconfig-003-20240928 (https://download.01.org/0day-ci/archive/20240929/202409291842.WLJARvdj-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291842.WLJARvdj-lkp@intel.com/reproduce)
+commit: 392ef0f507c7e245ba3a2f4e92caa82569818080 [4960/16788] LF-10523-16-2 pinctrl: imx: support i.MX9 SCMI
+config: i386-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240929/202409291846.q8IDbqMu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291846.q8IDbqMu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409291842.WLJARvdj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409291846.q8IDbqMu-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm/mach-imx/busfreq_ddr3.c:21:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/arm/mach-imx/busfreq_ddr3.c:217:5: warning: no previous prototype for function 'can_change_ddr_freq' [-Wmissing-prototypes]
-     217 | int can_change_ddr_freq(void)
-         |     ^
-   arch/arm/mach-imx/busfreq_ddr3.c:217:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     217 | int can_change_ddr_freq(void)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_ddr3.c:254:5: warning: no previous prototype for function 'update_ddr_freq_imx_smp' [-Wmissing-prototypes]
-     254 | int update_ddr_freq_imx_smp(int ddr_rate)
-         |     ^
-   arch/arm/mach-imx/busfreq_ddr3.c:254:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     254 | int update_ddr_freq_imx_smp(int ddr_rate)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_ddr3.c:379:5: warning: no previous prototype for function 'update_ddr_freq_imx6_up' [-Wmissing-prototypes]
-     379 | int update_ddr_freq_imx6_up(int ddr_rate)
-         |     ^
-   arch/arm/mach-imx/busfreq_ddr3.c:379:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     379 | int update_ddr_freq_imx6_up(int ddr_rate)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_ddr3.c:424:5: warning: no previous prototype for function 'init_ddrc_ddr_settings' [-Wmissing-prototypes]
-     424 | int init_ddrc_ddr_settings(struct platform_device *busfreq_pdev)
-         |     ^
-   arch/arm/mach-imx/busfreq_ddr3.c:424:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     424 | int init_ddrc_ddr_settings(struct platform_device *busfreq_pdev)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_ddr3.c:496:5: warning: no previous prototype for function 'init_mmdc_ddr3_settings_imx6_up' [-Wmissing-prototypes]
-     496 | int init_mmdc_ddr3_settings_imx6_up(struct platform_device *busfreq_pdev)
-         |     ^
-   arch/arm/mach-imx/busfreq_ddr3.c:496:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     496 | int init_mmdc_ddr3_settings_imx6_up(struct platform_device *busfreq_pdev)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_ddr3.c:593:5: warning: no previous prototype for function 'init_mmdc_ddr3_settings_imx6_smp' [-Wmissing-prototypes]
-     593 | int init_mmdc_ddr3_settings_imx6_smp(struct platform_device *busfreq_pdev)
-         |     ^
-   arch/arm/mach-imx/busfreq_ddr3.c:593:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     593 | int init_mmdc_ddr3_settings_imx6_smp(struct platform_device *busfreq_pdev)
-         | ^
-         | static 
-   7 warnings generated.
---
-   In file included from arch/arm/mach-imx/busfreq-imx.c:17:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/arm/mach-imx/busfreq-imx.c:102:19: error: a randomized struct can only be initialized with a designated initializer
-     102 | } busfreq_func = {NULL, NULL};
-         |                   ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^
-   1 warning and 1 error generated.
---
-   In file included from arch/arm/mach-imx/busfreq_lpddr2.c:22:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/arm/mach-imx/busfreq_lpddr2.c:124:5: warning: no previous prototype for function 'update_lpddr2_freq' [-Wmissing-prototypes]
-     124 | int update_lpddr2_freq(int ddr_rate)
-         |     ^
-   arch/arm/mach-imx/busfreq_lpddr2.c:124:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     124 | int update_lpddr2_freq(int ddr_rate)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_lpddr2.c:159:5: warning: no previous prototype for function 'init_mmdc_lpddr2_settings' [-Wmissing-prototypes]
-     159 | int init_mmdc_lpddr2_settings(struct platform_device *busfreq_pdev)
-         |     ^
-   arch/arm/mach-imx/busfreq_lpddr2.c:159:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     159 | int init_mmdc_lpddr2_settings(struct platform_device *busfreq_pdev)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_lpddr2.c:185:5: warning: no previous prototype for function 'update_lpddr2_freq_smp' [-Wmissing-prototypes]
-     185 | int update_lpddr2_freq_smp(int ddr_rate)
-         |     ^
-   arch/arm/mach-imx/busfreq_lpddr2.c:185:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     185 | int update_lpddr2_freq_smp(int ddr_rate)
-         | ^
-         | static 
->> arch/arm/mach-imx/busfreq_lpddr2.c:283:5: warning: no previous prototype for function 'init_mmdc_lpddr2_settings_mx6q' [-Wmissing-prototypes]
-     283 | int init_mmdc_lpddr2_settings_mx6q(struct platform_device *busfreq_pdev)
-         |     ^
-   arch/arm/mach-imx/busfreq_lpddr2.c:283:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     283 | int init_mmdc_lpddr2_settings_mx6q(struct platform_device *busfreq_pdev)
-         | ^
-         | static 
-   5 warnings generated.
+>> drivers/pinctrl/freescale/pinctrl-imx.c:83:5: warning: no previous prototype for 'imx_scmi_dt_node_to_map' [-Wmissing-prototypes]
+      83 | int imx_scmi_dt_node_to_map(struct pinctrl_dev *pctldev, struct device_node *np,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +102 arch/arm/mach-imx/busfreq-imx.c
+vim +/imx_scmi_dt_node_to_map +83 drivers/pinctrl/freescale/pinctrl-imx.c
 
-4c3e8cf9f9519b Anson Huang 2019-04-12   94  
-4c3e8cf9f9519b Anson Huang 2019-04-12   95  /**
-4c3e8cf9f9519b Anson Huang 2019-04-12   96   * @brief  Functions to init and update the busfreq function of
-4c3e8cf9f9519b Anson Huang 2019-04-12   97   *         device and memory type
-4c3e8cf9f9519b Anson Huang 2019-04-12   98   */
-4c3e8cf9f9519b Anson Huang 2019-04-12   99  static struct busfreq_func {
-4c3e8cf9f9519b Anson Huang 2019-04-12  100  	int (*init)(struct platform_device *dev);
-4c3e8cf9f9519b Anson Huang 2019-04-12  101  	int (*update)(int ddr_rate);
-4c3e8cf9f9519b Anson Huang 2019-04-12 @102  } busfreq_func = {NULL, NULL};
-4c3e8cf9f9519b Anson Huang 2019-04-12  103  
-
-:::::: The code at line 102 was first introduced by commit
-:::::: 4c3e8cf9f9519b5341c4bd58a692a92e63450464 ARM: imx: add i.MX7D bus-freq support
-
-:::::: TO: Anson Huang <Anson.Huang@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+    81	
+    82	#define IMX_SCMI_NUM_CFG 4
+  > 83	int imx_scmi_dt_node_to_map(struct pinctrl_dev *pctldev, struct device_node *np,
+    84				    struct pinctrl_map **map, unsigned int *num_maps)
+    85	{
+    86		struct pinctrl_map *new_map;
+    87		const __be32 *list;
+    88		unsigned long *configs = NULL;
+    89		unsigned long cfg[IMX_SCMI_NUM_CFG];
+    90		int map_num, size, pin_size, pin_id, num_pins;
+    91		int mux_reg, conf_reg, input_reg, mux_val, conf_val, input_val;
+    92		int i, j;
+    93		uint32_t ncfg;
+    94		static uint32_t daisy_off;
+    95	
+    96		if (!daisy_off) {
+    97			if (of_machine_is_compatible("fsl,imx93"))
+    98				daisy_off = 0x360;
+    99			else if (of_machine_is_compatible("fsl,imx95"))
+   100				daisy_off = 0x408;
+   101			else
+   102				dev_err(pctldev->dev, "platform not support scmi pinctrl\n");
+   103		}
+   104	
+   105		list = of_get_property(np, "fsl,pins", &size);
+   106		if (!list) {
+   107			dev_err(pctldev->dev, "no fsl,pins property in node %pOF\n", np);
+   108			return -EINVAL;
+   109		}
+   110	
+   111		pin_size = FSL_PIN_SIZE;
+   112	
+   113		if (!size || size % pin_size) {
+   114			dev_err(pctldev->dev, "Invalid fsl,pins or pins property in node %pOF\n", np);
+   115			return -EINVAL;
+   116		}
+   117	
+   118		num_pins = size / pin_size;
+   119		map_num = num_pins;
+   120	
+   121		new_map = kmalloc_array(map_num, sizeof(struct pinctrl_map),
+   122					GFP_KERNEL);
+   123		if (!new_map)
+   124			return -ENOMEM;
+   125	
+   126		*map = new_map;
+   127		*num_maps = map_num;
+   128	
+   129		/* create config map */
+   130		for (i = 0; i < num_pins; i++) {
+   131			j = 0;
+   132			ncfg = IMX_SCMI_NUM_CFG;
+   133			mux_reg = be32_to_cpu(*list++);
+   134			conf_reg = be32_to_cpu(*list++);
+   135			input_reg = be32_to_cpu(*list++);
+   136			mux_val = be32_to_cpu(*list++);
+   137			input_val = be32_to_cpu(*list++);
+   138			conf_val = be32_to_cpu(*list++);
+   139			if (conf_val & IMX_PAD_SION)
+   140				mux_val |= IOMUXC_CONFIG_SION;
+   141	
+   142			pin_id = mux_reg / 4;
+   143	
+   144			cfg[j++] = pinconf_to_config_packed(IMX_PIN_TYPE_MUX, mux_val);
+   145	
+   146			if (!conf_reg || (conf_val & IMX_NO_PAD_CTL))
+   147				ncfg--;
+   148			else
+   149				cfg[j++] = pinconf_to_config_packed(IMX_PIN_TYPE_CONFIG, conf_val);
+   150	
+   151			if (!input_reg) {
+   152				ncfg -= 2;
+   153			} else {
+   154				cfg[j++] = pinconf_to_config_packed(IMX_PIN_TYPE_DAISY_ID,
+   155								    (input_reg - daisy_off) / 4);
+   156				cfg[j++] = pinconf_to_config_packed(IMX_PIN_TYPE_DAISY_CFG, input_val);
+   157			}
+   158	
+   159			configs = kmemdup(cfg, ncfg * sizeof(unsigned long), GFP_KERNEL);
+   160	
+   161			new_map[i].type = PIN_MAP_TYPE_CONFIGS_PIN;
+   162			new_map[i].data.configs.group_or_pin = pin_get_name(pctldev, pin_id);
+   163			new_map[i].data.configs.configs = configs;
+   164			new_map[i].data.configs.num_configs = ncfg;
+   165		}
+   166	
+   167		return 0;
+   168	}
+   169	EXPORT_SYMBOL_GPL(imx_scmi_dt_node_to_map);
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
