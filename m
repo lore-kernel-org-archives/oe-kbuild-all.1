@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B891CAA4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 18:07:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209883A1CD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 18:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727633272; cv=none; b=I+rW6pAkIKCIdCk62R9bvwCnOBvhnSvnaDuTXWYoVDi0ace/qcpk3x46gQcvqtZOUl36teZSNlFM6zKUY8I4RlHKo2xfkuXr6H/c/rRityS7BdrlTg4QCE3eKCVPFqdCFId4Ibz0Bj25msh3jtyE1bDBxtaF/7jVkZrrAC/VDe0=
+	t=1727633273; cv=none; b=FYMC5C0cUlHNfc/83EG/zbXZNWG02fwJnAmjcQxS2BWucIgrlNm6jTHfvGax8DEYJEQE6Pyt74R/1xL+GXYWoZzL68yOSkYhmox8ZAEen5dhUFNoPOST4ZnUkmOaVm+cIgQtExoK1gIcTinqNdTlDwuDF32aX/2SaqUl40DvmcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727633272; c=relaxed/simple;
-	bh=OKZRlto6bme4pY6xUhILVrQ06QMYGyCK+9kgU69ORNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8hFFIZeN4xKmAtPe5MnYmwvvENBiNHLwATNlY0UdNmEKc46DnUPhIPJSN9bpyeG1B6hp9GLpAGl9bTGlX32fFSaQhaxBO9ucAoSOycVpPMfymKhAe64m1XdbP3nq8/FBrRW9lg+zFOpyRi4171eu/pxfdS9u61pmqFRA4/bfQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWCJP3G4; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1727633273; c=relaxed/simple;
+	bh=xh0UAlHri4RmkBY7KGADFG/Vxv251UC0Dg7SSnlvFZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VztdbJWC7XdrfEbdEdbW3nRshmgd7HOUsPfnDbsudXRtr36gyzvb687C2D9L0fvLZBIwPVAHCouZ5sxvCCw/7oparIizZCFLSpYJZep6dRDPEhYxFotxaQ2/WhSj21yjA2fu5bHRhBFQUiUh3cK3z/hdPBJQKM0t+wtys07+f4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Az7SHiCF; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWCJP3G4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Az7SHiCF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727633270; x=1759169270;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OKZRlto6bme4pY6xUhILVrQ06QMYGyCK+9kgU69ORNI=;
-  b=LWCJP3G4WOG91uRnT9rp3+aWvSmNf+yTdVBZgIR+WTKQLhcwgEUFyV8Z
-   YrVj6HT5yrkLRoox95wxo5GmGR+8WmEHFDCAnJ3SD/xau0rBdCxBzii9c
-   sri6iOfl9MyfBEX5c+X2gAlfstcqgm5RKmATq63W5AARKZHTr0bnuNP6N
-   IlqcxdI63F1nR8Nq5cCIWscEwkhqwaaYw1t2AqPqg0OOfvg2U6e2lC7Qz
-   hCPtzfBA1jWFE9rhkEbPfZyKMrAAhKLqYFfUYbmg1+NG5G7oCZKPTmbKW
-   CM67Qdu20wkwQAy8+7Zk/iGgOTLeBLODzUzzBFydUPM9Myh1/xw73B3Jd
+  t=1727633273; x=1759169273;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xh0UAlHri4RmkBY7KGADFG/Vxv251UC0Dg7SSnlvFZ4=;
+  b=Az7SHiCFsauGsJB+1lqlwbuuMSiN4Hd4PmsDrOgaUNL6j+PZ5eY132yw
+   MXUQVDJvpy/Az3khkFWt70dVthvDxEGLAcUFMMpLfJZqVCGWPpDc6/Vfn
+   Bw53zcU+mvPL7mSli/nq2vmAvuEl8XWDnqJ/ERSnR1sOiJJiHUNNuRwJ/
+   e8MdS+lmwuNJE/CFkRYnrpnhYkm7ECeoWeZOFaLKKj2WGFCvJ+lobaJfq
+   EsQsYfGvohBUF70Cr3O0+nOd/a85cBQFzTQUebwf+aDzAZWozZdwq4PyT
+   RQ+XICpHeiCDvPAJgUk4iw9AGzxc3AK8cn6vlZ2yGJR2qfeab47cwCRq6
    A==;
-X-CSE-ConnectionGUID: CWQX0wXeQl2NurWQUiAxkA==
-X-CSE-MsgGUID: ZVo1r4zFQ5GMHCLkYRQSNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="26850420"
+X-CSE-ConnectionGUID: pe7nYLjPQFii5N4GYFiztw==
+X-CSE-MsgGUID: rJ4FBuxgQxekhhjL4ppEEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="26850424"
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="26850420"
+   d="scan'208";a="26850424"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 11:07:49 -0700
-X-CSE-ConnectionGUID: Fh5hqK7oQkuPqr7HDTYHSA==
-X-CSE-MsgGUID: sX8tv9l8Th+dVwh1x7wkTQ==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 11:07:50 -0700
+X-CSE-ConnectionGUID: cZ27mdozSjydrG/OCfx+dQ==
+X-CSE-MsgGUID: 1kbPdR18S8K2ZbWtM/Yv2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="72646820"
+   d="scan'208";a="72646821"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 29 Sep 2024 11:07:44 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suyKa-000OXq-05;
-	Sun, 29 Sep 2024 18:07:40 +0000
-Date: Mon, 30 Sep 2024 02:07:08 +0800
+	id 1suyKZ-000OXn-2p;
+	Sun, 29 Sep 2024 18:07:39 +0000
+Date: Mon, 30 Sep 2024 02:07:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: kernel@openeuler.org, chench00 <chench@hygon.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/4] mm: pagewalk: add the ability to install PTEs
-Message-ID: <202409300134.I0lpBxcz-lkp@intel.com>
-References: <59e218670565accf978aeb8cf4745de4c0738773.1727440966.git.lorenzo.stoakes@oracle.com>
+Subject: [openeuler:OLK-6.6 13319/14244]
+ drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:23: error: use of undeclared
+ identifier 'NR_syscalls'
+Message-ID: <202409300206.JS60OQQZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +62,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <59e218670565accf978aeb8cf4745de4c0738773.1727440966.git.lorenzo.stoakes@oracle.com>
 
-Hi Lorenzo,
+Hi chench00,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on deller-parisc/for-next arnd-asm-generic/master linus/master v6.11 next-20240927]
-[cannot apply to jcmvbkbc-xtensa/xtensa-for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-pagewalk-add-the-ability-to-install-PTEs/20240927-205253
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/59e218670565accf978aeb8cf4745de4c0738773.1727440966.git.lorenzo.stoakes%40oracle.com
-patch subject: [RFC PATCH 1/4] mm: pagewalk: add the ability to install PTEs
-config: microblaze-allnoconfig (https://download.01.org/0day-ci/archive/20240930/202409300134.I0lpBxcz-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300134.I0lpBxcz-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   91ff8f4b711382909faa289c49735e0514af6f76
+commit: 3ad98583441f7c8a2553e1e8d6340ed4397033e2 [13319/14244] crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
+config: x86_64-buildonly-randconfig-004-20240929 (https://download.01.org/0day-ci/archive/20240930/202409300206.JS60OQQZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300206.JS60OQQZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409300134.I0lpBxcz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409300206.JS60OQQZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/pagewalk.c: In function 'walk_pte_range_inner':
->> mm/pagewalk.c:45:33: error: implicit declaration of function 'update_mmu_cache'; did you mean 'update_mmu_tlb'? [-Wimplicit-function-declaration]
-      45 |                                 update_mmu_cache(walk->vma, addr, pte);
-         |                                 ^~~~~~~~~~~~~~~~
-         |                                 update_mmu_tlb
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous prototype for function 'tdm_service_run' [-Wmissing-prototypes]
+     151 | int tdm_service_run(struct tdm_security_enhance *data)
+         |     ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     151 | int tdm_service_run(struct tdm_security_enhance *data)
+         | ^
+         | static 
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: warning: no previous prototype for function 'tdm_service_exit' [-Wmissing-prototypes]
+     212 | int tdm_service_exit(struct tdm_security_enhance *data)
+         |     ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     212 | int tdm_service_exit(struct tdm_security_enhance *data)
+         | ^
+         | static 
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:243:15: warning: no previous prototype for function 'kprobe_symbol_address_byname' [-Wmissing-prototypes]
+     243 | unsigned long kprobe_symbol_address_byname(const char *name)
+         |               ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:243:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     243 | unsigned long kprobe_symbol_address_byname(const char *name)
+         | ^
+         | static 
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:23: error: use of undeclared identifier 'NR_syscalls'
+     308 |                 eh_objs[SCT].size = NR_syscalls * sizeof(char *);
+         |                                     ^
+   3 warnings and 1 error generated.
 
 
-vim +45 mm/pagewalk.c
+vim +/NR_syscalls +308 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
 
-    26	
-    27	static int walk_pte_range_inner(pte_t *pte, unsigned long addr,
-    28					unsigned long end, struct mm_walk *walk)
-    29	{
-    30		const struct mm_walk_ops *ops = walk->ops;
-    31		int err = 0;
-    32	
-    33		for (;;) {
-    34			if (ops->install_pte && pte_none(ptep_get(pte))) {
-    35				pte_t new_pte;
-    36	
-    37				err = ops->install_pte(addr, addr + PAGE_SIZE, &new_pte,
-    38						       walk);
-    39				if (err)
-    40					break;
-    41	
-    42				set_pte_at(walk->mm, addr, pte, new_pte);
-    43				/* Non-present before, so for arches that need it. */
-    44				if (!WARN_ON_ONCE(walk->no_vma))
-  > 45					update_mmu_cache(walk->vma, addr, pte);
-    46			} else {
-    47				err = ops->pte_entry(pte, addr, addr + PAGE_SIZE, walk);
-    48				if (err)
-    49					break;
-    50			}
-    51			if (addr >= end - PAGE_SIZE)
-    52				break;
-    53			addr += PAGE_SIZE;
-    54			pte++;
-    55		}
-    56		return err;
-    57	}
-    58	
+   286	
+   287		sct_addr = (unsigned long *)kallsyms_lookup_name("sys_call_table");
+   288	#endif
+   289		if (!sct_addr) {
+   290			ret = -DYN_ERR_API;
+   291			pr_err("kallsyms_lookup_name for sys_call_table failed!");
+   292			goto end;
+   293		}
+   294	
+   295		asm("sidt %0":"=m"(idtr));
+   296	
+   297		if (!psp_check_tdm_support())
+   298			return 0;
+   299	
+   300		for (i = 0; i < MAX_OBJ; i++) {
+   301			memset(&eh_objs[i], 0, sizeof(eh_objs[i]));
+   302			eh_objs[i].context = CONTEXT_CHECK_MODNAME;
+   303			eh_objs[i].obj_name = obj_names[i];
+   304		}
+   305	
+   306		if ((eh_obj == -1) || (eh_obj & (1 << SCT))) {
+   307			eh_objs[SCT].vaddr = (uint64_t)sct_addr;
+ > 308			eh_objs[SCT].size = NR_syscalls * sizeof(char *);
+   309		}
+   310		if ((eh_obj == -1) || (eh_obj & (1 << IDT))) {
+   311			eh_objs[IDT].vaddr = idtr.address;
+   312			eh_objs[IDT].size = idtr.size;
+   313		}
+   314	
+   315		for (i = 0; i < MAX_OBJ; i++) {
+   316			if (eh_objs[i].vaddr)
+   317				tdm_service_run(&eh_objs[i]);
+   318		}
+   319	
+   320		pr_info("Hygon TDM guard load successfully!\n");
+   321	
+   322	end:
+   323		return ret;
+   324	}
+   325	
 
 -- 
 0-DAY CI Kernel Test Service
