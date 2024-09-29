@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCBC125A9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 17:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DC224B26
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 17:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727632007; cv=none; b=TVU+ycw49rSMkKYj++vX7wubIscOdb5zH7P9y3ICFt+NUdmpnGcl3C2XxIIFrv5RsIzVHY4PKB1EotFUcJ/ydEgCr+Fk+9wYKyInFt75FfiXPQnzGAAd/6ovg6m0/4g9wjd4dtxJ4yPYo/OFNR4W7QGFGGg0qlbsmcOaXtVqfG0=
+	t=1727632605; cv=none; b=Ewktq1cB14Cgr8p/GHFh8dl+86Hg0HwmgW7A9aUQ/XoESgYGjSrJ9RHg1+NfE8TrBxdW50ezMG1fYwA76oXWf8mE8NvDIjI1oMdFtPZkrqeIxnJHaWYohTKbG31AyXgpouMgdrxyZOfAeevbn2BhPMlCi6L0pxQFMNnbzIJXC+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727632007; c=relaxed/simple;
-	bh=G6jhTyq1oJwjeSt15yNq1rY0awiF5StkPtTvEt7gimU=;
+	s=arc-20240116; t=1727632605; c=relaxed/simple;
+	bh=L+hNGKLqJ2Mh3bhI1H3SPgiGto0lrGDn3psAZnNPpqM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k1G5ZBQcCAXE/0zl+EamwIY+cmPvtRsy+hss7Ba46fZVcPHoxOtbQfYkf5/1tFg1m9+tstyCT1+2RLhxrPmOhWgOTAE1v+A+u2iLPlk2tli5pMcfGi6liNREWRPoLh64MKlwhlnJYCTxZ94jSIxvpJnsmQ5Lq051vu1chh8L3VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHr4R9TD; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=SpUAIsc703N94gI3zZcBTM1am4aL6YEkW6fnTOnhp1vApeJcRURkqf/le1OmHR3fmH2Hdq4UJ/BGqR6SYkwtRtErcYoSV3ezDcgdt9NqELHrLyHbbfgPduRIzveXG8upOLfvaHt9KQZEIwUIPkW/E7n3ibUz+I8/tHCd1B/o4lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0PQsZcz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHr4R9TD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0PQsZcz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727632006; x=1759168006;
+  t=1727632603; x=1759168603;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G6jhTyq1oJwjeSt15yNq1rY0awiF5StkPtTvEt7gimU=;
-  b=nHr4R9TD3dPLNC8aI443NV311f2JtRZVJmLWGoHYYkZ2Sfd7eFCFkbAZ
-   z57iq5TmytAoiWZrdZbW0XXE9DFwX66XYQX7ds04N23u8yyEC6rSFb4jl
-   UnTCJbmUdUZuYQQMwyTbbGQUVi4Tg5xyW/AwhmqwJSUQzhI+ajM9BQgZP
-   zXrgY9RU3WqOXGcfy0x8f72OvibZJ1ORjQaCuqxmH0byeZvTjsADvvH8p
-   olgJ35wvI36yU2rVzgklIBMxEQ/V2Dvjylf1BXI2nxjEfoNnD7lBhewjV
-   UWQmvaXY4+luCPVjDvyPq8EKFFLZG1Dkk4c4VCbQBQBPd/sWqsjPqnuCi
-   Q==;
-X-CSE-ConnectionGUID: ieIU5RUZRHGunHhILuxVZg==
-X-CSE-MsgGUID: vrfzwh0AR0m/SO9DXczYlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="49239859"
+  bh=L+hNGKLqJ2Mh3bhI1H3SPgiGto0lrGDn3psAZnNPpqM=;
+  b=W0PQsZczmnxePyOWr5QFv9raeeAQj4t2noNbLjXmh/qpf1iKT65T6as8
+   z4p+vqdSr5M6XnxDkNcU6nsiQ56UJMBtMv+8Jh4NGb6PZkKTsE6B9bosq
+   ZoZ2IjYNI9QZs7eZZJHXsLpUJ/p2G49SWC0Y0PErvvan1DhcgWp0RH+7I
+   gtq3BghSMo49STIrOZM8BLcTqq81NJVXiNt+w1tEOoKYXUBJ8BU/6U3aM
+   jziOwgc7gzMR5BbZBtU2m2zLuf0C4D8lIrNUq8wRPxY7CUJZ8tnTrKvTd
+   SVsgr7F0pdpR2OS8UCgzT53KS+ZuKnqZfY7GzrIJ9Hy7uL2dmqne8FuoS
+   A==;
+X-CSE-ConnectionGUID: FGImOE+3SEC2bQNCyyzfzQ==
+X-CSE-MsgGUID: oLRObTCWRqG1bqBpy1fxVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="37855393"
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="49239859"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 10:46:42 -0700
-X-CSE-ConnectionGUID: XfgcW8HBQ7ibCLseGUIcwA==
-X-CSE-MsgGUID: iim89dK6SpiYfa/dSSTiUA==
+   d="scan'208";a="37855393"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 10:56:43 -0700
+X-CSE-ConnectionGUID: CND4F+3/S4C7zt4EDCJOAw==
+X-CSE-MsgGUID: 14QpCCXhSpSjvNqXyixIfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="73391280"
+   d="scan'208";a="73351404"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Sep 2024 10:46:41 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Sep 2024 10:56:42 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suy0F-000OWn-13;
-	Sun, 29 Sep 2024 17:46:39 +0000
-Date: Mon, 30 Sep 2024 01:46:18 +0800
+	id 1suy9v-000OXH-1i;
+	Sun, 29 Sep 2024 17:56:39 +0000
+Date: Mon, 30 Sep 2024 01:56:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 3650/16788]
- drivers/rpmsg/imx_rpmsg.c:371:6: warning: no previous prototype for function
- 'imx_rpmsg_restore'
-Message-ID: <202409300114.IXdg2tCk-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 7426/16788]
+ drivers/phy/freescale/phy-fsl-imx8mq-usb.c:244:17: warning: suggest braces
+ around empty body in an 'else' statement
+Message-ID: <202409300123.Z7PYzjGQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +63,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Xu,
+
+FYI, the error/warning still remains.
+
 tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
 head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: a388cfc5b5001e76c8c3b9866d6e9abf44d03c58 [3650/16788] rpmsg: imx_rpmsg: add partition reset notify
-config: arm-randconfig-003-20240928 (https://download.01.org/0day-ci/archive/20240930/202409300114.IXdg2tCk-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300114.IXdg2tCk-lkp@intel.com/reproduce)
+commit: 5a913c7fc95dc38aafbde9277ca8255219902275 [7426/16788] LF-10993-5 phy: freescale: imx8mq-usb: add tca function driver for imx95
+config: i386-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240930/202409300123.Z7PYzjGQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300123.Z7PYzjGQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409300114.IXdg2tCk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409300123.Z7PYzjGQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/rpmsg/imx_rpmsg.c:19:
-   In file included from include/linux/virtio_config.h:7:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/rpmsg/imx_rpmsg.c:371:6: warning: no previous prototype for function 'imx_rpmsg_restore' [-Wmissing-prototypes]
-     371 | void imx_rpmsg_restore(struct imx_rpmsg_vproc *rpdev)
-         |      ^
-   drivers/rpmsg/imx_rpmsg.c:371:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     371 | void imx_rpmsg_restore(struct imx_rpmsg_vproc *rpdev)
-         | ^
-         | static 
-   2 warnings generated.
+   drivers/phy/freescale/phy-fsl-imx8mq-usb.c: In function 'tca_blk_orientation_set':
+>> drivers/phy/freescale/phy-fsl-imx8mq-usb.c:244:17: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+     244 |                 ;
+         |                 ^
 
 
-vim +/imx_rpmsg_restore +371 drivers/rpmsg/imx_rpmsg.c
+vim +/else +244 drivers/phy/freescale/phy-fsl-imx8mq-usb.c
 
-   369	
-   370	#ifdef CONFIG_IMX_SCU
- > 371	void imx_rpmsg_restore(struct imx_rpmsg_vproc *rpdev)
-   372	{
-   373		int i;
-   374		int vdev_nums = rpdev->vdev_nums;
-   375	
-   376		for (i = 0; i < vdev_nums; i++) {
-   377			unregister_virtio_device(&rpdev->ivdev[i]->vdev);
-   378			kfree(rpdev->ivdev[i]);
-   379		}
-   380	
-   381		/* Make a double check that remote processor is ready or not */
-   382		for (i = 0; i < REMOTE_READY_WAIT_MAX_RETRIES; i++) {
-   383			if (rpdev->flags & REMOTE_IS_READY)
-   384				break;
-   385			udelay(100);
-   386		}
-   387		if (unlikely((rpdev->flags & REMOTE_IS_READY) == 0)) {
-   388			pr_err("Wait for remote ready timeout, assume it's dead.\n");
-   389			/*
-   390			 * In order to make the codes to be robust and back compatible.
-   391			 * When wait remote ready timeout, use the MU_SendMessageTimeout
-   392			 * to send the first kick-off message when register the vdev.
-   393			 */
-   394			rpdev->first_notify = rpdev->vdev_nums;
-   395		}
-   396	
-   397		/* Allocate and setup ivdev again to register virtio devices */
-   398		if (set_vring_phy_buf(rpdev->pdev, rpdev, rpdev->vdev_nums))
-   399			pr_err("No vring buffer.\n");
-   400	
-   401		for (i = 0; i < vdev_nums; i++) {
-   402			rpdev->ivdev[i]->vdev.id.device = VIRTIO_ID_RPMSG;
-   403			rpdev->ivdev[i]->vdev.config = &imx_rpmsg_config_ops;
-   404			rpdev->ivdev[i]->vdev.dev.parent = &rpdev->pdev->dev;
-   405			rpdev->ivdev[i]->vdev.dev.release = imx_rpmsg_vproc_release;
-   406			rpdev->ivdev[i]->base_vq_id = i * 2;
-   407			rpdev->ivdev[i]->rpdev = rpdev;
-   408	
-   409			if (register_virtio_device(&rpdev->ivdev[i]->vdev))
-   410				pr_err("%s failed to register rpdev.\n", __func__);
-   411		}
-   412	}
-   413	
+   224	
+   225	static void tca_blk_orientation_set(struct tca_blk *tca,
+   226					enum typec_orientation orientation)
+   227	{
+   228		u32 val;
+   229	
+   230		mutex_lock(&tca->mutex);
+   231	
+   232		/* Disable TCA module */
+   233		val = readl(tca->base + TCA_SYSMODE_CFG);
+   234		val |= TCA_SYSMODE_TCPC_DISABLE;
+   235		writel(val, tca->base + TCA_SYSMODE_CFG);
+   236	
+   237		tca->orientation = orientation;
+   238	
+   239		if (orientation == TYPEC_ORIENTATION_REVERSE)
+   240			val |= TCA_SYSMODE_TCPC_FLIP;
+   241		else if (orientation == TYPEC_ORIENTATION_NORMAL)
+   242			val &= ~TCA_SYSMODE_TCPC_FLIP;
+   243		else	/* TYPEC_ORIENTATION_NONE */
+ > 244			;
+   245	
+   246		/* Enable TCA module */
+   247		writel(val, tca->base + TCA_SYSMODE_CFG);
+   248		val &= ~TCA_SYSMODE_TCPC_DISABLE;
+   249		writel(val, tca->base + TCA_SYSMODE_CFG);
+   250	
+   251		mutex_unlock(&tca->mutex);
+   252	}
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
