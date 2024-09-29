@@ -1,127 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFE1224F0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 15:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6EB101C8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 16:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727624441; cv=none; b=T/wS34UufnrjHspFvAEMEHR2S6ioI/AJxvDFCXHQ5dYzEK2xQR9g6mGMWPtPh0jdjbwyAbi/6uUGIK2BtjHdPTaqYnKWJBKJ6v/5Gj0RawqACCExp6BQByPy9fSq4g8Vuwe0pIUs+Np1JkwxvVbxxkPoCEVw8Ixx1d6Av/jgKz8=
+	t=1727625698; cv=none; b=Uu05pwY9/ID92sKZ0oiYnStYGuy/70699KwvB1GCvEKT31OcGSk8osWWRybg3DDR+SSAkxWIIlFCRTkiSc90dW2aiMrnIzIrsXMd5JMVxuSqDDUWCJa5w/44Jp+Rkae9JvEZIec/BQcps7RNGzuwnCTgksG6h7l4Nex3phyJYEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727624441; c=relaxed/simple;
-	bh=w7tB9Plb9jCvwqYNcnG03uixDwrY2WOkHhM52jCN9A4=;
+	s=arc-20240116; t=1727625698; c=relaxed/simple;
+	bh=hKqaFZhqUuvJIeVTsLp1gxFr9L1cwBHFxNJ+euEDmUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uvXQp89XTrOakdbfDSMiNeWKMMZHfZQKmfOC01XA/r+HeoD6KiDeL8OngIW3Nq25PCWFpivNIO/6/V0vshVpwwjK2es0BU1mrnyit9jqE07eO7I0ZyqCMRW4YOGKpFYJKHdf7EdUDKP1kmsN7TkkAclvGxm4j7RZNqd6xrZ5xd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrrwE/B2; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=osnEiR8pGHtUgtQWjNCNopUk6KILoznuykrPkZ5q+LwLqzg1xlBymMVKsMj8ZXWoGU/hichWNlfYKv25QAwrQMD3sgIxenUITdvXCCvHjixLxnm0Np467m/xI78VFLiM+UylZH2IHB1OWMQnE/9MaynMEyd9BTNBL357Brtbj34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eG9aNSgN; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrrwE/B2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eG9aNSgN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727624438; x=1759160438;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w7tB9Plb9jCvwqYNcnG03uixDwrY2WOkHhM52jCN9A4=;
-  b=lrrwE/B2yQnT1NDBpwSiUO01OG1LQoyVZOPKGVW/zFp5tnIml5sDX0ym
-   pUb4BxezCEqltwtoxI1YU3QZNAg84o5epwP4NrRiFNNFToFwptH4/pOM/
-   y3uo0fUst8Gjv7ueiUoCDSm7E8aLMliIzW+l41BeegHIDEwJSRheb1AVG
-   69O47slMD63PO9y0jGVIfIk7dTTSFIQE+HGfdwt9ZSByDMYq9K8Sk76c5
-   aAEQIRcM8ljOpr15dASyHHFLxz3sv/DY8A3EXSeEooHgL6xZoJvFBv96B
-   f10/HgtEMn6ZlryZUgNHPGhFYp2g21v9OvcUnbAejwPqo7A6mi4mqRiAX
-   w==;
-X-CSE-ConnectionGUID: SUfXLN/4SymqCrjJBObkwQ==
-X-CSE-MsgGUID: YN5DBcP2QiKuNoqMLzCSSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="37387153"
+  t=1727625697; x=1759161697;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hKqaFZhqUuvJIeVTsLp1gxFr9L1cwBHFxNJ+euEDmUQ=;
+  b=eG9aNSgNWhsaQcl35INiJcV52xGZg9X1f0ruqLn+LJ8MYpUuBPD4Poy6
+   qCaGfEviJ9NOfYjAWHaJnPI/8C/fKUNRUQ06eyenvuf7sUJHWa2OxYvvb
+   huDGU9Gqq6EtbZrWkZTYdROLjPxhXlDCLo52UL5urU/D3JrAZiaR6hbJa
+   /mrERZ4sVPLEFmt8FJA6KpsfnIAPl38n/jOgC0qXpmhEgs+uBVBMneX3o
+   PnC5zQ0svpxztaxhU7trFN6AqukvnmCWNqUDM4USuV/76aHmKndW13uIV
+   tRDhENMu3sHkkNTmRwOsWc6ESsB+4YjDooKKZrRhABwRiyUiaBs7Q1skc
+   g==;
+X-CSE-ConnectionGUID: dIk5pAYEQK2O+iU4vusr0w==
+X-CSE-MsgGUID: 3lsh52ciSuOVDsiV0uzljw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26807522"
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="37387153"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 08:40:38 -0700
-X-CSE-ConnectionGUID: W6TmXSAySsOUFQUYEBP08g==
-X-CSE-MsgGUID: I2HmvpRvRxacARxSf60BLA==
+   d="scan'208";a="26807522"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 09:01:36 -0700
+X-CSE-ConnectionGUID: bEgnRxa3SAiNdiS6qeof1w==
+X-CSE-MsgGUID: DS2NpUcmTvKhHijZsDh8yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="73451056"
+   d="scan'208";a="72628802"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 29 Sep 2024 08:40:33 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 Sep 2024 09:01:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suw2B-000OOp-1z;
-	Sun, 29 Sep 2024 15:40:31 +0000
-Date: Sun, 29 Sep 2024 23:40:04 +0800
+	id 1suwMW-000OPb-0i;
+	Sun, 29 Sep 2024 16:01:32 +0000
+Date: Mon, 30 Sep 2024 00:01:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 5481/12031] htmldocs: Makefile:83: *** Cannot find
- a vmlinux for VMLINUX_BTF at any of "  ../../vmlinux /sys/kernel/btf/vmlinux
- /boot/vmlinux-5.9.0-2-amd64".  Stop.
-Message-ID: <202409292307.bdOx17mS-lkp@intel.com>
+Subject: [morimoto:sound-error-cleanup-2024-09-25 52/68]
+ sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c:65:30: warning:
+ unused variable 'card'
+Message-ID: <202409292340.8ncHg5Cb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Tejun,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   6c7ba3824d4ec8a20ab384fa7b838eeb7e5b4e5f
-commit: 4b19dc9296ad0adbeeb0dc91c9bac8feaf384800 [5481/12031] rue/scx/sched_ext: Add scx_simple and scx_example_qmap example schedulers
-reproduce: (https://download.01.org/0day-ci/archive/20240929/202409292307.bdOx17mS-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-25
+head:   bacff4357282f2214245fbe247ea5bda645fa045
+commit: 979669a4a46d8e171b8e126793457c5bd5096202 [52/68] ASoC: mediatek: don't indicate duplicate error message
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240929/202409292340.8ncHg5Cb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409292340.8ncHg5Cb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409292307.bdOx17mS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409292340.8ncHg5Cb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> Makefile:83: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
-   make[2]: *** [Makefile:193: sched_ext_clean] Error 2
-   make[1]: *** [Makefile:1355: sched_ext] Error 2
-   make[1]: Target 'mrproper' not remade because of errors.
-   make: *** [Makefile:241: __sub-make] Error 2
-   make: Target 'mrproper' not remade because of errors.
+   sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c: In function 'mt8192_rt1015_i2s_hw_params':
+>> sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c:65:30: warning: unused variable 'card' [-Wunused-variable]
+      65 |         struct snd_soc_card *card = rtd->card;
+         |                              ^~~~
 
 
-vim +83 Makefile
+vim +/card +65 sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
 
-3812b8c5c5d527 Masahiro Yamada 2019-02-22  66  
-066b7ed9558087 Michal Marek    2014-07-04  67  # Beautify output
-066b7ed9558087 Michal Marek    2014-07-04  68  # ---------------------------------------------------------------------------
-066b7ed9558087 Michal Marek    2014-07-04  69  #
-8962b6b475bddc Masahiro Yamada 2022-12-23  70  # Most of build commands in Kbuild start with "cmd_". You can optionally define
-8962b6b475bddc Masahiro Yamada 2022-12-23  71  # "quiet_cmd_*". If defined, the short log is printed. Otherwise, no log from
-8962b6b475bddc Masahiro Yamada 2022-12-23  72  # that command is printed by default.
-066b7ed9558087 Michal Marek    2014-07-04  73  #
-8962b6b475bddc Masahiro Yamada 2022-12-23  74  # e.g.)
-8962b6b475bddc Masahiro Yamada 2022-12-23  75  #    quiet_cmd_depmod = DEPMOD  $(MODLIB)
-8962b6b475bddc Masahiro Yamada 2022-12-23  76  #          cmd_depmod = $(srctree)/scripts/depmod.sh $(DEPMOD) $(KERNELRELEASE)
-066b7ed9558087 Michal Marek    2014-07-04  77  #
-066b7ed9558087 Michal Marek    2014-07-04  78  # A simple variant is to prefix commands with $(Q) - that's useful
-066b7ed9558087 Michal Marek    2014-07-04  79  # for commands that shall be hidden in non-verbose mode.
-066b7ed9558087 Michal Marek    2014-07-04  80  #
-8962b6b475bddc Masahiro Yamada 2022-12-23  81  #    $(Q)$(MAKE) $(build)=scripts/basic
-066b7ed9558087 Michal Marek    2014-07-04  82  #
-6ae4b9868a8f72 Masahiro Yamada 2022-12-23 @83  # If KBUILD_VERBOSE contains 1, the whole command is echoed.
-6ae4b9868a8f72 Masahiro Yamada 2022-12-23  84  # If KBUILD_VERBOSE contains 2, the reason for rebuilding is printed.
-066b7ed9558087 Michal Marek    2014-07-04  85  #
-^1da177e4c3f41 Linus Torvalds  2005-04-16  86  # To put more focus on warnings, be less verbose as default
-^1da177e4c3f41 Linus Torvalds  2005-04-16  87  # Use 'make V=1' to see the full commands
-^1da177e4c3f41 Linus Torvalds  2005-04-16  88  
+194ff8db03782d Nícolas F. R. A. Prado 2022-09-22  60  
+18b13ff23fab34 Jiaxin Yu              2020-11-03  61  static int mt8192_rt1015_i2s_hw_params(struct snd_pcm_substream *substream,
+18b13ff23fab34 Jiaxin Yu              2020-11-03  62  				       struct snd_pcm_hw_params *params)
+18b13ff23fab34 Jiaxin Yu              2020-11-03  63  {
+de9e70137f0068 Kuninori Morimoto      2023-09-26  64  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+18b13ff23fab34 Jiaxin Yu              2020-11-03 @65  	struct snd_soc_card *card = rtd->card;
+de9e70137f0068 Kuninori Morimoto      2023-09-26  66  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+18b13ff23fab34 Jiaxin Yu              2020-11-03  67  	struct snd_soc_dai *codec_dai;
+18b13ff23fab34 Jiaxin Yu              2020-11-03  68  	unsigned int rate = params_rate(params);
+18b13ff23fab34 Jiaxin Yu              2020-11-03  69  	unsigned int mclk_fs_ratio = 128;
+18b13ff23fab34 Jiaxin Yu              2020-11-03  70  	unsigned int mclk_fs = rate * mclk_fs_ratio;
+18b13ff23fab34 Jiaxin Yu              2020-11-03  71  	int ret, i;
+18b13ff23fab34 Jiaxin Yu              2020-11-03  72  
+18b13ff23fab34 Jiaxin Yu              2020-11-03  73  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
+18b13ff23fab34 Jiaxin Yu              2020-11-03  74  		ret = snd_soc_dai_set_pll(codec_dai, 0,
+18b13ff23fab34 Jiaxin Yu              2020-11-03  75  					  RT1015_PLL_S_BCLK,
+18b13ff23fab34 Jiaxin Yu              2020-11-03  76  					  params_rate(params) * 64,
+18b13ff23fab34 Jiaxin Yu              2020-11-03  77  					  params_rate(params) * 256);
+979669a4a46d8e Kuninori Morimoto      2024-09-11  78  		if (ret)
+18b13ff23fab34 Jiaxin Yu              2020-11-03  79  			return ret;
+18b13ff23fab34 Jiaxin Yu              2020-11-03  80  
+18b13ff23fab34 Jiaxin Yu              2020-11-03  81  		ret = snd_soc_dai_set_sysclk(codec_dai,
+18b13ff23fab34 Jiaxin Yu              2020-11-03  82  					     RT1015_SCLK_S_PLL,
+18b13ff23fab34 Jiaxin Yu              2020-11-03  83  					     params_rate(params) * 256,
+18b13ff23fab34 Jiaxin Yu              2020-11-03  84  					     SND_SOC_CLOCK_IN);
+979669a4a46d8e Kuninori Morimoto      2024-09-11  85  		if (ret)
+18b13ff23fab34 Jiaxin Yu              2020-11-03  86  			return ret;
+18b13ff23fab34 Jiaxin Yu              2020-11-03  87  	}
+18b13ff23fab34 Jiaxin Yu              2020-11-03  88  
+18b13ff23fab34 Jiaxin Yu              2020-11-03  89  	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_fs, SND_SOC_CLOCK_OUT);
+18b13ff23fab34 Jiaxin Yu              2020-11-03  90  }
+18b13ff23fab34 Jiaxin Yu              2020-11-03  91  
 
-:::::: The code at line 83 was first introduced by commit
-:::::: 6ae4b9868a8f723cae2600722eea033fafadd399 kbuild: allow to combine multiple V= levels
+:::::: The code at line 65 was first introduced by commit
+:::::: 18b13ff23fab34a9d35cec60ed19aceab61dc3f9 ASoC: mediatek: mt8192: add machine driver with mt6359, rt1015 and rt5682
 
-:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
-:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
+:::::: TO: Jiaxin Yu <jiaxin.yu@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
