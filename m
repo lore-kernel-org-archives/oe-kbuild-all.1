@@ -1,58 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0261E53A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 13:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A06B139CEC;
+	Sun, 29 Sep 2024 13:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727615014; cv=none; b=ahR5O9Y0RvbmZHPJ3gD16t1TzZLF95soVIuF9q7SZwvjMSXBXKASrSNgThF8Yb4E+88DaEqrgzHuMSRxxaa8lBLkiya7tsbsDkhMNvKEMdkMcsID5AgztTjRWobcjimnsFzsBgNa69ZWHGJ0aUCL/yvrwTGDOeY9ly+DZAHs0oY=
+	t=1727615014; cv=none; b=slo5kd79vMOXwoyGJxgZTvtJF9rxAAwMi4XbtmKGt5q0wAAIWew5FVyxmnnLHbLsdp+nyMFUxgL1Zl7mNHv4Fj43f9OOVv2nQQqxh7k8ixNaUO0h4z7/im59jrSNXsnDA8tAEkADq59llg7hVM2gmCSlNaoUonzL3+zayosim2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727615014; c=relaxed/simple;
-	bh=x9wm7NvDhaZ5C7KSTEHbGgtuS4XCfarJYPyt7YM56SM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oupynsgNv+KGDcIqjAX/NZuad8CrLqTcIS/piKvyNISb6A23Hw1NzIY728FN3+5V5J/ZMAUcFjBzEcEf5JVwAAOgl7TiY5GLMa4OgRIMb+DnWx3+WGaCKF8KGClFBeV5vuWtPXR4FzTnqXShIvN2UtKUrwRkj54tvD/PgE28afM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LDOfvJxS; arc=none smtp.client-ip=198.175.65.16
+	bh=0hP0iAXCpUDYZIs5XGNe6MqLBrqzXP8zjR5546kWnx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MowSk6+77Ou4VRwSoPnwEbqjMlyETXaLCFVrQhcnvXKx5ZhIiHmLgWEZg8mQkGPYKe2lvely93y2gd5Y+rQ2dcw1mlI7ZGecvN3t1Klf0mUFDH8K0Bv7TQ+HdRUg5aZiOP14lxp1CxxM5YEiiKDG+F+2STo9zed5uVgnpj1WwN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xfaz+Wz3; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LDOfvJxS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xfaz+Wz3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1727615013; x=1759151013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x9wm7NvDhaZ5C7KSTEHbGgtuS4XCfarJYPyt7YM56SM=;
-  b=LDOfvJxSz9CLa86Gh+ADdC+oCJKN3OrLisCoUAzaFhS9WEVIyvd4Be7g
-   iUhtZsWy2FU3mv8fkK3lAa5yApk8iKLOf+/MnxGUtIrwE3uK8VOjRhyjd
-   p+qQCGEKBfpo/9H9fTvxoVFtcRf2VeFk9Inv62zjVLqivwm2gy+M0LvuX
-   +uqXPqRA/DyzsPbkom2o6+1M/H3oST0I16vsGpVenXAit5oArDeevivX2
-   cX/RwwKATHVevmrWYE4BF7+Yd5nUEepqEMVEvgJmmN0l0KygFtP4dNQ0M
-   f0Sjyg1gyZc9zGTy48QUHTECVOU/n3pCa09SdQWgjB32Uygo6ZmIi2EkJ
-   Q==;
-X-CSE-ConnectionGUID: vTngwRxgROiL0flPosRGDA==
-X-CSE-MsgGUID: yIfLL59HTZmfq3gN64KqCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26801872"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0hP0iAXCpUDYZIs5XGNe6MqLBrqzXP8zjR5546kWnx4=;
+  b=Xfaz+Wz3yQaQlbm7Z/A1uNia1ZKeIvvUs/pNll4otLts4Cp7GWtqBl9M
+   ablRMb1L5M+DM4zIusOTNkSIecpRaZqQhYrqAPtmE6xYRjVbZWmVcxEUg
+   cTXXIxJY5h+E+oKzkvh6h4MOXodhEyR8SN/feGvOX8zy3I1N5/qT9All7
+   KYwE40/tFmK+88+ywgY/oF0u3ETyTHIz2vDr7ic5Hd3cyMh0YTSSpkTvg
+   RRyyCQYGYJr7/+TKFy/0AxkyrvlN1oRvPzkR9WkcgzttV5uCsIdmQvuGo
+   NKolARgGQGRMBM54YRndQuXClEYMentRNn7rtbofTIhBOeuiIMvlh/WIg
+   g==;
+X-CSE-ConnectionGUID: rBxmg4wwSdy5ha6sc67jKA==
+X-CSE-MsgGUID: 2/wE1/FIQcWGac0IlvJdpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26801873"
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="26801872"
+   d="scan'208";a="26801873"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 06:03:31 -0700
-X-CSE-ConnectionGUID: YnlDiG3BTVeqdyTC+vtfRQ==
-X-CSE-MsgGUID: UHifOtEOQrqB80vyz1NExA==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 06:03:33 -0700
+X-CSE-ConnectionGUID: 919CiqpQTfyxHy7hhET0Rw==
+X-CSE-MsgGUID: 94crT+MtQ+yVlEhiLKT6Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,163,1725346800"; 
-   d="scan'208";a="77788542"
+   d="scan'208";a="77788543"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 29 Sep 2024 06:03:30 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sutaB-000OIb-22;
+	id 1sutaB-000OIZ-1y;
 	Sun, 29 Sep 2024 13:03:27 +0000
-Date: Sun, 29 Sep 2024 21:02:30 +0800
+Date: Sun, 29 Sep 2024 21:02:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 5900/16788]
- include/linux/imx_sema4.h:32:27: warning: 'idx_sema4' defined but not used
-Message-ID: <202409292134.onWf4TIO-lkp@intel.com>
+To: Yonghong Song <yonghong.song@linux.dev>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>, kernel-team@fb.com,
+	Martin KaFai Lau <martin.lau@kernel.org>
+Subject: Re: [PATCH bpf-next v3 4/5] bpf, x86: Add jit support for private
+ stack
+Message-ID: <202409292026.oUij9Xvr-lkp@intel.com>
+References: <20240926234526.1770736-1-yonghong.song@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,43 +67,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240926234526.1770736-1-yonghong.song@linux.dev>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: 42ac762f9963572c543a987383dd150707610cc5 [5900/16788] Merge branch 'pm/next' into next
-config: i386-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240929/202409292134.onWf4TIO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409292134.onWf4TIO-lkp@intel.com/reproduce)
+Hi Yonghong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yonghong-Song/bpf-Allow-each-subprog-having-stack-size-of-512-bytes/20240927-074744
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240926234526.1770736-1-yonghong.song%40linux.dev
+patch subject: [PATCH bpf-next v3 4/5] bpf, x86: Add jit support for private stack
+config: x86_64-buildonly-randconfig-004-20240929 (https://download.01.org/0day-ci/archive/20240929/202409292026.oUij9Xvr-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409292026.oUij9Xvr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409292134.onWf4TIO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409292026.oUij9Xvr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/clk/imx/clk-pfd.c:9:
->> include/linux/imx_sema4.h:32:27: warning: 'idx_sema4' defined but not used [-Wunused-const-variable=]
-      32 | static const unsigned int idx_sema4[SEMA4_NUM_GATES] = {
-         |                           ^~~~~~~~~
-
-
-vim +/idx_sema4 +32 include/linux/imx_sema4.h
-
-0b95e1dc090e92 Anson Huang 2019-04-19  31  
-0b95e1dc090e92 Anson Huang 2019-04-19 @32  static const unsigned int idx_sema4[SEMA4_NUM_GATES] = {
-0b95e1dc090e92 Anson Huang 2019-04-19  33  	1 << 7, 1 << 6, 1 << 5, 1 << 4,
-0b95e1dc090e92 Anson Huang 2019-04-19  34  	1 << 3, 1 << 2, 1 << 1, 1 << 0,
-0b95e1dc090e92 Anson Huang 2019-04-19  35  	1 << 15, 1 << 14, 1 << 13, 1 << 12,
-0b95e1dc090e92 Anson Huang 2019-04-19  36  	1 << 11, 1 << 10, 1 << 9, 1 << 8,
-0b95e1dc090e92 Anson Huang 2019-04-19  37  };
-0b95e1dc090e92 Anson Huang 2019-04-19  38  
-
-:::::: The code at line 32 was first introduced by commit
-:::::: 0b95e1dc090e921643c11ccd7a7f981b5b8b57c1 char: imx_amp: add sema4 driver support
-
-:::::: TO: Anson Huang <Anson.Huang@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+>> ld.lld: error: undefined symbol: this_cpu_off
+   >>> referenced by bpf_jit_comp.c:31 (arch/x86/net/bpf_jit_comp.c:31)
+   >>>               arch/x86/net/bpf_jit_comp.o:(bpf_int_jit_compile) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
