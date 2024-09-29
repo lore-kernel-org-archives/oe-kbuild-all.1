@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C74B566A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 01:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B09A2F36
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 01:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727572030; cv=none; b=CX/VXYstq94lNQEmVJqwV4MAEj2+WDSLNbYJcGe97ZiBq2trfooxiLVOgJktc0vfsI3/Ok+IS/tHpRwAuIXulpicbeCkY6M9GYGFD93Z4ejCn2zgMSBTGIP7MLUHm6DOHvtfH6mq6T/jQGi4/NsRCt0ljvjlCN927hA8Vg60pwg=
+	t=1727572691; cv=none; b=NEqmYQRY+M1Z/1ZIJq6dB5ko98BC7cF9QqqLBfSob013IMlhFk0RRLzFsQhcpSbjBk1pvSPOs477LoM3wMzKTakRDcEGKRv/JYRFlxgMipnb//QZ3P6JgNDP/F3cog1GiCbiqvYDzEd4vJfTBK7ICrT3YzLmRLuxUNAgBrrwbxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727572030; c=relaxed/simple;
-	bh=cHSkXuKoIN3mF0ScPQXh1MVltu8mFtWRQkkrNBNchUw=;
+	s=arc-20240116; t=1727572691; c=relaxed/simple;
+	bh=ssZXEr5ls1Tr2RFUpybDuYsWeUvvCchzAc7ge6XDDCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FPraZhq6F5MUbaZ9VdKxF/3oqh7hh2zHJSBPiMELhXnzNLDpp4h17o1eIBEGQuQEHt7EhNxeD1jbUtyfRLMT2I9u1iVglJ8eUOuLegmIZj0IjxCRlGgcPCj7fO7eTmUOsOjEPhVJ7YrrzLiX/AQ5ihdLnMf/wQ43RTGUglxXSjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GifJg2+8; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=W5HEgEousIZpd00z9vZQMZJa5wgogfuv8wi8FmKyRCUgwG3vR18zf3sTrV0Hn58wciORQqAEncVxY4YFNTuIo8o9v6EtHhFSpulmm8fSyuxZXbaG5eZDJv9SuvMwuG+5SnDODjeWZnIG4Bs3K2SDhPNO1UhkCyyzrdA4vlbT2Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T67MOxDN; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GifJg2+8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T67MOxDN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727572029; x=1759108029;
+  t=1727572689; x=1759108689;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cHSkXuKoIN3mF0ScPQXh1MVltu8mFtWRQkkrNBNchUw=;
-  b=GifJg2+8RoQ5tzrE8XHk8QdBSNz/dHuCdBV4irE3r78JWmDglU1tAlr4
-   O9/wP36cYPYRxemZf6CTqJocwqc1ssfg5nBKKWe69YnCk944skT2arelX
-   jlAckYzpiy1omxJKkkoiAEjel2vQ+UP7VPnj52IMtcrinnMh8UDqRGUZq
-   xWK/zhpS/Ci12pgwKIprL66RuE4CZbPXT6bAva5netMjtoYqIPc2/kX5j
-   moce7lp+XiKXhR9hJZDk/xILgpbmlFlPsCMIriCv0XsGDNCY3x6Dfd3vG
-   0/XscEQjxrq3Ggi7MHu7Qs2i30BaNDIzPAJe+0CXoD1R8gmuIDeJd/p/4
+  bh=ssZXEr5ls1Tr2RFUpybDuYsWeUvvCchzAc7ge6XDDCc=;
+  b=T67MOxDN0TlNUgvS46EKUClRauvNsqvB2hPlSAJOz7getJ4/EDhMK3Cz
+   mgwYg6PzkbROFK+5I93UgSn/rz5p9y/Un99Dl5D3BoNYPFF+ZNNfRMg0t
+   pw+NqXPXiAnGCtPuH+NnrDdM6BjeQkWHF4oLJz5JT00tMkhxzR58UDQHx
+   ZhPiYj/et+oQfZplT0qmxF3rEqVjmvZ81/4R6a3nCEVtE2JSs2R/UCHo/
+   Y2OWMgqaXIqgDSYUQHTuQ6XWINIikCL8lzWF6NnWEnwKxzSloCHTu66ZB
+   ETOXD0adveXevglfJDejgjSpE11p4kIb8jA/QP0SL3CjMICZfNsGUH0cl
    A==;
-X-CSE-ConnectionGUID: LRaquzFeSiqeTTwZ03fx+w==
-X-CSE-MsgGUID: ozrtJziRS+qbdhHShENVEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26862938"
+X-CSE-ConnectionGUID: eJXpj9D7S0ic/9IBelbjPw==
+X-CSE-MsgGUID: jT9ba+1XR8GSRxi1xnb/MA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="30479207"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="26862938"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 18:07:08 -0700
-X-CSE-ConnectionGUID: yHYzmPtAQzmgARsd1IsCPA==
-X-CSE-MsgGUID: WXwytLm9Q0e885teQNql7Q==
+   d="scan'208";a="30479207"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 18:18:09 -0700
+X-CSE-ConnectionGUID: eJDLojeqQSaKOjzCsifxbg==
+X-CSE-MsgGUID: DrJCjpe5RvGFVmXRY9f8Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="72487319"
+   d="scan'208";a="72588800"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2024 18:07:06 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 28 Sep 2024 18:18:07 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suiOu-000NnP-2H;
-	Sun, 29 Sep 2024 01:07:04 +0000
-Date: Sun, 29 Sep 2024 09:07:00 +0800
+	id 1suiZZ-000Nnn-1m;
+	Sun, 29 Sep 2024 01:18:05 +0000
+Date: Sun, 29 Sep 2024 09:17:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>, Suraj Gupta <suraj.gupta2@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 572/1001]
- drivers/net/ethernet/xilinx/xilinx_axienet_main.c:724:31: warning: cast to
- pointer from integer of different size
-Message-ID: <202409290908.xIPS08JW-lkp@intel.com>
+To: kernel@openeuler.org, Litao Jiao <jiaolitao@sangfor.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 21579/30000] net/smc/smc_core.c:770:6: sparse:
+ sparse: symbol '__smcr_link_clear' was not declared. Should it be static?
+Message-ID: <202409290926.Ll8zQyOY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,135 +62,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: 26eb9e9afad9c46a6d22072ab2b4f22a3b52613b [572/1001] net: axienet: Add support for 1588
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240929/202409290908.xIPS08JW-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409290908.xIPS08JW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   bef6f06e039b8929481350d15d6d8c3ba81c6fd2
+commit: 7dad816cb1f8841fda526c0978c10a94793f1178 [21579/30000] anolis: net/smc: Resolve the race between SMC-R link access and clear
+config: arm64-randconfig-r131-20240925 (https://download.01.org/0day-ci/archive/20240929/202409290926.Ll8zQyOY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240929/202409290926.Ll8zQyOY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409290908.xIPS08JW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409290926.Ll8zQyOY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/smc/smc_core.c:770:6: sparse: sparse: symbol '__smcr_link_clear' was not declared. Should it be static?
 
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_tx_hwtstamp':
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:724:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     724 |                 skb_hwtstamps((struct sk_buff *)cur_p->ptp_tx_skb);
-         |                               ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:786:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     786 |                 skb_pull((struct sk_buff *)cur_p->ptp_tx_skb,
-         |                          ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:789:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     789 |         skb_tstamp_tx((struct sk_buff *)cur_p->ptp_tx_skb, shhwtstamps);
-         |                       ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:790:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     790 |         dev_kfree_skb_any((struct sk_buff *)cur_p->ptp_tx_skb);
-         |                           ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_start_xmit':
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1121:53: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1121 |                                 cur_p->ptp_tx_skb = (phys_addr_t)skb_get(skb);
-         |                                                     ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1190:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1190 |         cur_p->tx_skb = (phys_addr_t)skb;
-         |                         ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_dma_err_handler':
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2409:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2409 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
-         |                                           ^
+vim +/__smcr_link_clear +770 net/smc/smc_core.c
 
-
-vim +724 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
-
-   707	
-   708	#ifdef CONFIG_XILINX_AXI_EMAC_HWTSTAMP
-   709	/**
-   710	 * axienet_tx_hwtstamp - Read tx timestamp from hw and update it to the skbuff
-   711	 * @lp:		Pointer to axienet local structure
-   712	 * @cur_p:	Pointer to the axi_dma current bd
-   713	 *
-   714	 * Return:	None.
-   715	 */
-   716	static void axienet_tx_hwtstamp(struct axienet_local *lp,
-   717					struct axidma_bd *cur_p)
-   718	{
-   719		u32 sec = 0, nsec = 0, val;
-   720		u64 time64;
-   721		int err = 0;
-   722		u32 count, len = lp->axienet_config->tx_ptplen;
-   723		struct skb_shared_hwtstamps *shhwtstamps =
- > 724			skb_hwtstamps((struct sk_buff *)cur_p->ptp_tx_skb);
-   725	
-   726		val = axienet_txts_ior(lp, XAXIFIFO_TXTS_ISR);
-   727		if (unlikely(!(val & XAXIFIFO_TXTS_INT_RC_MASK)))
-   728			dev_info(lp->dev, "Did't get FIFO tx interrupt %d\n", val);
-   729	
-   730		/* Ensure to read Occupany register before accessing Length register */
-   731		if (!axienet_txts_ior(lp, XAXIFIFO_TXTS_RFO)) {
-   732			netdev_err(lp->ndev, "%s: TX Timestamp FIFO is empty", __func__);
-   733			goto skb_exit;
-   734		}
-   735	
-   736		/* If FIFO is configured in cut through Mode we will get Rx complete
-   737		 * interrupt even one byte is there in the fifo wait for the full packet
-   738		 */
-   739		err = readl_poll_timeout_atomic(lp->tx_ts_regs + XAXIFIFO_TXTS_RLR, val,
-   740						((val & XAXIFIFO_TXTS_RXFD_MASK) >=
-   741						len), 0, 1000000);
-   742		if (err) {
-   743			netdev_err(lp->ndev, "%s: Didn't get the full timestamp packet",
-   744				   __func__);
-   745			goto skb_exit;
-   746		}
-   747	
-   748		nsec = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   749		sec  = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   750		val = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   751		val = ((val & XAXIFIFO_TXTS_TAG_MASK) >> XAXIFIFO_TXTS_TAG_SHIFT);
-   752		dev_dbg(lp->dev, "tx_stamp:[%04x] %04x %u %9u\n",
-   753			cur_p->ptp_tx_ts_tag, val, sec, nsec);
-   754	
-   755		if (val != cur_p->ptp_tx_ts_tag) {
-   756			count = axienet_txts_ior(lp, XAXIFIFO_TXTS_RFO);
-   757			while (count) {
-   758				nsec = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   759				sec  = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   760				val = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   761				val = ((val & XAXIFIFO_TXTS_TAG_MASK) >>
-   762					XAXIFIFO_TXTS_TAG_SHIFT);
-   763	
-   764				dev_dbg(lp->dev, "tx_stamp:[%04x] %04x %u %9u\n",
-   765					cur_p->ptp_tx_ts_tag, val, sec, nsec);
-   766				if (val == cur_p->ptp_tx_ts_tag)
-   767					break;
-   768				count = axienet_txts_ior(lp, XAXIFIFO_TXTS_RFO);
-   769			}
-   770			if (val != cur_p->ptp_tx_ts_tag) {
-   771				dev_info(lp->dev, "Mismatching 2-step tag. Got %x",
-   772					 val);
-   773				dev_info(lp->dev, "Expected %x\n",
-   774					 cur_p->ptp_tx_ts_tag);
-   775			}
-   776		}
+   769	
+ > 770	void __smcr_link_clear(struct smc_link *lnk)
+   771	{
+   772		smc_wr_free_link_mem(lnk);
+   773		smc_lgr_put(lnk->lgr);  /* lgr_hold in smcr_link_init() */
+   774		memset(lnk, 0, sizeof(struct smc_link));
+   775		lnk->state = SMC_LNK_UNUSED;
+   776	}
    777	
-   778		if (lp->axienet_config->mactype != XAXIENET_10G_25G)
-   779			val = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   780	
-   781	skb_exit:
-   782		time64 = sec * NS_PER_SEC + nsec;
-   783		memset(shhwtstamps, 0, sizeof(struct skb_shared_hwtstamps));
-   784		shhwtstamps->hwtstamp = ns_to_ktime(time64);
-   785		if (lp->axienet_config->mactype != XAXIENET_10G_25G)
-   786			skb_pull((struct sk_buff *)cur_p->ptp_tx_skb,
-   787				 AXIENET_TS_HEADER_LEN);
-   788	
-   789		skb_tstamp_tx((struct sk_buff *)cur_p->ptp_tx_skb, shhwtstamps);
-   790		dev_kfree_skb_any((struct sk_buff *)cur_p->ptp_tx_skb);
-   791		cur_p->ptp_tx_skb = 0;
-   792	}
-   793	
 
 -- 
 0-DAY CI Kernel Test Service
