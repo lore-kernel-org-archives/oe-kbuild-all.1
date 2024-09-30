@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC6278C9D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 09:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F5C18C35C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 10:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727688728; cv=none; b=JHmGPrQz9Bs5WmWkKpdyF7HIUwp3R5ovuXAsx+RR8YlgBg6CxI0alIO7a9wWhva9jVvQftcsU/8zhE1jx090UzbQ3R1Q/QFh3JhwzGOuyGfWng3vej98PJ9yiGUobOIoA9VCrLb+NEGtL5idhOqNQnqOOaKLW/fknRfpn/IHFbk=
+	t=1727693591; cv=none; b=shpMMGcOVHGNDeV2Y7n70QlwVGkllISAYdo6+5fV8ZRtdgKmE4/X290U5wpO2LnCbnZzCMrzjzT8p8TMOiqKUviNfJlnRvuGXasCJyk7Nh4/4XMFIelGsgO78lU7tkJs+q4a7Apq4oey6V9z5pRb9Ripn1NUVZI14jmZablq0ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727688728; c=relaxed/simple;
-	bh=NxUYT34mYqYmqDUFCGZ1CpBCPdFtYaXz+g05g9pIAOQ=;
+	s=arc-20240116; t=1727693591; c=relaxed/simple;
+	bh=R2oUj7MDtm4hWVv71UWEveQWhFJSK6XkDTbHfRryS7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tjFHoAr5GmLz9PZJXGhndzxW16OjkZAO6zWyCxjS7jZ4U3CXLQJYzLILFhoo5yTwKFGn1+uVe2WohdjMWbr7+TtxVABIarI1ridwXx86RkkavpeApRbnmzwUvrVdwKCTq4PagbqK/23pQyQp4qp5v2jq0aYh+/7nvADhHbElRuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qvn0n5O7; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=S5YOozx8qfo6Gb9DWAIbmFYHUmQNcCWxkz14/f5uA3UT6oschS+IobUUKYGJTLOLIVGtOa60wetVbi1HDQdRPIBlgzpdZ5um1CExWCWDz9WuhNAkydG9/aW1YFBq0SOy6OE8/P6vYG+/6Xjgy0W1JT+8OlXubgKUrwxbUZuL2qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYERiYDp; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qvn0n5O7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYERiYDp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727688726; x=1759224726;
+  t=1727693589; x=1759229589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NxUYT34mYqYmqDUFCGZ1CpBCPdFtYaXz+g05g9pIAOQ=;
-  b=Qvn0n5O70cJ5M/Qhql80NnXanwOAIpEXfuQoI6qAz6qNmccRZKixhxX3
-   v2hWdXnqDYMGPttKBy2pAXz/CD3YRXHz15ceiDe8+OCyTkfRWCAQHEpRe
-   sqZ0FtpwicjZkiawTlk7/+SlnBSEi0ArjG94foIYAYK4/Ir+2BoHrZHy7
-   rO53UjXehfNIe2YsD9/O11Xl+M25K/8K9UYraHq5cz2Vasu6OqYzr7mXk
-   Qfe9suBwZKruCM3DMvFShZUuWgUIne+/XSDpvK/c67Y91S3RtGgDkWBxk
-   9TWvrZxc9VUFQp+tjpdXWPA67qtvpEPtyF316aL2XqND518L8LfHOKhd+
-   g==;
-X-CSE-ConnectionGUID: FhCbDQSsRoSCvUfKObrSnw==
-X-CSE-MsgGUID: 1NZyzYhhTyOB6MVe8wUPsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="14392532"
+  bh=R2oUj7MDtm4hWVv71UWEveQWhFJSK6XkDTbHfRryS7k=;
+  b=XYERiYDp+y1AC7VRQLNM0uaqTo04X4y41Lgi28ex9/dEq7+VyrH98H80
+   TdCBUkdyC5YeOWXPaDqpMzQQVAqYae0nwP2G+PogTh/9YwFTOmnOVgQSU
+   s5csNyef4Kdd36rI3z4bUIv75fbWm12gbwKy1/nt3U8bj4Ix9Ky0GWQTF
+   Ph0j3mbZBKkNFy4tIqE3k3WWxhiEcGD7UmaolTZcsL5luTS23PQmrYby/
+   zz8o3wwtELEAvwbHzqZemSNVTYUD0heEfaFkAAUMBfQQH63AEuWtPE8iB
+   GuQTWuRK5B6k4aq2TRlDgI3Xu+w6k57RkZUbZPzrlEx740GplAajoiluc
+   Q==;
+X-CSE-ConnectionGUID: Kjscz9XHR4+LVM0BUDDUjg==
+X-CSE-MsgGUID: H4+FhQcrQkmI6xay+eYpLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="26660104"
 X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; 
-   d="scan'208";a="14392532"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 02:32:05 -0700
-X-CSE-ConnectionGUID: ZqUx0yRURICy/7JVKZJ6/w==
-X-CSE-MsgGUID: bYW1unhhRtOtB6KGJ71CnA==
+   d="scan'208";a="26660104"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 03:53:08 -0700
+X-CSE-ConnectionGUID: PfnqrRNfQsiiK2aSFbbaJg==
+X-CSE-MsgGUID: W7T7HlzFSkWoLlcElUBiqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; 
-   d="scan'208";a="73521729"
+   d="scan'208";a="73658802"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Sep 2024 02:32:04 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Sep 2024 03:53:07 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svCl8-000PHl-0W;
-	Mon, 30 Sep 2024 09:32:02 +0000
-Date: Mon, 30 Sep 2024 17:31:14 +0800
+	id 1svE1Y-000PLx-3D;
+	Mon, 30 Sep 2024 10:53:04 +0000
+Date: Mon, 30 Sep 2024 18:52:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 156/16788]
- ./usr/include/linux/mxc_asrc.h:126:9: error: unknown type name
- 'snd_pcm_format_t'
-Message-ID: <202409301759.c6R10iIV-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/reflink.c:37:5-8: Unneeded variable: "ret". Return "0"
+ on line 44
+Message-ID: <202409301841.NRs5IxiB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,36 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: b88e99c737817b3a29441a12515a0b568094044f [156/16788] MLK-11398: ASoC: fsl_asrc: Add Memory to Memory support
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240930/202409301759.c6R10iIV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409301759.c6R10iIV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9852d85ec9d492ebef56dc5f229416c925758edc
+commit: 074cbcdaeee433a02d6d0565b936bee0915cc5da bcachefs: fsck_err()s don't need to manually check c->sb.version anymore
+date:   9 months ago
+config: arc-randconfig-r061-20240930 (https://download.01.org/0day-ci/archive/20240930/202409301841.NRs5IxiB-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409301759.c6R10iIV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409301841.NRs5IxiB-lkp@intel.com/
 
-Note: the freescale-fslc/6.6-2.0.x-imx HEAD ac32ba5fe66266329914d2020570364afe217bec builds fine.
-      It only hurts bisectability.
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/reflink.c:37:5-8: Unneeded variable: "ret". Return "0" on line 44
 
-All errors (new ones prefixed by >>):
+vim +37 fs/bcachefs/reflink.c
 
-   In file included from <command-line>:
->> ./usr/include/linux/mxc_asrc.h:126:9: error: unknown type name 'snd_pcm_format_t'
-     126 |         snd_pcm_format_t input_format;
-         |         ^~~~~~~~~~~~~~~~
-   ./usr/include/linux/mxc_asrc.h:127:9: error: unknown type name 'snd_pcm_format_t'
-     127 |         snd_pcm_format_t output_format;
-         |         ^~~~~~~~~~~~~~~~
->> ./usr/include/linux/mxc_asrc.h:135:9: error: unknown type name 'uint64_t'
-     135 |         uint64_t supported_in_format;
-         |         ^~~~~~~~
-   ./usr/include/linux/mxc_asrc.h:136:9: error: unknown type name 'uint64_t'
-     136 |         uint64_t supported_out_format;
-         |         ^~~~~~~~
+    31	
+    32	int bch2_reflink_p_invalid(struct bch_fs *c, struct bkey_s_c k,
+    33				   enum bkey_invalid_flags flags,
+    34				   struct printbuf *err)
+    35	{
+    36		struct bkey_s_c_reflink_p p = bkey_s_c_to_reflink_p(k);
+  > 37		int ret = 0;
+    38	
+    39		bkey_fsck_err_on(le64_to_cpu(p.v->idx) < le32_to_cpu(p.v->front_pad),
+    40				 c, err, reflink_p_front_pad_bad,
+    41				 "idx < front_pad (%llu < %u)",
+    42				 le64_to_cpu(p.v->idx), le32_to_cpu(p.v->front_pad));
+    43	fsck_err:
+  > 44		return ret;
+    45	}
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
