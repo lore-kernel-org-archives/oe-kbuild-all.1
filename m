@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255783D96D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Sep 2024 23:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73D0383
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 01:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727654362; cv=none; b=WmH9v/AK7mo8NCG93B+LhQcJ2MrnMXtGWiT3GLhUUd0GGU1BNvU9ktiygvxnQ1HlOAicToUKH0181a4ZQEP3QfQLoJrhfKb8m4rr3mAYC/qeNJKFHCSR/5LKdShi6dKxKN1BMnugRXnFh6bpduF+KHN2190GBT0PCsIurc+Ey8s=
+	t=1727658039; cv=none; b=mzH/q/s/SDzV0OiDqwrMwt5N2U4WtlOiMy7viSTi40sT63Sp2+QWiVgaSLJxmRy9ACmh/R9ILP/1hB6RJPJAah3vzRAi1v49+pGUeoCoyBowl6Ba6OEZslQSBfmAs2RsTjf6faQYy36RnPnJmSYJxz2TY5FdForKrlQTzh5gSpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727654362; c=relaxed/simple;
-	bh=rDiF+4RhXXdsw8ULUPSBBnK/HaY2zudyswZZDLwM868=;
+	s=arc-20240116; t=1727658039; c=relaxed/simple;
+	bh=y4Xr5e5pES7Llfc8h1Ih3ugWCreLhotvnuYOiirpS4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=esgyZ4Eiga5gTYCnK/POR65G0McgdVQK8nENyWMzKnX+jkYa+YEmafFM3woioHhK4w/xxxhj+Jtv+6AOgIKAzVYCA2UAtI1U8lRdHmv1gOuIgKDmc/sEgnjzAEWutCI5/lhlBKEYDJMJEPfzpPZfKZ9javdn+gkQSA/LwuGUMbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mq8pUvZ/; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=CsQWT1oOrdZ+iGJy09bYZCDZX/d2tE5vYMoFB6eMUiA3vX4/rKvIPdKFvcbRDyi9MLNdx7dSGlEsw0goofGbEdARuf4nP84eT/IzKAc+iERUOkCGt1CoDx0FM7MHwuIrv+QMDVir/bbJSb7KSEQ/Bz/Rr752YA4UYUMTBSbo/rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBNDdlBe; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mq8pUvZ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBNDdlBe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727654362; x=1759190362;
+  t=1727658038; x=1759194038;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rDiF+4RhXXdsw8ULUPSBBnK/HaY2zudyswZZDLwM868=;
-  b=Mq8pUvZ/OzkESgQixO6nNF94nik/3GpDo/nuRnocP8HHnWmS824MhWli
-   3iQNVir1F5juzY0IFKu6ra/SBPD0Z9UcH1Ho3Q7X2VaLNub3acDPx+DNS
-   PI4q4fI85RXiSws/MzES3gx06vlVwJNXAYj99H0e/g5IiVxamWOcoargj
-   6Im5fm1K9Onj5/ua8TZ8DghvXoq0rpAh0UCmBFCdeTNPubcNBHQV/rPTK
-   AvLPxCxohFYAIh3uM9PfpM7LLPtTYdiCL46zWhLsjdbPF7tlBKBY6dio5
-   2op/P9QZ28Q16wcV8UGVTFZSfVIWY3Ryc8oktFnFq2e9lo2SbguYELxtk
-   A==;
-X-CSE-ConnectionGUID: OkDja6c5QRiTqEIxzbqn2w==
-X-CSE-MsgGUID: BllcajEYToaCzba+hGi6+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="26859436"
+  bh=y4Xr5e5pES7Llfc8h1Ih3ugWCreLhotvnuYOiirpS4g=;
+  b=fBNDdlBe3jPTeX5spmfDWsXEfzmRU3kS+6xnLSrakiVpEZA1swJxtJIi
+   yI4cI62QBQnAicu3Xv4hLv6/6uHIgMR+J+2K9HzzSBTprJ5Q0QqZgFVjN
+   L/E4Q/wUS1saJQ+ERYsXWWdK5JMSLUzvhT2RflNimMcd6VQ1lTasM9qZs
+   uf1BZM4xKlUSB6xBwYv3f3E2r2bRV/5nWm6qvJFNCUm1XzrxcQrSAwKVH
+   XtmV4K4GMMPosiUGwCobi55d3CqgJnvKTiIgwYwG2W9v9Rl5pU1x2K5db
+   HZS4+W5BGKnuZnWPX25EtR1kUz1Qp4KgZ8uwA1vY2yV4qYTUbAsoZS18P
+   Q==;
+X-CSE-ConnectionGUID: 9R2o0JSoRXGnVijYcqu1Fw==
+X-CSE-MsgGUID: MF1h+NxVQ+6DFtkXiCmljQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="44191540"
 X-IronPort-AV: E=Sophos;i="6.11,164,1725346800"; 
-   d="scan'208";a="26859436"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 16:59:21 -0700
-X-CSE-ConnectionGUID: xtX+o1TDTCauMGf851MqyA==
-X-CSE-MsgGUID: jT7AVBnTTAiV+zVv/Mrhcw==
+   d="scan'208";a="44191540"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 18:00:37 -0700
+X-CSE-ConnectionGUID: 6ffkm2LSSTW+IuuaMCbWWQ==
+X-CSE-MsgGUID: +ijqhO3FTciTFh1cfUz6uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,164,1725346800"; 
-   d="scan'208";a="77879817"
+   d="scan'208";a="73408514"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 29 Sep 2024 16:59:20 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Sep 2024 18:00:36 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sv3or-000Oov-1B;
-	Sun, 29 Sep 2024 23:59:17 +0000
-Date: Mon, 30 Sep 2024 07:58:25 +0800
+	id 1sv4m9-000OrD-1s;
+	Mon, 30 Sep 2024 01:00:33 +0000
+Date: Mon, 30 Sep 2024 09:00:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zhangnaichuan <zhangnaichuan@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1873/14244]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3168:27: error: use of
- undeclared identifier 'pci_bus_type'; did you mean 'pci_pcie_type'?
-Message-ID: <202409300716.0blXmgwd-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: arch/parisc/include/asm/page.h:7:25: error: 'CONFIG_PAGE_SHIFT'
+ undeclared; did you mean 'CONFIG_HAVE_PCI'?
+Message-ID: <202409300823.1WT06W20-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,82 +64,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi zhangnaichuan,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   91ff8f4b711382909faa289c49735e0514af6f76
-commit: bbaaa756ad25c0e792fcd195d32acd5715f76b12 [1873/14244] iommu: Enable smmu-v3 when 3408iMR/3416iMRraid card exist
-config: arm64-randconfig-002-20240930 (https://download.01.org/0day-ci/archive/20240930/202409300716.0blXmgwd-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300716.0blXmgwd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9852d85ec9d492ebef56dc5f229416c925758edc
+commit: d3e5bab923d35f73c74f6dbbb761988d4f58f878 arch: simplify architecture specific page size configuration
+date:   7 months ago
+config: parisc-randconfig-002-20231201 (https://download.01.org/0day-ci/archive/20240930/202409300823.1WT06W20-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409300823.1WT06W20-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409300716.0blXmgwd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409300823.1WT06W20-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3168:27: error: use of undeclared identifier 'pci_bus_type'; did you mean 'pci_pcie_type'?
-                   ret = bus_for_each_dev(&pci_bus_type, NULL, (void *)smmu,
-                                           ^~~~~~~~~~~~
-                                           pci_pcie_type
-   include/linux/pci.h:2453:19: note: 'pci_pcie_type' declared here
-   static inline int pci_pcie_type(const struct pci_dev *dev)
-                     ^
-   1 error generated.
+   In file included from arch/parisc/include/uapi/asm/byteorder.h:5,
+                    from arch/parisc/include/asm/bitops.h:11,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from arch/parisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/page-flags.h:10,
+                    from kernel/bounds.c:10:
+   include/linux/byteorder/big_endian.h:8:2: warning: #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN [-Wcpp]
+       8 | #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN
+         |  ^~~~~~~
+   In file included from arch/parisc/include/asm/bitops.h:201:
+   include/asm-generic/bitops/__fls.h: In function '__fls':
+   include/asm-generic/bitops/__fls.h:18:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      18 |         if (!(word & (~0ul << 32))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:20:22: warning: left shift count >= width of type [-Wshift-count-overflow]
+      20 |                 word <<= 32;
+         |                      ^~~
+   include/asm-generic/bitops/__fls.h:23:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      23 |         if (!(word & (~0ul << (BITS_PER_LONG-16)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:27:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      27 |         if (!(word & (~0ul << (BITS_PER_LONG-8)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:31:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      31 |         if (!(word & (~0ul << (BITS_PER_LONG-4)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:35:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      35 |         if (!(word & (~0ul << (BITS_PER_LONG-2)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:39:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      39 |         if (!(word & (~0ul << (BITS_PER_LONG-1))))
+         |                            ^~
+   In file included from arch/parisc/include/asm/processor.h:19,
+                    from include/linux/sched.h:13,
+                    from arch/parisc/kernel/asm-offsets.c:18:
+   arch/parisc/include/asm/pdc.h:75:24: warning: 'struct pdc_memory_table' declared inside parameter list will not be visible outside of this definition or declaration
+      75 |                 struct pdc_memory_table *tbl, unsigned long entries);
+         |                        ^~~~~~~~~~~~~~~~
+   arch/parisc/include/asm/pdc.h:74:30: warning: 'struct pdc_memory_table_raddr' declared inside parameter list will not be visible outside of this definition or declaration
+      74 | int pdc_mem_mem_table(struct pdc_memory_table_raddr *r_addr,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/parisc/include/uapi/asm/byteorder.h:5,
+                    from arch/parisc/include/asm/bitops.h:11,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from arch/parisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/linux/sched.h:14:
+   include/linux/byteorder/big_endian.h:8:2: warning: #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN [-Wcpp]
+       8 | #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN
+         |  ^~~~~~~
+   In file included from arch/parisc/include/asm/bitops.h:201:
+   include/asm-generic/bitops/__fls.h: In function '__fls':
+   include/asm-generic/bitops/__fls.h:18:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      18 |         if (!(word & (~0ul << 32))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:20:22: warning: left shift count >= width of type [-Wshift-count-overflow]
+      20 |                 word <<= 32;
+         |                      ^~~
+   include/asm-generic/bitops/__fls.h:23:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      23 |         if (!(word & (~0ul << (BITS_PER_LONG-16)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:27:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      27 |         if (!(word & (~0ul << (BITS_PER_LONG-8)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:31:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      31 |         if (!(word & (~0ul << (BITS_PER_LONG-4)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:35:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      35 |         if (!(word & (~0ul << (BITS_PER_LONG-2)))) {
+         |                            ^~
+   include/asm-generic/bitops/__fls.h:39:28: warning: left shift count >= width of type [-Wshift-count-overflow]
+      39 |         if (!(word & (~0ul << (BITS_PER_LONG-1))))
+         |                            ^~
+   In file included from include/linux/cpumask.h:12,
+                    from include/linux/sched.h:16:
+   include/linux/cpumask.h: In function 'cpumask_setall':
+   include/linux/bitmap.h:215:44: warning: right shift count >= width of type [-Wshift-count-overflow]
+     215 | #define BITMAP_LAST_WORD_MASK(nbits) (~0UL >> (-(nbits) & (BITS_PER_LONG - 1)))
+         |                                            ^~
+   include/linux/cpumask.h:542:41: note: in expansion of macro 'BITMAP_LAST_WORD_MASK'
+     542 |                 cpumask_bits(dstp)[0] = BITMAP_LAST_WORD_MASK(nr_cpumask_bits);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/shm.h:6,
+                    from include/linux/sched.h:23:
+   include/asm-generic/getorder.h: In function 'get_order':
+>> arch/parisc/include/asm/page.h:7:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_HAVE_PCI'?
+       7 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   include/asm-generic/getorder.h:33:48: note: in expansion of macro 'PAGE_SHIFT'
+      33 |                         return BITS_PER_LONG - PAGE_SHIFT;
+         |                                                ^~~~~~~~~~
+   arch/parisc/include/asm/page.h:7:25: note: each undeclared identifier is reported only once for each function it appears in
+       7 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   include/asm-generic/getorder.h:33:48: note: in expansion of macro 'PAGE_SHIFT'
+      33 |                         return BITS_PER_LONG - PAGE_SHIFT;
+         |                                                ^~~~~~~~~~
+   In file included from include/linux/sched.h:38:
+   include/linux/mm_types_task.h: At top level:
+   include/linux/mm_types_task.h:16:10: fatal error: asm/tlbbatch.h: No such file or directory
+      16 | #include <asm/tlbbatch.h>
+         |          ^~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[3]: *** [scripts/Makefile.build:116: arch/parisc/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1199: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +3168 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+vim +7 arch/parisc/include/asm/page.h
 
-  3129	
-  3130	static int arm_smmu_init_strtab_2lvl(struct arm_smmu_device *smmu)
-  3131	{
-  3132		void *strtab;
-  3133		u64 reg;
-  3134		u32 size, l1size;
-  3135		struct arm_smmu_strtab_cfg *cfg = &smmu->strtab_cfg;
-  3136		int ret;
-  3137	
-  3138		/* Calculate the L1 size, capped to the SIDSIZE. */
-  3139		size = STRTAB_L1_SZ_SHIFT - (ilog2(STRTAB_L1_DESC_DWORDS) + 3);
-  3140		size = min(size, smmu->sid_bits - STRTAB_SPLIT);
-  3141		cfg->num_l1_ents = 1 << size;
-  3142	
-  3143		size += STRTAB_SPLIT;
-  3144		if (size < smmu->sid_bits)
-  3145			dev_warn(smmu->dev,
-  3146				 "2-level strtab only covers %u/%u bits of SID\n",
-  3147				 size, smmu->sid_bits);
-  3148	
-  3149		l1size = cfg->num_l1_ents * (STRTAB_L1_DESC_DWORDS << 3);
-  3150		strtab = dmam_alloc_coherent(smmu->dev, l1size, &cfg->strtab_dma,
-  3151					     GFP_KERNEL);
-  3152		if (!strtab) {
-  3153			dev_err(smmu->dev,
-  3154				"failed to allocate l1 stream table (%u bytes)\n",
-  3155				l1size);
-  3156			return -ENOMEM;
-  3157		}
-  3158		cfg->strtab = strtab;
-  3159	
-  3160		/* Configure strtab_base_cfg for 2 levels */
-  3161		reg  = FIELD_PREP(STRTAB_BASE_CFG_FMT, STRTAB_BASE_CFG_FMT_2LVL);
-  3162		reg |= FIELD_PREP(STRTAB_BASE_CFG_LOG2SIZE, size);
-  3163		reg |= FIELD_PREP(STRTAB_BASE_CFG_SPLIT, STRTAB_SPLIT);
-  3164		cfg->strtab_base_cfg = reg;
-  3165		ret = arm_smmu_init_l1_strtab(smmu);
-  3166	#ifdef CONFIG_SMMU_BYPASS_DEV
-  3167		if (!ret && smmu_bypass_devices_num) {
-> 3168			ret = bus_for_each_dev(&pci_bus_type, NULL, (void *)smmu,
-  3169									arm_smmu_prepare_init_l2_strtab);
-  3170		}
-  3171	#endif
-  3172		return ret;
-  3173	}
-  3174	
+     6	
+   > 7	#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
+     8	#define PAGE_SIZE	(_AC(1,UL) << PAGE_SHIFT)
+     9	#define PAGE_MASK	(~(PAGE_SIZE-1))
+    10	
+    11	
 
 -- 
 0-DAY CI Kernel Test Service
