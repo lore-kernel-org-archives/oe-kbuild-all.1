@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DA61AACA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 05:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B79145B2C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 05:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727675215; cv=none; b=KoJt4RhiE5wBIjF6RUgzLSGuynLeAhniLDlJteIxtAxcfJS4PAaN4bSqI2jUSP211HHf7ZF/wEuCPOIMuH8zyBuICUXpnPRsHWY6yKWiXMNC9P5PCjXujbbYyaaGlkldTVI4r32XwjFlBBbiW/o7ThqM9pay2l1tIfI4cRs5NU4=
+	t=1727675875; cv=none; b=ZjYMwFFijTIQHNByk7MBF7xRPwkK0VOYyXhBQDVMrBOdrygQZsMrpwWNdi66gqPBLCkxRWShODpgP2tdQwIYLKFduf5XRLj90zpnaio9UWDxQ7K2KsnmBd7xm2kw5yszEsmwkseReLhLXQjINiFnY9yia7uQhupGN58kxSmj2iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727675215; c=relaxed/simple;
-	bh=NJUStXGQkmQAPacAxZASVWRJ7t/esFzrYKq3yBRP4qc=;
+	s=arc-20240116; t=1727675875; c=relaxed/simple;
+	bh=bE+yuufA2r4DgY1U2XC2BeulkTqF5D+5uColP9HtrNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QEa2hAC2zTawjVXh0t8shsVORYEDGrSErYWF3FClJYhHbZS3Da4Jc6iJdGGQWJtkNO9wmyofaeY0LCvQ1hoJ/cp17K80FTdt9FAICE62RGZqeOJSxNwJLbdb90tFGTHS/4kCiBqg/iohL7la/JV53iHN4AvGCuYMQht1AA4VbhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPRtXB5K; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=VH4l4mHvkfQMaaDsXlO/c51VyV7QlKEh5/Hq6fCEot5qtSW61QxF7TXhD0P9CT/TF1g3cF6xGv7HTUtNEY8XZrVBhMZ1jGkGwt/74Q8DioXOkK1m9SHBvOYPoC6pzFQ8ey1tBMXK+E1ORbbED+wE2KtGshLO9QnBQDCEdzqz5K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pcv6/wLa; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPRtXB5K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pcv6/wLa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727675213; x=1759211213;
+  t=1727675873; x=1759211873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NJUStXGQkmQAPacAxZASVWRJ7t/esFzrYKq3yBRP4qc=;
-  b=TPRtXB5KqGtg1Mr3u92Lmt0QPSkCmMUROuVgqaik2hBCpKXyy1v0Aqhs
-   EZQI7QYJJ/4fNrsJeX7kRpkRGqWwiN1xSi39IsCYfH6thLRVhyX/Cm5ex
-   on5f5jdZir3mbLEAD4akqsm3QducXJOIJo8UZNng9vS7fq8ZbNH2pNq/a
-   CIZjQKqvo4J0JHz+pCfD/X3F07N1UEuC4odyZ8PaVaaCNzKpofIV/ix0K
-   J6N5py4OqB4KLGhJIR7MMZWpdVmcq+v41h4v6UuILtBNd8plTJrAP95hW
-   XRyWEKUbSnSvNQ4VBMhp9Ngje6GnChYser7ncDlE3mrITRvXCC/sSqlls
-   A==;
-X-CSE-ConnectionGUID: D8R2axS+S+GoJjY5wvYYDw==
-X-CSE-MsgGUID: 6q6jsBbTTLW8Go+CtVy+XA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="14371355"
+  bh=bE+yuufA2r4DgY1U2XC2BeulkTqF5D+5uColP9HtrNo=;
+  b=Pcv6/wLat8LuZW9NAppN6hPbAJRFBoSiowO0C6clSAaMpJm5CAizbRmx
+   apFldohysKZmoB4n6gFAolp4JY/SHJA8z0pH75NMnk+e0eKp0PFUF899Q
+   tYKQaeDRQu0RHQCqiK+ERTcr0CKefdALMxey6CmNM/ZJ+W0dAaJbqi1wy
+   UntuDlc+76budpBxrFAiIVgyFgKFBx6U5s7VH1QPg1puAHJKjPYpDjJ+B
+   IHWP1eixR4Vr8XoiubC18Kber+3PkXM+EvUxsUWIcoss+ZohyxXEfhTG1
+   EfEp8F4xZfvuJrRzTZrNx0uHfU7O88KIHytvruHsf6ZwnB2t5WCI9+boH
+   g==;
+X-CSE-ConnectionGUID: yb7Iu/NFTpeTdHq7yXZE2A==
+X-CSE-MsgGUID: QfQtqetCQwiVC6wE2zd6RQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="38129803"
 X-IronPort-AV: E=Sophos;i="6.11,164,1725346800"; 
-   d="scan'208";a="14371355"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 22:46:52 -0700
-X-CSE-ConnectionGUID: /uJpaDaUQ1GjrS1UmznOZA==
-X-CSE-MsgGUID: Q46rPVw3StKRW6bvGmdV7g==
+   d="scan'208";a="38129803"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 22:57:52 -0700
+X-CSE-ConnectionGUID: VH9PEweBSFKwiyo04PIn4w==
+X-CSE-MsgGUID: fnmnpfyQQk616vtu6yTLhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,164,1725346800"; 
-   d="scan'208";a="103971607"
+   d="scan'208";a="96509615"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2024 22:46:49 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Sep 2024 22:57:51 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sv9F9-000P59-0v;
-	Mon, 30 Sep 2024 05:46:47 +0000
-Date: Mon, 30 Sep 2024 13:46:31 +0800
+	id 1sv9Pp-000P5j-0i;
+	Mon, 30 Sep 2024 05:57:49 +0000
+Date: Mon, 30 Sep 2024 13:56:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: kernel@openeuler.org, Dong Yibo <dong100@mucse.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2188/2444]
- drivers/gpu/drm/phytium/phytium_display_drv.c:32:34: error: expected ')'
- before 'int'
-Message-ID: <202409301350.xb2KSX8o-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 7044/14254]
+ drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1236:6: warning: no
+ previous prototype for 'rnpgbevf_alloc_rx_buffers'
+Message-ID: <202409301357.XJDOWyKd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,134 +63,171 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   aabcc6dc6d7f9e12baf1f117341469c84afd545d
-commit: cb18a9e935892ef3d4038737f1d686ebc82d1afa [2188/2444] DRM phytium Add Phytium Display Engine support
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240930/202409301350.xb2KSX8o-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409301350.xb2KSX8o-lkp@intel.com/reproduce)
+Hi Dong,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e4fe1cc5cc1a347dec844c60d34f6141780f05af
+commit: bf177ad1d8f72824180b44563c09f37562f645de [7044/14254] drivers: initial support for rnpgbevf drivers from Mucse Technology
+config: loongarch-randconfig-001-20240930 (https://download.01.org/0day-ci/archive/20240930/202409301357.XJDOWyKd-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409301357.XJDOWyKd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409301350.xb2KSX8o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409301357.XJDOWyKd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/phytium/phytium_display_drv.c:32:34: error: expected ')' before 'int'
-      32 | module_param(dc_fake_mode_enable, int, 0644);
-         |                                  ^~~~
-         |                                  )
->> drivers/gpu/drm/phytium/phytium_display_drv.c:33:38: error: expected ')' before string constant
-      33 | MODULE_PARM_DESC(dc_fake_mode_enable, "Enable DC fake mode (0-disabled; 1-enabled; default-0)");
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                      )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:36:37: error: expected ')' before 'int'
-      36 | module_param(dc_fast_training_check, int, 0644);
-         |                                     ^~~~
-         |                                     )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:37:41: error: expected ')' before string constant
-      37 | MODULE_PARM_DESC(dc_fast_training_check, "Check dp fast training (0-disabled; 1-enabled; default-1)");
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:40:31: error: expected ')' before 'int'
-      40 | module_param(num_source_rates, int, 0644);
-         |                               ^~~~
-         |                               )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:41:35: error: expected ')' before string constant
-      41 | MODULE_PARM_DESC(num_source_rates, "set the source max rates (1-1.62Gbps; 2-2.7Gbps; 3-5.4Gbps; 4-8.1Gbps; default-4)");
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:44:36: error: expected ')' before 'int'
-      44 | module_param(source_max_lane_count, int, 0644);
-         |                                    ^~~~
-         |                                    )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:45:40: error: expected ')' before string constant
-      45 | MODULE_PARM_DESC(source_max_lane_count, "set the source lane count (1-1lane; 2-2lane; 4-4lane; default-4)");
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                        )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:48:34: error: expected ')' before 'int'
-      48 | module_param(link_dynamic_adjust, int, 0644);
-         |                                  ^~~~
-         |                                  )
-   drivers/gpu/drm/phytium/phytium_display_drv.c:49:38: error: expected ')' before string constant
-      49 | MODULE_PARM_DESC(link_dynamic_adjust, "dynamic select the train pamameter according to the display mode (0-disabled; 1-enabled; default-1)");
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                      )
-   drivers/gpu/drm/phytium/phytium_display_drv.c: In function 'phytium_irq_preinstall':
-   drivers/gpu/drm/phytium/phytium_display_drv.c:89:16: warning: variable 'status' set but not used [-Wunused-but-set-variable]
-      89 |         int i, status;
-         |                ^~~~~~
-   drivers/gpu/drm/phytium/phytium_display_drv.c: In function 'phytium_irq_uninstall':
-   drivers/gpu/drm/phytium/phytium_display_drv.c:100:16: warning: variable 'status' set but not used [-Wunused-but-set-variable]
-     100 |         int i, status;
-         |                ^~~~~~
-   drivers/gpu/drm/phytium/phytium_display_drv.c: At top level:
-   drivers/gpu/drm/phytium/phytium_display_drv.c:433:1: warning: data definition has no type or storage class
-     433 | module_init(phytium_display_init);
-         | ^~~~~~~~~~~
->> drivers/gpu/drm/phytium/phytium_display_drv.c:433:1: error: type defaults to 'int' in declaration of 'module_init' [-Werror=implicit-int]
-   drivers/gpu/drm/phytium/phytium_display_drv.c:433:1: warning: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
-   drivers/gpu/drm/phytium/phytium_display_drv.c:434:1: warning: data definition has no type or storage class
-     434 | module_exit(phytium_display_exit);
-         | ^~~~~~~~~~~
->> drivers/gpu/drm/phytium/phytium_display_drv.c:434:1: error: type defaults to 'int' in declaration of 'module_exit' [-Werror=implicit-int]
-   drivers/gpu/drm/phytium/phytium_display_drv.c:434:1: warning: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
->> drivers/gpu/drm/phytium/phytium_display_drv.c:436:16: error: expected declaration specifiers or '...' before string constant
-     436 | MODULE_LICENSE("GPL");
-         |                ^~~~~
-   drivers/gpu/drm/phytium/phytium_display_drv.c:437:15: error: expected declaration specifiers or '...' before string constant
-     437 | MODULE_AUTHOR("Yang Xun <yangxun@phytium.com.cn>");
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_display_drv.c:438:20: error: expected declaration specifiers or '...' before string constant
-     438 | MODULE_DESCRIPTION("Phytium Display Controller");
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_display_drv.c:426:20: warning: 'phytium_display_exit' defined but not used [-Wunused-function]
-     426 | static void __exit phytium_display_exit(void)
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_display_drv.c:413:19: warning: 'phytium_display_init' defined but not used [-Wunused-function]
-     413 | static int __init phytium_display_init(void)
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
->> drivers/gpu/drm/phytium/phytium_pci.c:20:28: error: expected ')' before 'int'
-      20 | module_param(dc_msi_enable, int, 0644);
-         |                            ^~~~
-         |                            )
->> drivers/gpu/drm/phytium/phytium_pci.c:21:32: error: expected ')' before string constant
-      21 | MODULE_PARM_DESC(dc_msi_enable, "Enable DC msi interrupt (0-disabled; 1-enabled; default-0)");
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                )
-   drivers/gpu/drm/phytium/phytium_pci.c:23:6: warning: no previous prototype for 'phytium_pci_vram_hw_init' [-Wmissing-prototypes]
-      23 | void phytium_pci_vram_hw_init(struct phytium_display_private *priv)
+   In file included from drivers/net/ethernet/mucse/rnpgbevf/vf.h:13,
+                    from drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf.h:14,
+                    from drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:27:
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h: In function '_rnp_skb_dump':
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:265:23: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
+     265 |         int headroom, tailroom;
+         |                       ^~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:265:13: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
+     265 |         int headroom, tailroom;
+         |             ^~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:264:23: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
+     264 |         bool has_mac, has_trans;
+         |                       ^~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:264:14: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
+     264 |         bool has_mac, has_trans;
+         |              ^~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: At top level:
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:119:6: warning: no previous prototype for 'rnpgbevf_unmap_and_free_tx_resource' [-Wmissing-prototypes]
+     119 | void rnpgbevf_unmap_and_free_tx_resource(struct rnpgbevf_ring *ring,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1236:6: warning: no previous prototype for 'rnpgbevf_alloc_rx_buffers' [-Wmissing-prototypes]
+    1236 | void rnpgbevf_alloc_rx_buffers(struct rnpgbevf_ring *rx_ring, u16 cleaned_count)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: In function 'rnpgbevf_clean_rx_irq':
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1530:14: warning: variable 'xdp_xmit' set but not used [-Wunused-but-set-variable]
+    1530 |         bool xdp_xmit = false;
+         |              ^~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: At top level:
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2263:6: warning: no previous prototype for 'rnpgbevf_write_eitr_rx' [-Wmissing-prototypes]
+    2263 | void rnpgbevf_write_eitr_rx(struct rnpgbevf_q_vector *q_vector)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2361:6: warning: no previous prototype for 'rnpgbevf_configure_tx_ring' [-Wmissing-prototypes]
+    2361 | void rnpgbevf_configure_tx_ring(struct rnpgbevf_adapter *adapter,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2426:6: warning: no previous prototype for 'rnpgbevf_disable_rx_queue' [-Wmissing-prototypes]
+    2426 | void rnpgbevf_disable_rx_queue(struct rnpgbevf_adapter *adapter,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2432:6: warning: no previous prototype for 'rnpgbevf_enable_rx_queue' [-Wmissing-prototypes]
+    2432 | void rnpgbevf_enable_rx_queue(struct rnpgbevf_adapter *adapter,
          |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_pci.c:30:5: warning: no previous prototype for 'phytium_pci_vram_init' [-Wmissing-prototypes]
-      30 | int phytium_pci_vram_init(struct pci_dev *pdev, struct phytium_display_private *priv)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_pci.c:68:6: warning: no previous prototype for 'phytium_pci_vram_fini' [-Wmissing-prototypes]
-      68 | void phytium_pci_vram_fini(struct pci_dev *pdev, struct phytium_display_private *priv)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_pci.c:89:5: warning: no previous prototype for 'phytium_pci_dma_init' [-Wmissing-prototypes]
-      89 | int phytium_pci_dma_init(struct phytium_display_private *priv)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_pci.c:137:6: warning: no previous prototype for 'phytium_pci_dma_fini' [-Wmissing-prototypes]
-     137 | void phytium_pci_dma_fini(struct phytium_display_private *priv)
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2438:6: warning: no previous prototype for 'rnpgbevf_configure_rx_ring' [-Wmissing-prototypes]
+    2438 | void rnpgbevf_configure_rx_ring(struct rnpgbevf_adapter *adapter,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: In function 'rnpgbevf_vlan_rx_kill_vid':
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2561:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+    2561 |         int err = -EOPNOTSUPP;
+         |             ^~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: In function 'rnpgbevf_acquire_msix_vectors':
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3187:13: warning: variable 'vector_threshold' set but not used [-Wunused-but-set-variable]
+    3187 |         int vector_threshold;
+         |             ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: At top level:
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4378:6: warning: no previous prototype for 'rnpgbevf_tx_ctxtdesc' [-Wmissing-prototypes]
+    4378 | void rnpgbevf_tx_ctxtdesc(struct rnpgbevf_ring *tx_ring, u16 mss_seg_len,
          |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_pci.c:379:1: warning: data definition has no type or storage class
-     379 | MODULE_DEVICE_TABLE(pci, phytium_display_pci_ids);
-         | ^~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/phytium/phytium_pci.c:379:1: error: type defaults to 'int' in declaration of 'MODULE_DEVICE_TABLE' [-Werror=implicit-int]
-   drivers/gpu/drm/phytium/phytium_pci.c:379:1: warning: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
-   cc1: some warnings being treated as errors
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4820:6: warning: no previous prototype for 'rnpgbevf_maybe_tx_ctxtdesc' [-Wmissing-prototypes]
+    4820 | void rnpgbevf_maybe_tx_ctxtdesc(struct rnpgbevf_ring *tx_ring,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4838:13: warning: no previous prototype for 'rnpgbevf_xmit_frame_ring' [-Wmissing-prototypes]
+    4838 | netdev_tx_t rnpgbevf_xmit_frame_ring(struct sk_buff *skb,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:5311:6: warning: no previous prototype for 'rnpgbevf_assign_netdev_ops' [-Wmissing-prototypes]
+    5311 | void rnpgbevf_assign_netdev_ops(struct net_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: In function 'rnpgbevf_request_msix_irqs':
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1978:44: warning: '%d' directive output may be truncated writing between 1 and 5 bytes into a region of size between 1 and 16 [-Wformat-truncation=]
+    1978 |                                  "%s-%s-%d-%d", netdev->name, "TxRx", i,
+         |                                            ^~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1978:34: note: directive argument in the range [0, 65535]
+    1978 |                                  "%s-%s-%d-%d", netdev->name, "TxRx", i,
+         |                                  ^~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1977:25: note: 'snprintf' output between 10 and 29 bytes into a destination of size 24
+    1977 |                         snprintf(q_vector->name, sizeof(q_vector->name) - 1,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1978 |                                  "%s-%s-%d-%d", netdev->name, "TxRx", i,
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1979 |                                  q_vector->v_idx);
+         |                                  ~~~~~~~~~~~~~~~~
 
 
-vim +32 drivers/gpu/drm/phytium/phytium_display_drv.c
+vim +/rnpgbevf_alloc_rx_buffers +1236 drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c
 
-    30	
-    31	int dc_fake_mode_enable;
-  > 32	module_param(dc_fake_mode_enable, int, 0644);
-  > 33	MODULE_PARM_DESC(dc_fake_mode_enable, "Enable DC fake mode (0-disabled; 1-enabled; default-0)");
-    34	
+  1229	
+  1230	#else
+  1231	/**
+  1232	 * rnpgbevf_alloc_rx_buffers - Replace used receive buffers
+  1233	 * @rx_ring: ring to place buffers on
+  1234	 * @cleaned_count: number of buffers to replace
+  1235	 **/
+> 1236	void rnpgbevf_alloc_rx_buffers(struct rnpgbevf_ring *rx_ring, u16 cleaned_count)
+  1237	{
+  1238		union rnp_rx_desc *rx_desc;
+  1239		struct rnpgbevf_rx_buffer *bi;
+  1240		u16 i = rx_ring->next_to_use;
+  1241		u64 fun_id = ((u64)(rx_ring->vfnum) << (32 + 24));
+  1242		u16 bufsz;
+  1243		/* nothing to do */
+  1244		if (!cleaned_count)
+  1245			return;
+  1246	
+  1247		rx_desc = RNPVF_RX_DESC(rx_ring, i);
+  1248	
+  1249		BUG_ON(!rx_desc);
+  1250	
+  1251		bi = &rx_ring->rx_buffer_info[i];
+  1252	
+  1253		BUG_ON(!bi);
+  1254	
+  1255		i -= rx_ring->count;
+  1256		bufsz = rnpgbevf_rx_bufsz(rx_ring);
+  1257	
+  1258		do {
+  1259			if (!rnpgbevf_alloc_mapped_page(rx_ring, bi))
+  1260				break;
+  1261	
+  1262			dma_sync_single_range_for_device(rx_ring->dev, bi->dma,
+  1263							 bi->page_offset, bufsz,
+  1264							 DMA_FROM_DEVICE);
+  1265	
+  1266			/* Refresh the desc even if buffer_addrs didn't change
+  1267			 * because each write-back erases this info.
+  1268			 */
+  1269			rx_desc->pkt_addr =
+  1270				cpu_to_le64(bi->dma + bi->page_offset + fun_id);
+  1271	
+  1272			/* clean dd */
+  1273			rx_desc->cmd = 0;
+  1274	
+  1275			rx_desc++;
+  1276			bi++;
+  1277			i++;
+  1278			if (unlikely(!i)) {
+  1279				rx_desc = RNPVF_RX_DESC(rx_ring, 0);
+  1280				bi = rx_ring->rx_buffer_info;
+  1281				i -= rx_ring->count;
+  1282			}
+  1283	
+  1284			/* clear the hdr_addr for the next_to_use descriptor */
+  1285			cleaned_count--;
+  1286		} while (cleaned_count);
+  1287	
+  1288		i += rx_ring->count;
+  1289	
+  1290		if (rx_ring->next_to_use != i)
+  1291			rnpgbevf_update_rx_tail(rx_ring, i);
+  1292	}
+  1293	
 
 -- 
 0-DAY CI Kernel Test Service
