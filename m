@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E7A39FF3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 03:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A491B815
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 04:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727667895; cv=none; b=MJ90NZohFXJAUmkNwFrzwjKVEeO447sbie2UstU8KiQfrY3Pvdr96yRT7JDWoRSnqamrf5Z0OTC+GUOAvADvsnLvr2OQ8v1JUiKhnuu69T/J53uj8REcpi+unBH81AriXLu/Wm9tlUwTd7sTpXeO4xUF9YtQxmtIPrGsaYCzFi0=
+	t=1727669091; cv=none; b=mrHes2+PhS5WCE8zO3YvyNTLXU7NSoVqgQShR4WaIGjQchg5QXY/TokAuqLkQK7AmoJKLcqjJp0dcgDMc95wZrvdXNJ4nMTV9i1sBIlPVI+fMNrUNRAkMcJG81h/umlmWBmGQkgIfxG/dvlJFlmGJ93cpP3L7hDGZn4o+AwTkC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727667895; c=relaxed/simple;
-	bh=Dxd9lteqVXV5hz5AQMTpzNNKVKOXszV7Hxin7bOusAs=;
+	s=arc-20240116; t=1727669091; c=relaxed/simple;
+	bh=5BD9iQUjk1C9VLkHoB1fCWk8ChnkGcacFpI2XjJxTJc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oWf534mGqiYQ8LZGbhrcvHQqJQuGJXsDZmw7CI2bMrAhERVlxfKxjPSNYvpQdj3jc7m9LqYWyWXbj019+0Cd8KJE6dvlmdZTH0ZXnohuoc+dVqtvhfNgY8Pq8OIQxRe+DBslZeaSqprTbBM6tUdMflTsmUlUt9npaUlTTlYL/co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wdfa/0ev; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=h1hj7+UAOs6nDvYVz8qyU7wXnvjRMJHCPXFZtitDEnUjWOw6XghjOqvYEuYbUCFd0kUCJ+j0upLsfLlSSdgJoR0Pi5BzWm/yFO8VGHtLLih3AfJrKfkQV1AWaUm8/uFGY43LxajRsw6NLioClzpcr2YXDi7cG976UAtAaN5Unbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWd4/XIw; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wdfa/0ev"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWd4/XIw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727667893; x=1759203893;
+  t=1727669090; x=1759205090;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Dxd9lteqVXV5hz5AQMTpzNNKVKOXszV7Hxin7bOusAs=;
-  b=Wdfa/0evry04SsnD5qXyCnemP9ps51IAijCmBmnd0HESGwhA4yVsRol5
-   8R5jCC0rKi0kIK6UOXuPb9n7Q4HbICP0LUtDvJceh5szfPTO4zxP6+n/P
-   YRn8JD6vfefc9pHQbGIX4EtVGpLPvwSvcapXOZ5s3yQnsiVu8/TXr4DtX
-   Qb1sOcbTgRLKV8usTIcNWNSc2N2PKKtL/w2FVVif51XmI6IC/J1M1U6gZ
-   SibwUkO5aUWEekgNIQVHKQisK2CXIj4gDEYTQR7+SjBfTjaArCLUftJtb
-   RQptR+AsHwBfvhOqa3Qz9/EWoIaoXupXSzuC368O+YpbjotUO0DHAZnzK
-   Q==;
-X-CSE-ConnectionGUID: ARbv024qTXemdUSVXorlsQ==
-X-CSE-MsgGUID: OKLXoPfKQCKy5upQ9X1eSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="14361118"
+  bh=5BD9iQUjk1C9VLkHoB1fCWk8ChnkGcacFpI2XjJxTJc=;
+  b=OWd4/XIwiZAEe6Gb6efn/xrfROR+S1HmshOeWuBOPahKGddZhlnghr2Q
+   8t/LXdKV1/RiVu7BQED9YahDF5r5qtJY76XcVo1vgaFHMmgRRd2TNMUdW
+   RidgcRoqbivkXBe4QDhWEXenJkhWxgHNmmggRzMLlK28lcf26W+yQsZFz
+   uTuQWlY519e7o8kylbejSbLjatSxkud9Viz2BuxjIrSdmLMBr+4qJ6P6Z
+   oEQaT4Fx4hl0A2KryDKew6LtCzNGvpK3XFf/jNi2aK75WkbojDWU/w1cN
+   W5x7LMr8d6q2o9lIXart7Nj7c/1wa73CsNcnqc20fUGqyZwMOuFi1mjj9
+   A==;
+X-CSE-ConnectionGUID: v9k4oZTvT2yTW5TNxNfifQ==
+X-CSE-MsgGUID: oirDfNdGSuCTctGBeS1ZXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="29620332"
 X-IronPort-AV: E=Sophos;i="6.11,164,1725346800"; 
-   d="scan'208";a="14361118"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 20:44:48 -0700
-X-CSE-ConnectionGUID: B+J62h0CSa2fL4qynHXg2Q==
-X-CSE-MsgGUID: aJF7J1mfRiakcItwSRDBEg==
+   d="scan'208";a="29620332"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 21:04:49 -0700
+X-CSE-ConnectionGUID: vU226D2dTtWndcptjgrPVA==
+X-CSE-MsgGUID: ncpuzZocRmeihX+rFwg85g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,164,1725346800"; 
-   d="scan'208";a="73127387"
+   d="scan'208";a="78107158"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Sep 2024 20:44:46 -0700
+  by orviesa004.jf.intel.com with ESMTP; 29 Sep 2024 21:04:47 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sv7L1-000P0p-2n;
-	Mon, 30 Sep 2024 03:44:43 +0000
-Date: Mon, 30 Sep 2024 11:44:05 +0800
+	id 1sv7eO-000P1f-1x;
+	Mon, 30 Sep 2024 04:04:44 +0000
+Date: Mon, 30 Sep 2024 12:04:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Dong Yibo <dong100@mucse.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 6865/14250]
- drivers/net/ethernet/mucse/rnpvf/rnpvf_regs.h:21:26: error: called object is
- not a function or function pointer
-Message-ID: <202409301139.po9zoLOB-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: arch/sh/mm/cache-sh4.c:224:13: error: assignment to 'pmd_t *' from
+ 'int' makes pointer from integer without a cast
+Message-ID: <202409301241.wzlwAxsQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,142 +66,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dong,
+Hi Arnd,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   02590a1a9ea3aa1e89ddb076e71968ef7278fa8b
-commit: 6adab536d69347a10c2366aaf6b86de963d5994b [6865/14250] drivers: initial support for rnpvf drivers from Mucse Technology
-config: loongarch-randconfig-001-20240930 (https://download.01.org/0day-ci/archive/20240930/202409301139.po9zoLOB-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409301139.po9zoLOB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9852d85ec9d492ebef56dc5f229416c925758edc
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=gnu11
+date:   2 years, 7 months ago
+config: sh-randconfig-001-20240930 (https://download.01.org/0day-ci/archive/20240930/202409301241.wzlwAxsQ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409301241.wzlwAxsQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409301139.po9zoLOB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409301241.wzlwAxsQ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:127:6: warning: no previous prototype for 'rnpvf_unmap_and_free_tx_resource' [-Wmissing-prototypes]
-     127 | void rnpvf_unmap_and_free_tx_resource(struct rnpvf_ring *ring,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:1365:6: warning: no previous prototype for 'rnpvf_alloc_rx_buffers' [-Wmissing-prototypes]
-    1365 | void rnpvf_alloc_rx_buffers(struct rnpvf_ring *rx_ring, u16 cleaned_count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: In function 'rnpvf_clean_rx_irq':
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:1659:14: warning: variable 'xdp_xmit' set but not used [-Wunused-but-set-variable]
-    1659 |         bool xdp_xmit = false;
-         |              ^~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: At top level:
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:1945:6: warning: no previous prototype for 'update_rx_count' [-Wmissing-prototypes]
-    1945 | void update_rx_count(int cleaned, struct rnpvf_q_vector *q_vector)
-         |      ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2420:6: warning: no previous prototype for 'rnpvf_write_eitr_rx' [-Wmissing-prototypes]
-    2420 | void rnpvf_write_eitr_rx(struct rnpvf_q_vector *q_vector)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2523:6: warning: no previous prototype for 'rnpvf_configure_tx_ring' [-Wmissing-prototypes]
-    2523 | void rnpvf_configure_tx_ring(struct rnpvf_adapter *adapter,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2589:6: warning: no previous prototype for 'rnpvf_disable_rx_queue' [-Wmissing-prototypes]
-    2589 | void rnpvf_disable_rx_queue(struct rnpvf_adapter *adapter,
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2595:6: warning: no previous prototype for 'rnpvf_enable_rx_queue' [-Wmissing-prototypes]
-    2595 | void rnpvf_enable_rx_queue(struct rnpvf_adapter *adapter,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2601:6: warning: no previous prototype for 'rnpvf_configure_rx_ring' [-Wmissing-prototypes]
-    2601 | void rnpvf_configure_rx_ring(struct rnpvf_adapter *adapter,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: In function 'rnpvf_vlan_rx_kill_vid':
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2736:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    2736 |         int err = -EOPNOTSUPP;
-         |             ^~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: In function 'rnpvf_acquire_msix_vectors':
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3307:13: warning: variable 'vector_threshold' set but not used [-Wunused-but-set-variable]
-    3307 |         int vector_threshold;
-         |             ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: In function 'irq_miss_check':
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3456:26: warning: variable 'hw' set but not used [-Wunused-but-set-variable]
-    3456 |         struct rnpvf_hw *hw;
-         |                          ^~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: At top level:
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4590:6: warning: no previous prototype for 'rnpvf_tx_ctxtdesc' [-Wmissing-prototypes]
-    4590 | void rnpvf_tx_ctxtdesc(struct rnpvf_ring *tx_ring, u16 mss_seg_len,
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:5039:6: warning: no previous prototype for 'rnpvf_maybe_tx_ctxtdesc' [-Wmissing-prototypes]
-    5039 | void rnpvf_maybe_tx_ctxtdesc(struct rnpvf_ring *tx_ring,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:5089:13: warning: no previous prototype for 'rnpvf_xmit_frame_ring' [-Wmissing-prototypes]
-    5089 | netdev_tx_t rnpvf_xmit_frame_ring(struct sk_buff *skb,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:5580:6: warning: no previous prototype for 'rnpvf_assign_netdev_ops' [-Wmissing-prototypes]
-    5580 | void rnpvf_assign_netdev_ops(struct net_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/mucse/rnpvf/vf.h:14,
-                    from drivers/net/ethernet/mucse/rnpvf/rnpvf.h:14,
-                    from drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:26:
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: In function 'rnpvf_vfnum':
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_regs.h:21:26: error: called object is not a function or function pointer
-      21 | #define RNP_DMA_RX_START (0x10)
-         |                          ^
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_regs.h:104:42: note: in definition of macro 'rnpvf_rd_reg'
-     104 | #define rnpvf_rd_reg(reg) readl((void *)(reg))
-         |                                          ^~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:5599:21: note: in expansion of macro 'rd32'
-    5599 |                 v = rd32(hw, RNP_DMA_RX_START(ring));
-         |                     ^~~~
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:5599:30: note: in expansion of macro 'RNP_DMA_RX_START'
-    5599 |                 v = rd32(hw, RNP_DMA_RX_START(ring));
-         |                              ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:5591:13: warning: unused variable 'pfvfnum_reg' [-Wunused-variable]
-    5591 |         u32 pfvfnum_reg;
+   arch/sh/mm/cache-sh4.c: In function 'flush_cache_one':
+   arch/sh/mm/cache-sh4.c:99:31: error: 'cached_to_uncached' undeclared (first use in this function); did you mean 'jump_to_uncached'?
+      99 |                 exec_offset = cached_to_uncached;
+         |                               ^~~~~~~~~~~~~~~~~~
+         |                               jump_to_uncached
+   arch/sh/mm/cache-sh4.c:99:31: note: each undeclared identifier is reported only once for each function it appears in
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_mm':
+   arch/sh/mm/cache-sh4.c:192:13: error: implicit declaration of function 'cpu_context'; did you mean 'put_io_context'? [-Wimplicit-function-declaration]
+     192 |         if (cpu_context(smp_processor_id(), mm) == NO_CONTEXT)
          |             ^~~~~~~~~~~
+         |             put_io_context
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_page':
+   arch/sh/mm/cache-sh4.c:224:15: error: implicit declaration of function 'pmd_off' [-Wimplicit-function-declaration]
+     224 |         pmd = pmd_off(vma->vm_mm, address);
+         |               ^~~~~~~
+>> arch/sh/mm/cache-sh4.c:224:13: error: assignment to 'pmd_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     224 |         pmd = pmd_off(vma->vm_mm, address);
+         |             ^
+   arch/sh/mm/cache-sh4.c:225:15: error: implicit declaration of function 'pte_offset_kernel' [-Wimplicit-function-declaration]
+     225 |         pte = pte_offset_kernel(pmd, address);
+         |               ^~~~~~~~~~~~~~~~~
+>> arch/sh/mm/cache-sh4.c:225:13: error: assignment to 'pte_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     225 |         pte = pte_offset_kernel(pmd, address);
+         |             ^
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_range':
+   arch/sh/mm/cache-sh4.c:276:30: warning: variable 'end' set but not used [-Wunused-but-set-variable]
+     276 |         unsigned long start, end;
+         |                              ^~~
+   arch/sh/mm/cache-sh4.c:276:23: warning: variable 'start' set but not used [-Wunused-but-set-variable]
+     276 |         unsigned long start, end;
+         |                       ^~~~~
+   arch/sh/mm/cache-sh4.c: At top level:
+   arch/sh/mm/cache-sh4.c:374:13: warning: no previous prototype for 'sh4_cache_init' [-Wmissing-prototypes]
+     374 | void __init sh4_cache_init(void)
+         |             ^~~~~~~~~~~~~~
 
 
-vim +21 drivers/net/ethernet/mucse/rnpvf/rnpvf_regs.h
+vim +224 arch/sh/mm/cache-sh4.c
 
-    13	
-    14	#define RNP_DMA_RING_BASE 0x8000
-    15	#define RNP_DMA_RX_DESC_TIMEOUT_TH 0x8000
-    16	#define RNP_DMA_TX_DESC_FETCH_CTL 0x8004
-    17	#define RNP_DMA_TX_FLOW_CTRL_TM 0x8008
-    18	#define RNP_RING_BASE_N10 (0x8000)
-    19	#define RNP_RING_BASE_N500 (0x1000)
-    20	#define RNP_RING_OFFSET(i) (0x100 * (i))
-  > 21	#define RNP_DMA_RX_START (0x10)
-    22	#define RNP_DMA_RX_READY (0x14)
-    23	#define RNP_DMA_TX_START (0x18)
-    24	#define RNP_DMA_TX_READY (0x1c)
-    25	#define RNP_DMA_INT_STAT (0x20)
-    26	#define RNP_DMA_INT_MASK (0x24)
-    27	#define TX_INT_MASK (0x1 << 1)
-    28	#define RX_INT_MASK (0x1 << 0)
-    29	#define RNP_DMA_INT_CLR (0x28)
-    30	#define RNP_DMA_INT_TRIG (0x2c)
-    31	#define RNP_DMA_REG_RX_DESC_BUF_BASE_ADDR_HI (0x30)
-    32	#define RNP_DMA_REG_RX_DESC_BUF_BASE_ADDR_LO (0x34)
-    33	#define RNP_DMA_REG_RX_DESC_BUF_LEN (0x38)
-    34	#define RNP_DMA_REG_RX_DESC_BUF_HEAD (0x3c)
-    35	#define RNP_DMA_REG_RX_DESC_BUF_TAIL (0x40)
-    36	#define RNP_DMA_REG_RX_DESC_FETCH_CTRL (0x44)
-    37	#define RNP_DMA_REG_RX_INT_DELAY_TIMER (0x48)
-    38	#define RNP_DMA_REG_RX_INT_DELAY_PKTCNT (0x4c)
-    39	#define RNP_DMA_REG_RX_ARB_DEF_LVL (0x50)
-    40	#define PCI_DMA_REG_RX_DESC_TIMEOUT_TH (0x54)
-    41	#define PCI_DMA_REG_RX_SCATTER_LENGTH (0x58)
-    42	#define RNP_DMA_REG_TX_DESC_BUF_BASE_ADDR_HI (0x60)
-    43	#define RNP_DMA_REG_TX_DESC_BUF_BASE_ADDR_LO (0x64)
-    44	#define RNP_DMA_REG_TX_DESC_BUF_LEN (0x68)
-    45	#define RNP_DMA_REG_TX_DESC_BUF_HEAD (0x6c)
-    46	#define RNP_DMA_REG_TX_DESC_BUF_TAIL (0x70)
-    47	#define RNP_DMA_REG_TX_DESC_FETCH_CTRL (0x74)
-    48	#define RNP_DMA_REG_TX_INT_DELAY_TIMER (0x78)
-    49	#define RNP_DMA_REG_TX_INT_DELAY_PKTCNT (0x7c)
-    50	#define RNP_DMA_REG_TX_ARB_DEF_LVL (0x80)
-    51	#define RNP_DMA_REG_TX_FLOW_CTRL_TH (0x84)
-    52	#define RNP_DMA_REG_TX_FLOW_CTRL_TM (0x88)
-    53	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  197  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  198  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  199   * Write back and invalidate I/D-caches for the page.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  200   *
+^1da177e4c3f41 Linus Torvalds     2005-04-16  201   * ADDR: Virtual Address (U0 address)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  202   * PFN: Physical page number
+^1da177e4c3f41 Linus Torvalds     2005-04-16  203   */
+f26b2a562b46ab Paul Mundt         2009-08-21  204  static void sh4_flush_cache_page(void *args)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  205  {
+f26b2a562b46ab Paul Mundt         2009-08-21  206  	struct flusher_data *data = args;
+f26b2a562b46ab Paul Mundt         2009-08-21  207  	struct vm_area_struct *vma;
+deaef20e9789d9 Paul Mundt         2009-09-09  208  	struct page *page;
+f26b2a562b46ab Paul Mundt         2009-08-21  209  	unsigned long address, pfn, phys;
+deaef20e9789d9 Paul Mundt         2009-09-09  210  	int map_coherent = 0;
+deaef20e9789d9 Paul Mundt         2009-09-09  211  	pmd_t *pmd;
+deaef20e9789d9 Paul Mundt         2009-09-09  212  	pte_t *pte;
+deaef20e9789d9 Paul Mundt         2009-09-09  213  	void *vaddr;
+b638d0b921dc95 Richard Curnow     2006-09-27  214  
+f26b2a562b46ab Paul Mundt         2009-08-21  215  	vma = data->vma;
+abeaf33a410176 Paul Mundt         2009-10-16  216  	address = data->addr1 & PAGE_MASK;
+f26b2a562b46ab Paul Mundt         2009-08-21  217  	pfn = data->addr2;
+f26b2a562b46ab Paul Mundt         2009-08-21  218  	phys = pfn << PAGE_SHIFT;
+deaef20e9789d9 Paul Mundt         2009-09-09  219  	page = pfn_to_page(pfn);
+f26b2a562b46ab Paul Mundt         2009-08-21  220  
+e7b8b7f16edc9b Paul Mundt         2009-08-15  221  	if (cpu_context(smp_processor_id(), vma->vm_mm) == NO_CONTEXT)
+e7b8b7f16edc9b Paul Mundt         2009-08-15  222  		return;
+e7b8b7f16edc9b Paul Mundt         2009-08-15  223  
+e05c7b1f2bc4b7 Mike Rapoport      2020-06-08 @224  	pmd = pmd_off(vma->vm_mm, address);
+deaef20e9789d9 Paul Mundt         2009-09-09 @225  	pte = pte_offset_kernel(pmd, address);
+deaef20e9789d9 Paul Mundt         2009-09-09  226  
+deaef20e9789d9 Paul Mundt         2009-09-09  227  	/* If the page isn't present, there is nothing to do here. */
+deaef20e9789d9 Paul Mundt         2009-09-09  228  	if (!(pte_val(*pte) & _PAGE_PRESENT))
+deaef20e9789d9 Paul Mundt         2009-09-09  229  		return;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  230  
+deaef20e9789d9 Paul Mundt         2009-09-09  231  	if ((vma->vm_mm == current->active_mm))
+deaef20e9789d9 Paul Mundt         2009-09-09  232  		vaddr = NULL;
+deaef20e9789d9 Paul Mundt         2009-09-09  233  	else {
+b638d0b921dc95 Richard Curnow     2006-09-27  234  		/*
+deaef20e9789d9 Paul Mundt         2009-09-09  235  		 * Use kmap_coherent or kmap_atomic to do flushes for
+deaef20e9789d9 Paul Mundt         2009-09-09  236  		 * another ASID than the current one.
+b638d0b921dc95 Richard Curnow     2006-09-27  237  		 */
+deaef20e9789d9 Paul Mundt         2009-09-09  238  		map_coherent = (current_cpu_data.dcache.n_aliases &&
+55661fc1f105ed Paul Mundt         2010-12-01  239  			test_bit(PG_dcache_clean, &page->flags) &&
+e1534ae95004d6 Kirill A. Shutemov 2016-01-15  240  			page_mapcount(page));
+deaef20e9789d9 Paul Mundt         2009-09-09  241  		if (map_coherent)
+deaef20e9789d9 Paul Mundt         2009-09-09  242  			vaddr = kmap_coherent(page, address);
+deaef20e9789d9 Paul Mundt         2009-09-09  243  		else
+bc3e11be88010e Cong Wang          2011-11-25  244  			vaddr = kmap_atomic(page);
+deaef20e9789d9 Paul Mundt         2009-09-09  245  
+deaef20e9789d9 Paul Mundt         2009-09-09  246  		address = (unsigned long)vaddr;
+deaef20e9789d9 Paul Mundt         2009-09-09  247  	}
+deaef20e9789d9 Paul Mundt         2009-09-09  248  
+abeaf33a410176 Paul Mundt         2009-10-16  249  	flush_cache_one(CACHE_OC_ADDRESS_ARRAY |
+deaef20e9789d9 Paul Mundt         2009-09-09  250  			(address & shm_align_mask), phys);
+deaef20e9789d9 Paul Mundt         2009-09-09  251  
+deaef20e9789d9 Paul Mundt         2009-09-09  252  	if (vma->vm_flags & VM_EXEC)
+deaef20e9789d9 Paul Mundt         2009-09-09  253  		flush_icache_all();
+deaef20e9789d9 Paul Mundt         2009-09-09  254  
+deaef20e9789d9 Paul Mundt         2009-09-09  255  	if (vaddr) {
+deaef20e9789d9 Paul Mundt         2009-09-09  256  		if (map_coherent)
+deaef20e9789d9 Paul Mundt         2009-09-09  257  			kunmap_coherent(vaddr);
+deaef20e9789d9 Paul Mundt         2009-09-09  258  		else
+bc3e11be88010e Cong Wang          2011-11-25  259  			kunmap_atomic(vaddr);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  260  	}
+b638d0b921dc95 Richard Curnow     2006-09-27  261  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  262  
+
+:::::: The code at line 224 was first introduced by commit
+:::::: e05c7b1f2bc4b7b28199b9a7572f73436d97317e mm: pgtable: add shortcuts for accessing kernel PMD and PTE
+
+:::::: TO: Mike Rapoport <rppt@linux.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
