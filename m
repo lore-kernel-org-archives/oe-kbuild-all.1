@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0089A14D6F9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 11:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E6118DF75
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 11:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727694851; cv=none; b=DJGe5e2ak5S0eqod5U+ogbl6tMPiQWZC62VIFOvbfjjk1sjYvv9IVIrQjiES++CrMnRZKo2Wqka/n5n2AUwrTdfx4uv9/5GNdbGGRvbMCWtsRHZn0LjpUvQteJL2Jx1ZEaH9B5ihDs8TBtRoQgBshA4fsyaXG9E5lhLdM1Lmd2w=
+	t=1727695451; cv=none; b=Sq2B18b/U3NbTnqAGLyQQwT4fNBeMChTL/7lfUbTmEZxtb3DDG9NoinvAIkGyHxr260tC8QaT4ZynwedQdczshaT5Kp7+IZc+sWR2yfNmLQX+r8UsRCyYAXsnRwOwoDIlCa8HaY2CRqW6VmKFEjcE8RckkVwLVPAUGzBby+4HnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727694851; c=relaxed/simple;
-	bh=UjgmVRHMJKnWp0Oiyi8DrhKZknjemGQW86vds2ohnCk=;
+	s=arc-20240116; t=1727695451; c=relaxed/simple;
+	bh=r+IC8mVUa+i3BvoWA8Pyja4j7xKMaSzutI8qWszTNOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UJIdUAwcPmWHSIr6SH6/4dkiR9QX/7XkCN5yL1+0AXNyueMeHgwUSc6/pzXMagV+3hVtZdEQ0vB12bSBtJwJ67HrSGl8fabB8g2nrHrc0X2okqciu6n+IGNv3+GJnzUjEwII9kS7HdSuHxmxVixP69TPGVzwLBZkn+rNk9H6tBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HskqPnJE; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=aOiJi6boXaLHBFXQEwqKjReYPP2cMwEfZm5OEsAJrwJvksaEszx1jVswn4mLUcJPN4dT1B4Fi4AsBUAmGdJ1fCf++WJWYzrzuG8aY4o+q3T5YpQqBzb04nswJNO1FqOvjIzmvl1C8LmEUkE1vB52eEvy6jtG36nq3qlcB+8TxKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kV4lIc0Y; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HskqPnJE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kV4lIc0Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727694849; x=1759230849;
+  t=1727695450; x=1759231450;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UjgmVRHMJKnWp0Oiyi8DrhKZknjemGQW86vds2ohnCk=;
-  b=HskqPnJEZHhjtVd6cK4+rgsbQVtI95yQ21SlObJbY5yaxmjuLHdu3fOs
-   mscgRbmSxgouh/iIoek+qdhumoI8naDLZXzD6ION1S+pCtVq3vR02XW2f
-   NmRoZ46nSSrLaVEW/0mqp+ej3fb7ep6z8v86uuLQ1xpgeTQqhk4NAt2t/
-   BLsc2u2oNgMW7njhf30LxR0+y2KEQVfnTXyZcgLC3w2V/u3/ARSk7o/rb
-   xMCSaaoCRWY5Ofny4naz22nTthgL3poko5mKWRJOH606MAeIn8Gs+56kz
-   9L0cO13hIM4HEy1DEcb71Zn3gaggxd3KV17/xn6DyyUqxqnX5GhIhN5bM
-   g==;
-X-CSE-ConnectionGUID: F2is+6PVQVyfffaOo9Mi6w==
-X-CSE-MsgGUID: rkMFs4FlS5CWidkpR3ddHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="26905945"
+  bh=r+IC8mVUa+i3BvoWA8Pyja4j7xKMaSzutI8qWszTNOc=;
+  b=kV4lIc0Ya6QpCDlRKqV/p5PBsaeKZpoNtUGlOiOXg2VBZixFWmuBIj+h
+   YWo8tMnyYGRTQ/0umJnqS1do/b/KfK/GeqW4kBiewXCm6K7zNpiYRS6ik
+   csIQNsA7wOrlsJXgWIIML0/v83uw2mG1CAYVkOzm31xR981fpFZEnQSll
+   ukWmLKYXtNItNoZASM4LgbGNTv2SlGpWWvjCQ0MmQYyTFK9HygoRB7RXf
+   bCupKgZO1CLehtmMQ6muDONVSvPxeRqflzcm+8u5+VWXepcBxu/T+yi44
+   K1zq0f/AcrLAjvdnG2RmMGdUynFoGPXz2C+krb0detR2oUPrjPCqrc7yM
+   A==;
+X-CSE-ConnectionGUID: jfUn7suZTzaQHgRgY8lEOw==
+X-CSE-MsgGUID: CCAoqveqS/G4dFI8rYiJfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="30574358"
 X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; 
-   d="scan'208";a="26905945"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 04:14:08 -0700
-X-CSE-ConnectionGUID: Z8EVQEpjTWaNV2wK2IDAyw==
-X-CSE-MsgGUID: Rd8xdRCpQSm+oGaarAwaxQ==
+   d="scan'208";a="30574358"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 04:24:09 -0700
+X-CSE-ConnectionGUID: Bo3UdkScRMq+UYg5TIsECQ==
+X-CSE-MsgGUID: SljCp+LjRia+qXPXo3cbPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; 
-   d="scan'208";a="104063063"
+   d="scan'208";a="96597876"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Sep 2024 04:14:07 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Sep 2024 04:24:08 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svELt-000PMv-1I;
-	Mon, 30 Sep 2024 11:14:05 +0000
-Date: Mon, 30 Sep 2024 19:13:24 +0800
+	id 1svEVZ-000POT-3D;
+	Mon, 30 Sep 2024 11:24:06 +0000
+Date: Mon, 30 Sep 2024 19:23:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.fd 1/31] include/linux/file.h: linux/err.h is
- included more than once.
-Message-ID: <202409301910.yeJRAbml-lkp@intel.com>
+To: kernel@openeuler.org, Dong Yibo <dong100@mucse.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 7330/14264]
+ drivers/net/ethernet/mucse/rnpgbe/rnpgbe_sriov.c:301:13: warning:
+ 'check_ari_mode' defined but not used
+Message-ID: <202409301900.jvcSphIC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,30 +63,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fd
-head:   e4a403e7355430004eb530bd2e7995eca9a8f67c
-commit: 9f52da2ef619a0612baaf5ee577fa38b8dec4814 [1/31] introduce struct fderr, convert overlayfs uses to that
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c594039dbf93789c67e3d7fe031bada7b7fc8aae
+commit: f27f159f8a8867f846422bb8f1e0f01ff1803bf0 [7330/14264] RNPGBE: NET: Fix wanrings
+config: loongarch-randconfig-001-20240930 (https://download.01.org/0day-ci/archive/20240930/202409301900.jvcSphIC-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240930/202409301900.jvcSphIC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409301910.yeJRAbml-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409301900.jvcSphIC-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> include/linux/file.h: linux/err.h is included more than once.
+All warnings (new ones prefixed by >>):
 
-vim +13 include/linux/file.h
+>> drivers/net/ethernet/mucse/rnpgbe/rnpgbe_sriov.c:301:13: warning: 'check_ari_mode' defined but not used [-Wunused-function]
+     301 | static bool check_ari_mode(struct pci_dev *dev)
+         |             ^~~~~~~~~~~~~~
 
-     8	
-     9	#include <linux/compiler.h>
-    10	#include <linux/types.h>
-    11	#include <linux/posix_types.h>
-    12	#include <linux/errno.h>
-  > 13	#include <linux/err.h>
-    14	#include <linux/cleanup.h>
-  > 15	#include <linux/err.h>
-    16	
+
+vim +/check_ari_mode +301 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_sriov.c
+
+   300	
+ > 301	static bool check_ari_mode(struct pci_dev *dev)
+   302	{
+   303		struct pci_bus *bus = dev->bus;
+   304	
+   305		return bus->self && bus->self->ari_enabled;
+   306	}
+   307	
 
 -- 
 0-DAY CI Kernel Test Service
