@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4925195FFA;
-	Mon, 30 Sep 2024 18:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C664198E92
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Sep 2024 19:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727720616; cv=none; b=iIu50GcOmZ5mCsGNDT0yJ55E8WoBjE7RIWCmWmyUkOzKM5reJzBwQd/16v6wQTkA40bPg1DXUo4Lfxw1fDWiSQ7h1UnyUsJBmN2idYtObrqPfECO5o4fcLHdGZ+GbtzbpolGyu6L1PIkam2RrSi8HYbtU/6W0fRB8CcMf5r4gaQ=
+	t=1727723674; cv=none; b=tFu2Dn4cEGKGQvJ7hLkY49sWjehAxgar/XY76Fgz8VF3mnrRixUzTXz1igToZgUXRW4yiSbKiLk5eBaFaYVH/lf8AiKTmo+6WKq4mkAHxeY8BTXIVAMNuIKu/9MLnRuUQDCt4HJ06Vq/i1Bq/ZtO/V+z82nW8QmHNtTc++M0IzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727720616; c=relaxed/simple;
-	bh=AjfZgRFK+gan3yhclRwu2EpSePfJfBr1TD+A3MeIVKA=;
+	s=arc-20240116; t=1727723674; c=relaxed/simple;
+	bh=OjKUslVUCJ4eU21ADOfxYoAE48haos5MJ2gfkxKDLQg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ET4c/Acils7CQuy3l7c8OEcjRpHV1btR0TNA3hHsfqP0YJOVVv0SaLM+ksG9wlNrVMs/J5fDPhrIZ+KNVPywTZAHa5BHPrUAHPbppSP57phjl/3bb+tqU/BxN51dPqwmDxbiS9TFJ571v5Ep5ofG7nSBuCaTHiuG9GDGUGKX7Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOKBEWmg; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=szA4X300RWtqgXq+I+aWtIz+fn0k7kyb3h9Gzkjse8bagNNgwt/FYbE7AnbIJ1CnoWt5z/V1of1hf1sTsUxJv+H9b4UsyxTvlo9gPq7AmhlLMt6OXrBi1bYHe7Do/52tzACqjVW6pXNomhbT4X/sdrllsyUdA9hYWuIaAhHeIWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUK1bbf2; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOKBEWmg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUK1bbf2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727720614; x=1759256614;
+  t=1727723672; x=1759259672;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AjfZgRFK+gan3yhclRwu2EpSePfJfBr1TD+A3MeIVKA=;
-  b=cOKBEWmghxbfI+MwW3du4wkhn0dV/fIoktDTDu6bkjJaFirYMT/G7NuV
-   IkdbSgKPXoSO9Cdh0rLso9di/CbMHK+Q7rXMpmo7LsZgk6FvTggEr3fV0
-   1yiTLhLwpqcsNAYKdpUxHXkU1K8HjZIcJtOG8G10Hr5gwFAczzjJCYeQf
-   i7Qki0sm6jOhECwz5QaAPjfsrUwd7BZh/fiTklORlxZcE6VcJCrUrJGvr
-   AZsb9oeZWti8tIyKMUxRWcP1FPECxD7jEtS74F3AWDedSTUucS1rqWHsB
-   XPXazbu1P7+q2hMVSiXrfKePQ7MPFoSCFzh9T7np/wK4AEf36jBw2YWre
+  bh=OjKUslVUCJ4eU21ADOfxYoAE48haos5MJ2gfkxKDLQg=;
+  b=SUK1bbf2hbcmteFb4m5PBpTHki6yzj7PECTPXJaQQVhCz8TitpJftwKn
+   tLGt11UCU/MpDvWTnyhIe9g2P0veg+u6SlB255JD5UxyhodfKVvIDJMCP
+   +3jg/y8CTC68ebEGkEM0JHZrSDrOJwQwrS0+An381nSBMAaelaT5wNmmY
+   h70w1qbTmjmgrauhbw42EkuZeSkqD2PcpaOSgKpCsL4nvis/LpFUyGvIx
+   +BviPqsThk5qrabwt8nyFizxeWs8tHdhZq7VgoAp8vmvfgJF2GGtXt2WU
+   aOc+/Lk8MMNntp3MY9WOcXd5vHcUVUdYq6HeDkiytFMLXieb/cTxkDDxB
    A==;
-X-CSE-ConnectionGUID: o93m0xOSTNuRgkEBlBMh/w==
-X-CSE-MsgGUID: +Xh4aS3gQcScFntoKcr4lA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="44350134"
+X-CSE-ConnectionGUID: 6woMK10aQdiBWPD3RJscog==
+X-CSE-MsgGUID: BsOL2gyyQmKc7fVEqJ3i4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="38221380"
 X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="44350134"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 11:23:33 -0700
-X-CSE-ConnectionGUID: m0/ZsrjRRn+FWjhMN0hoKQ==
-X-CSE-MsgGUID: MzcCrOFATmSkFoPRsfI2zA==
+   d="scan'208";a="38221380"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 12:14:32 -0700
+X-CSE-ConnectionGUID: UQ7d0S1SSveaehgf7VyOfQ==
+X-CSE-MsgGUID: pJln8eV0RYKfWudq+RGyiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="73515852"
+   d="scan'208";a="73068292"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Sep 2024 11:23:29 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Sep 2024 12:14:31 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svL3P-000Plb-1b;
-	Mon, 30 Sep 2024 18:23:27 +0000
-Date: Tue, 1 Oct 2024 02:22:59 +0800
+	id 1svLqm-000Pnd-2N;
+	Mon, 30 Sep 2024 19:14:28 +0000
+Date: Tue, 1 Oct 2024 03:14:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zheng Zengkai <zhengzengkai@huawei.com>, lpieralisi@kernel.org,
-	guohanjun@huawei.com, sudeep.holla@arm.com, mark.rutland@arm.com,
-	maz@kernel.org, rafael@kernel.org, lenb@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	daniel.lezcano@linaro.org, tglx@linutronix.de,
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, zhengzengkai@huawei.com
-Subject: Re: [PATCH] ACPI: GTDT: simplify acpi_gtdt_init() implementation
-Message-ID: <202410010101.2oPkEaoP-lkp@intel.com>
-References: <20240930030716.179992-1-zhengzengkai@huawei.com>
+To: "mike.seo" <mikeseohyungjin@gmail.com>, linux-usb@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] r8152: Add mac address pass-thru for lg laptops
+Message-ID: <202410010249.Gzfm9BQC-lkp@intel.com>
+References: <ZvpImQ_8jh5fyorl@mikeseo-0-1>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,120 +62,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240930030716.179992-1-zhengzengkai@huawei.com>
+In-Reply-To: <ZvpImQ_8jh5fyorl@mikeseo-0-1>
 
-Hi Zheng,
+Hi mike.seo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge tip/timers/core linus/master v6.12-rc1 next-20240930]
+[auto build test WARNING on westeri-thunderbolt/next]
+[also build test WARNING on linus/master v6.12-rc1 next-20240930]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zheng-Zengkai/ACPI-GTDT-simplify-acpi_gtdt_init-implementation/20240930-105041
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240930030716.179992-1-zhengzengkai%40huawei.com
-patch subject: [PATCH] ACPI: GTDT: simplify acpi_gtdt_init() implementation
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241001/202410010101.2oPkEaoP-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410010101.2oPkEaoP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/mike-seo/r8152-Add-mac-address-pass-thru-for-lg-laptops/20240930-144644
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+patch link:    https://lore.kernel.org/r/ZvpImQ_8jh5fyorl%40mikeseo-0-1
+patch subject: [PATCH] r8152: Add mac address pass-thru for lg laptops
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241001/202410010249.Gzfm9BQC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410010249.Gzfm9BQC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410010101.2oPkEaoP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410010249.Gzfm9BQC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/acpi/arm64/gtdt.c:11:
-   In file included from include/linux/acpi.h:39:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2236:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/acpi/arm64/gtdt.c:383:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     383 |         if (!timer_count)
-         |             ^~~~~~~~~~~~
-   drivers/acpi/arm64/gtdt.c:400:9: note: uninitialized use occurs here
-     400 |         return ret;
-         |                ^~~
-   drivers/acpi/arm64/gtdt.c:383:2: note: remove the 'if' if its condition is always false
-     383 |         if (!timer_count)
-         |         ^~~~~~~~~~~~~~~~~
-     384 |                 goto out_put_gtdt;
-         |                 ~~~~~~~~~~~~~~~~~
-   drivers/acpi/arm64/gtdt.c:365:9: note: initialize the variable 'ret' to silence this warning
-     365 |         int ret, timer_count = 0, gwdt_count = 0;
-         |                ^
-         |                 = 0
-   5 warnings generated.
+   In function 'rtl8152_supports_lg_macpassthru',
+       inlined from 'rtl8152_probe_once.isra' at drivers/net/usb/r8152.c:9881:23:
+>> drivers/net/usb/r8152.c:9800:14: warning: argument 2 null where non-null expected [-Wnonnull]
+    9800 |         if (!strncmp("LG Electronics", board, sizeof("LG Electronics"))) {
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/usb/r8152.c:9800:14: note: in a call to built-in function '__builtin_strcmp'
 
 
-vim +383 drivers/acpi/arm64/gtdt.c
+vim +9800 drivers/net/usb/r8152.c
 
-   360	
-   361	static int __init gtdt_sbsa_gwdt_init(void)
-   362	{
-   363		void *platform_timer;
-   364		struct acpi_table_header *table;
-   365		int ret, timer_count = 0, gwdt_count = 0;
-   366	
-   367		if (acpi_disabled)
-   368			return 0;
-   369	
-   370		if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_GTDT, 0, &table)))
-   371			return -EINVAL;
-   372	
-   373		/*
-   374		 * Note: Even though the global variable acpi_gtdt_desc has been
-   375		 * initialized by acpi_gtdt_init() while initializing the arch timers,
-   376		 * when we call this function to get SBSA watchdogs info from GTDT, the
-   377		 * pointers stashed in it are stale (since they are early temporary
-   378		 * mappings carried out before acpi_permanent_mmap is set) and we need
-   379		 * to re-initialize them with permanent mapped pointer values to let the
-   380		 * GTDT parsing possible.
-   381		 */
-   382		acpi_gtdt_init(table, &timer_count);
- > 383		if (!timer_count)
-   384			goto out_put_gtdt;
-   385	
-   386		for_each_platform_timer(platform_timer) {
-   387			if (is_non_secure_watchdog(platform_timer)) {
-   388				ret = gtdt_import_sbsa_gwdt(platform_timer, gwdt_count);
-   389				if (ret)
-   390					break;
-   391				gwdt_count++;
-   392			}
-   393		}
-   394	
-   395		if (gwdt_count)
-   396			pr_info("found %d SBSA generic Watchdog(s).\n", gwdt_count);
-   397	
-   398	out_put_gtdt:
-   399		acpi_put_table(table);
-   400		return ret;
-   401	}
-   402	
+  9793	
+  9794	static bool rtl8152_supports_lg_macpassthru(struct usb_device *udev)
+  9795	{
+  9796		int product_id = le16_to_cpu(udev->descriptor.idProduct);
+  9797		int vendor_id = le16_to_cpu(udev->descriptor.idVendor);
+  9798		const char *board = dmi_get_system_info(DMI_BOARD_VENDOR);
+  9799	
+> 9800		if (!strncmp("LG Electronics", board, sizeof("LG Electronics"))) {
+  9801			if (vendor_id == VENDOR_ID_REALTEK && product_id == 0x8153)
+  9802				return 1;
+  9803		}
+  9804		return 0;
+  9805	}
+  9806	
 
 -- 
 0-DAY CI Kernel Test Service
