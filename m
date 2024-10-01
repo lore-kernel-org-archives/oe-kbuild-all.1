@@ -1,141 +1,169 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD972B9A5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 20:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE9A1925B8
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 20:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727814762; cv=none; b=SBDnPKTMCaN/aAcnomJG3qXu7keGRrifwF84rlBfREfenYsfwU/c9lmH1mA7zbamz195AGd2gCVWGFU0bgnIWMFmTrhtn6WVlV/aeQiN+eJzNenmTyBW0UsEGujjKhTMLsW+ght8ZDLV2MUEPUAXlA9dFHD8loHaEU1NViRO9xU=
+	t=1727814944; cv=none; b=kZGTEPjx/iKzpaPP1c5pzwHxOL5FB8hLClM9J8GwhU84fwTlJnt1/KFzrNHHw3alGQsnX8iNjZAW+yA4R5wN0dJKO6qnUsWdPRBAVHWR/DzTXL91gXr9REqdgMI0a3pJledUO+I476CaavPrfym2m0lBbXHy/M3pOiSritxMHG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727814762; c=relaxed/simple;
-	bh=igcill1y2axhOcAHBQy1AdzNbKobXKZZgI2FxEKM2TU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D463IkzwCf8q+A1s8kCcuAtpfjQ3rfz8hVxGBtOEqOunfJH1mVq4MKtXpyXnvwyJ6i9W3NUTXk4IMKeVV57rV7HGC6cqCnWdGjpekjtxS0Z8wPnq68NUh6pDJGO7CxENZUka7c3okDAG0ZKNJ0eZ4Y8oTR7Ok3dxn9xEgpTuXHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPYIerne; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727814944; c=relaxed/simple;
+	bh=5H8N4bxzF7PcartaHTlSstPxZ9s/5hFO1krS2u6LWq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YoxryoCpGFwnqUhYiMmwDeGCc25+ynYIwEoosyMc1dqU/8wqg9sUgPa/unpEEMk1nyJijeRR2zH/SwaE4hC6sB3ZVo+5pVFcUPciG5NDZ2E1GIY72sjVneeLTDyCmFR2qtKqf0nlwN2o/jULCa0cAj4SIb9JRb8v2QZRgqaeIKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbpOYqT2; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPYIerne"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20bb39d97d1so9832295ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Oct 2024 13:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727814760; x=1728419560; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=C0BmjE+D3eW2kpb7x0QwhBBUqShmS1jkKioejXDVzaE=;
-        b=ZPYIerneaqKWMhcq2neMknjYYMu7ghTJzqPEJkegvPXY02gJxhlc921NJ8IOhzOu1t
-         /susmDiM39Cdw2oBY1HImQbu5XpvJIGUgs2gQ4Au9arXMrIyRM7m0n8+7cxW/6oeJtMm
-         pKaGn24etD+7DXN9i+mRhKNKS+wqee42kyREVCmap4rtzDvY33dsQGBXxewzsGINbQGQ
-         JXIjc/orqCEqLSHiR6Co2++IzywAe74UmtZTJavI9Z7NbXNvMj2L6RGiSyt0zlNyvCfj
-         MQ2FCgnpR6tq78hvRi1MN31Sl1SmLCOyS3ZVQaYxFSoxOTL6t3yxFsOOag02YlIM4L1D
-         i43Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727814760; x=1728419560;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C0BmjE+D3eW2kpb7x0QwhBBUqShmS1jkKioejXDVzaE=;
-        b=U9GSY+ucCY2P0EEvS5ZPsUVtnj7TeRtWp7ha3yma81pWMziM4xLvYEamyU0SlqZVOT
-         tcXh/e9fsgYcrxVGKFON7hOz+qroCCMWATNG79i2HsCzokDDcY1hNk5dYX5XmCYhBeRS
-         v8/so02zZghNxtErXopEzh/UJrbGnpgjZ+YqXV3IOh16cpEz7cDIiTLXoW5imaLqIrdr
-         SCVPntBNtRRiAf+0db/KYkYPH/h4uVEQZ84zW1iBF8hRhWTUHGUA31JfJwDR12W4xpgo
-         HGPCR0kihMCY0DcrMkyrH3HXbturZrp12/nyH+agXJoooai7AzvUASnpo3pH2hTejno9
-         h3Cg==
-X-Gm-Message-State: AOJu0YzWWUkcCe19YTR8+z8Pk0YODdIYGI0u+nGoD/UKGGA8SoXKv2/j
-	VWwZllzOCMAP+vbFxKstaicYs0UcnvUy055nXmtU5IXRJeRDW5ml
-X-Google-Smtp-Source: AGHT+IFmTRO3exPf96okGD8OJIyEuN5OSHaWwglQGY5zW7ZOcH0qMF17cuJpO2r5kq5BMpS4vUczhA==
-X-Received: by 2002:a17:902:e812:b0:20b:c287:204d with SMTP id d9443c01a7336-20bc5a59035mr9861435ad.40.1727814759997;
-        Tue, 01 Oct 2024 13:32:39 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37d60e39sm72981955ad.35.2024.10.01.13.32.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2024 13:32:38 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4a1103b4-e8c3-484f-a52b-29517cdd39ea@roeck-us.net>
-Date: Tue, 1 Oct 2024 13:32:37 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbpOYqT2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727814943; x=1759350943;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5H8N4bxzF7PcartaHTlSstPxZ9s/5hFO1krS2u6LWq0=;
+  b=VbpOYqT2UKXBcgujh48b/Z70ubeH1G4m2LQVC0fLM1mkhLNsKDLxi2Hy
+   Am3LdsLw3H0dDgohgpDVQHCJAF5ZqObvzJWhen4mVdO6LbD0POFxFyLMX
+   h3SmwsTG3ncC1S7lY72Y1PFJiORncH5S4E82olYtCcrLPvGWQCLa7KnmL
+   GJmyE6w3EV8mIgjKhieHAcGAfh4yWX+cSu8wVGxfMrB42f1M2HBlIw+X/
+   DthjzLRX3I7XIeho1uKrP8tOhKlgoe4HJ22JmpLqQub6B7ihAB6FJwpMF
+   VaFzCuWYau5E7tcC1/RnsaXxHRTqBoG8SU3FZb66jexcb0GiABOGfFUHI
+   g==;
+X-CSE-ConnectionGUID: caQtU9bnSQKYTIfR6a+6Pw==
+X-CSE-MsgGUID: 7Ac3M1NiSsWLp2EzuqiDIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30677471"
+X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
+   d="scan'208";a="30677471"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 13:35:42 -0700
+X-CSE-ConnectionGUID: k/cDUY0xSoK7DVUPSTA2dw==
+X-CSE-MsgGUID: tKyUJQtNRGih2CsOpsmaWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
+   d="scan'208";a="111255043"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2024 13:35:41 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1svjas-000R9X-1r;
+	Tue, 01 Oct 2024 20:35:38 +0000
+Date: Wed, 2 Oct 2024 04:35:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 13063/20658]
+ kernel/time/posix-timers.c:1254: warning: Function parameter or member 'utx'
+ not described in 'sys_clock_adjtime'
+Message-ID: <202410020450.lUCzqBEG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/hwmon/tmp513.c:163:10: error: 'const struct
- regmap_config' has no member named 'reg_bits'
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <202410020246.2cTDDx0X-lkp@intel.com>
- <dc59e32d-ed4a-43c8-a6f3-e4263d97c95f@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <dc59e32d-ed4a-43c8-a6f3-e4263d97c95f@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/1/24 11:53, Javier Carrasco wrote:
-[ ... ]
-> 
-> The bug is not in that commit, the Kconfig entry for this driver is
-> missing a 'select REGMAP_I2C'. I just tested it and then it builds
-> without any issues.
-> 
-> I can send a patch to fix that, but I would like to know what commit it
-> really fixes: the one that introduced the driver as it already used
-> regmap and did not include the required select? Or the one from this
-> report because it triggered, even though it is not the real source of
-> the issue?
-> 
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   a81f127d7432274edb73f16568b5b097fca99d2a
+commit: 1c1790da976fa1956d1923fe10bbe05d698d92c2 [13063/20658] CHROMIUM: create alt-syscall infrastructure
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241002/202410020450.lUCzqBEG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020450.lUCzqBEG-lkp@intel.com/reproduce)
 
-I have no idea why this is reported now, but the problem was introduced with
-the driver, and as you have noticed I already submitted a fix.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410020450.lUCzqBEG-lkp@intel.com/
 
-Thanks a lot for reviewing it!
+All warnings (new ones prefixed by >>):
 
-Guenter
+>> kernel/time/posix-timers.c:1254: warning: Function parameter or member 'utx' not described in 'sys_clock_adjtime'
+>> kernel/time/posix-timers.c:1254: warning: expecting prototype for sys_clock_getres(). Prototype was for sys_clock_adjtime() instead
 
+
+vim +1254 kernel/time/posix-timers.c
+
+  1178	
+  1179	/**
+  1180	 * sys_clock_getres - Get the resolution of a clock
+  1181	 * @which_clock:	The clock to get the resolution for
+  1182	 * @tp:			Pointer to a a user space timespec64 for storage
+  1183	 *
+  1184	 * POSIX defines:
+  1185	 *
+  1186	 * "The clock_getres() function shall return the resolution of any
+  1187	 * clock. Clock resolutions are implementation-defined and cannot be set by
+  1188	 * a process. If the argument res is not NULL, the resolution of the
+  1189	 * specified clock shall be stored in the location pointed to by res. If
+  1190	 * res is NULL, the clock resolution is not returned. If the time argument
+  1191	 * of clock_settime() is not a multiple of res, then the value is truncated
+  1192	 * to a multiple of res."
+  1193	 *
+  1194	 * Due to the various hardware constraints the real resolution can vary
+  1195	 * wildly and even change during runtime when the underlying devices are
+  1196	 * replaced. The kernel also can use hardware devices with different
+  1197	 * resolutions for reading the time and for arming timers.
+  1198	 *
+  1199	 * The kernel therefore deviates from the POSIX spec in various aspects:
+  1200	 *
+  1201	 * 1) The resolution returned to user space
+  1202	 *
+  1203	 *    For CLOCK_REALTIME, CLOCK_MONOTONIC, CLOCK_BOOTTIME, CLOCK_TAI,
+  1204	 *    CLOCK_REALTIME_ALARM, CLOCK_BOOTTIME_ALAREM and CLOCK_MONOTONIC_RAW
+  1205	 *    the kernel differentiates only two cases:
+  1206	 *
+  1207	 *    I)  Low resolution mode:
+  1208	 *
+  1209	 *	  When high resolution timers are disabled at compile or runtime
+  1210	 *	  the resolution returned is nanoseconds per tick, which represents
+  1211	 *	  the precision at which timers expire.
+  1212	 *
+  1213	 *    II) High resolution mode:
+  1214	 *
+  1215	 *	  When high resolution timers are enabled the resolution returned
+  1216	 *	  is always one nanosecond independent of the actual resolution of
+  1217	 *	  the underlying hardware devices.
+  1218	 *
+  1219	 *	  For CLOCK_*_ALARM the actual resolution depends on system
+  1220	 *	  state. When system is running the resolution is the same as the
+  1221	 *	  resolution of the other clocks. During suspend the actual
+  1222	 *	  resolution is the resolution of the underlying RTC device which
+  1223	 *	  might be way less precise than the clockevent device used during
+  1224	 *	  running state.
+  1225	 *
+  1226	 *   For CLOCK_REALTIME_COARSE and CLOCK_MONOTONIC_COARSE the resolution
+  1227	 *   returned is always nanoseconds per tick.
+  1228	 *
+  1229	 *   For CLOCK_PROCESS_CPUTIME and CLOCK_THREAD_CPUTIME the resolution
+  1230	 *   returned is always one nanosecond under the assumption that the
+  1231	 *   underlying scheduler clock has a better resolution than nanoseconds
+  1232	 *   per tick.
+  1233	 *
+  1234	 *   For dynamic POSIX clocks (PTP devices) the resolution returned is
+  1235	 *   always one nanosecond.
+  1236	 *
+  1237	 * 2) Affect on sys_clock_settime()
+  1238	 *
+  1239	 *    The kernel does not truncate the time which is handed in to
+  1240	 *    sys_clock_settime(). The kernel internal timekeeping is always using
+  1241	 *    nanoseconds precision independent of the clocksource device which is
+  1242	 *    used to read the time from. The resolution of that device only
+  1243	 *    affects the presicion of the time returned by sys_clock_gettime().
+  1244	 *
+  1245	 * Returns:
+  1246	 *	0		Success. @tp contains the resolution
+  1247	 *	-EINVAL		@which_clock is not a valid clock ID
+  1248	 *	-EFAULT		Copying the resolution to @tp faulted
+  1249	 *	-ENODEV		Dynamic POSIX clock is not backed by a device
+  1250	 *	-EOPNOTSUPP	Dynamic POSIX clock does not support getres()
+  1251	 */
+  1252	SYSCALL_DEFINE2(clock_adjtime, const clockid_t, which_clock,
+  1253			struct __kernel_timex __user *, utx)
+> 1254	{
+  1255		return ksys_clock_adjtime(which_clock, utx);
+  1256	}
+  1257	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
