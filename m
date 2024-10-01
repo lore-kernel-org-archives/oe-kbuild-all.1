@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B62E1CBE88
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 18:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F78315E97
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 18:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727806177; cv=none; b=YRUjf3zzgrhEhjJjgc4r3bYkB9fUMT1Qz9jv/ZWxzYl8Wt5G9bJ1g2KS5HUAa3KUAc8+kWWkpW1QA5U8Zedbp+GQGj+emXUm/q7iOChIsSwhjW74DfKtRE+d0VUje5pH4Yn+OPE7SOWjLNUibB5r8Rv7szX/JmahVeAsa0zE89I=
+	t=1727806837; cv=none; b=T0GI2VKTLgoPl//CYbDBeulpRrRLv/cxDXxBP+K1Nj2jbgX5cfomNVl+TQv0QQNDbJ1HsIj6pP+yujCZqR2r7s49jcRtZtvhGv+A5p6c+LkjJgfAgAwULCazQAi6E9VMIMIbmx/nkUlHfvqJVxwwxiutBA+Mc6kP9lfdHvwF+M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727806177; c=relaxed/simple;
-	bh=zlvfxo2qEOrFbWbhqWeJjndEEma3s30KJa0Jkwvhvns=;
+	s=arc-20240116; t=1727806837; c=relaxed/simple;
+	bh=90eZVy/jjwwbx0GhohDbzpc7fPQibB2sKhBhTCBwSRY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mhoz9NvRs07EzV574/Vlv9xJ6BVTbvyaxy/fAeU+5mwAaZ0+4QFdTGhbUg6znQgxt47BA4BNYObTtt4bse0hnvxg2fNx3NzVfxF+oWIglTqeyR+39etqyyIPelk0+ME0XRXQB7dOdachAavvfhNDm1rmFchApjjSG2seabvgY2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hcWo7q1s; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=dvCe78muVr7Y8rsqMeF+8Cq/8wEMODEyGe7DVckhY9lsOHdnjHVDI/zCZFkiQrCWjhWxZ/t2J0GbdzbLmNYGXmz7lluH0m7qkOC9VWpQfBY2qOUqkzKsGTjRkInnW6PADln8ByVs5Pj0V+PYQp1WF0jkjsyUqN68O5B8B0XJHRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLvKmRZp; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hcWo7q1s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLvKmRZp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727806175; x=1759342175;
+  t=1727806836; x=1759342836;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zlvfxo2qEOrFbWbhqWeJjndEEma3s30KJa0Jkwvhvns=;
-  b=hcWo7q1swaPh8wPMYjCkBwNEY0D+Nx6svYs7RsUt0PmVUisufCbgcl4J
-   7Yen10jJUTZYxkKd/XkcD5fR/j+8UTvosdMs68Ov7aIc/nTk+caiUzyWU
-   cr9GSlzZvzQ0qryYfsl8B2atR2EtkBhYt8Ch/t/soV5I0zQBg8af8g2SP
-   wKNB51Pfk84pEzqA5sKr4P3HgwQt06w5W4vX+jkfv07IAgm9DxoRinkuB
-   hONzfAqPa4yv8ROYzC7I+muxn62a3/IWJZbg4R8jJQY7rTtV6Br52X/Bu
-   Mv4TnvYIfy6Zk4FcQcjOdBDzrbGX7Gv4xjBHrY3eeRLJdTv24505COJnh
-   A==;
-X-CSE-ConnectionGUID: rsRHllZBSmqiVkzrY6zwkg==
-X-CSE-MsgGUID: 6gHQB+4kSlmRoucyddOAKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="38088753"
+  bh=90eZVy/jjwwbx0GhohDbzpc7fPQibB2sKhBhTCBwSRY=;
+  b=iLvKmRZpkeTcZ5eLkuZETYbI+w/86Y6kPN+D9QsBZctBUfQATdEaQLNg
+   blx84lOceLN6tVMTfq5udDrUVXaAq5Jsvvnxg9TB2fapTW84ToE4r6LTc
+   8+5lQ/8r94zqt+2P7mECgm9RaopWXD/MPvRb8PSN9Yhzyv+Ki6CmSXaOy
+   fqOeBwNVI15myT9rXkCU3HZrA3eq1kFAi8bPB37gO81Q7gerXrO0+L6F6
+   r6hg4eVAVDXiUrArTVhxO7SQROk+vUm+XKkMxjimQOg2k+hP/GnvBfzRA
+   wC9jLzPVky+1jCWetWMSWnx7Sh2X468UWf3sjNzK0pmnazBXxqqaJlIJ3
+   Q==;
+X-CSE-ConnectionGUID: HEZ/JRDcT+WKnyPnI5bZug==
+X-CSE-MsgGUID: XyYAjB0gTmWk4r4EU7oT1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26462346"
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="38088753"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 11:09:35 -0700
-X-CSE-ConnectionGUID: Wno2GgUeRhi4Bjfjg5qdhA==
-X-CSE-MsgGUID: cQFj+qV+SpGCdcj4wba3Mg==
+   d="scan'208";a="26462346"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 11:20:35 -0700
+X-CSE-ConnectionGUID: 9iB1exYcQjKxJRZ17qVh5g==
+X-CSE-MsgGUID: zVrRWQlcS9qc2yoOigQwoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="73633196"
+   d="scan'208";a="78503077"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 Oct 2024 11:09:33 -0700
+  by orviesa005.jf.intel.com with ESMTP; 01 Oct 2024 11:20:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svhJS-000R21-2X;
-	Tue, 01 Oct 2024 18:09:30 +0000
-Date: Wed, 2 Oct 2024 02:09:06 +0800
+	id 1svhU7-000R2e-1d;
+	Tue, 01 Oct 2024 18:20:31 +0000
+Date: Wed, 2 Oct 2024 02:19:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: mm/damon/reclaim.c:252:15: error: implicit declaration of function
- 'damon_commit_ctx'
-Message-ID: <202410020227.oOh0SBIj-lkp@intel.com>
+To: ObiKeahloa <63236194+ObiKeahloa@users.noreply.github.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:pr/329 2/2] drivers/gpio/gpio-macsmc.c:360:70: warning:
+ right-hand operand of comma expression has no effect
+Message-ID: <202410020259.nJ8CgFde-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,186 +62,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
-commit: 11ddcfc257a3e8d7b13b42148ee7e783f4876da4 mm/damon/reclaim: use damon_commit_ctx()
-date:   3 months ago
-config: x86_64-randconfig-001-20231120 (https://download.01.org/0day-ci/archive/20241002/202410020227.oOh0SBIj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020227.oOh0SBIj-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux pr/329
+head:   6abdb8e437d3e97f886f07131659d40379c912bd
+commit: 6abdb8e437d3e97f886f07131659d40379c912bd [2/2] Update gpio-macsmc.c
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241002/202410020259.nJ8CgFde-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020259.nJ8CgFde-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410020227.oOh0SBIj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410020259.nJ8CgFde-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sched.h:38,
-                    from include/linux/cgroup.h:12,
-                    from include/linux/memcontrol.h:13,
-                    from include/linux/damon.h:11,
-                    from mm/damon/reclaim.c:10:
-   include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
-      19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:2890:5: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
-    2890 | #if USE_SPLIT_PTE_PTLOCKS
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
-      19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm_types_task.h:20:34: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
-      20 | #define USE_SPLIT_PMD_PTLOCKS   (USE_SPLIT_PTE_PTLOCKS && \
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:3012:5: note: in expansion of macro 'USE_SPLIT_PMD_PTLOCKS'
-    3012 | #if USE_SPLIT_PMD_PTLOCKS
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   mm/damon/reclaim.c: In function 'damon_reclaim_new_scheme':
-   mm/damon/reclaim.c:171:16: error: implicit declaration of function 'damon_new_scheme'; did you mean 'damon_for_each_scheme'? [-Werror=implicit-function-declaration]
-     171 |         return damon_new_scheme(
-         |                ^~~~~~~~~~~~~~~~
-         |                damon_for_each_scheme
-   mm/damon/reclaim.c:171:16: warning: returning 'int' from a function with return type 'struct damos *' makes pointer from integer without a cast [-Wint-conversion]
-     171 |         return damon_new_scheme(
-         |                ^~~~~~~~~~~~~~~~~
-     172 |                         &pattern,
-         |                         ~~~~~~~~~
-     173 |                         /* page out those, as soon as found */
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     174 |                         DAMOS_PAGEOUT,
-         |                         ~~~~~~~~~~~~~~
-     175 |                         /* for each aggregation interval */
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     176 |                         0,
-         |                         ~~
-     177 |                         /* under the quota. */
-         |                         ~~~~~~~~~~~~~~~~~~~~~~
-     178 |                         &damon_reclaim_quota,
-         |                         ~~~~~~~~~~~~~~~~~~~~~
-     179 |                         /* (De)activate this according to the watermarks. */
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     180 |                         &damon_reclaim_wmarks,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~
-     181 |                         NUMA_NO_NODE);
-         |                         ~~~~~~~~~~~~~
-   mm/damon/reclaim.c: In function 'damon_reclaim_apply_parameters':
-   mm/damon/reclaim.c:209:15: error: implicit declaration of function 'damon_set_attrs' [-Werror=implicit-function-declaration]
-     209 |         err = damon_set_attrs(ctx, &damon_reclaim_mon_attrs);
-         |               ^~~~~~~~~~~~~~~
-   mm/damon/reclaim.c:222:9: error: implicit declaration of function 'damon_set_schemes' [-Werror=implicit-function-declaration]
-     222 |         damon_set_schemes(ctx, &scheme, 1);
-         |         ^~~~~~~~~~~~~~~~~
-   mm/damon/reclaim.c:225:24: error: implicit declaration of function 'damos_new_quota_goal'; did you mean 'damos_for_each_quota_goal'? [-Werror=implicit-function-declaration]
-     225 |                 goal = damos_new_quota_goal(DAMOS_QUOTA_SOME_MEM_PSI_US,
-         |                        ^~~~~~~~~~~~~~~~~~~~
-         |                        damos_for_each_quota_goal
-   mm/damon/reclaim.c:225:22: warning: assignment to 'struct damos_quota_goal *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     225 |                 goal = damos_new_quota_goal(DAMOS_QUOTA_SOME_MEM_PSI_US,
-         |                      ^
-   mm/damon/reclaim.c:229:17: error: implicit declaration of function 'damos_add_quota_goal'; did you mean 'damos_for_each_quota_goal'? [-Werror=implicit-function-declaration]
-     229 |                 damos_add_quota_goal(&scheme->quota, goal);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-         |                 damos_for_each_quota_goal
-   mm/damon/reclaim.c:233:22: warning: assignment to 'struct damos_quota_goal *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     233 |                 goal = damos_new_quota_goal(DAMOS_QUOTA_USER_INPUT, 10000);
-         |                      ^
-   mm/damon/reclaim.c:241:26: error: implicit declaration of function 'damos_new_filter'; did you mean 'damos_for_each_filter'? [-Werror=implicit-function-declaration]
-     241 |                 filter = damos_new_filter(DAMOS_FILTER_TYPE_ANON, true);
-         |                          ^~~~~~~~~~~~~~~~
-         |                          damos_for_each_filter
-   mm/damon/reclaim.c:241:24: warning: assignment to 'struct damos_filter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     241 |                 filter = damos_new_filter(DAMOS_FILTER_TYPE_ANON, true);
-         |                        ^
-   mm/damon/reclaim.c:244:17: error: implicit declaration of function 'damos_add_filter'; did you mean 'damos_for_each_filter'? [-Werror=implicit-function-declaration]
-     244 |                 damos_add_filter(scheme, filter);
-         |                 ^~~~~~~~~~~~~~~~
-         |                 damos_for_each_filter
-   mm/damon/reclaim.c:247:15: error: implicit declaration of function 'damon_set_region_biggest_system_ram_default' [-Werror=implicit-function-declaration]
-     247 |         err = damon_set_region_biggest_system_ram_default(param_target,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/damon/reclaim.c:252:15: error: implicit declaration of function 'damon_commit_ctx' [-Werror=implicit-function-declaration]
-     252 |         err = damon_commit_ctx(ctx, param_ctx);
-         |               ^~~~~~~~~~~~~~~~
->> mm/damon/reclaim.c:254:9: error: implicit declaration of function 'damon_destroy_ctx'; did you mean 'mm_destroy_cid'? [-Werror=implicit-function-declaration]
-     254 |         damon_destroy_ctx(param_ctx);
-         |         ^~~~~~~~~~~~~~~~~
-         |         mm_destroy_cid
-   mm/damon/reclaim.c: In function 'damon_reclaim_turn':
-   mm/damon/reclaim.c:263:23: error: implicit declaration of function 'damon_stop' [-Werror=implicit-function-declaration]
-     263 |                 err = damon_stop(&ctx, 1);
-         |                       ^~~~~~~~~~
-   mm/damon/reclaim.c:273:15: error: implicit declaration of function 'damon_start' [-Werror=implicit-function-declaration]
-     273 |         err = damon_start(&ctx, 1, true);
-         |               ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/gpio/gpio-macsmc.c: In function 'macsmc_gpio_probe':
+>> drivers/gpio/gpio-macsmc.c:360:70: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     360 |         smcgp->ic.flags = IRQCHIP_IMMUTABLE | IRQCHIP_SET_TYPE_MASKED, IRQCHIP_MASK_ON_SUSPEND;
+         |                                                                      ^
 
 
-vim +/damon_commit_ctx +252 mm/damon/reclaim.c
+vim +360 drivers/gpio/gpio-macsmc.c
 
-   195	
-   196	static int damon_reclaim_apply_parameters(void)
-   197	{
-   198		struct damon_ctx *param_ctx;
-   199		struct damon_target *param_target;
-   200		struct damos *scheme, *old_scheme;
-   201		struct damos_quota_goal *goal;
-   202		struct damos_filter *filter;
-   203		int err;
-   204	
-   205		err = damon_modules_new_paddr_ctx_target(&param_ctx, &param_target);
-   206		if (err)
-   207			return err;
-   208	
-   209		err = damon_set_attrs(ctx, &damon_reclaim_mon_attrs);
-   210		if (err)
-   211			goto out;
-   212	
-   213		err = -ENOMEM;
-   214		scheme = damon_reclaim_new_scheme();
-   215		if (!scheme)
-   216			goto out;
-   217		if (!list_empty(&ctx->schemes)) {
-   218			damon_for_each_scheme(old_scheme, ctx)
-   219				damon_reclaim_copy_quota_status(&scheme->quota,
-   220						&old_scheme->quota);
-   221		}
-   222		damon_set_schemes(ctx, &scheme, 1);
-   223	
-   224		if (quota_mem_pressure_us) {
-   225			goal = damos_new_quota_goal(DAMOS_QUOTA_SOME_MEM_PSI_US,
-   226					quota_mem_pressure_us);
-   227			if (!goal)
-   228				goto out;
-   229			damos_add_quota_goal(&scheme->quota, goal);
-   230		}
-   231	
-   232		if (quota_autotune_feedback) {
-   233			goal = damos_new_quota_goal(DAMOS_QUOTA_USER_INPUT, 10000);
-   234			if (!goal)
-   235				goto out;
-   236			goal->current_value = quota_autotune_feedback;
-   237			damos_add_quota_goal(&scheme->quota, goal);
-   238		}
-   239	
-   240		if (skip_anon) {
-   241			filter = damos_new_filter(DAMOS_FILTER_TYPE_ANON, true);
-   242			if (!filter)
-   243				goto out;
-   244			damos_add_filter(scheme, filter);
-   245		}
-   246	
-   247		err = damon_set_region_biggest_system_ram_default(param_target,
-   248						&monitor_region_start,
-   249						&monitor_region_end);
-   250		if (err)
-   251			goto out;
- > 252		err = damon_commit_ctx(ctx, param_ctx);
-   253	out:
- > 254		damon_destroy_ctx(param_ctx);
-   255		return err;
-   256	}
-   257	
+   312	
+   313	static int macsmc_gpio_probe(struct platform_device *pdev)
+   314	{
+   315		struct macsmc_gpio *smcgp;
+   316		struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
+   317		smc_key key;
+   318		int ret;
+   319	
+   320		smcgp = devm_kzalloc(&pdev->dev, sizeof(*smcgp), GFP_KERNEL);
+   321		if (!smcgp)
+   322			return -ENOMEM;
+   323	
+   324		pdev->dev.of_node = of_get_child_by_name(pdev->dev.parent->of_node, "gpio");
+   325	
+   326		smcgp->dev = &pdev->dev;
+   327		smcgp->smc = smc;
+   328		smcgp->first_index = apple_smc_find_first_key_index(smc, SMC_KEY(gP00));
+   329	
+   330		if (smcgp->first_index >= apple_smc_get_key_count(smc))
+   331			return -ENODEV;
+   332	
+   333		ret = apple_smc_get_key_by_index(smc, smcgp->first_index, &key);
+   334		if (ret < 0)
+   335			return ret;
+   336	
+   337		if (key > macsmc_gpio_key(MAX_GPIO - 1))
+   338			return -ENODEV;
+   339	
+   340		dev_info(smcgp->dev, "First GPIO key: %p4ch\n", &key);
+   341	
+   342		smcgp->gc.label = "macsmc-pmu-gpio";
+   343		smcgp->gc.owner = THIS_MODULE;
+   344		smcgp->gc.get = macsmc_gpio_get;
+   345		smcgp->gc.set = macsmc_gpio_set;
+   346		smcgp->gc.get_direction = macsmc_gpio_get_direction;
+   347		smcgp->gc.init_valid_mask = macsmc_gpio_init_valid_mask;
+   348		smcgp->gc.can_sleep = true;
+   349		smcgp->gc.ngpio = MAX_GPIO;
+   350		smcgp->gc.base = -1;
+   351		smcgp->gc.parent = &pdev->dev;
+   352	
+   353		smcgp->ic.name = "macsmc-pmu-gpio";
+   354		smcgp->ic.irq_mask = macsmc_gpio_irq_disable;
+   355		smcgp->ic.irq_unmask = macsmc_gpio_irq_enable;
+   356		smcgp->ic.irq_set_type = macsmc_gpio_irq_set_type;
+   357		smcgp->ic.irq_bus_lock = macsmc_gpio_irq_bus_lock;
+   358		smcgp->ic.irq_bus_sync_unlock = macsmc_gpio_irq_bus_sync_unlock;
+   359		smcgp->ic.irq_set_type = macsmc_gpio_irq_set_type;
+ > 360		smcgp->ic.flags = IRQCHIP_IMMUTABLE | IRQCHIP_SET_TYPE_MASKED, IRQCHIP_MASK_ON_SUSPEND;
+   361	
+   362		smcgp->gc.irq.chip = &smcgp->ic;
+   363		smcgp->gc.irq.parent_handler = NULL;
+   364		smcgp->gc.irq.num_parents = 0;
+   365		smcgp->gc.irq.parents = NULL;
+   366		smcgp->gc.irq.default_type = IRQ_TYPE_NONE;
+   367		smcgp->gc.irq.handler = handle_simple_irq;
+   368	
+   369		mutex_init(&smcgp->irq_mutex);
+   370	
+   371		smcgp->nb.notifier_call = macsmc_gpio_event;
+   372		apple_smc_register_notifier(smc, &smcgp->nb);
+   373	
+   374		return devm_gpiochip_add_data(&pdev->dev, &smcgp->gc, smcgp);
+   375	}
+   376	
 
 -- 
 0-DAY CI Kernel Test Service
