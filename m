@@ -1,109 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF121CC89D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 20:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD972B9A5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 20:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727814346; cv=none; b=pu+TZvOaot46IzOJ8hpA76esCjR07rkUtrgJKXZfZBL+l8mUoALqs4Hj0x5RPZcPwBM7VLu4aoHWku0lf4oSqZ60WHL+LLm2O3qyIaLjsRU5dKoPPlxGo2GfsSTLKM+237lXp6rproMrrrEVW4YwaH065IrP0uFMXAKNfziGmWM=
+	t=1727814762; cv=none; b=SBDnPKTMCaN/aAcnomJG3qXu7keGRrifwF84rlBfREfenYsfwU/c9lmH1mA7zbamz195AGd2gCVWGFU0bgnIWMFmTrhtn6WVlV/aeQiN+eJzNenmTyBW0UsEGujjKhTMLsW+ght8ZDLV2MUEPUAXlA9dFHD8loHaEU1NViRO9xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727814346; c=relaxed/simple;
-	bh=mp+lm5hUxFP3ANvJgpvzARseWtwWiGxyBqDDSbB3PmM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N67x6qErDdroUG+ZP1F61LBYHJrDJoRZtovJyCm8RLFtzAZkkhosHzhj5GEkXsOZwGLAoSPEQqyRCLwmkkqTxN+xEyAoxaFFtzJiSxTMXa06nde2L9fOmpvx2ndw1eyUgKw1SUQT2RpP5StUSEPYrc6J4UOtVCR0lPXhSPIfdgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FoX6c3B1; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727814762; c=relaxed/simple;
+	bh=igcill1y2axhOcAHBQy1AdzNbKobXKZZgI2FxEKM2TU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D463IkzwCf8q+A1s8kCcuAtpfjQ3rfz8hVxGBtOEqOunfJH1mVq4MKtXpyXnvwyJ6i9W3NUTXk4IMKeVV57rV7HGC6cqCnWdGjpekjtxS0Z8wPnq68NUh6pDJGO7CxENZUka7c3okDAG0ZKNJ0eZ4Y8oTR7Ok3dxn9xEgpTuXHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPYIerne; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FoX6c3B1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727814345; x=1759350345;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mp+lm5hUxFP3ANvJgpvzARseWtwWiGxyBqDDSbB3PmM=;
-  b=FoX6c3B1xbNp9gR6/SO4g9H7+Z6JiQk638dbUw89SwZ/4n20hI5eGi0l
-   dtNUYo+WEtGpikRwRH0SJzedldjOyEyGWFpUCdMR91P6rj055fcRAQYQ9
-   bjmDrd99ilS/xYendFxryP1MnSoEfvyzXUQyMtxoWdrS5wjos/2T2u7DL
-   QZjfTN6snVUS+5s/ZP5vIr+6hIDzP6ZnYPwE0GR3dSvINxTXHdLF6KnXk
-   HbcO4G2dJCUcsRpeALKeo383kqvNAPZv+I8m5UzQUv4Mto7CapLwOh0OW
-   zZOAfZsYyjhZvNNPsliUwRIJ29Btj/uqqL8AzAId2vwaAcWgY+NYnV6nl
-   g==;
-X-CSE-ConnectionGUID: BFxpljmtSEebX7KQs15eQQ==
-X-CSE-MsgGUID: IWq7aPn/Sg+wzbil04LygA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30763045"
-X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="30763045"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 13:25:42 -0700
-X-CSE-ConnectionGUID: 0LHMtLaoQDaQ8Ojf9aJXcA==
-X-CSE-MsgGUID: 5HhhKnM0Qn2v+coc9GjqDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="74215265"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 Oct 2024 13:25:41 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svjRC-000R97-0Z;
-	Tue, 01 Oct 2024 20:25:38 +0000
-Date: Wed, 2 Oct 2024 04:24:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dirk Behme <dirk.behme@de.bosch.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>
-Subject: [linux-next:pending-fixes 45/157] rust/helpers/mutex.c:11:6: sparse:
- sparse: symbol 'rust_helper___mutex_init' was not declared. Should it be
- static?
-Message-ID: <202410020426.l22GnLwB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPYIerne"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20bb39d97d1so9832295ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Oct 2024 13:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727814760; x=1728419560; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=C0BmjE+D3eW2kpb7x0QwhBBUqShmS1jkKioejXDVzaE=;
+        b=ZPYIerneaqKWMhcq2neMknjYYMu7ghTJzqPEJkegvPXY02gJxhlc921NJ8IOhzOu1t
+         /susmDiM39Cdw2oBY1HImQbu5XpvJIGUgs2gQ4Au9arXMrIyRM7m0n8+7cxW/6oeJtMm
+         pKaGn24etD+7DXN9i+mRhKNKS+wqee42kyREVCmap4rtzDvY33dsQGBXxewzsGINbQGQ
+         JXIjc/orqCEqLSHiR6Co2++IzywAe74UmtZTJavI9Z7NbXNvMj2L6RGiSyt0zlNyvCfj
+         MQ2FCgnpR6tq78hvRi1MN31Sl1SmLCOyS3ZVQaYxFSoxOTL6t3yxFsOOag02YlIM4L1D
+         i43Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727814760; x=1728419560;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C0BmjE+D3eW2kpb7x0QwhBBUqShmS1jkKioejXDVzaE=;
+        b=U9GSY+ucCY2P0EEvS5ZPsUVtnj7TeRtWp7ha3yma81pWMziM4xLvYEamyU0SlqZVOT
+         tcXh/e9fsgYcrxVGKFON7hOz+qroCCMWATNG79i2HsCzokDDcY1hNk5dYX5XmCYhBeRS
+         v8/so02zZghNxtErXopEzh/UJrbGnpgjZ+YqXV3IOh16cpEz7cDIiTLXoW5imaLqIrdr
+         SCVPntBNtRRiAf+0db/KYkYPH/h4uVEQZ84zW1iBF8hRhWTUHGUA31JfJwDR12W4xpgo
+         HGPCR0kihMCY0DcrMkyrH3HXbturZrp12/nyH+agXJoooai7AzvUASnpo3pH2hTejno9
+         h3Cg==
+X-Gm-Message-State: AOJu0YzWWUkcCe19YTR8+z8Pk0YODdIYGI0u+nGoD/UKGGA8SoXKv2/j
+	VWwZllzOCMAP+vbFxKstaicYs0UcnvUy055nXmtU5IXRJeRDW5ml
+X-Google-Smtp-Source: AGHT+IFmTRO3exPf96okGD8OJIyEuN5OSHaWwglQGY5zW7ZOcH0qMF17cuJpO2r5kq5BMpS4vUczhA==
+X-Received: by 2002:a17:902:e812:b0:20b:c287:204d with SMTP id d9443c01a7336-20bc5a59035mr9861435ad.40.1727814759997;
+        Tue, 01 Oct 2024 13:32:39 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37d60e39sm72981955ad.35.2024.10.01.13.32.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Oct 2024 13:32:38 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4a1103b4-e8c3-484f-a52b-29517cdd39ea@roeck-us.net>
+Date: Tue, 1 Oct 2024 13:32:37 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/hwmon/tmp513.c:163:10: error: 'const struct
+ regmap_config' has no member named 'reg_bits'
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <202410020246.2cTDDx0X-lkp@intel.com>
+ <dc59e32d-ed4a-43c8-a6f3-e4263d97c95f@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <dc59e32d-ed4a-43c8-a6f3-e4263d97c95f@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   f81ef06dcf9050528fdb863afc5c8834fd96f8f9
-commit: d065cc76054d21e48a839a2a19ba99dbc51a4d11 [45/157] rust: mutex: fix __mutex_init() usage in case of PREEMPT_RT
-config: um-randconfig-r133-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020426.l22GnLwB-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020426.l22GnLwB-lkp@intel.com/reproduce)
+On 10/1/24 11:53, Javier Carrasco wrote:
+[ ... ]
+> 
+> The bug is not in that commit, the Kconfig entry for this driver is
+> missing a 'select REGMAP_I2C'. I just tested it and then it builds
+> without any issues.
+> 
+> I can send a patch to fix that, but I would like to know what commit it
+> really fixes: the one that introduced the driver as it already used
+> regmap and did not include the required select? Or the one from this
+> report because it triggered, even though it is not the real source of
+> the issue?
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410020426.l22GnLwB-lkp@intel.com/
+I have no idea why this is reported now, but the problem was introduced with
+the driver, and as you have noticed I already submitted a fix.
 
-sparse warnings: (new ones prefixed by >>)
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
->> rust/helpers/mutex.c:11:6: sparse: sparse: symbol 'rust_helper___mutex_init' was not declared. Should it be static?
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/spinlock.c:16:6: sparse: sparse: context imbalance in 'rust_helper_spin_lock' - wrong count at exit
-   rust/helpers/spinlock.c:21:6: sparse: sparse: context imbalance in 'rust_helper_spin_unlock' - unexpected unlock
+Thanks a lot for reviewing it!
 
-vim +/rust_helper___mutex_init +11 rust/helpers/mutex.c
+Guenter
 
-    10	
-  > 11	void rust_helper___mutex_init(struct mutex *mutex, const char *name,
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
