@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564491865E0
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 12:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8830F1BFE1A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 12:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727785278; cv=none; b=chcKRFDlgXbvBJh/eFQoD+Snwe9RXvVrQJqnzYxJydFGPzJ/cfIz14xN8GdSFwnnXSoNh+gnwgjOVjpoxiZYejwodlc1mX/jb7gUKkvLhDjNc+RqE7PQXV9l6q+qbg9BsMXygiWGqoeZMc5VKKBsRuPCVpPSu80YaoXTikEBYvE=
+	t=1727785286; cv=none; b=AnwtqVeMzrqvezf34vcGPJHfA3v4Yi41o2pFYTZ8SCohkbtqx/po/Us/5OGyaXuxcEsmJMC37vRiW5WRWBb1xTFA6IKIa2CvhDcApKb+3nqbVkd1tkwgxD0xuvSw2if5ZeVkR3/2Wkekq158RAigGwcYAJQ6KaswVp2toGKM5Ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727785278; c=relaxed/simple;
-	bh=v2ZdrWvmXgWjdDmlu9Q+nBTaSR8DUnc+pl6DMW/g+8M=;
+	s=arc-20240116; t=1727785286; c=relaxed/simple;
+	bh=897I2CI/Q0TamkS/jTHigNxcNL4BebHiWhra+Xxc4E0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ESocfuY5r5vrGJp923huGgMhb0/GHhSdLsWxTzcMfeef7qczEKRGBJbymtgXt4ihgYMNfBt39N27fUKl+9keeab9ujoOjqbObaE8/wTOWiB36mm0W9avEW1DdExmFM2x/M5dxIC+tmBbgbcKk5ixWeSmKpJSQaZazdCShLl4tO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKfPwLaS; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=eRhm3nUhFKAagGjZnh1zDUyBx78yNwqe/56yT8wFiwEWybyyptymeLklGiMQIhL8p9yfCQMWJt0odCShSmo/6/nVp6cK40P9Gd32y09zzllGUbA5QXcnO91R8Z4UXmnGyyyUmNG8UW4LtL/zzv+cewRknlnTqoCbMVREHsR4hrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPY18zmD; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKfPwLaS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPY18zmD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727785276; x=1759321276;
+  t=1727785284; x=1759321284;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v2ZdrWvmXgWjdDmlu9Q+nBTaSR8DUnc+pl6DMW/g+8M=;
-  b=GKfPwLaSld/3ivXKnpCau5AZmEms84ZAcpqNjfhe/gUzRynEXB8wytXB
-   ECBf/P2RpjGg9EPUlrtXR54aP5DyCVDI2ACM7xcGU79Alzq3+i0n5g8pn
-   Q2HsgiSwmAuPj4oZyjWaiuSd6p4QcepPxb3jlmpQnb+ZKJoX8AFmjfDLZ
-   N96welChc9z0vC3YaJpzluma7bIej/aEJjfU5gBhQOsmgxvS0IJ7eBe3q
-   Drq4Vwbh4mr6xji014Mi3KF4/nY0SepxB8OA0fymSUKt0ObPwW11qM7z/
-   rRK10vKocoQR9SMQGdyTaan3W152bLJt5uVYSXx4ZwY0jBSLaHqWs0j7X
+  bh=897I2CI/Q0TamkS/jTHigNxcNL4BebHiWhra+Xxc4E0=;
+  b=EPY18zmDCUt/MHbhbFr3yK8yxHf05UzwKXqNaYTwF7IS/D0Szq1LVeoy
+   +JmvXT/Byo//LXe8lBnfUI1wetpJozowzxY5GPFCUTBece0LvjNxSI5MP
+   vGAmLti23yXOHXX+DScflBWYbLyPtboc4YOr5BkhH+ve2EPuBdW09d9mf
+   OHYGD+xabSTWM6XwpkoLfIB8wWXpzgyCQ7y1VUtZRiV209KmIIQtGPtRD
+   T07Ywu3Mm65FbwR+n9K3cthJGHpHNhA2Qi+uCtIgzyP4X7jZ2mMU2UkDT
+   dCLBRXl7AnvOMNHqbcMUbu9QdfdYSwRNKYRxwkJnaBUboClUuo3a3zb9a
    w==;
-X-CSE-ConnectionGUID: mPKG3ZiaRliBh4W3HBWx6g==
-X-CSE-MsgGUID: 4Oga8RTAS7aTq64ErkzE1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27055718"
+X-CSE-ConnectionGUID: MOoXZ/rBSba+xU4UYXS2GA==
+X-CSE-MsgGUID: rxds4DheSVegCY3e3+1i/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30709726"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="27055718"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:21:16 -0700
-X-CSE-ConnectionGUID: tXregDvjRAqceqgeR/H/mg==
-X-CSE-MsgGUID: vKkKbkcXS5qFoXsr0saQIw==
+   d="scan'208";a="30709726"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:21:19 -0700
+X-CSE-ConnectionGUID: BT+wW7c/Ty6wNO/zQBznlA==
+X-CSE-MsgGUID: otFvHmFXS4y8KPH3NSESFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="77702803"
+   d="scan'208";a="104480747"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 01 Oct 2024 05:21:14 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Oct 2024 05:21:16 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svbsO-000Qfp-1z;
+	id 1svbsO-000Qfr-23;
 	Tue, 01 Oct 2024 12:21:12 +0000
 Date: Tue, 1 Oct 2024 20:20:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>
-Subject: [nsa:b4/b4-dev-adp5589-fw-conversion 7/14]
- drivers/input/keyboard/adp5589-keys.c:537:undefined reference to `__ffsdi2'
-Message-ID: <202410012040.EHyuofvw-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 17427/23811]
+ drivers/gpio/.tmp_gpio-hisi.o: warning: objtool: missing symbol for section
+ .init.text
+Message-ID: <202410012015.7DrvrSEM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +63,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/nunojsa/linux b4/b4-dev-adp5589-fw-conversion
-head:   c3b3d52107fc91e0c0f51d4966c5f365d08f4a66
-commit: 764e9a3482f91d868b9b5e3637499312ca40d86c [7/14] Input: adp5589-keys: add support for fw properties
-config: sparc-randconfig-002-20241001 (https://download.01.org/0day-ci/archive/20241001/202410012040.EHyuofvw-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410012040.EHyuofvw-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5c63bd0fa5e86474d30ecd06d67f2393de081434
+commit: f724c4effa231b88b4fd545803f9e7f122ad3efc [17427/23811] gpio: gpio-hisi: Add HiSilicon GPIO support
+config: x86_64-buildonly-randconfig-004-20240923 (https://download.01.org/0day-ci/archive/20241001/202410012015.7DrvrSEM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410012015.7DrvrSEM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410012040.EHyuofvw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410012015.7DrvrSEM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sparc-linux-ld: drivers/input/keyboard/adp5589-keys.o: in function `adp5589_gpio_set_bias':
->> drivers/input/keyboard/adp5589-keys.c:537:(.text+0x7bc): undefined reference to `__ffsdi2'
-
-
-vim +537 drivers/input/keyboard/adp5589-keys.c
-
-   506	
-   507	static int adp5589_gpio_set_bias(struct adp5589_kpad *kpad, unsigned int pin,
-   508					 enum pin_config_param cfg)
-   509	{
-   510		unsigned int bank, msk;
-   511		int error;
-   512		u8 val;
-   513	
-   514		mutex_lock(&kpad->gpio_lock);
-   515	
-   516		if (cfg == PIN_CONFIG_BIAS_PULL_UP)
-   517			val = test_bit(pin, &kpad->pull_up_100k_map) ? 2 : 0;
-   518		else if (cfg == PIN_CONFIG_BIAS_PULL_DOWN)
-   519			val = 1;
-   520		else
-   521			val = 3;
-   522	
-   523		/*
-   524		 * For the BIAS configs, we have 4 pins per register. We need to take
-   525		 * care for the adp5585 variant where we have a hole in the registers
-   526		 * between rows and columns. Hence, we detect when a pin is a column and
-   527		 * apply the proper offset and pin normalization.
-   528		 */
-   529		if (kpad->info->is_adp5585 && pin >= kpad->info->var->col_shift) {
-   530			bank = 2 + (pin - kpad->info->var->col_shift) / 4;
-   531			msk = adp5589_rpull_masks[(pin - kpad->info->var->col_shift) % 4];
-   532		} else {
-   533			bank = pin / 4;
-   534			msk = adp5589_rpull_masks[pin % 4];
-   535		}
-   536	
- > 537		val <<= __bf_shf(msk);
-   538		kpad->rpull[bank] = (kpad->rpull[bank] & ~msk) | (val & msk);
-   539	
-   540		error = adp5589_write(kpad->client,
-   541				      kpad->info->var->reg(ADP5589_RPULL_CONFIG_A) + bank,
-   542				      kpad->rpull[bank]);
-   543	
-   544		mutex_unlock(&kpad->gpio_lock);
-   545	
-   546		return error;
-   547	}
-   548	
+>> drivers/gpio/.tmp_gpio-hisi.o: warning: objtool: missing symbol for section .init.text
 
 -- 
 0-DAY CI Kernel Test Service
