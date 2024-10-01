@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E53F19AD87
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 08:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361DC19B587;
+	Tue,  1 Oct 2024 09:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727772967; cv=none; b=luldgHyLnEEcB7KaRWKlTMk8ww/QD95f6o34E8oVr7pCfHg9KrFCMJsB6ZhU+mGvgpxC5Xi3rQZ4vzWnKBLTuuVb5xMd9jSFTYtErl4J5Le+WxJTca9XOfvRdt3utly/+yxPm5Oj4QdxNADjeSDZV5uZm8fgJSjWMJs3Fx/QtpY=
+	t=1727773628; cv=none; b=Q2QO01XQxG8N3p9z8y+bvhT9LcyFlmcDlT0LPlYmdNlGnZII9ANj4fkn5Mbvhh92WXyaH6qVkjO30ZbjQ+XE6szZtA5Ur6fJdTH39ob8hvlMUIodwD4H5ZwdJzhTm1aqHrQJ/SeNnbNYCxJEHw2zh/9lWkXOnYZa+KLRnlOnC+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727772967; c=relaxed/simple;
-	bh=1giabMPVJrOvRlMW+6XM6eGErOYpuaNvGDFzDoGtf78=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cn9xMVgJ76trTHX5qshIm0qLd7ppDjkWAdoeL9OTwSZwxnAQqMP4OyR9X+3uXA+X+YzS0GmixEbWqxD66OFCQ0vt9glrh/MPi988o8RRovlSUKl61kWQDH/h0WUmnq9a8nMN0UqU3xW5hZoK0sgnceFr75cIybjmdV7wiTnUxJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFcdhCaq; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1727773628; c=relaxed/simple;
+	bh=m97NaR/uwM/LoByNr7jk1ak8+1faMfudA3HDDJa1jBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=akcaOcV28nO9iEQTb/RUIv16kcgq+TSe/Wc1sUoaUP2ue+c1kY8SUggqsJOwX2XTgKEgfr5wuEi8kzWmrJORnwGlAMnpJwiWexmoBxmeh5NHQIdIRQLn5wqaNQo4yCPIACCAwAPOIuZdnRuRwxDrTI3oLfFIAdEr/rLfw2K7Qpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i4xOF5sK; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFcdhCaq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4xOF5sK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727772965; x=1759308965;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1giabMPVJrOvRlMW+6XM6eGErOYpuaNvGDFzDoGtf78=;
-  b=lFcdhCaqp0lLXelg7Fgof09t9i9IbWitiBjvTh3DyJkuFh9ngnNMAlqP
-   IvuYc2ST4fngD4btMR0l6XA/E5PqIZAVyUjIjAZgzFVi9JWAToc1rD/rf
-   d8mhQdwCg37XvS/2GyDNnPwlnMfGDwOsYTPl+/TBRWKgC38rvmu90nglH
-   TzRK3j7Kmir5OxNAJBfM/ibtSczq7mkCkvN10um5LC9oG8iPhesnT5uXN
-   YjHiEFRZ3LDcpHRw90vrjh71VABysISN/VngV9peDbwSslUwbuFQYrmaR
-   UJvwNzXscELPpvswz8u6kS2q6zdRf5cI3PPwTr5Qva4il5FbRSdOFiSEJ
-   Q==;
-X-CSE-ConnectionGUID: DeW6vwARRQiBy5i2mAm5hg==
-X-CSE-MsgGUID: wI7P4aFDRe65k8niBJeqhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="14514628"
+  t=1727773627; x=1759309627;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m97NaR/uwM/LoByNr7jk1ak8+1faMfudA3HDDJa1jBQ=;
+  b=i4xOF5sKEcVbFekmdnCSMR+cnRPA4hmKBdS9JZCe6V1tp+wKRs9VI2eO
+   PxeBU/c2Pz9TWdoCc5VO0qocXtkR1Pm9sHTH3q6fF9cRJKLm+nTRdSgcP
+   SuXEkzRg6mU62sLxqk0SCTuoUfZJxyxL8J53iHPWMR3tMCsUojjba4sEt
+   Q6Gxy4d2nbgIPi69O5GAk2npEVgwmYITSuv8zig7ztYuuAD3qjwtuWo06
+   cRw5lmSz7GPA/HOKKp1XSz5ziwmOFvNAOB+E3jlUPYWF8GpbFuLM5gH94
+   rYUYdhe2SG3y5sN+xqWidsfQ+MsPz08Uaj2zvuSjx0vYBIvT9Yb0trWJj
+   A==;
+X-CSE-ConnectionGUID: 3NPcDP59TLOun4Lfd8YYyQ==
+X-CSE-MsgGUID: lZmc/Tk6Qn6C/CJVvpa9rQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="52306009"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="14514628"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 01:56:04 -0700
-X-CSE-ConnectionGUID: nwOuroyfS1qcWSWvC7v5lA==
-X-CSE-MsgGUID: F+jxqAurS3uqfwAwMIJltQ==
+   d="scan'208";a="52306009"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 02:07:07 -0700
+X-CSE-ConnectionGUID: ojDeIRRCQy6cXbvKsd4T0g==
+X-CSE-MsgGUID: N/BxBTXLSmyOMZi+tRyimQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="78329991"
+   d="scan'208";a="73564062"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Oct 2024 01:56:03 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 01 Oct 2024 02:07:03 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svYfo-000QT3-24;
-	Tue, 01 Oct 2024 08:56:00 +0000
-Date: Tue, 1 Oct 2024 16:55:24 +0800
+	id 1svYqT-000QU9-0V;
+	Tue, 01 Oct 2024 09:07:01 +0000
+Date: Tue, 1 Oct 2024 17:06:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.headers.unaligned 1/2]
- arch/arc/include/asm/mmu.h:17:71: warning: 'struct pt_regs' declared inside
- parameter list will not be visible outside of this definition or declaration
-Message-ID: <202410011645.0amHktP2-lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, andrew@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, linux-kernel@vger.kernel.org,
+	jacob.e.keller@intel.com, horms@kernel.org, sd@queasysnail.net,
+	chunkeey@gmail.com
+Subject: Re: [PATCH net-next 09/13] net: ibm: emac: rgmii:
+ devm_platform_get_resource
+Message-ID: <202410011626.D4gEmLU8-lkp@intel.com>
+References: <20240930180036.87598-10-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +67,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240930180036.87598-10-rosenp@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.headers.unaligned
-head:   c7aa4ea3d081865b7d8257c33ebda97fe5126211
-commit: 70d37bd7ed08618d65508490d0cea88cb270fb71 [1/2] arc, parisc: get rid of private asm/unaligned.h
-config: arc-randconfig-001-20241001 (https://download.01.org/0day-ci/archive/20241001/202410011645.0amHktP2-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011645.0amHktP2-lkp@intel.com/reproduce)
+Hi Rosen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-ibm-emac-remove-custom-init-exit-functions/20241001-020553
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240930180036.87598-10-rosenp%40gmail.com
+patch subject: [PATCH net-next 09/13] net: ibm: emac: rgmii: devm_platform_get_resource
+config: powerpc-canyonlands_defconfig (https://download.01.org/0day-ci/archive/20241001/202410011626.D4gEmLU8-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011626.D4gEmLU8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410011645.0amHktP2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410011626.D4gEmLU8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arc/include/asm/pgtable.h:14,
-                    from include/linux/pgtable.h:6,
-                    from include/asm-generic/io.h:1048,
-                    from arch/arc/include/asm/io.h:232,
-                    from arch/arc/plat-axs10x/axs10x.c:12:
->> arch/arc/include/asm/mmu.h:17:71: warning: 'struct pt_regs' declared inside parameter list will not be visible outside of this definition or declaration
-      17 | extern void do_tlb_overlap_fault(unsigned long, unsigned long, struct pt_regs *);
-         |                                                                       ^~~~~~~
+   In file included from drivers/net/ethernet/ibm/emac/rgmii.c:21:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/powerpc/include/asm/cacheflush.h:7:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/net/ethernet/ibm/emac/rgmii.c:229:14: error: call to undeclared function 'devm_platform_get_resource'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     229 |         dev->base = devm_platform_get_resource(ofdev, 0);
+         |                     ^
+   drivers/net/ethernet/ibm/emac/rgmii.c:229:14: note: did you mean 'platform_get_resource'?
+   include/linux/platform_device.h:58:25: note: 'platform_get_resource' declared here
+      58 | extern struct resource *platform_get_resource(struct platform_device *,
+         |                         ^
+>> drivers/net/ethernet/ibm/emac/rgmii.c:229:12: error: incompatible integer to pointer conversion assigning to 'struct rgmii_regs *' from 'int' [-Wint-conversion]
+     229 |         dev->base = devm_platform_get_resource(ofdev, 0);
+         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +17 arch/arc/include/asm/mmu.h
+vim +/devm_platform_get_resource +229 drivers/net/ethernet/ibm/emac/rgmii.c
 
-f1f3347da9440e Vineet Gupta 2013-01-18  16  
-4d3696801bad2a Vineet Gupta 2023-08-12 @17  extern void do_tlb_overlap_fault(unsigned long, unsigned long, struct pt_regs *);
-4d3696801bad2a Vineet Gupta 2023-08-12  18  
-
-:::::: The code at line 17 was first introduced by commit
-:::::: 4d3696801bad2a037832c15a8d21dfe0c529d9cd ARC: -Wmissing-prototype warning fixes
-
-:::::: TO: Vineet Gupta <vgupta@kernel.org>
-:::::: CC: Vineet Gupta <vgupta@kernel.org>
+   215	
+   216	
+   217	static int rgmii_probe(struct platform_device *ofdev)
+   218	{
+   219		struct rgmii_instance *dev;
+   220	
+   221		dev = devm_kzalloc(&ofdev->dev, sizeof(struct rgmii_instance),
+   222				   GFP_KERNEL);
+   223		if (!dev)
+   224			return -ENOMEM;
+   225	
+   226		mutex_init(&dev->lock);
+   227		dev->ofdev = ofdev;
+   228	
+ > 229		dev->base = devm_platform_get_resource(ofdev, 0);
+   230		if (IS_ERR(dev->base)) {
+   231			dev_err(&ofdev->dev, "can't map device registers");
+   232			return PTR_ERR(dev->base);
+   233		}
+   234	
+   235		/* Check for RGMII flags */
+   236		if (of_property_read_bool(ofdev->dev.of_node, "has-mdio"))
+   237			dev->flags |= EMAC_RGMII_FLAG_HAS_MDIO;
+   238	
+   239		/* CAB lacks the right properties, fix this up */
+   240		if (of_device_is_compatible(ofdev->dev.of_node, "ibm,rgmii-axon"))
+   241			dev->flags |= EMAC_RGMII_FLAG_HAS_MDIO;
+   242	
+   243		DBG2(dev, " Boot FER = 0x%08x, SSR = 0x%08x\n",
+   244		     in_be32(&dev->base->fer), in_be32(&dev->base->ssr));
+   245	
+   246		/* Disable all inputs by default */
+   247		out_be32(&dev->base->fer, 0);
+   248	
+   249		printk(KERN_INFO
+   250		       "RGMII %pOF initialized with%s MDIO support\n",
+   251		       ofdev->dev.of_node,
+   252		       (dev->flags & EMAC_RGMII_FLAG_HAS_MDIO) ? "" : "out");
+   253	
+   254		wmb();
+   255		platform_set_drvdata(ofdev, dev);
+   256	
+   257		return 0;
+   258	}
+   259	
 
 -- 
 0-DAY CI Kernel Test Service
