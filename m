@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CCC36AF8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 05:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE473201;
+	Tue,  1 Oct 2024 06:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727761858; cv=none; b=sLcf53K+uWIMiiZEpi3oDl7jyikzKEytz+Jh8K2fXoyUdP4Z8gL3MESthEn3WHCAYzkLsGmofEGsq6xL7MpvmEC/KG0mPNEg6Etkgr5d2rW5zuOHvuwFB38yZnQ1LmyvH0pjZ4aE5yMzrhP957Uh3LicLPYPGnxaSi6yQWnRjxo=
+	t=1727762460; cv=none; b=E3JmhgdKRe9Lz/g1/jS3VcuZEIkqokoqjISTeJDPbyLVrej39I8E345c/4OULwQCVJ+B6Ut1FPSuY+0rjaf0f+fYwvKVElrBbAKYvO2R38ylLiS3xbUpsvzakc5RzEUo78cO7O6YqiYlEy6tuB9oUp2EDtIHxllOZca+DzUkkxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727761858; c=relaxed/simple;
-	bh=LD9AdJhyvaZaqlhnCCBrK3fpEpmbTR3JQtsXMTckvHw=;
+	s=arc-20240116; t=1727762460; c=relaxed/simple;
+	bh=e0ucNSqZyVSG9GxzOeQRnWshI/L8IYO+stZaHultQZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jho17q78uga511A38vnmEv4uzRot58QxS0P4fPM3TpHbQ4KxLVO91MTCE1pPfEmtw+/hvjAwrS0yRIxunqDESIkGwEhBUoRt4tf97Hx2/4UjwVVD7SHUaEXxMsfFXl22m+4WABSekOY4E1aO2p9rJrqO1Ntiw2ilUDR2+VNiTNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qp8bL4Oh; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=UCEcma51OpHpEr/TAbLwtwJoLlOVacCla+ji94VRPdhzKnB+VwnWbjOLJjWJ2GHA2808IU36RylZ35EBQafQL3blNPHH+XRsdcif2BxRaiobu7HRgjv/Xb7IefOiAYkVNwlEk08ckwdGtMCAW3ALtAcriRszUL5XCRuLCeStaN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ak4If4dd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qp8bL4Oh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ak4If4dd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727761857; x=1759297857;
+  t=1727762458; x=1759298458;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LD9AdJhyvaZaqlhnCCBrK3fpEpmbTR3JQtsXMTckvHw=;
-  b=Qp8bL4Oh4ry9hhnH8ot1Mj3XQtmrOC2WFUuryBBhAkn8Qh1zQ72xhbVy
-   /C6oWvSjnCQUe+2qrgayHoAIpVzm8SEz8Ex2zBgB/J6YnlDNpPI092Pac
-   evnJuot+pypcIFdVCVfhOezYcMybb9xFh67dKwfkP4qSylZBXHxCImvK5
-   0RcdwFj8qSFzToe//p4B1DVWZsDv/S26xZGsP0MIfCtGlOJhG9VSqMxgF
-   Y+SgM+G1PnQs+injOSScfgLhu3m2N4zqt1Lc40qi7pi601flt2+wCzEW/
-   nFhxjHwL84MHQkt1316ddPSsFefocLcY20e+Y8CRPxrqDiQ/+sx2hou29
-   Q==;
-X-CSE-ConnectionGUID: 1kR2W2FeQMi1oVTJG8D95Q==
-X-CSE-MsgGUID: NJEZPWqoQ9m3MaWdArP8Tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26828713"
+  bh=e0ucNSqZyVSG9GxzOeQRnWshI/L8IYO+stZaHultQZA=;
+  b=ak4If4ddV9zwIutLj9Fdu4QmtcV49dOQgDxTg43xS1fVvpQE20+T4/i1
+   LhYtr2nz+GyYnz0Ukm6VHT8gxDo/ZNczhi33rDF0mQ3G6WNVjKMKD7X05
+   FhW7v2BahCQhVhboTvNBUxS6KwE2swsnCbvBI2HgcTOE5PBCsVHQ0qMBS
+   IGCnkeN+4Asob6rijAkHhMCMOmImzixgZVV+wdueUZpd35CSH+yllX4V/
+   aYZYHLNLenIBVgjBKe/UZ8En4ecMaHtssOY/kCm5eJ3kMkfNFWljWrM78
+   QLgb0PNZfvhd7oGbiQUSsEn19BXqfoAi5E2ibuLeqLge7J4WYk5ztCv1i
+   w==;
+X-CSE-ConnectionGUID: y4T0bt8vSvq3YcSf7yWYbg==
+X-CSE-MsgGUID: wwaHy7cnRLSIJ6+Dk27kIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26333425"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="26828713"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 22:50:56 -0700
-X-CSE-ConnectionGUID: EJhiS/drQsmYmQY5tPVCJQ==
-X-CSE-MsgGUID: fJO8d+TbTYC7ZqEZz05VFw==
+   d="scan'208";a="26333425"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 23:00:58 -0700
+X-CSE-ConnectionGUID: sswBxU7ASl20MNY9RwGpvg==
+X-CSE-MsgGUID: K0DR1l5ZTBi6O1P5XPargA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="73672525"
+   d="scan'208";a="74316564"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Sep 2024 22:50:55 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Sep 2024 23:00:56 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svVmf-000QIY-0S;
-	Tue, 01 Oct 2024 05:50:53 +0000
-Date: Tue, 1 Oct 2024 13:50:09 +0800
+	id 1svVwL-000QJB-1b;
+	Tue, 01 Oct 2024 06:00:53 +0000
+Date: Tue, 1 Oct 2024 14:00:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 1/2]
- drivers/virtio/virtio_pvclock.c:48:6: sparse: sparse: symbol
- 'update_suspend_time' was not declared. Should it be static?
-Message-ID: <202410011350.AXIF805p-lkp@intel.com>
+To: Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [viro-vfs:work.xattr 9/9] fs/xattr.c:971:28: error: use of
+ undeclared identifier 'pathname'; did you mean 'putname'?
+Message-ID: <202410011312.c884e7lp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +65,192 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   1dd4a498c91aa13a5f4e61fd40a88aebb5bca367
-commit: 04f660d6724f5df1b07f8cf9e1c55f70fb43d1d2 [1/2] ANDROID: virtio: virtio_pvclock: initial driver impl
-config: i386-randconfig-061-20241001 (https://download.01.org/0day-ci/archive/20241001/202410011350.AXIF805p-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011350.AXIF805p-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.xattr
+head:   242dce7f3a28f84e733f16d29368cedf91feccf3
+commit: 242dce7f3a28f84e733f16d29368cedf91feccf3 [9/9] fs/xattr: add *at family syscalls
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241001/202410011312.c884e7lp-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011312.c884e7lp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410011350.AXIF805p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410011312.c884e7lp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/virtio/virtio_pvclock.c:294:9: sparse: sparse: mixing declarations and code
->> drivers/virtio/virtio_pvclock.c:48:6: sparse: sparse: symbol 'update_suspend_time' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/update_suspend_time +48 drivers/virtio/virtio_pvclock.c
+   In file included from fs/xattr.c:15:
+   In file included from include/linux/xattr.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/xattr.c:971:28: error: use of undeclared identifier 'pathname'; did you mean 'putname'?
+     971 |         error = user_path_at(dfd, pathname, lookup_flags, &path);
+         |                                   ^~~~~~~~
+         |                                   putname
+   include/linux/fs.h:2769:13: note: 'putname' declared here
+    2769 | extern void putname(struct filename *name);
+         |             ^
+   fs/xattr.c:990:10: warning: unused variable 'error' [-Wunused-variable]
+     990 |         ssize_t error;
+         |                 ^~~~~
+>> fs/xattr.c:1092:37: error: incompatible pointer types passing 'struct xattr_name *' to parameter of type 'const char *' [-Werror,-Wincompatible-pointer-types]
+    1092 |                                             fd_file(f)->f_path.dentry, &kname);
+         |                                                                        ^~~~~~
+   fs/xattr.c:1037:68: note: passing argument to parameter 'name' here
+    1037 | removexattr(struct mnt_idmap *idmap, struct dentry *d, const char *name)
+         |                                                                    ^
+>> fs/xattr.c:1097:2: error: use of undeclared identifier 'lookup_flags'
+    1097 |         lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
+         |         ^
+   fs/xattr.c:1098:45: error: use of undeclared identifier 'lookup_flags'
+    1098 |         return filename_removexattr(dfd, filename, lookup_flags, &kname);
+         |                                                    ^
+   2 warnings and 4 errors generated.
 
-    47	
-  > 48	void update_suspend_time(struct work_struct *work)
-    49	{
-    50		u64 suspend_ns, suspend_time_delta = 0;
-    51		struct timespec64 inject_time;
-    52		struct virtio_pvclock *vp;
-    53	
-    54		vp = container_of(work, struct virtio_pvclock,
-    55				  update_suspend_time_work);
-    56	
-    57		virtio_cread(vp->vdev, struct virtio_pvclock_config, suspend_time_ns,
-    58			     &suspend_ns);
-    59	
-    60		mutex_lock(&vp->inject_suspend_lock);
-    61		if (suspend_ns > vp->injected_suspend_ns) {
-    62			suspend_time_delta = suspend_ns - vp->injected_suspend_ns;
-    63			vp->injected_suspend_ns = suspend_ns;
-    64		}
-    65		mutex_unlock(&vp->inject_suspend_lock);
-    66	
-    67		if (suspend_time_delta == 0) {
-    68			dev_err(&vp->vdev->dev,
-    69				"%s: suspend_time_ns is less than injected_suspend_ns\n",
-    70				__func__);
-    71			return;
-    72		}
-    73	
-    74		inject_time = ns_to_timespec64(suspend_time_delta);
-    75	
-    76		timekeeping_inject_sleeptime64(&inject_time);
-    77	
-    78		dev_info(&vp->vdev->dev, "injected sleeptime: %llu ns\n",
-    79			 suspend_time_delta);
-    80	}
-    81	
+
+vim +971 fs/xattr.c
+
+   962	
+   963	static
+   964	ssize_t filename_listxattrat(int dfd, struct filename *filename,
+   965				     unsigned int lookup_flags,
+   966				     char __user *list, size_t size)
+   967	{
+   968		struct path path;
+   969		ssize_t error;
+   970	retry:
+ > 971		error = user_path_at(dfd, pathname, lookup_flags, &path);
+   972		if (error)
+   973			goto out;
+   974		error = listxattr(path.dentry, list, size);
+   975		path_put(&path);
+   976		if (retry_estale(error, lookup_flags)) {
+   977			lookup_flags |= LOOKUP_REVAL;
+   978			goto retry;
+   979		}
+   980	out:
+   981		putname(filename);
+   982		return error;
+   983	}
+   984	
+   985	static ssize_t path_listxattrat(int dfd, const char __user *pathname,
+   986					unsigned int at_flags, char __user *list,
+   987					size_t size)
+   988	{
+   989		struct filename *filename;
+   990		ssize_t error;
+   991		int lookup_flags;
+   992	
+   993		if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
+   994			return -EINVAL;
+   995	
+   996		filename = getname_xattr(pathname, at_flags);
+   997		if (!filename) {
+   998			CLASS(fd, f)(dfd);
+   999			if (fd_empty(f))
+  1000				return -EBADF;
+  1001			audit_file(fd_file(f));
+  1002			return listxattr(file_dentry(fd_file(f)), list, size);
+  1003		}
+  1004	
+  1005		lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
+  1006		return filename_listxattrat(dfd, filename, lookup_flags, list, size);
+  1007	}
+  1008	
+  1009	SYSCALL_DEFINE5(listxattrat, int, dfd, const char __user *, pathname,
+  1010			unsigned int, at_flags,
+  1011			char __user *, list, size_t, size)
+  1012	{
+  1013		return path_listxattrat(dfd, pathname, at_flags, list, size);
+  1014	}
+  1015	
+  1016	SYSCALL_DEFINE3(listxattr, const char __user *, pathname, char __user *, list,
+  1017			size_t, size)
+  1018	{
+  1019		return path_listxattrat(AT_FDCWD, pathname, 0, list, size);
+  1020	}
+  1021	
+  1022	SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
+  1023			size_t, size)
+  1024	{
+  1025		return path_listxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, list, size);
+  1026	}
+  1027	
+  1028	SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
+  1029	{
+  1030		return path_listxattrat(fd, NULL, AT_EMPTY_PATH, list, size);
+  1031	}
+  1032	
+  1033	/*
+  1034	 * Extended attribute REMOVE operations
+  1035	 */
+  1036	static long
+  1037	removexattr(struct mnt_idmap *idmap, struct dentry *d, const char *name)
+  1038	{
+  1039		if (is_posix_acl_xattr(name))
+  1040			return vfs_remove_acl(idmap, d, name);
+  1041		return vfs_removexattr(idmap, d, name);
+  1042	}
+  1043	
+  1044	static int filename_removexattr(int dfd, struct filename *filename,
+  1045					unsigned int lookup_flags, struct xattr_name *kname)
+  1046	{
+  1047		struct path path;
+  1048		int error;
+  1049	
+  1050	retry:
+  1051		error = filename_lookup(dfd, filename, lookup_flags, &path, NULL);
+  1052		if (error)
+  1053			goto out;
+  1054		error = mnt_want_write(path.mnt);
+  1055		if (!error) {
+  1056			error = removexattr(mnt_idmap(path.mnt), path.dentry, kname->name);
+  1057			mnt_drop_write(path.mnt);
+  1058		}
+  1059		path_put(&path);
+  1060		if (retry_estale(error, lookup_flags)) {
+  1061			lookup_flags |= LOOKUP_REVAL;
+  1062			goto retry;
+  1063		}
+  1064	out:
+  1065		putname(filename);
+  1066		return error;
+  1067	}
+  1068	
+  1069	static int path_removexattrat(int dfd, const char __user *pathname,
+  1070				      unsigned int at_flags, const char __user *name)
+  1071	{
+  1072		struct xattr_name kname;
+  1073		struct filename *filename;
+  1074		int error;
+  1075	
+  1076		if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
+  1077			return -EINVAL;
+  1078	
+  1079		error = import_xattr_name(&kname, name);
+  1080		if (error)
+  1081			return error;
+  1082	
+  1083		filename = getname_xattr(pathname, at_flags);
+  1084		if (!filename) {
+  1085			CLASS(fd, f)(dfd);
+  1086			if (fd_empty(f))
+  1087				return -EBADF;
+  1088			audit_file(fd_file(f));
+  1089			error = mnt_want_write_file(fd_file(f));
+  1090			if (!error) {
+  1091				error = removexattr(file_mnt_idmap(fd_file(f)),
+> 1092						    fd_file(f)->f_path.dentry, &kname);
+  1093				mnt_drop_write_file(fd_file(f));
+  1094			}
+  1095			return error;
+  1096		}
+> 1097		lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
+  1098		return filename_removexattr(dfd, filename, lookup_flags, &kname);
+  1099	}
+  1100	
 
 -- 
 0-DAY CI Kernel Test Service
