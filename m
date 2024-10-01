@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8830F1BFE1A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 12:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA7F1BE23E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 12:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727785286; cv=none; b=AnwtqVeMzrqvezf34vcGPJHfA3v4Yi41o2pFYTZ8SCohkbtqx/po/Us/5OGyaXuxcEsmJMC37vRiW5WRWBb1xTFA6IKIa2CvhDcApKb+3nqbVkd1tkwgxD0xuvSw2if5ZeVkR3/2Wkekq158RAigGwcYAJQ6KaswVp2toGKM5Ok=
+	t=1727785367; cv=none; b=Akr0k6iUXEr30zlmGqj9PEy1Mwp3BFZ2O3KUV8MLF7u7Zh7kiQ4IvttMM2o9RestaO+x/6BeF0qQFHd01BK+Ok4DdhhUlMiiEia99oCIIQANndMwDMEcpkWfxDVkKgvG/747keTedv0OAWKgYNi7KrRu81Cn9WcqXC2KW/35ikg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727785286; c=relaxed/simple;
-	bh=897I2CI/Q0TamkS/jTHigNxcNL4BebHiWhra+Xxc4E0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eRhm3nUhFKAagGjZnh1zDUyBx78yNwqe/56yT8wFiwEWybyyptymeLklGiMQIhL8p9yfCQMWJt0odCShSmo/6/nVp6cK40P9Gd32y09zzllGUbA5QXcnO91R8Z4UXmnGyyyUmNG8UW4LtL/zzv+cewRknlnTqoCbMVREHsR4hrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPY18zmD; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1727785367; c=relaxed/simple;
+	bh=80AXf86tLZ11As3rL+UrJDLPxI4wQBu08RoZpTl6TFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=opWn1JYzSUIbobRrp7cQm+g1BA0tHt8spylNGodlfl01oFkjrSsTmJlmuBS+xGRHJmYmXgT5nJkxXL2P3t25UAJHizJeQqhzYpTgnFaRvtOgMZn18BzEfpoa/ehPzrXTNl4FiUWvTh2vpaBUEcFDsBKOzZY+LNmQ1jgpoY+7pcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hR1YeTdo; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPY18zmD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hR1YeTdo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727785284; x=1759321284;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=897I2CI/Q0TamkS/jTHigNxcNL4BebHiWhra+Xxc4E0=;
-  b=EPY18zmDCUt/MHbhbFr3yK8yxHf05UzwKXqNaYTwF7IS/D0Szq1LVeoy
-   +JmvXT/Byo//LXe8lBnfUI1wetpJozowzxY5GPFCUTBece0LvjNxSI5MP
-   vGAmLti23yXOHXX+DScflBWYbLyPtboc4YOr5BkhH+ve2EPuBdW09d9mf
-   OHYGD+xabSTWM6XwpkoLfIB8wWXpzgyCQ7y1VUtZRiV209KmIIQtGPtRD
-   T07Ywu3Mm65FbwR+n9K3cthJGHpHNhA2Qi+uCtIgzyP4X7jZ2mMU2UkDT
-   dCLBRXl7AnvOMNHqbcMUbu9QdfdYSwRNKYRxwkJnaBUboClUuo3a3zb9a
-   w==;
-X-CSE-ConnectionGUID: MOoXZ/rBSba+xU4UYXS2GA==
-X-CSE-MsgGUID: rxds4DheSVegCY3e3+1i/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30709726"
+  t=1727785366; x=1759321366;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=80AXf86tLZ11As3rL+UrJDLPxI4wQBu08RoZpTl6TFA=;
+  b=hR1YeTdo4cT5lCkMmQRThBFm3tKQmvUDBVU8QBPO+vEKBUtvYVPpH5Ss
+   VcK9+kS2KXp7GvPKSAYnI0eJe72Jv2OMKzRZl4dCLwdIpxp+hgTXZi/XK
+   ig87Y9tJ1wKbjWTsx7cg3+TUlSXGbEhp147aTcRA9nFiPnPlaYl5OBPOv
+   ZctPV0OZw4Dyb3nrl8j3P0gkddrW8yoUU3ebkzm8EnL8rNtFV44yUHCRr
+   p+iy61P0mUK3A5nGBYuAT9C2iECuIyVX693Emu3ElUqBDWfNCfYyQ7mnd
+   cmoRMTiHWcPk4+LTLAHo1SXhq9elxUy0TEQHMtO5ZjCGAlYh1kdAb8f7E
+   Q==;
+X-CSE-ConnectionGUID: VXkU2wmGRwOMi4yIwP2EoQ==
+X-CSE-MsgGUID: aG/6HCwuTiSG77YxYDhCYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27009876"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="30709726"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:21:19 -0700
-X-CSE-ConnectionGUID: BT+wW7c/Ty6wNO/zQBznlA==
-X-CSE-MsgGUID: otFvHmFXS4y8KPH3NSESFQ==
+   d="scan'208";a="27009876"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:22:45 -0700
+X-CSE-ConnectionGUID: 6CIry5doQdyAAJeSJAyrmg==
+X-CSE-MsgGUID: frYXO8TFTo61fbbrpFCHZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="104480747"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Oct 2024 05:21:16 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svbsO-000Qfr-23;
-	Tue, 01 Oct 2024 12:21:12 +0000
-Date: Tue, 1 Oct 2024 20:20:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 17427/23811]
- drivers/gpio/.tmp_gpio-hisi.o: warning: objtool: missing symbol for section
- .init.text
-Message-ID: <202410012015.7DrvrSEM-lkp@intel.com>
+   d="scan'208";a="73264956"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:22:44 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1svbtp-0000000FBIw-2Xnx;
+	Tue, 01 Oct 2024 15:22:41 +0300
+Date: Tue, 1 Oct 2024 15:22:41 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com, oe-kbuild-all@lists.linux.dev,
+	bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] media: ipu6: remove redundant dependency in Kconfig
+Message-ID: <ZvvpkYunInRSgOUp@smile.fi.intel.com>
+References: <20240927021613.2158020-1-bingbu.cao@intel.com>
+ <202409280345.yuxEscvz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202409280345.yuxEscvz-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5c63bd0fa5e86474d30ecd06d67f2393de081434
-commit: f724c4effa231b88b4fd545803f9e7f122ad3efc [17427/23811] gpio: gpio-hisi: Add HiSilicon GPIO support
-config: x86_64-buildonly-randconfig-004-20240923 (https://download.01.org/0day-ci/archive/20241001/202410012015.7DrvrSEM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410012015.7DrvrSEM-lkp@intel.com/reproduce)
+On Sat, Sep 28, 2024 at 03:33:21AM +0800, kernel test robot wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410012015.7DrvrSEM-lkp@intel.com/
+...
 
-All warnings (new ones prefixed by >>):
+>    drivers/media/pci/intel/ipu6/ipu6.c: In function 'ipu6_pkg_dir_configure_spc':
+> >> drivers/media/pci/intel/ipu6/ipu6.c:250:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+>      250 |         prog = (struct ipu6_cell_program *)((u64)isp->cpd_fw->data + pg_offset);
+>          |                                             ^
+> >> drivers/media/pci/intel/ipu6/ipu6.c:250:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+>      250 |         prog = (struct ipu6_cell_program *)((u64)isp->cpd_fw->data + pg_offset);
+>          |                ^
 
->> drivers/gpio/.tmp_gpio-hisi.o: warning: objtool: missing symbol for section .init.text
+Yes, someone should become familiar with uintptr_t.
+
+> --
+
+>    drivers/media/pci/intel/ipu6/ipu6-cpd.c:48:33: note: in expansion of macro 'GENMASK'
+>       48 | #define PKG_DIR_TYPE_MASK       GENMASK(54, 48)
+
+Somebody should learn about _ULL() variants of BIT() and GENMASK()
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
