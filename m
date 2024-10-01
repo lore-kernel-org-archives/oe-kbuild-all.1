@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B76193406
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 02:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB36BA37;
+	Tue,  1 Oct 2024 03:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727750752; cv=none; b=aMHiiYaPnQa9RsVcBJnkRI8izFFsx0yKetQplV8WzT5awsqlpSSN1fD/2PAYz0fP+NjrC6JNmCGPusYGqPb9o+vYTPVu7C/yZ0eeZFbaqx+V0JtVlaAoHb2pmKJjlNkTyW0JQ0D2WBMCWsqVI09auEeuKT9pZpYY32QZe/1G6do=
+	t=1727751954; cv=none; b=GMSvp+sBWLPmvsu3vNkOf4TA/7L/iCC1t6ebdSKtNq4TyExvmbJFsBHpqweXtrlSTUW+qV2HDbD3wIzaT7pLaMB/84DHx7S7T6rmrCnjzDR8ZmOjupeTFb/Zf1uVhU31YDF9Ea2Jua87PBlTSkHXpGPCeCHdNmv9XrG49nbZHeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727750752; c=relaxed/simple;
-	bh=BJR+W/pGAzmuSyQ/j7X4Md5v3M4kghyHW8LBkY6zdK8=;
+	s=arc-20240116; t=1727751954; c=relaxed/simple;
+	bh=irPUzE0q3LMoztClPUKr1FGEat0NuPzhHFsvqqzyfBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MndMQ1AuKs8zCAA+jhxPSWll+WMW+IRHyyoMK/FKOLfj3CW5aWv1mFtM4DlET/IwTg1xPNehC0y3g+c5HxcSZfAU/ff72fyLJk5jltVxDQXHP3WvOqJv7oYOOqPCoKAgXCcPENWzReG0QGF6YsdPZiGvRq+66brgBu0yvCcerWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmQ5THPI; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=FNoKmDrB82XNO4uM3hq2EnOo41c8Kstzfz6PPYafMoxwMa4S+swDHboTv5Kb7JQxaVDSq246bO8+j0IiqyXI7zo9dRDoh5Bycmc47Ntg+CynmXNUvx49Xqe/HLOA8sJIHBT+xTnJPN+pkOXEXbn35xiTCBVNc6HRfZZrZbVzmBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LamGV30P; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmQ5THPI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LamGV30P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727750751; x=1759286751;
+  t=1727751953; x=1759287953;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BJR+W/pGAzmuSyQ/j7X4Md5v3M4kghyHW8LBkY6zdK8=;
-  b=NmQ5THPI7iea+Dvksa7W6TZ60yUndIgzC7DxSngPBrab6erkaIhmN3vP
-   PqzR0IPvcui8tSzpdJACr7aQAHHUuV6tyUKhdywmeGLsVoCNrY4WhZcRQ
-   YzdT5yTKQ2OD7UANpe3qyOTWTV/MSsVNvTAkjByHgGcZ4gnGjzJbM05/E
-   ipeFF+xOWldCSjHbHsqlmvtfQhf4NtfP+1IBSxdqCQLdF3T/6Ri3mK5X5
-   VyKzSq9oGXxARtElb8EQQl99cjU8NITRflpUKZ5pRy9whpngA9n1mYPJl
-   oOvU0gsBtN4VPba7hpFLIYRXP0wuXdm/AKIIPM9qeaQbK6lEtCG5iiH5K
-   Q==;
-X-CSE-ConnectionGUID: Oyks3iPeQV2Mm03jtno9Eg==
-X-CSE-MsgGUID: bHRQdlq6RTCbOI81jfjgsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="38006113"
+  bh=irPUzE0q3LMoztClPUKr1FGEat0NuPzhHFsvqqzyfBA=;
+  b=LamGV30PvhLe+GIz5drnCEJzdkzZV1/aN+ZBc9Pm7KvjRhWH0vQEYYKZ
+   nV+Ka5gDfNUTT38vyw9r4TNzyfBvLfnC3vI2hX8BwCZxYo6ABGCVS8e1q
+   0ONbXelzxcKAjn3wFo7QbN88Fsr+3TszYeOJBqJK/aRX1KEKeCr2e0Rz9
+   N3/nZHsb9dr8HrAjhFYajfOWMDxx0CK2Jp9HDDu34sI+Nv01rCqRf6KlM
+   kvZEEAnjcXquulf5rKGrB0EW2EPTpaKgJrB91Bc83Y+sMgWdVyMOxpnxc
+   Jh2E5tpDs2Qkp4xWBYpIG957GPZO89cwHZ8lrxjXieN4uvqiqPmt67t9d
+   g==;
+X-CSE-ConnectionGUID: /FR0NixATeaZaRL3K1hCKQ==
+X-CSE-MsgGUID: QSCVMLE0S1+xg9fhBricyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26323574"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="38006113"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 19:45:50 -0700
-X-CSE-ConnectionGUID: B8BylABdR3S+ahQ9uSSLGw==
-X-CSE-MsgGUID: f74OkecAQgi7LYczld86mw==
+   d="scan'208";a="26323574"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 20:05:51 -0700
+X-CSE-ConnectionGUID: m1HjSWqcQx233YTGxemSFw==
+X-CSE-MsgGUID: RlJkglm2TKe4eRVyXvZg3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="104285922"
+   d="scan'208";a="77579063"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Sep 2024 19:45:48 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 30 Sep 2024 20:05:50 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svStW-000QAh-1Q;
-	Tue, 01 Oct 2024 02:45:46 +0000
-Date: Tue, 1 Oct 2024 10:45:13 +0800
+	id 1svTCu-000QBZ-0b;
+	Tue, 01 Oct 2024 03:05:48 +0000
+Date: Tue, 1 Oct 2024 11:05:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:execmem/x86-rox/v4 5/8] include/linux/set_memory.h:38:1:
- error: expected identifier or '('
-Message-ID: <202410011059.ANTXhRCQ-lkp@intel.com>
+To: Shuming Fan <shumingf@realtek.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:filekCZcLQ 7/13] sound/soc/codecs/rt1320-sdw.c:564:14:
+ warning: result of comparison of constant 4295491583 with expression of type
+ 'unsigned int' is always false
+Message-ID: <202410011159.InLKFd40-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +64,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/x86-rox/v4
-head:   c90f89d40fd21ce040b5cf1485ec6913d1b4ea5d
-commit: 394ca992d5179367add42d631858f72a3bf4870d [5/8] arch: introduce set_direct_map_valid_noflush()
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20241001/202410011059.ANTXhRCQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011059.ANTXhRCQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git filekCZcLQ
+head:   4649cbd97fdae5069e9a71cd7669b62b90e03669
+commit: d72498fad93abf1817c4998d172a3d7f98f76bbe [7/13] ASoC: rt1320: reads patch code from firmware file
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241001/202410011159.InLKFd40-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011159.InLKFd40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410011059.ANTXhRCQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410011159.InLKFd40-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/vmalloc.c:12:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/vmalloc.c:21:
->> include/linux/set_memory.h:38:1: error: expected identifier or '('
-      38 | {
-         | ^
-   In file included from mm/vmalloc.c:50:
-   In file included from mm/internal.h:13:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   6 warnings and 1 error generated.
+>> sound/soc/codecs/rt1320-sdw.c:564:14: warning: result of comparison of constant 4295491583 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+     564 |                                 if (addr > 0x10007ffff || addr < 0x10007000) {
+         |                                     ~~~~ ^ ~~~~~~~~~~~
+   1 warning generated.
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for MODVERSIONS
@@ -117,14 +90,61 @@ Kconfig warnings: (for reference only)
    - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
 
-vim +38 include/linux/set_memory.h
+vim +564 sound/soc/codecs/rt1320-sdw.c
 
-    36	
-    37	int set_direct_map_valid_noflush(struct page *page, unsigned nr, bool valid);
-  > 38	{
-    39		return 0;
-    40	}
-    41	
+   527	
+   528	/*
+   529	 * The 'patch code' is written to the patch code area.
+   530	 * The patch code area is used for SDCA register expansion flexibility.
+   531	 */
+   532	static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+   533	{
+   534		struct sdw_slave *slave = rt1320->sdw_slave;
+   535		const struct firmware *patch;
+   536		const char *filename;
+   537		unsigned int addr, val;
+   538		const unsigned char *ptr;
+   539		int ret, i;
+   540	
+   541		if (rt1320->version_id <= RT1320_VB)
+   542			filename = RT1320_VAB_MCU_PATCH;
+   543		else
+   544			filename = RT1320_VC_MCU_PATCH;
+   545	
+   546		/* load the patch code here */
+   547		ret = request_firmware(&patch, filename, &slave->dev);
+   548		if (ret) {
+   549			dev_err(&slave->dev, "%s: Failed to load %s firmware", __func__, filename);
+   550			regmap_write(rt1320->regmap, 0xc598, 0x00);
+   551			regmap_write(rt1320->regmap, 0x10007000, 0x67);
+   552			regmap_write(rt1320->regmap, 0x10007001, 0x80);
+   553			regmap_write(rt1320->regmap, 0x10007002, 0x00);
+   554			regmap_write(rt1320->regmap, 0x10007003, 0x00);
+   555		} else {
+   556			ptr = (const unsigned char *)patch->data;
+   557			if ((patch->size % 8) == 0) {
+   558				for (i = 0; i < patch->size; i += 8) {
+   559					addr = (ptr[i] & 0xff) | (ptr[i + 1] & 0xff) << 8 |
+   560						(ptr[i + 2] & 0xff) << 16 | (ptr[i + 3] & 0xff) << 24;
+   561					val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
+   562						(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
+   563	
+ > 564					if (addr > 0x10007ffff || addr < 0x10007000) {
+   565						dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
+   566						goto _exit_;
+   567					}
+   568					if (val > 0xff) {
+   569						dev_err(&slave->dev, "%s: the value 0x%x is wrong", __func__, val);
+   570						goto _exit_;
+   571					}
+   572					regmap_write(rt1320->regmap, addr, val);
+   573				}
+   574			}
+   575	_exit_:
+   576			release_firmware(patch);
+   577		}
+   578	}
+   579	
 
 -- 
 0-DAY CI Kernel Test Service
