@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1014A07
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 00:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AED4A21
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 01:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727743911; cv=none; b=tE59/1lftW+7ELYbAJ2cb8OYQCxZ4y8rRNhtvBjxOhySGcVA0SkOg4zTROLRKR/b+/XZ7xYqTPd7HNHUbuPmAs7+7L4OAzX9S3mXj3OgalUyogEXhEbWch7qExb31lvNkab2PwomG1x0z4m6wtCrTDjOh6KLzLFe0K3HNrGE6JQ=
+	t=1727745174; cv=none; b=jyaveYMGn2KY9M9Jo/fjYh4ZIOWYSF4EafN6cYwuBf6M7DgTpo0T5O0DLRyoFaFq9msMVTRe8EZWsiCY3CH6mFnVWpQ7yYBDnjcBpMEy04+xVTqYeigPAUZP5Wgp3Iar/jYu6c3EnH9MaPLK69vnHVmmDuaY0tG8MGHyHhE9dL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727743911; c=relaxed/simple;
-	bh=3z1iSMUCmwPLw13FkO5csti1w+PjTt3U3gYH1Iv+1kY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XI1CPlYa+19WH7AYyNvIrW9cyjxZ4TxS9Fl43AREqAzssGs5usGtSEOsJAmLFN8woHPj/lJrEmiK/b8Q4KzMZMp9IKAI7w8fgpbhBJ5WibaJRNUqLa9p/cRn1PoK3OktRoH8B+c1eTW1MfFTomctL+o1sVB7CKQHHbzLiPiXwrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eujZtTMS; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1727745174; c=relaxed/simple;
+	bh=eMWW+QOibMB9OCanGisHscEcQAO7Efgubx5gtH2ej6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SdsK1Wg4j1AtEzQFjL08ZJ3CgRCIs9Yijrn0DAnL6BnslfPzfr/5DsT5SDvugEpCijVC8hpMZAbiuxqswrKlsxBtQ9CvkgYbjQN3eaay07meE9hGzJXVjH1b7gRo69ouOVDT0wsstQBBNHvgSYSRzVl4E2PGBr+NdWe7lG294eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TN7s0qYh; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eujZtTMS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TN7s0qYh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727743909; x=1759279909;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3z1iSMUCmwPLw13FkO5csti1w+PjTt3U3gYH1Iv+1kY=;
-  b=eujZtTMSOm+AvTX5kUfCQpi1qk8ySmPwP/cPmYTpFXoP1pkxlOspYx16
-   jFx+bmUdgjKw3nRPlJf1jrLxEiF8C5DQMoBwKcUgBdMK4XsMi1FGNKeR+
-   Fo6nN7kZB8h8DjiNjHkvxnD/xcxBiLYsc9+SN53LmznGgQGsp6iiQtFKa
-   rt11hhEJomxiPGyJqaCksQYaBn8Dlymj3dHrqbNyLcT0IwGkvrj8ZbXH/
-   mOLfLqGhnWXIqj+Rre/L39Y2yWGC1UCnbsa6MW/BpamlD05hH2WflHXHM
-   9OL5zApf2ZfJhdOhNYStVguglXTer/c5lAdh5VYhyC+5G9OLzweKdiFTE
+  t=1727745172; x=1759281172;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eMWW+QOibMB9OCanGisHscEcQAO7Efgubx5gtH2ej6Q=;
+  b=TN7s0qYhVjSoNEESRc0FbUXdwk1EIiyhcyDUE0UxQwumCfnsT48prWGN
+   jDN+h1XXigx3zbW69PKV1r2IHSbzh4Y8hIO00SkES962o8xKouD4GRVsi
+   j9hbp225ADRsJ9MamQKHN69Yv5f/VK/ZiBJXFmbDMpgKgI/JFULH3gyXr
+   z4rR/8JGG8gFmlbJyLZri5QGtHG3G1M+pRbQD8QATQ+41fBRzl3+QEBOj
+   OurSPgt3ue/ikE5JtffPIkGJhpKW+v3O7nHsBppnBkL/kdoDxXnOz651x
+   dVBHx6nLxsIi4JJDiTXfcOLHElpcWkudk+6vnNmMDVr3v0zXC/Z5xk8A0
    A==;
-X-CSE-ConnectionGUID: ej5H9xDUSUK1VL5E/fK5Ag==
-X-CSE-MsgGUID: 7x9PZ7vSQKiSbESJ5o581g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="52271143"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="52271143"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 17:51:47 -0700
-X-CSE-ConnectionGUID: +hXG5Ng8RlGUJtNmqrKS/g==
-X-CSE-MsgGUID: PHrhXhJGR3WNJ1Kfoec6Gg==
+X-CSE-ConnectionGUID: lxnzR7VnSO+iLBXj5tvdzQ==
+X-CSE-MsgGUID: 7c8/lv3bRZuPdUMl7Eynow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="37532363"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="37532363"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 18:12:49 -0700
+X-CSE-ConnectionGUID: iaM572qxSbmn80zA5QnYtA==
+X-CSE-MsgGUID: IDsAevbUS5mqEhDi40mR6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="73443716"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="74261048"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Sep 2024 17:51:46 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Sep 2024 18:12:46 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svR79-000Q69-1v;
-	Tue, 01 Oct 2024 00:51:43 +0000
-Date: Tue, 1 Oct 2024 08:51:29 +0800
+	id 1svRRT-000Q6n-39;
+	Tue, 01 Oct 2024 01:12:43 +0000
+Date: Tue, 1 Oct 2024 09:11:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
+To: Johannes Thumshirn <jth@kernel.org>,
+	Chris Mason <chris.mason@fusionio.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Filipe Manana <fdmanana@suse.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 29994/30000] kernel/sched/core.c:9822:6:
- warning: no previous prototype for function 'sched_setsteal'
-Message-ID: <202410010853.HQUsJtSO-lkp@intel.com>
+Subject: Re: [PATCH] btrfs: tests: add selftests for RAID stripe-tree
+Message-ID: <202410010831.9lOBKwBS-lkp@intel.com>
+References: <20240930104054.12290-1-jth@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,125 +68,202 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240930104054.12290-1-jth@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   084a6771cfb3ef307b750af8b7c35a07a725fc4c
-commit: b7772972a0a76efac27078392f3f706914fe2af7 [29994/30000] sched/core: Add cpu.steal_task in cgroup v1 cpu subsystem
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241001/202410010853.HQUsJtSO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410010853.HQUsJtSO-lkp@intel.com/reproduce)
+Hi Johannes,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.12-rc1 next-20240930]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/btrfs-tests-add-selftests-for-RAID-stripe-tree/20240930-184234
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240930104054.12290-1-jth%40kernel.org
+patch subject: [PATCH] btrfs: tests: add selftests for RAID stripe-tree
+config: x86_64-randconfig-122-20241001 (https://download.01.org/0day-ci/archive/20241001/202410010831.9lOBKwBS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410010831.9lOBKwBS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410010853.HQUsJtSO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410010831.9lOBKwBS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/btrfs/print-tree.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/print-tree.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/root-tree.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/extent-tree.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/extent-tree.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/extent-tree.c:1829:9: sparse: sparse: context imbalance in 'run_and_cleanup_extent_op' - unexpected unlock
+   fs/btrfs/extent-tree.c:1893:28: sparse: sparse: context imbalance in 'cleanup_ref_head' - unexpected unlock
+   fs/btrfs/extent-tree.c:1972:36: sparse: sparse: context imbalance in 'btrfs_run_delayed_refs_for_head' - unexpected unlock
+   fs/btrfs/extent-tree.c:2041:21: sparse: sparse: context imbalance in '__btrfs_run_delayed_refs' - wrong count at exit
+--
+   fs/btrfs/ctree.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/ctree.c:260:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/btrfs/ctree.c:260:22: sparse:    struct extent_buffer [noderef] __rcu *
+   fs/btrfs/ctree.c:260:22: sparse:    struct extent_buffer *
+   fs/btrfs/ctree.c:620:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/btrfs/ctree.c:620:17: sparse:    struct extent_buffer [noderef] __rcu *
+   fs/btrfs/ctree.c:620:17: sparse:    struct extent_buffer *
+   fs/btrfs/ctree.c:981:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/btrfs/ctree.c:981:17: sparse:    struct extent_buffer [noderef] __rcu *
+   fs/btrfs/ctree.c:981:17: sparse:    struct extent_buffer *
+   fs/btrfs/ctree.c:2910:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/btrfs/ctree.c:2910:9: sparse:    struct extent_buffer [noderef] __rcu *
+   fs/btrfs/ctree.c:2910:9: sparse:    struct extent_buffer *
+--
+   fs/btrfs/inode-item.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/super.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/super.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/btrfs.h):
+   include/trace/events/btrfs.h:2394:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] opf @@     got restricted blk_opf_t enum req_op @@
+   include/trace/events/btrfs.h:2394:1: sparse:     expected unsigned char [usertype] opf
+   include/trace/events/btrfs.h:2394:1: sparse:     got restricted blk_opf_t enum req_op
+   fs/btrfs/super.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, include/trace/events/btrfs.h):
+   include/trace/events/btrfs.h:2394:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] opf @@     got restricted blk_opf_t enum req_op @@
+   include/trace/events/btrfs.h:2394:1: sparse:     expected unsigned char [usertype] opf
+   include/trace/events/btrfs.h:2394:1: sparse:     got restricted blk_opf_t enum req_op
+--
+   fs/btrfs/transaction.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/transaction.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h, fs/btrfs/accessors.h, fs/btrfs/ctree.h):
+   include/asm-generic/unaligned.h:37:16: sparse: sparse: self-comparison always evaluates to true
+--
+   fs/btrfs/sysfs.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/sysfs.c:662:9: sparse: sparse: context imbalance in 'btrfs_show_u64' - different lock contexts for basic block
+--
+   fs/btrfs/disk-io.c: note: in included file (through fs/btrfs/raid56.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/inode.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/inode.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/inode.c: note: in included file (through arch/x86/include/asm/processor.h, arch/x86/include/asm/cpufeature.h, arch/x86/include/asm/thread_info.h, ...):
+   include/linux/err.h:41:17: sparse: sparse: self-comparison always evaluates to false
+--
+   fs/btrfs/extent_io.c: note: in included file (through fs/btrfs/zoned.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/extent_io.c:2465:13: sparse: sparse: context imbalance in 'detach_extent_buffer_folio' - different lock contexts for basic block
+--
+   fs/btrfs/ioctl.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/ioctl.c:434:6: sparse: sparse: context imbalance in 'btrfs_exclop_start_try_lock' - wrong count at exit
+   fs/btrfs/ioctl.c:447:6: sparse: sparse: context imbalance in 'btrfs_exclop_start_unlock' - unexpected unlock
+--
+   fs/btrfs/volumes.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/volumes.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/volumes.c:405:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
+   fs/btrfs/volumes.c:405:31: sparse:     expected struct rcu_string *str
+   fs/btrfs/volumes.c:405:31: sparse:     got struct rcu_string [noderef] __rcu *name
+   fs/btrfs/volumes.c:659:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:659:43: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:659:43: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:855:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:855:50: sparse:     expected char const *
+   fs/btrfs/volumes.c:855:50: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:928:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
+   fs/btrfs/volumes.c:928:39: sparse:     expected struct rcu_string *str
+   fs/btrfs/volumes.c:928:39: sparse:     got struct rcu_string [noderef] __rcu *name
+   fs/btrfs/volumes.c:978:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char const *dev_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:978:34: sparse:     expected char const *dev_path
+   fs/btrfs/volumes.c:978:34: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:1352:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:1352:42: sparse:     expected char const *
+   fs/btrfs/volumes.c:1352:42: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:2113:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:2113:31: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:2113:31: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:1505:29: sparse: sparse: self-comparison always evaluates to false
+--
+   fs/btrfs/free-space-cache.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/free-space-cache.c:1144:9: sparse: sparse: context imbalance in 'write_cache_extent_entries' - different lock contexts for basic block
+   fs/btrfs/free-space-cache.c:2398:28: sparse: sparse: context imbalance in 'insert_into_bitmap' - unexpected unlock
+--
+   fs/btrfs/delayed-ref.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/tree-log.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/delayed-inode.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/props.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/dev-replace.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/scrub.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/scrub.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/block-rsv.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/tree-checker.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/space-info.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/delalloc-space.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/raid56.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/raid-stripe-tree.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/raid-stripe-tree.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/direct-io.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/relocation.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/relocation.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/bio.c: note: in included file:
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+   fs/btrfs/bio.c: note: in included file:
+>> fs/btrfs/raid-stripe-tree.h:31:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
+--
+   fs/btrfs/block-group.c: note: in included file (through fs/btrfs/space-info.h):
+>> fs/btrfs/volumes.h:837:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_BTRFS_FS_RUN_SANITY_TESTS'
 
-   In file included from kernel/sched/core.c:13:
-   kernel/sched/sched.h:1863:15: warning: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Wcast-function-type-strict]
-    1863 |         head->func = (void (*)(struct callback_head *))func;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:2750:6: warning: no previous prototype for function 'sched_set_stop_task' [-Wmissing-prototypes]
-    2750 | void sched_set_stop_task(int cpu, struct task_struct *stop)
-         |      ^
-   kernel/sched/core.c:2750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2750 | void sched_set_stop_task(int cpu, struct task_struct *stop)
-         | ^
-         | static 
-   kernel/sched/core.c:4126:10: warning: cast from 'void (*)(struct callback_head *)' to 'void (*)(struct rq *)' converts to incompatible function type [-Wcast-function-type-strict]
-    4126 |                 func = (void (*)(struct rq *))head->func;
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:9598:5: warning: no previous prototype for function 'tg_set_dynamic_affinity_mode' [-Wmissing-prototypes]
-    9598 | int tg_set_dynamic_affinity_mode(struct task_group *tg, u64 mode)
-         |     ^
-   kernel/sched/core.c:9598:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    9598 | int tg_set_dynamic_affinity_mode(struct task_group *tg, u64 mode)
-         | ^
-         | static 
-   kernel/sched/core.c:9634:5: warning: no previous prototype for function 'tg_set_affinity_period' [-Wmissing-prototypes]
-    9634 | int tg_set_affinity_period(struct task_group *tg, u64 period_ms)
-         |     ^
-   kernel/sched/core.c:9634:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    9634 | int tg_set_affinity_period(struct task_group *tg, u64 period_ms)
-         | ^
-         | static 
-   kernel/sched/core.c:9648:5: warning: no previous prototype for function 'tg_get_affinity_period' [-Wmissing-prototypes]
-    9648 | u64 tg_get_affinity_period(struct task_group *tg)
-         |     ^
-   kernel/sched/core.c:9648:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    9648 | u64 tg_get_affinity_period(struct task_group *tg)
-         | ^
-         | static 
->> kernel/sched/core.c:9822:6: warning: no previous prototype for function 'sched_setsteal' [-Wmissing-prototypes]
-    9822 | void sched_setsteal(struct task_struct *tsk, s64 steal_task)
-         |      ^
-   kernel/sched/core.c:9822:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    9822 | void sched_setsteal(struct task_struct *tsk, s64 steal_task)
-         | ^
-         | static 
->> kernel/sched/core.c:9854:5: warning: no previous prototype for function 'tg_change_steal' [-Wmissing-prototypes]
-    9854 | int tg_change_steal(struct task_group *tg, void *data)
-         |     ^
-   kernel/sched/core.c:9854:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    9854 | int tg_change_steal(struct task_group *tg, void *data)
-         | ^
-         | static 
-   8 warnings generated.
+vim +/CONFIG_BTRFS_FS_RUN_SANITY_TESTS +837 fs/btrfs/volumes.h
 
-
-vim +/sched_setsteal +9822 kernel/sched/core.c
-
-  9821	
-> 9822	void sched_setsteal(struct task_struct *tsk, s64 steal_task)
-  9823	{
-  9824		struct sched_entity *se = &tsk->se;
-  9825		int queued, running, queue_flags =
-  9826				DEQUEUE_SAVE | DEQUEUE_MOVE | DEQUEUE_NOCLOCK;
-  9827		struct rq_flags rf;
-  9828		struct rq *rq;
-  9829	
-  9830		if (se->steal_task == steal_task)
-  9831			return;
-  9832	
-  9833		rq = task_rq_lock(tsk, &rf);
-  9834	
-  9835		running = task_current(rq, tsk);
-  9836		queued = task_on_rq_queued(tsk);
-  9837	
-  9838		update_rq_clock(rq);
-  9839		if (queued)
-  9840			dequeue_task(rq, tsk, queue_flags);
-  9841		if (running)
-  9842			put_prev_task(rq, tsk);
-  9843	
-  9844		se->steal_task = steal_task;
-  9845	
-  9846		if (queued)
-  9847			enqueue_task(rq, tsk, queue_flags);
-  9848		if (running)
-  9849			set_next_task(rq, tsk);
-  9850	
-  9851		task_rq_unlock(rq, tsk, &rf);
-  9852	}
-  9853	
-> 9854	int tg_change_steal(struct task_group *tg, void *data)
-  9855	{
-  9856		struct css_task_iter it;
-  9857		struct task_struct *tsk;
-  9858		s64 steal_task = *(s64 *)data;
-  9859		struct cgroup_subsys_state *css = &tg->css;
-  9860	
-  9861		tg->steal_task = steal_task;
-  9862	
-  9863		css_task_iter_start(css, 0, &it);
-  9864		while ((tsk = css_task_iter_next(&it)))
-  9865			sched_setsteal(tsk, steal_task);
-  9866		css_task_iter_end(&it);
-  9867	
-  9868		return 0;
-  9869	}
-  9870	
+   836	
+ > 837	#if CONFIG_BTRFS_FS_RUN_SANITY_TESTS
+   838	struct btrfs_io_context *alloc_btrfs_io_context(struct btrfs_fs_info *fs_info,
+   839							u64 logical, u16 total_stripes);
+   840	#endif
+   841	
 
 -- 
 0-DAY CI Kernel Test Service
