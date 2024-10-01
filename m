@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E2E1B5EA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 04:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223311B86FF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 04:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727756939; cv=none; b=UyT4tgyaCJmPG9AfSSs9+Wq5+LgqtlyazYCgq5i3h/cR1o7rZRdqTADNw8jS3z+orRw3c27Pix7JRWaIPIph3tTQbE85dg1UVc+Ez8n8hrNMK8PWwuHlKHj5MJEEzNk2ZQ+EIBsl7cjC2vcBzKm9ZDkAt8E+shO7/TAFqeSyQfY=
+	t=1727757536; cv=none; b=NFQGBd4nIFDinYK+pRAWrnbhn/35+wJOH5+WGQWZPBymCZwoa+FQIAkTU2N64R0pJrXMzogLAFybyXMxoTMlujOJpijolWNQUoZf20MrEBl3GFJVwEbdgxc+G5t2RwUYh1JKeBF9cPE2YGrlhu5xZ43n6g7iPLGsp83GgowaeDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727756939; c=relaxed/simple;
-	bh=SHJu6JkJy+sC4voXU/6ZBpQ9ICttzKY9O2x0/+V4MhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gLGqQnj2IvNV7Q0ctwzKuj9kWuZq3rNTE3uro17HDunGvrO0Fk1+CIFLg+wPPVd/ubSzTq8mt9IfiMVSEVNxEIc1Pn5P7p/Ow+t5Jhn7xRz6DqaQqOyJiDc25ci5WiPY/vQSaCJw9YxjV/sc31bTQCNYRwNHO/cY9IXPrQGM1pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDWh5E8h; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1727757536; c=relaxed/simple;
+	bh=6O+OIN1oh5nc8RVG9Djr41kGfFIXH7+jXn7Hilb0sXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XzIMBV23Zrm+/1OmJdQx7SNsrtBNuA5nY7/3C9I03pQduY5zBl/TdotOd4PWh4esLvGbQGiH0jgRjLo5CBJePpSScCgMjz3yaD3FSII3VKNsPBW+8faWpLrPc8xVLVGY6dUWJMFeUWtio9oCinkTbaOd1rH+Db+a3IU8H3RQ0wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e+thIzgb; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDWh5E8h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e+thIzgb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727756938; x=1759292938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SHJu6JkJy+sC4voXU/6ZBpQ9ICttzKY9O2x0/+V4MhM=;
-  b=BDWh5E8hCU/AWVRKM5lxxlegf3hPcbi269klhlYmnrSCSkU/xkc/co3q
-   5xMrwQLAYEEhohB3qm6TrEpIwS/FFy6clY2uEC3LiL/p7cfPO00CIGPP2
-   8dHba7GbJdY3HeBdH4ZpLCqQiwgh0aWcGp0trr6Na1nHkFnchfqCJxY1L
-   vwnrMMIepCYi5bqhFbpECYbXHl55GB6qOxJwiFqQBBGjCVSsFlB0ClNgQ
-   5pMMrkzdcmN+zJ4nFkFfIemuG08xygJJsGyP5xoIi/7dpXvHrDrB5NlZz
-   dkbIyBdWzi0xqq4CQRGPPT/UxgLUlkHII1EQwsko5sJIfBiT3TeOzUO4d
-   g==;
-X-CSE-ConnectionGUID: S8b356Z1RA6ZCLeKqcIijg==
-X-CSE-MsgGUID: 5oXGp1CASoG9jD/RI0c/fQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26966089"
+  t=1727757535; x=1759293535;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6O+OIN1oh5nc8RVG9Djr41kGfFIXH7+jXn7Hilb0sXg=;
+  b=e+thIzgbdZlKG+NwBlk4ydGsiS1Vq9xaprdwbx+gHIRhYjJXqxHRt7lz
+   Tflg6iS/ptONhUwpJ2vJKbJxJjppJNqVuA/9E8CuV3h6jaPKsPOk27j1/
+   ucxonAlf55bM6kXswVqQayQ/ku38veBHph9FRPe8h7uRlKExSRc4LpQiv
+   3jbt2oq7CA3k1AVyC2m/NvztS903UIfjfITvFYuG8n6DqlKCyXHI/A3Pn
+   brEzIX0c6UmCC7TORCz6i2AmYPZPMksu7mR0XtOkP8U+ZYFuJmNLeer/C
+   2ENHujbJpwzZSB5joGIdV2KHLQsFZNmHqISDYneymJLFh86O+7XWvqS9r
+   A==;
+X-CSE-ConnectionGUID: 7BLTLUQCTQS5PDNDyAXuYA==
+X-CSE-MsgGUID: s9YgKEleQS25ohocB8WbYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="27045971"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="26966089"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 21:28:57 -0700
-X-CSE-ConnectionGUID: HwnQEFVlR3K4MvQHkJI6Yg==
-X-CSE-MsgGUID: vm3x0LTdQjW3AuEXtqF9NA==
+   d="scan'208";a="27045971"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 21:38:54 -0700
+X-CSE-ConnectionGUID: f6HEEzblSQyUKwGRSNQybQ==
+X-CSE-MsgGUID: uUm4RYoqSWeSXhcRCjaFfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="104347815"
+   d="scan'208";a="73831082"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Sep 2024 21:28:53 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 Sep 2024 21:38:54 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svUVG-000QEb-20;
-	Tue, 01 Oct 2024 04:28:50 +0000
-Date: Tue, 1 Oct 2024 12:28:10 +0800
+	id 1svUew-000QEr-2P;
+	Tue, 01 Oct 2024 04:38:50 +0000
+Date: Tue, 1 Oct 2024 12:38:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anastasia Belova <abelova@astralinux.ru>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Anastasia Belova <abelova@astralinux.ru>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3] drm/meson: switch to a managed drm device
-Message-ID: <202410011034.NTOKwoXq-lkp@intel.com>
-References: <20240930082640.129543-1-abelova@astralinux.ru>
+To: Kamlesh Gurudasani <kamlesh@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 107/137] kismet: WARNING: unmet direct
+ dependencies detected for CRYPTO_CRC64_ISO3309 when selected by
+ CRYPTO_DEV_TI_MCRC64
+Message-ID: <202410011217.9J6iAtPi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,210 +63,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240930082640.129543-1-abelova@astralinux.ru>
 
-Hi Anastasia,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.12-rc1 next-20240930]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anastasia-Belova/drm-meson-switch-to-a-managed-drm-device/20240930-162755
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240930082640.129543-1-abelova%40astralinux.ru
-patch subject: [PATCH v3] drm/meson: switch to a managed drm device
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241001/202410011034.NTOKwoXq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011034.NTOKwoXq-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   7866eaeb3c1ddb52b976c3e4140cdfbba28a74f3
+commit: 2af1725d4bd6b8b24a1a2b47e1de27949d1cee9b [107/137] crypto: ti - add driver for MCRC64 engine
+config: openrisc-kismet-CONFIG_CRYPTO_CRC64_ISO3309-CONFIG_CRYPTO_DEV_TI_MCRC64-0-0 (https://download.01.org/0day-ci/archive/20241001/202410011217.9J6iAtPi-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241001/202410011217.9J6iAtPi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410011034.NTOKwoXq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410011217.9J6iAtPi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/meson/meson_viu.c:14:
->> drivers/gpu/drm/meson/meson_drv.h:56:27: error: field 'drm' has incomplete type
-      56 |         struct drm_device drm;
-         |                           ^~~
---
-   drivers/gpu/drm/meson/meson_encoder_hdmi.c: In function 'meson_encoder_hdmi_probe':
->> drivers/gpu/drm/meson/meson_encoder_hdmi.c:405:43: error: incompatible type for argument 1 of 'drm_simple_encoder_init'
-     405 |         ret = drm_simple_encoder_init(priv->drm, &meson_encoder_hdmi->encoder,
-         |                                       ~~~~^~~~~
-         |                                           |
-         |                                           struct drm_device
-   In file included from drivers/gpu/drm/meson/meson_encoder_hdmi.c:27:
-   include/drm/drm_simple_kms_helper.h:261:48: note: expected 'struct drm_device *' but argument is of type 'struct drm_device'
-     261 | int drm_simple_encoder_init(struct drm_device *dev,
-         |                             ~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/meson/meson_encoder_hdmi.c:423:71: error: incompatible type for argument 1 of 'drm_bridge_connector_init'
-     423 |         meson_encoder_hdmi->connector = drm_bridge_connector_init(priv->drm,
-         |                                                                   ~~~~^~~~~
-         |                                                                       |
-         |                                                                       struct drm_device
-   In file included from drivers/gpu/drm/meson/meson_encoder_hdmi.c:23:
-   include/drm/drm_bridge_connector.h:13:68: note: expected 'struct drm_device *' but argument is of type 'struct drm_device'
-      13 | struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-         |                                                 ~~~~~~~~~~~~~~~~~~~^~~
---
-   drivers/gpu/drm/meson/meson_encoder_dsi.c: In function 'meson_encoder_dsi_probe':
->> drivers/gpu/drm/meson/meson_encoder_dsi.c:135:43: error: incompatible type for argument 1 of 'drm_simple_encoder_init'
-     135 |         ret = drm_simple_encoder_init(priv->drm, &meson_encoder_dsi->encoder,
-         |                                       ~~~~^~~~~
-         |                                           |
-         |                                           struct drm_device
-   In file included from drivers/gpu/drm/meson/meson_encoder_dsi.c:13:
-   include/drm/drm_simple_kms_helper.h:261:48: note: expected 'struct drm_device *' but argument is of type 'struct drm_device'
-     261 | int drm_simple_encoder_init(struct drm_device *dev,
-         |                             ~~~~~~~~~~~~~~~~~~~^~~
-
-
-vim +/drm +56 drivers/gpu/drm/meson/meson_drv.h
-
-    42	
-    43	struct meson_drm {
-    44		struct device *dev;
-    45		enum vpu_compatible compat;
-    46		void __iomem *io_base;
-    47		struct regmap *hhi;
-    48		int vsync_irq;
-    49	
-    50		struct meson_canvas *canvas;
-    51		u8 canvas_id_osd1;
-    52		u8 canvas_id_vd1_0;
-    53		u8 canvas_id_vd1_1;
-    54		u8 canvas_id_vd1_2;
-    55	
-  > 56		struct drm_device drm;
-    57		struct drm_crtc *crtc;
-    58		struct drm_plane *primary_plane;
-    59		struct drm_plane *overlay_plane;
-    60		void *encoders[MESON_ENC_LAST];
-    61	
-    62		const struct meson_drm_soc_limits *limits;
-    63	
-    64		/* Components Data */
-    65		struct {
-    66			bool osd1_enabled;
-    67			bool osd1_interlace;
-    68			bool osd1_commit;
-    69			bool osd1_afbcd;
-    70			uint32_t osd1_ctrl_stat;
-    71			uint32_t osd1_ctrl_stat2;
-    72			uint32_t osd1_blk0_cfg[5];
-    73			uint32_t osd1_blk1_cfg4;
-    74			uint32_t osd1_blk2_cfg4;
-    75			uint32_t osd1_addr;
-    76			uint32_t osd1_stride;
-    77			uint32_t osd1_height;
-    78			uint32_t osd1_width;
-    79			uint32_t osd_sc_ctrl0;
-    80			uint32_t osd_sc_i_wh_m1;
-    81			uint32_t osd_sc_o_h_start_end;
-    82			uint32_t osd_sc_o_v_start_end;
-    83			uint32_t osd_sc_v_ini_phase;
-    84			uint32_t osd_sc_v_phase_step;
-    85			uint32_t osd_sc_h_ini_phase;
-    86			uint32_t osd_sc_h_phase_step;
-    87			uint32_t osd_sc_h_ctrl0;
-    88			uint32_t osd_sc_v_ctrl0;
-    89			uint32_t osd_blend_din0_scope_h;
-    90			uint32_t osd_blend_din0_scope_v;
-    91			uint32_t osb_blend0_size;
-    92			uint32_t osb_blend1_size;
-    93	
-    94			bool vd1_enabled;
-    95			bool vd1_commit;
-    96			bool vd1_afbc;
-    97			unsigned int vd1_planes;
-    98			uint32_t vd1_if0_gen_reg;
-    99			uint32_t vd1_if0_luma_x0;
-   100			uint32_t vd1_if0_luma_y0;
-   101			uint32_t vd1_if0_chroma_x0;
-   102			uint32_t vd1_if0_chroma_y0;
-   103			uint32_t vd1_if0_repeat_loop;
-   104			uint32_t vd1_if0_luma0_rpt_pat;
-   105			uint32_t vd1_if0_chroma0_rpt_pat;
-   106			uint32_t vd1_range_map_y;
-   107			uint32_t vd1_range_map_cb;
-   108			uint32_t vd1_range_map_cr;
-   109			uint32_t viu_vd1_fmt_w;
-   110			uint32_t vd1_if0_canvas0;
-   111			uint32_t vd1_if0_gen_reg2;
-   112			uint32_t viu_vd1_fmt_ctrl;
-   113			uint32_t vd1_addr0;
-   114			uint32_t vd1_addr1;
-   115			uint32_t vd1_addr2;
-   116			uint32_t vd1_stride0;
-   117			uint32_t vd1_stride1;
-   118			uint32_t vd1_stride2;
-   119			uint32_t vd1_height0;
-   120			uint32_t vd1_height1;
-   121			uint32_t vd1_height2;
-   122			uint32_t vd1_afbc_mode;
-   123			uint32_t vd1_afbc_en;
-   124			uint32_t vd1_afbc_head_addr;
-   125			uint32_t vd1_afbc_body_addr;
-   126			uint32_t vd1_afbc_conv_ctrl;
-   127			uint32_t vd1_afbc_dec_def_color;
-   128			uint32_t vd1_afbc_vd_cfmt_ctrl;
-   129			uint32_t vd1_afbc_vd_cfmt_w;
-   130			uint32_t vd1_afbc_vd_cfmt_h;
-   131			uint32_t vd1_afbc_mif_hor_scope;
-   132			uint32_t vd1_afbc_mif_ver_scope;
-   133			uint32_t vd1_afbc_size_out;
-   134			uint32_t vd1_afbc_pixel_hor_scope;
-   135			uint32_t vd1_afbc_pixel_ver_scope;
-   136			uint32_t vd1_afbc_size_in;
-   137			uint32_t vpp_pic_in_height;
-   138			uint32_t vpp_postblend_vd1_h_start_end;
-   139			uint32_t vpp_postblend_vd1_v_start_end;
-   140			uint32_t vpp_hsc_region12_startp;
-   141			uint32_t vpp_hsc_region34_startp;
-   142			uint32_t vpp_hsc_region4_endp;
-   143			uint32_t vpp_hsc_start_phase_step;
-   144			uint32_t vpp_hsc_region1_phase_slope;
-   145			uint32_t vpp_hsc_region3_phase_slope;
-   146			uint32_t vpp_line_in_length;
-   147			uint32_t vpp_preblend_h_size;
-   148			uint32_t vpp_vsc_region12_startp;
-   149			uint32_t vpp_vsc_region34_startp;
-   150			uint32_t vpp_vsc_region4_endp;
-   151			uint32_t vpp_vsc_start_phase_step;
-   152			uint32_t vpp_vsc_ini_phase;
-   153			uint32_t vpp_vsc_phase_ctrl;
-   154			uint32_t vpp_hsc_phase_ctrl;
-   155			uint32_t vpp_blend_vd2_h_start_end;
-   156			uint32_t vpp_blend_vd2_v_start_end;
-   157		} viu;
-   158	
-   159		struct {
-   160			unsigned int current_mode;
-   161			bool hdmi_repeat;
-   162			bool venc_repeat;
-   163			bool hdmi_use_enci;
-   164		} venc;
-   165	
-   166		struct {
-   167			dma_addr_t addr_dma;
-   168			uint32_t *addr;
-   169			unsigned int offset;
-   170		} rdma;
-   171	
-   172		struct {
-   173			struct meson_afbcd_ops *ops;
-   174			u64 modifier;
-   175			u32 format;
-   176		} afbcd;
-   177	};
-   178	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CRYPTO_CRC64_ISO3309 when selected by CRYPTO_DEV_TI_MCRC64
+   WARNING: unmet direct dependencies detected for CRYPTO_CRC64_ISO3309
+     Depends on [n]: CRYPTO [=y] && CRC64 [=n]
+     Selected by [y]:
+     - CRYPTO_DEV_TI_MCRC64 [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
