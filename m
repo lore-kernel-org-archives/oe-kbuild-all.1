@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D5C1CDA23
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 19:22:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DDD1CCEF3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 19:22:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727810561; cv=none; b=JAJLS5wg3g6PpCYGUzXBFqLN+qgDHYfTxZm9Tfg/dSpATjGJSjATbxmFMll9LzF3jMRUHYbs5fp8U6kK7uNpZm2HiLA3exexbhQsvztUGsjQp8NpMRYoOk374rnRcVSFMBUo9bMIAaLaP7L1Zqc6tTDxK85A2LcXR10GTj7d44w=
+	t=1727810563; cv=none; b=BwvidzNZq6q8xp+o8BlMBOS2HRKFrBO2eUxTNP/FXG215H7rmOx3K1MkTSdjOBkdr2hdazzg3HIWsZYbpiyhS++YyAqie+7g3sXd+CLb+5+TCw+18JSidMaXugMVnLIVtZiuwGkEkeVwi0FnCC/cl0U0xcFQxTKnSaYWooM+PGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727810561; c=relaxed/simple;
-	bh=9z2PZcwWTR6Yy0wtWx3NIMiNK+2oXwX+D6xnPUJgItU=;
+	s=arc-20240116; t=1727810563; c=relaxed/simple;
+	bh=DricLM2ygkSWo3hV30ycjqDMyZSIoAiZTCXn+0kvZrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PWZtlvTqmESaQmq+PuyOxSRFpe+KftAqYrHfGgqT/M8C8gaGjrN43aItPm9c9kH7j1lTe/gnlqUrN4gBX+1E78lUds6s82+bzMHLEYYzD5uSEjRpeeoTVtPvUS0kueMdSq9o5Pe6zBznOhQamwc2qUR717RXOLA2VGiTxUt2D8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzozz+3l; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=OwmGkN9pxNxheNw4Gklsk8+8soaqVwIv/4Qd76Gqi6nCeqm1kbmlJlvT+BSguOm0F+4zCPkkvU9VGVAgLEjGG3KQA3hYV/2Ams5wG4V/ltR7LakhtzX/74apaSKnrq+6GfWgkiRVMjx2IwEFfAbA32SQjCda59oB/RPr0TpnrRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T9DWjMam; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzozz+3l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9DWjMam"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727810560; x=1759346560;
+  t=1727810562; x=1759346562;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9z2PZcwWTR6Yy0wtWx3NIMiNK+2oXwX+D6xnPUJgItU=;
-  b=kzozz+3l8vFiBvs1bdIfQDXQpeep7qs9UYmyh7dVZ3hKmcIlhlqRxP/X
-   RmehA6gkdogPMCn38qLFWcygyCPKhICPTr1jdwHo0wx2Wx+eI65hU95/j
-   jxUmID3iffNtgPc7bAixRwE0kmrWdsmuaVtCREeh9bnrOk5SN7IYdr1+3
-   Ta48vVvgjEx9P7aydzQgRhYXXMfBrMagCGHEeO+orshlWBtpeC7Ot+coK
-   dVhIltTQfBn0yPvg/lO9x/am7jWDBKt5wbJ6zpDAkBJkITarj/11w64tP
-   cB8uzwqswPIlnx3j6e3f0UJIIZ2otbYzoqbzHMQU0xHaLdDrjq11l85HD
+  bh=DricLM2ygkSWo3hV30ycjqDMyZSIoAiZTCXn+0kvZrg=;
+  b=T9DWjMam+DBg+QfW4fyNnsnfV7Tbfz+fStnxeJOztJtJHJG198DnO51G
+   E8Knx7kDFzu0diI52mL5cDZ58R1pJNYrHHzh3nZVGRp0kj934/3X/jLSX
+   zk80zVGNFoZ19ZkonYs+J3H8wn2y25SOHMOSln8nR9/n7v7MGa4I0u2UX
+   hG56VQX8cmPIlB5VQngASzC6n4SQu9bIWTa1/Q/M/mU054LlIWfLWPKte
+   mepbMKFAkfbooT35qQiVokzwfE3RzooXDx4W0z1xagD43aHMPwSoZLu6m
+   9xwfMAFWLBQC+by1+QbEcRZzakZR7w86PE3iPGkNA9QhWTqefSnvyuLPR
    g==;
-X-CSE-ConnectionGUID: 4MLSAFc7SGSRwmvkBP/9Jg==
-X-CSE-MsgGUID: IgU7qYM6T5iKP3koCD2Bqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="14586669"
+X-CSE-ConnectionGUID: q/EIEgyqTuWnIWMaO16BHg==
+X-CSE-MsgGUID: CgnH5Q57QxKwUz6yl+XE1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="14586672"
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="14586669"
+   d="scan'208";a="14586672"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 12:22:39 -0700
-X-CSE-ConnectionGUID: 0qPfru8qTmWBMQNWuuzTXw==
-X-CSE-MsgGUID: XlW09hI/Q7eMsdoFlVIGaw==
+X-CSE-ConnectionGUID: k0e5H/L/Rm6hU16qu4EbJA==
+X-CSE-MsgGUID: /JKSwUziQOGX4rvAdc32+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="74078472"
+   d="scan'208";a="74078473"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 01 Oct 2024 12:22:37 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sviSB-000R5f-1L;
+	id 1sviSB-000R5n-1Z;
 	Tue, 01 Oct 2024 19:22:35 +0000
-Date: Wed, 2 Oct 2024 03:21:48 +0800
+Date: Wed, 2 Oct 2024 03:21:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 26380/30000]
- drivers/ub/urma/ubcore/ubcore_msg.c:433:28: warning: no previous prototype
- for 'ubcore_asyn_send_fe2tpf_msg'
-Message-ID: <202410020358.lBEOzVu8-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: arch/arc/include/uapi/asm/page.h:17:20: error: 'CONFIG_PAGE_SHIFT'
+ undeclared; did you mean 'CONFIG_HAVE_PCI'?
+Message-ID: <202410020340.RDSG1ej8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,236 +64,173 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   084a6771cfb3ef307b750af8b7c35a07a725fc4c
-commit: 6d14be01fcb032c478cd4669b32526fda0393195 [26380/30000] urma: upload kernel patch for 20240318_happy_birthday
-config: arm64-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20241002/202410020358.lBEOzVu8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020358.lBEOzVu8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+commit: d3e5bab923d35f73c74f6dbbb761988d4f58f878 arch: simplify architecture specific page size configuration
+date:   7 months ago
+config: arc-axs103_smp_defconfig (https://download.01.org/0day-ci/archive/20241002/202410020340.RDSG1ej8-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020340.RDSG1ej8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410020358.lBEOzVu8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410020340.RDSG1ej8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/ub/urma/ubcore/ubcore_msg.c:433:28: warning: no previous prototype for 'ubcore_asyn_send_fe2tpf_msg' [-Wmissing-prototypes]
-     433 | struct ubcore_msg_session *ubcore_asyn_send_fe2tpf_msg(struct ubcore_device *dev,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'ubcore_migrate_req',
-       inlined from 'ubcore_recv_req' at drivers/ub/urma/ubcore/ubcore_msg.c:282:16:
-   drivers/ub/urma/ubcore/ubcore_msg.c:261:15: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-     261 |         (void)strncpy(mig_resp->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_msg.c:261:15: note: length computed here
-     261 |         (void)strncpy(mig_resp->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/ub/urma/ubcore/ubcore_netlink.c:185:5: warning: no previous prototype for 'ubcore_genl_unicast' [-Wmissing-prototypes]
-     185 | int ubcore_genl_unicast(struct ubcore_nlmsg *req, uint32_t len)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netlink.c: In function 'ubcore_create_nl_session':
-   drivers/ub/urma/ubcore/ubcore_netlink.c:87:15: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-      87 |         (void)strncpy(s->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netlink.c:87:15: note: length computed here
-      87 |         (void)strncpy(s->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/ub/urma/ubcore/ubcore_netdev.c:40:25: warning: no previous prototype for 'ubcore_lookup_sip_info_without_lock' [-Wmissing-prototypes]
-      40 | struct ubcore_sip_info *ubcore_lookup_sip_info_without_lock(
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:74:5: warning: no previous prototype for 'ubcore_notify_uvs_del_sip' [-Wmissing-prototypes]
-      74 | int ubcore_notify_uvs_del_sip(struct ubcore_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_netdev.c:112:22: warning: no previous prototype for 'ubcore_new_sip_req_msg' [-Wmissing-prototypes]
-     112 | struct ubcore_nlmsg *ubcore_new_sip_req_msg(struct ubcore_device *dev,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:144:5: warning: no previous prototype for 'ubcore_notify_uvs_add_sip' [-Wmissing-prototypes]
-     144 | int ubcore_notify_uvs_add_sip(struct ubcore_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:176:5: warning: no previous prototype for 'ubcore_check_port_state' [-Wmissing-prototypes]
-     176 | int ubcore_check_port_state(struct ubcore_device *dev, uint8_t port_idx)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:200:6: warning: no previous prototype for 'ubcore_find_port_netdev' [-Wmissing-prototypes]
-     200 | void ubcore_find_port_netdev(struct ubcore_device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:291:5: warning: no previous prototype for 'ubcore_set_port_netdev' [-Wmissing-prototypes]
-     291 | int ubcore_set_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:377:5: warning: no previous prototype for 'ubcore_unset_port_netdev' [-Wmissing-prototypes]
-     377 | int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:408:6: warning: no previous prototype for 'ubcore_put_port_netdev' [-Wmissing-prototypes]
-     408 | void ubcore_put_port_netdev(struct ubcore_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:435:5: warning: no previous prototype for 'ubcore_sip_table_init' [-Wmissing-prototypes]
-     435 | int ubcore_sip_table_init(struct ubcore_sip_table *sip_table, uint32_t size)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:454:6: warning: no previous prototype for 'ubcore_sip_table_uninit' [-Wmissing-prototypes]
-     454 | void ubcore_sip_table_uninit(struct ubcore_sip_table *sip_table)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:465:5: warning: no previous prototype for 'ubcore_sip_idx_alloc' [-Wmissing-prototypes]
-     465 | int ubcore_sip_idx_alloc(struct ubcore_sip_table *sip_table)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:481:5: warning: no previous prototype for 'ubcore_sip_idx_free' [-Wmissing-prototypes]
-     481 | int ubcore_sip_idx_free(struct ubcore_sip_table *sip_table, uint32_t idx)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:494:5: warning: no previous prototype for 'ubcore_add_sip_entry' [-Wmissing-prototypes]
-     494 | int ubcore_add_sip_entry(struct ubcore_sip_table *sip_table, const struct ubcore_sip_info *sip,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:512:5: warning: no previous prototype for 'ubcore_del_sip_entry' [-Wmissing-prototypes]
-     512 | int ubcore_del_sip_entry(struct ubcore_sip_table *sip_table, uint32_t idx)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:542:5: warning: no previous prototype for 'ubcore_lookup_sip_idx' [-Wmissing-prototypes]
-     542 | int ubcore_lookup_sip_idx(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *sip,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_set_port_netdev':
->> drivers/ub/urma/ubcore/ubcore_netdev.c:298:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
-     298 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_unset_port_netdev':
-   drivers/ub/urma/ubcore/ubcore_netdev.c:384:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
-     384 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/ub/urma/ubcore/ubcore_device.c:409:6: warning: no previous prototype for 'ubcore_destroy_upi_list' [-Wmissing-prototypes]
-     409 | void ubcore_destroy_upi_list(struct ubcore_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:504:23: warning: no previous prototype for 'ubcore_find_tpf_device_legacy' [-Wmissing-prototypes]
-     504 | struct ubcore_device *ubcore_find_tpf_device_legacy(void)
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1637:5: warning: no previous prototype for 'ubcore_dispatch_event' [-Wmissing-prototypes]
-    1637 | int ubcore_dispatch_event(struct ubcore_event *event)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:17,
-                    from include/asm-generic/bug.h:20,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from include/linux/refcount.h:96,
-                    from include/net/net_namespace.h:9,
-                    from drivers/ub/urma/ubcore/ubcore_device.c:21:
-   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_add_ueid':
-   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
-     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+   In file included from arch/arc/include/asm/atomic.h:31,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/arc/include/asm/bitops.h:188,
+                    from include/linux/bitops.h:68,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/current.h:6,
+                    from arch/arc/include/asm/current.h:20,
+                    from <command-line>:
+   arch/arc/include/asm/atomic64-arcv2.h:13:3: error: conflicting types for 'atomic64_t'; have 'struct <anonymous>'
+      13 | } atomic64_t;
+         |   ^~~~~~~~~~
+   In file included from include/linux/thread_info.h:11:
+   include/linux/types.h:184:3: note: previous declaration of 'atomic64_t' with type 'atomic64_t'
+     184 | } atomic64_t;
+         |   ^~~~~~~~~~
+   In file included from arch/arc/include/asm/atomic.h:31,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/arc/include/asm/bitops.h:188,
+                    from include/linux/bitops.h:68,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/current.h:6,
+                    from arch/arc/include/asm/current.h:20,
+                    from <command-line>:
+   arch/arc/include/asm/atomic64-arcv2.h:13:3: error: conflicting types for 'atomic64_t'; have 'struct <anonymous>'
+      13 | } atomic64_t;
+         |   ^~~~~~~~~~
+   In file included from include/linux/thread_info.h:11:
+   include/linux/types.h:184:3: note: previous declaration of 'atomic64_t' with type 'atomic64_t'
+     184 | } atomic64_t;
+         |   ^~~~~~~~~~
+   In file included from arch/arc/include/asm/page.h:8,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60:
+   arch/arc/include/asm/page.h: In function 'virt_to_pfn':
+>> arch/arc/include/uapi/asm/page.h:17:20: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_HAVE_PCI'?
+      17 | #define PAGE_SHIFT CONFIG_PAGE_SHIFT
+         |                    ^~~~~~~~~~~~~~~~~
+   arch/arc/include/asm/page.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
+     125 |         return __pa(kaddr) >> PAGE_SHIFT;
+         |                               ^~~~~~~~~~
+   arch/arc/include/uapi/asm/page.h:17:20: note: each undeclared identifier is reported only once for each function it appears in
+      17 | #define PAGE_SHIFT CONFIG_PAGE_SHIFT
+         |                    ^~~~~~~~~~~~~~~~~
+   arch/arc/include/asm/page.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
+     125 |         return __pa(kaddr) >> PAGE_SHIFT;
+         |                               ^~~~~~~~~~
+   In file included from arch/arc/include/asm/page.h:8,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60:
+   arch/arc/include/asm/page.h: In function 'virt_to_pfn':
+>> arch/arc/include/uapi/asm/page.h:17:20: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_HAVE_PCI'?
+      17 | #define PAGE_SHIFT CONFIG_PAGE_SHIFT
+         |                    ^~~~~~~~~~~~~~~~~
+   arch/arc/include/asm/page.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
+     125 |         return __pa(kaddr) >> PAGE_SHIFT;
+         |                               ^~~~~~~~~~
+   arch/arc/include/uapi/asm/page.h:17:20: note: each undeclared identifier is reported only once for each function it appears in
+      17 | #define PAGE_SHIFT CONFIG_PAGE_SHIFT
+         |                    ^~~~~~~~~~~~~~~~~
+   arch/arc/include/asm/page.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
+     125 |         return __pa(kaddr) >> PAGE_SHIFT;
+         |                               ^~~~~~~~~~
+   include/asm-generic/getorder.h: In function 'get_order':
+>> arch/arc/include/uapi/asm/page.h:17:20: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_HAVE_PCI'?
+      17 | #define PAGE_SHIFT CONFIG_PAGE_SHIFT
+         |                    ^~~~~~~~~~~~~~~~~
+   include/asm-generic/getorder.h:33:48: note: in expansion of macro 'PAGE_SHIFT'
+      33 |                         return BITS_PER_LONG - PAGE_SHIFT;
+         |                                                ^~~~~~~~~~
+   arch/arc/include/asm/thread_info.h: At top level:
+   arch/arc/include/asm/thread_info.h:59:79: error: macro "current_thread_info" passed 1 arguments, but takes just 0
+      59 | static inline __attribute_const__ struct thread_info *current_thread_info(void)
+         |                                                                               ^
+   include/linux/thread_info.h:24: note: macro "current_thread_info" defined here
+      24 | #define current_thread_info() ((struct thread_info *)current)
+         | 
+   arch/arc/include/asm/thread_info.h:60:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+      60 | {
+         | ^
+   include/asm-generic/getorder.h: In function 'get_order':
+>> arch/arc/include/uapi/asm/page.h:17:20: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_HAVE_PCI'?
+      17 | #define PAGE_SHIFT CONFIG_PAGE_SHIFT
+         |                    ^~~~~~~~~~~~~~~~~
+   include/asm-generic/getorder.h:33:48: note: in expansion of macro 'PAGE_SHIFT'
+      33 |                         return BITS_PER_LONG - PAGE_SHIFT;
+         |                                                ^~~~~~~~~~
+   arch/arc/include/asm/thread_info.h: At top level:
+   arch/arc/include/asm/thread_info.h:59:79: error: macro "current_thread_info" passed 1 arguments, but takes just 0
+      59 | static inline __attribute_const__ struct thread_info *current_thread_info(void)
+         |                                                                               ^
+   include/linux/thread_info.h:24: note: macro "current_thread_info" defined here
+      24 | #define current_thread_info() ((struct thread_info *)current)
+         | 
+   arch/arc/include/asm/thread_info.h:60:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+      60 | {
+         | ^
+   include/linux/thread_info.h: In function 'tif_need_resched':
+   include/linux/thread_info.h:24:54: error: 'current' undeclared (first use in this function)
+      24 | #define current_thread_info() ((struct thread_info *)current)
+         |                                                      ^~~~~~~
+   include/linux/bitops.h:50:44: note: in definition of macro 'bitop'
+      50 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+         |                                            ^~~~
+   include/linux/thread_info.h:192:16: note: in expansion of macro 'test_bit'
+     192 |         return test_bit(TIF_NEED_RESCHED,
          |                ^~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
-      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
-         |                ^~~
-   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
-      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
-         |                 ^~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1857:17: note: in expansion of macro 'ubcore_log_err'
-    1857 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
-         |                 ^~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_delete_ueid':
-   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
-     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+   include/linux/thread_info.h:193:44: note: in expansion of macro 'current_thread_info'
+     193 |                         (unsigned long *)(&current_thread_info()->flags));
+         |                                            ^~~~~~~~~~~~~~~~~~~
+   include/linux/thread_info.h: In function 'tif_need_resched':
+   include/linux/thread_info.h:24:54: error: 'current' undeclared (first use in this function)
+      24 | #define current_thread_info() ((struct thread_info *)current)
+         |                                                      ^~~~~~~
+   include/linux/bitops.h:50:44: note: in definition of macro 'bitop'
+      50 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+         |                                            ^~~~
+   include/linux/thread_info.h:192:16: note: in expansion of macro 'test_bit'
+     192 |         return test_bit(TIF_NEED_RESCHED,
          |                ^~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
-      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
-         |                ^~~
-   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
-      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
-         |                 ^~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1885:17: note: in expansion of macro 'ubcore_log_err'
-    1885 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
-         |                 ^~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c: At top level:
-   drivers/ub/urma/ubcore/ubcore_device.c:2389:6: warning: no previous prototype for 'ubcore_net_exit' [-Wmissing-prototypes]
-    2389 | void ubcore_net_exit(struct net *net)
-         |      ^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_new_tpf_dev_msg':
->> drivers/ub/urma/ubcore/ubcore_device.c:913:21: warning: 'strnlen' specified bound 64 exceeds source size 16 [-Wstringop-overread]
-     913 |                 if (strnlen(dev->netdev->name, UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/ub/urma/ubcore/ubcore_device.c:32:
-   include/linux/netdevice.h:1957:33: note: source object allocated here
-    1957 |         char                    name[IFNAMSIZ];
-         |                                 ^~~~
---
-   drivers/ub/urma/ubcore/ubcore_ctp.c: In function 'ubcore_find_remove_ctp':
->> drivers/ub/urma/ubcore/ubcore_ctp.c:114:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     114 |         if (&dev->ht[UBCORE_HT_CTP].head == NULL) {
-         |                                          ^~
-   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
-                    from drivers/ub/urma/ubcore/ubcore_ctp.c:23:
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
---
-   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tpg':
->> drivers/ub/urma/ubcore/ubcore_tpg.c:113:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     113 |         if (&dev->ht[UBCORE_HT_TPG].head == NULL) {
-         |                                          ^~
-   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
-                    from drivers/ub/urma/ubcore/ubcore_tpg.c:23:
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
-   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tp_node':
-   drivers/ub/urma/ubcore/ubcore_tpg.c:149:44: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     149 |         if (&dev->ht[UBCORE_HT_UB_TP].head == NULL) {
-         |                                            ^~
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
---
-   drivers/ub/urma/ubcore/ubcore_utp.c: In function 'ubcore_find_remove_utp':
->> drivers/ub/urma/ubcore/ubcore_utp.c:139:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     139 |         if (&dev->ht[UBCORE_HT_UTP].head == NULL) {
-         |                                          ^~
-   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
-                    from drivers/ub/urma/ubcore/ubcore_utp.c:23:
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
+   include/linux/thread_info.h:193:44: note: in expansion of macro 'current_thread_info'
+     193 |                         (unsigned long *)(&current_thread_info()->flags));
+         |                                            ^~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:243: scripts/mod/empty.o] Error 1
+   make[3]: *** [scripts/Makefile.build:116: scripts/mod/devicetable-offsets.s] Error 1
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1198: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/ubcore_asyn_send_fe2tpf_msg +433 drivers/ub/urma/ubcore/ubcore_msg.c
+vim +17 arch/arc/include/uapi/asm/page.h
 
-   428	
-   429	/**
-   430	 *	If you do not need to wait for the response of a message, use ubcore_asyn_send_fe2tpf_msg.
-   431	 *	If you need to wait for a response to a message, use ubcore_send_fe2tpf_msg
-   432	 */
- > 433	struct ubcore_msg_session *ubcore_asyn_send_fe2tpf_msg(struct ubcore_device *dev,
-   434		struct ubcore_req *req)
-   435	{
-   436		struct ubcore_msg_session *s;
-   437		int ret;
-   438	
-   439		req->msg_id = ubcore_get_msg_seq();
-   440		s = ubcore_create_msg_session(req);
-   441		if (s == NULL) {
-   442			ubcore_log_err("Failed to create req session!\n");
-   443			return NULL;
-   444		}
-   445	
-   446		ret = ubcore_send_req(dev, req);
-   447		if (ret != 0) {
-   448			ubcore_log_err("Failed to send req, msg_id = %u, opcode = %hu.\n",
-   449				req->msg_id, (uint16_t)req->opcode);
-   450			ubcore_destroy_msg_session(s);
-   451			return NULL;
-   452		}
-   453		return s;
-   454	}
-   455	
+    14	
+    15	/* PAGE_SHIFT determines the page size */
+    16	#ifdef __KERNEL__
+  > 17	#define PAGE_SHIFT CONFIG_PAGE_SHIFT
+    18	#else
+    19	/*
+    20	 * Default 8k
+    21	 * done this way (instead of under CONFIG_ARC_PAGE_SIZE_8K) because adhoc
+    22	 * user code (busybox appletlib.h) expects PAGE_SHIFT to be defined w/o
+    23	 * using the correct uClibc header and in their build our autoconf.h is
+    24	 * not available
+    25	 */
+    26	#define PAGE_SHIFT 13
+    27	#endif
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
