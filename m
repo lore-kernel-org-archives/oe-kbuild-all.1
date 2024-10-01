@@ -1,168 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361DC19B587;
-	Tue,  1 Oct 2024 09:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D919F19ADBB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 09:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727773628; cv=none; b=Q2QO01XQxG8N3p9z8y+bvhT9LcyFlmcDlT0LPlYmdNlGnZII9ANj4fkn5Mbvhh92WXyaH6qVkjO30ZbjQ+XE6szZtA5Ur6fJdTH39ob8hvlMUIodwD4H5ZwdJzhTm1aqHrQJ/SeNnbNYCxJEHw2zh/9lWkXOnYZa+KLRnlOnC+Q=
+	t=1727774244; cv=none; b=PAQQNGEVPWPZEeE10hj9OqwDdyv8emRr9JQADaCxCbS2c8J9a/w87rsUOUMlz36dNIh5HaRu3mZqqbV/7W1xU84mKYGIQf8aMRYWurxVSrW5PDg7NndH1H/lFKh+i4OVpwARAxCmOTvFPDwnaPbnWdUF5KWHr8h1ySsjb8loDPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727773628; c=relaxed/simple;
-	bh=m97NaR/uwM/LoByNr7jk1ak8+1faMfudA3HDDJa1jBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=akcaOcV28nO9iEQTb/RUIv16kcgq+TSe/Wc1sUoaUP2ue+c1kY8SUggqsJOwX2XTgKEgfr5wuEi8kzWmrJORnwGlAMnpJwiWexmoBxmeh5NHQIdIRQLn5wqaNQo4yCPIACCAwAPOIuZdnRuRwxDrTI3oLfFIAdEr/rLfw2K7Qpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i4xOF5sK; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727774244; c=relaxed/simple;
+	bh=aC2RZcT9lHrXUU9dIlBlGptabT2MAuKp0sLJYRKM2to=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IG9Vwer8BirLx1qjvjRWaSX5Rt8TMQglwUWoJIQQLIt2NyOck2X5/I6asw4ZGsECOw8b5Y6PaVTQymHkOhRf3gryfldR7cAERSxrUXaJlpTw0WzJK9iJ2s7MQHIjufaD5kaGsT6ulalnncYpailIaEu66CznfIQq0Eunsp4d014=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=kQjJuU5G; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4xOF5sK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727773627; x=1759309627;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m97NaR/uwM/LoByNr7jk1ak8+1faMfudA3HDDJa1jBQ=;
-  b=i4xOF5sKEcVbFekmdnCSMR+cnRPA4hmKBdS9JZCe6V1tp+wKRs9VI2eO
-   PxeBU/c2Pz9TWdoCc5VO0qocXtkR1Pm9sHTH3q6fF9cRJKLm+nTRdSgcP
-   SuXEkzRg6mU62sLxqk0SCTuoUfZJxyxL8J53iHPWMR3tMCsUojjba4sEt
-   Q6Gxy4d2nbgIPi69O5GAk2npEVgwmYITSuv8zig7ztYuuAD3qjwtuWo06
-   cRw5lmSz7GPA/HOKKp1XSz5ziwmOFvNAOB+E3jlUPYWF8GpbFuLM5gH94
-   rYUYdhe2SG3y5sN+xqWidsfQ+MsPz08Uaj2zvuSjx0vYBIvT9Yb0trWJj
-   A==;
-X-CSE-ConnectionGUID: 3NPcDP59TLOun4Lfd8YYyQ==
-X-CSE-MsgGUID: lZmc/Tk6Qn6C/CJVvpa9rQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="52306009"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="52306009"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 02:07:07 -0700
-X-CSE-ConnectionGUID: ojDeIRRCQy6cXbvKsd4T0g==
-X-CSE-MsgGUID: N/BxBTXLSmyOMZi+tRyimQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="73564062"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Oct 2024 02:07:03 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svYqT-000QU9-0V;
-	Tue, 01 Oct 2024 09:07:01 +0000
-Date: Tue, 1 Oct 2024 17:06:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, andrew@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, linux-kernel@vger.kernel.org,
-	jacob.e.keller@intel.com, horms@kernel.org, sd@queasysnail.net,
-	chunkeey@gmail.com
-Subject: Re: [PATCH net-next 09/13] net: ibm: emac: rgmii:
- devm_platform_get_resource
-Message-ID: <202410011626.D4gEmLU8-lkp@intel.com>
-References: <20240930180036.87598-10-rosenp@gmail.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="kQjJuU5G"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2e0a950e2f2so4178686a91.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Oct 2024 02:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1727774242; x=1728379042; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=us9teco+BOfBOtKeZA4Z07H/40ek9mhAq6A6YSt9qwY=;
+        b=kQjJuU5GAw6OND7TvIvtDg8IyKnDhNPwj3OC4+muZ7EXxnRaOFNFJqPQiiXro6gjlc
+         GSBSBHNS4Gj9oAjjf4eVoe2Ew4Xaqkhf3JAJRCHGzNtdx+mdf0QS86RcAWvwkx4I8hoD
+         2j+Amcsmzh/wbnPJu3bvW2x5S1Daj8U2Xwn8Irz8Pb5LgTW4b7J5aFkzzoe+mPhjeKNJ
+         jMhViMVnQS4IHaHtsAURzODeJwvleFhUlJ6c1E5qEmH9OeQAGE0taO6ccH8A+uvbaoSB
+         d6Tu1+GZ62oeg0D/5Es7zXi+y2bgcnsXAhOMXa3+zCWxvHik7jpAdtpzSC9qsq/Bvop/
+         r+kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727774242; x=1728379042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=us9teco+BOfBOtKeZA4Z07H/40ek9mhAq6A6YSt9qwY=;
+        b=iKyd3xn7ZFsWhMZhyiKgO5bdREzhGddbGjsAfckJS+s1SI9k5ZoDj4wYZ2wrGsJphM
+         2ORxXqwquYPAXlVwYD71V7cIkwJaMYms35XGYn8XbeYsSMj9v32NpeB19r954qoZz9HV
+         zFcMN3V5IgP3/ctfdwOii+9891HGi7Ky55q//o8eO0PEtQ53Y6Fe6PH8dSOZHpGTaRx2
+         YRNR8X56zvDJurVtihLmhA4HoRRAMr8BzXJ+08VqLZ9Ucb7YjXm4qq7kOBS3S3BJMRCe
+         ClL+3Vit4t7c3rv1Xy/7Vtj7ZfNbe0PsKLT7LdY8eoM0+Ei2Z4RXP7GN9CtC5d9bYqWq
+         yJww==
+X-Forwarded-Encrypted: i=1; AJvYcCVjDfpper5+Yb+H+Z4vH0K6oeE9reJoHApeAI1U8OLSz8rGByh+X7Rv37ezJ4yy6dYXw5hq6W3bYfdngyKW@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzwli1HNKo7tOcPx+NUPC5ImK+ik4FQaqo6wP7QYpD8grR5lZu9
+	KYOQuatx+m0ND5yNGX4CaNS4QvSvo3VNCTf3+o+udkrOQxi2+V0BFqO7537ZYHUxL4d/UQkygl9
+	sv3m0BxLWtHHGi3edWwaf9FfWGhIzk6y/lY62yg==
+X-Google-Smtp-Source: AGHT+IHYkAg4UVKRyo4StwzqLZV2DXAq21p9Gnn5Bj77LYfFpKaPnaCsICz4KGajnf7wmJq3yUvb2lm9cbLTWxBNDgQ=
+X-Received: by 2002:a17:90a:b396:b0:2d3:bfc3:3ef3 with SMTP id
+ 98e67ed59e1d1-2e0b89de3a8mr16356647a91.12.1727774242256; Tue, 01 Oct 2024
+ 02:17:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240930180036.87598-10-rosenp@gmail.com>
+References: <20240930115116.54626-1-brgl@bgdev.pl> <202410011000.hRJ0JPdV-lkp@intel.com>
+In-Reply-To: <202410011000.hRJ0JPdV-lkp@intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 1 Oct 2024 11:17:09 +0200
+Message-ID: <CAMRc=MeY_+ZvEgiNegxD012i1NaFN04=8LTzwyUWod_9TRXb-g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] gpio: davinci: allow building the module with COMPILE_TEST=y
+To: kernel test robot <lkp@intel.com>
+Cc: Keerthy <j-keerthy@ti.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rosen,
+On Tue, Oct 1, 2024 at 4:35=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Bartosz,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on brgl/gpio/for-next]
+> [also build test WARNING on linus/master v6.12-rc1 next-20240930]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewsk=
+i/gpio-davinci-use-generic-device-properties/20240930-195251
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gp=
+io/for-next
+> patch link:    https://lore.kernel.org/r/20240930115116.54626-1-brgl%40bg=
+dev.pl
+> patch subject: [PATCH 1/2] gpio: davinci: allow building the module with =
+COMPILE_TEST=3Dy
+> config: sh-randconfig-002-20241001 (https://download.01.org/0day-ci/archi=
+ve/20241001/202410011000.hRJ0JPdV-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241001/202410011000.hRJ0JPdV-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410011000.hRJ0JPdV-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> drivers/gpio/gpio-davinci.c:652:34: warning: 'davinci_gpio_ids' define=
+d but not used [-Wunused-const-variable=3D]
+>      652 | static const struct of_device_id davinci_gpio_ids[] =3D {
+>          |                                  ^~~~~~~~~~~~~~~~
+>
 
-kernel test robot noticed the following build errors:
+Weird, this doesn't happen on x86 defconfig with OF disabled and W=3D1...
 
-[auto build test ERROR on net-next/main]
+Bart
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-ibm-emac-remove-custom-init-exit-functions/20241001-020553
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240930180036.87598-10-rosenp%40gmail.com
-patch subject: [PATCH net-next 09/13] net: ibm: emac: rgmii: devm_platform_get_resource
-config: powerpc-canyonlands_defconfig (https://download.01.org/0day-ci/archive/20241001/202410011626.D4gEmLU8-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011626.D4gEmLU8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410011626.D4gEmLU8-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/ibm/emac/rgmii.c:21:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/powerpc/include/asm/cacheflush.h:7:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/net/ethernet/ibm/emac/rgmii.c:229:14: error: call to undeclared function 'devm_platform_get_resource'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     229 |         dev->base = devm_platform_get_resource(ofdev, 0);
-         |                     ^
-   drivers/net/ethernet/ibm/emac/rgmii.c:229:14: note: did you mean 'platform_get_resource'?
-   include/linux/platform_device.h:58:25: note: 'platform_get_resource' declared here
-      58 | extern struct resource *platform_get_resource(struct platform_device *,
-         |                         ^
->> drivers/net/ethernet/ibm/emac/rgmii.c:229:12: error: incompatible integer to pointer conversion assigning to 'struct rgmii_regs *' from 'int' [-Wint-conversion]
-     229 |         dev->base = devm_platform_get_resource(ofdev, 0);
-         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
-
-
-vim +/devm_platform_get_resource +229 drivers/net/ethernet/ibm/emac/rgmii.c
-
-   215	
-   216	
-   217	static int rgmii_probe(struct platform_device *ofdev)
-   218	{
-   219		struct rgmii_instance *dev;
-   220	
-   221		dev = devm_kzalloc(&ofdev->dev, sizeof(struct rgmii_instance),
-   222				   GFP_KERNEL);
-   223		if (!dev)
-   224			return -ENOMEM;
-   225	
-   226		mutex_init(&dev->lock);
-   227		dev->ofdev = ofdev;
-   228	
- > 229		dev->base = devm_platform_get_resource(ofdev, 0);
-   230		if (IS_ERR(dev->base)) {
-   231			dev_err(&ofdev->dev, "can't map device registers");
-   232			return PTR_ERR(dev->base);
-   233		}
-   234	
-   235		/* Check for RGMII flags */
-   236		if (of_property_read_bool(ofdev->dev.of_node, "has-mdio"))
-   237			dev->flags |= EMAC_RGMII_FLAG_HAS_MDIO;
-   238	
-   239		/* CAB lacks the right properties, fix this up */
-   240		if (of_device_is_compatible(ofdev->dev.of_node, "ibm,rgmii-axon"))
-   241			dev->flags |= EMAC_RGMII_FLAG_HAS_MDIO;
-   242	
-   243		DBG2(dev, " Boot FER = 0x%08x, SSR = 0x%08x\n",
-   244		     in_be32(&dev->base->fer), in_be32(&dev->base->ssr));
-   245	
-   246		/* Disable all inputs by default */
-   247		out_be32(&dev->base->fer, 0);
-   248	
-   249		printk(KERN_INFO
-   250		       "RGMII %pOF initialized with%s MDIO support\n",
-   251		       ofdev->dev.of_node,
-   252		       (dev->flags & EMAC_RGMII_FLAG_HAS_MDIO) ? "" : "out");
-   253	
-   254		wmb();
-   255		platform_set_drvdata(ofdev, dev);
-   256	
-   257		return 0;
-   258	}
-   259	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> vim +/davinci_gpio_ids +652 drivers/gpio/gpio-davinci.c
+>
+> 0651a730924b17 Devarsh Thakkar   2022-06-13  648
+> 8507f35447e6e5 Min-Hua Chen      2023-06-09  649  static DEFINE_SIMPLE_DE=
+V_PM_OPS(davinci_gpio_dev_pm_ops, davinci_gpio_suspend,
+> 0651a730924b17 Devarsh Thakkar   2022-06-13  650                         =
+davinci_gpio_resume);
+> 0651a730924b17 Devarsh Thakkar   2022-06-13  651
+> c770844c3e30be KV Sujith         2013-11-21 @652  static const struct of_=
+device_id davinci_gpio_ids[] =3D {
+> 0c6feb0796ea64 Grygorii Strashko 2014-02-13  653        { .compatible =3D=
+ "ti,keystone-gpio", keystone_gpio_get_irq_chip},
+> 6a4d8b6bd27932 Keerthy           2019-06-05  654        { .compatible =3D=
+ "ti,am654-gpio", keystone_gpio_get_irq_chip},
+> 0c6feb0796ea64 Grygorii Strashko 2014-02-13  655        { .compatible =3D=
+ "ti,dm6441-gpio", davinci_gpio_get_irq_chip},
+> c770844c3e30be KV Sujith         2013-11-21  656        { /* sentinel */ =
+},
+> c770844c3e30be KV Sujith         2013-11-21  657  };
+> c770844c3e30be KV Sujith         2013-11-21  658  MODULE_DEVICE_TABLE(of,=
+ davinci_gpio_ids);
+> c770844c3e30be KV Sujith         2013-11-21  659
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
