@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F901CEE85;
-	Tue,  1 Oct 2024 22:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E4E1C0DC5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 22:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727823133; cv=none; b=NQh6XcQnY3ah5bGA5H+p4QYo6TVsoUn2YI9mQtfZA3USkr0MW/o7SUGE92i8T1EOvCxw+iskPweC9beq8mH56cjQtsxIwvrsTwMj4HSwCK9DFB9fBPqIHh7n8zSotPE94WVcnJIQsgnQZRthk8AXkbM5DHTUHaQSuf0KhVlzht8=
+	t=1727823133; cv=none; b=M1qUDbAnn+E4oMlLPIG9KFpqHbI5y/2ta34BdFm4uL6MaZ1s+NMzWxnjl38+qwwxi/JGr70ARamSYFAmQAp8QNo0svRX5uUl6OsRHkCoQ2BDHji7BoUfOpZosjHJlLTJc8TNWoT0FnnED9O17oD2Om08bkOqBn0kjzGbeTSZjp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727823133; c=relaxed/simple;
-	bh=FLR5uYtD4ww1LELva7aJRL8wzBxdI7fpAsp+zVKzfH4=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MeRiDxSPG8TQCuW+ad7cqy+GRrjvi2r8EhjsdLJX8d0dwIfJdL+eJcdRNEtXvZWv7whVFP9LjIMlLCKfAgIUSsjBRXtQ/e1Jk+G5NYtQyVmLfN6ULIAanrMOsfOPn/1QoISYIkXeF5tgfstsOu4qyjp5CuKJcZjHFCFMjvE/wRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvCfLin6; arc=none smtp.client-ip=198.175.65.20
+	bh=PqK9vRQ3FPHt2yEzIKuBcX4/v5ysva9iN6t6PTXlUzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EiIIyEstIBnuxd/61Jc+I7mn5RXBGfpxz8U5rFKEtHsFjc2F+/fw3FV/8gX30Q07nxR1VCjCCIu+79/yvM14lcGNUma2SpxGnqzu6/S1mZXrrxRvnhtuLFfro+Y1XGU93fErpeJDo1gReRBs0FMUs+LCuWKLvBh70KXCbeEG0Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kr1bSoye; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvCfLin6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kr1bSoye"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1727823131; x=1759359131;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=FLR5uYtD4ww1LELva7aJRL8wzBxdI7fpAsp+zVKzfH4=;
-  b=QvCfLin6yx/i1gFc4hnzALa2kHhWYNSUGUco4ZHcY8wwep3uCwMh6xV7
-   O4A6sr1c6WdmXDZOyCfzRDbPF9ubIWJdkEPAhFNqCkjAupC6uBb9BEoND
-   1zNQZ0h4HNHGK7gVGmv58U4x6UJl/tb90CTvVv/UtBCdaAHEVRWIMz6XR
-   ZR40R+nd80AQPmmjgcgxcCo+aXl4a253dzbHCxhdCYhATwILTYYupMkTR
-   w2vt2OLaHp7lmrnEWNJpY5ERustrmuKJzzugx7MrFyMOVR34OFC+73WfI
-   f4XDqKNi+Hw88fqXlbhMc+7C7hGH3uelq5mxrWHEulIj/J02kok4zuqqf
-   A==;
-X-CSE-ConnectionGUID: foDT9VjMTVSHL1vtbHyZrQ==
-X-CSE-MsgGUID: WgcVLMUGS1SMZAniwzi5CA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26785096"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PqK9vRQ3FPHt2yEzIKuBcX4/v5ysva9iN6t6PTXlUzY=;
+  b=Kr1bSoyeP0e6zjRo5F7/ZiQlsnRQQOpV/R0PWqX7/edZ1MRX3H//OUa3
+   k9qYMzDH3JsejT+rdscq84OCzQhpDOGFEhhiGAWS8bAcGBKVZLLYrSjbD
+   9i8WAPD9VpVBAqtSm2Y7Upqxhddt5zQIswu1GbJmK0eMtNw17mw5cq4ey
+   cNg+x3+Ts1s0HPwQOzttW1S2IQJe0fMkptEp2G2iZCxPrXTTvEbD4zPeo
+   fLVjWhgTyTf/m6VCedIVNXn3F67BDMip1PWIpWIKBFCYOxxyPkTL+qzok
+   7ZUZKUYcvr5wmTB5ICRA/YeZn/bRXe7xcCagqgBjiZdNnfqINI58pAPqR
+   g==;
+X-CSE-ConnectionGUID: Fae7YadkRaCAcepmMRsuLA==
+X-CSE-MsgGUID: R0s+MorHSZ2aIWOjIrrQfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30865892"
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="26785096"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 15:52:10 -0700
-X-CSE-ConnectionGUID: lluGDBtFQjeMZTejBeYSUQ==
-X-CSE-MsgGUID: WW0PTfmSS9q9kV4qAZUzvg==
+   d="scan'208";a="30865892"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 15:52:10 -0700
+X-CSE-ConnectionGUID: fcR1L2p8S/SN5Cr+SvJnfg==
+X-CSE-MsgGUID: HNiZAc26SBeQLT/yP7vUAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="111292811"
+   d="scan'208";a="97172719"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2024 15:52:10 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 Oct 2024 15:52:10 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svlix-000RFb-0q;
+	id 1svlix-000RFZ-0l;
 	Tue, 01 Oct 2024 22:52:07 +0000
-Date: Wed, 2 Oct 2024 06:51:28 +0800
+Date: Wed, 2 Oct 2024 06:51:29 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x31: relocation to
- !ENDBR: arch_kexec_apply_relocations_add+0x2a8
-Message-ID: <202410020624.PPc1OWux-lkp@intel.com>
+To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 26381/30000]
+ drivers/ub/urma/ubcore/ubcore_msg.c:264:15: warning: 'strncpy' output may be
+ truncated copying 63 bytes from a string of length 63
+Message-ID: <202410020611.L9WVfDmZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,98 +63,257 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Suren Baghdasaryan <surenb@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Kent Overstreet <kent.overstreet@linux.dev>
-CC: Kees Cook <keescook@chromium.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
-commit: b951aaff503502a7fe066eeed2744ba8a6413c89 mm: enable page allocation tagging
-date:   5 months ago
-config: x86_64-buildonly-randconfig-006-20241002 (https://download.01.org/0day-ci/archive/20241002/202410020624.PPc1OWux-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020624.PPc1OWux-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   084a6771cfb3ef307b750af8b7c35a07a725fc4c
+commit: 5d130e2cfa3d2aaee4d10e18c075f6c3750600c5 [26381/30000] urma: upload kernel patch for 20240511_mig
+config: arm64-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20241002/202410020611.L9WVfDmZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020611.L9WVfDmZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410020624.PPc1OWux-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410020611.L9WVfDmZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: jffs2_erase_pending_blocks() falls through to next function list_move()
->> vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x31: relocation to !ENDBR: arch_kexec_apply_relocations_add+0x2a8
+   drivers/ub/urma/ubcore/ubcore_msg.c:519:28: warning: no previous prototype for 'ubcore_asyn_send_fe2tpf_msg' [-Wmissing-prototypes]
+     519 | struct ubcore_msg_session *ubcore_asyn_send_fe2tpf_msg(struct ubcore_device *dev,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'ubcore_migrate_req',
+       inlined from 'ubcore_recv_req' at drivers/ub/urma/ubcore/ubcore_msg.c:368:16:
+>> drivers/ub/urma/ubcore/ubcore_msg.c:264:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     264 |         (void)strncpy(mig_resp->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/ub/urma/ubcore/ubcore_umem.c:242:21: warning: no previous prototype for 'ubcore_umem_get' [-Wmissing-prototypes]
+     242 | struct ubcore_umem *ubcore_umem_get(struct ubcore_device *dev, uint64_t va,
+         |                     ^~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_umem.c:260:6: warning: no previous prototype for 'ubcore_umem_release' [-Wmissing-prototypes]
+     260 | void ubcore_umem_release(struct ubcore_umem *umem)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_umem.c:284:10: warning: no previous prototype for 'ubcore_umem_find_best_page_size' [-Wmissing-prototypes]
+     284 | uint64_t ubcore_umem_find_best_page_size(struct ubcore_umem *umem, uint64_t page_size_bitmap,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/ub/urma/ubcore/ubcore_netlink.c:192:5: warning: no previous prototype for 'ubcore_genl_unicast' [-Wmissing-prototypes]
+     192 | int ubcore_genl_unicast(struct ubcore_nlmsg *req, uint32_t len)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netlink.c: In function 'ubcore_create_nl_session':
+>> drivers/ub/urma/ubcore/ubcore_netlink.c:89:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+      89 |         (void)strncpy(s->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/ub/urma/ubcore/ubcore_netdev.c:41:25: warning: no previous prototype for 'ubcore_lookup_sip_info_without_lock' [-Wmissing-prototypes]
+      41 | struct ubcore_sip_info *ubcore_lookup_sip_info_without_lock(
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:75:5: warning: no previous prototype for 'ubcore_notify_uvs_del_sip' [-Wmissing-prototypes]
+      75 | int ubcore_notify_uvs_del_sip(struct ubcore_device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:113:22: warning: no previous prototype for 'ubcore_new_sip_req_msg' [-Wmissing-prototypes]
+     113 | struct ubcore_nlmsg *ubcore_new_sip_req_msg(struct ubcore_device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:145:5: warning: no previous prototype for 'ubcore_notify_uvs_add_sip' [-Wmissing-prototypes]
+     145 | int ubcore_notify_uvs_add_sip(struct ubcore_device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:177:5: warning: no previous prototype for 'ubcore_check_port_state' [-Wmissing-prototypes]
+     177 | int ubcore_check_port_state(struct ubcore_device *dev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_netdev.c:204:6: warning: no previous prototype for 'ubcore_fill_port_netdev' [-Wmissing-prototypes]
+     204 | void ubcore_fill_port_netdev(struct ubcore_device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:268:5: warning: no previous prototype for 'ubcore_set_port_netdev' [-Wmissing-prototypes]
+     268 | int ubcore_set_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:353:5: warning: no previous prototype for 'ubcore_unset_port_netdev' [-Wmissing-prototypes]
+     353 | int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:385:6: warning: no previous prototype for 'ubcore_put_port_netdev' [-Wmissing-prototypes]
+     385 | void ubcore_put_port_netdev(struct ubcore_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:412:5: warning: no previous prototype for 'ubcore_sip_table_init' [-Wmissing-prototypes]
+     412 | int ubcore_sip_table_init(struct ubcore_sip_table *sip_table, uint32_t size)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:431:6: warning: no previous prototype for 'ubcore_sip_table_uninit' [-Wmissing-prototypes]
+     431 | void ubcore_sip_table_uninit(struct ubcore_sip_table *sip_table)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:442:5: warning: no previous prototype for 'ubcore_sip_idx_alloc' [-Wmissing-prototypes]
+     442 | int ubcore_sip_idx_alloc(struct ubcore_sip_table *sip_table)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:458:5: warning: no previous prototype for 'ubcore_sip_idx_free' [-Wmissing-prototypes]
+     458 | int ubcore_sip_idx_free(struct ubcore_sip_table *sip_table, uint32_t idx)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:471:5: warning: no previous prototype for 'ubcore_add_sip_entry' [-Wmissing-prototypes]
+     471 | int ubcore_add_sip_entry(struct ubcore_sip_table *sip_table, const struct ubcore_sip_info *sip,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:489:5: warning: no previous prototype for 'ubcore_del_sip_entry' [-Wmissing-prototypes]
+     489 | int ubcore_del_sip_entry(struct ubcore_sip_table *sip_table, uint32_t idx)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_netdev.c:519:5: warning: no previous prototype for 'ubcore_update_sip_entry' [-Wmissing-prototypes]
+     519 | int ubcore_update_sip_entry(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *new_sip,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:548:5: warning: no previous prototype for 'ubcore_lookup_sip_idx' [-Wmissing-prototypes]
+     548 | int ubcore_lookup_sip_idx(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *sip,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_set_port_netdev':
+   drivers/ub/urma/ubcore/ubcore_netdev.c:275:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
+     275 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_unset_port_netdev':
+   drivers/ub/urma/ubcore/ubcore_netdev.c:360:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
+     360 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/ub/urma/ubcore/ubcore_device.c:413:6: warning: no previous prototype for 'ubcore_destroy_upi_list' [-Wmissing-prototypes]
+     413 | void ubcore_destroy_upi_list(struct ubcore_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:1666:5: warning: no previous prototype for 'ubcore_dispatch_event' [-Wmissing-prototypes]
+    1666 | int ubcore_dispatch_event(struct ubcore_event *event)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:17,
+                    from include/asm-generic/bug.h:20,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/refcount.h:96,
+                    from include/net/net_namespace.h:9,
+                    from drivers/ub/urma/ubcore/ubcore_device.c:21:
+   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_add_ueid':
+   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
+     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
+      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
+         |                ^~~
+   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
+      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:1874:17: note: in expansion of macro 'ubcore_log_err'
+    1874 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
+         |                 ^~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_delete_ueid':
+   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
+     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
+      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
+         |                ^~~
+   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
+      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:1896:17: note: in expansion of macro 'ubcore_log_err'
+    1896 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
+         |                 ^~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c: At top level:
+   drivers/ub/urma/ubcore/ubcore_device.c:2372:6: warning: no previous prototype for 'ubcore_net_exit' [-Wmissing-prototypes]
+    2372 | void ubcore_net_exit(struct net *net)
+         |      ^~~~~~~~~~~~~~~
+   In function 'ubcore_send_remove_tpf_dev_info',
+       inlined from 'uninit_ubcore_device' at drivers/ub/urma/ubcore/ubcore_device.c:1057:37:
+>> drivers/ub/urma/ubcore/ubcore_device.c:823:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     823 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_new_tpf_dev_msg':
+   drivers/ub/urma/ubcore/ubcore_device.c:888:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     888 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:892:17: warning: 'strnlen' specified bound 64 exceeds source size 16 [-Wstringop-overread]
+     892 |                 strnlen(dev->netdev->name, UBCORE_MAX_DEV_NAME) < UBCORE_MAX_DEV_NAME)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/ub/urma/ubcore/ubcore_device.c:32:
+   include/linux/netdevice.h:1957:33: note: source object allocated here
+    1957 |         char                    name[IFNAMSIZ];
+         |                                 ^~~~
+--
+   drivers/ub/urma/ubcore/ubcore_tp.c:70:17: warning: no previous prototype for 'ubcore_get_mtu' [-Wmissing-prototypes]
+      70 | enum ubcore_mtu ubcore_get_mtu(int mtu)
+         |                 ^~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c:341:5: warning: no previous prototype for 'ubcore_modify_tp_state' [-Wmissing-prototypes]
+     341 | int ubcore_modify_tp_state(struct ubcore_device *dev, struct ubcore_tp *tp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c: In function 'ubcore_send_del_tp_req.isra':
+>> drivers/ub/urma/ubcore/ubcore_tp.c:687:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     687 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c: In function 'ubcore_init_create_tp_req':
+   drivers/ub/urma/ubcore/ubcore_tp.c:581:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     581 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/ub/urma/ubcore/ubcore_tpg.c:85:6: warning: no previous prototype for 'ubcore_tpg_kref_get' [-Wmissing-prototypes]
+      85 | void ubcore_tpg_kref_get(struct ubcore_tpg *tpg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tpg':
+   drivers/ub/urma/ubcore/ubcore_tpg.c:100:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     100 |         if (&dev->ht[UBCORE_HT_TPG].head == NULL) {
+         |                                          ^~
+   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
+                    from drivers/ub/urma/ubcore/ubcore_tpg.c:23:
+   include/urma/ubcore_types.h:178:28: note: 'head' declared here
+     178 |         struct hlist_head *head;
+         |                            ^~~~
+   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tp_node':
+   drivers/ub/urma/ubcore/ubcore_tpg.c:131:41: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     131 |         if (&dev->ht[UBCORE_HT_TP].head == NULL) {
+         |                                         ^~
+   include/urma/ubcore_types.h:178:28: note: 'head' declared here
+     178 |         struct hlist_head *head;
+         |                            ^~~~
+--
+   drivers/ub/urma/ubcore/ubcore_vtp.c:337:6: warning: no previous prototype for 'ubcore_hash_table_rmv_vtpn' [-Wmissing-prototypes]
+     337 | void ubcore_hash_table_rmv_vtpn(struct ubcore_device *dev, struct ubcore_vtpn *vtpn,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'ubcore_send_create_vtp_req',
+       inlined from 'ubcore_connect_vtp' at drivers/ub/urma/ubcore/ubcore_vtp.c:419:8:
+>> drivers/ub/urma/ubcore/ubcore_vtp.c:93:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+      93 |         (void)strncpy(create->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-objdump-func vmlinux.o set_ftrace_ops_ro:
-0000 000000000007fd80 <set_ftrace_ops_ro>:
-0000    7fd80:	f3 0f 1e fa          	endbr64
-0004    7fd84:	55                   	push   %rbp
-0005    7fd85:	48 89 e5             	mov    %rsp,%rbp
-0008    7fd88:	41 57                	push   %r15
-000a    7fd8a:	41 56                	push   %r14
-000c    7fd8c:	41 54                	push   %r12
-000e    7fd8e:	53                   	push   %rbx
-000f    7fd8f:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 7fd96 <set_ftrace_ops_ro+0x16>	7fd92: R_X86_64_PC32	ftrace_ops_list-0x4
-0016    7fd96:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	7fd99: R_X86_64_32S	ftrace_regs_caller
-001d    7fd9d:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx	7fda0: R_X86_64_32S	ftrace_caller
-0024    7fda4:	49 c7 c6 00 00 00 00 	mov    $0x0,%r14	7fda7: R_X86_64_32S	_ftrace_branch+0x19f38
-002b    7fdab:	48 f7 d8             	neg    %rax
-002e    7fdae:	48 f7 d9             	neg    %rcx
-0031    7fdb1:	4c 8d 3c 0d 00 00 00 00 	lea    0x0(,%rcx,1),%r15	7fdb5: R_X86_64_32S	ftrace_caller_end+0x100c
-0039    7fdb9:	4c 8d 24 05 00 00 00 00 	lea    0x0(,%rax,1),%r12	7fdbd: R_X86_64_32S	ftrace_regs_caller_end+0x100c
-0041    7fdc1:	48 8b 43 10          	mov    0x10(%rbx),%rax
-0045    7fdc5:	0f ba e0 0b          	bt     $0xb,%eax
-0049    7fdc9:	72 09                	jb     7fdd4 <set_ftrace_ops_ro+0x54>
-004b    7fdcb:	48 ff 05 00 00 00 00 	incq   0x0(%rip)        # 7fdd2 <set_ftrace_ops_ro+0x52>	7fdce: R_X86_64_PC32	_ftrace_branch+0x19f2c
-0052    7fdd2:	eb 2e                	jmp    7fe02 <set_ftrace_ops_ro+0x82>
-0054    7fdd4:	48 ff 05 00 00 00 00 	incq   0x0(%rip)        # 7fddb <set_ftrace_ops_ro+0x5b>	7fdd7: R_X86_64_PC32	_ftrace_branch+0x19f24
-005b    7fddb:	a8 04                	test   $0x4,%al
-005d    7fddd:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	7fde0: R_X86_64_32S	_ftrace_branch+0x19f40
-0064    7fde4:	4c 89 e6             	mov    %r12,%rsi
-0067    7fde7:	49 0f 44 c6          	cmove  %r14,%rax
-006b    7fdeb:	49 0f 44 f7          	cmove  %r15,%rsi
-006f    7fdef:	48 ff 00             	incq   (%rax)
-0072    7fdf2:	48 c1 ee 0c          	shr    $0xc,%rsi
-0076    7fdf6:	48 8b bb b0 00 00 00 	mov    0xb0(%rbx),%rdi
-007d    7fdfd:	e8 00 00 00 00       	call   7fe02 <set_ftrace_ops_ro+0x82>	7fdfe: R_X86_64_PLT32	set_memory_ro-0x4
-0082    7fe02:	48 8b 5b 08          	mov    0x8(%rbx),%rbx
-0086    7fe06:	31 f6                	xor    %esi,%esi
-0088    7fe08:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	7fe0b: R_X86_64_32S	_ftrace_annotated_branch+0xf570
-008f    7fe0f:	ba 01 00 00 00       	mov    $0x1,%edx
-0094    7fe14:	48 85 db             	test   %rbx,%rbx
-0097    7fe17:	40 0f 95 c6          	setne  %sil
-009b    7fe1b:	31 c9                	xor    %ecx,%ecx
-009d    7fe1d:	e8 00 00 00 00       	call   7fe22 <set_ftrace_ops_ro+0xa2>	7fe1e: R_X86_64_PLT32	ftrace_likely_update-0x4
-00a2    7fe22:	48 85 db             	test   %rbx,%rbx
-00a5    7fe25:	74 2a                	je     7fe51 <set_ftrace_ops_ro+0xd1>
-00a7    7fe27:	31 f6                	xor    %esi,%esi
-00a9    7fe29:	48 81 fb 00 00 00 00 	cmp    $0x0,%rbx	7fe2c: R_X86_64_32S	ftrace_list_end
-00b0    7fe30:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	7fe33: R_X86_64_32S	_ftrace_annotated_branch+0xf5a0
-00b7    7fe37:	40 0f 95 c6          	setne  %sil
-00bb    7fe3b:	31 d2                	xor    %edx,%edx
-00bd    7fe3d:	31 c9                	xor    %ecx,%ecx
-00bf    7fe3f:	e8 00 00 00 00       	call   7fe44 <set_ftrace_ops_ro+0xc4>	7fe40: R_X86_64_PLT32	ftrace_likely_update-0x4
-00c4    7fe44:	48 81 fb 00 00 00 00 	cmp    $0x0,%rbx	7fe47: R_X86_64_32S	ftrace_list_end
-00cb    7fe4b:	0f 85 70 ff ff ff    	jne    7fdc1 <set_ftrace_ops_ro+0x41>
-00d1    7fe51:	5b                   	pop    %rbx
-00d2    7fe52:	41 5c                	pop    %r12
-00d4    7fe54:	41 5e                	pop    %r14
-00d6    7fe56:	41 5f                	pop    %r15
-00d8    7fe58:	5d                   	pop    %rbp
-00d9    7fe59:	31 c0                	xor    %eax,%eax
-00db    7fe5b:	31 c9                	xor    %ecx,%ecx
-00dd    7fe5d:	31 ff                	xor    %edi,%edi
-00df    7fe5f:	31 d2                	xor    %edx,%edx
-00e1    7fe61:	31 f6                	xor    %esi,%esi
-00e3    7fe63:	c3                   	ret
-00e4    7fe64:	cc                   	int3
-00e5    7fe65:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-00ef    7fe6f:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-00f9    7fe79:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+vim +/strncpy +264 drivers/ub/urma/ubcore/ubcore_msg.c
+
+   239	
+   240	static struct ubcore_req_host *ubcore_migrate_req(struct ubcore_device *dev,
+   241		struct ubcore_req_host *req_host)
+   242	{
+   243		uint32_t len;
+   244		struct ubcore_nl_function_mig_req *mig_resp;
+   245		struct ubcore_function_mig_req *mig_msg;
+   246		struct ubcore_req_host *req_copy;
+   247	
+   248		len = (uint32_t)sizeof(struct ubcore_req_host) +
+   249			(uint32_t)sizeof(struct ubcore_nl_function_mig_req);
+   250		mig_msg = (struct ubcore_function_mig_req *)req_host->req.data;
+   251		req_copy = kzalloc(len, GFP_KERNEL);
+   252		if (req_copy == NULL) {
+   253			ubcore_log_err("Failed to kzalloc req_host req_copy!\n");
+   254			return NULL;
+   255		}
+   256	
+   257		req_copy->src_fe_idx = req_host->src_fe_idx;
+   258		req_copy->req.opcode = req_host->req.opcode;
+   259		req_copy->req.msg_id = req_host->req.msg_id;
+   260		req_copy->req.len = sizeof(struct ubcore_nl_function_mig_req);
+   261	
+   262		mig_resp = (struct ubcore_nl_function_mig_req *)req_copy->req.data;
+   263		mig_resp->mig_fe_idx = mig_msg->mig_fe_idx;
+ > 264		(void)strncpy(mig_resp->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+   265	
+   266		return req_copy;
+   267	}
+   268	
 
 -- 
 0-DAY CI Kernel Test Service
