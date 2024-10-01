@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F78315E97
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 18:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FCC1CC8B0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 18:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727806837; cv=none; b=T0GI2VKTLgoPl//CYbDBeulpRrRLv/cxDXxBP+K1Nj2jbgX5cfomNVl+TQv0QQNDbJ1HsIj6pP+yujCZqR2r7s49jcRtZtvhGv+A5p6c+LkjJgfAgAwULCazQAi6E9VMIMIbmx/nkUlHfvqJVxwwxiutBA+Mc6kP9lfdHvwF+M4=
+	t=1727806866; cv=none; b=ZvXkWgUIs4aNPH37/PQGK21h3b9Fmw1/zOl2Wn0PBRnmIu3gA0J/k83VKpJmz9X1TOVUZ/NlPuzt3PDfCpPXfET4M/xkyycgKuBxNAOUUsp3gIfnl8+inHwyVHP5A83sw46n88ymYM785h0eL5nFcdRCSsfsbL9jyUy0Y3ajgrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727806837; c=relaxed/simple;
-	bh=90eZVy/jjwwbx0GhohDbzpc7fPQibB2sKhBhTCBwSRY=;
+	s=arc-20240116; t=1727806866; c=relaxed/simple;
+	bh=sMyXaOytFNl8EZD5uMM2ER9N39v8yAYjBwDcbS8zkN8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dvCe78muVr7Y8rsqMeF+8Cq/8wEMODEyGe7DVckhY9lsOHdnjHVDI/zCZFkiQrCWjhWxZ/t2J0GbdzbLmNYGXmz7lluH0m7qkOC9VWpQfBY2qOUqkzKsGTjRkInnW6PADln8ByVs5Pj0V+PYQp1WF0jkjsyUqN68O5B8B0XJHRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLvKmRZp; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=KPIqsYzFNyQwZn4OSq6hHvCxYfPWkbpNB7cOK+cjPImBQWIU1kqiuUC8gk/Qn6295h7ZUv5zOI1AiTU90KvLTfQtSTDoJVurXDKpAYcquVspUKM5xtAMf0HQMsbrPIjlzqHLthQib+04xZv26oh+WeyEz8xekcYaskEpI9pEO/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5j/aCLR; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLvKmRZp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5j/aCLR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727806836; x=1759342836;
+  t=1727806861; x=1759342861;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=90eZVy/jjwwbx0GhohDbzpc7fPQibB2sKhBhTCBwSRY=;
-  b=iLvKmRZpkeTcZ5eLkuZETYbI+w/86Y6kPN+D9QsBZctBUfQATdEaQLNg
-   blx84lOceLN6tVMTfq5udDrUVXaAq5Jsvvnxg9TB2fapTW84ToE4r6LTc
-   8+5lQ/8r94zqt+2P7mECgm9RaopWXD/MPvRb8PSN9Yhzyv+Ki6CmSXaOy
-   fqOeBwNVI15myT9rXkCU3HZrA3eq1kFAi8bPB37gO81Q7gerXrO0+L6F6
-   r6hg4eVAVDXiUrArTVhxO7SQROk+vUm+XKkMxjimQOg2k+hP/GnvBfzRA
-   wC9jLzPVky+1jCWetWMSWnx7Sh2X468UWf3sjNzK0pmnazBXxqqaJlIJ3
-   Q==;
-X-CSE-ConnectionGUID: HEZ/JRDcT+WKnyPnI5bZug==
-X-CSE-MsgGUID: XyYAjB0gTmWk4r4EU7oT1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26462346"
+  bh=sMyXaOytFNl8EZD5uMM2ER9N39v8yAYjBwDcbS8zkN8=;
+  b=W5j/aCLRQrlTvm6t87+0/CRGXVdswP2sNx3SGk80vqstG1l5DX/qHgZa
+   /zg8C909jB8/gCHBTLHreEX+ggyAIORr57T9DIQ7rzFWvOQ5pV/Tw9AW9
+   yQ+Tehutd0f1onuN46e8vNaH2uGQui2vRVm8yvowREWyKFmOieFmSJ2MO
+   k3bBJ7EMkYzEVz7jMU9UcFIUPydqAqWLn5SduAm0ItbG3VW/qsTgTG2T1
+   hRrAzO6dpHsr/4J3zLP4xjEcK/C8Vc/Mm0znQhDtAv/ykBRJpe14csXy1
+   ofGpqv62odtRTNHkGLZAoheIM2npgmrdqTeJhSKFBGVZqwRmYWKCeKyl+
+   A==;
+X-CSE-ConnectionGUID: cgYCSH+rQNmocO5b6vpnXQ==
+X-CSE-MsgGUID: 0FzRbHoIQAm4mShIu68nnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27096307"
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="26462346"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 11:20:35 -0700
-X-CSE-ConnectionGUID: 9iB1exYcQjKxJRZ17qVh5g==
-X-CSE-MsgGUID: zVrRWQlcS9qc2yoOigQwoA==
+   d="scan'208";a="27096307"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 11:20:35 -0700
+X-CSE-ConnectionGUID: IqW1GfucSQW8aqi0sQ1lBw==
+X-CSE-MsgGUID: HxNHHh2LTqK+ArwjczzkKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="78503077"
+   d="scan'208";a="74061378"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Oct 2024 11:20:34 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 01 Oct 2024 11:20:34 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svhU7-000R2e-1d;
+	id 1svhU7-000R2c-1Z;
 	Tue, 01 Oct 2024 18:20:31 +0000
-Date: Wed, 2 Oct 2024 02:19:41 +0800
+Date: Wed, 2 Oct 2024 02:19:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: ObiKeahloa <63236194+ObiKeahloa@users.noreply.github.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:pr/329 2/2] drivers/gpio/gpio-macsmc.c:360:70: warning:
- right-hand operand of comma expression has no effect
-Message-ID: <202410020259.nJ8CgFde-lkp@intel.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: drivers/hwmon/tmp513.c:163:10: error: 'const struct regmap_config'
+ has no member named 'reg_bits'
+Message-ID: <202410020246.2cTDDx0X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +63,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux pr/329
-head:   6abdb8e437d3e97f886f07131659d40379c912bd
-commit: 6abdb8e437d3e97f886f07131659d40379c912bd [2/2] Update gpio-macsmc.c
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241002/202410020259.nJ8CgFde-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020259.nJ8CgFde-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+commit: 4bc82dd20be09fa133bf3116be6afc933497f860 hwmon: (tmp513) Constify struct regmap_config
+date:   3 months ago
+config: x86_64-randconfig-r133-20240215 (https://download.01.org/0day-ci/archive/20241002/202410020246.2cTDDx0X-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020246.2cTDDx0X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410020259.nJ8CgFde-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410020246.2cTDDx0X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpio/gpio-macsmc.c: In function 'macsmc_gpio_probe':
->> drivers/gpio/gpio-macsmc.c:360:70: warning: right-hand operand of comma expression has no effect [-Wunused-value]
-     360 |         smcgp->ic.flags = IRQCHIP_IMMUTABLE | IRQCHIP_SET_TYPE_MASKED, IRQCHIP_MASK_ON_SUSPEND;
-         |                                                                      ^
+   drivers/hwmon/tmp513.c:162:21: error: variable 'tmp51x_regmap_config' has initializer but incomplete type
+     162 | static const struct regmap_config tmp51x_regmap_config = {
+         |                     ^~~~~~~~~~~~~
+>> drivers/hwmon/tmp513.c:163:10: error: 'const struct regmap_config' has no member named 'reg_bits'
+     163 |         .reg_bits = 8,
+         |          ^~~~~~~~
+   drivers/hwmon/tmp513.c:163:21: warning: excess elements in struct initializer
+     163 |         .reg_bits = 8,
+         |                     ^
+   drivers/hwmon/tmp513.c:163:21: note: (near initialization for 'tmp51x_regmap_config')
+>> drivers/hwmon/tmp513.c:164:10: error: 'const struct regmap_config' has no member named 'val_bits'
+     164 |         .val_bits = 16,
+         |          ^~~~~~~~
+   drivers/hwmon/tmp513.c:164:21: warning: excess elements in struct initializer
+     164 |         .val_bits = 16,
+         |                     ^~
+   drivers/hwmon/tmp513.c:164:21: note: (near initialization for 'tmp51x_regmap_config')
+>> drivers/hwmon/tmp513.c:165:10: error: 'const struct regmap_config' has no member named 'max_register'
+     165 |         .max_register = TMP51X_MAX_REGISTER_ADDR,
+         |          ^~~~~~~~~~~~
+   drivers/hwmon/tmp513.c:79:41: warning: excess elements in struct initializer
+      79 | #define TMP51X_MAX_REGISTER_ADDR        0xFF
+         |                                         ^~~~
+   drivers/hwmon/tmp513.c:165:25: note: in expansion of macro 'TMP51X_MAX_REGISTER_ADDR'
+     165 |         .max_register = TMP51X_MAX_REGISTER_ADDR,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/tmp513.c:79:41: note: (near initialization for 'tmp51x_regmap_config')
+      79 | #define TMP51X_MAX_REGISTER_ADDR        0xFF
+         |                                         ^~~~
+   drivers/hwmon/tmp513.c:165:25: note: in expansion of macro 'TMP51X_MAX_REGISTER_ADDR'
+     165 |         .max_register = TMP51X_MAX_REGISTER_ADDR,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/tmp513.c: In function 'tmp51x_probe':
+   drivers/hwmon/tmp513.c:726:24: error: implicit declaration of function 'devm_regmap_init_i2c' [-Werror=implicit-function-declaration]
+     726 |         data->regmap = devm_regmap_init_i2c(client, &tmp51x_regmap_config);
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/tmp513.c:726:22: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     726 |         data->regmap = devm_regmap_init_i2c(client, &tmp51x_regmap_config);
+         |                      ^
+   drivers/hwmon/tmp513.c: At top level:
+   drivers/hwmon/tmp513.c:756:1: warning: data definition has no type or storage class
+     756 | module_i2c_driver(tmp51x_driver);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/hwmon/tmp513.c:756:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Werror=implicit-int]
+   drivers/hwmon/tmp513.c:756:1: warning: parameter names (without types) in function declaration
+   drivers/hwmon/tmp513.c:162:35: error: storage size of 'tmp51x_regmap_config' isn't known
+     162 | static const struct regmap_config tmp51x_regmap_config = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/tmp513.c:747:26: warning: 'tmp51x_driver' defined but not used [-Wunused-variable]
+     747 | static struct i2c_driver tmp51x_driver = {
+         |                          ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +360 drivers/gpio/gpio-macsmc.c
+vim +163 drivers/hwmon/tmp513.c
 
-   312	
-   313	static int macsmc_gpio_probe(struct platform_device *pdev)
-   314	{
-   315		struct macsmc_gpio *smcgp;
-   316		struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
-   317		smc_key key;
-   318		int ret;
-   319	
-   320		smcgp = devm_kzalloc(&pdev->dev, sizeof(*smcgp), GFP_KERNEL);
-   321		if (!smcgp)
-   322			return -ENOMEM;
-   323	
-   324		pdev->dev.of_node = of_get_child_by_name(pdev->dev.parent->of_node, "gpio");
-   325	
-   326		smcgp->dev = &pdev->dev;
-   327		smcgp->smc = smc;
-   328		smcgp->first_index = apple_smc_find_first_key_index(smc, SMC_KEY(gP00));
-   329	
-   330		if (smcgp->first_index >= apple_smc_get_key_count(smc))
-   331			return -ENODEV;
-   332	
-   333		ret = apple_smc_get_key_by_index(smc, smcgp->first_index, &key);
-   334		if (ret < 0)
-   335			return ret;
-   336	
-   337		if (key > macsmc_gpio_key(MAX_GPIO - 1))
-   338			return -ENODEV;
-   339	
-   340		dev_info(smcgp->dev, "First GPIO key: %p4ch\n", &key);
-   341	
-   342		smcgp->gc.label = "macsmc-pmu-gpio";
-   343		smcgp->gc.owner = THIS_MODULE;
-   344		smcgp->gc.get = macsmc_gpio_get;
-   345		smcgp->gc.set = macsmc_gpio_set;
-   346		smcgp->gc.get_direction = macsmc_gpio_get_direction;
-   347		smcgp->gc.init_valid_mask = macsmc_gpio_init_valid_mask;
-   348		smcgp->gc.can_sleep = true;
-   349		smcgp->gc.ngpio = MAX_GPIO;
-   350		smcgp->gc.base = -1;
-   351		smcgp->gc.parent = &pdev->dev;
-   352	
-   353		smcgp->ic.name = "macsmc-pmu-gpio";
-   354		smcgp->ic.irq_mask = macsmc_gpio_irq_disable;
-   355		smcgp->ic.irq_unmask = macsmc_gpio_irq_enable;
-   356		smcgp->ic.irq_set_type = macsmc_gpio_irq_set_type;
-   357		smcgp->ic.irq_bus_lock = macsmc_gpio_irq_bus_lock;
-   358		smcgp->ic.irq_bus_sync_unlock = macsmc_gpio_irq_bus_sync_unlock;
-   359		smcgp->ic.irq_set_type = macsmc_gpio_irq_set_type;
- > 360		smcgp->ic.flags = IRQCHIP_IMMUTABLE | IRQCHIP_SET_TYPE_MASKED, IRQCHIP_MASK_ON_SUSPEND;
-   361	
-   362		smcgp->gc.irq.chip = &smcgp->ic;
-   363		smcgp->gc.irq.parent_handler = NULL;
-   364		smcgp->gc.irq.num_parents = 0;
-   365		smcgp->gc.irq.parents = NULL;
-   366		smcgp->gc.irq.default_type = IRQ_TYPE_NONE;
-   367		smcgp->gc.irq.handler = handle_simple_irq;
-   368	
-   369		mutex_init(&smcgp->irq_mutex);
-   370	
-   371		smcgp->nb.notifier_call = macsmc_gpio_event;
-   372		apple_smc_register_notifier(smc, &smcgp->nb);
-   373	
-   374		return devm_gpiochip_add_data(&pdev->dev, &smcgp->gc, smcgp);
-   375	}
-   376	
+59dfa75e5d82a1 Eric Tremblay   2019-11-12  161  
+4bc82dd20be09f Javier Carrasco 2024-07-02  162  static const struct regmap_config tmp51x_regmap_config = {
+59dfa75e5d82a1 Eric Tremblay   2019-11-12 @163  	.reg_bits = 8,
+59dfa75e5d82a1 Eric Tremblay   2019-11-12 @164  	.val_bits = 16,
+59dfa75e5d82a1 Eric Tremblay   2019-11-12 @165  	.max_register = TMP51X_MAX_REGISTER_ADDR,
+59dfa75e5d82a1 Eric Tremblay   2019-11-12  166  };
+59dfa75e5d82a1 Eric Tremblay   2019-11-12  167  
+
+:::::: The code at line 163 was first introduced by commit
+:::::: 59dfa75e5d82a1e1b3d090a1d51fc14f66844576 hwmon: Add driver for Texas Instruments TMP512/513 sensor chips.
+
+:::::: TO: Eric Tremblay <etremblay@distech-controls.com>
+:::::: CC: Guenter Roeck <linux@roeck-us.net>
 
 -- 
 0-DAY CI Kernel Test Service
