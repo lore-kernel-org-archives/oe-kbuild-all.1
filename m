@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE473201;
-	Tue,  1 Oct 2024 06:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDD1199247
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 07:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727762460; cv=none; b=E3JmhgdKRe9Lz/g1/jS3VcuZEIkqokoqjISTeJDPbyLVrej39I8E345c/4OULwQCVJ+B6Ut1FPSuY+0rjaf0f+fYwvKVElrBbAKYvO2R38ylLiS3xbUpsvzakc5RzEUo78cO7O6YqiYlEy6tuB9oUp2EDtIHxllOZca+DzUkkxw=
+	t=1727766183; cv=none; b=eZ8oQy0uE9w5DRkzyDqrjam73ynClVGjSw5qnvSymmirM+UJpiZh4Y462hAYgbHHcd1qqWCb0ZgSxocTg0l1D1MfoAEcBlv+dJkVO9h23Oi5AbkedZ+KFpN00N7dPKABUpadiIjYj1SWG43tNW5DjxpB86kas5F4rlGjmvSgXi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727762460; c=relaxed/simple;
-	bh=e0ucNSqZyVSG9GxzOeQRnWshI/L8IYO+stZaHultQZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UCEcma51OpHpEr/TAbLwtwJoLlOVacCla+ji94VRPdhzKnB+VwnWbjOLJjWJ2GHA2808IU36RylZ35EBQafQL3blNPHH+XRsdcif2BxRaiobu7HRgjv/Xb7IefOiAYkVNwlEk08ckwdGtMCAW3ALtAcriRszUL5XCRuLCeStaN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ak4If4dd; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1727766183; c=relaxed/simple;
+	bh=5pjTwgYOmqpBB0LjumlV0nwBjHebEZDkgDLmmEgKPQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L0xpM1Br3QIWJU9rxqwXySa1MfFiUmsQFkbUfr+MbYIk/ruCTLuQaT2DLanB7PdftzN8yOlXi1Yh7kEvBindanBWQj0+GQR54Z9dfx7AZ0mW4F6ziZLrMHXwdwpFhPNMUBD8RJrRtDiiB3M71g2gHmD0lj38fKP5fvQSnj3c+TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6a9FT6L; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ak4If4dd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6a9FT6L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727762458; x=1759298458;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e0ucNSqZyVSG9GxzOeQRnWshI/L8IYO+stZaHultQZA=;
-  b=ak4If4ddV9zwIutLj9Fdu4QmtcV49dOQgDxTg43xS1fVvpQE20+T4/i1
-   LhYtr2nz+GyYnz0Ukm6VHT8gxDo/ZNczhi33rDF0mQ3G6WNVjKMKD7X05
-   FhW7v2BahCQhVhboTvNBUxS6KwE2swsnCbvBI2HgcTOE5PBCsVHQ0qMBS
-   IGCnkeN+4Asob6rijAkHhMCMOmImzixgZVV+wdueUZpd35CSH+yllX4V/
-   aYZYHLNLenIBVgjBKe/UZ8En4ecMaHtssOY/kCm5eJ3kMkfNFWljWrM78
-   QLgb0PNZfvhd7oGbiQUSsEn19BXqfoAi5E2ibuLeqLge7J4WYk5ztCv1i
+  t=1727766182; x=1759302182;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5pjTwgYOmqpBB0LjumlV0nwBjHebEZDkgDLmmEgKPQo=;
+  b=n6a9FT6LIttb574O1yG9KbvZHqT96TicZlIokEe14LWyiUVmGYiEn14A
+   EHuYozKlHqKsDPmD9Jj8FWy8jbKsomv38ePvVhr+2ZbU7YZypOAuVUbH5
+   3aTKsmI84FV5HGsjgCA/V6D5Gb4RTEPSd9IhD6FFWLOYOMDJAf5Ip6ZIB
+   4sWDTAlpvt+BZ2G2ju64K/5h5erFwEoEKXquNm69g5qjM4qSNsKOkm1NL
+   AaoW+kmeTmZqs3BQm1kWosh3E3s4xRkT8uk0tJ71HWGE2C+kB8yKyWfXD
+   /4j/0DVx+bT//RRTDR0bGTbsc0caDBxogQE6cLk5/E04b1RDgs/8uDknQ
    w==;
-X-CSE-ConnectionGUID: y4T0bt8vSvq3YcSf7yWYbg==
-X-CSE-MsgGUID: wwaHy7cnRLSIJ6+Dk27kIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26333425"
+X-CSE-ConnectionGUID: dkHEH8J8RwefoQj01TPiKg==
+X-CSE-MsgGUID: Hc0TSxliTtiIY20Icy7Rwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="30582541"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="26333425"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 23:00:58 -0700
-X-CSE-ConnectionGUID: sswBxU7ASl20MNY9RwGpvg==
-X-CSE-MsgGUID: K0DR1l5ZTBi6O1P5XPargA==
+   d="scan'208";a="30582541"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 00:03:01 -0700
+X-CSE-ConnectionGUID: Gu0nZ05ESieXFp8v+6G8Ag==
+X-CSE-MsgGUID: 1cefmXJ2Sim6Dt3eE1xM2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="74316564"
+   d="scan'208";a="78525863"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Sep 2024 23:00:56 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Oct 2024 00:03:00 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svVwL-000QJB-1b;
-	Tue, 01 Oct 2024 06:00:53 +0000
-Date: Tue, 1 Oct 2024 14:00:34 +0800
+	id 1svWuP-000QMH-08;
+	Tue, 01 Oct 2024 07:02:57 +0000
+Date: Tue, 1 Oct 2024 15:02:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>
-Subject: [viro-vfs:work.xattr 9/9] fs/xattr.c:971:28: error: use of
- undeclared identifier 'pathname'; did you mean 'putname'?
-Message-ID: <202410011312.c884e7lp-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Kuniyuki Iwashima <kuniyu@amazon.com>
+Subject: Re: [PATCH v1 net-next 1/3] rtnetlink: Add per-net RTNL.
+Message-ID: <202410011447.gX9yfZVj-lkp@intel.com>
+References: <20240930202524.59357-2-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,193 +66,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240930202524.59357-2-kuniyu@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.xattr
-head:   242dce7f3a28f84e733f16d29368cedf91feccf3
-commit: 242dce7f3a28f84e733f16d29368cedf91feccf3 [9/9] fs/xattr: add *at family syscalls
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241001/202410011312.c884e7lp-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011312.c884e7lp-lkp@intel.com/reproduce)
+Hi Kuniyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/rtnetlink-Add-per-net-RTNL/20241001-043219
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240930202524.59357-2-kuniyu%40amazon.com
+patch subject: [PATCH v1 net-next 1/3] rtnetlink: Add per-net RTNL.
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241001/202410011447.gX9yfZVj-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011447.gX9yfZVj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410011312.c884e7lp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410011447.gX9yfZVj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/xattr.c:15:
-   In file included from include/linux/xattr.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/xattr.c:971:28: error: use of undeclared identifier 'pathname'; did you mean 'putname'?
-     971 |         error = user_path_at(dfd, pathname, lookup_flags, &path);
-         |                                   ^~~~~~~~
-         |                                   putname
-   include/linux/fs.h:2769:13: note: 'putname' declared here
-    2769 | extern void putname(struct filename *name);
-         |             ^
-   fs/xattr.c:990:10: warning: unused variable 'error' [-Wunused-variable]
-     990 |         ssize_t error;
-         |                 ^~~~~
->> fs/xattr.c:1092:37: error: incompatible pointer types passing 'struct xattr_name *' to parameter of type 'const char *' [-Werror,-Wincompatible-pointer-types]
-    1092 |                                             fd_file(f)->f_path.dentry, &kname);
-         |                                                                        ^~~~~~
-   fs/xattr.c:1037:68: note: passing argument to parameter 'name' here
-    1037 | removexattr(struct mnt_idmap *idmap, struct dentry *d, const char *name)
-         |                                                                    ^
->> fs/xattr.c:1097:2: error: use of undeclared identifier 'lookup_flags'
-    1097 |         lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
-         |         ^
-   fs/xattr.c:1098:45: error: use of undeclared identifier 'lookup_flags'
-    1098 |         return filename_removexattr(dfd, filename, lookup_flags, &kname);
-         |                                                    ^
-   2 warnings and 4 errors generated.
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   In file included from include/linux/spinlock.h:63,
+   from include/linux/sched.h:2140,
+   from arch/m68k/kernel/asm-offsets.c:15:
+>> include/linux/lockdep.h:413:52: error: unknown type name 'lock_cmp_fn'
+   413 | void lockdep_set_lock_cmp_fn(struct lockdep_map *, lock_cmp_fn, lock_print_fn);
+   |                                                    ^~~~~~~~~~~
+>> include/linux/lockdep.h:413:65: error: unknown type name 'lock_print_fn'
+   413 | void lockdep_set_lock_cmp_fn(struct lockdep_map *, lock_cmp_fn, lock_print_fn);
+   |                                                                 ^~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:102: arch/m68k/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1203: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PROVE_LOCKING
+   Depends on [n]: DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=n]
+   Selected by [y]:
+   - DEBUG_NET_SMALL_RTNL [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +971 fs/xattr.c
+vim +/lock_cmp_fn +413 include/linux/lockdep.h
 
-   962	
-   963	static
-   964	ssize_t filename_listxattrat(int dfd, struct filename *filename,
-   965				     unsigned int lookup_flags,
-   966				     char __user *list, size_t size)
-   967	{
-   968		struct path path;
-   969		ssize_t error;
-   970	retry:
- > 971		error = user_path_at(dfd, pathname, lookup_flags, &path);
-   972		if (error)
-   973			goto out;
-   974		error = listxattr(path.dentry, list, size);
-   975		path_put(&path);
-   976		if (retry_estale(error, lookup_flags)) {
-   977			lookup_flags |= LOOKUP_REVAL;
-   978			goto retry;
-   979		}
-   980	out:
-   981		putname(filename);
-   982		return error;
-   983	}
-   984	
-   985	static ssize_t path_listxattrat(int dfd, const char __user *pathname,
-   986					unsigned int at_flags, char __user *list,
-   987					size_t size)
-   988	{
-   989		struct filename *filename;
-   990		ssize_t error;
-   991		int lookup_flags;
-   992	
-   993		if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
-   994			return -EINVAL;
-   995	
-   996		filename = getname_xattr(pathname, at_flags);
-   997		if (!filename) {
-   998			CLASS(fd, f)(dfd);
-   999			if (fd_empty(f))
-  1000				return -EBADF;
-  1001			audit_file(fd_file(f));
-  1002			return listxattr(file_dentry(fd_file(f)), list, size);
-  1003		}
-  1004	
-  1005		lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
-  1006		return filename_listxattrat(dfd, filename, lookup_flags, list, size);
-  1007	}
-  1008	
-  1009	SYSCALL_DEFINE5(listxattrat, int, dfd, const char __user *, pathname,
-  1010			unsigned int, at_flags,
-  1011			char __user *, list, size_t, size)
-  1012	{
-  1013		return path_listxattrat(dfd, pathname, at_flags, list, size);
-  1014	}
-  1015	
-  1016	SYSCALL_DEFINE3(listxattr, const char __user *, pathname, char __user *, list,
-  1017			size_t, size)
-  1018	{
-  1019		return path_listxattrat(AT_FDCWD, pathname, 0, list, size);
-  1020	}
-  1021	
-  1022	SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
-  1023			size_t, size)
-  1024	{
-  1025		return path_listxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, list, size);
-  1026	}
-  1027	
-  1028	SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
-  1029	{
-  1030		return path_listxattrat(fd, NULL, AT_EMPTY_PATH, list, size);
-  1031	}
-  1032	
-  1033	/*
-  1034	 * Extended attribute REMOVE operations
-  1035	 */
-  1036	static long
-  1037	removexattr(struct mnt_idmap *idmap, struct dentry *d, const char *name)
-  1038	{
-  1039		if (is_posix_acl_xattr(name))
-  1040			return vfs_remove_acl(idmap, d, name);
-  1041		return vfs_removexattr(idmap, d, name);
-  1042	}
-  1043	
-  1044	static int filename_removexattr(int dfd, struct filename *filename,
-  1045					unsigned int lookup_flags, struct xattr_name *kname)
-  1046	{
-  1047		struct path path;
-  1048		int error;
-  1049	
-  1050	retry:
-  1051		error = filename_lookup(dfd, filename, lookup_flags, &path, NULL);
-  1052		if (error)
-  1053			goto out;
-  1054		error = mnt_want_write(path.mnt);
-  1055		if (!error) {
-  1056			error = removexattr(mnt_idmap(path.mnt), path.dentry, kname->name);
-  1057			mnt_drop_write(path.mnt);
-  1058		}
-  1059		path_put(&path);
-  1060		if (retry_estale(error, lookup_flags)) {
-  1061			lookup_flags |= LOOKUP_REVAL;
-  1062			goto retry;
-  1063		}
-  1064	out:
-  1065		putname(filename);
-  1066		return error;
-  1067	}
-  1068	
-  1069	static int path_removexattrat(int dfd, const char __user *pathname,
-  1070				      unsigned int at_flags, const char __user *name)
-  1071	{
-  1072		struct xattr_name kname;
-  1073		struct filename *filename;
-  1074		int error;
-  1075	
-  1076		if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
-  1077			return -EINVAL;
-  1078	
-  1079		error = import_xattr_name(&kname, name);
-  1080		if (error)
-  1081			return error;
-  1082	
-  1083		filename = getname_xattr(pathname, at_flags);
-  1084		if (!filename) {
-  1085			CLASS(fd, f)(dfd);
-  1086			if (fd_empty(f))
-  1087				return -EBADF;
-  1088			audit_file(fd_file(f));
-  1089			error = mnt_want_write_file(fd_file(f));
-  1090			if (!error) {
-  1091				error = removexattr(file_mnt_idmap(fd_file(f)),
-> 1092						    fd_file(f)->f_path.dentry, &kname);
-  1093				mnt_drop_write_file(fd_file(f));
-  1094			}
-  1095			return error;
-  1096		}
-> 1097		lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
-  1098		return filename_removexattr(dfd, filename, lookup_flags, &kname);
-  1099	}
-  1100	
+fbb9ce9530fd9b6 Ingo Molnar     2006-07-03  411  
+eb1cfd09f788e39 Kent Overstreet 2023-05-09  412  #ifdef CONFIG_PROVE_LOCKING
+eb1cfd09f788e39 Kent Overstreet 2023-05-09 @413  void lockdep_set_lock_cmp_fn(struct lockdep_map *, lock_cmp_fn, lock_print_fn);
+eb1cfd09f788e39 Kent Overstreet 2023-05-09  414  
 
 -- 
 0-DAY CI Kernel Test Service
