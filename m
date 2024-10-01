@@ -1,98 +1,100 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650E4198E99
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 11:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EC518593B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 12:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727783580; cv=none; b=XdZ7vm/jvkQc0a13W+Rw8N3R6KSl8V7OujewkWD+vn5p7XRdQ9kx5mdMmxFq7LjzwXFj8FVweFGTTJLb+ldDJYP2CL3TLUn5iCE9XFmP624bshB5ztRBR0s02LMeO3uj1umkkBt//rQ4JRFRlslo3A3uuQ4XWi2Ijh452j5YBzY=
+	t=1727784060; cv=none; b=V3AYFQayLO6kQEV437YtD1iWGsASHlsO6rKZ001Uy4psN6I3OK419QvMvj6P5KBvCbEOSSutslNqy65crw8Xy3TynbucM+wui/RynEqCM1kihFZWwmt+feH2rRonqrtuaooKOy09Bj9PR8G0k0ZsUgYXsqU4Nu2joVPRLs0Y5lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727783580; c=relaxed/simple;
-	bh=qgIEJoE2SaNv1GJKZnRrcn29nLGVC020hhZBFuuCajc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VoTU2xjIbgLTka+ZYy/2fa/2fSSGWINlG5xFQiH5ycJL0kAaYojTW4g2MTEnb58OKUVvtN0P2OXFHOnR4uOWWeUoKUHBAKknkYpKbdFoqNSJN1ifVluz/D0stmhpS4JCFiI324p0nIsznoMYmV3NQ+sGpKiXDBgPle87VOPoNyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e0875f1e9edso4724695276.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Oct 2024 04:52:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727783577; x=1728388377;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d4YIvF1g8OtVmJFvpFme0P60tjKwaP4iqZOBius0DoU=;
-        b=cgq8a0XKfcZ2G01N4tYqjkdNWHAD1oqgMmGDuS52AJpY6Z9GF3IH6rORQsamwGtTlQ
-         h5h3luy4U+guzrsY5DdnDbtBNcuBi6D0IuCW/i1l1vlzoCtI4/hJUNCxFMZw9DhmYfMo
-         GkJTvTYRYDxCgGvc69DA1dbnfgYRVfUDeezSdaEFcick+6OFUnW+TCnI6LVy7ptJ8PMt
-         jJEPwlxTl6xp0sfkygGgeQpjP2UI4gLLRcDbckgHHDbPLVf3xalzMfkR8w22L95ucETJ
-         zgf198hlUxx6MBD4mRi9+mkmurIchWlY7aLiXygw6cHFYSJkR5K7MfBBa+YuLECMAoaa
-         RIzA==
-X-Gm-Message-State: AOJu0YxjrAY8UVDCfou8v4XtUnU5vvl+nL7ROsJXit0iEneWnxj6+N+h
-	kupUtnxpQ12mTdvQSGcanbyBF4W1oFDd6KcG+2+l8y3ipAmT3NB+IFbqQ3KU
-X-Google-Smtp-Source: AGHT+IHYDGh5aQ+4R6HcXz91NsZR25H1183oK71bOi0gYt+3gXEtQHRUY6O8VXmEj+Qoey23DHdeCQ==
-X-Received: by 2002:a25:aaa8:0:b0:e26:b55:77 with SMTP id 3f1490d57ef6-e260b550147mr8203904276.24.1727783576866;
-        Tue, 01 Oct 2024 04:52:56 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e25e4322e57sm3097322276.38.2024.10.01.04.52.56
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2024 04:52:56 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6db20e22c85so47177457b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Oct 2024 04:52:56 -0700 (PDT)
-X-Received: by 2002:a05:690c:1a:b0:65f:cd49:48e0 with SMTP id
- 00721157ae682-6e247600474mr119818157b3.31.1727783576204; Tue, 01 Oct 2024
- 04:52:56 -0700 (PDT)
+	s=arc-20240116; t=1727784060; c=relaxed/simple;
+	bh=IKIVvq/Cyglp1jeBg3AyVeHo+lhJ14utN7qA3vCuOT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=af41Pn+PMA0s9ciz8VbPd04AOJPFhN0Mq4Oj7SPPRvjHpDITIMzOQ18xbf4uiv7yI3j2sXgSX5KKDs7+RQ4KaicS3A7jgKeDNFAOGZbOr8KGRYXzIYRDh1ZGZe2MvGpordmEarxuqlyDf5Bt11i4CzZEgq/DgNB+5AKW3qaO0ZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBSjfFJ+; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBSjfFJ+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727784059; x=1759320059;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IKIVvq/Cyglp1jeBg3AyVeHo+lhJ14utN7qA3vCuOT8=;
+  b=PBSjfFJ+hr46Ccmi2BP5RSjw4xYoLjcVIzgUNtpYpmAijRYz27BeZPiM
+   gDaNCALaTaq72u4MEne6RynYzxBwVsgTmLhZwmDd0To92YjOoLm65Ra+O
+   zvWvr+Wc2/0YRsSksrG2Or16Hnapu1nJIsJDG2FUZ+koJMEbkObt1tKCC
+   tfiXPMMjXy+4P4cvZ7S1fW2oFgJPsHbqhO6iYSvr87Ew74zi3brMZCmq9
+   D+LG4jOAJTUEENzS3o9BnHRnQnuCFU2OJVGnwcCT0guAtmTySeY5wY5L6
+   yIMiduRhhtPOAwqPpt4aHf3i0W20MRowW68vb6QuKRLUWxYomRprHQGAm
+   Q==;
+X-CSE-ConnectionGUID: jU7epOd8RLGKYyn32Ge13g==
+X-CSE-MsgGUID: IJb/dEcjQneGrQYGHL7Lvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26374350"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="26374350"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:00:58 -0700
+X-CSE-ConnectionGUID: oC5VCxHaRpKA7s4lLsktzg==
+X-CSE-MsgGUID: B5vfAF7GQJO3zdAjkY+8OQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="73961734"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 01 Oct 2024 05:00:14 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1svbY3-000QeH-1c;
+	Tue, 01 Oct 2024 12:00:11 +0000
+Date: Tue, 1 Oct 2024 20:00:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Kuniyuki Iwashima <kuniyu@amazon.com>
+Subject: Re: [PATCH v1 net-next 1/3] rtnetlink: Add per-net RTNL.
+Message-ID: <202410011928.ux2dA2GV-lkp@intel.com>
+References: <20240930202524.59357-2-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202410011845.UiVJJtwf-lkp@intel.com>
-In-Reply-To: <202410011845.UiVJJtwf-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Oct 2024 13:52:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUxFzMTpAb-4L5Q4vdUE4_mSRJxCMf-UoscDHuwH3-TUw@mail.gmail.com>
-Message-ID: <CAMuHMdUxFzMTpAb-4L5Q4vdUE4_mSRJxCMf-UoscDHuwH3-TUw@mail.gmail.com>
-Subject: Re: [linux-next:master 968/1347] arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb:
- /i2c@ff110000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5651']
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Heiko Stuebner <heiko@sntech.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240930202524.59357-2-kuniyu@amazon.com>
 
-On Tue, Oct 1, 2024 at 12:58=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   77df9e4bb2224d8ffbddec04c333a9d7965dad6c
-> commit: 2f39bba3b4f037d6c3c9174eed5befcef1c79abb [968/1347] arm64: dts: r=
-ockchip: Fix rt5651 compatible value on rk3399-eaidk-610
-> config: arm64-randconfig-051-20241001 (https://download.01.org/0day-ci/ar=
-chive/20241001/202410011845.UiVJJtwf-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> dtschema version: 2024.10.dev4+g577c1ab
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20241001/202410011845.UiVJJtwf-lkp@intel.com/reproduce)
+Hi Kuniyuki,
 
-> >> arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: /i2c@ff110000/audio=
--codec@1a: failed to match any schema with compatible: ['realtek,rt5651']
+kernel test robot noticed the following build warnings:
 
-This is expected, as Documentation/devicetree/bindings/sound/rt5651.txt
-is still a plain text DT binding, and wasn't converted to json-schema yet.
+[auto build test WARNING on net-next/main]
 
-Gr{oetje,eeting}s,
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/rtnetlink-Add-per-net-RTNL/20241001-043219
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240930202524.59357-2-kuniyu%40amazon.com
+patch subject: [PATCH v1 net-next 1/3] rtnetlink: Add per-net RTNL.
+config: x86_64-kismet-CONFIG_PROVE_LOCKING-CONFIG_DEBUG_NET_SMALL_RTNL-0-0 (https://download.01.org/0day-ci/archive/20241001/202410011928.ux2dA2GV-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241001/202410011928.ux2dA2GV-lkp@intel.com/reproduce)
 
-                        Geert
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410011928.ux2dA2GV-lkp@intel.com/
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PROVE_LOCKING when selected by DEBUG_NET_SMALL_RTNL
+   WARNING: unmet direct dependencies detected for PROVE_LOCKING
+     Depends on [n]: DEBUG_KERNEL [=n] && LOCK_DEBUGGING_SUPPORT [=y]
+     Selected by [y]:
+     - DEBUG_NET_SMALL_RTNL [=y]
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
