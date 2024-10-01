@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB36BA37;
-	Tue,  1 Oct 2024 03:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98B618D644
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 03:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727751954; cv=none; b=GMSvp+sBWLPmvsu3vNkOf4TA/7L/iCC1t6ebdSKtNq4TyExvmbJFsBHpqweXtrlSTUW+qV2HDbD3wIzaT7pLaMB/84DHx7S7T6rmrCnjzDR8ZmOjupeTFb/Zf1uVhU31YDF9Ea2Jua87PBlTSkHXpGPCeCHdNmv9XrG49nbZHeI=
+	t=1727753216; cv=none; b=qEgjhBjIi/UC769pjwJs216hr/XZJhTc69jCVLEr3MKxJ3iab37SPIHi/vJ8EVbAEraQeatWcZA01IobnQMnxJYQLv/j1N7FHwTlT2tlXQgSOF38jvjgpRY6CiqmZ69cF7Nn2MbmfSmu8YQCHwR/3Uz/AlS6HPg+pMUIIjEoTZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727751954; c=relaxed/simple;
-	bh=irPUzE0q3LMoztClPUKr1FGEat0NuPzhHFsvqqzyfBA=;
+	s=arc-20240116; t=1727753216; c=relaxed/simple;
+	bh=BZSGgs6xQkIailMKfFzTNSA3/PsvFMStaPKXMjG0bKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FNoKmDrB82XNO4uM3hq2EnOo41c8Kstzfz6PPYafMoxwMa4S+swDHboTv5Kb7JQxaVDSq246bO8+j0IiqyXI7zo9dRDoh5Bycmc47Ntg+CynmXNUvx49Xqe/HLOA8sJIHBT+xTnJPN+pkOXEXbn35xiTCBVNc6HRfZZrZbVzmBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LamGV30P; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=PFer0yGXcsQhuMKNa3OCB35+Qrml5CUOnSrXPov1bSjszuC6c34fZfUFwB/aaEyntjyVey2ZA8mXGTXBLrpJ0gfMq+tWiMjZ8FtJcwxweDqfLCKGbhvugy4shOp1RUWBSVjBMSRsOhBguAvzEhXwRTlBR80He7Z7qpfQvndCchs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqxDaDmd; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LamGV30P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqxDaDmd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727751953; x=1759287953;
+  t=1727753213; x=1759289213;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=irPUzE0q3LMoztClPUKr1FGEat0NuPzhHFsvqqzyfBA=;
-  b=LamGV30PvhLe+GIz5drnCEJzdkzZV1/aN+ZBc9Pm7KvjRhWH0vQEYYKZ
-   nV+Ka5gDfNUTT38vyw9r4TNzyfBvLfnC3vI2hX8BwCZxYo6ABGCVS8e1q
-   0ONbXelzxcKAjn3wFo7QbN88Fsr+3TszYeOJBqJK/aRX1KEKeCr2e0Rz9
-   N3/nZHsb9dr8HrAjhFYajfOWMDxx0CK2Jp9HDDu34sI+Nv01rCqRf6KlM
-   kvZEEAnjcXquulf5rKGrB0EW2EPTpaKgJrB91Bc83Y+sMgWdVyMOxpnxc
-   Jh2E5tpDs2Qkp4xWBYpIG957GPZO89cwHZ8lrxjXieN4uvqiqPmt67t9d
-   g==;
-X-CSE-ConnectionGUID: /FR0NixATeaZaRL3K1hCKQ==
-X-CSE-MsgGUID: QSCVMLE0S1+xg9fhBricyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26323574"
+  bh=BZSGgs6xQkIailMKfFzTNSA3/PsvFMStaPKXMjG0bKk=;
+  b=iqxDaDmdyHPmDT0V3eCwyQd6i6nvXw1drHXlQl3s4hynY549HbEyvlmN
+   Gvo5LtPFsLgJWO+GOiLs/PWeex2P82pnLFBBCc5zHo0+QF9m2Jxtfqngi
+   1/Xe3IWkPnFRjhbaccIzfHP4izvet3ocLV+WwQ1KyGKuGJcUBSIiinmKK
+   gD9bBCyWQgTqDFJ/jaU7mvZOstC/8fynj+TtlPKiujdD1ACGGv5gB9vr2
+   yY1IDS+33OsRAy6eIKRTHhzvWFyGauohBh32mJeY84QR6KrGJ2l8sw5cK
+   AHQtiIkMiHUPCyHqG9FqVxRdjTZfVyY7/Icu3D449jSeE2gmDjq9z1lzy
+   A==;
+X-CSE-ConnectionGUID: ZWsRyOwYRL6ANbuYVWRINQ==
+X-CSE-MsgGUID: wns1+4j/SDG7KUlTOyPKxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="44327605"
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="26323574"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 20:05:51 -0700
-X-CSE-ConnectionGUID: m1HjSWqcQx233YTGxemSFw==
-X-CSE-MsgGUID: RlJkglm2TKe4eRVyXvZg3g==
+   d="scan'208";a="44327605"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 20:26:53 -0700
+X-CSE-ConnectionGUID: 5KafOjeeTLaFd+bYywwKkg==
+X-CSE-MsgGUID: 9YS5Ng9URk6VQ/OVI2W5rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="77579063"
+   d="scan'208";a="73819095"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Sep 2024 20:05:50 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 Sep 2024 20:26:51 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svTCu-000QBZ-0b;
-	Tue, 01 Oct 2024 03:05:48 +0000
-Date: Tue, 1 Oct 2024 11:05:44 +0800
+	id 1svTXF-000QCV-0n;
+	Tue, 01 Oct 2024 03:26:49 +0000
+Date: Tue, 1 Oct 2024 11:26:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shuming Fan <shumingf@realtek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:filekCZcLQ 7/13] sound/soc/codecs/rt1320-sdw.c:564:14:
- warning: result of comparison of constant 4295491583 with expression of type
- 'unsigned int' is always false
-Message-ID: <202410011159.InLKFd40-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Matthew Sakai <msakai@redhat.com>
+Subject: drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
+Message-ID: <202410011107.U2xbVLRA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,87 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git filekCZcLQ
-head:   4649cbd97fdae5069e9a71cd7669b62b90e03669
-commit: d72498fad93abf1817c4998d172a3d7f98f76bbe [7/13] ASoC: rt1320: reads patch code from firmware file
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241001/202410011159.InLKFd40-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011159.InLKFd40-lkp@intel.com/reproduce)
+Hi Mike,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
+date:   7 months ago
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20241001/202410011107.U2xbVLRA-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410011107.U2xbVLRA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410011159.InLKFd40-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410011107.U2xbVLRA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/codecs/rt1320-sdw.c:564:14: warning: result of comparison of constant 4295491583 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
-     564 |                                 if (addr > 0x10007ffff || addr < 0x10007000) {
-         |                                     ~~~~ ^ ~~~~~~~~~~~
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+>> drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
+   drivers/md/dm-vdo/int-map.c:105: warning: Function parameter or struct member 'bucket_count' not described in 'int_map'
+   drivers/md/dm-vdo/int-map.c:330: warning: Function parameter or struct member '__always_unused' not described in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:330: warning: Excess function parameter 'map' description in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:461: warning: Function parameter or struct member '__always_unused' not described in 'move_empty_bucket'
+   drivers/md/dm-vdo/int-map.c:461: warning: Excess function parameter 'map' description in 'move_empty_bucket'
 
 
-vim +564 sound/soc/codecs/rt1320-sdw.c
+vim +87 drivers/md/dm-vdo/int-map.c
 
-   527	
-   528	/*
-   529	 * The 'patch code' is written to the patch code area.
-   530	 * The patch code area is used for SDCA register expansion flexibility.
-   531	 */
-   532	static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
-   533	{
-   534		struct sdw_slave *slave = rt1320->sdw_slave;
-   535		const struct firmware *patch;
-   536		const char *filename;
-   537		unsigned int addr, val;
-   538		const unsigned char *ptr;
-   539		int ret, i;
-   540	
-   541		if (rt1320->version_id <= RT1320_VB)
-   542			filename = RT1320_VAB_MCU_PATCH;
-   543		else
-   544			filename = RT1320_VC_MCU_PATCH;
-   545	
-   546		/* load the patch code here */
-   547		ret = request_firmware(&patch, filename, &slave->dev);
-   548		if (ret) {
-   549			dev_err(&slave->dev, "%s: Failed to load %s firmware", __func__, filename);
-   550			regmap_write(rt1320->regmap, 0xc598, 0x00);
-   551			regmap_write(rt1320->regmap, 0x10007000, 0x67);
-   552			regmap_write(rt1320->regmap, 0x10007001, 0x80);
-   553			regmap_write(rt1320->regmap, 0x10007002, 0x00);
-   554			regmap_write(rt1320->regmap, 0x10007003, 0x00);
-   555		} else {
-   556			ptr = (const unsigned char *)patch->data;
-   557			if ((patch->size % 8) == 0) {
-   558				for (i = 0; i < patch->size; i += 8) {
-   559					addr = (ptr[i] & 0xff) | (ptr[i + 1] & 0xff) << 8 |
-   560						(ptr[i + 2] & 0xff) << 16 | (ptr[i + 3] & 0xff) << 24;
-   561					val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
-   562						(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
-   563	
- > 564					if (addr > 0x10007ffff || addr < 0x10007000) {
-   565						dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
-   566						goto _exit_;
-   567					}
-   568					if (val > 0xff) {
-   569						dev_err(&slave->dev, "%s: the value 0x%x is wrong", __func__, val);
-   570						goto _exit_;
-   571					}
-   572					regmap_write(rt1320->regmap, addr, val);
-   573				}
-   574			}
-   575	_exit_:
-   576			release_firmware(patch);
-   577		}
-   578	}
-   579	
+cc46b9554b3f6d Matthew Sakai 2023-11-16  66  
+cc46b9554b3f6d Matthew Sakai 2023-11-16  67  /**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  68   * struct bucket - hash bucket
+cc46b9554b3f6d Matthew Sakai 2023-11-16  69   *
+cc46b9554b3f6d Matthew Sakai 2023-11-16  70   * Buckets are packed together to reduce memory usage and improve cache efficiency. It would be
+cc46b9554b3f6d Matthew Sakai 2023-11-16  71   * tempting to encode the hop offsets separately and maintain alignment of key/value pairs, but
+cc46b9554b3f6d Matthew Sakai 2023-11-16  72   * it's crucial to keep the hop fields near the buckets that they use them so they'll tend to share
+cc46b9554b3f6d Matthew Sakai 2023-11-16  73   * cache lines.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  74   */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  75  struct __packed bucket {
+cc46b9554b3f6d Matthew Sakai 2023-11-16  76  	/**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  77  	 * @first_hop: The biased offset of the first entry in the hop list of the neighborhood
+cc46b9554b3f6d Matthew Sakai 2023-11-16  78  	 *             that hashes to this bucket.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  79  	 */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  80  	u8 first_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  81  	/** @next_hop: The biased offset of the next bucket in the hop list. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  82  	u8 next_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  83  	/** @key: The key stored in this bucket. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  84  	u64 key;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  85  	/** @value: The value stored in this bucket (NULL if empty). */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  86  	void *value;
+cc46b9554b3f6d Matthew Sakai 2023-11-16 @87  };
+cc46b9554b3f6d Matthew Sakai 2023-11-16  88  
+
+:::::: The code at line 87 was first introduced by commit
+:::::: cc46b9554b3f6d2f09b1111386b2706e5b4f56c8 dm vdo: add basic hash map data structures
+
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
