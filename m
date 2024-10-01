@@ -1,78 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A2017B427
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 21:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45824199FCE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Oct 2024 21:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727819296; cv=none; b=pck99UICwype062YYg0KLEiOnS6uT9mcsh5KloeyX6aZ83lix5N+bfGv7U20Jaxi4zNRxItlUe+nKxGH49V0FBjr3LdGqmJ+CjmbzRtK9CRRn8nrJqjn4If6YCgtvSgp8wI1RCgzGkXyWTcQvG5lmZ92/3Kgr48opA0N8E2DSug=
+	t=1727819892; cv=none; b=VqpVbggdq9ifDO0ORvjXJUroQQd/cjj82IJPLxMtAoSETMebbhUIyIPHV0pR4HflXP4NizHJwchsyeyMOAlqDfqEZ7A3YMgD8XMTBT76+vsP/Ca9G3+J3AvZ6JgBE8Z3p3YRBIE/kObQBfdUWPrZ4ZI8x/2+76MeJu9qJ937P8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727819296; c=relaxed/simple;
-	bh=mMUExZQ+EvnU7XLWDsD1aa5LRPKUL7dBR3emnkPwhDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppNZFCZkp+762i44xosNGmfoFWq1LFp5QZ4cW89xxsH3B0ZKY/dwa4+ODHciDDX+fNmu/EwemvJuiPLQlLL6RLQIqyH7MIw7veccN/HPxZDHIir3HmdmvSjh7dwTHaV28tLTfdQx+P2yN7cdtcA1k4aKibGlMwEfu1J62+Rf8QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FeuhmjH4; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1727819892; c=relaxed/simple;
+	bh=vF/cfn35PET5MUhj52HEPIJQBnUxWZhzjvcc+BeMb38=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OsjcPSvO27BJnJAP34Hyrv5lwF2pDZKUxeXL5+QMkAmcivVHa/D1Qu2hINl6+f+CVWMm99F8ZxNI+rM0DuOI5Qp44q899teAeeEwo+jND/w+Lu+2lqv0VR4zMo5cYmS8fNY64T3Os9hZ67xKa1WkgDGzatfuxRSMlDglxTrPg8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hbu2PZCJ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FeuhmjH4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hbu2PZCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727819294; x=1759355294;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mMUExZQ+EvnU7XLWDsD1aa5LRPKUL7dBR3emnkPwhDE=;
-  b=FeuhmjH4pohzoXwjgKyKw9/vHY4PCB2IuPLdV/AGVF+Jw4qUoCfR8KAY
-   kxWzD4srdEvB+qxFDj6362AI3vDjCqjl5EtiuP1U8cyaWWAbU0t71DUeG
-   A7uNZhrW7KsGFqhN/knM6b1kvngh4Ve65KqNeGJ7MGi1aCgEnEG+Cb6JB
-   +UabFra2Dm5FtHMdWSrR0eyVfK8KLcaCEhvbuKNh5TYKNg8yAXcqBtH6F
-   ow4NDFSM7pWrCdhrtcrna7Q36vyGkoMGASb7sbSynJLoi1FvYkWzjAA2m
-   DV54HtvLe/lUZk1HOpMWzyIxL8YgT940hMJgieBvl9/TA5JMniLlsSu0o
-   A==;
-X-CSE-ConnectionGUID: KStG5A28RQONfiVS8z67Ng==
-X-CSE-MsgGUID: yR+6oTNqRjaA0tD2yXl2Ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="37536487"
+  t=1727819890; x=1759355890;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vF/cfn35PET5MUhj52HEPIJQBnUxWZhzjvcc+BeMb38=;
+  b=Hbu2PZCJABIRfK47a1Ljrd1UK85Zat8m5C5DAL+zgDUrkKouSxwiV6Cf
+   va4iPQ9Nx88rV6ZUTlABgnDpltqU3ONB6cjV06dAIB0EmMVVl7q16lZVQ
+   EVmFze7yj7oWsTjnVQnSr/byo2mqQWNpRtmKwPRKA1stR44pyPPlaMPOm
+   cNjuo0Suglc8Zyj7nKWk710OrVMJIySyhPTEgAP5YHTnlG14cDQjZoERo
+   59eRXr8AdpusI8qXRubs+18NhbxarUW5EvsckPfEcgc62YqRcf6/cbolg
+   YwPPwE1Y5UwJEHfz8KsvFNhtl/OOBuWbhZaqRTfxBZCEbmtqJd7dlmk0U
+   w==;
+X-CSE-ConnectionGUID: x4lFqoFNSO6g7tjH3QlwqQ==
+X-CSE-MsgGUID: KNWCsAHpTl+oo9bbwflSwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27137812"
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="37536487"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 14:48:14 -0700
-X-CSE-ConnectionGUID: y2fAfsQlTzuDYDQiHGjUJA==
-X-CSE-MsgGUID: Zj22m4xJSb+txgUc2smUsQ==
+   d="scan'208";a="27137812"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 14:58:10 -0700
+X-CSE-ConnectionGUID: q1bpfn5XRCqbqNEAV7Qm3A==
+X-CSE-MsgGUID: 9W06b5gzQB2/Lkpn3c/YOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="78671028"
+   d="scan'208";a="73840585"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 Oct 2024 14:48:08 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Oct 2024 14:58:08 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svkiz-000RDN-23;
-	Tue, 01 Oct 2024 21:48:05 +0000
-Date: Wed, 2 Oct 2024 05:47:11 +0800
+	id 1svksf-000RDb-2Y;
+	Tue, 01 Oct 2024 21:58:05 +0000
+Date: Wed, 2 Oct 2024 05:57:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	INAGAKI Hiroshi <musashino.open@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Li Lingfeng <lilingfeng3@huawei.com>,
-	Ming Lei <ming.lei@redhat.com>,
-	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, upstream@airoha.com
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v4 3/5] string: add strends() helper to check if a string
- ends with a suffix
-Message-ID: <202410020546.DL6BnsOs-lkp@intel.com>
-References: <20240930113045.28616-4-ansuelsmth@gmail.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kalle Valo <quic_kvalo@quicinc.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 838/1347]
+ arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0:
+ 'vddrfacmn-supply' is a required property
+Message-ID: <202410020525.JeJ1vb8f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,57 +65,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240930113045.28616-4-ansuelsmth@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on kees/for-next/hardening robh/for-next lwn/docs-next linus/master v6.12-rc1 next-20241001]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/block-add-support-for-defining-read-only-partitions/20240930-193609
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20240930113045.28616-4-ansuelsmth%40gmail.com
-patch subject: [PATCH v4 3/5] string: add strends() helper to check if a string ends with a suffix
-config: s390-randconfig-r061-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020546.DL6BnsOs-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020546.DL6BnsOs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   77df9e4bb2224d8ffbddec04c333a9d7965dad6c
+commit: 02d697272cc62665a66930f3a3f9fd12f820eba7 [838/1347] dt-bindings: net: ath11k: document the inputs of the ath11k on WCN6855
+config: arm64-randconfig-051-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020525.JeJ1vb8f-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev4+g577c1ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020525.JeJ1vb8f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410020546.DL6BnsOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410020525.JeJ1vb8f-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/s390/purgatory/string.c:3:
-   In file included from arch/s390/purgatory/../lib/string.c:16:
->> include/linux/string.h:366:20: error: call to undeclared function 'memcmp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     366 |         return n >= m && !memcmp(str + n - m, suffix, m);
-         |                           ^
-   1 error generated.
-
-
-vim +/memcmp +366 include/linux/string.h
-
-   355	
-   356	/**
-   357	 * strends - does @str end with @suffix?
-   358	 * @str: string to examine
-   359	 * @suffix: suffix to look for.
-   360	 */
-   361	static inline bool strends(const char *str, const char *suffix)
-   362	{
-   363		size_t n = strlen(str);
-   364		size_t m = strlen(suffix);
-   365	
- > 366		return n >= m && !memcmp(str + n - m, suffix, m);
-   367	}
-   368	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: bluetooth: 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: bluetooth: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: bluetooth: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: bluetooth: 'vddbtcmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddrfacmn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: wifi@0: 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
