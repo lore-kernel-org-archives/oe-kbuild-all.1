@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEA919882C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7D41E1301
 	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 09:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727862190; cv=none; b=ciJGAXWPHXTuuJHszsE+k/Rfg+9gFUBXHcnvtATRs5NyHo0i1zxttDyOA9X5vQf5FqlqcqHPE2GGMSpBfHYRPiByv4mmWr41+HCMCs/8IN8C+MgOgHK9ZMlTWq0YbWhDPFdfB8nmv/lLlVFWJEGOHPgbVSbg21uZlDWRNeRXFPg=
+	t=1727862191; cv=none; b=NS2IwwKHiD83vgk6AvpSBOWXemsAPjgW91cumnZCeYfN952kwsQqp03sx1vM7skOkJKvLDXcQ7AMBrCx2C0MyPgLjzMF0c6oeb7XEAeaSkbi3adgfnWwMPoL/HLtwvOWGqAa+f6pnfcXiHNT3gHCVpALmHpe/aVWuWv0IiFfK2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727862190; c=relaxed/simple;
-	bh=g0tb/2xMnKhgX6w8vUGUnQOm1KyrESdIOHsglrz//yU=;
+	s=arc-20240116; t=1727862191; c=relaxed/simple;
+	bh=4JjPZP+DRURqIHQRvYFa8qNsE2SWskO2561o3NNlnZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ap4AXvfkqmoa0GlcFGRf3DSqhKiiawYZ9s+EbkTHmOpLcHREmA6TdjZNRlOTauX0Yw0xBNjS4PQWQ3kop2b14HRXD1afqAQYfhEiYbfJekIkIaXwk6XhcKjdxE/Q0ScSj/X9VDniGiDE4QJZSWVqKb066CVKqAVJ2CvTHRQQPKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NjbSI+ce; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=I3dcznzcY9CKpCAD/vuxDTGjoKwO+hUpJk+QgS4LkQyEaLCFrMfuok9ZzmKWxXvTPgQKq3ebiBYa3BlNNxs+RLkJAEA9K9dnDFvjPKNQa0bFgbYHPMWFqSNGq/BpZ89RzbIvO6wsvcf0iir6h3iBWrXKvwXB/S927gBJYe16fHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4lM5mGn; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NjbSI+ce"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4lM5mGn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1727862189; x=1759398189;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g0tb/2xMnKhgX6w8vUGUnQOm1KyrESdIOHsglrz//yU=;
-  b=NjbSI+ceNCu2pj0/3GHD3IsmukjlxbvZf48cTS3Q2QirGTsWeFt5QiRp
-   YEWp7kPMI1GtqM3W1KkW96J6l9uG9xyZWT1Dh0vu+NpZc5BNTBFSGbOb5
-   P2XFa4G6DjpEiQ+8EbxGarKCzL8RN5AlSFPRCkttxB83IbxZYXWmUhIXM
-   RVjwbBvCSzWfmo0kcD11dXzaFbHEn/Hi6ZB76rNHENfpWVYDwOBOBuky+
-   b/LOYbmSdDYE/KJvAhADRrZTRSHnCKqQWpgm09yGR3KyprfXKi1xJLQur
-   c+91pznbcK5P7TEm1EL2b7ODYC00vd1uxqoowjHdPYEd7G7GE8Bxu6WSG
-   g==;
-X-CSE-ConnectionGUID: UzQo3XUHQUydQNx+VEJRSA==
-X-CSE-MsgGUID: l1tWuO3NTnOVbyWwqkyRjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="52425645"
+  bh=4JjPZP+DRURqIHQRvYFa8qNsE2SWskO2561o3NNlnZU=;
+  b=m4lM5mGnu7kvQCNOd49ML4SFoetapegdFeRtmutUt5g9hWDvCy+Tx5KL
+   vg+IJzN0PZwcnhE7CCLRXSuWj+CvLh6LERurqqChXtp8eKj5iZ+uH1UU8
+   DPa/prHrnYMK2xR4H+LQollOVV6ioTv8dK4gvWygjZa8kQAShGs0wGl7+
+   uS9DmoCVfOn6EjIUv5HLPmjIZVrDB7v2WUPcZGbzCGLU00sBsyDeRIYNf
+   c5nweFg9VpjH45c/yFSg52ebJMbCGpkG+7Lm0UhOvamZW7Zmt4PUee3Lp
+   7G8WC3nvWnGYV7rYXe2wQAjX+0WSUTE90IvWGwvRK0pjTGK6Yg6pr9WGr
+   w==;
+X-CSE-ConnectionGUID: G2BU6LblQuKWMKJUWThi5A==
+X-CSE-MsgGUID: 4QpPkhyBTxmRe03XFsE0/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="38379135"
 X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="52425645"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 02:43:08 -0700
-X-CSE-ConnectionGUID: bzVlgygDShurHdf822BqWA==
-X-CSE-MsgGUID: GGLTkEcpQX6of17/+MvKqQ==
+   d="scan'208";a="38379135"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 02:43:09 -0700
+X-CSE-ConnectionGUID: 2taZawb+SHq2HMFIGQfV4Q==
+X-CSE-MsgGUID: FI4rDA4XQaCtzcLobZQoUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="73934535"
+   d="scan'208";a="73548822"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Oct 2024 02:43:08 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 02 Oct 2024 02:43:08 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svvsv-000RsQ-1y;
+	id 1svvsv-000RsS-25;
 	Wed, 02 Oct 2024 09:43:05 +0000
-Date: Wed, 2 Oct 2024 17:42:34 +0800
+Date: Wed, 2 Oct 2024 17:42:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dma-split-wip 23/37] csky-linux-ld: mapping.c:undefined
- reference to `iommu_dma_unlink_range'
-Message-ID: <202410021749.XGT3V35F-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 4740/16788]
+ drivers/soc/fsl/dpio/dpio-driver.c:29:34: error: 'PTE_TYPE_PAGE' undeclared;
+ did you mean 'PAGE_TYPE_BASE'?
+Message-ID: <202410021705.MolUGJHr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,34 +63,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-wip
-head:   c8e953c706efd3d98534690febad481e0f4900f3
-commit: 78247ef44762361923b517ac8f4370d19a459372 [23/37] dma-mapping: implement link range API
-config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20241002/202410021749.XGT3V35F-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021749.XGT3V35F-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ac32ba5fe66266329914d2020570364afe217bec
+commit: ad2e04b9ae1c08fdba0019998693787013cd6c02 [4740/16788] soc: fsl: dpio: change CENA regs to be cacheable
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241002/202410021705.MolUGJHr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021705.MolUGJHr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410021749.XGT3V35F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410021705.MolUGJHr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   csky-linux-ld: kernel/dma/mapping.o: in function `dma_link_range_attrs':
-   mapping.c:(.text+0x6da): undefined reference to `iommu_dma_link_range'
-   csky-linux-ld: kernel/dma/mapping.o: in function `dma_unlink_range_attrs':
-   mapping.c:(.text+0x6ee): undefined reference to `iommu_dma_unlink_range'
-   csky-linux-ld: kernel/dma/mapping.o: in function `dma_addressing_limited':
-   mapping.c:(.text+0x78c): undefined reference to `iommu_dma_link_range'
->> csky-linux-ld: mapping.c:(.text+0x790): undefined reference to `iommu_dma_unlink_range'
-   csky-linux-ld: kernel/dma/mapping.o: in function `dma_end_range':
-   mapping.c:(.text+0x7d4): undefined reference to `iommu_dma_end_range'
-   csky-linux-ld: kernel/dma/mapping.o: in function `dma_start_range':
-   mapping.c:(.text+0x7ee): undefined reference to `iommu_dma_start_range'
-   csky-linux-ld: kernel/dma/mapping.o: in function `dma_opt_mapping_size':
-   mapping.c:(.text+0x800): undefined reference to `iommu_dma_end_range'
->> csky-linux-ld: mapping.c:(.text+0x804): undefined reference to `iommu_dma_start_range'
+   drivers/soc/fsl/dpio/dpio-driver.c: In function 'dpaa2_dpio_probe':
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:34: error: 'PTE_TYPE_PAGE' undeclared (first use in this function); did you mean 'PAGE_TYPE_BASE'?
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                  ^~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:29:34: note: each undeclared identifier is reported only once for each function it appears in
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                  ^~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:50: error: 'PTE_AF' undeclared (first use in this function); did you mean 'PTR_IF'?
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                  ^~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:59: error: 'PTE_PXN' undeclared (first use in this function)
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                           ^~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:69: error: 'PTE_UXN' undeclared (first use in this function)
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                     ^~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:79: error: 'PTE_DIRTY' undeclared (first use in this function); did you mean 'I_DIRTY'?
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                               ^~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:91: error: 'PTE_WRITE' undeclared (first use in this function); did you mean 'VM_WRITE'?
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                                           ^~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:103: error: implicit declaration of function 'PTE_ATTRINDX' [-Werror=implicit-function-declaration]
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                                                       ^~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:29:116: error: 'MT_NORMAL' undeclared (first use in this function); did you mean 'ZONE_NORMAL'?
+      29 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                                                                    ^~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:31:70: note: in expansion of macro 'PROT_NORMAL_NS'
+      31 | #define ioremap_cache_ns(addr, size)    ioremap_prot((addr), (size), PROT_NORMAL_NS)
+         |                                                                      ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +29 drivers/soc/fsl/dpio/dpio-driver.c
+
+    28	
+  > 29	#define PROT_NORMAL_NS		(PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
