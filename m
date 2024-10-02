@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9940D2F24
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 03:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA7317548
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 03:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727838109; cv=none; b=a673hDqb/rFS+CpHLGY2aCCfVgOzZHP6b9spL2NPFQeZD73E+qdBnUjvarjDIlEryLXrRvPDniKAW9UtK8CJ+hou5IqPaOw1Da8NGBiv00/aws5t5nukkyAndvVnejaHyOdTzxgx7ayTzQDmhw0119O8mgUNIJBuvgzEZLYtyfE=
+	t=1727839368; cv=none; b=rOKt2JCkAAci3ovg7g3f7ueAmo6q89t2lepAmFUBi4A3TBtNcC3InQYtPl+3nw3ZBxIB+24+IDtSE2unLOA1ievXZMuK2HPhHtIT2YUDwDo6SHQEP30AUzrrOq18CpW2ZE0iSraNVUifOJNYGBdQDW4Mu+tP12Mf+a3Lo9VQlKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727838109; c=relaxed/simple;
-	bh=GA98pG6YFYIzVZqixm21e5Zq8jVGHeZxf/iGHac+y+I=;
+	s=arc-20240116; t=1727839368; c=relaxed/simple;
+	bh=XbgvnwBtuUNSTewlFisrO0F0t6E/JswTHlwrByBEswA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CAGmCX1wrlFiJfaFL1AgvU7wxosqBxj1PcTzwzPhnMJ4HfUT2Vr2lAELNRytnl4FQARmuoWMXMWQmTlnu5cod28yUW7FAE7sV4HR8EzLFSOVe4u1V1DdjoLqYMaXwZjnp6nakdzyTKcs9YIJOOBIGEI13MVtSukuD+9hjE2rrNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UdpZfwMk; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=db6XaqvnlGMK8n6VIEDayd35S0VkjKnO9NVmbPlIDUzyeNE1hfLThEbnTvs+elk3IQaDuq8DJsM5scEd+1yoGmqq4jO2rRdw+b3v4aXdrn257tc0BDU9kKIbsLK/hQhIGDWiW9bl/nCGXdc53SLd/p6JKdTB1w1DuUvVguSxa/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8EJeCPa; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdpZfwMk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8EJeCPa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727838106; x=1759374106;
+  t=1727839366; x=1759375366;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GA98pG6YFYIzVZqixm21e5Zq8jVGHeZxf/iGHac+y+I=;
-  b=UdpZfwMktYidVxxZt6i6uRpd8UgZfxXzXvWVb7dY5RkI9S1CQEXQxZVP
-   Z6MmIM+2ceTMwcb+7peg9/fobI19siW+a4tZTaMjr1PUVCfLcLxGcLfar
-   glUhxELYTJBLJNW9doGto22UxjmMtJvHbr2hF5w1wqy5rDyqzfRd0EXfq
-   Nocy2RlAQGLjlfcXucdzMrjoQ1FPGfRCxNvPFy2EGnwPzWfK99zylTj56
-   fMOzTNiz8lAl6RIbakrqs48SbCpZv6XD5xqXjVkK3VDNfmk1uz/pQmpW3
-   n8SHjeuvjetNrub/KzGHheac8NuWFVFW6pzCMHEUxUjHEhqLVsPgJpFCj
-   Q==;
-X-CSE-ConnectionGUID: jD2yUsSoRya4LYaj6mBR3A==
-X-CSE-MsgGUID: 2mQeipTSRoOWixFSE8RsKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30787930"
+  bh=XbgvnwBtuUNSTewlFisrO0F0t6E/JswTHlwrByBEswA=;
+  b=b8EJeCPal33TgfsakurhOZD8OX9W0gNCBv7QhKfC3bgQOBaQQZ8LT2Qu
+   UBvKDa8OtlesCfjKCyJjWprGLh9UrROGbe23ByNmYlazZTb6jYOxuUdOg
+   PT0Y8BsK150VXAAS/MVbooMJVwM9e7Z7l3Nf/sDLS4u9tew8hMsP4s0gT
+   PI05ks7rotWZyQ6f6+nxV05FGTjffvBQqOjajkc8zFxzTIBc+x1mWsstK
+   0kNfbjk3nMXPgf2jDPuByHFMf/BQLgiM7g7eA+fQCYd2pOAXerQgsbeRX
+   NA4X2TfvJw4wiQ+h8ydPQyw6q6yAhGcGYXIy7g84ibBURc6kCzfFZ+TVa
+   w==;
+X-CSE-ConnectionGUID: 1DhRM8aMTKay0PSobziFlA==
+X-CSE-MsgGUID: 2LtqXS1VRKy9REyf84qrGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26464711"
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="30787930"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 20:01:45 -0700
-X-CSE-ConnectionGUID: JhRxcEk4Sw2P8Iq8WkzDfw==
-X-CSE-MsgGUID: 0xVj56R3T8288mvA7nJxcQ==
+   d="scan'208";a="26464711"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 20:22:46 -0700
+X-CSE-ConnectionGUID: oUwJmWwHRICZBOxrJYYHyQ==
+X-CSE-MsgGUID: orGjMonXReavqxb10bKEiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="73851530"
+   d="scan'208";a="97235800"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Oct 2024 20:01:43 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 Oct 2024 20:22:44 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svpcT-000RTN-2J;
-	Wed, 02 Oct 2024 03:01:41 +0000
-Date: Wed, 2 Oct 2024 11:01:12 +0800
+	id 1svpwo-000RUR-1V;
+	Wed, 02 Oct 2024 03:22:42 +0000
+Date: Wed, 2 Oct 2024 11:21:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:chromeos-6.6-f9d942cf7d57 1260/1491]
- sound/soc/intel/avs/core.c:814:17: error: initialization of 'unsigned int'
- from 'const struct avs_sram_spec *' makes integer from pointer without a
- cast
-Message-ID: <202410021043.anJHb2nV-lkp@intel.com>
+ sound/soc/intel/avs/core.c:814:17: error: initializer element is not
+ computable at load time
+Message-ID: <202410021305.iWix8cjF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,21 +66,17 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
 head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
 commit: 5ca9d6321544bcfc52e225c40736fd63f3ebb283 [1260/1491] UPSTREAM: ASoC: Intel: avs: CNL-based platforms support
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241002/202410021043.anJHb2nV-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021043.anJHb2nV-lkp@intel.com/reproduce)
+config: arm64-randconfig-003-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021305.iWix8cjF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021305.iWix8cjF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410021043.anJHb2nV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410021305.iWix8cjF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-     768 |         .req_busy_mask = CNL_ADSP_HIPCIDR_BUSY,
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-   sound/soc/intel/avs/core.c:769:10: error: 'const struct avs_hipc_spec' has no member named 'ack_offset'
-     769 |         .ack_offset = CNL_ADSP_REG_HIPCIDA,
          |          ^~~~~~~~~~
    sound/soc/intel/avs/registers.h:59:41: warning: excess elements in struct initializer
       59 | #define CNL_ADSP_REG_HIPCIDA            (CNL_ADSP_IPC_BASE + 0x14)
@@ -178,16 +173,20 @@ All errors (new ones prefixed by >>):
    sound/soc/intel/avs/core.c:814:10: error: 'const struct avs_spec' has no member named 'sram'
      814 |         .sram = &apl_sram_spec,
          |          ^~~~
->> sound/soc/intel/avs/core.c:814:17: error: initialization of 'unsigned int' from 'const struct avs_sram_spec *' makes integer from pointer without a cast [-Wint-conversion]
+   sound/soc/intel/avs/core.c:814:17: error: initialization of 'unsigned int' from 'const struct avs_sram_spec *' makes integer from pointer without a cast [-Wint-conversion]
      814 |         .sram = &apl_sram_spec,
          |                 ^
+   sound/soc/intel/avs/core.c:814:17: note: (near initialization for 'cnl_desc.sram_base_offset')
+>> sound/soc/intel/avs/core.c:814:17: error: initializer element is not computable at load time
    sound/soc/intel/avs/core.c:814:17: note: (near initialization for 'cnl_desc.sram_base_offset')
    sound/soc/intel/avs/core.c:815:10: error: 'const struct avs_spec' has no member named 'hipc'
      815 |         .hipc = &cnl_hipc_spec,
          |          ^~~~
->> sound/soc/intel/avs/core.c:815:17: error: initialization of 'unsigned int' from 'const struct avs_hipc_spec *' makes integer from pointer without a cast [-Wint-conversion]
+   sound/soc/intel/avs/core.c:815:17: error: initialization of 'unsigned int' from 'const struct avs_hipc_spec *' makes integer from pointer without a cast [-Wint-conversion]
      815 |         .hipc = &cnl_hipc_spec,
          |                 ^
+   sound/soc/intel/avs/core.c:815:17: note: (near initialization for 'cnl_desc.sram_window_size')
+   sound/soc/intel/avs/core.c:815:17: error: initializer element is not computable at load time
    sound/soc/intel/avs/core.c:815:17: note: (near initialization for 'cnl_desc.sram_window_size')
    sound/soc/intel/avs/core.c:742:35: error: storage size of 'skl_sram_spec' isn't known
      742 | static const struct avs_sram_spec skl_sram_spec = {
@@ -208,12 +207,6 @@ All errors (new ones prefixed by >>):
      742 | static const struct avs_sram_spec skl_sram_spec = {
          |                                   ^~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM [=y] || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
-
 
 vim +814 sound/soc/intel/avs/core.c
 
@@ -225,7 +218,7 @@ vim +814 sound/soc/intel/avs/core.c
    812		.core_init_mask = 1,
    813		.attributes = AVS_PLATATTR_IMR,
  > 814		.sram = &apl_sram_spec,
- > 815		.hipc = &cnl_hipc_spec,
+   815		.hipc = &cnl_hipc_spec,
    816	};
    817	
 
