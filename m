@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFAE637;
-	Wed,  2 Oct 2024 02:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9940D2F24
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 03:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727837507; cv=none; b=tyAnUqFlaI3ToeSpPrkQbrKiLtjQsBxDoyc1fs9idO4kabSTgjWk6ARyxnV6gAcjhGKQMJsGzaxExbc5nQL24/hiFEwwNvcygAa6hlrtqIKkAEom3vI90rS4WCC7AKQgNf2xMGlXEU/LpcyugWTGDTNgKwwGjdWvWa0svSVxNfc=
+	t=1727838109; cv=none; b=a673hDqb/rFS+CpHLGY2aCCfVgOzZHP6b9spL2NPFQeZD73E+qdBnUjvarjDIlEryLXrRvPDniKAW9UtK8CJ+hou5IqPaOw1Da8NGBiv00/aws5t5nukkyAndvVnejaHyOdTzxgx7ayTzQDmhw0119O8mgUNIJBuvgzEZLYtyfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727837507; c=relaxed/simple;
-	bh=B+FUZuFWxYHvLYyyWVyTt1B22q82J5LHg9jh2CAQat8=;
+	s=arc-20240116; t=1727838109; c=relaxed/simple;
+	bh=GA98pG6YFYIzVZqixm21e5Zq8jVGHeZxf/iGHac+y+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JkCElpFlilNdYWpmoRQBYYdRElaL3fx6qZ4uw9xhSsGZNx/UEDG2m7W4snstMoVDQXICDesMpROsyL1c2bj0J1yPYk4iwoiNq8nBSoKBbAJBb5jlJ8acnCNxZUK9LSKQRwUFjQLudBqSZfWtIpGuNpSd1vINv2WWBVmeRmCy6PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VG+J4jkN; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=CAGmCX1wrlFiJfaFL1AgvU7wxosqBxj1PcTzwzPhnMJ4HfUT2Vr2lAELNRytnl4FQARmuoWMXMWQmTlnu5cod28yUW7FAE7sV4HR8EzLFSOVe4u1V1DdjoLqYMaXwZjnp6nakdzyTKcs9YIJOOBIGEI13MVtSukuD+9hjE2rrNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UdpZfwMk; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VG+J4jkN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdpZfwMk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727837506; x=1759373506;
+  t=1727838106; x=1759374106;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B+FUZuFWxYHvLYyyWVyTt1B22q82J5LHg9jh2CAQat8=;
-  b=VG+J4jkNm8aRkKIkuvqEqIpzmmE3RGcddlDIrPp5sW/iSUtQdhyn0laF
-   5HvZ82qI5wW7JtgquecFBWqG/lQ+sc80E/G89eUojPZdofght8+ukUZY+
-   +QfOMzfMaV/gluFdnc/CfWx3k2fYfM29otgHD31wLER9RoSguTHYzRCp2
-   Ok0h4GyiZ6edE5qj4WU+vP2tBNwvTtrqpeO2AfJxzI/ebiyto+cvYR3rd
-   ZY/59msFF3Ud38qcluHFL4/TplN9C0Q+raMemR8amJXaU37qx0AnrV1T1
-   XO8LkD9V6LzipAzPY/WggFX2ks2U/U0etFZ2f/XPhR5EjNWpIdYIKT+1K
-   A==;
-X-CSE-ConnectionGUID: PQ/KLTyISgC69x1Jm7y8bg==
-X-CSE-MsgGUID: rJ1NGKKnTZ+UVugVEl0gDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="29873728"
+  bh=GA98pG6YFYIzVZqixm21e5Zq8jVGHeZxf/iGHac+y+I=;
+  b=UdpZfwMktYidVxxZt6i6uRpd8UgZfxXzXvWVb7dY5RkI9S1CQEXQxZVP
+   Z6MmIM+2ceTMwcb+7peg9/fobI19siW+a4tZTaMjr1PUVCfLcLxGcLfar
+   glUhxELYTJBLJNW9doGto22UxjmMtJvHbr2hF5w1wqy5rDyqzfRd0EXfq
+   Nocy2RlAQGLjlfcXucdzMrjoQ1FPGfRCxNvPFy2EGnwPzWfK99zylTj56
+   fMOzTNiz8lAl6RIbakrqs48SbCpZv6XD5xqXjVkK3VDNfmk1uz/pQmpW3
+   n8SHjeuvjetNrub/KzGHheac8NuWFVFW6pzCMHEUxUjHEhqLVsPgJpFCj
+   Q==;
+X-CSE-ConnectionGUID: jD2yUsSoRya4LYaj6mBR3A==
+X-CSE-MsgGUID: 2mQeipTSRoOWixFSE8RsKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30787930"
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="29873728"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 19:51:45 -0700
-X-CSE-ConnectionGUID: +KwYc8hdRJW79bCl5SSmcA==
-X-CSE-MsgGUID: vFg15c4qTG+mpTH8OaI5pw==
+   d="scan'208";a="30787930"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 20:01:45 -0700
+X-CSE-ConnectionGUID: JhRxcEk4Sw2P8Iq8WkzDfw==
+X-CSE-MsgGUID: 0xVj56R3T8288mvA7nJxcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="78845568"
+   d="scan'208";a="73851530"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Oct 2024 19:51:43 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 01 Oct 2024 20:01:43 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svpSn-000RSV-0d;
-	Wed, 02 Oct 2024 02:51:41 +0000
-Date: Wed, 2 Oct 2024 10:51:00 +0800
+	id 1svpcT-000RTN-2J;
+	Wed, 02 Oct 2024 03:01:41 +0000
+Date: Wed, 2 Oct 2024 11:01:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:memblock_align 1/3] WARNING: modpost: vmlinux:
- set_memory_block_size_order: EXPORT_SYMBOL used for init symbol. Remove
- __init or EXPORT_SYMBOL.
-Message-ID: <202410021006.WAvhWHt6-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:chromeos-6.6-f9d942cf7d57 1260/1491]
+ sound/soc/intel/avs/core.c:814:17: error: initialization of 'unsigned int'
+ from 'const struct avs_sram_spec *' makes integer from pointer without a
+ cast
+Message-ID: <202410021043.anJHb2nV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,22 +64,170 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gourryinverse/linux memblock_align
-head:   cfea4dee5d4cf39fa5f13e25ae6c3a07fcec413e
-commit: 91b1c5360c957b61ccfaa26318b308032ab25979 [1/3] memory: wire up a weak stub for set_memory_block_size_order
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241002/202410021006.WAvhWHt6-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021006.WAvhWHt6-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
+head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
+commit: 5ca9d6321544bcfc52e225c40736fd63f3ebb283 [1260/1491] UPSTREAM: ASoC: Intel: avs: CNL-based platforms support
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241002/202410021043.anJHb2nV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021043.anJHb2nV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410021006.WAvhWHt6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410021043.anJHb2nV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: set_memory_block_size_order: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+     768 |         .req_busy_mask = CNL_ADSP_HIPCIDR_BUSY,
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:769:10: error: 'const struct avs_hipc_spec' has no member named 'ack_offset'
+     769 |         .ack_offset = CNL_ADSP_REG_HIPCIDA,
+         |          ^~~~~~~~~~
+   sound/soc/intel/avs/registers.h:59:41: warning: excess elements in struct initializer
+      59 | #define CNL_ADSP_REG_HIPCIDA            (CNL_ADSP_IPC_BASE + 0x14)
+         |                                         ^
+   sound/soc/intel/avs/core.c:769:23: note: in expansion of macro 'CNL_ADSP_REG_HIPCIDA'
+     769 |         .ack_offset = CNL_ADSP_REG_HIPCIDA,
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/registers.h:59:41: note: (near initialization for 'cnl_hipc_spec')
+      59 | #define CNL_ADSP_REG_HIPCIDA            (CNL_ADSP_IPC_BASE + 0x14)
+         |                                         ^
+   sound/soc/intel/avs/core.c:769:23: note: in expansion of macro 'CNL_ADSP_REG_HIPCIDA'
+     769 |         .ack_offset = CNL_ADSP_REG_HIPCIDA,
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:770:10: error: 'const struct avs_hipc_spec' has no member named 'ack_done_mask'
+     770 |         .ack_done_mask = CNL_ADSP_HIPCIDA_DONE,
+         |          ^~~~~~~~~~~~~
+   include/vdso/bits.h:7:33: warning: excess elements in struct initializer
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                 ^
+   sound/soc/intel/avs/registers.h:66:41: note: in expansion of macro 'BIT'
+      66 | #define CNL_ADSP_HIPCIDA_DONE           BIT(31)
+         |                                         ^~~
+   sound/soc/intel/avs/core.c:770:26: note: in expansion of macro 'CNL_ADSP_HIPCIDA_DONE'
+     770 |         .ack_done_mask = CNL_ADSP_HIPCIDA_DONE,
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:33: note: (near initialization for 'cnl_hipc_spec')
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                 ^
+   sound/soc/intel/avs/registers.h:66:41: note: in expansion of macro 'BIT'
+      66 | #define CNL_ADSP_HIPCIDA_DONE           BIT(31)
+         |                                         ^~~
+   sound/soc/intel/avs/core.c:770:26: note: in expansion of macro 'CNL_ADSP_HIPCIDA_DONE'
+     770 |         .ack_done_mask = CNL_ADSP_HIPCIDA_DONE,
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:771:10: error: 'const struct avs_hipc_spec' has no member named 'rsp_offset'
+     771 |         .rsp_offset = CNL_ADSP_REG_HIPCTDR,
+         |          ^~~~~~~~~~
+   sound/soc/intel/avs/registers.h:55:41: warning: excess elements in struct initializer
+      55 | #define CNL_ADSP_REG_HIPCTDR            (CNL_ADSP_IPC_BASE + 0x00)
+         |                                         ^
+   sound/soc/intel/avs/core.c:771:23: note: in expansion of macro 'CNL_ADSP_REG_HIPCTDR'
+     771 |         .rsp_offset = CNL_ADSP_REG_HIPCTDR,
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/registers.h:55:41: note: (near initialization for 'cnl_hipc_spec')
+      55 | #define CNL_ADSP_REG_HIPCTDR            (CNL_ADSP_IPC_BASE + 0x00)
+         |                                         ^
+   sound/soc/intel/avs/core.c:771:23: note: in expansion of macro 'CNL_ADSP_REG_HIPCTDR'
+     771 |         .rsp_offset = CNL_ADSP_REG_HIPCTDR,
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:772:10: error: 'const struct avs_hipc_spec' has no member named 'rsp_busy_mask'
+     772 |         .rsp_busy_mask = CNL_ADSP_HIPCTDR_BUSY,
+         |          ^~~~~~~~~~~~~
+   include/vdso/bits.h:7:33: warning: excess elements in struct initializer
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                 ^
+   sound/soc/intel/avs/registers.h:63:41: note: in expansion of macro 'BIT'
+      63 | #define CNL_ADSP_HIPCTDR_BUSY           BIT(31)
+         |                                         ^~~
+   sound/soc/intel/avs/core.c:772:26: note: in expansion of macro 'CNL_ADSP_HIPCTDR_BUSY'
+     772 |         .rsp_busy_mask = CNL_ADSP_HIPCTDR_BUSY,
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:33: note: (near initialization for 'cnl_hipc_spec')
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                 ^
+   sound/soc/intel/avs/registers.h:63:41: note: in expansion of macro 'BIT'
+      63 | #define CNL_ADSP_HIPCTDR_BUSY           BIT(31)
+         |                                         ^~~
+   sound/soc/intel/avs/core.c:772:26: note: in expansion of macro 'CNL_ADSP_HIPCTDR_BUSY'
+     772 |         .rsp_busy_mask = CNL_ADSP_HIPCTDR_BUSY,
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:773:10: error: 'const struct avs_hipc_spec' has no member named 'ctl_offset'
+     773 |         .ctl_offset = CNL_ADSP_REG_HIPCCTL,
+         |          ^~~~~~~~~~
+   sound/soc/intel/avs/registers.h:61:41: warning: excess elements in struct initializer
+      61 | #define CNL_ADSP_REG_HIPCCTL            (CNL_ADSP_IPC_BASE + 0x28)
+         |                                         ^
+   sound/soc/intel/avs/core.c:773:23: note: in expansion of macro 'CNL_ADSP_REG_HIPCCTL'
+     773 |         .ctl_offset = CNL_ADSP_REG_HIPCCTL,
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/registers.h:61:41: note: (near initialization for 'cnl_hipc_spec')
+      61 | #define CNL_ADSP_REG_HIPCCTL            (CNL_ADSP_IPC_BASE + 0x28)
+         |                                         ^
+   sound/soc/intel/avs/core.c:773:23: note: in expansion of macro 'CNL_ADSP_REG_HIPCCTL'
+     773 |         .ctl_offset = CNL_ADSP_REG_HIPCCTL,
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:784:21: error: 'skl_dsp_ops' undeclared here (not in a function); did you mean 'avs_dsp_ops'?
+     784 |         .dsp_ops = &skl_dsp_ops,
+         |                     ^~~~~~~~~~~
+         |                     avs_dsp_ops
+   sound/soc/intel/avs/core.c:800:21: error: 'apl_dsp_ops' undeclared here (not in a function); did you mean 'avs_dsp_ops'?
+     800 |         .dsp_ops = &apl_dsp_ops,
+         |                     ^~~~~~~~~~~
+         |                     avs_dsp_ops
+   sound/soc/intel/avs/core.c:814:10: error: 'const struct avs_spec' has no member named 'sram'
+     814 |         .sram = &apl_sram_spec,
+         |          ^~~~
+>> sound/soc/intel/avs/core.c:814:17: error: initialization of 'unsigned int' from 'const struct avs_sram_spec *' makes integer from pointer without a cast [-Wint-conversion]
+     814 |         .sram = &apl_sram_spec,
+         |                 ^
+   sound/soc/intel/avs/core.c:814:17: note: (near initialization for 'cnl_desc.sram_base_offset')
+   sound/soc/intel/avs/core.c:815:10: error: 'const struct avs_spec' has no member named 'hipc'
+     815 |         .hipc = &cnl_hipc_spec,
+         |          ^~~~
+>> sound/soc/intel/avs/core.c:815:17: error: initialization of 'unsigned int' from 'const struct avs_hipc_spec *' makes integer from pointer without a cast [-Wint-conversion]
+     815 |         .hipc = &cnl_hipc_spec,
+         |                 ^
+   sound/soc/intel/avs/core.c:815:17: note: (near initialization for 'cnl_desc.sram_window_size')
+   sound/soc/intel/avs/core.c:742:35: error: storage size of 'skl_sram_spec' isn't known
+     742 | static const struct avs_sram_spec skl_sram_spec = {
+         |                                   ^~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:748:35: error: storage size of 'apl_sram_spec' isn't known
+     748 | static const struct avs_sram_spec apl_sram_spec = {
+         |                                   ^~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:754:35: error: storage size of 'skl_hipc_spec' isn't known
+     754 | static const struct avs_hipc_spec skl_hipc_spec = {
+         |                                   ^~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:765:35: error: storage size of 'cnl_hipc_spec' isn't known
+     765 | static const struct avs_hipc_spec cnl_hipc_spec = {
+         |                                   ^~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:754:35: warning: 'skl_hipc_spec' defined but not used [-Wunused-const-variable=]
+     754 | static const struct avs_hipc_spec skl_hipc_spec = {
+         |                                   ^~~~~~~~~~~~~
+   sound/soc/intel/avs/core.c:742:35: warning: 'skl_sram_spec' defined but not used [-Wunused-const-variable=]
+     742 | static const struct avs_sram_spec skl_sram_spec = {
+         |                                   ^~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM [=y] || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+
+
+vim +814 sound/soc/intel/avs/core.c
+
+   807	
+   808	static const struct avs_spec cnl_desc = {
+   809		.name = "cnl",
+   810		.min_fw_version = { 10, 23, 0, 5314 },
+   811		.dsp_ops = &avs_cnl_dsp_ops,
+   812		.core_init_mask = 1,
+   813		.attributes = AVS_PLATATTR_IMR,
+ > 814		.sram = &apl_sram_spec,
+ > 815		.hipc = &cnl_hipc_spec,
+   816	};
+   817	
 
 -- 
 0-DAY CI Kernel Test Service
