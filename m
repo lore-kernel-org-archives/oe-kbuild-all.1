@@ -1,83 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526E51CF284
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 13:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD741D0173
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 13:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727875642; cv=none; b=iOGrPbEZkMhnQDPl6rWNT+3dVOXwVuEfPFr4TeN/kDDPxq1ocud+oxpJNMztLs4ApyopRW1xZzcvZFjF4TltmB/k7fLg4VNZTGJqEcsH77GVGrVJdrZok5n1eh+uY8ZDpG8LWGaA6VkEZJiwv3a7w26uaY+rQI1UrJgBh/GJKc0=
+	t=1727876293; cv=none; b=N+n6DuvqP5hVa+63uA4hCsUIRSuo0+j8O8M4N73n5dYgeuFe+CDvYsEwDBgJxgHLyiI2SIUydhPLpiAKFS5F2+HGgTGlq5xAwSy30QKDcmV4oHfoCFUsKosKzUGIxr2GjSI8w9bG3y0vYdI1HXXQJEtpKYuJJD14OsNs3YWLbHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727875642; c=relaxed/simple;
-	bh=Mn9B6l9bRzL90ieh4PbtqaQCYwsvd+KT32io3NF9Z5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=C9yYoMMgwa5vEltGqeQJslVAlOlsRkfRaFt3+xKV17dcK5DNJMKtP3lgQaI63iQVlOSemMv0Jmberx0iknC8tKJMeCLT0DxBrnJn1Tvn7z1dTdosTdFtDy+99h/YQftNbKecqLgkH3FFbU9t2zU87RZ3ojwKKVmx3E7eV09fiHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i8dqggLY; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727876293; c=relaxed/simple;
+	bh=6yoNHjlamlraeMc3V59paBJJnLoyV3WYUfj3EmI8few=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jT4S3eab+h3FbHY4cghLSyA6WxXmFvuyEzxMu26y5hREG71OW8ZevJLDuOiBXYthyro4+OkKJxJ9JpuIlFnWaqZOo8rFT2slwmTY42hkgBdV8fE69quTFni/dZ/xB/C4vU7KVXqMKDL7iLtusqDOxlvoFM3QwEpf9n9tSY6buaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cpN4d7VG; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i8dqggLY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727875641; x=1759411641;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Mn9B6l9bRzL90ieh4PbtqaQCYwsvd+KT32io3NF9Z5Q=;
-  b=i8dqggLYc4lBQAm7EraTIYFT10HR5v2RwvpOd1gP9TfPcZxoEW/v/e+l
-   USTrR2DykFWotuGn0a6qfL1wvxc9RM9st+GLi39Vn6eGBizgfinKhd77j
-   074a3gn1rVj1F7rdAzwdMJxzVUFkoCPfkp8rWYvCkUlb4wHjMz4GzF+D0
-   P10hsRy/AOWrBcVvIh7ioOZoH7dYdstzaCcoYKGiTJYCCkAD26xlzQ5Ax
-   vpIIzkzkSew4+U3+d2U/S8VoO5fDQVWXA8aJy8yda/THLAoVGUoD6HKTP
-   qIJ60h7XJVrIs4xvSayFjxtknkuHu46T1rApDasOG8PwiuqNtbSw2V29a
-   A==;
-X-CSE-ConnectionGUID: S7uTx4STT++Yrs5H5EU8/Q==
-X-CSE-MsgGUID: fXOpetNHR52JWd47nGrPOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26928015"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="26928015"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 06:27:20 -0700
-X-CSE-ConnectionGUID: 8DwRQJJ1QFSFwOBiLkjDqg==
-X-CSE-MsgGUID: 7yBEJjhhSeqx69Dng9JdvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="78535734"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Oct 2024 06:27:19 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svzNt-000S7g-2l;
-	Wed, 02 Oct 2024 13:27:17 +0000
-Date: Wed, 2 Oct 2024 21:26:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] USB: chaoskey: fail open after removal
-Message-ID: <Zv1KAqAP8o4L3buz@5b378fdd06de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cpN4d7VG"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5398e3f43f3so4939998e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Oct 2024 06:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727876288; x=1728481088; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gx7nBhp6lxVo1pa4k/APyedN4jV9Ivk3rAOgniXY4K8=;
+        b=cpN4d7VG30XMlzrLz2UdPFjjfAcW+hgA3ErdHIDhSXRdQs/a+CmI9W88FrsmfDgrbC
+         +d3DUG8CAVD4cJVphBHjud1amsIvY/p92KXFsnar2Spz9p7Dlvz2SP0kfCnczJqtqf/X
+         MkzYmNlDQGqY6FaLeL5NddNfXFlA0lqxk6hx6XSfQGYiKAI1QDEcSrAp6ru0tC1xxCcR
+         mXdM3FurwK65KfEO11+nJSbvGe7Rf/qgC49ECSiIZO5+ZMueRClY7qW67kq2nPPs6IAb
+         9FsLRSY6geTJCo9U110Xyj7h5J84+kP9IoCeT5oNoFr/lh0Bc6y76WWXomcE1HHpSmA1
+         G8pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727876288; x=1728481088;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Gx7nBhp6lxVo1pa4k/APyedN4jV9Ivk3rAOgniXY4K8=;
+        b=RlgOfZNxBk5sKqrNOu8eS7sFOXoU9jQ5j3CO5L3tsRYImdOU+dOcggCxjNrYOnXQYJ
+         mfM9dildoLqJd0kjA7bCqvJGctRAoDmMsoU4newLSRJvVLoRCa6lOiNRPlKn/D4AOKKw
+         c65ZJ0FKxctX8Ho1S53Q9OOPCYvC89VBWX4yeYQ5LbSJYyx7Y0OEJ3d2MNlMvVvhX3tZ
+         97TKSlfSqYVLEQimCQ98Riin6heV8ZWod1CBStA6Flr+MMBbDwTDVoGu1WtRPYUcTKgk
+         erE3jeBH+9Kget62Oe23Oz3zEzH8GPAZzVGJLGtWRz87xGjifR+tNm7hVylaQDDZJC5p
+         mMhw==
+X-Forwarded-Encrypted: i=1; AJvYcCX0qNtEI28o9iob7yEg0dvPIAQiJKKxbgHt4OTprRk8oOJGrnfYSw+S1OWt/xwKAzHUUgSE4Wwty1X/YBAq@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmB53VdRH14tjCbjnnH/BJ9zujM4OdmfNbSytorBaa2e3ZJ2dk
+	7uoPS641OVTMDHjQ70biTEMLnoe0EtVlvcL0r+JRV2hZkRyu3YihqiMVKy28avafltDJIYegcZq
+	DXh2TMpF3yieiDucbBg0Elx8lCZIKQcPLoleDGw==
+X-Google-Smtp-Source: AGHT+IFtOBtnoN0143aZXVWAwkEH+oTi/X5tyE2nQpsGUqONGRL4JsQwsp1UDaTLIqpdvcw8O3TsElrFgBjHjgxlEig=
+X-Received: by 2002:a05:6512:308b:b0:539:93b2:1373 with SMTP id
+ 2adb3069b0e04-539a0662b0cmr2044174e87.20.1727876288279; Wed, 02 Oct 2024
+ 06:38:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241002132201.552578-1-oneukum@suse.com>
+References: <202410020735.aBI61ZYn-lkp@intel.com> <Zv0S3wXOzgmyFP3x@google.com>
+In-Reply-To: <Zv0S3wXOzgmyFP3x@google.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 2 Oct 2024 15:37:56 +0200
+Message-ID: <CACRpkdZmKfNWF7ciHJMi4JU+_JnxjWD_kMhfxFOeydQ11Vyc4Q@mail.gmail.com>
+Subject: Re: drivers/input/touchscreen/cyttsp_i2c.c:47:18: error: implicit
+ declaration of function 'i2c_transfer'
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Oct 2, 2024 at 11:31=E2=80=AFAM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-Thanks for your patch.
+> >    drivers/input/touchscreen/cyttsp_i2c.c:118:26: warning: 'cyttsp_i2c_=
+driver' defined but not used [-Wunused-variable]
+> >      118 | static struct i2c_driver cyttsp_i2c_driver =3D {
+> >          |                          ^~~~~~~~~~~~~~~~~
+> >    cc1: some warnings being treated as errors
+> >
+>
+> This is really weird: cyttsp_i2c.h includes linux/i2c.h, it has
+> dependency in Kconfig on I2C and CONFIG_I2C is present in the .config
+> referenced above, so all the declarations should be there.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+I usually ask Arnd about all kind of Kconfig business when
+things get weird.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+But could it be one of these awful things:
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] USB: chaoskey: fail open after removal
-Link: https://lore.kernel.org/stable/20241002132201.552578-1-oneukum%40suse.com
+config TOUCHSCREEN_CYTTSP_I2C
+        tristate "support I2C bus connection"
+-        depends on TOUCHSCREEN_CYTTSP_CORE && I2C
++       depends on TOUCHSCREEN_CYTTSP_CORE && (I2C=3Dy ||
+I2C=3DTOUCHSCREEN_CYTTSP_CORE)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Since I2C is tristate it could be a module and then this touchscreen
+has to be a module too.
 
-
-
+Yours,
+Linus Walleij
