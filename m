@@ -1,204 +1,136 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913151FBA
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 07:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE0219408C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 07:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727852643; cv=none; b=ODhxpXmtgPJU9kPyOycZaY/ViufFIK0+oz8VtBwdJarTvI5ccZRitA33GgcLnLRsN4hhUO1iBLwd7bFJuAoheDfLIsGuBEfOY/cjin40MvX5tLEZWNUFv1IVv6kD6RmpIi/pOXbCttzvkM/bJVfGOyHzi5v8V9cIVo9/dSE1xao=
+	t=1727854206; cv=none; b=FIBI+ES29hievt2J8Nvi1wvJzgCrtAsOynjjs3pb356NeFmKG1CzfuVbmssqAfg+2rUPIZLFal3yb0RV84PoJAmGagJVWPwYq20mtmkjSq782AF8y48PvNgIoBsIT4I7VQWLH791XoeFC3Vrr+wMbSHptN0YqVf3PXJ73KFjdk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727852643; c=relaxed/simple;
-	bh=Uj0IAM89efPEHzNKPafDKvOZwknsbqlnkFUHf+1/toc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=aAHJl5HELOfI7mH+8JCpC8Mw7C2RhjRSjiDMfJkQEbAtriPBpuq9Rj69JwE0FgsYhivMSDz8DmZlx3EH+4fC/PH9RWwclwvtKxWb+xbKcKPglhKA/BxXhWXfsM/YAjfaw5dOfueL3IMrCr6iHBlVSWiaqCIQSxRUec/4OMQoGdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h2YYiGnN; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727854206; c=relaxed/simple;
+	bh=5i11oanOulM+lrRsRVREA3F34dwIgn/eYTFJjEjjpoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WF79cKqKWyu/whOr6TGw5yCg+FEkPcxRWbsgVf1qt1mNLuXWFreYpWFLGPPN+TNW1UNCjbY6Qm20FH0GcYX1R1B6GOzny6HMzmvnILkTrJ38RSivdXT1f1q45kVXHuQrKVeBZxv1F07Rsk/SbP3V6WmE12/y5r5sJA5xQ3OUwgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KcmDv5I5; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h2YYiGnN"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a7a843bef98so917888066b.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Oct 2024 00:04:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727852639; x=1728457439; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MfLgbZ0lerkvVmlCA7Ez4P7ScBhB9oBdGhXV/eW+jqc=;
-        b=h2YYiGnNZcr53UMWZRZwIyXvMVL44HXi9R8+QYPvveJyWN+QturCyGx3KNtBsfdEQ5
-         OQFQVqLU6O/iXvnP78yenBkiK4sljEMoufuv/hiZRDIaQHz6Q98L28tWUnY3G3Q86NhU
-         f63vAt7W9Swx6mtv5bjpWr6xQclIjn7IT2I7P0vTdJHWnfJT5M4JSXWQlmk7xsKxbBMB
-         IDUip/WKYseRUUT6wkP775Iia5KqEVZokgpwQc+yn+kbou/lIC6gLH1pAYUm9p403kO7
-         xuoKON4nZ6f6F36rHi4jY1PQ1beJPEBrnWWZWEIFrzjfFQMeqXhKjo4NZjomARoxrn6R
-         AH2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727852639; x=1728457439;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MfLgbZ0lerkvVmlCA7Ez4P7ScBhB9oBdGhXV/eW+jqc=;
-        b=vGueHK1cU7ryUfkKMyM0yScqPms39/YBfhAnoILhqEMuay9lT8C8OMKzvu7ejFuG3S
-         rAtJXts3rwy/zUH8qEHSPpCanHkcifrPNWpdygorcDo7t4XD8jqKjWO99YlA/vUQJhae
-         xPdVKxYt1e/kfIadft5S7P32iAmWJMbipLfZJrVz8gp9DqYiU1K3FZ09YYaGqJEf5wXO
-         Gw6bV9g1RJ9DbSu+g2Dlqrko6DiryXXKSTGBAXQw9t8Rn4jkSuxDpHoeelXvGp/uKD9j
-         GNx4TxvUuc9op8Ax/YPfxyekOzZ+fmobcT28rcJcPAlfloaeETK0sJV9Gh5GdZ7zZZgn
-         elfA==
-X-Gm-Message-State: AOJu0Yz2bz4ALfX2HuPAHbgkPGgo8XpZomJ1P7XbNq41iRoawuOF4+XF
-	rWjViQAL5diptqft0sd2XJ8cm5aATegAo5ZdPtrJ4okIx84aPBoCAQb3LLQL
-X-Google-Smtp-Source: AGHT+IG3SGDzcIWyBeu3ujrWa6jXxaLSF/GLQwv451kIIZCTw28o7u8cx1bH9cADQ2tZx/vxEgSo2A==
-X-Received: by 2002:a17:906:dac3:b0:a86:6a26:fec7 with SMTP id a640c23a62f3a-a98f827a28amr177189466b.30.1727852638606;
-        Wed, 02 Oct 2024 00:03:58 -0700 (PDT)
-Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c70dfsm825384466b.52.2024.10.02.00.03.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Oct 2024 00:03:57 -0700 (PDT)
-Message-ID: <1941443e-7685-48b7-8201-7700877d9ec7@gmail.com>
-Date: Wed, 2 Oct 2024 09:03:57 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KcmDv5I5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727854204; x=1759390204;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5i11oanOulM+lrRsRVREA3F34dwIgn/eYTFJjEjjpoM=;
+  b=KcmDv5I5Q+Fm4NWYX/ub9sVY2X6KPKyhi+Qh7LjZgladn70ZoDZuoh5k
+   ZXRD22ptT8U3SEXlODDLy7syrieIHgCarRfvPYTRr+4MUOOplB8dnTY1J
+   pqj3nCki4WeQD7ZM6/G/wrXaL83++G8WeqPY8elGnLJ8OjMY4WUZ66Fa5
+   0PiTuT27UBDGmVR/eIPNSJtrt4c7AcAuKMKpiT8geX2Qti46K/lX1/vkB
+   ogKzpvDAviei6u2/kgPDAba+lC8XNoqshxb8qRjcIfblIf2ohcomI1KTH
+   Ag/SMO3RNFIKaJ0vam7fcFfCBugUCX9gi1pJw7W7Uo56g6NTTbczWR5CO
+   A==;
+X-CSE-ConnectionGUID: sHgrKw/bQEazxF8QCZ3r9g==
+X-CSE-MsgGUID: vQ9423yTSdSxPjlaRENkJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="37601696"
+X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
+   d="scan'208";a="37601696"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 00:30:03 -0700
+X-CSE-ConnectionGUID: ui7CV3/oS0uhyHoQZFIAKw==
+X-CSE-MsgGUID: AatAl5GTQrayaOu5ZeRY0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
+   d="scan'208";a="74726104"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 02 Oct 2024 00:30:03 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1svto8-000RjE-0T;
+	Wed, 02 Oct 2024 07:30:00 +0000
+Date: Wed, 2 Oct 2024 15:29:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 14346/20658] versioncheck:
+ ./drivers/net/wireless/iwl7000/mac80211/parse.c: 934: need linux/version.h
+Message-ID: <202410021527.NiBjoXN1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/iio/accel/adxl367_spi.c:76:10: error: 'const struct
- regmap_bus' has no member named 'read'
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <202410021111.LknEX9ne-lkp@intel.com>
- <6e935f30-6dc5-4422-842d-068c08d31333@gmail.com>
-Content-Language: en-US, de-AT
-In-Reply-To: <6e935f30-6dc5-4422-842d-068c08d31333@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 02/10/2024 09:01, Javier Carrasco wrote:
-> On 02/10/2024 05:21, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
->> commit: c922c634bd926d84967275efbb7275b8645aa343 iio: accel: adxl367: Constify struct regmap_bus
->> date:   9 weeks ago
->> config: x86_64-randconfig-001-20231120 (https://download.01.org/0day-ci/archive/20241002/202410021111.LknEX9ne-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021111.LknEX9ne-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202410021111.LknEX9ne-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>    In file included from include/linux/sched.h:38,
->>                     from include/linux/percpu.h:12,
->>                     from arch/x86/include/asm/msr.h:15,
->>                     from arch/x86/include/asm/tsc.h:10,
->>                     from arch/x86/include/asm/timex.h:6,
->>                     from include/linux/timex.h:67,
->>                     from include/linux/time32.h:13,
->>                     from include/linux/time.h:60,
->>                     from include/linux/stat.h:19,
->>                     from include/linux/module.h:13,
->>                     from drivers/iio/accel/adxl367_spi.c:8:
->>    include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
->>       19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
->>          |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
->>    include/linux/mm.h:2888:5: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
->>     2888 | #if USE_SPLIT_PTE_PTLOCKS
->>          |     ^~~~~~~~~~~~~~~~~~~~~
->>    include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
->>       19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
->>          |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
->>    include/linux/mm_types_task.h:20:34: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
->>       20 | #define USE_SPLIT_PMD_PTLOCKS   (USE_SPLIT_PTE_PTLOCKS && \
->>          |                                  ^~~~~~~~~~~~~~~~~~~~~
->>    include/linux/mm.h:3010:5: note: in expansion of macro 'USE_SPLIT_PMD_PTLOCKS'
->>     3010 | #if USE_SPLIT_PMD_PTLOCKS
->>          |     ^~~~~~~~~~~~~~~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:75:21: error: variable 'adxl367_spi_regmap_bus' has initializer but incomplete type
->>       75 | static const struct regmap_bus adxl367_spi_regmap_bus = {
->>          |                     ^~~~~~~~~~
->>>> drivers/iio/accel/adxl367_spi.c:76:10: error: 'const struct regmap_bus' has no member named 'read'
->>       76 |         .read = adxl367_read,
->>          |          ^~~~
->>    drivers/iio/accel/adxl367_spi.c:76:17: warning: excess elements in struct initializer
->>       76 |         .read = adxl367_read,
->>          |                 ^~~~~~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:76:17: note: (near initialization for 'adxl367_spi_regmap_bus')
->>>> drivers/iio/accel/adxl367_spi.c:77:10: error: 'const struct regmap_bus' has no member named 'write'
->>       77 |         .write = adxl367_write,
->>          |          ^~~~~
->>    drivers/iio/accel/adxl367_spi.c:77:18: warning: excess elements in struct initializer
->>       77 |         .write = adxl367_write,
->>          |                  ^~~~~~~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:77:18: note: (near initialization for 'adxl367_spi_regmap_bus')
->>    drivers/iio/accel/adxl367_spi.c:80:21: error: variable 'adxl367_spi_regmap_config' has initializer but incomplete type
->>       80 | static const struct regmap_config adxl367_spi_regmap_config = {
->>          |                     ^~~~~~~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:81:10: error: 'const struct regmap_config' has no member named 'reg_bits'
->>       81 |         .reg_bits = 8,
->>          |          ^~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:81:21: warning: excess elements in struct initializer
->>       81 |         .reg_bits = 8,
->>          |                     ^
->>    drivers/iio/accel/adxl367_spi.c:81:21: note: (near initialization for 'adxl367_spi_regmap_config')
->>    drivers/iio/accel/adxl367_spi.c:82:10: error: 'const struct regmap_config' has no member named 'val_bits'
->>       82 |         .val_bits = 8,
->>          |          ^~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:82:21: warning: excess elements in struct initializer
->>       82 |         .val_bits = 8,
->>          |                     ^
->>    drivers/iio/accel/adxl367_spi.c:82:21: note: (near initialization for 'adxl367_spi_regmap_config')
->>    drivers/iio/accel/adxl367_spi.c: In function 'adxl367_spi_probe':
->>    drivers/iio/accel/adxl367_spi.c:132:18: error: implicit declaration of function 'devm_regmap_init' [-Werror=implicit-function-declaration]
->>      132 |         regmap = devm_regmap_init(&spi->dev, &adxl367_spi_regmap_bus, st,
->>          |                  ^~~~~~~~~~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:132:16: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->>      132 |         regmap = devm_regmap_init(&spi->dev, &adxl367_spi_regmap_bus, st,
->>          |                ^
->>    drivers/iio/accel/adxl367_spi.c: At top level:
->>    drivers/iio/accel/adxl367_spi.c:75:32: error: storage size of 'adxl367_spi_regmap_bus' isn't known
->>       75 | static const struct regmap_bus adxl367_spi_regmap_bus = {
->>          |                                ^~~~~~~~~~~~~~~~~~~~~~
->>    drivers/iio/accel/adxl367_spi.c:80:35: error: storage size of 'adxl367_spi_regmap_config' isn't known
->>       80 | static const struct regmap_config adxl367_spi_regmap_config = {
->>          |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
->>    cc1: some warnings being treated as errors
->>
->>
->> vim +76 drivers/iio/accel/adxl367_spi.c
->>
->> cbab791c5e2a58 Cosmin Tanislav 2022-02-14  74  
->> c922c634bd926d Javier Carrasco 2024-07-03  75  static const struct regmap_bus adxl367_spi_regmap_bus = {
->> cbab791c5e2a58 Cosmin Tanislav 2022-02-14 @76  	.read = adxl367_read,
->> cbab791c5e2a58 Cosmin Tanislav 2022-02-14 @77  	.write = adxl367_write,
->> cbab791c5e2a58 Cosmin Tanislav 2022-02-14  78  };
->> cbab791c5e2a58 Cosmin Tanislav 2022-02-14  79  
->>
->> :::::: The code at line 76 was first introduced by commit
->> :::::: cbab791c5e2a58c123d84bd9202c054e5449bc96 iio: accel: add ADXL367 driver
->>
->> :::::: TO: Cosmin Tanislav <demonsingur@gmail.com>
->> :::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->>
-> 
-> Strange. I followed the "how to reproduce" guide step by step, but it
-> compiled just fine (gcc-12.3.0 instead of 12.2.0, though).
-> 
-> On the other hand, there has been a similar bug in hwmon[1] and it had
-> nothing to do with making the struct const, which actually uncovered a
-> missing select (in that case REGMAP_I2C).
-> 
-> In this particular case, 'select REGMAP_SPI' is present in the Kconfig
-> entry for the driver, and the header is included in adxl367_spi.c. The
-> only thing is that the driver uses devm_regmap_init() instead of
-> devm_regmap_init_spi(), and other drivers that include REGMAP_SPI use
-> that one. Does that make sense?
-> 
-> Best regards,
-> Javier Carrasco
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   a81f127d7432274edb73f16568b5b097fca99d2a
+commit: abf11131c93b512ab6a8618710f31dcd678338d5 [14346/20658] CHROMIUM: iwl7000: mac80211: move element parsing to a new file
+reproduce: (https://download.01.org/0day-ci/archive/20241002/202410021527.NiBjoXN1-lkp@intel.com/reproduce)
 
-Link:
-https://lore.kernel.org/oe-kbuild-all/202410020246.2cTDDx0X-lkp@intel.com/
-[1]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410021527.NiBjoXN1-lkp@intel.com/
+
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.73.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/config.h: 69: need linux/version.h
+   ./drivers/net/wireless/iwl7000/hdrs/kunit/visibility.h: 3 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/linux/acpi_amd_wbrf.h: 3 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/linux/math.h: 4 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h: 2321: need linux/version.h
+   ./drivers/net/wireless/iwl7000/hdrs/mac80211-exp.h: 177: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/cfg/22000.c: 433: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.c: 2535: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.h: 103: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-tm-gnl.c: 1244: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/d3.c: 3497: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/link.c: 304: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mac80211.c: 6595: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mvm.h: 2856: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/ops.c: 2330: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c: 2602: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/scan.c: 3408: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/vendor-cmd.c: 2418: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/backports.c: 557: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/cfg-utils.c: 255: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/cfg.c: 5439: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/debugfs.c: 735: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/driver-ops.h: 1719: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/ethtool.c: 284: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/ieee80211_i.h: 2725: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/iface.c: 2485: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/link.c: 502: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/main.c: 1854: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/mlme.c: 8757: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/parse.c: 934: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/rx.c: 5551: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/scan.c: 1470: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/sta_info.c: 3037: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/status.c: 1302: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/tdls.c: 2097: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/tx.c: 6300: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/util.c: 4394: need linux/version.h
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./fs/incfs/integrity.c: 8 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
