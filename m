@@ -1,110 +1,117 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5E61D0E12
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 18:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D272216B5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 18:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727894656; cv=none; b=gSvrn+BywECGBx8SnTCdv8TA6569wIYp0/beu1tNOV231D32XjoSjUJnreckyDky+ZfOl0fk3fy6DsHcK6bfln0gHu+p2cWbQX6YCiTBCvlqYkxQO/THh2hPvWoBTd87FNM066PHAF7waqPY0CODXwiGoEHJLzC75JM5P8kMW6U=
+	t=1727895034; cv=none; b=BI3PoHm2ALuLaRBgur72cMCKLr2yZuLMz4sWm2en4hVAHJfst/A+VO/sayXjvJq8vGEaL8rBhpmLDhBX5vMN9PwisEP5Zs361eO+sbp4erVnDYDFyaGyH/m7f7A45ZLjrA3iPiyuqw2y1svHu+MPs4oG4BMqPisRTzCcLKTSkFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727894656; c=relaxed/simple;
-	bh=iJBzvn/cj/JRuaVnnHh9DDHoNTwL/SAzdLlHVGlLAm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AHu5TvfiGXy4V8RCRLTe+9AzGzZoRkT0Evm4563tSBzUAewuFOWyqdFfauznfnOXU/+NHU+0GHt0xMBzqWm6RamTzl8tzS9kz+QK/86C1q4iRm3gu9u5/8gHaAG/J0+XyeCGwXcigGU5M7CkNWgDzqJeoX7YeoT6cCpg1QVWca8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4ebvYHVj; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1727895034; c=relaxed/simple;
+	bh=kFlIFumcWI5DnyV/SVBK0Zf8SxnMGxnGS1bghaaosEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W4dGLO/3A3JKu8U4FLBio+gTJuyEHIAyHMZ9SSKCLat2r6150+Fup2FKDe25r+kwH8GXALOIyLQvZXbNzCfm4QmSXnWJ98UGmqvl+/uV9wuG8A4ONjxmw/8uYHdoSXh9fuEch7stTZRlPZmX+i9FUz/ifJMOYIeRZ3r12o3G/eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1b++OUI; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4ebvYHVj"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a8a7cdfdd80so9940866b.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Oct 2024 11:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727894653; x=1728499453; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZE2Ce/T+Mvy1H3tSTUGCLB3DqdOmW8uu6V5jQSIQoeI=;
-        b=4ebvYHVj9yiZtMZTgQWIZN9YSmRhq1rAEk0WnAmw8fbUiHb1lmo5G2kfgYQMxUVMAJ
-         G995Jg6/krkaNE5TzZKujcd8ixxViH19utj33yJqBsij7RZCEiUprn/yp9MAkWPrR7cq
-         gyXOrmW2oZPGMZlDoZr9bEQXc6O6YQkyULU7/xyhxuPfacy/J1EnRmjOcrGwZoXPcl47
-         9Bt7cgLedHF5BqMBEX4Uv4zLnNHsZrzMWvc5+7WCdCvLJQ2ZbRE95ZRreuS87mUm+VWq
-         RylyuCczf++LVsqABNclXGTz6io1m8Bm7p4Q8EYHBhcQYoTOX0w5lyduu58/3FAU2o3w
-         zbWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727894653; x=1728499453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZE2Ce/T+Mvy1H3tSTUGCLB3DqdOmW8uu6V5jQSIQoeI=;
-        b=pE2uwsQl3BQKkKkS8wGvk6GdyZNUStqwLGdI19ANnOI+qZvjUWboYjx/W0zajGAPLR
-         GHs6364TQs1/a9IfkuKM/OYK2kqhIfrHwN8gsiWvBgmP4sIRzEkYRhKNMLcMaxBqvEDf
-         oUKingQJJABbYS7PQXpE1KWQawhhDmnUcdvz0Ppz3Rm0QoJx/iccYcZomWapgC+znKEj
-         V1uYK/mSnJC99eqK5eXfITRQYQVk8JgzCpiIcisOaf8G+Ww/5mPDI9tt7YItoBMleUYX
-         XIQ8E975E1nEqhzSA/31guqDBAk5SQblkKXeN8KR6rm6Bj+hT6q0333xpbYpyvmlVhI5
-         Y3Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCXD3VfavdSkIzCOHMyMohPXNFshLXFzN1aF8nTpP/QpPEMZvUGF10YeK+ZDVPiKFvADe56Q3ffhw1HiDqzZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5L4lSSQgiLnKCQxgYEUfMnsB+twzvJCD5yMX4UIH4MYLVxFJm
-	kN15jbLQynTXkNhYYCRbc071mg9zRWN2Jr70EOrBqtYnYJoI2cjlkzdCIDFUgCB1HtIzmxP7/2W
-	LBsx4l/3uFHIaK3ax+ORCeTCOkafZe4IJCrA3
-X-Google-Smtp-Source: AGHT+IEil/s7p+VRY6t+0zcsrwiNDY//TmdLrQJ3cdUC1G29saH9zpEzRGC2WIzFjCvXcKvMUeQ2DtMotmphT//t2nY=
-X-Received: by 2002:a17:907:25cb:b0:a8d:2e3a:5303 with SMTP id
- a640c23a62f3a-a98f8295ed5mr418895066b.39.1727894652491; Wed, 02 Oct 2024
- 11:44:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1b++OUI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727895032; x=1759431032;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kFlIFumcWI5DnyV/SVBK0Zf8SxnMGxnGS1bghaaosEQ=;
+  b=B1b++OUI8W5yjcPLd38+XPsW5StdeGRHdtFqBzQre+5U0uab+5WjBExm
+   yyChzjZeM0Xr9/Ib8K3oUsxj819N3WgrXh6c2tdOhs/F71Wwj2ZQRFudB
+   Q+splk7SagaUlGM3lxO9paeSg+OD3Oo/t5uGBMnosut73kXRmX/nVgVNd
+   6AZvULf4fcLa+AoHvUY7Hl5ew8EhEBmOrdLJ4pkz7tgbwugDLQFLLBHqJ
+   ISIYwN7IOjuvFp9P00bAS4A6wrgfFTUoz39CjLX5anM/NOgQDzr1LvILh
+   BEMhrhcKChQ8DxfzuvMKsrfNBpzlDTF9muML1alXZJGzsdFBcIBimF0BR
+   Q==;
+X-CSE-ConnectionGUID: Q6oKj0qdSLy8eWIxQMO4iQ==
+X-CSE-MsgGUID: qUTGsnVBSzGsGnz/cIGXfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26580089"
+X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
+   d="scan'208";a="26580089"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 11:50:31 -0700
+X-CSE-ConnectionGUID: 1Mt92jv6SCau9hxksGkAlg==
+X-CSE-MsgGUID: ljYSm+M/Sv6JUD/jeVEXxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
+   d="scan'208";a="73769013"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 02 Oct 2024 11:50:30 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sw4Qd-000UPF-1X;
+	Wed, 02 Oct 2024 18:50:27 +0000
+Date: Thu, 3 Oct 2024 02:49:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Esben Haabendal <esben@geanix.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-pinctrl:devel 8/22]
+ drivers/pinctrl/freescale/pinctrl-imx27.c:21:9: warning: 'PC' macro
+ redefined
+Message-ID: <202410030214.dPrgmUqd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202410021530.DnNbPqfN-lkp@intel.com> <CAKEwX=Ma9usQBge8uKvin=+GsuRDgJrDYTthzLg7zhtbLMPc8w@mail.gmail.com>
-In-Reply-To: <CAKEwX=Ma9usQBge8uKvin=+GsuRDgJrDYTthzLg7zhtbLMPc8w@mail.gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Wed, 2 Oct 2024 11:43:35 -0700
-Message-ID: <CAJD7tkYoL-V+tEHSDQ2uCdSTeEL-TfJDnok9gGR-d_MW42F2cw@mail.gmail.com>
-Subject: Re: mm/zswap.c:744:52: error: 'struct zswap_lruvec_state' has no
- member named 'nr_disk_swapins'
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Chengming Zhou <chengming.zhou@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Oct 2, 2024 at 11:13=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> On Wed, Oct 2, 2024 at 1:01=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git master
-> > head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
-> > commit: e31c38e037621c445bb4393fd77e0a76e6e0899a zswap: implement a sec=
-ond chance algorithm for dynamic zswap shrinker
-> > date:   4 weeks ago
-> > config: x86_64-randconfig-r133-20240215 (https://download.01.org/0day-c=
-i/archive/20241002/202410021530.DnNbPqfN-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20241002/202410021530.DnNbPqfN-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202410021530.DnNbPqfN-l=
-kp@intel.com/
-> >
->
-> I'm stumped...I downloaded this config file, and used the same
-> reproducer build commands, and it built successfully for me :(
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   30e830b8b952e550344224546f8cd83c5c49a5bf
+commit: a55222b7a1327fabad71e1e61661077ab66bb98d [8/22] pinctrl: freescale: enable use with COMPILE_TEST
+config: mips-randconfig-r112-20241002 (https://download.01.org/0day-ci/archive/20241003/202410030214.dPrgmUqd-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce: (https://download.01.org/0day-ci/archive/20241003/202410030214.dPrgmUqd-lkp@intel.com/reproduce)
 
-There seems to be tons of existing build problems with zswap.h and
-zswap.c, I am not sure what's going on.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410030214.dPrgmUqd-lkp@intel.com/
 
->
-> Fellow zswappers, anyone managed to reproduce this? Or is this a false
-> positive...
+All warnings (new ones prefixed by >>):
 
-No luck here.
+>> drivers/pinctrl/freescale/pinctrl-imx27.c:21:9: warning: 'PC' macro redefined [-Wmacro-redefined]
+      21 | #define PC 2
+         |         ^
+   arch/mips/include/uapi/asm/ptrace.h:17:9: note: previous definition is here
+      17 | #define PC              64
+         |         ^
+   1 warning generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PINCTRL_IMX_SCU
+   Depends on [n]: PINCTRL [=y] && IMX_SCU [=n]
+   Selected by [y]:
+   - PINCTRL_IMX8QM [=y] && PINCTRL [=y] && OF [=y] && (IMX_SCU [=n] && ARCH_MXC && ARM64 || COMPILE_TEST [=y])
+   - PINCTRL_IMX8DXL [=y] && PINCTRL [=y] && OF [=y] && (IMX_SCU [=n] && ARCH_MXC && ARM64 || COMPILE_TEST [=y])
+
+
+vim +/PC +21 drivers/pinctrl/freescale/pinctrl-imx27.c
+
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  17  
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  18  #define PAD_ID(port, pin) (port*32 + pin)
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  19  #define PA 0
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  20  #define PB 1
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29 @21  #define PC 2
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  22  #define PD 3
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  23  #define PE 4
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  24  #define PF 5
+e16dbf60111373 drivers/pinctrl/pinctrl-imx27.c Markus Schneider-Pargmann 2013-10-29  25  
+
+:::::: The code at line 21 was first introduced by commit
+:::::: e16dbf6011137343f51685c1e0c5be36a68fc501 pinctrl: imx27: imx27 pincontrol driver
+
+:::::: TO: Markus Pargmann <mpa@pengutronix.de>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
