@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E454D7FD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 02:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C15D529
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 02:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727834985; cv=none; b=FrnQz9QCEBc8L2BEcICsUEEhlSG1KcQDOxb9FdpX2TOZnEp0m59/nOmP1tbEXll9sfb+joMLkRxT6sbUg8o736/X8wApQd4tcFCPHN8Dd6hnBrqLyovyrwa4ssexeiBgNmhtdKbUJ0XhmsB4FcL8y4Uq+K+w0P7Nf2bEn9gpnMk=
+	t=1727835645; cv=none; b=PdievjEvE7+cJfXUAdtMaAQGwOE+BFTGliuU88A846ktZUGjM3CINLbU4BTFaFsK9KWFu3dPA7O+Ia/dOqSxxS2yFGdMzx8nOJB7ntZVPQX9MKlZP/mmz5Fk/JLDKztJhjHfdFLJs7rkW6i6C9BivpQOMpCWUUWAaGIBeiifkOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727834985; c=relaxed/simple;
-	bh=V3pTbNzMevHZknMB0/YAiDF3yxkv5mrruHMY7Gj26ok=;
+	s=arc-20240116; t=1727835645; c=relaxed/simple;
+	bh=Kaw56mXVmXZtBKB3AL191sC6xCf0yXFJ7XhOTd3lkZ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sunKb9Qh/8U8Mi+wJGIQScOs6vWSDMtrhhy5OwulzuKZislJORHo/CsKBJZFLbxzqCc5UlAelj5c8vGSg5RYaGKnVGUEXPZacVuXM1EqVYP0OljWu+HKaLtXvuhzBq8jAtNVgSXp4bio6Fu+B9OXDhX98Qyiyp+an+4CRLkCiC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m68ujV1e; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=ItQxOtEDrEfgkpauAsfMIcfDlVk+GvuB1P23ttZ6lmBJmHO6D96wmZ1rWb9c/5roUQ0fIfcIpkIzRurZqxuDSzXimAdMLR2vcsOoR0v1F80hnkotdzic3o9TDmpwSTzQNK7UrCcLzf0yCrHd1ZUbysrtyYTH1ghcN+SjMlJsZRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVC+w82r; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m68ujV1e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVC+w82r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727834984; x=1759370984;
+  t=1727835643; x=1759371643;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V3pTbNzMevHZknMB0/YAiDF3yxkv5mrruHMY7Gj26ok=;
-  b=m68ujV1ekAMjHZ+pfc3alp+xPhq8ykQe4+XomSS7AK4iOMzLgOMFEUzx
-   TvC1UvoBT++w25b7dO6V7D8KBOsd/G5Gz23Ntts0cOF1R2e/nkXgCdEmE
-   qXX4w3JSCLho/l4II4/HELojfkYQKE1uhIRBZwzMrAr2ygY1R913rXjMV
-   wsRBlwTKodIID5Uopdg7VfgqaA2cqiml3ONeZuo1zQxTf5RDyiTEPOVrG
-   p6vQOP09AH56RoMboY0wsCDC/46TIfOJsIasz1Abt2gLQXAwzqR3d9GxG
-   wBuNkkgHkZKbgXDcgc/HzdHkTlSWnLefYmposkVfD81JzCmCiGA1y6uxE
-   w==;
-X-CSE-ConnectionGUID: W3XCycyJRbudYKR0dlGhWA==
-X-CSE-MsgGUID: 6YB2/0bFQ/aA5/rLATI7tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30881354"
+  bh=Kaw56mXVmXZtBKB3AL191sC6xCf0yXFJ7XhOTd3lkZ0=;
+  b=GVC+w82r6E4Sv45gXNHk9bxp07zlCCfyguCInaWAwEOcoOCzEDczNDf/
+   I2WzQE0tBc4NaxVfB0gTBV+8sL1iy+g43Sro7qUKWrr4ay1XZUwtRiY64
+   jNIgm3uyVv6j0RKbUf5MC8NWJuB04yL8xRhSGGBtFPqbr7lwSkh+c22ST
+   wzzcz02mFjEkfx/fwJalD+icBz7vEvoHKolan++MbqSLl155gn8Y0CTPB
+   quzM5L+EUsyxER06YUPti85XFfmkXRkKx7Mueq7oMAiyKFtE9RNt42BGL
+   12oYa0sYhOdxHgqY85HSYPrfjw8iUyDUdVjIsIMLhRyuL+UlBWpU1GJSO
+   A==;
+X-CSE-ConnectionGUID: REasf6q9RmOxwAAPkkM3rQ==
+X-CSE-MsgGUID: mnND9Sb/R6CtQb4wg6a0wA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27089213"
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="30881354"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 19:09:43 -0700
-X-CSE-ConnectionGUID: d5KJv2ZqRROeWsP6pe+IAA==
-X-CSE-MsgGUID: 0uY0GTOgSbOaPIf15Ls/YQ==
+   d="scan'208";a="27089213"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 19:20:43 -0700
+X-CSE-ConnectionGUID: fNhZNdIKSqqVZm93pzUr2g==
+X-CSE-MsgGUID: j4o0y4urSi2eVBRpZUeZgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="73978133"
+   d="scan'208";a="104680513"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Oct 2024 19:09:42 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Oct 2024 19:20:42 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svoo7-000RQt-36;
-	Wed, 02 Oct 2024 02:09:39 +0000
-Date: Wed, 2 Oct 2024 10:09:24 +0800
+	id 1svoym-000RRB-11;
+	Wed, 02 Oct 2024 02:20:40 +0000
+Date: Wed, 2 Oct 2024 10:19:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [linux-next:master 1097/1347]
- drivers/gpu/drm/i915/i915_gpu_error.c:2415:9: sparse: sparse: Using plain
- integer as NULL pointer
-Message-ID: <202410021019.tNX2tCCb-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:chromeos-6.6-f9d942cf7d57 241/1491]
+ arch/x86/kvm/x86.c:10803:13: warning: 'kvm_vcpu_pv_sched_fini' defined but
+ not used
+Message-ID: <202410021037.LEU2UXPg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,50 +63,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   77df9e4bb2224d8ffbddec04c333a9d7965dad6c
-commit: 2edc6a75f26c112d90ca67ff412ba79622069818 [1097/1347] drm/i915: switch intel_wakeref_t underlying type to struct ref_tracker *
-config: i386-randconfig-062-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021019.tNX2tCCb-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
+head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
+commit: 6ba4260ba1152c232c9367f791822b16fa060175 [241/1491] CHROMIUM: kvm: x86: upper bound for boost duration
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241002/202410021037.LEU2UXPg-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021019.tNX2tCCb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021037.LEU2UXPg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410021019.tNX2tCCb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410021037.LEU2UXPg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/i915_gpu_error.c:2415:9: sparse: sparse: Using plain integer as NULL pointer
-   drivers/gpu/drm/i915/i915_gpu_error.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +2415 drivers/gpu/drm/i915/i915_gpu_error.c
+>> arch/x86/kvm/x86.c:10803:13: warning: 'kvm_vcpu_pv_sched_fini' defined but not used [-Wunused-function]
+   10803 | static void kvm_vcpu_pv_sched_fini(struct kvm_vcpu *vcpu)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c:10793:13: warning: 'kvm_vcpu_pv_sched_init' defined but not used [-Wunused-function]
+   10793 | static void kvm_vcpu_pv_sched_init(struct kvm_vcpu *vcpu)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
 
-4fca51984371d9 Jani Nikula 2023-10-31  2407  
-4fca51984371d9 Jani Nikula 2023-10-31  2408  static int i915_gpu_info_open(struct inode *inode, struct file *file)
-4fca51984371d9 Jani Nikula 2023-10-31  2409  {
-4fca51984371d9 Jani Nikula 2023-10-31  2410  	struct drm_i915_private *i915 = inode->i_private;
-4fca51984371d9 Jani Nikula 2023-10-31  2411  	struct i915_gpu_coredump *gpu;
-4fca51984371d9 Jani Nikula 2023-10-31  2412  	intel_wakeref_t wakeref;
-4fca51984371d9 Jani Nikula 2023-10-31  2413  
-4fca51984371d9 Jani Nikula 2023-10-31  2414  	gpu = NULL;
-4fca51984371d9 Jani Nikula 2023-10-31 @2415  	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
-4fca51984371d9 Jani Nikula 2023-10-31  2416  		gpu = i915_gpu_coredump(to_gt(i915), ALL_ENGINES, CORE_DUMP_FLAG_NONE);
-4fca51984371d9 Jani Nikula 2023-10-31  2417  
-4fca51984371d9 Jani Nikula 2023-10-31  2418  	if (IS_ERR(gpu))
-4fca51984371d9 Jani Nikula 2023-10-31  2419  		return PTR_ERR(gpu);
-4fca51984371d9 Jani Nikula 2023-10-31  2420  
-4fca51984371d9 Jani Nikula 2023-10-31  2421  	file->private_data = gpu;
-4fca51984371d9 Jani Nikula 2023-10-31  2422  	return 0;
-4fca51984371d9 Jani Nikula 2023-10-31  2423  }
-4fca51984371d9 Jani Nikula 2023-10-31  2424  
 
-:::::: The code at line 2415 was first introduced by commit
-:::::: 4fca51984371d930a5d9d5a8b0848b892dbfdecc drm/i915: move gpu error debugfs to i915_gpu_error.c
+vim +/kvm_vcpu_pv_sched_fini +10803 arch/x86/kvm/x86.c
 
-:::::: TO: Jani Nikula <jani.nikula@intel.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
+ 10802	
+ 10803	static void kvm_vcpu_pv_sched_fini(struct kvm_vcpu *vcpu)
+ 10804	{
+ 10805		hrtimer_cancel(&vcpu->arch.pv_sched.boost_thr_timer);
+ 10806	}
+ 10807	#else
+ 10808	static inline void record_vcpu_pv_sched(struct kvm_vcpu *vcpu) { }
+ 10809	static inline void kvm_vcpu_do_pv_sched(struct kvm_vcpu *vcpu) { }
+ 10810	static inline void kvm_vcpu_pv_sched_init(struct kvm_vcpu *vcpu) { }
+ 10811	static inline void kvm_vcpu_pv_sched_fini(struct kvm_vcpu *vcpu) { }
+ 10812	
 
 -- 
 0-DAY CI Kernel Test Service
