@@ -1,157 +1,92 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C3F194A48
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 08:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AFA1946B8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 08:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727856860; cv=none; b=r4RJMcjBmT+aoqCdNDNoQgDoKgKwtjVbvuhsBY53UUlz/dotYZTWSaTbAcDhRfrbR1nfy/lyZYpe9QHeB1TVbiTE8exg+cLHmjiUGQiX0/lf0w+FDfXylwq46NvYWHXAZa4nHAxu3ZbkGBjHcEoL9c9SybBbT5sYRmfiF0qkJaM=
+	t=1727857197; cv=none; b=nOuX8MNWVyXBzLbqIuYowc2Yr4yUs4UYa+uFUQ6UkcOv5pce771OswmTMrm7jI4KtMJwQEmcMK2JsBVoBx+LzZHsjcn8shmoBbwA6JBGVTucpEOA/4dFZR0fOK7Hpy5ynxE8i4NqfC1O2J++OWZpafzviYjoPyinNugpFXEoGTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727856860; c=relaxed/simple;
-	bh=cN5BO9INP+8SjuknZdd8CSGf5m7pxLUl5nRuLqqK6ic=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j9s6mbtVRw8vfn5mbqGF/ZsS2HyAIBAgDkXAxNMzFLVVKPBcSRPydtjZG7p3PNO9k5YUcCGrGoGx/34Oc5gL2t7wGlNSfwCJwZshb0VgW5rUOMPiJYg77BULAfjqaoUugd4QmhBwJu2ZLIxn+rPqlB6TySwAH1dx1VT6xAH4IeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=okq5SfQ6; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1727857197; c=relaxed/simple;
+	bh=d1WXcQKJYOHTURZhqznxS3US8Zodokf/EL9EGxHee7g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sA5fbRVjxpwywjj8jR+Um3s5vvhhCa42gb08ozXuTSGFfISM0MiSZRsDTkJpfBxRiOeXXK7ZCCfVU7eAyMAzL4UD7A2xYhJssgKEXngXSCOkTL9RwZtVUyVrA1zfON+ceGZ+bBIHZG1pLnQ5xM+H3X/01UDTGVkXDuen4JMwTtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=re9fZa9p; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="okq5SfQ6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1727856848;
-	bh=cN5BO9INP+8SjuknZdd8CSGf5m7pxLUl5nRuLqqK6ic=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=okq5SfQ6ybIaaZug/tEdLx8HzjGCrYU8lLDz9D7V1Hy3WmrIX2CVDL6S588VUdIpY
-	 4RMjR4M3sf1zKT10nWg5V6WIpAEB+g/+ZEfkOnjty7k27A1/sF/phQ/K6Euqg7t7u8
-	 9B+mlC0gSYOgwksqHcOrcHuuE6lv5ZgLw/Rc8S0kVJrYwqovrgntmYwlZSL6ExvU26
-	 5XFco7+CF2VBqq6aSDlD0stMdDvx+xJ1FtEiyaJs5V+SKAjTpTYKxviyGVWzAHN6YB
-	 D9DHioMUOwLDSnpnbF4kVBN6Uv/AezdAa8szkaarrTn5EuJ1w2+JlRkNkmruq9AcVM
-	 u3r/Q7q3L4gJw==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EA42017E1088;
-	Wed,  2 Oct 2024 10:14:07 +0200 (CEST)
-Date: Wed, 2 Oct 2024 10:14:03 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: kernel test robot <lkp@intel.com>
-Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Boris
- Brezillon <bbrezillon@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v8 3/5] drm/panthor: add DRM fdinfo support
-Message-ID: <20241002101403.3df35ea7@collabora.com>
-In-Reply-To: <202409291048.zLqDeqpO-lkp@intel.com>
-References: <20240923230912.2207320-4-adrian.larumbe@collabora.com>
-	<202409291048.zLqDeqpO-lkp@intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="re9fZa9p"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=xYKJrN9v9QzrVQiwlfgXCf7g7VyXIAwpe9m65hJOiGI=; b=re9fZa9pOJMGNtcghuSWvrxMrg
+	dB2vNTOmdYQpbU0SCeLD/ZZszh4kIctDPO9IdBhYca0Xp8RpCjLsGPcETkLBE/8M1uyGLOV2SyXGp
+	D41ElQ3L0VkuHpBpY9uk3nIFy4PknNCLWeF1BXutWRVES60GKCPssv43vto+pJ20T9/GeAy8qOa9C
+	SPfNN03DNSqqK3nJnE2LI8M0QNFbAE5at0BHo2U4fQ+Mez0HLS14USfYaDlQ/UMERb84uuPZnzAbO
+	UVdq9T1GS/HHaPvMM3HocBW/EnA1K1ZZoOgjX5SaP67+t39a26CBWUMC5TRG6sE04N+EU5CTPxHHn
+	ocMo4sWw==;
+Received: from i53875aa1.versanet.de ([83.135.90.161] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1svuaN-0003AH-Kq; Wed, 02 Oct 2024 10:19:51 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject:
+ Re: [linux-next:master 969/1347]
+ arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb:
+ /i2c@ff110000/rt5651@1a: failed to match any schema with compatible:
+ ['realtek,rt5651']
+Date: Wed, 02 Oct 2024 10:19:50 +0200
+Message-ID: <3530812.QJadu78ljV@diego>
+In-Reply-To: <202410020004.4imQt5MT-lkp@intel.com>
+References: <202410020004.4imQt5MT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, 29 Sep 2024 08:25:38 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi,
 
-> Hi Adri=C3=A1n,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.11 next-20240927]
-> [cannot apply to drm-misc/drm-misc-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm=
--panthor-introduce-job-cycle-and-timestamp-accounting/20240924-071018
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240923230912.2207320-4-adrian.=
-larumbe%40collabora.com
-> patch subject: [PATCH v8 3/5] drm/panthor: add DRM fdinfo support
-> config: arm-randconfig-002-20240929 (https://download.01.org/0day-ci/arch=
-ive/20240929/202409291048.zLqDeqpO-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240929/202409291048.zLqDeqpO-lkp@intel.com/reproduce)
-
-I gave this a try with Adrian's series applied on top of drm-misc-next,
-and I couldn't reproduce the issue.
-
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+Am Dienstag, 1. Oktober 2024, 18:25:27 CEST schrieb kernel test robot:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   77df9e4bb2224d8ffbddec04c333a9d7965dad6c
+> commit: 577b5761679da90e691acc939ebbe7879fff5f31 [969/1347] arm64: dts: rockchip: Fix rt5651 compatible value on rk3399-sapphire-excavator
+> config: arm64-randconfig-051-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020004.4imQt5MT-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.1.0
+> dtschema version: 2024.10.dev4+g577c1ab
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020004.4imQt5MT-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409291048.zLqDeqpO-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    In file included from include/linux/math64.h:6,
->                     from include/linux/time.h:6,
->                     from include/linux/stat.h:19,
->                     from include/linux/module.h:13,
->                     from drivers/gpu/drm/panthor/panthor_drv.c:7:
->    drivers/gpu/drm/panthor/panthor_drv.c: In function 'panthor_gpu_show_f=
-dinfo':
-> >> drivers/gpu/drm/panthor/panthor_drv.c:1389:45: error: implicit declara=
-tion of function 'arch_timer_get_cntfrq' [-Wimplicit-function-declaration] =
-=20
->     1389 |                                             arch_timer_get_cnt=
-frq()));
->          |                                             ^~~~~~~~~~~~~~~~~~=
-~~~
->    include/linux/math.h:40:39: note: in definition of macro 'DIV_ROUND_DO=
-WN_ULL'
->       40 |         ({ unsigned long long _tmp =3D (ll); do_div(_tmp, d); =
-_tmp; })
->          |                                       ^~
->    drivers/gpu/drm/panthor/panthor_drv.c:1388:28: note: in expansion of m=
-acro 'DIV_ROUND_UP_ULL'
->     1388 |                            DIV_ROUND_UP_ULL((pfile->stats.time=
- * NSEC_PER_SEC),
->          |                            ^~~~~~~~~~~~~~~~
->=20
->=20
-> vim +/arch_timer_get_cntfrq +1389 drivers/gpu/drm/panthor/panthor_drv.c
->=20
->   1377=09
->   1378	static void panthor_gpu_show_fdinfo(struct panthor_device *ptdev,
->   1379					    struct panthor_file *pfile,
->   1380					    struct drm_printer *p)
->   1381	{
->   1382		if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_ALL)
->   1383			panthor_fdinfo_gather_group_samples(pfile);
->   1384=09
->   1385		if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP) {
->   1386	#ifdef CONFIG_ARM_ARCH_TIMER
->   1387			drm_printf(p, "drm-engine-panthor:\t%llu ns\n",
->   1388				   DIV_ROUND_UP_ULL((pfile->stats.time * NSEC_PER_SEC),
-> > 1389						    arch_timer_get_cntfrq())); =20
->   1390	#endif
->   1391		}
->   1392		if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_CYCLES)
->   1393			drm_printf(p, "drm-cycles-panthor:\t%llu\n", pfile->stats.cycles=
-);
->   1394=09
->   1395		drm_printf(p, "drm-maxfreq-panthor:\t%lu Hz\n", ptdev->fast_rate);
->   1396		drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_fr=
-equency);
->   1397	}
->   1398=09
->=20
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410020004.4imQt5MT-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>    arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+>    arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+>    arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>    arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>    arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>    arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+> >> arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /i2c@ff110000/rt5651@1a: failed to match any schema with compatible: ['realtek,rt5651']
+>    arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
+>    arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+>    arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+
+Similar to the other board, the rt5651 binding hasn't been converted
+to yaml yet, but exists as txt binding.
+
+Geerts patch fixed the wrong vendor prefix (rockchip -> realtek)
+
 
