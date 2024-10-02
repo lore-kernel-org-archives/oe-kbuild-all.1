@@ -1,110 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263B219409C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 11:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8AA17C79
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 11:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727867358; cv=none; b=iS+WHJ+BffvlF5olMIpo03waNJ37EtVkMcq7cwu/kiygdmkbOR4i/54RwU9ohV8h+T2zl1ZVe4mI3oEgiCqwTPp5IBPe2sNzigxwHU1/hI9+ej9D1u/uyTs1pfj6IaIzJZmu0ibaUDFv3q5lNp9Q6Nd7azEnfPOf0NytAI1KHec=
+	t=1727867837; cv=none; b=uR5CcI7d3ZWAKLqxaYdMOPE/I14XI99e5sBvWu15np2B8uWWn+qGDV8IeZSl5TjoHaLKhWgdouAiWhBf6p0MVUHhP1do8XQ6q/XOp02UNduM5SUHUNVy8BCVnw4JkVzzqWTzM5DW0ZSgHoyIsLLTPpqDNRYl91UgXL5/nYkupzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727867358; c=relaxed/simple;
-	bh=HZibFmP+HJLtb/VpknTHlBzQC4E+VI/DkfIx7Ca31YU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nM5FmHH3w9hfyPTpeQiiAS8AteuELJ8P3bhpJt4toiYRWQlJwuY6r2+u2ZT3rfSbCuWPfIdvvrGFL4UGg/eAkdY+ITBuTspEsKF/rU4qWzfqnhrXhPFm8g/h9hMFQdWOOKqKez+XpHMj2dFbF47V4Uqm8A/8oIQpUCzTA7qxw94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFw3XzrW; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727867837; c=relaxed/simple;
+	bh=hc1SIxuii7HtX+Vgsw/Cl0k5TeOgd3Oz0PuDMR92m9U=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=kWocaCr3gsyd/2iWlKBm9lVCkZanANec1bctH1a1HuLaBcWk/uFZ46B16aWGLTEZq5sGeP+R2m6W0I+4bS9Ly8tyZhamAieQucEjdysKcfNoS2CXh1RI6TZt7qXtL/et9VbQycMc4VRx7eIsE6nyP6CbPnTsAQfBJ8i296cNuZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=Et5ZaT+w; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFw3XzrW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727867358; x=1759403358;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HZibFmP+HJLtb/VpknTHlBzQC4E+VI/DkfIx7Ca31YU=;
-  b=cFw3XzrWWcdxIF7si2ZQrl1ZO3t/d8Wlf0ajr/p1hxgIvxEu0fT+GmGS
-   AUwYPXeoSNxk1XP7uJ9eXsPIWcs1dedDjl9qD/6kxLblQEWlHsBmkJ+Sm
-   ze8dYk4hNVxAK1IfU9rB2NjEKFuDfNcegA3n17liQ+KaFSQYL23euuR8v
-   fMBN+1NnzZDESvkDlTo20dtr1QONs9fZ2hY18AfA5f5Y1MqKaCCJ+MMJq
-   JAYoGQ8HM1xaSCJmgFkx4bqnaUEnqUxcsMipgLRfXOlhdRtiuUY2Bqc2M
-   233D7XTpZuuu5QZzBu9LnLndXAML/9E5a2y21zke/omHuTixpItPzvEEN
-   g==;
-X-CSE-ConnectionGUID: oczAxUPyTVaa92xV1A7pjg==
-X-CSE-MsgGUID: Yb5ULnyYQveWlI0McyJEBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26977535"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="26977535"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 04:09:17 -0700
-X-CSE-ConnectionGUID: S9UTSiDeTcmTAyymhyhLAA==
-X-CSE-MsgGUID: pqeGrsQBRcqYgWqPhxUtzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="74774408"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Oct 2024 04:09:14 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svxEF-000Rxf-0M;
-	Wed, 02 Oct 2024 11:09:11 +0000
-Date: Wed, 2 Oct 2024 19:08:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Antonio Quartulli <antonio@openvpn.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	sd@queasysnail.net, ryazanov.s.a@gmail.com,
-	steffen.klassert@secunet.com, antony.antony@secunet.com
-Subject: Re: [PATCH net-next v8 02/24] net: introduce OpenVPN Data Channel
- Offload (ovpn)
-Message-ID: <202410021829.6fqjQrRB-lkp@intel.com>
-References: <20241002-b4-ovpn-v8-2-37ceffcffbde@openvpn.net>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="Et5ZaT+w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=PNQ2kxwlLhvOjuBcYZ5EjyGutO2Y48B1Hi4G4JrGRx8=;
+  b=Et5ZaT+wBOww9+ltpreKP+Zqr13QNy/9XpRRN/yqH4jWAjJaavGrP32b
+   YYV3OTepzPJQg3uy+u0ya5VFdggi8nTZ+Red7req9lOF6GGzqAXL28e8A
+   Qpl1iQ7Zxv7zgRg2Ogc+njF0hxwLBhNzQGVNbESXZNzlRYUIfbZe704yU
+   c=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.11,171,1725314400"; 
+   d="scan'208";a="186496924"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 13:17:13 +0200
+Date: Wed, 2 Oct 2024 13:17:12 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+    oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/170-atcphy 4/16] drivers/phy/apple/atc.c:1589:2-8:
+ preceding lock on line 1578 (fwd)
+Message-ID: <d7cd43ec-ba4d-193d-aa8a-50172f633ea1@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241002-b4-ovpn-v8-2-37ceffcffbde@openvpn.net>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Antonio,
+Please check whether an unlock is needed on line 1589.
 
-kernel test robot noticed the following build warnings:
+julia
 
-[auto build test WARNING on 44badc908f2c85711cb18e45e13119c10ad3a05f]
+---------- Forwarded message ----------
+Date: Wed, 2 Oct 2024 19:08:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [asahilinux:bits/170-atcphy 4/16] drivers/phy/apple/atc.c:1589:2-8:
+    preceding lock on line 1578
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/netlink-add-NLA_POLICY_MAX_LEN-macro/20241002-172734
-base:   44badc908f2c85711cb18e45e13119c10ad3a05f
-patch link:    https://lore.kernel.org/r/20241002-b4-ovpn-v8-2-37ceffcffbde%40openvpn.net
-patch subject: [PATCH net-next v8 02/24] net: introduce OpenVPN Data Channel Offload (ovpn)
-reproduce: (https://download.01.org/0day-ci/archive/20241002/202410021829.6fqjQrRB-lkp@intel.com/reproduce)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Sven Peter <sven@svenpeter.dev>
+CC: Janne Grunau <j@jannau.net>
+
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   819ac8ed6c5777d4b18f0c88fc4a5e55a9ab9fdd
+commit: 4f5b8aa35e68a33a1d20b6ce62014794768af7ad [4/16] WIP: phy: apple: Add Apple Type-C PHY
+:::::: branch date: 8 days ago
+:::::: commit date: 2 weeks ago
+config: arc-randconfig-r052-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021851.sGmBSrDd-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410021829.6fqjQrRB-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410021851.sGmBSrDd-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/net/ovpn/main.c: 12 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 423: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1578
+   drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1584
+
+vim +1589 drivers/phy/apple/atc.c
+
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1566
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1568  {
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1571  	int ret = 0;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1572
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1573  	/*
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1577  	 */
+4f5b8aa35e68a3 Sven Peter 2022-11-30 @1578  	mutex_lock(&atcphy->lock);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1585  	}
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1586
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
+4f5b8aa35e68a3 Sven Peter 2022-11-30 @1589  		return -EINVAL;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1590  	}
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1591
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1594  	switch (state) {
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1598  		break;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1599
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1601  	default:
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1603  			 state);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1604  		ret = -EINVAL;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1605  	}
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1606
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1608
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1609  	return 0;
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1610  }
+4f5b8aa35e68a3 Sven Peter 2022-11-30  1611
 
 -- 
 0-DAY CI Kernel Test Service
