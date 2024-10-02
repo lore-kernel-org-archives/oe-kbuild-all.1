@@ -1,339 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DDE15252D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 20:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA2281720
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 20:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727899358; cv=none; b=s5HaC5fsKkfQP/cnzZhd2tSejHRvYkJM+tvhGbBfb7y2jOFtfMh7ekywjzGpYw5rTWvYmNT2nLRISY3EFcpfwPezLGs4Z1g4OR9JRYk+pI6nZNcEjv7iSZECmXjIRg3Q2rhpoNNH/bNpPxT2IFNlq442AviNrEjJMi3GVcIRNXQ=
+	t=1727901477; cv=none; b=rbSD5cogh/0e0QygUZxHddbpZRdxEHYBI+zif48XVjuvVE9JsbKBRPUM/RZg73PSJ1QiPU6uzQkFZYXF4VbnH987r9Teqok3jIB3mGum+aaUE9SGBwpTJ7N1z/AuBI325XpZm8oeKxsh5Gi4XmW5t32W0xG4lHGR8fOOtzsD12g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727899358; c=relaxed/simple;
-	bh=MmOCNjyColSDOlq391dzeXo5AjRxgGqSkQlmuDsDDPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FJgubOVhpqo6DruleShhv6MZom+3DDagJ89Z2rpIZPBSWcy6e1envwdZQJyaULVz4imB3Cz7/bPS/srX3sXXkvUU4dg5GDBIub7MTzqFDq/QSRAl1blQE5yuFdayfFQimLobfcM2fwB2Kpn1pZhU1u+jBBUo3t2b+tbxlLPzfSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LO2y6557; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727901477; c=relaxed/simple;
+	bh=OC1TKx/pLeL5SACkmaMqmXKlXdZHJMdlNgq4YHLyvRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gMmXoJfPdMuJ+U+oYIgqHqbNFjeP2yoEPEcJD+m9Y/sFFJNBWHWxh+C58H2Enf/0trpkWa1YSmglako7l+AAyBM/+ch5+nMPPyOxt1IYy6+UAz2o28R5FL44UGMX0jica/TWdkS2QUg3pQ1xn1nuKtIh3a0AS4xjUISOeG1sfnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=b3nxqlI4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MWW0zH1z; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LO2y6557"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727899357; x=1759435357;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MmOCNjyColSDOlq391dzeXo5AjRxgGqSkQlmuDsDDPk=;
-  b=LO2y6557Xo8eqTSj9b6xYCdrXTLt4sy6VhUZ2wjn5R5dpRl2CRyrSRwW
-   +PuHSqPQIFfHJlN0qdYE3+CSutpKyp5+TNNbbbbBQ3nNRN6a6qb4XqYut
-   61gDXflsZxKINsPQs3LyZ7u39QsJkbBfEjJ13x4hYyv2gpkwk0tniiPtw
-   tf670XxXOYfVxsHJYbTqfjOS70MDmfIcH0tEN5d9SStSaufAgQUpb37Td
-   iIGltQ0nYTq/orBNVAURbUQKxKzvPBjLbxND6WIxtxd4tIbo6p7gU9/tQ
-   uwOn6pUMjON/IztEpy5GTA1GYMugATwNDNFcarFBjxPFv/ArfZ8Wr3/jW
-   Q==;
-X-CSE-ConnectionGUID: K7jlyoA7QcSAIycCu+7Z1w==
-X-CSE-MsgGUID: bm3jEkmrQ/eAB/7dIM5Mwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="38438695"
-X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="38438695"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 13:02:36 -0700
-X-CSE-ConnectionGUID: OIcHqcF/SHK98a6G7IIknw==
-X-CSE-MsgGUID: W1ya/+F4TCm7NobEjg+f8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="74532343"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2024 13:02:35 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sw5YO-000UVv-2V;
-	Wed, 02 Oct 2024 20:02:32 +0000
-Date: Thu, 3 Oct 2024 04:01:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 4693/16788]
- drivers/net/ethernet/freescale/fman/mac.c:238:22: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 5 has type
- 'resource_size_t' {aka 'unsigned int'}
-Message-ID: <202410030345.oyJWWrlA-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="b3nxqlI4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MWW0zH1z"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.phl.internal (Postfix) with ESMTP id D4C3913800D3;
+	Wed,  2 Oct 2024 16:37:53 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Wed, 02 Oct 2024 16:37:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1727901473; x=1727987873; bh=J9BLgsPfbK
+	elFXbcU/fHxBJ3p+Z4AA7P5v3V137wO7c=; b=b3nxqlI4a0U9KR+YQ11AOL05aG
+	a17Qptt5eRol1VkDUeUIQ7Wz04WJpvhrdFK1eWflexR3OgoPSTKDZVdQrqoPKwoy
+	bK77MZcy+OlZSIYf30Gg4B+401geHCazE0MKKfcNbjMh46dRo3UBjb8Iaw79aAy7
+	rg9mVxO34GOBGMB5pct9th5pdXfI4H8tGBypZNpkXnFleTZJuhyW21hHM7J2utJZ
+	G0uXdfgc0ZXIKEOfrz7xtW+jz+3s101EjPzVxlS75XB3dh80QhR3+6IhJoFKxKVh
+	b06BK2knQ4h+pNCg9sUsnYyLUOzEZ2tLyWnS+Fjo4HUKFRqW0hjsjwTaLMHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1727901473; x=1727987873; bh=J9BLgsPfbKelFXbcU/fHxBJ3p+Z4
+	AA7P5v3V137wO7c=; b=MWW0zH1zXsVjW0qb6VxXCYtcMZfTb9a0TP3bHbwsWnYm
+	eCmRx03oSTr3OY3FaA1c/LOnnDAwlpPHZ4EkXJg/nXaJJgjdoGcHxBk3ine9zFLK
+	465MSXA9cTiQW8ql3fKzaBbHpDL7dOrcbr/QVLl8iM7bEdfF4jgp0h55jJTEd4Ee
+	qss/cQ0kCIRHA4DF6R2P0jwLvRVjCQ9B6qN1mhOI6RLfDZXAbzIIzzLMENTHt+dD
+	kPGUtXmarH0lMjkfsV7rtMlTNN/STbl/usQDNi0OGwV1+zsPAI7/wXKQbrIpOFK5
+	Y+cZcVv5cm5ea6+3DVIbdMKgGPf81cP3PN9Ka7v5Nw==
+X-ME-Sender: <xms:Ia_9Zm_Xq6u_GVOveQyUPJ70xQQk20WdWK7ZnvMlylWUkyNELpxMwg>
+    <xme:Ia_9ZmuQAqAPGiz2wd-K3vZuUGH0p3slGtsSJ1-jQkvMhR_VUlqCg_s7ttEAniGzG
+    IUh0-7atZaLiq1sVac>
+X-ME-Received: <xmr:Ia_9ZsD321JgyMMtH-Mydx-w0whjmz7ixB4e9bv04FmuXLOqXmY6BG4W5pyvmZlr8ASj9-cG18OFqL5HHGJJc0yBoZ7k_zT1xhY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdduledgudegkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
+    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgeevffeltefhteeuvdefjeelvdetjeetteehheeiiefhheeh
+    hffgtedvffeujeefnecuffhomhgrihhnpehgihhthhhusgdrtghomhdptddurdhorhhgpd
+    hkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepfedpmhhoug
+    gvpehsmhhtphhouhhtpdhrtghpthhtohepjhhulhhirgdrlhgrfigrlhhlsehinhhrihgr
+    rdhfrhdprhgtphhtthhopehlihhnrgesrghsrghhihhlihhnrgdrnhgvthdprhgtphhtth
+    hopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:Ia_9ZudoIhJLDVs_lVk08umZliONVri9maM8QM4Sdv2jYcvqwZcPZw>
+    <xmx:Ia_9ZrP4HeYfSPPSnDEgJ8pmW6cYKdg718m_qG2FCYZA6zZ41Bvn_w>
+    <xmx:Ia_9ZolSHuhimtWA4G7yWt9tfC6vWWqEz4SzNySPZJxu6elfb1XMqA>
+    <xmx:Ia_9ZtvL-WnC4Rt2pzpj7Zj6tlW1mKyEhc6IYsx7EqIEG_MW_Z_AFA>
+    <xmx:Ia_9ZkogoaufZnUTtYCfDZJs9qm5J8QbqGOFvIG0fIKAx_mxCjaVXm1q>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Oct 2024 16:37:52 -0400 (EDT)
+Date: Wed, 2 Oct 2024 22:37:51 +0200
+From: Janne Grunau <j@jannau.net>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Asahi Lina <lina@asahilina.net>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [asahilinux:bits/240-isp 22/52]
+ drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function
+ "for_each_child_of_node" should have of_node_put() before goto around lines
+ 197. (fwd)
+Message-ID: <Zv2vHxEpumLBorr5@robin>
+References: <9e433f24-c9e5-6d28-4a77-8d6014a8301@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <9e433f24-c9e5-6d28-4a77-8d6014a8301@inria.fr>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: 0b01a18857fec40c9929313790beda2175f5d47d [4693/16788] fsl/fman: add MAC ACPI support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241003/202410030345.oyJWWrlA-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410030345.oyJWWrlA-lkp@intel.com/reproduce)
+Hej,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410030345.oyJWWrlA-lkp@intel.com/
+On Wed, Oct 02, 2024 at 09:34:09AM +0200, Julia Lawall wrote:
+> Please check whether lines 197 and 201 need of_node_put.  Maybe you can
+> alternatively use for_each_child_of_node_scoped.
 
-All warnings (new ones prefixed by >>):
+These were false positives since the called function isp_of_read_coord()
+calls of_node_put(). It was documented but is still surprising /
+unorthodox. I've replaced the loop with for_each_child_of_node_scoped
+anyway and added __free(device_node) cleanup for np to  avoid the goto.
 
-   In file included from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/net/ethernet/freescale/fman/mac.c:9:
-   drivers/net/ethernet/freescale/fman/mac.c: In function 'acpi_mac_probe':
->> drivers/net/ethernet/freescale/fman/mac.c:238:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     238 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:238:9: note: in expansion of macro 'dev_dbg'
-     238 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |         ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:238:49: note: format string is defined here
-     238 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                                              ~~~^
-         |                                                 |
-         |                                                 long long unsigned int
-         |                                              %x
-   drivers/net/ethernet/freescale/fman/mac.c:238:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     238 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:238:9: note: in expansion of macro 'dev_dbg'
-     238 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |         ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:238:61: note: format string is defined here
-     238 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                                                          ~~~^
-         |                                                             |
-         |                                                             long long unsigned int
-         |                                                          %x
+Thanks for the report. Despite being a false positive it still pointed
+to code which was more complicated than it needs to be now.
 
-
-vim +238 drivers/net/ethernet/freescale/fman/mac.c
-
-   159	
-   160	static int acpi_mac_probe(struct platform_device *pdev)
-   161	{
-   162		int			err, i, nph;
-   163		int (*init)(struct mac_device *mac_dev, struct device_node *mac_node,
-   164			    struct fman_mac_params *params);
-   165		struct device		*dev;
-   166		struct device_node	*mac_node;
-   167		struct mac_device	*mac_dev;
-   168		struct mac_priv_s	*priv;
-   169		u32			val;
-   170		u8			fman_id;
-   171		phy_interface_t		phy_if;
-   172		struct device		*fman_dev = NULL;
-   173		struct fwnode_handle	*fman_fwnode = NULL;
-   174		struct device		*fman_port_dev = NULL;
-   175		/* firmware node references */
-   176		struct fwnode_reference_args args;
-   177		struct fman_mac_params	 params;
-   178	
-   179		dev = &pdev->dev;
-   180	
-   181		mac_node = dev->of_node;
-   182		init = device_get_match_data(dev);
-   183	
-   184		mac_dev = devm_kzalloc(dev, sizeof(*mac_dev), GFP_KERNEL);
-   185		if (!mac_dev) {
-   186			err = -ENOMEM;
-   187			goto _return;
-   188		}
-   189		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   190		if (!priv) {
-   191			err = -ENOMEM;
-   192			goto _return;
-   193		}
-   194	
-   195		/* Save private information */
-   196		mac_dev->priv = priv;
-   197		mac_dev->dev = dev;
-   198	
-   199		INIT_LIST_HEAD(&priv->mc_addr_list);
-   200	
-   201		/* Get the FM node */
-   202		fman_fwnode = fwnode_get_parent(dev->fwnode);
-   203		if (!fman_fwnode) {
-   204			err = -EINVAL;
-   205			dev_err(dev, "%s : fetch fman node failed\n", __func__);
-   206			goto _return;
-   207		}
-   208		if (fwnode_property_read_u32(fman_fwnode, "cell-index", &val)) {
-   209			err = -EINVAL;
-   210			goto _return;
-   211		}
-   212	
-   213		/* cell-index 0 => FMan id 1 */
-   214		fman_id = (u8)(val + 1);
-   215	
-   216		fman_dev = bus_find_device(&platform_bus_type, NULL, fman_fwnode,
-   217					   fwnode_match_devnode);
-   218		if (!fman_dev) {
-   219			dev_err(dev, "%s : bus_find_device failed\n", __func__);
-   220			err = -ENODEV;
-   221			goto _return;
-   222		}
-   223	
-   224		priv->fman = fman_bind(fman_dev);
-   225		if (!priv->fman) {
-   226			dev_err(dev, "%s : fman_bind failed\n", __func__);
-   227			err = -ENODEV;
-   228			goto _return;
-   229		}
-   230	
-   231		/* Get the address of the memory mapped registers */
-   232		mac_dev->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   233		if (!mac_dev->res) {
-   234			dev_err(dev, "%s: Can't get MAC memory resource\n",  __func__);
-   235			err = -EINVAL;
-   236			goto _return;
-   237		}
- > 238		dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-   239			__func__, mac_dev->res->start, resource_size(mac_dev->res));
-   240	
-   241		mac_dev->vaddr = ioremap(mac_dev->res->start, resource_size(mac_dev->res));
-   242		if (!mac_dev->vaddr) {
-   243			dev_err(dev, "%s : ioremap() failed\n", __func__);
-   244			err = -EIO;
-   245			goto _return;
-   246		}
-   247	
-   248		if (!fwnode_device_is_available(dev->fwnode)) {
-   249			err = -ENODEV;
-   250			goto _return;
-   251		}
-   252	
-   253		/* Get the cell-index */
-   254		if (device_property_read_u32(dev, "cell-index", &val)) {
-   255			dev_err(dev, "%s : failed to read cell-index\n", __func__);
-   256			err = -EINVAL;
-   257			goto _return;
-   258		}
-   259		priv->cell_index = (u8)val;
-   260	
-   261		/* Get the MAC address */
-   262		device_get_mac_address(dev, mac_dev->addr);
-   263	
-   264		/* Get the port handles */
-   265		nph = device_property_count_u32(dev, "fsl,fman-ports");
-   266	
-   267		if (unlikely(nph < 0)) {
-   268			dev_err(dev, "%s : reading port count failed\n", __func__);
-   269			err = nph;
-   270			goto _return;
-   271		}
-   272	
-   273		if (nph != ARRAY_SIZE(mac_dev->port)) {
-   274			dev_err(dev, "Not supported number of fman-ports handles of mac node from DSD property\n");
-   275			err = -EINVAL;
-   276			goto _return;
-   277		}
-   278	
-   279		for (i = 0; i < ARRAY_SIZE(mac_dev->port); i++) {
-   280			/* Find the port node */
-   281			struct fwnode_handle *fw_node =
-   282				acpi_fwnode_handle(ACPI_COMPANION(dev));
-   283			err = acpi_node_get_property_reference(fw_node, "fsl,fman-ports",
-   284							       i, &args);
-   285			if (ACPI_FAILURE(err) ||
-   286			    !is_acpi_device_node(args.fwnode)) {
-   287				dev_err(dev, "%s : reading fsl,fman-ports handle failed\n",
-   288					__func__);
-   289				goto _return;
-   290			}
-   291	
-   292			/* Bind to a specific FMan Port */
-   293			fman_port_dev = bus_find_device(&platform_bus_type, NULL,
-   294							args.fwnode,
-   295							fwnode_match_devnode);
-   296			if (!fman_port_dev) {
-   297				dev_err(dev, "%s : bus_find_device failed\n", __func__);
-   298				err = -ENODEV;
-   299				goto _return;
-   300			}
-   301	
-   302			mac_dev->port[i] = fman_port_bind(fman_port_dev);
-   303		}
-   304	
-   305		/* Get the PHY connection type */
-   306		phy_if = fwnode_get_phy_mode(dev->fwnode);
-   307		if (phy_if < 0) {
-   308			dev_warn(dev, "fwnode_get_phy_mode failed. Defaulting to SGMII\n");
-   309			phy_if = PHY_INTERFACE_MODE_SGMII;
-   310		}
-   311		mac_dev->phy_if = phy_if;
-   312	
-   313		params.mac_id		= priv->cell_index;
-   314		params.fm		= (void *)priv->fman;
-   315		params.exception_cb	= mac_exception;
-   316		params.event_cb		= mac_exception;
-   317	
-   318		err = init(mac_dev, mac_node, &params);
-   319		if (err < 0) {
-   320			dev_err(dev, "%s: mac_dev->init() = %d\n", __func__, err);
-   321			goto _return;
-   322		}
-   323	
-   324		if (!is_zero_ether_addr(mac_dev->addr))
-   325			dev_info(dev, "FMan MAC address: %pM\n", mac_dev->addr);
-   326	
-   327		priv->eth_dev = dpaa_eth_add_device(fman_id, mac_dev);
-   328		if (IS_ERR(priv->eth_dev)) {
-   329			dev_err(dev, "%s : failed to add Ethernet platform device for MAC %d\n",
-   330				__func__, priv->cell_index);
-   331			priv->eth_dev = NULL;
-   332		}
-   333	
-   334		goto _return;
-   335	
-   336	_return:
-   337		return err;
-   338	}
-   339	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Janne
+> 
+> ---------- Forwarded message ----------
+> Date: Wed, 2 Oct 2024 13:55:07 +0800
+> From: kernel test robot <lkp@intel.com>
+> To: oe-kbuild@lists.linux.dev
+> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+> Subject: [asahilinux:bits/240-isp 22/52]
+>     drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function
+>     "for_each_child_of_node" should have of_node_put() before goto around lines
+>     197.
+> 
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> TO: Asahi Lina <lina@asahilina.net>
+> CC: Janne Grunau <j@jannau.net>
+> 
+> tree:   https://github.com/AsahiLinux/linux bits/240-isp
+> head:   2eb812826ec58e3b803055a8aa0fd857f1675f14
+> commit: b4d2b4922ce8a77666206a64314192e08c1aca0a [22/52] media: apple: isp: Working t602x and multiple formats and more fixes
+> :::::: branch date: 2 weeks ago
+> :::::: commit date: 2 weeks ago
+> config: arc-randconfig-r062-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021337.EQ74x7c7-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> | Closes: https://lore.kernel.org/r/202410021337.EQ74x7c7-lkp@intel.com/
+> 
+> cocci warnings: (new ones prefixed by >>)
+> >> drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before goto around lines 197.
+>    drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before goto around lines 201.
+> 
+> vim +/for_each_child_of_node +183 drivers/media/platform/apple/isp/isp-drv.c
+> 
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  154
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  155  static int apple_isp_init_presets(struct apple_isp *isp)
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  156  {
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  157  	struct device *dev = isp->dev;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  158  	struct device_node *np, *child;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  159  	struct isp_preset *preset;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  160  	int err = 0;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  161
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  162  	np = of_get_child_by_name(dev->of_node, "sensor-presets");
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  163  	if (!np) {
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  164  		dev_err(dev, "failed to get DT node 'presets'\n");
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  165  		return -EINVAL;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  166  	}
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  167
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  168  	isp->num_presets = of_get_child_count(np);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  169  	if (!isp->num_presets) {
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  170  		dev_err(dev, "no sensor presets found\n");
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  171  		err = -EINVAL;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  172  		goto err;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  173  	}
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  174
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  175  	isp->presets = devm_kzalloc(
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  176  		dev, sizeof(*isp->presets) * isp->num_presets, GFP_KERNEL);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  177  	if (!isp->presets) {
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  178  		err = -ENOMEM;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  179  		goto err;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  180  	}
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  181
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  182  	preset = isp->presets;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24 @183  	for_each_child_of_node(np, child) {
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  184  		u32 xywh[4];
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  185
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  186  		err = of_property_read_u32(child, "apple,config-index",
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  187  					   &preset->index);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  188  		if (err) {
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  189  			dev_err(dev, "no apple,config-index property\n");
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  190  			of_node_put(child);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  191  			goto err;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  192  		}
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  193
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  194  		err = isp_of_read_coord(dev, child, "apple,input-size",
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  195  					&preset->input_dim);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  196  		if (err)
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  197  			goto err;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  198  		err = isp_of_read_coord(dev, child, "apple,output-size",
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  199  					&preset->output_dim);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  200  		if (err)
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  201  			goto err;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  202
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  203  		err = of_property_read_u32_array(child, "apple,crop", xywh, 4);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  204  		if (err) {
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  205  			dev_err(dev, "failed to read 'apple,crop' property\n");
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  206  			of_node_put(child);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  207  			goto err;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  208  		}
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  209  		preset->crop_offset.x = xywh[0];
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  210  		preset->crop_offset.y = xywh[1];
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  211  		preset->crop_size.x = xywh[2];
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  212  		preset->crop_size.y = xywh[3];
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  213
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  214  		preset++;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  215  	}
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  216
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  217  err:
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  218  	of_node_put(np);
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  219  	return err;
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  220  }
+> b4d2b4922ce8a7 Asahi Lina 2023-09-24  221
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
