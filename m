@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E3123CE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 15:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4319B1D0E34
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 15:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727883324; cv=none; b=A1jvXW0af/XLca9wuG+dJgMGoZPE0dd8WVbfsN19RvASNxsk4MzxPdpPfrW0ZsoJIDsEEXKJwQogmcS1KGGathcuUxdCNXjEDlWo8C0Z8NirZcSr7COSWWG01v0Y7lCFYTWGQHHzinNjTgp/3juMX+bbEWBAub8VsjsiNlwwA70=
+	t=1727883984; cv=none; b=ZbFOYPsjgZ5PpmX3LuCTmLI6y+s8VEWvzWka9dUTT0bxssYUdhiWirJBhWGg9tvg+2DDJ/H/CD9z+uvGqvUG4GEX1JYrxPCJWRLXyi9goe77rXTw+yTzEpQJB+jS7pACnbHpqBrUan5kK5IUVMsJLUluAG4pExXXUkQerzXssA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727883324; c=relaxed/simple;
-	bh=Rq/HcJAbR9WHQ83k5hEzQ+OVk7NsDlsdsyId+Da4S7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lCUrqPNAOhTtmVIS6bnscT16GEfSFuFqaKg3aU/DB5qHCt3IslHI7gbJxvx4AYwEwzo1tE7uDTp8BKr63zK/zSgkQyO376KixA1G1kbB+pmg36FiEPWtgHIjRKJutAhRIvQwA9X2LuZBDKu1USrFC84OeQoDWoIbB9gcotkhW6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EpWibrko; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1727883984; c=relaxed/simple;
+	bh=eUrqvAahhn6WoRZTjvNxBbzdOdml2Pi/1FkTBhumqew=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GMaiXjhSQH8TgMtTGbRY4yWjbcQOieigMV6K/Ur9upmNcchZjoPMnVbaeVji8Dkrh+e5JxvabCnvHVLEbirY1qmonoT//YZwJESVZkBc5o4uY7KoInzp3eKq/oiB4ce9Y5dDUpq0vTBosQzLRF4WTKnh1NGI9cDn3DRtcgP02Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8sV2R13; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EpWibrko"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8sV2R13"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727883322; x=1759419322;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rq/HcJAbR9WHQ83k5hEzQ+OVk7NsDlsdsyId+Da4S7A=;
-  b=EpWibrkos2f8LiF1rVq4w9mXS5UTw9G6bJYZI8pMazyWQCyKBr/MX8vp
-   jCBzH3WfDIfpd4Fj69PGyF4kH4pMbR0cwmSSeCTzyrbWy22qb4Rog8/Yn
-   LqygEiSf/448zarfE1RzTf/GHD0KE9T3Ue96kT9oV0C+gsqzKeIXwYMEC
-   4EvoCODwrMdFyQH1tFO0yJXgV1ZWkmme/tGlZTTu2rFzoBDYijhu2vi3d
-   hTtbIGc4CpYRLquLKPCPQEzpayP7swIWUR6spQJrKpqJwO63spYNnz5tx
-   AfbRJd5WGgx7yiOkAp0eSc2ja5t4afZ8+QOueJqmOs5WRWDe6B9vcU369
-   g==;
-X-CSE-ConnectionGUID: HHWVQ1b9T1GMXYF0lYbOXw==
-X-CSE-MsgGUID: DOq/bMYmRQ+TDuJ6bpW9aA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="44516556"
+  t=1727883983; x=1759419983;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=eUrqvAahhn6WoRZTjvNxBbzdOdml2Pi/1FkTBhumqew=;
+  b=T8sV2R13vjRg1x8bpwujNS2qXiFMU6sogJoM/1F9Qvlc/3poLfWs3Sfs
+   GJ/hcq4Ykfp+cbWm23xHslxsDO8MNEdklB2PWJra0DeO/VN2D11gEowj6
+   LmbvvFNP6Te4lYuukef6F++ms0+UenMMSTR+M3XMEBAz2AkaPcGnTOljR
+   KmCetZ+/wVhVZwJDRkyDjXX+QoH3qm9umVC3ZMY0oWIcG6VA4AlaXp+LD
+   c8pJtJkgQGEcmds/SODdXu2Wjc6AVnGVfA4AlBUSLnlA1Bw6J1Bw0q5ub
+   IRhclnIl/thEKJRg43LNQ4nFXRSjGGwCTlUYaAdGGZoQ2uYrxziZ0FSzP
+   A==;
+X-CSE-ConnectionGUID: n4GKJhiyQ3u5PRDZMQ4Sag==
+X-CSE-MsgGUID: bgtqxQn3RQGVM1x7KVVTXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="49578269"
 X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="44516556"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 08:35:20 -0700
-X-CSE-ConnectionGUID: UXcqZzWoTFer4T+juVz4Fg==
-X-CSE-MsgGUID: Ep3Iyda9QyaqH/juug2V6Q==
+   d="scan'208";a="49578269"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 08:46:20 -0700
+X-CSE-ConnectionGUID: Z8TSsE0XQD+sP+ldwVlB7w==
+X-CSE-MsgGUID: jKKKah6ZT5Gn4upZbvOWQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="74461725"
+   d="scan'208";a="74281129"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2024 08:35:20 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Oct 2024 08:46:19 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sw1Nk-000UA7-2l;
-	Wed, 02 Oct 2024 15:35:16 +0000
-Date: Wed, 2 Oct 2024 23:35:15 +0800
+	id 1sw1YP-000UAr-0l;
+	Wed, 02 Oct 2024 15:46:17 +0000
+Date: Wed, 2 Oct 2024 23:45:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.fd 1/31] drivers/block/ataflop.c:428:13: error:
- conflicting types for 'fd_error'; have 'void(void)'
-Message-ID: <202410022344.sMXwiZCW-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: ld.lld: error: Function Import: link error: linking module flags
+ 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)'
+ and 'vmlinux.a(ring_buffer.o at 1120946)'
+Message-ID: <202410022308.LFBi2Gyt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fd
-head:   f8d355c905903186d23c995fe5515d949d4aa9f5
-commit: 4601d30d36153ce6a6b8ee3b6b722f93df2519c0 [1/31] introduce struct fderr, convert overlayfs uses to that
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20241002/202410022344.sMXwiZCW-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410022344.sMXwiZCW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+commit: ee057c8c194b9283f4137b253b70e292693a39f0 Merge tag 'v6.11-rc3' into trace/ring-buffer/core
+date:   7 weeks ago
+config: riscv-randconfig-r111-20240930 (https://download.01.org/0day-ci/archive/20241002/202410022308.LFBi2Gyt-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce: (https://download.01.org/0day-ci/archive/20241002/202410022308.LFBi2Gyt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410022344.sMXwiZCW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410022308.LFBi2Gyt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/block/ataflop.c:428:13: error: conflicting types for 'fd_error'; have 'void(void)'
-     428 | static void fd_error( void );
-         |             ^~~~~~~~
-   In file included from include/linux/blkdev.h:27,
-                    from include/linux/blk-mq.h:5,
-                    from drivers/block/ataflop.c:70:
-   include/linux/file.h:64:20: note: previous definition of 'fd_error' with type 'long int(struct fderr)'
-      64 | static inline long fd_error(struct fderr f)
-         |                    ^~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +428 drivers/block/ataflop.c
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  421  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  422  static void fd_select_side( int side );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  423  static void fd_select_drive( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  424  static void fd_deselect( void );
-24ed960abf1d50 Kees Cook         2017-08-28  425  static void fd_motor_off_timer(struct timer_list *unused);
-24ed960abf1d50 Kees Cook         2017-08-28  426  static void check_change(struct timer_list *unused);
-7d12e780e003f9 David Howells     2006-10-05  427  static irqreturn_t floppy_irq (int irq, void *dummy);
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @428  static void fd_error( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  429  static int do_format(int drive, int type, struct atari_format_descr *desc);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  430  static void do_fd_action( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  431  static void fd_calibrate( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  432  static void fd_calibrate_done( int status );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  433  static void fd_seek( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  434  static void fd_seek_done( int status );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  435  static void fd_rwsec( void );
-24ed960abf1d50 Kees Cook         2017-08-28  436  static void fd_readtrack_check(struct timer_list *unused);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  437  static void fd_rwsec_done( int status );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  438  static void fd_rwsec_done1(int status);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  439  static void fd_writetrack( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  440  static void fd_writetrack_done( int status );
-24ed960abf1d50 Kees Cook         2017-08-28  441  static void fd_times_out(struct timer_list *unused);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  442  static void finish_fdc( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  443  static void finish_fdc_done( int dummy );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  444  static void setup_req_params( int drive );
-05bdb9965305bb Christoph Hellwig 2023-06-08  445  static int fd_locked_ioctl(struct block_device *bdev, blk_mode_t mode,
-05bdb9965305bb Christoph Hellwig 2023-06-08  446  		unsigned int cmd, unsigned long param);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  447  static void fd_probe( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  448  static int fd_test_drive_present( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  449  static void config_types( void );
-05bdb9965305bb Christoph Hellwig 2023-06-08  450  static int floppy_open(struct gendisk *disk, blk_mode_t mode);
-ae220766d87cd6 Christoph Hellwig 2023-06-08  451  static void floppy_release(struct gendisk *disk);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  452  
-
-:::::: The code at line 428 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(net-traces.o at 1265006)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(tcp.o at 1268666)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(trace.o at 1121006)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(e1000_main.o at 1229186)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(slub.o at 1128746)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(hugetlb.o at 1128926)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(syscall.o at 1122386)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(skbuff.o at 1262906)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(filter.o at 1263986)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(mballoc.o at 1142726)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(dir.o at 1147766)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(protocol.o at 1277006)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(memory.o at 1127666)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(inode.o at 1142606)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(spi.o at 1228466)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(af_packet.o at 1274186)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(blk-mq.o at 1169906)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(page_alloc.o at 1128566)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(huge_memory.o at 1129406)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1110146)' and 'vmlinux.a(ring_buffer.o at 1120946)'
+   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
 
 -- 
 0-DAY CI Kernel Test Service
