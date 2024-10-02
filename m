@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDF7DF60
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 03:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDABF11C83
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 03:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727839370; cv=none; b=SrffgI/8nc7C/Gn0vG5vN1MxCE1TF3tGo7evb7Ky3LuOyTkGNwka6gFsygTp/xQuNKvoiohEmFp6mwtrXA1x4u3VKlMTocROqwmHMY+sm9KHtjvKT30G6XEe+SFppS+r/syAHt/u1VTlLr89bYmJfABXM7/XAzapTNLlBUdIPmM=
+	t=1727839969; cv=none; b=goprasn0MbtHWbdF/qPA4urMr9Vwj+5s4dSGHdsX3q/SaubD5LuRH56ZsUCOzNe+S2qX5AjZNH8ym18Wcxirq8SZrc0wBgYcqAFsxEjIzfDvur3UQKOinFNJsT6NYGs8VI7elFIbJNnyIUSb945OHcJBw8b/uQsFKbp/oKAmb9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727839370; c=relaxed/simple;
-	bh=4SmJY190WUJnhwoZKOFhNV89FV1URm3Yw9EHPWRvg14=;
+	s=arc-20240116; t=1727839969; c=relaxed/simple;
+	bh=NwHzwBOgGB/Rjd8yZLxF1B6Wm+XEjjTbntcz5P8+8zU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nqmkcD5TB908p9mb5SbRMAURKVfk1orVDp3JhZBlORcuyOPLvzWDlZdKzd7zDmDmcSR5Ss8CI5IV29rHbxiT5AlcMmpVZiklg8aJhlgesfiDk9sLTcgllLXKa3MzKHUa/YleCSQ/mNIGy9g/OqQKUMhGBQD1x7nLQhKrnaulPd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G/dF3zQE; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=kfW/OQcD9hiDIsTph5YuslDRtAM3toseQDapQv0iUg68f0G9CFtZVy0LskjIWXX+9tSH3wSvcL6PCs1zhinhNvoLyPFMl5W3Pa7mBFoRCUgNU3pgJ4JCxoz/xopLNd/p+kjAdSHyjDMNsOfw9H51CwnxtEc+9kuGLdDEkc4TCoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MyBAjgB7; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G/dF3zQE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MyBAjgB7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727839369; x=1759375369;
+  t=1727839967; x=1759375967;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4SmJY190WUJnhwoZKOFhNV89FV1URm3Yw9EHPWRvg14=;
-  b=G/dF3zQEXiKOQl+uz4HYicsMe6cYp1V4a/gI7PhGa4jtBGFQ/gQ+NknX
-   iJOQmOQq1w5Bg73jEI5/fEaap7UAm7zTOiqZB4cH8vp6FdHIlIfdkbCYM
-   vQnbs96uqL37qwlVuknoo3Yy2KIyOspqG/0QMZ3cA3qBKImAy5scMcmDR
-   xujUp4WlOg7QbAQRN89kinOCMJgXRPy920EuS19YZA8gMZY4PXxtVE9EP
-   E/644yBto5xoSsE+F4HaEVI2xhz3FhfJfuCv8okV5uWw92uaf25XOoiD6
-   6BAYbJf3GkDTyyaBuVXB3rJE0zQNDMoT3vPnqLR1T4/C3JSY3r4t2tIEM
-   A==;
-X-CSE-ConnectionGUID: 1Rd1U0JUSZeQpcx7AAMtpA==
-X-CSE-MsgGUID: 2egSFfHNRyy7aRIHs1AwrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26464712"
+  bh=NwHzwBOgGB/Rjd8yZLxF1B6Wm+XEjjTbntcz5P8+8zU=;
+  b=MyBAjgB78VT8FkoYHVFlmp0Pjs/pNfbFJxSnvMny24O/alRZEdp6x31s
+   kYrYXils8G3DWoDeZFEnG7n6/O5dGYPVRYdYSkTJpzbOK6uIu2SNqVIxa
+   51twHBux5tGZeBbcS5pLOmp+rlIZKaDP2fM6FXFdg3d3aLKE0+j8iC2UU
+   KOwY3kZSDI7E+qOwFfzAcYU0I5nSovCxg68M7N4a7VZGROJiIjyibLQk5
+   0kJ2A81OuYljQRZ6RC0MPko94y/PydR5utUGRyROZ/IQg3IDILDVZJBcD
+   L6E/iLWPGW7OREMVgjyY1eetLzgZQ52QzybuxicghEnW+1DmjeGFVgw0B
+   g==;
+X-CSE-ConnectionGUID: B7O3Oyn2Tq+jRbLDt1FyMw==
+X-CSE-MsgGUID: mzJ5yfTCREyC88WdtAziSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26465221"
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="26464712"
+   d="scan'208";a="26465221"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 20:22:46 -0700
-X-CSE-ConnectionGUID: jFWXfenDQDijk7pkx+/F0A==
-X-CSE-MsgGUID: DXhdC6YbQHiiMdekiU27/g==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 20:32:47 -0700
+X-CSE-ConnectionGUID: az5EUkz0T5SH5tv1u/KwFQ==
+X-CSE-MsgGUID: Ij+A/Kn9SHOr7alwaz5eXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="97235801"
+   d="scan'208";a="97238225"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Oct 2024 20:22:44 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 Oct 2024 20:32:45 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svpwo-000RUO-1Q;
-	Wed, 02 Oct 2024 03:22:42 +0000
-Date: Wed, 2 Oct 2024 11:21:55 +0800
+	id 1svq6V-000RVN-0h;
+	Wed, 02 Oct 2024 03:32:43 +0000
+Date: Wed, 2 Oct 2024 11:32:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: drivers/iio/accel/adxl367_spi.c:76:10: error: 'const struct
- regmap_bus' has no member named 'read'
-Message-ID: <202410021111.LknEX9ne-lkp@intel.com>
+To: Ze Huang <18771902331@163.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-pinctrl:devel 15/20] drivers/pinctrl/pinctrl-k230.c:159:11:
+ warning: variable 'mode' set but not used
+Message-ID: <202410021136.ie3cFM2w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,112 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
-commit: c922c634bd926d84967275efbb7275b8645aa343 iio: accel: adxl367: Constify struct regmap_bus
-date:   9 weeks ago
-config: x86_64-randconfig-001-20231120 (https://download.01.org/0day-ci/archive/20241002/202410021111.LknEX9ne-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021111.LknEX9ne-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   d1c7bf9cb31a8e3868c5eaf3ec05b79aba4d2e33
+commit: 545887eab6f6776a7477fe7e83860eab57138b03 [15/20] pinctrl: canaan: Add support for k230 SoC
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20241002/202410021136.ie3cFM2w-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021136.ie3cFM2w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410021111.LknEX9ne-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410021136.ie3cFM2w-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sched.h:38,
-                    from include/linux/percpu.h:12,
-                    from arch/x86/include/asm/msr.h:15,
-                    from arch/x86/include/asm/tsc.h:10,
-                    from arch/x86/include/asm/timex.h:6,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/iio/accel/adxl367_spi.c:8:
-   include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
-      19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:2888:5: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
-    2888 | #if USE_SPLIT_PTE_PTLOCKS
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
-      19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm_types_task.h:20:34: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
-      20 | #define USE_SPLIT_PMD_PTLOCKS   (USE_SPLIT_PTE_PTLOCKS && \
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:3010:5: note: in expansion of macro 'USE_SPLIT_PMD_PTLOCKS'
-    3010 | #if USE_SPLIT_PMD_PTLOCKS
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:75:21: error: variable 'adxl367_spi_regmap_bus' has initializer but incomplete type
-      75 | static const struct regmap_bus adxl367_spi_regmap_bus = {
-         |                     ^~~~~~~~~~
->> drivers/iio/accel/adxl367_spi.c:76:10: error: 'const struct regmap_bus' has no member named 'read'
-      76 |         .read = adxl367_read,
-         |          ^~~~
-   drivers/iio/accel/adxl367_spi.c:76:17: warning: excess elements in struct initializer
-      76 |         .read = adxl367_read,
-         |                 ^~~~~~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:76:17: note: (near initialization for 'adxl367_spi_regmap_bus')
->> drivers/iio/accel/adxl367_spi.c:77:10: error: 'const struct regmap_bus' has no member named 'write'
-      77 |         .write = adxl367_write,
-         |          ^~~~~
-   drivers/iio/accel/adxl367_spi.c:77:18: warning: excess elements in struct initializer
-      77 |         .write = adxl367_write,
-         |                  ^~~~~~~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:77:18: note: (near initialization for 'adxl367_spi_regmap_bus')
-   drivers/iio/accel/adxl367_spi.c:80:21: error: variable 'adxl367_spi_regmap_config' has initializer but incomplete type
-      80 | static const struct regmap_config adxl367_spi_regmap_config = {
-         |                     ^~~~~~~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:81:10: error: 'const struct regmap_config' has no member named 'reg_bits'
-      81 |         .reg_bits = 8,
-         |          ^~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:81:21: warning: excess elements in struct initializer
-      81 |         .reg_bits = 8,
-         |                     ^
-   drivers/iio/accel/adxl367_spi.c:81:21: note: (near initialization for 'adxl367_spi_regmap_config')
-   drivers/iio/accel/adxl367_spi.c:82:10: error: 'const struct regmap_config' has no member named 'val_bits'
-      82 |         .val_bits = 8,
-         |          ^~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:82:21: warning: excess elements in struct initializer
-      82 |         .val_bits = 8,
-         |                     ^
-   drivers/iio/accel/adxl367_spi.c:82:21: note: (near initialization for 'adxl367_spi_regmap_config')
-   drivers/iio/accel/adxl367_spi.c: In function 'adxl367_spi_probe':
-   drivers/iio/accel/adxl367_spi.c:132:18: error: implicit declaration of function 'devm_regmap_init' [-Werror=implicit-function-declaration]
-     132 |         regmap = devm_regmap_init(&spi->dev, &adxl367_spi_regmap_bus, st,
-         |                  ^~~~~~~~~~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:132:16: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     132 |         regmap = devm_regmap_init(&spi->dev, &adxl367_spi_regmap_bus, st,
-         |                ^
-   drivers/iio/accel/adxl367_spi.c: At top level:
-   drivers/iio/accel/adxl367_spi.c:75:32: error: storage size of 'adxl367_spi_regmap_bus' isn't known
-      75 | static const struct regmap_bus adxl367_spi_regmap_bus = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/accel/adxl367_spi.c:80:35: error: storage size of 'adxl367_spi_regmap_config' isn't known
-      80 | static const struct regmap_config adxl367_spi_regmap_config = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/pinctrl/pinctrl-k230.c:159:11: warning: variable 'mode' set but not used [-Wunused-but-set-variable]
+     159 |         u32 val, mode, bias, drive, input, output, slew, schmitt, power;
+         |                  ^
+>> drivers/pinctrl/pinctrl-k230.c:159:37: warning: variable 'output' set but not used [-Wunused-but-set-variable]
+     159 |         u32 val, mode, bias, drive, input, output, slew, schmitt, power;
+         |                                            ^
+   2 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
 
-vim +76 drivers/iio/accel/adxl367_spi.c
+vim +/mode +159 drivers/pinctrl/pinctrl-k230.c
 
-cbab791c5e2a58 Cosmin Tanislav 2022-02-14  74  
-c922c634bd926d Javier Carrasco 2024-07-03  75  static const struct regmap_bus adxl367_spi_regmap_bus = {
-cbab791c5e2a58 Cosmin Tanislav 2022-02-14 @76  	.read = adxl367_read,
-cbab791c5e2a58 Cosmin Tanislav 2022-02-14 @77  	.write = adxl367_write,
-cbab791c5e2a58 Cosmin Tanislav 2022-02-14  78  };
-cbab791c5e2a58 Cosmin Tanislav 2022-02-14  79  
-
-:::::: The code at line 76 was first introduced by commit
-:::::: cbab791c5e2a58c123d84bd9202c054e5449bc96 iio: accel: add ADXL367 driver
-
-:::::: TO: Cosmin Tanislav <demonsingur@gmail.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+   154	
+   155	static void k230_pinctrl_pin_dbg_show(struct pinctrl_dev *pctldev,
+   156					      struct seq_file *s, unsigned int offset)
+   157	{
+   158		struct k230_pinctrl *info = pinctrl_dev_get_drvdata(pctldev);
+ > 159		u32 val, mode, bias, drive, input, output, slew, schmitt, power;
+   160		struct k230_pin_group *grp = k230_pins[offset].drv_data;
+   161		static const char * const biasing[] = {
+   162				"pull none", "pull down", "pull up", "" };
+   163		static const char * const enable[] = {
+   164				"disable", "enable" };
+   165		static const char * const power_source[] = {
+   166				"3V3", "1V8" };
+   167	
+   168		regmap_read(info->regmap_base, offset * 4, &val);
+   169	
+   170		mode	= (val & K230_PC_SEL) >> K230_SHIFT_SEL;
+   171		drive	= (val & K230_PC_DS) >> K230_SHIFT_DS;
+   172		bias	= (val & K230_PC_BIAS) >> K230_SHIFT_BIAS;
+   173		input	= (val & K230_PC_IE) >> K230_SHIFT_IE;
+   174		output	= (val & K230_PC_OE) >> K230_SHIFT_OE;
+   175		slew	= (val & K230_PC_SL) >> K230_SHIFT_SL;
+   176		schmitt	= (val & K230_PC_ST) >> K230_SHIFT_ST;
+   177		power	= (val & K230_PC_MSC) >> K230_SHIFT_MSC;
+   178	
+   179		seq_printf(s, "%s - strength %d - %s - %s - slewrate %s - schmitt %s - %s",
+   180			   grp ? grp->name : "unknown",
+   181			   drive,
+   182			   biasing[bias],
+   183			   input ? "input" : "output",
+   184			   enable[slew],
+   185			   enable[schmitt],
+   186			   power_source[power]);
+   187	}
+   188	
 
 -- 
 0-DAY CI Kernel Test Service
