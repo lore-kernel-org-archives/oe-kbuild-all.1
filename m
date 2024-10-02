@@ -1,133 +1,112 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217981448C5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 07:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEA712FF70
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 07:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727854616; cv=none; b=LxnFLD1x2hqtEkldoQE0FG3KT6iHoUS5UZXSDL7Mgcyxw5587MpsKqZX47p/Fsy7qTd98GoOiC/h5WQ27vVc6sc63sSfNJD5mvUnfwkRh4CU0um4nc2LkRX6qCY3lEwhTV6XMPl5XBhK/TiPo54NcHcIlcTaSg5CQUiDg0jlqxM=
+	t=1727854807; cv=none; b=me1FBwQ66Z/KWq71KXtzLI20uR90dbd5nRuJk4zqEIggySRes4h422aQJ2ozq48Mc2u4yrWXWxd4zn3FcGzhT4geeVi9na43lsH2kSyB2oqeKlRQfEZZMy7NbwN2lnJqpHAiVtfs2BfPpG0DsPFhkDgL7bJewkrYRSgOKgLtm9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727854616; c=relaxed/simple;
-	bh=fdPryQ5+EiCXRb2PtV1No5qL+Ahzy8usPEBtJdO6Og4=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=rMnp85f1P5m3xD68Tx8luVt9YuQom83wzfpu0FSo3DsmB8YY3M2xJFR8zZoLf3omWMKwxdkDrdngztwIP/UYRYeCYqPcEoLYRXQ6dsdZINFp6eATPWJCojAakYNSW1eALePHG0it4IuE2k0voq8mRQkWbJw/HaYoyU8JInsK3d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=JYRnVhtY; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1727854807; c=relaxed/simple;
+	bh=0mfktKIrdAfRWZwDVQVd/JM71IQMEW217y6Q09c0jlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tgT1ldK6/RqllM+XultqNjdiXF5iiBBhCi/2XZ/PskG2ve+SU0nd6bL0UlyGUqXLA0vuGCdcf0POkdFEbhuLZ3gb96FS6s68NseNGP9vxOtpkyMpKeTkvgcLyrYPmU/vpuPZHiFeYzOGAA54S7GU/ye2bwuG6FNCirSQOPbmqsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLzMcgSe; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="JYRnVhtY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLzMcgSe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727854805; x=1759390805;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4meZSvpSxgAJr0nz9WG36uihs3lhG6Ku5AZz1VZr80E=;
-  b=JYRnVhtY3qB39fkCra86ZyC6uvhjcUMvaoYlb0oiUf1b/qhhXz7ZDhPe
-   IIWLfjidMBP0C9ae7Z0PAB4aa/APiPzXKYuhEEuTFQS2Zy13x1tEI4Zy+
-   5XsioMDVqRiij9EhftOdVXlIrfPXlwm/Lp/DJMiqjMFDwvQYxzgaYZulJ
-   o=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.11,170,1725314400"; 
-   d="scan'208";a="186411491"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 09:36:51 +0200
-Date: Wed, 2 Oct 2024 09:36:51 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Cristian Marussi <cristian.marussi@arm.com>
-cc: Sudeep Holla <sudeep.holla@arm.com>, linux-kernel@vger.kernel.org, 
-    oe-kbuild-all@lists.linux.dev
-Subject: drivers/firmware/arm_scmi/raw_mode.c:924:8-24: WARNING:
- scmi_dbg_raw_mode_reset_fops: .write() has stream semantic; safe to change
- nonseekable_open -> stream_open. (fwd)
-Message-ID: <1bb364cc-d167-4ef8-9d94-29b1774068f8@inria.fr>
+  bh=0mfktKIrdAfRWZwDVQVd/JM71IQMEW217y6Q09c0jlI=;
+  b=bLzMcgSetsbgos1g284+jDK0loHkobNj5O+5PPIXgN9D34LKVIEkA/jx
+   4Kr1axHdJynbzCNZRzTSoRc6cdkqeWYPfaSQMu0dSfnomsgBL6An9inn4
+   gaw3BNr9YGgWYW6YaimlwcLq5bsqt26jlMyiYkAYUlkWoladjrsHI+6oQ
+   Mx6Sdlw0fc4aQBSEHHQqKeZgXAXVggPhLCbMrkEjFlVAAM4RcdktYovqz
+   3adv+I5V3eHXvf5uX4Br63C1RCKAap1KvXEZa1LRqrh9AffASZbRIrYDw
+   4HLVn/Jl4ugyDSnBnF1kC7FEUu03uVBI/ygMqf063rBHbW5mB+SqPhq1I
+   A==;
+X-CSE-ConnectionGUID: JGFmci0ZRfKqicQ1cekb8g==
+X-CSE-MsgGUID: rzq+aZW0Si66OCCWJEx/lQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="52416775"
+X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
+   d="scan'208";a="52416775"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 00:40:04 -0700
+X-CSE-ConnectionGUID: ayKHo2BoQoiXLU0oRCG1lA==
+X-CSE-MsgGUID: lzFfz5CHTjORUh8ZLLodBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
+   d="scan'208";a="73946034"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 02 Oct 2024 00:40:04 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1svtxp-000RlD-1a;
+	Wed, 02 Oct 2024 07:40:01 +0000
+Date: Wed, 2 Oct 2024 15:39:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:dma-split-wip 10/37] fs/smb/client/cifssmb.c:1269:9:
+ error: implicit declaration of function 'netfs_read_subreq_terminated'; did
+ you mean 'netfs_subreq_terminated'?
+Message-ID: <202410021531.0SUjtWXw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
-
-I'm just forwarding this for your consideration. I don't know about this
-issue.
-
-julia
-
----------- Forwarded message ----------
-Date: Wed, 2 Oct 2024 05:16:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/firmware/arm_scmi/raw_mode.c:924:8-24: WARNING:
-    scmi_dbg_raw_mode_reset_fops: .write() has stream semantic; safe to change
-    nonseekable_open -> stream_open.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
-commit: b70c7996d4ffb2e02895132e8a79a37cee66504f firmware: arm_scmi: Make raw debugfs entries non-seekable
-date:   6 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-r053-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020543.MuCto6Eo-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-wip
+head:   c8e953c706efd3d98534690febad481e0f4900f3
+commit: 7a5c94c6c57219cee3eaf94eb299436abacf9078 [10/37] Revert "netfs: Speed up buffered reading"
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241002/202410021531.0SUjtWXw-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021531.0SUjtWXw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410020543.MuCto6Eo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410021531.0SUjtWXw-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_scmi/raw_mode.c:924:8-24: WARNING: scmi_dbg_raw_mode_reset_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
+All errors (new ones prefixed by >>):
 
-vim +924 drivers/firmware/arm_scmi/raw_mode.c
+   fs/smb/client/cifssmb.c: In function 'cifs_readv_worker':
+>> fs/smb/client/cifssmb.c:1269:9: error: implicit declaration of function 'netfs_read_subreq_terminated'; did you mean 'netfs_subreq_terminated'? [-Wimplicit-function-declaration]
+    1269 |         netfs_read_subreq_terminated(&rdata->subreq, rdata->result, true);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         netfs_subreq_terminated
 
-3c3d818a9317a5 Cristian Marussi 2023-01-18  886
-3c3d818a9317a5 Cristian Marussi 2023-01-18  887  static int scmi_dbg_raw_mode_open(struct inode *inode, struct file *filp)
-3c3d818a9317a5 Cristian Marussi 2023-01-18  888  {
-7860701d1e6e6e Cristian Marussi 2023-01-18  889  	u8 id;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  890  	struct scmi_raw_mode_info *raw;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  891  	struct scmi_dbg_raw_data *rd;
-7860701d1e6e6e Cristian Marussi 2023-01-18  892  	const char *id_str = filp->f_path.dentry->d_parent->d_name.name;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  893
-3c3d818a9317a5 Cristian Marussi 2023-01-18  894  	if (!inode->i_private)
-3c3d818a9317a5 Cristian Marussi 2023-01-18  895  		return -ENODEV;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  896
-3c3d818a9317a5 Cristian Marussi 2023-01-18  897  	raw = inode->i_private;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  898  	rd = kzalloc(sizeof(*rd), GFP_KERNEL);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  899  	if (!rd)
-3c3d818a9317a5 Cristian Marussi 2023-01-18  900  		return -ENOMEM;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  901
-3c3d818a9317a5 Cristian Marussi 2023-01-18  902  	rd->rx.len = raw->desc->max_msg_size + sizeof(u32);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  903  	rd->rx.buf = kzalloc(rd->rx.len, GFP_KERNEL);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  904  	if (!rd->rx.buf) {
-3c3d818a9317a5 Cristian Marussi 2023-01-18  905  		kfree(rd);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  906  		return -ENOMEM;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  907  	}
-3c3d818a9317a5 Cristian Marussi 2023-01-18  908
-3c3d818a9317a5 Cristian Marussi 2023-01-18  909  	rd->tx.len = raw->desc->max_msg_size + sizeof(u32);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  910  	rd->tx.buf = kzalloc(rd->tx.len, GFP_KERNEL);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  911  	if (!rd->tx.buf) {
-3c3d818a9317a5 Cristian Marussi 2023-01-18  912  		kfree(rd->rx.buf);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  913  		kfree(rd);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  914  		return -ENOMEM;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  915  	}
-3c3d818a9317a5 Cristian Marussi 2023-01-18  916
-7860701d1e6e6e Cristian Marussi 2023-01-18  917  	/* Grab channel ID from debugfs entry naming if any */
-7860701d1e6e6e Cristian Marussi 2023-01-18  918  	if (!kstrtou8(id_str, 16, &id))
-7860701d1e6e6e Cristian Marussi 2023-01-18  919  		rd->chan_id = id;
-7860701d1e6e6e Cristian Marussi 2023-01-18  920
-3c3d818a9317a5 Cristian Marussi 2023-01-18  921  	rd->raw = raw;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  922  	filp->private_data = rd;
-3c3d818a9317a5 Cristian Marussi 2023-01-18  923
-b70c7996d4ffb2 Cristian Marussi 2024-03-15 @924  	return nonseekable_open(inode, filp);
-3c3d818a9317a5 Cristian Marussi 2023-01-18  925  }
-3c3d818a9317a5 Cristian Marussi 2023-01-18  926
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +1269 fs/smb/client/cifssmb.c
+
+^1da177e4c3f41 fs/cifs/cifssmb.c       Linus Torvalds  2005-04-16  1263  
+a68c74865f517e fs/smb/client/cifssmb.c David Howells   2024-09-03  1264  static void cifs_readv_worker(struct work_struct *work)
+a68c74865f517e fs/smb/client/cifssmb.c David Howells   2024-09-03  1265  {
+a68c74865f517e fs/smb/client/cifssmb.c David Howells   2024-09-03  1266  	struct cifs_io_subrequest *rdata =
+a68c74865f517e fs/smb/client/cifssmb.c David Howells   2024-09-03  1267  		container_of(work, struct cifs_io_subrequest, subreq.work);
+a68c74865f517e fs/smb/client/cifssmb.c David Howells   2024-09-03  1268  
+e8fae9521d5072 fs/smb/client/cifssmb.c Leon Romanovsky 2024-09-25 @1269  	netfs_read_subreq_terminated(&rdata->subreq, rdata->result, true);
+a68c74865f517e fs/smb/client/cifssmb.c David Howells   2024-09-03  1270  }
+a68c74865f517e fs/smb/client/cifssmb.c David Howells   2024-09-03  1271  
+
+:::::: The code at line 1269 was first introduced by commit
+:::::: e8fae9521d507286f66374a1e1718588ddf0f4c3 Revert "cifs: Fix cifs readv callback merge resolution issue"
+
+:::::: TO: Leon Romanovsky <leon@kernel.org>
+:::::: CC: Leon Romanovsky <leon@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
