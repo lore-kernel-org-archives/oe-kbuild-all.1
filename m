@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407BF2141BD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 19:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3573E1FDA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 19:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727896237; cv=none; b=LN5uWSnokbT6MU81Q4XvqgCBpC32OJSzNFOivY7s2fdLgxjhlYgTV7vs3vQ4lnJsGz9f6wPdWYRVTRZD82TgqBFQrOz+QCLUnzwgdIZSuU3jWcYIeVWXrF42B0gqTrhmO6Hx2pqLqT3VfCY5yP/TeDNiIj86W/fVObBE9o9aVSM=
+	t=1727897496; cv=none; b=WzqRaKovG2Z8UA52Nxo5z9U19nvavq96ak8SS33kll9n7fTLln8N16EG7Ri2OrQ3KoCo8Zu8+r3+oyoSS/Llbqz5rnlTxmnK/67nYpH9tEb6IyksARQEfC/b5D+E736BNjpStxj/DyjXhd+iUcfxXXlgmFfF9f1iwtL6AfAKTq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727896237; c=relaxed/simple;
-	bh=CyiWLgA0MEL0WINkuSm6yKOLH95aTAw9xiVV/IZJBJ0=;
+	s=arc-20240116; t=1727897496; c=relaxed/simple;
+	bh=8NK9THSYkcGFOZHthqHfwk37VFUV08TmXCBiE6FWcVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iWU2DnnqhKbHGjcYRy4F3vgcegNP1W5NcSFVkWza62enjQ9hmPbOX0xlCFBVXJADVIX38bof0ibhyAtJFmpYyjujZfHmxUmvatAsfJR3rhXrq1bpxt7Jw4UzxZqj+nRQ85ietMIhRfO2qJ95PeXuNxCQ2dFtsuVlymZzD8jl4PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZuMFEJ3; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=lewIGJ8gpQLiCDLLfQDdTWjMKcZIqGRrNa7cXgsJ9uG4Aa0qGxuAB3XkA2e08Ztsf65s70EOTWNHBb14mCT8kd90rATaq/dMKuzVmwJaNLYdHu8DU/YhPAls/GHrCzT7cQIu0LdoBtwiJZepZONPrEI2yijYPTMpOP9uirCLh4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aNZnN050; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZuMFEJ3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aNZnN050"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727896236; x=1759432236;
+  t=1727897495; x=1759433495;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CyiWLgA0MEL0WINkuSm6yKOLH95aTAw9xiVV/IZJBJ0=;
-  b=fZuMFEJ3Ko08CcgbwIxBLj6ijE7ATNoYDPN2AcEf68gA4dxLciAyLs8L
-   gGbEMX0ru90dpI7T1GNfS3SPMsiaEVJKcAkN6shcT3D5+jfjMBPfxnlaS
-   ocCb3rVQ3W1M//dyeOqRoxRRdm/55z3RbEZyZMX7lckwpqaa34HBKP7uE
-   R+ufQz1ljoxo1ibhJDfp+r+6/AItQbKg1QhcI/MK5ckOVTqIkksgwX1xx
-   j8Vqu2xOETgHJjea0pJI1TPV+Yh7Eyk80/SBlIWPsd3uXSThvoy50OvWM
-   PqvZnwKZV7v0rlo4Ls+gqWi1Cry0GGy9y+EMJ/1fY3l1ABz8cPVJr9wzm
-   A==;
-X-CSE-ConnectionGUID: n9D6Fzb/TwWOnsOmpDOeoQ==
-X-CSE-MsgGUID: 6tVmGXrPTnC2q8KOHRa50w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="38211324"
+  bh=8NK9THSYkcGFOZHthqHfwk37VFUV08TmXCBiE6FWcVM=;
+  b=aNZnN050kzQHQmjLj6ucw5qouXzQjQ7++Epc2DE6V1JMGAkcDoEHR85F
+   c0mQ7/hvnnr1BNjQHOFa8K410jb/76T30IIZE6gOH3AWzvpc5SWrEy9iO
+   5U/tRDZrxgIiYSkt2HzA+cjVX9OLMPmIt7xD+fxRAQsKKW+ryaOaE8805
+   vNBrB700b/tkmLPZu6Q/5GFRpOmwcGDRleDbMV/Epi+icqXiaVGcs0kDA
+   fvonwgEFb0wuAKIS2tKn+Bsx98RVv1cW5qtD9ATt5UUmmYHQpL/T7WQ/M
+   QEtvzmyqBHsCqkA2UiPOrnhjY3aJf8llj7xckRW6cPWGfSq07wfhDjMA4
+   Q==;
+X-CSE-ConnectionGUID: Yi/Haw9ARqWzFsifSPPiuw==
+X-CSE-MsgGUID: I07ognCDTt2pXJKH29hREw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26948156"
 X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="38211324"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 12:10:34 -0700
-X-CSE-ConnectionGUID: /AhFOWPAScymD7+SCv/XUw==
-X-CSE-MsgGUID: nk0/r93qSTqy13bWn04kyw==
+   d="scan'208";a="26948156"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 12:31:34 -0700
+X-CSE-ConnectionGUID: 07BA8PDoRzGjsjg6W2aBjw==
+X-CSE-MsgGUID: GY+0iBdiRguGfBAFQNR2Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="73778082"
+   d="scan'208";a="111559853"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Oct 2024 12:10:32 -0700
+  by orviesa001.jf.intel.com with ESMTP; 02 Oct 2024 12:31:33 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sw4k2-000USp-0T;
-	Wed, 02 Oct 2024 19:10:30 +0000
-Date: Thu, 3 Oct 2024 03:10:23 +0800
+	id 1sw54N-000UUP-0S;
+	Wed, 02 Oct 2024 19:31:31 +0000
+Date: Thu, 3 Oct 2024 03:30:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pantelis Antoniou <pantelis.antoniou@konsulko.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Nava kishore Manne <nava.manne@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 48/1001]
- drivers/of/configfs.c:134:9: warning: no previous prototype for
- 'cfs_overlay_item_dtbo_read'
-Message-ID: <202410030306.OPsH2Kee-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:brauner.file.rcuref 3/4]
+ include/linux/rcuref_long.h:23:33: error: 'RCUREF_RELEASED' undeclared; did
+ you mean 'RCUREF_LONG_RELEASED'?
+Message-ID: <202410030339.irYmhoBt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,84 +64,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: 7e42c87c489b702795794e480fb5483897ff9e91 [48/1001] OF: DT-Overlay configfs interface (v8)
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241003/202410030306.OPsH2Kee-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410030306.OPsH2Kee-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git brauner.file.rcuref
+head:   27f246a26d936193149b818fa5e024cd985675c0
+commit: cb20f41ba36a8500ea0cca826b27ca58ede6123f [3/4] fs: port files to rcuref_long_t
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241003/202410030339.irYmhoBt-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410030339.irYmhoBt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410030306.OPsH2Kee-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410030339.irYmhoBt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/of/configfs.c:134:9: warning: no previous prototype for 'cfs_overlay_item_dtbo_read' [-Wmissing-prototypes]
-     134 | ssize_t cfs_overlay_item_dtbo_read(struct config_item *item,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/of/configfs.c:156:9: warning: no previous prototype for 'cfs_overlay_item_dtbo_write' [-Wmissing-prototypes]
-     156 | ssize_t cfs_overlay_item_dtbo_write(struct config_item *item,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/fs.h:48,
+                    from include/linux/huge_mm.h:8,
+                    from include/linux/mm.h:1120,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/openrisc/kernel/asm-offsets.c:28:
+   include/linux/rcuref_long.h: In function 'rcuref_long_read':
+>> include/linux/rcuref_long.h:23:33: error: 'RCUREF_RELEASED' undeclared (first use in this function); did you mean 'RCUREF_LONG_RELEASED'?
+      23 | #define RCUREF_LONG_RELEASED    RCUREF_RELEASED
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/rcuref_long.h:49:21: note: in expansion of macro 'RCUREF_LONG_RELEASED'
+      49 |         return c >= RCUREF_LONG_RELEASED ? 0 : c + 1;
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/rcuref_long.h:23:33: note: each undeclared identifier is reported only once for each function it appears in
+      23 | #define RCUREF_LONG_RELEASED    RCUREF_RELEASED
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/rcuref_long.h:49:21: note: in expansion of macro 'RCUREF_LONG_RELEASED'
+      49 |         return c >= RCUREF_LONG_RELEASED ? 0 : c + 1;
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:102: arch/openrisc/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1203: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/cfs_overlay_item_dtbo_read +134 drivers/of/configfs.c
+vim +23 include/linux/rcuref_long.h
 
-   133	
- > 134	ssize_t cfs_overlay_item_dtbo_read(struct config_item *item,
-   135					   void *buf, size_t max_count)
-   136	{
-   137		struct cfs_overlay_item *overlay = to_cfs_overlay_item(item);
-   138	
-   139		pr_debug("%s: buf=%p max_count=%zu\n", __func__, buf, max_count);
-   140	
-   141		if (!overlay->dtbo)
-   142			return 0;
-   143	
-   144		/* copy if buffer provided */
-   145		if (buf) {
-   146			/* the buffer must be large enough */
-   147			if (overlay->dtbo_size > max_count)
-   148				return -ENOSPC;
-   149	
-   150			memcpy(buf, overlay->dtbo, overlay->dtbo_size);
-   151		}
-   152	
-   153		return overlay->dtbo_size;
-   154	}
-   155	
- > 156	ssize_t cfs_overlay_item_dtbo_write(struct config_item *item,
-   157					    const void *buf, size_t count)
-   158	{
-   159		struct cfs_overlay_item *overlay = to_cfs_overlay_item(item);
-   160		int err;
-   161	
-   162		/* if it's set do not allow changes */
-   163		if (overlay->path[0] != '\0' || overlay->dtbo_size > 0)
-   164			return -EPERM;
-   165	
-   166		/* copy the contents */
-   167		overlay->dtbo = kmemdup(buf, count, GFP_KERNEL);
-   168		if (!overlay->dtbo)
-   169			return -ENOMEM;
-   170	
-   171		overlay->dtbo_size = count;
-   172	
-   173		err = create_overlay(overlay, overlay->dtbo);
-   174		if (err < 0)
-   175			goto out_err;
-   176	
-   177		return count;
-   178	
-   179	out_err:
-   180		kfree(overlay->dtbo);
-   181		overlay->dtbo = NULL;
-   182		overlay->dtbo_size = 0;
-   183	
-   184		return err;
-   185	}
-   186	
+eea7922dd31c8d Christian Brauner 2024-09-18  11  
+eea7922dd31c8d Christian Brauner 2024-09-18  12  #ifdef CONFIG_64BIT
+eea7922dd31c8d Christian Brauner 2024-09-18  13  #define RCUREF_LONG_ONEREF	0x0000000000000000U
+eea7922dd31c8d Christian Brauner 2024-09-18  14  #define RCUREF_LONG_MAXREF	0x7FFFFFFFFFFFFFFFU
+eea7922dd31c8d Christian Brauner 2024-09-18  15  #define RCUREF_LONG_SATURATED   0xA000000000000000U
+eea7922dd31c8d Christian Brauner 2024-09-18  16  #define RCUREF_LONG_RELEASED    0xC000000000000000U
+eea7922dd31c8d Christian Brauner 2024-09-18  17  #define RCUREF_LONG_DEAD	0xE000000000000000U
+eea7922dd31c8d Christian Brauner 2024-09-18  18  #define RCUREF_LONG_NOREF	0xFFFFFFFFFFFFFFFFU
+eea7922dd31c8d Christian Brauner 2024-09-18  19  #else
+eea7922dd31c8d Christian Brauner 2024-09-18  20  #define RCUREF_LONG_ONEREF	RCUREF_ONEREF
+eea7922dd31c8d Christian Brauner 2024-09-18  21  #define RCUREF_LONG_MAXREF	RCUREF_MAXREF
+eea7922dd31c8d Christian Brauner 2024-09-18  22  #define RCUREF_LONG_SATURATED	RCUREF_SATURATED
+eea7922dd31c8d Christian Brauner 2024-09-18 @23  #define RCUREF_LONG_RELEASED	RCUREF_RELEASED
+eea7922dd31c8d Christian Brauner 2024-09-18  24  #define RCUREF_LONG_DEAD	RCUREF_DEAD
+eea7922dd31c8d Christian Brauner 2024-09-18  25  #define RCUREF_LONG_NOREF	RCUREF_NOREF
+eea7922dd31c8d Christian Brauner 2024-09-18  26  #endif
+eea7922dd31c8d Christian Brauner 2024-09-18  27  
+
+:::::: The code at line 23 was first introduced by commit
+:::::: eea7922dd31c8d9d6dc9a25a19fef7bc272f9e50 rcurf: add rcuref_long_*() helpers
+
+:::::: TO: Christian Brauner <brauner@kernel.org>
+:::::: CC: Christian Brauner <brauner@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
