@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BB01D1516
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 17:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9B118052
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 17:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727890110; cv=none; b=IoFaH5CrM9DUgE/7/pHK4Uy6W4CKgKKNJMSJfPcvHsX1uYi1v1qWUTuxbBD81VLMFkmMDGdA8vE9M4sMlAdp/kwJphtkI8KmqkXk2+71XZ3gH45E7QevIkPGWtLk8ak4r/LrFRqw7Y0YgZwE/DjCsrV4Ym+zjM1Q/UD2YX2NZMU=
+	t=1727891371; cv=none; b=H/MsgJZnZVoRM04IX0zCRYYVjOXVu+twhzigGKypzGzXBoGrTvOfPYm5qmwGs6xZLVtcHSjUhVxEOSAwkiEhjqJYDxW0XuJDCzAzaUavkyyYw9MOuFI213xt0i32ms3aOlydHfi7rW0WryzFv1OQOUXe/irbQV/pwg9MdZnrrVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727890110; c=relaxed/simple;
-	bh=c8N7kexXebvoRSJx8SCEcTgwgVy4fd+hnsW2NJLjE4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KqpgZQY5ZDXfK1k5kZVaoWAhJMaN0QJ1tqIcAJ4BUm5D7eSJUf4qIkPx23h/cU/w7c6uNczZQTzjjCiZ8EYON0E+I31NCuIwoFPNvM5JPC5JRWG7jmEilo74/11/l417EGkb2ALCqkSO+1XPn3PyJdb2Lz2qWiL8RGJhXwiLiLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WAc0+ZsI; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1727891371; c=relaxed/simple;
+	bh=4pJ5L6igSG0TiJU/zaWFOKiOEsL+CLCralIcj3N2Y40=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DQbrzl/kDts8E2OX35UmVi2HzAEXcLXh4L4PRiVDkhIUJ/6n8m7G3a68ndSMt4fSJmgNDnZjXMeS7fyji1o1AnnR19IMuv5sdHREBMrwpmej35f4zWi8FAhEFCn5IhqgfdnmKKceBBeCPWL/Mxjc1P3CaYXvOUyR3qtQG+hbac4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jiyZAtdU; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAc0+ZsI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jiyZAtdU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727890108; x=1759426108;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c8N7kexXebvoRSJx8SCEcTgwgVy4fd+hnsW2NJLjE4E=;
-  b=WAc0+ZsI0+mAIlmjvUo0bRtT2VJmD5no+bgD+mleboKsrYbwNyIha74c
-   60OYmyOlIC1DoMiTjxe1v07v3dwaNRknyNKZdjMhR6KEyieOH0ZuX9FUN
-   8XYGe/O4loXQc5G9cWVtcJI5AnbbMRvCO9bjAHk4aVZ3gkUVlt4wknaci
-   kIISnnUD8k3ACABQCbPnRziuUwMY/SnJmvE40ljKz4O6H6zl+/tS8ZItE
-   XwkX/ziP73vorqU4XRZK1O37JdPtrIfngN3NJz1FJDTwLkDujf1ShBcyC
-   Ysp0JB9ElYo3pW9VeSWxW2SpRkxmulTVcT5HT1gLTUs+fl9uLHqzNbxwZ
-   A==;
-X-CSE-ConnectionGUID: 94ETazGoRLCAFMUtcxAhIw==
-X-CSE-MsgGUID: LQKJ334YSvCVq5BwupgiOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="49589478"
+  t=1727891369; x=1759427369;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4pJ5L6igSG0TiJU/zaWFOKiOEsL+CLCralIcj3N2Y40=;
+  b=jiyZAtdUzuVzG0M/MuT69fmjZOxZC97WEs/gs7olrHycR5Eaj0BiIbXI
+   /+8eJj5h7cUu01kyKJNHLnBuACR+qOfjBljl26MfUPG7ZcRb6z3zerMaL
+   KZEBBR7pJD8x9Ih9M1vaevDPzkTDlYUQAmtKIh0pdbuQTNF87Mi01F/Wo
+   6n+ufXxecVZmfvPyBMDhtSM6EeT05uOtc7OXHusE1YGjlMuYMNB8p/IrH
+   XktvnZC0hazd5Y3B/mrX1BPTJ21ZjxlzrUXZU80m0mAYJLQNm0Jgi6NB4
+   2WW2P0gS/Xx2FQLMG3Ce4sDkPYH0Ced22GTOLc1Fsf/pGY3qGah1o847e
+   Q==;
+X-CSE-ConnectionGUID: xGdpgRoiQv6wOgy43RRVbg==
+X-CSE-MsgGUID: J3TAPFFfT5qebsATGLZe2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27196830"
 X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="49589478"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 10:28:28 -0700
-X-CSE-ConnectionGUID: wmtljO9YTim0mjN/4MBEpQ==
-X-CSE-MsgGUID: gVpOJz2xQw6OVNmova+NYw==
+   d="scan'208";a="27196830"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 10:49:29 -0700
+X-CSE-ConnectionGUID: 0U5+rkjIR4yPDWRK72psWA==
+X-CSE-MsgGUID: F7pqKTXPQGa7HSVqdYfW1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
-   d="scan'208";a="78822568"
+   d="scan'208";a="73659149"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 Oct 2024 10:28:26 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 02 Oct 2024 10:49:29 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sw39E-000UJV-09;
-	Wed, 02 Oct 2024 17:28:24 +0000
-Date: Thu, 3 Oct 2024 01:28:13 +0800
+	id 1sw3TZ-000UM3-1V;
+	Wed, 02 Oct 2024 17:49:25 +0000
+Date: Thu, 3 Oct 2024 01:48:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Kuniyuki Iwashima <kuniyu@amazon.com>
-Subject: Re: [PATCH v1 net-next 1/3] rtnetlink: Add per-net RTNL.
-Message-ID: <202410030120.kCWC9qb0-lkp@intel.com>
-References: <20240930202524.59357-2-kuniyu@amazon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 15308/20658]
+ drivers/media/platform/camx/cam_cdm/cam_cdm_core_common.c:60:5: warning: no
+ previous prototype for function 'cam_cdm_insert_client'
+Message-ID: <202410030114.oeI09ztp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,159 +62,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240930202524.59357-2-kuniyu@amazon.com>
 
-Hi Kuniyuki,
+Hi Sergey,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/rtnetlink-Add-per-net-RTNL/20241001-043219
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240930202524.59357-2-kuniyu%40amazon.com
-patch subject: [PATCH v1 net-next 1/3] rtnetlink: Add per-net RTNL.
-config: hexagon-randconfig-r132-20241002 (https://download.01.org/0day-ci/archive/20241003/202410030120.kCWC9qb0-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20241003/202410030120.kCWC9qb0-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   a81f127d7432274edb73f16568b5b097fca99d2a
+commit: fbdf07ea0d18954639278632f87b65f6ffc7d926 [15308/20658] CHROMIUM: media: camx: rework client refcount handling
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241003/202410030114.oeI09ztp-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410030114.oeI09ztp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410030120.kCWC9qb0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410030114.oeI09ztp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:14:
-   In file included from include/linux/sem.h:5:
-   In file included from include/uapi/linux/sem.h:5:
-   In file included from include/linux/ipc.h:7:
-   In file included from include/linux/rhashtable-types.h:15:
-   In file included from include/linux/mutex.h:17:
->> include/linux/lockdep.h:413:52: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-   413 | void lockdep_set_lock_cmp_fn(struct lockdep_map *, lock_cmp_fn, lock_print_fn);
-   |                                                    ^
-   |                                                    int
-   include/linux/lockdep.h:413:65: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-   413 | void lockdep_set_lock_cmp_fn(struct lockdep_map *, lock_cmp_fn, lock_print_fn);
-   |                                                                 ^
-   |                                                                 int
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-   98 |                 return (set->sig[3] | set->sig[2] |
-   |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-   62 |         unsigned long sig[_NSIG_WORDS];
-   |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-   98 |                 return (set->sig[3] | set->sig[2] |
-   |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-   62 |         unsigned long sig[_NSIG_WORDS];
-   |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-   114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-   |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-   62 |         unsigned long sig[_NSIG_WORDS];
-   |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-   114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-   |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-   62 |         unsigned long sig[_NSIG_WORDS];
-   |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-   115 |                         (set1->sig[2] == set2->sig[2]) &&
-   |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-   62 |         unsigned long sig[_NSIG_WORDS];
-   |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-   115 |                         (set1->sig[2] == set2->sig[2]) &&
-   |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-   62 |         unsigned long sig[_NSIG_WORDS];
-   |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-   157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-   | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-   138 |                 a3 = a->sig[3]; a2 = a->sig[2];                               |                      ^      ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-   62 |         unsigned long sig[_NSIG_WORDS];
-   |         ^
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PROVE_LOCKING
-   Depends on [n]: DEBUG_KERNEL [=n] && LOCK_DEBUGGING_SUPPORT [=y]
-   Selected by [y]:
-   - DEBUG_NET_SMALL_RTNL [=y]
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+   In file included from drivers/media/platform/camx/cam_cdm/cam_cdm_core_common.c:18:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2222:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/camx/cam_cdm/cam_cdm_core_common.c:60:5: warning: no previous prototype for function 'cam_cdm_insert_client' [-Wmissing-prototypes]
+      60 | int cam_cdm_insert_client(struct cam_cdm *cdm, struct cam_cdm_client *client)
+         |     ^
+   drivers/media/platform/camx/cam_cdm/cam_cdm_core_common.c:60:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      60 | int cam_cdm_insert_client(struct cam_cdm *cdm, struct cam_cdm_client *client)
+         | ^
+         | static 
+>> drivers/media/platform/camx/cam_cdm/cam_cdm_core_common.c:91:6: warning: no previous prototype for function 'cam_cdm_remove_client' [-Wmissing-prototypes]
+      91 | void cam_cdm_remove_client(struct cam_cdm *cdm, u32 idx)
+         |      ^
+   drivers/media/platform/camx/cam_cdm/cam_cdm_core_common.c:91:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      91 | void cam_cdm_remove_client(struct cam_cdm *cdm, u32 idx)
+         | ^
+         | static 
+   7 warnings generated.
 
 
-vim +/int +413 include/linux/lockdep.h
+vim +/cam_cdm_insert_client +60 drivers/media/platform/camx/cam_cdm/cam_cdm_core_common.c
 
-fbb9ce9530fd9b Ingo Molnar     2006-07-03  411  
-eb1cfd09f788e3 Kent Overstreet 2023-05-09  412  #ifdef CONFIG_PROVE_LOCKING
-eb1cfd09f788e3 Kent Overstreet 2023-05-09 @413  void lockdep_set_lock_cmp_fn(struct lockdep_map *, lock_cmp_fn, lock_print_fn);
-eb1cfd09f788e3 Kent Overstreet 2023-05-09  414  
+    59	
+  > 60	int cam_cdm_insert_client(struct cam_cdm *cdm, struct cam_cdm_client *client)
+    61	{
+    62		int ret = -EINVAL;
+    63		u32 idx;
+    64	
+    65		/* We should be able to grab ownership */
+    66		if (!cam_cdm_get_client(client))
+    67			return ret;
+    68	
+    69		write_lock(&cdm->clients_lock);
+    70		for (idx = 0; idx < CAM_PER_CDM_MAX_REGISTERED_CLIENTS; idx++) {
+    71			if (cdm->clients[idx])
+    72				continue;
+    73	
+    74			/* Found available slot */
+    75			client->handle = CAM_CDM_CREATE_CLIENT_HANDLE(cdm->index, idx);
+    76			cdm->clients[idx] = client;
+    77			ret = 0;
+    78			break;
+    79		}
+    80		write_unlock(&cdm->clients_lock);
+    81	
+    82		/*
+    83		 * Did not find the slot, drop the refcount because we don't own
+    84		 * the object
+    85		 */
+    86		if (ret)
+    87			cam_cdm_put_client(client);
+    88		return ret;
+    89	}
+    90	
+  > 91	void cam_cdm_remove_client(struct cam_cdm *cdm, u32 idx)
+    92	{
+    93		struct cam_cdm_client *client;
+    94	
+    95		/* Remove from cdm clients table */
+    96		write_lock(&cdm->clients_lock);
+    97		client = cdm->clients[idx];
+    98		cdm->clients[idx] = NULL;
+    99		write_unlock(&cdm->clients_lock);
+   100	
+   101		/* Drop cdm ownership refcount */
+   102		if (client)
+   103			cam_cdm_put_client(client);
+   104	}
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
