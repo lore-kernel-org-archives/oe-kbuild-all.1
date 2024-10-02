@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEFE10E9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 15:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7883C748F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 15:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727881519; cv=none; b=mw8stZqoZTrGjesnC3QfHeljVdeMosrhF+cbi37BN5Ov8/SdsAkXA+qn+sgzeP3WDeKosl7/jDGiQ2Hm/rfRnOQALfNhutnm8YnnhXs7Rb47OAXEj5C01E7LzKd1l0UsFMLS+MeM23uNtG8NyNF6j6hNDcBUSB9ytnC9bOINtz0=
+	t=1727882722; cv=none; b=FyrJkbldhaTcbxVgCPFVMSRmu0W4cIYZxWvtbUxcxWvHKjivhI+akItz3xyPzLqI5Q2fkWONNZE4N9AABA/MMDA6Tyjd2xFnE71LqCImFvqTc5cLBvPD4g3Z+/gWEfUiMTMQoY0ep3Hyn4He8lj9yWXtEqUx0JqDTb74KYhvwL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727881519; c=relaxed/simple;
-	bh=tYXlXu06cp7U4JKH4rXqwN8AIGpb7/3rdwaUb45RDBk=;
+	s=arc-20240116; t=1727882722; c=relaxed/simple;
+	bh=nKXy3BjN6jvun82a80/TldjRaCzfyvSUgyEYwDa4xYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FVS6rE+Ps++n62nsqBsNiWIb7Ip+FmotBZhx74DQSMkoNbabsnCoR8PwBjiCAJZu2x7GMGo98Yw6rd7UEPVlXhnJaQFzqdtD+5N8ierBPe4ScNEnwiJEQa/xCifGDa50Ui5BpYBWnfkxX9Kg9KeF4FXAbiuJ4Z+06n8SdWaLsoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAe8jLlY; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=tzBsnBhLUdkJtnaQgvqIe8qFiA1RCPaQQuoxCPriUm2gKjhEUYPA0LdCmeDyI0vrOWmPGljzAPz/dJbUbgVCJatfQ1g+UA/NZiodiC/N7gSwbaZ2Esk2kvgTQ5xr7wKMIMldBmFGfU8m4ybohzqHDmQSNpJZxL5hqXCyYgSs+6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BObUiN7n; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAe8jLlY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BObUiN7n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727881518; x=1759417518;
+  t=1727882720; x=1759418720;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tYXlXu06cp7U4JKH4rXqwN8AIGpb7/3rdwaUb45RDBk=;
-  b=LAe8jLlYx2mkb8cwyurZ0ltel9iShDMyhk355guoCEskzo+YUl4tMZgo
-   xkhpZxK0rNilrbSVRVm1EG5enO0jAjXGfu2jg/w5ErdU95s/K9elFmRa/
-   EXw2KZf7sOvpm8TVTCxIcev0Fry9pKYl0hQgrYmfPgd1Qv6vQ0cAlw3MB
-   fPJN8Xnlf8ZDUeMEZI3o3BpxyR6CVzxaypKxlFUqXVm/KtqQ2MMn0EqL1
-   qnQyQZ8812Xvx6r8jAPK85rxT969PSYMWNvX6DFy3npl4ogh/LIIbTylm
-   ZxQ310NSYY6HEVKl3iCildU0ioZYLZ+r0sagObO9AUd3NhSsW/OeMFTQm
-   Q==;
-X-CSE-ConnectionGUID: wu+t6tZ5T5iASkDaLj8gmQ==
-X-CSE-MsgGUID: lbI5t0iUSLyqcElrWx/fXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26553861"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="26553861"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 08:05:18 -0700
-X-CSE-ConnectionGUID: E9XNMYbTTCiKzKnQx3IZGA==
-X-CSE-MsgGUID: igpaoHONQgeZTJ2zhBq+Tw==
+  bh=nKXy3BjN6jvun82a80/TldjRaCzfyvSUgyEYwDa4xYI=;
+  b=BObUiN7nyPoJ4Q8kCsOI1XWF8mD5y1a2WzS+UGNmBJlwrEAwW/mTh1dR
+   hCFxlRrkfm7Beset/v0APih+SSZOecKUmKkI2EpQmxLQa8O4nIbH6PFuT
+   yRQBsDAWRN3EsJClJ9JNPuQKeBRuXstZF6M/PJ2Um9/hwaf8NZGjOk4Gw
+   NbiZf3fZI6B30/NrrlV48TnSrEM3F1GjeAOqkXJKRUf2FvGYIQ2dBX51i
+   plKv3f8WjHHvR3slQSTKMD5wHxCDYqmGmanTqK4xMp6Z+DQLlxUDis7qk
+   PBlalAhQq31sK2fZf7+JQBR0ScPw5/2m1DVb5hT973nwD1jOMoyqPlnX3
+   g==;
+X-CSE-ConnectionGUID: cZAZTXkjR3a3Vc7PRTA4Yw==
+X-CSE-MsgGUID: 4S95UA86SZqXJKkp4EbTxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26925734"
+X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
+   d="scan'208";a="26925734"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 08:25:20 -0700
+X-CSE-ConnectionGUID: oDYTwI5iQXOspALo6Ah9ZA==
+X-CSE-MsgGUID: 4IGf9ld1TIuuYaJ4NZfKDA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="104839243"
+X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; 
+   d="scan'208";a="74154361"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 Oct 2024 08:05:17 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 02 Oct 2024 08:25:18 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sw0ug-000U7j-0n;
-	Wed, 02 Oct 2024 15:05:14 +0000
-Date: Wed, 2 Oct 2024 23:04:35 +0800
+	id 1sw1E4-000U9T-1P;
+	Wed, 02 Oct 2024 15:25:16 +0000
+Date: Wed, 2 Oct 2024 23:24:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Mark Rutland <mark.rutland@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 15301/20658]
- drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c:159:11:
- error: incompatible pointer to integer conversion returning 'void *' from a
- function with result type 'int'
-Message-ID: <202410022250.21ruGtzb-lkp@intel.com>
+Subject: [mark:perf/overflow 2/3] drivers/perf/arm_pmuv3.c:721:3: error: call
+ to undeclared function 'write_pmovsset'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202410022323.rJw45ct5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,88 +63,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ricardo,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   a81f127d7432274edb73f16568b5b097fca99d2a
-commit: c7f8bcb2b8858a5291cd7c06cc48e6520bbd7c8a [15301/20658] CHROMIUM: media: camx: Cache eeprom content
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241002/202410022250.21ruGtzb-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git perf/overflow
+head:   ea54acc0526c6ee4bbd111f57203bc23790ecfe5
+commit: a04cfff6860a56b2b23b9731d83d2196d3414918 [2/3] arm_pmu: rework overflow handling
+config: arm-randconfig-r051-20241002 (https://download.01.org/0day-ci/archive/20241002/202410022323.rJw45ct5-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410022250.21ruGtzb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410022323.rJw45ct5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410022250.21ruGtzb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410022323.rJw45ct5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c:18:
-   In file included from drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.h:16:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:37:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2222:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c:159:11: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
-     159 |                         return ERR_PTR(ret);
-         |                                ^~~~~~~~~~~~
-   5 warnings and 1 error generated.
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:139:2: note: previous initialization is here
+     139 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+      49 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
+      41 | #define CACHE_OP_UNSUPPORTED            0xFFFF
+         |                                         ^~~~~~
+   drivers/perf/arm_pmuv3.c:146:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     146 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:134:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:139:2: note: previous initialization is here
+     139 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+      49 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
+      41 | #define CACHE_OP_UNSUPPORTED            0xFFFF
+         |                                         ^~~~~~
+   drivers/perf/arm_pmuv3.c:147:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     147 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:135:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     135 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:139:2: note: previous initialization is here
+     139 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+      49 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
+      41 | #define CACHE_OP_UNSUPPORTED            0xFFFF
+         |                                         ^~~~~~
+   drivers/perf/arm_pmuv3.c:148:42: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     148 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:132:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:139:2: note: previous initialization is here
+     139 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+      49 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
+      41 | #define CACHE_OP_UNSUPPORTED            0xFFFF
+         |                                         ^~~~~~
+   drivers/perf/arm_pmuv3.c:149:43: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     149 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:133:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:139:2: note: previous initialization is here
+     139 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+      49 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
+      41 | #define CACHE_OP_UNSUPPORTED            0xFFFF
+         |                                         ^~~~~~
+   drivers/perf/arm_pmuv3.c:151:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     151 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:149:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:139:2: note: previous initialization is here
+     139 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+      49 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
+      41 | #define CACHE_OP_UNSUPPORTED            0xFFFF
+         |                                         ^~~~~~
+   drivers/perf/arm_pmuv3.c:152:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     152 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:150:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     150 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:139:2: note: previous initialization is here
+     139 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+      49 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
+      41 | #define CACHE_OP_UNSUPPORTED            0xFFFF
+         |                                         ^~~~~~
+>> drivers/perf/arm_pmuv3.c:721:3: error: call to undeclared function 'write_pmovsset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     721 |                 write_pmovsset(BIT(event->hw.idx));
+         |                 ^
+   drivers/perf/arm_pmuv3.c:721:3: note: did you mean 'write_pmovsclr'?
+   arch/arm/include/asm/arm_pmuv3.h:200:20: note: 'write_pmovsclr' declared here
+     200 | static inline void write_pmovsclr(u32 val)
+         |                    ^
+   56 warnings and 1 error generated.
 
 
-vim +159 drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c
+vim +/write_pmovsset +721 drivers/perf/arm_pmuv3.c
 
-   141	
-   142	static int cam_eeprom_cache_content(struct cam_eeprom_ctrl_t *e_ctrl)
-   143	{
-   144		int ret;
-   145		int i;
-   146	
-   147		e_ctrl->eeprom_content = kzalloc(e_ctrl->memory_bytes, GFP_KERNEL);
-   148		if (!e_ctrl->eeprom_content)
-   149			return -ENOMEM;
-   150	
-   151		for (i = 0; i < e_ctrl->memory_bytes; i += I2C_REG_DATA_MAX) {
-   152			int block = umin(I2C_REG_DATA_MAX, e_ctrl->memory_bytes - i);
-   153	
-   154			ret = cam_eeprom_nvmem_read(e_ctrl, i,
-   155						    e_ctrl->eeprom_content + i, block);
-   156			if (ret) {
-   157				kfree(e_ctrl->eeprom_content);
-   158				e_ctrl->eeprom_content = NULL;
- > 159				return ERR_PTR(ret);
-   160			}
-   161		}
-   162	
-   163		return 0;
-   164	}
-   165	
+   713	
+   714	static void armv8pmu_enable_event_irq(struct perf_event *event)
+   715	{
+   716		armv8pmu_enable_intens(BIT(event->hw.idx));
+   717	
+   718		// TODO: explain why
+   719		// TODO: explain no ISB
+   720		if (local64_read(&event->hw.period_left) <= 0)
+ > 721			write_pmovsset(BIT(event->hw.idx));
+   722	}
+   723	
 
 -- 
 0-DAY CI Kernel Test Service
