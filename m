@@ -1,159 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7358519752C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 08:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C3F194A48
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Oct 2024 08:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727856668; cv=none; b=YdZyFI4JMb+grLjzwznWPeq3rGBEE+prYB3G9k3Rdw7i3imUUnh8gT1joyYJ5UAl5vQt14brev/CvfKXf9UHRO+lID7YchVynFSZVm5t6isWQcVqN7yqOljTG5gH+aK/naZ3Cp4ycDU5JpB2ufAMFTrsEwmoXoQ1qzZsO4zAiXo=
+	t=1727856860; cv=none; b=r4RJMcjBmT+aoqCdNDNoQgDoKgKwtjVbvuhsBY53UUlz/dotYZTWSaTbAcDhRfrbR1nfy/lyZYpe9QHeB1TVbiTE8exg+cLHmjiUGQiX0/lf0w+FDfXylwq46NvYWHXAZa4nHAxu3ZbkGBjHcEoL9c9SybBbT5sYRmfiF0qkJaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727856668; c=relaxed/simple;
-	bh=OLkt43BQ192xjPH65OnrhCJSm3pBaNq9zc6HDari+70=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g2yTkoh5v1XlkgDHdoFp5lH0ejV72llbfIDBPTUtzs23qcaGFsJOHvdddrT1AYQWKO/LKPfYruRO7vx2NFA+zljN+T+BMn9zLY6QsP+jVU/ml+GgOtWV6rvGYhhM8aaY7KtMhhnrQXXjIxthi5X4s7H7m4kaeUnE4gqKWT3vojo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K25f7nmE; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727856860; c=relaxed/simple;
+	bh=cN5BO9INP+8SjuknZdd8CSGf5m7pxLUl5nRuLqqK6ic=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j9s6mbtVRw8vfn5mbqGF/ZsS2HyAIBAgDkXAxNMzFLVVKPBcSRPydtjZG7p3PNO9k5YUcCGrGoGx/34Oc5gL2t7wGlNSfwCJwZshb0VgW5rUOMPiJYg77BULAfjqaoUugd4QmhBwJu2ZLIxn+rPqlB6TySwAH1dx1VT6xAH4IeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=okq5SfQ6; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K25f7nmE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727856666; x=1759392666;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OLkt43BQ192xjPH65OnrhCJSm3pBaNq9zc6HDari+70=;
-  b=K25f7nmEQ1N6Efs489Zt/OaLM/+1FVX5+0E5bRMlNm6GL9+2IYcihUxS
-   4PqcBejuimEYUpAoR9Tc5INpn57zGbQQX5UtUtUiTAY0FpjVWRK63RvkL
-   fPnvHe2CoULcDC8Ayc2QJYR/hgnCaTlTJ/gstsiGiTVXS6f/Ga43uWpf/
-   PhoLUzC0eZdEM/W2ORrwvxg/UqS11KDo4orvVOpNR69pZP6JnkQtkkurL
-   yF7/4SjFZA8nCusYLJkiq4GVhgE1wT1K4Hvax/jabQOeWGIGzHhGtqTzt
-   tnU35gqKVflxfeEjXUC+NZoQmUHasch4QT3b/4mgKNEnbpLrQiBm0rfwO
-   g==;
-X-CSE-ConnectionGUID: Xg+YRegWRbaCjI0osjOu+g==
-X-CSE-MsgGUID: ZdfkGKL2SvOT4vpgZglL5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="44538216"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="44538216"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 01:11:06 -0700
-X-CSE-ConnectionGUID: 69k9imINQ1u9K2FlUKug7A==
-X-CSE-MsgGUID: H/4lPJYjR82hRTua4jW5sg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="104731272"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2024 01:11:04 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svuRq-000Rn9-1N;
-	Wed, 02 Oct 2024 08:11:02 +0000
-Date: Wed, 2 Oct 2024 16:10:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sunil Khatri <sunil.khatri@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: [linux-next:master 1757/2025]
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c:49: warning: Function parameter or
- struct member 'ip_block' not described in 'jpeg_v2_0_early_init'
-Message-ID: <202410021623.jPupzVoB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="okq5SfQ6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1727856848;
+	bh=cN5BO9INP+8SjuknZdd8CSGf5m7pxLUl5nRuLqqK6ic=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=okq5SfQ6ybIaaZug/tEdLx8HzjGCrYU8lLDz9D7V1Hy3WmrIX2CVDL6S588VUdIpY
+	 4RMjR4M3sf1zKT10nWg5V6WIpAEB+g/+ZEfkOnjty7k27A1/sF/phQ/K6Euqg7t7u8
+	 9B+mlC0gSYOgwksqHcOrcHuuE6lv5ZgLw/Rc8S0kVJrYwqovrgntmYwlZSL6ExvU26
+	 5XFco7+CF2VBqq6aSDlD0stMdDvx+xJ1FtEiyaJs5V+SKAjTpTYKxviyGVWzAHN6YB
+	 D9DHioMUOwLDSnpnbF4kVBN6Uv/AezdAa8szkaarrTn5EuJ1w2+JlRkNkmruq9AcVM
+	 u3r/Q7q3L4gJw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id EA42017E1088;
+	Wed,  2 Oct 2024 10:14:07 +0200 (CEST)
+Date: Wed, 2 Oct 2024 10:14:03 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: kernel test robot <lkp@intel.com>
+Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Boris
+ Brezillon <bbrezillon@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v8 3/5] drm/panthor: add DRM fdinfo support
+Message-ID: <20241002101403.3df35ea7@collabora.com>
+In-Reply-To: <202409291048.zLqDeqpO-lkp@intel.com>
+References: <20240923230912.2207320-4-adrian.larumbe@collabora.com>
+	<202409291048.zLqDeqpO-lkp@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sunil,
+On Sun, 29 Sep 2024 08:25:38 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> Hi Adri=C3=A1n,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.11 next-20240927]
+> [cannot apply to drm-misc/drm-misc-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm=
+-panthor-introduce-job-cycle-and-timestamp-accounting/20240924-071018
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20240923230912.2207320-4-adrian.=
+larumbe%40collabora.com
+> patch subject: [PATCH v8 3/5] drm/panthor: add DRM fdinfo support
+> config: arm-randconfig-002-20240929 (https://download.01.org/0day-ci/arch=
+ive/20240929/202409291048.zLqDeqpO-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240929/202409291048.zLqDeqpO-lkp@intel.com/reproduce)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fe21733536749bb1b31c9c84e0b8d2ab8d82ce13
-commit: 146b085eadd2ce405e67492a80d6e767748d5642 [1757/2025] drm/amdgpu: update the handle ptr in early_init
-config: riscv-buildonly-randconfig-r004-20230123 (https://download.01.org/0day-ci/archive/20241002/202410021623.jPupzVoB-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021623.jPupzVoB-lkp@intel.com/reproduce)
+I gave this a try with Adrian's series applied on top of drm-misc-next,
+and I couldn't reproduce the issue.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410021623.jPupzVoB-lkp@intel.com/
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409291048.zLqDeqpO-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    In file included from include/linux/math64.h:6,
+>                     from include/linux/time.h:6,
+>                     from include/linux/stat.h:19,
+>                     from include/linux/module.h:13,
+>                     from drivers/gpu/drm/panthor/panthor_drv.c:7:
+>    drivers/gpu/drm/panthor/panthor_drv.c: In function 'panthor_gpu_show_f=
+dinfo':
+> >> drivers/gpu/drm/panthor/panthor_drv.c:1389:45: error: implicit declara=
+tion of function 'arch_timer_get_cntfrq' [-Wimplicit-function-declaration] =
+=20
+>     1389 |                                             arch_timer_get_cnt=
+frq()));
+>          |                                             ^~~~~~~~~~~~~~~~~~=
+~~~
+>    include/linux/math.h:40:39: note: in definition of macro 'DIV_ROUND_DO=
+WN_ULL'
+>       40 |         ({ unsigned long long _tmp =3D (ll); do_div(_tmp, d); =
+_tmp; })
+>          |                                       ^~
+>    drivers/gpu/drm/panthor/panthor_drv.c:1388:28: note: in expansion of m=
+acro 'DIV_ROUND_UP_ULL'
+>     1388 |                            DIV_ROUND_UP_ULL((pfile->stats.time=
+ * NSEC_PER_SEC),
+>          |                            ^~~~~~~~~~~~~~~~
+>=20
+>=20
+> vim +/arch_timer_get_cntfrq +1389 drivers/gpu/drm/panthor/panthor_drv.c
+>=20
+>   1377=09
+>   1378	static void panthor_gpu_show_fdinfo(struct panthor_device *ptdev,
+>   1379					    struct panthor_file *pfile,
+>   1380					    struct drm_printer *p)
+>   1381	{
+>   1382		if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_ALL)
+>   1383			panthor_fdinfo_gather_group_samples(pfile);
+>   1384=09
+>   1385		if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP) {
+>   1386	#ifdef CONFIG_ARM_ARCH_TIMER
+>   1387			drm_printf(p, "drm-engine-panthor:\t%llu ns\n",
+>   1388				   DIV_ROUND_UP_ULL((pfile->stats.time * NSEC_PER_SEC),
+> > 1389						    arch_timer_get_cntfrq())); =20
+>   1390	#endif
+>   1391		}
+>   1392		if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+>   1393			drm_printf(p, "drm-cycles-panthor:\t%llu\n", pfile->stats.cycles=
+);
+>   1394=09
+>   1395		drm_printf(p, "drm-maxfreq-panthor:\t%lu Hz\n", ptdev->fast_rate);
+>   1396		drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_fr=
+equency);
+>   1397	}
+>   1398=09
+>=20
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c:49: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v2_0_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c:49: warning: Excess function parameter 'handle' description in 'jpeg_v2_0_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/jpeg_v1_0.c:466: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v1_0_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v1_0.c:466: warning: Excess function parameter 'handle' description in 'jpeg_v1_0_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c:50: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v3_0_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c:50: warning: Excess function parameter 'handle' description in 'jpeg_v3_0_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c:56: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v4_0_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c:56: warning: Excess function parameter 'handle' description in 'jpeg_v4_0_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c:58: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v2_5_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c:58: warning: Excess function parameter 'handle' description in 'jpeg_v2_5_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_0.c:50: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v5_0_0_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_0.c:50: warning: Excess function parameter 'handle' description in 'jpeg_v5_0_0_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c:76: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v4_0_3_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c:76: warning: Excess function parameter 'handle' description in 'jpeg_v4_0_3_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_5.c:69: warning: Function parameter or struct member 'ip_block' not described in 'jpeg_v4_0_5_early_init'
->> drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_5.c:69: warning: Excess function parameter 'handle' description in 'jpeg_v4_0_5_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c:104: warning: Function parameter or struct member 'ip_block' not described in 'vcn_v1_0_early_init'
->> drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c:104: warning: Excess function parameter 'handle' description in 'vcn_v1_0_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c:96: warning: Function parameter or struct member 'ip_block' not described in 'vcn_v5_0_0_early_init'
->> drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c:96: warning: Excess function parameter 'handle' description in 'vcn_v5_0_0_early_init'
---
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:113: warning: Function parameter or struct member 'ip_block' not described in 'vcn_v4_0_5_early_init'
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:113: warning: Excess function parameter 'handle' description in 'vcn_v4_0_5_early_init'
-..
-
-
-vim +49 drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
-
-6ac27241106bc9 Leo Liu      2019-11-08  35  
-6ac27241106bc9 Leo Liu      2019-11-08  36  static void jpeg_v2_0_set_dec_ring_funcs(struct amdgpu_device *adev);
-6ac27241106bc9 Leo Liu      2019-11-08  37  static void jpeg_v2_0_set_irq_funcs(struct amdgpu_device *adev);
-6ac27241106bc9 Leo Liu      2019-11-08  38  static int jpeg_v2_0_set_powergating_state(void *handle,
-6ac27241106bc9 Leo Liu      2019-11-08  39  				enum amd_powergating_state state);
-6ac27241106bc9 Leo Liu      2019-11-08  40  
-6ac27241106bc9 Leo Liu      2019-11-08  41  /**
-6ac27241106bc9 Leo Liu      2019-11-08  42   * jpeg_v2_0_early_init - set function pointers
-6ac27241106bc9 Leo Liu      2019-11-08  43   *
-6ac27241106bc9 Leo Liu      2019-11-08  44   * @handle: amdgpu_device pointer
-6ac27241106bc9 Leo Liu      2019-11-08  45   *
-6ac27241106bc9 Leo Liu      2019-11-08  46   * Set ring and irq function pointers
-6ac27241106bc9 Leo Liu      2019-11-08  47   */
-146b085eadd2ce Sunil Khatri 2024-09-25  48  static int jpeg_v2_0_early_init(struct amdgpu_ip_block *ip_block)
-6ac27241106bc9 Leo Liu      2019-11-08 @49  {
-146b085eadd2ce Sunil Khatri 2024-09-25  50  	struct amdgpu_device *adev = ip_block->adev;
-6ac27241106bc9 Leo Liu      2019-11-08  51  
-6ac27241106bc9 Leo Liu      2019-11-08  52  	adev->jpeg.num_jpeg_inst = 1;
-28bb7f13e70dcd James Zhu    2023-05-24  53  	adev->jpeg.num_jpeg_rings = 1;
-6ac27241106bc9 Leo Liu      2019-11-08  54  
-6ac27241106bc9 Leo Liu      2019-11-08  55  	jpeg_v2_0_set_dec_ring_funcs(adev);
-6ac27241106bc9 Leo Liu      2019-11-08  56  	jpeg_v2_0_set_irq_funcs(adev);
-6ac27241106bc9 Leo Liu      2019-11-08  57  
-6ac27241106bc9 Leo Liu      2019-11-08  58  	return 0;
-6ac27241106bc9 Leo Liu      2019-11-08  59  }
-6ac27241106bc9 Leo Liu      2019-11-08  60  
-
-:::::: The code at line 49 was first introduced by commit
-:::::: 6ac27241106bc946bd50032f4cd96899c6a6fe69 drm/amdgpu: add JPEG v2.0 function supports
-
-:::::: TO: Leo Liu <leo.liu@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
