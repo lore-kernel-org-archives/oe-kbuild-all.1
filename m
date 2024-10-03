@@ -1,243 +1,329 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288A71A08A9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 15:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727969172; cv=fail; b=YtJaVhN/PylRuFyYrnohhIOtBj3sh/qOdJjnmCuuVaAsnTWSKvlFNfgHVQndkF+PaK7yHRukzDu6REvizrXkPILyUJPCE5u2L5M/mupYgNvXmcGQQEHzQ/V5ka0fGOt5SeaI8LACGT9SaMbUc1bUAZGCnuIbN49w0qfidNts1RA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727969172; c=relaxed/simple;
-	bh=txKkfyQBrh6fWZdwsibUWfgcgWQMSyWzTYtNbkVH9Ao=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=dxVWIMmmtZi5Hv2ZLl7RChTGeUv+P3+qW27DLJzR7kuHJ7mjo6cEtznx0aIf2BoT7GHBSaQN+YImyL88m+2hOWX76Y0fpH6Zm0ig7Z0woJktYEmyTb64IKdNyYq05A5JO6UHGoknd6KC+nawn21Hvzq6pMDLGx5+xlXQ/wSC3j4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDR4M3YY; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8194713B280
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 15:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727970973; cv=none; b=Wbhg7djdlKSQ3aq/Zm/PK8GtT4pCpckLxhPGLiY0vkSbtDpMp6GRqmkVaJnmMFeevTRVEys/6PyNb7f6wjIzc0i7AOgC8hDBQeBdc8/Z6IbYZC2/SG76gpSMo7SFqBXV42zCRen8gajSzeu0m8OIMZjm/DRyiTOmJe0hGBWGVIY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727970973; c=relaxed/simple;
+	bh=2fWN7w5+3XAQ2axWFg2sL2oJ6X46Z5i2+1PP83XPWEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Tqri/t2IsGwqs6v9glYzRtkLTLVGZi6ILQLgLvZxL8rg1CfBVTx+Y0EEEQo783E7p5ppB9vD4YEUuiASX0LKnF2FMakWUa5+CcUqruVdnCTmD2HNV3LZvlpuFtKD5wf8ZoNlWExQyCqCOg1La2JimUyuwOYKHRDApRiMDa2AIk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K1blUqXX; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDR4M3YY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727969171; x=1759505171;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=txKkfyQBrh6fWZdwsibUWfgcgWQMSyWzTYtNbkVH9Ao=;
-  b=cDR4M3YYFPReCAvYCS86j3ZQT3P54hfZJfnG+JBhywotu/0lf9SDjBdH
-   1YQZSHvE4qdMrnQZaAqeDpDITtE/ajk6zrVCFpJx1GS/QGoiMFbd2psFd
-   j4P13QwxfkB3K+r57ZbC/UeItN9YzsldwNIqxSzKvxERcpPNZM6hXrrMI
-   J4JuX3gIGq9kXc1KFEx4URr72FvgyTEubBzJ/sl25jWZjG+LnZggQUkly
-   Ll68qEGmJ2C/W7SKXhf3B5uU/mh0VgqkfYDItZs34mkW+F4n+vWmbsOQn
-   /bIN+7MSO6Mvlj+iVubSBRiyc+mzKFPb5kWNvtB+siQdQwYJ3G750yELj
-   g==;
-X-CSE-ConnectionGUID: stbrEKVIRJ6NDj2T5276qA==
-X-CSE-MsgGUID: lcQyQhQwRdiSuRMdqCAsUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="30046417"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="30046417"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:26:10 -0700
-X-CSE-ConnectionGUID: fqDlTMurQE2ujnIqpfO3ag==
-X-CSE-MsgGUID: INRwp+eoSwe6ryZklJBlTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="78797052"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Oct 2024 08:26:10 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 3 Oct 2024 08:26:10 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 3 Oct 2024 08:26:09 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 3 Oct 2024 08:26:09 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 3 Oct 2024 08:26:09 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 3 Oct 2024 08:26:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SpfoKDjhsp8T6YwyX4Fmf+Xlit9JtPpXTI/S1Rbm/P8xY86HwyTYV3/XTNWAWdIxUzdSRskchuA9IQzUzoPPYsn75EIdr6Ukra3y4q2TmgkYDi+d+QL0aPpu/MW2P8dUemPrW5c7U0Th2g5Dtb3rOkO66lLVXT05nIvUiJ4O6zKpz8SIjfUsUv+vD4Ih8yivX4KbsByWIJf/rOPW8MaCCxxW7J810TDpiIIIv9fCxfoRbOPu7803RzwtboBe+lkFQYa3Jpn6dpaWLbq8IKPKUhdkN+VLJg/YstkLnjR7/DTuE/Vopyl6nGRaesaBC1VFo7+tfoxd6i10+ZeXA6Fp9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G9xG4aVYvGFtEnATqSFKtejO27CeDxaY4BaZujapS4g=;
- b=CPLREanR8+IdRk3SYqnNfzgaR1jmNuo7/niVFHx4YbK6xoxoHD6efOFpUuAFFM9hbbLzY+J6D0rVsJiMiu6bx9Mh9PFrdgUCVcoTTPAfy5mkpeP9CAMk7XBQLODfXXuh69RrpSD47oy8SuLhXuoxXtWYDs+V1CnEVuagf0kzMCpZzgoMpOBBnZ5mzxpVEpaB2F70hyYG8lZTM9ZD2d9z8Vn847+F6ctnU4aP7xalP6qHk1Jwq3HWcp7YL7NI1mkhrpdKlNV2EJOqkPMZra5aS4jPjyaBf/DEDbxIonuaQICqjJOdFQLblashMQr3m8gHGAii0OyXcL34EknyhchPpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by CH3PR11MB7203.namprd11.prod.outlook.com (2603:10b6:610:148::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18; Thu, 3 Oct
- 2024 15:26:06 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.8026.016; Thu, 3 Oct 2024
- 15:26:06 +0000
-Date: Thu, 3 Oct 2024 23:25:58 +0800
-From: Philip Li <philip.li@intel.com>
-To: SeongJae Park <sj@kernel.org>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: mm/damon/reclaim.c:252:15: error: implicit declaration of
- function 'damon_commit_ctx'
-Message-ID: <Zv63hjE1oT2A4tET@rli9-mobl>
-References: <202410020227.oOh0SBIj-lkp@intel.com>
- <20241001221712.88016-1-sj@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241001221712.88016-1-sj@kernel.org>
-X-ClientProxiedBy: SG2PR04CA0167.apcprd04.prod.outlook.com (2603:1096:4::29)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K1blUqXX"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42e5e758093so10111215e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 03 Oct 2024 08:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727970970; x=1728575770; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PFcfJETJkQgduyae2e5pvvSVv261VVrQFFLdoEdBQP0=;
+        b=K1blUqXX95d9Wr/3YVSoIXaacjis0O42ms4j0CCxGXpQlhquIg67gbMF17qR4zVL13
+         BWMZA8+ZQhVpHb+GyaceuSICa53LtTDy3JSTLm5ODqrmbtjgRE8GF3BvITt+/JDSJluW
+         ch8Ewev+/63d8mJ+VzBLF86+ha2un1VD6+WywlHKgHj2OLV/lrC8ZB+QRxzlVcoRAN8j
+         PT/vpnznvQ5EVOdiap2NOaQxwQDK2aYzhJZe2YwewFM3c0d2pckTYqDuczOUb2X/9xFI
+         yVTSIA9oG4Ep/vbVBC8zglLJ/y3CVUtfceG7N/gdgUNdcQGSY1YF7FrTxY/luHZjqAtm
+         h8hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727970970; x=1728575770;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PFcfJETJkQgduyae2e5pvvSVv261VVrQFFLdoEdBQP0=;
+        b=qS8KUBo956VfpGBIqRQp8DLxfWUIAiq5KCZXtrvAUDS9pmnJQ0X5pmiYfgGtfoztS7
+         oag86jMjYgrJazfsdERdc1TDMm+si/iwZ7ohxLsIWkvTA8UAt6A7fuDMX2P8DFhHshMG
+         h5fQdGBh1tovjrlaQTmMVACFIOG9tU25XjkbUmloGpW7jaaRLeZSfnWrRrnEaukfrrEX
+         5s5Us2AX9Tf6MgQ9fKAMfTRyAdgiKwmG4wy97pq++tHx8AuASSprcYY7kUL4Cy4XQ/LY
+         ZqjyOF+tinpgdZPWhxMM0PcpT3hoPl7nZ5+0Z4t1b6tDKwY8P5itTjs3Hkp23O7VASiK
+         UO7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXjELexfGWevQJELI+mHaRhbtQHJpLZfe2BYq1rIIZ67SD5Ft7i5DvXIosuR0COw+TdLt9njGGvaLnYwyj/@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywm6ZZ9rrkjO3BhoV45GMKzHl9c9JPTyUhc40AiaIb35w7vsBi3
+	e6TnsK2bCKC9xlmYHVc8UC8Gmf0l53ZmIPMvGDCo3dVY/1xu9B7RfIiMoBMR5PE=
+X-Google-Smtp-Source: AGHT+IHIWw9qK32LFe4k7HE5kpCTKhsAOuVI8emYon0yQhVCJ8kHd1qvx5PaTd+I8ghaGLdQgDitYg==
+X-Received: by 2002:a05:600c:19ca:b0:42c:b995:20c8 with SMTP id 5b1f17b1804b1-42f778f12acmr45583995e9.24.1727970969541;
+        Thu, 03 Oct 2024 08:56:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f7a02f174sm48191265e9.44.2024.10.03.08.56.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 08:56:08 -0700 (PDT)
+Date: Thu, 3 Oct 2024 18:56:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-fixes 11/11] fs/netfs/read_retry.c:235
+ netfs_retry_read_subrequests() error: uninitialized symbol 'subreq'.
+Message-ID: <43dbe849-0373-4889-b092-a41b4c4b46a9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|CH3PR11MB7203:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbe6a3f4-3e45-4859-eb71-08dce3bfb313
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DW5aSDs6R54AZaM7cRN3ZYID9XXFa28sV6cAYGcfS0g4QbaqQZLwAIoPGoct?=
- =?us-ascii?Q?LQNajRf+06JYrJR8uZfvE/0St4zM/xhrx5CBVYNh1za7+51OzAoZbbSEemCr?=
- =?us-ascii?Q?CEA0nwNnIrtsj37clK5nN8X2y6gu3dnOVYu+WyQB2KUDNM7f4/o9N7fIMwyN?=
- =?us-ascii?Q?tQQsM8UhelVEkimo3Ik5SUkfA8XAkwRmMgFbl48lDAEhxdizaY0BS4LEAUka?=
- =?us-ascii?Q?0mMO9WZVfv+tZXj7CJwObNDAqo7eyTkdxtSBrxs8KWsnZNG+fufJFafhusyl?=
- =?us-ascii?Q?szw/fRmsemGh8ylYAbcBNN9dEL5460tSUfmTL3MU2mHCzdwLCv/WXuEb3hCc?=
- =?us-ascii?Q?U88gnx/ODVhHdOmp/npFNHSQGnd1VJd0yHgt36oH9gXBxIXuqrddO3g9mcRt?=
- =?us-ascii?Q?fpm0ktRjhihGcGBErGiEW7WvzxZF2w2lX/OFb0MxpkWEnDdEP8UHQgCCJMFG?=
- =?us-ascii?Q?kC91N4uOPt2Av+IDbyDSKyonADJhRWP7y0Hgp7aSFVyndY05mMpw6Ph4Uv0c?=
- =?us-ascii?Q?xR64zdeVdKqgaC0vH5R24+QbcpVIyVHVAi3m+2WEbLWUNFxThiq+1DS3Laqc?=
- =?us-ascii?Q?OXYgrmvEGqtohO2MVqIU0aGH9G97mi/4Uf2EuuOluwItGz1qdF3SyvKIXbI8?=
- =?us-ascii?Q?tnSCfBDsheT1WOJltGjj0dMW4i6hOlVpsyn1NjkogiJpJ4DRvG4lIOvj1ASq?=
- =?us-ascii?Q?soacO+YccTTdg1Y3JenU+DjqKFmgDMx9qNv1aw8WoTcKWALtcN+Wm+lXar9Y?=
- =?us-ascii?Q?pEa8HdiYWqQ2fPcCLiw14AVJTCpklBQ+hjH2zQkjcA4BNLw5436gE9maJVFj?=
- =?us-ascii?Q?XJQ8hrQ+OkxF0zo4mDjTdP/1tXm1CO0XGHBBwRpTHrxuXb9gyKOcksohQFrl?=
- =?us-ascii?Q?QJE6NVkFFr5YiOxkkPVWgHKGNyWgA7TGdj7JkzEKI/oKVSmC+jDPjDyOtRVb?=
- =?us-ascii?Q?HQzhncOfT7wyqMgPGXl51yL0x9M6N6rme+4hf+vURtMNUfDvCSw57czw7F51?=
- =?us-ascii?Q?S95cXeQOwTCKepeet7XRUxDHR9pQOkGAQF70WYrtqFBRGHwqeMcWBSRvFJYL?=
- =?us-ascii?Q?iLzk0G5DWS8vhPzEdkcMNw2MKMo03JD+umRr2PGQNtPF2FQZXL7GCo3V4jn1?=
- =?us-ascii?Q?sHRTaFE5meSpxW2bgH5tXP7GuubkXKOxwFrrPFjttWmha9TF2jyF/shLjgZ3?=
- =?us-ascii?Q?e3mbdN5DJ28QbUqMEzl8dul7+19KGERuPzm9fJtvvlgNhSj2QlRQMsVzOzA?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GNNAyNL1gPzMglFDMr03B25wbgPFdJta/ZA13C4RfpGU9FyqUhwFLS7beDN3?=
- =?us-ascii?Q?+2uPYPMfuUUgTZiW9JWCXhdT323TuwFe5VgE2u2t14GTcIWjmlMD+kRke3vq?=
- =?us-ascii?Q?85KYwS7fEEelP2ohr4ZlLG/Eado9UElJpwlSs7RGTfLniqLEFbCVZFhV30Of?=
- =?us-ascii?Q?t9aLFYumAK+wGgpKRbwYxmsycjYFYGxqQT/5NKroGab5Ffqhr+KIoToe25RQ?=
- =?us-ascii?Q?LUthAvQlo++4+z2PMUUb039IqrSDFNtFhoKnSpHU9dLeG/ye7NLQPynfV0rG?=
- =?us-ascii?Q?RHujNuvTfpK9hn7W4unI/bIHGVXe8UdsDTXRNViqzlzoqv0zyFB29dZ+N7HX?=
- =?us-ascii?Q?kHnnpPJhpkw4he0SiGL+B4Xkg+zwkM+NDIq3j1Rt+h/JWtG0a6jnapIRSMKs?=
- =?us-ascii?Q?Cy7qmEW9XpP5z/MGddZvEhBjuscpo+eHeJ85TW3MsdyLxRgMlWVcTezRjoSm?=
- =?us-ascii?Q?fm7Av/VaPTexPmKmfSdYMhPuhtTAVTpxLKT3R9LoIoeSVVIkYYoo0sYF6WZk?=
- =?us-ascii?Q?RcE9lLF5KLjIiJyQbYNazVSq6Cy9Lyg4NxkE+N6JXVo0cz3Oi+9x22oqhXOe?=
- =?us-ascii?Q?IF1NtTexJeVQilx5jBFApP1zGyhZkTi2l5UsZRUESCnSwtbwjcUT3WU2lOxU?=
- =?us-ascii?Q?mf5dRjVAhAFk5CHXn3ERVFfE/6gO0SWKwZTHUf0/8PTLE0mux7PmdcAR6+VH?=
- =?us-ascii?Q?UZ8bMStC6HIAMDCAz3xEUCMIkXArast7d3TSXlNAIn9aeR3vuLCYZqJxqKvw?=
- =?us-ascii?Q?VzK/08h+wTbiRjZNXrTTP2jRxgPu6PkrRHAc9teiekBuqoEgSG5G9qjzAnKx?=
- =?us-ascii?Q?onBoGip+2ntByTVwUkCTIWANNDNI2CqcjXzDGbr/tUgbfST4mUTD685N2B/5?=
- =?us-ascii?Q?9JJKlcktaQ8R7PGemcoqK2EA8aWC4v6akQG9+kXAvgezOqGAHJwCwIGt0X7a?=
- =?us-ascii?Q?xjwcbY59ycgckWSJpdSmgGxFUV3SGA2oLPRZnCM3r1vohdnTI1sNZe/RE2If?=
- =?us-ascii?Q?+YXzDII0ksY0U18vYkOLIyY9wjOQ4S+niz6jav/zdk1sDWhb0kIC6hFTdgxc?=
- =?us-ascii?Q?7AKWyVZOyk/1tGxbTlp5PYVVFLFxVwxrE4lzxuk3DHX1RHWV0rXWPNjAT8CV?=
- =?us-ascii?Q?9e4GlBeiBOSRZCTMmL/fpl8xAlv5RnqTxI122Awe4Q1dSNDJYrcWPe1K3RsH?=
- =?us-ascii?Q?Ri+ML1K1U6yHp1c7QoW715LMcp05k0x/G1gDyF0+1Lm5WOvE1fXXB5f+SKtK?=
- =?us-ascii?Q?pD3dM7RMtNMXpM9jZ/tXRurY8qK2sY2XbZGkl8CQfDcqAmOWBJq+N3jqO5Ot?=
- =?us-ascii?Q?9jAZ4ZPbw272E23+JI4w7h0sRo0ZfyDmMYcT6c8+5YZ8I4/NFp2aUP00EGkm?=
- =?us-ascii?Q?hwFlr+IlyaJPudZcbY2bRx7Fam0Sia+BFrCMIAa193NULiu/fNoB7iN6vW+E?=
- =?us-ascii?Q?qUcQGPyIlgTbfIr4BjC54mERpN6ZFwgwEcuXPlpciTkwD3GzJvM616q8wlIU?=
- =?us-ascii?Q?nwaNKa9R8YPDjJdRUneefT6KG3VDm0F31smh1ZzwMgHyyC9zRsVPyxaPKJVE?=
- =?us-ascii?Q?TDGiz7oVuk/uiv2w0OrBSNaikZ08WXNIbGULpWH1?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbe6a3f4-3e45-4859-eb71-08dce3bfb313
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 15:26:06.5385
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xySkyS/2Jyz5NHqePzIuSj68J9a/nbQ/o8tRDH5dYgTDTbCnidJilfYPXervSClq9RSgeSFVOvFyjm9FD8Egog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7203
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Oct 01, 2024 at 03:17:12PM -0700, SeongJae Park wrote:
-> From: sj@kernel.org
-> 
-> 
-> Hi Robot,
-> 
-> On Wed, 2 Oct 2024 02:09:06 +0800 kernel test robot <lkp@intel.com> wrote:
-> 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
-> > commit: 11ddcfc257a3e8d7b13b42148ee7e783f4876da4 mm/damon/reclaim: use damon_commit_ctx()
-> > date:   3 months ago
-> > config: x86_64-randconfig-001-20231120 (https://download.01.org/0day-ci/archive/20241002/202410020227.oOh0SBIj-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020227.oOh0SBIj-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202410020227.oOh0SBIj-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> [...]
->     mm/damon/reclaim.c:247:15: error: implicit declaration of function 'damon_set_region_biggest_system_ram_default' [-Werror=implicit-function-declaration]
-> >      247 |         err = damon_set_region_biggest_system_ram_default(param_target,
-> >          |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >> mm/damon/reclaim.c:252:15: error: implicit declaration of function 'damon_commit_ctx' [-Werror=implicit-function-declaration]
-> >      252 |         err = damon_commit_ctx(ctx, param_ctx);
-> >          |               ^~~~~~~~~~~~~~~~
-> > >> mm/damon/reclaim.c:254:9: error: implicit declaration of function 'damon_destroy_ctx'; did you mean 'mm_destroy_cid'? [-Werror=implicit-function-declaration]
-> >      254 |         damon_destroy_ctx(param_ctx);
-> >          |         ^~~~~~~~~~~~~~~~~
-> >          |         mm_destroy_cid
-> >    mm/damon/reclaim.c: In function 'damon_reclaim_turn':
-> >    mm/damon/reclaim.c:263:23: error: implicit declaration of function 'damon_stop' [-Werror=implicit-function-declaration]
-> >      263 |                 err = damon_stop(&ctx, 1);
-> >          |                       ^~~~~~~~~~
-> >    mm/damon/reclaim.c:273:15: error: implicit declaration of function 'damon_start' [-Werror=implicit-function-declaration]
-> >      273 |         err = damon_start(&ctx, 1, true);
-> >          |               ^~~~~~~~~~~
-> >    cc1: some warnings being treated as errors
-> 
-> Thank you for reporting.  I tried to reproduce the issue following the kind
-> reproducer, but I was unable to get the error.  Maybe something in testing
-> setup is wrong?  Please let me know if I'm missing something.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-fixes
+head:   138e9fb0a2ea3886803ba42efac5eb869d944f31
+commit: 138e9fb0a2ea3886803ba42efac5eb869d944f31 [11/11] netfs: Change the read result collector to only use one work item
+config: x86_64-randconfig-161-20241003 (https://download.01.org/0day-ci/archive/20241003/202410032352.BxEbajrr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-Sorry SJ about the false report, kindly ignore this. The bot side will look
-into the detail to resolve the issue asap.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410032352.BxEbajrr-lkp@intel.com/
 
-> 
->     $ make W=1 O=../linux.out.kbuild/ ARCH=x86_64 SHELL=/bin/bash drivers/iio/accel/ drivers/iio/chemical/ drivers/iio/dac/ drivers/input/touchscreen/ drivers/mfd/ drivers/usb/host/ mm/damon/
->     [...]
->       CC      mm/damon/sysfs.o
->       CC      mm/damon/modules-common.o
->       CC      mm/damon/reclaim.o
->       CC      mm/damon/lru_sort.o
->       AR      mm/damon/built-in.a
->     [...]
-> 
-> 
-> Thanks,
-> SJ
-> 
-> [...]
-> 
+New smatch warnings:
+fs/netfs/read_retry.c:235 netfs_retry_read_subrequests() error: uninitialized symbol 'subreq'.
+
+Old smatch warnings:
+fs/netfs/read_retry.c:131 netfs_retry_read_subrequests() error: we previously assumed 'rreq->netfs_ops->prepare_read' could be null (see line 43)
+
+vim +/subreq +235 fs/netfs/read_retry.c
+
+ee4cdf7ba857a8 David Howells 2024-07-02   26  static void netfs_retry_read_subrequests(struct netfs_io_request *rreq)
+ee4cdf7ba857a8 David Howells 2024-07-02   27  {
+ee4cdf7ba857a8 David Howells 2024-07-02   28  	struct netfs_io_subrequest *subreq;
+
+subreq is here.
+
+138e9fb0a2ea38 David Howells 2024-09-25   29  	struct netfs_io_stream *stream = &rreq->io_streams[0];
+138e9fb0a2ea38 David Howells 2024-09-25   30  	struct list_head *next;
+ee4cdf7ba857a8 David Howells 2024-07-02   31  
+ee4cdf7ba857a8 David Howells 2024-07-02   32  	_enter("R=%x", rreq->debug_id);
+ee4cdf7ba857a8 David Howells 2024-07-02   33  
+138e9fb0a2ea38 David Howells 2024-09-25   34  	if (list_empty(&stream->subrequests))
+ee4cdf7ba857a8 David Howells 2024-07-02   35  		return;
+ee4cdf7ba857a8 David Howells 2024-07-02   36  
+ee4cdf7ba857a8 David Howells 2024-07-02   37  	if (rreq->netfs_ops->retry_request)
+ee4cdf7ba857a8 David Howells 2024-07-02   38  		rreq->netfs_ops->retry_request(rreq, NULL);
+ee4cdf7ba857a8 David Howells 2024-07-02   39  
+ee4cdf7ba857a8 David Howells 2024-07-02   40  	/* If there's no renegotiation to do, just resend each retryable subreq
+ee4cdf7ba857a8 David Howells 2024-07-02   41  	 * up to the first permanently failed one.
+ee4cdf7ba857a8 David Howells 2024-07-02   42  	 */
+ee4cdf7ba857a8 David Howells 2024-07-02   43  	if (!rreq->netfs_ops->prepare_read &&
+ee4cdf7ba857a8 David Howells 2024-07-02   44  	    !test_bit(NETFS_RREQ_COPY_TO_CACHE, &rreq->flags)) {
+ee4cdf7ba857a8 David Howells 2024-07-02   45  		struct netfs_io_subrequest *subreq;
+
+Redeclaring subreq makes me nervous.  There is a Sparse warning for this as well.
+
+ee4cdf7ba857a8 David Howells 2024-07-02   46  
+138e9fb0a2ea38 David Howells 2024-09-25   47  		list_for_each_entry(subreq, &stream->subrequests, rreq_link) {
+ee4cdf7ba857a8 David Howells 2024-07-02   48  			if (test_bit(NETFS_SREQ_FAILED, &subreq->flags))
+ee4cdf7ba857a8 David Howells 2024-07-02   49  				break;
+ee4cdf7ba857a8 David Howells 2024-07-02   50  			if (__test_and_clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags)) {
+ee4cdf7ba857a8 David Howells 2024-07-02   51  				netfs_reset_iter(subreq);
+ee4cdf7ba857a8 David Howells 2024-07-02   52  				netfs_reissue_read(rreq, subreq);
+ee4cdf7ba857a8 David Howells 2024-07-02   53  			}
+ee4cdf7ba857a8 David Howells 2024-07-02   54  		}
+ee4cdf7ba857a8 David Howells 2024-07-02   55  		return;
+ee4cdf7ba857a8 David Howells 2024-07-02   56  	}
+ee4cdf7ba857a8 David Howells 2024-07-02   57  
+ee4cdf7ba857a8 David Howells 2024-07-02   58  	/* Okay, we need to renegotiate all the download requests and flip any
+ee4cdf7ba857a8 David Howells 2024-07-02   59  	 * failed cache reads over to being download requests and negotiate
+ee4cdf7ba857a8 David Howells 2024-07-02   60  	 * those also.  All fully successful subreqs have been removed from the
+ee4cdf7ba857a8 David Howells 2024-07-02   61  	 * list and any spare data from those has been donated.
+ee4cdf7ba857a8 David Howells 2024-07-02   62  	 *
+ee4cdf7ba857a8 David Howells 2024-07-02   63  	 * What we do is decant the list and rebuild it one subreq at a time so
+ee4cdf7ba857a8 David Howells 2024-07-02   64  	 * that we don't end up with donations jumping over a gap we're busy
+ee4cdf7ba857a8 David Howells 2024-07-02   65  	 * populating with smaller subrequests.  In the event that the subreq
+ee4cdf7ba857a8 David Howells 2024-07-02   66  	 * we just launched finishes before we insert the next subreq, it'll
+ee4cdf7ba857a8 David Howells 2024-07-02   67  	 * fill in rreq->prev_donated instead.
+138e9fb0a2ea38 David Howells 2024-09-25   68  	 *
+ee4cdf7ba857a8 David Howells 2024-07-02   69  	 * Note: Alternatively, we could split the tail subrequest right before
+ee4cdf7ba857a8 David Howells 2024-07-02   70  	 * we reissue it and fix up the donations under lock.
+ee4cdf7ba857a8 David Howells 2024-07-02   71  	 */
+138e9fb0a2ea38 David Howells 2024-09-25   72  	next = stream->subrequests.next;
+ee4cdf7ba857a8 David Howells 2024-07-02   73  
+ee4cdf7ba857a8 David Howells 2024-07-02   74  	do {
+138e9fb0a2ea38 David Howells 2024-09-25   75  		struct netfs_io_subrequest *subreq = NULL, *from, *to, *tmp;
+
+Redeclared again.  I think this one is a problem.
+
+ee4cdf7ba857a8 David Howells 2024-07-02   76  		struct iov_iter source;
+ee4cdf7ba857a8 David Howells 2024-07-02   77  		unsigned long long start, len;
+138e9fb0a2ea38 David Howells 2024-09-25   78  		size_t part;
+ee4cdf7ba857a8 David Howells 2024-07-02   79  		bool boundary = false;
+ee4cdf7ba857a8 David Howells 2024-07-02   80  
+ee4cdf7ba857a8 David Howells 2024-07-02   81  		/* Go through the subreqs and find the next span of contiguous
+ee4cdf7ba857a8 David Howells 2024-07-02   82  		 * buffer that we then rejig (cifs, for example, needs the
+ee4cdf7ba857a8 David Howells 2024-07-02   83  		 * rsize renegotiating) and reissue.
+ee4cdf7ba857a8 David Howells 2024-07-02   84  		 */
+138e9fb0a2ea38 David Howells 2024-09-25   85  		from = list_entry(next, struct netfs_io_subrequest, rreq_link);
+138e9fb0a2ea38 David Howells 2024-09-25   86  		to = from;
+ee4cdf7ba857a8 David Howells 2024-07-02   87  		start = from->start + from->transferred;
+ee4cdf7ba857a8 David Howells 2024-07-02   88  		len   = from->len   - from->transferred;
+ee4cdf7ba857a8 David Howells 2024-07-02   89  
+138e9fb0a2ea38 David Howells 2024-09-25   90  		_debug("from R=%08x[%x] s=%llx ctl=%zx/%zx",
+ee4cdf7ba857a8 David Howells 2024-07-02   91  		       rreq->debug_id, from->debug_index,
+138e9fb0a2ea38 David Howells 2024-09-25   92  		       from->start, from->transferred, from->len);
+ee4cdf7ba857a8 David Howells 2024-07-02   93  
+ee4cdf7ba857a8 David Howells 2024-07-02   94  		if (test_bit(NETFS_SREQ_FAILED, &from->flags) ||
+ee4cdf7ba857a8 David Howells 2024-07-02   95  		    !test_bit(NETFS_SREQ_NEED_RETRY, &from->flags))
+ee4cdf7ba857a8 David Howells 2024-07-02   96  			goto abandon;
+ee4cdf7ba857a8 David Howells 2024-07-02   97  
+138e9fb0a2ea38 David Howells 2024-09-25   98  		list_for_each_continue(next, &stream->subrequests) {
+138e9fb0a2ea38 David Howells 2024-09-25   99  			subreq = list_entry(next, struct netfs_io_subrequest, rreq_link);
+138e9fb0a2ea38 David Howells 2024-09-25  100  			if (subreq->start + subreq->transferred != start + len ||
+138e9fb0a2ea38 David Howells 2024-09-25  101  			    test_bit(NETFS_SREQ_BOUNDARY, &subreq->flags) ||
+ee4cdf7ba857a8 David Howells 2024-07-02  102  			    !test_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags))
+ee4cdf7ba857a8 David Howells 2024-07-02  103  				break;
+138e9fb0a2ea38 David Howells 2024-09-25  104  			to = subreq;
+138e9fb0a2ea38 David Howells 2024-09-25  105  			len += to->len;
+ee4cdf7ba857a8 David Howells 2024-07-02  106  		}
+ee4cdf7ba857a8 David Howells 2024-07-02  107  
+ee4cdf7ba857a8 David Howells 2024-07-02  108  		_debug(" - range: %llx-%llx %llx", start, start + len - 1, len);
+ee4cdf7ba857a8 David Howells 2024-07-02  109  
+ee4cdf7ba857a8 David Howells 2024-07-02  110  		/* Determine the set of buffers we're going to use.  Each
+ee4cdf7ba857a8 David Howells 2024-07-02  111  		 * subreq gets a subset of a single overall contiguous buffer.
+ee4cdf7ba857a8 David Howells 2024-07-02  112  		 */
+ee4cdf7ba857a8 David Howells 2024-07-02  113  		netfs_reset_iter(from);
+ee4cdf7ba857a8 David Howells 2024-07-02  114  		source = from->io_iter;
+ee4cdf7ba857a8 David Howells 2024-07-02  115  		source.count = len;
+ee4cdf7ba857a8 David Howells 2024-07-02  116  
+ee4cdf7ba857a8 David Howells 2024-07-02  117  		/* Work through the sublist. */
+138e9fb0a2ea38 David Howells 2024-09-25  118  		subreq = from;
+138e9fb0a2ea38 David Howells 2024-09-25  119  		list_for_each_entry_from(subreq, &stream->subrequests, rreq_link) {
+138e9fb0a2ea38 David Howells 2024-09-25  120  			if (!len)
+138e9fb0a2ea38 David Howells 2024-09-25  121  				break;
+ee4cdf7ba857a8 David Howells 2024-07-02  122  			subreq->source	= NETFS_DOWNLOAD_FROM_SERVER;
+ee4cdf7ba857a8 David Howells 2024-07-02  123  			subreq->start	= start - subreq->transferred;
+ee4cdf7ba857a8 David Howells 2024-07-02  124  			subreq->len	= len   + subreq->transferred;
+ee4cdf7ba857a8 David Howells 2024-07-02  125  			__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
+ee4cdf7ba857a8 David Howells 2024-07-02  126  			__set_bit(NETFS_SREQ_RETRYING, &subreq->flags);
+ee4cdf7ba857a8 David Howells 2024-07-02  127  			trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
+ee4cdf7ba857a8 David Howells 2024-07-02  128  
+ee4cdf7ba857a8 David Howells 2024-07-02  129  			/* Renegotiate max_len (rsize) */
+138e9fb0a2ea38 David Howells 2024-09-25  130  			stream->sreq_max_len = subreq->len;
+ee4cdf7ba857a8 David Howells 2024-07-02  131  			if (rreq->netfs_ops->prepare_read(subreq) < 0) {
+ee4cdf7ba857a8 David Howells 2024-07-02  132  				trace_netfs_sreq(subreq, netfs_sreq_trace_reprep_failed);
+ee4cdf7ba857a8 David Howells 2024-07-02  133  				__set_bit(NETFS_SREQ_FAILED, &subreq->flags);
+138e9fb0a2ea38 David Howells 2024-09-25  134  				goto abandon;
+ee4cdf7ba857a8 David Howells 2024-07-02  135  			}
+ee4cdf7ba857a8 David Howells 2024-07-02  136  
+138e9fb0a2ea38 David Howells 2024-09-25  137  			part = umin(len, stream->sreq_max_len);
+138e9fb0a2ea38 David Howells 2024-09-25  138  			if (unlikely(stream->sreq_max_segs))
+138e9fb0a2ea38 David Howells 2024-09-25  139  				part = netfs_limit_iter(&source, 0, part, stream->sreq_max_segs);
+ee4cdf7ba857a8 David Howells 2024-07-02  140  			subreq->len = subreq->transferred + part;
+ee4cdf7ba857a8 David Howells 2024-07-02  141  			subreq->io_iter = source;
+ee4cdf7ba857a8 David Howells 2024-07-02  142  			iov_iter_truncate(&subreq->io_iter, part);
+ee4cdf7ba857a8 David Howells 2024-07-02  143  			iov_iter_advance(&source, part);
+ee4cdf7ba857a8 David Howells 2024-07-02  144  			len -= part;
+ee4cdf7ba857a8 David Howells 2024-07-02  145  			start += part;
+ee4cdf7ba857a8 David Howells 2024-07-02  146  			if (!len) {
+ee4cdf7ba857a8 David Howells 2024-07-02  147  				if (boundary)
+ee4cdf7ba857a8 David Howells 2024-07-02  148  					__set_bit(NETFS_SREQ_BOUNDARY, &subreq->flags);
+ee4cdf7ba857a8 David Howells 2024-07-02  149  			} else {
+ee4cdf7ba857a8 David Howells 2024-07-02  150  				__clear_bit(NETFS_SREQ_BOUNDARY, &subreq->flags);
+ee4cdf7ba857a8 David Howells 2024-07-02  151  			}
+ee4cdf7ba857a8 David Howells 2024-07-02  152  
+138e9fb0a2ea38 David Howells 2024-09-25  153  			netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
+ee4cdf7ba857a8 David Howells 2024-07-02  154  			netfs_reissue_read(rreq, subreq);
+138e9fb0a2ea38 David Howells 2024-09-25  155  			if (subreq == to)
+ee4cdf7ba857a8 David Howells 2024-07-02  156  				break;
+ee4cdf7ba857a8 David Howells 2024-07-02  157  		}
+ee4cdf7ba857a8 David Howells 2024-07-02  158  
+ee4cdf7ba857a8 David Howells 2024-07-02  159  		/* If we managed to use fewer subreqs, we can discard the
+138e9fb0a2ea38 David Howells 2024-09-25  160  		 * excess; if we used the same number, then we're done.
+ee4cdf7ba857a8 David Howells 2024-07-02  161  		 */
+138e9fb0a2ea38 David Howells 2024-09-25  162  		if (!len) {
+138e9fb0a2ea38 David Howells 2024-09-25  163  			if (subreq == to)
+138e9fb0a2ea38 David Howells 2024-09-25  164  				continue;
+138e9fb0a2ea38 David Howells 2024-09-25  165  			list_for_each_entry_safe_from(subreq, tmp,
+138e9fb0a2ea38 David Howells 2024-09-25  166  						      &stream->subrequests, rreq_link) {
+ee4cdf7ba857a8 David Howells 2024-07-02  167  				trace_netfs_sreq(subreq, netfs_sreq_trace_discard);
+ee4cdf7ba857a8 David Howells 2024-07-02  168  				list_del(&subreq->rreq_link);
+ee4cdf7ba857a8 David Howells 2024-07-02  169  				netfs_put_subrequest(subreq, false, netfs_sreq_trace_put_done);
+138e9fb0a2ea38 David Howells 2024-09-25  170  				if (subreq == to)
+138e9fb0a2ea38 David Howells 2024-09-25  171  					break;
+138e9fb0a2ea38 David Howells 2024-09-25  172  			}
+138e9fb0a2ea38 David Howells 2024-09-25  173  			continue;
+138e9fb0a2ea38 David Howells 2024-09-25  174  		}
+138e9fb0a2ea38 David Howells 2024-09-25  175  
+138e9fb0a2ea38 David Howells 2024-09-25  176  		/* We ran out of subrequests, so we need to allocate some more
+138e9fb0a2ea38 David Howells 2024-09-25  177  		 * and insert them after.
+138e9fb0a2ea38 David Howells 2024-09-25  178  		 */
+138e9fb0a2ea38 David Howells 2024-09-25  179  		do {
+138e9fb0a2ea38 David Howells 2024-09-25  180  			subreq = netfs_alloc_subrequest(rreq);
+138e9fb0a2ea38 David Howells 2024-09-25  181  			if (!subreq) {
+138e9fb0a2ea38 David Howells 2024-09-25  182  				subreq = to;
+138e9fb0a2ea38 David Howells 2024-09-25  183  				goto abandon_after;
+138e9fb0a2ea38 David Howells 2024-09-25  184  			}
+138e9fb0a2ea38 David Howells 2024-09-25  185  			subreq->source		= NETFS_DOWNLOAD_FROM_SERVER;
+138e9fb0a2ea38 David Howells 2024-09-25  186  			subreq->start		= start;
+138e9fb0a2ea38 David Howells 2024-09-25  187  			subreq->len		= len;
+138e9fb0a2ea38 David Howells 2024-09-25  188  			subreq->debug_index	= atomic_inc_return(&rreq->subreq_counter);
+138e9fb0a2ea38 David Howells 2024-09-25  189  			subreq->stream_nr	= stream->stream_nr;
+138e9fb0a2ea38 David Howells 2024-09-25  190  			__set_bit(NETFS_SREQ_RETRYING, &subreq->flags);
+138e9fb0a2ea38 David Howells 2024-09-25  191  
+138e9fb0a2ea38 David Howells 2024-09-25  192  			trace_netfs_sreq_ref(rreq->debug_id, subreq->debug_index,
+138e9fb0a2ea38 David Howells 2024-09-25  193  					     refcount_read(&subreq->ref),
+138e9fb0a2ea38 David Howells 2024-09-25  194  					     netfs_sreq_trace_new);
+138e9fb0a2ea38 David Howells 2024-09-25  195  			netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
+138e9fb0a2ea38 David Howells 2024-09-25  196  
+138e9fb0a2ea38 David Howells 2024-09-25  197  			list_add(&subreq->rreq_link, &to->rreq_link);
+138e9fb0a2ea38 David Howells 2024-09-25  198  			to = list_next_entry(to, rreq_link);
+138e9fb0a2ea38 David Howells 2024-09-25  199  			trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
+138e9fb0a2ea38 David Howells 2024-09-25  200  
+138e9fb0a2ea38 David Howells 2024-09-25  201  			stream->sreq_max_len	= umin(len, rreq->rsize);
+138e9fb0a2ea38 David Howells 2024-09-25  202  			stream->sreq_max_segs	= 0;
+138e9fb0a2ea38 David Howells 2024-09-25  203  			if (unlikely(stream->sreq_max_segs))
+138e9fb0a2ea38 David Howells 2024-09-25  204  				part = netfs_limit_iter(&source, 0, part, stream->sreq_max_segs);
+138e9fb0a2ea38 David Howells 2024-09-25  205  
+138e9fb0a2ea38 David Howells 2024-09-25  206  			netfs_stat(&netfs_n_rh_download);
+138e9fb0a2ea38 David Howells 2024-09-25  207  			if (rreq->netfs_ops->prepare_read(subreq) < 0) {
+138e9fb0a2ea38 David Howells 2024-09-25  208  				trace_netfs_sreq(subreq, netfs_sreq_trace_reprep_failed);
+138e9fb0a2ea38 David Howells 2024-09-25  209  				__set_bit(NETFS_SREQ_FAILED, &subreq->flags);
+138e9fb0a2ea38 David Howells 2024-09-25  210  				goto abandon;
+ee4cdf7ba857a8 David Howells 2024-07-02  211  			}
+ee4cdf7ba857a8 David Howells 2024-07-02  212  
+138e9fb0a2ea38 David Howells 2024-09-25  213  			part = umin(len, stream->sreq_max_len);
+138e9fb0a2ea38 David Howells 2024-09-25  214  			subreq->len = subreq->transferred + part;
+138e9fb0a2ea38 David Howells 2024-09-25  215  			subreq->io_iter = source;
+138e9fb0a2ea38 David Howells 2024-09-25  216  			iov_iter_truncate(&subreq->io_iter, part);
+138e9fb0a2ea38 David Howells 2024-09-25  217  			iov_iter_advance(&source, part);
+138e9fb0a2ea38 David Howells 2024-09-25  218  
+138e9fb0a2ea38 David Howells 2024-09-25  219  			len -= part;
+138e9fb0a2ea38 David Howells 2024-09-25  220  			start += part;
+138e9fb0a2ea38 David Howells 2024-09-25  221  			if (!len && boundary) {
+138e9fb0a2ea38 David Howells 2024-09-25  222  				__set_bit(NETFS_SREQ_BOUNDARY, &to->flags);
+138e9fb0a2ea38 David Howells 2024-09-25  223  				boundary = false;
+138e9fb0a2ea38 David Howells 2024-09-25  224  			}
+138e9fb0a2ea38 David Howells 2024-09-25  225  
+138e9fb0a2ea38 David Howells 2024-09-25  226  			netfs_reissue_read(rreq, subreq);
+138e9fb0a2ea38 David Howells 2024-09-25  227  		} while (len);
+138e9fb0a2ea38 David Howells 2024-09-25  228  
+138e9fb0a2ea38 David Howells 2024-09-25  229  	} while (!list_is_head(next, &stream->subrequests));
+ee4cdf7ba857a8 David Howells 2024-07-02  230  
+ee4cdf7ba857a8 David Howells 2024-07-02  231  	return;
+ee4cdf7ba857a8 David Howells 2024-07-02  232  
+138e9fb0a2ea38 David Howells 2024-09-25  233  	/* If we hit an error, fail all remaining incomplete subrequests */
+138e9fb0a2ea38 David Howells 2024-09-25  234  abandon_after:
+138e9fb0a2ea38 David Howells 2024-09-25 @235  	if (list_is_last(&subreq->rreq_link, &stream->subrequests))
+                                                                  ^^^^^^
+Warning
+
+138e9fb0a2ea38 David Howells 2024-09-25  236  		return;
+138e9fb0a2ea38 David Howells 2024-09-25  237  	subreq = list_next_entry(subreq, rreq_link);
+ee4cdf7ba857a8 David Howells 2024-07-02  238  abandon:
+138e9fb0a2ea38 David Howells 2024-09-25  239  	list_for_each_entry_from(subreq, &stream->subrequests, rreq_link) {
+138e9fb0a2ea38 David Howells 2024-09-25  240  		if (!subreq->error &&
+138e9fb0a2ea38 David Howells 2024-09-25  241  		    !test_bit(NETFS_SREQ_FAILED, &subreq->flags) &&
+138e9fb0a2ea38 David Howells 2024-09-25  242  		    !test_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags))
+138e9fb0a2ea38 David Howells 2024-09-25  243  			continue;
+ee4cdf7ba857a8 David Howells 2024-07-02  244  		subreq->error = -ENOMEM;
+138e9fb0a2ea38 David Howells 2024-09-25  245  		__set_bit(NETFS_SREQ_FAILED, &subreq->flags);
+ee4cdf7ba857a8 David Howells 2024-07-02  246  		__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
+ee4cdf7ba857a8 David Howells 2024-07-02  247  		__clear_bit(NETFS_SREQ_RETRYING, &subreq->flags);
+ee4cdf7ba857a8 David Howells 2024-07-02  248  	}
+ee4cdf7ba857a8 David Howells 2024-07-02  249  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
