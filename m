@@ -1,96 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568F819F134
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 15:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288A71A08A9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 15:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727968453; cv=fail; b=bnOgK5QxzvY9iljBLTdhfnKJiy+2zWQHid3nui7E1j4lowb/ac2iDgJvyR06Ly945cKCrMKnTnnXeIYNivWn9OvisrLUqpG1Ton4He8skIq8tM1e8aLh66JzExcN+TPRb6ESVxmTr0epj+edFQABY8ZL0gqkpsga1ElMvepQu1Q=
+	t=1727969172; cv=fail; b=YtJaVhN/PylRuFyYrnohhIOtBj3sh/qOdJjnmCuuVaAsnTWSKvlFNfgHVQndkF+PaK7yHRukzDu6REvizrXkPILyUJPCE5u2L5M/mupYgNvXmcGQQEHzQ/V5ka0fGOt5SeaI8LACGT9SaMbUc1bUAZGCnuIbN49w0qfidNts1RA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727968453; c=relaxed/simple;
-	bh=UQycPe+2wpMsF+fUHJYM+SG8ep5i+FAMIahBNzdv66s=;
+	s=arc-20240116; t=1727969172; c=relaxed/simple;
+	bh=txKkfyQBrh6fWZdwsibUWfgcgWQMSyWzTYtNbkVH9Ao=;
 	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=mE3hDovCtdp/sUPVHGwRZ8OTmWRXSZox56IsRUIykIn7gOUb6jMVwRpwTur0dN6xqwoIMjfHU9T6EO4YxwJKcP9r0FOotxNL0AOMprAlSs6X78KBzSUNDLuXEVSz6A7rpRUYjwdgSDnsdQzet+AVxDKRuSjJs3c+HpUqgdH6Jt4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DvwDHnj/; arc=fail smtp.client-ip=198.175.65.15
+	 Content-Disposition:In-Reply-To:MIME-Version; b=dxVWIMmmtZi5Hv2ZLl7RChTGeUv+P3+qW27DLJzR7kuHJ7mjo6cEtznx0aIf2BoT7GHBSaQN+YImyL88m+2hOWX76Y0fpH6Zm0ig7Z0woJktYEmyTb64IKdNyYq05A5JO6UHGoknd6KC+nawn21Hvzq6pMDLGx5+xlXQ/wSC3j4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDR4M3YY; arc=fail smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvwDHnj/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDR4M3YY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727968451; x=1759504451;
+  t=1727969171; x=1759505171;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=UQycPe+2wpMsF+fUHJYM+SG8ep5i+FAMIahBNzdv66s=;
-  b=DvwDHnj/ESTVxIdiGrxIEd2gA7h6bW3goxjeppXxed8+Baer9YHxS1La
-   LMYmjNzut4jFvRNoTLhmxTBxeo/Ugv5/5w/1+PWZTLEBnB6VIIIqJmWL4
-   t2d17dYOgAQi+jd+DvI1YgsgZejcwMYg1oi78B6aZwf6wikuFti0n4PjZ
-   64MeW5jI+bXuPTE27t4cEdiWRiXQcJyv7M9h1OHCEtQaONZR7NqNeRE/A
-   N0fNVt4HF9LV9NtqMH81t7rN4Wdd9qwhonmhzRuktTYbogWWEm9w/zYcI
-   WpHPEelDFOVQJnH8TQBORmV6pTq1QUbVbpUnCVjqscTV/Ig5riL+UmMDb
-   Q==;
-X-CSE-ConnectionGUID: 8F0/fxi6QbOFHf8QEKESaQ==
-X-CSE-MsgGUID: 5Uq1fCmgSp+aKWYEdHzV7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="30876361"
+  bh=txKkfyQBrh6fWZdwsibUWfgcgWQMSyWzTYtNbkVH9Ao=;
+  b=cDR4M3YYFPReCAvYCS86j3ZQT3P54hfZJfnG+JBhywotu/0lf9SDjBdH
+   1YQZSHvE4qdMrnQZaAqeDpDITtE/ajk6zrVCFpJx1GS/QGoiMFbd2psFd
+   j4P13QwxfkB3K+r57ZbC/UeItN9YzsldwNIqxSzKvxERcpPNZM6hXrrMI
+   J4JuX3gIGq9kXc1KFEx4URr72FvgyTEubBzJ/sl25jWZjG+LnZggQUkly
+   Ll68qEGmJ2C/W7SKXhf3B5uU/mh0VgqkfYDItZs34mkW+F4n+vWmbsOQn
+   /bIN+7MSO6Mvlj+iVubSBRiyc+mzKFPb5kWNvtB+siQdQwYJ3G750yELj
+   g==;
+X-CSE-ConnectionGUID: stbrEKVIRJ6NDj2T5276qA==
+X-CSE-MsgGUID: lcQyQhQwRdiSuRMdqCAsUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="30046417"
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="30876361"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:13:48 -0700
-X-CSE-ConnectionGUID: sQGFj5dcTpSkre0FrIvJWw==
-X-CSE-MsgGUID: VC/nbqptQNCixRXIBA++EQ==
+   d="scan'208";a="30046417"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:26:10 -0700
+X-CSE-ConnectionGUID: fqDlTMurQE2ujnIqpfO3ag==
+X-CSE-MsgGUID: INRwp+eoSwe6ryZklJBlTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="74625654"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Oct 2024 08:13:46 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+   d="scan'208";a="78797052"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Oct 2024 08:26:10 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 3 Oct 2024 08:13:43 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.1.2507.39; Thu, 3 Oct 2024 08:26:10 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 3 Oct 2024 08:13:43 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.39; Thu, 3 Oct 2024 08:26:09 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 3 Oct 2024 08:26:09 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 3 Oct 2024 08:26:09 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 3 Oct 2024 08:13:43 -0700
+ 15.1.2507.39; Thu, 3 Oct 2024 08:26:09 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fdFRQBXb/q2voOzM+cECtzWdkDN8B0X3pnMOai0zgiwobDCG6GCqeiUkJnRNTr7OLB761m1V2Qt6w/p9sAL05hlLX0djQOy/xFfAMXEooa25+kyghDeSNuL2i1Ye0LLoaby+aHUBRgqzBcQa+vJh46aGK9XYUeQvqTo0WpwQrAU8BOM1GSrbgrCnkuNhhoO32XmBzPd/uVmqlCDNudz1eO10cr+r49J0u1DjTIbdfSOwPCsVOgmjwoHwme5sBQ1+Cy7o/muwyGlq3MTVyZTjdUZZSCspiZxfRxKn1Gtpzw+4mhDhhoylLJRt0DxlNHM9MIjT/hWmNCt9scH5RoZl0w==
+ b=SpfoKDjhsp8T6YwyX4Fmf+Xlit9JtPpXTI/S1Rbm/P8xY86HwyTYV3/XTNWAWdIxUzdSRskchuA9IQzUzoPPYsn75EIdr6Ukra3y4q2TmgkYDi+d+QL0aPpu/MW2P8dUemPrW5c7U0Th2g5Dtb3rOkO66lLVXT05nIvUiJ4O6zKpz8SIjfUsUv+vD4Ih8yivX4KbsByWIJf/rOPW8MaCCxxW7J810TDpiIIIv9fCxfoRbOPu7803RzwtboBe+lkFQYa3Jpn6dpaWLbq8IKPKUhdkN+VLJg/YstkLnjR7/DTuE/Vopyl6nGRaesaBC1VFo7+tfoxd6i10+ZeXA6Fp9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u99LyapZPIvWEUzVqVU1XEAzCxv/x1i+h0iApY49uUs=;
- b=WhTh3iVv1dzNncOhfQXvjVkcSKpixZDMhITYjHF8+9HXtssn8nWtexAhM59DuETGObNf7158AEs3l07YUBXhGz567jI4JJRqfuRO8S/OZkXhBDE6IvJs7GFphC9VYrqkIWXnGi19XLGhXkr2VPVOmZBNC/AxuIlj7cNOO4oomTHdqQOmVt0NumLJHdqGzBnyVkQB8QARwTerWg9U++E36Z/ttsFNpZ8+rjtzjIbBg07I0OH9EWEQEbRvXTCD3GinU4eBJaJtqh0E1oumIMWnQzxKHSH3gdhzV5xjfK003DL+AttOjzk7ThrDXDgoj70y2D4hpr/GvowoyL2+JMtvdQ==
+ bh=G9xG4aVYvGFtEnATqSFKtejO27CeDxaY4BaZujapS4g=;
+ b=CPLREanR8+IdRk3SYqnNfzgaR1jmNuo7/niVFHx4YbK6xoxoHD6efOFpUuAFFM9hbbLzY+J6D0rVsJiMiu6bx9Mh9PFrdgUCVcoTTPAfy5mkpeP9CAMk7XBQLODfXXuh69RrpSD47oy8SuLhXuoxXtWYDs+V1CnEVuagf0kzMCpZzgoMpOBBnZ5mzxpVEpaB2F70hyYG8lZTM9ZD2d9z8Vn847+F6ctnU4aP7xalP6qHk1Jwq3HWcp7YL7NI1mkhrpdKlNV2EJOqkPMZra5aS4jPjyaBf/DEDbxIonuaQICqjJOdFQLblashMQr3m8gHGAii0OyXcL34EknyhchPpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by IA1PR11MB8804.namprd11.prod.outlook.com (2603:10b6:208:597::7) with
+ by CH3PR11MB7203.namprd11.prod.outlook.com (2603:10b6:610:148::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
- 2024 15:13:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18; Thu, 3 Oct
+ 2024 15:26:06 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.8026.016; Thu, 3 Oct 2024
- 15:13:35 +0000
-Date: Thu, 3 Oct 2024 23:13:27 +0800
+ 15:26:06 +0000
+Date: Thu, 3 Oct 2024 23:25:58 +0800
 From: Philip Li <philip.li@intel.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+To: SeongJae Park <sj@kernel.org>
 CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Jonathan Cameron
-	<Jonathan.Cameron@huawei.com>
-Subject: Re: drivers/iio/accel/adxl367_spi.c:76:10: error: 'const struct
- regmap_bus' has no member named 'read'
-Message-ID: <Zv60l6y4ij6C6U2J@rli9-mobl>
-References: <202410021111.LknEX9ne-lkp@intel.com>
- <6e935f30-6dc5-4422-842d-068c08d31333@gmail.com>
+	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/damon/reclaim.c:252:15: error: implicit declaration of
+ function 'damon_commit_ctx'
+Message-ID: <Zv63hjE1oT2A4tET@rli9-mobl>
+References: <202410020227.oOh0SBIj-lkp@intel.com>
+ <20241001221712.88016-1-sj@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <6e935f30-6dc5-4422-842d-068c08d31333@gmail.com>
-X-ClientProxiedBy: SG2PR04CA0162.apcprd04.prod.outlook.com (2603:1096:4::24)
+In-Reply-To: <20241001221712.88016-1-sj@kernel.org>
+X-ClientProxiedBy: SG2PR04CA0167.apcprd04.prod.outlook.com (2603:1096:4::29)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -99,201 +107,137 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|IA1PR11MB8804:EE_
-X-MS-Office365-Filtering-Correlation-Id: bca0ca22-02f8-499a-9547-08dce3bdf387
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|CH3PR11MB7203:EE_
+X-MS-Office365-Filtering-Correlation-Id: dbe6a3f4-3e45-4859-eb71-08dce3bfb313
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UZ65n77w8xjQXX4k45IbS9DoGpI+KQbgOcIefJJ0r7AfvneDrcWI9tJofFZK?=
- =?us-ascii?Q?JKw/PIQNUiOVN+gmBFY76DZp7LsudYVA/jMzm2MHYvO4Eqz8pL2xUgyJiNg8?=
- =?us-ascii?Q?qwHexPGoMsfctE0qMe6usG7jJdCIXwY3XlDu/WG8ZSK0RTI7dgXEfeL/3fMv?=
- =?us-ascii?Q?ASGHnQbXpS3fXiojDlYPwOxE4A2+agXZl3gHjwftI3QN1L8WwzuGo4G5W5bC?=
- =?us-ascii?Q?qXWbCE7Sijh4mEpLc1tCtwLM92MSAMfftMg8pupri0IGtxaK1AtF8CwrGbTV?=
- =?us-ascii?Q?DWf98FcYwNMfYd1jJidvCdT7JpaIf1KBD12j3znx7dKIyF2YecGnZungGDDf?=
- =?us-ascii?Q?IjPZbtIzTh8UkdGJvMoO0pdgE5hxwZKpeLw9XzmvLRuVx3vnWRaFvkiZQLIS?=
- =?us-ascii?Q?7qeO7vlmLh+mcKBqlp5iOi+0M94e7VqQ4ntb8f/SQNJdNlyOgOoYmwVcqRbe?=
- =?us-ascii?Q?tAkYz7IGxPqTvRYjHXPNXzJerhslMQK/A6PfJh3vrlfvX1Y5iHPHECmfnych?=
- =?us-ascii?Q?LLlYMZMoL/uDFNdWbf+g97T4ZMbD4Gsv0GpMF8bgkGEi/CuJK6PVU4Uool80?=
- =?us-ascii?Q?RLLRLEYJ62dlJm3fJRJP5jMYRtN+id5M3Zt0xZ/bB66V9exIxm2SjocrhCld?=
- =?us-ascii?Q?3o0GhrMAqIYtDnkyLMNFjB7J157DltDhD6xWc6idVyjx0+PMq5gLXi8VGvoO?=
- =?us-ascii?Q?FYiS0dPKDuUEDXFigsVSsZvAhUcK7irtGuDlyOxuXGhiYCsxYQVgPgx1fbdE?=
- =?us-ascii?Q?FQCTwXQb/eNQDr7zJARtSI/ARS+S/zESX3Ar8/8fYtzeBul/ZpsSR386Px4O?=
- =?us-ascii?Q?A4UVpkJxhR6Eb/nP/cidYbDyd2LHzr7kMOhGl9WfvvOV78TdUFcHzlgeo7Pd?=
- =?us-ascii?Q?cuEu3DKcxsXIBVflS6WGPrTA+Hy5nl082FcFpF5CtJWvXCzzH3f/WT6tbwKp?=
- =?us-ascii?Q?fTXIFV5mVSlu43lEYrCdgtKZdQu5vOP0ZUrL4g9Xr2D2Bj0+uBf6kNMwI61J?=
- =?us-ascii?Q?0Yg6+PiR/499Lq0ILqdnq9JPu8QWmLEQUOpX8Eqs3fWFQjEG/uDhloYzNRx3?=
- =?us-ascii?Q?WjEQ9GRJiCF4CLfI4YDRThDW9AMIfo+Z51vSv/z+xfJ42Q5E/+MfY+cp7PH/?=
- =?us-ascii?Q?xcd+XZI7GJz2cv0+fTzaLmDWsvE3DfVVz54kx7uNnIadE0wzOt6CKf7/5gVI?=
- =?us-ascii?Q?X2mZqOQ+HOYbjVs5I2LnfkkdhTXviGuOQ1Iy5dx/Vymc+suVVet9XCWeOdQ?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DW5aSDs6R54AZaM7cRN3ZYID9XXFa28sV6cAYGcfS0g4QbaqQZLwAIoPGoct?=
+ =?us-ascii?Q?LQNajRf+06JYrJR8uZfvE/0St4zM/xhrx5CBVYNh1za7+51OzAoZbbSEemCr?=
+ =?us-ascii?Q?CEA0nwNnIrtsj37clK5nN8X2y6gu3dnOVYu+WyQB2KUDNM7f4/o9N7fIMwyN?=
+ =?us-ascii?Q?tQQsM8UhelVEkimo3Ik5SUkfA8XAkwRmMgFbl48lDAEhxdizaY0BS4LEAUka?=
+ =?us-ascii?Q?0mMO9WZVfv+tZXj7CJwObNDAqo7eyTkdxtSBrxs8KWsnZNG+fufJFafhusyl?=
+ =?us-ascii?Q?szw/fRmsemGh8ylYAbcBNN9dEL5460tSUfmTL3MU2mHCzdwLCv/WXuEb3hCc?=
+ =?us-ascii?Q?U88gnx/ODVhHdOmp/npFNHSQGnd1VJd0yHgt36oH9gXBxIXuqrddO3g9mcRt?=
+ =?us-ascii?Q?fpm0ktRjhihGcGBErGiEW7WvzxZF2w2lX/OFb0MxpkWEnDdEP8UHQgCCJMFG?=
+ =?us-ascii?Q?kC91N4uOPt2Av+IDbyDSKyonADJhRWP7y0Hgp7aSFVyndY05mMpw6Ph4Uv0c?=
+ =?us-ascii?Q?xR64zdeVdKqgaC0vH5R24+QbcpVIyVHVAi3m+2WEbLWUNFxThiq+1DS3Laqc?=
+ =?us-ascii?Q?OXYgrmvEGqtohO2MVqIU0aGH9G97mi/4Uf2EuuOluwItGz1qdF3SyvKIXbI8?=
+ =?us-ascii?Q?tnSCfBDsheT1WOJltGjj0dMW4i6hOlVpsyn1NjkogiJpJ4DRvG4lIOvj1ASq?=
+ =?us-ascii?Q?soacO+YccTTdg1Y3JenU+DjqKFmgDMx9qNv1aw8WoTcKWALtcN+Wm+lXar9Y?=
+ =?us-ascii?Q?pEa8HdiYWqQ2fPcCLiw14AVJTCpklBQ+hjH2zQkjcA4BNLw5436gE9maJVFj?=
+ =?us-ascii?Q?XJQ8hrQ+OkxF0zo4mDjTdP/1tXm1CO0XGHBBwRpTHrxuXb9gyKOcksohQFrl?=
+ =?us-ascii?Q?QJE6NVkFFr5YiOxkkPVWgHKGNyWgA7TGdj7JkzEKI/oKVSmC+jDPjDyOtRVb?=
+ =?us-ascii?Q?HQzhncOfT7wyqMgPGXl51yL0x9M6N6rme+4hf+vURtMNUfDvCSw57czw7F51?=
+ =?us-ascii?Q?S95cXeQOwTCKepeet7XRUxDHR9pQOkGAQF70WYrtqFBRGHwqeMcWBSRvFJYL?=
+ =?us-ascii?Q?iLzk0G5DWS8vhPzEdkcMNw2MKMo03JD+umRr2PGQNtPF2FQZXL7GCo3V4jn1?=
+ =?us-ascii?Q?sHRTaFE5meSpxW2bgH5tXP7GuubkXKOxwFrrPFjttWmha9TF2jyF/shLjgZ3?=
+ =?us-ascii?Q?e3mbdN5DJ28QbUqMEzl8dul7+19KGERuPzm9fJtvvlgNhSj2QlRQMsVzOzA?=
  =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PD+MStxA+DwR14Q7WyIv4Zo9dtpJ6t+UiaRTyahErOQi6MJUp1XELWiuNM5X?=
- =?us-ascii?Q?Go8atalmMvclHZel1FzXi8T81L/iHKo9+iAsbdqU4bNY+z9S82JmKARuCN2o?=
- =?us-ascii?Q?fC7JkcBDbOHX+9NjkIWqrBX0dm9uInHZ1KEl5oPv/8rggQfAxi5W49tjw1nF?=
- =?us-ascii?Q?cnqj6z6iSt2thFvPF/dOnPdvizcJ7VLhKpOtoj/0T28YN3U/73xSCQA4Fx+h?=
- =?us-ascii?Q?GWdj/09rewmcjME166E6aBKrJWVwaV+x0gREx4FN2zpA8yqYkzX35yaABSbI?=
- =?us-ascii?Q?onmATTCXqMtSBbWdA/KkyETXlIn+glO8rOC489dupp+pPy49oMF1igWBsJ+C?=
- =?us-ascii?Q?UyUu79/gSecJCwgnRpawI7rFuoKe2n8WEJphJNJK7YkUZxaUfrS7HIXWpv5m?=
- =?us-ascii?Q?WC+vq7ahoLbtdj3JlEpSCnZSiHWwAncM5h/EkqOI3c1H2UmFjOu9xGlqFtoE?=
- =?us-ascii?Q?dXGBNKdanombfO6WlrQtlejV4jlKXQf6lmKtFoVWwd2gwrSyPouT6ZAH+N4s?=
- =?us-ascii?Q?iCgXps+xA8D0L4GyUI+/hI/gtBI/8LZZdhpVr9yfeR1rE7x6vmnpCpKgg3oR?=
- =?us-ascii?Q?hKrapujy1iahY3qGHkhe7lXvTN6c9XQZWNU8laraERLOmEVp1ger0c40363x?=
- =?us-ascii?Q?++kp4F/1s/XZlnssqndGzXX5lHBmaTdhTbVm2svyXbd6C8bhwkLxWBOCXdwO?=
- =?us-ascii?Q?pdfdO+Y4freTZbaQ4S/hU9huCAyalS6Si6b7dVdujT/VlYdsyh+TF3aqp5ve?=
- =?us-ascii?Q?eJz3OwFmvoO33JQkkBB9IjfKQugBnO1x5BKDoGEMwiTdsLyO/XO7ungQoatS?=
- =?us-ascii?Q?L8N7ZhS8v0IBHthWUrA4JfHtLO9NwBoeAgjb1F+Mi6oJL5e1y+UVwITLxJJg?=
- =?us-ascii?Q?WZPKX2QekCIyHM2JHYWqwSm62+YutrYHGj2WDjNqlj+NGi9gcZpGS8zj8DVZ?=
- =?us-ascii?Q?LOMMDElgeBMD7/I+UkfXPgEXMJSdepHHzl+QtEq2MJAzotm3XqepSYzVJyce?=
- =?us-ascii?Q?4sYtVvlIhXSaA0pBcuaKbrYUkbWDSac1Qhiy8rNrAVQzoEaA+q+FIECBq77C?=
- =?us-ascii?Q?m4XN7egl1wTtlc9HCCtP2gerzTM+K22HK9CsGj3Ti6AiBGU2XxiK8etdWcAo?=
- =?us-ascii?Q?aWaX58N4+cdFGkfhp0UOlc41DgW7Cs0RW9mn7ACEZwVMf5M1F/+UZsXQpT2g?=
- =?us-ascii?Q?WfkF5Ef4hbngGmh5Z7ONv7MOHI8Aed4l53ebgmDr10TE1aJsqr/b/L9O5YTD?=
- =?us-ascii?Q?EFmzvoMOpv5VrU7g/1An8dT0plA42kElITxk0rG54lq9DnS++oU97U8MkKOy?=
- =?us-ascii?Q?Cs1IAiqz5cuuWeeDy4flLdcMM1JMJp5vLEgQa1gB/6h99Rcpjn3RB2tYBIn1?=
- =?us-ascii?Q?fOxa+u07HK0/w/pLAwMlJmnay9FVURAIXcLcD9SDTEFlRDIR7xh/MtUlIvW3?=
- =?us-ascii?Q?Lq2ngnyrUo97AXi3iA5D8nIJnZOuHMCOQ4qdlPngs+ZhS2BcKRd4cSEmB55s?=
- =?us-ascii?Q?xZi9SUW6a4BR8A+0hDHCbokcNRgwFgtAfpEjrcw4hAUcsGx1yS/ESRIYh+QB?=
- =?us-ascii?Q?5Bd9cOKFXyk5YnxwgZfkMIwOvMsKEkQB5FCssEZE?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bca0ca22-02f8-499a-9547-08dce3bdf387
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GNNAyNL1gPzMglFDMr03B25wbgPFdJta/ZA13C4RfpGU9FyqUhwFLS7beDN3?=
+ =?us-ascii?Q?+2uPYPMfuUUgTZiW9JWCXhdT323TuwFe5VgE2u2t14GTcIWjmlMD+kRke3vq?=
+ =?us-ascii?Q?85KYwS7fEEelP2ohr4ZlLG/Eado9UElJpwlSs7RGTfLniqLEFbCVZFhV30Of?=
+ =?us-ascii?Q?t9aLFYumAK+wGgpKRbwYxmsycjYFYGxqQT/5NKroGab5Ffqhr+KIoToe25RQ?=
+ =?us-ascii?Q?LUthAvQlo++4+z2PMUUb039IqrSDFNtFhoKnSpHU9dLeG/ye7NLQPynfV0rG?=
+ =?us-ascii?Q?RHujNuvTfpK9hn7W4unI/bIHGVXe8UdsDTXRNViqzlzoqv0zyFB29dZ+N7HX?=
+ =?us-ascii?Q?kHnnpPJhpkw4he0SiGL+B4Xkg+zwkM+NDIq3j1Rt+h/JWtG0a6jnapIRSMKs?=
+ =?us-ascii?Q?Cy7qmEW9XpP5z/MGddZvEhBjuscpo+eHeJ85TW3MsdyLxRgMlWVcTezRjoSm?=
+ =?us-ascii?Q?fm7Av/VaPTexPmKmfSdYMhPuhtTAVTpxLKT3R9LoIoeSVVIkYYoo0sYF6WZk?=
+ =?us-ascii?Q?RcE9lLF5KLjIiJyQbYNazVSq6Cy9Lyg4NxkE+N6JXVo0cz3Oi+9x22oqhXOe?=
+ =?us-ascii?Q?IF1NtTexJeVQilx5jBFApP1zGyhZkTi2l5UsZRUESCnSwtbwjcUT3WU2lOxU?=
+ =?us-ascii?Q?mf5dRjVAhAFk5CHXn3ERVFfE/6gO0SWKwZTHUf0/8PTLE0mux7PmdcAR6+VH?=
+ =?us-ascii?Q?UZ8bMStC6HIAMDCAz3xEUCMIkXArast7d3TSXlNAIn9aeR3vuLCYZqJxqKvw?=
+ =?us-ascii?Q?VzK/08h+wTbiRjZNXrTTP2jRxgPu6PkrRHAc9teiekBuqoEgSG5G9qjzAnKx?=
+ =?us-ascii?Q?onBoGip+2ntByTVwUkCTIWANNDNI2CqcjXzDGbr/tUgbfST4mUTD685N2B/5?=
+ =?us-ascii?Q?9JJKlcktaQ8R7PGemcoqK2EA8aWC4v6akQG9+kXAvgezOqGAHJwCwIGt0X7a?=
+ =?us-ascii?Q?xjwcbY59ycgckWSJpdSmgGxFUV3SGA2oLPRZnCM3r1vohdnTI1sNZe/RE2If?=
+ =?us-ascii?Q?+YXzDII0ksY0U18vYkOLIyY9wjOQ4S+niz6jav/zdk1sDWhb0kIC6hFTdgxc?=
+ =?us-ascii?Q?7AKWyVZOyk/1tGxbTlp5PYVVFLFxVwxrE4lzxuk3DHX1RHWV0rXWPNjAT8CV?=
+ =?us-ascii?Q?9e4GlBeiBOSRZCTMmL/fpl8xAlv5RnqTxI122Awe4Q1dSNDJYrcWPe1K3RsH?=
+ =?us-ascii?Q?Ri+ML1K1U6yHp1c7QoW715LMcp05k0x/G1gDyF0+1Lm5WOvE1fXXB5f+SKtK?=
+ =?us-ascii?Q?pD3dM7RMtNMXpM9jZ/tXRurY8qK2sY2XbZGkl8CQfDcqAmOWBJq+N3jqO5Ot?=
+ =?us-ascii?Q?9jAZ4ZPbw272E23+JI4w7h0sRo0ZfyDmMYcT6c8+5YZ8I4/NFp2aUP00EGkm?=
+ =?us-ascii?Q?hwFlr+IlyaJPudZcbY2bRx7Fam0Sia+BFrCMIAa193NULiu/fNoB7iN6vW+E?=
+ =?us-ascii?Q?qUcQGPyIlgTbfIr4BjC54mERpN6ZFwgwEcuXPlpciTkwD3GzJvM616q8wlIU?=
+ =?us-ascii?Q?nwaNKa9R8YPDjJdRUneefT6KG3VDm0F31smh1ZzwMgHyyC9zRsVPyxaPKJVE?=
+ =?us-ascii?Q?TDGiz7oVuk/uiv2w0OrBSNaikZ08WXNIbGULpWH1?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbe6a3f4-3e45-4859-eb71-08dce3bfb313
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 15:13:35.7150
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 15:26:06.5385
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fZUCNFv9qteIl8VV+ELylOHhDm/RxAfshNtwA1uQMBEFLr4EtJ99LavvSNOGIFkLV1ZWbcc+/R4pKnIHiSsarA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8804
+X-MS-Exchange-CrossTenant-UserPrincipalName: xySkyS/2Jyz5NHqePzIuSj68J9a/nbQ/o8tRDH5dYgTDTbCnidJilfYPXervSClq9RSgeSFVOvFyjm9FD8Egog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7203
 X-OriginatorOrg: intel.com
 
-On Wed, Oct 02, 2024 at 09:01:50AM +0200, Javier Carrasco wrote:
-> On 02/10/2024 05:21, kernel test robot wrote:
+On Tue, Oct 01, 2024 at 03:17:12PM -0700, SeongJae Park wrote:
+> From: sj@kernel.org
+> 
+> 
+> Hi Robot,
+> 
+> On Wed, 2 Oct 2024 02:09:06 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
 > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 > > head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
-> > commit: c922c634bd926d84967275efbb7275b8645aa343 iio: accel: adxl367: Constify struct regmap_bus
-> > date:   9 weeks ago
-> > config: x86_64-randconfig-001-20231120 (https://download.01.org/0day-ci/archive/20241002/202410021111.LknEX9ne-lkp@intel.com/config)
+> > commit: 11ddcfc257a3e8d7b13b42148ee7e783f4876da4 mm/damon/reclaim: use damon_commit_ctx()
+> > date:   3 months ago
+> > config: x86_64-randconfig-001-20231120 (https://download.01.org/0day-ci/archive/20241002/202410020227.oOh0SBIj-lkp@intel.com/config)
 > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021111.LknEX9ne-lkp@intel.com/reproduce)
-> > 
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410020227.oOh0SBIj-lkp@intel.com/reproduce)
+> >
 > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > > the same patch/commit), kindly add following tags
 > > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202410021111.LknEX9ne-lkp@intel.com/
-> > 
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202410020227.oOh0SBIj-lkp@intel.com/
+> >
 > > All errors (new ones prefixed by >>):
-> > 
-> >    In file included from include/linux/sched.h:38,
-> >                     from include/linux/percpu.h:12,
-> >                     from arch/x86/include/asm/msr.h:15,
-> >                     from arch/x86/include/asm/tsc.h:10,
-> >                     from arch/x86/include/asm/timex.h:6,
-> >                     from include/linux/timex.h:67,
-> >                     from include/linux/time32.h:13,
-> >                     from include/linux/time.h:60,
-> >                     from include/linux/stat.h:19,
-> >                     from include/linux/module.h:13,
-> >                     from drivers/iio/accel/adxl367_spi.c:8:
-> >    include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
-> >       19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
-> >          |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-> >    include/linux/mm.h:2888:5: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
-> >     2888 | #if USE_SPLIT_PTE_PTLOCKS
-> >          |     ^~~~~~~~~~~~~~~~~~~~~
-> >    include/linux/mm_types_task.h:19:45: warning: "CONFIG_SPLIT_PTLOCK_CPUS" is not defined, evaluates to 0 [-Wundef]
-> >       19 | #define USE_SPLIT_PTE_PTLOCKS   (NR_CPUS >= CONFIG_SPLIT_PTLOCK_CPUS)
-> >          |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-> >    include/linux/mm_types_task.h:20:34: note: in expansion of macro 'USE_SPLIT_PTE_PTLOCKS'
-> >       20 | #define USE_SPLIT_PMD_PTLOCKS   (USE_SPLIT_PTE_PTLOCKS && \
-> >          |                                  ^~~~~~~~~~~~~~~~~~~~~
-> >    include/linux/mm.h:3010:5: note: in expansion of macro 'USE_SPLIT_PMD_PTLOCKS'
-> >     3010 | #if USE_SPLIT_PMD_PTLOCKS
-> >          |     ^~~~~~~~~~~~~~~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:75:21: error: variable 'adxl367_spi_regmap_bus' has initializer but incomplete type
-> >       75 | static const struct regmap_bus adxl367_spi_regmap_bus = {
-> >          |                     ^~~~~~~~~~
-> >>> drivers/iio/accel/adxl367_spi.c:76:10: error: 'const struct regmap_bus' has no member named 'read'
-> >       76 |         .read = adxl367_read,
-> >          |          ^~~~
-> >    drivers/iio/accel/adxl367_spi.c:76:17: warning: excess elements in struct initializer
-> >       76 |         .read = adxl367_read,
-> >          |                 ^~~~~~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:76:17: note: (near initialization for 'adxl367_spi_regmap_bus')
-> >>> drivers/iio/accel/adxl367_spi.c:77:10: error: 'const struct regmap_bus' has no member named 'write'
-> >       77 |         .write = adxl367_write,
-> >          |          ^~~~~
-> >    drivers/iio/accel/adxl367_spi.c:77:18: warning: excess elements in struct initializer
-> >       77 |         .write = adxl367_write,
-> >          |                  ^~~~~~~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:77:18: note: (near initialization for 'adxl367_spi_regmap_bus')
-> >    drivers/iio/accel/adxl367_spi.c:80:21: error: variable 'adxl367_spi_regmap_config' has initializer but incomplete type
-> >       80 | static const struct regmap_config adxl367_spi_regmap_config = {
-> >          |                     ^~~~~~~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:81:10: error: 'const struct regmap_config' has no member named 'reg_bits'
-> >       81 |         .reg_bits = 8,
-> >          |          ^~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:81:21: warning: excess elements in struct initializer
-> >       81 |         .reg_bits = 8,
-> >          |                     ^
-> >    drivers/iio/accel/adxl367_spi.c:81:21: note: (near initialization for 'adxl367_spi_regmap_config')
-> >    drivers/iio/accel/adxl367_spi.c:82:10: error: 'const struct regmap_config' has no member named 'val_bits'
-> >       82 |         .val_bits = 8,
-> >          |          ^~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:82:21: warning: excess elements in struct initializer
-> >       82 |         .val_bits = 8,
-> >          |                     ^
-> >    drivers/iio/accel/adxl367_spi.c:82:21: note: (near initialization for 'adxl367_spi_regmap_config')
-> >    drivers/iio/accel/adxl367_spi.c: In function 'adxl367_spi_probe':
-> >    drivers/iio/accel/adxl367_spi.c:132:18: error: implicit declaration of function 'devm_regmap_init' [-Werror=implicit-function-declaration]
-> >      132 |         regmap = devm_regmap_init(&spi->dev, &adxl367_spi_regmap_bus, st,
-> >          |                  ^~~~~~~~~~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:132:16: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-> >      132 |         regmap = devm_regmap_init(&spi->dev, &adxl367_spi_regmap_bus, st,
-> >          |                ^
-> >    drivers/iio/accel/adxl367_spi.c: At top level:
-> >    drivers/iio/accel/adxl367_spi.c:75:32: error: storage size of 'adxl367_spi_regmap_bus' isn't known
-> >       75 | static const struct regmap_bus adxl367_spi_regmap_bus = {
-> >          |                                ^~~~~~~~~~~~~~~~~~~~~~
-> >    drivers/iio/accel/adxl367_spi.c:80:35: error: storage size of 'adxl367_spi_regmap_config' isn't known
-> >       80 | static const struct regmap_config adxl367_spi_regmap_config = {
-> >          |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> [...]
+>     mm/damon/reclaim.c:247:15: error: implicit declaration of function 'damon_set_region_biggest_system_ram_default' [-Werror=implicit-function-declaration]
+> >      247 |         err = damon_set_region_biggest_system_ram_default(param_target,
+> >          |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >> mm/damon/reclaim.c:252:15: error: implicit declaration of function 'damon_commit_ctx' [-Werror=implicit-function-declaration]
+> >      252 |         err = damon_commit_ctx(ctx, param_ctx);
+> >          |               ^~~~~~~~~~~~~~~~
+> > >> mm/damon/reclaim.c:254:9: error: implicit declaration of function 'damon_destroy_ctx'; did you mean 'mm_destroy_cid'? [-Werror=implicit-function-declaration]
+> >      254 |         damon_destroy_ctx(param_ctx);
+> >          |         ^~~~~~~~~~~~~~~~~
+> >          |         mm_destroy_cid
+> >    mm/damon/reclaim.c: In function 'damon_reclaim_turn':
+> >    mm/damon/reclaim.c:263:23: error: implicit declaration of function 'damon_stop' [-Werror=implicit-function-declaration]
+> >      263 |                 err = damon_stop(&ctx, 1);
+> >          |                       ^~~~~~~~~~
+> >    mm/damon/reclaim.c:273:15: error: implicit declaration of function 'damon_start' [-Werror=implicit-function-declaration]
+> >      273 |         err = damon_start(&ctx, 1, true);
+> >          |               ^~~~~~~~~~~
 > >    cc1: some warnings being treated as errors
-> > 
-> > 
-> > vim +76 drivers/iio/accel/adxl367_spi.c
-> > 
-> > cbab791c5e2a58 Cosmin Tanislav 2022-02-14  74  
-> > c922c634bd926d Javier Carrasco 2024-07-03  75  static const struct regmap_bus adxl367_spi_regmap_bus = {
-> > cbab791c5e2a58 Cosmin Tanislav 2022-02-14 @76  	.read = adxl367_read,
-> > cbab791c5e2a58 Cosmin Tanislav 2022-02-14 @77  	.write = adxl367_write,
-> > cbab791c5e2a58 Cosmin Tanislav 2022-02-14  78  };
-> > cbab791c5e2a58 Cosmin Tanislav 2022-02-14  79  
-> > 
-> > :::::: The code at line 76 was first introduced by commit
-> > :::::: cbab791c5e2a58c123d84bd9202c054e5449bc96 iio: accel: add ADXL367 driver
-> > 
-> > :::::: TO: Cosmin Tanislav <demonsingur@gmail.com>
-> > :::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > 
 > 
-> Strange. I followed the "how to reproduce" guide step by step, but it
-> compiled just fine (gcc-12.3.0 instead of 12.2.0, though).
+> Thank you for reporting.  I tried to reproduce the issue following the kind
+> reproducer, but I was unable to get the error.  Maybe something in testing
+> setup is wrong?  Please let me know if I'm missing something.
 
-Sorry about false report, kindly ignore this. The bot side will look
+Sorry SJ about the false report, kindly ignore this. The bot side will look
 into the detail to resolve the issue asap.
 
 > 
-> On the other hand, there has been a similar bug in hwmon[1] and it had
-> nothing to do with making the struct const, which actually uncovered a
-> missing select (in that case REGMAP_I2C).
+>     $ make W=1 O=../linux.out.kbuild/ ARCH=x86_64 SHELL=/bin/bash drivers/iio/accel/ drivers/iio/chemical/ drivers/iio/dac/ drivers/input/touchscreen/ drivers/mfd/ drivers/usb/host/ mm/damon/
+>     [...]
+>       CC      mm/damon/sysfs.o
+>       CC      mm/damon/modules-common.o
+>       CC      mm/damon/reclaim.o
+>       CC      mm/damon/lru_sort.o
+>       AR      mm/damon/built-in.a
+>     [...]
 > 
-> In this particular case, 'select REGMAP_SPI' is present in the Kconfig
-> entry for the driver, and the header is included in adxl367_spi.c. The
-> only thing is that the driver uses devm_regmap_init() instead of
-> devm_regmap_init_spi(), and other drivers that include REGMAP_SPI use
-> that one. Does that make sense?
 > 
-> Best regards,
-> Javier Carrasco
+> Thanks,
+> SJ
+> 
+> [...]
 > 
