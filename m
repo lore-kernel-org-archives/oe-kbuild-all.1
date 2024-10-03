@@ -1,70 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5B911CAF;
-	Thu,  3 Oct 2024 00:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C22015E96
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 00:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727915274; cv=none; b=bkK1W6quX4QAT0miqCVBcQfdBHuz4gS9pcFGmwv9Si4hKBOnO+psSqB798Etqu12WVMc0v4BO5eD3oe1RQVpTstmZLXQAp3zQSpkTKtTrMEnPVbUkCjGi6+XWX29PnGa5I//Z/nsmv/vV+nrC1sYdHUNoEboBGwvgPj6S/Nxvwg=
+	t=1727916554; cv=none; b=jmOdwagIb1NQWRPkjTnryvfvh9au8z6DyvV+kDCfgF7eZbpLtCMMS4XsvxTSgUOFitRU+/DJmiybpTru+roLdepriX8MG3ySEQBAHfP2GjljT739fEc05gaj3ibGCOiekFFTI82CM172NQh9F92EHjZ7ZU+RKl8c13/m6mnMm20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727915274; c=relaxed/simple;
-	bh=4jOSy2S5vzvt4SXm1y8gfO76VgZUH7wm+QIBYnhH3Cg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E02pT2XgqgNs8SnV18hpZy1uU02FsBR+J2hYV9yWnLxWdN8XEFOS1t+rkBRrohOlHmeFDCdMqtroIFM+SYHD6CciL4PzVKkmT+HOCBmgdU2a8MGIyte6BTpFMnSOzEJ0SR9YOLmeU19fBX18V8I3Z5myLtak2OZOogMbI5VoMoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FWJEXH6p; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1727916554; c=relaxed/simple;
+	bh=Ss1or0kCoS8rWoRZAAwQ7Mkz2zHi0iOk0riXYF+O4JM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ElCVAW0ZRMcBI+6GlGGFLkvQFUB1yD3PFFMIYcfzOafZJeZBYGH79SWmqPqiFGmqIW3IEkWoLiWQLJ2h+zw15TTNoY/yyIJJp8v/mUxTrj0rP+jlEIQFpo6hM/5zZoe6i6hX4GpX9J/GNgObDZZ7o3WiXH4dE5PLFLCKL565eJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PA/5ivBN; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FWJEXH6p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PA/5ivBN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727915272; x=1759451272;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4jOSy2S5vzvt4SXm1y8gfO76VgZUH7wm+QIBYnhH3Cg=;
-  b=FWJEXH6pFiMldM9nE3x3PMaexwnVe+ympLpzGwsqN0b+pHLt9742g+IU
-   lN9cGq0fAJ0vXqPqPLgzyVS4RbpfbDztc1I41bYotK+Gad4+LDpmeRfB1
-   ZZOWycPcOIxD9dkHF+PnsPn7o/dFbEqO/x5o2/LcRYXoxeTcJ1qqyXaRE
-   cXZjD37oNjaKiOtJVonRNRZktqEQ5nkXmcC0oz2ey3Cg1c8vqbas3U7DB
-   onsxZu71E8gu3DrOc410OeEfZ8Djlm9lbah+xVUL46e+5ZBPLJdAgVS4k
-   cTzPOZ4IkNwzwWA7tpl4VYJSgxANHiZLM6x1ftk4sqOiSB/Wtu8Eda+gE
+  t=1727916553; x=1759452553;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ss1or0kCoS8rWoRZAAwQ7Mkz2zHi0iOk0riXYF+O4JM=;
+  b=PA/5ivBNLH+MfruydMSrFCcpSjQStsUTvrO0Y4XSs5/bNXIPhtvk2DMP
+   ci8fICbP1mohILuJZSGXIEbFdi80VcI6pJUm+wTSi0ZebQSDOk/VUTFNh
+   87WgFu7BbekSATVld1MWX/2v5kqLOrxZB/wtbg2xda5GdFiiCLlvEJ7nO
+   FudcRVywt75tZ9WiuUFegkaQAxYTLZ9ZFlFznHHZUyFIVEK9/pY7mPHw4
+   HZM5F1YKZBbUC42ShTM1ic2Whr9k8JGNx3xubiQqdNYX+GFq1o4tz2ZN4
+   AC0t1zbYOoU0BbNO0e7KW/PAghDXnRSV8lIOeYQoZplFWzUbXUG74iTT7
    w==;
-X-CSE-ConnectionGUID: WxpcPG93QjGbO8VINnnuOQ==
-X-CSE-MsgGUID: /gGwsLCuRta2HXZGxEjG7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="30983714"
+X-CSE-ConnectionGUID: gCb3h37YSl6Se/kkdrtxnA==
+X-CSE-MsgGUID: UdtXrDeSTf6GlpmNnClJGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="30896014"
 X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="30983714"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 17:27:51 -0700
-X-CSE-ConnectionGUID: dwjIvjloTeinYpM1Frs8nw==
-X-CSE-MsgGUID: xpDUIod3TPOk3JYCsRfp0g==
+   d="scan'208";a="30896014"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 17:49:12 -0700
+X-CSE-ConnectionGUID: Cr2gGiEdQ7epTfLxD1iVmw==
+X-CSE-MsgGUID: MR3UXBoZQ4KcM6InBvYA8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="74293881"
+   d="scan'208";a="74605866"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Oct 2024 17:27:45 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2024 17:49:01 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sw9h1-000Ujz-0l;
-	Thu, 03 Oct 2024 00:27:43 +0000
-Date: Thu, 3 Oct 2024 08:27:34 +0800
+	id 1swA1M-000Ukp-22;
+	Thu, 03 Oct 2024 00:48:44 +0000
+Date: Thu, 3 Oct 2024 08:47:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@kernel.org>, ojeda@kernel.org,
-	alex.gaynor@gmail.com, wedsonaf@gmail.com, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
-	a.hindborg@samsung.com, aliceryhl@google.com,
-	akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	daniel.almeida@collabora.com, faith.ekstrand@collabora.com,
-	boris.brezillon@collabora.com, lina@asahilina.net,
-	mcanal@igalia.com, zhiw@nvidia.com, cjia@nvidia.com,
-	jhubbard@nvidia.com, airlied@redhat.com, ajanulgu@redhat.com,
-	lyude@redhat.com, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-mm@kvack.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v8 15/29] rust: alloc: introduce `ArrayLayout`
-Message-ID: <202410030724.cV9BEoNG-lkp@intel.com>
-References: <20241001150008.183102-16-dakr@kernel.org>
+To: Esben Haabendal <esben@geanix.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-pinctrl:devel 8/23] kismet: WARNING: unmet direct
+ dependencies detected for PINCTRL_IMX_SCU when selected by PINCTRL_IMX8DXL
+Message-ID: <202410030852.q0Hukplf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,39 +64,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241001150008.183102-16-dakr@kernel.org>
 
-Hi Danilo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 9852d85ec9d492ebef56dc5f229416c925758edc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/rust-alloc-add-Allocator-trait/20241001-230558
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241001150008.183102-16-dakr%40kernel.org
-patch subject: [PATCH v8 15/29] rust: alloc: introduce `ArrayLayout`
-config: riscv-randconfig-001-20241002 (https://download.01.org/0day-ci/archive/20241003/202410030724.cV9BEoNG-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410030724.cV9BEoNG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   06783dc52057045edd9cfcdd8f90899d04bc8678
+commit: a55222b7a1327fabad71e1e61661077ab66bb98d [8/23] pinctrl: freescale: enable use with COMPILE_TEST
+config: x86_64-kismet-CONFIG_PINCTRL_IMX_SCU-CONFIG_PINCTRL_IMX8DXL-0-0 (https://download.01.org/0day-ci/archive/20241003/202410030852.q0Hukplf-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241003/202410030852.q0Hukplf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410030724.cV9BEoNG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410030852.q0Hukplf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> error[E0425]: cannot find function `size_of` in this scope
-   --> rust/kernel/alloc/layout.rs:47:31
-   |
-   47 |         match len.checked_mul(size_of::<T>()) {
-   |                               ^^^^^^^ not found in this scope
-   |
-   help: consider importing this function
-   |
-   7  + use core::mem::size_of;
-   |
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PINCTRL_IMX_SCU when selected by PINCTRL_IMX8DXL
+   WARNING: unmet direct dependencies detected for PINCTRL_IMX_SCU
+     Depends on [n]: PINCTRL [=y] && IMX_SCU [=n]
+     Selected by [y]:
+     - PINCTRL_IMX8DXL [=y] && PINCTRL [=y] && OF [=y] && (IMX_SCU [=n] && ARCH_MXC && ARM64 || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
