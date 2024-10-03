@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DF81C0DCB;
-	Thu,  3 Oct 2024 21:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E5913A89A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 22:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727992500; cv=none; b=XCVTwd7w8W8gmHRxB34+IGPB6kvtR/l/Vpx9bM0suH+3s/+5/AbkE7N7cvXCS9dNHvImEsooRGz8bci/yCJHYa3abilkuMloMoIoNklfmFYiXkDFyNAex4GxZgNsR1HDb7/hQ1nuVIp7eCXIugKizN0DEdCQujH+3gb+6vsqIHg=
+	t=1727995559; cv=none; b=ICkmaYTBrHo/maAVpopjJBg8SObiE/6WaqlwXuRBf5j7PyJzxqzw0WHJvqB9jAd8JqtmQmNb5SJKiR6Klxnbmko9fxw4bai3LUAOSA/HzN9JWoX8eR/uOaecqKExJ2XR2UPjVymD4+33Q7WLz3EpAYQqVSvtHG4c/NfFKNkY4h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727992500; c=relaxed/simple;
-	bh=1uPcI0h7/zBOkh1rnHMxjRL0nB6YyosX+r9Z3xNqlAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hD7K5sb5b6qS0g90P7qR/nJQYoEDtnUdDJRyT/IxhH/x86dLd1xJLcX6wV1Kanv+fPe+cX1hw4XFpp1LeKyu+DCSQsFM1K4l9HyF79TRhV4oShN2uIcWvyfzV+pvf93w/Jivb9lt0kkaOsosh5HuemIyPOndEA25LmE7F6KgaWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jkpQB+5r; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1727995559; c=relaxed/simple;
+	bh=AUGkGqMI2P0FKFH7C9ToqSO7K/iK/nefuZpwwMKpbLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B+sign6ai6gaVY1VHZLa82xNxsU2kVD1s+6AoPg63lTU5l0jpkgj8fAe9xQe2aJc9Xmvz0YPIxkPZhXI3CU6noNr71rQvruxhYgxqrwgiwFW12BsN2MY/vi9WSoDvnEww7U9D6cqFOJqIQUkByHBURKFo5idbiDfz/saegPdFhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEBUjYLI; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jkpQB+5r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEBUjYLI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727992499; x=1759528499;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1uPcI0h7/zBOkh1rnHMxjRL0nB6YyosX+r9Z3xNqlAw=;
-  b=jkpQB+5rIptAUzMm8uPx5VcRG+VcDP8a6nYEMTW5kQSQ6NTJFAosK0qr
-   TovvXrpeiYv3dGdwWxSkcHPKUkjt86HYEYRcHO+Pnaxl38DiNgQiweXX2
-   9eGRT8f3hqngtG1r/yEFwYWsZJ+GQelme4Q9pKqE/Ftbn0PoaZ7hmoDDs
-   7c1fCh3VNMG2CzN+5qKzpeUXv7zj01AX+PGrxFli1NcMMrWRv0twcMR3d
-   5Y3Tg/HugVn69Q0AYN0kGvU8JzmS9A7Hc8d9i3vN2hkzWuUey+hlHN9d2
-   /WmnNhG6P8ijR7HGB9XwpyQ1xDb91yqfc51qdIWmudYimXfFIc6xBAdU0
-   Q==;
-X-CSE-ConnectionGUID: hSlzsBYaSFOPkmu9STuDnQ==
-X-CSE-MsgGUID: d4qSiVELREaVPsqrdCoJAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37869293"
+  t=1727995557; x=1759531557;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AUGkGqMI2P0FKFH7C9ToqSO7K/iK/nefuZpwwMKpbLw=;
+  b=IEBUjYLIC5eX1I5VLuV3OjP304VjfdH/OKZwWUtBWLw7tAPNBWx3kraB
+   LRTktUAG0vEeYifmecCha8p6q9x8U45kAxfmOEJp/zBGRVW4ezXbnNpGb
+   c1w2nyWg4j6m0Q2GVDEJh8bJu8gpDtH+0Sw19yr0AfH5KMBqaShMX8vqV
+   AWCtO7BUc40llojOX5/nebz7ooiBHJ5yAH4bSESEwiOWjeFtDPsqjp+M3
+   wWbg6Gouao9975mDdcyd8h5B3QbA90BtawD0FsEhPQSdkasMTqbTsdkte
+   6wUJ7zjFgbtTJ+UIrvFbV15b6ZrnnmR5rKPLbv+MGY2fFDbk8iLXKX3AE
+   w==;
+X-CSE-ConnectionGUID: 9Tg8ZPXqRhaKfwUEru9qnw==
+X-CSE-MsgGUID: aOteWmvHT1GTLielJgdnMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="26720441"
 X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
-   d="scan'208";a="37869293"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 14:54:55 -0700
-X-CSE-ConnectionGUID: qK29dpFzSh69IQG7Gt4Rtg==
-X-CSE-MsgGUID: rPDS3m/CQ7yGA7E1BtW+cg==
+   d="scan'208";a="26720441"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 15:45:56 -0700
+X-CSE-ConnectionGUID: O6TDnFGBQmydhoJPh5m7vw==
+X-CSE-MsgGUID: 4B1z/s0hQde+8CU35QM/rA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
-   d="scan'208";a="74927109"
+   d="scan'208";a="105351475"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Oct 2024 14:54:53 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Oct 2024 15:45:55 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swTmd-0000wU-0Q;
-	Thu, 03 Oct 2024 21:54:51 +0000
-Date: Fri, 4 Oct 2024 05:54:09 +0800
+	id 1swUa0-0000zM-2w;
+	Thu, 03 Oct 2024 22:45:52 +0000
+Date: Fri, 4 Oct 2024 06:45:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: luca.boccassi@gmail.com, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	christian@brauner.io, paul@paul-moore.com
-Subject: Re: [PATCH] pidfd: add ioctl to retrieve pid info
-Message-ID: <202410040539.j2SZpABt-lkp@intel.com>
-References: <20241002142516.110567-1-luca.boccassi@gmail.com>
+To: Namhyung Kim <namhyung@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [namhyung-perf:bpf/slab-iter-v4 2/3] mm/slab_common.c:1334:30:
+ error: passing argument 1 of 'virt_to_pfn' makes pointer from integer
+ without a cast
+Message-ID: <202410040657.0zCsaj69-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,102 +62,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002142516.110567-1-luca.boccassi@gmail.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on shuah-kselftest/next]
-[also build test ERROR on shuah-kselftest/fixes linus/master v6.12-rc1 next-20241003]
-[cannot apply to brauner-vfs/vfs.all]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/luca-boccassi-gmail-com/pidfd-add-ioctl-to-retrieve-pid-info/20241002-223302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20241002142516.110567-1-luca.boccassi%40gmail.com
-patch subject: [PATCH] pidfd: add ioctl to retrieve pid info
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241004/202410040539.j2SZpABt-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410040539.j2SZpABt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/namhyung/linux-perf.git bpf/slab-iter-v4
+head:   2941faf08c4c0c782881cfe9e8b7e1b6432a6212
+commit: 96ce888c02ed7cf7278c4d4d14bab67c1db4b673 [2/3] mm/bpf: Add bpf_get_kmem_cache() kfunc
+config: microblaze-randconfig-r072-20241004 (https://download.01.org/0day-ci/archive/20241004/202410040657.0zCsaj69-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410040657.0zCsaj69-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410040539.j2SZpABt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410040657.0zCsaj69-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/pidfs.c:146:25: error: call to undeclared function 'task_css_check'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     146 |                 struct cgroup *cgrp = task_css_check(task, pids_cgrp_id, 1)->cgroup;
-         |                                       ^
->> fs/pidfs.c:146:46: error: use of undeclared identifier 'pids_cgrp_id'
-     146 |                 struct cgroup *cgrp = task_css_check(task, pids_cgrp_id, 1)->cgroup;
-         |                                                            ^
-   2 errors generated.
+   In file included from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from mm/slab_common.c:7:
+   mm/slab_common.c: In function 'bpf_get_kmem_cache':
+>> mm/slab_common.c:1334:30: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    1334 |         if (!virt_addr_valid(addr))
+         |                              ^~~~
+         |                              |
+         |                              u64 {aka long long unsigned int}
+   arch/microblaze/include/asm/page.h:135:56: note: in definition of macro 'virt_addr_valid'
+     135 | #define virt_addr_valid(vaddr)  (pfn_valid(virt_to_pfn(vaddr)))
+         |                                                        ^~~~~
+   arch/microblaze/include/asm/page.h:125:53: note: expected 'const void *' but argument is of type 'u64' {aka 'long long unsigned int'}
+     125 | static inline unsigned long virt_to_pfn(const void *vaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
 
 
-vim +/task_css_check +146 fs/pidfs.c
+vim +/virt_to_pfn +1334 mm/slab_common.c
 
-   116	
-   117	static long pidfd_info(struct task_struct *task, struct pid *pid, unsigned long arg)
-   118	{
-   119		struct pidfd_info uinfo = {}, info = {};
-   120	
-   121		if (copy_from_user(&uinfo, (struct pidfd_info *)arg, sizeof(struct pidfd_info)))
-   122			return -EFAULT;
-   123		if (uinfo.size > sizeof(struct pidfd_info))
-   124			return -E2BIG;
-   125		if (uinfo.size < sizeof(struct pidfd_info))
-   126			return -EINVAL; /* First version, no smaller struct possible */
-   127	
-   128		if (uinfo.request_mask & ~(PIDFD_INFO_PID | PIDFD_INFO_CREDS | PIDFD_INFO_CGROUPID | PIDFD_INFO_SECURITY_CONTEXT))
-   129			return -EINVAL;
-   130	
-   131		memcpy(&info, &uinfo, uinfo.size);
-   132	
-   133		if (uinfo.request_mask & PIDFD_INFO_PID)
-   134			info.pid = pid_nr_ns(pid, task_active_pid_ns(task));
-   135	
-   136		if (uinfo.request_mask & PIDFD_INFO_CREDS) {
-   137			const struct cred *c = get_task_cred(task);
-   138			if (!c)
-   139				return -ESRCH;
-   140	
-   141			info.uid = from_kuid_munged(current_user_ns(), c->uid);
-   142			info.gid = from_kgid_munged(current_user_ns(), c->gid);
-   143		}
-   144	
-   145		if (uinfo.request_mask & PIDFD_INFO_CGROUPID) {
- > 146			struct cgroup *cgrp = task_css_check(task, pids_cgrp_id, 1)->cgroup;
-   147			if (!cgrp)
-   148				return -ENODEV;
-   149	
-   150			info.cgroupid = cgroup_id(cgrp);
-   151		}
-   152	
-   153		if (uinfo.request_mask & PIDFD_INFO_SECURITY_CONTEXT) {
-   154			char *secctx;
-   155			u32 secid, secctx_len;
-   156			const struct cred *c = get_task_cred(task);
-   157			if (!c)
-   158				return -ESRCH;
-   159	
-   160			security_cred_getsecid(c, &secid);
-   161			if (security_secid_to_secctx(secid, &secctx, &secctx_len))
-   162				return -EFAULT;
-   163	
-   164			memcpy(info.security_context, secctx, min_t(u32, secctx_len, NAME_MAX-1));
-   165		}
-   166	
-   167		if (copy_to_user((void __user *)arg, &info, uinfo.size))
-   168			return -EFAULT;
-   169	
-   170		return 0;
-   171	}
-   172	
+  1329	
+  1330	__bpf_kfunc struct kmem_cache *bpf_get_kmem_cache(u64 addr)
+  1331	{
+  1332		struct slab *slab;
+  1333	
+> 1334		if (!virt_addr_valid(addr))
+  1335			return NULL;
+  1336	
+  1337		slab = virt_to_slab((void *)(long)addr);
+  1338		return slab ? slab->slab_cache : NULL;
+  1339	}
+  1340	
 
 -- 
 0-DAY CI Kernel Test Service
