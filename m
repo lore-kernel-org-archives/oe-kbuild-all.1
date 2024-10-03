@@ -1,205 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2541823C3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 15:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727968221; cv=none; b=eZXnYziGTVgXn7nM0iRm73NGoEUkcmiYCuLTp3v0APv3z8fXCr2LqE6OgvS5xv9FeUGyp/ucnpP4HZLG2+dE85pfIlFViUFGDGsxLvTxGqwE7eX3YpuE61m+EI0IoaF5n2ztQjbxcBZeRdKEozwvH4nntzXJuambXt0k3gurdTY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727968221; c=relaxed/simple;
-	bh=RSLSVnDT/g7cbXhCbMiotQKeZ8uyMClPx9gfAzc9JVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eSf2uccX5+r/78QBIbMRLLKRqYcooSPfGDk3Ce3RsP3PFIzcZmvtSxBhBj5h4/bmXs2bbJFNUT5mQLxDTgjmVEJxGvFqNVNpSBL+0hqzyfTYjQkb0O3NpQRoLwgGiLwu+fC84FHWy9YgkWxJwIRxpMQpNIIZun6KxXmz52qiw/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6GCjxkZ; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D9F19CD0B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 15:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727968392; cv=fail; b=HRQL+SyVP7r+9I8lNbikyFv8UI8VBUKyeQQ33+fO31yQZEgLPRR9YX7mIbO/nqfAMGUT5IUsryK0Fz6Xk1++J62JwlIvTf7DmE4gxu+edpYpSUEfDhZes5eAD9y0X06x7CdESMrJwlopoQ+6YoPNsTRT78zpHd5R5zVVuCEwp+U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727968392; c=relaxed/simple;
+	bh=R+1lnUrxWP8cM9NnRXv/tt0VRWwkhhe4ZlV8b0YDTng=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=mSHM0xg4mgrGrbiPvUJXQqb4kyKBp+Sow6BhhoyYG7xGP1OqviYvV4JIVLRf9LGYWiN3EhHvaQsdXkUdqLOE2dfZ2jcoWqK1iz4aORB3PkHme1NggWL2BY56A8VfBvfd/SI9fU+BlwIJsVRJepHI1Lufg8zi82oZRx0XcHGlVRI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ARhqsjTj; arc=fail smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6GCjxkZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ARhqsjTj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727968219; x=1759504219;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RSLSVnDT/g7cbXhCbMiotQKeZ8uyMClPx9gfAzc9JVA=;
-  b=j6GCjxkZmXWruCDCofWCAQNNKWhIzcq0IPsSobUxY4KwfYuLLR2+nw7C
-   YHxFwQac9uFAP5+Yf4onr7aIO/LS/bTWGcEs9Q+CRAUFaOlYi35+9sfyY
-   B2MOMJmgdmS+3dfVA9A8+IjNKhpodlaRbvOuwLMOg2MJ5/d2NaSD5ICTG
-   yJCKnQAFBiPGlF4kSSSopwxN2bdaQZwXgxY0Gk3xNmqWnt4ozPy6bdfQ2
-   NZmZ9+Wqjob1OVd63frSlXRlPoixAGDOwWQA14+xyw/m36Yb4agBx2GaJ
-   7jUz60xkMTOe8oxXjoZaln5M/L626IUmYNXNUiypvnfkkcAKaaoNvgOWS
-   A==;
-X-CSE-ConnectionGUID: ptQS2H8RSqu0N8MbjYeyvw==
-X-CSE-MsgGUID: d3cqMMnDR5KIAM4xxoif9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="30961473"
+  t=1727968391; x=1759504391;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=R+1lnUrxWP8cM9NnRXv/tt0VRWwkhhe4ZlV8b0YDTng=;
+  b=ARhqsjTjjOpRgJXoiuX9CtP9O4CPiRDiKnYzo1zMPnKrJaAfcwqri8oe
+   Lu4W1izkV6Dw2aKi/esTzi5irJg2XWV2XWgLMxscHpFBGVqS8VFI8sxvM
+   ZD01lcxsrULH0CwgmGV2EZCBG73QDXXG3XuMN/XF7pbf12X+ZWsLBrbs6
+   yRoWWWr3Zlrqh9R2p3XcuzDSlk/mr58HY972SicBYIrL6Gd/o8WrtNkyN
+   /ncbuMK049Oj2RPhkiTC18FKwNcU7kBxr+5lczNW75LZI+TMm9r5lvYjw
+   pG2CEA/aj0ur+YKfTP6sms+AbSrlwZlDxY5ZurahlKg2mobUy114hbneA
+   w==;
+X-CSE-ConnectionGUID: IaO0/DEeTrWhatGGc0b+IA==
+X-CSE-MsgGUID: rzhIby5ATbqBYZ9qJFn6aw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="30876011"
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="30961473"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:08:37 -0700
-X-CSE-ConnectionGUID: QHTHKkfqQF2qExVf1U9Uug==
-X-CSE-MsgGUID: KwTuc4QxQOOEDTbZjeNPXw==
+   d="scan'208";a="30876011"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:12:00 -0700
+X-CSE-ConnectionGUID: mZiz9t7/S/6kDq/U2UVAjQ==
+X-CSE-MsgGUID: nz8gx0rUTpqbHgBjAPiEDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="79344458"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Oct 2024 08:08:37 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swNRS-0000YA-1W;
-	Thu, 03 Oct 2024 15:08:34 +0000
-Date: Thu, 3 Oct 2024 23:08:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.4.y-cip-rt 5795/25052] fs/binfmt_em86.c:73:35: error:
- passing argument 2 of 'copy_strings_kernel' from incompatible pointer type
-Message-ID: <202410032333.C3VpXmU9-lkp@intel.com>
+   d="scan'208";a="74623640"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Oct 2024 08:12:00 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 3 Oct 2024 08:11:59 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 3 Oct 2024 08:11:59 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 3 Oct 2024 08:11:59 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 3 Oct 2024 08:11:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ve4CaEWCN/hIAJ7/LKoT5iMrlg0yMMmP48wXub6G1pnqjSsUUIdcaZfrL6obb+SFayK1H3Os1HMoaG/2y8260Q6RqyebbtBtU2puBphRvcnkRanPEJ5G7UH0MfTmXPsnkAn5k6m6Ngsop1MWObXu2AatzNngyv/CG3JJoKjeDdR6aM6SD1n8Eqm7m5r2vVH14J4dcT+7lVdYnA56797EDODZPM+UOsCELzjQWzzdKNUDkjWR0ZHWbWEY7CBliiPPok465JbInVeP3LhxHwF7kzW1nAl3ujVXIk42ihNNmxs7OR08byUEm4aige7E3MYE57baC/INb/UOEtOqw1YAZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Cpa+jI7gpVDySuh7M+qmQ3bSkxKyeg2labuk0O/JEwY=;
+ b=xhZNDdj0sZ2b8owrA1OwS01nFvDORSCBVSIaQD+ys0kQTIKcG/xDkuZ6i86w7JxDZFWsRyfnOKcJbUM9dOZOd08f7iXhC9MwgaM9kiaj7UmhUrkY/WJzAeZGswASmarHq6s/ufVD4dIhn2KYYr2m2pbpaRmIAEk3wCAWhpr9J2TPYYaLkt0FcF3F+zxn/shthQpit0ivXsYQGnRvLgVPK5ItDqbCl+9UYR3FDluFWbMQb0Qj+tUKRl3gFR5uSnLNIGiog8mpllAV7m7fGp3uDNW5hyo+qrdn34iKcCOodFdSAQmpoX/lw5/sIxEW10T9AWdyvhpalEI5D96a01csBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by PH8PR11MB7071.namprd11.prod.outlook.com (2603:10b6:510:215::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Thu, 3 Oct
+ 2024 15:11:55 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.8026.016; Thu, 3 Oct 2024
+ 15:11:55 +0000
+Date: Thu, 3 Oct 2024 23:11:46 +0800
+From: Philip Li <philip.li@intel.com>
+To: Nhat Pham <nphamcs@gmail.com>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>, Yosry Ahmed
+	<yosryahmed@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Chengming Zhou
+	<chengming.zhou@linux.dev>
+Subject: Re: mm/zswap.c:744:52: error: 'struct zswap_lruvec_state' has no
+ member named 'nr_disk_swapins'
+Message-ID: <Zv60MrJ8jsmRTCwp@rli9-mobl>
+References: <202410021530.DnNbPqfN-lkp@intel.com>
+ <CAKEwX=Ma9usQBge8uKvin=+GsuRDgJrDYTthzLg7zhtbLMPc8w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKEwX=Ma9usQBge8uKvin=+GsuRDgJrDYTthzLg7zhtbLMPc8w@mail.gmail.com>
+X-ClientProxiedBy: SG2PR04CA0154.apcprd04.prod.outlook.com (2603:1096:4::16)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH8PR11MB7071:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c706284-08e2-4889-621c-08dce3bdb7e6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ci93cGxLNjhRYytwbHhPU2FuanF5OFUvUHk2TzB4S3VuZW1nV0JKejQ2bk9Y?=
+ =?utf-8?B?NndGNExwWTFWRUdSbXo3cG5IWmxjbXRMeG1Wam5xSS9PSWZoaVpDOHZFRnRX?=
+ =?utf-8?B?YlFDN1lxeWJ1S0ZBL0tPeTFiMTZiVGZKNU9NSFdJeVVQNVU3TnQwQmI5K2sx?=
+ =?utf-8?B?Y0FYTWdQcXFUeGI1Mkh6T0xNRlFMazFseUh2aDNXZWRBQkorQnJNOFFMQXhE?=
+ =?utf-8?B?N3FDMmtHQSthV1kzbk9BZkt0eFZHb1V2TlhUcG92S0k1cjhJOVkwUGJVZzZL?=
+ =?utf-8?B?ZDlhT1VDb3B3VnVqZmYyM1B6UEIwbThEZVNqdmdjelVzaUZLbCtIRWZnUXhn?=
+ =?utf-8?B?cDJOZm5OVHdleUhzL3pjV2RteWNCVGVwZGFLZGJ0SzR1RlhwTXQzNU5OUzls?=
+ =?utf-8?B?RWxNUHJjVDZxRmNTdG9vRnVKeENkc2dYd3NKVWxwTHhHZ0h2WGNYdC8vSmo4?=
+ =?utf-8?B?aEpMa1Y3Um5iaG1LSGNXSElXcnZQK2RnazhGZVNTdjBqKzdjOWViWFVhYjN0?=
+ =?utf-8?B?SVA2eUROV0JsRURYQzZPVTRneC9GR0RyTnVGZW5hRUx2b1U3WWtUNTY2d3Nh?=
+ =?utf-8?B?UVJpRWJwdGJSek9IK1Jmb1NURVRuNmFnNC9qRjNpL2NDMkVVaHpCU2c2Kzc5?=
+ =?utf-8?B?NmRFY2FXN2ZGWHNBVTdVR3M5N0szbldoYVFGNkpUdktjUW02eHV6MTN1bU5y?=
+ =?utf-8?B?RlZMVjJPSnkzNU9sWXFaaG9MYVI5OWhxdVNWRGU5UlJOQjFsZWRib25xWVU0?=
+ =?utf-8?B?Sm5PU1BmUloreWFPZWhpM1ZvU1NncmFzUW1lWlJTM1Z1UE9qQlVUMzhqZS8z?=
+ =?utf-8?B?TDNiUncxNlFhZEk2Q1A3REc4QXZQRkRQbVp5b3RSVTdxcTNWVzhnRXQ1WlRL?=
+ =?utf-8?B?RTlJQmJYS0RIU0VjSzgyTVhGQzhPdWZlTFhreTlMN2hhM0JraFdReit4OFk5?=
+ =?utf-8?B?NU5qR2ZJc0NtN1RHWDd0eUx3cml4aE5MUWRIN2dqSmdIZ3lOWFVBckRjL25R?=
+ =?utf-8?B?cjdQblc0cEJ5NVU5SW1ieGlYRzJWQlkybElobWJzZE1pWksrUzNjdm04b3ZE?=
+ =?utf-8?B?a1FrR3k2Z0Myd1Y0WTVkQnZsNEY0WE80N1F4TkhDSjV5ckNML3hGalc0ejVw?=
+ =?utf-8?B?bEJzSy9rRTRNT3BXeUlNRlBkcU1oenBFTW0vMmVsZDhlay9Va2VjcjhMcHd6?=
+ =?utf-8?B?aG80MW5aY3E2TFVuM1ZZZm5UUnhsRnBZcmtUWkIzM2xQYVNEY2wxbTlMbU1k?=
+ =?utf-8?B?OWNWMm96cWtOZTl3TnlYbXVJZDdWMi9UQTVWOWhUaUZxU3g3YWVkMmphS1hh?=
+ =?utf-8?B?cFR1dStEclN3eEFtSG1Pc2R4MW1PRmViNEhYNXRpcVB0V0VieXBOMHlHT1U5?=
+ =?utf-8?B?ZVpGdmpReXNhaHlUeElRK3ZIVkdhSDA2RjAxUzBZMm9mTE1FQ3orUDNpdVVw?=
+ =?utf-8?B?MWx2UUdEVER4LzU3Tm5UQWlNazlRQnp4eldzTjdxTFhsbThuU2Q0OTkrMHVX?=
+ =?utf-8?B?ODhVcWFnd08xaHNqc2dmSGpnVzQzSk9DZ1FQL2JMS1RQWW5xbThxR2FGazMr?=
+ =?utf-8?B?Qm9LOUFGZUo3b010elJNQkJXOEQyd1c3SWFCdmc1bG85UHgxYXZmK2k1aGsv?=
+ =?utf-8?Q?YJZYOWCdXD87JH1u1Aj5v5n6rt4t1eOjVMTPD7S/dNQ4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?enQvWStkMkxKYXFBbCtCSHBuMk5LbForMHU4T1d3MDBuUm5reVdSNExoS2pZ?=
+ =?utf-8?B?S0QvMDVtaTduajZ5QkszQkNCWHF1dlhjbUpjVjE0Zm1JOXNEN2V5Vzd4aS9P?=
+ =?utf-8?B?bWlxY1VEQTFsbldJR1ZpL0hqZlhaOGoxY3BneTloVEkxSzNCNTllaE5tM1NZ?=
+ =?utf-8?B?bGxKTStGRFVPdGx0OCt3OEg4ZG1BNXNOU2xoczBWaDFoVUV6ZUxjMG1QR1hX?=
+ =?utf-8?B?Z1lOUnFXTm1LUlpZUVZCRjREM2pHcE9aZTYyU0VZV2tHcWpKK3h4Wm5ja2JR?=
+ =?utf-8?B?QS91emhtb2czUVFrUUk2QytsYTBldzZwMWhKcjdnMEc5SVhUSUthdHZvK1p1?=
+ =?utf-8?B?RzdDTzltdHdGUUg0eUdFVEZnZlhYZ28veTBldnF2VEhPSzdJeHhWVkxnbHIr?=
+ =?utf-8?B?bCtFcEJZTGY1T0Zad0sxWE05TVdORnhTVFE0Y3VTUmVWSzE1VG1GNEFWWUJQ?=
+ =?utf-8?B?aFd1VnByOGJYWmlpS0ZnZEdna1RSMzB2UThYM2p3V1FUUFR6ZXdoZFVRVWZZ?=
+ =?utf-8?B?RzBMSExRTVZrOUptOFVRdkovWVcvQllHaGsvS2hoV3ZGOENDanZBdWN0eTVt?=
+ =?utf-8?B?ZmRLZmYrRVVWa2RWQkxqMUptUUllckJtOSsvcmRqZ21jM1dTN2FtMFFIckZp?=
+ =?utf-8?B?NzBpZkY0MkcxMU0xMWN1aTB4VnBHL2ZneWcrRzVlMStWSSt2akxqTnRUcDhG?=
+ =?utf-8?B?cTE4a3lYcDdNWDQyQXFtSWYvZThUaEoyL2ZZZHQrQmpvMlBGU1Z4bjgrRElH?=
+ =?utf-8?B?aGxRK3FlYkFZZUh4dWJQR2lTdFRhZVZRbjVaejJaUTdKN0czeFJId0RBYlVt?=
+ =?utf-8?B?eHlFL2dNR0NmeWJ4ZVdyUzluUTJNVmNocGdDbjdNeENSVHJnOFAxeWY1RGdF?=
+ =?utf-8?B?VDk0eFh0THhINVFYc0VQbmJJRTBhWlZzSjcydTRSbEo4VnBXQU03RTZqRC9x?=
+ =?utf-8?B?NitkdHZjNFp2Q0NRUTlWUlMxMi9SditpclFoa2xXQnNqRFlwMFFEbVhXZWZw?=
+ =?utf-8?B?b3htUTMwQXZoSXpSOFFSMDlWeXNBQmNnZ1p4VGc3MWNVN0Vhejc5ZmxUNnkv?=
+ =?utf-8?B?TFJQYUdVT2JMdGR4YnpVQ2ErWFdXMnFEMVQrSTFrcHIwQjIvT2NTNDRyVWt2?=
+ =?utf-8?B?b1RZZlIwczdETlB5WkZENEF3QmFPME5ZL0IyaHArY1l6K0NFUVppaDloVnkw?=
+ =?utf-8?B?amhKa2QrYXZod1l1Z0NyL2pyZXFRa09TeHduNHhFdmJFTk1nTDZzZVlIQUNq?=
+ =?utf-8?B?aFIxaW9DSTFOQU44TGJFVUM1d09Zbys1WjV6SHJLWXZteXIzZEcrKzJpbkJm?=
+ =?utf-8?B?MFJsNlAvenRZa0VPQUlTL3kwTTRqRFNVanJHdUZJZStHSE5QM0s5d0JoYWVC?=
+ =?utf-8?B?Z2pULzdQRTZoSmVZeXE0WkFWaU9zeEVvWEljaFJLY2tGMktCWTRMWEZZYzNI?=
+ =?utf-8?B?U0JyTzQvdjFmNkFkb3FIUWRXbnUwNld6ZkVFRWZGbjk3Y3pUbktQNXlKaUds?=
+ =?utf-8?B?eEhES0NxYWxzUFIwbStudmVSeHFLbzBjcitRb2hKVmJhUWM2UTJnS3RBTzgy?=
+ =?utf-8?B?V2tYM05ZWGJsSUtNQ0lnTXdhNW9uMWFPbmoxTWc0Tm5rSWl0a2VXTDMvUXlO?=
+ =?utf-8?B?MDhjQy93QlhYd0hObFlCR1R3TXU5NTkvMk1sREIrWS82WUhGcFRteEJYeHJh?=
+ =?utf-8?B?bGFCN0Q1SU42WHF0VGQ5TWlMRC9Xajk2VzJveGJDT1NQSHZJWGczWFFCSlVN?=
+ =?utf-8?B?eTdvUytFeTFYMkJpSGlLWmhpcGdLVXgrSDVQT0RLZzFMSVBZZDJLTUhGVlBy?=
+ =?utf-8?B?OHpJS0RETm9CS2hMRjBESVp6TDhTWUx6ZFFSa2JHR3AvVEE1MkdZeWVVY1Jq?=
+ =?utf-8?B?RUExNkdpQWxNaGZGdFFtOGp6VnMvaUdzUm1RMVhXNjBBS2crem9ENXNNNERJ?=
+ =?utf-8?B?bi9sbDZ5UnhSM3g4elJ2YngvRHhPMTFOZCtaK2oyS2RaSFlFdFBWbnNyUjVo?=
+ =?utf-8?B?SGpBTWVRTFdCV0hNWGtqOUl3anNMTm9LTzlyMUZlRlVhV0ZRUDNvMFVGY3FS?=
+ =?utf-8?B?enQ4T2JoZVdXeUJ1R09lVUMvLzRLSy9ocWZoNDdiTWxvOWpKUk94cE4xcys2?=
+ =?utf-8?Q?hftfOXJm0d2QN1p/VX1CYicFp?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c706284-08e2-4889-621c-08dce3bdb7e6
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 15:11:55.7184
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AWi3efWkpeADni32MH0YK+Yzf0lDfI8j05SrZoM6x0lRYfY2o5GIjCpU2nsaS5kYBnyo+rM+7LWFmgit03HsPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7071
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-cip-rt
-head:   d51e63480f2a36ac1c3a542632e60e1e2bdc0119
-commit: 9295a38a563cc625c2faabf069f21ddd31cbf980 [5795/25052] Add upstream swait
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241003/202410032333.C3VpXmU9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410032333.C3VpXmU9-lkp@intel.com/reproduce)
+On Wed, Oct 02, 2024 at 11:13:24AM -0700, Nhat Pham wrote:
+> On Wed, Oct 2, 2024 at 1:01 AM kernel test robot <lkp@intel.com> wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+> > commit: e31c38e037621c445bb4393fd77e0a76e6e0899a zswap: implement a second chance algorithm for dynamic zswap shrinker
+> > date:   4 weeks ago
+> > config: x86_64-randconfig-r133-20240215 (https://download.01.org/0day-ci/archive/20241002/202410021530.DnNbPqfN-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021530.DnNbPqfN-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202410021530.DnNbPqfN-lkp@intel.com/
+> >
+> 
+> I'm stumped...I downloaded this config file, and used the same
+> reproducer build commands, and it built successfully for me :(
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410032333.C3VpXmU9-lkp@intel.com/
+Sorry about false report, kindly ignore this. The bot side will look
+into the detail to resolve the issue asap.
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/alpha/include/asm/bug.h:22:0,
-                    from include/linux/bug.h:4,
-                    from include/linux/thread_info.h:11,
-                    from include/asm-generic/preempt.h:4,
-                    from arch/alpha/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:63,
-                    from include/linux/spinlock.h:50,
-                    from include/linux/seqlock.h:35,
-                    from include/linux/time.h:5,
-                    from include/linux/stat.h:18,
-                    from include/linux/module.h:10,
-                    from fs/binfmt_em86.c:11:
-   include/linux/cpumask.h: In function 'cpumask_check':
-   include/linux/cpumask.h:117:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-     WARN_ON_ONCE(cpu >= nr_cpumask_bits);
-                      ^
-   include/asm-generic/bug.h:111:27: note: in definition of macro 'WARN_ON_ONCE'
-     int __ret_warn_once = !!(condition);   \
-                              ^~~~~~~~~
-   fs/binfmt_em86.c: In function 'load_em86':
->> fs/binfmt_em86.c:73:35: error: passing argument 2 of 'copy_strings_kernel' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      retval = copy_strings_kernel(1, &i_arg, bprm);
-                                      ^
-   In file included from fs/binfmt_em86.c:14:0:
-   include/linux/binfmts.h:116:12: note: expected 'const char * const*' but argument is of type 'char **'
-    extern int copy_strings_kernel(int argc, const char *const *argv,
-               ^~~~~~~~~~~~~~~~~~~
-   fs/binfmt_em86.c:77:34: error: passing argument 2 of 'copy_strings_kernel' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     retval = copy_strings_kernel(1, &i_name, bprm);
-                                     ^
-   In file included from fs/binfmt_em86.c:14:0:
-   include/linux/binfmts.h:116:12: note: expected 'const char * const*' but argument is of type 'char **'
-    extern int copy_strings_kernel(int argc, const char *const *argv,
-               ^~~~~~~~~~~~~~~~~~~
-   fs/binfmt_em86.c:68:2: warning: ignoring return value of 'remove_arg_zero', declared with attribute warn_unused_result [-Wunused-result]
-     remove_arg_zero(bprm);
-     ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/copy_strings_kernel +73 fs/binfmt_em86.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  24  
-71613c3b871c5a Al Viro        2012-10-20  25  static int load_em86(struct linux_binprm *bprm)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  26  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  27  	char *interp, *i_name, *i_arg;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  28  	struct file * file;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  29  	int retval;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  30  	struct elfhdr	elf_ex;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  31  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  32  	/* Make sure this is a Linux/Intel ELF executable... */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  33  	elf_ex = *((struct elfhdr *)bprm->buf);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  34  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  35  	if (memcmp(elf_ex.e_ident, ELFMAG, SELFMAG) != 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  36  		return  -ENOEXEC;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  37  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  38  	/* First of all, some simple consistency checks */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  39  	if ((elf_ex.e_type != ET_EXEC && elf_ex.e_type != ET_DYN) ||
-^1da177e4c3f41 Linus Torvalds 2005-04-16  40  		(!((elf_ex.e_machine == EM_386) || (elf_ex.e_machine == EM_486))) ||
-72c2d531920048 Al Viro        2013-09-22  41  		!bprm->file->f_op->mmap) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  42  			return -ENOEXEC;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  43  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  44  
-51f39a1f0cea1c David Drysdale 2014-12-12  45  	/* Need to be able to load the file after exec */
-51f39a1f0cea1c David Drysdale 2014-12-12  46  	if (bprm->interp_flags & BINPRM_FLAGS_PATH_INACCESSIBLE)
-51f39a1f0cea1c David Drysdale 2014-12-12  47  		return -ENOENT;
-51f39a1f0cea1c David Drysdale 2014-12-12  48  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  49  	allow_write_access(bprm->file);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  50  	fput(bprm->file);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  51  	bprm->file = NULL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  52  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  53  	/* Unlike in the script case, we don't have to do any hairy
-^1da177e4c3f41 Linus Torvalds 2005-04-16  54  	 * parsing to find our interpreter... it's hardcoded!
-^1da177e4c3f41 Linus Torvalds 2005-04-16  55  	 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  56  	interp = EM86_INTERP;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  57  	i_name = EM86_I_NAME;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  58  	i_arg = NULL;		/* We reserve the right to add an arg later */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  59  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  60  	/*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  61  	 * Splice in (1) the interpreter's name for argv[0]
-^1da177e4c3f41 Linus Torvalds 2005-04-16  62  	 *           (2) (optional) argument to interpreter
-^1da177e4c3f41 Linus Torvalds 2005-04-16  63  	 *           (3) filename of emulated file (replace argv[0])
-^1da177e4c3f41 Linus Torvalds 2005-04-16  64  	 *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  65  	 * This is done in reverse order, because of how the
-^1da177e4c3f41 Linus Torvalds 2005-04-16  66  	 * user environment and arguments are stored.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  67  	 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  68  	remove_arg_zero(bprm);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  69  	retval = copy_strings_kernel(1, &bprm->filename, bprm);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  70  	if (retval < 0) return retval; 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  71  	bprm->argc++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  72  	if (i_arg) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @73  		retval = copy_strings_kernel(1, &i_arg, bprm);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  74  		if (retval < 0) return retval; 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  75  		bprm->argc++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  76  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  77  	retval = copy_strings_kernel(1, &i_name, bprm);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  78  	if (retval < 0)	return retval;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  79  	bprm->argc++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  80  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  81  	/*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  82  	 * OK, now restart the process with the interpreter's inode.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  83  	 * Note that we use open_exec() as the name is now in kernel
-^1da177e4c3f41 Linus Torvalds 2005-04-16  84  	 * space, and we don't need to copy it.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  85  	 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  86  	file = open_exec(interp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  87  	if (IS_ERR(file))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  88  		return PTR_ERR(file);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  89  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  90  	bprm->file = file;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  91  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  92  	retval = prepare_binprm(bprm);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  93  	if (retval < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  94  		return retval;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  95  
-3c456bfc4ba66e Al Viro        2012-10-20  96  	return search_binary_handler(bprm);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  97  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  98  
-
-:::::: The code at line 73 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Fellow zswappers, anyone managed to reproduce this? Or is this a false
+> positive...
+> 
