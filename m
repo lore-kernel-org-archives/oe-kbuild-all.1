@@ -1,95 +1,296 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88292139D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 04:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00A774BF5;
+	Thu,  3 Oct 2024 05:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727930057; cv=none; b=PrPREH51JnuzUZqmDI+uVHks/8sNmsX/wvl0cfaqX4Va7WD9OlhdrA4siQBB7YElEMDQaJnkhbNfULjrbsRufQMGuZiVbnFYfhZMvJetul1KkpHaeZ5mL2bVRqtiEZjgSZjeTyP4pI7PslnYAjvtcivglwH7Wo/BK5niUIrZZy0=
+	t=1727933723; cv=none; b=eUgXsyhRkJX8YzhV/FK5RgUGAeB76DoaBL9ccZipVl/h42qVh0/muQQzcgehro4/2vVPdVYDVLcOGfMVuUWvna7i6CnMMzzPGbG441cO5MIfmEB74J4nK/+pmcpsIIMCj1wIJxEQUd3lCJbX0PsodINglHwlpdufn6WqVce5fSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727930057; c=relaxed/simple;
-	bh=tdKHvMRasUGig/EqKqopKwRqKVXkZpnfoF7sOCU+Vb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LfDurSPmuC3Gm0PxBHoF7ocWhM99GGXH6ucFzu5+beJjbeoPf0bMf2yQPVGlD31UyE3bUtCqBC0cUG7IHn2GChgQrihXCLYGhQgvKziiQviUP1TC3ggItXvlh1s+e0yzhRr/ACD2CfbyC0O0e/IoqTupGBWjfBh6ORWfwi3WdHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iSvERMkb; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1727933723; c=relaxed/simple;
+	bh=XIbbkuqPYNfSqVfvKaGb+aFGY7GpI6S0tMl2JMRdoEI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bymWFWyIQJjnkOEmCbCxpFcSKHQA7bZR9SkfK0hQXMAkNVZsJNaQEn38tFgp5q6sw0exiP4kov3Weh9ZZGGp6Yc7CKhOs5d65uidwubxYM40y5RcFE2vSEMGo9Gw1zLbnVW1wPN+i8+43GznsSilBjHzKKdxiu5oMQeUwcmbEyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HA71iMKU; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSvERMkb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HA71iMKU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727930055; x=1759466055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tdKHvMRasUGig/EqKqopKwRqKVXkZpnfoF7sOCU+Vb0=;
-  b=iSvERMkbnS8XRvFP0jo9FOJ2kDX6FWCFvmd/yF9SWsjMTHNBMjUBAUOi
-   EX53MBwesGtrSRj8l6OTw/Sp14WbxmqxVQgd0QhQrH/m/kdlWX34TfT7l
-   eEJuQrw2pa++yzHXMwUM1xnCKrGllJlTQFBuXHpa5PEI7mjUwObFkuRGJ
-   TUq3rQozzgARRKJmvo+/gnJeIkQiPq2CwWav17KrGuhPoGaYFvXjlGqkO
-   N18mP6/mxOPKMxDCUULjfMEMduir1Y2Vfsk8EWfmqomUOTuGLEPY//Wu6
-   aGMlTn7X7sVp7ov/XdZRSzjBAnVx5fjTQal/knRWmuKdqE3VPe6Z9cX/F
-   g==;
-X-CSE-ConnectionGUID: Y+lnVql1QD+7a6fhpvcBAg==
-X-CSE-MsgGUID: HI8IyiGvTqu+/J36x87Z7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26582989"
+  t=1727933721; x=1759469721;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=XIbbkuqPYNfSqVfvKaGb+aFGY7GpI6S0tMl2JMRdoEI=;
+  b=HA71iMKUzvzdrOFwiGs2OqU+h4Yk+DzyZyQ1R0XU2AD6Xxwc/COkVvPX
+   UDpFJG9KR80rk23F4yr5zTid83JcSGCfy7mW4EuPpNsjNRKu4EkpUKgXY
+   VqRodwioRh6Myhug/OwdViI3pweMmowSP/dF1geHXjVHdnXAV5Z6fKJlg
+   sFeLPJ5Xunz/7BaJ31yIybJpuxDHGD6dwyKxzjPJ25bJOe8FIqXs/a2jO
+   oXzcPBHHdxsdx7u1zuvirkhkRJ8DWbTqGM8UZ2TlEDQNARI8xTm/j84ry
+   qJh78LNAHlXgJLp3oHOi+pqEBNm/KNEKaxjSn/urIusq3tHjkAX2zj8nN
+   A==;
+X-CSE-ConnectionGUID: ZmcrXEDGS8KlKQiQ+vXtFg==
+X-CSE-MsgGUID: v5z6dW5wRjqU6BRkFAdlwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="37676206"
 X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="26582989"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 21:34:14 -0700
-X-CSE-ConnectionGUID: zxUiqnObReGAisJf9DBrSg==
-X-CSE-MsgGUID: Vih/jH9fTuuFjjKsBBODbA==
+   d="scan'208";a="37676206"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 22:35:21 -0700
+X-CSE-ConnectionGUID: SFlOz1suSTyecNsQtAuHiw==
+X-CSE-MsgGUID: Rz2ur3RTTlepYSnsok8afg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="79202678"
+   d="scan'208";a="73910176"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Oct 2024 21:34:14 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Oct 2024 22:35:17 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swDXX-00002U-2A;
-	Thu, 03 Oct 2024 04:34:11 +0000
-Date: Thu, 3 Oct 2024 12:33:20 +0800
+	id 1swEUc-00005W-2f;
+	Thu, 03 Oct 2024 05:35:14 +0000
+Date: Thu, 3 Oct 2024 13:35:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:b-4.4-st56-rt51 173/395] lib/percpu_ida.c:31:30: warning:
- 'irq_off_lock' defined but not used
-Message-ID: <202410031209.3R8Veo8X-lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-iio@vger.kernel.org, linux-cxl@vger.kernel.org,
+	David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH 2/3] iio: adc: ad7380: use if_not_cond_guard for claim
+ direct
+Message-ID: <202410031253.vjAMDYuX-lkp@intel.com>
+References: <20241001-cleanup-if_not_cond_guard-v1-2-7753810b0f7a@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241001-cleanup-if_not_cond_guard-v1-2-7753810b0f7a@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git b-4.4-st56-rt51
-head:   83b6d202216c6d5a6a328dc895dd1b7005dedd92
-commit: 0efec5734a5187eb69e7d7896cd7fed4b6db55ce [173/395] percpu_ida: Use local locks
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20241003/202410031209.3R8Veo8X-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410031209.3R8Veo8X-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 431c39f6d3edbab14f48dbf37a58ccdc0ac3be1e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/cleanup-add-conditional-guard-helper/20241002-063209
+base:   431c39f6d3edbab14f48dbf37a58ccdc0ac3be1e
+patch link:    https://lore.kernel.org/r/20241001-cleanup-if_not_cond_guard-v1-2-7753810b0f7a%40baylibre.com
+patch subject: [PATCH 2/3] iio: adc: ad7380: use if_not_cond_guard for claim direct
+config: arm64-randconfig-001-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031253.vjAMDYuX-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410031253.vjAMDYuX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410031209.3R8Veo8X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410031253.vjAMDYuX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from lib/percpu_ida.c:29:0:
->> lib/percpu_ida.c:31:30: warning: 'irq_off_lock' defined but not used [-Wunused-const-variable=]
-    static DEFINE_LOCAL_IRQ_LOCK(irq_off_lock);
-                                 ^
-   include/linux/locallock.h:242:60: note: in definition of macro 'DEFINE_LOCAL_IRQ_LOCK'
-    #define DEFINE_LOCAL_IRQ_LOCK(lvar)  __typeof__(const int) lvar
-                                                               ^~~~
+>> drivers/iio/adc/ad7380.c:823:3: error: expected expression
+     823 |                 if_not_cond_guard(iio_claim_direct_try, indio_dev)
+         |                 ^
+   include/linux/cleanup.h:316:2: note: expanded from macro 'if_not_cond_guard'
+     316 |         __if_not_cond_guard(_name, __UNIQUE_ID(guard), args)
+         |         ^
+   include/linux/cleanup.h:312:2: note: expanded from macro '__if_not_cond_guard'
+     312 |         CLASS(_name, _id)(args);                        \
+         |         ^
+   include/linux/cleanup.h:258:2: note: expanded from macro 'CLASS'
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:81:1: note: expanded from here
+      81 | class_iio_claim_direct_try_t
+         | ^
+   drivers/iio/adc/ad7380.c:823:3: error: use of undeclared identifier '__UNIQUE_ID_guard799'
+   include/linux/cleanup.h:316:29: note: expanded from macro 'if_not_cond_guard'
+     316 |         __if_not_cond_guard(_name, __UNIQUE_ID(guard), args)
+         |                                    ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:79:1: note: expanded from here
+      79 | __UNIQUE_ID_guard799
+         | ^
+>> drivers/iio/adc/ad7380.c:935:2: error: cannot jump from switch statement to this case label
+     935 |         default:
+         |         ^
+   drivers/iio/adc/ad7380.c:911:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     911 |                 if_not_cond_guard(iio_claim_direct_try, indio_dev)
+         |                 ^
+   include/linux/cleanup.h:316:29: note: expanded from macro 'if_not_cond_guard'
+     316 |         __if_not_cond_guard(_name, __UNIQUE_ID(guard), args)
+         |                                    ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:90:1: note: expanded from here
+      90 | __UNIQUE_ID_guard800
+         | ^
+   3 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
 
-vim +/irq_off_lock +31 lib/percpu_ida.c
+vim +823 drivers/iio/adc/ad7380.c
 
-    30	
-  > 31	static DEFINE_LOCAL_IRQ_LOCK(irq_off_lock);
-    32	
+   808	
+   809	static int ad7380_read_raw(struct iio_dev *indio_dev,
+   810				   struct iio_chan_spec const *chan,
+   811				   int *val, int *val2, long info)
+   812	{
+   813		struct ad7380_state *st = iio_priv(indio_dev);
+   814		const struct iio_scan_type *scan_type;
+   815	
+   816		scan_type = iio_get_current_scan_type(indio_dev, chan);
+   817	
+   818		if (IS_ERR(scan_type))
+   819			return PTR_ERR(scan_type);
+   820	
+   821		switch (info) {
+   822		case IIO_CHAN_INFO_RAW:
+ > 823			if_not_cond_guard(iio_claim_direct_try, indio_dev)
+   824				return -EBUSY;
+   825	
+   826			return ad7380_read_direct(st, chan->scan_index, scan_type, val);
+   827		case IIO_CHAN_INFO_SCALE:
+   828			/*
+   829			 * According to the datasheet, the LSB size is:
+   830			 *    * (2 × VREF) / 2^N, for differential chips
+   831			 *    * VREF / 2^N, for pseudo-differential chips
+   832			 * where N is the ADC resolution (i.e realbits)
+   833			 */
+   834			*val = st->vref_mv;
+   835			*val2 = scan_type->realbits - chan->differential;
+   836	
+   837			return IIO_VAL_FRACTIONAL_LOG2;
+   838		case IIO_CHAN_INFO_OFFSET:
+   839			/*
+   840			 * According to IIO ABI, offset is applied before scale,
+   841			 * so offset is: vcm_mv / scale
+   842			 */
+   843			*val = st->vcm_mv[chan->channel] * (1 << scan_type->realbits)
+   844				/ st->vref_mv;
+   845	
+   846			return IIO_VAL_INT;
+   847		case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+   848			*val = st->oversampling_ratio;
+   849	
+   850			return IIO_VAL_INT;
+   851		default:
+   852			return -EINVAL;
+   853		}
+   854	}
+   855	
+   856	static int ad7380_read_avail(struct iio_dev *indio_dev,
+   857				     struct iio_chan_spec const *chan,
+   858				     const int **vals, int *type, int *length,
+   859				     long mask)
+   860	{
+   861		switch (mask) {
+   862		case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+   863			*vals = ad7380_oversampling_ratios;
+   864			*length = ARRAY_SIZE(ad7380_oversampling_ratios);
+   865			*type = IIO_VAL_INT;
+   866	
+   867			return IIO_AVAIL_LIST;
+   868		default:
+   869			return -EINVAL;
+   870		}
+   871	}
+   872	
+   873	/**
+   874	 * ad7380_osr_to_regval - convert ratio to OSR register value
+   875	 * @ratio: ratio to check
+   876	 *
+   877	 * Check if ratio is present in the list of available ratios and return the
+   878	 * corresponding value that needs to be written to the register to select that
+   879	 * ratio.
+   880	 *
+   881	 * Returns: register value (0 to 7) or -EINVAL if there is not an exact match
+   882	 */
+   883	static int ad7380_osr_to_regval(int ratio)
+   884	{
+   885		int i;
+   886	
+   887		for (i = 0; i < ARRAY_SIZE(ad7380_oversampling_ratios); i++) {
+   888			if (ratio == ad7380_oversampling_ratios[i])
+   889				return i;
+   890		}
+   891	
+   892		return -EINVAL;
+   893	}
+   894	
+   895	static int ad7380_write_raw(struct iio_dev *indio_dev,
+   896				    struct iio_chan_spec const *chan, int val,
+   897				    int val2, long mask)
+   898	{
+   899		struct ad7380_state *st = iio_priv(indio_dev);
+   900		int ret, osr, boost;
+   901	
+   902		switch (mask) {
+   903		case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+   904			osr = ad7380_osr_to_regval(val);
+   905			if (osr < 0)
+   906				return osr;
+   907	
+   908			/* always enable resolution boost when oversampling is enabled */
+   909			boost = osr > 0 ? 1 : 0;
+   910	
+   911			if_not_cond_guard(iio_claim_direct_try, indio_dev)
+   912				return -EBUSY;
+   913	
+   914			ret = regmap_update_bits(st->regmap,
+   915						 AD7380_REG_ADDR_CONFIG1,
+   916						 AD7380_CONFIG1_OSR | AD7380_CONFIG1_RES,
+   917						 FIELD_PREP(AD7380_CONFIG1_OSR, osr) |
+   918						 FIELD_PREP(AD7380_CONFIG1_RES, boost));
+   919	
+   920			if (ret)
+   921				return ret;
+   922	
+   923			st->oversampling_ratio = val;
+   924			st->resolution_boost_enabled = boost;
+   925	
+   926			/*
+   927			 * Perform a soft reset. This will flush the oversampling block
+   928			 * and FIFO but will maintain the content of the configurable
+   929			 * registers.
+   930			 */
+   931			return regmap_update_bits(st->regmap, AD7380_REG_ADDR_CONFIG2,
+   932						  AD7380_CONFIG2_RESET,
+   933						  FIELD_PREP(AD7380_CONFIG2_RESET,
+   934							     AD7380_CONFIG2_RESET_SOFT));
+ > 935		default:
+   936			return -EINVAL;
+   937		}
+   938	}
+   939	
 
 -- 
 0-DAY CI Kernel Test Service
