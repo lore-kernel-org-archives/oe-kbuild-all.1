@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F01A14AD02
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 10:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC25613664E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Oct 2024 10:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727950350; cv=none; b=n/FZRfrunhKOTfEkvuVfX1Azfb2GwZTm8GW+K6ltcDaQ3bxdU3q6W6+IcCjFhd65TQZvhkLRWTsigKVwIObavBhoslnVkif1Ts+/NapFkqg1Vr8qP+lMnyS+zbdDcA4Y1pWBJBbhfoDuo7wEQUf7UJApTkjUIoPQRfjSEOarXrE=
+	t=1727950949; cv=none; b=A296LexoPmdWl9LwZeMkEjctGXKxaKPMC2alAYHn7t7hEgfGSKApvXyLYXaxxrE5B8EvSGeo3yDfULYYPMbm7F6sNLYMTLVzTLTZtQLV6kgtf3RxFEwsKoo1wdTl+aqOnkmbs4nYmmed5xXSFM2Hfl2FLDMi7/IRxufTAnbBj3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727950350; c=relaxed/simple;
-	bh=7kQ9CE+8piCl1PeEPd00/TWkbHX5U5LP/am+07aNRu4=;
+	s=arc-20240116; t=1727950949; c=relaxed/simple;
+	bh=PUe/d/uoUvyHtqc9qqxU8GVE8TfzmWIfGoFUBOUZGC4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+5YgX04s/2wW7wtyhYk4L5N8Ty30Mp2eCHrJGjMl3n2cB5wNNfVakD1xTwRTPFAt+OpVgiE1H8v10/MjE/gqdScAm+t6BQt38hb/FsxdDXWzUDbEnjlF3qjH5aWMVI0EsARdkr9zA3UucvyriH48UN7UZjWxKvNzU6uXnyaljI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cK5jzg33; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=BA3ae0ygs+JUGemwboW2ELyWS0+AN2rFyNvx++cq6u1zIy5OGYzsm74YXcctyz6k0auygZu7OY7AHXFvNEvfwpr7Fu7xsDtF4Y3kETaIfh53w7RPayjFKXVdGlPg00aPeUjmvRUvFDlulSPs8SAiMMuSvHUVjJb/c6Glcvciy64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hewWxsgj; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cK5jzg33"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hewWxsgj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727950349; x=1759486349;
+  t=1727950946; x=1759486946;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7kQ9CE+8piCl1PeEPd00/TWkbHX5U5LP/am+07aNRu4=;
-  b=cK5jzg33UTniqgKogLAmsjRTRTAGmwunuRFtpsxOIewwHobtTf3XNhRA
-   cVClUnyUTq+Nfcz7n4a+wL+DfcS3h3xuN5sy7u3snEnHat4lWWeas6kVA
-   TCaH9XJWlDA0/uqbqSa2UgnhW5MqBVnnlGP36uEGNIMiFUgGpvrnBtuxD
-   4GmUqu6XkXWP7Yz6tTOMnlNZCzZ1J28+mcQo5xjDgadJuu2ew2wd94oSI
-   IWmezKf8t2vDG8daiDBoumFdX9yJC9Krvlrjy2MvgFOGwxlUl6buZ3DiX
-   g5MBtGqhxrDmM0ROS5b7LcWfxVUe+5Mo07HH+plG0tmt+Nc2yZPZA2n1H
-   w==;
-X-CSE-ConnectionGUID: 1TqJyS2hTIeE2OuwNrFAcQ==
-X-CSE-MsgGUID: iHP/kZOSQqm3rgS275UAKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27316391"
+  bh=PUe/d/uoUvyHtqc9qqxU8GVE8TfzmWIfGoFUBOUZGC4=;
+  b=hewWxsgjNS/oSUbe9kRc2pST+KtWRWoBELPDy1AmK1p7rUQO0HBmbdsQ
+   VgggQIc6qcXWwVidwLB7TkM/LVHDVCiuBauP0Kniz4gNtPmuog38llJsH
+   Kq4aZSgfPBRdcd1KdxyXI2jE7HtXvNFhO/gjVd4jjAZEF66J0NuHOVx7I
+   asx4F0hh3iRLK7u1Bqws9Nhnwetx8a107iZdBOm7+o1QLssDUG+mP0FNj
+   pMU3V/VWW0GRgVEf4BdRvupfrMR36r7suyvox53WzVNEKQX/HYSuFw/3t
+   tqd1KU0+TVmYcXNRiPlz6CMLAV6lRgfGFnw3LACweTPp9bVPtzRde/KQK
+   Q==;
+X-CSE-ConnectionGUID: 6NeWNLGvQnqlG5goW2+34A==
+X-CSE-MsgGUID: 4zcJjjIVTGKhYw+4RXHgJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27292079"
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="27316391"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 03:12:28 -0700
-X-CSE-ConnectionGUID: lbW8fCgmRXSfOkJ8w0Wtpw==
-X-CSE-MsgGUID: aeHdcJlWSAiJEvUGTdUcBA==
+   d="scan'208";a="27292079"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 03:22:25 -0700
+X-CSE-ConnectionGUID: MAJ8szbkTKyUEGsTDmdTHQ==
+X-CSE-MsgGUID: SI9YnEH3Rjmts6WRzIfWIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="111764103"
+   d="scan'208";a="79067765"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Oct 2024 03:12:24 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Oct 2024 03:22:25 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swIon-0000H1-1G;
-	Thu, 03 Oct 2024 10:12:21 +0000
-Date: Thu, 3 Oct 2024 18:11:47 +0800
+	id 1swIyT-0000HY-2C;
+	Thu, 03 Oct 2024 10:22:21 +0000
+Date: Thu, 3 Oct 2024 18:22:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: shiyongbang <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
-	tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
-Cc: oe-kbuild-all@lists.linux.dev, liangjian010@huawei.com,
-	chenjianmin@huawei.com, lidongming5@huawei.com,
-	shiyongbang@huawei.com, libaihan@huawei.com, shenjian15@huawei.com,
-	shaojijie@huawei.com, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in
- hibmc drivers
-Message-ID: <202410031735.8iRZZR6T-lkp@intel.com>
-References: <20240930100610.782363-3-shiyongbang@huawei.com>
+To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Kate Hsuan <hpa@redhat.com>
+Subject: Re: [PATCH] media: Add t4ka3 camera sensor driver
+Message-ID: <202410031806.jxxP1Fch-lkp@intel.com>
+References: <20241002093037.50875-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,61 +64,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240930100610.782363-3-shiyongbang@huawei.com>
+In-Reply-To: <20241002093037.50875-1-hpa@redhat.com>
 
-Hi shiyongbang,
+Hi Kate,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.12-rc1 next-20241003]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.12-rc1 next-20241003]
+[cannot apply to sailus-media-tree/streams]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shiyongbang/drm-hisilicon-hibmc-add-dp-aux-in-hibmc-drivers/20240930-181437
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240930100610.782363-3-shiyongbang%40huawei.com
-patch subject: [PATCH drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
-config: i386-buildonly-randconfig-003-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031735.8iRZZR6T-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410031735.8iRZZR6T-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kate-Hsuan/media-Add-t4ka3-camera-sensor-driver/20241002-173303
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20241002093037.50875-1-hpa%40redhat.com
+patch subject: [PATCH] media: Add t4ka3 camera sensor driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241003/202410031806.jxxP1Fch-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410031806.jxxP1Fch-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410031806.jxxP1Fch-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:10:
-   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c: In function 'dp_link_training_cr_pre':
->> drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h:45:41: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-      45 | #define DPCD_VOLTAGE_SWING_LEVEL_2      FIELD_PREP(GENMASK(1, 0), 2)
-         |                                         ^~~~~~~~~~
-   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:105:32: note: in expansion of macro 'DPCD_VOLTAGE_SWING_LEVEL_2'
-     105 |                 train_set[i] = DPCD_VOLTAGE_SWING_LEVEL_2 | DPCD_PRE_EMPHASIS_LEVEL_0;
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/media/i2c/t4ka3.c:1099:30: warning: 't4ka3_acpi_match' defined but not used [-Wunused-variable]
+    1099 | static struct acpi_device_id t4ka3_acpi_match[] = {
+         |                              ^~~~~~~~~~~~~~~~
 
 
-vim +/FIELD_PREP +45 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
+vim +/t4ka3_acpi_match +1099 drivers/media/i2c/t4ka3.c
 
-ff6e8ef6021188 baihan li 2024-09-30  37  
-ff6e8ef6021188 baihan li 2024-09-30  38  #define DPCD_TRAINING_PATTERN_DISABLE	0x0
-ff6e8ef6021188 baihan li 2024-09-30  39  #define DPCD_TRAINING_PATTERN_1		0x1
-ff6e8ef6021188 baihan li 2024-09-30  40  #define DPCD_TRAINING_PATTERN_2		0x2
-ff6e8ef6021188 baihan li 2024-09-30  41  #define DPCD_TRAINING_PATTERN_3		0x3
-ff6e8ef6021188 baihan li 2024-09-30  42  #define DPCD_TRAINING_PATTERN_4		0x7
-ff6e8ef6021188 baihan li 2024-09-30  43  #define DPCD_VOLTAGE_SWING_LEVEL_0	FIELD_PREP(GENMASK(1, 0), 0)
-ff6e8ef6021188 baihan li 2024-09-30  44  #define DPCD_VOLTAGE_SWING_LEVEL_1	FIELD_PREP(GENMASK(1, 0), 1)
-ff6e8ef6021188 baihan li 2024-09-30 @45  #define DPCD_VOLTAGE_SWING_LEVEL_2	FIELD_PREP(GENMASK(1, 0), 2)
-ff6e8ef6021188 baihan li 2024-09-30  46  #define DPCD_VOLTAGE_SWING_LEVEL_3	FIELD_PREP(GENMASK(1, 0), 3)
-ff6e8ef6021188 baihan li 2024-09-30  47  #define DPCD_PRE_EMPHASIS_LEVEL_0	FIELD_PREP(GENMASK(4, 3), 0)
-ff6e8ef6021188 baihan li 2024-09-30  48  #define DPCD_PRE_EMPHASIS_LEVEL_1	FIELD_PREP(GENMASK(4, 3), 1)
-ff6e8ef6021188 baihan li 2024-09-30  49  #define DPCD_PRE_EMPHASIS_LEVEL_2	FIELD_PREP(GENMASK(4, 3), 2)
-ff6e8ef6021188 baihan li 2024-09-30  50  #define DPCD_PRE_EMPHASIS_LEVEL_3	FIELD_PREP(GENMASK(4, 3), 3)
-ff6e8ef6021188 baihan li 2024-09-30  51  
+  1098	
+> 1099	static struct acpi_device_id t4ka3_acpi_match[] = {
+  1100		{ "XMCC0003" },
+  1101		{},
+  1102	};
+  1103	MODULE_DEVICE_TABLE(acpi, t4ka3_acpi_match);
+  1104	
 
 -- 
 0-DAY CI Kernel Test Service
