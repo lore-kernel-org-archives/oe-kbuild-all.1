@@ -1,156 +1,141 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CBD148FF3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 10:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BFA1474AF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 10:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728038278; cv=none; b=jk3i3sMzYGpLwAurz5KJl+B9Hon0qlSTckey3xH9gY7TtGmKeZNj3xKRFfO/A1t++6DKpVmttSgYLninbReBuPjJxyQKWNOKNUPJFjWvbnEUV2YfethjVqe62M++iAGLzYFlSuTUBKdLETICl76SeySkCxNy/qXo30tZGKxMk6I=
+	t=1728039378; cv=none; b=kDAyyxlTFSUEPKiki0k6uijGPtI5j6Xat/L2CqM5L+9tJMTn4s6IHxHx0wg27DtPpRRjqLxug76zjofvHcfNej67K0rzNIwCnJ2iD+LjcIf4QHCTPBZkkkWYtwLPKrd1PVEKgPloe2Yc+1H7Io+d78Hg7eTVlmTBGJ4kAn9n9go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728038278; c=relaxed/simple;
-	bh=F3ruzYwilJECqIk7N1EaAlGOlvjK/P0+2Gr9T7Srjn8=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=i/mPlxiXCQb2y3m4EPxZrAsBWdltjDSLfDieUd2KzcKnovg5UX7rxwnShce8nFonpLjdcxWXrzNkDmvOGXM5L1z8tPyZ3MMAs3lNHmDCRRgGv98+0BbUs9ccxDpjcap63b991MiHIWSAGPqa2BF1OVwVxgqeVu9aBEELxZ02pLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z//sdG7J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SjTTuxax; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z//sdG7J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SjTTuxax; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1728039378; c=relaxed/simple;
+	bh=AYq+Depz6SZzgWi309iNgbm1eMigTRimnQb8POgFbds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sSVqoVchTwnUilFr6V54zW5Je7ubFCgvd2idRrrWgvEVmjE+bl58Ke7jRSX67uKY0+p2Niip1kORJyLcbcU+N+QBeuzcA3TnpawA8RkGbeEfU2gYyLLVXRhkfoNJCXkLTcDcX5KRAhiyQes5GjmuWGQde4vMOW9TOD8S/P3t0Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTvF3lbH; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z//sdG7J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SjTTuxax";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z//sdG7J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SjTTuxax"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7D5911FE55;
-	Fri,  4 Oct 2024 10:37:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728038275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zHDxy2c57k5tDiWEJFqgQ21DkrZFy+nAWge3an4beHg=;
-	b=z//sdG7JPvj3as3rS3ty8sVU7vlp+WspZ0gdsAgQTZJTk0sIr5ISBi+cTwxEjgKjDFBjS+
-	kAwoCfGgR30Awdyd2pbwXzQgD7AYNr2LlPFEa+jq7VrjC6jDR+joiSEm4sh8nZ+R2VG+RV
-	KQHSo8ZrgWgpZTvAo98fcFpDDV55wxM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728038275;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zHDxy2c57k5tDiWEJFqgQ21DkrZFy+nAWge3an4beHg=;
-	b=SjTTuxax/EC13JqQZHKflAAXhPYzhMQCYVmt2ym879G7xEpQxBpqDDPP4OY2nNKG/uUCjx
-	7GKPj96joH1G/ABQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="z//sdG7J";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SjTTuxax
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728038275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zHDxy2c57k5tDiWEJFqgQ21DkrZFy+nAWge3an4beHg=;
-	b=z//sdG7JPvj3as3rS3ty8sVU7vlp+WspZ0gdsAgQTZJTk0sIr5ISBi+cTwxEjgKjDFBjS+
-	kAwoCfGgR30Awdyd2pbwXzQgD7AYNr2LlPFEa+jq7VrjC6jDR+joiSEm4sh8nZ+R2VG+RV
-	KQHSo8ZrgWgpZTvAo98fcFpDDV55wxM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728038275;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zHDxy2c57k5tDiWEJFqgQ21DkrZFy+nAWge3an4beHg=;
-	b=SjTTuxax/EC13JqQZHKflAAXhPYzhMQCYVmt2ym879G7xEpQxBpqDDPP4OY2nNKG/uUCjx
-	7GKPj96joH1G/ABQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4A6913A55;
-	Fri,  4 Oct 2024 10:37:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id q/O1GoHF/2aPIAAAD6G6ig
-	(envelope-from <neilb@suse.de>); Fri, 04 Oct 2024 10:37:53 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTvF3lbH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728039377; x=1759575377;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AYq+Depz6SZzgWi309iNgbm1eMigTRimnQb8POgFbds=;
+  b=VTvF3lbH70hfCk7xnxPdrKADNoD5GehKbAxzJ6QA48xstAOxH3MBg2G7
+   1REL4xwsLKlAiLc4jTMiBRSiMRgXEIP774gLWqW8tmyYMYUnUYXYZ4b/M
+   zuZEYIXV7Oy2bJ6FHhXxidfrWqJZWYO8zzJswFnGz65gbdxdoMLU87OSu
+   ivgrdx7avCk8EXWOYNC7M1XhY0MT3mjac/Hgvn07Ju7UvKjmdNHznLsFZ
+   +J5O0ChzYu5LUs8cf7DeMBzIdcRSXZtvALTMLbfICXVenzUEYfKU3mbsU
+   7OVmaSUTDvgQmZRCdWQi9jwgAlaycsQrKVVD8+JEQTnh1QIpYrS6A2eGR
+   A==;
+X-CSE-ConnectionGUID: X1bnoPHWRvi9ytEk0hs8pw==
+X-CSE-MsgGUID: PMHRnutFRrGCbl8p/UaGkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27392552"
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
+   d="scan'208";a="27392552"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 03:56:16 -0700
+X-CSE-ConnectionGUID: 1s6oyzRRRUyGPVMEB7cNdg==
+X-CSE-MsgGUID: vr8Wd7JVRDGF8l/R/hoZIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
+   d="scan'208";a="74500301"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 04 Oct 2024 03:56:14 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1swfyl-0001X3-2c;
+	Fri, 04 Oct 2024 10:56:11 +0000
+Date: Fri, 4 Oct 2024 18:55:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Chinner <david@fromorbit.com>, linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org,
+	linux-bcachefs@vger.kernel.org, kent.overstreet@linux.dev,
+	torvalds@linux-foundation.org
+Subject: Re: [PATCH 3/7] vfs: convert vfs inode iterators to
+ super_iter_inodes_unsafe()
+Message-ID: <202410041848.j3wt7yFP-lkp@intel.com>
+References: <20241002014017.3801899-4-david@fromorbit.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "NeilBrown" <neilb@suse.de>
-To: "Peter Zijlstra" <peterz@infradead.org>
-Cc: "kernel test robot" <lkp@intel.com>,
- "Christian Brauner" <brauner@kernel.org>,
- "Kent Overstreet" <kent.overstreet@linux.dev>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [peterz-queue:sched/core 1/8] fs/bcachefs/fs.c:181:28: error:
- passing argument 1 of 'bit_waitqueue' from incompatible pointer type
-In-reply-to: <20241004100111.GM18071@noisy.programming.kicks-ass.net>
-References: <>, <20241004100111.GM18071@noisy.programming.kicks-ass.net>
-Date: Fri, 04 Oct 2024 20:37:42 +1000
-Message-id: <172803826240.1692160.2514028201460838195@noble.neil.brown.name>
-X-Rspamd-Queue-Id: 7D5911FE55
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241002014017.3801899-4-david@fromorbit.com>
 
-On Fri, 04 Oct 2024, Peter Zijlstra wrote:
-> On Fri, Oct 04, 2024 at 07:28:26PM +1000, NeilBrown wrote:
-> >=20
-> > The compile error mentioned below is caused by my patch, but only
-> > because the code is wrong - so the patch causes wrong code to be
-> > highlighted - which is good.
-> >=20
-> > Commit: 112d21fd1a12 ("bcachefs: switch to rhashtable for vfs inodes hash=
-")
-> >=20
-> > introduced a use for bit_waitqueue for inode->i_state and __I_NEW, and=20
-> >=20
-> > Commit: 0fe340a98b58 ("inode: port __I_NEW to var event")
-> >=20
-> > change inode->i_state to require the new inode_bit_waitqueue().
-> >=20
-> > These were in independant devel branches and this would have been caught
-> > in -next if my patch had already been present.  Sorry I didn't do this
-> > earlier :-)
->=20
-> So what do I do? Wait for the bug to get fixed?
->=20
+Hi Dave,
 
-Do you need to wait?  Is a compile error worse than an actual bug?
-I guess it will cause more complaints, and that is something you can do
-without.
+kernel test robot noticed the following build warnings:
 
-Kent: how soon can you comfortably get this code updated and a pull
-request sent to Linus?
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on xfs-linux/for-next axboe-block/for-next linus/master v6.12-rc1 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-NeilBrown
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Chinner/vfs-replace-invalidate_inodes-with-evict_inodes/20241002-094254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20241002014017.3801899-4-david%40fromorbit.com
+patch subject: [PATCH 3/7] vfs: convert vfs inode iterators to super_iter_inodes_unsafe()
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241004/202410041848.j3wt7yFP-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410041848.j3wt7yFP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410041848.j3wt7yFP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/inode.c:874: warning: Function parameter or struct member 'inode' not described in 'evict_inode_fn'
+>> fs/inode.c:874: warning: Function parameter or struct member 'data' not described in 'evict_inode_fn'
+>> fs/inode.c:874: warning: expecting prototype for evict_inodes(). Prototype was for evict_inode_fn() instead
+
+
+vim +874 fs/inode.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  863  
+63997e98a3be68 Al Viro        2010-10-25  864  /**
+63997e98a3be68 Al Viro        2010-10-25  865   * evict_inodes	- evict all evictable inodes for a superblock
+63997e98a3be68 Al Viro        2010-10-25  866   * @sb:		superblock to operate on
+63997e98a3be68 Al Viro        2010-10-25  867   *
+63997e98a3be68 Al Viro        2010-10-25  868   * Make sure that no inodes with zero refcount are retained.  This is
+1751e8a6cb935e Linus Torvalds 2017-11-27  869   * called by superblock shutdown after having SB_ACTIVE flag removed,
+63997e98a3be68 Al Viro        2010-10-25  870   * so any inode reaching zero refcount during or after that call will
+63997e98a3be68 Al Viro        2010-10-25  871   * be immediately evicted.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  872   */
+f3df82b20474b6 Dave Chinner   2024-10-02  873  static int evict_inode_fn(struct inode *inode, void *data)
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @874  {
+f3df82b20474b6 Dave Chinner   2024-10-02  875  	struct list_head *dispose = data;
+250df6ed274d76 Dave Chinner   2011-03-22  876  
+250df6ed274d76 Dave Chinner   2011-03-22  877  	spin_lock(&inode->i_lock);
+f3df82b20474b6 Dave Chinner   2024-10-02  878  	if (atomic_read(&inode->i_count) ||
+f3df82b20474b6 Dave Chinner   2024-10-02  879  	    (inode->i_state & (I_NEW | I_FREEING | I_WILL_FREE))) {
+250df6ed274d76 Dave Chinner   2011-03-22  880  		spin_unlock(&inode->i_lock);
+f3df82b20474b6 Dave Chinner   2024-10-02  881  		return INO_ITER_DONE;
+250df6ed274d76 Dave Chinner   2011-03-22  882  	}
+63997e98a3be68 Al Viro        2010-10-25  883  
+63997e98a3be68 Al Viro        2010-10-25  884  	inode->i_state |= I_FREEING;
+02afc410f363f9 Dave Chinner   2011-03-22  885  	inode_lru_list_del(inode);
+250df6ed274d76 Dave Chinner   2011-03-22  886  	spin_unlock(&inode->i_lock);
+f3df82b20474b6 Dave Chinner   2024-10-02  887  	list_add(&inode->i_lru, dispose);
+ac05fbb4006241 Josef Bacik    2015-03-04  888  
+ac05fbb4006241 Josef Bacik    2015-03-04  889  	/*
+f3df82b20474b6 Dave Chinner   2024-10-02  890  	 * If we've run long enough to need rescheduling, abort the
+f3df82b20474b6 Dave Chinner   2024-10-02  891  	 * iteration so we can return to evict_inodes() and dispose of the
+f3df82b20474b6 Dave Chinner   2024-10-02  892  	 * inodes before collecting more inodes to evict.
+ac05fbb4006241 Josef Bacik    2015-03-04  893  	 */
+f3df82b20474b6 Dave Chinner   2024-10-02  894  	if (need_resched())
+f3df82b20474b6 Dave Chinner   2024-10-02  895  		return INO_ITER_ABORT;
+f3df82b20474b6 Dave Chinner   2024-10-02  896  	return INO_ITER_DONE;
+ac05fbb4006241 Josef Bacik    2015-03-04  897  }
+63997e98a3be68 Al Viro        2010-10-25  898  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
