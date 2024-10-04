@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B65F13B792;
-	Fri,  4 Oct 2024 07:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DD22209F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 08:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728028213; cv=none; b=fJAlNPUNbZBzaVfljV/YKVVaawnKDIVNrLRjpeRPDK8HmqU+3CSkUcv1ZwGAWa5BalvvrHiSY/Gkk6KS+zJaP0orqc5kf3Ji7nU0l27Ri7LIbNQEOK/ZQnnwKbtI7win6YiQb8wTK9ssKe/ySYlJ2XrL7PY+HeJEDKCkZGzPrWU=
+	t=1728028813; cv=none; b=cenr1dBnLBdORaciTO1CzUxfht6duqiPeaZtAXc+1rPeqbLdoD6OIXJKZE3XvK7riT4Dg4riukCt8yh5IoYxIwcKSuIFl55ysuC2eD9LVmQqxmk6meXkdHlFDmY29qMpUxO+AoOVOU0veQu1mK+b8DqySXM3KTXMUDtc/ms+EOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728028213; c=relaxed/simple;
-	bh=qzTii371FIssbjMIfWpZW2NM7wcNJ+VgmeW6uwGhyTg=;
+	s=arc-20240116; t=1728028813; c=relaxed/simple;
+	bh=mX21nG4Zy98SLUkjeUOB9NLhAqw+tZLY8RDtgnkW9vY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uDPvn8dOr8QmKeCVtK6e8+rzY4x5DjQY1ZdxCkT2kiL/7D1tVF+YWLn0qX9issliAS5ykijUD6xfXftv8gibA68REcN791JhhvMWH/EYVqlUIjETmfm5S/fNkyRfn+h5ZoKSJGGl4rv3+jcUtR64c6wDYj9PkxhY1TJEgiPBaW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VF/MsAst; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=gEf6m8yu47rA9HxDXV6f52ViIXMVmDSu9lLjcaaak604R5n56gjOsDcDQP0VMTXd1w9Lx7ylnkSZJN3FiXBrlA5Ejc4IrMHKinjDMFoi4r24v+OfWpykfYmXu6gwUubnFWhIO34FzuRBSCX6AMnR2rZMX9u57xbJOUYEbKTGgMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KnD+1Hpi; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VF/MsAst"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KnD+1Hpi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728028212; x=1759564212;
+  t=1728028811; x=1759564811;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qzTii371FIssbjMIfWpZW2NM7wcNJ+VgmeW6uwGhyTg=;
-  b=VF/MsAst5fpJbNsqcusZNdsMSRPBnloJrUUscuQ0A1ywrWMzUgbLrEB3
-   idQky9hUVu/Sgbo3Csyhtm9ldemLHjGWhj+DMK74WmQo62YImp7kU72AX
-   qZSnmuD3VrLsXXDIS35fUhX8olcJas3ah7THEQ3FtcWrknq5piojA25eq
-   MwvmK0SOgEtyOEV/UgwK3C1Ma16qouQjBFy77YsPxb7N5+qU3BWEBtDGN
-   vZ7kH2vUcfq2S089dmQTijAlFFKQWqc1UrXllOjBg5QBerWDZZfU9rODZ
-   yK86noPPvZc+iPMTCibKRjQD3h0clQQJx8rjMeMzW1eaNlMYF/jHxF+t1
-   w==;
-X-CSE-ConnectionGUID: 67RRq06+TCiH2ew1iz5ldA==
-X-CSE-MsgGUID: D9VnNylhQMGgpFbbTCPDCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27373126"
+  bh=mX21nG4Zy98SLUkjeUOB9NLhAqw+tZLY8RDtgnkW9vY=;
+  b=KnD+1HpifPqAFlJTZMpD4p889r+Do6wSoyuqAR0eiRLUYzSkPwcU8DtW
+   BoATjtRpUBFNI9vZXgNaTF258W3ZlXyGM3fZ21L+v4ONFeRrthWyxU3kx
+   gUBKaQKlGddpLoJ3FTZEhxiQFG8FMq/wcroOwNkSQaxsBN6pHho3Ip3GS
+   hPeXDiySx7dV5GjOzULcLcj7JmH3sNZer/0hZGac7dJBm3M2fpZPXe6pk
+   CdYJoRwhArPVrrRRg6FYEf9FMMuUPPozpIPw2/WdOQWXK5WsV7yi+tcsV
+   5Kundx7rF9ivUKhegT5TPyN8GvrjWTmwefwN2YXVsuxUZzgXQxlEXkZjz
+   g==;
+X-CSE-ConnectionGUID: n93WwQtxSGGYhY44+Pp0Og==
+X-CSE-MsgGUID: jVB2TsC4Te6RDJQVLRf4pQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="31039108"
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="27373126"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 00:50:11 -0700
-X-CSE-ConnectionGUID: uCVQNqVXRrSFakJfJ/qFIg==
-X-CSE-MsgGUID: iake99g5SzWlFNB92aSDsw==
+   d="scan'208";a="31039108"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 01:00:11 -0700
+X-CSE-ConnectionGUID: VTtkfrh9Rkax5AfPRKo9Fw==
+X-CSE-MsgGUID: DG16FN6lQ56pJnEjGADlzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="79594295"
+   d="scan'208";a="78629889"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Oct 2024 00:50:09 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 04 Oct 2024 01:00:09 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swd4g-0001LO-1U;
-	Fri, 04 Oct 2024 07:50:06 +0000
-Date: Fri, 4 Oct 2024 15:49:47 +0800
+	id 1swdEM-0001MS-2j;
+	Fri, 04 Oct 2024 08:00:06 +0000
+Date: Fri, 4 Oct 2024 15:59:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fam Zheng <fam.zheng@bytedance.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, fam@euphon.net,
-	David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
-	David Woodhouse <dwmw2@infradead.org>, fam.zheng@bytedance.com
-Subject: Re: [PATCH] sign-file: Add -D "digest mode"
-Message-ID: <202410041509.PbZBKm0L-lkp@intel.com>
-References: <20241002133837.1030094-1-fam.zheng@bytedance.com>
+To: Daniel Yang <danielyangkang@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	syzbot+346474e3bf0b26bd3090@syzkaller.appspotmail.com
+Subject: Re: [PATCH] Fix KMSAN infoleak, initialize unused data in
+ pskb_expand_head
+Message-ID: <202410041506.hEO3Ubsh-lkp@intel.com>
+References: <20241002053844.130553-1-danielyangkang@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,97 +68,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002133837.1030094-1-fam.zheng@bytedance.com>
+In-Reply-To: <20241002053844.130553-1-danielyangkang@gmail.com>
 
-Hi Fam,
+Hi Daniel,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on linus/master]
-[also build test ERROR on v6.12-rc1 next-20241003]
+[also build test ERROR on horms-ipvs/master v6.12-rc1 next-20241004]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fam-Zheng/sign-file-Add-D-digest-mode/20241002-215025
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Yang/Fix-KMSAN-infoleak-initialize-unused-data-in-pskb_expand_head/20241002-134054
 base:   linus/master
-patch link:    https://lore.kernel.org/r/20241002133837.1030094-1-fam.zheng%40bytedance.com
-patch subject: [PATCH] sign-file: Add -D "digest mode"
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241004/202410041509.PbZBKm0L-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410041509.PbZBKm0L-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20241002053844.130553-1-danielyangkang%40gmail.com
+patch subject: [PATCH] Fix KMSAN infoleak, initialize unused data in pskb_expand_head
+config: powerpc-randconfig-r071-20241004 (https://download.01.org/0day-ci/archive/20241004/202410041506.hEO3Ubsh-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410041506.hEO3Ubsh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410041509.PbZBKm0L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410041506.hEO3Ubsh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
->> scripts/sign-file.c:357:8: error: call to undeclared function 'CMS_final_digest'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   357 |                         ERR(CMS_final_digest(cms, digest_bin, digest_len, NULL, CMS_NOCERTS | CMS_BINARY) != 1,
-   |                             ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.host:116: scripts/sign-file] Error 1
-   make[3]: Target 'scripts/' not remade because of errors.
-   make[2]: *** [Makefile:1187: scripts] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   net/core/skbuff.c: In function 'pskb_expand_head':
+>> net/core/skbuff.c:2292:29: error: invalid operands to binary + (have 'u8 *' {aka 'unsigned char *'} and 'sk_buff_data_t' {aka 'unsigned char *'})
+    2292 |         memset(data + nhead + skb->tail, 0, skb_tailroom(skb) + ntail);
+         |                ~~~~~~~~~~~~ ^ ~~~~~~~~~
+         |                     |            |
+         |                     |            sk_buff_data_t {aka unsigned char *}
+         |                     u8 * {aka unsigned char *}
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
    WARNING: unmet direct dependencies detected for GET_FREE_REGION
    Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +/CMS_final_digest +357 scripts/sign-file.c
+vim +2292 net/core/skbuff.c
 
-   329	
-   330		if (!raw_sig) {
-   331			/* Read the private key and the X.509 cert the PKCS#7 message
-   332			 * will point to.
-   333			 */
-   334			private_key = read_private_key(private_key_name);
-   335			x509 = read_x509(x509_name);
-   336	
-   337			/* Digest the module data. */
-   338			OpenSSL_add_all_digests();
-   339			drain_openssl_errors(__LINE__, 0);
-   340			digest_algo = EVP_get_digestbyname(hash_algo);
-   341			ERR(!digest_algo, "EVP_get_digestbyname");
-   342	
-   343	#ifndef USE_PKCS7
-   344			/* Load the signature message from the digest buffer. */
-   345			cms = CMS_sign(NULL, NULL, NULL, NULL,
-   346				       CMS_NOCERTS | CMS_PARTIAL | CMS_BINARY |
-   347				       CMS_DETACHED | CMS_STREAM);
-   348			ERR(!cms, "CMS_sign");
-   349	
-   350			ERR(!CMS_add1_signer(cms, x509, private_key, digest_algo,
-   351					     CMS_NOCERTS | CMS_BINARY |
-   352					     CMS_NOSMIMECAP | use_keyid |
-   353					     (digest_mode ? CMS_KEY_PARAM : 0) |
-   354					     use_signed_attrs),
-   355			    "CMS_add1_signer");
-   356			if (digest_mode)
- > 357				ERR(CMS_final_digest(cms, digest_bin, digest_len, NULL, CMS_NOCERTS | CMS_BINARY) != 1,
-   358				    "CMS_final_digest");
-   359			else
-   360				ERR(CMS_final(cms, bm, NULL, CMS_NOCERTS | CMS_BINARY) != 1,
-   361				    "CMS_final");
-   362	
+  2240	
+  2241	/**
+  2242	 *	pskb_expand_head - reallocate header of &sk_buff
+  2243	 *	@skb: buffer to reallocate
+  2244	 *	@nhead: room to add at head
+  2245	 *	@ntail: room to add at tail
+  2246	 *	@gfp_mask: allocation priority
+  2247	 *
+  2248	 *	Expands (or creates identical copy, if @nhead and @ntail are zero)
+  2249	 *	header of @skb. &sk_buff itself is not changed. &sk_buff MUST have
+  2250	 *	reference count of 1. Returns zero in the case of success or error,
+  2251	 *	if expansion failed. In the last case, &sk_buff is not changed.
+  2252	 *
+  2253	 *	All the pointers pointing into skb header may change and must be
+  2254	 *	reloaded after call to this function.
+  2255	 */
+  2256	
+  2257	int pskb_expand_head(struct sk_buff *skb, int nhead, int ntail,
+  2258			     gfp_t gfp_mask)
+  2259	{
+  2260		unsigned int osize = skb_end_offset(skb);
+  2261		unsigned int size = osize + nhead + ntail;
+  2262		long off;
+  2263		u8 *data;
+  2264		int i;
+  2265	
+  2266		BUG_ON(nhead < 0);
+  2267	
+  2268		BUG_ON(skb_shared(skb));
+  2269	
+  2270		skb_zcopy_downgrade_managed(skb);
+  2271	
+  2272		if (skb_pfmemalloc(skb))
+  2273			gfp_mask |= __GFP_MEMALLOC;
+  2274	
+  2275		data = kmalloc_reserve(&size, gfp_mask, NUMA_NO_NODE, NULL);
+  2276		if (!data)
+  2277			goto nodata;
+  2278		size = SKB_WITH_OVERHEAD(size);
+  2279	
+  2280		/* Copy only real data... and, alas, header. This should be
+  2281		 * optimized for the cases when header is void.
+  2282		 */
+  2283		memcpy(data + nhead, skb->head, skb_tail_pointer(skb) - skb->head);
+  2284	
+  2285		memcpy((struct skb_shared_info *)(data + size),
+  2286		       skb_shinfo(skb),
+  2287		       offsetof(struct skb_shared_info, frags[skb_shinfo(skb)->nr_frags]));
+  2288	
+  2289		/* Initialize newly allocated headroom and tailroom
+  2290		 */
+  2291		memset(data, 0, nhead);
+> 2292		memset(data + nhead + skb->tail, 0, skb_tailroom(skb) + ntail);
+  2293	
+  2294		/*
+  2295		 * if shinfo is shared we must drop the old head gracefully, but if it
+  2296		 * is not we can just drop the old head and let the existing refcount
+  2297		 * be since all we did is relocate the values
+  2298		 */
+  2299		if (skb_cloned(skb)) {
+  2300			if (skb_orphan_frags(skb, gfp_mask))
+  2301				goto nofrags;
+  2302			if (skb_zcopy(skb))
+  2303				refcount_inc(&skb_uarg(skb)->refcnt);
+  2304			for (i = 0; i < skb_shinfo(skb)->nr_frags; i++)
+  2305				skb_frag_ref(skb, i);
+  2306	
+  2307			if (skb_has_frag_list(skb))
+  2308				skb_clone_fraglist(skb);
+  2309	
+  2310			skb_release_data(skb, SKB_CONSUMED);
+  2311		} else {
+  2312			skb_free_head(skb);
+  2313		}
+  2314		off = (data + nhead) - skb->head;
+  2315	
+  2316		skb->head     = data;
+  2317		skb->head_frag = 0;
+  2318		skb->data    += off;
+  2319	
+  2320		skb_set_end_offset(skb, size);
+  2321	#ifdef NET_SKBUFF_DATA_USES_OFFSET
+  2322		off           = nhead;
+  2323	#endif
+  2324		skb->tail	      += off;
+  2325		skb_headers_offset_update(skb, nhead);
+  2326		skb->cloned   = 0;
+  2327		skb->hdr_len  = 0;
+  2328		skb->nohdr    = 0;
+  2329		atomic_set(&skb_shinfo(skb)->dataref, 1);
+  2330	
+  2331		skb_metadata_clear(skb);
+  2332	
+  2333		/* It is not generally safe to change skb->truesize.
+  2334		 * For the moment, we really care of rx path, or
+  2335		 * when skb is orphaned (not attached to a socket).
+  2336		 */
+  2337		if (!skb->sk || skb->destructor == sock_edemux)
+  2338			skb->truesize += size - osize;
+  2339	
+  2340		return 0;
+  2341	
+  2342	nofrags:
+  2343		skb_kfree_head(data, size);
+  2344	nodata:
+  2345		return -ENOMEM;
+  2346	}
+  2347	EXPORT_SYMBOL(pskb_expand_head);
+  2348	
 
 -- 
 0-DAY CI Kernel Test Service
