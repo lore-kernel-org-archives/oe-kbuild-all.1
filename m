@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C1C8249F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 18:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D0C1D9673;
+	Fri,  4 Oct 2024 18:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728065376; cv=none; b=HTtm1biXsb5xmpcyEU2VT/GQ/d1L4RZkWDH6Dx6QfCzOpoloAxeihjHLFYRvlQYFQoV6AXs9SHFgkw6S9GTYZeihODqY5vA9jKpez0Ikffru2hF6eMlgETNrUWQLQ0ZY4aKxFQCpw9zusJtVYCTLXakmrmxNudkrxLmDZ6nq/7Y=
+	t=1728065978; cv=none; b=ognQGqht0STaNn0KR7zr67o+Y5Y/7ywPxhJaS+NtLqQ4hFELrU5vHXm+adk2WYbHaWDen8SKHnZQYCT8NVS1nJDA1PZPnF2nSe2Plnzsg5YGxw+9QlTNOvch7jGkCfFzU7wmsXOmeLUp3UFBjNksdqodg4pYDKnTM2rxcuaJ9CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728065376; c=relaxed/simple;
-	bh=FOx3TiolOs7NwWGdsvQFeFqcAOzq8vY0oKisYJtmAgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CTi9jTxhOCpfq3VhWy/dIwGWdOIrZZ+Cyb8WNsTdxUjjQAECz/icT0EF+x4Md8CqwKe0gVI6mG8KsDdhQzeRLTaBs0S9r1TzrZLNCjykVgb6PtsV5wSTBhtyb0E9LQLtNRZSyrZUURc+oWhS1DDrCtDZHC3FKUD6hV0b5bGzf6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LnluVA0z; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1728065978; c=relaxed/simple;
+	bh=XrVZxWQZ+e3/LNrgbAFkiSgxRDsOKeEBt7/+ZHbn3bc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O2Kt9G766DynmRBxxFuRytISOl2EfMBX67b7HdfmQBjDBDLn5MYNgp22MDCUzUH8t7xAc3zfSqzZqIqIK7xSxx1LIY2aa7Cv7rKJ9nTgnKpuFFAv8MDWlaBMbtZMgesnePGbEZMdJYZIxlQ0pYOp9x9dEv1tV9LJPV/2CwlM1d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kIUlbU6+; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnluVA0z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kIUlbU6+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728065375; x=1759601375;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FOx3TiolOs7NwWGdsvQFeFqcAOzq8vY0oKisYJtmAgk=;
-  b=LnluVA0zjuSsKhjLBep5Pl7qok7h36IB3UmFdiEHhxJNet41YxbgWtI+
-   lOFq6l13D0RFCqgNgqqx7ql/gxJjrJxlMR2C/a7rQr+J7AmxA7JclBG+Q
-   fMcTsVfw7p93DmgoHNSBQ3wxisERl4J293U3u33fz3MzF6oAI1lQ8bnMK
-   nCeOtrS03nJ2OxyTTuZnnHwGvazWdtTcgAOkJpeb9xVO0yTu1grsTdTzH
-   CoIHyi9BJJZRIPUHfLAMIjD0lexAHYl4DHHBOUyPzNUPe4ILa8bZYxXkU
-   5HeXhDAoWOvxUhcB1HyKt2uS5DVTkKpxjUwmwpCVqbOMDBKHAgAg55gE1
-   g==;
-X-CSE-ConnectionGUID: /ItGLQmTSq2JkIxZ5dN7zg==
-X-CSE-MsgGUID: 0Nk0xUCYQxeRW1UIjhb8OA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="44763320"
+  t=1728065976; x=1759601976;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XrVZxWQZ+e3/LNrgbAFkiSgxRDsOKeEBt7/+ZHbn3bc=;
+  b=kIUlbU6+RxwC7Dzs0F5J9Q1FpYTAR2XXJyncUh2RU36Kv8bf9sItjOg0
+   q+zX2+7xki97cqUUOWx+XTfbGW8Cs2vYIhlUfS4LxTdclolboyz23EZPu
+   AaHXMQ1CJ8dzXIdHSfdN3XmW1UpKIfjzVqVzlngGf3CvpqzvGgvFjSS3F
+   HlJPNJsalXJepH68whkrHFK1obNhpYQK393C1ybqaeyo25fN/YaLM8Qgq
+   DX5NVuybNWlDhgkY/joARukYEt6zRs4BXXQ6WGGxzU+m4kB4DZTYTddvS
+   +nNWAyYiNBscoBnrZJNOTB3xZ8hDsmCCQu6jAhDN29O1yZ+uZ+aEEleSN
+   Q==;
+X-CSE-ConnectionGUID: eUmeRT7dRaWbGiQ0eVbRag==
+X-CSE-MsgGUID: +7YCaCI3QVaZzLuc2mwBXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37903192"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="44763320"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 11:09:35 -0700
-X-CSE-ConnectionGUID: 6LSlR4SlRxO/FY8Nwe/Brg==
-X-CSE-MsgGUID: PzUIQZwJQPOUhaSEG0xviw==
+   d="scan'208";a="37903192"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 11:19:35 -0700
+X-CSE-ConnectionGUID: VICI/CSIRIGHqXkSpxcozw==
+X-CSE-MsgGUID: w5ersl13SWKV1Tvi/qTcyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="105530445"
+   d="scan'208";a="74900806"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Oct 2024 11:09:33 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Oct 2024 11:19:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swmk7-00023I-1i;
-	Fri, 04 Oct 2024 18:09:31 +0000
-Date: Sat, 5 Oct 2024 02:08:33 +0800
+	id 1swmtn-00023k-2W;
+	Fri, 04 Oct 2024 18:19:31 +0000
+Date: Sat, 5 Oct 2024 02:18:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namhyung Kim <namhyung@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 bpf-next 2/3] mm/bpf: Add bpf_get_kmem_cache() kfunc
-Message-ID: <202410050149.QCPhh01T-lkp@intel.com>
-References: <20241002180956.1781008-3-namhyung@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20241003 14/14]
+ kernel/bpf/core.c:2505:22: warning: comparison of distinct pointer types
+ ('struct bpf_prog_array *' and 'struct bpf_prog_array_hdr *')
+Message-ID: <202410050215.8zVNACRw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +64,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002180956.1781008-3-namhyung@kernel.org>
 
-Hi Namhyung,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9502a7de5a61bec3bda841a830560c5d6d40ecac]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Namhyung-Kim/bpf-Add-kmem_cache-iterator/20241003-021144
-base:   9502a7de5a61bec3bda841a830560c5d6d40ecac
-patch link:    https://lore.kernel.org/r/20241002180956.1781008-3-namhyung%40kernel.org
-patch subject: [PATCH v4 bpf-next 2/3] mm/bpf: Add bpf_get_kmem_cache() kfunc
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241005/202410050149.QCPhh01T-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050149.QCPhh01T-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241003
+head:   ec64acf2dce7577a42c01241e78b24afebc26e96
+commit: ec64acf2dce7577a42c01241e78b24afebc26e96 [14/14] treewide_some: fix multiple -Wfamnae warnings that must be audited separately
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241005/202410050215.8zVNACRw-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050215.8zVNACRw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050149.QCPhh01T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050215.8zVNACRw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/thread_info.h:17,
-                    from include/linux/thread_info.h:60,
-                    from arch/arm64/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from mm/slab_common.c:7:
-   mm/slab_common.c: In function 'bpf_get_kmem_cache':
->> arch/arm64/include/asm/memory.h:427:66: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     427 |         __is_lm_address(__addr) && pfn_is_map_memory(virt_to_pfn(__addr));      \
-         |                                                                  ^~~~~~
-         |                                                                  |
-         |                                                                  u64 {aka long long unsigned int}
-   mm/slab_common.c:1334:14: note: in expansion of macro 'virt_addr_valid'
-    1334 |         if (!virt_addr_valid(addr))
-         |              ^~~~~~~~~~~~~~~
-   arch/arm64/include/asm/memory.h:382:53: note: expected 'const void *' but argument is of type 'u64' {aka 'long long unsigned int'}
-     382 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
+>> kernel/bpf/core.c:2505:22: warning: comparison of distinct pointer types ('struct bpf_prog_array *' and 'struct bpf_prog_array_hdr *') [-Wcompare-distinct-pointer-types]
+    2505 |         if (!progs || progs == &bpf_empty_prog_array.hdr)
+         |                       ~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/virt_to_pfn +427 arch/arm64/include/asm/memory.h
+vim +2505 kernel/bpf/core.c
 
-4f04d8f0054511 Catalin Marinas 2012-03-05  424  
-68dd8ef321626f Will Deacon     2019-08-13  425  #define virt_addr_valid(addr)	({					\
-91cb2c8b072e00 Catalin Marinas 2021-02-01  426  	__typeof__(addr) __addr = __tag_reset(addr);			\
-873ba463914cf4 Mike Rapoport   2021-06-30 @427  	__is_lm_address(__addr) && pfn_is_map_memory(virt_to_pfn(__addr));	\
-68dd8ef321626f Will Deacon     2019-08-13  428  })
-4f04d8f0054511 Catalin Marinas 2012-03-05  429  
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2502  
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2503  void bpf_prog_array_free_sleepable(struct bpf_prog_array *progs)
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2504  {
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14 @2505  	if (!progs || progs == &bpf_empty_prog_array.hdr)
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2506  		return;
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2507  	call_rcu_tasks_trace(&progs->rcu, __bpf_prog_array_free_sleepable_cb);
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2508  }
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2509  
+
+:::::: The code at line 2505 was first introduced by commit
+:::::: 8c7dcb84e3b744b2b70baa7a44a9b1881c33a9c9 bpf: implement sleepable uprobes by chaining gps
+
+:::::: TO: Delyan Kratunov <delyank@fb.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
