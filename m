@@ -1,129 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5CE1E5727
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 18:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0971FBCA7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 19:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728067240; cv=none; b=HxaU9oyLWlbofgOgDixQBN4w/3DDHAU9lCuz5p335VLmlr9iBDrGqQSA6oFqROhm3ATV5iY1vzkDBGZ+JDR586TSTek8rECMYd054kNwWPIUUOas4+gPIO4WqYhyZpPEorL16TYioSVBjdHkHIZnyg/qxrlwTj9B7S4TeXgykf8=
+	t=1728069169; cv=none; b=Xiv9x50eLcVM05BPRGGDSBbf38roZEP/RTmajqHvO/o6L6yuuWSYTPF/ji5wnjbF+G8EJwB5cnfz2kK0BGKHqqRGEGPXerYZU0MQtwjoQ1oIc4e11jX3vsi2eRkyZ65izgDH25v5Wgvrc2AXQg/ZwiMVCcBqxRJRxpUDaCOe5RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728067240; c=relaxed/simple;
-	bh=rCgZOpHDQFFi3/FMJI74LvTPZIfZw8kodL5qilZLE1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eb6ezZ/yAyiPMY3jJ2bXW0NxogwK2KG2tsSPVySBLrhAzhVHYzKDs/QGxYfJXcBZGqta3gYUz+r2/G6lT7DUw6MTAcp74wz1iNHbdNDmjpvlXYqSxvUWgFS1vah19p9YdHRp83g0Crt7skC5OX4Y6iqEo4IzUA/1Fm3TRPfM0ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRmEnCvS; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728069169; c=relaxed/simple;
+	bh=/M1ZjTmABJbh4MwRycydLtqA1KHIs1Qq3zaDKYdOVWw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f5Z8ED7+2Zjf1nW+zTfGcjjLDdOTPpkSv02SAF5Lxmk0O3ybzE0hh3g4WyZEy4xiafnjMGUwYX1O2pKL+fYhOk6D4mohVdtNyeYJ6fENFFpA5n03pSfTp2eBrMssAoIoUZyHd6uIYYimylt8GPX9OG3Pzrkg4Z0LiuxnHjf5+L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=DdLd74jY; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRmEnCvS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728067238; x=1759603238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rCgZOpHDQFFi3/FMJI74LvTPZIfZw8kodL5qilZLE1g=;
-  b=QRmEnCvSSGu5MbatX34xA+9GAL+yOnAFJILgdCwNloB6MYMRrEyxCNo+
-   ZNXqdGwo3q8m/ltbiBIloP/jUEw19Mg5IsN++VxFrWx0Pw6wCKSXQqpQE
-   5pskDF11RmDTRC1/CdbRxEdN4uSYSJaRm4CXjhobo3eLP3pVgcKrIeqdE
-   VxsQdBttCL8mNKPTfGEPHZ/z3mTVgXwLABTKzqQ+ID/tA4UTu7WS2kHIi
-   ClF59uUPSBPSYtV5rA4+0xc8p/CXAbc944zGIKWXYFnKYB3VYhhhsYpm2
-   6hkM3EfWbz4hUo/uOycf0m1nA8x0vEAkzwG1vdV0xpXUWHjMjOUk/PK7g
-   g==;
-X-CSE-ConnectionGUID: i2lQzWz7QIuUnpV86rZv/Q==
-X-CSE-MsgGUID: EHYHf27zSNyFnRNnFDPbOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27184402"
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="27184402"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 11:40:38 -0700
-X-CSE-ConnectionGUID: SA1PQIikQQGTHsIKJbMGbw==
-X-CSE-MsgGUID: sS6mPp/xQA6gJBI0Dl4vqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="105637362"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Oct 2024 11:40:35 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swnE8-000254-1T;
-	Fri, 04 Oct 2024 18:40:32 +0000
-Date: Sat, 5 Oct 2024 02:40:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vinicius Peixoto <vpeixoto@lkcamp.dev>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	Vinicius Peixoto <vpeixoto@lkcamp.dev>,
-	Enzo Bertoloti <ebertoloti@lkcamp.dev>,
-	Fabricio Gasperin <fgasperin@lkcamp.dev>,
-	David Laight <David.Laight@aculab.com>
-Subject: Re: [PATCH v2] lib/crc16_kunit.c: add KUnit tests for crc16
-Message-ID: <202410050215.eU9509xy-lkp@intel.com>
-References: <20241003-crc16-kunit-v2-1-5fe74b113e1e@lkcamp.dev>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="DdLd74jY"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5daa93677e1so1317112eaf.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Oct 2024 12:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728069165; x=1728673965; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X8E/75Ze8LWS+oGsxT4cv2r0PKvnIHpyk0O4+fHPIOA=;
+        b=DdLd74jYPBvzFPPzezfH1o4dhs0FA7ciprI6dfR4dFV8DqWNXtHxnIQRjcfBscCA2l
+         zqxPXEBzrMzGDUrKtILSfOiAYNczXm3Im8VY5/k6WIHC19M/T4M7mjFTYkHH+++PM9xw
+         7gF9DmlWYzm2JY1+m62IYqm9XnPoXkiDqddDyvJnjNvHl3P+fQxr8/nQ4C5OTuXACtQ+
+         hecJ1C5h+RXTmXcjK8ogTYIqoiKkj3U+kl9yFblG9iTVmLDO2nlQrNd6Kf1cwOz9lSac
+         QetlCexCakVI2/mZoVBuauUop2OtYytnfRTIZ8M2k2znR6vG502sVCBU3N6XL+ZX1M94
+         7PLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728069165; x=1728673965;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X8E/75Ze8LWS+oGsxT4cv2r0PKvnIHpyk0O4+fHPIOA=;
+        b=lO4nNVybxd3Z0q3ZFXJzXLg1jhSwz+5qzxXO5upvNMkxiZKLKuV9jkN+tMpLXfkJN2
+         QJYKTLcH+1VvW8auhbhED9+Ib22nDhc050SQ2RubX+bV9zz9oFL9lUatXvtLQxWVuNWr
+         CB5J+GfPxrxnyfcHjhzIxOjlzP0OxFmQvVOgZvRnS92nFhzhvp6L+ZpTKrzA2gr8GpiF
+         GnWOsP7gCpGSxzYmegMVg9EnXO8IZ2+o2uEr25kCiVOHZ2Y+frVzwW15Dm64zhTUa/Em
+         zC5vv7az/Wk0/rup8e1FnMXbLdTcAaobKnwTtg9ePjpUWb6laXTEXS9/OLBu2lDPBr77
+         eavA==
+X-Forwarded-Encrypted: i=1; AJvYcCXgm4rghX4DWguZnjlrNwPIqQJdaybC480y6HeG52afODmrKRtUmq6UIsFm5xtchLzKesWUkMnqYMbfcHQi@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNUmCsYhoOLy47ZNBclCNV8XajMQUpIdzO4Edk3MT5qeSawCng
+	99zPam4fzwauw4CAmD6++Vi0/qlra72wc7WMksgzPFU88DPrzLFIAOHveQ4zljg=
+X-Google-Smtp-Source: AGHT+IFauv67y1n9nX22pC/6NEemDgp2UqXjYbZLEVPwPcm0WP0X9oCZ9xusSoOdx+Ve9A4mDrHazg==
+X-Received: by 2002:a05:6870:3913:b0:278:14bf:2fb with SMTP id 586e51a60fabf-287c228bee8mr2703044fac.34.1728069165246;
+        Fri, 04 Oct 2024 12:12:45 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7155674599dsm137977a34.9.2024.10.04.12.12.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Oct 2024 12:12:44 -0700 (PDT)
+Message-ID: <0ce9a516-dee5-49cd-bb74-62166c16e644@baylibre.com>
+Date: Fri, 4 Oct 2024 14:12:44 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241003-crc16-kunit-v2-1-5fe74b113e1e@lkcamp.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iio: core: make iio_device_claim_direct_mode()
+ __must_check
+To: Dan Williams <dan.j.williams@intel.com>, kernel test robot
+ <lkp@intel.com>, Jonathan Cameron <jic23@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241002-iio-must-check-claim-direct-v1-1-ab94ce728731@baylibre.com>
+ <202410040721.upAHwZJm-lkp@intel.com>
+ <67002c9cdb068_10a0a294a7@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <67002c9cdb068_10a0a294a7@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Vinicius,
+On 10/4/24 12:57 PM, Dan Williams wrote:
+> kernel test robot wrote:
+>> Hi David,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on 431c39f6d3edbab14f48dbf37a58ccdc0ac3be1e]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-core-make-iio_device_claim_direct_mode-__must_check/20241002-233644
+>> base:   431c39f6d3edbab14f48dbf37a58ccdc0ac3be1e
+>> patch link:    https://lore.kernel.org/r/20241002-iio-must-check-claim-direct-v1-1-ab94ce728731%40baylibre.com
+>> patch subject: [PATCH] iio: core: make iio_device_claim_direct_mode() __must_check
+> [..]
+>>>> include/linux/iio/iio.h:669:50: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+>>      669 | DEFINE_GUARD(iio_claim_direct, struct iio_dev *, iio_device_claim_direct_mode(_T),
+> 
+> So I think this points to the fact that iio_device_claim_direct_mode()
+> should not be using DEFINE_GUARD() in the first instance. I think
+> iio_claim_direct() really wants to be using DEFINE_CLASS() directly.
+> Skip usage of DEFINE_GUARD() which I now see is unable to interoperate
+> with a __must_check locking function.
+> 
+> Perhaps the new class can be something like:
+> 
+>     DEFINE_GUARD_EXCL_COND()
+> 
+> ...which creates a guard that is exclusively conditional and has no
+> unconditional flavor. However, maybe that only lives in iio unless and
+> until another user arrives.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vinicius-Peixoto/lib-crc16_kunit-c-add-KUnit-tests-for-crc16/20241004-050248
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241003-crc16-kunit-v2-1-5fe74b113e1e%40lkcamp.dev
-patch subject: [PATCH v2] lib/crc16_kunit.c: add KUnit tests for crc16
-config: parisc-randconfig-r071-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050215.eU9509xy-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050215.eU9509xy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050215.eU9509xy-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> lib/crc16_kunit.c:29: warning: Excess struct member 'crc16' description in 'crc16_test'
-   lib/crc16_kunit.c:96: warning: Function parameter or struct member 'test' not described in 'crc16_test_empty'
-   lib/crc16_kunit.c:111: warning: Function parameter or struct member 'test' not described in 'crc16_test_correctness'
-   lib/crc16_kunit.c:132: warning: Function parameter or struct member 'test' not described in 'crc16_test_combine'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+Hmm... I see what you mean. All other conditional guards (e.g.
+mutex_trylock) have an unconditional counterpart (mutex_lock)
+that is used with DEFINE_GUARD.
 
 
-vim +29 lib/crc16_kunit.c
-
-    17	
-    18	/**
-    19	 * struct crc16_test - CRC16 test data
-    20	 * @crc: initial input value to CRC16
-    21	 * @start: Start index within the data buffer
-    22	 * @length: Length of the data
-    23	 * @crc16: Expected CRC16 value for the test
-    24	 */
-    25	static struct crc16_test {
-    26		u16 crc;
-    27		u16 start;
-    28		u16 length;
-  > 29	} tests[CRC16_KUNIT_TEST_SIZE];
-    30	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
