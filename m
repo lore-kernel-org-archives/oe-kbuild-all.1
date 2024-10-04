@@ -1,61 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21800146A93
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 09:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2BE3CF74
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 10:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728035655; cv=none; b=agGSpWHqVhE3MP5SihM0pZ+c4kNBSkY35MQKGHCOvq9u2DMa9e42loXkhNZewEG8WVe3NPFk2ojSLt2sePvq+YUuzlJ06H3r/QHrQUvuK6lKE/4HauwBbxnsi3H06xstgWg3PsgnESLn/WdtP9WJbRI19tvaQvSJUXkUdLCxBzo=
+	t=1728036076; cv=none; b=XIG2GQcL13AcMzbFdQmFFGqKCVmtxGl7VPSgZnOlpduJAHpL/U1G9FTmFdQ7IVqVjhgYw6xB6JjZq9R8fGCHRaxMK0vQPBJlaim7fVjx7Rd29l8e2tRF9ZHiGmnnYYM0aNvb8amMFz1sftDyjl01L7rV+ztIFgv4STWQxlPq2IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728035655; c=relaxed/simple;
-	bh=No1Zczym9zA0U6AM4Yjp5S/GQIC28WW4I8Vm9nagyu4=;
+	s=arc-20240116; t=1728036076; c=relaxed/simple;
+	bh=9E4MbKYp6Q8JJm0zr71ue0hNHq7zmEMWafAvmOL+Y3I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dC5+aOgr3Yb9ZY4g4PJ7IhRZv1CkrnRdmQxib4ZW2Iav6qKYFy7VFMjQ+c7oaU6U0x2m/cn+wQRmR7xpc9zP1tzEhrxp3VHCT54HWwmA9Tc1fyJaoCAJlu2S4Me3xjEQbYuymLhhcQVZU14IeixjbaijXT8FyyI3KPmn4NN9c8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJrzVHIL; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=e2y4bo6VqSe5dEglasGDK5crf6HqIjEp8UC0G6sLdPBLEnO+sJfqTzweFrKt6BfLIa1TDYJBha5E46lYhcnEzUYMBZoZ5ftSw048YP6lXSgwtPysDsMwhLV+KJyZamWvE4p3itT/38dcicV7ffBmrjxSSwzPGpupYr8CWGVTMcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FokBC2Ji; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJrzVHIL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728035653; x=1759571653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=No1Zczym9zA0U6AM4Yjp5S/GQIC28WW4I8Vm9nagyu4=;
-  b=WJrzVHILhwXtV+LVYtW6zPGvuO7Ytd2XFsYDfctkDr2TpfrnQO6iK9FJ
-   HK0Pc9KxWpmY8lyU2nNvJ9r2V1muPA55/hNdBxkHC3+DXfk0gBYtuDis5
-   ZwaIiLGxjmGJW8wEPBQY+hWbyCr0lFu4Uev0ime6HyylHHJmubFlY6Mn1
-   Qyc6DHTWJTB8+ISlglWMgedKRbQUEYaMHo+lB1ECKKEFFHW399U54wrE4
-   oAq1heAY5dmTPFD00YZDMwrGl6SC4E14hMT81+jBPieCBwdJILBIRKPxY
-   3K1T/JrKYHMOtEC9yuhi86Tw4NGjNiQCm++M2uvYxhmh1mA7NnNALYor9
-   w==;
-X-CSE-ConnectionGUID: ul23+JA5ThCBdnRgT2KUaA==
-X-CSE-MsgGUID: yDaHTvcRSH6ot5zy7Q0pxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="44719856"
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="44719856"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 02:54:13 -0700
-X-CSE-ConnectionGUID: KAiSxmwPSmyNaOWcpdDlMw==
-X-CSE-MsgGUID: Fiw1YLBmTsqRkSqmTltRbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="79420510"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Oct 2024 02:54:12 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swf0j-0001RK-0I;
-	Fri, 04 Oct 2024 09:54:09 +0000
-Date: Fri, 4 Oct 2024 17:53:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Chinner <david@fromorbit.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org,
-	linux-bcachefs@vger.kernel.org, kent.overstreet@linux.dev,
-	torvalds@linux-foundation.org
-Subject: Re: [PATCH 2/7] vfs: add inode iteration superblock method
-Message-ID: <202410041724.REiCiIEQ-lkp@intel.com>
-References: <20241002014017.3801899-3-david@fromorbit.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FokBC2Ji"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=B6eiW4sOnHB1E9/f7mcSZ8zC63KRt+0ip0VEoH22bEE=; b=FokBC2JiCnLvMdjuG6m7ZEciIi
+	6e94Tz5iX1kY66QDh17NLzeImVePVS4srbIK0+1aATBYtk+wF+mEl1LTUmQa3rGj/dgTCWMk4iLA/
+	8iL3BRFS6x7EIceHJIkqqurz4aQruBn7adOvgTTgTFuTpYraK3EOQx7120vhzlbLBKtxW/It6eqds
+	YC2RZDGH95pxVJeLelk9iWTQDGfXA36CwUenr1KcWTbTGNAZfOvgS/cuymHSq2kszMBHhFKIsh9a+
+	88Vq7BBEWDhfpxhOYPO4kUnlHkOg+zpgVfTPrqehgIpjDmIy5y1O0nz+LHUJgomVIFOJzZ8i9Egqe
+	MvfA14Pw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1swf7Y-00000003od9-1g71;
+	Fri, 04 Oct 2024 10:01:12 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0AC4530026E; Fri,  4 Oct 2024 12:01:12 +0200 (CEST)
+Date: Fri, 4 Oct 2024 12:01:11 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: NeilBrown <neilb@suse.de>
+Cc: kernel test robot <lkp@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:sched/core 1/8] fs/bcachefs/fs.c:181:28: error:
+ passing argument 1 of 'bit_waitqueue' from incompatible pointer type
+Message-ID: <20241004100111.GM18071@noisy.programming.kicks-ass.net>
+References: <202410041649.HreQEkk8-lkp@intel.com>
+ <172803410635.1692160.3184328102300453899@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,148 +52,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002014017.3801899-3-david@fromorbit.com>
+In-Reply-To: <172803410635.1692160.3184328102300453899@noble.neil.brown.name>
 
-Hi Dave,
+On Fri, Oct 04, 2024 at 07:28:26PM +1000, NeilBrown wrote:
+> 
+> The compile error mentioned below is caused by my patch, but only
+> because the code is wrong - so the patch causes wrong code to be
+> highlighted - which is good.
+> 
+> Commit: 112d21fd1a12 ("bcachefs: switch to rhashtable for vfs inodes hash")
+> 
+> introduced a use for bit_waitqueue for inode->i_state and __I_NEW, and 
+> 
+> Commit: 0fe340a98b58 ("inode: port __I_NEW to var event")
+> 
+> change inode->i_state to require the new inode_bit_waitqueue().
+> 
+> These were in independant devel branches and this would have been caught
+> in -next if my patch had already been present.  Sorry I didn't do this
+> earlier :-)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on xfs-linux/for-next axboe-block/for-next linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Chinner/vfs-replace-invalidate_inodes-with-evict_inodes/20241002-094254
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20241002014017.3801899-3-david%40fromorbit.com
-patch subject: [PATCH 2/7] vfs: add inode iteration superblock method
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241004/202410041724.REiCiIEQ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410041724.REiCiIEQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410041724.REiCiIEQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/super.c:183: warning: Function parameter or struct member 'private_data' not described in 'super_iter_inodes'
->> fs/super.c:183: warning: Function parameter or struct member 'flags' not described in 'super_iter_inodes'
->> fs/super.c:241: warning: bad line: 
->> fs/super.c:260: warning: Function parameter or struct member 'private_data' not described in 'super_iter_inodes_unsafe'
-
-
-vim +183 fs/super.c
-
-   169	
-   170	/**
-   171	 * super_iter_inodes - iterate all the cached inodes on a superblock
-   172	 * @sb: superblock to iterate
-   173	 * @iter_fn: callback to run on every inode found.
-   174	 *
-   175	 * This function iterates all cached inodes on a superblock that are not in
-   176	 * the process of being initialised or torn down. It will run @iter_fn() with
-   177	 * a valid, referenced inode, so it is safe for the caller to do anything
-   178	 * it wants with the inode except drop the reference the iterator holds.
-   179	 *
-   180	 */
-   181	int super_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
-   182			void *private_data, int flags)
- > 183	{
-   184		struct inode *inode, *old_inode = NULL;
-   185		int ret = 0;
-   186	
-   187		spin_lock(&sb->s_inode_list_lock);
-   188		list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
-   189			spin_lock(&inode->i_lock);
-   190			if (inode->i_state & (I_NEW | I_FREEING | I_WILL_FREE)) {
-   191				spin_unlock(&inode->i_lock);
-   192				continue;
-   193			}
-   194	
-   195			/*
-   196			 * Skip over zero refcount inode if the caller only wants
-   197			 * referenced inodes to be iterated.
-   198			 */
-   199			if ((flags & INO_ITER_REFERENCED) &&
-   200			    !atomic_read(&inode->i_count)) {
-   201				spin_unlock(&inode->i_lock);
-   202				continue;
-   203			}
-   204	
-   205			__iget(inode);
-   206			spin_unlock(&inode->i_lock);
-   207			spin_unlock(&sb->s_inode_list_lock);
-   208			iput(old_inode);
-   209	
-   210			ret = iter_fn(inode, private_data);
-   211	
-   212			old_inode = inode;
-   213			if (ret == INO_ITER_ABORT) {
-   214				ret = 0;
-   215				break;
-   216			}
-   217			if (ret < 0)
-   218				break;
-   219	
-   220			cond_resched();
-   221			spin_lock(&sb->s_inode_list_lock);
-   222		}
-   223		spin_unlock(&sb->s_inode_list_lock);
-   224		iput(old_inode);
-   225		return ret;
-   226	}
-   227	
-   228	/**
-   229	 * super_iter_inodes_unsafe - unsafely iterate all the inodes on a superblock
-   230	 * @sb: superblock to iterate
-   231	 * @iter_fn: callback to run on every inode found.
-   232	 *
-   233	 * This is almost certainly not the function you want. It is for internal VFS
-   234	 * operations only. Please use super_iter_inodes() instead. If you must use
-   235	 * this function, please add a comment explaining why it is necessary and the
-   236	 * locking that makes it safe to use this function.
-   237	 *
-   238	 * This function iterates all cached inodes on a superblock that are attached to
-   239	 * the superblock. It will pass each inode to @iter_fn unlocked and without
-   240	 * having performed any existences checks on it.
- > 241	
-   242	 * @iter_fn must perform all necessary state checks on the inode itself to
-   243	 * ensure safe operation. super_iter_inodes_unsafe() only guarantees that the
-   244	 * inode exists and won't be freed whilst the callback is running.
-   245	 *
-   246	 * @iter_fn must not block. It is run in an atomic context that is not allowed
-   247	 * to sleep to provide the inode existence guarantees. If the callback needs to
-   248	 * do blocking operations it needs to track the inode itself and defer those
-   249	 * operations until after the iteration completes.
-   250	 *
-   251	 * @iter_fn must provide conditional reschedule checks itself. If rescheduling
-   252	 * or deferred processing is needed, it must return INO_ITER_ABORT to return to
-   253	 * the high level function to perform those operations. It can then restart the
-   254	 * iteration again. The high level code must provide forwards progress
-   255	 * guarantees if they are necessary.
-   256	 *
-   257	 */
-   258	void super_iter_inodes_unsafe(struct super_block *sb, ino_iter_fn iter_fn,
-   259			void *private_data)
- > 260	{
-   261		struct inode *inode;
-   262		int ret;
-   263	
-   264		rcu_read_lock();
-   265		spin_lock(&sb->s_inode_list_lock);
-   266		list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
-   267			ret = iter_fn(inode, private_data);
-   268			if (ret == INO_ITER_ABORT)
-   269				break;
-   270		}
-   271		spin_unlock(&sb->s_inode_list_lock);
-   272		rcu_read_unlock();
-   273	}
-   274	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So what do I do? Wait for the bug to get fixed?
