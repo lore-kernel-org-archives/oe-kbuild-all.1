@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54BC1DACB5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 18:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5CE1E5727
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 18:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728067238; cv=none; b=inyY9lfmdNmK4ojlSnPOtRdEhXnkB85R0b7AEYJawdSOLmYvQxnNmVpETzsvSIahNEKltq2ATy23sdBLZmedoR6EVYSmi4OORKd+E4arDkf0sXbqGTnhcyGNwXEsaw7lisLlrPtY+I8DdJ5rPk9HOCulP9rWbRvoTcxqKInpxio=
+	t=1728067240; cv=none; b=HxaU9oyLWlbofgOgDixQBN4w/3DDHAU9lCuz5p335VLmlr9iBDrGqQSA6oFqROhm3ATV5iY1vzkDBGZ+JDR586TSTek8rECMYd054kNwWPIUUOas4+gPIO4WqYhyZpPEorL16TYioSVBjdHkHIZnyg/qxrlwTj9B7S4TeXgykf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728067238; c=relaxed/simple;
-	bh=aVjHoW/D4fPaY1wSjMAH1uZxd7gsSrNJL5H73AYvHrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lcoivM9s3CsWudS1ZJIdhXWTbsp7SR6zLArJqIvsaHMqG0CDP+bOMjfmijF9MCcyKzhFIlW/Mzpw3LgUC9zP2gLb9w5zCcI6VYzIwA8FyIq5YjgOPgXbpfNnc9C0/iWhUgYKeaQqY19igTft03jXiuHkUnUt3c9U2jV3bnSerBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LKU/814r; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1728067240; c=relaxed/simple;
+	bh=rCgZOpHDQFFi3/FMJI74LvTPZIfZw8kodL5qilZLE1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eb6ezZ/yAyiPMY3jJ2bXW0NxogwK2KG2tsSPVySBLrhAzhVHYzKDs/QGxYfJXcBZGqta3gYUz+r2/G6lT7DUw6MTAcp74wz1iNHbdNDmjpvlXYqSxvUWgFS1vah19p9YdHRp83g0Crt7skC5OX4Y6iqEo4IzUA/1Fm3TRPfM0ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRmEnCvS; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LKU/814r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRmEnCvS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728067237; x=1759603237;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aVjHoW/D4fPaY1wSjMAH1uZxd7gsSrNJL5H73AYvHrc=;
-  b=LKU/814rw1EKzmaYse5sdsIZ4z0ANex4WwnsMbuO9kQVeGOMcxDrqnpq
-   DcZOPTEu6UPbcxvlq3J8iLD09b6PrsEzC4raaJIUjXj19GR+5m9cVJkHi
-   2aiWrTFeOBEBoHFLk19wg0z3DJr5ZLxBjkLpEwzg3Ns2s7o4AvnMdvhRa
-   PtKvhd+lQxUux7fkZG3NFhcpKk1lciUgJY17uFH1Rp2mbMqs2mwL8gdFU
-   jZPiKwMdD3/hCQjHYt6uoCfLlZJPSzIs90HpSimHWWnXTcpukZY8wUeZz
-   ZXWiuM5CfX7zeK4GZ5nKV66KdRU4Pp/jT64/sfdXnZNBfD67nM7iXsoQV
-   w==;
-X-CSE-ConnectionGUID: W13mT/8iQcaVynT+2GSwHg==
-X-CSE-MsgGUID: CCLa70kFQ9eY/D4tAOjXvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27445834"
+  t=1728067238; x=1759603238;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rCgZOpHDQFFi3/FMJI74LvTPZIfZw8kodL5qilZLE1g=;
+  b=QRmEnCvSSGu5MbatX34xA+9GAL+yOnAFJILgdCwNloB6MYMRrEyxCNo+
+   ZNXqdGwo3q8m/ltbiBIloP/jUEw19Mg5IsN++VxFrWx0Pw6wCKSXQqpQE
+   5pskDF11RmDTRC1/CdbRxEdN4uSYSJaRm4CXjhobo3eLP3pVgcKrIeqdE
+   VxsQdBttCL8mNKPTfGEPHZ/z3mTVgXwLABTKzqQ+ID/tA4UTu7WS2kHIi
+   ClF59uUPSBPSYtV5rA4+0xc8p/CXAbc944zGIKWXYFnKYB3VYhhhsYpm2
+   6hkM3EfWbz4hUo/uOycf0m1nA8x0vEAkzwG1vdV0xpXUWHjMjOUk/PK7g
+   g==;
+X-CSE-ConnectionGUID: i2lQzWz7QIuUnpV86rZv/Q==
+X-CSE-MsgGUID: EHYHf27zSNyFnRNnFDPbOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27184402"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="27445834"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 11:40:36 -0700
-X-CSE-ConnectionGUID: CedBQJXhSBikn1pbUBDoQA==
-X-CSE-MsgGUID: XRmPfyWOQky2P0B5GbkOdQ==
+   d="scan'208";a="27184402"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 11:40:38 -0700
+X-CSE-ConnectionGUID: SA1PQIikQQGTHsIKJbMGbw==
+X-CSE-MsgGUID: sS6mPp/xQA6gJBI0Dl4vqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="79617772"
+   d="scan'208";a="105637362"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Oct 2024 11:40:35 -0700
+  by orviesa002.jf.intel.com with ESMTP; 04 Oct 2024 11:40:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swnE8-000252-1P;
+	id 1swnE8-000254-1T;
 	Fri, 04 Oct 2024 18:40:32 +0000
-Date: Sat, 5 Oct 2024 02:40:22 +0800
+Date: Sat, 5 Oct 2024 02:40:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-pie-v2 30/31] ld: warning: orphan section
- `.relaalloc_tags' from `vmlinux.o' being placed in section `.rela.dyn'
-Message-ID: <202410050254.3w5ZA1bb-lkp@intel.com>
+To: Vinicius Peixoto <vpeixoto@lkcamp.dev>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	Vinicius Peixoto <vpeixoto@lkcamp.dev>,
+	Enzo Bertoloti <ebertoloti@lkcamp.dev>,
+	Fabricio Gasperin <fgasperin@lkcamp.dev>,
+	David Laight <David.Laight@aculab.com>
+Subject: Re: [PATCH v2] lib/crc16_kunit.c: add KUnit tests for crc16
+Message-ID: <202410050215.eU9509xy-lkp@intel.com>
+References: <20241003-crc16-kunit-v2-1-5fe74b113e1e@lkcamp.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,42 +72,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241003-crc16-kunit-v2-1-5fe74b113e1e@lkcamp.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v2
-head:   1295be6d1a5cb6a30132ee8b01c79018794d0c3e
-commit: 61f3a3cf6f5940319514b36400d7c994b163d8c5 [30/31] x86/kernel: Switch to PIE linking for the core kernel
-config: x86_64-randconfig-013-20241004 (https://download.01.org/0day-ci/archive/20241005/202410050254.3w5ZA1bb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050254.3w5ZA1bb-lkp@intel.com/reproduce)
+Hi Vinicius,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinicius-Peixoto/lib-crc16_kunit-c-add-KUnit-tests-for-crc16/20241004-050248
+base:   9852d85ec9d492ebef56dc5f229416c925758edc
+patch link:    https://lore.kernel.org/r/20241003-crc16-kunit-v2-1-5fe74b113e1e%40lkcamp.dev
+patch subject: [PATCH v2] lib/crc16_kunit.c: add KUnit tests for crc16
+config: parisc-randconfig-r071-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050215.eU9509xy-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050215.eU9509xy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050254.3w5ZA1bb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050215.eU9509xy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ld: warning: orphan section `.relaalloc_tags' from `vmlinux.o' being placed in section `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: .tmp_vmlinux1: section `.rela.dyn' can't be allocated in segment 2
-   LOAD: .init.text .init.rela .init.relr .altinstr_aux .init.data .x86_cpu_dev.init .retpoline_sites .ibt_endbr_seal .altinstructions .altinstr_replacement .apicdrivers .exit.text .exit.data runtime_shift_d_hash_shift runtime_ptr_dentry_hashtable .bss .brk .rela.dyn
->> ld: warning: orphan section `.relaalloc_tags' from `vmlinux.o' being placed in section `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: .tmp_vmlinux2: section `.rela.dyn' can't be allocated in segment 2
-   LOAD: .init.text .init.rela .init.relr .altinstr_aux .init.data .x86_cpu_dev.init .retpoline_sites .ibt_endbr_seal .altinstructions .altinstr_replacement .apicdrivers .exit.text .exit.data runtime_shift_d_hash_shift runtime_ptr_dentry_hashtable .bss .brk .rela.dyn
->> ld: warning: orphan section `.relaalloc_tags' from `vmlinux.o' being placed in section `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: vmlinux: section `.rela.dyn' can't be allocated in segment 2
-   LOAD: .init.text .init.rela .init.relr .altinstr_aux .init.data .x86_cpu_dev.init .retpoline_sites .ibt_endbr_seal .altinstructions .altinstr_replacement .apicdrivers .exit.text .exit.data runtime_shift_d_hash_shift runtime_ptr_dentry_hashtable .bss .brk .rela.dyn
+>> lib/crc16_kunit.c:29: warning: Excess struct member 'crc16' description in 'crc16_test'
+   lib/crc16_kunit.c:96: warning: Function parameter or struct member 'test' not described in 'crc16_test_empty'
+   lib/crc16_kunit.c:111: warning: Function parameter or struct member 'test' not described in 'crc16_test_correctness'
+   lib/crc16_kunit.c:132: warning: Function parameter or struct member 'test' not described in 'crc16_test_combine'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +29 lib/crc16_kunit.c
+
+    17	
+    18	/**
+    19	 * struct crc16_test - CRC16 test data
+    20	 * @crc: initial input value to CRC16
+    21	 * @start: Start index within the data buffer
+    22	 * @length: Length of the data
+    23	 * @crc16: Expected CRC16 value for the test
+    24	 */
+    25	static struct crc16_test {
+    26		u16 crc;
+    27		u16 start;
+    28		u16 length;
+  > 29	} tests[CRC16_KUNIT_TEST_SIZE];
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
