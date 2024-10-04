@@ -1,132 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3958158214
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 15:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328391C304D;
+	Fri,  4 Oct 2024 15:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728055468; cv=none; b=P94Is1mJJjuY09UUfo/MFBGgNzKDTSQwkAxyPHNrFjneMa8RFxcV/TNXAWLfBf95xIjKmK0yTQ44z3Y6Cx/jopAjyE0h/6+oWU2lMD/xSHX24kh4x/YC67BB+/l6nwpx0qalHnAJRfpa/CGKq/ei+g1OpY7JabYxK27xaGK37kQ=
+	t=1728056487; cv=none; b=PNTYtuxxeI+4Gpr5QRnm4RzZgopgdwm3IgM6g0JpoMeE7au+3cvm++BJRSfV6FckuHHkVEG81qAtCOHrxn6bALyVI/gV8nwkZ1mA+xguplWH46M1MmotLBKIMr7J/LeR/dN5E4wG5RPWk7amUfFEbHeoi9dB1B0X7c2oz0s+vBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728055468; c=relaxed/simple;
-	bh=kfqow9P/ST84X0OVlrkZ0GDkq4uNaGarTmBWG7WzvtI=;
+	s=arc-20240116; t=1728056487; c=relaxed/simple;
+	bh=wWIqaWFb9hczSFyfBOrlAdAaRIwnd6rA02tbEjm3/Hw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtW4G9oyH32sQ9hOUNghnHAbJkCVhQsuD2jMVD//IHXGzzYeqnbQIoFlYYEREwcxRvoN0B4DNkEnOh7b89EfrcdvpDffnbf/DKcqYqdHgPPxC2slpigkXGLg6aNhT72vecGEVeO2LRp8xlsMnPGYEWeXTYyNTRQB+tXUPX9rOq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fAv87+1Y; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=NSRC5k3tgGp3IpN66FIngFsX86aE8unnp0rHbHR8iABegeTR7SzXTRAYViFqYGx+yEAB8aLrOQ96PCCgWYadzhYe59ABp312Pm/Z5DIR4+DNPnUucFZSXx2WVukvAqXnfhOTMnSjuSqlw37KIfYmglc9Tq4GSejdHorX5RBdAO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OcIjcXhJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAv87+1Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728055466; x=1759591466;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=kfqow9P/ST84X0OVlrkZ0GDkq4uNaGarTmBWG7WzvtI=;
-  b=fAv87+1YVKx3zT19B6uG1P6HwaA+/DrQc+s3lE6m0g72RlIyPY070468
-   AzZYu3Wx/ZiYDKjGnYyvC1ZDb0UZzdbcvnH8AuQ8iSvvg1zSKMVOy1m9N
-   1doJ8l+xFNVvlv7xBTlq28LEEr7eqXsyMz3+2JKIJSAHTmK47ou5UaCw2
-   F7FK8t7yUmRa6wcFRk71vviDCC2X/rRILC6eolP+bO9NRiCgQmRgfJ2hv
-   V1dZOjx2R1aKARP4JLXb5iXiIQ2dFKL1lJuRYk8SHjgfvqvC0KO9cbTse
-   i+Jjpv/P7dzoA8ccVruEs9hhojUvcCnnBJTZDsPMPEqMSORvYcKbo2haI
-   g==;
-X-CSE-ConnectionGUID: jntYTEoDQvW6dYRkhGb6RQ==
-X-CSE-MsgGUID: na/P/PVcRZqmA+Tv+2q14g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="31166408"
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="31166408"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 08:24:26 -0700
-X-CSE-ConnectionGUID: Z351U+pwR3ejRpWbJul4AA==
-X-CSE-MsgGUID: +Ba/OpTyRV2V2Rvx7dsWng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="74726410"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Oct 2024 08:24:25 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swkAI-0001pS-0w;
-	Fri, 04 Oct 2024 15:24:22 +0000
-Date: Fri, 4 Oct 2024 23:24:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Jyri Sarha <jyri.sarha@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 02/10] drm/tilcdc: Allow build with COMPILE_TEST=y
-Message-ID: <202410042345.cQDnF4wd-lkp@intel.com>
-References: <20241003111851.10453-3-ville.syrjala@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OcIjcXhJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8ADBC4CEC6;
+	Fri,  4 Oct 2024 15:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728056486;
+	bh=wWIqaWFb9hczSFyfBOrlAdAaRIwnd6rA02tbEjm3/Hw=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=OcIjcXhJL6RvMjskKV2gco+Uaa/9U9nZ9azzuXuQkJepVHmz60SCWHFFNRmETlEaD
+	 5pmOdUplQAuB0q1GhHLSOLJH7utcGfkPlKMbrUQHEfci0MDPOn7O8P6V9m2gJ4/UtA
+	 a+lNf4lC1AsoR/qOucYlAmAE5G0yIElR6coz44xZPrl/k/X0tlUtSjNfEM0azDMMiS
+	 gOwSJZUWDK90c1/7nUmRiS4HdanyuUxKTgvGRWjtGofbLs7XorYpsSHFwl9TyLek1P
+	 /dnLIcQLTlEvrzpr0g0IZp6GXBLG/RHKwwiIpRdRvE4cpBTc4HXjObAKxS6OgpKoax
+	 JZRh95qCYEntw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 44B5DCE0D71; Fri,  4 Oct 2024 08:41:26 -0700 (PDT)
+Date: Fri, 4 Oct 2024 08:41:26 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: Re: arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes
+ address space '__percpu' of expression
+Message-ID: <5ada7b12-f3c4-4ae8-b396-a3e474f4f852@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202409251336.ToC0TvWB-lkp@intel.com>
+ <e8f6137d-ad2c-4b06-8eb2-cd200fbb1af2@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241003111851.10453-3-ville.syrjala@linux.intel.com>
+In-Reply-To: <e8f6137d-ad2c-4b06-8eb2-cd200fbb1af2@paulmck-laptop>
 
-Hi Ville,
+On Mon, Sep 30, 2024 at 09:10:27AM -0700, Paul E. McKenney wrote:
+> On Wed, Sep 25, 2024 at 01:40:45PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   684a64bf32b6e488004e0ad7f0d7e922798f65b6
+> > commit: f2519d4d4fc4d36f2b58c5614357de9f5b4032fc ARC: Emulate one-byte cmpxchg
+> > date:   12 days ago
+> > config: arc-randconfig-r123-20240925 (https://download.01.org/0day-ci/archive/20240925/202409251336.ToC0TvWB-lkp@intel.com/config)
+> > compiler: arc-elf-gcc (GCC) 13.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251336.ToC0TvWB-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202409251336.ToC0TvWB-lkp@intel.com/
+> > 
+> > sparse warnings: (new ones prefixed by >>)
+> >    arch/arc/kernel/smp.c:252:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *ipi_data_ptr @@     got unsigned long * @@
+> >    arch/arc/kernel/smp.c:252:48: sparse:     expected unsigned long [noderef] __percpu *ipi_data_ptr
+> >    arch/arc/kernel/smp.c:252:48: sparse:     got unsigned long *
+> >    arch/arc/kernel/smp.c:267:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long [noderef] __percpu *__ai_ptr @@
+> >    arch/arc/kernel/smp.c:267:18: sparse:     expected void const volatile *v
+> >    arch/arc/kernel/smp.c:267:18: sparse:     got unsigned long [noderef] __percpu *__ai_ptr
+> > >> arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes address space '__percpu' of expression
+> > >> arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes address space '__percpu' of expression
+> 
+> I could "fix" this using __force.  Is that a reasonable approach?
+> 
+> If I don't hear otherwise, I will take that approach.
 
-kernel test robot noticed the following build warnings:
+Having not heard otherwise, does the following fix this issue for you?
 
-[auto build test WARNING on next-20241003]
-[cannot apply to shawnguo/for-next linus/master rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes v6.12-rc1 v6.11 v6.11-rc7 v6.12-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+							Thanx, Paul
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-tilcdc-Allow-build-without-__iowmb/20241003-192043
-base:   next-20241003
-patch link:    https://lore.kernel.org/r/20241003111851.10453-3-ville.syrjala%40linux.intel.com
-patch subject: [PATCH v2 02/10] drm/tilcdc: Allow build with COMPILE_TEST=y
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241004/202410042345.cQDnF4wd-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410042345.cQDnF4wd-lkp@intel.com/reproduce)
+------------------------------------------------------------------------
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410042345.cQDnF4wd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/tilcdc/tilcdc_crtc.c:24:
-   drivers/gpu/drm/tilcdc/tilcdc_regs.h: In function 'tilcdc_write64':
->> drivers/gpu/drm/tilcdc/tilcdc_regs.h:126:25: warning: passing argument 2 of 'iowrite64' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     126 |         iowrite64(data, addr);
-         |                         ^~~~
-   In file included from arch/alpha/include/asm/io.h:15,
-                    from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:11,
-                    from drivers/gpu/drm/tilcdc/tilcdc_crtc.c:8:
-   include/asm-generic/iomap.h:56:28: note: expected 'void *' but argument is of type 'volatile void *'
-      56 | extern void iowrite64(u64, void __iomem *);
-         |                            ^~~~~~~~~~~~~~
-
-
-vim +126 drivers/gpu/drm/tilcdc/tilcdc_regs.h
-
-16ea975eac671f Rob Clark       2013-01-08  119  
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  120  static inline void tilcdc_write64(struct drm_device *dev, u32 reg, u64 data)
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  121  {
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  122  	struct tilcdc_drm_private *priv = dev->dev_private;
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  123  	volatile void __iomem *addr = priv->mmio + reg;
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  124  
-4e5ca2d930aa87 Logan Gunthorpe 2017-12-05  125  #if defined(iowrite64) && !defined(iowrite64_is_nonatomic)
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26 @126  	iowrite64(data, addr);
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  127  #else
-d5b0aa96231c76 Ville Syrjälä   2024-10-03  128  	/* allow compilation without __iowmb() for COMPILE_TEST */
-d5b0aa96231c76 Ville Syrjälä   2024-10-03  129  #ifdef __iowmb
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  130  	__iowmb();
-d5b0aa96231c76 Ville Syrjälä   2024-10-03  131  #endif
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  132  	/* This compiles to strd (=64-bit write) on ARM7 */
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  133  	*(volatile u64 __force *)addr = __cpu_to_le64(data);
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  134  #endif
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  135  }
-7eb9f069ff5dd3 Jyri Sarha      2016-08-26  136  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index 58045c8983404..76f43db0890fc 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -48,7 +48,7 @@
+ 									\
+ 	switch(sizeof((_p_))) {						\
+ 	case 1:								\
+-		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
++		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
+ 		break;							\
+ 	case 4:								\
+ 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
