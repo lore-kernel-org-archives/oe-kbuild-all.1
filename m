@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD74943154
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 21:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98F4231CAB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 21:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728077686; cv=none; b=D7BkTFD0kIiVK2qY5Rc3/lrAk3zKwzIiPrcMh4qor5e9PX1bVJJEeGcAxb/P82cbkpdQSVUwlG4UWCdCSKAwijtUKVfhI/IGXHZwXghf8QTyOsILkKAxhimdRcjh4yvb3j9l9oqVcq77dios4vYCpCH4bxQbscsOJSKZeBj5Tg0=
+	t=1728078286; cv=none; b=Kj4RO7XiaWyuXIiSCPWFA6rRYXXKnb2plDcuCH6Ue59kSiizFf43WAqC418g0aH0FGNvRB1axrUi9CjjehT2INy2hrhwoywDzaXNpGDmvtV0/fIdzl1ICrRrWWGr1vONdHDhMOetF5XId9sDBJfddBsLDlN326rSHILFBss2dzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728077686; c=relaxed/simple;
-	bh=ersxdiXFUUZ4cgzB+ytXinB0vFK9DFCDoKuyqqg8ODA=;
+	s=arc-20240116; t=1728078286; c=relaxed/simple;
+	bh=6S7dQE7YX30x5tG/whRpkE7lHNxsTPiy562mjp3pvLc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=haCPgoWy0m/Alt+2r5MMA70Eu+FoT8SuLqJ6T6uoLybFWaoSwPFWbpUvBE5n2+cEgZsWWP1QTte4OBqz1dY00QC+pUYXA0z6ab6ZLtx031sFnbmW4hdNWUJ/lhazMZr2xJq7L/S3yDOxgdcCblIISXegw3QMwXf4iVxMD+TwgW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WoTc22z+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Ii3XlxXHkRW+nbKm2RqRxSIZsx+ZZ6KjD7OfZCzTRAbcbox19VDznwyU1HT8WmLBCJ4zUcslmrvEPYCN43Q1vKGOdVX5hk930iMz2W7qI/sbDZaHSASJe/DmrMvn+wuiRhAIm7SKTWmscSCr79HYrXaWwR27oIASlwLn/TEuVCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6DWKt5M; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WoTc22z+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6DWKt5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728077685; x=1759613685;
+  t=1728078285; x=1759614285;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ersxdiXFUUZ4cgzB+ytXinB0vFK9DFCDoKuyqqg8ODA=;
-  b=WoTc22z+2twy22Ab4EIErEHIAfSPdvaooqUNQcZ8kVknHKFCIymbbPAU
-   7wsAzkmgMwbbxtdfABm1yxKCThbJN0eZE6lZ8EOG/hd7O37QR7A3LcK27
-   MFN69tVEzrg1GeBE2r2W+5oY7oJUELg2RlV6NEw+TuoHD1oi6ATQssSmP
-   4dutzraNOU2KnB0zF/TdwuNCsVfypFq5pQptVJXF3EksOYvPfmbv4JceU
-   jPlgvpZCdcMXE50iCq4LdOAuGTFcdJ8JiAIrghQRLMdflW8OzqaO39aOP
-   UZIZRwM3upA1SXS6G6NNzhHpLV+51mxpS5y4ft8Wlzj1Pt/Xdm8J6djFp
-   A==;
-X-CSE-ConnectionGUID: Cm0JoDdOQP2olwZn01tviw==
-X-CSE-MsgGUID: A2KZ+pMGSxCnX98PLMpWeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="38446537"
+  bh=6S7dQE7YX30x5tG/whRpkE7lHNxsTPiy562mjp3pvLc=;
+  b=h6DWKt5MaiB/zK5UaggimCCOgfc1OmEEY/h4B8W9Ob92GWo/5ppM8gbO
+   /5QnaxwJu7JnU1NqA7YrsC7nRbClVLTx3WQFUh+Toh2qc08LatzrHFZag
+   u5C5vb8i5FcgU58S5qu4aFsbvf8hNo76kVa4hjKuvLMqKDM4F2eBasqOB
+   9Wp+54i6Ib9lyVpuBcnGxtVkAm+gSp5mOcwFl7JdFAXxCalEbmJAGjwGG
+   MvO8u2XGOc9qHn7bmaiwZH9DZJyaQPztB0l4T6cRChpr85hommtsvtInD
+   JuqgjV74zPrfKORF2AYYFkDc+rhPKWMhdbxpoa7hRt6jHC/Inwf0L8lIk
+   g==;
+X-CSE-ConnectionGUID: I3Unu5lGSa+Vbk1AhyLQ2A==
+X-CSE-MsgGUID: TNmR3LbTTYOjm8UuZdS3/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27198275"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="38446537"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 14:34:44 -0700
-X-CSE-ConnectionGUID: KbiuiijZR62+BaMVgSMd9Q==
-X-CSE-MsgGUID: 5siTwgfMRG+J65B7oQSBqA==
+   d="scan'208";a="27198275"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 14:44:44 -0700
+X-CSE-ConnectionGUID: 62j+IPdPRpGL2GzZTdaNxQ==
+X-CSE-MsgGUID: X0BApJk7TES87DfG5zlB7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="79661601"
+   d="scan'208";a="98143973"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Oct 2024 14:34:43 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Oct 2024 14:44:43 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swpwe-0002FG-1o;
-	Fri, 04 Oct 2024 21:34:40 +0000
-Date: Sat, 5 Oct 2024 05:34:16 +0800
+	id 1swq6K-0002FW-2M;
+	Fri, 04 Oct 2024 21:44:40 +0000
+Date: Sat, 5 Oct 2024 05:44:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
 	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
 	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20241003 5/14]
- include/linux/build_bug.h:78:41: error: static assertion failed: "struct
- member likely outside of struct_group_tagged()"
-Message-ID: <202410050536.vCru1pn6-lkp@intel.com>
+Subject: [gustavoars:testing/wfamnae-next20241003 6/14]
+ drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:2: error: call to
+ '__compiletime_assert_1069' declared with 'error' attribute: BUILD_BUG_ON
+ failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
+Message-ID: <202410050510.vbrOXEXd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,68 +68,160 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241003
 head:   ec64acf2dce7577a42c01241e78b24afebc26e96
-commit: f44c92244302b0ac9d17ccf3eb21786a9be55163 [5/14] RDMA/uverbs: Use static_assert() to check struct sizes
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20241005/202410050536.vCru1pn6-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050536.vCru1pn6-lkp@intel.com/reproduce)
+commit: e99409254091557e1e28e56900da37395bed8163 [6/14] wifi: iwlwifi: mvm: Use __counted_by() and avoid -Wfamnae warnings
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20241005/202410050510.vbrOXEXd-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050510.vbrOXEXd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050536.vCru1pn6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050510.vbrOXEXd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from drivers/infiniband/core/nldev.c:33:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "struct member likely outside of struct_group_tagged()"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/rdma/uverbs_ioctl.h:643:1: note: in expansion of macro 'static_assert'
-     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
-         | ^~~~~~~~~~~~~
+   In file included from drivers/net/wireless/intel/iwlwifi/mvm/d3.c:7:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/riscv/include/asm/cacheflush.h:9:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:2: error: call to '__compiletime_assert_1069' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
+    2149 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:517:2: note: expanded from macro 'compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:505:2: note: expanded from macro '_compiletime_assert'
+     505 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:498:4: note: expanded from macro '__compiletime_assert'
+     498 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:67:1: note: expanded from here
+      67 | __compiletime_assert_1069
+         | ^
+>> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2148:2: error: call to '__compiletime_assert_1068' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
+    2148 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:517:2: note: expanded from macro 'compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:505:2: note: expanded from macro '_compiletime_assert'
+     505 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:498:4: note: expanded from macro '__compiletime_assert'
+     498 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:63:1: note: expanded from here
+      63 | __compiletime_assert_1068
+         | ^
+   4 warnings and 2 errors generated.
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
 
-vim +78 include/linux/build_bug.h
+vim +2149 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  2134	
+  2135	static bool iwl_mvm_gtk_rekey(struct iwl_wowlan_status_data *status,
+  2136				      struct ieee80211_vif *vif,
+  2137				      struct iwl_mvm *mvm, u32 gtk_cipher)
+  2138	{
+  2139		int i, j;
+  2140		struct ieee80211_key_conf *key;
+  2141		DEFINE_FLEX(struct ieee80211_key_conf, conf, key, keylen,
+  2142			    WOWLAN_KEY_MAX_SIZE);
+  2143		int link_id = vif->active_links ? __ffs(vif->active_links) : -1;
+  2144	
+  2145		conf->cipher = gtk_cipher;
+  2146	
+  2147		BUILD_BUG_ON(WLAN_KEY_LEN_CCMP != WLAN_KEY_LEN_GCMP);
+> 2148		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
+> 2149		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
+  2150		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_TKIP);
+  2151		BUILD_BUG_ON(conf->keylen < sizeof(status->gtk[0].key));
+  2152	
+  2153		switch (gtk_cipher) {
+  2154		case WLAN_CIPHER_SUITE_CCMP:
+  2155		case WLAN_CIPHER_SUITE_GCMP:
+  2156			conf->keylen = WLAN_KEY_LEN_CCMP;
+  2157			break;
+  2158		case WLAN_CIPHER_SUITE_GCMP_256:
+  2159			conf->keylen = WLAN_KEY_LEN_GCMP_256;
+  2160			break;
+  2161		case WLAN_CIPHER_SUITE_TKIP:
+  2162			conf->keylen = WLAN_KEY_LEN_TKIP;
+  2163			break;
+  2164		default:
+  2165			WARN_ON(1);
+  2166		}
+  2167	
+  2168		for (i = 0; i < ARRAY_SIZE(status->gtk); i++) {
+  2169			if (!status->gtk[i].len)
+  2170				continue;
+  2171	
+  2172			conf->keyidx = status->gtk[i].id;
+  2173			IWL_DEBUG_WOWLAN(mvm,
+  2174					 "Received from FW GTK cipher %d, key index %d\n",
+  2175					 conf->cipher, conf->keyidx);
+  2176			memcpy(conf->key, status->gtk[i].key,
+  2177			       sizeof(status->gtk[i].key));
+  2178	
+  2179			key = ieee80211_gtk_rekey_add(vif, conf, link_id);
+  2180			if (IS_ERR(key))
+  2181				return false;
+  2182	
+  2183			for (j = 0; j < ARRAY_SIZE(status->gtk_seq); j++) {
+  2184				if (!status->gtk_seq[j].valid ||
+  2185				    status->gtk_seq[j].key_id != key->keyidx)
+  2186					continue;
+  2187				iwl_mvm_set_key_rx_seq_idx(key, status, j);
+  2188				break;
+  2189			}
+  2190			WARN_ON(j == ARRAY_SIZE(status->gtk_seq));
+  2191		}
+  2192	
+  2193		return true;
+  2194	}
+  2195	
 
 -- 
 0-DAY CI Kernel Test Service
