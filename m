@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32AA228B3E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 18:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7231822910E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 18:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728066641; cv=none; b=RBW1HkUU5EEx9THcXSMwFqMf9rnibN51ijiS3MuJkJXaJW0Wrk5gJYPZD65jdCRrUjz8e7z/SZo9TC6J9HfT4a583t3kGy35o2Ojh1ZWLcETTepz3wUu5ySDEsbnVeR6nYAhgw+EzZm2m5OUf25jvgvKpyKJgvWCcNjkii6kyPw=
+	t=1728066643; cv=none; b=L/4XEw7btCloVub2cQ4KnH1Z3M6wvwG1RWLfObg7bFizb45kwbpSSE4EmTkU813wlcNyuniW/6/uEcw418FtW0U2Civy4KeXeDHu0Cv2mq+LSppjXxc05HOjwqgcBiKp9/4dgBQLKmz/ink9ptJIGgSxW1Kb8i6/E49aSq7BaqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728066641; c=relaxed/simple;
-	bh=IeectrcAmahCkETXsMyKcnFMa9aLHclyq34pbQ3PAMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bzkPiPDGUv7ldfkD1LGMPhHaoYqYQZi0RlFsrVERCyBB8ZeGeL7Uzs5VbyUzZ+cBi6H494rw04bm+u0mZ3LvZm3CXTAobcxYd0ed0eFvjmS1Stzfp4YQEg/NKf+JXMsuhWcrinZQnyGcjXP8Q7pruqCQ2sRTWYo77Nz/2usdwPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S3UEG8hu; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1728066643; c=relaxed/simple;
+	bh=eeH+AH7u2w9KHWUrQx32pxEJ3OAjsgyXvB5ZIdY/G60=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFiaZF3k3PJ0jHBbhscvRrM0Kt2lWhHhVWc3K9dnNDjhzu9QASG/MZm+K/6E70r4r/TZZ2/pmWj1Y+AWOZBLt1noiXqcupdRxGod4zGwu0A7oQYbe7lpSZI533C+6uj8cZVdVchZvoVLDyzzEFrgjhbHRRn2+P9OwNvAANlF78c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoHKVduG; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S3UEG8hu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoHKVduG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728066640; x=1759602640;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IeectrcAmahCkETXsMyKcnFMa9aLHclyq34pbQ3PAMM=;
-  b=S3UEG8huvG3IGob7I9yGjjY75RfMkiaxjqfW0n3/cAgDue89zBOiAh2n
-   NuahyqzRYiAC3SVnAMOwKJMFrBErTBToiGwbNyPB1fuI6S3TmnmMQB4Bh
-   bI7ANykbFOxYSQZNmdc6FbUK5te9Ut0c7VMhsr5UVX/p/5U0It4Uy3Z2m
-   JItZLjAWxUhB6S0zMvLFy4cGvxi2owLj7Udwf+TU5LH17r9jlXR9R6Eau
-   AnnKMGjNOj/fZplkaPqc1B3jImYBaInpd9Uast+ei3ziDoIIbxY+lGo6/
-   bJDlCTBGksnVWAfqn3MAO0j2b1DN3aFUGZBMxCOVDcNDWGDlOxf2iTn0V
-   Q==;
-X-CSE-ConnectionGUID: 9OdqjiXCRb28afPIQcxRuA==
-X-CSE-MsgGUID: ZV2Zyh4OT7aXZHYfrKBLZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="38691106"
+  t=1728066641; x=1759602641;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eeH+AH7u2w9KHWUrQx32pxEJ3OAjsgyXvB5ZIdY/G60=;
+  b=ZoHKVduGf/WzXBfvlPAEN4EdTIwIHx0r63hFmWm8NLve+KjF8Kzd+J6i
+   9gxAaBV2VkVzGI1LG8R3pk6LltIDGc5z1Sbp8pPGwh/TAzgOFofBAFbGU
+   1wVtxKVl5GQsNQMtUsAxpoLek2qThk+4yYTraseJqbp193Oq9BB5lHSYg
+   Rgvyuxsv45gti/RvsyykIOWqA1yFtT4ff67dzypDXsSt/6t4mQO+WomkQ
+   TKztRz5PVLR6VJbqtGljvb2Rldat9DmGh57rAp4MuK73FmeaRLVjL7rV7
+   xVOIXfLYye2WIFDpkHez5kFmJRZFFp8+ekK1q3QNqAUs451d7Aql5NHBS
+   w==;
+X-CSE-ConnectionGUID: qU1DKkqzQSuO0KpBFpobeA==
+X-CSE-MsgGUID: qqD7f0gqTy2RiqRkwF321Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26806333"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="38691106"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 11:30:36 -0700
-X-CSE-ConnectionGUID: 3ZGpg4fwQPqtR7HzpMQuXA==
-X-CSE-MsgGUID: Ms/YomiYSFCs6y2f5KFnxg==
+   d="scan'208";a="26806333"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 11:30:37 -0700
+X-CSE-ConnectionGUID: WsqR+Qe/Q5aGyQuIS10OQA==
+X-CSE-MsgGUID: riEHNx/gROWhm0lv4CoFlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="112252630"
+   d="scan'208";a="79749459"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2024 11:30:34 -0700
+  by orviesa004.jf.intel.com with ESMTP; 04 Oct 2024 11:30:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swn4S-00024O-0H;
+	id 1swn4S-00024Q-0N;
 	Fri, 04 Oct 2024 18:30:32 +0000
 Date: Sat, 5 Oct 2024 02:29:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomasz Jeznach <tjeznach@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Zong Li <zong.li@sifive.com>
-Subject: [avpatel:riscv_sbi_nested_v2 20/33]
- drivers/iommu/riscv/iommu.c:792:26: sparse: sparse: dubious one-bit signed
- bitfield
-Message-ID: <202410050252.2nFYIUXV-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+	airlied@gmail.com, javierm@redhat.com, jfalempe@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 03/11] drm/fbdev: Select fbdev I/O helpers from
+ modules that require them
+Message-ID: <202410050241.Mox9QRjP-lkp@intel.com>
+References: <20241002131306.288618-4-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,39 +67,382 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241002131306.288618-4-tzimmermann@suse.de>
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v2
-head:   5a44a9b6d41385ad478276867454bf0b460bc198
-commit: 345c59795f11af97ca737e8316ad347f67dc4929 [20/33] iommu/riscv: Paging domain support
-config: riscv-randconfig-r132-20241004 (https://download.01.org/0day-ci/archive/20241005/202410050252.2nFYIUXV-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce: (https://download.01.org/0day-ci/archive/20241005/202410050252.2nFYIUXV-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20241002]
+[also build test ERROR on v6.12-rc1]
+[cannot apply to drm-xe/drm-xe-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc1 v6.11 v6.11-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-i915-Select-DRM_CLIENT_SELECTION/20241002-211520
+base:   next-20241002
+patch link:    https://lore.kernel.org/r/20241002131306.288618-4-tzimmermann%40suse.de
+patch subject: [PATCH v2 03/11] drm/fbdev: Select fbdev I/O helpers from modules that require them
+config: arm-aspeed_g5_defconfig (https://download.01.org/0day-ci/archive/20241005/202410050241.Mox9QRjP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050241.Mox9QRjP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050252.2nFYIUXV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050241.Mox9QRjP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/iommu/riscv/iommu.c:1606:13: sparse: sparse: too long token expansion
-   drivers/iommu/riscv/iommu.c:1606:13: sparse: sparse: too long token expansion
->> drivers/iommu/riscv/iommu.c:792:26: sparse: sparse: dubious one-bit signed bitfield
+All errors (new ones prefixed by >>):
 
-vim +792 drivers/iommu/riscv/iommu.c
+   drivers/gpu/drm/drm_fbdev_dma.c: In function 'drm_fbdev_dma_driver_fbdev_probe':
+>> drivers/gpu/drm/drm_fbdev_dma.c:218:26: error: 'struct drm_fb_helper' has no member named 'fbdefio'
+     218 |                 fb_helper->fbdefio.delay = HZ / 20;
+         |                          ^~
+   drivers/gpu/drm/drm_fbdev_dma.c:219:26: error: 'struct drm_fb_helper' has no member named 'fbdefio'
+     219 |                 fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
+         |                          ^~
+>> drivers/gpu/drm/drm_fbdev_dma.c:221:21: error: 'struct fb_info' has no member named 'fbdefio'
+     221 |                 info->fbdefio = &fb_helper->fbdefio;
+         |                     ^~
+   drivers/gpu/drm/drm_fbdev_dma.c:221:43: error: 'struct drm_fb_helper' has no member named 'fbdefio'
+     221 |                 info->fbdefio = &fb_helper->fbdefio;
+         |                                           ^~
+--
+   In file included from include/linux/bitfield.h:10,
+                    from arch/arm/include/asm/ptrace.h:13,
+                    from arch/arm/include/asm/processor.h:14,
+                    from include/linux/prefetch.h:15,
+                    from arch/arm/include/asm/atomic.h:12,
+                    from include/linux/atomic.h:7,
+                    from include/linux/console.h:17,
+                    from drivers/gpu/drm/drm_fb_helper.c:32:
+   drivers/gpu/drm/drm_fb_helper.c: In function 'drm_fb_helper_deferred_io':
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:458:27: error: expression in static assertion is not an integer
+     458 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/atomic.h:5:
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/include/asm/traps.h:6,
+                    from arch/arm/include/asm/thread_info.h:43,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rcuwait.h:5,
+                    from include/linux/irq_work.h:6,
+                    from include/linux/console.h:19:
+>> include/linux/list.h:769:26: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+     769 |         list_is_head(&pos->member, (head))
+         |                          ^~
+   include/linux/list.h:779:15: note: in expansion of macro 'list_entry_is_head'
+     779 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/llist.h:52,
+                    from include/linux/smp_types.h:5,
+                    from include/linux/irq_work.h:5:
+   include/linux/list.h:645:25: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:25: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:25: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:458:27: error: expression in static assertion is not an integer
+     458 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_fb_helper.c:717:9: note: in expansion of macro 'list_for_each_entry'
+     717 |         list_for_each_entry(pageref, pagereflist, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_fb_helper.c:718:32: error: invalid use of undefined type 'struct fb_deferred_io_pageref'
+     718 |                 start = pageref->offset;
+         |                                ^~
 
-   785	
-   786	/* This struct contains protection domain specific IOMMU driver data. */
-   787	struct riscv_iommu_domain {
-   788		struct iommu_domain domain;
-   789		struct list_head bonds;
-   790		spinlock_t lock;		/* protect bonds list updates. */
-   791		int pscid;
- > 792		int amo_enabled:1;
-   793		int numa_node;
-   794		unsigned int pgd_mode;
-   795		unsigned long *pgd_root;
-   796	};
-   797	
+
+vim +218 drivers/gpu/drm/drm_fbdev_dma.c
+
+8998eedda2539d Thomas Zimmermann 2024-09-24  125  
+8998eedda2539d Thomas Zimmermann 2024-09-24  126  /*
+8998eedda2539d Thomas Zimmermann 2024-09-24  127   * struct drm_fb_helper
+8998eedda2539d Thomas Zimmermann 2024-09-24  128   */
+8998eedda2539d Thomas Zimmermann 2024-09-24  129  
+8998eedda2539d Thomas Zimmermann 2024-09-24  130  int drm_fbdev_dma_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+8998eedda2539d Thomas Zimmermann 2024-09-24  131  				     struct drm_fb_helper_surface_size *sizes)
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  132  {
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  133  	struct drm_client_dev *client = &fb_helper->client;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  134  	struct drm_device *dev = fb_helper->dev;
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  135  	bool use_deferred_io = false;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  136  	struct drm_client_buffer *buffer;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  137  	struct drm_gem_dma_object *dma_obj;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  138  	struct drm_framebuffer *fb;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  139  	struct fb_info *info;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  140  	u32 format;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  141  	struct iosys_map map;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  142  	int ret;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  143  
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  144  	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  145  		    sizes->surface_width, sizes->surface_height,
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  146  		    sizes->surface_bpp);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  147  
+cb31c58e8c294f Thomas Huth       2024-07-02  148  	format = drm_driver_legacy_fb_format(dev, sizes->surface_bpp,
+cb31c58e8c294f Thomas Huth       2024-07-02  149  					     sizes->surface_depth);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  150  	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  151  					       sizes->surface_height, format);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  152  	if (IS_ERR(buffer))
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  153  		return PTR_ERR(buffer);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  154  	dma_obj = to_drm_gem_dma_obj(buffer->gem);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  155  
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  156  	fb = buffer->fb;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  157  
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  158  	/*
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  159  	 * Deferred I/O requires struct page for framebuffer memory,
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  160  	 * which is not guaranteed for all DMA ranges. We thus only
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  161  	 * install deferred I/O if we have a framebuffer that requires
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  162  	 * it.
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  163  	 */
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  164  	if (fb->funcs->dirty)
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  165  		use_deferred_io = true;
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  166  
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  167  	ret = drm_client_buffer_vmap(buffer, &map);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  168  	if (ret) {
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  169  		goto err_drm_client_buffer_delete;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  170  	} else if (drm_WARN_ON(dev, map.is_iomem)) {
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  171  		ret = -ENODEV; /* I/O memory not supported; use generic emulation */
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  172  		goto err_drm_client_buffer_delete;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  173  	}
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  174  
+8998eedda2539d Thomas Zimmermann 2024-09-24  175  	fb_helper->funcs = &drm_fbdev_dma_helper_funcs;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  176  	fb_helper->buffer = buffer;
+808a40b6946804 Thomas Zimmermann 2024-04-19  177  	fb_helper->fb = fb;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  178  
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  179  	info = drm_fb_helper_alloc_info(fb_helper);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  180  	if (IS_ERR(info)) {
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  181  		ret = PTR_ERR(info);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  182  		goto err_drm_client_buffer_vunmap;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  183  	}
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  184  
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  185  	drm_fb_helper_fill_info(info, fb_helper, sizes);
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  186  
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  187  	if (use_deferred_io)
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  188  		info->fbops = &drm_fbdev_dma_deferred_fb_ops;
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  189  	else
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  190  		info->fbops = &drm_fbdev_dma_fb_ops;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  191  
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  192  	/* screen */
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  193  	info->flags |= FBINFO_VIRTFB; /* system memory */
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  194  	if (dma_obj->map_noncoherent)
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  195  		info->flags |= FBINFO_READS_FAST; /* signal caching */
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  196  	info->screen_size = sizes->surface_height * fb->pitches[0];
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  197  	info->screen_buffer = map.vaddr;
+d92a7580392ad4 Thomas Zimmermann 2024-06-17  198  	if (!(info->flags & FBINFO_HIDE_SMEM_START)) {
+d92a7580392ad4 Thomas Zimmermann 2024-06-17  199  		if (!drm_WARN_ON(dev, is_vmalloc_addr(info->screen_buffer)))
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  200  			info->fix.smem_start = page_to_phys(virt_to_page(info->screen_buffer));
+d92a7580392ad4 Thomas Zimmermann 2024-06-17  201  	}
+a51c7663f14460 Thomas Zimmermann 2023-03-20  202  	info->fix.smem_len = info->screen_size;
+b79fe9abd58bab Thomas Zimmermann 2023-03-13  203  
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  204  	/*
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  205  	 * Only set up deferred I/O if the screen buffer supports
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  206  	 * it. If this disagrees with the previous test for ->dirty,
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  207  	 * mmap on the /dev/fb file might not work correctly.
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  208  	 */
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  209  	if (!is_vmalloc_addr(info->screen_buffer) && info->fix.smem_start) {
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  210  		unsigned long pfn = info->fix.smem_start >> PAGE_SHIFT;
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  211  
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  212  		if (drm_WARN_ON(dev, !pfn_to_page(pfn)))
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  213  			use_deferred_io = false;
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  214  	}
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  215  
+808a40b6946804 Thomas Zimmermann 2024-04-19  216  	/* deferred I/O */
+5a498d4d06d6d9 Thomas Zimmermann 2024-09-04  217  	if (use_deferred_io) {
+808a40b6946804 Thomas Zimmermann 2024-04-19 @218  		fb_helper->fbdefio.delay = HZ / 20;
+808a40b6946804 Thomas Zimmermann 2024-04-19  219  		fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
+808a40b6946804 Thomas Zimmermann 2024-04-19  220  
+808a40b6946804 Thomas Zimmermann 2024-04-19 @221  		info->fbdefio = &fb_helper->fbdefio;
 
 -- 
 0-DAY CI Kernel Test Service
