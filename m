@@ -1,79 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F154126BFE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 07:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B85613B783
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 07:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728027621; cv=none; b=P+5tAizxKz4vwr5z7VSY8FHpfKCTG14vPPTnCXUzMdXEEISpRRTS95zNSr10BMxKTztfSl9/um66ZEcUmtJjmvlQJW3mhHYg/p2js2b/TXmOZY4QumIYx/iyMIEDOfk8LaN35nfUnIff7gYd+Zvnut/INy3GSG/ddzf6Nt8C2NA=
+	t=1728028211; cv=none; b=qOXcEPNzzyliabv1PQ9DschUp1HQX+V37ez1viRESM6Vqvbmyf3KY+yWGrnXrGMCKZDrs90D+JGQKQZW4r+VSx9AMR+PKZ6vWw+jLJ/WTnifXpYZygX3ASlaqBlaAIk42MsQlkmWepHFfhUjPBNdmow1GjaFx+4SfdtWxKbbOBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728027621; c=relaxed/simple;
-	bh=jeuOprsNrHYvDhtbr8K1Fr4rBYGsHng5OzWZolAVMD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kK3QJlZ7lc0wTkRVw8n4f7ZkXSfQDSDcqsa0S/5gUQki1t7pcnHMgdLpwmTmESD+rK058OlBnIOmT+CegWJxUAhr2XxAPRbGVUJjEo6lELxuyAXuUg9jYUdZfOQz2oqnVLbziFzG+K5DA0+da+yV/6HONfDyln+AtwUMEaRhrqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyVjzgjr; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1728028211; c=relaxed/simple;
+	bh=1M1kHBo8CNJKQ64WWKpuDd4iaWHjUss8ZwZ9tAGwCw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nzEs/kIOKD4jtQDO1KgWjCJwOYbQrL2IW8Ki4XI16SWqNlJggNGZeQePTwnh4ndrHBgsyp81eV8j6/3q457iPJRTAABWagE60KlkUORisgSOTJN3ooJ4DYHfltXGoq/AXYxgkQ5FTl0tbAgv5Vy+/7hHcUAE+9pnw08vTQxpR60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N6ie785n; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyVjzgjr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6ie785n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728027620; x=1759563620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jeuOprsNrHYvDhtbr8K1Fr4rBYGsHng5OzWZolAVMD0=;
-  b=hyVjzgjrhOq2s07v10OyPeB2ZqvGKMWsEJbFOmlr6BJvU5u3JQifYHju
-   1tDLhQBVw/imqmuyt/Jgr0izIBjaQ4fOVIYA//gb/05wEe6oYSTnwsGb+
-   WPENJe99KOLykQklEDeaTesFOrOhC1MakqdrH9DBXvhXajmSU/CuNNQoe
-   t8Jh4iEJrL/ZMzfvjjDRs6idhuQF4nxC9EgB5G1+cfgcdven0qPeGRD8m
-   lGbQtUTOCAiJPMBgm6GRypNrft+o5b39PNOX4H+wPYVudhmyiLqDCqG3V
-   sIkns2IPwFDkIp7qVsnjbW/B8wcc66gUR4/QC1wCzLtzVAx9g8CkZUDJC
-   Q==;
-X-CSE-ConnectionGUID: LG90HNNySF+TIjvSapan+g==
-X-CSE-MsgGUID: fELp5ScYTJ+1gvBu/zNzeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="49773666"
+  t=1728028211; x=1759564211;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1M1kHBo8CNJKQ64WWKpuDd4iaWHjUss8ZwZ9tAGwCw8=;
+  b=N6ie785nr1ryPFHz8ne8QdVJoGX9irV8Sd+WdWNGOCnGTQ4wPpXb1eOu
+   xOi6H3FRuvlJccVtimeQPtF47p8SiET2ehmOyhrpZR5Dh0tTFfKKoRgWQ
+   329KyJI0gSWDQ2zYkjCKhWZ8EKDFXWla2jx84bstEaAKKqbA3jKORPOsq
+   S4YH/YkP/bHV57sYp/PLfhWotu5olYAG4lF7Hex6QBwH2vrPzinQYyT/n
+   lx4XjDbEraeP0zWbPRSym1gSKG6TbuP85UlnUIhvha4eLtLo3nVgD+fAB
+   i4yM6nFr9V2MfRN7C87++LZraSDnweJtaF536/RWBu5smMl4mfaasLAb4
+   g==;
+X-CSE-ConnectionGUID: 1/7KGQE+S4uDEw+OBQDLPg==
+X-CSE-MsgGUID: I48giZ7FTXuMcDFV9BG2bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27373121"
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="49773666"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 00:40:19 -0700
-X-CSE-ConnectionGUID: X57WiVEhQPqNeRPsnrVrMQ==
-X-CSE-MsgGUID: oupDzxnnRnqC/EiV8myw8A==
+   d="scan'208";a="27373121"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 00:50:10 -0700
+X-CSE-ConnectionGUID: kX+GL9mhQhSZt/f27amE5g==
+X-CSE-MsgGUID: tnfQ3gSdTqCw2WkcBabbBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="105368585"
+   d="scan'208";a="79594306"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Oct 2024 00:40:09 -0700
+  by orviesa004.jf.intel.com with ESMTP; 04 Oct 2024 00:50:09 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swcv0-0001Ku-0l;
-	Fri, 04 Oct 2024 07:40:06 +0000
-Date: Fri, 4 Oct 2024 15:39:21 +0800
+	id 1swd4g-0001LU-1e;
+	Fri, 04 Oct 2024 07:50:06 +0000
+Date: Fri, 4 Oct 2024 15:49:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= via B4 Relay <devnull+duje.mihanovic.skole.hr@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	Lubomir Rintel <lkundrak@v3.sk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, phone-devel@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Karel Balej <balejk@matfyz.cz>, David Wronek <david@mainlining.org>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v13 10/12] arm64: Kconfig.platforms: Add config for
- Marvell PXA1908 platform
-Message-ID: <202410041521.flkiRLrV-lkp@intel.com>
-References: <20241001-pxa1908-lkml-v13-10-6b9a7f64f9ae@skole.hr>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-doc@vger.kernel.org
+Subject: [linux-next:master 2422/2483] htmldocs: Warning:
+ drivers/gpu/drm/xe/xe_pci.c references a file that doesn't exist:
+ Documentation/fault-injection/fault-injection.rst
+Message-ID: <202410041549.r1yXqVA1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,32 +64,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241001-pxa1908-lkml-v13-10-6b9a7f64f9ae@skole.hr>
 
-Hi Duje,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi-via-B4-Relay/clk-mmp-Switch-to-use-struct-u32_fract-instead-of-custom-one/20241001-224233
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241001-pxa1908-lkml-v13-10-6b9a7f64f9ae%40skole.hr
-patch subject: [PATCH v13 10/12] arm64: Kconfig.platforms: Add config for Marvell PXA1908 platform
-config: arm64-kismet-CONFIG_I2C_GPIO-CONFIG_VIDEO_MMP_CAMERA-0-0 (https://download.01.org/0day-ci/archive/20241004/202410041521.flkiRLrV-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241004/202410041521.flkiRLrV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
+commit: df2218ecdf52896e9cd70687613d016f23bf4919 [2422/2483] Merge branch 'drm-xe-next' of https://gitlab.freedesktop.org/drm/xe/kernel
+reproduce: (https://download.01.org/0day-ci/archive/20241004/202410041549.r1yXqVA1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410041521.flkiRLrV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410041549.r1yXqVA1-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for I2C_GPIO when selected by VIDEO_MMP_CAMERA
-   WARNING: unmet direct dependencies detected for I2C_GPIO
-     Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (GPIOLIB [=n] || COMPILE_TEST [=n])
-     Selected by [y]:
-     - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP [=y] || COMPILE_TEST [=n]) && COMMON_CLK [=y]
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: drivers/gpu/drm/xe/xe_pci.c references a file that doesn't exist: Documentation/fault-injection/fault-injection.rst
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
