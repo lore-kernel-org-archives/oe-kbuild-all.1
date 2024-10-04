@@ -1,44 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328391C304D;
-	Fri,  4 Oct 2024 15:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74A91C3038;
+	Fri,  4 Oct 2024 15:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728056487; cv=none; b=PNTYtuxxeI+4Gpr5QRnm4RzZgopgdwm3IgM6g0JpoMeE7au+3cvm++BJRSfV6FckuHHkVEG81qAtCOHrxn6bALyVI/gV8nwkZ1mA+xguplWH46M1MmotLBKIMr7J/LeR/dN5E4wG5RPWk7amUfFEbHeoi9dB1B0X7c2oz0s+vBY=
+	t=1728056728; cv=none; b=BlCDWHUE05XDrEFZh2bmvcqr1C5c5guSIbh3YSxkCmbaqjutLl7xNSbzOHcLlgfmqvkE5YMnZtOvdJsblbPOX4TLaMDdgglvEiulvTG2ApARAX/KyIgkPrHf4ukBRN4IcCamWxMrhyboPPxdxqS2DLX0cyiP5h78Z0iAXPdqoUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728056487; c=relaxed/simple;
-	bh=wWIqaWFb9hczSFyfBOrlAdAaRIwnd6rA02tbEjm3/Hw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NSRC5k3tgGp3IpN66FIngFsX86aE8unnp0rHbHR8iABegeTR7SzXTRAYViFqYGx+yEAB8aLrOQ96PCCgWYadzhYe59ABp312Pm/Z5DIR4+DNPnUucFZSXx2WVukvAqXnfhOTMnSjuSqlw37KIfYmglc9Tq4GSejdHorX5RBdAO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OcIjcXhJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728056728; c=relaxed/simple;
+	bh=e7oCZOQEpb4KoIn9xoa0YLv2beWw5KGIE5hNlFZoaZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ygt+zAIT0DKHaWBqT/mFV45Sh+DsqIpf9/SHOOB+ED7n6GpuJYWN3h1qlw/KzAwioKqzu9ds5cjyaPK5WKwHe+J3/bgTsaozuDr0TQDflCUFZhL7vWdUWLTgpiIk/STVbP09WvRUNqjLYrRA5ddqse8Ad52IA3LVCBi6kGZYCSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHn9CjMy; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OcIjcXhJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8ADBC4CEC6;
-	Fri,  4 Oct 2024 15:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728056486;
-	bh=wWIqaWFb9hczSFyfBOrlAdAaRIwnd6rA02tbEjm3/Hw=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=OcIjcXhJL6RvMjskKV2gco+Uaa/9U9nZ9azzuXuQkJepVHmz60SCWHFFNRmETlEaD
-	 5pmOdUplQAuB0q1GhHLSOLJH7utcGfkPlKMbrUQHEfci0MDPOn7O8P6V9m2gJ4/UtA
-	 a+lNf4lC1AsoR/qOucYlAmAE5G0yIElR6coz44xZPrl/k/X0tlUtSjNfEM0azDMMiS
-	 gOwSJZUWDK90c1/7nUmRiS4HdanyuUxKTgvGRWjtGofbLs7XorYpsSHFwl9TyLek1P
-	 /dnLIcQLTlEvrzpr0g0IZp6GXBLG/RHKwwiIpRdRvE4cpBTc4HXjObAKxS6OgpKoax
-	 JZRh95qCYEntw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 44B5DCE0D71; Fri,  4 Oct 2024 08:41:26 -0700 (PDT)
-Date: Fri, 4 Oct 2024 08:41:26 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: Re: arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes
- address space '__percpu' of expression
-Message-ID: <5ada7b12-f3c4-4ae8-b396-a3e474f4f852@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202409251336.ToC0TvWB-lkp@intel.com>
- <e8f6137d-ad2c-4b06-8eb2-cd200fbb1af2@paulmck-laptop>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHn9CjMy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728056727; x=1759592727;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e7oCZOQEpb4KoIn9xoa0YLv2beWw5KGIE5hNlFZoaZE=;
+  b=HHn9CjMyfGK/WH2yY6E4o+Ft1LdSYqDMvkpp19iLWf11laalFHjbm8XG
+   T0gLA0gLgzoGuCUyA33byKuLqO/zF8qJupdYV5q0JemXdvY7YqlgmJDpp
+   DrgykO1yIEquS6BXAgcQ9vZiDL6bWTCIP8r/iOSQx/X0zvD5Q465TXXkA
+   8vsKCLRgjkVnfQgsI+vjWRRz/EonBPcyel25hshWl1ToUdRaKRt0EC/ID
+   OkFak2Jzv7vWmBz3d/jjiCBRSsN2C5cvz5ROjBtqrnwyqijcCxFFJI188
+   FCvpR9U31Rnk3/i4mdH2DNIvcZ/329gkWqFCyObtDrd71CTfWz39MREh3
+   Q==;
+X-CSE-ConnectionGUID: bMExlRaTSuqnWKjlEYgQQw==
+X-CSE-MsgGUID: MkN3+O/YT1yhTlWyb08x4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27165125"
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
+   d="scan'208";a="27165125"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 08:45:26 -0700
+X-CSE-ConnectionGUID: sw+nxSv+Rs+nBYQXdeVUMg==
+X-CSE-MsgGUID: s+/cDWx0RPaDEIeWke7AYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
+   d="scan'208";a="79312415"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 04 Oct 2024 08:45:25 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1swkUc-0001qq-33;
+	Fri, 04 Oct 2024 15:45:22 +0000
+Date: Fri, 4 Oct 2024 23:44:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v2 30/31] ld.lld: error: relocation R_X86_64_32S
+ cannot be used against symbol 'ftrace_trace_function'; recompile with -fPIC
+Message-ID: <202410042304.WtASql7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,53 +61,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e8f6137d-ad2c-4b06-8eb2-cd200fbb1af2@paulmck-laptop>
 
-On Mon, Sep 30, 2024 at 09:10:27AM -0700, Paul E. McKenney wrote:
-> On Wed, Sep 25, 2024 at 01:40:45PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   684a64bf32b6e488004e0ad7f0d7e922798f65b6
-> > commit: f2519d4d4fc4d36f2b58c5614357de9f5b4032fc ARC: Emulate one-byte cmpxchg
-> > date:   12 days ago
-> > config: arc-randconfig-r123-20240925 (https://download.01.org/0day-ci/archive/20240925/202409251336.ToC0TvWB-lkp@intel.com/config)
-> > compiler: arc-elf-gcc (GCC) 13.2.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251336.ToC0TvWB-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202409251336.ToC0TvWB-lkp@intel.com/
-> > 
-> > sparse warnings: (new ones prefixed by >>)
-> >    arch/arc/kernel/smp.c:252:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *ipi_data_ptr @@     got unsigned long * @@
-> >    arch/arc/kernel/smp.c:252:48: sparse:     expected unsigned long [noderef] __percpu *ipi_data_ptr
-> >    arch/arc/kernel/smp.c:252:48: sparse:     got unsigned long *
-> >    arch/arc/kernel/smp.c:267:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long [noderef] __percpu *__ai_ptr @@
-> >    arch/arc/kernel/smp.c:267:18: sparse:     expected void const volatile *v
-> >    arch/arc/kernel/smp.c:267:18: sparse:     got unsigned long [noderef] __percpu *__ai_ptr
-> > >> arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes address space '__percpu' of expression
-> > >> arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes address space '__percpu' of expression
-> 
-> I could "fix" this using __force.  Is that a reasonable approach?
-> 
-> If I don't hear otherwise, I will take that approach.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v2
+head:   1295be6d1a5cb6a30132ee8b01c79018794d0c3e
+commit: 61f3a3cf6f5940319514b36400d7c994b163d8c5 [30/31] x86/kernel: Switch to PIE linking for the core kernel
+config: x86_64-buildonly-randconfig-004-20241004 (https://download.01.org/0day-ci/archive/20241004/202410042304.WtASql7r-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410042304.WtASql7r-lkp@intel.com/reproduce)
 
-Having not heard otherwise, does the following fix this issue for you?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410042304.WtASql7r-lkp@intel.com/
 
-							Thanx, Paul
+All errors (new ones prefixed by >>):
 
-------------------------------------------------------------------------
+>> ld.lld: error: relocation R_X86_64_32S cannot be used against symbol 'ftrace_trace_function'; recompile with -fPIC
+   >>> defined in vmlinux.o
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__fentry__)
+--
+>> ld.lld: error: relocation R_X86_64_32S cannot be used against symbol 'ftrace_stub'; recompile with -fPIC
+   >>> defined in vmlinux.o
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__fentry__)
 
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index 58045c8983404..76f43db0890fc 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -48,7 +48,7 @@
- 									\
- 	switch(sizeof((_p_))) {						\
- 	case 1:								\
--		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
-+		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
- 		break;							\
- 	case 4:								\
- 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
