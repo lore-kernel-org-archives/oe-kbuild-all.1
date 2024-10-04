@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27EAD51E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 01:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A5D17547
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 02:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728006125; cv=none; b=PhqhehV94NGT6xikQSOk2uC/iO/0tcmG+D3lg7uyd49JjxKdKUWiYTU8n9ITpteSVYiWaUrbTYIamyl/AfUpYgIpmk2fIQsIe8q9Mt2f8KV7XEJx0FXwWV35XBFQXdPdcXvgx1rDuKeckfMvvnFWU2P7I7+QxI/0aq5/YUSGQwE=
+	t=1728007923; cv=none; b=eenKb8SWZvMFkcDqUMYN6fJ6YrCuNV/yLCpHNzTiEORsl2Z0bX357+plwvKCFLYOU1bWcTVo0IXqaT8sad0KAC+YvdZVOy6pSmMAkG1AOe4hM6LYDtGhj15O0aZPYUzybe/B1VVAzm4PDge0zTZwfW5N7ktt/3Kc5k5OlGg1/zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728006125; c=relaxed/simple;
-	bh=U1ri5w6InTaOfBluOhiNBQPwEBErBfgKaJMt9cmrilE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oDOj8seTsGwXq8lBvUVWgcRU3nNeqF3YaNcS41SMLfHba3uTIPMBuH5bA2LwIDS0RkGIGAhzKX3I9FpWGxyhJsQy8P8+EUJkxyfWpIvHZmzsvaVbDsH7f0ER8YJRGEU62KT0moInqa92mWMcBbTQ7gwgJhKE7CkmLXga5f80wlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jISuFQDH; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1728007923; c=relaxed/simple;
+	bh=YlsUKzO3o90nWOCvzhwyZ9XGe/tI5NVI3CxZ9chdgVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LsjiBFuDuTU8Yzkf4nKZL0TDWiKIwaS+OBZrr43ixQlA5oBc6ZJVhMI3B4g0cl/koH2VRAqB2nIbLghxA5iYKHx7gUmEuRAcdIs+kGrJH9tPXemkl3PfQlhiFwOPcRuu01ICHUkLlNDE58amVCWpYFhHYvf806IiKU0WTl7C6Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBtZr47r; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jISuFQDH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBtZr47r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728006122; x=1759542122;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U1ri5w6InTaOfBluOhiNBQPwEBErBfgKaJMt9cmrilE=;
-  b=jISuFQDHMsBFK7b6X8FTKO5dT84mZFdbNu6BCy9ogG5GVovgarMBqo8T
-   WCLcW/i+RAcq1iRTJ84VzJw9/vmvxdfYF9Uxe11fnhbctBqQDaIzA02+5
-   /lqJWylQBCeLXb0GgGckeI36GoJ22oyI0cM+jBeJbJosKwGYR82HF6Q1Q
-   1oycN4DrlMZ5Fo6W7w6bHRRtZmGhex2YRDEEkndnCbRT6ppa60AxEgye6
-   hXLgkXYFwQ8Ss6G6tKBdeQXegj9ZQsTiwiR0VGO15w3hQDYe0LwrGo4eh
-   INiRVVHkfeN6haz6OZMewrH8impik++LZqOlDP3lhUaFtlpYx2WGL9bdk
-   A==;
-X-CSE-ConnectionGUID: sW+Y6Af9Rcel9iKVEtITxw==
-X-CSE-MsgGUID: 1vjrZncKTw2uh0pJKdioPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37882876"
+  t=1728007921; x=1759543921;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YlsUKzO3o90nWOCvzhwyZ9XGe/tI5NVI3CxZ9chdgVM=;
+  b=fBtZr47rESlaWzyOk4G3cwQg+rFUiSkFc3vWdUFNcYMIuvgb2oqiTvQR
+   bzlk0vyUkqMifHRuoq6oth2ImUj8RaJYwlRe/DX1aQjLwOd12CS/kekO+
+   y+agcjoFNEpCBzDrEXDfce60WjL+27wfueHiu4Fl8X7bqlP+1TpmJjeo8
+   6BJUJoS06DmtfK3HAaFj65Xpvd82Cj5YgJzdq1g1YuNeP+m3Re6D+49St
+   FGIORuj/3rygZsIaklDEy0mzFC0SMx1EeCcu87ypECZb1YjWw5hOP1iRv
+   0V3h8CU8q8qpwtuHC1ZM57MvLNzp4ucszGlJQ7lPLTpvI1U8AIpDJis70
+   g==;
+X-CSE-ConnectionGUID: vieaM2w4SSGB3mb5bprv2A==
+X-CSE-MsgGUID: Lg+41YJySVODL4IpBbF4Vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27169952"
 X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; 
-   d="scan'208";a="37882876"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 18:42:01 -0700
-X-CSE-ConnectionGUID: 0sSy+tcEQyCVDNb64aKh6A==
-X-CSE-MsgGUID: bYbnkVgSSEe+PqPjoW5i2Q==
+   d="scan'208";a="27169952"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 19:12:01 -0700
+X-CSE-ConnectionGUID: S70iKUGmTx2tTGMXox8WQQ==
+X-CSE-MsgGUID: 3Y/D74MeQMa6Fw+93WFVaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; 
-   d="scan'208";a="79525517"
+   d="scan'208";a="79406714"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Oct 2024 18:41:59 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 Oct 2024 19:12:00 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swXKO-00016g-1P;
-	Fri, 04 Oct 2024 01:41:56 +0000
-Date: Fri, 4 Oct 2024 09:41:24 +0800
+	id 1swXnR-000180-0C;
+	Fri, 04 Oct 2024 02:11:57 +0000
+Date: Fri, 4 Oct 2024 10:11:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gilad Naaman <gnaaman@drivenets.com>, netdev <netdev@vger.kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Gilad Naaman <gnaaman@drivenets.com>
-Subject: Re: [PATCH net-next 1/2] Convert neighbour-table to use hlist
-Message-ID: <202410040908.loCFe95v-lkp@intel.com>
-References: <20241001050959.1799151-2-gnaaman@drivenets.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 6289/23811]
+ drivers/scsi/hisi_sas/hisi_sas_main.c:2888:9: sparse: sparse: symbol
+ 'hisi_sas_debugfs_bist_linkrate_write' was not declared. Should it be
+ static?
+Message-ID: <202410041051.A286AcSf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,469 +63,299 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241001050959.1799151-2-gnaaman@drivenets.com>
 
-Hi Gilad,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gilad-Naaman/Convert-neighbour-table-to-use-hlist/20241001-131234
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241001050959.1799151-2-gnaaman%40drivenets.com
-patch subject: [PATCH net-next 1/2] Convert neighbour-table to use hlist
-config: x86_64-randconfig-121-20241004 (https://download.01.org/0day-ci/archive/20241004/202410040908.loCFe95v-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410040908.loCFe95v-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5c63bd0fa5e86474d30ecd06d67f2393de081434
+commit: 7add7cc0243793dca7bdeeb53c37212a87076c69 [6289/23811] hisi_sas: add the bist loopback feature.
+config: arm64-randconfig-r111-20241003 (https://download.01.org/0day-ci/archive/20241004/202410041051.A286AcSf-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241004/202410041051.A286AcSf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410040908.loCFe95v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410041051.A286AcSf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:215:32: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct hlist_node *n @@     got struct hlist_node [noderef] * @@
-   net/core/neighbour.c:215:32: sparse:     expected struct hlist_node *n
-   net/core/neighbour.c:215:32: sparse:     got struct hlist_node [noderef] *
-   net/core/neighbour.c:370:26: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:382:40: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct hlist_node *n @@     got struct hlist_node [noderef] * @@
-   net/core/neighbour.c:382:40: sparse:     expected struct hlist_node *n
-   net/core/neighbour.c:382:40: sparse:     got struct hlist_node [noderef] *
->> net/core/neighbour.c:519:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *buckets @@     got void *_res @@
-   net/core/neighbour.c:519:25: sparse:     expected struct hlist_head [noderef] __rcu *buckets
-   net/core/neighbour.c:519:25: sparse:     got void *_res
->> net/core/neighbour.c:524:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *ptr @@     got struct hlist_head [noderef] __rcu *[assigned] buckets @@
-   net/core/neighbour.c:524:32: sparse:     expected void const *ptr
-   net/core/neighbour.c:524:32: sparse:     got struct hlist_head [noderef] __rcu *[assigned] buckets
->> net/core/neighbour.c:546:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct hlist_head [noderef] __rcu *buckets @@
-   net/core/neighbour.c:546:23: sparse:     expected void const *objp
-   net/core/neighbour.c:546:23: sparse:     got struct hlist_head [noderef] __rcu *buckets
->> net/core/neighbour.c:548:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *ptr @@     got struct hlist_head [noderef] __rcu *buckets @@
-   net/core/neighbour.c:548:31: sparse:     expected void const *ptr
-   net/core/neighbour.c:548:31: sparse:     got struct hlist_head [noderef] __rcu *buckets
->> net/core/neighbour.c:572:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/core/neighbour.c:572:25: sparse:    struct hlist_node [noderef] __rcu *
-   net/core/neighbour.c:572:25: sparse:    struct hlist_node *
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
->> net/core/neighbour.c:669:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:688:29: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct hlist_node *n @@     got struct hlist_node [noderef] * @@
->> net/core/neighbour.c:688:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/core/neighbour.c:948:23: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:971:48: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct hlist_node *n @@     got struct hlist_node [noderef] * @@
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:2698:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3065:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3086:23: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3094:48: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct hlist_node *n @@     got struct hlist_node [noderef] * @@
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3164:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3203:14: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3222:30: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3231:41: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:3231:22: sparse: sparse: cast removes address space '__rcu' of expression
-   net/core/neighbour.c:429:9: sparse: sparse: context imbalance in '__neigh_ifdown' - wrong count at exit
->> net/core/neighbour.c:572:25: sparse: sparse: dereference of noderef expression
-   net/core/neighbour.c: note: in included file:
->> include/net/neighbour.h:307:38: sparse: sparse: cast removes address space '__rcu' of expression
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
---
-   net/core/filter.c:1423:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1423:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1423:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:1501:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1501:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1501:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:2340:45: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] daddr @@     got unsigned int [usertype] ipv4_nh @@
-   net/core/filter.c:2340:45: sparse:     expected restricted __be32 [usertype] daddr
-   net/core/filter.c:2340:45: sparse:     got unsigned int [usertype] ipv4_nh
-   net/core/filter.c:11048:31: sparse: sparse: symbol 'cg_skb_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11054:27: sparse: sparse: symbol 'cg_skb_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11098:31: sparse: sparse: symbol 'cg_sock_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11104:27: sparse: sparse: symbol 'cg_sock_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11107:31: sparse: sparse: symbol 'cg_sock_addr_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11113:27: sparse: sparse: symbol 'cg_sock_addr_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:1943:43: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1943:43: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1943:43: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1946:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be16 [usertype] old @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1946:36: sparse:     expected restricted __be16 [usertype] old
-   net/core/filter.c:1946:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1946:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] new @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1946:42: sparse:     expected restricted __be16 [usertype] new
-   net/core/filter.c:1946:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1949:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1949:36: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:1949:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1949:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1949:42: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:1949:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1994:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1994:59: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1994:59: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1997:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1997:52: sparse:     expected restricted __be16 [usertype] from
-   net/core/filter.c:1997:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1997:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be16 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1997:58: sparse:     expected restricted __be16 [usertype] to
-   net/core/filter.c:1997:58: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:2000:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:2000:52: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:2000:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:2000:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:2000:58: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:2000:58: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:2050:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum [assigned] [usertype] ret @@
-   net/core/filter.c:2050:16: sparse:     expected unsigned long long
-   net/core/filter.c:2050:16: sparse:     got restricted __wsum [assigned] [usertype] ret
-   net/core/filter.c:2072:35: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum [usertype] csum @@
-   net/core/filter.c:2072:35: sparse:     expected unsigned long long
-   net/core/filter.c:2072:35: sparse:     got restricted __wsum [usertype] csum
-   net/core/filter.c: note: in included file (through include/net/dst.h, include/net/sock.h, include/linux/sock_diag.h):
->> include/net/neighbour.h:307:38: sparse: sparse: cast removes address space '__rcu' of expression
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
->> include/net/neighbour.h:307:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:307:38: sparse:    struct hlist_node *
-   include/net/neighbour.h:309:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node [noderef] __rcu *
-   include/net/neighbour.h:309:38: sparse:    struct hlist_node *
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1660:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] tag_of_task_to_be_managed @@     got restricted __le16 [usertype] @@
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1660:52: sparse:     expected unsigned short [assigned] [usertype] tag_of_task_to_be_managed
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1660:52: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1917:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] tag_of_task_to_be_managed @@     got restricted __le16 [usertype] @@
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1917:52: sparse:     expected unsigned short [assigned] [usertype] tag_of_task_to_be_managed
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1917:52: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2800:12: sparse: sparse: symbol 'hisi_sas_debugfs_to_reg_name' was not declared. Should it be static?
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2827:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2827:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2827:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2827:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2827:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2827:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2830:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2830:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2830:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2830:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2830:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2830:36: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/hisi_sas/hisi_sas_main.c:2888:9: sparse: sparse: symbol 'hisi_sas_debugfs_bist_linkrate_write' was not declared. Should it be static?
+>> drivers/scsi/hisi_sas/hisi_sas_main.c:2979:9: sparse: sparse: symbol 'hisi_sas_debugfs_bist_code_mode_write' was not declared. Should it be static?
+>> drivers/scsi/hisi_sas/hisi_sas_main.c:3034:9: sparse: sparse: symbol 'hisi_sas_debugfs_bist_phy_write' was not declared. Should it be static?
+>> drivers/scsi/hisi_sas/hisi_sas_main.c:3120:9: sparse: sparse: symbol 'hisi_sas_debugfs_bist_mode_write' was not declared. Should it be static?
+>> drivers/scsi/hisi_sas/hisi_sas_main.c:3174:9: sparse: sparse: symbol 'hisi_sas_debugfs_bist_enable_write' was not declared. Should it be static?
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3277:45: sparse: sparse: cast to restricted __le64
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3296:42: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3296:42: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3296:42: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3296:42: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3296:42: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3296:42: sparse: sparse: cast to restricted __le32
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2801:1: warning: no previous prototype for 'hisi_sas_debugfs_to_reg_name' [-Wmissing-prototypes]
+    2801 | hisi_sas_debugfs_to_reg_name(int off, int base_off,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2888:9: warning: no previous prototype for 'hisi_sas_debugfs_bist_linkrate_write' [-Wmissing-prototypes]
+    2888 | ssize_t hisi_sas_debugfs_bist_linkrate_write(struct file *filp,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/hisi_sas/hisi_sas_main.c:2979:9: warning: no previous prototype for 'hisi_sas_debugfs_bist_code_mode_write' [-Wmissing-prototypes]
+    2979 | ssize_t hisi_sas_debugfs_bist_code_mode_write(struct file *filp,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3034:9: warning: no previous prototype for 'hisi_sas_debugfs_bist_phy_write' [-Wmissing-prototypes]
+    3034 | ssize_t hisi_sas_debugfs_bist_phy_write(struct file *filp,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3120:9: warning: no previous prototype for 'hisi_sas_debugfs_bist_mode_write' [-Wmissing-prototypes]
+    3120 | ssize_t hisi_sas_debugfs_bist_mode_write(struct file *filp,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3174:9: warning: no previous prototype for 'hisi_sas_debugfs_bist_enable_write' [-Wmissing-prototypes]
+    3174 | ssize_t hisi_sas_debugfs_bist_enable_write(struct file *filp,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/scsi/libsas.h:36,
+                    from include/scsi/sas_ata.h:29,
+                    from drivers/scsi/hisi_sas/hisi_sas.h:29,
+                    from drivers/scsi/hisi_sas/hisi_sas_main.c:12:
+   In function 'scsi_prot_sglist',
+       inlined from 'hisi_sas_dif_dma_map' at drivers/scsi/hisi_sas/hisi_sas_main.c:448:2:
+   include/scsi/scsi_cmnd.h:333:19: warning: 'scsi_cmnd' may be used uninitialized [-Wmaybe-uninitialized]
+     333 |         return cmd->prot_sdb ? cmd->prot_sdb->table.sgl : NULL;
+         |                ~~~^~~~~~~~~~
+   drivers/scsi/hisi_sas/hisi_sas_main.c: In function 'hisi_sas_dif_dma_map':
+   drivers/scsi/hisi_sas/hisi_sas_main.c:418:27: note: 'scsi_cmnd' was declared here
+     418 |         struct scsi_cmnd *scsi_cmnd;
+         |                           ^~~~~~~~~
+   In file included from include/asm-generic/preempt.h:5,
+                    from ./arch/arm64/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:81,
+                    from include/linux/spinlock.h:51,
+                    from include/linux/mmzone.h:9,
+                    from include/linux/gfp.h:6,
+                    from include/linux/slab.h:15,
+                    from include/linux/resource_ext.h:19,
+                    from include/linux/acpi.h:26,
+                    from drivers/scsi/hisi_sas/hisi_sas.h:15:
+   In function 'check_object_size',
+       inlined from 'check_copy_size' at include/linux/thread_info.h:150:2,
+       inlined from 'copy_from_user' at include/linux/uaccess.h:143:6,
+       inlined from 'hisi_sas_debugfs_trigger_dump_write' at drivers/scsi/hisi_sas/hisi_sas_main.c:3550:6:
+   include/linux/thread_info.h:119:17: warning: 'buf' may be used uninitialized [-Wmaybe-uninitialized]
+     119 |                 __check_object_size(ptr, n, to_user);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/thread_info.h: In function 'hisi_sas_debugfs_trigger_dump_write':
+   include/linux/thread_info.h:112:13: note: by argument 1 of type 'const void *' to '__check_object_size' declared here
+     112 | extern void __check_object_size(const void *ptr, unsigned long n,
+         |             ^~~~~~~~~~~~~~~~~~~
+   drivers/scsi/hisi_sas/hisi_sas_main.c:3537:12: note: 'buf' declared here
+    3537 |         u8 buf[8];
+         |            ^~~
 
-vim +/__rcu +669 net/core/neighbour.c
+vim +/hisi_sas_debugfs_bist_linkrate_write +2888 drivers/scsi/hisi_sas/hisi_sas_main.c
 
-   507	
-   508	static struct neigh_hash_table *neigh_hash_alloc(unsigned int shift)
-   509	{
-   510		size_t size = (1 << shift) * sizeof(struct hlist_head);
-   511		struct neigh_hash_table *ret;
-   512		struct hlist_head __rcu *buckets;
-   513		int i;
-   514	
-   515		ret = kmalloc(sizeof(*ret), GFP_ATOMIC);
-   516		if (!ret)
-   517			return NULL;
-   518		if (size <= PAGE_SIZE) {
- > 519			buckets = kzalloc(size, GFP_ATOMIC);
-   520		} else {
-   521			buckets = (struct hlist_head __rcu *)
-   522				  __get_free_pages(GFP_ATOMIC | __GFP_ZERO,
-   523						   get_order(size));
- > 524			kmemleak_alloc(buckets, size, 1, GFP_ATOMIC);
-   525		}
-   526		if (!buckets) {
-   527			kfree(ret);
-   528			return NULL;
-   529		}
-   530		ret->hash_buckets = buckets;
-   531		ret->hash_shift = shift;
-   532		for (i = 0; i < NEIGH_NUM_HASH_RND; i++)
-   533			neigh_get_hash_rnd(&ret->hash_rnd[i]);
-   534		return ret;
-   535	}
-   536	
-   537	static void neigh_hash_free_rcu(struct rcu_head *head)
-   538	{
-   539		struct neigh_hash_table *nht = container_of(head,
-   540							    struct neigh_hash_table,
-   541							    rcu);
-   542		size_t size = (1 << nht->hash_shift) * sizeof(struct hlist_head);
-   543		struct hlist_head __rcu *buckets = nht->hash_buckets;
-   544	
-   545		if (size <= PAGE_SIZE) {
- > 546			kfree(buckets);
-   547		} else {
- > 548			kmemleak_free(buckets);
-   549			free_pages((unsigned long)buckets, get_order(size));
-   550		}
-   551		kfree(nht);
-   552	}
-   553	
-   554	static struct neigh_hash_table *neigh_hash_grow(struct neigh_table *tbl,
-   555							unsigned long new_shift)
-   556	{
-   557		unsigned int i, hash;
-   558		struct neigh_hash_table *new_nht, *old_nht;
-   559	
-   560		NEIGH_CACHE_STAT_INC(tbl, hash_grows);
-   561	
-   562		old_nht = rcu_dereference_protected(tbl->nht,
-   563						    lockdep_is_held(&tbl->lock));
-   564		new_nht = neigh_hash_alloc(new_shift);
-   565		if (!new_nht)
-   566			return old_nht;
-   567	
-   568		for (i = 0; i < (1 << old_nht->hash_shift); i++) {
-   569			struct neighbour *n, *next;
-   570	
-   571			for (n = (struct neighbour *)
- > 572				rcu_dereference_protected(old_nht->hash_buckets[i].first,
-   573							  lockdep_is_held(&tbl->lock));
-   574			     n != NULL;
-   575			     n = next) {
-   576				hash = tbl->hash(n->primary_key, n->dev,
-   577						 new_nht->hash_rnd);
-   578	
-   579				hash >>= (32 - new_nht->hash_shift);
-   580				next = (struct neighbour *)hlist_next_rcu(&n->list);
-   581				hlist_del_rcu(&n->list);
-   582				hlist_add_head_rcu(&n->list, &new_nht->hash_buckets[hash]);
-   583			}
-   584		}
-   585	
-   586		rcu_assign_pointer(tbl->nht, new_nht);
-   587		call_rcu(&old_nht->rcu, neigh_hash_free_rcu);
-   588		return new_nht;
-   589	}
-   590	
-   591	struct neighbour *neigh_lookup(struct neigh_table *tbl, const void *pkey,
-   592				       struct net_device *dev)
-   593	{
-   594		struct neighbour *n;
-   595	
-   596		NEIGH_CACHE_STAT_INC(tbl, lookups);
-   597	
-   598		rcu_read_lock();
-   599		n = __neigh_lookup_noref(tbl, pkey, dev);
-   600		if (n) {
-   601			if (!refcount_inc_not_zero(&n->refcnt))
-   602				n = NULL;
-   603			NEIGH_CACHE_STAT_INC(tbl, hits);
-   604		}
-   605	
-   606		rcu_read_unlock();
-   607		return n;
-   608	}
-   609	EXPORT_SYMBOL(neigh_lookup);
-   610	
-   611	static struct neighbour *
-   612	___neigh_create(struct neigh_table *tbl, const void *pkey,
-   613			struct net_device *dev, u32 flags,
-   614			bool exempt_from_gc, bool want_ref)
-   615	{
-   616		u32 hash_val, key_len = tbl->key_len;
-   617		struct neighbour *n1, *rc, *n;
-   618		struct neigh_hash_table *nht;
-   619		int error;
-   620	
-   621		n = neigh_alloc(tbl, dev, flags, exempt_from_gc);
-   622		trace_neigh_create(tbl, dev, pkey, n, exempt_from_gc);
-   623		if (!n) {
-   624			rc = ERR_PTR(-ENOBUFS);
-   625			goto out;
-   626		}
-   627	
-   628		memcpy(n->primary_key, pkey, key_len);
-   629		n->dev = dev;
-   630		netdev_hold(dev, &n->dev_tracker, GFP_ATOMIC);
-   631	
-   632		/* Protocol specific setup. */
-   633		if (tbl->constructor &&	(error = tbl->constructor(n)) < 0) {
-   634			rc = ERR_PTR(error);
-   635			goto out_neigh_release;
-   636		}
-   637	
-   638		if (dev->netdev_ops->ndo_neigh_construct) {
-   639			error = dev->netdev_ops->ndo_neigh_construct(dev, n);
-   640			if (error < 0) {
-   641				rc = ERR_PTR(error);
-   642				goto out_neigh_release;
-   643			}
-   644		}
-   645	
-   646		/* Device specific setup. */
-   647		if (n->parms->neigh_setup &&
-   648		    (error = n->parms->neigh_setup(n)) < 0) {
-   649			rc = ERR_PTR(error);
-   650			goto out_neigh_release;
-   651		}
-   652	
-   653		n->confirmed = jiffies - (NEIGH_VAR(n->parms, BASE_REACHABLE_TIME) << 1);
-   654	
-   655		write_lock_bh(&tbl->lock);
-   656		nht = rcu_dereference_protected(tbl->nht,
-   657						lockdep_is_held(&tbl->lock));
-   658	
-   659		if (atomic_read(&tbl->entries) > (1 << nht->hash_shift))
-   660			nht = neigh_hash_grow(tbl, nht->hash_shift + 1);
-   661	
-   662		hash_val = tbl->hash(n->primary_key, dev, nht->hash_rnd) >> (32 - nht->hash_shift);
-   663	
-   664		if (n->parms->dead) {
-   665			rc = ERR_PTR(-EINVAL);
-   666			goto out_tbl_unlock;
-   667		}
-   668	
- > 669		hlist_for_each_entry_rcu(n1,
-   670					 &nht->hash_buckets[hash_val],
-   671					 list,
-   672					 lockdep_is_held(&tbl->lock)) {
-   673			if (dev == n1->dev && !memcmp(n1->primary_key, n->primary_key, key_len)) {
-   674				if (want_ref)
-   675					neigh_hold(n1);
-   676				rc = n1;
-   677				goto out_tbl_unlock;
-   678			}
-   679		}
-   680	
-   681		n->dead = 0;
-   682		if (!exempt_from_gc)
-   683			list_add_tail(&n->gc_list, &n->tbl->gc_list);
-   684		if (n->flags & NTF_MANAGED)
-   685			list_add_tail(&n->managed_list, &n->tbl->managed_list);
-   686		if (want_ref)
-   687			neigh_hold(n);
- > 688		hlist_add_head_rcu(&n->list, &nht->hash_buckets[hash_val]);
-   689		write_unlock_bh(&tbl->lock);
-   690		neigh_dbg(2, "neigh %p is created\n", n);
-   691		rc = n;
-   692	out:
-   693		return rc;
-   694	out_tbl_unlock:
-   695		write_unlock_bh(&tbl->lock);
-   696	out_neigh_release:
-   697		if (!exempt_from_gc)
-   698			atomic_dec(&tbl->gc_entries);
-   699		neigh_release(n);
-   700		goto out;
-   701	}
-   702	
+  2887	
+> 2888	ssize_t hisi_sas_debugfs_bist_linkrate_write(struct file *filp,
+  2889						 const char __user *buf,
+  2890						 size_t count, loff_t *ppos)
+  2891	{
+  2892		struct seq_file *m = filp->private_data;
+  2893		struct hisi_hba *hisi_hba = m->private;
+  2894		char kbuf[16] = {}, *pkbuf;
+  2895		bool found = false;
+  2896		int i;
+  2897	
+  2898		if (hisi_hba->bist_loopback_enable)
+  2899			return -EINVAL;
+  2900	
+  2901		if (count >= sizeof(kbuf))
+  2902			return -EINVAL;
+  2903	
+  2904		if (copy_from_user(kbuf, buf, count))
+  2905			return -EINVAL;
+  2906	
+  2907		pkbuf = strstrip(kbuf);
+  2908	
+  2909		for (i = 0; i < ARRAY_SIZE(hisi_sas_debugfs_loop_linkrate); i++) {
+  2910			if (!strncmp(hisi_sas_debugfs_loop_linkrate[i].name,
+  2911				pkbuf, 16)) {
+  2912				hisi_hba->bist_loopback_linkrate =
+  2913					hisi_sas_debugfs_loop_linkrate[i].value;
+  2914				found = true;
+  2915				break;
+  2916			}
+  2917		}
+  2918	
+  2919		if (!found) {
+  2920			dev_err(hisi_hba->dev, "unknown mode\n");
+  2921			return -EINVAL;
+  2922		}
+  2923	
+  2924		return count;
+  2925	}
+  2926	
+  2927	static int hisi_sas_debugfs_bist_linkrate_open(struct inode *inode,
+  2928						   struct file *filp)
+  2929	{
+  2930		return single_open(filp, hisi_sas_debugfs_bist_linkrate_show,
+  2931				   inode->i_private);
+  2932	}
+  2933	
+  2934	static const struct file_operations hisi_sas_debugfs_bist_linkrate_ops = {
+  2935		.open = hisi_sas_debugfs_bist_linkrate_open,
+  2936		.read = seq_read,
+  2937		.write = hisi_sas_debugfs_bist_linkrate_write,
+  2938		.llseek = seq_lseek,
+  2939		.release = single_release,
+  2940		.owner = THIS_MODULE,
+  2941	};
+  2942	
+  2943	static struct {
+  2944		int		value;
+  2945		char		*name;
+  2946	} hisi_sas_debugfs_loop_code_mode[] = {
+  2947		{ HISI_SAS_BIST_CODE_MODE_PRBS7,    "PRBS7" },
+  2948		{ HISI_SAS_BIST_CODE_MODE_PRBS23,    "PRBS23" },
+  2949		{ HISI_SAS_BIST_CODE_MODE_PRBS31,    "PRBS31" },
+  2950		{ HISI_SAS_BIST_CODE_MODE_JTPAT,    "JTPAT" },
+  2951		{ HISI_SAS_BIST_CODE_MODE_CJTPAT,    "CJTPAT" },
+  2952		{ HISI_SAS_BIST_CODE_MODE_SCRAMBED_0,    "SCRAMBED_0" },
+  2953		{ HISI_SAS_BIST_CODE_MODE_TRAIN,    "TRAIN" },
+  2954		{ HISI_SAS_BIST_CODE_MODE_TRAIN_DONE,    "TRAIN_DONE" },
+  2955		{ HISI_SAS_BIST_CODE_MODE_HFTP,    "HFTP" },
+  2956		{ HISI_SAS_BIST_CODE_MODE_MFTP,    "MFTP" },
+  2957		{ HISI_SAS_BIST_CODE_MODE_LFTP,    "LFTP" },
+  2958		{ HISI_SAS_BIST_CODE_MODE_FIXED_DATA,    "FIXED_DATA" },
+  2959	};
+  2960	
+  2961	static int hisi_sas_debugfs_bist_code_mode_show(struct seq_file *s, void *p)
+  2962	{
+  2963		struct hisi_hba *hisi_hba = s->private;
+  2964		int i;
+  2965	
+  2966		for (i = 0; i < ARRAY_SIZE(hisi_sas_debugfs_loop_code_mode); i++) {
+  2967			int match = (hisi_hba->bist_loopback_code_mode ==
+  2968				     hisi_sas_debugfs_loop_code_mode[i].value);
+  2969	
+  2970			seq_printf(s, "%s%s%s ", match ? "[" : "",
+  2971				   hisi_sas_debugfs_loop_code_mode[i].name,
+  2972				   match ? "]" : "");
+  2973		}
+  2974		seq_puts(s, "\n");
+  2975	
+  2976		return 0;
+  2977	}
+  2978	
+> 2979	ssize_t hisi_sas_debugfs_bist_code_mode_write(struct file *filp,
+  2980						 const char __user *buf,
+  2981						 size_t count, loff_t *ppos)
+  2982	{
+  2983		struct seq_file *m = filp->private_data;
+  2984		struct hisi_hba *hisi_hba = m->private;
+  2985		char kbuf[16] = {}, *pkbuf;
+  2986		bool found = false;
+  2987		int i;
+  2988	
+  2989		if (hisi_hba->bist_loopback_enable)
+  2990			return -EINVAL;
+  2991	
+  2992		if (count >= sizeof(kbuf))
+  2993			return -EINVAL;
+  2994	
+  2995		if (copy_from_user(kbuf, buf, count))
+  2996			return -EINVAL;
+  2997	
+  2998		pkbuf = strstrip(kbuf);
+  2999	
+  3000		for (i = 0; i < ARRAY_SIZE(hisi_sas_debugfs_loop_code_mode); i++) {
+  3001			if (!strncmp(hisi_sas_debugfs_loop_code_mode[i].name,
+  3002				pkbuf, 16)) {
+  3003				hisi_hba->bist_loopback_code_mode =
+  3004					hisi_sas_debugfs_loop_code_mode[i].value;
+  3005				found = true;
+  3006				break;
+  3007			}
+  3008		}
+  3009	
+  3010		if (!found) {
+  3011			dev_err(hisi_hba->dev, "unknown mode\n");
+  3012			return -EINVAL;
+  3013		}
+  3014	
+  3015		return count;
+  3016	}
+  3017	
+  3018	static int hisi_sas_debugfs_bist_code_mode_open(struct inode *inode,
+  3019						   struct file *filp)
+  3020	{
+  3021		return single_open(filp, hisi_sas_debugfs_bist_code_mode_show,
+  3022				   inode->i_private);
+  3023	}
+  3024	
+  3025	static const struct file_operations hisi_sas_debugfs_bist_code_mode_ops = {
+  3026		.open = hisi_sas_debugfs_bist_code_mode_open,
+  3027		.read = seq_read,
+  3028		.write = hisi_sas_debugfs_bist_code_mode_write,
+  3029		.llseek = seq_lseek,
+  3030		.release = single_release,
+  3031		.owner = THIS_MODULE,
+  3032	};
+  3033	
+> 3034	ssize_t hisi_sas_debugfs_bist_phy_write(struct file *filp,
+  3035						const char __user *buf,
+  3036						size_t count, loff_t *ppos)
+  3037	{
+  3038		struct seq_file *m = filp->private_data;
+  3039		struct hisi_hba *hisi_hba = m->private;
+  3040		char kbuf[16] = {}, *pkbuf;
+  3041		int val, phy;
+  3042	
+  3043		if (hisi_hba->bist_loopback_enable)
+  3044			return -EINVAL;
+  3045	
+  3046		if (count >= sizeof(kbuf))
+  3047			return -EINVAL;
+  3048	
+  3049		if (copy_from_user(kbuf, buf, count))
+  3050			return -EINVAL;
+  3051	
+  3052		pkbuf = strstrip(kbuf);
+  3053	
+  3054		val = kstrtoint(pkbuf, 0, &phy);
+  3055		if (val < 0)
+  3056			return val;
+  3057	
+  3058		if (phy >= hisi_hba->n_phy) {
+  3059			dev_err(hisi_hba->dev, "phy index %d exceeds limit\n", phy);
+  3060			return -EINVAL;
+  3061		}
+  3062	
+  3063		hisi_hba->bist_loopback_phy_id = phy;
+  3064	
+  3065		return count;
+  3066	}
+  3067	
 
 -- 
 0-DAY CI Kernel Test Service
