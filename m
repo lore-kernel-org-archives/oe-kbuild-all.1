@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99194224D1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 11:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C83A156872
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 12:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728040639; cv=none; b=OvDOElvHtGfFxyXSe0YCZE8JsPQvwR3W3GmEfMmnUPm09mhne50LwN9AA6zmjmn39twQcrK1GyV46Cwm7CITMGMskoPQ9VstTTa/XEdk1/OXLniU4/D6pErOfyVL/piAzXFMakOuiSCcmJoad8Jtf1Ks/imIt99bfcSISzlSsl8=
+	t=1728044902; cv=none; b=h35bLZ/OHqtEpKv3dfP6kPr2iKbcPd5vRDyFvI7G2qpXts7Rf2vV7PjB6hHzURs1hYXUlyzk9YMpAobz3ijVKEJ6hptQCuequc5rtP/NsLKVEsx8hg4v3m8bdH4ZKtIt5O9yt0f9FpLCI7WdJIN59+RFVz755iUNVvaugHgHGG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728040639; c=relaxed/simple;
-	bh=bepu9rpmKRAlHBeCMI/iAZxudwXQCKPwoQdPz9opmsQ=;
+	s=arc-20240116; t=1728044902; c=relaxed/simple;
+	bh=zTRwmlpkL7vPsawnn0O4su4CFSIhAvyKb6kClpbyqos=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d2Rt9oz0uLS/Nuye45OgiJ3aOoHacindbEBG5CO2EfzG8T3KH2h2olsvxRocgcQrbZuOlmln+K0eDmFDFEitSQcnox78NKWkylfZ/1SUt2Oxv0R9bBGttCqaCfNJKSYLwPvEWky3totVd4falb1nCLuLwM+XAMH6sbYwYSVSf4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BvQNdoYA; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=hdahHOWVE0ltKRhD42FtXRJpXiRAjdou6KCPRUmBZBNVUkXX4YvQdHOz1TTcKXcy35t39g8248o8LQprN9wPvl6Uu5+I4BgxgJjLelzI3ZDyvEk6qIL1fJNumyv9vSNdkgQQAhy45JfBpXZ26tuErSMvXQpgf81mnDJX0wPleyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kz9Tf6F4; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BvQNdoYA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kz9Tf6F4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728040638; x=1759576638;
+  t=1728044900; x=1759580900;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bepu9rpmKRAlHBeCMI/iAZxudwXQCKPwoQdPz9opmsQ=;
-  b=BvQNdoYAZ1MTR94vRCw+daP3nfh0la3m8Uiz9te013fyV/LKovnq3tyv
-   SpiqFSVWCrCt/emoQgTNTt0GlZ1sPHCGK1GpsMjMKS3DZOIQbGa1j/Ex4
-   4DmIymOhWkWB9NucPLsXbPxPcpF1T3slhEv7AmEtDH2uVTKCjrJ4FBRfo
-   YHDZFWRQK22ILDhlUCBdWPWzckGu5YQnGGSNyX8awLQeNI58r3TxJ7Q5j
-   WqMnyjI6GGkcjjupihIfLWg5oxzS9YX3gQRtrX1c1LitGHWjvM6NaVvZk
-   VJkEmeh0PN4uoKTk767laHtMdiZZWXEoKToiXTCUnah9BJCZ3qlGALOfI
-   g==;
-X-CSE-ConnectionGUID: rlHRhky7QfO6WZR3jtoqwg==
-X-CSE-MsgGUID: r0ksucFeR16+dvc6q0PY8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27429550"
+  bh=zTRwmlpkL7vPsawnn0O4su4CFSIhAvyKb6kClpbyqos=;
+  b=Kz9Tf6F4iGFCjwXT4181Hrhm9mHY6igGHCFHaQKHaSpJjpvJA+KCNJZz
+   yhDgi4gd6tshZ2mpBoPIWhj806SILjiOA2iw6hmVEVhcroltVGTH6Y8xz
+   69SyHhgHKAiJLuTD4aFCwqr6jl1TLGXL9g4CfoJLfPc8y0qcKFbXNN8BK
+   syecH3PhVfOVRrL3zhqVLDfxrmkTBMh2gSA4BKWnjWVjUVUyfCs0qlqij
+   H2JfXkppkaS6rjxh9p3NQr2SRwbds69okwp7f400Lvlu/YCYimVYZBr2T
+   qnnESHXHGK4RpGei5vKqcSHoZLcpnHOjo3L1Hv/F67dYacYmTfmYXf16a
+   A==;
+X-CSE-ConnectionGUID: IQZ/W6YkRyqOqJcgOSN6/g==
+X-CSE-MsgGUID: Piy9jpfATuK9FPUynighRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="30141232"
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="27429550"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 04:17:16 -0700
-X-CSE-ConnectionGUID: DpRQ42T0TwCAwHNWTARUlg==
-X-CSE-MsgGUID: nLTPkjXUR3CE6Y0CvLc1aA==
+   d="scan'208";a="30141232"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 05:28:19 -0700
+X-CSE-ConnectionGUID: X2qFxdexSnGVUpsqLrYaTw==
+X-CSE-MsgGUID: R+xSGLjDSE23s6s2ka2jXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="79102497"
+   d="scan'208";a="79659633"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Oct 2024 04:17:14 -0700
+  by orviesa004.jf.intel.com with ESMTP; 04 Oct 2024 05:28:16 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swgJ6-0001Xw-0d;
-	Fri, 04 Oct 2024 11:17:12 +0000
-Date: Fri, 4 Oct 2024 19:16:26 +0800
+	id 1swhPp-0001b6-2r;
+	Fri, 04 Oct 2024 12:28:13 +0000
+Date: Fri, 4 Oct 2024 20:28:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 146/1001]
- drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1089:41: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 5 has type
- 'dma_addr_t' {aka 'unsigned int'}
-Message-ID: <202410041953.UlnTEMS5-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2204/2444]
+ drivers/pwm/pwm-phytium.c:182:13: warning: variable 'reg' set but not used
+Message-ID: <202410042053.65X6pQX2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,222 +66,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: aafe7922b017060a8c5fdf4f98899737206200af [146/1001] staging: xlnx_tsmux: Initial version of xlnx mpeg2tsmux driver
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241004/202410041953.UlnTEMS5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410041953.UlnTEMS5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   aabcc6dc6d7f9e12baf1f117341469c84afd545d
+commit: 620db3bc2413530c9eaa8c3c30efbcf64b84c207 [2204/2444] Add PWM supprt on Phytium SoCs
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241004/202410042053.65X6pQX2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410042053.65X6pQX2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410041953.UlnTEMS5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410042053.65X6pQX2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:30,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:10,
-                    from include/linux/mutex.h:14,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/cdev.h:5,
-                    from drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:10:
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c: In function 'xlnx_tsmux_ioctl_verify_dmabuf':
->> drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1089:41: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-    1089 |                                         "%s: phy-addr=0x%llx for src dmabuf=%d",
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1088:33: note: in expansion of macro 'dev_dbg'
-    1088 |                                 dev_dbg(mpgmuxts->dev,
-         |                                 ^~~~~~~
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1089:60: note: format string is defined here
-    1089 |                                         "%s: phy-addr=0x%llx for src dmabuf=%d",
-         |                                                         ~~~^
-         |                                                            |
-         |                                                            long long unsigned int
-         |                                                         %x
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1117:41: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-    1117 |                                         "phy-addr=0x%llx for src dmabuf=%d",
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1116:33: note: in expansion of macro 'dev_dbg'
-    1116 |                                 dev_dbg(mpgmuxts->dev,
-         |                                 ^~~~~~~
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1117:56: note: format string is defined here
-    1117 |                                         "phy-addr=0x%llx for src dmabuf=%d",
-         |                                                     ~~~^
-         |                                                        |
-         |                                                        long long unsigned int
-         |                                                     %x
+   drivers/pwm/pwm-phytium.c: In function 'pwm_phytium_set_periodns':
+>> drivers/pwm/pwm-phytium.c:182:13: warning: variable 'reg' set but not used [-Wunused-but-set-variable]
+     182 |         u32 reg;
+         |             ^~~
+   drivers/pwm/pwm-phytium.c: In function 'pwm_phytium_set_duty':
+   drivers/pwm/pwm-phytium.c:200:13: warning: variable 'reg' set but not used [-Wunused-but-set-variable]
+     200 |         u32 reg;
+         |             ^~~
 
 
-vim +1089 drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c
+vim +/reg +182 drivers/pwm/pwm-phytium.c
 
-  1016	
-  1017	static int xlnx_tsmux_ioctl_verify_dmabuf(struct xlnx_tsmux *mpgmuxts,
-  1018						  void __user *arg)
-  1019	{
-  1020		struct dma_buf *dbuf;
-  1021		struct dma_buf_attachment *attach;
-  1022		struct sg_table *sgt;
-  1023		struct xlnx_tsmux_dmabuf_info *dbuf_info;
-  1024		s32 i;
-  1025		int ret = 0;
-  1026	
-  1027		dbuf_info = kzalloc(sizeof(*dbuf_info), GFP_KERNEL);
-  1028		if (!dbuf_info)
-  1029			return -ENOMEM;
-  1030	
-  1031		ret = copy_from_user(dbuf_info, arg,
-  1032				     sizeof(struct xlnx_tsmux_dmabuf_info));
-  1033		if (ret) {
-  1034			dev_err(mpgmuxts->dev, "Failed to copy from user");
-  1035			goto dmak_free;
-  1036		}
-  1037		if (dbuf_info->dir != DMA_TO_MPG2MUX &&
-  1038		    dbuf_info->dir != DMA_FROM_MPG2MUX) {
-  1039			dev_err(mpgmuxts->dev, "Incorrect DMABUF direction %d",
-  1040				dbuf_info->dir);
-  1041			ret = -EINVAL;
-  1042			goto dmak_free;
-  1043		}
-  1044		dbuf = dma_buf_get(dbuf_info->buf_fd);
-  1045		if (IS_ERR(dbuf)) {
-  1046			dev_err(mpgmuxts->dev, "dma_buf_get fail fd %d direction %d",
-  1047				dbuf_info->buf_fd, dbuf_info->dir);
-  1048			ret = PTR_ERR(dbuf);
-  1049			goto dmak_free;
-  1050		}
-  1051		attach = dma_buf_attach(dbuf, mpgmuxts->dev);
-  1052		if (IS_ERR(attach)) {
-  1053			dev_err(mpgmuxts->dev, "dma_buf_attach fail fd %d dir %d",
-  1054				dbuf_info->buf_fd, dbuf_info->dir);
-  1055			ret = PTR_ERR(attach);
-  1056			goto err_dmabuf_put;
-  1057		}
-  1058		sgt = dma_buf_map_attachment(attach,
-  1059					     (enum dma_data_direction)(dbuf_info->dir));
-  1060		if (IS_ERR(sgt)) {
-  1061			dev_err(mpgmuxts->dev, "dma_buf_map_attach fail fd %d dir %d",
-  1062				dbuf_info->buf_fd, dbuf_info->dir);
-  1063			ret = PTR_ERR(sgt);
-  1064			goto err_dmabuf_detach;
-  1065		}
-  1066	
-  1067		if (sgt->nents > 1) {
-  1068			ret = -EIO;
-  1069			dev_dbg(mpgmuxts->dev, "Not contig nents %d fd %d direction %d",
-  1070				sgt->nents, dbuf_info->buf_fd, dbuf_info->dir);
-  1071			goto err_dmabuf_unmap_attachment;
-  1072		}
-  1073		dev_dbg(mpgmuxts->dev, "dmabuf %s is physically contiguous",
-  1074			(dbuf_info->dir ==
-  1075			 DMA_TO_MPG2MUX ? "Source" : "Destination"));
-  1076	
-  1077		if (dbuf_info->dir == DMA_TO_MPG2MUX) {
-  1078			for (i = 0; i < XTSMUX_MAXIN_STRM; i++) {
-  1079				if (!mpgmuxts->src_dmabufintl[i].buf_id) {
-  1080					mpgmuxts->src_dmabufintl[i].dbuf = dbuf;
-  1081					mpgmuxts->src_dmabufintl[i].attach = attach;
-  1082					mpgmuxts->src_dmabufintl[i].sgt = sgt;
-  1083					mpgmuxts->src_dmabufintl[i].dmabuf_addr =
-  1084							sg_dma_address(sgt->sgl);
-  1085					mpgmuxts->src_dmabufintl[i].dmabuf_fd =
-  1086								dbuf_info->buf_fd;
-  1087					mpgmuxts->src_dmabufintl[i].buf_id = i + 1;
-  1088					dev_dbg(mpgmuxts->dev,
-> 1089						"%s: phy-addr=0x%llx for src dmabuf=%d",
-  1090						__func__,
-  1091						mpgmuxts->src_dmabufintl[i].dmabuf_addr,
-  1092						mpgmuxts->src_dmabufintl[i].dmabuf_fd);
-  1093					break;
-  1094				}
-  1095			}
-  1096			/* External src streams more than XTSMUX_MAXIN_STRM
-  1097			 * can not be handled
-  1098			 */
-  1099			if (i == XTSMUX_MAXIN_STRM) {
-  1100				ret = -EIO;
-  1101				dev_dbg(mpgmuxts->dev, "src DMA bufs more than %d",
-  1102					XTSMUX_MAXIN_STRM);
-  1103				goto err_dmabuf_unmap_attachment;
-  1104			}
-  1105		} else {
-  1106			for (i = 0; i < XTSMUX_MAXOUT_STRM; i++) {
-  1107				if (!mpgmuxts->dst_dmabufintl[i].buf_id) {
-  1108					mpgmuxts->dst_dmabufintl[i].dbuf = dbuf;
-  1109					mpgmuxts->dst_dmabufintl[i].attach = attach;
-  1110					mpgmuxts->dst_dmabufintl[i].sgt = sgt;
-  1111					mpgmuxts->dst_dmabufintl[i].dmabuf_addr =
-  1112							sg_dma_address(sgt->sgl);
-  1113					mpgmuxts->dst_dmabufintl[i].dmabuf_fd =
-  1114							dbuf_info->buf_fd;
-  1115					mpgmuxts->dst_dmabufintl[i].buf_id = i + 1;
-  1116					dev_dbg(mpgmuxts->dev,
-  1117						"phy-addr=0x%llx for src dmabuf=%d",
-  1118						mpgmuxts->dst_dmabufintl[i].dmabuf_addr,
-  1119						mpgmuxts->dst_dmabufintl[i].dmabuf_fd);
-  1120					break;
-  1121				}
-  1122			}
-  1123			/* External dst streams more than XTSMUX_MAXOUT_STRM
-  1124			 * can not be handled
-  1125			 */
-  1126			if (i == XTSMUX_MAXOUT_STRM) {
-  1127				ret = -EIO;
-  1128				dev_dbg(mpgmuxts->dev, "dst DMA bufs more than %d",
-  1129					XTSMUX_MAXOUT_STRM);
-  1130				goto err_dmabuf_unmap_attachment;
-  1131			}
-  1132		}
-  1133	
-  1134		return 0;
-  1135	
-  1136	err_dmabuf_unmap_attachment:
-  1137		dma_buf_unmap_attachment(attach, sgt,
-  1138					 (enum dma_data_direction)dbuf_info->dir);
-  1139	err_dmabuf_detach:
-  1140		dma_buf_detach(dbuf, attach);
-  1141	err_dmabuf_put:
-  1142		dma_buf_put(dbuf);
-  1143	dmak_free:
-  1144		kfree(dbuf_info);
-  1145	
-  1146		return ret;
-  1147	}
-  1148	
+   178	
+   179	static void pwm_phytium_set_periodns(struct pwm_chip *chip, unsigned int periodns, int n)
+   180	{
+   181		struct phytium_pwm_chip *our_chip = to_phytium_pwm_chip(chip);
+ > 182		u32 reg;
+   183		int div = our_chip->state.div;
+   184		u64 cycles;
+   185	
+   186		cycles = clk_get_rate(our_chip->base_clk);
+   187		cycles *= (periodns / (div + 1));
+   188		do_div(cycles, NSEC_PER_SEC);
+   189	
+   190		reg = readl(our_chip->base + PWM_N(n) + REG_TPERIOD);
+   191		cycles = (cycles & PWM_PERIOD_MASK) - 0x1;
+   192		our_chip->state_pm[n].period = cycles;
+   193	
+   194		writel(cycles, our_chip->base + PWM_N(n) + REG_TPERIOD);
+   195	}
+   196	
 
 -- 
 0-DAY CI Kernel Test Service
