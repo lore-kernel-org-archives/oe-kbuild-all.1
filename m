@@ -1,219 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA831DD9C9;
-	Fri,  4 Oct 2024 19:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60D51D8E06
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 20:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728071564; cv=none; b=GwZZ9P8BQGV9l3TOP5mcuVEYqJsMltgKH+yftiL/ed6n+ZCTvRbi4vqfaplb0fGJV9AJta+303KZxXFBGLKWlPDEZhDZHEgXbjWWkQbVCD02M4c6ken8GsbsivhM9mCyhsU4L6xHY73XJhN+sKSRMkQ62gyolnIrfg8y6D9+kgE=
+	t=1728072018; cv=none; b=Mry3yxyuDNIIrunG7cQXVnfnginaizt9KgaM2Y2pKi3mFT5hPttT/+6dZvur6so/+KgefKUJxKd+SzimZIcoXey6thEyuLiirGfReqFn1RLffpI3f2IxzYoB8DFv/sy4G1/gXZ/hlSlEwL+yhjvL63JlK+r3HKsA9ZE/Zp8LrDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728071564; c=relaxed/simple;
-	bh=kl5zg+gZxvsBveSJ/daY/n9vMoJcOJpGPeErC+Fwc7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hKf88OFtN/ImL094zFi7MMWAzlybuZRE0at9Ec2sc3CNj2OTFvvMsmOZmEnjpf9f9c5RyflusddscPUaxfvIUuVY/Hrccb5vxQMZxeh6Tbh1EWbn0pl+5zvGDGg+HO2iuD7Zm69HZo2ptJwf+/EwiEUWs8sIfJSbr1S0+jBMUXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3DgBxeS; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728072018; c=relaxed/simple;
+	bh=ekDVyd3HSW+N9GGe5wx6qgFGUh9DrSzRbbdlNF11H4U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qHjpmCX449LdApOV4ogaWWVnEQC4uGI6hynpfP3fRtWBaRUqdXMFnTSguz5osujlUMITc+SqwgT9L2cC1lApkM1LMUJqk4rRM7ehYrVjOIl5k1f/4NFu8i6lPyPvhbCK3UvbiWIz5rvgeWGsMQ65fwqfaL0aksDDlmSG8/hWpFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev; spf=pass smtp.mailfrom=lkcamp.dev; dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b=anUMBa7m; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=D611fMmw; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lkcamp.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3DgBxeS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728071563; x=1759607563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kl5zg+gZxvsBveSJ/daY/n9vMoJcOJpGPeErC+Fwc7s=;
-  b=R3DgBxeSWEA9P6D4wirHMaoXFZngto1QVH8zKX3b+iY3Xa3HTlB0j0aL
-   9dHJRdFK5xA/PVPmNe9imsYhkPMQfyR5c3HkJ64N5SMMZzMtk1Q+X6vx2
-   PduUPrf2i35pFks/oUo9XtQXlw3iONHrdVcPpxb01SIL8sLfN1YONq265
-   hndEVG0BGyJXedWlpU/b7b4r0KKLlo97/zZED4jdz9kd7qxtkOewCxQTn
-   9PMfwd75T1BO+ADd359BiJzvNT99ySNXzPF9EFo6vcz9u0M2IEP+oE9TM
-   ojY0Vs/HWu0U0g4kkm6kkKjyDclQraurfkS8dv6KgvtxtRTzUOi8DKzQs
-   A==;
-X-CSE-ConnectionGUID: WF+FO+XnSkmk9TzYFg09qw==
-X-CSE-MsgGUID: hZhRzy6aR6ShpgTr6BmXAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27451808"
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="27451808"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 12:52:40 -0700
-X-CSE-ConnectionGUID: vJX7WhDNTBSXxVxyLYIYQA==
-X-CSE-MsgGUID: nXR86yquSLW8/hi5Lbykxg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="74810912"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Oct 2024 12:52:38 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swoLs-00028n-0u;
-	Fri, 04 Oct 2024 19:52:36 +0000
-Date: Sat, 5 Oct 2024 03:51:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Francois Dugast <francois.dugast@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [linux-next:master 2050/2483] include/linux/fault-inject.h:99:9:
- error: use of undeclared identifier 'false'; did you mean 'else'?
-Message-ID: <202410050346.6RA1L1hF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b="anUMBa7m";
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="D611fMmw"
+Authentication-Results: purelymail.com; auth=pass
+DKIM-Signature: a=rsa-sha256; b=anUMBa7miv2KnYlo9FugDs76NEAcaNgSgg4eueR2Pq2z53fDGz+QPAmvkkj8Y0QVkLCoFryqNrSAviLLoIOwhLxzY6soStO2/CV5nZq6gS7vv5sXYO06iOeHylKl4vG3f24SEzR3irbLv3kfQYBwsex2AzqhV5ek1ouxzVyqdxxDDAxFLSxYZn48hEkbkFtljNNUe0IvVjcDPPuVKvBn9uy57eKAIUtcHru/nr7LEhS82edJ7yNz2krP/+7kfi1q/RFBIA4Xl2KGI5aH1h2DZSTawFDYRrKwYjC/KSqubc2IRJug2iq/+TmJBweGE8SgPBdBXZ1zeB9ZSdWB0s4N5g==; s=purelymail2; d=lkcamp.dev; v=1; bh=ekDVyd3HSW+N9GGe5wx6qgFGUh9DrSzRbbdlNF11H4U=; h=Received:Date:Subject:To:From;
+DKIM-Signature: a=rsa-sha256; b=D611fMmwfmIh/7exGGLPv9bEV0vft4x2GewhYmdBmzzTTvpeH0HYpK9wQ9GbFYu2/KkFloJFOuNEP0ZlQZVByfnQ+8Uo/BOioJekOAxINrL2YEFwR0ELXHdV/lMc0/DH7NSps2VbHM5mkB0uD3ldEeCqi/p8lSuQU3S/oC9023QhKpN20/zoOLZ5CMnJu2qGxzg6Dd69oPqDUiOM1AdyeQXFmaZJCsRGY71Nl9u85rxOIE13asVzWTo4OPghnWu7Z7jU1STc5Lxtv4nkXJiLOcEZiE8i6MAkIc+GsBUQ6LCx5ns5SV/TalhM3Ev19geALSoEAIxQDKPNhXETky2dAw==; s=purelymail2; d=purelymail.com; v=1; bh=ekDVyd3HSW+N9GGe5wx6qgFGUh9DrSzRbbdlNF11H4U=; h=Feedback-ID:Received:Date:Subject:To:From;
+Feedback-ID: 40580:7130:null:purelymail
+X-Pm-Original-To: oe-kbuild-all@lists.linux.dev
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -1324637488;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Fri, 04 Oct 2024 20:00:02 +0000 (UTC)
+Message-ID: <6a5c9c54-54d9-45d6-b739-269985956513@lkcamp.dev>
+Date: Fri, 4 Oct 2024 16:59:58 -0300
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] lib/crc16_kunit.c: add KUnit tests for crc16
+To: kernel test robot <lkp@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow
+ <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ Enzo Bertoloti <ebertoloti@lkcamp.dev>,
+ Fabricio Gasperin <fgasperin@lkcamp.dev>,
+ David Laight <David.Laight@aculab.com>
+References: <20241003-crc16-kunit-v2-1-5fe74b113e1e@lkcamp.dev>
+ <202410050215.eU9509xy-lkp@intel.com>
+Content-Language: en-US
+From: Vinicius Peixoto <vpeixoto@lkcamp.dev>
+In-Reply-To: <202410050215.eU9509xy-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
-commit: 91b2c42c214f570efaff80a666e30b8f6ce4f12b [2050/2483] drm/xe: Use fault injection infrastructure to find issues at probe time
-config: x86_64-randconfig-003-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050346.6RA1L1hF-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050346.6RA1L1hF-lkp@intel.com/reproduce)
+On 10/4/24 15:40, kernel test robot wrote:
+> Hi Vinicius,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Vinicius-Peixoto/lib-crc16_kunit-c-add-KUnit-tests-for-crc16/20241004-050248
+> base:   9852d85ec9d492ebef56dc5f229416c925758edc
+> patch link:    https://lore.kernel.org/r/20241003-crc16-kunit-v2-1-5fe74b113e1e%40lkcamp.dev
+> patch subject: [PATCH v2] lib/crc16_kunit.c: add KUnit tests for crc16
+> config: parisc-randconfig-r071-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050215.eU9509xy-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050215.eU9509xy-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410050215.eU9509xy-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> lib/crc16_kunit.c:29: warning: Excess struct member 'crc16' description in 'crc16_test'
+>     lib/crc16_kunit.c:96: warning: Function parameter or struct member 'test' not described in 'crc16_test_empty'
+>     lib/crc16_kunit.c:111: warning: Function parameter or struct member 'test' not described in 'crc16_test_correctness'
+>     lib/crc16_kunit.c:132: warning: Function parameter or struct member 'test' not described in 'crc16_test_combine'
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050346.6RA1L1hF-lkp@intel.com/
+Ah, oops, I forgot to update the function documentation for v2. I will 
+fix these warnings in v3.
 
-Note: the linux-next/master HEAD 58ca61c1a866bfdaa5e19fb19a2416764f847d75 builds fine.
-      It may have been fixed somewhere.
+> Kconfig warnings: (for reference only)
+>     WARNING: unmet direct dependencies detected for GET_FREE_REGION
+>     Depends on [n]: SPARSEMEM [=n]
+>     Selected by [m]:
+>     - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+> 
+> 
+> vim +29 lib/crc16_kunit.c
+> 
+>      17	
+>      18	/**
+>      19	 * struct crc16_test - CRC16 test data
+>      20	 * @crc: initial input value to CRC16
+>      21	 * @start: Start index within the data buffer
+>      22	 * @length: Length of the data
+>      23	 * @crc16: Expected CRC16 value for the test
+>      24	 */
+>      25	static struct crc16_test {
+>      26		u16 crc;
+>      27		u16 start;
+>      28		u16 length;
+>    > 29	} tests[CRC16_KUNIT_TEST_SIZE];
+>      30	
+> 
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/xe/xe_tile.c:6:
-   include/linux/fault-inject.h:97:15: error: unknown type name 'bool'
-      97 | static inline bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order)
-         |               ^
-   include/linux/fault-inject.h:97:43: error: unknown type name 'gfp_t'
-      97 | static inline bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order)
-         |                                           ^
->> include/linux/fault-inject.h:99:9: error: use of undeclared identifier 'false'; did you mean 'else'?
-      99 |         return false;
-         |                ^~~~~
-         |                else
->> include/linux/fault-inject.h:99:9: error: expected expression
-   include/linux/fault-inject.h:106:57: error: unknown type name 'gfp_t'
-     106 | static inline int should_failslab(struct kmem_cache *s, gfp_t gfpflags)
-         |                                                         ^
-   include/linux/fault-inject.h:108:9: error: use of undeclared identifier 'false'; did you mean 'else'?
-     108 |         return false;
-         |                ^~~~~
-         |                else
-   include/linux/fault-inject.h:108:9: error: expected expression
-   In file included from drivers/gpu/drm/xe/xe_tile.c:10:
-   In file included from drivers/gpu/drm/xe/xe_device.h:9:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/xe/xe_tile.c:10:
-   In file included from drivers/gpu/drm/xe/xe_device.h:9:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/xe/xe_tile.c:10:
-   In file included from drivers/gpu/drm/xe/xe_device.h:9:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/xe/xe_tile.c:10:
-   In file included from drivers/gpu/drm/xe/xe_device.h:9:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/xe/xe_tile.c:10:
-   In file included from drivers/gpu/drm/xe/xe_device.h:9:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-
-
-vim +99 include/linux/fault-inject.h
-
-cc689c5b352d4a Ingo Molnar     2017-02-01   93  
-0866e82e40fba4 Kefeng Wang     2023-05-16   94  #ifdef CONFIG_FAIL_PAGE_ALLOC
-53dabce2652fb8 Vlastimil Babka 2024-07-11   95  bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order);
-0866e82e40fba4 Kefeng Wang     2023-05-16   96  #else
-53dabce2652fb8 Vlastimil Babka 2024-07-11   97  static inline bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order)
-0866e82e40fba4 Kefeng Wang     2023-05-16   98  {
-0866e82e40fba4 Kefeng Wang     2023-05-16  @99  	return false;
-0866e82e40fba4 Kefeng Wang     2023-05-16  100  }
-0866e82e40fba4 Kefeng Wang     2023-05-16  101  #endif /* CONFIG_FAIL_PAGE_ALLOC */
-0866e82e40fba4 Kefeng Wang     2023-05-16  102  
-
-:::::: The code at line 99 was first introduced by commit
-:::::: 0866e82e40fba45dae07e6e8385929b574201752 mm: page_alloc: split out FAIL_PAGE_ALLOC
-
-:::::: TO: Kefeng Wang <wangkefeng.wang@huawei.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
