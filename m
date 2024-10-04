@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C92413CFBD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 08:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFE813E88C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 09:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728031336; cv=none; b=B1tcFYN3Xr6sWzKkY+u+FWzTGEA7MvI4j8qB8QwqwHFo/NaJw3xntw2+4+EVZARpOImdpEphVNA8Wpj6Inoi5PGpYqGbSrg1pfDq2iRmAwVbzzsyO6BTxTuYfGPW/rEJ90B79fP6DiQ4wt55FrfiTfqgT3BPRLtbfz0rk+Dl/es=
+	t=1728033195; cv=none; b=V0YJ7rkjXI75W+eUctUidFAcAHA6/ousxkOC6Cx0e5rIFHD8MgJBE7uJ0G0LPEZ7l+7PAvbAhCT27iK4ruUJ+4i+e2c25uUXrR+VocL2qIwgJV2CWhirSd6F8hX+BpKu4rXKgTpdumXWVbqJ9omNXKy5csOyiwIBppk0mcg5uIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728031336; c=relaxed/simple;
-	bh=cAS6OVMLl7ZYp/ahSWcbhOYMnxZCteeVgeCs1V11YoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bs6BPDtvCZuwhB77tN2qoGDtK5dPG9aLMVT3G5vpXrDtjX6ie5yH4HeNT55unZisKWm0H6qFgcc7HVxyoMsKyC6gjh81F6Jtk/bJtNsUAz3vwdnozYfwJeSiksEqr7ijP2Ca9K6gTWlHuko1I/QC/5kSlv+ixkYQAP5lFmsTH5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JUC5Do1E; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1728033195; c=relaxed/simple;
+	bh=gcbAsza8QnPRL9tsh6MzEgMkUr5tH4Gc+UMHbSw18D0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IiOkpd2QCuer2ht2wiXau47fhZuc9LrmUhS/naX7y76DivKVqkHyAf30R6JK4SM/u3ZdpmSZ2zbrLntxPZ15sKzvoazjtnazwfBlPhKgD23rUKk5SH+ClpDfJFFq1H9F6zQTgcwqGyRMvXF2EkyAuAkH/87zQQszZota9K9chQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNCThxSO; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JUC5Do1E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNCThxSO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728031334; x=1759567334;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cAS6OVMLl7ZYp/ahSWcbhOYMnxZCteeVgeCs1V11YoA=;
-  b=JUC5Do1EEgKkoyEpBxLYrRCUmdRr1BQ27D7c+DnDFnJ1f7j/G0ogONHy
-   ewFnZ7+YngWRl+1ppfLDN4EvBE51f/lw8E4x0IJzotGCZhc7hJAmBSrbj
-   EJhmSS78EGh1MatbfURlRKd4QrPBuUsV78ecQPBaIDZYxxDW0RpErYLzV
-   kiIuuSLbUN43tF389lo3IAD175dOz4NQVGARB0KoXidtvRz+HMWwqfw/z
-   /Sy/DrlrJD4oayC1ufcuyfQHu+yH75n8KHviWLjuvy15L37oiBaSx+Tl7
-   Z31zPB4it9Fzvv/GZB5hBaUsuCjeWZ4OP+Ad8zej5KETSgB7c77YDQ2zo
+  t=1728033195; x=1759569195;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gcbAsza8QnPRL9tsh6MzEgMkUr5tH4Gc+UMHbSw18D0=;
+  b=hNCThxSOiMfX4IJIKuGEo6tgw6KovS/6oQQgX8ZIaazkjrJ+Noap42EH
+   E8/vOlqHUxpADeVLY27lsvWrLuOzEppl0VZZclu+l7NGRVopS+FuNelp8
+   OXW3gSf6G3FxobWsFO6Cfe2+Ci/561eeHT8B6SiH564X0KpgpbLDhT5Qo
+   3/59nKvw9sgCt4EH6dYCfAiZcrEV7Xj7IG68Z9EPakFTq88ngO4t9GEwD
+   JqQT0TAqGjNHoQlY9mm5NUj8XDKCjR0T5/jgLr9D7DDjcVYsWFay3zkTY
+   jqRDCbhA/3yy6bQeNDeIDT3oesXpK7yE9S5DrlowGw/US91yDfAamSroN
    Q==;
-X-CSE-ConnectionGUID: SVdpMhKzSlSpdXHC571U5Q==
-X-CSE-MsgGUID: zQlxUOqsTVeYKHhw+k8pmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37813232"
+X-CSE-ConnectionGUID: RIFqzzhIR2q2kbpVHB1+YQ==
+X-CSE-MsgGUID: d3y8+ypsRsiX3gIkW41B7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27194784"
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="37813232"
+   d="scan'208";a="27194784"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 01:42:13 -0700
-X-CSE-ConnectionGUID: zQyOMgu8R2SDFEvQ3ZoYcA==
-X-CSE-MsgGUID: XgxwP0HtRyKwUnqcCoP6eQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 02:13:12 -0700
+X-CSE-ConnectionGUID: sfnHe+prQ56BR1Qd1MS79w==
+X-CSE-MsgGUID: xG006mfwTyC13NGXvRq4xQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="79198691"
+   d="scan'208";a="79207847"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Oct 2024 01:42:10 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 04 Oct 2024 02:13:10 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swdt1-0001OI-2S;
-	Fri, 04 Oct 2024 08:42:07 +0000
-Date: Fri, 4 Oct 2024 16:41:22 +0800
+	id 1sweN2-0001PM-0V;
+	Fri, 04 Oct 2024 09:13:08 +0000
+Date: Fri, 4 Oct 2024 17:12:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Namhyung Kim <namhyung@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2192/2444]
- drivers/char/ipmi/bt_bmc_phytium.c:87:35: warning: 'bt_regmap_cfg' defined
- but not used
-Message-ID: <202410041655.bdYlpWRg-lkp@intel.com>
+Subject: Re: [PATCH v4 bpf-next 2/3] mm/bpf: Add bpf_get_kmem_cache() kfunc
+Message-ID: <202410041709.GzXx543V-lkp@intel.com>
+References: <20241002180956.1781008-3-namhyung@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,35 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241002180956.1781008-3-namhyung@kernel.org>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   aabcc6dc6d7f9e12baf1f117341469c84afd545d
-commit: 02235ffc6987c06265fff43eeda5e486583ef1de [2192/2444] Add Phytium BT BMC driver support
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241004/202410041655.bdYlpWRg-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410041655.bdYlpWRg-lkp@intel.com/reproduce)
+Hi Namhyung,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9502a7de5a61bec3bda841a830560c5d6d40ecac]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Namhyung-Kim/bpf-Add-kmem_cache-iterator/20241003-021144
+base:   9502a7de5a61bec3bda841a830560c5d6d40ecac
+patch link:    https://lore.kernel.org/r/20241002180956.1781008-3-namhyung%40kernel.org
+patch subject: [PATCH v4 bpf-next 2/3] mm/bpf: Add bpf_get_kmem_cache() kfunc
+config: mips-randconfig-r064-20241004 (https://download.01.org/0day-ci/archive/20241004/202410041709.GzXx543V-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410041709.GzXx543V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410041655.bdYlpWRg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410041709.GzXx543V-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/char/ipmi/bt_bmc_phytium.c:87:35: warning: 'bt_regmap_cfg' defined but not used [-Wunused-const-variable=]
-      87 | static const struct regmap_config bt_regmap_cfg = {
-         |                                   ^~~~~~~~~~~~~
+   In file included from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from mm/slab_common.c:7:
+   mm/slab_common.c: In function 'bpf_get_kmem_cache':
+>> arch/mips/include/asm/page.h:218:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     218 |         __virt_addr_valid((const volatile void *) (kaddr))
+         |                           ^
+   mm/slab_common.c:1334:14: note: in expansion of macro 'virt_addr_valid'
+    1334 |         if (!virt_addr_valid(addr))
+         |              ^~~~~~~~~~~~~~~
 
 
-vim +/bt_regmap_cfg +87 drivers/char/ipmi/bt_bmc_phytium.c
+vim +218 arch/mips/include/asm/page.h
 
-    86	
-  > 87	static const struct regmap_config bt_regmap_cfg = {
-    88		.reg_bits = 32,
-    89		.val_bits = 32,
-    90		.reg_stride = 4,
-    91	};
-    92	
+d3ce88431892b7 arch/mips/include/asm/page.h Ralf Baechle   2012-12-28  215  
+31875a5432248e arch/mips/include/asm/page.h Paul Burton    2019-05-28  216  extern bool __virt_addr_valid(const volatile void *kaddr);
+d3ce88431892b7 arch/mips/include/asm/page.h Ralf Baechle   2012-12-28  217  #define virt_addr_valid(kaddr)						\
+d3ce88431892b7 arch/mips/include/asm/page.h Ralf Baechle   2012-12-28 @218  	__virt_addr_valid((const volatile void *) (kaddr))
+^1da177e4c3f41 include/asm-mips/page.h      Linus Torvalds 2005-04-16  219  
 
 -- 
 0-DAY CI Kernel Test Service
