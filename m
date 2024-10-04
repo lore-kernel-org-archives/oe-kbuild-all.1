@@ -1,62 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2688D2101B0;
-	Fri,  4 Oct 2024 13:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDAD2101B0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 13:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728048718; cv=none; b=kLrFTaTxw1kVJSR6v7vAfBWay5N5MNkYnx7OAhLxsvshj6wcXtV64kqH+zL4a3jf3tmr90ZTSBwd4YOPuEhk0moy5SLP2obi/WK7OHCbW0HqSMoboQ4anWaXMQoQu++m9vNWAI1A0NhsNViqOOeBXxrFE4I4Izqc/h4XmjZELx0=
+	t=1728048723; cv=none; b=B0DCZNkV2qqHhB+jxim7OA5NOedKLi4/tcURsJ8xgQvsogx+Nv3QlrtFrCdoTlGLLiYlXwP21l4Qctub9uo4KAkyUg8V2RWChRIK8avtKUteY9oux7CIm4DAq1Vi1djky/dxJp+lM2sJiLoSM7amnDdka25RzH72oCtDuNcIuK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728048718; c=relaxed/simple;
-	bh=LipIKJHXywUFaT6Rr6fuW2hVVH4tKy/aeS0F5KcrTXg=;
+	s=arc-20240116; t=1728048723; c=relaxed/simple;
+	bh=FPLZJaARGtRR7bwMZfLF8SBRUPHLyRTznI4rLQWKTiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ogh2V3adfQu3C7CDNb/9BCXZqPadB+QW91Fwewyp9DEqXpqSkgDqv8sBZ62fLpSQPuA0wRCE6XJhmuJYpbog4CpFv/d5WzSBqidwHtZF8eNuEQGjEj1aX/rJZwLqvVVle9tzivwp4FctE2GZ33rKaPoOFqBrA6dK8LXzXY1sPcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cv+AueeE; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=C2TkM4TuuT1RYrLThUV/g//WapDsCBWX/sK8jtB2lf9//dxVOC/KiIOlgWvtbFz6K0aaLFlwBCRiE5dqV2phGdb539x9Gkh74/l8Vv0u8d3v1gjJLUK5sVtpp28brvhVZhU1GExxIstzptc2/lQZPPwqdo65p82z9bCTaxUIiOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5RFt1Ya; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cv+AueeE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5RFt1Ya"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728048716; x=1759584716;
+  t=1728048718; x=1759584718;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LipIKJHXywUFaT6Rr6fuW2hVVH4tKy/aeS0F5KcrTXg=;
-  b=Cv+AueeEuKnFZh5G8sJybzceq+BljgOtbtPX66dQRIbwnxEo1ezZBDah
-   WXA/Iz+FUsZMh8FtwoC+MAq/+9nmGC+bCKvP+zo9DTmjVl9ta+dGYqcbz
-   G4KC9tGxYK1vdDCH4ExDM/fvoYureCs4Hq5hCbAxZcDF/+t/PSFg5cGor
-   TkY0c8RteZ8ntsWbdOea9e36m9GEHJZfX+j9QObQ59W1s/iPCrYwCIWcJ
-   EGafFnvrK4SR6wqQgiwTILA/nORejkDSmDZ9tzMQu+dkZsfSxAVn6+UhF
-   sjnfrUiRaRD/NIDKieP2hL5Xj+lOdd1o12X2kQcgRw87ofjvb/CTuNqGh
+  bh=FPLZJaARGtRR7bwMZfLF8SBRUPHLyRTznI4rLQWKTiU=;
+  b=T5RFt1YaCXh/iw5r6vBO6P0Xjea8T/sutz0ZmCBnrXZVhZ+4J27247Y2
+   ml1Ig39PRrD9OqVXQsBW6Lv6F/mDr6rJsI8IsXXF+hy/K1P0oI9dVdHZo
+   4pUnQXhuZ6PhAukRu0SiNcCG0FYWA4g01HK8Z1oYsmnIgkFbYmYKNrQmg
+   dk0eSpEcc++pTlI3OPmE8JuYyfQ7WEqHKWajaOZkovp+S2oJQLkGqo3w0
+   EaqKq9uzPwFf5GnQrx1+1hrgl2V0dvmmAxZDeseqZ12yfgPW909Bo4N36
+   CY08fqQRZIEYTFDA33BLzagKbwhqbs3kUutM0mDeTBqYLmw/Extzy2AUM
    g==;
-X-CSE-ConnectionGUID: 9IUIXp0hS8q4vJTnKBKzkA==
-X-CSE-MsgGUID: dPqYiX90T+Wse3/KD+Q6GA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27150469"
+X-CSE-ConnectionGUID: FoQahNqlRyyjp3j6U0QHbg==
+X-CSE-MsgGUID: hMM5ASdgTjKUmFswg/iuHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27150472"
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="27150469"
+   d="scan'208";a="27150472"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 06:30:21 -0700
-X-CSE-ConnectionGUID: IcluhS3fSAu9RiPnoDcCzg==
-X-CSE-MsgGUID: Ij+kEMolRPubbR9Jtmn+6w==
+X-CSE-ConnectionGUID: L0iAeHhRRXmIGL7OAVxeAQ==
+X-CSE-MsgGUID: y5hOZK8qRSWp9CZ6SrHB7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="74697089"
+   d="scan'208";a="74697088"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 04 Oct 2024 06:30:20 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swiNt-0001fo-1R;
+	id 1swiNt-0001fq-1V;
 	Fri, 04 Oct 2024 13:30:17 +0000
 Date: Fri, 4 Oct 2024 21:30:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	intel-gfx@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v3 10/12] drm/xe: Make xe_ggtt_pt_ops private
-Message-ID: <202410042102.EdHRO7JI-lkp@intel.com>
-References: <20241003154421.33805-11-maarten.lankhorst@linux.intel.com>
+To: Fam Zheng <fam.zheng@bytedance.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, fam@euphon.net,
+	David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
+	David Woodhouse <dwmw2@infradead.org>, fam.zheng@bytedance.com
+Subject: Re: [PATCH] sign-file: Add -D "digest mode"
+Message-ID: <202410042115.WT7VlS8U-lkp@intel.com>
+References: <20241002133837.1030094-1-fam.zheng@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,49 +64,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241003154421.33805-11-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20241002133837.1030094-1-fam.zheng@bytedance.com>
 
-Hi Maarten,
+Hi Fam,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on linus/master v6.12-rc1]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip next-20241004]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc1 next-20241004]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-xe-display-Handle-stolen-bar-readout-in-the-same-way-as-lmem/20241004-000534
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241003154421.33805-11-maarten.lankhorst%40linux.intel.com
-patch subject: [PATCH v3 10/12] drm/xe: Make xe_ggtt_pt_ops private
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241004/202410042102.EdHRO7JI-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410042102.EdHRO7JI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fam-Zheng/sign-file-Add-D-digest-mode/20241002-215025
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241002133837.1030094-1-fam.zheng%40bytedance.com
+patch subject: [PATCH] sign-file: Add -D "digest mode"
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241004/202410042115.WT7VlS8U-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410042115.WT7VlS8U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410042102.EdHRO7JI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410042115.WT7VlS8U-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_ggtt.c:906: warning: expecting prototype for xe_ggtt_write_pte(). Prototype was for xe_ggtt_get_encode_pte_bo_fn() instead
+   In file included from scripts/sign-file.c:40:
+   scripts/sign-file.c: In function 'main':
+>> scripts/sign-file.c:357:29: warning: implicit declaration of function 'CMS_final_digest' [-Wimplicit-function-declaration]
+     357 |                         ERR(CMS_final_digest(cms, digest_bin, digest_len, NULL, CMS_NOCERTS | CMS_BINARY) != 1,
+         |                             ^~~~~~~~~~~~~~~~
+   scripts/ssl-common.h:27:32: note: in definition of macro 'ERR'
+      27 |                 bool __cond = (cond);                   \
+         |                                ^~~~
+--
+   In file included from scripts/sign-file.c:40:
+   scripts/sign-file.c: In function 'main':
+>> scripts/sign-file.c:357:29: warning: implicit declaration of function 'CMS_final_digest' [-Wimplicit-function-declaration]
+     357 |                         ERR(CMS_final_digest(cms, digest_bin, digest_len, NULL, CMS_NOCERTS | CMS_BINARY) != 1,
+         |                             ^~~~~~~~~~~~~~~~
+   scripts/ssl-common.h:27:32: note: in definition of macro 'ERR'
+      27 |                 bool __cond = (cond);                   \
+         |                                ^~~~
 
 
-vim +906 drivers/gpu/drm/xe/xe_ggtt.c
+vim +/CMS_final_digest +357 scripts/sign-file.c
 
-   897	
-   898	/**
-   899	 * xe_ggtt_write_pte - Write a PTE to the GGTT
-   900	 * @ggtt: &xe_ggtt
-   901	 * @offset: the offset for which the mapping should be written.
-   902	 *
-   903	 * Used by display for DPT and GGTT paths to enccode BO's.
-   904	 */
-   905	xe_ggtt_pte_encode_bo_fn xe_ggtt_get_encode_pte_bo_fn(struct xe_ggtt *ggtt)
- > 906	{
+   329	
+   330		if (!raw_sig) {
+   331			/* Read the private key and the X.509 cert the PKCS#7 message
+   332			 * will point to.
+   333			 */
+   334			private_key = read_private_key(private_key_name);
+   335			x509 = read_x509(x509_name);
+   336	
+   337			/* Digest the module data. */
+   338			OpenSSL_add_all_digests();
+   339			drain_openssl_errors(__LINE__, 0);
+   340			digest_algo = EVP_get_digestbyname(hash_algo);
+   341			ERR(!digest_algo, "EVP_get_digestbyname");
+   342	
+   343	#ifndef USE_PKCS7
+   344			/* Load the signature message from the digest buffer. */
+   345			cms = CMS_sign(NULL, NULL, NULL, NULL,
+   346				       CMS_NOCERTS | CMS_PARTIAL | CMS_BINARY |
+   347				       CMS_DETACHED | CMS_STREAM);
+   348			ERR(!cms, "CMS_sign");
+   349	
+   350			ERR(!CMS_add1_signer(cms, x509, private_key, digest_algo,
+   351					     CMS_NOCERTS | CMS_BINARY |
+   352					     CMS_NOSMIMECAP | use_keyid |
+   353					     (digest_mode ? CMS_KEY_PARAM : 0) |
+   354					     use_signed_attrs),
+   355			    "CMS_add1_signer");
+   356			if (digest_mode)
+ > 357				ERR(CMS_final_digest(cms, digest_bin, digest_len, NULL, CMS_NOCERTS | CMS_BINARY) != 1,
+   358				    "CMS_final_digest");
+   359			else
+   360				ERR(CMS_final(cms, bm, NULL, CMS_NOCERTS | CMS_BINARY) != 1,
+   361				    "CMS_final");
+   362	
 
 -- 
 0-DAY CI Kernel Test Service
