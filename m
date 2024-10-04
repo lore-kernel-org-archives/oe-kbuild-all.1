@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EDE231CA7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 21:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD74943154
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 21:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728075825; cv=none; b=Yd2uWtZpCeDNOWBXKuDoaP7Z+NxTaqHVgebj+4rnmKjBqI3ffoZf+UOV/2qrvyKdFSxSBmVC2XP5khCgDCa+i9p0kqyeHA6FGGhBbDT1mlT61faH0ivqLwdx2CbfSMVEoechpwx+6s0Q+ZrowmyjAeHdRyom7FRescSy73vhG5s=
+	t=1728077686; cv=none; b=D7BkTFD0kIiVK2qY5Rc3/lrAk3zKwzIiPrcMh4qor5e9PX1bVJJEeGcAxb/P82cbkpdQSVUwlG4UWCdCSKAwijtUKVfhI/IGXHZwXghf8QTyOsILkKAxhimdRcjh4yvb3j9l9oqVcq77dios4vYCpCH4bxQbscsOJSKZeBj5Tg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728075825; c=relaxed/simple;
-	bh=S2eQ+YGsZW/jWuYKZQJB2rhBR/8C3IrWuP7d18dI7N8=;
+	s=arc-20240116; t=1728077686; c=relaxed/simple;
+	bh=ersxdiXFUUZ4cgzB+ytXinB0vFK9DFCDoKuyqqg8ODA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hny2ZpqaEcEUhaEn6hLbHC1ax8+OwjlcTXgFQ9+YAushbmInrP0bpJoDk3ZmMtMToww14Hh6uE3BcsDDTDslcgUNsG5pHzssZixt9dW0vx7ZdRU42ffbt70CY1Ao4BN0wgcU2WfiaJ/Y5VUoIO2key3VTTdi93zN5lyEyFuE2JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYzBz4+Q; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=haCPgoWy0m/Alt+2r5MMA70Eu+FoT8SuLqJ6T6uoLybFWaoSwPFWbpUvBE5n2+cEgZsWWP1QTte4OBqz1dY00QC+pUYXA0z6ab6ZLtx031sFnbmW4hdNWUJ/lhazMZr2xJq7L/S3yDOxgdcCblIISXegw3QMwXf4iVxMD+TwgW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WoTc22z+; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYzBz4+Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WoTc22z+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728075823; x=1759611823;
+  t=1728077685; x=1759613685;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S2eQ+YGsZW/jWuYKZQJB2rhBR/8C3IrWuP7d18dI7N8=;
-  b=VYzBz4+QWui2dATGmg7jucywwmEk20qF3XWbWUj4bcY8p8lM9MTLl8Mo
-   TI6eJiQwCT2LU7+81c63j8daZT8Y1eQdyCZMAvOvBfmU7/qmmUgt45k/n
-   LeuaxQBogK1zG95NVYsjK8bkuHUJU2o1Txv8tH7qycHhP26hNF/G4VKwF
-   EG+MhTXDD2WEUp0h3UJsR+avmBTMhwW9c7nUkL2AI9KKjLo7VEuxqu76A
-   6IhL8ACB+gaiXS935KeuvwDp10PYmlMex7pJMSE8j6SZZvkE4F2DGAxtc
-   g4SxeTx7GYdLPbpwicKskt39ETSSL/unklz4gl8oR7pzm+vvkZymlAOEq
+  bh=ersxdiXFUUZ4cgzB+ytXinB0vFK9DFCDoKuyqqg8ODA=;
+  b=WoTc22z+2twy22Ab4EIErEHIAfSPdvaooqUNQcZ8kVknHKFCIymbbPAU
+   7wsAzkmgMwbbxtdfABm1yxKCThbJN0eZE6lZ8EOG/hd7O37QR7A3LcK27
+   MFN69tVEzrg1GeBE2r2W+5oY7oJUELg2RlV6NEw+TuoHD1oi6ATQssSmP
+   4dutzraNOU2KnB0zF/TdwuNCsVfypFq5pQptVJXF3EksOYvPfmbv4JceU
+   jPlgvpZCdcMXE50iCq4LdOAuGTFcdJ8JiAIrghQRLMdflW8OzqaO39aOP
+   UZIZRwM3upA1SXS6G6NNzhHpLV+51mxpS5y4ft8Wlzj1Pt/Xdm8J6djFp
    A==;
-X-CSE-ConnectionGUID: Paa67QoGS8y7DlSQL2Dzuw==
-X-CSE-MsgGUID: Vi9L+flkSPyRSepSL5PFEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37967837"
+X-CSE-ConnectionGUID: Cm0JoDdOQP2olwZn01tviw==
+X-CSE-MsgGUID: A2KZ+pMGSxCnX98PLMpWeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="38446537"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="37967837"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 14:03:43 -0700
-X-CSE-ConnectionGUID: lHa9QM5BSzmMfEyfY0+RBA==
-X-CSE-MsgGUID: iJID+FSNRCCsvQsiqbj96g==
+   d="scan'208";a="38446537"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 14:34:44 -0700
+X-CSE-ConnectionGUID: KbiuiijZR62+BaMVgSMd9Q==
+X-CSE-MsgGUID: 5siTwgfMRG+J65B7oQSBqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="105669417"
+   d="scan'208";a="79661601"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Oct 2024 14:03:42 -0700
+  by orviesa003.jf.intel.com with ESMTP; 04 Oct 2024 14:34:43 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swpSd-0002Di-22;
-	Fri, 04 Oct 2024 21:03:39 +0000
-Date: Sat, 5 Oct 2024 05:03:15 +0800
+	id 1swpwe-0002FG-1o;
+	Fri, 04 Oct 2024 21:34:40 +0000
+Date: Sat, 5 Oct 2024 05:34:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [morse:mpam/snapshot/v6.12-rc1 48/132] htmldocs: Warning:
- fs/resctrl/Kconfig references a file that doesn't exist:
- file:Documentation/fs/resctrl.rst
-Message-ID: <202410050550.9upmA12n-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20241003 5/14]
+ include/linux/build_bug.h:78:41: error: static assertion failed: "struct
+ member likely outside of struct_group_tagged()"
+Message-ID: <202410050536.vCru1pn6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,26 +65,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.12-rc1
-head:   4d17b37b670795954fd7a70c8ec83fb705a5e2ad
-commit: a2273d13b7e6bd18935bcb8c1f67d67b92cb44c6 [48/132] x86,fs/resctrl: Move resctrl.rst to live under Documentation/filesystems
-reproduce: (https://download.01.org/0day-ci/archive/20241005/202410050550.9upmA12n-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241003
+head:   ec64acf2dce7577a42c01241e78b24afebc26e96
+commit: f44c92244302b0ac9d17ccf3eb21786a9be55163 [5/14] RDMA/uverbs: Use static_assert() to check struct sizes
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20241005/202410050536.vCru1pn6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050536.vCru1pn6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050550.9upmA12n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050536.vCru1pn6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/fs/resctrl*
-   Warning: arch/x86/kernel/cpu/resctrl/monitor.c references a file that doesn't exist: Documentation/arch/x86/resctrl.rst
->> Warning: fs/resctrl/Kconfig references a file that doesn't exist: file:Documentation/fs/resctrl.rst
-   Using alabaster theme
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/infiniband/core/nldev.c:33:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "struct member likely outside of struct_group_tagged()"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/rdma/uverbs_ioctl.h:643:1: note: in expansion of macro 'static_assert'
+     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+         | ^~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
