@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26CE2B9AA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 04:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707D0231C90
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 04:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728101999; cv=none; b=ZWrhk5g9icXrNOnXdPoXlMyjQOwKkjKQQeI1CM2CzZ4ODxNdQmgTHzqg/NEwB87jpw7iJZtoCKFxkr7mt+ytc4fix9z85X2448KTzUMdS2VA2imna61dBnSbq3tC3rfwG9pUb/izRdOI+ehldAi04BjXTTpYzU/yHjB9/ZrW47U=
+	t=1728102600; cv=none; b=ARM8psKdN3Evp7eVCXAs9cCaeZnLIoEZGvbEKWUOG7IRK4/8kcJJDpWyK9DzqvtkeXFee+zngMDeCSYm7z7zWvjTRqK7CkKP7lBe7T7Qw0uXutwFqVLRKJIWDJF8en8RWjcVLF4J9BmG6hd7n3nUilOs1SDE4Ry8F/Ojcvt62F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728101999; c=relaxed/simple;
-	bh=nXGKdahDk6elXD5pqt2OHynDyGBrQsm/SKTMszUwqfg=;
+	s=arc-20240116; t=1728102600; c=relaxed/simple;
+	bh=wydldZLu09CfKYMcKG+m26H2it9iqysV1AO3hagZuk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pwC4uIF7sJ8uV9JQCsbz8OqDw+qEUas8Fi2xoAEHXVAoqQ0v4xt3JEcqcym6GREdrLtXMp2f1nw6b298tnUwhk71vTKYxKjs7WPZYfhxsQgLaO3BYwdb1ThogZ0Wgzs/gmIA7SsrhUwZ0GROjHnkZN2/BHAF57PulvlWBWNyqWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qu/UvNDy; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=KtSyUAEC0m0DqkFjOOVxeLHBn8J02AWupOsMYLpoJP3nGnPB0hKKXNBZeuB4MFPAO1I5e3nOzvO0nIvo2JDmNF3o+8O711uqRQ9gCnkvkZ7/rOiZq9nDXJXAqaDk7HhPU0in8Kxo6+IDJGKY0czlwpwR65Xo4OYDFCAOuB6jPiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cf7zJf5g; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qu/UvNDy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cf7zJf5g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728101997; x=1759637997;
+  t=1728102598; x=1759638598;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nXGKdahDk6elXD5pqt2OHynDyGBrQsm/SKTMszUwqfg=;
-  b=Qu/UvNDy7LJHaZHSAmJ7mpgiysV7X3iVRp/hMOzw6xTfN+RQAHBushzd
-   5KyJLTDkgu6qlL2oCT66GNg3prYu1jvwVBm0XwYlgpsc5JX2ygYECHm20
-   pkCKtEnNpbNTBmL4f4vpSlDPloXJn2ELj5aI8N0bB+9zasrRO0m+IuiC9
-   hIqtlZRQa/SYVeCZFuBlsvT6RJMGPTjOMW8QTIsLiHDIv/rG5xFbvTJyW
-   SdqWQzsfXHFVWoiRyDn37mvCdfCD+GLo6uwXrGO7zchKKUDpdCjnFTWBD
-   4siCI2SfkOv8i/5XQ9UnRAuTtK33lW4ZfNmjd2XnCcGbO65nI8ZzC0Ixc
-   g==;
-X-CSE-ConnectionGUID: A9FVmQ56TEOgPmHebcCkRw==
-X-CSE-MsgGUID: N0yvY39STU+Ud1+nNnQc1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="30214238"
+  bh=wydldZLu09CfKYMcKG+m26H2it9iqysV1AO3hagZuk4=;
+  b=cf7zJf5gGDD9STM5vheFiMcJY8AHG6BmTWBYcG6HKaq/UpiNMWXYjALs
+   OgiP/kiFVSngK/AU7ho0zYrkN5G/XMZ+X/rX7fc7A1obcy5Jwi/Yj8cfE
+   Hm0SNv5DdxEWuJ9T24HB/TCh9CZ5SxqLXWxsE9t4QPFKRRVA5X3hn+yT7
+   njLlgm4wcQmiHD6EF9V2yq4WBScKiIekTHNG6Wxnu2xAEhQEP6stuQD+U
+   873T3tqswMh4hWCphDxDYy6xUKtyGNwTDnNatbdFWf1d+Ida3zdB9/eVp
+   BFWEWR2wcvP0q5ZUMycioK09QF/twhs94vgomlMRiRFT4mOLQINwGaRY5
+   Q==;
+X-CSE-ConnectionGUID: lcB7vISaTJ2DeTO4FRSyRQ==
+X-CSE-MsgGUID: 8J/1Qy01QAKkcq+jE3mSFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="52728460"
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="30214238"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 21:19:56 -0700
-X-CSE-ConnectionGUID: 4vTEnwhPRe2pP/OEn8YJUw==
-X-CSE-MsgGUID: OxiXdklCSam+XAGx20bsfg==
+   d="scan'208";a="52728460"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 21:29:57 -0700
+X-CSE-ConnectionGUID: GEaGZe1OTcKZJIcIMzwLmQ==
+X-CSE-MsgGUID: vKRohpy/SUuEXrbNpFESJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="79474598"
+   d="scan'208";a="74487460"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Oct 2024 21:19:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 04 Oct 2024 21:29:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swwGm-0002Ye-1A;
-	Sat, 05 Oct 2024 04:19:52 +0000
-Date: Sat, 5 Oct 2024 12:19:37 +0800
+	id 1swwQS-0002Yo-1J;
+	Sat, 05 Oct 2024 04:29:52 +0000
+Date: Sat, 5 Oct 2024 12:29:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Drew Fustini <dfustini@tenstorrent.com>
-Subject: [linux-next:master 1510/2483]
- drivers/pinctrl/pinctrl-th1520.c:457:9: error: call to undeclared function
- 'pinconf_generic_parse_dt_config'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202410051253.XlYi9uaJ-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 11987/12031] net/core/netclassid_cgroup.c:100:5:
+ sparse: sparse: symbol 'cls_cgroup_stats_init' was not declared. Should it
+ be static?
+Message-ID: <202410051236.y9u1IkeS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,203 +67,194 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
-commit: bed5cd6f8a988389e987bcf5c1762ab7c53be317 [1510/2483] pinctrl: Add driver for the T-Head TH1520 SoC
-config: hexagon-randconfig-r063-20241005 (https://download.01.org/0day-ci/archive/20241005/202410051253.XlYi9uaJ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051253.XlYi9uaJ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   6c7ba3824d4ec8a20ab384fa7b838eeb7e5b4e5f
+commit: 669bbf19cd74db8ba957c288e9482d9dc10d68e1 [11987/12031] rue/net: init netcls traffic controller
+config: x86_64-randconfig-122-20241005 (https://download.01.org/0day-ci/archive/20241005/202410051236.y9u1IkeS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051236.y9u1IkeS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051253.XlYi9uaJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051236.y9u1IkeS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/core/netclassid_cgroup.c:100:5: sparse: sparse: symbol 'cls_cgroup_stats_init' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:129:6: sparse: sparse: symbol 'cls_cgroup_stats_destroy' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:257:5: sparse: sparse: symbol 'net_cgroup_notify_prio_change' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:409:5: sparse: sparse: symbol 'read_class_stat' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:421:5: sparse: sparse: symbol 'rx_dump' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:428:5: sparse: sparse: symbol 'tx_dump' was not declared. Should it be static?
 
-   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/pinctrl/pinctrl-th1520.c:457:9: error: call to undeclared function 'pinconf_generic_parse_dt_config'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     457 |                 ret = pinconf_generic_parse_dt_config(child, pctldev, &configs, &nconfigs);
-         |                       ^
-   drivers/pinctrl/pinctrl-th1520.c:457:9: note: did you mean 'pinconf_generic_dump_config'?
-   drivers/pinctrl/pinconf.h:117:6: note: 'pinconf_generic_dump_config' declared here
-     117 | void pinconf_generic_dump_config(struct pinctrl_dev *pctldev,
-         |      ^
-   6 warnings and 1 error generated.
+vim +/cls_cgroup_stats_init +100 net/core/netclassid_cgroup.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
-
-
-vim +/pinconf_generic_parse_dt_config +457 drivers/pinctrl/pinctrl-th1520.c
-
-   413	
-   414	static int th1520_pinctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
-   415						 struct device_node *np,
-   416						 struct pinctrl_map **maps,
-   417						 unsigned int *num_maps)
-   418	{
-   419		struct th1520_pinctrl *thp = pinctrl_dev_get_drvdata(pctldev);
-   420		struct device_node *child;
-   421		struct pinctrl_map *map;
-   422		unsigned long *configs;
-   423		unsigned int nconfigs;
-   424		unsigned int nmaps;
-   425		int ret;
-   426	
-   427		nmaps = 0;
-   428		for_each_available_child_of_node(np, child) {
-   429			int npins = of_property_count_strings(child, "pins");
-   430	
-   431			if (npins <= 0) {
-   432				of_node_put(child);
-   433				dev_err(thp->pctl->dev, "no pins selected for %pOFn.%pOFn\n",
-   434					np, child);
-   435				return -EINVAL;
-   436			}
-   437			nmaps += npins;
-   438			if (of_property_present(child, "function"))
-   439				nmaps += npins;
-   440		}
-   441	
-   442		map = kcalloc(nmaps, sizeof(*map), GFP_KERNEL);
-   443		if (!map)
-   444			return -ENOMEM;
-   445	
-   446		nmaps = 0;
-   447		mutex_lock(&thp->mutex);
-   448		for_each_available_child_of_node(np, child) {
-   449			unsigned int rollback = nmaps;
-   450			enum th1520_muxtype muxtype;
-   451			struct property *prop;
-   452			const char *funcname;
-   453			const char **pgnames;
-   454			const char *pinname;
-   455			int npins;
-   456	
- > 457			ret = pinconf_generic_parse_dt_config(child, pctldev, &configs, &nconfigs);
-   458			if (ret) {
-   459				dev_err(thp->pctl->dev, "%pOFn.%pOFn: error parsing pin config\n",
-   460					np, child);
-   461				goto put_child;
-   462			}
-   463	
-   464			if (!of_property_read_string(child, "function", &funcname)) {
-   465				muxtype = th1520_muxtype_get(funcname);
-   466				if (!muxtype) {
-   467					dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown function '%s'\n",
-   468						np, child, funcname);
-   469					ret = -EINVAL;
-   470					goto free_configs;
-   471				}
-   472	
-   473				funcname = devm_kasprintf(thp->pctl->dev, GFP_KERNEL, "%pOFn.%pOFn",
-   474							  np, child);
-   475				if (!funcname) {
-   476					ret = -ENOMEM;
-   477					goto free_configs;
-   478				}
-   479	
-   480				npins = of_property_count_strings(child, "pins");
-   481				pgnames = devm_kcalloc(thp->pctl->dev, npins, sizeof(*pgnames), GFP_KERNEL);
-   482				if (!pgnames) {
-   483					ret = -ENOMEM;
-   484					goto free_configs;
-   485				}
-   486			} else {
-   487				funcname = NULL;
-   488			}
-   489	
-   490			npins = 0;
-   491			of_property_for_each_string(child, "pins", prop, pinname) {
-   492				unsigned int i;
-   493	
-   494				for (i = 0; i < thp->desc.npins; i++) {
-   495					if (!strcmp(pinname, thp->desc.pins[i].name))
-   496						break;
-   497				}
-   498				if (i == thp->desc.npins) {
-   499					nmaps = rollback;
-   500					dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown pin '%s'\n",
-   501						np, child, pinname);
-   502					goto free_configs;
-   503				}
-   504	
-   505				if (nconfigs) {
-   506					map[nmaps].type = PIN_MAP_TYPE_CONFIGS_PIN;
-   507					map[nmaps].data.configs.group_or_pin = thp->desc.pins[i].name;
-   508					map[nmaps].data.configs.configs = configs;
-   509					map[nmaps].data.configs.num_configs = nconfigs;
-   510					nmaps += 1;
-   511				}
-   512				if (funcname) {
-   513					pgnames[npins++] = thp->desc.pins[i].name;
-   514					map[nmaps].type = PIN_MAP_TYPE_MUX_GROUP;
-   515					map[nmaps].data.mux.function = funcname;
-   516					map[nmaps].data.mux.group = thp->desc.pins[i].name;
-   517					nmaps += 1;
-   518				}
-   519			}
-   520	
-   521			if (funcname) {
-   522				ret = pinmux_generic_add_function(pctldev, funcname, pgnames,
-   523								  npins, (void *)muxtype);
-   524				if (ret < 0) {
-   525					dev_err(thp->pctl->dev, "error adding function %s\n", funcname);
-   526					goto put_child;
-   527				}
-   528			}
-   529		}
-   530	
-   531		*maps = map;
-   532		*num_maps = nmaps;
-   533		mutex_unlock(&thp->mutex);
-   534		return 0;
-   535	
-   536	free_configs:
-   537		kfree(configs);
-   538	put_child:
-   539		of_node_put(child);
-   540		th1520_pinctrl_dt_free_map(pctldev, map, nmaps);
-   541		mutex_unlock(&thp->mutex);
-   542		return ret;
-   543	}
-   544	
+    99	
+ > 100	int cls_cgroup_stats_init(struct cls_cgroup_stats *stats)
+   101	{
+   102		struct {
+   103			struct nlattr nla;
+   104			struct gnet_estimator params;
+   105		} opt;
+   106		int err;
+   107	
+   108		opt.nla.nla_len = nla_attr_size(sizeof(opt.params));
+   109		opt.nla.nla_type = TCA_RATE;
+   110		opt.params.interval = 0; /* statistics every 1s. */
+   111		opt.params.ewma_log = 1; /* ewma off. */
+   112		spin_lock_init(&stats->lock);
+   113	
+   114		rtnl_lock();
+   115		err = gen_new_estimator(&stats->bstats,
+   116					NULL,
+   117					&stats->est,
+   118					&stats->lock,
+   119					NULL,
+   120					&opt.nla);
+   121	
+   122		if (err)
+   123			pr_err("gen_new_estimator failed(%d)\n", err);
+   124		rtnl_unlock();
+   125	
+   126		return err;
+   127	}
+   128	
+ > 129	void cls_cgroup_stats_destroy(struct cls_cgroup_stats *stats)
+   130	{
+   131		rtnl_lock();
+   132		gen_kill_estimator(&stats->est);
+   133		rtnl_unlock();
+   134	}
+   135	
+   136	static struct cgroup_subsys_state *
+   137	cgrp_css_alloc(struct cgroup_subsys_state *parent_css)
+   138	{
+   139		struct cgroup_cls_state *cs;
+   140	
+   141		cs = kzalloc(sizeof(*cs), GFP_KERNEL);
+   142		if (!cs)
+   143			return ERR_PTR(-ENOMEM);
+   144	
+   145		return &cs->css;
+   146	}
+   147	
+   148	static int cgrp_css_online(struct cgroup_subsys_state *css)
+   149	{
+   150		struct cgroup_cls_state *cs = css_cls_state(css);
+   151		struct cgroup_cls_state *parent = css_cls_state(css->parent);
+   152	
+   153		if (parent) {
+   154			cs->prio = parent->prio;
+   155			cs->classid = parent->classid;
+   156		}
+   157	
+   158		cls_cgroup_stats_init(&cs->rx_stats);
+   159		cls_cgroup_stats_init(&cs->tx_stats);
+   160		return 0;
+   161	}
+   162	
+   163	static void cgrp_css_offline(struct cgroup_subsys_state *css)
+   164	{
+   165		struct cgroup_cls_state *cs = css_cls_state(css);
+   166	
+   167		cls_cgroup_stats_destroy(&cs->rx_stats);
+   168		cls_cgroup_stats_destroy(&cs->tx_stats);
+   169	}
+   170	
+   171	static void cgrp_css_free(struct cgroup_subsys_state *css)
+   172	{
+   173		kfree(css_cls_state(css));
+   174	}
+   175	
+   176	/*
+   177	 * To avoid freezing of sockets creation for tasks with big number of threads
+   178	 * and opened sockets lets release file_lock every 1000 iterated descriptors.
+   179	 * New sockets will already have been created with new classid.
+   180	 */
+   181	
+   182	struct update_classid_context {
+   183		u32 classid;
+   184		unsigned int batch;
+   185		struct task_struct *task;
+   186	};
+   187	
+   188	#define UPDATE_CLASSID_BATCH 1000
+   189	
+   190	static int update_classid_sock(const void *v, struct file *file, unsigned int n)
+   191	{
+   192		struct update_classid_context *ctx = (void *)v;
+   193		struct socket *sock = sock_from_file(file);
+   194	
+   195		if (sock) {
+   196			sock_cgroup_set_classid(&sock->sk->sk_cgrp_data, ctx->classid);
+   197			rcu_read_lock();
+   198			sock->sk->sk_cgrp_data.cs = task_cls_state(ctx->task);
+   199			rcu_read_unlock();
+   200		}
+   201		if (--ctx->batch == 0) {
+   202			ctx->batch = UPDATE_CLASSID_BATCH;
+   203			return n + 1;
+   204		}
+   205		return 0;
+   206	}
+   207	
+   208	static void update_classid_task(struct task_struct *p, u32 classid)
+   209	{
+   210		struct update_classid_context ctx = {
+   211			.classid = classid,
+   212			.batch = UPDATE_CLASSID_BATCH,
+   213			.task = p,
+   214		};
+   215		unsigned int fd = 0;
+   216	
+   217		do {
+   218			task_lock(p);
+   219			fd = iterate_fd(p->files, fd, update_classid_sock, &ctx);
+   220			task_unlock(p);
+   221			cond_resched();
+   222		} while (fd);
+   223	}
+   224	
+   225	static void cgrp_attach(struct cgroup_taskset *tset)
+   226	{
+   227		struct cgroup_subsys_state *css;
+   228		struct task_struct *p;
+   229	
+   230		cgroup_taskset_for_each(p, css, tset) {
+   231			update_classid_task(p, css_cls_state(css)->classid);
+   232		}
+   233	}
+   234	
+   235	static u64 read_classid(struct cgroup_subsys_state *css, struct cftype *cft)
+   236	{
+   237		return css_cls_state(css)->classid;
+   238	}
+   239	
+   240	static int write_classid(struct cgroup_subsys_state *css, struct cftype *cft,
+   241				 u64 value)
+   242	{
+   243		struct cgroup_cls_state *cs = css_cls_state(css);
+   244		struct css_task_iter it;
+   245		struct task_struct *p;
+   246	
+   247		cs->classid = (u32)value;
+   248	
+   249		css_task_iter_start(css, 0, &it);
+   250		while ((p = css_task_iter_next(&it)))
+   251			update_classid_task(p, cs->classid);
+   252		css_task_iter_end(&it);
+   253	
+   254		return 0;
+   255	}
+   256	
+ > 257	int net_cgroup_notify_prio_change(struct cgroup_subsys_state *css,
+   258					  u16 old_prio, u16 new_prio)
+   259	{
+   260		if (css)
+   261			css_cls_state(css)->prio = (u32)new_prio;
+   262		return 0;
+   263	}
+   264	
 
 -- 
 0-DAY CI Kernel Test Service
