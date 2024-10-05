@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EFE250F8;
-	Sat,  5 Oct 2024 10:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2B914265F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 10:12:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728123132; cv=none; b=YpfO+LGjQ1l+QqBHU7czZEaWMs3cG67vo6FqzEcjT9WEBDyAXl93pTZImMbudmj+VfK/V2O82sJGRjildHJ+Z1FJHZVCu1kqw6McEXns1xZIvbAms0cI9uOKnrEdK6jPyAUYbleEL9TfD+VViwnfoaTf/lWKUjFOYxTemNgqxSE=
+	t=1728123132; cv=none; b=ZOkN+Rtw+6eXfcoStg60AvbZuBiSqLjOp901mPNo8uFdZfYszZEcH1EGqxk3lrkDuXd1UxWPudLWW4Of5LEEw0yhzz/ddLiep0aJZRjNB0RRyMyTTKuaafSnA6lSmfRhwGSESC4Rof/CZ5bnYuFOZHhCW4PYA1XYO9yLYGPA4EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728123132; c=relaxed/simple;
-	bh=CI77kQewLme6kjpyKd7vY6uErzaYvE1Weu1JnMCLcaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=raKUxUfgEtdp002bTWTG26SfeYki+0QqxsgBcF4+JzYIBZKiv7yiEQH1r9pGmXETA+TuWM5j8i7xro+2Ohf6OoPIAcpe2/YYf9WAb0qbLlFGuYkS58IZtJX8uuHx6RC2vhNQQxjZOTouy5+j4zmyT5WmrLIPjLyz0ML2doApU1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3aerORn; arc=none smtp.client-ip=192.198.163.19
+	bh=qUPRnykGJL/EybCP0DgP5+Gei/a+bQT+2nAlSTqZklY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lj5VaLH6FX5o3tQ8GUbJohHnbmvZYZqBVwmMpPuJd4Wo3aJDnqurKFFASFYqvZMbN4NPbKQOcjAjIz+VC5+plX7sj7u1iu0/oarsCl0eWoCAXs33avYPjx4Ffy/eBAo75DWSAAaHZMPDzRaOxkJ6zp2mwoAWmQvcdNkOWgtROpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4XomJfl; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3aerORn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4XomJfl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1728123130; x=1759659130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CI77kQewLme6kjpyKd7vY6uErzaYvE1Weu1JnMCLcaA=;
-  b=T3aerORnyuXKP7OS+dvha8SVxucS2pyUbEHOtC9RtEEVRAlaUcBna0SG
-   WDlsDROvx7AkZHn5/mEfFg7cSs1ylNRlEFWX7XJdwcLKH49zJUmr32Byp
-   h2kmLhSPk0Y/b0voE0G2fPuXZ7lZ9NvXIaxFGdF7wPwCo4IrJhsb2FWTv
-   grbPjZG0tOHo8Dr8CXLJvi61pWYXq0xHVitok6/IrIubGU8K99bqoHxSO
-   eWA5comQjdXZR3IvWoqSyENXHNjfHTmZIA0ADaL4W+FZG8R+PvLcXmUfk
-   XbFQPfKijr1egGCJ+fkXCfIyS/J7NZOQTtl3E0xgbjkCuUy7uGxE+T0gH
-   g==;
-X-CSE-ConnectionGUID: vpIr9nIdQKqRkaQ7H9WN6w==
-X-CSE-MsgGUID: MF3BxiEsR02AEEKdPMluKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26839747"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qUPRnykGJL/EybCP0DgP5+Gei/a+bQT+2nAlSTqZklY=;
+  b=G4XomJflalv5agQomEurwAXwy8WLmgvwJPqGqrn8yMdOMPoZEVsYYje/
+   w8K+jC2ZQ3BpqpQWVMugW3UNlu3N8j8nD0gboIYIldQK1j0WUSm+IBqzI
+   UV7ebODnQadWeGFSnak3p2CuBiakCjqj5IARf0QJ8E97W25p4aTUTO29U
+   93ADbfySRc3yK5l9cJudZa8w8ToTDnevEg4ULRewh8Sm/Bw1ASWItnJmT
+   DAbVqd67SERjH/7jc8gMtpp+kH1CFyc3Falk0OpdH+YxwFTnst++3CW6G
+   chNYMGwwBE90ye/yhIoT+ZPcUfhUJgqDKTPJmx0p6m6h5IA5NmEZTZYx2
+   w==;
+X-CSE-ConnectionGUID: OltONec4SqmbonC7kGaNwA==
+X-CSE-MsgGUID: o+6gbMm8ToWz8nNqnQ9m+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26839751"
 X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; 
-   d="scan'208";a="26839747"
+   d="scan'208";a="26839751"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 03:12:08 -0700
-X-CSE-ConnectionGUID: upDFbmVVSIGjMBpB0M290w==
-X-CSE-MsgGUID: tgCoEkRuRhSz7ooS5kCXfA==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 03:12:09 -0700
+X-CSE-ConnectionGUID: h66LqRpKRK+2ZfTccqJ8GA==
+X-CSE-MsgGUID: RqM7tD99TiykBMsg/FUB+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; 
-   d="scan'208";a="105801602"
+   d="scan'208";a="105801617"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 05 Oct 2024 03:12:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sx1lb-0002qO-13;
+	id 1sx1lb-0002qM-0z;
 	Sat, 05 Oct 2024 10:12:03 +0000
-Date: Sat, 5 Oct 2024 18:11:22 +0800
+Date: Sat, 5 Oct 2024 18:11:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manuel Quintero F <sakunix@yahoo.com>, duncan.sands@free.fr
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Manuel Quintero F <sakunix@yahoo.com>
-Subject: Re: [PATCH] USB: atm: speedtch: do not use assignment in if condition
-Message-ID: <202410051833.7M7dq3rD-lkp@intel.com>
-References: <20241004030512.2036-1-sakunix@yahoo.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 12000/12031] kernel/sysctl.c:614:54: sparse:
+ sparse: incorrect type in argument 3 (different address spaces)
+Message-ID: <202410051837.9XzQcFvd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,242 +65,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241004030512.2036-1-sakunix@yahoo.com>
 
-Hi Manuel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manuel-Quintero-F/USB-atm-speedtch-do-not-use-assignment-in-if-condition/20241004-113643
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20241004030512.2036-1-sakunix%40yahoo.com
-patch subject: [PATCH] USB: atm: speedtch: do not use assignment in if condition
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241005/202410051833.7M7dq3rD-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051833.7M7dq3rD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   6c7ba3824d4ec8a20ab384fa7b838eeb7e5b4e5f
+commit: 75ad2bae3d3bec7c6597f2688ea9211976867247 [12000/12031] rue/mm: pagecache limit per cgroup support
+config: x86_64-randconfig-122-20241005 (https://download.01.org/0day-ci/archive/20241005/202410051837.9XzQcFvd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051837.9XzQcFvd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051833.7M7dq3rD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051837.9XzQcFvd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sysctl.c:614:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:614:54: sparse:     expected void *
+   kernel/sysctl.c:614:54: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:626:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:626:54: sparse:     expected void *
+   kernel/sysctl.c:626:54: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:644:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:644:54: sparse:     expected void *
+   kernel/sysctl.c:644:54: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:1000:47: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1000:47: sparse:     expected void *buffer
+   kernel/sysctl.c:1000:47: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:987:5: sparse: sparse: symbol 'proc_dointvec_max_map_count' was not declared. Should it be static?
+   kernel/sysctl.c:1160:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1160:45: sparse:     expected void *buffer
+   kernel/sysctl.c:1160:45: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:1912:15: sparse: sparse: symbol 'security_switch_min' was not declared. Should it be static?
+   kernel/sysctl.c:1913:15: sparse: sparse: symbol 'security_switch_max' was not declared. Should it be static?
+   kernel/sysctl.c:1921:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1921:52: sparse:     expected void *buffer
+   kernel/sysctl.c:1921:52: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:1915:5: sparse: sparse: symbol 'security_switch_handler' was not declared. Should it be static?
+   kernel/sysctl.c:2042:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2042:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2042:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2051:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2051:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2051:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2060:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2060:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2060:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2069:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2069:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2069:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2078:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2078:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2078:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2087:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2087:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2087:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2096:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2096:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2096:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2105:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2105:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2105:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2264:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2264:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2264:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2735:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2735:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2735:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2859:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2859:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2859:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2868:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2868:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2868:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2884:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2884:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2884:36: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:353:66: sparse: sparse: self-comparison always evaluates to false
+--
+>> mm/vmscan.c:7483:53: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   mm/vmscan.c:7483:53: sparse:     expected void *
+   mm/vmscan.c:7483:53: sparse:     got void [noderef] __user *buffer
+   mm/vmscan.c:7535:1: sparse: sparse: symbol 'pagecache_reclaim_wq' was not declared. Should it be static?
+   mm/vmscan.c:7536:1: sparse: sparse: symbol 'kpagecache_limitd_wq' was not declared. Should it be static?
+   mm/vmscan.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   In file included from drivers/usb/atm/speedtch.c:26:
-   In file included from drivers/usb/atm/usbatm.h:14:
-   In file included from include/linux/atmdev.h:9:
-   In file included from include/linux/net.h:24:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/usb/atm/speedtch.c:26:
-   In file included from drivers/usb/atm/usbatm.h:14:
-   In file included from include/linux/atmdev.h:11:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/usb/atm/speedtch.c:26:
-   In file included from drivers/usb/atm/usbatm.h:14:
-   In file included from include/linux/atmdev.h:11:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/usb/atm/speedtch.c:26:
-   In file included from drivers/usb/atm/usbatm.h:14:
-   In file included from include/linux/atmdev.h:11:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/usb/atm/speedtch.c:329:2: error: expected ')'
-     329 |         if (ret < 0) {
-         |         ^
-   drivers/usb/atm/speedtch.c:327:25: note: to match this '('
-     327 |         ret = usb_set_interface(usb_dev, INTERFACE_DATA, instance->params.altsetting
-         |                                ^
-   7 warnings and 1 error generated.
+vim +614 kernel/sysctl.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+8f985ca9fe5f44 Kairui Song 2023-11-20  610  
+8f985ca9fe5f44 Kairui Song 2023-11-20  611  static int pc_limit_proc_dointvec(struct ctl_table *table, int write,
+8f985ca9fe5f44 Kairui Song 2023-11-20  612  				  void __user *buffer, size_t *lenp, loff_t *ppos)
+8f985ca9fe5f44 Kairui Song 2023-11-20  613  {
+8f985ca9fe5f44 Kairui Song 2023-11-20 @614  	int ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+8f985ca9fe5f44 Kairui Song 2023-11-20  615  
+8f985ca9fe5f44 Kairui Song 2023-11-20  616  	if (write && !ret)
+8f985ca9fe5f44 Kairui Song 2023-11-20  617  		ret = setup_pagecache_limit();
+8f985ca9fe5f44 Kairui Song 2023-11-20  618  
+8f985ca9fe5f44 Kairui Song 2023-11-20  619  	return ret;
+8f985ca9fe5f44 Kairui Song 2023-11-20  620  }
+8f985ca9fe5f44 Kairui Song 2023-11-20  621  
 
+:::::: The code at line 614 was first introduced by commit
+:::::: 8f985ca9fe5f441dfaf6824bc08222f91f34a10c pagecachelimit: limit the pagecache ratio of totalram
 
-vim +329 drivers/usb/atm/speedtch.c
-
-   229	
-   230	static int speedtch_upload_firmware(struct speedtch_instance_data *instance,
-   231					     const struct firmware *fw1,
-   232					     const struct firmware *fw2)
-   233	{
-   234		unsigned char *buffer;
-   235		struct usbatm_data *usbatm = instance->usbatm;
-   236		struct usb_device *usb_dev = usbatm->usb_dev;
-   237		int actual_length;
-   238		int ret = 0;
-   239		int offset;
-   240	
-   241		usb_dbg(usbatm, "%s entered\n", __func__);
-   242	
-   243		buffer = (unsigned char *)__get_free_page(GFP_KERNEL);
-   244		if (!buffer) {
-   245			ret = -ENOMEM;
-   246			usb_dbg(usbatm, "%s: no memory for buffer!\n", __func__);
-   247			goto out;
-   248		}
-   249	
-   250		if (!usb_ifnum_to_if(usb_dev, 2)) {
-   251			ret = -ENODEV;
-   252			usb_dbg(usbatm, "%s: interface not found!\n", __func__);
-   253			goto out_free;
-   254		}
-   255	
-   256		/* URB 7 */
-   257		if (dl_512_first) {	/* some modems need a read before writing the firmware */
-   258			ret = usb_bulk_msg(usb_dev, usb_rcvbulkpipe(usb_dev, ENDPOINT_FIRMWARE),
-   259					   buffer, 0x200, &actual_length, 2000);
-   260	
-   261			if (ret < 0 && ret != -ETIMEDOUT)
-   262				usb_warn(usbatm, "%s: read BLOCK0 from modem failed (%d)!\n", __func__, ret);
-   263			else
-   264				usb_dbg(usbatm, "%s: BLOCK0 downloaded (%d bytes)\n", __func__, ret);
-   265		}
-   266	
-   267		/* URB 8 : both leds are static green */
-   268		for (offset = 0; offset < fw1->size; offset += PAGE_SIZE) {
-   269			int thislen = min_t(int, PAGE_SIZE, fw1->size - offset);
-   270			memcpy(buffer, fw1->data + offset, thislen);
-   271	
-   272			ret = usb_bulk_msg(usb_dev, usb_sndbulkpipe(usb_dev, ENDPOINT_FIRMWARE),
-   273					   buffer, thislen, &actual_length, DATA_TIMEOUT);
-   274	
-   275			if (ret < 0) {
-   276				usb_err(usbatm, "%s: write BLOCK1 to modem failed (%d)!\n", __func__, ret);
-   277				goto out_free;
-   278			}
-   279			usb_dbg(usbatm, "%s: BLOCK1 uploaded (%zu bytes)\n", __func__, fw1->size);
-   280		}
-   281	
-   282		/* USB led blinking green, ADSL led off */
-   283	
-   284		/* URB 11 */
-   285		ret = usb_bulk_msg(usb_dev, usb_rcvbulkpipe(usb_dev, ENDPOINT_FIRMWARE),
-   286				   buffer, 0x200, &actual_length, DATA_TIMEOUT);
-   287	
-   288		if (ret < 0) {
-   289			usb_err(usbatm, "%s: read BLOCK2 from modem failed (%d)!\n", __func__, ret);
-   290			goto out_free;
-   291		}
-   292		usb_dbg(usbatm, "%s: BLOCK2 downloaded (%d bytes)\n", __func__, actual_length);
-   293	
-   294		/* URBs 12 to 139 - USB led blinking green, ADSL led off */
-   295		for (offset = 0; offset < fw2->size; offset += PAGE_SIZE) {
-   296			int thislen = min_t(int, PAGE_SIZE, fw2->size - offset);
-   297			memcpy(buffer, fw2->data + offset, thislen);
-   298	
-   299			ret = usb_bulk_msg(usb_dev, usb_sndbulkpipe(usb_dev, ENDPOINT_FIRMWARE),
-   300					   buffer, thislen, &actual_length, DATA_TIMEOUT);
-   301	
-   302			if (ret < 0) {
-   303				usb_err(usbatm, "%s: write BLOCK3 to modem failed (%d)!\n", __func__, ret);
-   304				goto out_free;
-   305			}
-   306		}
-   307		usb_dbg(usbatm, "%s: BLOCK3 uploaded (%zu bytes)\n", __func__, fw2->size);
-   308	
-   309		/* USB led static green, ADSL led static red */
-   310	
-   311		/* URB 142 */
-   312		ret = usb_bulk_msg(usb_dev, usb_rcvbulkpipe(usb_dev, ENDPOINT_FIRMWARE),
-   313				   buffer, 0x200, &actual_length, DATA_TIMEOUT);
-   314	
-   315		if (ret < 0) {
-   316			usb_err(usbatm, "%s: read BLOCK4 from modem failed (%d)!\n", __func__, ret);
-   317			goto out_free;
-   318		}
-   319	
-   320		/* success */
-   321		usb_dbg(usbatm, "%s: BLOCK4 downloaded (%d bytes)\n", __func__, actual_length);
-   322	
-   323		/* Delay to allow firmware to start up. We can do this here
-   324		   because we're in our own kernel thread anyway. */
-   325		msleep_interruptible(1000);
-   326	
-   327		ret = usb_set_interface(usb_dev, INTERFACE_DATA, instance->params.altsetting
-   328	
- > 329		if (ret < 0) {
-   330			usb_err(usbatm, "%s: setting interface to %d failed (%d)!\n", __func__, instance->params.altsetting, ret);
-   331			goto out_free;
-   332		}
-   333	
-   334		/* Enable software buffering, if requested */
-   335		if (sw_buffering)
-   336			speedtch_set_swbuff(instance, 1);
-   337	
-   338		/* Magic spell; don't ask us what this does */
-   339		speedtch_test_sequence(instance);
-   340	
-   341		ret = 0;
-   342	
-   343	out_free:
-   344		free_page((unsigned long)buffer);
-   345	out:
-   346		return ret;
-   347	}
-   348	
+:::::: TO: Kairui Song <kasong@tencent.com>
+:::::: CC: Kairui Song <kasong@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
