@@ -1,62 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B831136B0D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC0239FC1
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 05:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728106322; cv=none; b=tDTHEasp24gCUGDoPES/fcfXfnFuKJy24bqzLPcCZKlx63dLNg8Plh0FbKlvcjwiBrzxDPml5B/qDOkfcPGmokJTHL+J8V/l/haWu/93UuYXp4E1hQ9AEJEnBQL/RyhWQ1t3VrHDd3V0PIXTMnX78O4GREbPizG7WEvwAJP/DDE=
+	t=1728106322; cv=none; b=lBVVmZCO9mlQYejQkijMvRMXujN84ea1n492ajQCfBc17oVqFZ6Wu6LHr0Rl3OVJCnirL0e3x3STLyky4vyTxA5Rcfdy2HQXUeD7PT8+0XHYonejD3lrfvTuXi2gObqtiBSgD3Qf9DqLUywAz9Ynzc5Dg3zt3rDJVwsq/2k99Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728106322; c=relaxed/simple;
-	bh=MSJQcu09NhgVlBg6t+sthjOcXlDsuEHCViJDn1NkpFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n5q1uZw1QERj/8xw4Ze9aK4DDBTCQwdeN55xo8VHrZ1rxhbTjJvnSFVGGeicimzvccIYQ932DHQTvF7ayn1xOtulzEct3KmLkZ2nRaQENsrLJrjU4mrKUbeeug8tEMhaYOonLGLrXTS4BRnC19XqoDPzCPvYGKATmu4ola2iC50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDJOQKeA; arc=none smtp.client-ip=198.175.65.21
+	bh=TdQ1it/IPVH6hz71DiiAzxrWL7z2Bzsms1emNIckEl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sGJufT3a9emNwcD83HDGo0876Y5fgB1KP5wHQKlDloYUbdFwrReebsbxgl5G0DeryCEGo20jkDvj0vJMQ27DcLB6TDHTtoEjy4kzzjXrycRqzBKGmA4k0OJ1mRTaAlokCk7VWBe5pirkWo8sDSlheWzpRkWN8+imxqZpl0xrN0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvnhWKIv; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDJOQKeA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvnhWKIv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728106320; x=1759642320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MSJQcu09NhgVlBg6t+sthjOcXlDsuEHCViJDn1NkpFA=;
-  b=iDJOQKeAHTOMXXn7m2rtpXcrieSK4k4BKbIN+5XOVwTB+AZuBOqOxHCp
-   OYDmyzdQKHkVsi05bd7o4AH0W+w6rDbIs9drb0nY0zbdzv6wuejvFcJfA
-   of5UcAWiC6gckvMeEP1CZSbQ5z9flJEsWuHioiZaWAMWGJND0cieMtBOo
-   +MIasUPadGT64j1CWVoPAXBA32gTw5VhTcaEBy05Kr+KsHKupY4IljlyW
-   AvPs1TTFSrICrM8IDrVUzGIxS3eAU/aAGJfaIedLL1ykAhCBbc1lwOk51
-   zssq7q1aEb9Fc1g0Pz4kpC1FiYX8uwm0ZtJZKWwV3GDq1OIMbcpOP27sQ
-   A==;
-X-CSE-ConnectionGUID: odGfoOEEQz60sDEFgYQuYg==
-X-CSE-MsgGUID: yjWrFFUIQne78MIJQ8Uidg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27275065"
+  t=1728106321; x=1759642321;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TdQ1it/IPVH6hz71DiiAzxrWL7z2Bzsms1emNIckEl4=;
+  b=kvnhWKIvwEF8csTgcvoiXtyezg1qDEokfI7M0nvfBpxniHDXPXEYuh/j
+   uy3NIHDNing+AKw4sicta492e8LbYHaKvcdxjNwT39/Gr5EGDn8VZSzqZ
+   fNtnIbMjioTKymPF31PpzifUvMzGp53ot+2dFUpTxskmbhrEcwbNowpfh
+   TO2MSbTZNBWEhjd8HBIIL7GKIeSIGzaMGz/k5uhwC+0xgFqKuxqh2UhoD
+   U8HUbKby/uIuOS9X1tEfUQxb/l5snMbaYOkEN/UFvelcZRWX3fh4Oi2MA
+   rySygZK5BIenlME3lmr9xvCDtgvZn5xBOKiSEsFV2qt+Cj35eHaorK/20
+   Q==;
+X-CSE-ConnectionGUID: EUSHjw31Q1iS8isVuFsIfQ==
+X-CSE-MsgGUID: u2RNPo/iQjOilZxI9ggNng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27275069"
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="27275065"
+   d="scan'208";a="27275069"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 22:31:57 -0700
-X-CSE-ConnectionGUID: xFugop3XQFKr3U/7Rp/YLA==
-X-CSE-MsgGUID: fKI2lYG+S1+H+ngLXHe8AQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 22:31:58 -0700
+X-CSE-ConnectionGUID: YVSqvyknQkmgQSDVa8bMmg==
+X-CSE-MsgGUID: U7qfxAaUT5SlWu/RPXEweA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="79486525"
+   d="scan'208";a="79486524"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 04 Oct 2024 22:31:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swxOU-0002bS-0u;
+	id 1swxOU-0002bK-0b;
 	Sat, 05 Oct 2024 05:31:54 +0000
-Date: Sat, 5 Oct 2024 13:31:17 +0800
+Date: Sat, 5 Oct 2024 13:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>,
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, wayland-devel@lists.freedesktop.org,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v6 15/44] drm/vkms: Add kunit tests for linear and sRGB
- LUTs
-Message-ID: <202410051303.Vy1EjQPJ-lkp@intel.com>
-References: <20241003200129.1732122-16-harry.wentland@amd.com>
+To: Junwei Zhang <Jerry.Zhang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Asher Song <Asher.Song@amd.com>,
+	Qiang Yu <Qiang.Yu@amd.com>, Jack Gui <Jack.Gui@amd.com>,
+	Flora Cui <flora.cui@amd.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>
+Subject: [agd5f:amd-6.2 661/3034] versioncheck:
+ ./drivers/gpu/drm/amd/amdkcl/kcl_kthread.c: 15 linux/version.h not needed.
+Message-ID: <202410051332.OYv57YLn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,37 +64,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241003200129.1732122-16-harry.wentland@amd.com>
 
-Hi Harry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Wentland/drm-Add-helper-for-conversion-from-signed-magnitude/20241004-040629
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20241003200129.1732122-16-harry.wentland%40amd.com
-patch subject: [PATCH v6 15/44] drm/vkms: Add kunit tests for linear and sRGB LUTs
-config: x86_64-randconfig-101-20241005 (https://download.01.org/0day-ci/archive/20241005/202410051303.Vy1EjQPJ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051303.Vy1EjQPJ-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-6.2
+head:   89450c67d99b47b5c1929a5cd2d8467b6ee686a4
+commit: 9110a0a86f98a98bc2ea8ba32418a3866cae3467 [661/3034] drm/amdkcl: Test whether kthread_{park/unpark/parkme/should_park}() is available
+reproduce: (https://download.01.org/0day-ci/archive/20241005/202410051332.OYv57YLn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051303.Vy1EjQPJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051332.OYv57YLn-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/vkms/tests/vkms_color_test.o
->> ERROR: modpost: "srgb_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
->> ERROR: modpost: "srgb_inv_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
->> ERROR: modpost: "linear_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.74.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/amdkcl/kcl_common.h: 6 linux/version.h not needed.
+>> ./drivers/gpu/drm/amd/amdkcl/kcl_kthread.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/gpu/drm/scheduler/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/gpu/drm/ttm/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 406: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
