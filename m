@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8685C14D2B3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Oct 2024 23:59:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F697AD58
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 00:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728086393; cv=none; b=Rs+vGNkum9UaAwhdjWag5FT5pDGAWlgkwS6RYcEV6p0VtzRMQrgWI7gNDsfHUFlmIZFI3HqB/lFRvS2P8HnhDGmO0XGzSFKPnAY9RBpjgwk2ohHWBy6ySm3umzwCJ30GC9xN2o5A8a66wnXfUQT2PrC/ZR0+kxP/MULDm3nT+4U=
+	t=1728087650; cv=none; b=ODBXTG+vI+sCztPcXNwsa2iTev01s/xbEAALgzIMxsenfEYHtux0wI25tntLRVbN9+izy17W4mRqmenDkUtTjiJB/wZiRSHdpaYSmGrvV3rIO1oL/dECK2ZRnljqpVQujVB8uXFg+15B1S38EThfc+FADWCRjs7/g4YyMBBHIww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728086393; c=relaxed/simple;
-	bh=nr4GUGUStXtqD14t7ZevxhYCeurvOELE6qLbAsqBJvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ew8dr885twm1LZ7kCK9cERlGZ6z5fptTfUhJroQ+UaCC0oPF1BZEG5yPPDnzFFtgWGhLA7nREO04zHHyFRPlIQ/zt/q0N37DNyOqsbgUBIgn5Gprjo6AoCsV4RtM2JXuQ2E23atiWSohGLIY0RpqjycPjESMffDatTRtCElC758=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Afz5uC/k; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1728087650; c=relaxed/simple;
+	bh=kEz83TRYgz6fRt4yQ1q687Ri25EwQHuYfT/O+PilJLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Mg4ENCrkkQOuYgMiZC8Th/d6t8pvljQNg/cXtsueFjPkqUKVij4S2duQYf2tpTKkBqMtbzHSrky8OFb6sRqF4HfSVGr5lWA2GUIJKEAO2Az2TXMNZhc+R0b6rIbuwXl5x/HjvM+5Mytd5D0aA4z44fcimod5jZJN1Zl7Pq3dv84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcNO2Z9+; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Afz5uC/k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcNO2Z9+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728086392; x=1759622392;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nr4GUGUStXtqD14t7ZevxhYCeurvOELE6qLbAsqBJvQ=;
-  b=Afz5uC/k0yMcUR55/0vQ5sXFENv3AXtnLEu/riReXx2dfRglJzARMeOD
-   B8xNjpvmMWHuQDtuXpE8RVr9gVd03ZJXaVNfG2Xyx3O1XeNUUVwu14gtP
-   09qY8zdN2Z9Mt7pmF4ADQ9bQ+j0EdNkWiP+IulkdG2e7Oa5XvHIMUsURJ
-   Z6V0U6Jm/88S5PV5hcpcEL+o1Wy7zZd/q6h4S2rGgs/GEO/EQmJGEEQwQ
-   aHGbZ81Gn0HXhRP9Wdt8msfFIMA1UiPsYhaHBhAcoPgJzegZ1OXlPbexg
-   Lt1Zlh66uO4AfRCPN3xmLeshkrFFiDd1UDYKtXcChqLk9JsSB40jaOABv
-   w==;
-X-CSE-ConnectionGUID: TLOfPDZ4TMOcQGeLbK3Qdw==
-X-CSE-MsgGUID: t+jBYn19Tde4gx1sVZoyaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27456450"
+  t=1728087649; x=1759623649;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kEz83TRYgz6fRt4yQ1q687Ri25EwQHuYfT/O+PilJLc=;
+  b=XcNO2Z9+YTz/0nHlFS2FJZFUJn5sRV/qykVT8yV4PTSJyLGmxmUcO/Wn
+   wv/kQ/EqTBGf7bkms9tk2N7PMiEjiEuCPDWqvQJH+WUOTg9DJjeq6GHzB
+   lZGQHehprZ0Cv/UrzU+peuqJ/NI2h0HP+emP0dm/s3+gWAwFn9Ur6mbxu
+   ZHFhdzF/FOuu7pz8wivSaGJjskEGCDPoI5ptfjP585QWhNAwXqI4a4Xyc
+   6N4ViBWOroEQnFR2K+eB0nTHBNOG49MDN973fXsTqDBrfzP3vVr7MXYAl
+   hmPl1z1ir8aOgsudP21xoF9uGvnFZg+q/ElpcjN5HdIBaRn1hyq0ea6q+
+   A==;
+X-CSE-ConnectionGUID: nkqIZpWDRsS13JyFPAedWQ==
+X-CSE-MsgGUID: ViCBUJUKQuWYQlA/bveOYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="14944336"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="27456450"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 16:59:52 -0700
-X-CSE-ConnectionGUID: r4hSBamkQvqDiGw8qBDzCg==
-X-CSE-MsgGUID: kSuRW7wQSN++WA4YrXARVQ==
+   d="scan'208";a="14944336"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 17:20:49 -0700
+X-CSE-ConnectionGUID: pPiSVhGURMOJY/TigGpgCA==
+X-CSE-MsgGUID: 0+i53GcZSfuYwxVkO7UPoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="75290556"
+   d="scan'208";a="74692671"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Oct 2024 16:59:46 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Oct 2024 17:20:47 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swsD2-0002M1-0Q;
-	Fri, 04 Oct 2024 23:59:44 +0000
-Date: Sat, 5 Oct 2024 07:59:27 +0800
+	id 1swsXM-0002Me-1K;
+	Sat, 05 Oct 2024 00:20:44 +0000
+Date: Sat, 5 Oct 2024 08:19:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, linux-trace-kernel@vger.kernel.org,
-	peterz@infradead.org, oleg@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, rostedt@goodmis.org, mhiramat@kernel.org,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, jolsa@kernel.org,
-	paulmck@kernel.org, willy@infradead.org, surenb@google.com,
-	akpm@linux-foundation.org, linux-mm@kvack.org, mjguzik@gmail.com,
-	brauner@kernel.org, jannh@google.com, mhocko@kernel.org,
-	vbabka@suse.cz, mingo@kernel.org,
-	Andrii Nakryiko <andrii@kernel.org>
-Subject: Re: [PATCH v2 tip/perf/core 5/5] uprobes: add speculative lockless
- VMA-to-inode-to-uprobe resolution
-Message-ID: <202410050745.2Nuvusy4-lkp@intel.com>
-References: <20241001225207.2215639-6-andrii@kernel.org>
+To: Junwei Zhang <Jerry.Zhang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Asher Song <Asher.Song@amd.com>,
+	Flora Cui <flora.cui@amd.com>, Qiang Yu <Qiang.Yu@amd.com>,
+	Yifan Zhang <yifan1.zhang@amd.com>,
+	Slava Grigorev <slava.grigorev@amd.com>
+Subject: [agd5f:amd-6.2 597/3034] versioncheck:
+ ./drivers/gpu/drm/amd/backport/backport.h: 5 linux/version.h not needed.
+Message-ID: <202410050846.RUOnrIiO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,88 +64,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241001225207.2215639-6-andrii@kernel.org>
 
-Hi Andrii,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/perf/core]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/mm-introduce-mmap_lock_speculation_-start-end/20241002-065354
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/20241001225207.2215639-6-andrii%40kernel.org
-patch subject: [PATCH v2 tip/perf/core 5/5] uprobes: add speculative lockless VMA-to-inode-to-uprobe resolution
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241005/202410050745.2Nuvusy4-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050745.2Nuvusy4-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-6.2
+head:   89450c67d99b47b5c1929a5cd2d8467b6ee686a4
+commit: 40651d27d11674c9d04cba7f0ab2805d4b46a4bf [597/3034] drm/amdkcl: add backport support for amdgpu
+reproduce: (https://download.01.org/0day-ci/archive/20241005/202410050846.RUOnrIiO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050745.2Nuvusy4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050846.RUOnrIiO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   kernel/events/uprobes.c: In function 'find_active_uprobe_speculative':
->> kernel/events/uprobes.c:2098:46: error: passing argument 2 of 'mmap_lock_speculation_start' from incompatible pointer type [-Wincompatible-pointer-types]
-    2098 |         if (!mmap_lock_speculation_start(mm, &seq))
-         |                                              ^~~~
-         |                                              |
-         |                                              long int *
-   In file included from include/linux/mm.h:16,
-                    from arch/loongarch/include/asm/cacheflush.h:8,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from kernel/events/uprobes.c:13:
-   include/linux/mmap_lock.h:126:75: note: expected 'int *' but argument is of type 'long int *'
-     126 | static inline bool mmap_lock_speculation_start(struct mm_struct *mm, int *seq) { return false; }
-         |                                                                      ~~~~~^~~
-
-
-vim +/mmap_lock_speculation_start +2098 kernel/events/uprobes.c
-
-  2086	
-  2087	static struct uprobe *find_active_uprobe_speculative(unsigned long bp_vaddr)
-  2088	{
-  2089		struct mm_struct *mm = current->mm;
-  2090		struct uprobe *uprobe = NULL;
-  2091		struct vm_area_struct *vma;
-  2092		struct file *vm_file;
-  2093		loff_t offset;
-  2094		long seq;
-  2095	
-  2096		guard(rcu)();
-  2097	
-> 2098		if (!mmap_lock_speculation_start(mm, &seq))
-  2099			return NULL;
-  2100	
-  2101		vma = vma_lookup(mm, bp_vaddr);
-  2102		if (!vma)
-  2103			return NULL;
-  2104	
-  2105		/* vm_file memory can be reused for another instance of struct file,
-  2106		 * but can't be freed from under us, so it's safe to read fields from
-  2107		 * it, even if the values are some garbage values; ultimately
-  2108		 * find_uprobe_rcu() + mmap_lock_speculation_end() check will ensure
-  2109		 * that whatever we speculatively found is correct
-  2110		 */
-  2111		vm_file = READ_ONCE(vma->vm_file);
-  2112		if (!vm_file)
-  2113			return NULL;
-  2114	
-  2115		offset = (loff_t)(vma->vm_pgoff << PAGE_SHIFT) + (bp_vaddr - vma->vm_start);
-  2116		uprobe = find_uprobe_rcu(vm_file->f_inode, offset);
-  2117		if (!uprobe)
-  2118			return NULL;
-  2119	
-  2120		/* now double check that nothing about MM changed */
-  2121		if (!mmap_lock_speculation_end(mm, seq))
-  2122			return NULL;
-  2123	
-  2124		return uprobe;
-  2125	}
-  2126	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.74.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/gpu/drm/amd/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 406: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
