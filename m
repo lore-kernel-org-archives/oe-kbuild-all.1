@@ -1,135 +1,184 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1666231C95;
-	Sat,  5 Oct 2024 06:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1624B27452
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 06:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728109677; cv=none; b=c+bycBFkTinhonCtVCu/lPn5C9OEpCfEglB1YlwOYDsx0NobCBQAexAuljbvWjRhdml+qBR5LJo96e8WHk+cO3DUbDY54R6XWD9KztCuFN0oge5GglQMAw3sw/gG0EsM6HIPuoQTPGRGwbhQKRsDvMSjW9sKfy53dwj9tReFGXU=
+	t=1728110042; cv=none; b=l3lMSJhf5vUJi8MY/ay3ZugY7vuJEm6HGqy5mIXowkNI3pZhBSrIL9oBJ+iaUHczkPWd7xjwGqB+YzKMqOV/wFI2idzam4oeysRvP68qY0A3F1xZNfgoib4xxyq5P1SWDHYbVwcochfWVS3q4BEMCsyd7KO4DISY/BbC/fc8ZRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728109677; c=relaxed/simple;
-	bh=x0h55I41PNY0qDvUesT4sPVlbRExPV+X974LHXAdHVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ogc24cJmwqO2BCv6DB1TyZvi+n4FdAnlJRrTT8glIGOLmetG8bZEk/8/0iYUdJdfUsc3iNoa213EZU0qdzSd/s9ny8ghVbqT5zVuepmpwgjgqJFMpCg0jeXLk+eyl8jmpoCBg0wBuk8qbxJJIFSCOzcpH1nDzkqpZpSbKiNmoyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=s1qpVqwy; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1728110042; c=relaxed/simple;
+	bh=89lb1oJpiZefl++wERPOxGUGgdMNZoVAO1HGr/A0vAc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sPVi5lD8S7dz0LKDDiceO+6Wjyr4hP97H/zmI1CwzRLVKsqgkX8ToStAG42IhEJWcf354QSzmYWN3sXRRsx20JQ3exxBIIcEsVHmUfAYHaJ2rfiCIyjRsWmfp2iIW3goISdIKtEBUC8IumuybWC0Dzhl+DUI44YnKLJ0MZWKunA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxfaFj5j; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="s1qpVqwy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1728109649; x=1728714449; i=markus.elfring@web.de;
-	bh=oaWtkwikAuynprJNBCi62SYkTgrh5zdNvX/3WKywahg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=s1qpVqwytoHVAnIvLwiBn+u3aZMZaH4jo2pd+djxxbcirWWH1qEeiMFXrjzJlCPP
-	 YpOYGyCMEQkwmiiV3ekyH7cWjjBKc3Vfx8NAG7EGryev0Q8mZ/+Pes30gAcI2nMmc
-	 Z5DBEbAO3xBUB3kmLKOitobXfldgDme58/RWRVpF1lNNHj9tsZQmlAwNKZbymDUcM
-	 VjH6uBLWhnIzhq78wRTJFd3NljzgE7oGWcPEpX60lDoi2aQ/+cym8UFoblp6Yc5Lz
-	 awnr+qbwvJOZJsVQ677LT9e2JDpluZvnCX+tHPvBi2OxvOBCrqrKeUmw3uKx8QuZ3
-	 2DzB0cpzV7wyahd3tw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1McZjb-1tZaw80UGr-00b7WH; Sat, 05
- Oct 2024 08:27:29 +0200
-Message-ID: <9ddc71e7-e98a-4fa8-b140-4035dd2874b6@web.de>
-Date: Sat, 5 Oct 2024 08:27:03 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxfaFj5j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728110041; x=1759646041;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=89lb1oJpiZefl++wERPOxGUGgdMNZoVAO1HGr/A0vAc=;
+  b=cxfaFj5jnbZNEksDLM+133VOaHUfUoD0n79N2nTz+PJdBciJP2Oo8wTj
+   y3EcRJ2poI2hVpqt5sGqhDqTQKZzNYXAAglP9MexrcweiXGJEmuLATq64
+   NxvONn9PuPeS1JGEOrMHxpIIwXm7MiQtiixKDLQaFRk3nfZPWJqjYQO9E
+   MpvqWQI9HqaiOv3RpF5peMeCVHm4MmpjfGJvjCH7S3eIRLDKUDNCXvDNy
+   eAUaTnAiPmg5xx/fn8Ud3NyT62ayF5QvQ8TslEdy8rZUVOzQcot3CUGNL
+   3RYI3pXLGCQZh2ITp88BEiRz7KeHLuY1ems/PzeqV6w64kyEcZWOls9Pc
+   Q==;
+X-CSE-ConnectionGUID: wjDik9RtTn2R+1L3tWtkkQ==
+X-CSE-MsgGUID: r3lEOCyHTMei5SOXmFav2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37900029"
+X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
+   d="scan'208";a="37900029"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 23:34:00 -0700
+X-CSE-ConnectionGUID: MsWQa4XMQC2R2lgai608Og==
+X-CSE-MsgGUID: H30k6QP2Qha1Pwsc9aTByw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
+   d="scan'208";a="105680304"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Oct 2024 23:33:58 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1swyMW-0002en-0Y;
+	Sat, 05 Oct 2024 06:33:56 +0000
+Date: Sat, 5 Oct 2024 14:33:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 11/447]
+ drivers/platform/x86/intel/pmc/core.c:541:29: error:
+ 'pmc_core_ltr_ignore_write_iter' undeclared here (not in a function); did
+ you mean 'pmc_core_ltr_ignore_write'?
+Message-ID: <202410051420.WpTNrxYl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2 RESEND] crypto: lib/mpi - Extend support for scope-based
- resource management
-To: linux-crypto@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Peter Zijlstra <peterz@infradead.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel test robot <lkp@intel.com>,
- oe-kbuild-all@lists.linux.dev
-References: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
- <202409180725.ZV8DCvII-lkp@intel.com>
- <91d10516-4ba9-4fe0-8f63-86205cc4f88c@web.de>
- <ZwDPp4bU1J5uEgQe@gondor.apana.org.au>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <ZwDPp4bU1J5uEgQe@gondor.apana.org.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Vz8dvAyu28sIa72hBnFoF1iAvwwE2yEdeFxwWxqLcai4hwNNPwy
- JrnFOsdYZdtnmpgtXtvvUfYFCzqIHlkVp5rp339y+Uyy4zTzzZUWbOog2mqzqnQRQgPyRiD
- Q7lol7OWL0TypiE5N1zTClECTOWOuxj7Optc+/gosKNPHKqSCez91djVrHzb4ogS07IGwH5
- 4kSCtLoEY1ZgRUYcv1NiQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:BG0zRRWy3as=;ZICGDu7In9yCc7MPNJpZ+qnHbQA
- Tf1caEWng+bVO8dkReRZR0c1KHfe+3trRszQsNjl2eoDbR6fGYnxJ6Y91h97DP6vRM74yg5qE
- qSqCrxnh7MTXdpr4fvPxRPYpEuDi3M57h7ukdKFF5jziotAaawOtRwn4OohfGutdjCiElZhc2
- 7PHQ72ecOTqyXDLV3yGWKanbwGmXw44bFbd/P47Jsi68+i+j0Y/RRO5jC7r9+cyrnFUKJovld
- 0xhmGJV5IsrZNDGvRYTfJF+UFHypQfi7cJfl6c5ATChknjUulQ2CaHSMuRl9LLen0Pz4QIHw3
- bg1DOzMDW5fvoxLYU7PJQaTaNuGJBknfX1FHCWsYKT6+eBc3z04UBLgxYl+uxWC9OwXSwu+GE
- ewfr/ejxXqBReoW9qJUbKxTO3OjaNrVNEiEF3cEht3WuZibrE08jDnKV/05As5A/YJnQUJyuf
- G32hN9EYg3j5ZG8LSEkKUzuIjIa0gEJ6BEhhOSI0PPQRLfRRomRV8sHExOKfuX0f7P+AEQHTj
- Yvd+qD0N2HhEpDXPcDJkbH7hIk0QJyGeTZCMIyQstCZLWLznTQeSVMMmSgkxsVFIC+unaWxzC
- V0l0ITi0zBPLk2cui3lfRSlC8gTnzj01FYrBg6B9HJfbrxJ9d2/IrN9ofsEP/yge0yCr12/gb
- wHCkpkGRRhL5VCas/qSqOGMwNF1B3hin2H196Q9QTLSkTlLUlV0Ft2QU05mmhJg4OyMkNIZ/J
- ZjrVbayP2GNRNX/ERKYTFKwGxQgHOHLy8kqBZ2sNSiPOPNaH+sw5+E6LzweEExVwdEqPVjKfb
- ZKGaBvWXvK0byGMFima4aSI5U7PRb2+oSu8ki7g+bbOYY=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Wed, 18 Sep 2024 11:06:35 +0200
+Hi Jens,
 
-Scope-based resource management became supported for some
-programming interfaces by contributions of Peter Zijlstra on 2023-05-26.
-See also the commit 54da6a0924311c7cf5015533991e44fb8eb12773 ("locking:
-Introduce __cleanup() based infrastructure").
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-Thus add a macro call so that the attribute =E2=80=9C__free(mpi_free)=E2=
-=80=9D can be
-applied accordingly.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   072b44165bc3d4d6e6de6962a9b00c5d0256a555
+commit: 4ab4d5b30b2338778770677923b6e48ef809228d [11/447] seq_file: switch to using ->read_iter()
+config: x86_64-randconfig-122-20241004 (https://download.01.org/0day-ci/archive/20241005/202410051420.WpTNrxYl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051420.WpTNrxYl-lkp@intel.com/reproduce)
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051420.WpTNrxYl-lkp@intel.com/
 
-V2:
-The kernel build service pointed out that the proposed identifier =E2=80=
-=9CT_=E2=80=9D
-was not recognised by the compiler.
-Thus reserved identifiers need still be applied also at such a place inste=
-ad
-so far.
-I became curious under which circumstances corresponding development conce=
-rns
-will be reconsidered any more.
+Note: the axboe-block/rw_iter HEAD 072b44165bc3d4d6e6de6962a9b00c5d0256a555 builds fine.
+      It only hurts bisectability.
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/debugfs.h:16,
+                    from drivers/platform/x86/intel/pmc/core.c:16:
+>> drivers/platform/x86/intel/pmc/core.c:541:29: error: 'pmc_core_ltr_ignore_write_iter' undeclared here (not in a function); did you mean 'pmc_core_ltr_ignore_write'?
+     541 | DEFINE_SHOW_STORE_ATTRIBUTE(pmc_core_ltr_ignore);
+         |                             ^~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:230:27: note: in definition of macro 'DEFINE_SHOW_STORE_ATTRIBUTE'
+     230 |         .write_iter     = __name ## _write_iter,                        \
+         |                           ^~~~~~
+>> drivers/platform/x86/intel/pmc/core.c:557:29: error: 'pmc_core_ltr_restore_write_iter' undeclared here (not in a function); did you mean 'pmc_core_ltr_restore_write'?
+     557 | DEFINE_SHOW_STORE_ATTRIBUTE(pmc_core_ltr_restore);
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:230:27: note: in definition of macro 'DEFINE_SHOW_STORE_ATTRIBUTE'
+     230 |         .write_iter     = __name ## _write_iter,                        \
+         |                           ^~~~~~
+>> drivers/platform/x86/intel/pmc/core.c:543:16: warning: 'pmc_core_ltr_restore_write' defined but not used [-Wunused-function]
+     543 | static ssize_t pmc_core_ltr_restore_write(struct file *file,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/intel/pmc/core.c:527:16: warning: 'pmc_core_ltr_ignore_write' defined but not used [-Wunused-function]
+     527 | static ssize_t pmc_core_ltr_ignore_write(struct file *file,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/cgroup.h:18,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from include/linux/regulator/consumer.h:35,
+                    from include/linux/i2c.h:19,
+                    from include/drm/display/drm_dp_helper.h:27,
+                    from drivers/gpu/drm/i915/display/intel_dp_link_training.c:24:
+>> drivers/gpu/drm/i915/display/intel_dp_link_training.c:1784:29: error: 'i915_dp_force_link_rate_write_iter' undeclared here (not in a function); did you mean 'i915_dp_force_link_rate_write'?
+    1784 | DEFINE_SHOW_STORE_ATTRIBUTE(i915_dp_force_link_rate);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:230:27: note: in definition of macro 'DEFINE_SHOW_STORE_ATTRIBUTE'
+     230 |         .write_iter     = __name ## _write_iter,                        \
+         |                           ^~~~~~
+>> drivers/gpu/drm/i915/display/intel_dp_link_training.c:1886:29: error: 'i915_dp_force_lane_count_write_iter' undeclared here (not in a function); did you mean 'i915_dp_force_lane_count_write'?
+    1886 | DEFINE_SHOW_STORE_ATTRIBUTE(i915_dp_force_lane_count);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:230:27: note: in definition of macro 'DEFINE_SHOW_STORE_ATTRIBUTE'
+     230 |         .write_iter     = __name ## _write_iter,                        \
+         |                           ^~~~~~
+>> drivers/gpu/drm/i915/display/intel_dp_link_training.c:1858:16: error: 'i915_dp_force_lane_count_write' defined but not used [-Werror=unused-function]
+    1858 | static ssize_t i915_dp_force_lane_count_write(struct file *file,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_dp_link_training.c:1756:16: error: 'i915_dp_force_link_rate_write' defined but not used [-Werror=unused-function]
+    1756 | static ssize_t i915_dp_force_link_rate_write(struct file *file,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
- include/linux/mpi.h | 4 ++++
- 1 file changed, 4 insertions(+)
+vim +541 drivers/platform/x86/intel/pmc/core.c
 
-diff --git a/include/linux/mpi.h b/include/linux/mpi.h
-index 47be46f36435..6fbcb88ce296 100644
-=2D-- a/include/linux/mpi.h
-+++ b/include/linux/mpi.h
-@@ -19,6 +19,8 @@
+9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  526  
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24 @527  static ssize_t pmc_core_ltr_ignore_write(struct file *file,
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  528  					 const char __user *userbuf,
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  529  					 size_t count, loff_t *ppos)
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  530  {
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  531  	struct seq_file *s = file->private_data;
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  532  	struct pmc_dev *pmcdev = s->private;
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  533  
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  534  	return pmc_core_ltr_write(pmcdev, userbuf, count, 1);
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  535  }
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  536  
+9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  537  static int pmc_core_ltr_ignore_show(struct seq_file *s, void *unused)
+9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  538  {
+9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  539  	return 0;
+9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  540  }
+590a87fe36f1aa drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24 @541  DEFINE_SHOW_STORE_ATTRIBUTE(pmc_core_ltr_ignore);
+9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  542  
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24 @543  static ssize_t pmc_core_ltr_restore_write(struct file *file,
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  544  					  const char __user *userbuf,
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  545  					  size_t count, loff_t *ppos)
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  546  {
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  547  	struct seq_file *s = file->private_data;
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  548  	struct pmc_dev *pmcdev = s->private;
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  549  
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  550  	return pmc_core_ltr_write(pmcdev, userbuf, count, 0);
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  551  }
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  552  
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  553  static int pmc_core_ltr_restore_show(struct seq_file *s, void *unused)
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  554  {
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  555  	return 0;
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  556  }
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24 @557  DEFINE_SHOW_STORE_ATTRIBUTE(pmc_core_ltr_restore);
+4dea807fa7e752 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2024-06-24  558  
 
- #include <linux/types.h>
- #include <linux/scatterlist.h>
-+#include <linux/cleanup.h>
-+#include <linux/err.h>
+:::::: The code at line 541 was first introduced by commit
+:::::: 590a87fe36f1aa43e2d145a0b16d223f2f374899 platform/x86:intel/pmc: Use DEFINE_SHOW_STORE_ATTRIBUTE macro
 
- #define BYTES_PER_MPI_LIMB	(BITS_PER_LONG / 8)
- #define BITS_PER_MPI_LIMB	BITS_PER_LONG
-@@ -44,6 +46,8 @@ typedef struct gcry_mpi *MPI;
- /*-- mpiutil.c --*/
- MPI mpi_alloc(unsigned nlimbs);
- void mpi_free(MPI a);
-+DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(_T)) mpi_free(_T))
-+
- int mpi_resize(MPI a, unsigned nlimbs);
+:::::: TO: Xi Pardee <xi.pardee@linux.intel.com>
+:::::: CC: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
- MPI mpi_copy(MPI a);
-=2D-
-2.46.0
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
