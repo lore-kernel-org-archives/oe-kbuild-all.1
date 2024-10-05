@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8545223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE0C4C7C
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 00:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728088311; cv=none; b=I2/HuGzTX1HWBlt0pWIkTsL8EDb8BsXw4yPI5yu+mZFS+49H1jY15HctJSyIgi3gPd/TLXRlTaVR5R4ShdCWwBzJ6El1fnZyl0MMn7jEANtMWrN9CQiOtycDcf1X/ovD5OjqieE4+UrCMm9Hv+GOuQSASAzV7WO22JexWDSh5hQ=
+	t=1728088312; cv=none; b=mpP4rWL2HpaOxMdUiVPIw6bQylGRpS/0Us3pYenUVRoO+1KNoEH+YM3xlfjH3xyB7e7hbUMCQyWU1P2pavDNbT6jj1CwNSRCvrWdXcfHDRinkCobvG968Wzd2mg46j248XpL2OKZZmaSTeOxEaMsgjYSqLhXsZ+gCJ71KqNX7Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728088311; c=relaxed/simple;
-	bh=MWATiQ5I6VIj3BVzjkw3ESahCCu58nlThuw47mMQ8ng=;
+	s=arc-20240116; t=1728088312; c=relaxed/simple;
+	bh=fisvYHlAi5uYfnh9DKgiQuCX0NawSYHqjeYtsvrspLg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kV96yRB7XqXjv3AptvFDWQIN/33sVA+ZtSTtpDiS4aTaCOiIEqvt7VD5uWSJN5ywLXCKjzQZkuZq/2lGKXcXdqVXMiICdIUdxHADyUFXvPNOjt9oEuUOJvWpbxwcYvOJKkrBWaF3plff25z30Dn1zPt50U23sc8NnNUUZAW4R9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+5HWJ/e; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=OOwSmgLDXaYkGVkaWLRWCPw9xIvVlCDWvP1DAT6GSMSp317dikPd8FkPnjrH4R9QVFTwWzWK45KsuDaK3jmdrqp7BrKCjjJ0h6i/Zb6KVmRnJqe56z1wpfNonGlVPPlIZSxO8cMmSvrxPTDFbz+fsjDd4pW89QDiPlPokoebOXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ChbyQTVj; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+5HWJ/e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ChbyQTVj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1728088309; x=1759624309;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MWATiQ5I6VIj3BVzjkw3ESahCCu58nlThuw47mMQ8ng=;
-  b=A+5HWJ/euCDajhTwIbZKsvIa/OUjcslPBQGO2WgNQd0X7JOdL3xy0Qlk
-   dkSfuu5Az8np8rP3HL1MAWRKz81Q3/qPHF/KhH1336ufZDjeML3gQQMmM
-   KDaCmmG7evxtz+3pALv9GvWKXNzXy6XWkD3jZWYHHoxkyq8ZDRhiuVbql
-   Uy6TA61yyCbCFxtc3JXxN5GLfqN2qD6z74rdg6szlf6J8EfE29U3sX6tH
-   XoQwndaobYGsRzjfJ6Msm6+uKa7VOWvVGugp0RrhdrVJn4XqBtiZ+F76P
-   6Ighj2PLlyLMTSc9J5W0qVFIUwGv0jlUYUFlCv7QXdPvl7niQRgIc0Ibk
-   w==;
-X-CSE-ConnectionGUID: 0c2niq6wR2KdpAI8m8mndQ==
-X-CSE-MsgGUID: 0be6ETZXQaq+maQNtU0NNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26789032"
+  bh=fisvYHlAi5uYfnh9DKgiQuCX0NawSYHqjeYtsvrspLg=;
+  b=ChbyQTVjetzYvlAhADKGaPw5jKQfX5KILwdPH4BgEAMdVbJcUw1GEkyJ
+   angn/ORabg7v7NuBLDfl4AX0elTCCssaCXrgyUCdbevH++YWmVK1ZjWjB
+   92pkyzWwslwt5BIeR3K3gkRDM0aUfFWv8hlhOis/wGipMVayAJekCg79s
+   j/+02zcbZZZ/ma79QlZ4OCngCfCgEhAM5JmwalWWcHG/DjjyVcpohK5VS
+   lQBVD2B4L1dAi0pJb+PFfd9XP+6VPAEj2wUDTOPasI2J2cPGvGqkNnynI
+   WJ9ja2w7VtB+dJ3g5vCMzZjzNeU5ImsiCHC4h4ub8/WbCC7qeVwCkRTeJ
+   Q==;
+X-CSE-ConnectionGUID: Q1zHaagLS8eB2xnNg+8/CQ==
+X-CSE-MsgGUID: aZUau2lWTRamQLGzsVJX2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="49851945"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="26789032"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 17:31:49 -0700
-X-CSE-ConnectionGUID: jXYCXlquSZagKbT/nUbuEg==
-X-CSE-MsgGUID: 21n+kBPpRgy2h1ApTOAzxg==
+   d="scan'208";a="49851945"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 17:31:49 -0700
+X-CSE-ConnectionGUID: 5Y3LDSg9R2+kKS3QBRFAMA==
+X-CSE-MsgGUID: 441BmZfhR26UoJ5rU1Or5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="75684749"
+   d="scan'208";a="75296114"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 04 Oct 2024 17:31:48 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Oct 2024 17:31:48 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swsi0-0002NQ-2q;
+	id 1swsi0-0002NT-2t;
 	Sat, 05 Oct 2024 00:31:44 +0000
-Date: Sat, 5 Oct 2024 08:30:51 +0800
+Date: Sat, 5 Oct 2024 08:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vishnu Sankar <vishnuocv@gmail.com>, jikos@kernel.org,
-	bentiss@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mpearson-lenovo@squebb.ca,
-	vsankar@lenovo.com, Vishnu Sankar <vishnuocv@gmail.com>
-Subject: Re: [PATCH] hid-lenovo: Support for TP-X12-TAB-1/2 Kbd Fn keys that
- use HID raw events.
-Message-ID: <202410050809.Rgpf9KE6-lkp@intel.com>
-References: <20241003095124.7611-1-vishnuocv@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, seanjc@google.com,
+	torvalds@linux-foundation.org
+Subject: Re: [PATCH 1/2] KVM: x86: leave kvm.ko out of the build if no vendor
+ module is requested
+Message-ID: <202410050850.Ztr6bJEq-lkp@intel.com>
+References: <20241003230806.229001-2-pbonzini@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,41 +67,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241003095124.7611-1-vishnuocv@gmail.com>
+In-Reply-To: <20241003230806.229001-2-pbonzini@redhat.com>
 
-Hi Vishnu,
+Hi Paolo,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on linus/master v6.12-rc1 next-20241004]
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on linus/master v6.12-rc1 next-20241004]
+[cannot apply to kvm/linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishnu-Sankar/hid-lenovo-Support-for-TP-X12-TAB-1-2-Kbd-Fn-keys-that-use-HID-raw-events/20241003-175338
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20241003095124.7611-1-vishnuocv%40gmail.com
-patch subject: [PATCH] hid-lenovo: Support for TP-X12-TAB-1/2 Kbd Fn keys that use HID raw events.
-config: i386-buildonly-randconfig-005-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050809.Rgpf9KE6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050809.Rgpf9KE6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-x86-leave-kvm-ko-out-of-the-build-if-no-vendor-module-is-requested/20241004-071034
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20241003230806.229001-2-pbonzini%40redhat.com
+patch subject: [PATCH 1/2] KVM: x86: leave kvm.ko out of the build if no vendor module is requested
+config: x86_64-kismet-CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES-CONFIG_KVM_GENERIC_PRIVATE_MEM-0-0 (https://download.01.org/0day-ci/archive/20241005/202410050850.Ztr6bJEq-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241005/202410050850.Ztr6bJEq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050809.Rgpf9KE6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050850.Ztr6bJEq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ld: drivers/hid/hid-lenovo.o: in function `lenovo_raw_event':
->> hid-lenovo.c:(.text+0x1297): undefined reference to `platform_profile_cycle'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for KVM_GENERIC_MEMORY_ATTRIBUTES when selected by KVM_GENERIC_PRIVATE_MEM
+   WARNING: unmet direct dependencies detected for KVM_GENERIC_MEMORY_ATTRIBUTES
+     Depends on [n]: KVM_GENERIC_MMU_NOTIFIER [=n]
+     Selected by [y]:
+     - KVM_GENERIC_PRIVATE_MEM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
