@@ -1,67 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E481749A;
-	Sat,  5 Oct 2024 01:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E267E57D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 01:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728090835; cv=none; b=nqwKdd+mkL4qV0TDdK6Pd7BFAeXpySgyYJ1ts1RmD/EETzaXqQ2FbtPnBjtHXgmc9vvxM/zsbcUNM0dr24o0Ujl4gXlPwuqr939aG/EJ7y6zfqNkxo8QhW3vpcqQ6HVbhhg7O6R7L6WJ7odwDAquSodKporM6kTz3uYD7gFxoVE=
+	t=1728091433; cv=none; b=ukwn6aJyeFsXEXXZvuPsNRoMFrQLgFGsG/yyckoKZR4xFUcj/q0zO4HWUMVO9loeGFitk02Epn3rwdNdLzVvN/F8HoH8nBCPKLTtN14qI99xVCIAMZOopl9HRLcL+qXzMV+MFT9OcMqa/ely4XGUrwX4YSLXX0k8Wer5dSQWovA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728090835; c=relaxed/simple;
-	bh=ROpFcwVfpBZVEEAbzD/niLbgvfn+U8TQfekfFIK1SB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nlm/uOb6IafOxX3OkMnCJ0+m93mkI9xET4es3VDBVE2+wZzoOPg9bpdETvjZTdVQQ2RQpvX3GuOLz+wWYmD4XDHkh+J9VmM9FGr1X2nFTKsWPhhTDMoU0E3GycfDzLzj2vg+wIt0kpkqq3aqHKVkv62wrL4qdpeX3VeB1tZR+zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VEjnu/Dg; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1728091433; c=relaxed/simple;
+	bh=7RUF8alDdS++zj7yy1lPiXez2FmT90tI5MsXdH4ynsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m8PPudGDfv4wVtXeA0r1xwzhE9VUdF93lOVpPeYPagqq0KWYSc8BAZNVbGoMwHuuhmPxqMsb0dcC1RYyKwMCTbR3dAeRsAmbNwWZ0Ro/JG0quA1nQ/tOKRETl15YmKtFKWDyk5xGOJQrnNdZBGeiqCyjX95xg4P1ofEsqa/rR1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hj8S4eHu; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VEjnu/Dg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hj8S4eHu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728090833; x=1759626833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ROpFcwVfpBZVEEAbzD/niLbgvfn+U8TQfekfFIK1SB4=;
-  b=VEjnu/DgY0VPytyJ/m2IpkBk8bKs5uvUfo5Rhih4L6JXSOQSojueiQj/
-   D+rqJ9103hITVU1m7Q8VZW4MTLUBRToGeoxycXRwVwWzao1AEw4wRhdSh
-   ihz5oDy0/9WrxUagLeGFxQAzQKbs1uY0tJyRSJVm8Ry18vKB04SWbUPoe
-   Yr80jtCe+cvT2NKvfyw8A4ViUdtloyRUGtmxbaebuMG+pIfGoPPchgnph
-   /ysE6RIgmIdaONgTY+Plcv0At2Q6SKTc/1a1h8S2+wWPcatazRmodBNeX
-   dNqXpIGEmxHGive7OavKPK2SKlXKUnJtti/yQoElS2nMXpCUp2pSszjwT
-   A==;
-X-CSE-ConnectionGUID: TwkWVeZATPGgGHxjjKaBVQ==
-X-CSE-MsgGUID: eqTtFRhnRASK+zTvswycMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37891408"
+  t=1728091432; x=1759627432;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7RUF8alDdS++zj7yy1lPiXez2FmT90tI5MsXdH4ynsk=;
+  b=hj8S4eHuu85/budeoUtvk6oiMgx6GX7G1cbySA7fjc4kXvAM+hLdCoEA
+   P/XytltQ70ANU2/T9CzugG2d70xQiSkG4q/OJhIajlw3WkKWNUZCzWkKF
+   qv+ZsBhy6lpVW7wcPpqxuy8qAikp7tighw6IE+6sG2fRMe7KxI01D+IgH
+   X1q9eBQAiwdIACVRwgXhg+OCy5sI6P+ooKJ8KtJEVvF1iCOHihajLCg4N
+   F3tlZwOLx7VrXL5dEd/xXjdh99SUV3p/NloGNGxx+RSJZIrzdHMBwAs/n
+   QL90+tu9YPISZqzIhjTMyMM2HEqKwCQLfONHLk5nhzNjr4ZhVj5ulid5l
+   g==;
+X-CSE-ConnectionGUID: HMXABGlLSTe3LNCJ3JuS6w==
+X-CSE-MsgGUID: y8FrNN2eTV+gglMj7rUCBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="31028300"
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="37891408"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 18:13:53 -0700
-X-CSE-ConnectionGUID: Jq3hpcnDQ9SJ7qXh6xlIgQ==
-X-CSE-MsgGUID: YHkhactZQc2V34zPY3+UIw==
+   d="scan'208";a="31028300"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 18:23:52 -0700
+X-CSE-ConnectionGUID: S9jqs6UoQxOPE2yqKwI9Xw==
+X-CSE-MsgGUID: /tn0OJc7R4Gz4KKv7dQ6Wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="78857400"
+   d="scan'208";a="79644556"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Oct 2024 18:13:48 -0700
+  by orviesa005.jf.intel.com with ESMTP; 04 Oct 2024 18:23:49 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swtMf-0002P8-2G;
-	Sat, 05 Oct 2024 01:13:45 +0000
-Date: Sat, 5 Oct 2024 09:12:58 +0800
+	id 1swtWM-0002PQ-0b;
+	Sat, 05 Oct 2024 01:23:46 +0000
+Date: Sat, 5 Oct 2024 09:23:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, linux-trace-kernel@vger.kernel.org,
-	peterz@infradead.org, oleg@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rostedt@goodmis.org, mhiramat@kernel.org, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jolsa@kernel.org, paulmck@kernel.org,
-	willy@infradead.org, surenb@google.com, akpm@linux-foundation.org,
-	linux-mm@kvack.org, mjguzik@gmail.com, brauner@kernel.org,
-	jannh@google.com, mhocko@kernel.org, vbabka@suse.cz,
-	mingo@kernel.org, Andrii Nakryiko <andrii@kernel.org>
-Subject: Re: [PATCH v2 tip/perf/core 5/5] uprobes: add speculative lockless
- VMA-to-inode-to-uprobe resolution
-Message-ID: <202410050846.Zbsm9OI1-lkp@intel.com>
-References: <20241001225207.2215639-6-andrii@kernel.org>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 7777/12031] drivers/iommu/amd/iommu.c:69:30:
+ sparse: sparse: symbol 'amd_dirty_ops' was not declared. Should it be
+ static?
+Message-ID: <202410050954.511CF75P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,81 +66,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241001225207.2215639-6-andrii@kernel.org>
 
-Hi Andrii,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/perf/core]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/mm-introduce-mmap_lock_speculation_-start-end/20241002-065354
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/20241001225207.2215639-6-andrii%40kernel.org
-patch subject: [PATCH v2 tip/perf/core 5/5] uprobes: add speculative lockless VMA-to-inode-to-uprobe resolution
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20241005/202410050846.Zbsm9OI1-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050846.Zbsm9OI1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   6c7ba3824d4ec8a20ab384fa7b838eeb7e5b4e5f
+commit: 48b9cbca2d0ec8d9fc4f05fca1243995f8cbc4b4 [7777/12031] iommu/amd: Access/Dirty bit support in IOPTEs
+config: x86_64-randconfig-122-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050954.511CF75P-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050954.511CF75P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050846.Zbsm9OI1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050954.511CF75P-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/amd/iommu.c:69:30: sparse: sparse: symbol 'amd_dirty_ops' was not declared. Should it be static?
+   drivers/iommu/amd/iommu.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
->> kernel/events/uprobes.c:2098:39: error: incompatible pointer types passing 'long *' to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
-    2098 |         if (!mmap_lock_speculation_start(mm, &seq))
-         |                                              ^~~~
-   include/linux/mmap_lock.h:126:75: note: passing argument to parameter 'seq' here
-     126 | static inline bool mmap_lock_speculation_start(struct mm_struct *mm, int *seq) { return false; }
-         |                                                                           ^
-   1 error generated.
+vim +/amd_dirty_ops +69 drivers/iommu/amd/iommu.c
 
-
-vim +2098 kernel/events/uprobes.c
-
-  2086	
-  2087	static struct uprobe *find_active_uprobe_speculative(unsigned long bp_vaddr)
-  2088	{
-  2089		struct mm_struct *mm = current->mm;
-  2090		struct uprobe *uprobe = NULL;
-  2091		struct vm_area_struct *vma;
-  2092		struct file *vm_file;
-  2093		loff_t offset;
-  2094		long seq;
-  2095	
-  2096		guard(rcu)();
-  2097	
-> 2098		if (!mmap_lock_speculation_start(mm, &seq))
-  2099			return NULL;
-  2100	
-  2101		vma = vma_lookup(mm, bp_vaddr);
-  2102		if (!vma)
-  2103			return NULL;
-  2104	
-  2105		/* vm_file memory can be reused for another instance of struct file,
-  2106		 * but can't be freed from under us, so it's safe to read fields from
-  2107		 * it, even if the values are some garbage values; ultimately
-  2108		 * find_uprobe_rcu() + mmap_lock_speculation_end() check will ensure
-  2109		 * that whatever we speculatively found is correct
-  2110		 */
-  2111		vm_file = READ_ONCE(vma->vm_file);
-  2112		if (!vm_file)
-  2113			return NULL;
-  2114	
-  2115		offset = (loff_t)(vma->vm_pgoff << PAGE_SHIFT) + (bp_vaddr - vma->vm_start);
-  2116		uprobe = find_uprobe_rcu(vm_file->f_inode, offset);
-  2117		if (!uprobe)
-  2118			return NULL;
-  2119	
-  2120		/* now double check that nothing about MM changed */
-  2121		if (!mmap_lock_speculation_end(mm, seq))
-  2122			return NULL;
-  2123	
-  2124		return uprobe;
-  2125	}
-  2126	
+    67	
+    68	const struct iommu_ops amd_iommu_ops;
+  > 69	const struct iommu_dirty_ops amd_dirty_ops;
+    70	
 
 -- 
 0-DAY CI Kernel Test Service
