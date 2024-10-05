@@ -1,131 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6F516B3AC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 22:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88766288B1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 22:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728167195; cv=none; b=pYOQ6fUwXXpMMF2MFvyMoS7ZMf3qU2eo6beeuNN/TrFDukvBD3yBAgoHcbVAcbXlyPoMWWwzvWTxXi962dXLwDYkKjZ2T7B1IL0bcBV17UVWI6BE4cuf1DzejnMe9TUP2qaon/tNsGtKzOtpMWRbuAibSh34LPh2uEI97IHXc+Q=
+	t=1728168515; cv=none; b=BHOI4UUZcPi5HXPWr7iSrQQ9k2fsKcxOw5vEgFXpYSiaXLo4Ze7gF89n8+ltAL+9szzxLRlS7Oe5nbrmJp53fHRw1yTyhEGAeN0vWDDg97l0VK52WkQfbj08pjnRlK1mL1cGCWJqoGuCiuajq0nLg3EQVyRwjon91K94xz1pVB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728167195; c=relaxed/simple;
-	bh=DHSscCfjou4BLoP5vE9J6eNZoUi4zFrPpOyrgBRmEuE=;
+	s=arc-20240116; t=1728168515; c=relaxed/simple;
+	bh=fcxhcwCykS7VaBZCUXvsZKD9I3qiLo7RBBc3MRaeHgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sNgFpvWqvlrfKc8LKSrb2FF4S85MTnlcCeSJ+OprnBDnC2Aed/sqfWz7fAgo7fTJQuvDDH0WUKM3SOFrTgHpqeEwnuLYDjRnWX3d2Rmf98xlpJSzQ7t7sdQ6M+Z/rDooWo8JBLhPe38izbMemm6qu3bDmhIAj3IGODhpAPfddMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVs4xsl8; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=WsP9sefu6kjxL/HaKCRVkGWgSemtiTwHiicdhTVKL+yZEh/D+AAmRd7YTM1fRGKk2y4UuBoFqaf84OOOTX0W0n4CxSmygQDPaGcXN9B0QCV5ozQKaLFDyVig7IhH7NBLeU29l2R6qMHuBDT7tmQtfbtwd4G3PmOdGkoONSZrOeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHuJeAnZ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVs4xsl8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHuJeAnZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728167193; x=1759703193;
+  t=1728168513; x=1759704513;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DHSscCfjou4BLoP5vE9J6eNZoUi4zFrPpOyrgBRmEuE=;
-  b=JVs4xsl8gqLAvF6r0W68bCt0h3oTYpQEKnCj9g5NWvIrPchzbPYgolNy
-   CmEMRgtwzcNAmD8mGOib2lW0bL0hGaBdAHdumet5lKJcz8Bo6bF0bVr6Z
-   RMLjnHpcqf56/hAPaXPFYDNbiciF7nK2ZswuBYMxn3f3h0hmODH+v2lfg
-   cN+SATEs5N3kcRMQZD/4QUiXoWvN6VFtQcI2AbdRNUyxfD6+AwrxdjOkI
-   GfjU0XKqIde0/U8E9RVn13x0NrRfPqCDcstBapX0RSnBsHr6QJgHpfE7f
-   1q2EJSamB9k3zuC4kUZSR40k6+q8sBg2nDpTzs7Vxg5K5NKuQf1KFa8dj
-   w==;
-X-CSE-ConnectionGUID: Vcz7bx79S+mJmzGoCd3RRg==
-X-CSE-MsgGUID: Mj4sYQuoQ56NRB5eCCDYfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27446867"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=fcxhcwCykS7VaBZCUXvsZKD9I3qiLo7RBBc3MRaeHgs=;
+  b=CHuJeAnZ6nP0xnnQGXxl4pYzuPz6B8/jVR5mZw/t7q+t5lOqmd1TXMhP
+   jwjGRIy1G/NEwGjiDLEJoACKlqZursYE+Pf4nhu5JWhMWRs1Hr2zJ8iCR
+   RoL/2xOxWSvd+PYjuB/IQ4TDz9TgAg8NFqXPhi0HlJSLY6CE8z6ARJQfl
+   VKqy8+QJjuYQS7lkZpAKVbkYUJtZWgLDc9OnL9cd6JL08tDcEz3hYL9u5
+   jayH/xTY45MeYbomNWdg1jCDnlfYwnu4T/davIlOWdfguVZyQZJtfbrrv
+   sVBpLHOywyl96b3St2XL/9ZjcBt7SSJychHhMH0SqCwlvWkB4Wd0PMfiu
+   A==;
+X-CSE-ConnectionGUID: ebZshbnjRC+QGjbwxj3OdA==
+X-CSE-MsgGUID: qf0wUSzKQ3GESvCQe+wVYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27245120"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="27446867"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 15:26:32 -0700
-X-CSE-ConnectionGUID: TTLS3rceRyyIZ3qh+4ehwQ==
-X-CSE-MsgGUID: 0Pc0HiPvSg+vP+iFAGYCoQ==
+   d="scan'208";a="27245120"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 15:48:33 -0700
+X-CSE-ConnectionGUID: CV2sg/NOQ72FEAJ4t9XQOA==
+X-CSE-MsgGUID: jKZffiplSSihmYagvQ5lAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="80025740"
+   d="scan'208";a="79643759"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Oct 2024 15:26:29 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2024 15:48:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxDEI-0003PU-30;
-	Sat, 05 Oct 2024 22:26:26 +0000
-Date: Sun, 6 Oct 2024 06:26:23 +0800
+	id 1sxDZb-0003QO-1W;
+	Sat, 05 Oct 2024 22:48:27 +0000
+Date: Sun, 6 Oct 2024 06:47:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <quic_mojha@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Mukesh Ojha <quic_mojha@quicinc.com>
-Subject: Re: [PATCH 5/6] remoteproc: qcom: Add support of SHM bridge to
- enable memory protection
-Message-ID: <202410060641.ZedzhoKd-lkp@intel.com>
-References: <20241004212359.2263502-6-quic_mojha@quicinc.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	krisman@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	kernel-dev@igalia.com, Daniel Rosenberg <drosen@google.com>,
+	smcv@collabora.com, Christoph Hellwig <hch@lst.de>,
+	Theodore Ts'o <tytso@mit.edu>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v5 07/10] tmpfs: Add casefold lookup support
+Message-ID: <202410060658.4QOeUy1M-lkp@intel.com>
+References: <20241002234444.398367-8-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241004212359.2263502-6-quic_mojha@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241002234444.398367-8-andrealmeid@igalia.com>
 
-Hi Mukesh,
+Hi André,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on remoteproc/rproc-next]
-[also build test ERROR on robh/for-next linus/master v6.12-rc1 next-20241004]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on akpm-mm/mm-everything tytso-ext4/dev linus/master v6.12-rc1 next-20241004]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/dt-bindings-remoteproc-qcom-pas-common-Introduce-iommus-and-qcom-devmem-property/20241005-052733
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-patch link:    https://lore.kernel.org/r/20241004212359.2263502-6-quic_mojha%40quicinc.com
-patch subject: [PATCH 5/6] remoteproc: qcom: Add support of SHM bridge to enable memory protection
-config: arc-randconfig-001-20241006 (https://download.01.org/0day-ci/archive/20241006/202410060641.ZedzhoKd-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060641.ZedzhoKd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/libfs-Create-the-helper-function-generic_ci_validate_strict_name/20241003-074711
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20241002234444.398367-8-andrealmeid%40igalia.com
+patch subject: [PATCH v5 07/10] tmpfs: Add casefold lookup support
+config: arm-randconfig-001-20241006 (https://download.01.org/0day-ci/archive/20241006/202410060658.4QOeUy1M-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060658.4QOeUy1M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410060641.ZedzhoKd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410060658.4QOeUy1M-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/firmware/qcom/qcom_tzmem.c:50:12: error: static declaration of 'qcom_tzmem_init_area' follows non-static declaration
-      50 | static int qcom_tzmem_init_area(struct qcom_tzmem_area *area)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/firmware/qcom/qcom_tzmem.c:12:
-   include/linux/firmware/qcom/qcom_tzmem.h:59:5: note: previous declaration of 'qcom_tzmem_init_area' with type 'int(struct qcom_tzmem_area *)'
-      59 | int qcom_tzmem_init_area(struct qcom_tzmem_area *area);
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/firmware/qcom/qcom_tzmem.c:55:13: error: static declaration of 'qcom_tzmem_cleanup_area' follows non-static declaration
-      55 | static void qcom_tzmem_cleanup_area(struct qcom_tzmem_area *area)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/qcom/qcom_tzmem.h:60:6: note: previous declaration of 'qcom_tzmem_cleanup_area' with type 'void(struct qcom_tzmem_area *)'
-      60 | void qcom_tzmem_cleanup_area(struct qcom_tzmem_area *area);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/shmem.c:4717:39: warning: 'shmem_ci_dentry_ops' defined but not used [-Wunused-const-variable=]
+    4717 | static const struct dentry_operations shmem_ci_dentry_ops = {
+         |                                       ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/qcom_tzmem_init_area +50 drivers/firmware/qcom/qcom_tzmem.c
+vim +/shmem_ci_dentry_ops +4717 mm/shmem.c
 
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27  49  
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27 @50  static int qcom_tzmem_init_area(struct qcom_tzmem_area *area)
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27  51  {
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27  52  	return 0;
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27  53  }
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27  54  
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27 @55  static void qcom_tzmem_cleanup_area(struct qcom_tzmem_area *area)
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27  56  {
-84f5a7b67b61bf Bartosz Golaszewski 2024-05-27  57  
+  4715	
+  4716	#if IS_ENABLED(CONFIG_UNICODE)
+> 4717	static const struct dentry_operations shmem_ci_dentry_ops = {
+  4718		.d_hash = generic_ci_d_hash,
+  4719		.d_compare = generic_ci_d_compare,
+  4720		.d_delete = always_delete_dentry,
+  4721	};
+  4722	#endif
+  4723	
 
 -- 
 0-DAY CI Kernel Test Service
