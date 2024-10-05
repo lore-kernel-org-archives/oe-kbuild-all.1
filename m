@@ -1,365 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E3113C8F6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 19:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968E6487A5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 19:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728156631; cv=none; b=fBynAjpDyliGb6LKVYwH0lKfY1MbF1GLP6OHPWRSXpH3oynJG5dF+uvM/aVXRmmQ7i2bAEmlCtEBE0qjBH65uJicSepNcAa+MHlNSlXKtrqMiHYj2Tfietu5n+GT1f4dS+IKcVhjdzLPAADyKzVa9a91iDSUlcwESM1Uo9kwlbQ=
+	t=1728157288; cv=none; b=EOvQiiPqug0qO1bie5JseRDE9kAoENrVYVDzVtqKcTs6QLEkfHMjwtj5bp3B3u9a/HptBYno/3mGlNNfJKwAA+TXWTutC0kBSX8QW6lMABGl2ppZKLL7yWH7JvfO/NUBvxxbvoA1XSxxR5y5/fdMeZ9bLE4lbNWOjEeIUwGbIxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728156631; c=relaxed/simple;
-	bh=Utr0tnkgDw3ooOZJasxUkerIzc9uZ7snPo6t6h8/l10=;
+	s=arc-20240116; t=1728157288; c=relaxed/simple;
+	bh=Wvl3xiMijnKmb5OQFJC2MsCb62EZrnXga+lbO06BUT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WfqBHSgynZdjXRIV3DXJW2VLCXwFVri847V2TvKTFPS1q8ivO5iwzoNMvFmjfhSQ0NwB6GtLtiWCEHHsM5F9AYeaecxOBTtTTPNwlwwKKjm1rJQdw9nuHNkmI+P0IU8HfXA7K8e0KF08dKRIQB+u2BsbA2jk0BBAt4LPdj/L3G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NzbIbAiF; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=A3+ET0Zy/St01ndijPPg/vu8H63A0+yqb6q9cw5i5pY5iq7DoUE0JKLSasQbb1ovku5XStdQXW3YGV70qOfX6jSsZNv7e0rotAmixtQPY1KBRZyhcVKjvxOEKG5iRy9x0xbUGwZ8AfBUOQPPj5h734G18qFRfDbNUzjQg/6UXbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ap2F33GN; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzbIbAiF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ap2F33GN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728156629; x=1759692629;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Utr0tnkgDw3ooOZJasxUkerIzc9uZ7snPo6t6h8/l10=;
-  b=NzbIbAiFN4uqbzBWmSp3Ysk12vt0ejmBFmVTI1zeAhfLasfCgoxeIjDh
-   IXZH2Ur59l3YSS6PVW/iqdFHXAl3Gyuhl6ut0X45+RnNKzjRBRwB3uKVJ
-   N6x5UGbJhIe7HT9sTFuP6G/LG/1ywEwR2cyDIlcQ+qeeZ9dge5ZQP4tOO
-   U0Zo6DdxdQ0qlAE9AswCA/YlRwpZ3K/erm+NiNC+8deKBVKfQmzdbG1Jm
-   0NoHA0sSvZf246WlYMlGexZbcF574AAE4NktBxfHrGf+x58eIT4+V6dC2
-   WKeCpL4/IYvV60mwAZXtT3ZPjk2cU/CwlGoyGRJtNBjzZPdl0Yj10GN4Q
+  t=1728157287; x=1759693287;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wvl3xiMijnKmb5OQFJC2MsCb62EZrnXga+lbO06BUT0=;
+  b=Ap2F33GNuVg5u72vgxaWKZNJiE12MRYYEKO84hUKuKMocofer04sjNtX
+   I73IkLzebUzY7YmeeWTSE/F/Zf5P3vgWqDXHsRZIX+/ywYtz8aPreP08W
+   laQEO1wLggWgE2LnFpZXPDdllo1N0k0jpBuCJb9JWSdeoHwiusMFEZI8s
+   GyF8HwgpCNnjP+SvyVUXzDDN9fYcyl2ipmbLJofzrAVEWD/mQaKshy2om
+   yK94bzQDWZV0AMjyv4KWedQeiMsg26v7bB7yQ1Aoo4tNkrqIg3J0FGKJr
+   gN/5uFGvR39UFiRqm+5ZOnMlYnzOZruEqW5R7rFfJS5YR49OQZUgQsp44
    Q==;
-X-CSE-ConnectionGUID: vRvK/z/NR1q79tWDg/NmjA==
-X-CSE-MsgGUID: kYZiP93DSWWzu9A9p9Y7iw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27163985"
+X-CSE-ConnectionGUID: NHWjCvYiSNmp628wajChgg==
+X-CSE-MsgGUID: 8qbT1qmpTkqB0QaFjMVd+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="38008935"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="27163985"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 12:30:26 -0700
-X-CSE-ConnectionGUID: +mLnUUcTRwWqvqxOkLNLWg==
-X-CSE-MsgGUID: 54lGPaRoTRS24f4C7NSqiQ==
+   d="scan'208";a="38008935"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 12:41:26 -0700
+X-CSE-ConnectionGUID: QI+oM/SkSHW2DzHzAgQb3g==
+X-CSE-MsgGUID: BILBIFrkTXeaE2f4zrHKQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="79609828"
+   d="scan'208";a="105798650"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2024 12:30:24 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 05 Oct 2024 12:41:25 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxATu-0003IQ-2t;
-	Sat, 05 Oct 2024 19:30:22 +0000
-Date: Sun, 6 Oct 2024 03:29:59 +0800
+	id 1sxAeZ-0003Ik-0M;
+	Sat, 05 Oct 2024 19:41:23 +0000
+Date: Sun, 6 Oct 2024 03:40:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-f9d942cf7d57 1279/1491]
- sound/soc/intel/avs/skl.c:46:36: error: no member named 'hipc' in 'struct
- avs_spec'
-Message-ID: <202410060316.wE2Hbcnx-lkp@intel.com>
+Subject: [arm-integrator:b4/arm-generic-entry-v6.12-rc1 30/30]
+ kernel/entry/common.c:55:23: error: implicit declaration of function
+ '__secure_computing'
+Message-ID: <202410060309.2ZjE0rnv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
-head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
-commit: 327f6cbdf71e251baf78792a3c13b0c6b83d0ed6 [1279/1491] UPSTREAM: ASoC: Intel: avs: New IRQ handling implementation
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241006/202410060316.wE2Hbcnx-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060316.wE2Hbcnx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/arm-generic-entry-v6.12-rc1
+head:   073ac3744274d4bf1cf29f48147b13adadb2c6d3
+commit: 073ac3744274d4bf1cf29f48147b13adadb2c6d3 [30/30] ARM: entry: Convert to generic entry
+config: arm-collie_defconfig (https://download.01.org/0day-ci/archive/20241006/202410060309.2ZjE0rnv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060309.2ZjE0rnv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410060316.wE2Hbcnx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410060309.2ZjE0rnv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/soc/intel/avs/skl.c:46:36: error: no member named 'hipc' in 'struct avs_spec'
-      46 |         snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-         |                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:144:31: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                    ^~~
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
->> sound/soc/intel/avs/skl.c:46:36: error: no member named 'hipc' in 'struct avs_spec'
-      46 |         snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-         |                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:143:29: note: expanded from macro 'snd_hdac_adsp_updatel'
-     143 |         snd_hdac_adsp_writel(chip, reg, \
-         |                                    ^~~
-   include/sound/hdaudio_ext.h:128:46: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                     ^~~
-   include/sound/hdaudio.h:456:57: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                             ^~~~
-   sound/soc/intel/avs/skl.c:49:45: error: no member named 'hipc' in 'struct avs_spec'
-      49 |         hipc_ack = snd_hdac_adsp_readl(adev, spec->hipc->ack_offset);
-         |                                              ~~~~  ^
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   sound/soc/intel/avs/skl.c:50:45: error: no member named 'hipc' in 'struct avs_spec'
-      50 |         hipc_rsp = snd_hdac_adsp_readl(adev, spec->hipc->rsp_offset);
-         |                                              ~~~~  ^
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   sound/soc/intel/avs/skl.c:53:23: error: no member named 'hipc' in 'struct avs_spec'
-      53 |         if (hipc_ack & spec->hipc->ack_done_mask) {
-         |                        ~~~~  ^
-   sound/soc/intel/avs/skl.c:57:37: error: no member named 'hipc' in 'struct avs_spec'
-      57 |                 snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset, spec->hipc->ack_done_mask,
-         |                                             ~~~~  ^
-   include/sound/hdaudio_ext.h:144:31: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                    ^~~
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
-   sound/soc/intel/avs/skl.c:57:61: error: no member named 'hipc' in 'struct avs_spec'
-      57 |                 snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset, spec->hipc->ack_done_mask,
-         |                                                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:144:40: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                             ^~~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
-   sound/soc/intel/avs/skl.c:58:17: error: no member named 'hipc' in 'struct avs_spec'
-      58 |                                       spec->hipc->ack_done_mask);
-         |                                       ~~~~  ^
-   include/sound/hdaudio_ext.h:144:50: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                                       ^~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
-   sound/soc/intel/avs/skl.c:57:37: error: no member named 'hipc' in 'struct avs_spec'
-      57 |                 snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset, spec->hipc->ack_done_mask,
-         |                                             ~~~~  ^
-   include/sound/hdaudio_ext.h:143:29: note: expanded from macro 'snd_hdac_adsp_updatel'
-     143 |         snd_hdac_adsp_writel(chip, reg, \
-         |                                    ^~~
-   include/sound/hdaudio_ext.h:128:46: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                     ^~~
-   include/sound/hdaudio.h:456:57: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                             ^~~~
-   sound/soc/intel/avs/skl.c:62:23: error: no member named 'hipc' in 'struct avs_spec'
-      62 |         if (hipc_rsp & spec->hipc->rsp_busy_mask) {
-         |                        ~~~~  ^
-   sound/soc/intel/avs/skl.c:75:36: error: no member named 'hipc' in 'struct avs_spec'
-      75 |         snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-         |                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:144:31: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                    ^~~
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
---
->> sound/soc/intel/avs/cnl.c:50:36: error: no member named 'hipc' in 'struct avs_spec'
-      50 |         snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-         |                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:144:31: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                    ^~~
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
->> sound/soc/intel/avs/cnl.c:50:36: error: no member named 'hipc' in 'struct avs_spec'
-      50 |         snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-         |                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:143:29: note: expanded from macro 'snd_hdac_adsp_updatel'
-     143 |         snd_hdac_adsp_writel(chip, reg, \
-         |                                    ^~~
-   include/sound/hdaudio_ext.h:128:46: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                     ^~~
-   include/sound/hdaudio.h:456:57: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                             ^~~~
-   sound/soc/intel/avs/cnl.c:53:45: error: no member named 'hipc' in 'struct avs_spec'
-      53 |         hipc_ack = snd_hdac_adsp_readl(adev, spec->hipc->ack_offset);
-         |                                              ~~~~  ^
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   sound/soc/intel/avs/cnl.c:54:45: error: no member named 'hipc' in 'struct avs_spec'
-      54 |         hipc_rsp = snd_hdac_adsp_readl(adev, spec->hipc->rsp_offset);
-         |                                              ~~~~  ^
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   sound/soc/intel/avs/cnl.c:57:23: error: no member named 'hipc' in 'struct avs_spec'
-      57 |         if (hipc_ack & spec->hipc->ack_done_mask) {
-         |                        ~~~~  ^
-   sound/soc/intel/avs/cnl.c:61:37: error: no member named 'hipc' in 'struct avs_spec'
-      61 |                 snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset, spec->hipc->ack_done_mask,
-         |                                             ~~~~  ^
-   include/sound/hdaudio_ext.h:144:31: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                    ^~~
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
-         |                                               ^~~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
-   sound/soc/intel/avs/cnl.c:61:61: error: no member named 'hipc' in 'struct avs_spec'
-      61 |                 snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset, spec->hipc->ack_done_mask,
-         |                                                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:144:40: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                             ^~~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
-   sound/soc/intel/avs/cnl.c:62:17: error: no member named 'hipc' in 'struct avs_spec'
-      62 |                                       spec->hipc->ack_done_mask);
-         |                                       ~~~~  ^
-   include/sound/hdaudio_ext.h:144:50: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                                       ^~~
-   include/sound/hdaudio_ext.h:128:52: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                           ^~~~~
-   include/sound/hdaudio.h:456:52: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                        ^~~
-   sound/soc/intel/avs/cnl.c:61:37: error: no member named 'hipc' in 'struct avs_spec'
-      61 |                 snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset, spec->hipc->ack_done_mask,
-         |                                             ~~~~  ^
-   include/sound/hdaudio_ext.h:143:29: note: expanded from macro 'snd_hdac_adsp_updatel'
-     143 |         snd_hdac_adsp_writel(chip, reg, \
-         |                                    ^~~
-   include/sound/hdaudio_ext.h:128:46: note: expanded from macro 'snd_hdac_adsp_writel'
-     128 |         snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
-         |                                                     ^~~
-   include/sound/hdaudio.h:456:57: note: expanded from macro 'snd_hdac_reg_writel'
-     456 | #define snd_hdac_reg_writel(bus, addr, val)     writel(val, addr)
-         |                                                             ^~~~
-   sound/soc/intel/avs/cnl.c:66:23: error: no member named 'hipc' in 'struct avs_spec'
-      66 |         if (hipc_rsp & spec->hipc->rsp_busy_mask) {
-         |                        ~~~~  ^
-   sound/soc/intel/avs/cnl.c:86:36: error: no member named 'hipc' in 'struct avs_spec'
-      86 |         snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-         |                                     ~~~~  ^
-   include/sound/hdaudio_ext.h:144:31: note: expanded from macro 'snd_hdac_adsp_updatel'
-     144 |                         (snd_hdac_adsp_readl(chip, reg) & ~(mask)) | (val))
-         |                                                    ^~~
-   include/sound/hdaudio_ext.h:130:45: note: expanded from macro 'snd_hdac_adsp_readl'
-     130 |         snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
-         |                                                    ^~~
-   include/sound/hdaudio.h:457:45: note: expanded from macro 'snd_hdac_reg_readl'
-     457 | #define snd_hdac_reg_readl(bus, addr)   readl(addr)
+   kernel/entry/common.c: In function 'syscall_trace_enter':
+>> kernel/entry/common.c:55:23: error: implicit declaration of function '__secure_computing' [-Werror=implicit-function-declaration]
+      55 |                 ret = __secure_computing(NULL);
+         |                       ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +46 sound/soc/intel/avs/skl.c
+vim +/__secure_computing +55 kernel/entry/common.c
 
-    40	
-    41	void avs_skl_ipc_interrupt(struct avs_dev *adev)
-    42	{
-    43		const struct avs_spec *spec = adev->spec;
-    44		u32 hipc_ack, hipc_rsp;
-    45	
-  > 46		snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-    47				      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY, 0);
-    48	
-    49		hipc_ack = snd_hdac_adsp_readl(adev, spec->hipc->ack_offset);
-    50		hipc_rsp = snd_hdac_adsp_readl(adev, spec->hipc->rsp_offset);
-    51	
-    52		/* DSP acked host's request. */
-    53		if (hipc_ack & spec->hipc->ack_done_mask) {
-    54			complete(&adev->ipc->done_completion);
-    55	
-    56			/* Tell DSP it has our attention. */
-    57			snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset, spec->hipc->ack_done_mask,
-    58					      spec->hipc->ack_done_mask);
-    59		}
-    60	
-    61		/* DSP sent new response to process */
-    62		if (hipc_rsp & spec->hipc->rsp_busy_mask) {
-    63			union avs_reply_msg msg;
-    64	
-    65			msg.primary = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCT);
-    66			msg.ext.val = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCTE);
-    67	
-    68			avs_dsp_process_response(adev, msg.val);
-    69	
-    70			/* Tell DSP we accepted its message. */
-    71			snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCT, SKL_ADSP_HIPCT_BUSY,
-    72					      SKL_ADSP_HIPCT_BUSY);
-    73		}
-    74	
-    75		snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
-    76				      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY,
-    77				      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY);
-    78	}
-    79	
+142781e108b13b Thomas Gleixner         2020-07-22  27  
+221a164035fd8b Sven Schnelle           2023-12-18  28  long syscall_trace_enter(struct pt_regs *regs, long syscall,
+2991552447707d Gabriel Krisman Bertazi 2020-11-16  29  				unsigned long work)
+142781e108b13b Thomas Gleixner         2020-07-22  30  {
+57df4fd32dec86 Jinjie Ruan             2024-06-29  31  	unsigned long saved_reg;
+142781e108b13b Thomas Gleixner         2020-07-22  32  	long ret = 0;
+142781e108b13b Thomas Gleixner         2020-07-22  33  
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  34  	/*
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  35  	 * Handle Syscall User Dispatch.  This must comes first, since
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  36  	 * the ABI here can be something that doesn't make sense for
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  37  	 * other syscall_work features.
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  38  	 */
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  39  	if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  40  		if (syscall_user_dispatch(regs))
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  41  			return -1L;
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  42  	}
+11894468e39def Gabriel Krisman Bertazi 2020-11-27  43  
+142781e108b13b Thomas Gleixner         2020-07-22  44  	/* Handle ptrace */
+64eb35f701f04b Gabriel Krisman Bertazi 2020-11-16  45  	if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)) {
+57df4fd32dec86 Jinjie Ruan             2024-06-29  46  		saved_reg = arch_prepare_report_syscall_entry(regs);
+0cfcb2b9ef48bb Eric W. Biederman       2022-01-27  47  		ret = ptrace_report_syscall_entry(regs);
+57df4fd32dec86 Jinjie Ruan             2024-06-29  48  		arch_post_report_syscall_entry(regs, saved_reg, ret);
+57df4fd32dec86 Jinjie Ruan             2024-06-29  49  		if (ret || work & SYSCALL_WORK_SYSCALL_EMU)
+142781e108b13b Thomas Gleixner         2020-07-22  50  			return -1L;
+142781e108b13b Thomas Gleixner         2020-07-22  51  	}
+142781e108b13b Thomas Gleixner         2020-07-22  52  
+142781e108b13b Thomas Gleixner         2020-07-22  53  	/* Do seccomp after ptrace, to catch any tracer changes. */
+23d67a54857a76 Gabriel Krisman Bertazi 2020-11-16  54  	if (work & SYSCALL_WORK_SECCOMP) {
+142781e108b13b Thomas Gleixner         2020-07-22 @55  		ret = __secure_computing(NULL);
+142781e108b13b Thomas Gleixner         2020-07-22  56  		if (ret == -1L)
+142781e108b13b Thomas Gleixner         2020-07-22  57  			return ret;
+142781e108b13b Thomas Gleixner         2020-07-22  58  	}
+142781e108b13b Thomas Gleixner         2020-07-22  59  
+b6ec413461034d Kees Cook               2020-09-11  60  	/* Either of the above might have changed the syscall number */
+b6ec413461034d Kees Cook               2020-09-11  61  	syscall = syscall_get_nr(current, regs);
+b6ec413461034d Kees Cook               2020-09-11  62  
+fb13b11d53875e André Rösti             2024-03-11  63  	if (unlikely(work & SYSCALL_WORK_SYSCALL_TRACEPOINT)) {
+142781e108b13b Thomas Gleixner         2020-07-22  64  		trace_sys_enter(regs, syscall);
+fb13b11d53875e André Rösti             2024-03-11  65  		/*
+fb13b11d53875e André Rösti             2024-03-11  66  		 * Probes or BPF hooks in the tracepoint may have changed the
+fb13b11d53875e André Rösti             2024-03-11  67  		 * system call number as well.
+fb13b11d53875e André Rösti             2024-03-11  68  		 */
+fb13b11d53875e André Rösti             2024-03-11  69  		syscall = syscall_get_nr(current, regs);
+fb13b11d53875e André Rösti             2024-03-11  70  	}
+142781e108b13b Thomas Gleixner         2020-07-22  71  
+142781e108b13b Thomas Gleixner         2020-07-22  72  	syscall_enter_audit(regs, syscall);
+142781e108b13b Thomas Gleixner         2020-07-22  73  
+142781e108b13b Thomas Gleixner         2020-07-22  74  	return ret ? : syscall;
+142781e108b13b Thomas Gleixner         2020-07-22  75  }
+142781e108b13b Thomas Gleixner         2020-07-22  76  
+
+:::::: The code at line 55 was first introduced by commit
+:::::: 142781e108b13b2b0e8f035cfb5bfbbc8f14d887 entry: Provide generic syscall entry functionality
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
