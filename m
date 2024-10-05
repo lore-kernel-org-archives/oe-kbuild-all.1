@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB7020EB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 00:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C147D4C7E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 00:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728089571; cv=none; b=oKRHIp0vXL/nmP5aSf5wUCpMvSNDZHIn8hXENRCaS1so9lIiwrOEKS11IPzuyHLxGyZ/0ogMpI+SCPcWQYmXpqnCBnN78PUHwGM/gknkZfZ68Q1HAVZ9V/J3DMUaYK2sEvSGwzH3z4dLFGWViCcDLuneDK+7bDwzYxuB2ZbfGSc=
+	t=1728089572; cv=none; b=j5UhXrV1we0mZypVKMseKouGlIRe/iEudPPddptpLdF/DAIpB1z3Cbq9acpG8EghHjIXnAOnAW+bg4ZFKY+hYEYCB2EloOsdM1ghUBvAIKbuT8MzRCqCT5iP8E4nwxAlARtDt4n77dAOIadUcEHlmEnnKd8t0PznqlVJzZGnIvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728089571; c=relaxed/simple;
-	bh=xUis1Np6K2u8tpKkYQbQP9AOGIGPowxhrx1+Bv8RmKI=;
+	s=arc-20240116; t=1728089572; c=relaxed/simple;
+	bh=PhPC8XopNox91epSPgf1AiWpjWGzbYIztveNMv5akNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sp3KPI0XaCHvG+sEVydQNAdcWG4Puj43gc7NtGgX5SXEBMnVwqHQ++iqkJEMZdI2xL3bo3076xZYTG+7jNUg8TjpYrrl2l9u9DrDDEzZ7U/uRhpsQOtgbOtA5jZhygARsD8SmScVaiVmwPpzOCUMmI0KMppWKjZSuE0hRTcYCIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LvG8wSur; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=NFfEpaybXttU1nMD1O9EfAQmwk8Iodwby7s0+KYK9nA7EafwvKjYZZv8ldh8Cqv2wN3pawhr5ieEHAHHej2hql2WyI7xr6Z2vbm3DsQBIL6ca5725Whwl3ytebDoAejaAYFEqv1W7xMj4rDFpw0nwihbYwo3ausbjneNcrNdtL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bw1d4+58; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LvG8wSur"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bw1d4+58"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728089569; x=1759625569;
+  t=1728089571; x=1759625571;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xUis1Np6K2u8tpKkYQbQP9AOGIGPowxhrx1+Bv8RmKI=;
-  b=LvG8wSurteXWoq0+k+GC3Kw1vBUVoBxuNBp3o++v25fRFSSYLpK70hn2
-   2XGYI5x4t1/fLgBlYmQvtJchxmfdUl8MWu2VJ3Xe/H6T8Wnca597A5lM2
-   /j10DE+RKUNpwpyvmBoyoKT3YxacKYIH6QiW238vccbNhyoC7aGsZkWUO
-   aLFvPuvE2P+TXo3ut5/iAZPeOzE9ZUM6aY22CNVcEUdbtq/oqi0A8QMyP
-   iMRbQYv1C55QRQEDROkYr8ZEh18aRQowLQvzODiGza+5fVLZLexo9ZM/a
-   8zkj3ttsm4F6hPLepdq5I+NYF5WXCLHvRa4cV0aiu0fIWwRowXcayj2GX
-   g==;
-X-CSE-ConnectionGUID: 63bzBlaJQi+NPUgPU3is+A==
-X-CSE-MsgGUID: PkLBPRG8ScWSrCC7DfrHMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27468843"
+  bh=PhPC8XopNox91epSPgf1AiWpjWGzbYIztveNMv5akNI=;
+  b=Bw1d4+58ld033xkxerQzc3G7dStHPHjcvbplPEPQxIGvHNt91F0K6kwS
+   HKb7GpieE5MIM9ki3nx67mClo6nDQ/Pe8OYaPJgY88QWffkefkVoucdIn
+   gWFzqaMbDq6mkQkXWna1RORnEb7m9zt9AKSSLcYFwJ/ekgjZxybRbB1YS
+   KaGETsDNoy0QLaKpUXD0qxq/Jy19C60Br5b7KXe5kO/kiiHSbwnWl2uz4
+   PcXt+H1emUtiIsHj/z/XVr/QRaqtkqsJVnC1+y1w/VULunCkmq/ptl1g4
+   E6LXJfhkd7AmGntY/o9ncfY4doraRJBPrttUF7lzypOnSpMo0YzDZbh34
+   w==;
+X-CSE-ConnectionGUID: UZIpADU2RHSI1jqJ47cIJA==
+X-CSE-MsgGUID: NqA1F0OPS9unqhwqlWKZhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26827857"
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="27468843"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 17:52:48 -0700
-X-CSE-ConnectionGUID: 8v3uyNIeTAOzuOSo0hVpow==
-X-CSE-MsgGUID: 2Chp/5PLRc6gFwuMTUL+FQ==
+   d="scan'208";a="26827857"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 17:52:49 -0700
+X-CSE-ConnectionGUID: kTgB74QiSwa4Objpi0GQ+A==
+X-CSE-MsgGUID: qkmLuQ8RSjGgdL2u2rodRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="79826470"
+   d="scan'208";a="75205821"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Oct 2024 17:52:48 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 04 Oct 2024 17:52:47 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swt2L-0002OP-0z;
+	id 1swt2L-0002OK-0s;
 	Sat, 05 Oct 2024 00:52:45 +0000
-Date: Sat, 5 Oct 2024 08:51:53 +0800
+Date: Sat, 5 Oct 2024 08:51:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-f9d942cf7d57 1262/1491]
- sound/soc/intel/avs/tgl.c:53:2: error: use of undeclared identifier
- 'icl_enable_logs'; did you mean 'avs_icl_enable_logs'?
-Message-ID: <202410050811.PB6BJG9o-lkp@intel.com>
+To: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134
+ core_dcn4_initialize() warn: inconsistent indenting
+Message-ID: <202410050813.ukNdcvDS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,54 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
-head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
-commit: 6da61689a4e7a301ea3db2ecc1b5f37dd464478f [1262/1491] UPSTREAM: ASoC: Intel: avs: TGL-based platforms support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241005/202410050811.PB6BJG9o-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050811.PB6BJG9o-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ac308609567d31fe44be80ab757a5ddf062362ef
+commit: 00c391102abc13763e2bfc90e05503109b19f074 drm/amd/display: Add misc DC changes for DCN401
+date:   5 months ago
+config: loongarch-randconfig-r071-20241003 (https://download.01.org/0day-ci/archive/20241005/202410050813.ukNdcvDS-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050811.PB6BJG9o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050813.ukNdcvDS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134 core_dcn4_initialize() warn: inconsistent indenting
 
->> sound/soc/intel/avs/tgl.c:53:2: error: use of undeclared identifier 'icl_enable_logs'; did you mean 'avs_icl_enable_logs'?
-      53 |         AVS_SET_ENABLE_LOGS_OP(icl)
-         |         ^
-   sound/soc/intel/avs/avs.h:374:17: note: expanded from macro 'AVS_SET_ENABLE_LOGS_OP'
-     374 |         .enable_logs = name##_enable_logs
-         |                        ^
-   <scratch space>:153:1: note: expanded from here
-     153 | icl_enable_logs
-         | ^
-   sound/soc/intel/avs/avs.h:257:5: note: 'avs_icl_enable_logs' declared here
-     257 | int avs_icl_enable_logs(struct avs_dev *adev, enum avs_log_enable enable, u32 aging_period,
-         |     ^
-   1 error generated.
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:553 core_dcn4_mode_programming() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:568 core_dcn4_mode_programming() warn: curly braces intended?
 
+vim +134 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c
 
-vim +53 sound/soc/intel/avs/tgl.c
+70839da6360500 Aurabindo Pillai 2024-04-19  112  
+70839da6360500 Aurabindo Pillai 2024-04-19  113  bool core_dcn4_initialize(struct dml2_core_initialize_in_out *in_out)
+70839da6360500 Aurabindo Pillai 2024-04-19  114  {
+70839da6360500 Aurabindo Pillai 2024-04-19  115  	struct dml2_core_instance *core = in_out->instance;
+70839da6360500 Aurabindo Pillai 2024-04-19  116  
+70839da6360500 Aurabindo Pillai 2024-04-19  117  	if (!in_out->minimum_clock_table)
+70839da6360500 Aurabindo Pillai 2024-04-19  118  		return false;
+70839da6360500 Aurabindo Pillai 2024-04-19  119  	else
+70839da6360500 Aurabindo Pillai 2024-04-19  120  		core->minimum_clock_table = in_out->minimum_clock_table;
+70839da6360500 Aurabindo Pillai 2024-04-19  121  
+70839da6360500 Aurabindo Pillai 2024-04-19  122  	if (in_out->explicit_ip_bb && in_out->explicit_ip_bb_size > 0) {
+70839da6360500 Aurabindo Pillai 2024-04-19  123  		memcpy(&core->clean_me_up.mode_lib.ip, in_out->explicit_ip_bb, in_out->explicit_ip_bb_size);
+70839da6360500 Aurabindo Pillai 2024-04-19  124  
+70839da6360500 Aurabindo Pillai 2024-04-19  125  		// FIXME_STAGE2:
+70839da6360500 Aurabindo Pillai 2024-04-19  126  		// DV still uses stage1 ip_param_st for each variant, need to patch the ip_caps with ip_param info
+70839da6360500 Aurabindo Pillai 2024-04-19  127  		// Should move DV to use ip_caps but need move more overrides to ip_caps
+70839da6360500 Aurabindo Pillai 2024-04-19  128  		patch_ip_caps_with_explicit_ip_params(in_out->ip_caps, in_out->explicit_ip_bb);
+70839da6360500 Aurabindo Pillai 2024-04-19  129  		core->clean_me_up.mode_lib.ip.subvp_pstate_allow_width_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
+70839da6360500 Aurabindo Pillai 2024-04-19  130  		core->clean_me_up.mode_lib.ip.subvp_fw_processing_delay_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
+70839da6360500 Aurabindo Pillai 2024-04-19  131  		core->clean_me_up.mode_lib.ip.subvp_swath_height_margin_lines = core_dcn4_ip_caps_base.subvp_swath_height_margin_lines;
+70839da6360500 Aurabindo Pillai 2024-04-19  132  	} else {
+70839da6360500 Aurabindo Pillai 2024-04-19  133  			memcpy(&core->clean_me_up.mode_lib.ip, &core_dcn4_ip_caps_base, sizeof(struct dml2_core_ip_params));
+70839da6360500 Aurabindo Pillai 2024-04-19 @134  		patch_ip_params_with_ip_caps(&core->clean_me_up.mode_lib.ip, in_out->ip_caps);
+70839da6360500 Aurabindo Pillai 2024-04-19  135  
+70839da6360500 Aurabindo Pillai 2024-04-19  136  		core->clean_me_up.mode_lib.ip.imall_supported = false;
+70839da6360500 Aurabindo Pillai 2024-04-19  137  	}
+70839da6360500 Aurabindo Pillai 2024-04-19  138  
+70839da6360500 Aurabindo Pillai 2024-04-19  139  	memcpy(&core->clean_me_up.mode_lib.soc, in_out->soc_bb, sizeof(struct dml2_soc_bb));
+70839da6360500 Aurabindo Pillai 2024-04-19  140  
+70839da6360500 Aurabindo Pillai 2024-04-19  141  	return true;
+70839da6360500 Aurabindo Pillai 2024-04-19  142  }
+70839da6360500 Aurabindo Pillai 2024-04-19  143  
 
-    37	
-    38	const struct avs_dsp_ops avs_tgl_dsp_ops = {
-    39		.power = avs_tgl_dsp_core_power,
-    40		.reset = avs_tgl_dsp_core_reset,
-    41		.stall = avs_tgl_dsp_core_stall,
-    42		.irq_handler = avs_irq_handler,
-    43		.irq_thread = avs_cnl_irq_thread,
-    44		.int_control = avs_dsp_interrupt_control,
-    45		.load_basefw = avs_hda_load_basefw,
-    46		.load_lib = avs_hda_load_library,
-    47		.transfer_mods = avs_hda_transfer_modules,
-    48		.log_buffer_offset = avs_icl_log_buffer_offset,
-    49		.log_buffer_status = avs_apl_log_buffer_status,
-    50		.coredump = avs_apl_coredump,
-    51		.d0ix_toggle = avs_icl_d0ix_toggle,
-    52		.set_d0ix = avs_icl_set_d0ix,
-  > 53		AVS_SET_ENABLE_LOGS_OP(icl)
+:::::: The code at line 134 was first introduced by commit
+:::::: 70839da6360500a82e4d5f78499284474cbed7c1 drm/amd/display: Add new DCN401 sources
+
+:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
