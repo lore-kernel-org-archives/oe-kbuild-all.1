@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6AF749A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 21:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83456F2F2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 21:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728162871; cv=none; b=YWRa6NjC6zsfi9Zt5WElx3Tx9LJ4+ZK4LkhXCsNFXNYR0MtpUX8gy8vnCjxGX9mmfUy6/QFoySM/yL316A8Sor9KqJJPW69JVZvQ8e4+kAZG3VRrtNeI6q7q1KOOiZD2yghtmOyb1/X3h71kd7btIGh3uPxvzW6W1q+IJ954nH8=
+	t=1728163472; cv=none; b=PZt/mto8OGXIkuvUQrl/CMSyzI3nX1eYIis2J0L9QNIFHRmaBuxxTZQ/GLx92yHzTec3eOUnMck6kJ99+tTLk4PxDbm+S4sl+VN+/ut9K6nPid/zHl7l3dXTzTJB3ZAWfNsoFMXwj5k6DQerlX0DQlzM2sjR7f8E51WMLlIJ6hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728162871; c=relaxed/simple;
-	bh=8ZjFwZrJxBD8PtQCoJ9Th1ndHDuF56dCS4CFRaQ/QuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LyOJmMaUIQEhwV0+1nHf8Jqs2rkQd1KwWE0afWxwtzMFHIDFAqFfPo5skWxeEC/A3t2Psnh8UGxYzyWqY7Lb3a9Zk98dH2H5r0vkRCRS7mb8HT85Zna/DGM4NxPNfdfj9h5uMIE5N08btsp2iaZKrK7OJ2PTrUnk8VEzBpE8jPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDfWqk+2; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1728163472; c=relaxed/simple;
+	bh=28EJwOlUFbVmu5cykHKDrdq+PZHi92oXA3lleQu2MM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GuAdXJx1SnSN/rvfUJUjFaoXEmskmcgVFQuotmSDHyQyFQ20dN8tAOwv2lbPMT8ZjhwmTz9FYG26yH+KLh6BRKNbPjiGciq768HjtAt1GcN/LMVdHBlsGCXnbXlEQrVqdwighegys3Mmhb1atjUD+o1Qh67NwzzaBMvrBT3aZ6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6ZLdaGg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDfWqk+2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6ZLdaGg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728162870; x=1759698870;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ZjFwZrJxBD8PtQCoJ9Th1ndHDuF56dCS4CFRaQ/QuY=;
-  b=fDfWqk+2ZnEFLDiesVrWoXIxsahfz86p8Fyqks7/MBpR4giRKGcUkqGC
-   hF32nJlFFFyGrfy4y4VpHOw7fGgAti+ZDwiV0te3cDFv5TwQxqeRNYGkT
-   4+2G/JXfWSJMEw+tJ3dfouK2M66FtEtnUxqB90qv4z0wzT7eweKNL8mL/
-   t8sRv/7Qx7ZuHQqmQfB5rtilInRl3lv2jeqFBH+i4M0RvVhVFYIGAedZu
-   T9X8XxlZhJBaUEUBljKH+FWb4cxqAP3ROint1Ct1ZLkqQOCVax2fsHW+n
-   wq/8HoDUaDradadvRwf6bsvbXpH0AZCL1rSBTgtA8FG4to0AGOhB1gjOc
-   g==;
-X-CSE-ConnectionGUID: nn+JzX2bQcWni4Ht36kjKA==
-X-CSE-MsgGUID: 1ADCC7cUQZe6pjDd2UuL1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27299396"
+  t=1728163471; x=1759699471;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=28EJwOlUFbVmu5cykHKDrdq+PZHi92oXA3lleQu2MM4=;
+  b=h6ZLdaGg6PfUsy8+vbIWQlgyIZcKvuN8zAsvPZsa21iMUizMWR7k/qr9
+   14hOM9I1FXUkfFJa2wJp9HCsecM1lBcOsh0zwYWQo1VEt8nSeB7/u7UmO
+   S33T8d3a1bU80ahFTSBuh3KlscLtk4JvNbWk2CqIifxRvxqit4keo+ERa
+   gBYBuMmxIO8aOLaD5ONdaTMrOFOFVR9XfCAUZtOFhYx24CJZmLB6pBheH
+   /lEXTZIABvJWBD9e4V/waW3kZAPYHC0KPq05TaxAhHCuz3/RNd7haTPJR
+   vF3Cq3pSvXvXMMTpxtSk8SjIG1oZVi5UTLEOQ14VT8XfckpB8oNY0gO0I
+   A==;
+X-CSE-ConnectionGUID: op28XfWNTDmu/MEf6nJfwg==
+X-CSE-MsgGUID: h0CO0kpWQTG/q5r9fLiSuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="44883102"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="27299396"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 14:14:29 -0700
-X-CSE-ConnectionGUID: lIJDIsGpRwukYvj3ToNWMA==
-X-CSE-MsgGUID: oyffb+XkTVmQ+QczSuk+iw==
+   d="scan'208";a="44883102"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 14:24:30 -0700
+X-CSE-ConnectionGUID: Ko8wKgrUThuw/HWovYsTRQ==
+X-CSE-MsgGUID: NILWtGSxSPerWSHD5Dr44A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="112526735"
+   d="scan'208";a="75033885"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Oct 2024 14:14:27 -0700
+  by orviesa009.jf.intel.com with ESMTP; 05 Oct 2024 14:24:28 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxC6b-0003MM-0K;
-	Sat, 05 Oct 2024 21:14:25 +0000
-Date: Sun, 6 Oct 2024 05:14:13 +0800
+	id 1sxCGH-0003Mc-0z;
+	Sat, 05 Oct 2024 21:24:25 +0000
+Date: Sun, 6 Oct 2024 05:24:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nava kishore Manne <nava.manne@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 607/1001]
- drivers/fpga/zynq-afi.c:27: warning: expecting prototype for struct
- afi_fpga. Prototype was for struct zynq_afi_fpga instead
-Message-ID: <202410060500.ihzgE0QJ-lkp@intel.com>
+To: Uday Shankar <ushankar@purestorage.com>, Ming Lei <ming.lei@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, Uday Shankar <ushankar@purestorage.com>,
+	linux-block@vger.kernel.org
+Subject: Re: [PATCH] ublk: decouple hctx and ublk server threads
+Message-ID: <202410060518.wRBlN5hY-lkp@intel.com>
+References: <20241002224437.3088981-1-ushankar@purestorage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,37 +64,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241002224437.3088981-1-ushankar@purestorage.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: 286e6a59b858bd3acaa9565a3674c2453cec46f4 [607/1001] fpga: zynq: Add AFI config driver
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241006/202410060500.ihzgE0QJ-lkp@intel.com/config)
+Hi Uday,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ccb1526dda70e0c1bae7fe27aa3b0c96e6e2d0cd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uday-Shankar/ublk-decouple-hctx-and-ublk-server-threads/20241003-064609
+base:   ccb1526dda70e0c1bae7fe27aa3b0c96e6e2d0cd
+patch link:    https://lore.kernel.org/r/20241002224437.3088981-1-ushankar%40purestorage.com
+patch subject: [PATCH] ublk: decouple hctx and ublk server threads
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241006/202410060518.wRBlN5hY-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060500.ihzgE0QJ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060518.wRBlN5hY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410060500.ihzgE0QJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410060518.wRBlN5hY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/fpga/zynq-afi.c:27: warning: expecting prototype for struct afi_fpga. Prototype was for struct zynq_afi_fpga instead
+   drivers/block/ublk_drv.c: In function 'ublk_uring_cmd_cancel_fn':
+>> drivers/block/ublk_drv.c:1446:29: warning: variable 'task' set but not used [-Wunused-but-set-variable]
+    1446 |         struct task_struct *task;
+         |                             ^~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +27 drivers/fpga/zynq-afi.c
+vim +/task +1446 drivers/block/ublk_drv.c
 
-    18	
-    19	/**
-    20	 * struct afi_fpga - AFI register description
-    21	 * @membase:	pointer to register struct
-    22	 * @afi_width:	AFI bus width to be written
-    23	 */
-    24	struct zynq_afi_fpga {
-    25		void __iomem	*membase;
-    26		u32		afi_width;
-  > 27	};
-    28	
+216c8f5ef0f209 Ming Lei    2023-10-09  1436  
+216c8f5ef0f209 Ming Lei    2023-10-09  1437  /*
+216c8f5ef0f209 Ming Lei    2023-10-09  1438   * The ublk char device won't be closed when calling cancel fn, so both
+216c8f5ef0f209 Ming Lei    2023-10-09  1439   * ublk device and queue are guaranteed to be live
+216c8f5ef0f209 Ming Lei    2023-10-09  1440   */
+216c8f5ef0f209 Ming Lei    2023-10-09  1441  static void ublk_uring_cmd_cancel_fn(struct io_uring_cmd *cmd,
+216c8f5ef0f209 Ming Lei    2023-10-09  1442  		unsigned int issue_flags)
+216c8f5ef0f209 Ming Lei    2023-10-09  1443  {
+216c8f5ef0f209 Ming Lei    2023-10-09  1444  	struct ublk_uring_cmd_pdu *pdu = ublk_get_uring_cmd_pdu(cmd);
+216c8f5ef0f209 Ming Lei    2023-10-09  1445  	struct ublk_queue *ubq = pdu->ubq;
+216c8f5ef0f209 Ming Lei    2023-10-09 @1446  	struct task_struct *task;
+216c8f5ef0f209 Ming Lei    2023-10-09  1447  	struct ublk_device *ub;
+216c8f5ef0f209 Ming Lei    2023-10-09  1448  	bool need_schedule;
+216c8f5ef0f209 Ming Lei    2023-10-09  1449  	struct ublk_io *io;
+216c8f5ef0f209 Ming Lei    2023-10-09  1450  
+216c8f5ef0f209 Ming Lei    2023-10-09  1451  	if (WARN_ON_ONCE(!ubq))
+216c8f5ef0f209 Ming Lei    2023-10-09  1452  		return;
+216c8f5ef0f209 Ming Lei    2023-10-09  1453  
+216c8f5ef0f209 Ming Lei    2023-10-09  1454  	if (WARN_ON_ONCE(pdu->tag >= ubq->q_depth))
+bd23f6c2c2d005 Ming Lei    2023-10-09  1455  		return;
+bd23f6c2c2d005 Ming Lei    2023-10-09  1456  
+216c8f5ef0f209 Ming Lei    2023-10-09  1457  	task = io_uring_cmd_get_task(cmd);
+bd23f6c2c2d005 Ming Lei    2023-10-09  1458  
+216c8f5ef0f209 Ming Lei    2023-10-09  1459  	ub = ubq->dev;
+216c8f5ef0f209 Ming Lei    2023-10-09  1460  	need_schedule = ublk_abort_requests(ub, ubq);
+216c8f5ef0f209 Ming Lei    2023-10-09  1461  
+216c8f5ef0f209 Ming Lei    2023-10-09  1462  	io = &ubq->ios[pdu->tag];
+216c8f5ef0f209 Ming Lei    2023-10-09  1463  	WARN_ON_ONCE(io->cmd != cmd);
+b4e1353f465147 Ming Lei    2023-10-09  1464  	ublk_cancel_cmd(ubq, io, issue_flags);
+216c8f5ef0f209 Ming Lei    2023-10-09  1465  
+216c8f5ef0f209 Ming Lei    2023-10-09  1466  	if (need_schedule) {
+bd23f6c2c2d005 Ming Lei    2023-10-09  1467  		if (ublk_can_use_recovery(ub))
+bbae8d1f526b56 ZiyangZhang 2022-09-23  1468  			schedule_work(&ub->quiesce_work);
+bbae8d1f526b56 ZiyangZhang 2022-09-23  1469  		else
+71f28f3136aff5 Ming Lei    2022-07-13  1470  			schedule_work(&ub->stop_work);
+216c8f5ef0f209 Ming Lei    2023-10-09  1471  	}
+71f28f3136aff5 Ming Lei    2022-07-13  1472  }
+71f28f3136aff5 Ming Lei    2022-07-13  1473  
 
 -- 
 0-DAY CI Kernel Test Service
