@@ -1,67 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED1255C29
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 07:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6EF85947
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 07:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728113166; cv=none; b=fjG9txtcWY77qlQ3pMPMRs2VDWFU/UKyec4ZmurscYtUK/p79FDGxZLbK/9pWNB76XcQ18rshwstkW1mfLQT/5d9F6GxUmX5yTC1dp+EuoejObxXvNINSNLm1cHiKvN+R+shYl8n6/xd5cRpoSxe4fHNBgV9NBhTjt/UTmjTvb8=
+	t=1728113168; cv=none; b=hNz7MIvxJaS7aAFjYNTEcZEsl3bFM2stM8I/XdeBqd+ZBC/CcMrMlPCnnUp2pJjOUF9uH2WXIl2OB2AgY1caYQlb2LMiXm3hXDPKC+nSCbQoWb0jxzH9GJN9JGLIn++gtafHIUm61cmXLPDW71m3jz0jLMWoSx6oAKfZJWmp2Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728113166; c=relaxed/simple;
-	bh=BXom0R4HZ+jbjvMGJfsUEpflm5rY+ggC/lLjNUK3miM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XGyQKkwoMDH0VOW6h2fFe7pXlaVlY+KSrr3jjPLNd89WltO/37ZXnerYaGvfu2ZwBmnbg/a0jfw7C96cI2G9QXhKcWsqfdUmuoRJhTbO9D0SzaZFlMaMxg6W8lUxniThQikz904rPMljk4DOTWdEgMkhttLrzO0QUrhE15lUbVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WvV1/0DA; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1728113168; c=relaxed/simple;
+	bh=ej6ctAf7LEnbidS/IJfor64C2IZuflcNzOzxBCnt/f8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qQWp3qI6b2XnaEs8ZKmUn0CVX5hWbF5M6PMTKnVLl5hFjMkOQm8xcQMFdsO3ro90beKR8YVEBW7ixcvQsxOASQYxjKyv6HbjYGKl2LmrFHnLCnpLHSmqZMQgze2CjgTWX/wU4XWXb719Y9ufqPkNgxDqd2lXSGcji5N0hGWFplg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsr4Vvai; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WvV1/0DA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsr4Vvai"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728113165; x=1759649165;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BXom0R4HZ+jbjvMGJfsUEpflm5rY+ggC/lLjNUK3miM=;
-  b=WvV1/0DAl8mn8M7VOcib96+SGZ90Jr0846GyebS0Ic7+SLBLp9egHEIP
-   x5ELIDJBdkk7N7ewgOshU5iDNunIgofSiYvVxf+VD77ah6yYcd/ClFdXg
-   yp/93mOXifD+WarzVXIxtCS2qldZkno7IsclTCgoDziGP9sz3B/vvh79T
-   mtF/ffo/B3NNjFgjIAerDEp6BgMuvka6FlJCOivFLV73b3gijNQ4A5ImT
-   LB9qO4wKw5PUcOIdxEYvjPR26TRZoujhTOUtmDFqEeg3801bxu4YWenS7
-   OZyclDuM373PBW2UKqS4UkLmojOeqHWvmWsdnDfGckfdqJ7tA4HrmjYNz
-   Q==;
-X-CSE-ConnectionGUID: qO33RgwvSbOGER3Ud0+xEA==
-X-CSE-MsgGUID: bUaffO1SQESa/ZQqxHlIYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27465812"
+  t=1728113166; x=1759649166;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ej6ctAf7LEnbidS/IJfor64C2IZuflcNzOzxBCnt/f8=;
+  b=nsr4VvaidPrxTgMeBpBRkGpu2REwYWt0r9ELSZ/9xR2E09J/ilitZ9IM
+   0Ma+tKv2eOAMgmPfxLYxOf2ZmZl8AZCm8W5R+ZzL29MAx5oHDdJehFzuo
+   8mMzrkmRIw4XChAgtNlaF96AouMGEmzANXbscTHe3RfM1ILvAgHoOVXpA
+   7WBfh3jlX2/DtalmOh8SM+Hgui0iFYjRaCjGwL7dHrLqq234oa7hn9Ghj
+   pDr7mv/Q1B7cIeFtREZxXDrZW0/TV5X1xqiA5zqkAv7Xby9+y+e+3WT5Z
+   GvNr2KLlE0QQeeFv9FBPZO4SPUa1aSbBdqi+6nxWLzrmVizrB4dfhfpPk
+   w==;
+X-CSE-ConnectionGUID: w1sau8cdT+q7dGAfGbjbOQ==
+X-CSE-MsgGUID: sLEvqz5iRmer1EYxA0PzqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27465816"
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="27465812"
+   d="scan'208";a="27465816"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 00:26:04 -0700
-X-CSE-ConnectionGUID: XVXvkuxgSIKSVKcvkJweXw==
-X-CSE-MsgGUID: lVpH3bD4Tfy0cFdpE9/lTg==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 00:26:05 -0700
+X-CSE-ConnectionGUID: oso0PjKSSyOWgVrlRyF+KA==
+X-CSE-MsgGUID: 7ycxFCv5TvW+uJABMMBCDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="112398313"
+   d="scan'208";a="112398328"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 05 Oct 2024 00:26:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swzAt-0002jo-1n;
+	id 1swzAt-0002jm-1j;
 	Sat, 05 Oct 2024 07:25:59 +0000
-Date: Sat, 5 Oct 2024 15:25:20 +0800
+Date: Sat, 5 Oct 2024 15:25:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v1 2/4] usb: typec: Add attribute file showing the USB
- Modes of the partner
-Message-ID: <202410051504.tccjB1Cp-lkp@intel.com>
-References: <20241004140440.1882311-3-heikki.krogerus@linux.intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 11988/12031] net/core/netclassid_cgroup.c:515:5:
+ sparse: sparse: symbol 'bps_limit_dump' was not declared. Should it be
+ static?
+Message-ID: <202410051501.MfTJ8XRH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,59 +66,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241004140440.1882311-3-heikki.krogerus@linux.intel.com>
 
-Hi Heikki,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-typec-Add-attribute-file-showing-the-USB-Modes-of-the-partner/20241004-230547
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20241004140440.1882311-3-heikki.krogerus%40linux.intel.com
-patch subject: [PATCH v1 2/4] usb: typec: Add attribute file showing the USB Modes of the partner
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241005/202410051504.tccjB1Cp-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   6c7ba3824d4ec8a20ab384fa7b838eeb7e5b4e5f
+commit: ca0f6ddd217803ae350424336308109cc6ca6fdc [11988/12031] rue/net: add rx && tx rate limit for per cgroup
+config: x86_64-randconfig-122-20241005 (https://download.01.org/0day-ci/archive/20241005/202410051501.MfTJ8XRH-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051504.tccjB1Cp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051501.MfTJ8XRH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051504.tccjB1Cp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051501.MfTJ8XRH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/netclassid_cgroup.c:122:5: sparse: sparse: symbol 'cls_cgroup_stats_init' was not declared. Should it be static?
+   net/core/netclassid_cgroup.c:151:6: sparse: sparse: symbol 'cls_cgroup_stats_destroy' was not declared. Should it be static?
+   net/core/netclassid_cgroup.c:337:5: sparse: sparse: symbol 'net_cgroup_notify_prio_change' was not declared. Should it be static?
+   net/core/netclassid_cgroup.c:489:5: sparse: sparse: symbol 'read_class_stat' was not declared. Should it be static?
+   net/core/netclassid_cgroup.c:501:5: sparse: sparse: symbol 'rx_dump' was not declared. Should it be static?
+   net/core/netclassid_cgroup.c:508:5: sparse: sparse: symbol 'tx_dump' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:515:5: sparse: sparse: symbol 'bps_limit_dump' was not declared. Should it be static?
 
->> drivers/usb/typec/class.c:630: warning: Function parameter or struct member 'usb_mode' not described in 'typec_partner_set_usb_mode'
->> drivers/usb/typec/class.c:630: warning: Excess function parameter 'mode' description in 'typec_partner_set_usb_mode'
+vim +/bps_limit_dump +515 net/core/netclassid_cgroup.c
 
-
-vim +630 drivers/usb/typec/class.c
-
-   620	
-   621	/**
-   622	 * typec_partner_set_usb_mode - Assign active USB Mode for the partner
-   623	 * @partner: USB Type-C partner
-   624	 * @mode: USB Mode (USB2, USB3 or USB4)
-   625	 *
-   626	 * The port drivers can use this function to assign the active USB Mode to
-   627	 * @partner. The USB Mode can change for example due to Data Reset.
-   628	 */
-   629	void typec_partner_set_usb_mode(struct typec_partner *partner, enum usb_mode usb_mode)
- > 630	{
-   631		if (!partner || partner->usb_mode == usb_mode)
-   632			return;
-   633	
-   634		partner->usb_capability |= BIT(usb_mode - 1);
-   635		partner->usb_mode = usb_mode;
-   636		sysfs_notify(&partner->dev.kobj, NULL, "usb_mode");
-   637	}
-   638	EXPORT_SYMBOL_GPL(typec_partner_set_usb_mode);
-   639	
+   514	
+ > 515	int bps_limit_dump(struct seq_file *sf, void *v)
+   516	{
+   517		struct cgroup_subsys_state *css = seq_css(sf);
+   518	
+   519		if (READ_ONCE(netcls_modfunc.dump_rx_bps_limit_tb) &&
+   520		    READ_ONCE(netcls_modfunc.dump_tx_bps_limit_tb)) {
+   521			netcls_modfunc.dump_rx_bps_limit_tb(css, sf);
+   522			netcls_modfunc.dump_tx_bps_limit_tb(css, sf);
+   523		}
+   524		return 0;
+   525	}
+   526	
 
 -- 
 0-DAY CI Kernel Test Service
