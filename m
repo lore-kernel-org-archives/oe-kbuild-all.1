@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C147D4C7E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 00:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E481749A;
+	Sat,  5 Oct 2024 01:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728089572; cv=none; b=j5UhXrV1we0mZypVKMseKouGlIRe/iEudPPddptpLdF/DAIpB1z3Cbq9acpG8EghHjIXnAOnAW+bg4ZFKY+hYEYCB2EloOsdM1ghUBvAIKbuT8MzRCqCT5iP8E4nwxAlARtDt4n77dAOIadUcEHlmEnnKd8t0PznqlVJzZGnIvI=
+	t=1728090835; cv=none; b=nqwKdd+mkL4qV0TDdK6Pd7BFAeXpySgyYJ1ts1RmD/EETzaXqQ2FbtPnBjtHXgmc9vvxM/zsbcUNM0dr24o0Ujl4gXlPwuqr939aG/EJ7y6zfqNkxo8QhW3vpcqQ6HVbhhg7O6R7L6WJ7odwDAquSodKporM6kTz3uYD7gFxoVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728089572; c=relaxed/simple;
-	bh=PhPC8XopNox91epSPgf1AiWpjWGzbYIztveNMv5akNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NFfEpaybXttU1nMD1O9EfAQmwk8Iodwby7s0+KYK9nA7EafwvKjYZZv8ldh8Cqv2wN3pawhr5ieEHAHHej2hql2WyI7xr6Z2vbm3DsQBIL6ca5725Whwl3ytebDoAejaAYFEqv1W7xMj4rDFpw0nwihbYwo3ausbjneNcrNdtL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bw1d4+58; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1728090835; c=relaxed/simple;
+	bh=ROpFcwVfpBZVEEAbzD/niLbgvfn+U8TQfekfFIK1SB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nlm/uOb6IafOxX3OkMnCJ0+m93mkI9xET4es3VDBVE2+wZzoOPg9bpdETvjZTdVQQ2RQpvX3GuOLz+wWYmD4XDHkh+J9VmM9FGr1X2nFTKsWPhhTDMoU0E3GycfDzLzj2vg+wIt0kpkqq3aqHKVkv62wrL4qdpeX3VeB1tZR+zU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VEjnu/Dg; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bw1d4+58"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VEjnu/Dg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728089571; x=1759625571;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PhPC8XopNox91epSPgf1AiWpjWGzbYIztveNMv5akNI=;
-  b=Bw1d4+58ld033xkxerQzc3G7dStHPHjcvbplPEPQxIGvHNt91F0K6kwS
-   HKb7GpieE5MIM9ki3nx67mClo6nDQ/Pe8OYaPJgY88QWffkefkVoucdIn
-   gWFzqaMbDq6mkQkXWna1RORnEb7m9zt9AKSSLcYFwJ/ekgjZxybRbB1YS
-   KaGETsDNoy0QLaKpUXD0qxq/Jy19C60Br5b7KXe5kO/kiiHSbwnWl2uz4
-   PcXt+H1emUtiIsHj/z/XVr/QRaqtkqsJVnC1+y1w/VULunCkmq/ptl1g4
-   E6LXJfhkd7AmGntY/o9ncfY4doraRJBPrttUF7lzypOnSpMo0YzDZbh34
-   w==;
-X-CSE-ConnectionGUID: UZIpADU2RHSI1jqJ47cIJA==
-X-CSE-MsgGUID: NqA1F0OPS9unqhwqlWKZhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26827857"
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="26827857"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 17:52:49 -0700
-X-CSE-ConnectionGUID: kTgB74QiSwa4Objpi0GQ+A==
-X-CSE-MsgGUID: qkmLuQ8RSjGgdL2u2rodRg==
+  t=1728090833; x=1759626833;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ROpFcwVfpBZVEEAbzD/niLbgvfn+U8TQfekfFIK1SB4=;
+  b=VEjnu/DgY0VPytyJ/m2IpkBk8bKs5uvUfo5Rhih4L6JXSOQSojueiQj/
+   D+rqJ9103hITVU1m7Q8VZW4MTLUBRToGeoxycXRwVwWzao1AEw4wRhdSh
+   ihz5oDy0/9WrxUagLeGFxQAzQKbs1uY0tJyRSJVm8Ry18vKB04SWbUPoe
+   Yr80jtCe+cvT2NKvfyw8A4ViUdtloyRUGtmxbaebuMG+pIfGoPPchgnph
+   /ysE6RIgmIdaONgTY+Plcv0At2Q6SKTc/1a1h8S2+wWPcatazRmodBNeX
+   dNqXpIGEmxHGive7OavKPK2SKlXKUnJtti/yQoElS2nMXpCUp2pSszjwT
+   A==;
+X-CSE-ConnectionGUID: TwkWVeZATPGgGHxjjKaBVQ==
+X-CSE-MsgGUID: eqTtFRhnRASK+zTvswycMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37891408"
+X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
+   d="scan'208";a="37891408"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 18:13:53 -0700
+X-CSE-ConnectionGUID: Jq3hpcnDQ9SJ7qXh6xlIgQ==
+X-CSE-MsgGUID: YHkhactZQc2V34zPY3+UIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="75205821"
+X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
+   d="scan'208";a="78857400"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Oct 2024 17:52:47 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 04 Oct 2024 18:13:48 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swt2L-0002OK-0s;
-	Sat, 05 Oct 2024 00:52:45 +0000
-Date: Sat, 5 Oct 2024 08:51:50 +0800
+	id 1swtMf-0002P8-2G;
+	Sat, 05 Oct 2024 01:13:45 +0000
+Date: Sat, 5 Oct 2024 09:12:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134
- core_dcn4_initialize() warn: inconsistent indenting
-Message-ID: <202410050813.ukNdcvDS-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, linux-trace-kernel@vger.kernel.org,
+	peterz@infradead.org, oleg@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	rostedt@goodmis.org, mhiramat@kernel.org, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jolsa@kernel.org, paulmck@kernel.org,
+	willy@infradead.org, surenb@google.com, akpm@linux-foundation.org,
+	linux-mm@kvack.org, mjguzik@gmail.com, brauner@kernel.org,
+	jannh@google.com, mhocko@kernel.org, vbabka@suse.cz,
+	mingo@kernel.org, Andrii Nakryiko <andrii@kernel.org>
+Subject: Re: [PATCH v2 tip/perf/core 5/5] uprobes: add speculative lockless
+ VMA-to-inode-to-uprobe resolution
+Message-ID: <202410050846.Zbsm9OI1-lkp@intel.com>
+References: <20241001225207.2215639-6-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +70,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241001225207.2215639-6-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac308609567d31fe44be80ab757a5ddf062362ef
-commit: 00c391102abc13763e2bfc90e05503109b19f074 drm/amd/display: Add misc DC changes for DCN401
-date:   5 months ago
-config: loongarch-randconfig-r071-20241003 (https://download.01.org/0day-ci/archive/20241005/202410050813.ukNdcvDS-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+Hi Andrii,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/perf/core]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/mm-introduce-mmap_lock_speculation_-start-end/20241002-065354
+base:   tip/perf/core
+patch link:    https://lore.kernel.org/r/20241001225207.2215639-6-andrii%40kernel.org
+patch subject: [PATCH v2 tip/perf/core 5/5] uprobes: add speculative lockless VMA-to-inode-to-uprobe resolution
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20241005/202410050846.Zbsm9OI1-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050846.Zbsm9OI1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050813.ukNdcvDS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050846.Zbsm9OI1-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134 core_dcn4_initialize() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:553 core_dcn4_mode_programming() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:568 core_dcn4_mode_programming() warn: curly braces intended?
+>> kernel/events/uprobes.c:2098:39: error: incompatible pointer types passing 'long *' to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+    2098 |         if (!mmap_lock_speculation_start(mm, &seq))
+         |                                              ^~~~
+   include/linux/mmap_lock.h:126:75: note: passing argument to parameter 'seq' here
+     126 | static inline bool mmap_lock_speculation_start(struct mm_struct *mm, int *seq) { return false; }
+         |                                                                           ^
+   1 error generated.
 
-vim +134 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c
 
-70839da6360500 Aurabindo Pillai 2024-04-19  112  
-70839da6360500 Aurabindo Pillai 2024-04-19  113  bool core_dcn4_initialize(struct dml2_core_initialize_in_out *in_out)
-70839da6360500 Aurabindo Pillai 2024-04-19  114  {
-70839da6360500 Aurabindo Pillai 2024-04-19  115  	struct dml2_core_instance *core = in_out->instance;
-70839da6360500 Aurabindo Pillai 2024-04-19  116  
-70839da6360500 Aurabindo Pillai 2024-04-19  117  	if (!in_out->minimum_clock_table)
-70839da6360500 Aurabindo Pillai 2024-04-19  118  		return false;
-70839da6360500 Aurabindo Pillai 2024-04-19  119  	else
-70839da6360500 Aurabindo Pillai 2024-04-19  120  		core->minimum_clock_table = in_out->minimum_clock_table;
-70839da6360500 Aurabindo Pillai 2024-04-19  121  
-70839da6360500 Aurabindo Pillai 2024-04-19  122  	if (in_out->explicit_ip_bb && in_out->explicit_ip_bb_size > 0) {
-70839da6360500 Aurabindo Pillai 2024-04-19  123  		memcpy(&core->clean_me_up.mode_lib.ip, in_out->explicit_ip_bb, in_out->explicit_ip_bb_size);
-70839da6360500 Aurabindo Pillai 2024-04-19  124  
-70839da6360500 Aurabindo Pillai 2024-04-19  125  		// FIXME_STAGE2:
-70839da6360500 Aurabindo Pillai 2024-04-19  126  		// DV still uses stage1 ip_param_st for each variant, need to patch the ip_caps with ip_param info
-70839da6360500 Aurabindo Pillai 2024-04-19  127  		// Should move DV to use ip_caps but need move more overrides to ip_caps
-70839da6360500 Aurabindo Pillai 2024-04-19  128  		patch_ip_caps_with_explicit_ip_params(in_out->ip_caps, in_out->explicit_ip_bb);
-70839da6360500 Aurabindo Pillai 2024-04-19  129  		core->clean_me_up.mode_lib.ip.subvp_pstate_allow_width_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
-70839da6360500 Aurabindo Pillai 2024-04-19  130  		core->clean_me_up.mode_lib.ip.subvp_fw_processing_delay_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
-70839da6360500 Aurabindo Pillai 2024-04-19  131  		core->clean_me_up.mode_lib.ip.subvp_swath_height_margin_lines = core_dcn4_ip_caps_base.subvp_swath_height_margin_lines;
-70839da6360500 Aurabindo Pillai 2024-04-19  132  	} else {
-70839da6360500 Aurabindo Pillai 2024-04-19  133  			memcpy(&core->clean_me_up.mode_lib.ip, &core_dcn4_ip_caps_base, sizeof(struct dml2_core_ip_params));
-70839da6360500 Aurabindo Pillai 2024-04-19 @134  		patch_ip_params_with_ip_caps(&core->clean_me_up.mode_lib.ip, in_out->ip_caps);
-70839da6360500 Aurabindo Pillai 2024-04-19  135  
-70839da6360500 Aurabindo Pillai 2024-04-19  136  		core->clean_me_up.mode_lib.ip.imall_supported = false;
-70839da6360500 Aurabindo Pillai 2024-04-19  137  	}
-70839da6360500 Aurabindo Pillai 2024-04-19  138  
-70839da6360500 Aurabindo Pillai 2024-04-19  139  	memcpy(&core->clean_me_up.mode_lib.soc, in_out->soc_bb, sizeof(struct dml2_soc_bb));
-70839da6360500 Aurabindo Pillai 2024-04-19  140  
-70839da6360500 Aurabindo Pillai 2024-04-19  141  	return true;
-70839da6360500 Aurabindo Pillai 2024-04-19  142  }
-70839da6360500 Aurabindo Pillai 2024-04-19  143  
+vim +2098 kernel/events/uprobes.c
 
-:::::: The code at line 134 was first introduced by commit
-:::::: 70839da6360500a82e4d5f78499284474cbed7c1 drm/amd/display: Add new DCN401 sources
-
-:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+  2086	
+  2087	static struct uprobe *find_active_uprobe_speculative(unsigned long bp_vaddr)
+  2088	{
+  2089		struct mm_struct *mm = current->mm;
+  2090		struct uprobe *uprobe = NULL;
+  2091		struct vm_area_struct *vma;
+  2092		struct file *vm_file;
+  2093		loff_t offset;
+  2094		long seq;
+  2095	
+  2096		guard(rcu)();
+  2097	
+> 2098		if (!mmap_lock_speculation_start(mm, &seq))
+  2099			return NULL;
+  2100	
+  2101		vma = vma_lookup(mm, bp_vaddr);
+  2102		if (!vma)
+  2103			return NULL;
+  2104	
+  2105		/* vm_file memory can be reused for another instance of struct file,
+  2106		 * but can't be freed from under us, so it's safe to read fields from
+  2107		 * it, even if the values are some garbage values; ultimately
+  2108		 * find_uprobe_rcu() + mmap_lock_speculation_end() check will ensure
+  2109		 * that whatever we speculatively found is correct
+  2110		 */
+  2111		vm_file = READ_ONCE(vma->vm_file);
+  2112		if (!vm_file)
+  2113			return NULL;
+  2114	
+  2115		offset = (loff_t)(vma->vm_pgoff << PAGE_SHIFT) + (bp_vaddr - vma->vm_start);
+  2116		uprobe = find_uprobe_rcu(vm_file->f_inode, offset);
+  2117		if (!uprobe)
+  2118			return NULL;
+  2119	
+  2120		/* now double check that nothing about MM changed */
+  2121		if (!mmap_lock_speculation_end(mm, seq))
+  2122			return NULL;
+  2123	
+  2124		return uprobe;
+  2125	}
+  2126	
 
 -- 
 0-DAY CI Kernel Test Service
