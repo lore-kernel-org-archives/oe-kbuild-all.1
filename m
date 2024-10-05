@@ -1,63 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAFA1B960
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 02:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BB210A18
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 02:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728095757; cv=none; b=EI2sTTs8/y7JyHuczN6aT7MmxKX6i2k8FkZrHiFcArY6z3mpb94ug3iv5eVMY/kqIu7sRlj1pC7+IqXDZSZucOsDfNBQSFrt75h7yiYdcQOwbSz+IBwZWf54Y4ZE+lknDeeBgrAa46wShF76Wi3Atdf9hnbaWogQxw4GkLTc4yA=
+	t=1728096416; cv=none; b=duDg2q/GgF5Uxdpb9Wlv+nEozI2Xs1vtCBHF2PAW55lwBkZbY7/y8eGqi9EAuHY4tqTO5lzPMbvLfKXdKRFsArGSarRFpT3+AheHZSZsoJCgq6KtLz03X2RRPRWCv48Fn/7eKoXhMffH7Grk8Fc/sRvCTvqcuANhiEQxAIG93dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728095757; c=relaxed/simple;
-	bh=fOC17weWTvg5lwzCACVLok5FrFDPVxaeyfRvMEwGQaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZAiYLlrApDFrVkCial4wngxAzoFUQuaZXdOYTN6xJ7+Vnd0B8BOcS2vC3f2UYlkNym5HrRzS3CQlLt26XIeIp9I1DmOU2B7oB9bDy8vUWDEJjPyzSJifOlCke6Mw1b2wE5/uRY0wy8SWTrrv/zzzjNf9YfKw7XbGLQEuzH1cF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/48GYxU; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1728096416; c=relaxed/simple;
+	bh=sG0q/YV04AOba/dCL40xHCR92wyMRnxNTG9dQMy+1yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rStlj9vKk8Y7hkVw1bAlf4RB5HJriztekPorwtrCCb7L7p0ZgsrSr5tF2eaXl3gtrhXFbNKGAOxSeUNCvMm6SNLlegnt0EXFUG+pdbM8DaQ1dkl9AcnSu/EGfz5ZX/cdLKD+nMcFwfObUAsOwoHTeuXw8qUCJD7NBMYRyd5eZSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGXjEvgj; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/48GYxU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGXjEvgj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728095756; x=1759631756;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fOC17weWTvg5lwzCACVLok5FrFDPVxaeyfRvMEwGQaQ=;
-  b=f/48GYxUfT8pqwq6/z2ITPdKTL8EtdlLujEibSigD3VGTpSCDgN9+LHw
-   qHopBcuFOoWxeMptq4WNYqCUjLKA9oTEVWlhNVasQYO+BzR4Hf1s27E9y
-   83znS5vHlRb8qokJ79bTKUbNcgMlWYKprhzubaQdlyspsi0xBS5hkZ1BX
-   jYPkK0H1NSMYCzfRG2BtYaaQe0qJgzAEifus3fHDWOjxirh4ibAyLAAnZ
-   jhsJfQHsDrHHaoMtA8OgYwbIrhi2uwjuwbZbBRgVoRCUi1Vw0oF7lUQOe
-   104x122+noZDxR4aQv4WJyH5C+apaUzxryyTu07O1o5CuxjQa6qZ5jpRb
-   w==;
-X-CSE-ConnectionGUID: fuoljSgdTQaiyjhllO+i1g==
-X-CSE-MsgGUID: eYnWrtX3RtuyDgZqfJx+oA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="49856022"
+  t=1728096414; x=1759632414;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sG0q/YV04AOba/dCL40xHCR92wyMRnxNTG9dQMy+1yU=;
+  b=iGXjEvgjW2lRyFcecIVV+Z/CCiQ8lnUv83G2VjxTAIU3Cij7sGHPOnDx
+   MHhlGYAj74opddCPxD4YdMZywb5VV2/9m5ggahz899mpodSs74NuJMMMs
+   YP9tzrjI4kjNjcDjPnLODTwX4keXUgmKVOxICO/FXfaUtdYeRUKVYeNjY
+   MXAN9zAFlbnLG76T7KX0cLSeRNckBmTjfDmTC0xvlbZht4hmpY+4bfMXm
+   KePWKH5af2eXep17ajuluplpj4o0wNjCImnB0yxbQqqqgc5i/w18zqG0m
+   NFaB3xGw1mRGOcN74vVVIixSlimNf1fS8Qx46LPK6XqigFOaDAjtd5ui2
+   A==;
+X-CSE-ConnectionGUID: fuA+bWo0QnK0BFz1YvUeXg==
+X-CSE-MsgGUID: Y1FqXxXuT6ecUXmHcsXhJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="49856499"
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="49856022"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 19:35:54 -0700
-X-CSE-ConnectionGUID: Z6MnY5C7S7G+KzYaUKNLUw==
-X-CSE-MsgGUID: EHSlbS/gRiyRSI8NNt2E4A==
+   d="scan'208";a="49856499"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 19:46:54 -0700
+X-CSE-ConnectionGUID: F1wDll+sQ+yTloUxgtXQ0A==
+X-CSE-MsgGUID: jOSjBVj+S9OIhYG2vBim1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="105733644"
+   d="scan'208";a="75012107"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Oct 2024 19:35:52 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Oct 2024 19:46:52 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swue5-0002TM-1N;
-	Sat, 05 Oct 2024 02:35:49 +0000
-Date: Sat, 5 Oct 2024 10:35:45 +0800
+	id 1swuoj-0002U2-2K;
+	Sat, 05 Oct 2024 02:46:49 +0000
+Date: Sat, 5 Oct 2024 10:46:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vishnu Sankar <vishnuocv@gmail.com>, jikos@kernel.org,
-	bentiss@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mpearson-lenovo@squebb.ca,
-	vsankar@lenovo.com, Vishnu Sankar <vishnuocv@gmail.com>
-Subject: Re: [PATCH] hid-lenovo: Support for TP-X12-TAB-1/2 Kbd Fn keys that
- use HID raw events.
-Message-ID: <202410051041.FZvxgBII-lkp@intel.com>
-References: <20241003095124.7611-1-vishnuocv@gmail.com>
+To: Junwei Zhang <Jerry.Zhang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Asher Song <Asher.Song@amd.com>,
+	Qiang Yu <Qiang.Yu@amd.com>, Flora Cui <flora.cui@amd.com>,
+	Yifan Zhang <yifan1.zhang@amd.com>,
+	Slava Grigorev <slava.grigorev@amd.com>
+Subject: [agd5f:amd-6.2 599/3034] versioncheck:
+ ./drivers/gpu/drm/ttm/backport/backport.h: 5 linux/version.h not needed.
+Message-ID: <202410051039.LWhlzoRO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,93 +64,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241003095124.7611-1-vishnuocv@gmail.com>
 
-Hi Vishnu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishnu-Sankar/hid-lenovo-Support-for-TP-X12-TAB-1-2-Kbd-Fn-keys-that-use-HID-raw-events/20241003-175338
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20241003095124.7611-1-vishnuocv%40gmail.com
-patch subject: [PATCH] hid-lenovo: Support for TP-X12-TAB-1/2 Kbd Fn keys that use HID raw events.
-config: x86_64-randconfig-r133-20241004 (https://download.01.org/0day-ci/archive/20241005/202410051041.FZvxgBII-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051041.FZvxgBII-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-6.2
+head:   89450c67d99b47b5c1929a5cd2d8467b6ee686a4
+commit: a66092b5662c30d98fe68e6282b0ee909e449240 [599/3034] drm/amdkcl: add backport support for ttm
+reproduce: (https://download.01.org/0day-ci/archive/20241005/202410051039.LWhlzoRO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051041.FZvxgBII-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051039.LWhlzoRO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ld: vmlinux.o: in function `lenovo_raw_event_TP_X12_tab':
->> drivers/hid/hid-lenovo.c:729: undefined reference to `platform_profile_cycle'
-
-
-vim +729 drivers/hid/hid-lenovo.c
-
-   701	
-   702	/* Function to handle Lenovo Thinkpad TAB X12's HID raw inputs for fn keys*/
-   703	static int lenovo_raw_event_TP_X12_tab(struct hid_device *hdev, u32 raw_data)
-   704	{
-   705		struct hid_input *hidinput;
-   706		struct input_dev *input = NULL;
-   707	
-   708		/* Iterate through the associated inputs to find the correct input device */
-   709		list_for_each_entry(hidinput, &hdev->inputs, list) {
-   710			input = hidinput->input;
-   711			if (input)
-   712				break;  /* Use the first valid input device */
-   713		}
-   714	
-   715		switch (raw_data) {
-   716			/* fn-F20 being used here for MIC mute*/
-   717		case TP_X12_RAW_HOTKEY_FN_F4:
-   718			report_key_event(input, LENOVO_KEY_MICMUTE);
-   719			return 1;
-   720			/* Power-mode or Airplane mode will be called based on the device*/
-   721		case TP_X12_RAW_HOTKEY_FN_F8:
-   722			/*
-   723			 * TP X12 TAB uses Fn-F8 calls Airplanemode
-   724			 * Whereas TP X12 TAB2 uses Fn-F8 for toggling
-   725			 * Power modes
-   726			 */
-   727			(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
-   728				report_key_event(input, KEY_RFKILL) :
- > 729				platform_profile_cycle();
-   730			return 1;
-   731		case TP_X12_RAW_HOTKEY_FN_F10:
-   732			/* TAB1 has PICKUP Phone and TAB2 use Snipping tool*/
-   733			(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
-   734			report_key_event(input, KEY_PICKUP_PHONE) :
-   735			report_key_event(input, KEY_SELECTIVE_SCREENSHOT);
-   736			return 1;
-   737		case TP_X12_RAW_HOTKEY_FN_F12:
-   738			/* BookMarks/STAR key*/
-   739			report_key_event(input, KEY_BOOKMARKS);
-   740			return 1;
-   741		case TP_X12_RAW_HOTKEY_FN_SPACE:
-   742			/* Keyboard LED backlight toggle*/
-   743			report_key_event(input, KEY_KBDILLUMTOGGLE);
-   744			return 1;
-   745		case TP_X12_RAW_HOTKEY_FN_F7:
-   746			/* DISPLAY switching when connecting to external monitors*/
-   747			report_key_event(input, KEY_SWITCHVIDEOMODE);
-   748			return 1;
-   749		default:
-   750			break;
-   751		}
-   752		return 0;
-   753	}
-   754	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.74.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/gpu/drm/scheduler/backport/backport.h: 5 linux/version.h not needed.
+>> ./drivers/gpu/drm/ttm/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 406: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
