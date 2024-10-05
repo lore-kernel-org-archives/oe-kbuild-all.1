@@ -1,167 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA232224D6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 06:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1666231C95;
+	Sat,  5 Oct 2024 06:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728108182; cv=none; b=dMi04zaWMDGSuzUeIwsGTieO+fesC9J5sGUj+R8IjkKJOTvJypLBttk8ET8VAbbyF3NC8TeLUMNK9ztIXSg6VF/IPQLLYpQIRZW9PrJwcjM8L2SxmX2cGd3paHqYfrQa9wL6jUPG1YaYSLc2rGg8nCgt/XdIm/FoczjFmzJm//M=
+	t=1728109677; cv=none; b=c+bycBFkTinhonCtVCu/lPn5C9OEpCfEglB1YlwOYDsx0NobCBQAexAuljbvWjRhdml+qBR5LJo96e8WHk+cO3DUbDY54R6XWD9KztCuFN0oge5GglQMAw3sw/gG0EsM6HIPuoQTPGRGwbhQKRsDvMSjW9sKfy53dwj9tReFGXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728108182; c=relaxed/simple;
-	bh=15g1/je+mb4ei6wwANETPUeBKPqGZAuCTFNSuxsgpBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=knre5WM9nP34c5pfc66fzJZs+S7pXICgXtYKL/s4bIGYSxcCTHB6fuI6zURm85JtX2DkwlBmZqAHWfVZTMcZjm5Yaz27yOzdCiKACWaZzfE8LNG1gce3rB523wdpHCSl4d8erwUIzHJemMup0kZiJ8WXLssUerSTbTr1XYtvjiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYg/z1RX; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728109677; c=relaxed/simple;
+	bh=x0h55I41PNY0qDvUesT4sPVlbRExPV+X974LHXAdHVE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ogc24cJmwqO2BCv6DB1TyZvi+n4FdAnlJRrTT8glIGOLmetG8bZEk/8/0iYUdJdfUsc3iNoa213EZU0qdzSd/s9ny8ghVbqT5zVuepmpwgjgqJFMpCg0jeXLk+eyl8jmpoCBg0wBuk8qbxJJIFSCOzcpH1nDzkqpZpSbKiNmoyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=s1qpVqwy; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYg/z1RX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728108180; x=1759644180;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=15g1/je+mb4ei6wwANETPUeBKPqGZAuCTFNSuxsgpBQ=;
-  b=NYg/z1RXpR2ljc4Z0Cl1YahOJAy13Hkxzr1PYo7epq2D3yAnfupP+++6
-   2OO9rFnFtmpnDfoE1Qg8ml/qF5NDt3YH7NJevu2AnM7KJBzCbuQFIcF1Q
-   jEfjIoZGqV393Ato/W/3rBggaVTYwfKNdUpCCjmMaCrCYqXTqHaLpyKCZ
-   vWpcvd/4XxZdovdwc8CGlKo4DjQOneveuVJRzAAvLdcaMdtJYoj1tILAE
-   DNtmTvuoatmZXPvJGhiIANs8jX403RjjDtbRDOo1yjnoJftK825ysxlMm
-   aj7Pw2ZMsycrLCeEkkdeL3HKPRSCsyYW9ud/wK3KvnXnienTIgquXf0oV
-   Q==;
-X-CSE-ConnectionGUID: uIrQtW07TfGRcpdqXz/GJg==
-X-CSE-MsgGUID: CHWy2zDISISrcI7Vlu5fRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="38696826"
-X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="38696826"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 23:02:58 -0700
-X-CSE-ConnectionGUID: z9Hn16AcRKmWgQob5cirJA==
-X-CSE-MsgGUID: o9eh4BQlSYiXtAFFcr64yQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="74600028"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Oct 2024 23:02:57 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swxsV-0002d8-0c;
-	Sat, 05 Oct 2024 06:02:55 +0000
-Date: Sat, 5 Oct 2024 14:02:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: [linusw-pinctrl:for-next 5/5]
- drivers/pinctrl/pinctrl-aw9523.c:988:17: error: label 'err_disable_vregs'
- used but not defined
-Message-ID: <202410051342.W9kssugb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="s1qpVqwy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1728109649; x=1728714449; i=markus.elfring@web.de;
+	bh=oaWtkwikAuynprJNBCi62SYkTgrh5zdNvX/3WKywahg=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=s1qpVqwytoHVAnIvLwiBn+u3aZMZaH4jo2pd+djxxbcirWWH1qEeiMFXrjzJlCPP
+	 YpOYGyCMEQkwmiiV3ekyH7cWjjBKc3Vfx8NAG7EGryev0Q8mZ/+Pes30gAcI2nMmc
+	 Z5DBEbAO3xBUB3kmLKOitobXfldgDme58/RWRVpF1lNNHj9tsZQmlAwNKZbymDUcM
+	 VjH6uBLWhnIzhq78wRTJFd3NljzgE7oGWcPEpX60lDoi2aQ/+cym8UFoblp6Yc5Lz
+	 awnr+qbwvJOZJsVQ677LT9e2JDpluZvnCX+tHPvBi2OxvOBCrqrKeUmw3uKx8QuZ3
+	 2DzB0cpzV7wyahd3tw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1McZjb-1tZaw80UGr-00b7WH; Sat, 05
+ Oct 2024 08:27:29 +0200
+Message-ID: <9ddc71e7-e98a-4fa8-b140-4035dd2874b6@web.de>
+Date: Sat, 5 Oct 2024 08:27:03 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v2 RESEND] crypto: lib/mpi - Extend support for scope-based
+ resource management
+To: linux-crypto@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Peter Zijlstra <peterz@infradead.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev
+References: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
+ <202409180725.ZV8DCvII-lkp@intel.com>
+ <91d10516-4ba9-4fe0-8f63-86205cc4f88c@web.de>
+ <ZwDPp4bU1J5uEgQe@gondor.apana.org.au>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <ZwDPp4bU1J5uEgQe@gondor.apana.org.au>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Vz8dvAyu28sIa72hBnFoF1iAvwwE2yEdeFxwWxqLcai4hwNNPwy
+ JrnFOsdYZdtnmpgtXtvvUfYFCzqIHlkVp5rp339y+Uyy4zTzzZUWbOog2mqzqnQRQgPyRiD
+ Q7lol7OWL0TypiE5N1zTClECTOWOuxj7Optc+/gosKNPHKqSCez91djVrHzb4ogS07IGwH5
+ 4kSCtLoEY1ZgRUYcv1NiQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:BG0zRRWy3as=;ZICGDu7In9yCc7MPNJpZ+qnHbQA
+ Tf1caEWng+bVO8dkReRZR0c1KHfe+3trRszQsNjl2eoDbR6fGYnxJ6Y91h97DP6vRM74yg5qE
+ qSqCrxnh7MTXdpr4fvPxRPYpEuDi3M57h7ukdKFF5jziotAaawOtRwn4OohfGutdjCiElZhc2
+ 7PHQ72ecOTqyXDLV3yGWKanbwGmXw44bFbd/P47Jsi68+i+j0Y/RRO5jC7r9+cyrnFUKJovld
+ 0xhmGJV5IsrZNDGvRYTfJF+UFHypQfi7cJfl6c5ATChknjUulQ2CaHSMuRl9LLen0Pz4QIHw3
+ bg1DOzMDW5fvoxLYU7PJQaTaNuGJBknfX1FHCWsYKT6+eBc3z04UBLgxYl+uxWC9OwXSwu+GE
+ ewfr/ejxXqBReoW9qJUbKxTO3OjaNrVNEiEF3cEht3WuZibrE08jDnKV/05As5A/YJnQUJyuf
+ G32hN9EYg3j5ZG8LSEkKUzuIjIa0gEJ6BEhhOSI0PPQRLfRRomRV8sHExOKfuX0f7P+AEQHTj
+ Yvd+qD0N2HhEpDXPcDJkbH7hIk0QJyGeTZCMIyQstCZLWLznTQeSVMMmSgkxsVFIC+unaWxzC
+ V0l0ITi0zBPLk2cui3lfRSlC8gTnzj01FYrBg6B9HJfbrxJ9d2/IrN9ofsEP/yge0yCr12/gb
+ wHCkpkGRRhL5VCas/qSqOGMwNF1B3hin2H196Q9QTLSkTlLUlV0Ft2QU05mmhJg4OyMkNIZ/J
+ ZjrVbayP2GNRNX/ERKYTFKwGxQgHOHLy8kqBZ2sNSiPOPNaH+sw5+E6LzweEExVwdEqPVjKfb
+ ZKGaBvWXvK0byGMFima4aSI5U7PRb2+oSu8ki7g+bbOYY=
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git for-next
-head:   8498e6b2b8524b52f94ab22d65b50cd4508673c7
-commit: 8498e6b2b8524b52f94ab22d65b50cd4508673c7 [5/5] Merge branch 'devel' into for-next
-config: i386-buildonly-randconfig-006-20241005 (https://download.01.org/0day-ci/archive/20241005/202410051342.W9kssugb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051342.W9kssugb-lkp@intel.com/reproduce)
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Wed, 18 Sep 2024 11:06:35 +0200
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051342.W9kssugb-lkp@intel.com/
+Scope-based resource management became supported for some
+programming interfaces by contributions of Peter Zijlstra on 2023-05-26.
+See also the commit 54da6a0924311c7cf5015533991e44fb8eb12773 ("locking:
+Introduce __cleanup() based infrastructure").
 
-All errors (new ones prefixed by >>):
+Thus add a macro call so that the attribute =E2=80=9C__free(mpi_free)=E2=
+=80=9D can be
+applied accordingly.
 
-   drivers/pinctrl/pinctrl-aw9523.c: In function 'aw9523_probe':
->> drivers/pinctrl/pinctrl-aw9523.c:988:17: error: label 'err_disable_vregs' used but not defined
-     988 |                 goto err_disable_vregs;
-         |                 ^~~~
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+
+V2:
+The kernel build service pointed out that the proposed identifier =E2=80=
+=9CT_=E2=80=9D
+was not recognised by the compiler.
+Thus reserved identifiers need still be applied also at such a place inste=
+ad
+so far.
+I became curious under which circumstances corresponding development conce=
+rns
+will be reconsidered any more.
 
 
-vim +/err_disable_vregs +988 drivers/pinctrl/pinctrl-aw9523.c
+ include/linux/mpi.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   951  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   952  static int aw9523_probe(struct i2c_client *client)
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   953  {
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   954  	struct device *dev = &client->dev;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   955  	struct pinctrl_desc *pdesc;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   956  	struct aw9523 *awi;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   957  	int ret;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   958  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   959  	awi = devm_kzalloc(dev, sizeof(*awi), GFP_KERNEL);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   960  	if (!awi)
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   961  		return -ENOMEM;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   962  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   963  	i2c_set_clientdata(client, awi);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   964  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   965  	awi->dev = dev;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   966  	awi->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   967  	if (IS_ERR(awi->reset_gpio))
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   968  		return PTR_ERR(awi->reset_gpio);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   969  	gpiod_set_consumer_name(awi->reset_gpio, "aw9523 reset");
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   970  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   971  	awi->regmap = devm_regmap_init_i2c(client, &aw9523_regmap);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   972  	if (IS_ERR(awi->regmap))
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   973  		return PTR_ERR(awi->regmap);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   974  
-38e2d33f134055 Rosen Penev                2024-10-01   975  	awi->vio_vreg = devm_regulator_get_enable_optional(dev, "vio");
-38e2d33f134055 Rosen Penev                2024-10-01   976  	if (awi->vio_vreg && awi->vio_vreg != -ENODEV)
-38e2d33f134055 Rosen Penev                2024-10-01   977  		return awi->vio_vreg;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   978  
-7b2a96de50d04a Rosen Penev                2024-10-03   979  	ret = devm_mutex_init(dev, &awi->i2c_lock);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   980  	if (ret)
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   981  		return ret;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   982  
-4aad0ad20f4ea8 Andy Shevchenko            2024-03-29   983  	lockdep_set_subclass(&awi->i2c_lock, i2c_adapter_depth(client->adapter));
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   984  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   985  	pdesc = devm_kzalloc(dev, sizeof(*pdesc), GFP_KERNEL);
-393c554093c0c4 Rosen Penev                2024-10-01   986  	if (!pdesc) {
-393c554093c0c4 Rosen Penev                2024-10-01   987  		ret = -ENOMEM;
-393c554093c0c4 Rosen Penev                2024-10-01  @988  		goto err_disable_vregs;
-393c554093c0c4 Rosen Penev                2024-10-01   989  	}
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   990  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   991  	ret = aw9523_hw_init(awi);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   992  	if (ret)
-7b2a96de50d04a Rosen Penev                2024-10-03   993  		return ret;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   994  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   995  	pdesc->name = dev_name(dev);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   996  	pdesc->owner = THIS_MODULE;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   997  	pdesc->pctlops = &aw9523_pinctrl_ops;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   998  	pdesc->pmxops  = &aw9523_pinmux_ops;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01   999  	pdesc->confops = &aw9523_pinconf_ops;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1000  	pdesc->pins = aw9523_pins;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1001  	pdesc->npins = ARRAY_SIZE(aw9523_pins);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1002  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1003  	ret = aw9523_init_gpiochip(awi, pdesc->npins);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1004  	if (ret)
-7b2a96de50d04a Rosen Penev                2024-10-03  1005  		return ret;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1006  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1007  	if (client->irq) {
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1008  		ret = aw9523_init_irq(awi, client->irq);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1009  		if (ret)
-7b2a96de50d04a Rosen Penev                2024-10-03  1010  			return ret;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1011  	}
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1012  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1013  	awi->pctl = devm_pinctrl_register(dev, pdesc, awi);
-7b2a96de50d04a Rosen Penev                2024-10-03  1014  	if (IS_ERR(awi->pctl))
-7b2a96de50d04a Rosen Penev                2024-10-03  1015  		return dev_err_probe(dev, PTR_ERR(awi->pctl),
-7b2a96de50d04a Rosen Penev                2024-10-03  1016  				     "Cannot register pinctrl");
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1017  
-7b2a96de50d04a Rosen Penev                2024-10-03  1018  	return devm_gpiochip_add_data(dev, &awi->gpio, awi);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1019  }
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  1020  
+diff --git a/include/linux/mpi.h b/include/linux/mpi.h
+index 47be46f36435..6fbcb88ce296 100644
+=2D-- a/include/linux/mpi.h
++++ b/include/linux/mpi.h
+@@ -19,6 +19,8 @@
 
-:::::: The code at line 988 was first introduced by commit
-:::::: 393c554093c0c4cbc8e2f178d36df169016384da pinctrl: aw9523: add missing mutex_destroy
+ #include <linux/types.h>
+ #include <linux/scatterlist.h>
++#include <linux/cleanup.h>
++#include <linux/err.h>
 
-:::::: TO: Rosen Penev <rosenp@gmail.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+ #define BYTES_PER_MPI_LIMB	(BITS_PER_LONG / 8)
+ #define BITS_PER_MPI_LIMB	BITS_PER_LONG
+@@ -44,6 +46,8 @@ typedef struct gcry_mpi *MPI;
+ /*-- mpiutil.c --*/
+ MPI mpi_alloc(unsigned nlimbs);
+ void mpi_free(MPI a);
++DEFINE_FREE(mpi_free, MPI, if (!IS_ERR_OR_NULL(_T)) mpi_free(_T))
++
+ int mpi_resize(MPI a, unsigned nlimbs);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ MPI mpi_copy(MPI a);
+=2D-
+2.46.0
+
