@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC77BE6C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 12:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592B784A2F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 13:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728133036; cv=none; b=W4isjjZZfvlF9fJ2cmqu0dubnFpLpyP7txEDlqrckC5cgZpFdI/VrnahWPG5qWwEdGhSba0lLrkEXsGfnXG00v3YmZuc28OiLKcIDxD2ZzMmHxf9yhkgfSug+IUfWbI/JAnUlaaH34LDWuJ//K+e4h2GFp0QOQ1wkuYwephtSW4=
+	t=1728133693; cv=none; b=Qv1pMNegxS3jcXfKcAV0hg+XSHHqyPqkYCtp4X7f4rFK/hNF0IG9+Gg9HAS49HXyZxyTYO9wGBSqz8pXdh3w6Im49gFqy6J6GdiNOuTCTMnOcIIIi6KfRhNv6XOeHR9kJg9RYa4uyGxvNShl6k8kBn//S/9w2TsCqgkHonPF6nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728133036; c=relaxed/simple;
-	bh=g4UY5f7mfhWmhow/81eRvpgWZEA4jO+KI7xD+8hUEhc=;
+	s=arc-20240116; t=1728133693; c=relaxed/simple;
+	bh=3qC1M5RgIKX7z2O6Z2PMh5qyvvbmho+v/2UdQYfk9Gw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y8SQRxJs+KUI0L5dS3ALDwh2fVElP+Ke/RFh1usYOvO7f2IWs/9R2jrZoC8jBBsei2IB9zDQQeE1j+kQ8zvWsm0nZXDGL+79PV9LLFIYfI5xLeuSbVChWUXt75aoQyeezEoqNPky4OBdEwayfIRYsUoYN3cqJmVrsUzZQJGHUvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BkjZ+YWP; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=sL0S+LmOkQkncsCKsizc4b+TiycaH0SC8J+Bu7/SIzkNfkoPuoM1STGCBxArxyqBzGhU/20XheItbLnyyazSsp97CosioStuwSVkHZ13igga9ZHkR3UFyduaJeRgu+hwje0jzDol1JkIUMa3F8gR5hoDDsi56MiA8A521a5B258=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiNCtClT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkjZ+YWP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiNCtClT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728133035; x=1759669035;
+  t=1728133692; x=1759669692;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g4UY5f7mfhWmhow/81eRvpgWZEA4jO+KI7xD+8hUEhc=;
-  b=BkjZ+YWPEi0Hbp187dkr3X5AcAGuaGVdZ7IAk7qYU7naCTwLxMlhNxQ1
-   W2vmDCYqffuMwQdh1y0aJK5pUSp53kIHRa/qMU7o2PeKwC0axjE04qmv0
-   1qvQyH1A2U1QICa0P5BNmXaG0zNAF4BhmnVqTguycxRPEAa0a8UZJqOEh
-   5nXsc7I5IBH71R1oV7bEtSnMRRt85bEO/YhvJbvNYafWLGvslBl8YuXHV
-   PwouJmPf4v87Ry8OZwNtuL+584wbqHpF8m9IuZ9mLh7TB4m1u5Vz9cpxK
-   mxpsyoJKwXimXf0cPJvWVt5cYQvC+1oTegzcfxRKvhB/WNO9ZQWZCcibV
-   w==;
-X-CSE-ConnectionGUID: AXkm2SlZT0mMNXmOhV9FXA==
-X-CSE-MsgGUID: eKZmIBUuRlKOIIySMFVJig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="30224500"
+  bh=3qC1M5RgIKX7z2O6Z2PMh5qyvvbmho+v/2UdQYfk9Gw=;
+  b=QiNCtClT1k1FD79KhJ18W3+lx9OoQXqwb/KnGNlui7Qy/7P0tEI9G7WL
+   u24krG0GmlLEC4paAamAasXqK4hGRayzDEgYzq00UA8mQdtSsfYbGZDjD
+   i3523Sa3acQabh5Xv8XNpeFC2DyJ0pEWt0QxjjcMi/yuaYjA/QXD97NQj
+   Oe/kVMENsuK2fXtkY0C0BRTahOkJv+A2RlD7Zf/fe5o1ga1OIyUO2rv8T
+   BiWpLWQgYzaEtbhYf/dy8kULsGv3siO8Otb9wp+DLoROf/1+0P9RRBBtB
+   SO9NXsGCrs/BT4Rvw5xTPS5ef2eHtAXpTyZzwgBb4+gnA1U5gAbZqgAO8
+   A==;
+X-CSE-ConnectionGUID: bgr6uo9pRdKbZeUfYMytFQ==
+X-CSE-MsgGUID: ECLORjEoQYW/xSYmxOU9Iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27474897"
 X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; 
-   d="scan'208";a="30224500"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 05:57:10 -0700
-X-CSE-ConnectionGUID: mrfNAmY3Qtmsub+hk2bmDA==
-X-CSE-MsgGUID: laf2BZdBQ9yQLK3uadZ0Tw==
+   d="scan'208";a="27474897"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 06:08:11 -0700
+X-CSE-ConnectionGUID: ultfrMg3Q5eCi3YIElBfNQ==
+X-CSE-MsgGUID: leu5EFMzT4mJCFWngk86YQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; 
-   d="scan'208";a="105730787"
+   d="scan'208";a="78958473"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Oct 2024 05:57:09 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 05 Oct 2024 06:08:09 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sx4LK-0002xG-3C;
-	Sat, 05 Oct 2024 12:57:07 +0000
-Date: Sat, 5 Oct 2024 20:56:55 +0800
+	id 1sx4Vz-0002xq-0r;
+	Sat, 05 Oct 2024 13:08:07 +0000
+Date: Sat, 5 Oct 2024 21:07:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:for-vasant 10/10] drivers/iommu/iommu.c:98:1: warning:
- '__iommu_group_domain_alloc' declared 'static' but never defined
-Message-ID: <202410052031.VzFCQbcU-lkp@intel.com>
+To: Flora Cui <flora.cui@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Asher Song <Asher.Song@amd.com>,
+	Le Ma <Le.Ma@amd.com>, Yifan Zhang <Yifan1.Zhang@amd.com>
+Subject: [agd5f:amd-6.2 928/3034] versioncheck:
+ ./include/kcl/kcl_dma_mapping.h: 160: need linux/version.h
+Message-ID: <202410052036.NutOiY8z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux for-vasant
-head:   8aa0df6ce0d35430baeac4ee5e0ea77f82cf2ead
-commit: 8aa0df6ce0d35430baeac4ee5e0ea77f82cf2ead [10/10] iommu: Create __iommu_alloc_identity_domain()
-config: x86_64-buildonly-randconfig-004-20241005 (https://download.01.org/0day-ci/archive/20241005/202410052031.VzFCQbcU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410052031.VzFCQbcU-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-6.2
+head:   89450c67d99b47b5c1929a5cd2d8467b6ee686a4
+commit: 4cd652e133c9a0428f95b7640b40576f6c85edb3 [928/3034] drm/amdkcl: fix dma_addressing_limited() not work correctly
+reproduce: (https://download.01.org/0day-ci/archive/20241005/202410052036.NutOiY8z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410052031.VzFCQbcU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410052036.NutOiY8z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/iommu/iommu.c:98:1: warning: '__iommu_group_domain_alloc' declared 'static' but never defined [-Wunused-function]
-      98 | __iommu_group_domain_alloc(struct iommu_group *group, unsigned int type);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +98 drivers/iommu/iommu.c
-
-faf1498993cdf6 Joerg Roedel    2019-08-19   93  
-c13dbc1e248549 Robin Murphy    2022-08-15   94  static int iommu_bus_notifier(struct notifier_block *nb,
-c13dbc1e248549 Robin Murphy    2022-08-15   95  			      unsigned long action, void *data);
-e223864f8257af Jason Gunthorpe 2023-04-12   96  static void iommu_release_device(struct device *dev);
-8359cf39acba72 Jason Gunthorpe 2023-09-13   97  static struct iommu_domain *
-8359cf39acba72 Jason Gunthorpe 2023-09-13  @98  __iommu_group_domain_alloc(struct iommu_group *group, unsigned int type);
-6e1aa2049154d7 Joerg Roedel    2020-04-29   99  static int __iommu_attach_device(struct iommu_domain *domain,
-6e1aa2049154d7 Joerg Roedel    2020-04-29  100  				 struct device *dev);
-6e1aa2049154d7 Joerg Roedel    2020-04-29  101  static int __iommu_attach_group(struct iommu_domain *domain,
-6e1aa2049154d7 Joerg Roedel    2020-04-29  102  				struct iommu_group *group);
-c568ecb8c3efb4 Jason Gunthorpe 2024-09-11  103  static struct iommu_domain *__iommu_paging_domain_alloc_flags(struct device *dev,
-c568ecb8c3efb4 Jason Gunthorpe 2024-09-11  104  						       unsigned int type,
-c568ecb8c3efb4 Jason Gunthorpe 2024-09-11  105  						       unsigned int flags);
-dcf40ed3a20d72 Jason Gunthorpe 2023-05-11  106  
-
-:::::: The code at line 98 was first introduced by commit
-:::::: 8359cf39acba72606736f453f54432ac9dc28523 iommu: Add __iommu_group_domain_alloc()
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.74.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/amdkcl/kcl_common.h: 6 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/amdkcl/kcl_kthread.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/amdkcl/kcl_mn.c: 2 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/amdkcl/kcl_pci.c: 21 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/gpu/drm/scheduler/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/gpu/drm/ttm/backport/backport.h: 5 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+>> ./include/kcl/kcl_dma_mapping.h: 160: need linux/version.h
+   ./include/kcl/kcl_fence.h: 15 linux/version.h not needed.
+   ./include/kcl/kcl_pci.h: 27 linux/version.h not needed.
+   ./include/kcl/kcl_rcupdate.h: 6 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 406: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
