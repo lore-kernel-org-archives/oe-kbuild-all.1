@@ -1,62 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B348762F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 06:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED1255C29
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Oct 2024 07:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728111304; cv=none; b=m2Z8kaAAgwC1cIbwDI4/+DJg+aRpX8awaJEtl1oP3F6ivI4qkWoQGqb8/G1N5zuSNYlNfEzRtRlqrSb9UjSX6duu3rBuIkIiqGa8VUtpjFPrf/zhRczagg3FTb6UZ1Exf20k9yjZNDWciJ5XZp8DwMN2aecY2nkkAlXnSL1xglc=
+	t=1728113166; cv=none; b=fjG9txtcWY77qlQ3pMPMRs2VDWFU/UKyec4ZmurscYtUK/p79FDGxZLbK/9pWNB76XcQ18rshwstkW1mfLQT/5d9F6GxUmX5yTC1dp+EuoejObxXvNINSNLm1cHiKvN+R+shYl8n6/xd5cRpoSxe4fHNBgV9NBhTjt/UTmjTvb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728111304; c=relaxed/simple;
-	bh=gAxSir66pjUkLrR2v3FQvq9A3ljFvlMTr5inGp6EPCI=;
+	s=arc-20240116; t=1728113166; c=relaxed/simple;
+	bh=BXom0R4HZ+jbjvMGJfsUEpflm5rY+ggC/lLjNUK3miM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MbmaZjne4hIeSN1ImYde1XmXWCHeg9t51XCc4CWlyP0Fhu3RDxXSjnag8txJ8A+01NyOX+ncJwqoj+hWu3nQxwhHZPXwP2Y97vgfFfYC/Yj9GEB/13zP4XYt2UBt4IulyyU4ybid0pIzHjGx9Kzhe73Nhwe9Y2/EzbxlnsvhUsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBWc+SsI; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=XGyQKkwoMDH0VOW6h2fFe7pXlaVlY+KSrr3jjPLNd89WltO/37ZXnerYaGvfu2ZwBmnbg/a0jfw7C96cI2G9QXhKcWsqfdUmuoRJhTbO9D0SzaZFlMaMxg6W8lUxniThQikz904rPMljk4DOTWdEgMkhttLrzO0QUrhE15lUbVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WvV1/0DA; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBWc+SsI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WvV1/0DA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728111302; x=1759647302;
+  t=1728113165; x=1759649165;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gAxSir66pjUkLrR2v3FQvq9A3ljFvlMTr5inGp6EPCI=;
-  b=EBWc+SsIDJNnqsNjTgL6daRO2i1k64urDVkXJbmE7lwuUwSS2EPRA+Qd
-   bNphG8KhqbHNoi2wvcULf9vDxpaoGLyl3PVBDkzSlKI6ogf8p3UsxQJSx
-   1fGpSOwByZSPGHDMNQqG7vmAfSYL5bcxV/iXpxqdHXyebBMDXp1JVKOWT
-   m7N4WvBCxUlN95M/Jlr0NADgHRavHcoVyTWRJieyJzE8ex664q0lm51rw
-   aqiWXcnErIJ6iKxN9MSGCtvjXF7en+RBCb42ajr6NUhfe0rLUhXm5zTpH
-   P2YIX8HaYLwS4jaiyBk7iIZ31RCV4hJEVkc4kvCvfvtC3zORdr2dplQlI
+  bh=BXom0R4HZ+jbjvMGJfsUEpflm5rY+ggC/lLjNUK3miM=;
+  b=WvV1/0DAl8mn8M7VOcib96+SGZ90Jr0846GyebS0Ic7+SLBLp9egHEIP
+   x5ELIDJBdkk7N7ewgOshU5iDNunIgofSiYvVxf+VD77ah6yYcd/ClFdXg
+   yp/93mOXifD+WarzVXIxtCS2qldZkno7IsclTCgoDziGP9sz3B/vvh79T
+   mtF/ffo/B3NNjFgjIAerDEp6BgMuvka6FlJCOivFLV73b3gijNQ4A5ImT
+   LB9qO4wKw5PUcOIdxEYvjPR26TRZoujhTOUtmDFqEeg3801bxu4YWenS7
+   OZyclDuM373PBW2UKqS4UkLmojOeqHWvmWsdnDfGckfdqJ7tA4HrmjYNz
    Q==;
-X-CSE-ConnectionGUID: wMZAfDIPTEeF1AkgHL7AAg==
-X-CSE-MsgGUID: pe6NlVtxQCWO/Z6GoOpgTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="38724272"
+X-CSE-ConnectionGUID: qO33RgwvSbOGER3Ud0+xEA==
+X-CSE-MsgGUID: bUaffO1SQESa/ZQqxHlIYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27465812"
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="38724272"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 23:55:02 -0700
-X-CSE-ConnectionGUID: XnEwvlP9S8yUlVVimWJ/0g==
-X-CSE-MsgGUID: vV05ennSQ9KU8HWNTAfVxw==
+   d="scan'208";a="27465812"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 00:26:04 -0700
+X-CSE-ConnectionGUID: XVXvkuxgSIKSVKcvkJweXw==
+X-CSE-MsgGUID: lVpH3bD4Tfy0cFdpE9/lTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="74907373"
+   d="scan'208";a="112398313"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Oct 2024 23:55:00 -0700
+  by orviesa001.jf.intel.com with ESMTP; 05 Oct 2024 00:26:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swygr-0002hP-1Y;
-	Sat, 05 Oct 2024 06:54:57 +0000
-Date: Sat, 5 Oct 2024 14:54:09 +0800
+	id 1swzAt-0002jo-1n;
+	Sat, 05 Oct 2024 07:25:59 +0000
+Date: Sat, 5 Oct 2024 15:25:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karol Kolacinski <karol.kolacinski@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	Karol Kolacinski <karol.kolacinski@intel.com>
-Subject: Re: [PATCH iwl-next] ice: Add in/out PTP pin delays
-Message-ID: <202410051418.lLY7SXXp-lkp@intel.com>
-References: <20241004064733.1362850-2-karol.kolacinski@intel.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] usb: typec: Add attribute file showing the USB
+ Modes of the partner
+Message-ID: <202410051504.tccjB1Cp-lkp@intel.com>
+References: <20241004140440.1882311-3-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,120 +70,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241004064733.1362850-2-karol.kolacinski@intel.com>
+In-Reply-To: <20241004140440.1882311-3-heikki.krogerus@linux.intel.com>
 
-Hi Karol,
+Hi Heikki,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on f2589ad16e14b7102f1411e3385a2abf07076406]
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.12-rc1 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Kolacinski/ice-Add-in-out-PTP-pin-delays/20241004-144802
-base:   f2589ad16e14b7102f1411e3385a2abf07076406
-patch link:    https://lore.kernel.org/r/20241004064733.1362850-2-karol.kolacinski%40intel.com
-patch subject: [PATCH iwl-next] ice: Add in/out PTP pin delays
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241005/202410051418.lLY7SXXp-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051418.lLY7SXXp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-typec-Add-attribute-file-showing-the-USB-Modes-of-the-partner/20241004-230547
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20241004140440.1882311-3-heikki.krogerus%40linux.intel.com
+patch subject: [PATCH v1 2/4] usb: typec: Add attribute file showing the USB Modes of the partner
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241005/202410051504.tccjB1Cp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051504.tccjB1Cp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051418.lLY7SXXp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051504.tccjB1Cp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_cfg_perout':
->> drivers/net/ethernet/intel/ice/ice_ptp.c:1784:22: error: redeclaration of 'gpio_pin' with no linkage
-    1784 |         unsigned int gpio_pin;
-         |                      ^~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.c:1781:22: note: previous declaration of 'gpio_pin' with type 'unsigned int'
-    1781 |         unsigned int gpio_pin, prop_delay;
-         |                      ^~~~~~~~
---
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c: In function 'ice_ptp_init_phc_e810':
->> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:5033:36: error: 'ICE_E810_E830_SYNC_DELAY' undeclared (first use in this function)
-    5033 |         ice_ptp_cfg_sync_delay(hw, ICE_E810_E830_SYNC_DELAY);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:5033:36: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c: In function 'ice_ptp_init_phc_e830':
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:5341:36: error: 'ICE_E810_E830_SYNC_DELAY' undeclared (first use in this function)
-    5341 |         ice_ptp_cfg_sync_delay(hw, ICE_E810_E830_SYNC_DELAY);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/typec/class.c:630: warning: Function parameter or struct member 'usb_mode' not described in 'typec_partner_set_usb_mode'
+>> drivers/usb/typec/class.c:630: warning: Excess function parameter 'mode' description in 'typec_partner_set_usb_mode'
 
 
-vim +/gpio_pin +1784 drivers/net/ethernet/intel/ice/ice_ptp.c
+vim +630 drivers/usb/typec/class.c
 
-172db5f91d5f7b Maciej Machnikowski 2021-06-16  1766  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1767  /**
-5a078a58ade86d Karol Kolacinski    2024-08-30  1768   * ice_ptp_cfg_perout - Configure clock to generate periodic wave
-5a078a58ade86d Karol Kolacinski    2024-08-30  1769   * @pf: Board private structure
-5a078a58ade86d Karol Kolacinski    2024-08-30  1770   * @rq: Periodic output request
-5a078a58ade86d Karol Kolacinski    2024-08-30  1771   * @on: Enable/disable flag
-5a078a58ade86d Karol Kolacinski    2024-08-30  1772   *
-5a078a58ade86d Karol Kolacinski    2024-08-30  1773   * Configure the internal clock generator modules to generate the clock wave of
-5a078a58ade86d Karol Kolacinski    2024-08-30  1774   * specified period.
-5a078a58ade86d Karol Kolacinski    2024-08-30  1775   *
-5a078a58ade86d Karol Kolacinski    2024-08-30  1776   * Return: 0 on success, negative error code otherwise
-5a078a58ade86d Karol Kolacinski    2024-08-30  1777   */
-5a078a58ade86d Karol Kolacinski    2024-08-30  1778  static int ice_ptp_cfg_perout(struct ice_pf *pf, struct ptp_perout_request *rq,
-5a078a58ade86d Karol Kolacinski    2024-08-30  1779  			      int on)
-5a078a58ade86d Karol Kolacinski    2024-08-30  1780  {
-718647161517f7 Karol Kolacinski    2024-10-04  1781  	unsigned int gpio_pin, prop_delay;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1782  	u64 clk, period, start, phase;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1783  	struct ice_hw *hw = &pf->hw;
-5a078a58ade86d Karol Kolacinski    2024-08-30 @1784  	unsigned int gpio_pin;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1785  	int pin_desc_idx;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1786  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1787  	if (rq->flags & ~PTP_PEROUT_PHASE)
-5a078a58ade86d Karol Kolacinski    2024-08-30  1788  		return -EOPNOTSUPP;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1789  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1790  	pin_desc_idx = ice_ptp_find_pin_idx(pf, PTP_PF_PEROUT, rq->index);
-5a078a58ade86d Karol Kolacinski    2024-08-30  1791  	if (pin_desc_idx < 0)
-5a078a58ade86d Karol Kolacinski    2024-08-30  1792  		return -EIO;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1793  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1794  	gpio_pin = pf->ptp.ice_pin_desc[pin_desc_idx].gpio[1];
-718647161517f7 Karol Kolacinski    2024-10-04  1795  	prop_delay = pf->ptp.ice_pin_desc[pin_desc_idx].delay[1];
-5a078a58ade86d Karol Kolacinski    2024-08-30  1796  	period = rq->period.sec * NSEC_PER_SEC + rq->period.nsec;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1797  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1798  	/* If we're disabling the output or period is 0, clear out CLKO and TGT
-5a078a58ade86d Karol Kolacinski    2024-08-30  1799  	 * and keep output level low.
-5a078a58ade86d Karol Kolacinski    2024-08-30  1800  	 */
-5a078a58ade86d Karol Kolacinski    2024-08-30  1801  	if (!on || !period)
-5a078a58ade86d Karol Kolacinski    2024-08-30  1802  		return ice_ptp_write_perout(hw, rq->index, gpio_pin, 0, 0);
-5a078a58ade86d Karol Kolacinski    2024-08-30  1803  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1804  	if (strncmp(pf->ptp.pin_desc[pin_desc_idx].name, "1PPS", 64) == 0 &&
-001459cacff09e Karol Kolacinski    2024-09-30  1805  	    period != NSEC_PER_SEC && hw->mac_type == ICE_MAC_GENERIC) {
-5a078a58ade86d Karol Kolacinski    2024-08-30  1806  		dev_err(ice_pf_to_dev(pf), "1PPS pin supports only 1 s period\n");
-5a078a58ade86d Karol Kolacinski    2024-08-30  1807  		return -EOPNOTSUPP;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1808  	}
-5a078a58ade86d Karol Kolacinski    2024-08-30  1809  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1810  	if (period & 0x1) {
-5a078a58ade86d Karol Kolacinski    2024-08-30  1811  		dev_err(ice_pf_to_dev(pf), "CLK Period must be an even value\n");
-5a078a58ade86d Karol Kolacinski    2024-08-30  1812  		return -EIO;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1813  	}
-5a078a58ade86d Karol Kolacinski    2024-08-30  1814  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1815  	start = rq->start.sec * NSEC_PER_SEC + rq->start.nsec;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1816  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1817  	/* If PTP_PEROUT_PHASE is set, rq has phase instead of start time */
-5a078a58ade86d Karol Kolacinski    2024-08-30  1818  	if (rq->flags & PTP_PEROUT_PHASE)
-5a078a58ade86d Karol Kolacinski    2024-08-30  1819  		phase = start;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1820  	else
-5a078a58ade86d Karol Kolacinski    2024-08-30  1821  		div64_u64_rem(start, period, &phase);
-5a078a58ade86d Karol Kolacinski    2024-08-30  1822  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1823  	/* If we have only phase or start time is in the past, start the timer
-5a078a58ade86d Karol Kolacinski    2024-08-30  1824  	 * at the next multiple of period, maintaining phase.
-5a078a58ade86d Karol Kolacinski    2024-08-30  1825  	 */
-5a078a58ade86d Karol Kolacinski    2024-08-30  1826  	clk = ice_ptp_read_src_clk_reg(pf, NULL);
-718647161517f7 Karol Kolacinski    2024-10-04  1827  	if (rq->flags & PTP_PEROUT_PHASE || start <= clk - prop_delay)
-5a078a58ade86d Karol Kolacinski    2024-08-30  1828  		start = div64_u64(clk + period - 1, period) * period + phase;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1829  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1830  	/* Compensate for propagation delay from the generator to the pin. */
-718647161517f7 Karol Kolacinski    2024-10-04  1831  	start -= prop_delay;
-5a078a58ade86d Karol Kolacinski    2024-08-30  1832  
-5a078a58ade86d Karol Kolacinski    2024-08-30  1833  	return ice_ptp_write_perout(hw, rq->index, gpio_pin, start, period);
-172db5f91d5f7b Maciej Machnikowski 2021-06-16  1834  }
-172db5f91d5f7b Maciej Machnikowski 2021-06-16  1835  
+   620	
+   621	/**
+   622	 * typec_partner_set_usb_mode - Assign active USB Mode for the partner
+   623	 * @partner: USB Type-C partner
+   624	 * @mode: USB Mode (USB2, USB3 or USB4)
+   625	 *
+   626	 * The port drivers can use this function to assign the active USB Mode to
+   627	 * @partner. The USB Mode can change for example due to Data Reset.
+   628	 */
+   629	void typec_partner_set_usb_mode(struct typec_partner *partner, enum usb_mode usb_mode)
+ > 630	{
+   631		if (!partner || partner->usb_mode == usb_mode)
+   632			return;
+   633	
+   634		partner->usb_capability |= BIT(usb_mode - 1);
+   635		partner->usb_mode = usb_mode;
+   636		sysfs_notify(&partner->dev.kobj, NULL, "usb_mode");
+   637	}
+   638	EXPORT_SYMBOL_GPL(typec_partner_set_usb_mode);
+   639	
 
 -- 
 0-DAY CI Kernel Test Service
