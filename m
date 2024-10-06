@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78E9A920
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 00:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247998F77
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 01:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728175295; cv=none; b=Pn7JWPeC96B9d6GuJnxbwEn6bQoWLUdH2sPCBCP4YxaeOAPi+VDvtDbXtxzsgWiumGXPCn5hQ0LQtBjtBz3JGzN/dgH8g4g7zq2QyS/So36LzEE5z8K0pJVFh886j3IsTi36XsVCg4ijIgZYq55sFn3zZ2fuGVKGPh/IQsmadGo=
+	t=1728176502; cv=none; b=qIAV1AQ7HqvWNCLG3Q7s1qasui5FjRtPMPadcJHp+n68S2Tw0zWC1Hh1VNIy3w3mEBsI/5mA+UILlJwEax8VqicfRVtiALf7EabW7HuB6rwnNDJLm4MRKCKs+5hS5jdiC/cWvu3/8GdlF/l1aUSgswwF0OP6cAlpcWNMK43fSQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728175295; c=relaxed/simple;
-	bh=GOZ893qCXjLIiSzwzZVk+JV053kjwR0YUK00/M4MkrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bwlAtwmC4gfcR2NP/HnniIRp4Iv1l65jbxmub5cKFSdiYaPF/dC1bs6MejO/BwJ/tnyoJmwkhfmQ9VDHERMEZ6hqNX6e2spPC4BGjuCgiWm29js6ON/JjHQUnheB9QIBZ97vUyIwWwwDEX71FWpPnjbx0khyP6cRhvJggq1MizA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/V7q4mT; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1728176502; c=relaxed/simple;
+	bh=YIWI7OzQBWjQRQD3dHv9yU7vVXX/6sPNdKhYQzsmi7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VfXrwb4y6T1bnXyP5KZW3wFycReZNRpJRKFfW99mQgOcni5b2SEApf14FUGjbjz/xBX+MwRrFIw2g5Daxe68GZvx4QnR7xzD4KjNZT5ySSQL2YHG6FQPqZLO9An6eiUzZXVL3DIKrS+03tC/LxIk3mUY2ki8BrLoEfpFF4Yf1RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsMSY5ek; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/V7q4mT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsMSY5ek"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728175294; x=1759711294;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GOZ893qCXjLIiSzwzZVk+JV053kjwR0YUK00/M4MkrA=;
-  b=X/V7q4mTo5cTjVwqtNLCI7BlVugP0YKfNKgGCeXx61a+FXK6SzBinj+P
-   +eUekbokhtYDBBa+ztgsK+P4N/CKPVm44vj2Jd0mTaQuGa8QQs1UIWIx5
-   6tWm2Ogel/it6M1pPyd9mqkPWo9R/1dvl5sR/9uvBbDq1yBt+TmJCHUQh
-   ZLGS8nC285D9a8D0ZmYk8QWTZOje8qB7GLvLLkKOozqQpR/8jpEfuPDWP
-   uKY3IJ+3qz1Igw+jFWf1gEXTXndT6ThGr52maJ3tr6bnA4ggwChwLlE5c
-   gvE1ZFXVf89aP2p78Y4HC5EK8VRRarSGafyeeOfmxBtxKGmxl1AMO8GVP
-   A==;
-X-CSE-ConnectionGUID: KT5gKBa8S6qrtXbCMcyfyA==
-X-CSE-MsgGUID: XjKhwGKWShuwl+4X8R1DPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27304657"
+  t=1728176497; x=1759712497;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YIWI7OzQBWjQRQD3dHv9yU7vVXX/6sPNdKhYQzsmi7s=;
+  b=jsMSY5ek83voJiVLhuWAIsMRf950sLgQ9J4yB3UhlCqZbK+H+S0PoaBw
+   eNyRVnnQZSlNhbz+U4/Lo8BYHd3HXYoBOLtQlmWM9eZNJ2WDq2jUDZY95
+   sMVwXUVGcNLEESQ6wtQQtW8YDTxIA85srxmWbKYkhWFFQHiz2pqvswMRE
+   mmcbSzS01KNjdob1HXOLq2zzGqIWfytDLzJauOWI0QJsjcybE00pq7cxX
+   Y8Ln+LfrA03BPkTFOnrkOAYmH0rqAld/OwbOau5d/GIwy1jAMhrfXic/R
+   +8bCtV9yigYdaNY2i7QBjZuc38pWb0WxjGP243qqqj0Jo0SiU1A9CrCSY
+   Q==;
+X-CSE-ConnectionGUID: HJKmiMv1TqaFgWT+QNST4g==
+X-CSE-MsgGUID: KI0z7/oSRn2ZK07BeSLh6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="52759058"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="27304657"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 17:41:33 -0700
-X-CSE-ConnectionGUID: qo5ITPliSUatXebdEoHC3w==
-X-CSE-MsgGUID: jt62GBq/Tq+TMxJRvPRFKA==
+   d="scan'208";a="52759058"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 18:01:36 -0700
+X-CSE-ConnectionGUID: rm2xF1dkRRm8x8ZgM0GGpg==
+X-CSE-MsgGUID: /8nkO2UwQra292lnawWP8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="79909860"
+   d="scan'208";a="75420417"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 Oct 2024 17:41:32 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 05 Oct 2024 18:01:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxFKz-0003UU-2G;
-	Sun, 06 Oct 2024 00:41:29 +0000
-Date: Sun, 6 Oct 2024 08:40:47 +0800
+	id 1sxFeO-0003Uw-0U;
+	Sun, 06 Oct 2024 01:01:32 +0000
+Date: Sun, 6 Oct 2024 09:01:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:ovl_real_file 2/4] fs/overlayfs/file.c:139:23: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202410060829.UTwmlmcr-lkp@intel.com>
+To: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW in
+ setcmap_atomic
+Message-ID: <202410060802.Ln9ygpuY-lkp@intel.com>
+References: <20241003120655.53663-1-vamsikrishna.brahmajosyula@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,89 +66,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241003120655.53663-1-vamsikrishna.brahmajosyula@gmail.com>
 
-tree:   https://github.com/amir73il/linux ovl_real_file
-head:   2e6c8d603136baf0de510ba069ad78a449012807
-commit: e37f0a8ea49c2287a7c722abb1d4d97619bc7271 [2/4] ovl: stash upper real file in backing_file struct
-config: hexagon-randconfig-r113-20241005 (https://download.01.org/0day-ci/archive/20241006/202410060829.UTwmlmcr-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce: (https://download.01.org/0day-ci/archive/20241006/202410060829.UTwmlmcr-lkp@intel.com/reproduce)
+Hi Vamsi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7ec462100ef9142344ddbf86f2c3008b97acddbe]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vamsi-Krishna-Brahmajosyula/gpu-drm-set-gamma_lut-or-degamma_lut-based-on-HW-in-setcmap_atomic/20241003-200835
+base:   7ec462100ef9142344ddbf86f2c3008b97acddbe
+patch link:    https://lore.kernel.org/r/20241003120655.53663-1-vamsikrishna.brahmajosyula%40gmail.com
+patch subject: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW in setcmap_atomic
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241006/202410060802.Ln9ygpuY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060802.Ln9ygpuY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410060829.UTwmlmcr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410060802.Ln9ygpuY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/overlayfs/file.c:139:23: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +139 fs/overlayfs/file.c
-
-    93	
-    94	static int ovl_real_fdget_meta(const struct file *file, struct fd *real,
-    95				       bool upper_meta)
-    96	{
-    97		struct dentry *dentry = file_dentry(file);
-    98		struct file *realfile = file->private_data;
-    99		struct file *upperfile = backing_file_private(realfile);
-   100		struct path realpath;
-   101		int err;
-   102	
-   103		real->word = 0;
-   104	
-   105		if (upper_meta) {
-   106			ovl_path_upper(dentry, &realpath);
-   107			if (!realpath.dentry)
-   108				return 0;
-   109		} else {
-   110			/* lazy lookup and verify of lowerdata */
-   111			err = ovl_verify_lowerdata(dentry);
-   112			if (err)
-   113				return err;
-   114	
-   115			ovl_path_realdata(dentry, &realpath);
-   116		}
-   117		if (!realpath.dentry)
-   118			return -EIO;
-   119	
-   120	stashed_upper:
-   121		if (upperfile && file_inode(upperfile) == d_inode(realpath.dentry))
-   122			realfile = upperfile;
-   123	
-   124		/*
-   125		 * If realfile is lower and has been copied up since we'd opened it,
-   126		 * open the real upper file and stash it in backing_file_private().
-   127		 */
-   128		if (unlikely(file_inode(realfile) != d_inode(realpath.dentry))) {
-   129			struct file *old;
-   130	
-   131			/* Stashed upperfile has a mismatched inode */
-   132			if (unlikely(upperfile))
-   133				return -EIO;
-   134	
-   135			upperfile = ovl_open_realfile(file, &realpath);
-   136			if (IS_ERR(upperfile))
-   137				return PTR_ERR(upperfile);
-   138	
- > 139			old = cmpxchg_release(backing_file_private_ptr(realfile), NULL,
-   140					      upperfile);
-   141			if (old) {
-   142				fput(upperfile);
-   143				upperfile = old;
-   144			}
-   145	
-   146			goto stashed_upper;
-   147		}
-   148	
-   149		real->word = (unsigned long)realfile;
-   150	
-   151		/* Did the flags change since open? */
-   152		if (unlikely((file->f_flags ^ realfile->f_flags) & ~OVL_OPEN_FLAGS))
-   153			return ovl_change_flags(realfile, file->f_flags);
-   154	
-   155		return 0;
-   156	}
-   157	
+>> ERROR: modpost: "drm_mode_obj_find_prop_id" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
