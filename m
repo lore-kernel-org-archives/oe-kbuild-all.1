@@ -1,157 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4795DEAC6
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 03:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94A3231C85
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 04:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728187128; cv=none; b=NsN4U8N9YIdjqdkw3WfnnvjE5Vbn+lGj+yrQIZ6YUyqCRb6tlX64Cy6d6d/B/yemtrWz6ecvixadiwt1ceJ/1Lrz0m04bMgc5LJZJual/1KlHPiie9Mh4kDL80c210+RN0MxMH9Hntm8WUgrVhu84Nb4aMhmIuUgbXAN67hbKKQ=
+	t=1728188991; cv=none; b=UQLD/uRNZHA3c6bENsWy7RbdLL/I5SHII7wODMNwP3Thd9KU92OKaR6aFx+eLsQ3c+7GgmyeyTd8dWyUxtXl0KVtDYu4ynTy1Wmqn0ZTRGpXEcql/rVGMK/7sw4XoPR1s2Morz0/gV+bvmJRcTNZYvLq3dfTZAD3GwdJeAvWvN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728187128; c=relaxed/simple;
-	bh=Egaa6iZYzMuF2zGWTLQXS5DjvOOEgfe8SqZ+zwAWgrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PdQXeT/SDpRveI/+YUPG2KIMHT06hFqW3EeP6U/lTmVzUEH5VgFBun6KEZaQacGx3I3XIY8TmYW9HeMIrTTb3FGTG6LgzgenJ3d4tM/j0+chtFClDGj1d8Dlw3VQP/zQZy71HI8orip3YziZWWFnhbhmbXCGqfXyLWfTX7RFJA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPPrtI/W; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1728188991; c=relaxed/simple;
+	bh=RPqJD/C7y0gBMClUK33fxbnxtlFlwArlCPQ7Hdm4OyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DfiJeBuhOGaJEwaURXw9HdTHtAWRZi4hnCulTEW/cAudJ1MZ79grl90DSKwqxhVToNb2M8RMwBSwmupZ1e+Fdkpdo2mNw/X1uZ9KlmjEhP6TlG8W8kkMm/Zg73jmI5tUoKgh6RKPMc0nJSXYKZMjdKlK8D8gv+y8zFpP5RPJ/FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mu7lKPiA; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPPrtI/W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mu7lKPiA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728187127; x=1759723127;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Egaa6iZYzMuF2zGWTLQXS5DjvOOEgfe8SqZ+zwAWgrc=;
-  b=EPPrtI/WaF9tryk7LMxB8KhO/+thRcv4kL3rH4POHo8Rio7kiWiqnpnd
-   DyA+kD3s49dCe7yZZSwnuf+oCC4w01zUPoMNSVROax4tt8FO5K/j1tnFi
-   wJLGaKmi/vJtDfvj9LP8IuDVRVFtWxn2t3NMcBZuw9HMnnfCVDka5D5UX
-   6EgV1lsrh6SA8iL99iCfkTcG7zh4iEivPjDk3Lu5APDehJOFMUY4GzBXs
-   tBvDkdQtM+qJAGrczj0RYZhNcpIz3OZNfEMB0WP6h6I+pvwNfqgX9SQZm
-   yMkzfb/IJoJbGk/VOfeP+UvFfVQq6ex20ic5RfCGzFgO3+21aC384lnKo
-   g==;
-X-CSE-ConnectionGUID: oTyacKajSDi2k584F8QE2g==
-X-CSE-MsgGUID: jpTO8gjAQUG/vnxy87gl7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="31158736"
+  t=1728188990; x=1759724990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RPqJD/C7y0gBMClUK33fxbnxtlFlwArlCPQ7Hdm4OyY=;
+  b=Mu7lKPiA7FkX3nHz6Ood5nztJ7Le9vkVwhYYEGon+EkwGVbpYT9G0Ac8
+   JV84oxpDeLy54oqc8H0KcsWyVFv7SLyjHBi7mcHjLN42IMuZh367UcrE5
+   zd6s+GMrCFPxfLeNo2imYpa5hNazFqQ8msKrAImKSkZEvRd3LGgbnJWW7
+   fTUCtjt4xc9e01i+gJa31FSwj+/qakGze537PcEBOZ8JZpnGTZ2xFHhCg
+   btEsx1XeuuR+7hUS0VuUoUpRj3edzb8/0UWO45kJzCAogU+1KglREyusV
+   vZhCYMOcnbCEf/XzoafJqYZB/eRvxy7kNzG3DIfVssbNVEvYA/OoIY9+I
+   A==;
+X-CSE-ConnectionGUID: gVgkLcnHTSKacapwM4xeZg==
+X-CSE-MsgGUID: R+n512PdR860VWpJS7RiIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27539419"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="31158736"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 20:58:47 -0700
-X-CSE-ConnectionGUID: 060NaE8GTUWICrdkhAd2Vg==
-X-CSE-MsgGUID: 9ywUKSkGQqGL9UdC1Dwndg==
+   d="scan'208";a="27539419"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 21:29:49 -0700
+X-CSE-ConnectionGUID: kPUeUwsyT8iIGdo58i9b1w==
+X-CSE-MsgGUID: VgY47a4iQBaGQv9wsSYbzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="74789908"
+   d="scan'208";a="75549317"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Oct 2024 20:58:46 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 Oct 2024 21:29:46 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxIPq-0003aS-1w;
-	Sun, 06 Oct 2024 03:58:42 +0000
-Date: Sun, 6 Oct 2024 11:58:16 +0800
+	id 1sxItr-0003b6-1R;
+	Sun, 06 Oct 2024 04:29:43 +0000
+Date: Sun, 6 Oct 2024 12:29:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/arm-generic-entry-v6.12-rc1 30/30]
- kernel/entry/common.c:55:9: error: call to undeclared function
- '__secure_computing'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202410061116.YKl5U8y3-lkp@intel.com>
+To: Mukesh Ojha <quic_mojha@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Komal Bajaj <quic_kbajaj@quicinc.com>,
+	Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: Re: [PATCH 2/6] remoteproc: qcom: Add iommu map_unmap helper function
+Message-ID: <202410061256.KV3EbD7H-lkp@intel.com>
+References: <20241004212359.2263502-3-quic_mojha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241004212359.2263502-3-quic_mojha@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/arm-generic-entry-v6.12-rc1
-head:   073ac3744274d4bf1cf29f48147b13adadb2c6d3
-commit: 073ac3744274d4bf1cf29f48147b13adadb2c6d3 [30/30] ARM: entry: Convert to generic entry
-config: arm-randconfig-r054-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061116.YKl5U8y3-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061116.YKl5U8y3-lkp@intel.com/reproduce)
+Hi Mukesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on robh/for-next linus/master v6.12-rc1 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/dt-bindings-remoteproc-qcom-pas-common-Introduce-iommus-and-qcom-devmem-property/20241005-052733
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20241004212359.2263502-3-quic_mojha%40quicinc.com
+patch subject: [PATCH 2/6] remoteproc: qcom: Add iommu map_unmap helper function
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241006/202410061256.KV3EbD7H-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061256.KV3EbD7H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061116.YKl5U8y3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410061256.KV3EbD7H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/entry/common.c:4:
-   In file included from include/linux/entry-common.h:6:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/entry/common.c:55:9: error: call to undeclared function '__secure_computing'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      55 |                 ret = __secure_computing(NULL);
-         |                       ^
-   1 warning and 1 error generated.
+   drivers/remoteproc/qcom_common.c: In function 'qcom_map_unmap_carveout':
+>> drivers/remoteproc/qcom_common.c:645:38: warning: left shift count >= width of type [-Wshift-count-overflow]
+     645 |                 iova |= (sid_def_val << 32);
+         |                                      ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +/__secure_computing +55 kernel/entry/common.c
+vim +645 drivers/remoteproc/qcom_common.c
 
-142781e108b13b Thomas Gleixner         2020-07-22  27  
-221a164035fd8b Sven Schnelle           2023-12-18  28  long syscall_trace_enter(struct pt_regs *regs, long syscall,
-2991552447707d Gabriel Krisman Bertazi 2020-11-16  29  				unsigned long work)
-142781e108b13b Thomas Gleixner         2020-07-22  30  {
-57df4fd32dec86 Jinjie Ruan             2024-06-29  31  	unsigned long saved_reg;
-142781e108b13b Thomas Gleixner         2020-07-22  32  	long ret = 0;
-142781e108b13b Thomas Gleixner         2020-07-22  33  
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  34  	/*
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  35  	 * Handle Syscall User Dispatch.  This must comes first, since
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  36  	 * the ABI here can be something that doesn't make sense for
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  37  	 * other syscall_work features.
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  38  	 */
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  39  	if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  40  		if (syscall_user_dispatch(regs))
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  41  			return -1L;
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  42  	}
-11894468e39def Gabriel Krisman Bertazi 2020-11-27  43  
-142781e108b13b Thomas Gleixner         2020-07-22  44  	/* Handle ptrace */
-64eb35f701f04b Gabriel Krisman Bertazi 2020-11-16  45  	if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)) {
-57df4fd32dec86 Jinjie Ruan             2024-06-29  46  		saved_reg = arch_prepare_report_syscall_entry(regs);
-0cfcb2b9ef48bb Eric W. Biederman       2022-01-27  47  		ret = ptrace_report_syscall_entry(regs);
-57df4fd32dec86 Jinjie Ruan             2024-06-29  48  		arch_post_report_syscall_entry(regs, saved_reg, ret);
-57df4fd32dec86 Jinjie Ruan             2024-06-29  49  		if (ret || work & SYSCALL_WORK_SYSCALL_EMU)
-142781e108b13b Thomas Gleixner         2020-07-22  50  			return -1L;
-142781e108b13b Thomas Gleixner         2020-07-22  51  	}
-142781e108b13b Thomas Gleixner         2020-07-22  52  
-142781e108b13b Thomas Gleixner         2020-07-22  53  	/* Do seccomp after ptrace, to catch any tracer changes. */
-23d67a54857a76 Gabriel Krisman Bertazi 2020-11-16  54  	if (work & SYSCALL_WORK_SECCOMP) {
-142781e108b13b Thomas Gleixner         2020-07-22 @55  		ret = __secure_computing(NULL);
-142781e108b13b Thomas Gleixner         2020-07-22  56  		if (ret == -1L)
-142781e108b13b Thomas Gleixner         2020-07-22  57  			return ret;
-142781e108b13b Thomas Gleixner         2020-07-22  58  	}
-142781e108b13b Thomas Gleixner         2020-07-22  59  
-b6ec413461034d Kees Cook               2020-09-11  60  	/* Either of the above might have changed the syscall number */
-b6ec413461034d Kees Cook               2020-09-11  61  	syscall = syscall_get_nr(current, regs);
-b6ec413461034d Kees Cook               2020-09-11  62  
-fb13b11d53875e André Rösti             2024-03-11  63  	if (unlikely(work & SYSCALL_WORK_SYSCALL_TRACEPOINT)) {
-142781e108b13b Thomas Gleixner         2020-07-22  64  		trace_sys_enter(regs, syscall);
-fb13b11d53875e André Rösti             2024-03-11  65  		/*
-fb13b11d53875e André Rösti             2024-03-11  66  		 * Probes or BPF hooks in the tracepoint may have changed the
-fb13b11d53875e André Rösti             2024-03-11  67  		 * system call number as well.
-fb13b11d53875e André Rösti             2024-03-11  68  		 */
-fb13b11d53875e André Rösti             2024-03-11  69  		syscall = syscall_get_nr(current, regs);
-fb13b11d53875e André Rösti             2024-03-11  70  	}
-142781e108b13b Thomas Gleixner         2020-07-22  71  
-142781e108b13b Thomas Gleixner         2020-07-22  72  	syscall_enter_audit(regs, syscall);
-142781e108b13b Thomas Gleixner         2020-07-22  73  
-142781e108b13b Thomas Gleixner         2020-07-22  74  	return ret ? : syscall;
-142781e108b13b Thomas Gleixner         2020-07-22  75  }
-142781e108b13b Thomas Gleixner         2020-07-22  76  
-
-:::::: The code at line 55 was first introduced by commit
-:::::: 142781e108b13b2b0e8f035cfb5bfbbc8f14d887 entry: Provide generic syscall entry functionality
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   611	
+   612	/**
+   613	 * qcom_map_unmap_carveout() - iommu map and unmap carveout region
+   614	 *
+   615	 * @rproc:	rproc handle
+   616	 * @mem_phys:	starting physical address of carveout region
+   617	 * @mem_size:	size of carveout region
+   618	 * @map:	if true, map otherwise, unmap
+   619	 * @use_sid:	decision to append sid to iova
+   620	 * @sid:	SID value
+   621	 */
+   622	int qcom_map_unmap_carveout(struct rproc *rproc, phys_addr_t mem_phys, size_t mem_size,
+   623				    bool map, bool use_sid, unsigned long sid)
+   624	{
+   625		unsigned long iova = mem_phys;
+   626		unsigned long sid_def_val;
+   627		int ret;
+   628	
+   629		if (!rproc->has_iommu)
+   630			return 0;
+   631	
+   632		if (!rproc->domain)
+   633			return -EINVAL;
+   634	
+   635		/*
+   636		 * Remote processor like ADSP supports upto 36 bit device
+   637		 * address space and some of its clients like fastrpc uses
+   638		 * upper 32-35 bits to keep lower 4 bits of its SID to use
+   639		 * larger address space. To keep this consistent across other
+   640		 * use cases add remoteproc SID configuration for firmware
+   641		 * to IOMMU for carveouts.
+   642		 */
+   643		if (use_sid && sid) {
+   644			sid_def_val = sid & SID_MASK_DEFAULT;
+ > 645			iova |= (sid_def_val << 32);
+   646		}
+   647	
+   648		if (map)
+   649			ret = iommu_map(rproc->domain, iova, mem_phys, mem_size, IOMMU_READ | IOMMU_WRITE, GFP_KERNEL);
+   650		else
+   651			ret = iommu_unmap(rproc->domain, iova, mem_size);
+   652	
+   653		if (ret)
+   654			dev_err(&rproc->dev, "Unable to %s IOVA Memory, ret: %d\n",
+   655				map ? "map" : "unmap", ret);
+   656	
+   657		return ret;
+   658	}
+   659	EXPORT_SYMBOL_GPL(qcom_map_unmap_carveout);
+   660	
 
 -- 
 0-DAY CI Kernel Test Service
