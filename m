@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA4D4C91
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 11:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A29184F;
+	Sun,  6 Oct 2024 11:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728212596; cv=none; b=nnSo5YctxWPX3F3euoCSAl39xsP5HzBoeSO1AXn5lL7ao22UXEdBXbRqYjnJ0YH8+hNtnaF1DvyPrmigFmsHPyybhvzWtJsxBzR7bBZrLE2UKfuh5ZJLrh2Y8SIpqaLWu3J7bGc1MF96luL8ONMt3lc7hj0bFbSUipfkE3Bm1yc=
+	t=1728215059; cv=none; b=tPebv5bIp0E4jE1vCE9UnqOyrqTv79aDJm5fycllTwCSbkFJtL+gMDT/DcJ6XJ5l2/cuH28N0oo8xjlIC70hlKlzmr+rPlm8KlelKcdUu5rGmXCaBpjTnW35CWUhu0FAdRK4kN0dLdNQcgMn5N04SDMS7rTaHGQguTU7ZP3g2T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728212596; c=relaxed/simple;
-	bh=JVVhcUFuusLj+2qv5VKrK7GHi7y2gtXuxOpzq8IhGv4=;
+	s=arc-20240116; t=1728215059; c=relaxed/simple;
+	bh=uzFj4uQXPB7fEDtMPoAI/HcotRPELA9KF+Mz+IoLZnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I6h2+1GA+Ka8kYvX3pnZ1XEFZCkaIX+sDUJRZoeZ+QVgqJ75U4G2X4Hu0iR7kpCnlSObPBnokw85Yiu+D06cIN88x60wddIfTiS8dNgBo9/yN3F8wW5LATPliP6NN2lY7gjbLd4RTuB8aWwXDDp0aegPQ4Z/xhRTbJxZBY/67NQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rh3KLb4t; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=E8bcl3tNnXtwtSA21nXfiRxd98RiM8btRp+70REUdTveuXFZhCf84CAcBwLuCjjDmAuiOaW9egD6aZvmXL3aIK3rsnPz7Am0FpI/cPxh66mCtASDLXN2i0wxNIkaw6spC9ftkxzc9e+sF4L/Pp0rpsj/+JSuFOmMcy1oq5abWHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCZ59pig; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rh3KLb4t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCZ59pig"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728212595; x=1759748595;
+  t=1728215058; x=1759751058;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JVVhcUFuusLj+2qv5VKrK7GHi7y2gtXuxOpzq8IhGv4=;
-  b=Rh3KLb4tYjtgV/m2aCHnk8oZgvh/rRO732b1ELg9WYgxzxEyumKikuHn
-   ETXSSU15bbs//MLZbKtsBQLIBchNlfJAbSMHcBH0wVHPPK7idpylhXmZk
-   LorFQsCvyt9DiQrMxyUdIFVnycLyUcPRtCMPAmHQPpkMq5rUU0sRDMUmv
-   qD32+3rDUwmmu30u2/ow1pyvE7p1p6BzQk15JBh0KNCMjtEDcnK3diXdP
-   cjtL8T0PSnLTWSA0nBHsbLDcTjB7hq6xvovLVKNx0UQyIxgEF/cLSovST
-   VP4qMVVmocHr0VlPv+CVrTg0ow6fN0vHvqVXL9PmRt+6PmOXYhdZdHTUL
-   Q==;
-X-CSE-ConnectionGUID: xUbgUDiNT9+101eIraKJVg==
-X-CSE-MsgGUID: H4/eJKJ2T9OELPGnPB8hPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27509538"
+  bh=uzFj4uQXPB7fEDtMPoAI/HcotRPELA9KF+Mz+IoLZnY=;
+  b=FCZ59pigmtDDMffyQyWT9KWOQUEWqAgWAdsADcJUPzI4joBF5bSoah/J
+   U44tSGkltZywbbt8EEdEA+nPxCmrsE007UIfsYi5+jA1bDgBgmsGiUqJZ
+   2tU1JzccqvWmymmfLAq+fH3ZFYEayfoWJlpruY2C/XrT0Cjo9r3MWuvPO
+   lKyakz2CfBDEtM0qhoRTtb98srzMBP82ehE2foqEKDl1RU/qTL0ynInY0
+   AG7jv93XpsCU5NvQqOVwfulXo+/h3YtVFUrrx5ZZsKAchos53FhlLRKFc
+   d5S4gY3wTAQBECazGjyO6GYAxd2Lq3Y+z+M8D6JV9Y41pGjQNEsvuQk0c
+   g==;
+X-CSE-ConnectionGUID: 9kIb3JqyQtaFPauRMP0iuA==
+X-CSE-MsgGUID: i5EEOMqwQ3W66YzYDg9Lsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="30258127"
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="27509538"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 04:03:14 -0700
-X-CSE-ConnectionGUID: HX0GWvddQmm8QkS9NpqZkg==
-X-CSE-MsgGUID: v9nmu7I7SwGRANJKfDNEOA==
+   d="scan'208";a="30258127"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 04:44:17 -0700
+X-CSE-ConnectionGUID: jub8W5LHQseFdnekDSld5Q==
+X-CSE-MsgGUID: wRy8c8WSSp6DT7WgygaoUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="79160691"
+   d="scan'208";a="75019638"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Oct 2024 04:03:12 -0700
+  by orviesa010.jf.intel.com with ESMTP; 06 Oct 2024 04:44:14 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxP2c-0003ng-14;
-	Sun, 06 Oct 2024 11:03:10 +0000
-Date: Sun, 6 Oct 2024 19:02:26 +0800
+	id 1sxPgI-0003oW-2j;
+	Sun, 06 Oct 2024 11:44:10 +0000
+Date: Sun, 6 Oct 2024 19:43:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:nvme-dma 5/10] drivers/infiniband/core/umem_odp.c:90:41:
- error: use of undeclared identifier 'addr'
-Message-ID: <202410061901.3uDxXErF-lkp@intel.com>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [morimoto:renesas-bsp/v6.6.53-2024-10-02 164/306] ERROR: Input tree
+ has errors, aborting (use -f to force output)
+Message-ID: <202410061908.Lm8VNLVk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,95 +64,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/misc.git nvme-dma
-head:   080c3a9ad1b0163ed2b4f9f9fba9a9fd8fe8919f
-commit: 4efd58fca48c18675130589882ca529988ede443 [5/10] dma-mapping: change the dma_alloc_iova / dma_link_range API
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241006/202410061901.3uDxXErF-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061901.3uDxXErF-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux renesas-bsp/v6.6.53-2024-10-02
+head:   ff705f5bf8a9ed4ebcfed1a104896aba101f914e
+commit: 98986fae4eeddc6ec59408071ba7a579dee12655 [164/306] arm64: dts: renesas: r9a07g043: Move interrupt-parent property to common DTSI
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20241006/202410061908.Lm8VNLVk-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061908.Lm8VNLVk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061901.3uDxXErF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410061908.Lm8VNLVk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/infiniband/core/umem_odp.c:90:41: error: use of undeclared identifier 'addr'
-      90 |         if (dma_mapping_error(dev->dma_device, addr)) {
-         |                                                ^
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +/addr +90 drivers/infiniband/core/umem_odp.c
-
-    49	
-    50	static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
-    51					   const struct mmu_interval_notifier_ops *ops)
-    52	{
-    53		struct ib_device *dev = umem_odp->umem.ibdev;
-    54		size_t page_size = 1UL << umem_odp->page_shift;
-    55		unsigned long start, end;
-    56		size_t ndmas, npfns;
-    57		dma_addr_t dma_addr;
-    58		int ret;
-    59	
-    60		umem_odp->umem.is_odp = 1;
-    61		mutex_init(&umem_odp->umem_mutex);
-    62		if (umem_odp->is_implicit_odp)
-    63			return 0;
-    64	
-    65		if (!iommu_can_use_iova(dev->dma_device, NULL, page_size,
-    66					DMA_BIDIRECTIONAL))
-    67			return -EOPNOTSUPP;
-    68	
-    69		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
-    70		if (check_add_overflow(umem_odp->umem.address,
-    71				       (unsigned long)umem_odp->umem.length, &end))
-    72			return -EOVERFLOW;
-    73		end = ALIGN(end, page_size);
-    74		if (unlikely(end < page_size))
-    75			return -EOVERFLOW;
-    76	
-    77		ndmas = (end - start) >> umem_odp->page_shift;
-    78		if (!ndmas)
-    79			return -EINVAL;
-    80	
-    81		npfns = (end - start) >> PAGE_SHIFT;
-    82		umem_odp->pfn_list =
-    83			kvcalloc(npfns, sizeof(*umem_odp->pfn_list), GFP_KERNEL);
-    84		if (!umem_odp->pfn_list)
-    85			return -ENOMEM;
-    86	
-    87		dma_init_iova_state(&umem_odp->state, dev->dma_device,
-    88				    DMA_BIDIRECTIONAL);
-    89		dma_addr = dma_alloc_iova(&umem_odp->state, 0, end - start);
-  > 90		if (dma_mapping_error(dev->dma_device, addr)) {
-    91			ret = -ENOMEM;
-    92			goto out_pfn_list;
-    93		}
-    94	
-    95		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
-    96						   umem_odp->umem.owning_mm, start,
-    97						   end - start, ops);
-    98		if (ret)
-    99			goto out_free_iova;
-   100	
-   101		return 0;
-   102	
-   103	out_free_iova:
-   104		dma_free_iova(&umem_odp->state);
-   105	out_pfn_list:
-   106		kvfree(umem_odp->pfn_list);
-   107		return ret;
-   108	}
-   109	
+   also defined at scripts/dtc/include-prefixes/arm64/renesas/rzg2ul-smarc-som.dtsi:139.10-231.3
+   also defined at scripts/dtc/include-prefixes/arm64/renesas/rzg2ul-smarc-pinfunction.dtsi:11.10-132.3
+>> ERROR: Input tree has errors, aborting (use -f to force output)
 
 -- 
 0-DAY CI Kernel Test Service
