@@ -1,115 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EB0EC5
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 05:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0000014D2B9;
+	Sun,  6 Oct 2024 05:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728191450; cv=none; b=PugfeUttPJ9e2vwfGDZDShwGDzfLxEkw+muR3Iay239Fd+EZpUUsi1AimIzkdFCJlMIjByHEmzOWgmgcKta1HUjf88C4cUwwqKhM7t/8/AVItG2Xo9iKLXpldUSYwisXr2n9UcRJH4YRMiNIz1uciYhSuYNaU+X/e+57rsENfxM=
+	t=1728191452; cv=none; b=TuOGsGLQSrzedGnF9NP0AsVTXGDapl+ESQ2ecRHYpQo0xGgCjuoX5KqRpzEGfnmKy+xzqMmUiVrnxfudHQVKs6HsB/5UtSAsqL7qOnzIN0jZnTqJa3YlX4NjOstGq0SRXRBvfSwg7u78mjc9YX6Rb/oZU5dp8om+7o72tjaMVHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728191450; c=relaxed/simple;
-	bh=AO9lZKu+3Qu4Oj/HJH7GGeMMuIrf9hIJHDjhn9+HqWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MyC5zffJVwz3yEdWPAH/OSSFt53Ye3cQ2wUPnYIGGlsCXv4O2ZJI7GniBnxJsmBwTelh8MGUDgzMHfZglalGk2RLDy4P1/ETJiq/Zv8bgQ3WityEtzq2tEmhwVuQDqNRnrZBlTV/HHIsOmtuo1Tx33N/NLIJo9PU1V1NV0pSxxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FFTJ2hTv; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1728191452; c=relaxed/simple;
+	bh=TuqrH0MK9XVTYwOnrSQOST4+hIMOBIr6LNB6z8HJ2pE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GcgXdhm/rgmSO4RzRIZyp2XUHaI+j0E3pgLu/qv8BngTBSLJ6Tsm97kKJD7MoICEpj8pSH98xcW/7WMShHLVTsZZkI1/r8Lq63FrcoMS3Ca5myXchEMgxfNbQ4sBKkvUeXuoHyVX39tn8RrME4mQMdAjD2rrsW+/L1KI9IpDPg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gTL8S6Z9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFTJ2hTv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTL8S6Z9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728191448; x=1759727448;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AO9lZKu+3Qu4Oj/HJH7GGeMMuIrf9hIJHDjhn9+HqWM=;
-  b=FFTJ2hTvHqAgHd1u4SW74wr4Gtyg6t4y9XaCagpjK2ltMdZOtNHI7uUX
-   08lSUxIpriOJQD2H+Kryz56xbh8l9URXY0CSPPRhdxJNN3JJB6r1anE7U
-   83l/9tVkAGqPG+IxXpnLc91l4Wbqo3dWyPt28UyAD9VLX62ywdrw2rF9V
-   tNQf9BfOAYUTtwgsYY6f5iUVw1YgpWY2s1vaV9lMxPvPlA4J1N0oACZzW
-   CNbDgpmQkb0K1hJrlIEwwY4/R9IXDY3jLgAtmFp6wq7wv4/72mfAgQsN0
-   ndzEsNFUWAtr1bbb+zw7mwRPaoUVzhHXuqZ/CMnwS2N6d7RD1XJMItKny
-   A==;
-X-CSE-ConnectionGUID: YkKSQPcPRcapL1Ix+kHN5Q==
-X-CSE-MsgGUID: 5eK1aFZRTDmuOSWc+V+A2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="49896978"
+  t=1728191451; x=1759727451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=TuqrH0MK9XVTYwOnrSQOST4+hIMOBIr6LNB6z8HJ2pE=;
+  b=gTL8S6Z9ZYGz3LgM2nV+DfFPE6hZYwjHCQ7HjBsixBCHhJvxbvKkDp6+
+   MU41/7QWtSkvMR01tRX0MWb7dAWN+IauM88df0VzGuzs67zhJoDtfZI0z
+   OZXhyjP46sNyWeRXMIci/nVAW3ZbTgTm/V83ebTJl8eSrvJjqAoU1KyTH
+   /GHi1sgOqqHSombMsPS8cbwC3kWLckEmWE8Jil2rdXlQQd++Tg9DeCDPW
+   ugQcqo908LQByeqeDEJk10dti6GY0Mji8kKcjYLl70Nym81diSELJuGRq
+   d5w3oCKNVuCF1eVkBUToXt5+6JMjbAgdEJpZOrMkM1DkbIOH9+yN+tZko
+   g==;
+X-CSE-ConnectionGUID: Bx1iXlEmSniGtKQrQJPb8g==
+X-CSE-MsgGUID: 61iavCvESECCQUVIiJ8gTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="26867393"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="49896978"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 22:10:48 -0700
-X-CSE-ConnectionGUID: HN5GaikuRPaoaTgM1xDQSQ==
-X-CSE-MsgGUID: 9OruTTKET2i1YJccgzUTqw==
+   d="scan'208";a="26867393"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 22:10:50 -0700
+X-CSE-ConnectionGUID: /1nD6UcSSji0idIG5sfvBw==
+X-CSE-MsgGUID: Qex4CVsXQoK1aSuVcW0B0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="79534254"
+   d="scan'208";a="98432378"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Oct 2024 22:10:46 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 05 Oct 2024 22:10:46 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxJXY-0003cc-1O;
+	id 1sxJXY-0003ca-1L;
 	Sun, 06 Oct 2024 05:10:44 +0000
-Date: Sun, 6 Oct 2024 13:10:37 +0800
+Date: Sun, 6 Oct 2024 13:10:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/1]
- drivers/usb/gadget/android_configfs_uevent.c:231:6: sparse: sparse: symbol
- '__android_set_connected' was not declared. Should it be static?
-Message-ID: <202410061307.Vmc3t4GW-lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	krisman@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	kernel-dev@igalia.com, Daniel Rosenberg <drosen@google.com>,
+	smcv@collabora.com, Christoph Hellwig <hch@lst.de>,
+	Theodore Ts'o <tytso@mit.edu>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v5 07/10] tmpfs: Add casefold lookup support
+Message-ID: <202410061202.rhZIs2gr-lkp@intel.com>
+References: <20241002234444.398367-8-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241002234444.398367-8-andrealmeid@igalia.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   d30885a29d6526b6f138843023920289f6480373
-commit: 957b40b3b769bc23db3d6491db267e3166f91316 [1/1] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
-config: arm-randconfig-r112-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061307.Vmc3t4GW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241006/202410061307.Vmc3t4GW-lkp@intel.com/reproduce)
+Hi André,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on akpm-mm/mm-everything tytso-ext4/dev linus/master v6.12-rc1 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/libfs-Create-the-helper-function-generic_ci_validate_strict_name/20241003-074711
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20241002234444.398367-8-andrealmeid%40igalia.com
+patch subject: [PATCH v5 07/10] tmpfs: Add casefold lookup support
+config: x86_64-buildonly-randconfig-004-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061202.rhZIs2gr-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061202.rhZIs2gr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061307.Vmc3t4GW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410061202.rhZIs2gr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/android_configfs_uevent.c:231:6: sparse: sparse: symbol '__android_set_connected' was not declared. Should it be static?
->> drivers/usb/gadget/android_configfs_uevent.c:245:6: sparse: sparse: symbol '__android_set_configured' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__android_set_connected +231 drivers/usb/gadget/android_configfs_uevent.c
+   mm/shmem.c:1608:20: warning: unused function 'shmem_show_mpol' [-Wunused-function]
+    1608 | static inline void shmem_show_mpol(struct seq_file *seq, struct mempolicy *mpol)
+         |                    ^~~~~~~~~~~~~~~
+>> mm/shmem.c:4717:39: warning: unused variable 'shmem_ci_dentry_ops' [-Wunused-const-variable]
+    4717 | static const struct dentry_operations shmem_ci_dentry_ops = {
+         |                                       ^~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
-   230	
- > 231	void __android_set_connected(struct android_uevent_opts *opts,
-   232			bool connected)
-   233	{
-   234		unsigned long flags;
-   235	
-   236		spin_lock_irqsave(&opts_lock, flags);
-   237		// Don't send the uevent if connected state is not changed
-   238		if (opts->connected != connected) {
-   239			opts->connected = connected;
-   240			schedule_work(&opts->work);
-   241		}
-   242		spin_unlock_irqrestore(&opts_lock, flags);
-   243	}
-   244	
- > 245	void __android_set_configured(struct android_uevent_opts *opts,
-   246			bool configured)
-   247	{
-   248		unsigned long flags;
-   249	
-   250		spin_lock_irqsave(&opts_lock, flags);
-   251		// Don't send the uevent if configure state is not changed
-   252		if (opts->configured != configured) {
-   253			opts->configured = configured;
-   254			schedule_work(&opts->work);
-   255		}
-   256		spin_unlock_irqrestore(&opts_lock, flags);
-   257	}
-   258	
+
+vim +/shmem_ci_dentry_ops +4717 mm/shmem.c
+
+  4715	
+  4716	#if IS_ENABLED(CONFIG_UNICODE)
+> 4717	static const struct dentry_operations shmem_ci_dentry_ops = {
+  4718		.d_hash = generic_ci_d_hash,
+  4719		.d_compare = generic_ci_d_compare,
+  4720		.d_delete = always_delete_dentry,
+  4721	};
+  4722	#endif
+  4723	
 
 -- 
 0-DAY CI Kernel Test Service
