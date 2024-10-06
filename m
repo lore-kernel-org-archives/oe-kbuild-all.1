@@ -1,69 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA75F166F34
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 07:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCA8250F8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 07:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728198896; cv=none; b=Lglpva5GviByjotFlCv3pZFbNxvJP7wJHvXfLns6l/KyBp3mCO1wozDUYnvqb3n4ypcnfzWqxmQEf+7+4zdxk/n8G8SVqsB692fwrBgP4Jj1s2HIc7BHhaPftxd1r1s7u7zxlkXJ3zKt0J9OrIDSzL7q/LWk8G0biRYaSbiFRlw=
+	t=1728200753; cv=none; b=P9VG5jDI/pNvnSJLT01mMKG1n8Q6NgmCAMzfiXv0AaOnbJbo8L3VLly9zhJwBVM8/keAiLpfimxHw6uGTGwUSS0xULMpzT7pTMS/0OQz3Z5/jcVHBO+F3WpO2mX4vWTfiz9gZmEtepVRQNY9O7XaEMQL2OdjUtYZX8e72gG7FKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728198896; c=relaxed/simple;
-	bh=rvBFnAwLGKxozKlGoPYKyeuWTXKglv6GHMyqYvXmTAg=;
+	s=arc-20240116; t=1728200753; c=relaxed/simple;
+	bh=6Lic0jWLHB7UOx+VHK3LyDFGYyG5mbHmPUgOoyIeObg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AxYcSAYrRtbGI/znosiJrah+dkDCSjpqZO5yztUtjuTvCDMua9lLP8y7/NAhvU2FwaxC8SFzIHUB3gjnErq5H0rKXln2lU1awLYauqj2dH2PTrZ1DgBPeWHUOY4M/UOXeQPaGo2OgjN/UrnJo7CmFlN13UEnggKpyXf1TTe9NBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WRifEotl; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=fW6/xm5XRUgXIvVFSHiiSr5e8YVY4mVob+JTf7kkS4khLvAnO0QDM74tEIcF4m3/+u7mbLT6DKSEvU/9vgqoytJj1oRuQROFYFNThkIMHKkXFbVwdtbBcLEvrOzyMF8tzGoQIggeHmXrtCEC0vQ9JoaGiglpQ/YrdWzfy80m1Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6R5TXRe; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WRifEotl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6R5TXRe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728198894; x=1759734894;
+  t=1728200752; x=1759736752;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rvBFnAwLGKxozKlGoPYKyeuWTXKglv6GHMyqYvXmTAg=;
-  b=WRifEotlUYaaHdv234qPtPFO/sH57Fdj97BfXm0h5/OYu1zS6QEw4ZDu
-   4gaw/joIAAr9Nzhrjx0/G70nuOhG+cA3ZaTvIbATJ2bVtMgQmybWAk+7K
-   ynxqBvXRyeSzdpTu8HNRgnRUvWTUTqURCdbuzv8gVjZ68BOLjmehNspmr
-   QupnCDy+zNC8GpRov4wbsmXCsVRD9Xn0+5xUcBhpIf1Ma/NB9CPJ9zRJs
-   s501NDdB0GnxH/PYVNxxjTOmkl0Fr8mNLqgTKVJg0QXDuc2TGp0owu8U2
-   TpLUE0+JrOMDgVcZ/g3ueRRcPO0xFcZrKrZiuUpEeq1S4jk7250xoHE+n
+  bh=6Lic0jWLHB7UOx+VHK3LyDFGYyG5mbHmPUgOoyIeObg=;
+  b=D6R5TXRebfxmQIA6temsG1CuBZnI8N/7fn7F4dEetEE3NqpImyE1TacZ
+   b4chcJuhFEgy4auCfl349OeX1fz0xCF7zJuuv7ENy23ulbKAz/3x7tPFh
+   09/KUJnIrLekevFgMFllBiKnafhO90iWj8QCeKuiMjK1sVqQ93QSWmasC
+   xwqaOiVz/n3KxyxLq7ocEdsToISnpJbqs/hThxmUxF7LBLTD/E0A6T2B1
+   rktq5Gt4FNPGynMT8N+TM6AIS4Fw50YaoRfC5d2Y2TqD4dIIgu63bFjr5
+   /EMV/X5Frig4G6Dk1muxIDOPQBlmbQtYOpCio0qf6TqKhikg5xOhGUKFv
    w==;
-X-CSE-ConnectionGUID: t0L4k+VKSw6efacZvIa/Kw==
-X-CSE-MsgGUID: JVD61bxOSju5HDyrcD+7sA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="49900366"
+X-CSE-ConnectionGUID: cWRL5Oj1TpS0SAoKbAsv8Q==
+X-CSE-MsgGUID: EaPoZYq9RISM+9zTCWqCpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="31164189"
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="49900366"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 00:14:54 -0700
-X-CSE-ConnectionGUID: 4jEnGfSCRBi8baZ2Vcujzg==
-X-CSE-MsgGUID: YBfKsRVZSwyGvh2jqoitbQ==
+   d="scan'208";a="31164189"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 00:45:52 -0700
+X-CSE-ConnectionGUID: AwbqTxnBQEyWAGgemMHYXA==
+X-CSE-MsgGUID: 6yg73ueKQA+qtFvebIpFiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="75484927"
+   d="scan'208";a="75385942"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Oct 2024 00:14:48 -0700
+  by orviesa006.jf.intel.com with ESMTP; 06 Oct 2024 00:45:50 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxLTa-0003g4-1Q;
-	Sun, 06 Oct 2024 07:14:46 +0000
-Date: Sun, 6 Oct 2024 15:14:22 +0800
+	id 1sxLxb-0003hs-1V;
+	Sun, 06 Oct 2024 07:45:47 +0000
+Date: Sun, 6 Oct 2024 15:45:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ram Kumar Dwivedi <quic_rdwivedi@quicinc.com>,
-	manivannan.sadhasivam@linaro.org, alim.akhtar@samsung.com,
-	avri.altman@wdc.com, bvanassche@acm.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
-	konrad.dybcio@linaro.org, James.Bottomley@hansenpartnership.com,
-	martin.petersen@oracle.com, agross@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_narepall@quicinc.com,
-	quic_nitirawa@quicinc.com, quic_rdwivedi@quicinc.com,
-	Can Guo <quic_cang@quicinc.com>
-Subject: Re: [PATCH V1 3/3] scsi: ufs: qcom: Add support for multiple ICE
- algorithms
-Message-ID: <202410061425.FamovVLB-lkp@intel.com>
-References: <20241005064307.18972-4-quic_rdwivedi@quicinc.com>
+To: Florian Westphal <fw@strlen.de>,
+	netfilter-devel <netfilter-devel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+	Florian Westphal <fw@strlen.de>,
+	syzbot+256c348558aa5cf611a9@syzkaller.appspotmail.com,
+	Pablo Neira Ayuso <pablo@netfilter.org>
+Subject: Re: [PATCH nf v2] netfilter: xtables: avoid NFPROTO_UNSPEC where
+ needed
+Message-ID: <202410061557.72ec7vqP-lkp@intel.com>
+References: <20241004230134.75274-1-fw@strlen.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,49 +67,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241005064307.18972-4-quic_rdwivedi@quicinc.com>
+In-Reply-To: <20241004230134.75274-1-fw@strlen.de>
 
-Hi Ram,
+Hi Florian,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on mkp-scsi/for-next jejb-scsi/for-next linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on netfilter-nf/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ram-Kumar-Dwivedi/dt-bindings-ufs-qcom-Document-ice-configuration-table/20241005-144559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241005064307.18972-4-quic_rdwivedi%40quicinc.com
-patch subject: [PATCH V1 3/3] scsi: ufs: qcom: Add support for multiple ICE algorithms
-config: arm-randconfig-001-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061425.FamovVLB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061425.FamovVLB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilter-xtables-avoid-NFPROTO_UNSPEC-where-needed/20241005-070222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20241004230134.75274-1-fw%40strlen.de
+patch subject: [PATCH nf v2] netfilter: xtables: avoid NFPROTO_UNSPEC where needed
+config: sh-randconfig-r071-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061557.72ec7vqP-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061557.72ec7vqP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061425.FamovVLB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410061557.72ec7vqP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/ufs/host/ufs-qcom.c:126: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Refer struct ice_alg2_config
+>> net/netfilter/xt_connlimit.c:145:1: error: expected ',' or ';' before '}' token
+     145 | };
+         | ^
 
 
-vim +126 drivers/ufs/host/ufs-qcom.c
+vim +145 net/netfilter/xt_connlimit.c
 
-   124	
-   125	/**
- > 126	 * Refer struct ice_alg2_config
-   127	 */
-   128	static inline void __get_alg2_grp_params(unsigned int *val, int *c, int *t)
-   129	{
-   130		*c = ((val[0] << 8) | val[1] | (1 << 31));
-   131		*t = ((val[2] << 24) | (val[3] << 16) | (val[4] << 8) | val[5]);
-   132	}
-   133	
+370786f9cfd430 Jan Engelhardt   2007-07-14  119  
+c43803e262643c Florian Westphal 2024-10-05  120  static struct xt_match connlimit_mt_reg[] __read_mostly = {
+c43803e262643c Florian Westphal 2024-10-05  121  	{
+cc4fc022571376 Jan Engelhardt   2011-01-18  122  		.name       = "connlimit",
+cc4fc022571376 Jan Engelhardt   2011-01-18  123  		.revision   = 1,
+c43803e262643c Florian Westphal 2024-10-05  124  		.family     = NFPROTO_IPV4,
+cc4fc022571376 Jan Engelhardt   2011-01-18  125  		.checkentry = connlimit_mt_check,
+cc4fc022571376 Jan Engelhardt   2011-01-18  126  		.match      = connlimit_mt,
+cc4fc022571376 Jan Engelhardt   2011-01-18  127  		.matchsize  = sizeof(struct xt_connlimit_info),
+ec23189049651b Willem de Bruijn 2017-01-02  128  		.usersize   = offsetof(struct xt_connlimit_info, data),
+cc4fc022571376 Jan Engelhardt   2011-01-18  129  		.destroy    = connlimit_mt_destroy,
+cc4fc022571376 Jan Engelhardt   2011-01-18  130  		.me         = THIS_MODULE,
+c43803e262643c Florian Westphal 2024-10-05  131  	},
+c43803e262643c Florian Westphal 2024-10-05  132  #if IS_ENABLED(CONFIG_IP6_NF_IPTABLES)
+c43803e262643c Florian Westphal 2024-10-05  133  	{
+c43803e262643c Florian Westphal 2024-10-05  134  		.name       = "connlimit",
+c43803e262643c Florian Westphal 2024-10-05  135  		.revision   = 1,
+c43803e262643c Florian Westphal 2024-10-05  136  		.family     = NFPROTO_IPV6,
+c43803e262643c Florian Westphal 2024-10-05  137  		.checkentry = connlimit_mt_check,
+c43803e262643c Florian Westphal 2024-10-05  138  		.match      = connlimit_mt,
+c43803e262643c Florian Westphal 2024-10-05  139  		.matchsize  = sizeof(struct xt_connlimit_info),
+c43803e262643c Florian Westphal 2024-10-05  140  		.usersize   = offsetof(struct xt_connlimit_info, data),
+c43803e262643c Florian Westphal 2024-10-05  141  		.destroy    = connlimit_mt_destroy,
+c43803e262643c Florian Westphal 2024-10-05  142  		.me         = THIS_MODULE,
+c43803e262643c Florian Westphal 2024-10-05  143  #endif
+c43803e262643c Florian Westphal 2024-10-05  144  	}
+370786f9cfd430 Jan Engelhardt   2007-07-14 @145  };
+370786f9cfd430 Jan Engelhardt   2007-07-14  146  
 
 -- 
 0-DAY CI Kernel Test Service
