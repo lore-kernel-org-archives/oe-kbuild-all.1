@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB9D158D80
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 11:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88C8EACD
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 13:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728215658; cv=none; b=k6m9BAYT1KAPxE2ttfLE5gw/U9jXFSGv6MprBukgjEQdQBsZQpyMgUqLxf0s/e55+yDDaAWl6kJk5EJ2DvPecnpj8ELuIAiCoVCI1dKs2iHimf0qRLYiQdAF6l5tkESFMinWZnthAEc9Lu4xPKVqm5KPZiioTukrElh0Ce8ZN7g=
+	t=1728222442; cv=none; b=p1uL1GYrjcnv9G7kekH1xWM0Xmcp6rJq7+E/c7XXXIyxxseOJKmO8i86HVs4nX1ltXC9MBXoTX77/eGTmo+OpUPqDE/wqP/48jtolSyYLCe1OVCMibdTqvRvcfCiASa4CrNkodrWZpR2MHcGWYZN2pYXH90zHLy36yRJuHjDnOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728215658; c=relaxed/simple;
-	bh=z/BfKCqqFKKUKx3H9sa4pqq0VP9FwN33xQEVHakeldQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dTA5ZH0OhIP/U/ml0hY5L4/LLlOmp4mXKoFLI/QNbyhVavdVzpFzA+lu+3XPtNNWDXaIelFeFwj2mvST1QN+ftyG9P1ERKvmXxMJczKZDQbHDyiFNVSy/s5yjIaFiXAkcRgSycEe7Q1VSCIVo5kQfhdKokWPAZAyE+VE1xiTK8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWxFksvX; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1728222442; c=relaxed/simple;
+	bh=VbgItJWh75Mi91IksgtSDDQ1Vkc72wLLTbApnflo4/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RTkxNtzAW0C+RRpF2rtQLuxIcXPbnb/8LUDofN0R80QKYUunOUYdo01x78EY1hOi9NULgGkjAOyGp6BJMgnKXEQIF6vL8ZtaKjuozRr+pjErfxjwV49+qL3ctSjC9T91JwujL6iXedht/NxdxQ+bMAtv2ijOQkThoz0gsTgsaQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBkd2x/d; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWxFksvX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBkd2x/d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728215657; x=1759751657;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z/BfKCqqFKKUKx3H9sa4pqq0VP9FwN33xQEVHakeldQ=;
-  b=eWxFksvX7Q7kt+LqFsKI7Tc2ropYTza/WiLPZYVsKoDzN/aSzwLc4Fj5
-   8KCl4TCXvF/ebHJiZ/c9YQvZR2+xakzva4AToAyRHVl2LKcOi9UFgenLO
-   qmWZI8Suek20/T2rJtHbCR3ZbQOcqUgmA0oH2t5aAnn9Cas0a2kLyCXTt
-   iNgaUH3+lpb5CBZ3iclDzz9tE005pAT4dC4awZjQAHSUUPlbUGMI3mlb1
-   shOgTBtTinL1Dr3/wZWZsSX608aY3H65Hg6/hHKR+3QBxq9HEhd5ugO1w
-   WHZgWtbmXcc3V4MAuGS6lgvhXvCR9DaGEGKpWP0ghSb0xVrYEt8ClHK0E
+  t=1728222441; x=1759758441;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VbgItJWh75Mi91IksgtSDDQ1Vkc72wLLTbApnflo4/4=;
+  b=IBkd2x/dtAPCN2NvkHDw60AL/sWRlULBDVVDLrptcp5Sn0cneXPuEt2E
+   cqjDUAexwWxXmu7I2GPi4qKuRhRmbk4UDiKUirsmkJDc08bKoRqiXx1g9
+   5VfG4KjtFg0rIUNCcl/DTUHcgExUpMn/AXae1a88ScuCAlDltIApRSHtH
+   KyvqlHYLrITVcaNRVezXDdzVpWz/DbqiwOfVrETXZ0vzJ7I0fvfYkWaDa
+   1MmAYQ/X+8sCPSOSIp2d2d1xKF9iOXZF9VnbjTpRyC6GD4DyURBu0zObu
+   UwNWghzy+yivWkA5gAncwI4RoJSS7/APIycQLa6Pe4uVL91+SnFpuwntB
    A==;
-X-CSE-ConnectionGUID: rYvVa5h7QqyYJ7d9KnGypg==
-X-CSE-MsgGUID: pq8rpyaXSY+7XSiAYaxWvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27519575"
+X-CSE-ConnectionGUID: QDtjrt6eTqq09YT9Ff2pPQ==
+X-CSE-MsgGUID: sBZsLMtKQ9Gg6U+fkEhlsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="52779314"
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="27519575"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 04:54:16 -0700
-X-CSE-ConnectionGUID: 1oMIA2WEQg+j4BuVVUufXQ==
-X-CSE-MsgGUID: +1pr7u79RwmzMlG+Wx9AIA==
+   d="scan'208";a="52779314"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 06:47:20 -0700
+X-CSE-ConnectionGUID: Np2f5s0zR7y0/xCQtsCzOA==
+X-CSE-MsgGUID: dERYWmhZQPqlNUwqA2qNfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="79167660"
+   d="scan'208";a="105972271"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Oct 2024 04:54:13 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 06 Oct 2024 06:47:18 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxPpz-0003oy-0F;
-	Sun, 06 Oct 2024 11:54:11 +0000
-Date: Sun, 6 Oct 2024 19:53:54 +0800
+	id 1sxRbQ-0003ue-0u;
+	Sun, 06 Oct 2024 13:47:16 +0000
+Date: Sun, 6 Oct 2024 21:46:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	linux-kernel@vger.kernel.org, jacob.e.keller@intel.com,
-	horms@kernel.org, sd@queasysnail.net, chunkeey@gmail.com
-Subject: Re: [PATCH net-next v3 03/17] net: ibm: emac: use
- module_platform_driver for modules
-Message-ID: <202410061910.his99w1N-lkp@intel.com>
-References: <20241003021135.1952928-4-rosenp@gmail.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 671/1001]
+ drivers/spi/spi-zynq-qspi.c:158: warning: Function parameter or member
+ 'flags' not described in 'zynq_qspi'
+Message-ID: <202410062110.XDrwnNXD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,45 +65,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241003021135.1952928-4-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-ibm-emac-use-netif_receive_skb_list/20241003-101754
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241003021135.1952928-4-rosenp%40gmail.com
-patch subject: [PATCH net-next v3 03/17] net: ibm: emac: use module_platform_driver for modules
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20241006/202410061910.his99w1N-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061910.his99w1N-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
+head:   5365c13a86998da06d845c918f849b30b8735538
+commit: 55f9046c8b1b7bf39e3569e0d608706b68d0106b [671/1001] spi: spi-zynq-qspi: Add multi-cs support in Zynq QSPI driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241006/202410062110.XDrwnNXD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410062110.XDrwnNXD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061910.his99w1N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410062110.XDrwnNXD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/core.o: in function `emac_init':
->> core.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/core.o: in function `emac_exit':
->> core.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/zmii.o: in function `zmii_driver_init':
-   zmii.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/zmii.o: in function `zmii_driver_exit':
-   zmii.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/rgmii.o: in function `rgmii_driver_init':
-   rgmii.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/rgmii.o: in function `rgmii_driver_exit':
-   rgmii.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/tah.o: in function `tah_driver_init':
-   tah.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/tah.o: in function `tah_driver_exit':
-   tah.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
+>> drivers/spi/spi-zynq-qspi.c:158: warning: Function parameter or member 'flags' not described in 'zynq_qspi'
+
+
+vim +158 drivers/spi/spi-zynq-qspi.c
+
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  122  
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  123  /* Maximum address width */
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  124  #define ZYNQ_QSPI_MAX_ADDR_WIDTH	3
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  125  /**
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  126   * struct zynq_qspi - Defines qspi driver instance
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  127   * @ctlr:		Pointer to the spi controller information
+e867feecda9bbb Lee Jones              2020-07-17  128   * @dev:		Pointer to the this device's information
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  129   * @regs:		Virtual address of the QSPI controller registers
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  130   * @refclk:		Pointer to the peripheral clock
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  131   * @pclk:		Pointer to the APB clock
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  132   * @irq:		IRQ number
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  133   * @txbuf:		Pointer to the TX buffer
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  134   * @rxbuf:		Pointer to the RX buffer
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  135   * @tx_bytes:		Number of bytes left to transfer
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  136   * @rx_bytes:		Number of bytes left to receive
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  137   * @data_completion:	completion structure
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  138   * @is_stripe:		Flag to indicate if data needs to be split between flashes
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  139   *			(Used in dual parallel configuration)
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  140   */
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  141  struct zynq_qspi {
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  142  	struct spi_controller *ctlr;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  143  	struct device *dev;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  144  	void __iomem *regs;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  145  	struct clk *refclk;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  146  	struct clk *pclk;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  147  	int irq;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  148  	u8 *txbuf;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  149  	u8 *rxbuf;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  150  	int tx_bytes;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  151  	int rx_bytes;
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  152  	u32 flags;
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  153  #define	ZYNQ_QSPI_MEM_CONFIG		BIT(0)
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  154  #define	ZYNQ_QSPI_IS_PARALLEL		BIT(1)
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  155  #define	ZYNQ_QSPI_IS_STACKED		BIT(2)
+55f9046c8b1b7b Amit Kumar Mahapatra   2023-12-08  156  	bool is_stripe;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  157  	struct completion data_completion;
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01 @158  };
+67dca5e580f1e9 Naga Sureshkumar Relli 2019-04-01  159  
+
+:::::: The code at line 158 was first introduced by commit
+:::::: 67dca5e580f1e93a66177389981541cac208c817 spi: spi-mem: Add support for Zynq QSPI controller
+
+:::::: TO: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
