@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75499155A47;
-	Sun,  6 Oct 2024 00:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78E9A920
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 00:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728172840; cv=none; b=tSisFcjE+TqYGFYZ+yD2QpAZTEK3WY6hNZim8CABHu4JOnXQY/y6wL5unimHe/BgmHCGLiWdYy3cMhx6tw5ybI1BNHCKxLr0IKAGkyBYCUzHnj2isztejAKKodJ0gt345pXxzeoniJoY2XlioeFYbOWRvb5Ekd3U3hacWi/kBJc=
+	t=1728175295; cv=none; b=Pn7JWPeC96B9d6GuJnxbwEn6bQoWLUdH2sPCBCP4YxaeOAPi+VDvtDbXtxzsgWiumGXPCn5hQ0LQtBjtBz3JGzN/dgH8g4g7zq2QyS/So36LzEE5z8K0pJVFh886j3IsTi36XsVCg4ijIgZYq55sFn3zZ2fuGVKGPh/IQsmadGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728172840; c=relaxed/simple;
-	bh=Ft3LL+wdKU04UatgGFJbXK4DYo5bqn4YMXzhNK3e5Vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FynTY70b1ZkO34d3+4PV7pPvzjfJ1nomlOd9cyrr5oCbGCbVusqi4JZcHbwdVdJth60npYhnuybXtn3mJ66D/d53s1t1X7EI6RHa7V+pOFZQICxpbR75cg7xGveEpMDG0FGFR13rY9beBodzLCGGr9C4XcZgRctxXObWjVIaSEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a7Q9W/NJ; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1728175295; c=relaxed/simple;
+	bh=GOZ893qCXjLIiSzwzZVk+JV053kjwR0YUK00/M4MkrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bwlAtwmC4gfcR2NP/HnniIRp4Iv1l65jbxmub5cKFSdiYaPF/dC1bs6MejO/BwJ/tnyoJmwkhfmQ9VDHERMEZ6hqNX6e2spPC4BGjuCgiWm29js6ON/JjHQUnheB9QIBZ97vUyIwWwwDEX71FWpPnjbx0khyP6cRhvJggq1MizA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/V7q4mT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7Q9W/NJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/V7q4mT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728172834; x=1759708834;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ft3LL+wdKU04UatgGFJbXK4DYo5bqn4YMXzhNK3e5Vs=;
-  b=a7Q9W/NJTUcCdPowC4PMWVp72oX8UcXXVH+KVF0zAFFZTfxZ4LSkDep4
-   C0R3QD4er+DW7Bgw7pb5PPg4Qns01WcyUPG6GPVL3nTqJS+jQsQNcIovL
-   ofl4H4EUS4vvzCs/ArL+qz/igf9ij/RS7qZCWPMqPR9Wi34apT1fAUvLw
-   g2mRM+muVwNI9XVeNbaicKa/4NdrEFTojPVS+/8dUUgoPIINO+yg7g/0j
-   YuFSgBL1GpUCDm37G1W8GkxOE1YZqoPFUerY+LYIQ8DJBVgz4oXDLvD/k
-   Dz6rUP/JG3UbLhXlPOMb5Y8eAP0Z8/j/Ql0HDz07jPuIn8y4/bm9jj6aF
-   w==;
-X-CSE-ConnectionGUID: bGXCQ9qrRKaNpcuMPsId/g==
-X-CSE-MsgGUID: 44CnUWoORAGI9gOYa0SQYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="26823619"
+  t=1728175294; x=1759711294;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GOZ893qCXjLIiSzwzZVk+JV053kjwR0YUK00/M4MkrA=;
+  b=X/V7q4mTo5cTjVwqtNLCI7BlVugP0YKfNKgGCeXx61a+FXK6SzBinj+P
+   +eUekbokhtYDBBa+ztgsK+P4N/CKPVm44vj2Jd0mTaQuGa8QQs1UIWIx5
+   6tWm2Ogel/it6M1pPyd9mqkPWo9R/1dvl5sR/9uvBbDq1yBt+TmJCHUQh
+   ZLGS8nC285D9a8D0ZmYk8QWTZOje8qB7GLvLLkKOozqQpR/8jpEfuPDWP
+   uKY3IJ+3qz1Igw+jFWf1gEXTXndT6ThGr52maJ3tr6bnA4ggwChwLlE5c
+   gvE1ZFXVf89aP2p78Y4HC5EK8VRRarSGafyeeOfmxBtxKGmxl1AMO8GVP
+   A==;
+X-CSE-ConnectionGUID: KT5gKBa8S6qrtXbCMcyfyA==
+X-CSE-MsgGUID: XjKhwGKWShuwl+4X8R1DPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27304657"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="26823619"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 17:00:34 -0700
-X-CSE-ConnectionGUID: oKwqKvbfTzWlDrwYog1H5Q==
-X-CSE-MsgGUID: 1HmDh7qfRPqoe5LgdGtmmA==
+   d="scan'208";a="27304657"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 17:41:33 -0700
+X-CSE-ConnectionGUID: qo5ITPliSUatXebdEoHC3w==
+X-CSE-MsgGUID: jt62GBq/Tq+TMxJRvPRFKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="74657740"
+   d="scan'208";a="79909860"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Oct 2024 17:00:31 -0700
+  by orviesa003.jf.intel.com with ESMTP; 05 Oct 2024 17:41:32 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxEhI-0003T0-2a;
-	Sun, 06 Oct 2024 00:00:28 +0000
-Date: Sun, 6 Oct 2024 07:59:38 +0800
+	id 1sxFKz-0003UU-2G;
+	Sun, 06 Oct 2024 00:41:29 +0000
+Date: Sun, 6 Oct 2024 08:40:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type
- in call_get_frame_desc()
-Message-ID: <202410060640.ykY9JvqZ-lkp@intel.com>
-References: <20240930074602.500968-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:ovl_real_file 2/4] fs/overlayfs/file.c:139:23: sparse:
+ sparse: Using plain integer as NULL pointer
+Message-ID: <202410060829.UTwmlmcr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,82 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240930074602.500968-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Prabhakar,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on sailus-media-tree/master linus/master v6.12-rc1 next-20241004]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/v4l2-subdev-Return-EOPNOTSUPP-for-unsupported-pad-type-in-call_get_frame_desc/20240930-154811
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240930074602.500968-1-prabhakar.mahadev-lad.rj%40bp.renesas.com
-patch subject: [PATCH] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type in call_get_frame_desc()
-config: x86_64-randconfig-003-20241002 (https://download.01.org/0day-ci/archive/20241006/202410060640.ykY9JvqZ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060640.ykY9JvqZ-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux ovl_real_file
+head:   2e6c8d603136baf0de510ba069ad78a449012807
+commit: e37f0a8ea49c2287a7c722abb1d4d97619bc7271 [2/4] ovl: stash upper real file in backing_file struct
+config: hexagon-randconfig-r113-20241005 (https://download.01.org/0day-ci/archive/20241006/202410060829.UTwmlmcr-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce: (https://download.01.org/0day-ci/archive/20241006/202410060829.UTwmlmcr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410060640.ykY9JvqZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410060829.UTwmlmcr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/overlayfs/file.c:139:23: sparse: sparse: Using plain integer as NULL pointer
 
->> drivers/media/v4l2-core/v4l2-subdev.c:337:12: error: no member named 'entity' in 'struct v4l2_subdev'
-     337 |         if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
-         |               ~~  ^
-   1 error generated.
+vim +139 fs/overlayfs/file.c
 
-
-vim +337 drivers/media/v4l2-core/v4l2-subdev.c
-
-   330	
-   331	static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-   332				       struct v4l2_mbus_frame_desc *fd)
-   333	{
-   334		unsigned int i;
-   335		int ret;
-   336	
- > 337		if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
-   338			return -EOPNOTSUPP;
-   339	
-   340		memset(fd, 0, sizeof(*fd));
-   341	
-   342		ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-   343		if (ret)
-   344			return ret;
-   345	
-   346		dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
-   347			fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-   348			fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-   349			"unknown");
-   350	
-   351		for (i = 0; i < fd->num_entries; i++) {
-   352			struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-   353			char buf[20] = "";
-   354	
-   355			if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-   356				WARN_ON(snprintf(buf, sizeof(buf),
-   357						 ", vc %u, dt 0x%02x",
-   358						 entry->bus.csi2.vc,
-   359						 entry->bus.csi2.dt) >= sizeof(buf));
-   360	
-   361			dev_dbg(sd->dev,
-   362				"\tstream %u, code 0x%04x, length %u, flags 0x%04x%s\n",
-   363				entry->stream, entry->pixelcode, entry->length,
-   364				entry->flags, buf);
-   365		}
-   366	
-   367		return 0;
-   368	}
-   369	
+    93	
+    94	static int ovl_real_fdget_meta(const struct file *file, struct fd *real,
+    95				       bool upper_meta)
+    96	{
+    97		struct dentry *dentry = file_dentry(file);
+    98		struct file *realfile = file->private_data;
+    99		struct file *upperfile = backing_file_private(realfile);
+   100		struct path realpath;
+   101		int err;
+   102	
+   103		real->word = 0;
+   104	
+   105		if (upper_meta) {
+   106			ovl_path_upper(dentry, &realpath);
+   107			if (!realpath.dentry)
+   108				return 0;
+   109		} else {
+   110			/* lazy lookup and verify of lowerdata */
+   111			err = ovl_verify_lowerdata(dentry);
+   112			if (err)
+   113				return err;
+   114	
+   115			ovl_path_realdata(dentry, &realpath);
+   116		}
+   117		if (!realpath.dentry)
+   118			return -EIO;
+   119	
+   120	stashed_upper:
+   121		if (upperfile && file_inode(upperfile) == d_inode(realpath.dentry))
+   122			realfile = upperfile;
+   123	
+   124		/*
+   125		 * If realfile is lower and has been copied up since we'd opened it,
+   126		 * open the real upper file and stash it in backing_file_private().
+   127		 */
+   128		if (unlikely(file_inode(realfile) != d_inode(realpath.dentry))) {
+   129			struct file *old;
+   130	
+   131			/* Stashed upperfile has a mismatched inode */
+   132			if (unlikely(upperfile))
+   133				return -EIO;
+   134	
+   135			upperfile = ovl_open_realfile(file, &realpath);
+   136			if (IS_ERR(upperfile))
+   137				return PTR_ERR(upperfile);
+   138	
+ > 139			old = cmpxchg_release(backing_file_private_ptr(realfile), NULL,
+   140					      upperfile);
+   141			if (old) {
+   142				fput(upperfile);
+   143				upperfile = old;
+   144			}
+   145	
+   146			goto stashed_upper;
+   147		}
+   148	
+   149		real->word = (unsigned long)realfile;
+   150	
+   151		/* Did the flags change since open? */
+   152		if (unlikely((file->f_flags ^ realfile->f_flags) & ~OVL_OPEN_FLAGS))
+   153			return ovl_change_flags(realfile, file->f_flags);
+   154	
+   155		return 0;
+   156	}
+   157	
 
 -- 
 0-DAY CI Kernel Test Service
