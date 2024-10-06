@@ -1,133 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EF4173320;
-	Sun,  6 Oct 2024 22:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C1916F8E9
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 23:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728253067; cv=none; b=bF2kuJtyXR7ItpeRbU9nxtBObwq8eq2BtCfuryTDoTrYkH3DAqDJszYWakY6fkZmUIO5Mm/rO+DdBvOhGxxrMfsBe54o9EceOy/Bd1BiG/C0GXIXQDWFdZ9NoulpvmwS/oqvAi8EUH0CcpBaz8KdwqUPQmiba1pohb2b+cRbcDM=
+	t=1728258322; cv=none; b=krc7BuN8ZAEGRIj9iaFFPhST8lu3mYkYjU+oXFsWtz8e87tS9QZ9ToGD+YuRTz4JLo9aGcz3/zUICt+j3TevpGxdJYNgV3dikqEvHJJ7vPBLsDtgabfA3QVIpAQwTqJOcug1ARtTQgB0/s+NpKAdBiCdVBWZM6CQE7iO2TAGgUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728253067; c=relaxed/simple;
-	bh=JURLRwTFb7l8hlgN95q4TPgKQMn02C0KKgLcTADmxdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pW0TPoJlZ5FBKbI4ojHRy5/pKxWjp6JrtP2r2PdNKiIA2+zEMauTm6h2FxZsA/lE2xITpwiC9LniGh89nGbFoHfPPmRgKSJ797ogNBdFLSN12gmWKcwE6dwEyiZ7J5XOAvn6laStlYazQAFJG7HTfn7jF8HtivJdqgcQrg4pbxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UdtcQHpr; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728258322; c=relaxed/simple;
+	bh=TO+OZP2lSXkNWdfkfu3LKSEvRwoB8doxGmRHKGP5y5Y=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=cGbikOv3Xo3n5g5GNCi52V4VR1OEgQmuHnOjwLvo0DRB70neLXLazenT0SNLFbwcIM2y3O1SyPanon42vux9BztY9QRGb3i+b6oOWohXpWumk3BldLKFMu5wcsRx7VlS/PaJCZiHO0QH0AiIbexvUma7xre25mm80Xyo0SmkC7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zVMElSDA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sdPI6Vm+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zVMElSDA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sdPI6Vm+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdtcQHpr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728253065; x=1759789065;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JURLRwTFb7l8hlgN95q4TPgKQMn02C0KKgLcTADmxdE=;
-  b=UdtcQHpr8LK5/leulLcDc/YDGKRAgVQ1IQM6G3Pzamrvf3SOL3OlbRx6
-   1atUaWI6XgjRUZyksCeA4si36wN+obGBrigPb6ae2gsDCZEukWXq3sQwF
-   WSCsWMsTfDtYqQJpeO47vu77io2KrXyxmvJXAqXtXsf4Sp6teMDWvDVbz
-   wgo1bR+GBnTfSQkKeJQno04YFHcJRrUHCL1N48Vepth0dZ8IHdXVNaF7U
-   uIYuEYFhvi5A6NRISr8tiDVQft5THN5/rhRAhxjVhM1D3/I7ARaNGSVO3
-   tRECCCAxlG+nLL7EbIFd9u6V+vd/bnIm3a3Hb0q51kJw54sxQ/wOUnCN5
-   g==;
-X-CSE-ConnectionGUID: iYugrG+YTHiklH5l2mcJrw==
-X-CSE-MsgGUID: /p1AlxQRRS+zIB1N1k+4lQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="27281419"
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="27281419"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 15:17:44 -0700
-X-CSE-ConnectionGUID: xHzcSZmCTI+GnwjeGLp1Cw==
-X-CSE-MsgGUID: dL4BMa8UTg6IgVyFM4je0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="74959925"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Oct 2024 15:17:42 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxZZM-0004NA-0N;
-	Sun, 06 Oct 2024 22:17:40 +0000
-Date: Mon, 7 Oct 2024 06:16:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Luse <paulluselinux@gmail.com>, linux-raid@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	paul.e.luse@intel.com, Paul Luse <paulluselinux@gmail.com>
-Subject: Re: [PATCH] md:  CI log retrival test - do not review
-Message-ID: <202410070623.1WRxUPy0-lkp@intel.com>
-References: <20241004124227.3540-1-paulluselinux@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zVMElSDA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sdPI6Vm+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zVMElSDA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sdPI6Vm+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1B4F321EF0;
+	Sun,  6 Oct 2024 23:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728258315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UPIwm6COgo7a8dq2IXD1Pnuuof4ik8en2bwN4VaKpIY=;
+	b=zVMElSDAw4mjGEKMD5wUG5oGA80SiHVkmRO7ZBdWdhEl8qZDy8mUBBldh9+OPemx4B4c1p
+	OJL2Pbp6X/DrCJeDTSAjc/EQSg2PrCxAYytUzv4JgRsLyU774v+VM+vjepyvM+p6wsDmP+
+	r9PxQ37PBFU2xmsJE+wbTFO5SAzudTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728258315;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UPIwm6COgo7a8dq2IXD1Pnuuof4ik8en2bwN4VaKpIY=;
+	b=sdPI6Vm+IxQJiHV+rHj+nZy912KfQTUNvVv+0eNK2j1xXhhG/2/127y7XBljYBDcdIfeTT
+	izawDN1QJ8aYQwDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728258315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UPIwm6COgo7a8dq2IXD1Pnuuof4ik8en2bwN4VaKpIY=;
+	b=zVMElSDAw4mjGEKMD5wUG5oGA80SiHVkmRO7ZBdWdhEl8qZDy8mUBBldh9+OPemx4B4c1p
+	OJL2Pbp6X/DrCJeDTSAjc/EQSg2PrCxAYytUzv4JgRsLyU774v+VM+vjepyvM+p6wsDmP+
+	r9PxQ37PBFU2xmsJE+wbTFO5SAzudTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728258315;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UPIwm6COgo7a8dq2IXD1Pnuuof4ik8en2bwN4VaKpIY=;
+	b=sdPI6Vm+IxQJiHV+rHj+nZy912KfQTUNvVv+0eNK2j1xXhhG/2/127y7XBljYBDcdIfeTT
+	izawDN1QJ8aYQwDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4BA7B13240;
+	Sun,  6 Oct 2024 23:45:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lSl2AAkhA2fZaQAAD6G6ig
+	(envelope-from <neilb@suse.de>); Sun, 06 Oct 2024 23:45:12 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241004124227.3540-1-paulluselinux@gmail.com>
+From: "NeilBrown" <neilb@suse.de>
+To: "Peter Zijlstra" <peterz@infradead.org>
+Cc: "kernel test robot" <lkp@intel.com>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Kent Overstreet" <kent.overstreet@linux.dev>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:sched/core 1/8] fs/bcachefs/fs.c:181:28: error:
+ passing argument 1 of 'bit_waitqueue' from incompatible pointer type
+In-reply-to: <20241004100111.GM18071@noisy.programming.kicks-ass.net>
+References: <>, <20241004100111.GM18071@noisy.programming.kicks-ass.net>
+Date: Mon, 07 Oct 2024 10:45:10 +1100
+Message-id: <172825831037.1692160.12644305359648113303@noble.neil.brown.name>
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,noble.neil.brown.name:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Paul,
+On Fri, 04 Oct 2024, Peter Zijlstra wrote:
+> On Fri, Oct 04, 2024 at 07:28:26PM +1000, NeilBrown wrote:
+> >=20
+> > The compile error mentioned below is caused by my patch, but only
+> > because the code is wrong - so the patch causes wrong code to be
+> > highlighted - which is good.
+> >=20
+> > Commit: 112d21fd1a12 ("bcachefs: switch to rhashtable for vfs inodes hash=
+")
+> >=20
+> > introduced a use for bit_waitqueue for inode->i_state and __I_NEW, and=20
+> >=20
+> > Commit: 0fe340a98b58 ("inode: port __I_NEW to var event")
+> >=20
+> > change inode->i_state to require the new inode_bit_waitqueue().
+> >=20
+> > These were in independant devel branches and this would have been caught
+> > in -next if my patch had already been present.  Sorry I didn't do this
+> > earlier :-)
+>=20
+> So what do I do? Wait for the bug to get fixed?
+>=20
 
-kernel test robot noticed the following build errors:
+The relevant bcachefs code has been rewritten for -rc2, so were should
+not be an compile errors introduced by my patch now.
 
-[auto build test ERROR on song-md/md-next]
-[also build test ERROR on linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Commit: 6b63a948a73b ("bcachefs: Add missing wakeup to bch2_inode_hash_remove=
+()")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Luse/md-CI-log-retrival-test-do-not-review/20241004-204420
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
-patch link:    https://lore.kernel.org/r/20241004124227.3540-1-paulluselinux%40gmail.com
-patch subject: [PATCH] md:  CI log retrival test - do not review
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241007/202410070623.1WRxUPy0-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410070623.1WRxUPy0-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410070623.1WRxUPy0-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/md/raid1.c:68:1: error: use of undeclared identifier 'x'
-      68 | x
-         | ^
-   1 error generated.
-
-
-vim +/x +68 drivers/md/raid1.c
-
-    54	
-    55	#define START(node) ((node)->start)
-    56	#define LAST(node) ((node)->last)
-    57	INTERVAL_TREE_DEFINE(struct serial_info, node, sector_t, _subtree_last,
-    58			     START, LAST, static inline, raid1_rb);
-    59	
-    60	static int check_and_add_serial(struct md_rdev *rdev, struct r1bio *r1_bio,
-    61					struct serial_info *si, int idx)
-    62	{
-    63		unsigned long flags;
-    64		int ret = 0;
-    65		sector_t lo = r1_bio->sector;
-    66		sector_t hi = lo + r1_bio->sectors;
-    67		struct serial_in_rdev *serial = &rdev->serial[idx];
-  > 68	x
-    69		spin_lock_irqsave(&serial->serial_lock, flags);
-    70		/* collision happened */
-    71		if (raid1_rb_iter_first(&serial->serial_rb, lo, hi))
-    72			ret = -EBUSY;
-    73		else {
-    74			si->start = lo;
-    75			si->last = hi;
-    76			raid1_rb_insert(si, &serial->serial_rb);
-    77		}
-    78		spin_unlock_irqrestore(&serial->serial_lock, flags);
-    79	
-    80		return ret;
-    81	}
-    82	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+NeilBrown
