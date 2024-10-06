@@ -1,61 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8B34C81
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 06:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E68A13A250
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 06:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728195232; cv=none; b=G/jcMzny9DokjjcW9D6I/6/wIbacHCz6Wau9If/ycS/muRAp7QggiRomtPep+ByYJEy4Y+kjatbGUvTXk19mnURSDua4uUgtzIgRWHhjXqiDMwoghWhl8cXT/ezc7olSN7iQL17R7lYX2iRP2HzChG3gNaPRQ1YgjTTdFF/UCmA=
+	t=1728195834; cv=none; b=nZ4eRCRjNriMRB3GKDST2g798Qo9uQilKZB5aMCmVBAS8A+sc/24wXF7x4CAhGAe5GS26ifu2F99G3F09QOn12NjRFA6q0k6uSBhGZmkhExv3NB4kD/0qhqb8mYqWChfvat0K5ABGAo5MCIG3OkcuyAxrGatep6yz4P/KnfvTmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728195232; c=relaxed/simple;
-	bh=oYwM8nPHCWDrKPpUVKPE87IeunH92PJKiU+97aTQ0pE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oaYp0dP0iK4txi6H1JwgkEFROhx/Y0/EUH00mEaXymX0NGRkPxzhvoX6kL6ZydEZcH/ygiHGZUhAf7mp8+LZ4c/yLPB5cAo3KRlbavckiUkaa1KmbyU4qCwnEWJkmsV4aS9N/Ro3WH/jsY+pHrl3UxAqRdP0tN/CDe5r1/p6+d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUQ83c3k; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1728195834; c=relaxed/simple;
+	bh=H/emNg2aVZv4n2YTV6WagRn5Age0z2hVFcUSuk6iDKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tvi4FSTSLK2+4wcpQu+9BWLdBGhX/IR/AMg9XzWdYQsETPkGZ0xktOCKtHA0Yyz6CqgntHVGIgES9fb8FY0F35eUYD0blG9jIBpOK1G5wMJNQapyyWKDFiqCfnN5LU34aitqGdMXUSEjXlED2q5Uge23EYcSbSCGUrAk14XRQGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8qBoDWu; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUQ83c3k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8qBoDWu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728195230; x=1759731230;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oYwM8nPHCWDrKPpUVKPE87IeunH92PJKiU+97aTQ0pE=;
-  b=jUQ83c3kk64MJVEX80/R92ToUDkJZnlHLhXyfVLWCZ6c+YZssbyKkq7P
-   CiGt1TwnIiEY5WPW7YovPmCzl3vVzGyqO5dDT0BI+qgtKYZIJUllHaFlR
-   fZUQvmbqp1f/AHSlV5ov2nb3Y6oAbPIJk8zXe7BcJVgnRdqPYIVs8FCun
-   Hn08F1l8YZeKBFxlQjPTeXb/MHBbwpzz+kKt8/2NIthlrTVLFpWIVQZkQ
-   KKGVWBp0wvtokSa5/+E/Ps1GJsSpW9JDUUis0o4EDp4JHgDQ58g4rx3VA
-   oqpvOHQgG0nF5yFQn4a88rpOqjKpVzK7mZpSA0cLOyZ0Kwy4UopPhuGqM
-   g==;
-X-CSE-ConnectionGUID: mXZtu9kqR5G8oQNzaFtSkQ==
-X-CSE-MsgGUID: MdVqFnwYQiqQ55cwBxhmMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27312651"
+  t=1728195833; x=1759731833;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H/emNg2aVZv4n2YTV6WagRn5Age0z2hVFcUSuk6iDKk=;
+  b=n8qBoDWubJK+tzTZjyr9TnvUzF3b14EKjJCnhMURusXYgDnby8ETYN1t
+   UjmxnNPqhjhQ41WMG8teopxFo6kCuCZSZ0msfO3X7H1ADBkMK+Yqcqm5s
+   Bdog/7FRcPUwSYbzspkGZi6XzhtJVGWHyyh91nRyS+s8og9N6f0QiYZXV
+   1mkOoH8gquy0ZkhzWuzhYiLy7SdNJdps4iU/eX5mnWdMtdKW2rBnjqFIC
+   oYTAlPw3lVfj8eqJMOe8aWC9T3S1wpuKbHUIVG91/xo645ALF0xD4KzK8
+   KkRAcVumsDUQs9Non+UJQgWPneZJRu7DtJnoJjzXo/ePKQB6NaIxhhx8k
+   Q==;
+X-CSE-ConnectionGUID: GXlhuos+QQecjlGNLElVIQ==
+X-CSE-MsgGUID: +S1Y4suDQ5eILVgp5AmBUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27254796"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="27312651"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 23:13:50 -0700
-X-CSE-ConnectionGUID: 0Q0NNahQQ82iGiSmNKftjw==
-X-CSE-MsgGUID: AwFg+7m2QOW+uyAZ9MwGlw==
+   d="scan'208";a="27254796"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 23:23:52 -0700
+X-CSE-ConnectionGUID: gkqTNOEbSYqLP/6WzoJMHA==
+X-CSE-MsgGUID: 2L3DpjURSSmUkBiqjKKkbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="75134367"
+   d="scan'208";a="79703327"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Oct 2024 23:13:47 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2024 23:23:48 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxKWX-0003eW-1T;
-	Sun, 06 Oct 2024 06:13:45 +0000
-Date: Sun, 6 Oct 2024 14:12:54 +0800
+	id 1sxKgD-0003em-1y;
+	Sun, 06 Oct 2024 06:23:45 +0000
+Date: Sun, 6 Oct 2024 14:23:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 657/1001]
- drivers/mtd/spi-nor/core.c:632:5: warning: no previous prototype for
- 'spi_nor_write_ear'
-Message-ID: <202410061432.7HH27lV0-lkp@intel.com>
+To: Guillaume Stols <gstols@baylibre.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, aardelean@baylibre.com,
+	dlechner@baylibre.com, Guillaume Stols <gstols@baylibre.com>
+Subject: Re: [PATCH v3 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
+Message-ID: <202410061420.L3sUSK8b-lkp@intel.com>
+References: <20241004-ad7606_add_iio_backend_support-v3-7-38757012ce82@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,100 +75,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241004-ad7606_add_iio_backend_support-v3-7-38757012ce82@baylibre.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: b10b20c017a3db2753231cea00a8f3ae15dd5112 [657/1001] mtd: spi-nor: Add EAR support
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241006/202410061432.7HH27lV0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061432.7HH27lV0-lkp@intel.com/reproduce)
+Hi Guillaume,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 35307f34d6fef8f9d41a1e8f4f532e4b0a7ee422]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Stols/iio-adc-ad7606-Fix-typo-in-the-driver-name/20241005-055256
+base:   35307f34d6fef8f9d41a1e8f4f532e4b0a7ee422
+patch link:    https://lore.kernel.org/r/20241004-ad7606_add_iio_backend_support-v3-7-38757012ce82%40baylibre.com
+patch subject: [PATCH v3 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
+config: i386-randconfig-062-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061420.L3sUSK8b-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061420.L3sUSK8b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061432.7HH27lV0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410061420.L3sUSK8b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/ad7606_spi.c:324:29: sparse: sparse: symbol 'ad7606_spi_bops' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:328:29: sparse: sparse: symbol 'ad7616_spi_bops' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:337:29: sparse: sparse: symbol 'ad7606b_spi_bops' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:346:29: sparse: sparse: symbol 'ad7606c_18_spi_bops' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:370:30: sparse: sparse: symbol 'ad7606_4_bus_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:375:30: sparse: sparse: symbol 'ad7606b_bus_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:380:30: sparse: sparse: symbol 'ad7606c_16_bus_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:385:30: sparse: sparse: symbol 'ad7606c_18_bus_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad7606_spi.c:390:30: sparse: sparse: symbol 'ad7616_bus_info' was not declared. Should it be static?
 
->> drivers/mtd/spi-nor/core.c:632:5: warning: no previous prototype for 'spi_nor_write_ear' [-Wmissing-prototypes]
-     632 | int spi_nor_write_ear(struct spi_nor *nor, u32 addr)
-         |     ^~~~~~~~~~~~~~~~~
+vim +/ad7606_spi_bops +324 drivers/iio/adc/ad7606_spi.c
 
-
-vim +/spi_nor_write_ear +632 drivers/mtd/spi-nor/core.c
-
-   624	
-   625	/**
-   626	 * spi_nor_write_ear() - Write Extended Address Register.
-   627	 * @nor:	pointer to 'struct spi_nor'.
-   628	 * @addr:	value to write to the Extended Address Register.
-   629	 *
-   630	 * Return: 0 on success, -errno otherwise.
-   631	 */
- > 632	int spi_nor_write_ear(struct spi_nor *nor, u32 addr)
-   633	{
-   634		u8 code = SPINOR_OP_WREAR;
-   635		u32 ear;
-   636		int ret;
-   637		struct mtd_info *mtd = &nor->mtd;
-   638	
-   639		/* Wait until finished previous write command. */
-   640		if (spi_nor_wait_till_ready(nor))
-   641			return 1;
-   642	
-   643		ret = spi_nor_write_enable(nor);
-   644		if (ret)
-   645			return ret;
-   646	
-   647		if (!(nor->flags & SNOR_F_HAS_PARALLEL) && mtd->size <= 0x1000000)
-   648			return 0;
-   649		else if (mtd->size <= 0x2000000)
-   650			return 0;
-   651	
-   652		if (!(nor->flags & SNOR_F_HAS_PARALLEL) || !(nor->flags & SNOR_F_HAS_STACKED))
-   653			addr = addr % (u32)mtd->size;
-   654		else
-   655			addr = addr % (u32)(mtd->size >> 0x1);
-   656	
-   657		ear = addr >> 24;
-   658	
-   659		if (!(nor->flags & SNOR_F_HAS_STACKED) && ear == nor->curbank)
-   660			return 0;
-   661	
-   662		if ((nor->flags & SNOR_F_HAS_STACKED) && mtd->size <= 0x2000000)
-   663			return 0;
-   664	
-   665		if (nor->jedec_id == CFI_MFR_AMD)
-   666			code = SPINOR_OP_BRWR;
-   667		if (nor->jedec_id == CFI_MFR_ST ||
-   668		    nor->jedec_id == CFI_MFR_MACRONIX ||
-   669		    nor->jedec_id == CFI_MFR_PMC) {
-   670			spi_nor_write_enable(nor);
-   671			code = SPINOR_OP_WREAR;
-   672		}
-   673		nor->bouncebuf[0] = ear;
-   674	
-   675		if (nor->spimem) {
-   676			struct spi_mem_op op =
-   677				SPI_MEM_OP(SPI_MEM_OP_CMD(code, 0),
-   678					   SPI_MEM_OP_NO_ADDR,
-   679					   SPI_MEM_OP_NO_DUMMY,
-   680					   SPI_MEM_OP_DATA_OUT(1, nor->bouncebuf, 0));
-   681	
-   682			spi_nor_spimem_setup_op(nor, &op, nor->reg_proto);
-   683	
-   684			ret = spi_mem_exec_op(nor->spimem, &op);
-   685		} else {
-   686			ret = spi_nor_controller_ops_write_reg(nor, code, nor->bouncebuf, 1);
-   687			if (ret < 0)
-   688				return ret;
-   689		}
-   690	
-   691		nor->curbank = ear;
-   692	
-   693		return ret;
-   694	}
-   695	
+   323	
+ > 324	const struct ad7606_bus_ops ad7606_spi_bops = {
+   325		.read_block = ad7606_spi_read_block,
+   326	};
+   327	
+ > 328	const struct ad7606_bus_ops ad7616_spi_bops = {
+   329		.read_block = ad7606_spi_read_block,
+   330		.reg_read = ad7606_spi_reg_read,
+   331		.reg_write = ad7606_spi_reg_write,
+   332		.write_mask = ad7606_spi_write_mask,
+   333		.rd_wr_cmd = ad7616_spi_rd_wr_cmd,
+   334		.sw_mode_config = ad7616_sw_mode_config,
+   335	};
+   336	
+ > 337	const struct ad7606_bus_ops ad7606b_spi_bops = {
+   338		.read_block = ad7606_spi_read_block,
+   339		.reg_read = ad7606_spi_reg_read,
+   340		.reg_write = ad7606_spi_reg_write,
+   341		.write_mask = ad7606_spi_write_mask,
+   342		.rd_wr_cmd = ad7606B_spi_rd_wr_cmd,
+   343		.sw_mode_config = ad7606B_sw_mode_config,
+   344	};
+   345	
+ > 346	const struct ad7606_bus_ops ad7606c_18_spi_bops = {
+   347		.read_block = ad7606_spi_read_block18to32,
+   348		.reg_read = ad7606_spi_reg_read,
+   349		.reg_write = ad7606_spi_reg_write,
+   350		.write_mask = ad7606_spi_write_mask,
+   351		.rd_wr_cmd = ad7606B_spi_rd_wr_cmd,
+   352		.sw_mode_config = ad7606c_18_sw_mode_config,
+   353	};
+   354	
+   355	static const struct ad7606_bus_info ad7605_4_bus_info = {
+   356		.chip_info = &ad7605_4_info,
+   357		.bops = &ad7606_spi_bops,
+   358	};
+   359	
+   360	static const struct ad7606_bus_info ad7606_8_bus_info = {
+   361		.chip_info = &ad7606_8_info,
+   362		.bops = &ad7606_spi_bops,
+   363	};
+   364	
+   365	static const struct ad7606_bus_info ad7606_6_bus_info = {
+   366		.chip_info = &ad7606_6_info,
+   367		.bops = &ad7606_spi_bops,
+   368	};
+   369	
+ > 370	const struct ad7606_bus_info ad7606_4_bus_info = {
+   371		.chip_info = &ad7606_4_info,
+   372		.bops = &ad7606_spi_bops,
+   373	};
+   374	
+ > 375	const struct ad7606_bus_info ad7606b_bus_info = {
+   376		.chip_info = &ad7606b_info,
+   377		.bops = &ad7606b_spi_bops,
+   378	};
+   379	
+ > 380	const struct ad7606_bus_info ad7606c_16_bus_info = {
+   381		.chip_info = &ad7606c_16_info,
+   382		.bops = &ad7606b_spi_bops,
+   383	};
+   384	
+ > 385	const struct ad7606_bus_info ad7606c_18_bus_info = {
+   386		.chip_info = &ad7606c_18_info,
+   387		.bops = &ad7606c_18_spi_bops,
+   388	};
+   389	
+ > 390	const struct ad7606_bus_info ad7616_bus_info = {
+   391		.chip_info = &ad7616_info,
+   392		.bops = &ad7616_spi_bops,
+   393	};
+   394	
 
 -- 
 0-DAY CI Kernel Test Service
