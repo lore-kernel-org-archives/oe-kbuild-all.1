@@ -1,170 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94A3231C85
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 04:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2C17F6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 04:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728188991; cv=none; b=UQLD/uRNZHA3c6bENsWy7RbdLL/I5SHII7wODMNwP3Thd9KU92OKaR6aFx+eLsQ3c+7GgmyeyTd8dWyUxtXl0KVtDYu4ynTy1Wmqn0ZTRGpXEcql/rVGMK/7sw4XoPR1s2Morz0/gV+bvmJRcTNZYvLq3dfTZAD3GwdJeAvWvN8=
+	t=1728189357; cv=none; b=pgoQd2A1MDrRh2rYFqHYUBzHH3oA2lMRIor4gmIfW1cdUpryKn/dmB2qdTUGBf9ZFhJHOOlJ78TiVP0FvqAVVQqwvmZC4KjkIZmw6sckRXdrnan9EQO61y5LxOwdK00zypUOtgvpvg2c2++XZyNSm8HlRlsnOt9SNwAcJZkz8Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728188991; c=relaxed/simple;
-	bh=RPqJD/C7y0gBMClUK33fxbnxtlFlwArlCPQ7Hdm4OyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DfiJeBuhOGaJEwaURXw9HdTHtAWRZi4hnCulTEW/cAudJ1MZ79grl90DSKwqxhVToNb2M8RMwBSwmupZ1e+Fdkpdo2mNw/X1uZ9KlmjEhP6TlG8W8kkMm/Zg73jmI5tUoKgh6RKPMc0nJSXYKZMjdKlK8D8gv+y8zFpP5RPJ/FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mu7lKPiA; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728189357; c=relaxed/simple;
+	bh=S6ZASsw1UbkwNCy/qT2cst33QvKpaMRTJ+1FEJnQDeE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Pe5qx3DWs5/Y1daRlG1u1vx0jH9Vy/LvlH5QW2KO5EarMgfUVR2mkcGOTkXEpAuQmXEa0Ct7MamD26NjrKVdSdM4Ihqz3WoPDB+517DBZY/TjROrrn3ke4rRj9+pAcetZmcWCNS4sv+oOMjYeJRWVbgDOBxhGRlh7tvaKMBMq0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=Q2i/vHB0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mu7lKPiA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728188990; x=1759724990;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RPqJD/C7y0gBMClUK33fxbnxtlFlwArlCPQ7Hdm4OyY=;
-  b=Mu7lKPiA7FkX3nHz6Ood5nztJ7Le9vkVwhYYEGon+EkwGVbpYT9G0Ac8
-   JV84oxpDeLy54oqc8H0KcsWyVFv7SLyjHBi7mcHjLN42IMuZh367UcrE5
-   zd6s+GMrCFPxfLeNo2imYpa5hNazFqQ8msKrAImKSkZEvRd3LGgbnJWW7
-   fTUCtjt4xc9e01i+gJa31FSwj+/qakGze537PcEBOZ8JZpnGTZ2xFHhCg
-   btEsx1XeuuR+7hUS0VuUoUpRj3edzb8/0UWO45kJzCAogU+1KglREyusV
-   vZhCYMOcnbCEf/XzoafJqYZB/eRvxy7kNzG3DIfVssbNVEvYA/OoIY9+I
-   A==;
-X-CSE-ConnectionGUID: gVgkLcnHTSKacapwM4xeZg==
-X-CSE-MsgGUID: R+n512PdR860VWpJS7RiIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27539419"
-X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="27539419"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 21:29:49 -0700
-X-CSE-ConnectionGUID: kPUeUwsyT8iIGdo58i9b1w==
-X-CSE-MsgGUID: VgY47a4iQBaGQv9wsSYbzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="75549317"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 Oct 2024 21:29:46 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxItr-0003b6-1R;
-	Sun, 06 Oct 2024 04:29:43 +0000
-Date: Sun, 6 Oct 2024 12:29:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <quic_mojha@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Komal Bajaj <quic_kbajaj@quicinc.com>,
-	Mukesh Ojha <quic_mojha@quicinc.com>
-Subject: Re: [PATCH 2/6] remoteproc: qcom: Add iommu map_unmap helper function
-Message-ID: <202410061256.KV3EbD7H-lkp@intel.com>
-References: <20241004212359.2263502-3-quic_mojha@quicinc.com>
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Q2i/vHB0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CEFDC4CED3
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Oct 2024 04:35:56 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Q2i/vHB0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1728189354;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S6ZASsw1UbkwNCy/qT2cst33QvKpaMRTJ+1FEJnQDeE=;
+	b=Q2i/vHB0rHXvc8Y8akcBMoHY90zuud2F2YVmcSRV15k5TGl9Y7eeIqQ5IT2oFJ8RkLsXcs
+	Cwc3ZQCsoV/kAOf/9Ew0WjVTi3KLAtY/QI3sK58Vl+rw6GM3jWoAx6okM9QQrgXNOdlC1q
+	gqbSKZ/tRAcxjNBxbaec+JHsAjxCNuE=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7172d18e (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
+	for <oe-kbuild-all@lists.linux.dev>;
+	Sun, 6 Oct 2024 04:35:53 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2689e7a941fso1769883fac.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 05 Oct 2024 21:35:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWfmrgCuJOJuzcrlJacse+aoj8JgWwjuJ126vIQud4Aq++0n0vKhN3R/GLJ+Z/+bbLeQNczHdBvEUMsViWq@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJhVxzQwBy55xaJwQxaL9kUDrUbwdbyLrxCtUDoyjj4bpB90Yi
+	YqafBqaF8KqJEjv3og2gvLljWA44Cm2H8lzxB7T2WdKIa7GOg+WMONNsoub304HR3M6Qw6aQxlQ
+	pbzfSRsrahaNRvXBwVY29vkkvZ44=
+X-Google-Smtp-Source: AGHT+IHmmlNVfDVgKfoHgHGXP4e4P1j3dDWAH6HdIBvDuclwvTe95zu1Nuzoefn4l/yJV2kG5vGvqWoH5E0rgIXaeRU=
+X-Received: by 2002:a05:6870:2191:b0:277:eea4:a436 with SMTP id
+ 586e51a60fabf-287c1d3f145mr5983709fac.7.1728189351962; Sat, 05 Oct 2024
+ 21:35:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241004212359.2263502-3-quic_mojha@quicinc.com>
+References: <20241003031307.2236454-4-Jason@zx2c4.com> <ZwIFjL7yb+7JpTS2@rli9-mobl>
+In-Reply-To: <ZwIFjL7yb+7JpTS2@rli9-mobl>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Sun, 6 Oct 2024 06:35:39 +0200
+X-Gmail-Original-Message-ID: <CAHmME9qEp8Emg88wWR_oOT39hSaooLDd2L5YPetFrH3O-CgkBQ@mail.gmail.com>
+Message-ID: <CAHmME9qEp8Emg88wWR_oOT39hSaooLDd2L5YPetFrH3O-CgkBQ@mail.gmail.com>
+Subject: Re: [PATCH kselftest 3/3] selftests: vDSO: improve getrandom and
+ chacha error messages
+To: kernel test robot <lkp@intel.com>
+Cc: skhan@linuxfoundation.org, greg@kroah.com, linux-kselftest@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mukesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on remoteproc/rproc-next]
-[also build test WARNING on robh/for-next linus/master v6.12-rc1 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/dt-bindings-remoteproc-qcom-pas-common-Introduce-iommus-and-qcom-devmem-property/20241005-052733
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-patch link:    https://lore.kernel.org/r/20241004212359.2263502-3-quic_mojha%40quicinc.com
-patch subject: [PATCH 2/6] remoteproc: qcom: Add iommu map_unmap helper function
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241006/202410061256.KV3EbD7H-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061256.KV3EbD7H-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061256.KV3EbD7H-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/remoteproc/qcom_common.c: In function 'qcom_map_unmap_carveout':
->> drivers/remoteproc/qcom_common.c:645:38: warning: left shift count >= width of type [-Wshift-count-overflow]
-     645 |                 iova |= (sid_def_val << 32);
-         |                                      ^~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +645 drivers/remoteproc/qcom_common.c
-
-   611	
-   612	/**
-   613	 * qcom_map_unmap_carveout() - iommu map and unmap carveout region
-   614	 *
-   615	 * @rproc:	rproc handle
-   616	 * @mem_phys:	starting physical address of carveout region
-   617	 * @mem_size:	size of carveout region
-   618	 * @map:	if true, map otherwise, unmap
-   619	 * @use_sid:	decision to append sid to iova
-   620	 * @sid:	SID value
-   621	 */
-   622	int qcom_map_unmap_carveout(struct rproc *rproc, phys_addr_t mem_phys, size_t mem_size,
-   623				    bool map, bool use_sid, unsigned long sid)
-   624	{
-   625		unsigned long iova = mem_phys;
-   626		unsigned long sid_def_val;
-   627		int ret;
-   628	
-   629		if (!rproc->has_iommu)
-   630			return 0;
-   631	
-   632		if (!rproc->domain)
-   633			return -EINVAL;
-   634	
-   635		/*
-   636		 * Remote processor like ADSP supports upto 36 bit device
-   637		 * address space and some of its clients like fastrpc uses
-   638		 * upper 32-35 bits to keep lower 4 bits of its SID to use
-   639		 * larger address space. To keep this consistent across other
-   640		 * use cases add remoteproc SID configuration for firmware
-   641		 * to IOMMU for carveouts.
-   642		 */
-   643		if (use_sid && sid) {
-   644			sid_def_val = sid & SID_MASK_DEFAULT;
- > 645			iova |= (sid_def_val << 32);
-   646		}
-   647	
-   648		if (map)
-   649			ret = iommu_map(rproc->domain, iova, mem_phys, mem_size, IOMMU_READ | IOMMU_WRITE, GFP_KERNEL);
-   650		else
-   651			ret = iommu_unmap(rproc->domain, iova, mem_size);
-   652	
-   653		if (ret)
-   654			dev_err(&rproc->dev, "Unable to %s IOVA Memory, ret: %d\n",
-   655				map ? "map" : "unmap", ret);
-   656	
-   657		return ret;
-   658	}
-   659	EXPORT_SYMBOL_GPL(qcom_map_unmap_carveout);
-   660	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'll send a v2.
