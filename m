@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A971D8E08
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 14:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686021D27A5;
+	Mon,  7 Oct 2024 14:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728312899; cv=none; b=TEC9ba4NCM1m6wTfhYTLK9W2mPUO5O87XmT/zjp9LqKFOGTOQr/0GaaqWRSLpGUe9cIAVXFp07E8xNEPcEMPH3T1BurHU52lG7/NK/2txOgcJG9E8iTGM5BxnoDgbtzNLXnEy3nUA1LnhLd2wyKFQYuc6tvR95GvCpqZ7k4MQlI=
+	t=1728312900; cv=none; b=uHJeCezrJaXoj3b5Y8E2R9WDpbK4UrWkKJk0WAclOl1LoZ65SomveLN1B5ZTJGz1MbnqLwbDkmc9ZM43miFFukTpNGR5hXGqIb0Wv1OKP4oZuwoIlKVxjOm4Fka/4qaiDJL4gfbH1c8hjtKsEOAz9j8CiF3eghmwQaKkR9rBR0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728312899; c=relaxed/simple;
-	bh=qcosYlpp4cE9rWP9ZkowIZuv3lzoFODDTSP6fK/NRx4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XCpR2VNp5WbBWF1YdvE83VVeWRtwTNVi3m2yk8AeHS7EgUV5z8FzD+BP7K/X2jBDy62uv849NiAf1w78XkkzK3mafk/W0Sg5BCGE96ezlDOjwUwjJvP3XVV9GPj+xvMzdwCQ7ZyVJitQoIQ1YB2e8jgigUTALFVbQeb9tZLUDsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKO4wyjN; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1728312900; c=relaxed/simple;
+	bh=rR0zjfi5oHjSMD5bqI8KG9LjBdu4110whV7IabzSfDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJcijQZVgMEXBHtdxy59f1UxZyZq7cw/MjQhClsUlaiPoprZx8ocDPmP+M9+24XT4nekpYsZUDNIF5y3ppvu/v2zy5j6HtsOmEQ5upD0oENTvewF0pXrd2jRRfo9033OkgDUKpSq9M1O1EzZIyv2xTEftWbxIFhiE2rCB790gok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWc7uGyM; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKO4wyjN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWc7uGyM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728312898; x=1759848898;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qcosYlpp4cE9rWP9ZkowIZuv3lzoFODDTSP6fK/NRx4=;
-  b=EKO4wyjNUBUIvdOMiTmFjhjOuLCV+rmUEj45zhtUoJJjmpeVCZJHVUmD
-   z70B+Am9NcpRvrlK4EIAsQnT/MqfcloHMNYTX4acRmPhH2J5Rr6Uh3wXI
-   kTRCsRpqTvDCzjB0enyOS3aeSwTzohvwzmS5WqCLRak9OcRRSBbgk2Ue5
-   ZhghnDdpKvCUMk1SYjHC+mK4lwe9vwMPNcMgiRIEZniSiEKnxAHJn2SCh
-   n5aNd4osP3tZp3W2G7HSCFALJ0ADD1oPsf192azRyAPri09/VTUm1xL3Q
-   gpLvQjhmg409LSfTJw0RVeh3gL0/Wm9ElHfw0aIkMllWOFtWL+9K3vWxi
-   Q==;
-X-CSE-ConnectionGUID: MQDuqG0MThiZuOAZR41TYw==
-X-CSE-MsgGUID: gZdzrAPgTua8Ut15IQUgfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27276129"
+  t=1728312899; x=1759848899;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rR0zjfi5oHjSMD5bqI8KG9LjBdu4110whV7IabzSfDc=;
+  b=LWc7uGyMhPJZi//CZIlLmh7JPje+1I92XO/cZ1dNi8IGM9q2RvFgcHKE
+   T0WzqAA2UcC6b7jOQK/pQJCIpvK1rFioflq4kQ9AiiTJYeAcbxwKzv11N
+   KonBeXh5jrdnrS/vlTUUyLr3eRAaLz8qAs/QqTx7NZme+L5Um17vMB2ZB
+   Lg5qrIa4coEX6mIEAxlRvT3a+rqr43rJsfa4EA9VS6hdEGle7lop91iEP
+   G2r/4atNjaBwbali4C4iU+3yAzNIZPMgWCu9fXviZ6L+dxT06a1wUOciO
+   gTSIKoNd3yjML2i6VvXvKmUhMpv7L6q7G3l65p7X86s2HtFwuHcCm24xJ
+   A==;
+X-CSE-ConnectionGUID: BvDaRFepTqmiO9DEVZ1ahw==
+X-CSE-MsgGUID: 0hkIWBxuQj+Tz94DrJk7oA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31167833"
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="27276129"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 07:54:58 -0700
-X-CSE-ConnectionGUID: 0PKJgu88QuKTrXccCgQHMQ==
-X-CSE-MsgGUID: h7F18YdiSiavUq4AO9XGcA==
+   d="scan'208";a="31167833"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 07:54:58 -0700
+X-CSE-ConnectionGUID: FcDIeRDUQ4mIIFXMWCAnBQ==
+X-CSE-MsgGUID: wo7BPEroT4SXWYSP3l1FDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="112960959"
+   d="scan'208";a="98817453"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Oct 2024 07:54:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 Oct 2024 07:54:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxp8Q-000586-1a;
+	id 1sxp8Q-00057y-1C;
 	Mon, 07 Oct 2024 14:54:54 +0000
-Date: Mon, 7 Oct 2024 22:53:56 +0800
+Date: Mon, 7 Oct 2024 22:53:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.0.x-imx 3832/16788]
- drivers/vfio/fsl-mc/vfio_fsl_mc.c:375:45: error: implicit declaration of
- function 'pgprot_cached_ns'
-Message-ID: <202410072225.i5EcKvfK-lkp@intel.com>
+To: Nathan Fontenot <nathan.fontenot@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC] cxl: Update Soft Reserved resources upon region creation
+Message-ID: <202410072203.uX5lXYkD-lkp@intel.com>
+References: <20241004181754.8960-1-nathan.fontenot@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +62,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241004181754.8960-1-nathan.fontenot@amd.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: 156e54bbc99018164252576ccb464eaf23a84266 [3832/16788] vfio/fsl-mc: Map the VFIO region according to the flags received from the mc firmware
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241007/202410072225.i5EcKvfK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410072225.i5EcKvfK-lkp@intel.com/reproduce)
+Hi Nathan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on linus/master v6.12-rc2 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Fontenot/cxl-Update-Soft-Reserved-resources-upon-region-creation/20241005-021920
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20241004181754.8960-1-nathan.fontenot%40amd.com
+patch subject: [RFC] cxl: Update Soft Reserved resources upon region creation
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241007/202410072203.uX5lXYkD-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410072203.uX5lXYkD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410072225.i5EcKvfK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410072203.uX5lXYkD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_mmap_mmio':
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:375:45: error: implicit declaration of function 'pgprot_cached_ns' [-Werror=implicit-function-declaration]
-     375 |                         vma->vm_page_prot = pgprot_cached_ns(vma->vm_page_prot);
-         |                                             ^~~~~~~~~~~~~~~~
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:375:45: error: incompatible types when assigning to type 'pgprot_t' {aka 'struct pgprot'} from type 'int'
-   cc1: some warnings being treated as errors
+>> arch/x86/kernel/e820.c:1311:42: warning: declaration of 'union acpi_subtable_headers' will not be visible outside of this function [-Wvisibility]
+    1311 | static int __init e820_parse_cfmws(union acpi_subtable_headers *hdr, void *arg,
+         |                                          ^
+   arch/x86/kernel/e820.c:1361:9: error: call to undeclared function 'acpi_table_parse_cedt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1361 |                         rc = acpi_table_parse_cedt(ACPI_CEDT_TYPE_CFMWS,
+         |                              ^
+   arch/x86/kernel/e820.c:1361:9: note: did you mean 'acpi_table_parse'?
+   include/linux/acpi.h:913:19: note: 'acpi_table_parse' declared here
+     913 | static inline int acpi_table_parse(char *id,
+         |                   ^
+   1 warning and 1 error generated.
 
 
-vim +/pgprot_cached_ns +375 drivers/vfio/fsl-mc/vfio_fsl_mc.c
+vim +1311 arch/x86/kernel/e820.c
 
-   359	
-   360	static int vfio_fsl_mc_mmap_mmio(struct vfio_fsl_mc_region region,
-   361					 struct vm_area_struct *vma)
-   362	{
-   363		u64 size = vma->vm_end - vma->vm_start;
-   364		u64 pgoff, base;
-   365	
-   366		pgoff = vma->vm_pgoff &
-   367			((1U << (VFIO_FSL_MC_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
-   368		base = pgoff << PAGE_SHIFT;
-   369	
-   370		if (region.size < PAGE_SIZE || base + size > region.size)
-   371			return -EINVAL;
-   372	
-   373		if (region.type & FSL_MC_REGION_CACHEABLE) {
-   374			if (!(region.type & FSL_MC_REGION_SHAREABLE))
- > 375				vma->vm_page_prot = pgprot_cached_ns(vma->vm_page_prot);
-   376		} else
-   377			vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-   378	
-   379		vma->vm_pgoff = (region.addr >> PAGE_SHIFT) + pgoff;
-   380	
-   381		return remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
-   382				       size, vma->vm_page_prot);
-   383	}
-   384	
+  1310	
+> 1311	static int __init e820_parse_cfmws(union acpi_subtable_headers *hdr, void *arg,
+  1312					   const unsigned long unused)
+  1313	{
+  1314		struct acpi_cedt_cfmws *cfmws;
+  1315		struct resource *res = arg;
+  1316		struct resource cfmws_res;
+  1317	
+  1318		/* Validation check, remove when finished debugging */
+  1319		if (!res->parent && res->end)
+  1320			pr_err("CXL DEBUG Should insert %pr\n", res);
+  1321	
+  1322		if (res->parent || !res->end)
+  1323			return 0;
+  1324	
+  1325		cfmws = (struct acpi_cedt_cfmws *)hdr;
+  1326		cfmws_res = DEFINE_RES_MEM(cfmws->base_hpa,
+  1327					   cfmws->base_hpa + cfmws->window_size);
+  1328		pr_err("CXL DEBUG Found CFMWS: %pr\n", &cfmws_res);
+  1329	
+  1330		if (resource_overlaps(&cfmws_res, res)) {
+  1331			pr_err("CXL DEBUG Found SOFT RESERVE intersection %llx - %llx : %llx - %llx\n",
+  1332			       res->start, res->end, cfmws_res.start, cfmws_res.end);
+  1333			e820__add_soft_reserve(res->start, resource_size(res),
+  1334					       res->flags);
+  1335			return 1;
+  1336		}
+  1337	
+  1338		return 0;
+  1339	}
+  1340	
 
 -- 
 0-DAY CI Kernel Test Service
