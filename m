@@ -1,132 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2BCEEC9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 15:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D963718BBB2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 15:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728313518; cv=none; b=XQb15nt5R5+7xIVlnNsUWLc5m04orSxvpljW9wu7XDBKJUBys/Etv1MThDiH/tSah2LsAU+c+cNQ3d75wGNcvnsTpDvfUJqZ/VogB3SthfNvIGC6vCD8llbWTqbxiDd1O9Eicx1yCkVL6zaHrOXkX0A+SHedm3IMWvpyS/B4FmU=
+	t=1728315642; cv=none; b=vGTvZimqlhLYHHk+Zslw/k1/hiNaipw4Z7bdMPSGZvUo0Mpi5DFN65SuWPxMKYmrHS+8khTKvX5LNrurAUVsEzdRF6hraYF9UgysEFfv2/ccCVXs7NV6REr8pegGu0g2suMKHF8qvuN9X6b8DpXXlPMWzw8ohuZUbsuqAEkz62Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728313518; c=relaxed/simple;
-	bh=JRtx5eRJkXG38uPw/npJdWEVbk79L2ljNlxvw5Jbrto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lNfkd2jMq8jLxzyZTjcJGXh8WIVrURkrTOoI4N2nzFKW3Qi8R7jTARsASJZvxwIDdbqGSIErf3/srgjsDzLY3F+tF1vapSM2GlHGVE/QszAgCU33rUzDWCnJ5nB8c7SvGRqR90Ey5D/0BUj5+/vzB+usTpbS/kk3jngjGbD/mdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iM8HrNUf; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728315642; c=relaxed/simple;
+	bh=6Ebnz4Z4eXDCuO9MKzOQarzmDTndViv7izgScfQ7X28=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=J4DePtW1rtKJj7ytmvJvieqTj93hvXUAl/qUmel+N1ljx6zd07PchHQy6nM25mtv2T4Bhi7+S2Zd1h3QSBXaSh2Rc5XrVXs4SCbpO/erQvJDPChuxzfO4kZjKOyqZa5UL7kRUTdwZcLfYmsNo/gZ3iK8NP4Q5qMibqJEitBdJNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=h8/ArshJ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iM8HrNUf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728313518; x=1759849518;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JRtx5eRJkXG38uPw/npJdWEVbk79L2ljNlxvw5Jbrto=;
-  b=iM8HrNUfzAJTiZic/iFr5CQvhsroNwn99OLTP+w5qiWnXyTvgyvpGTwL
-   NWyAwACVR5JmgLOO6h4YidCO6xxOkOhV6dfB2hfA7MOZQWOvwhEdyowrP
-   +UHsLQmKVMcizl2RTFzlbUsvjL8w8hOpK7RTlEismFB2OjES6W+c/ySxv
-   r8YTOZRRmO5KjKychlMBFPzQJbieUTYzethtxtt8VEZbvFCqtX9xtA1UN
-   MibNOmlJ493/jr9vG/tZi3gU/ZKFYSDeoWDBvSbj41D8t0bOoflWIupb4
-   xZVNuy3SL2AdClnulpJa9fVNnGWKtOX+x17sr4G6tazo5x9BNhFOgMq1K
-   g==;
-X-CSE-ConnectionGUID: DJbNRRQ3RN6VNESEAFV+XA==
-X-CSE-MsgGUID: Zpu5ZQoKTym4638T1Mer7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="50001311"
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="50001311"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 08:05:15 -0700
-X-CSE-ConnectionGUID: ZAw+Mk0YRgq2jIUgeYmqbA==
-X-CSE-MsgGUID: IoaAwrPFTbq17UYMK81ItQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="98822607"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Oct 2024 08:04:57 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxpI6-00058i-2w;
-	Mon, 07 Oct 2024 15:04:54 +0000
-Date: Mon, 7 Oct 2024 23:04:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Per-Daniel Olsson <perdaniel.olsson@axis.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	rickard.andersson@axis.com, kernel@axis.com,
-	Per-Daniel Olsson <perdaniel.olsson@axis.com>
-Subject: Re: [PATCH v2 2/2] iio: light: Add support for TI OPT4060 color
- sensor
-Message-ID: <202410072240.s3wGb17S-lkp@intel.com>
-References: <20241005165119.3549472-3-perdaniel.olsson@axis.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="h8/ArshJ"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 497EQi3e026049;
+	Mon, 7 Oct 2024 15:40:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	IqTxEhawrs7UQJGbNOLxNk1YbqCgjLkZUyV0nVuHG+k=; b=h8/ArshJ4Yx1TbM8
+	VW7ej+9MhzF9NmKp5lvBpCt1bwYC109B1/YlbUbXpN3AEAwiol4dp067UlLJJPED
+	40X7Rz+NsREP0f423jVFATS6y+0S7dn6ejnJV8MSLUDQF1SckLcqYZga9uiKu7r5
+	MfgRurSvPgfqbb10g/6yP6HK4bH/CWu/utRxAvxUDGVjTQboLtBqy9dxUg4g5EaY
+	oPU6sIGWFBZajO5b6RI5UXGDxQ+cA77KnkSlRGSbMFH7WuhP7YFhVctfo5GCiEZV
+	A7Kv+74nSIEi7Ceulyrr3u80rkUFfpI9GlRp7i8hUTVAPfKnjrV4gegQnwv5GCIu
+	iJQ/Tw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 422xtb4na1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 15:40:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 497FeWX1012968
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 7 Oct 2024 15:40:32 GMT
+Received: from [10.48.240.101] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 7 Oct 2024
+ 08:40:31 -0700
+Message-ID: <9db6842d-ddc6-4f0e-a818-c13298eedd8b@quicinc.com>
+Date: Mon, 7 Oct 2024 08:40:30 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241005165119.3549472-3-perdaniel.olsson@axis.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ath:pending 8/12]
+ drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2515:77: warning: left
+ shift count >= width of type
+To: kernel test robot <lkp@intel.com>, Rajat Soni <quic_rajson@quicinc.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Jeff Johnson <jjohnson@kernel.org>,
+        "Kalle Valo" <kvalo@kernel.org>, <ath12k@lists.infradead.org>,
+        Roopni
+ Devanathan <quic_rdevanat@quicinc.com>
+References: <202410040200.Mwb85JzQ-lkp@intel.com>
+Content-Language: en-US
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <202410040200.Mwb85JzQ-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Qis-msQnFUAn6eKybd6QDmefT1srU9Zk
+X-Proofpoint-GUID: Qis-msQnFUAn6eKybd6QDmefT1srU9Zk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1011 phishscore=0
+ mlxscore=0 mlxlogscore=999 adultscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410070110
 
-Hi Per-Daniel,
+On 10/3/2024 11:37 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git pending
+> head:   08dd5d93509f962500dc983864b4effb2600831a
+> commit: f6a46bc3719cc6b445cb071a7dd6968891ffb169 [8/12] wifi: ath12k: Support DMAC Reset Stats
+> config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241004/202410040200.Mwb85JzQ-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410040200.Mwb85JzQ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410040200.Mwb85JzQ-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c: In function 'ath12k_htt_print_dmac_reset_stats_tlv':
+>>> drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2515:77: warning: left shift count >= width of type [-Wshift-count-overflow]
+>     2515 |         time = ((unsigned long)le32_to_cpu(htt_stats_buf->reset_time_hi_ms) << 32) |
+>          |                                                                             ^~
+>    drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2519:81: warning: left shift count >= width of type [-Wshift-count-overflow]
+>     2519 |         time = ((unsigned long)le32_to_cpu(htt_stats_buf->disengage_time_hi_ms) << 32) |
+>          |                                                                                 ^~
+>    drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2523:78: warning: left shift count >= width of type [-Wshift-count-overflow]
+>     2523 |         time = ((unsigned long)le32_to_cpu(htt_stats_buf->engage_time_hi_ms) << 32) |
+>          |                                                                              ^~
 
-kernel test robot noticed the following build warnings:
+Out of curiosity is there a way to tell if this is a 32-bit build vs a 64-bit
+build? I just want to verify that the issue is that unsigned long is 32-bits
+and not that the shift occurs before the typecast
 
-[auto build test WARNING on 0c559323bbaabee7346c12e74b497e283aaafef5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Per-Daniel-Olsson/dt-bindings-iio-light-Document-TI-OPT4060-RGBW-sensor/20241006-005244
-base:   0c559323bbaabee7346c12e74b497e283aaafef5
-patch link:    https://lore.kernel.org/r/20241005165119.3549472-3-perdaniel.olsson%40axis.com
-patch subject: [PATCH v2 2/2] iio: light: Add support for TI OPT4060 color sensor
-config: csky-randconfig-r122-20241007 (https://download.01.org/0day-ci/archive/20241007/202410072240.s3wGb17S-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241007/202410072240.s3wGb17S-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410072240.s3wGb17S-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/light/opt4060.c:963:9: sparse: sparse: dereference of noderef expression
->> drivers/iio/light/opt4060.c:963:9: sparse: sparse: dereference of noderef expression
->> drivers/iio/light/opt4060.c:963:9: sparse: sparse: dereference of noderef expression
-
-vim +963 drivers/iio/light/opt4060.c
-
-   951	
-   952	static irqreturn_t opt4060_trigger_handler(int irq, void *p)
-   953	{
-   954		struct iio_poll_func *pf = p;
-   955		struct iio_dev *idev = pf->indio_dev;
-   956		struct opt4060_chip *chip = iio_priv(idev);
-   957		struct opt4060_buffer raw;
-   958		int ret, chan;
-   959		int i = 0;
-   960	
-   961		memset(&raw, 0, sizeof(raw));
-   962	
- > 963		for_each_set_bit(chan, idev->active_scan_mask, idev->masklength) {
-   964			ret = opt4060_read_raw_value(chip,
-   965						     opt4060_channels[chan].address,
-   966						     &raw.chan[i++]);
-   967			if (ret) {
-   968				dev_err(chip->dev, "Reading raw channel data failed\n");
-   969				goto err_read;
-   970			}
-   971		}
-   972	
-   973		iio_push_to_buffers_with_timestamp(idev, &raw, pf->timestamp);
-   974	err_read:
-   975		iio_trigger_notify_done(idev->trig);
-   976		return IRQ_HANDLED;
-   977	}
-   978	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
