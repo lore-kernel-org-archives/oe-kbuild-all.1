@@ -1,116 +1,118 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671031DA2EB
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 16:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22571D47AC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 16:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728318239; cv=none; b=ru550jpcf2owiXybaZRszx7UnFGCpdJLXIJKxhJDSCGFxQdzjRVc/R/F0VRsKXzGxCGJ+K9D9X3QwoKHEyA7pTj7EOCN6uBUN41w2ykg2YVQgcBRelTUMkdrwMiRQnn7WsbrT4RQjc+vx0dyqv3onv5OW2Hcxa+zyo+YZta0A20=
+	t=1728318844; cv=none; b=Fsm18GucbEC5Qi4avdJ494YPsUfYZBiC4N9M9bUWtjmHsZb/sEM6XDlGDD6ziT1dgHiDCBp1k/caFxsirTjFr5SaSxy4Xk6AApMoIg0NO7m3vCfHkZ3j6X1txoBD+qTSxAx+2IgOR20CW8+V57kkn8wwRC7o8jLOmuN5UOpyk8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728318239; c=relaxed/simple;
-	bh=CSBFQS88igW0jUCGuwCmGf0rpqBIDOAPpzkbjoA0v2A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XU13f92q/0VtA6dMYPRFw6ZW2NpsPxflCZmSsDqpUnEPPIVwI+CIX78kOWOzPWub1tS8SBnLqjqmMF3PKgEgPIbUDBziP4ZjV1rYdFTJlpx9br9aL4JcPtzS1oCYCj9POSg0Ah2Uls9ABk5QDxuyiRhDXggeu+NWD5bzmGI8ZtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PCnR8Jps; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728318844; c=relaxed/simple;
+	bh=DdutLgm7LnJZUydsu87UTwymGUlWI6mMAxVG/ZJc31s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ct0lfEnFkXnH07REu+S8xl8S5AuezIhwP9TYjTe/cZiJtYCTvt8avLKdzBphFWmYutUwsd71DTPYFPWQE351bJtp0qsjAwIKyXDzDW9FHsLQ8kCnJq3WOZ5rk02qZeMr8+m/ahw2zIxvpCcmxZTqWK/k2pDAHGQm+LEftRvgqrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tenstorrent.com; spf=pass smtp.mailfrom=tenstorrent.com; dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b=Ehp+6V98; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tenstorrent.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tenstorrent.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PCnR8Jps"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a995f56ea2dso110406466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Oct 2024 09:23:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b="Ehp+6V98"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-71e06ba441cso715818b3a.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Oct 2024 09:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728318236; x=1728923036; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1DjhLFwVBpKRr9Z2MwbXlQuaVUI2IN6bC3xXF+EK/4g=;
-        b=PCnR8JpsiQK5VFjY/oqlaNW43kIwDsrVQYVujaiZui1V7t+9QFwHLlDr0mmeRl92nj
-         t202w5/r+qQadlb28Dl3gkqsF90Mh4+K8J+CZTHC2AVeuc4UPDxPiIT/qQW1X0uSVEvP
-         Z2OL+4OL4Cb08QEJvQrBKUaLbfiMz0bt0UE1Z6Br5IJnAIyGbnV8TAsNdhJeQuS9T8cS
-         SfIw33WzOcpRNcn7G7puw/u2P7HtENvgVA4ueTHijNxYz6TeKiR3HIa3TmkFWxQtA0To
-         7DQ4bjWmNKMyh3gCKz7xt3HqXenzWFbYJEMDbeB99cybgSI6/sFRHWamLOUBUeR7mb10
-         6jSQ==
+        d=tenstorrent.com; s=google; t=1728318838; x=1728923638; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YZWM6QTmBe9B09ML2vqXCSoB0/AzhE/+M2NioGDzKy8=;
+        b=Ehp+6V98qq2ncX6XA/QpZWyGmRm5VilUIGjyzHaM97XnZZ6Ycjfcpxanfgp9WKHYxy
+         rtabBB1z59Cbj4wz8+ZJatq0Jerwh3HmH+2D3TRtqGp48v5LUka69lFFOLOyIBfzukUq
+         8tFKqtRxrd8rQ6OC5USo0fnJEqxZsrPlZFKK1XUep0lUXSHi2iaMcfHeGkW0jEGzb3w2
+         elKIwJKNfzn6y9DQb7VaO9Ki7PqVWxj3z87cogDcMLspBziKoQlCr6pV3I/bNLjIlPbL
+         xy9YvjKpmfQnVjyMbx7P+MokI8fuVbi2Gsfma5yz2xPh+N/H82Sbi2/kB8hbslwyhoTB
+         zTCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728318236; x=1728923036;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1DjhLFwVBpKRr9Z2MwbXlQuaVUI2IN6bC3xXF+EK/4g=;
-        b=cHhenXT/dhPVjx7u4DZdPhau8Zww9vQ7J1m5j1i73IMe/NPuX9pjH1o2ft1frxXTA1
-         iHJOlPFHJ+N80EqskRtYna9MxaNGmxFzldUTCjc16AP1aaHy/7dlRinsddJMOIBcYoMZ
-         ayAhB0LwYXb4ldmpE5Th96d9thgd+fo9czGjGm0EqMnD84iXLn//5oKoglnhkPU/R3qj
-         Vr8hLU8uX83NagQrICfztTxSGWKR57VUfcvx1YorH9igwnEgx0PbuI93bS2g5CfCBDF5
-         HmA1gvTMB76gQ9CV/+qpq4a9zaW8rb+7/4YJd0bZP9nBRn4Wg315OYr+gvUPgOfqDzdI
-         Uh/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXHcW0W3LgPxJIC8Gp3x51dH43TiWXWMO9m0OjKFEVJzbY8cZLelLkwgvyYBXd3b33L3LesOuqIosX0TLRY@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYOlr+Y3V5DES/NTfu36uQxUhCBW4zC3S+u2sPAG9kNvhWLdXz
-	ZaOZgCdk7uxClEEnkFfNJuNbQ54ZE9RwrWlBOIL2RX5vn/mZXV/QNBACxFdeuxtwmzv5CKSDrUL
-	0qj9Pcudp64ruAYjQkLLVlr8EhgfivXPOZwU1DA==
-X-Google-Smtp-Source: AGHT+IEhWSRFZqVhC3rbl0UHvbwLLLlpn38m/GYhWm2qL50BAg4U+z5JzqqQw152dm0AYm6pv3+IQ51UGtTJYfZ34DY=
-X-Received: by 2002:a17:907:a0d:b0:a8b:ddf4:4701 with SMTP id
- a640c23a62f3a-a991bd47985mr1349645766b.16.1728318235289; Mon, 07 Oct 2024
- 09:23:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728318838; x=1728923638;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YZWM6QTmBe9B09ML2vqXCSoB0/AzhE/+M2NioGDzKy8=;
+        b=cXzeWJ728qsPZJrwas28siO8lfrl+Dk961xjGVPfskbRqDswQ55cO4EGrPRxNAtCu6
+         pXtWPXBFiPkVI4JMHPq/L3d7dvcgrRNNI9KknZtlQFC4fI4sn7hJy6gghPBGnuzuOh5H
+         sxZu9c23NQARpYSBg0HJ28snl+A+pJCxzRdy/40WQUa0iAttA0+bTaNpv/8z3Jq6KU+i
+         xhwQXlXTFsE5RZw+FGW6i8WvDeluJlA+FPpL33EygUtKNmZ+xUe/da/hEKKyaftbnuLR
+         b8MtL0eTbjCj3HLEFmJFowousUI//GMc61oMtuO9YnrJgx3/tEJe1NlsOEPjH4gEEJII
+         Ie0w==
+X-Forwarded-Encrypted: i=1; AJvYcCV4cCH+vpXsC0ZdwHy+GV3/E154+BAzvC3vwZzRmRT5q4lf4DzP+iafeuCk1tRYNte+UhxjsMLGjYO9LKEi@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3K1q5//YUKMwulvTu9cbpgFZ4f8sPLK+ev0vssDhOo8Fsq2dh
+	9V7VTf5hEj0El0LqKYq9/TLLQ7C8+kFBm6O1ixolF6g9D/+3a2qetvMbhiFudbQ=
+X-Google-Smtp-Source: AGHT+IEOn2aNJRc6PNcmA1E8hHomUDAvzvN8DoqLjg4IGSM4t5x9BXT+gVd7xFtvp6ibMbgO/sW9JA==
+X-Received: by 2002:a05:6a00:1ad0:b0:717:8044:3169 with SMTP id d2e1a72fcca58-71de23b5f19mr17937448b3a.9.1728318837846;
+        Mon, 07 Oct 2024 09:33:57 -0700 (PDT)
+Received: from x1 (71-34-69-82.ptld.qwest.net. [71.34.69.82])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71df0d4a1f4sm4590147b3a.113.2024.10.07.09.33.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 09:33:57 -0700 (PDT)
+Date: Mon, 7 Oct 2024 09:33:55 -0700
+From: Drew Fustini <dfustini@tenstorrent.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Drew Fustini <drew@pdp7.com>,
+	Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+	Linus Walleij <linus.walleij@linaro.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] pinctrl: th1520: Convert to thp->mutex to guarded
+ mutex
+Message-ID: <ZwQNc9/sO9lhUvmw@x1>
+References: <20241005-th1520-pinctrl-fixes-v1-1-5c65dffa0d00@tenstorrent.com>
+ <6b3d9f7a-c87b-4ef5-8571-77276f3896a1@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241003120655.53663-1-vamsikrishna.brahmajosyula@gmail.com> <202410060802.Ln9ygpuY-lkp@intel.com>
-In-Reply-To: <202410060802.Ln9ygpuY-lkp@intel.com>
-From: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
-Date: Mon, 7 Oct 2024 21:53:43 +0530
-Message-ID: <CAJvTgAg-8RYjo9Rapor86G5o10aTws7B1NmZVuN64KRy5kjzWg@mail.gmail.com>
-Subject: Re: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW in setcmap_atomic
-To: kernel test robot <lkp@intel.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, oe-kbuild-all@lists.linux.dev, 
-	skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6b3d9f7a-c87b-4ef5-8571-77276f3896a1@stanley.mountain>
 
-On Sun, Oct 6, 2024 at 6:31=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Vamsi,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 7ec462100ef9142344ddbf86f2c3008b97acddbe]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Vamsi-Krishna-Brah=
-majosyula/gpu-drm-set-gamma_lut-or-degamma_lut-based-on-HW-in-setcmap_atomi=
-c/20241003-200835
-> base:   7ec462100ef9142344ddbf86f2c3008b97acddbe
-> patch link:    https://lore.kernel.org/r/20241003120655.53663-1-vamsikris=
-hna.brahmajosyula%40gmail.com
-> patch subject: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW =
-in setcmap_atomic
-> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241006=
-/202410060802.Ln9ygpuY-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20241006/202410060802.Ln9ygpuY-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On Mon, Oct 07, 2024 at 06:41:36PM +0300, Dan Carpenter wrote:
+> Hi Drew,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Drew-Fustini/pinctrl-th1520-Convert-to-thp-mutex-to-guarded-mutex/20241006-033647
+> base:   2694868880705e8f6bb61b24b1b25adc42a4a217
+> patch link:    https://lore.kernel.org/r/20241005-th1520-pinctrl-fixes-v1-1-5c65dffa0d00%40tenstorrent.com
+> patch subject: [PATCH 1/2] pinctrl: th1520: Convert to thp->mutex to guarded mutex
+> config: parisc-randconfig-r072-20241007 (https://download.01.org/0day-ci/archive/20241007/202410072108.uG2sVTN4-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 14.1.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410060802.Ln9ygpuY-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-Based on the kernel bot compile failure I received,
-> >> ERROR: modpost: "drm_mode_obj_find_prop_id" [drivers/gpu/drm/drm_kms_h=
-elper.ko] undefined!
-I realised I can not use drm_mode_obj_find_prop_id in setcmap_atomic
-(in atomic context).
-I am exploring atomic functions which access gamma_lut and degamma_lut
-via state.
-I will send a v2 with a new approach.
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410072108.uG2sVTN4-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/pinctrl/pinctrl-th1520.c:538 th1520_pinctrl_dt_node_to_map() error: uninitialized symbol 'child'.
+
+It seems this is because the scoped iterator declares *child in the
+macro and thus no separate declaration is needed:
+
+#define for_each_available_child_of_node_scoped(parent, child) \
+	for (struct device_node *child __free(device_node) =		\
+	     of_get_next_available_child(parent, NULL);			\
+	     child != NULL;						\
+	     child = of_get_next_available_child(parent, child))
+
+I'll fix in future revision.
+
+> 
+> Old smatch warnings:
+> drivers/pinctrl/pinctrl-th1520.c:502 th1520_pinctrl_dt_node_to_map() warn: missing error code 'ret'
+
+This has been fixed in the v2 series [1]
+
+Thanks,
+Drew
+
+[1] https://lore.kernel.org/linux-riscv/20241006-th1520-pinctrl-fixes-v2-0-b1822ae3a6d7@tenstorrent.com/
