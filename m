@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86F71C2DAE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 12:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79B11D222A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 12:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728304013; cv=none; b=S/ZwU/66IH2tcUPOVhTtGHqly4Koch4HDM43PmupGnVu8fLZIS57qayQ13ZkmzEp8GDNOvYvXSbwV4vl2yjoKH7v5h5UR2p5LEAkAoi0jUEGsD8a93lbrkW6TuqNcntxZwL3OInkHhU2yv6MoboveCrq0yKnWnyCSOO+UDRRtp0=
+	t=1728305335; cv=none; b=dN56Xs7O/10YUOSFjYz2RLi6QAH2Y8ClVVwi9XHtx2cC5kMCvihoeoaQnCJUhygEXJwvUtAqodMQ3o2P/Eul6c3GHhsu0P1/djENo2Y4oHyIBSYRykkff04oj8anY4lqvc8RMWL2XIYbWsxq9rHDulS3s1oaWverT658W5RFIk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728304013; c=relaxed/simple;
-	bh=qltNE1jfcPpkMTI5bbr0E8CTwqIpjpLdAcNl4yzQxJM=;
+	s=arc-20240116; t=1728305335; c=relaxed/simple;
+	bh=ysVTXNU2ucl9SaVTZ5Lr60rELrWrYmvaQrJsrccxSBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XbhO+oLHdeXakuTyTsjhcvCZxIXwjdJCYPPrSqFvkb7mAhcTdztIrxIouyPpIcLHfIdq/310TpP63VUO8NWkEf7RDV/+lbpjR3cPFC0PJ9VSSOQitm2kZvpfZpzh+g0K3Usc+uyjBfmd43o8ZNvrrKDUObl8XFWQTtMCpGDg8t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFMvGMTd; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=oRN3zHUTJ7v2IrJxbBVvRJf0tlW03BWecQzGsDUb0C68vGZXNzz9V5dYCWg5MB7+lhA8Di4S7FFvSnNDHFFFbC0bbk3WI5V+ArK5JFm+NrQmdypU4qt1btOmibLbvIrdOLAWF52CWa6fuojS9ICboIyJLt9QYg0rubvWa6N9/Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOCowZrJ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFMvGMTd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOCowZrJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728304012; x=1759840012;
+  t=1728305334; x=1759841334;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qltNE1jfcPpkMTI5bbr0E8CTwqIpjpLdAcNl4yzQxJM=;
-  b=TFMvGMTd5r7IESwpitwvK7lHqnLY/zg4NqXOwxI54RMDffKlb9grGt51
-   3MUyqCvMOcJIaBMt7r5u7ZNiB5oZq74zRI1Up0wXW2rTlRUJQ7ZdxUfui
-   zQSckvvVoU/uUdXoZiO3/WV8wxVPWW/wQfnvmyLhYa1SYCZOg05asMFf5
-   cC7MIP3r8g+MPv9+BidjKnZwT6D2O6fHdf5gciGzDaIaeQTuZHQEOG7/K
-   xlOE7IWcuhBuzPg4IyqvGWwYNw9U4EzteSYcC0fLfcvcFQT696Jnu2qHS
-   FszYM7PBE2+yEwFjSMJI8x6zL3RvHn7lT9lddRx29zPpafNanNh1UQwvA
+  bh=ysVTXNU2ucl9SaVTZ5Lr60rELrWrYmvaQrJsrccxSBU=;
+  b=nOCowZrJd17QRSvrOMUuGd2ktId2QP0xzV64GRNKr4uYC5LULm/poYh+
+   kdOLgR8GylSewRBkuUvLT1gEwndxUjHlSyUNPpHCAD/AxR9JKePzkfplu
+   fcmfvAbOVW09jEgP3H73i0yPGtuWv+eLDE0NKdlQjPp6SpFjOj5RKjKvv
+   HhPTiX1GyWlSKcoz4N6VzwXoxtlIriML3qlCZikgGWla1Q/6JUFR+TsJc
+   BMd/NKi4UxqV2V6ficS2DTLyPHjiYiaLGMk+wl+SBg2XpIS9CcKNmFLgG
+   auckBgF9gbP/uEYleoaNV/nPZ4p5hN7nVASgxREXcrGBSlvxuwCMs53VV
    w==;
-X-CSE-ConnectionGUID: FRyT0PqTS3qbj1lYEngrCg==
-X-CSE-MsgGUID: PI/CGGRiRvyxqEQXOElF8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="38816047"
+X-CSE-ConnectionGUID: ww/XR4AuTfaIejMsHGbLJQ==
+X-CSE-MsgGUID: KgnKhbPnQxy10nD8UistJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31152288"
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="38816047"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 05:26:51 -0700
-X-CSE-ConnectionGUID: fMIhzlVSR0GkmjKwWAYCcA==
-X-CSE-MsgGUID: XnyvOv/jS4WveyAgA/52Qw==
+   d="scan'208";a="31152288"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 05:48:52 -0700
+X-CSE-ConnectionGUID: PCsGns7aSCa0E0+nXwQVvg==
+X-CSE-MsgGUID: OfEO/U3ZRS2nSXhbTggRCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="75806942"
+   d="scan'208";a="80055133"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Oct 2024 05:26:48 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 Oct 2024 05:48:50 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxmp4-0004yF-2b;
-	Mon, 07 Oct 2024 12:26:46 +0000
-Date: Mon, 7 Oct 2024 20:26:28 +0800
+	id 1sxnAO-0004zB-0r;
+	Mon, 07 Oct 2024 12:48:48 +0000
+Date: Mon, 7 Oct 2024 20:48:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Drew Fustini <dfustini@tenstorrent.com>, Drew Fustini <drew@pdp7.com>,
-	Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] pinctrl: th1520: Convert dt child node loop to
- scoped iterator
-Message-ID: <202410072033.XpRqZ8nz-lkp@intel.com>
-References: <20241006-th1520-pinctrl-fixes-v2-3-b1822ae3a6d7@tenstorrent.com>
+To: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+	linux-fbdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	thomas.zimmermann@suse.de,
+	Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
+Subject: Re: [PATCH v2] fbdev: sstfb: Make CONFIG_FB_DEVICE optional
+Message-ID: <202410072022.oRqUf7DT-lkp@intel.com>
+References: <20241004152429.4329-1-gonzalo.silvalde@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,166 +65,199 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241006-th1520-pinctrl-fixes-v2-3-b1822ae3a6d7@tenstorrent.com>
+In-Reply-To: <20241004152429.4329-1-gonzalo.silvalde@gmail.com>
 
-Hi Drew,
+Hi Gonzalo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 2694868880705e8f6bb61b24b1b25adc42a4a217]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.12-rc2 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Drew-Fustini/pinctrl-th1520-Fix-return-value-for-unknown-pin-error/20241007-014953
-base:   2694868880705e8f6bb61b24b1b25adc42a4a217
-patch link:    https://lore.kernel.org/r/20241006-th1520-pinctrl-fixes-v2-3-b1822ae3a6d7%40tenstorrent.com
-patch subject: [PATCH v2 3/3] pinctrl: th1520: Convert dt child node loop to scoped iterator
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241007/202410072033.XpRqZ8nz-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410072033.XpRqZ8nz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gonzalo-Silvalde-Blanco/fbdev-sstfb-Make-CONFIG_FB_DEVICE-optional/20241004-232658
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241004152429.4329-1-gonzalo.silvalde%40gmail.com
+patch subject: [PATCH v2] fbdev: sstfb: Make CONFIG_FB_DEVICE optional
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241007/202410072022.oRqUf7DT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410072022.oRqUf7DT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410072033.XpRqZ8nz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410072022.oRqUf7DT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pinctrl/pinctrl-th1520.c: In function 'th1520_pinctrl_dt_node_to_map':
->> drivers/pinctrl/pinctrl-th1520.c:420:29: warning: unused variable 'child' [-Wunused-variable]
-     420 |         struct device_node *child;
-         |                             ^~~~~
+   drivers/video/fbdev/sstfb.c: In function 'sstfb_probe':
+>> drivers/video/fbdev/sstfb.c:1439:2: error: invalid preprocessing directive #fdef; did you mean #ifdef?
+    1439 | #fdef CONFIG_FB_DEVICE
+         |  ^~~~
+         |  ifdef
+   drivers/video/fbdev/sstfb.c:1442:2: error: #endif without #if
+    1442 | #endif
+         |  ^~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +/child +420 drivers/pinctrl/pinctrl-th1520.c
+vim +1439 drivers/video/fbdev/sstfb.c
 
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  413  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  414  static int th1520_pinctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  415  					 struct device_node *np,
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  416  					 struct pinctrl_map **maps,
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  417  					 unsigned int *num_maps)
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  418  {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  419  	struct th1520_pinctrl *thp = pinctrl_dev_get_drvdata(pctldev);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30 @420  	struct device_node *child;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  421  	struct pinctrl_map *map;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  422  	unsigned long *configs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  423  	unsigned int nconfigs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  424  	unsigned int nmaps;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  425  	int ret;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  426  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  427  	nmaps = 0;
-1a1dcc4caac257 Drew Fustini         2024-10-06  428  	for_each_available_child_of_node_scoped(np, child) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  429  		int npins = of_property_count_strings(child, "pins");
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  430  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  431  		if (npins <= 0) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  432  			dev_err(thp->pctl->dev, "no pins selected for %pOFn.%pOFn\n",
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  433  				np, child);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  434  			return -EINVAL;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  435  		}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  436  		nmaps += npins;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  437  		if (of_property_present(child, "function"))
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  438  			nmaps += npins;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  439  	}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  440  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  441  	map = kcalloc(nmaps, sizeof(*map), GFP_KERNEL);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  442  	if (!map)
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  443  		return -ENOMEM;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  444  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  445  	nmaps = 0;
-9aae170bf6c30e Drew Fustini         2024-10-06  446  	guard(mutex)(&thp->mutex);
-1a1dcc4caac257 Drew Fustini         2024-10-06  447  	for_each_available_child_of_node_scoped(np, child) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  448  		unsigned int rollback = nmaps;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  449  		enum th1520_muxtype muxtype;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  450  		struct property *prop;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  451  		const char *funcname;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  452  		const char **pgnames;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  453  		const char *pinname;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  454  		int npins;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  455  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  456  		ret = pinconf_generic_parse_dt_config(child, pctldev, &configs, &nconfigs);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  457  		if (ret) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  458  			dev_err(thp->pctl->dev, "%pOFn.%pOFn: error parsing pin config\n",
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  459  				np, child);
-1a1dcc4caac257 Drew Fustini         2024-10-06  460  			goto free_map;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  461  		}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  462  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  463  		if (!of_property_read_string(child, "function", &funcname)) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  464  			muxtype = th1520_muxtype_get(funcname);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  465  			if (!muxtype) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  466  				dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown function '%s'\n",
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  467  					np, child, funcname);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  468  				ret = -EINVAL;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  469  				goto free_configs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  470  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  471  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  472  			funcname = devm_kasprintf(thp->pctl->dev, GFP_KERNEL, "%pOFn.%pOFn",
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  473  						  np, child);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  474  			if (!funcname) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  475  				ret = -ENOMEM;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  476  				goto free_configs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  477  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  478  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  479  			npins = of_property_count_strings(child, "pins");
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  480  			pgnames = devm_kcalloc(thp->pctl->dev, npins, sizeof(*pgnames), GFP_KERNEL);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  481  			if (!pgnames) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  482  				ret = -ENOMEM;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  483  				goto free_configs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  484  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  485  		} else {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  486  			funcname = NULL;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  487  		}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  488  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  489  		npins = 0;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  490  		of_property_for_each_string(child, "pins", prop, pinname) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  491  			unsigned int i;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  492  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  493  			for (i = 0; i < thp->desc.npins; i++) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  494  				if (!strcmp(pinname, thp->desc.pins[i].name))
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  495  					break;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  496  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  497  			if (i == thp->desc.npins) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  498  				nmaps = rollback;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  499  				dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown pin '%s'\n",
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  500  					np, child, pinname);
-08f5dfea548d37 Drew Fustini         2024-10-06  501  				ret = -EINVAL;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  502  				goto free_configs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  503  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  504  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  505  			if (nconfigs) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  506  				map[nmaps].type = PIN_MAP_TYPE_CONFIGS_PIN;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  507  				map[nmaps].data.configs.group_or_pin = thp->desc.pins[i].name;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  508  				map[nmaps].data.configs.configs = configs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  509  				map[nmaps].data.configs.num_configs = nconfigs;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  510  				nmaps += 1;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  511  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  512  			if (funcname) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  513  				pgnames[npins++] = thp->desc.pins[i].name;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  514  				map[nmaps].type = PIN_MAP_TYPE_MUX_GROUP;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  515  				map[nmaps].data.mux.function = funcname;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  516  				map[nmaps].data.mux.group = thp->desc.pins[i].name;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  517  				nmaps += 1;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  518  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  519  		}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  520  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  521  		if (funcname) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  522  			ret = pinmux_generic_add_function(pctldev, funcname, pgnames,
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  523  							  npins, (void *)muxtype);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  524  			if (ret < 0) {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  525  				dev_err(thp->pctl->dev, "error adding function %s\n", funcname);
-1a1dcc4caac257 Drew Fustini         2024-10-06  526  				goto free_map;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  527  			}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  528  		}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  529  	}
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  530  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  531  	*maps = map;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  532  	*num_maps = nmaps;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  533  	return 0;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  534  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  535  free_configs:
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  536  	kfree(configs);
-1a1dcc4caac257 Drew Fustini         2024-10-06  537  free_map:
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  538  	th1520_pinctrl_dt_free_map(pctldev, map, nmaps);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  539  	return ret;
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  540  }
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  541  
+  1320	
+  1321	static int sstfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+  1322	{
+  1323		struct fb_info *info;
+  1324		struct fb_fix_screeninfo *fix;
+  1325		struct sstfb_par *par;
+  1326		struct sst_spec *spec;
+  1327		int err;
+  1328	
+  1329		err = aperture_remove_conflicting_pci_devices(pdev, "sstfb");
+  1330		if (err)
+  1331			return err;
+  1332	
+  1333		/* Enable device in PCI config. */
+  1334		if ((err=pci_enable_device(pdev))) {
+  1335			printk(KERN_ERR "cannot enable device\n");
+  1336			return err;
+  1337		}
+  1338	
+  1339		/* Allocate the fb and par structures.  */
+  1340		info = framebuffer_alloc(sizeof(struct sstfb_par), &pdev->dev);
+  1341		if (!info)
+  1342			return -ENOMEM;
+  1343	
+  1344		pci_set_drvdata(pdev, info);
+  1345	
+  1346		par  = info->par;
+  1347		fix  = &info->fix;
+  1348	
+  1349		par->type = id->driver_data;
+  1350		spec = &voodoo_spec[par->type];
+  1351		f_ddprintk("found device : %s\n", spec->name);
+  1352	
+  1353		par->dev = pdev;
+  1354		par->revision = pdev->revision;
+  1355	
+  1356		fix->mmio_start = pci_resource_start(pdev,0);
+  1357		fix->mmio_len	= 0x400000;
+  1358		fix->smem_start = fix->mmio_start + 0x400000;
+  1359	
+  1360		if (!request_mem_region(fix->mmio_start, fix->mmio_len, "sstfb MMIO")) {
+  1361			printk(KERN_ERR "sstfb: cannot reserve mmio memory\n");
+  1362			goto fail_mmio_mem;
+  1363		}
+  1364	
+  1365		if (!request_mem_region(fix->smem_start, 0x400000,"sstfb FB")) {
+  1366			printk(KERN_ERR "sstfb: cannot reserve fb memory\n");
+  1367			goto fail_fb_mem;
+  1368		}
+  1369	
+  1370		par->mmio_vbase = ioremap(fix->mmio_start,
+  1371						fix->mmio_len);
+  1372		if (!par->mmio_vbase) {
+  1373			printk(KERN_ERR "sstfb: cannot remap register area %#lx\n",
+  1374			        fix->mmio_start);
+  1375			goto fail_mmio_remap;
+  1376		}
+  1377		info->screen_base = ioremap(fix->smem_start, 0x400000);
+  1378		if (!info->screen_base) {
+  1379			printk(KERN_ERR "sstfb: cannot remap framebuffer %#lx\n",
+  1380			        fix->smem_start);
+  1381			goto fail_fb_remap;
+  1382		}
+  1383	
+  1384		if (!sst_init(info, par)) {
+  1385			printk(KERN_ERR "sstfb: Init failed\n");
+  1386			goto fail;
+  1387		}
+  1388		sst_get_memsize(info, &fix->smem_len);
+  1389		strscpy(fix->id, spec->name, sizeof(fix->id));
+  1390	
+  1391		printk(KERN_INFO "%s (revision %d) with %s dac\n",
+  1392			fix->id, par->revision, par->dac_sw.name);
+  1393		printk(KERN_INFO "framebuffer at %#lx, mapped to 0x%p, size %dMB\n",
+  1394		        fix->smem_start, info->screen_base,
+  1395		        fix->smem_len >> 20);
+  1396	
+  1397		f_ddprintk("regbase_virt: %p\n", par->mmio_vbase);
+  1398		f_ddprintk("membase_phys: %#lx\n", fix->smem_start);
+  1399		f_ddprintk("fbbase_virt: %p\n", info->screen_base);
+  1400	
+  1401		info->fbops	= &sstfb_ops;
+  1402		info->pseudo_palette = par->palette;
+  1403	
+  1404		fix->type	= FB_TYPE_PACKED_PIXELS;
+  1405		fix->visual	= FB_VISUAL_TRUECOLOR;
+  1406		fix->accel	= FB_ACCEL_NONE;  /* FIXME */
+  1407		/*
+  1408		 * According to the specs, the linelength must be of 1024 *pixels*
+  1409		 * and the 24bpp mode is in fact a 32 bpp mode (and both are in
+  1410		 * fact dithered to 16bit).
+  1411		 */
+  1412		fix->line_length = 2048; /* default value, for 24 or 32bit: 4096 */
+  1413	
+  1414		fb_find_mode(&info->var, info, mode_option, NULL, 0, NULL, 16);
+  1415	
+  1416		if (sstfb_check_var(&info->var, info)) {
+  1417			printk(KERN_ERR "sstfb: invalid video mode.\n");
+  1418			goto fail;
+  1419		}
+  1420	
+  1421		if (sstfb_set_par(info)) {
+  1422			printk(KERN_ERR "sstfb: can't set default video mode.\n");
+  1423			goto fail;
+  1424		}
+  1425	
+  1426		if (fb_alloc_cmap(&info->cmap, 256, 0)) {
+  1427			printk(KERN_ERR "sstfb: can't alloc cmap memory.\n");
+  1428			goto fail;
+  1429		}
+  1430	
+  1431		/* register fb */
+  1432		info->device = &pdev->dev;
+  1433		if (register_framebuffer(info) < 0) {
+  1434			printk(KERN_ERR "sstfb: can't register framebuffer.\n");
+  1435			goto fail_register;
+  1436		}
+  1437	
+  1438		sstfb_clear_screen(info);
+> 1439	#fdef CONFIG_FB_DEVICE
+  1440		if (device_create_file(info->dev, &device_attrs[0]))
+  1441			printk(KERN_WARNING "sstfb: can't create sysfs entry.\n");
+  1442	#endif
+  1443	
+  1444		fb_info(info, "%s frame buffer device at 0x%p\n",
+  1445			fix->id, info->screen_base);
+  1446	
+  1447		return 0;
+  1448	
+  1449	fail_register:
+  1450		fb_dealloc_cmap(&info->cmap);
+  1451	fail:
+  1452		iounmap(info->screen_base);
+  1453	fail_fb_remap:
+  1454		iounmap(par->mmio_vbase);
+  1455	fail_mmio_remap:
+  1456		release_mem_region(fix->smem_start, 0x400000);
+  1457	fail_fb_mem:
+  1458		release_mem_region(fix->mmio_start, info->fix.mmio_len);
+  1459	fail_mmio_mem:
+  1460		framebuffer_release(info);
+  1461		return -ENXIO; 	/* no voodoo detected */
+  1462	}
+  1463	
 
 -- 
 0-DAY CI Kernel Test Service
