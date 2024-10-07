@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1497474C08
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 21:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394A8184549
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 22:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728338061; cv=none; b=f6JR5n+NfCBjYlObTYIKCHYOXiyVTAVE0oFxxUsygnNjv8HYQSjoYvI5z9es+U9aHIyAT2V9YahweWbdYkvhJCLA4O7UULzwZO4pifZjKQvXYuLYgLy4VencmZM1mwV1dg9pNX6GF/aN76fuY0/eRVDdTcPMyVIin7owHaMPPVA=
+	t=1728338723; cv=none; b=cIL5SOLmmWrjcCvnbd9KppJ4NopPNGtZSy5+eqo0zknSw1BKgTMHos8EQkGyak19oMnFW896pydXO0ztJw8yMitLTulFCWU+O4keXczhefW/wjUzpcQNhB6XWd9WkY0MHvRpEJoD5mWcF2kYQfXg8aQH4daXbIt7/YtBnFPwyS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728338061; c=relaxed/simple;
-	bh=/uKLFY48i/ABip0v4YBqXATpu5If7MVZns01tj1PEh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=To4z+LTabxtkbbQwLcQdlDdcbqHcd0phTwE9hj0iHpmXbXiI6jWrZ5B3x/acftvEmAMgGz7d9vLfpSBdXlwjP3XchmWKK/vsVulnRz/WiHZ0b+TkSluboXns3IrBEb/0k3uvI7U7zIFDTVWbWIvFtN80e+twSctsxAJ08by2fv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePErFvC5; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1728338723; c=relaxed/simple;
+	bh=oIj3C0UNERAkSq7dsNIls8egQg4SVPQoiy+1eSGZ+kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MsSXWFRmzNdxvwJOPB5sbZOI/rhlCq4uXUEvisOOu9X5lxahtX405HQG09MeH4yt52dl+lMPN29x3RhTlLuYQ7kBL9tJO4TqzPXTkDFxcRazAOdYvuw3v2UPUNW7xavGnd7A84dg/HsWREfOSXpYk+ohrHz1B7eULJ1gLOzRk/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gjcvcs5K; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePErFvC5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjcvcs5K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728338059; x=1759874059;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/uKLFY48i/ABip0v4YBqXATpu5If7MVZns01tj1PEh8=;
-  b=ePErFvC5ghsHfiFxBQDEdDnnuCX1JjyemkvJUw5C/IAUbGZFm0BCOfO5
-   GNYeWWalo+i6VmpAcclQRhQ3hbEt+jwq66C/MRJUfE8Yh2KUsndkVS3/C
-   RiHcI9AL1rqnhJB3lh4omrhEZRCVhYNz+R8ylsmx8DY1Y5/1q9wekcBDf
-   DkK9SmrDdNkxXqJAy4gJYYS10LR4SpvlCSqRWbRjJJOj87VTlE2MhqcqX
-   epmvvn180JlLPl+hlMzlvrOXw56T0jJ71XdOaqw2v603En0CF7QOht346
-   Tj4Zc3NvLYKBi/8hgCtUCh8VZzKfVDSxLPZFj6h8i/5P7yzQJOUakzggc
-   Q==;
-X-CSE-ConnectionGUID: KHqmLNiyRYeiXKHoTz0nIw==
-X-CSE-MsgGUID: EgbL1v6PRPqdInwDoEOHxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27676521"
+  t=1728338721; x=1759874721;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oIj3C0UNERAkSq7dsNIls8egQg4SVPQoiy+1eSGZ+kg=;
+  b=gjcvcs5KwUQhnTMBmDmYPA0l8vxxkwbfX82fTmVNthUdZADoIUK1GzQJ
+   cYyS4nG/VPiU5OLWtmFKZg9wPQ0FMcNF6QXo2Me1+MHBK99YCUB09CU5Z
+   dSnu2Oy9Wjh3wofplM8wcJipDC15nkJRzxNw9KVudgw5RBX7Rb8lNiBaG
+   S/CROXiDwL9A3ziq+jO/cqkEEksxxnBXlCUHgXSNwSVn2Z+BlkscRlTTy
+   th5QUW9wbii5eKnlNJa1TcEWWIZgjRgbGatoNcOf0J4JWqdEPIOS1IpeO
+   W5ZehoZdDAh/2vlyBlg1h5uPq8F/vLJwSWX3bMSHHrdtPZPc3iTgsokZf
+   A==;
+X-CSE-ConnectionGUID: y4mTlVYtRsuV+9S/sQFsCA==
+X-CSE-MsgGUID: oeXkqyYXRm+gE547TW4jVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31206136"
 X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
-   d="scan'208";a="27676521"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 14:54:18 -0700
-X-CSE-ConnectionGUID: cnsgP9kjQ3e4tmszKI6ZTw==
-X-CSE-MsgGUID: o3Tt6RbaSQ2r3cnra42wvg==
+   d="scan'208";a="31206136"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 15:05:20 -0700
+X-CSE-ConnectionGUID: nLMR5d2VTqyouUNDcAFRvQ==
+X-CSE-MsgGUID: WeiY/PSfQD6pXisMILBWMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
-   d="scan'208";a="75451161"
+   d="scan'208";a="80233247"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Oct 2024 14:54:17 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 Oct 2024 15:05:18 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxvgE-0005a4-2q;
-	Mon, 07 Oct 2024 21:54:14 +0000
-Date: Tue, 8 Oct 2024 05:54:02 +0800
+	id 1sxvqt-0005ac-0X;
+	Mon, 07 Oct 2024 22:05:15 +0000
+Date: Tue, 8 Oct 2024 06:04:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.12-rc1 62/132] drivers/acpi/pptt.c:311:
- warning: Function parameter or struct member 'callback' not described in
- 'acpi_pptt_for_each_container'
-Message-ID: <202410080526.UiAXVFlu-lkp@intel.com>
+To: Leon Hwang <leon.hwang@linux.dev>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, toke@redhat.com, martin.lau@kernel.org,
+	yonghong.song@linux.dev, puranjay@kernel.org,
+	xukuohai@huaweicloud.com, eddyz87@gmail.com, iii@linux.ibm.com,
+	leon.hwang@linux.dev, kernel-patches-bot@fb.com
+Subject: Re: [PATCH bpf-next v5 1/3] bpf: Prevent tailcall infinite loop
+ caused by freplace
+Message-ID: <202410080554.slh2FEXJ-lkp@intel.com>
+References: <20241006130130.77125-2-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,91 +67,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241006130130.77125-2-leon.hwang@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.12-rc1
-head:   4d17b37b670795954fd7a70c8ec83fb705a5e2ad
-commit: fa2c70af89532df5517d08e95af357c58772bb60 [62/132] ACPI / PPTT: Provide a helper to walk processor containers
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20241008/202410080526.UiAXVFlu-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410080526.UiAXVFlu-lkp@intel.com/reproduce)
+Hi Leon,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-Prevent-tailcall-infinite-loop-caused-by-freplace/20241006-210309
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241006130130.77125-2-leon.hwang%40linux.dev
+patch subject: [PATCH bpf-next v5 1/3] bpf: Prevent tailcall infinite loop caused by freplace
+config: arc-nsimosci_hs_defconfig (https://download.01.org/0day-ci/archive/20241008/202410080554.slh2FEXJ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410080554.slh2FEXJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410080526.UiAXVFlu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410080554.slh2FEXJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/acpi/pptt.c:311: warning: Function parameter or struct member 'callback' not described in 'acpi_pptt_for_each_container'
->> drivers/acpi/pptt.c:311: warning: Function parameter or struct member 'arg' not described in 'acpi_pptt_for_each_container'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +311 drivers/acpi/pptt.c
-
-   297	
-   298	/**
-   299	 * acpi_pptt_for_each_container() - Iterate over all processor containers
-   300	 *
-   301	 * Not all 'Processor' entries in the PPTT are either a CPU or a Processor
-   302	 * Container, they may exist purely to describe a Private resource. CPUs
-   303	 * have to be leaves, so a Processor Container is a non-leaf that has the
-   304	 * 'ACPI Processor ID valid' flag set.
-   305	 *
-   306	 * Return: 0 for a complete walk, or the first non-zero value from the callback
-   307	 *         that stopped the walk.
-   308	 */
-   309	static int __maybe_unused
-   310	acpi_pptt_for_each_container(acpi_pptt_cpu_callback_t callback, void *arg)
- > 311	{
-   312		struct acpi_pptt_processor *cpu_node;
-   313		struct acpi_table_header *table_hdr;
-   314		struct acpi_subtable_header *entry;
-   315		bool leaf_flag, has_leaf_flag = false;
-   316		unsigned long table_end;
-   317		acpi_status status;
-   318		u32 proc_sz;
-   319		int ret = 0;
-   320	
-   321		status = acpi_get_table(ACPI_SIG_PPTT, 0, &table_hdr);
-   322		if (ACPI_FAILURE(status))
-   323			return 0;
-   324	
-   325		if (table_hdr->revision > 1)
-   326			has_leaf_flag = true;
-   327	
-   328		table_end = (unsigned long)table_hdr + table_hdr->length;
-   329		entry = ACPI_ADD_PTR(struct acpi_subtable_header, table_hdr,
-   330				     sizeof(struct acpi_table_pptt));
-   331		proc_sz = sizeof(struct acpi_pptt_processor);
-   332		while ((unsigned long)entry + proc_sz < table_end) {
-   333			cpu_node = (struct acpi_pptt_processor *)entry;
-   334			if (entry->type == ACPI_PPTT_TYPE_PROCESSOR &&
-   335			    cpu_node->flags & ACPI_PPTT_ACPI_PROCESSOR_ID_VALID)
-   336			{
-   337				leaf_flag = cpu_node->flags & ACPI_PPTT_ACPI_LEAF_NODE;
-   338				if ((has_leaf_flag && !leaf_flag) ||
-   339				    (!has_leaf_flag && !acpi_pptt_leaf_node(table_hdr, cpu_node)))
-   340				{
-   341					ret = callback(cpu_node, arg);
-   342					if (ret)
-   343						break;
-   344				}
-   345			}
-   346			entry = ACPI_ADD_PTR(struct acpi_subtable_header, entry,
-   347					     entry->length);
-   348		}
-   349	
-   350		acpi_put_table(table_hdr);
-   351	
-   352		return ret;
-   353	}
-   354	
+   arc-elf-ld: init/do_mounts.o: in function `bpf_extension_link_prog':
+>> do_mounts.c:(.text+0x14): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: init/do_mounts.o: in function `bpf_extension_unlink_prog':
+>> do_mounts.c:(.text+0x1c): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: init/do_mounts_initrd.o: in function `bpf_extension_link_prog':
+   do_mounts_initrd.c:(.text+0x0): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: init/do_mounts_initrd.o: in function `bpf_extension_unlink_prog':
+   do_mounts_initrd.c:(.text+0x8): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: init/initramfs.o: in function `bpf_extension_link_prog':
+   initramfs.c:(.text+0x44): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: init/initramfs.o: in function `bpf_extension_unlink_prog':
+   initramfs.c:(.text+0x4c): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: arch/arc/kernel/ptrace.o: in function `bpf_extension_link_prog':
+   ptrace.c:(.text+0x13f4): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: arch/arc/kernel/ptrace.o: in function `bpf_extension_unlink_prog':
+   ptrace.c:(.text+0x13fc): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: arch/arc/kernel/process.o: in function `bpf_extension_link_prog':
+   process.c:(.text+0x174): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: arch/arc/kernel/process.o: in function `bpf_extension_unlink_prog':
+   process.c:(.text+0x17c): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: arch/arc/kernel/signal.o: in function `bpf_extension_link_prog':
+   signal.c:(.text+0x45c): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: arch/arc/kernel/signal.o: in function `bpf_extension_unlink_prog':
+   signal.c:(.text+0x464): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: arch/arc/kernel/sys.o: in function `bpf_extension_link_prog':
+   sys.c:(.text+0x0): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: arch/arc/kernel/sys.o: in function `bpf_extension_unlink_prog':
+   sys.c:(.text+0x8): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: arch/arc/kernel/perf_event.o: in function `bpf_extension_link_prog':
+   perf_event.c:(.text+0xbb4): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: arch/arc/kernel/perf_event.o: in function `bpf_extension_unlink_prog':
+   perf_event.c:(.text+0xbbc): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: arch/arc/mm/fault.o: in function `bpf_extension_link_prog':
+   fault.c:(.text+0x28): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: arch/arc/mm/fault.o: in function `bpf_extension_unlink_prog':
+   fault.c:(.text+0x30): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: arch/arc/mm/cache.o: in function `bpf_extension_link_prog':
+   cache.c:(.text+0x2f4): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: arch/arc/mm/cache.o: in function `bpf_extension_unlink_prog':
+   cache.c:(.text+0x2fc): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/fork.o: in function `bpf_extension_link_prog':
+   fork.c:(.text+0x1090): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/fork.o: in function `bpf_extension_unlink_prog':
+   fork.c:(.text+0x1098): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/exec_domain.o: in function `bpf_extension_link_prog':
+   exec_domain.c:(.text+0x14): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/exec_domain.o: in function `bpf_extension_unlink_prog':
+   exec_domain.c:(.text+0x1c): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/cpu.o: in function `bpf_extension_link_prog':
+   cpu.c:(.text+0xbec): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/cpu.o: in function `bpf_extension_unlink_prog':
+   cpu.c:(.text+0xbf4): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/exit.o: in function `bpf_extension_link_prog':
+   exit.c:(.text+0x6b4): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/exit.o: in function `bpf_extension_unlink_prog':
+   exit.c:(.text+0x6bc): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/softirq.o: in function `bpf_extension_link_prog':
+   softirq.c:(.text+0xe88): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/softirq.o: in function `bpf_extension_unlink_prog':
+   softirq.c:(.text+0xe90): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/resource.o: in function `bpf_extension_link_prog':
+   resource.c:(.text+0xb68): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/resource.o: in function `bpf_extension_unlink_prog':
+   resource.c:(.text+0xb70): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/sysctl.o: in function `bpf_extension_link_prog':
+   sysctl.c:(.text+0x14f4): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/sysctl.o: in function `bpf_extension_unlink_prog':
+   sysctl.c:(.text+0x14fc): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/capability.o: in function `bpf_extension_link_prog':
+   capability.c:(.text+0x718): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/capability.o: in function `bpf_extension_unlink_prog':
+   capability.c:(.text+0x720): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/ptrace.o: in function `bpf_extension_link_prog':
+   ptrace.c:(.text+0x580): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/ptrace.o: in function `bpf_extension_unlink_prog':
+   ptrace.c:(.text+0x588): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/signal.o: in function `bpf_extension_link_prog':
+   signal.c:(.text+0x1118): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/signal.o: in function `bpf_extension_unlink_prog':
+   signal.c:(.text+0x1120): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/sys.o: in function `bpf_extension_link_prog':
+   sys.c:(.text+0xf70): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/sys.o: in function `bpf_extension_unlink_prog':
+   sys.c:(.text+0xf78): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/umh.o: in function `bpf_extension_link_prog':
+   umh.c:(.text+0x5c0): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/umh.o: in function `bpf_extension_unlink_prog':
+   umh.c:(.text+0x5c8): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/workqueue.o: in function `bpf_extension_link_prog':
+   workqueue.c:(.text+0x55a8): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/workqueue.o: in function `bpf_extension_unlink_prog':
+   workqueue.c:(.text+0x55b0): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/pid.o: in function `bpf_extension_link_prog':
+   pid.c:(.text+0x308): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/pid.o: in function `bpf_extension_unlink_prog':
+   pid.c:(.text+0x310): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/extable.o: in function `bpf_extension_link_prog':
+   extable.c:(.text+0x0): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/extable.o: in function `bpf_extension_unlink_prog':
+   extable.c:(.text+0x8): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
+   arc-elf-ld: kernel/params.o: in function `bpf_extension_link_prog':
+   params.c:(.text+0x918): multiple definition of `bpf_extension_link_prog'; init/main.o:main.c:(.text+0x5dc): first defined here
+   arc-elf-ld: kernel/params.o: in function `bpf_extension_unlink_prog':
+   params.c:(.text+0x920): multiple definition of `bpf_extension_unlink_prog'; init/main.o:main.c:(.text+0x5e4): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
