@@ -1,100 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2303213C9B3;
-	Mon,  7 Oct 2024 08:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 928CA231CA9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 10:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728291103; cv=none; b=L9yVx1vbQ77BoqD0aNahG04u8oqBhWHIhDs6WVNqAx06vZI2SHw8nCODPijT0xF4NV9ZbtCni9P5b0LJkkxaKOUdNuUwM8cZ3iJnjfpT9oo7Ur76Sa5OAKo7swpEBNOKb62VDxQt1WJbEE73UXc05spuWn2hTiqa8iRg5Lq6HPw=
+	t=1728295722; cv=none; b=eN1PLvYCWm1sfvRcWenFqvovXI4EyXaJmOZJm+tfpWF2yM+zShPa2QKjzPmzS2FhD/0sRdxA1m/W9YkGNbwGdmnbyCAg3ZhQ2sxGoKWPDj76qgyFZYxNqlUGPpkQkFRo4ziOWJNC9ir6nPg97AkmK2NB1Zz68Nf2QaALZcnDrJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728291103; c=relaxed/simple;
-	bh=kXdCVCL4h1TvLxSVDQtEeJED75mFBUuamkn/7xPc6Co=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WF9tJgyyp7xJa6PXOqZSqZdHLv6jytfKqEOIHc5p5AWFCL1U4K8CKTlaJKxrjoJPlfop3ubi5wLBhT8rGyNRTSz6/4ixrMvT0WdaJt8ArSPwKNqcnMBmq7A93ViPS7sleTo76boFfJyjW0vo2aIfSmbJMOeLEe1xy2PnneDgEh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G9CYKnES; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G9CYKnES"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728291101; x=1759827101;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=kXdCVCL4h1TvLxSVDQtEeJED75mFBUuamkn/7xPc6Co=;
-  b=G9CYKnESMDVF6FHIJns83oZJASO7vQg5xco8WE7ZdXEFaxcqDtlzWaJL
-   zouHioCoRN19md3hE7RKe878Wb13LgJdj1S43jIeR5XOYZuHmNAyjkrI3
-   E27XmoVlq08KtqMDpfgyUl1Jdzjf5iNCSX6sB0IPJQN7Xq1LL+etTmdII
-   zPqfjAiBOryc80Rq4FEZvHxDkmPwkNhZaWj5zZxhVmHthqnSrxGwKMzOs
-   7GLkE6Ascfiv/vM2yKX2drmjAz68Prf1ZiAFHi/euhs83NFy/ffAe9rMS
-   EoIQGRhE1DYh6cUCW6MDnuoz4fD72rNsZKSgE2c02g7RFCbGKn7O9pQYa
-   w==;
-X-CSE-ConnectionGUID: jnrA83yRRzW0BGeq87aCxA==
-X-CSE-MsgGUID: kkmoKzjBSESvgwBIRpv7hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="15047084"
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="15047084"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 01:51:41 -0700
-X-CSE-ConnectionGUID: ki3Kk7p7SS+FZSDK4SuLjA==
-X-CSE-MsgGUID: +fEgfXiwQMiDO7tPkq+dUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="79387527"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Oct 2024 01:51:39 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxjSr-0004my-2M;
-	Mon, 07 Oct 2024 08:51:37 +0000
-Date: Mon, 7 Oct 2024 16:51:23 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [asahilinux:asahi 161/210] ld.lld: error:
- vmlinux.a(init/main.o):(function init_setup: .init.text+0xc8): relocation
- R_RISCV_HI20 out of range: 532672 is not in [-524288, 524287]; references
- 'argv_init'
-Message-ID: <202410071630.dlBX2TVW-lkp@intel.com>
+	s=arc-20240116; t=1728295722; c=relaxed/simple;
+	bh=0iKbGcK8Gu21dj7bTG5zPF2A6di+vap8fzuuwKIifK8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ozssWjYgCSRA0cVoRSTWozZQndd06fGg5pygug5gyerl6itROe1BFzpzRcXNfvBVGVSLXtyHAZeJiAixL33hX8VVUgKVREi+QJ4naKoqtK/VCCD0/N1WUw26QpMLsObydXdUa4aRu8/VZCQo6rf8FrvwuRUY6lkUNd2xaMclMhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 542A9FEC;
+	Mon,  7 Oct 2024 03:09:08 -0700 (PDT)
+Received: from [10.1.26.21] (unknown [10.1.26.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9EF03F64C;
+	Mon,  7 Oct 2024 03:08:37 -0700 (PDT)
+Message-ID: <7d19367b-a4ac-4c65-a543-9a4d614bec44@arm.com>
+Date: Mon, 7 Oct 2024 11:08:36 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but
+ not used
+To: kernel test robot <lkp@intel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>
+References: <202410060258.bPl2ZoUo-lkp@intel.com>
+Content-Language: en-US
+From: Christian Loehle <christian.loehle@arm.com>
+In-Reply-To: <202410060258.bPl2ZoUo-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-TO: Janne Grunau <j@jannau.net>
+On 10/5/24 19:58, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   27cc6fdf720183dce1dbd293483ec5a9cb6b595e
+> commit: d2d6422f8bd17c6bb205133e290625a564194496 x86: Allow to enable PREEMPT_RT.
+> date:   3 weeks ago
+> config: x86_64-buildonly-randconfig-002-20241006 (https://download.01.org/0day-ci/archive/20241006/202410060258.bPl2ZoUo-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060258.bPl2ZoUo-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410060258.bPl2ZoUo-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from include/linux/seqlock.h:19,
+>                     from include/linux/dcache.h:11,
+>                     from include/linux/fs.h:8,
+>                     from include/linux/highmem.h:5,
+>                     from kernel/sched/core.c:10:
+>>> kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but not used [-Wunused-variable]
+>     1361 | static DEFINE_MUTEX(uclamp_mutex);
+>          |                     ^~~~~~~~~~~~
+>    include/linux/mutex.h:101:22: note: in definition of macro 'DEFINE_MUTEX'
+>      101 |         struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
+>          |                      ^~~~~~~~~
+> 
+> 
+> vim +/uclamp_mutex +1361 kernel/sched/core.c
+> 
+> 71f8bd4600521f kernel/sched.c      Ingo Molnar     2007-07-09  1349  
+> 69842cba9ace84 kernel/sched/core.c Patrick Bellasi 2019-06-21  1350  #ifdef CONFIG_UCLAMP_TASK
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1351  /*
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1352   * Serializes updates of utilization clamp values
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1353   *
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1354   * The (slow-path) user-space triggers utilization clamp value updates which
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1355   * can require updates on (fast-path) scheduler's data structures used to
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1356   * support enqueue/dequeue operations.
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1357   * While the per-CPU rq lock protects fast-path update operations, user-space
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1358   * requests are serialized using a mutex to reduce the risk of conflicting
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1359   * updates or API abuses.
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1360   */
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22 @1361  static DEFINE_MUTEX(uclamp_mutex);
+> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1362  
+> 
+> :::::: The code at line 1361 was first introduced by commit
+> :::::: 2480c093130f64ac3a410504fa8b3db1fc4b87ce sched/uclamp: Extend CPU's cgroup controller
+> 
+> :::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
+> :::::: CC: Ingo Molnar <mingo@kernel.org>
+> 
 
-tree:   https://github.com/AsahiLinux/linux asahi
-head:   de1c5a8be0ee99602e472f3ca861cc2d249597da
-commit: 0454fb65c328726fb6b81e0699fde77a8142731b [161/210] arm64: dts: apple: t8112-j473: Use dcpext for HDMI out
-config: riscv-randconfig-001-20241007 (https://download.01.org/0day-ci/archive/20241007/202410071630.dlBX2TVW-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410071630.dlBX2TVW-lkp@intel.com/reproduce)
+Please allow me a day to walk through the code just to double-check, but
+the obvious fixes are either letting UCLAMP_TASK depend on SYSCTL or:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410071630.dlBX2TVW-lkp@intel.com/
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 43e453ab7e20..18d9622eac8d 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -1394,7 +1394,9 @@ void set_load_weight(struct task_struct *p, bool update_load)
+  * requests are serialized using a mutex to reduce the risk of conflicting
+  * updates or API abuses.
+  */
++#if defined(CONFIG_UCLAMP_TASK_GROUP) || defined(CONFIG_SYSCTL)
+ static DEFINE_MUTEX(uclamp_mutex);
++#endif
+ 
+ /* Max allowed minimum utilization */
+ static unsigned int __maybe_unused sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
 
-All errors (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(init/main.o):(function init_setup: .init.text+0xc8): relocation R_RISCV_HI20 out of range: 532672 is not in [-524288, 524287]; references 'argv_init'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function rdinit_setup: .init.text+0xec): relocation R_RISCV_HI20 out of range: 532672 is not in [-524288, 524287]; references 'ramdisk_execute_command'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function rdinit_setup: .init.text+0xf4): relocation R_RISCV_HI20 out of range: 532672 is not in [-524288, 524287]; references 'argv_init'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function do_one_initcall: .text+0x23c): relocation R_RISCV_HI20 out of range: 532672 is not in [-524288, 524287]; references 'blacklisted_initcalls'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
