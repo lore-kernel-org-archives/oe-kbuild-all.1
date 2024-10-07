@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45DD1DDA3C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 19:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4970F15B12F;
+	Mon,  7 Oct 2024 19:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728328214; cv=none; b=fbkfRftBzXSacLhVg9C4PstWQKuTGQvHpy/VIHjAjzvfZvm4p9PzZBwAF41fpGEKoCiyJQ757vmaljYBzHAliBQsUl3uvVV+r0610kUQV+ISHxT9BsXCVok366iry6uLCPIimmCbx3iA8a4T6pVcOYZdX7V2aPUrMjE/FCIPm3k=
+	t=1728329418; cv=none; b=SS9mzi5EjS4GqcKWk72Cl+ztcR1pqH7cnxO151QXC8iThQ1ai6qoNQslyfDR81Q8bYcdQWuV+ywYwAGFtKQRd5N7Rbazvw8oOA5lMLWcRAMqv5+KZQzb2aWrWJRCf0fWiO/ZvS2UFhi74bF/ushytEb5tfU/U2scnNfdHDNYnws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728328214; c=relaxed/simple;
-	bh=2xHOn4Sb3qrGqjaFXGtD6mFtxXFbop8YTeiQdWCmtNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AIN06GhPP4Fs9FFxAe01G28w+TKTLUQp0WTuqiXyKi8L5MdOtql9Qw+WRxye4AdG3FOm6k/IRh/Ad2UYUVSitV0WbaYEvJOKa343xyX3j0PC4OrjXHWZBmGVao3MeITSYFHKmofebcrXVxGgImTQsmNAkdXmMVr5fxsqKGuYciI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SoOCKev9; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1728329418; c=relaxed/simple;
+	bh=d71UIjPvVylIPuxCXhJBr5c48TvAa6Vb+JdJEJTKI5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t5JZc3aZwUDH0OmZ57OoYsJiMJcADSM19CCRuuiYtMfqYTcIf4Fw/ejedSfw7XYupRMoImGjRAcswjar4nTs7A8CJMwgt+ddvrgdIDbzW1cboMulG56nxT7lU7Ts17MM5Itny4omMAUT3QGgG3VYUqCKEZiMaLojk+qPjrmYkOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aA0AtyKD; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SoOCKev9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aA0AtyKD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728328212; x=1759864212;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2xHOn4Sb3qrGqjaFXGtD6mFtxXFbop8YTeiQdWCmtNI=;
-  b=SoOCKev9B/9gcqRdW6TrV7vbqL1LnhnC8N1ahrriNa8DWKdlmnWElidX
-   iVsRJPboc6YXmI3sr4MD+kH9laOJDToexPjx1yWMRVWWy4yLMJGyaG/ZU
-   Tkjs0tnhc18c28ntpl+64z+nWOhGJC4gm0GFy6r8ZZWGD1FBvp/EzJZZv
-   kOk3ggPGdthsQ6Lfm4JJen0BqK3Z8Rwe32y0BnRliibGNpWSG19mVocxh
-   b+q1s/+k7X0LjZEwEUBpnE6GQe2qPTdocJkfZA/kl8LfLleIy/PmLuRTw
-   UiEw+4bUGpPLg6pzQqUPyF9bQzv/TVSh5UDlvY2aBmv2YOz9Cuwiu6JyS
+  t=1728329415; x=1759865415;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d71UIjPvVylIPuxCXhJBr5c48TvAa6Vb+JdJEJTKI5A=;
+  b=aA0AtyKDmSPTJScnvO4siScHjwNdPfS6i5d1sAH3S5qABLJosgLXbL+e
+   2dtfaqwX+SbVwSUMm+u7ReZAO2R2ASGkCiJJZQByCtgoCsWhx29Qwzd8x
+   MEA5U7IMmC7K6HCiIeQ54JIMoWQIA+lDc6KfyOk8GlAH9NUPsq3L0f5Tk
+   /InaAcfNeJIVHpOjYet516yB+zqWsvVTG44oTz4og88r1xECh5xV3F9uw
+   Sb319GbS2hOErzxy71Ph8kZCxhCVhUTy2yCIlqbF93ssOQX/HC+c4NH17
+   Dkgyf2af6LqTjNtbQe13IywD8bHscKXoeE77K2XoyXAshesQ7bQrP/ciJ
    Q==;
-X-CSE-ConnectionGUID: RLiEgtGQQyq2Ma+0/5uL6w==
-X-CSE-MsgGUID: HLeTTMWETz2YNNoyBeHphQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27619103"
+X-CSE-ConnectionGUID: oab7MchRTEWhvyJbLIibUQ==
+X-CSE-MsgGUID: 8KHcB77ORUuvBlDK2oemlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27374547"
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="27619103"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 12:10:12 -0700
-X-CSE-ConnectionGUID: AqdgPkVvS7eCB+nAY2A9wQ==
-X-CSE-MsgGUID: t7HHOBGqTOK1uXSIAt4v2A==
+   d="scan'208";a="27374547"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 12:30:13 -0700
+X-CSE-ConnectionGUID: neeXZEwsQ6W4Q8giYi1+sw==
+X-CSE-MsgGUID: 89/p5riiQ+idZ2WYu+dSnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="79563203"
+   d="scan'208";a="106331506"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Oct 2024 12:10:11 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 07 Oct 2024 12:30:12 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxt7R-0005Qy-0T;
-	Mon, 07 Oct 2024 19:10:09 +0000
-Date: Tue, 8 Oct 2024 03:09:50 +0800
+	id 1sxtQn-0005Ro-1s;
+	Mon, 07 Oct 2024 19:30:09 +0000
+Date: Tue, 8 Oct 2024 03:30:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
-Subject: [niks:has_ioport 6/6] include/asm-generic/io.h:596:15: error: call
- to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-Message-ID: <202410080349.EoAYQpvB-lkp@intel.com>
+To: Nathan Fontenot <nathan.fontenot@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC] cxl: Update Soft Reserved resources upon region creation
+Message-ID: <202410080207.DfKmNFfh-lkp@intel.com>
+References: <20241004181754.8960-1-nathan.fontenot@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,74 +62,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241004181754.8960-1-nathan.fontenot@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git has_ioport
-head:   2d4f63f06a07c0470db8570a5b831c5ce9f91345
-commit: 2d4f63f06a07c0470db8570a5b831c5ce9f91345 [6/6] asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
-config: um-randconfig-r121-20241007 (https://download.01.org/0day-ci/archive/20241008/202410080349.EoAYQpvB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410080349.EoAYQpvB-lkp@intel.com/reproduce)
+Hi Nathan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on linus/master v6.12-rc2 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Fontenot/cxl-Update-Soft-Reserved-resources-upon-region-creation/20241005-021920
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20241004181754.8960-1-nathan.fontenot%40amd.com
+patch subject: [RFC] cxl: Update Soft Reserved resources upon region creation
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20241008/202410080207.DfKmNFfh-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410080207.DfKmNFfh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410080349.EoAYQpvB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410080207.DfKmNFfh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/um/include/asm/io.h:24,
-                    from include/linux/io.h:14,
-                    from include/linux/irq.h:20,
-                    from drivers/tty/serial/8250/8250_port.c:18:
-   drivers/tty/serial/8250/8250_port.c: In function 'autoconfig':
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-     596 | #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-     655 | #define outb _outb
-         |              ^~~~~
-   drivers/tty/serial/8250/8250_port.c:1206:17: note: in expansion of macro 'outb'
-    1206 |                 outb(0xff, 0x080);
-         |                 ^~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-     596 | #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-     655 | #define outb _outb
-         |              ^~~~~
-   drivers/tty/serial/8250/8250_port.c:1215:17: note: in expansion of macro 'outb'
-    1215 |                 outb(0, 0x080);
-         |                 ^~~~
+>> arch/x86/kernel/e820.c:1243:10: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+    1242 |                 pr_err("CXL DEBUG Couldn't add Soft Reserved %llx (%llx)\n",
+         |                                                              ~~~~
+         |                                                              %x
+    1243 |                        start, len);
+         |                        ^~~~~
+   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
+     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   arch/x86/kernel/e820.c:1243:17: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+    1242 |                 pr_err("CXL DEBUG Couldn't add Soft Reserved %llx (%llx)\n",
+         |                                                                    ~~~~
+         |                                                                    %x
+    1243 |                        start, len);
+         |                               ^~~
+   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
+     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   arch/x86/kernel/e820.c:1275:15: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+    1274 |                 pr_err("CXL DEBUG Adjusting resource %pr (%llx - %llx)\n",
+         |                                                           ~~~~
+         |                                                           %x
+    1275 |                        res, new_start, new_end);
+         |                             ^~~~~~~~~
+   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
+     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   arch/x86/kernel/e820.c:1275:26: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+    1274 |                 pr_err("CXL DEBUG Adjusting resource %pr (%llx - %llx)\n",
+         |                                                                  ~~~~
+         |                                                                  %x
+    1275 |                        res, new_start, new_end);
+         |                                        ^~~~~~~
+   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
+     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   arch/x86/kernel/e820.c:1286:10: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+    1285 |                 pr_err("CXL DEBUG Adjusting resource %pr (%llx - %llx)\n", res,
+         |                                                           ~~~~
+         |                                                           %x
+    1286 |                        new_start, cxl_res->start);
+         |                        ^~~~~~~~~
+   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
+     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   arch/x86/kernel/e820.c:1286:21: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+    1285 |                 pr_err("CXL DEBUG Adjusting resource %pr (%llx - %llx)\n", res,
+         |                                                                  ~~~~
+         |                                                                  %x
+    1286 |                        new_start, cxl_res->start);
+         |                                   ^~~~~~~~~~~~~~
+   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
+     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   arch/x86/kernel/e820.c:1332:10: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+    1331 |                 pr_err("CXL DEBUG Found SOFT RESERVE intersection %llx - %llx : %llx - %llx\n",
+         |                                                                   ~~~~
+         |                                                                   %x
+    1332 |                        res->start, res->end, cfmws_res.start, cfmws_res.end);
+         |                        ^~~~~~~~~~
+   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
+     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
+vim +1243 arch/x86/kernel/e820.c
 
-vim +/_outb +596 include/asm-generic/io.h
-
-9216efafc52ff9 Thierry Reding  2014-10-01  594  
-f009c89df79abe John Garry      2020-03-28  595  #if !defined(outb) && !defined(_outb)
-f009c89df79abe John Garry      2020-03-28 @596  #define _outb _outb
-2d4f63f06a07c0 Niklas Schnelle 2021-12-20  597  #ifdef CONFIG_HAS_IOPORT
-f009c89df79abe John Garry      2020-03-28  598  static inline void _outb(u8 value, unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  599  {
-a7851aa54c0cdd Sinan Kaya      2018-04-05  600  	__io_pbw();
-a7851aa54c0cdd Sinan Kaya      2018-04-05  601  	__raw_writeb(value, PCI_IOBASE + addr);
-a7851aa54c0cdd Sinan Kaya      2018-04-05  602  	__io_paw();
-9216efafc52ff9 Thierry Reding  2014-10-01  603  }
-2d4f63f06a07c0 Niklas Schnelle 2021-12-20  604  #else
-2d4f63f06a07c0 Niklas Schnelle 2021-12-20  605  void _outb(u8 value, unsigned long addr)
-2d4f63f06a07c0 Niklas Schnelle 2021-12-20  606  	__compiletime_error("outb() requires CONFIG_HAS_IOPORT");
-2d4f63f06a07c0 Niklas Schnelle 2021-12-20  607  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  608  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  609  
-
-:::::: The code at line 596 was first introduced by commit
-:::::: f009c89df79abea5f5244b8135a205f7d4352f86 io: Provide _inX() and _outX()
-
-:::::: TO: John Garry <john.garry@huawei.com>
-:::::: CC: Wei Xu <xuwei5@hisilicon.com>
+  1234	
+  1235	static void e820__add_soft_reserve(resource_size_t start, resource_size_t len,
+  1236					   unsigned long flags)
+  1237	{
+  1238		struct resource *res;
+  1239	
+  1240		res = kzalloc(sizeof(*res), GFP_KERNEL);
+  1241		if (!res) {
+  1242			pr_err("CXL DEBUG Couldn't add Soft Reserved %llx (%llx)\n",
+> 1243			       start, len);
+  1244			return;
+  1245		}
+  1246	
+  1247		*res = DEFINE_RES_NAMED(start, len, "Soft Reserved", flags);
+  1248		res->desc = IORES_DESC_SOFT_RESERVED;
+  1249		pr_err("CXL DEBUG Inserting new Soft Reserved %pr\n", res);
+  1250		insert_resource(&e820_sr_res, res);
+  1251	}
+  1252	
 
 -- 
 0-DAY CI Kernel Test Service
