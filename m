@@ -1,156 +1,143 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FE915A8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 00:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27764A08
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 00:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728260147; cv=none; b=nD+Lf6JbB1twjgNsH1Jq3IB7T5CvAJFTVhPMLGovgM7qOeXfJTrjOYI07DK2iFsvHZkO5eOx6hVpX9QdSl14pNsXDBHJ/dS+xwAhJrgFEMl3FFvRML0Xconyp5SsJbnxAIh2l40GI0Tj2vo6PLueGP79jhXDvdvCVkkpBJcx0aU=
+	t=1728260364; cv=none; b=ZU9zUbniev0AtQIsTANy5vlzVn1BCDkw8JdR1fLl7vm+GAunKRwhQwRJ4Y71N838MD139rKKsohDiWw0Gd9ZDv1ECb/fWrKjTPpRLyPeb5pJrj0N9v39sduxBTz2+38McuDQhcJa4feq5XLF2d5bhcy7nVVoj7/XeEzxjHHNRAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728260147; c=relaxed/simple;
-	bh=eG3uW4HAq+4Lvip0gWXsVtG51RzThF0lBtZs6PUm9gY=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=GcC87PNG8Y3bN0kqx7hXI1byhj15Ryd0ijBll2smRrPU2+O/mif/0kHStyfHmVccn0akuF8WN4dvnVsk8/QfWLSdD8bGmyeWn2cS4YTy07Ts3vtzOtiZWUiPxQpn6vUWxrcfH7NKjmRb7TQKYpxeR9Md7NAyscJ6wd6BijRpMLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nHRMzlH+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ThYsbeng; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nHRMzlH+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ThYsbeng; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1728260364; c=relaxed/simple;
+	bh=yZOFus3QgzfCLDaNDox5LbUTHFJSNKpV2o9NW1pu0Rg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QidTsy+d+aJliVHDbsgFmGko9tIs0o3kRrbWwGr6K11Nx33aDtWrMNhYQvEc9cGCM7DAydNBOd1oBxMwvOhhJJIwRky9Y5t0994KD82Mw2vQh0SFnhLV/vib6Y9dhSSztKPsS9plG72xFOfBHhJm0gC0u3Ff8Erg39JB8/y3s7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhUGh/k1; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nHRMzlH+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ThYsbeng";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nHRMzlH+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ThYsbeng"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 348871FCE1;
-	Mon,  7 Oct 2024 00:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728260144; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+I7XHS1Sz5Xa0Btk2hnhszeGmXUy4Qbik4FCoNmivfs=;
-	b=nHRMzlH+SsgTYppHsRjJFy4Z1drbiTqDB/mDPkcAa2mI6ZeLXhibjtjOxgd8/Sj7bPfhDM
-	vhu7nltjRF5zIDIEsvFsWyymb3cIEuDeWIcjeLQzcq3G4lRGNL6WG9A8u4VqKCEE+vy7U6
-	yTViJjoGmrwsteRqsvEyTbGjUZ4o7Jo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728260144;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+I7XHS1Sz5Xa0Btk2hnhszeGmXUy4Qbik4FCoNmivfs=;
-	b=ThYsbengz4TtdQ1NQ9UQsRJMpvKlzdFIBEeiktk9hpuY/nQnVhu+4Y2otqjEMYwDiTj1ha
-	stBYnlXJs6LOk7Cw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728260144; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+I7XHS1Sz5Xa0Btk2hnhszeGmXUy4Qbik4FCoNmivfs=;
-	b=nHRMzlH+SsgTYppHsRjJFy4Z1drbiTqDB/mDPkcAa2mI6ZeLXhibjtjOxgd8/Sj7bPfhDM
-	vhu7nltjRF5zIDIEsvFsWyymb3cIEuDeWIcjeLQzcq3G4lRGNL6WG9A8u4VqKCEE+vy7U6
-	yTViJjoGmrwsteRqsvEyTbGjUZ4o7Jo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728260144;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+I7XHS1Sz5Xa0Btk2hnhszeGmXUy4Qbik4FCoNmivfs=;
-	b=ThYsbengz4TtdQ1NQ9UQsRJMpvKlzdFIBEeiktk9hpuY/nQnVhu+4Y2otqjEMYwDiTj1ha
-	stBYnlXJs6LOk7Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E6BE13786;
-	Mon,  7 Oct 2024 00:15:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qaG0CS4oA2ftcQAAD6G6ig
-	(envelope-from <neilb@suse.de>); Mon, 07 Oct 2024 00:15:42 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhUGh/k1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728260363; x=1759796363;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yZOFus3QgzfCLDaNDox5LbUTHFJSNKpV2o9NW1pu0Rg=;
+  b=NhUGh/k1A7FGA101G8UAhyby0Uwuf7bANK3HI2zYFOm+O8wq4gyoOhSb
+   BafranyCJxvJg8d3QMAkjrz4DzOhhWt2kZhnzbGzKhHFzxyO1olm+8ilR
+   Jl5CGXlOLidzIdQT6fm7rKpdyZlSNMGooOxy4j+N+R6YGfT2g8aOasaYw
+   0abJ/gZBXKz1QLwUUCQgofoh0XdcM+z1vTRh9cBs8m/cuHG668RwF7bNo
+   wSoqs/JNAS8PPIc0c8CvnVFiqLYh4bM74dhbIC4WXB09B03m8+pHDetdN
+   aU65aRVN9YeaRJj1UCDubR2NEh+8HZJW0ap98nsLlXTHrVBuTg/S0MT6F
+   Q==;
+X-CSE-ConnectionGUID: YviWWrpyTiC1i+cdQD7vNg==
+X-CSE-MsgGUID: NGCfW3VMQO2lQaXsfuLDrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="30282404"
+X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
+   d="scan'208";a="30282404"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 17:19:22 -0700
+X-CSE-ConnectionGUID: u4Q4/UduSpK2xzAbia36NQ==
+X-CSE-MsgGUID: XO48gbKSSCm4FzCWFRGA8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
+   d="scan'208";a="75743289"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 06 Oct 2024 17:19:21 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sxbT4-0004SW-21;
+	Mon, 07 Oct 2024 00:19:18 +0000
+Date: Mon, 7 Oct 2024 08:19:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH v2 05/10] drm/armada: Allow build with COMPILE_TEST=y
+Message-ID: <202410070736.GTeKJE6r-lkp@intel.com>
+References: <20241003111851.10453-6-ville.syrjala@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "NeilBrown" <neilb@suse.de>
-To: "Kent Overstreet" <kent.overstreet@linux.dev>
-Cc: "Peter Zijlstra" <peterz@infradead.org>,
- "kernel test robot" <lkp@intel.com>, "Christian Brauner" <brauner@kernel.org>,
- oe-kbuild-all@lists.linux.dev
-Subject: Re: [peterz-queue:sched/core 1/8] fs/bcachefs/fs.c:181:28: error:
- passing argument 1 of 'bit_waitqueue' from incompatible pointer type
-In-reply-to: <hwwxnu4j5ypn7dgafpue2df4u7ec7kg4k4vu4gipeda7raefru@cyttqcthsfrs>
-References:
- <>, <hwwxnu4j5ypn7dgafpue2df4u7ec7kg4k4vu4gipeda7raefru@cyttqcthsfrs>
-Date: Mon, 07 Oct 2024 11:15:35 +1100
-Message-id: <172826013556.1692160.664802213088046938@noble.neil.brown.name>
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[5]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241003111851.10453-6-ville.syrjala@linux.intel.com>
 
-On Mon, 07 Oct 2024, Kent Overstreet wrote:
-> On Fri, Oct 04, 2024 at 08:37:42PM GMT, NeilBrown wrote:
-> > On Fri, 04 Oct 2024, Peter Zijlstra wrote:
-> > > On Fri, Oct 04, 2024 at 07:28:26PM +1000, NeilBrown wrote:
-> > > >=20
-> > > > The compile error mentioned below is caused by my patch, but only
-> > > > because the code is wrong - so the patch causes wrong code to be
-> > > > highlighted - which is good.
-> > > >=20
-> > > > Commit: 112d21fd1a12 ("bcachefs: switch to rhashtable for vfs inodes =
-hash")
-> > > >=20
-> > > > introduced a use for bit_waitqueue for inode->i_state and __I_NEW, an=
-d=20
-> > > >=20
-> > > > Commit: 0fe340a98b58 ("inode: port __I_NEW to var event")
-> > > >=20
-> > > > change inode->i_state to require the new inode_bit_waitqueue().
-> > > >=20
-> > > > These were in independant devel branches and this would have been cau=
-ght
-> > > > in -next if my patch had already been present.  Sorry I didn't do this
-> > > > earlier :-)
-> > >=20
-> > > So what do I do? Wait for the bug to get fixed?
-> > >=20
-> >=20
-> > Do you need to wait?  Is a compile error worse than an actual bug?
-> > I guess it will cause more complaints, and that is something you can do
-> > without.
-> >=20
-> > Kent: how soon can you comfortably get this code updated and a pull
-> > request sent to Linus?
->=20
-> Fix is in Linus's tree as of last night
->=20
+Hi Ville,
 
-Thanks a lot Kent,
+kernel test robot noticed the following build warnings:
 
-NeilBrown
+[auto build test WARNING on next-20241003]
+[cannot apply to shawnguo/for-next linus/master rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes v6.12-rc1 v6.11 v6.11-rc7 v6.12-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-tilcdc-Allow-build-without-__iowmb/20241003-192043
+base:   next-20241003
+patch link:    https://lore.kernel.org/r/20241003111851.10453-6-ville.syrjala%40linux.intel.com
+patch subject: [PATCH v2 05/10] drm/armada: Allow build with COMPILE_TEST=y
+config: csky-randconfig-r121-20241006 (https://download.01.org/0day-ci/archive/20241007/202410070736.GTeKJE6r-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241007/202410070736.GTeKJE6r-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410070736.GTeKJE6r-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/armada/armada_gem.c:63:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *addr @@
+   drivers/gpu/drm/armada/armada_gem.c:63:37: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/gpu/drm/armada/armada_gem.c:63:37: sparse:     got void *addr
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse:     expected void *addr
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse:     got void [noderef] __iomem *
+
+vim +63 drivers/gpu/drm/armada/armada_gem.c
+
+96f60e37dc6609 Russell King    2012-08-15  40  
+96f60e37dc6609 Russell King    2012-08-15  41  void armada_gem_free_object(struct drm_gem_object *obj)
+96f60e37dc6609 Russell King    2012-08-15  42  {
+96f60e37dc6609 Russell King    2012-08-15  43  	struct armada_gem_object *dobj = drm_to_armada_gem(obj);
+dad75a5208ec88 Simona Vetter   2020-09-04  44  	struct armada_private *priv = drm_to_armada_dev(obj->dev);
+96f60e37dc6609 Russell King    2012-08-15  45  
+96f60e37dc6609 Russell King    2012-08-15  46  	DRM_DEBUG_DRIVER("release obj %p\n", dobj);
+96f60e37dc6609 Russell King    2012-08-15  47  
+96f60e37dc6609 Russell King    2012-08-15  48  	drm_gem_free_mmap_offset(&dobj->obj);
+96f60e37dc6609 Russell King    2012-08-15  49  
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  50  	might_lock(&priv->linear_lock);
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  51  
+96f60e37dc6609 Russell King    2012-08-15  52  	if (dobj->page) {
+96f60e37dc6609 Russell King    2012-08-15  53  		/* page backed memory */
+96f60e37dc6609 Russell King    2012-08-15  54  		unsigned int order = get_order(dobj->obj.size);
+96f60e37dc6609 Russell King    2012-08-15  55  		__free_pages(dobj->page, order);
+96f60e37dc6609 Russell King    2012-08-15  56  	} else if (dobj->linear) {
+96f60e37dc6609 Russell King    2012-08-15  57  		/* linear backed memory */
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  58  		mutex_lock(&priv->linear_lock);
+96f60e37dc6609 Russell King    2012-08-15  59  		drm_mm_remove_node(dobj->linear);
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  60  		mutex_unlock(&priv->linear_lock);
+96f60e37dc6609 Russell King    2012-08-15  61  		kfree(dobj->linear);
+96f60e37dc6609 Russell King    2012-08-15  62  		if (dobj->addr)
+96f60e37dc6609 Russell King    2012-08-15 @63  			iounmap(dobj->addr);
+96f60e37dc6609 Russell King    2012-08-15  64  	}
+96f60e37dc6609 Russell King    2012-08-15  65  
+96f60e37dc6609 Russell King    2012-08-15  66  	if (dobj->obj.import_attach) {
+96f60e37dc6609 Russell King    2012-08-15  67  		/* We only ever display imported data */
+0481c8c47f5e85 Russell King    2015-06-15  68  		if (dobj->sgt)
+e4ea542846d0ef Dmitry Osipenko 2022-10-17  69  			dma_buf_unmap_attachment_unlocked(dobj->obj.import_attach,
+0481c8c47f5e85 Russell King    2015-06-15  70  							  dobj->sgt, DMA_TO_DEVICE);
+96f60e37dc6609 Russell King    2012-08-15  71  		drm_prime_gem_destroy(&dobj->obj, NULL);
+96f60e37dc6609 Russell King    2012-08-15  72  	}
+96f60e37dc6609 Russell King    2012-08-15  73  
+96f60e37dc6609 Russell King    2012-08-15  74  	drm_gem_object_release(&dobj->obj);
+96f60e37dc6609 Russell King    2012-08-15  75  
+96f60e37dc6609 Russell King    2012-08-15  76  	kfree(dobj);
+96f60e37dc6609 Russell King    2012-08-15  77  }
+96f60e37dc6609 Russell King    2012-08-15  78  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
