@@ -1,61 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AD91D8A09
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 15:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2BCEEC9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 15:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728313517; cv=none; b=bYJ3agTquMN2hwDtGh6tPpCOHoJ811x1m7kQsKoGeqLcPkkWMTk3kzEyLLzUYEWWotU7JCPS9UxymGnpKqJ4I1drNGo6Nx/je3SgGaaBfEnzgPXah6OTsCtM9LeF3GYU8domfjbsIE7tNliG6cSVvJsMIMFRde/vO2R/vYxsbd0=
+	t=1728313518; cv=none; b=XQb15nt5R5+7xIVlnNsUWLc5m04orSxvpljW9wu7XDBKJUBys/Etv1MThDiH/tSah2LsAU+c+cNQ3d75wGNcvnsTpDvfUJqZ/VogB3SthfNvIGC6vCD8llbWTqbxiDd1O9Eicx1yCkVL6zaHrOXkX0A+SHedm3IMWvpyS/B4FmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728313517; c=relaxed/simple;
-	bh=8m/kHbuWYC8Jki8u+kqzirurlQkmTkFZilhMsghYC44=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XL9driz/hnK1wl4OmQEPIUFJgUfbBH4eCpip1BU63YNf04g6IZF9DehdE3QqJQ5ggk4kfrIyllkmPD9R0hTgeVbF4Lr9oXtmDSvdb2R7XwKuGJqh8Eoar9jTnXj8OPDs24VWAxLpqvJtjdoG2aq5kQZC+/LdNgYrAAzSzYWS5/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FBiwZrZp; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1728313518; c=relaxed/simple;
+	bh=JRtx5eRJkXG38uPw/npJdWEVbk79L2ljNlxvw5Jbrto=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lNfkd2jMq8jLxzyZTjcJGXh8WIVrURkrTOoI4N2nzFKW3Qi8R7jTARsASJZvxwIDdbqGSIErf3/srgjsDzLY3F+tF1vapSM2GlHGVE/QszAgCU33rUzDWCnJ5nB8c7SvGRqR90Ey5D/0BUj5+/vzB+usTpbS/kk3jngjGbD/mdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iM8HrNUf; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FBiwZrZp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iM8HrNUf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728313516; x=1759849516;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8m/kHbuWYC8Jki8u+kqzirurlQkmTkFZilhMsghYC44=;
-  b=FBiwZrZppXJsl0WxjtA9j57roqc6kPfdeyInDzi99f8ElZk2/b73wMm2
-   19u6Osc6Qoq/gU1T0fvzAhnjPMKOIVo2i6GPmnmgjAvT8tltbwUftIw2w
-   wr2b0GXBv+XmAdFPeqXKQv3jaRa4RcAd2gxbkH+f3J+TNzLG1F1B1DUdH
-   7+DNfaoSO71U7nQE4DmN8KFBxGyjle8Gtl4NZA/PM8XjgBfc9/G9/ZsCl
-   tyVQsMPXptcj87KO7RexhVAFGh07RIm9A0kcF9vHrlAhTu92oRFpxPcvK
-   uBmSQLTOkBlkLk4USFVRfPQ2zdc/vlteGDvaKeRwVjQo0Yk4wIgVNaFoi
-   w==;
-X-CSE-ConnectionGUID: h0fDj29qTpSmmabPmmG9sw==
-X-CSE-MsgGUID: 2DPH388vSG62NoD0W4tseQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="50001306"
+  t=1728313518; x=1759849518;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JRtx5eRJkXG38uPw/npJdWEVbk79L2ljNlxvw5Jbrto=;
+  b=iM8HrNUfzAJTiZic/iFr5CQvhsroNwn99OLTP+w5qiWnXyTvgyvpGTwL
+   NWyAwACVR5JmgLOO6h4YidCO6xxOkOhV6dfB2hfA7MOZQWOvwhEdyowrP
+   +UHsLQmKVMcizl2RTFzlbUsvjL8w8hOpK7RTlEismFB2OjES6W+c/ySxv
+   r8YTOZRRmO5KjKychlMBFPzQJbieUTYzethtxtt8VEZbvFCqtX9xtA1UN
+   MibNOmlJ493/jr9vG/tZi3gU/ZKFYSDeoWDBvSbj41D8t0bOoflWIupb4
+   xZVNuy3SL2AdClnulpJa9fVNnGWKtOX+x17sr4G6tazo5x9BNhFOgMq1K
+   g==;
+X-CSE-ConnectionGUID: DJbNRRQ3RN6VNESEAFV+XA==
+X-CSE-MsgGUID: Zpu5ZQoKTym4638T1Mer7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="50001311"
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="50001306"
+   d="scan'208";a="50001311"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 08:05:14 -0700
-X-CSE-ConnectionGUID: jd2zbP8dQ8eq8zqkPkD0cQ==
-X-CSE-MsgGUID: L+gD0XKqTu24+uQhmNCojw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 08:05:15 -0700
+X-CSE-ConnectionGUID: ZAw+Mk0YRgq2jIUgeYmqbA==
+X-CSE-MsgGUID: IoaAwrPFTbq17UYMK81ItQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="98822608"
+   d="scan'208";a="98822607"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 07 Oct 2024 08:04:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxpI6-00058k-31;
+	id 1sxpI6-00058i-2w;
 	Mon, 07 Oct 2024 15:04:54 +0000
-Date: Mon, 7 Oct 2024 23:04:21 +0800
+Date: Mon, 7 Oct 2024 23:04:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mounik Katikala <mounik.katikala@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Vishal Sagar <vishal.sagar@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS 1067/1093]
- drivers/media/platform/xilinx/xilinx-isppipeline.c:100:36: error: implicit
- declaration of function 'FIELD_GET'
-Message-ID: <202410072350.haRbIm4l-lkp@intel.com>
+To: Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	rickard.andersson@axis.com, kernel@axis.com,
+	Per-Daniel Olsson <perdaniel.olsson@axis.com>
+Subject: Re: [PATCH v2 2/2] iio: light: Add support for TI OPT4060 color
+ sensor
+Message-ID: <202410072240.s3wGb17S-lkp@intel.com>
+References: <20241005165119.3549472-3-perdaniel.olsson@axis.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,58 +70,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241005165119.3549472-3-perdaniel.olsson@axis.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS
-head:   3c31f9d5fb29a99c43f59d424f7f717ee2177e14
-commit: 116fbf86655bcc669b416defceabf085291f4500 [1067/1093] v4l: xilinx: isppipeline: Add support for AEC
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241007/202410072350.haRbIm4l-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410072350.haRbIm4l-lkp@intel.com/reproduce)
+Hi Per-Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0c559323bbaabee7346c12e74b497e283aaafef5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Per-Daniel-Olsson/dt-bindings-iio-light-Document-TI-OPT4060-RGBW-sensor/20241006-005244
+base:   0c559323bbaabee7346c12e74b497e283aaafef5
+patch link:    https://lore.kernel.org/r/20241005165119.3549472-3-perdaniel.olsson%40axis.com
+patch subject: [PATCH v2 2/2] iio: light: Add support for TI OPT4060 color sensor
+config: csky-randconfig-r122-20241007 (https://download.01.org/0day-ci/archive/20241007/202410072240.s3wGb17S-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241007/202410072240.s3wGb17S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410072350.haRbIm4l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410072240.s3wGb17S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/light/opt4060.c:963:9: sparse: sparse: dereference of noderef expression
+>> drivers/iio/light/opt4060.c:963:9: sparse: sparse: dereference of noderef expression
+>> drivers/iio/light/opt4060.c:963:9: sparse: sparse: dereference of noderef expression
 
-   drivers/media/platform/xilinx/xilinx-isppipeline.c: In function 'xisp_s_ctrl':
->> drivers/media/platform/xilinx/xilinx-isppipeline.c:100:36: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     100 | #define XGET_BIT(bitmask, reg)    (FIELD_GET(BIT(bitmask), (reg)))
-         |                                    ^~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-isppipeline.c:104:27: note: in expansion of macro 'XGET_BIT'
-     104 |                 bool en = XGET_BIT(_index, xisp->module_en); \
-         |                           ^~~~~~~~
-   drivers/media/platform/xilinx/xilinx-isppipeline.c:287:17: note: in expansion of macro 'XISP_SET_CFG'
-     287 |                 XISP_SET_CFG(XISP_AEC_INDEX, XISP_AEC_CONFIG_REG, xisp->threshold_aec);
-         |                 ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +963 drivers/iio/light/opt4060.c
 
-
-vim +/FIELD_GET +100 drivers/media/platform/xilinx/xilinx-isppipeline.c
-
-    91	
-    92	#define XISP_RESET_DEASSERT		(0)
-    93	#define XISP_RESET_ASSERT		(1)
-    94	#define XISP_START			BIT(0)
-    95	#define XISP_AUTO_RESTART		BIT(7)
-    96	#define XISP_STREAM_ON			(XISP_AUTO_RESTART | XISP_START)
-    97	#define XILINX_ISP_VERSION_1					BIT(0)
-    98	#define XILINX_ISP_VERSION_2					BIT(1)
-    99	#define XISP_AEC_THRESHOLD_DEFAULT	(20)
- > 100	#define XGET_BIT(bitmask, reg)    (FIELD_GET(BIT(bitmask), (reg)))
-   101	#define XISP_SET_CFG(INDEX, REG, VAL)	\
-   102		do {	\
-   103			u32 _index = (INDEX); \
-   104			bool en = XGET_BIT(_index, xisp->module_en); \
-   105			bool byp_en = XGET_BIT(_index, xisp->module_bypass_en); \
-   106			bool byp = XGET_BIT(_index, xisp->module_bypass); \
-   107			\
-   108			if (en)	\
-   109				if (!byp_en || !(byp_en && byp)) \
-   110					xvip_write(&xisp->xvip, (REG), (VAL)); \
-   111		} while (0)
-   112	
+   951	
+   952	static irqreturn_t opt4060_trigger_handler(int irq, void *p)
+   953	{
+   954		struct iio_poll_func *pf = p;
+   955		struct iio_dev *idev = pf->indio_dev;
+   956		struct opt4060_chip *chip = iio_priv(idev);
+   957		struct opt4060_buffer raw;
+   958		int ret, chan;
+   959		int i = 0;
+   960	
+   961		memset(&raw, 0, sizeof(raw));
+   962	
+ > 963		for_each_set_bit(chan, idev->active_scan_mask, idev->masklength) {
+   964			ret = opt4060_read_raw_value(chip,
+   965						     opt4060_channels[chan].address,
+   966						     &raw.chan[i++]);
+   967			if (ret) {
+   968				dev_err(chip->dev, "Reading raw channel data failed\n");
+   969				goto err_read;
+   970			}
+   971		}
+   972	
+   973		iio_push_to_buffers_with_timestamp(idev, &raw, pf->timestamp);
+   974	err_read:
+   975		iio_trigger_notify_done(idev->trig);
+   976		return IRQ_HANDLED;
+   977	}
+   978	
 
 -- 
 0-DAY CI Kernel Test Service
