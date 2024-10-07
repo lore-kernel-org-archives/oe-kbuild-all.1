@@ -1,114 +1,108 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 928CA231CA9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 10:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37881B4F18
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 10:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728295722; cv=none; b=eN1PLvYCWm1sfvRcWenFqvovXI4EyXaJmOZJm+tfpWF2yM+zShPa2QKjzPmzS2FhD/0sRdxA1m/W9YkGNbwGdmnbyCAg3ZhQ2sxGoKWPDj76qgyFZYxNqlUGPpkQkFRo4ziOWJNC9ir6nPg97AkmK2NB1Zz68Nf2QaALZcnDrJw=
+	t=1728296677; cv=none; b=jgXg+W6aOkFcB7YU6wbCjYsSEbnjFibIwa2+nPoTtOOb6sSIFozG8WB8XfDIG3P/jRhaGbJlTOx+3BGRXh9esNPMtpWvapWGos2ZxG3fE7appzhf+qvW3JIDrHx1SGd6V7flYDJNYGh4AUvrMA/HdybU6+61zvFrAYZRprsBaOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728295722; c=relaxed/simple;
-	bh=0iKbGcK8Gu21dj7bTG5zPF2A6di+vap8fzuuwKIifK8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ozssWjYgCSRA0cVoRSTWozZQndd06fGg5pygug5gyerl6itROe1BFzpzRcXNfvBVGVSLXtyHAZeJiAixL33hX8VVUgKVREi+QJ4naKoqtK/VCCD0/N1WUw26QpMLsObydXdUa4aRu8/VZCQo6rf8FrvwuRUY6lkUNd2xaMclMhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 542A9FEC;
-	Mon,  7 Oct 2024 03:09:08 -0700 (PDT)
-Received: from [10.1.26.21] (unknown [10.1.26.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9EF03F64C;
-	Mon,  7 Oct 2024 03:08:37 -0700 (PDT)
-Message-ID: <7d19367b-a4ac-4c65-a543-9a4d614bec44@arm.com>
-Date: Mon, 7 Oct 2024 11:08:36 +0100
+	s=arc-20240116; t=1728296677; c=relaxed/simple;
+	bh=5GNj/zyhCQEF+jVar7YrC7KhafSmp007Qa31mvJ/AUo=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=bDEktOP4iEEWlqvxatb/2Ugvfolyb/OVczWeo42j1gkDz1C1sfYrLQ2VJ1SPA/R0t1gN79GvXjRnXBCdGAkzYUZqWwxkxszcMkRDP1iwlkmCsnqwsvoJqeZrCxIgss7PtTaGtN3nLQNjNVFEVuWLq53JMEeaFyF4H5RH+w3FR6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=WOSH2NPt; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="WOSH2NPt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=j59YkxTBgoRlpUL2wnN8AYuBff3YLIS7SQonOmmmQaU=;
+  b=WOSH2NPtjyLHSbi0JrAPJpX1QB6XedV75WFmo2VBJTh8C0y3xL2MeDHx
+   moGZ2rTOj847uth8dojBlEGj/Zd32UlSBXZPV2oNmZxbc8UZS5+SE1q3n
+   yBszbbwhiZtyKvISF6r33ikxks4d6tBpsN5QbTcGsOakvoh9PcrhxTo6x
+   Y=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.11,184,1725314400"; 
+   d="scan'208";a="187378384"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 12:24:31 +0200
+Date: Mon, 7 Oct 2024 12:24:31 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Imre Deak <imre.deak@intel.com>, 
+    Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>, 
+    linux-kernel@vger.kernel.org
+cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/gpu/drm/i915/display/intel_ddi.c:2225:7-13: opportunity for
+ str_enabled_disabled(enable) (fwd)
+Message-ID: <14b98e31-4cf-1021-e61d-6ac0eb87feb@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but
- not used
-To: kernel test robot <lkp@intel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>
-References: <202410060258.bPl2ZoUo-lkp@intel.com>
-Content-Language: en-US
-From: Christian Loehle <christian.loehle@arm.com>
-In-Reply-To: <202410060258.bPl2ZoUo-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 10/5/24 19:58, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   27cc6fdf720183dce1dbd293483ec5a9cb6b595e
-> commit: d2d6422f8bd17c6bb205133e290625a564194496 x86: Allow to enable PREEMPT_RT.
-> date:   3 weeks ago
-> config: x86_64-buildonly-randconfig-002-20241006 (https://download.01.org/0day-ci/archive/20241006/202410060258.bPl2ZoUo-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060258.bPl2ZoUo-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410060258.bPl2ZoUo-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/seqlock.h:19,
->                     from include/linux/dcache.h:11,
->                     from include/linux/fs.h:8,
->                     from include/linux/highmem.h:5,
->                     from kernel/sched/core.c:10:
->>> kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but not used [-Wunused-variable]
->     1361 | static DEFINE_MUTEX(uclamp_mutex);
->          |                     ^~~~~~~~~~~~
->    include/linux/mutex.h:101:22: note: in definition of macro 'DEFINE_MUTEX'
->      101 |         struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
->          |                      ^~~~~~~~~
-> 
-> 
-> vim +/uclamp_mutex +1361 kernel/sched/core.c
-> 
-> 71f8bd4600521f kernel/sched.c      Ingo Molnar     2007-07-09  1349  
-> 69842cba9ace84 kernel/sched/core.c Patrick Bellasi 2019-06-21  1350  #ifdef CONFIG_UCLAMP_TASK
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1351  /*
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1352   * Serializes updates of utilization clamp values
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1353   *
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1354   * The (slow-path) user-space triggers utilization clamp value updates which
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1355   * can require updates on (fast-path) scheduler's data structures used to
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1356   * support enqueue/dequeue operations.
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1357   * While the per-CPU rq lock protects fast-path update operations, user-space
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1358   * requests are serialized using a mutex to reduce the risk of conflicting
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1359   * updates or API abuses.
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1360   */
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22 @1361  static DEFINE_MUTEX(uclamp_mutex);
-> 2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1362  
-> 
-> :::::: The code at line 1361 was first introduced by commit
-> :::::: 2480c093130f64ac3a410504fa8b3db1fc4b87ce sched/uclamp: Extend CPU's cgroup controller
-> 
-> :::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
-> :::::: CC: Ingo Molnar <mingo@kernel.org>
-> 
-
-Please allow me a day to walk through the code just to double-check, but
-the obvious fixes are either letting UCLAMP_TASK depend on SYSCTL or:
-
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 43e453ab7e20..18d9622eac8d 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -1394,7 +1394,9 @@ void set_load_weight(struct task_struct *p, bool update_load)
-  * requests are serialized using a mutex to reduce the risk of conflicting
-  * updates or API abuses.
-  */
-+#if defined(CONFIG_UCLAMP_TASK_GROUP) || defined(CONFIG_SYSCTL)
- static DEFINE_MUTEX(uclamp_mutex);
-+#endif
- 
- /* Max allowed minimum utilization */
- static unsigned int __maybe_unused sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+Content-Type: text/plain; charset=US-ASCII
 
 
+
+---------- Forwarded message ----------
+Date: Mon, 7 Oct 2024 17:01:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/i915/display/intel_ddi.c:2225:7-13: opportunity for
+    str_enabled_disabled(enable)
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Imre Deak <imre.deak@intel.com>
+CC: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+commit: 8ab5a03643fc529f0e8663bc4d5b43f8f6885922 drm/i915/dp: Disable FEC ready flag in the sink
+date:   11 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-102-20241007 (https://download.01.org/0day-ci/archive/20241007/202410071601.TFpXoqgW-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410071601.TFpXoqgW-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_ddi.c:2225:7-13: opportunity for str_enabled_disabled(enable)
+
+vim +2225 drivers/gpu/drm/i915/display/intel_ddi.c
+
+1639406a31c23ca drivers/gpu/drm/i915/display/intel_ddi.c Manasi Navare   2021-01-22  2212
+a322b97589a6af4 drivers/gpu/drm/i915/intel_ddi.c         Anusha Srivatsa 2018-11-28  2213  static void intel_dp_sink_set_fec_ready(struct intel_dp *intel_dp,
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2214  					const struct intel_crtc_state *crtc_state,
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2215  					bool enable)
+a322b97589a6af4 drivers/gpu/drm/i915/intel_ddi.c         Anusha Srivatsa 2018-11-28  2216  {
+47bdb1caba0bc5a drivers/gpu/drm/i915/display/intel_ddi.c Jani Nikula     2020-03-20  2217  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+47bdb1caba0bc5a drivers/gpu/drm/i915/display/intel_ddi.c Jani Nikula     2020-03-20  2218
+a322b97589a6af4 drivers/gpu/drm/i915/intel_ddi.c         Anusha Srivatsa 2018-11-28  2219  	if (!crtc_state->fec_enable)
+a322b97589a6af4 drivers/gpu/drm/i915/intel_ddi.c         Anusha Srivatsa 2018-11-28  2220  		return;
+a322b97589a6af4 drivers/gpu/drm/i915/intel_ddi.c         Anusha Srivatsa 2018-11-28  2221
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2222  	if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_FEC_CONFIGURATION,
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2223  			       enable ? DP_FEC_READY : 0) <= 0)
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2224  		drm_dbg_kms(&i915->drm, "Failed to set FEC_READY to %s in the sink\n",
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24 @2225  			    enable ? "enabled" : "disabled");
+6e916b35afa8a37 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2226
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2227  	if (enable &&
+8ab5a03643fc529 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2228  	    drm_dp_dpcd_writeb(&intel_dp->aux, DP_FEC_STATUS,
+6e916b35afa8a37 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2229  			       DP_FEC_DECODE_EN_DETECTED | DP_FEC_DECODE_DIS_DETECTED) <= 0)
+6e916b35afa8a37 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2230  		drm_dbg_kms(&i915->drm, "Failed to clear FEC detected flags\n");
+6e916b35afa8a37 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2231  }
+6e916b35afa8a37 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak       2023-10-24  2232
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
