@@ -1,96 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05EA1D9340
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671031DA2EB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 16:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728316225; cv=none; b=sfDxnHPl4vFz2trMRTP77r4poR1BQdpdW/qarR09PWfDLAUThhuE04SQCfOHldZDPfQkCXq7id+VIfGwPzRVzvrzBjKng7RD6Pb+P43/pkJy96fUFaXKERf1KfwXUWcRAJ1gsy67O3n6RVa8Nli8isJ4jlNGdteYJxAJQLl3jtw=
+	t=1728318239; cv=none; b=ru550jpcf2owiXybaZRszx7UnFGCpdJLXIJKxhJDSCGFxQdzjRVc/R/F0VRsKXzGxCGJ+K9D9X3QwoKHEyA7pTj7EOCN6uBUN41w2ykg2YVQgcBRelTUMkdrwMiRQnn7WsbrT4RQjc+vx0dyqv3onv5OW2Hcxa+zyo+YZta0A20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728316225; c=relaxed/simple;
-	bh=qML5pkxadoNVXdBJ5X/OIyBz8I3Rh1mFnP9bs/fG8nY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=njk6Bprs/oVq6bMONFGRVdF69ChAdQdvo69wflRvvyva95PfgbBrBVTAauhrjRlB5g8SnE9mRvUMv3q54tYBFnm3FpqrF9Nwtyo1aLgGMi6vVXGeedi+Rc7AIw30bjOQKK7FWjCMWqxIH+OPIPugn8WwpA7W3HedpxR5QGAoSO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nuf0xLZL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728318239; c=relaxed/simple;
+	bh=CSBFQS88igW0jUCGuwCmGf0rpqBIDOAPpzkbjoA0v2A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XU13f92q/0VtA6dMYPRFw6ZW2NpsPxflCZmSsDqpUnEPPIVwI+CIX78kOWOzPWub1tS8SBnLqjqmMF3PKgEgPIbUDBziP4ZjV1rYdFTJlpx9br9aL4JcPtzS1oCYCj9POSg0Ah2Uls9ABk5QDxuyiRhDXggeu+NWD5bzmGI8ZtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PCnR8Jps; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nuf0xLZL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E138EC4CECF;
-	Mon,  7 Oct 2024 15:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728316224;
-	bh=qML5pkxadoNVXdBJ5X/OIyBz8I3Rh1mFnP9bs/fG8nY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=nuf0xLZLVBjmI45TNxIWsfPslO8ijInXjZaK9oSH7BFKHZ3xx26S+JP6RgklMW9RC
-	 O5ZOEaqjwxXDHfQSK+BJdS225ubGrTLrutwVwOS86IWRkd1e6Wn/93jQ08rBxdKyUJ
-	 un+i9GRIbyIuKUFTa4+l6N+nLrd0rkTT9BVkScExx95iBUG/vZePYQtbxbpacajHTr
-	 XVbYtadPq5RwmRbEJvgydCFRNyANtn8mlKLOMP7VZ4qaqEJH2mlzgD4/3+xEK9LDSV
-	 CvWlkKwAj++mE24AjVjvSf4KdR2dSTETLN2LxbjEDnq4+cLIEnCrAdW6gAkr+RTnpE
-	 4lrxzka9bYZiA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: kernel test robot <lkp@intel.com>,  Rajat Soni
- <quic_rajson@quicinc.com>,  <oe-kbuild-all@lists.linux.dev>,  Jeff Johnson
- <jjohnson@kernel.org>,  <ath12k@lists.infradead.org>,  Roopni Devanathan
- <quic_rdevanat@quicinc.com>
-Subject: Re: [ath:pending 8/12]
- drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2515:77: warning: left
- shift count >= width of type
-References: <202410040200.Mwb85JzQ-lkp@intel.com>
-	<9db6842d-ddc6-4f0e-a818-c13298eedd8b@quicinc.com>
-Date: Mon, 07 Oct 2024 18:50:21 +0300
-In-Reply-To: <9db6842d-ddc6-4f0e-a818-c13298eedd8b@quicinc.com> (Jeff
-	Johnson's message of "Mon, 7 Oct 2024 08:40:30 -0700")
-Message-ID: <87iku352v6.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PCnR8Jps"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a995f56ea2dso110406466b.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Oct 2024 09:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728318236; x=1728923036; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1DjhLFwVBpKRr9Z2MwbXlQuaVUI2IN6bC3xXF+EK/4g=;
+        b=PCnR8JpsiQK5VFjY/oqlaNW43kIwDsrVQYVujaiZui1V7t+9QFwHLlDr0mmeRl92nj
+         t202w5/r+qQadlb28Dl3gkqsF90Mh4+K8J+CZTHC2AVeuc4UPDxPiIT/qQW1X0uSVEvP
+         Z2OL+4OL4Cb08QEJvQrBKUaLbfiMz0bt0UE1Z6Br5IJnAIyGbnV8TAsNdhJeQuS9T8cS
+         SfIw33WzOcpRNcn7G7puw/u2P7HtENvgVA4ueTHijNxYz6TeKiR3HIa3TmkFWxQtA0To
+         7DQ4bjWmNKMyh3gCKz7xt3HqXenzWFbYJEMDbeB99cybgSI6/sFRHWamLOUBUeR7mb10
+         6jSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728318236; x=1728923036;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1DjhLFwVBpKRr9Z2MwbXlQuaVUI2IN6bC3xXF+EK/4g=;
+        b=cHhenXT/dhPVjx7u4DZdPhau8Zww9vQ7J1m5j1i73IMe/NPuX9pjH1o2ft1frxXTA1
+         iHJOlPFHJ+N80EqskRtYna9MxaNGmxFzldUTCjc16AP1aaHy/7dlRinsddJMOIBcYoMZ
+         ayAhB0LwYXb4ldmpE5Th96d9thgd+fo9czGjGm0EqMnD84iXLn//5oKoglnhkPU/R3qj
+         Vr8hLU8uX83NagQrICfztTxSGWKR57VUfcvx1YorH9igwnEgx0PbuI93bS2g5CfCBDF5
+         HmA1gvTMB76gQ9CV/+qpq4a9zaW8rb+7/4YJd0bZP9nBRn4Wg315OYr+gvUPgOfqDzdI
+         Uh/w==
+X-Forwarded-Encrypted: i=1; AJvYcCXHcW0W3LgPxJIC8Gp3x51dH43TiWXWMO9m0OjKFEVJzbY8cZLelLkwgvyYBXd3b33L3LesOuqIosX0TLRY@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYOlr+Y3V5DES/NTfu36uQxUhCBW4zC3S+u2sPAG9kNvhWLdXz
+	ZaOZgCdk7uxClEEnkFfNJuNbQ54ZE9RwrWlBOIL2RX5vn/mZXV/QNBACxFdeuxtwmzv5CKSDrUL
+	0qj9Pcudp64ruAYjQkLLVlr8EhgfivXPOZwU1DA==
+X-Google-Smtp-Source: AGHT+IEhWSRFZqVhC3rbl0UHvbwLLLlpn38m/GYhWm2qL50BAg4U+z5JzqqQw152dm0AYm6pv3+IQ51UGtTJYfZ34DY=
+X-Received: by 2002:a17:907:a0d:b0:a8b:ddf4:4701 with SMTP id
+ a640c23a62f3a-a991bd47985mr1349645766b.16.1728318235289; Mon, 07 Oct 2024
+ 09:23:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241003120655.53663-1-vamsikrishna.brahmajosyula@gmail.com> <202410060802.Ln9ygpuY-lkp@intel.com>
+In-Reply-To: <202410060802.Ln9ygpuY-lkp@intel.com>
+From: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
+Date: Mon, 7 Oct 2024 21:53:43 +0530
+Message-ID: <CAJvTgAg-8RYjo9Rapor86G5o10aTws7B1NmZVuN64KRy5kjzWg@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW in setcmap_atomic
+To: kernel test robot <lkp@intel.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, oe-kbuild-all@lists.linux.dev, 
+	skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jeff Johnson <quic_jjohnson@quicinc.com> writes:
-
-> On 10/3/2024 11:37 AM, kernel test robot wrote:
+On Sun, Oct 6, 2024 at 6:31=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
 >
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git pending
->> head:   08dd5d93509f962500dc983864b4effb2600831a
->> commit: f6a46bc3719cc6b445cb071a7dd6968891ffb169 [8/12] wifi: ath12k: Support DMAC Reset Stats
->> config: i386-allmodconfig
->> (https://download.01.org/0day-ci/archive/20241004/202410040200.Mwb85JzQ-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->> reproduce (this is a W=1 build):
->> (https://download.01.org/0day-ci/archive/20241004/202410040200.Mwb85JzQ-lkp@intel.com/reproduce)
->> 
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202410040200.Mwb85JzQ-lkp@intel.com/
->> 
->> All warnings (new ones prefixed by >>):
->> 
->>    drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c: In function 'ath12k_htt_print_dmac_reset_stats_tlv':
->>>> drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2515:77: warning: left shift count >= width of type [-Wshift-count-overflow]
->>     2515 |         time = ((unsigned long)le32_to_cpu(htt_stats_buf->reset_time_hi_ms) << 32) |
->>          |                                                                             ^~
->>    drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2519:81:
->> warning: left shift count >= width of type [-Wshift-count-overflow]
->>     2519 |         time = ((unsigned long)le32_to_cpu(htt_stats_buf->disengage_time_hi_ms) << 32) |
->>          |                                                                                 ^~
->>    drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2523:78:
->> warning: left shift count >= width of type [-Wshift-count-overflow]
->>     2523 |         time = ((unsigned long)le32_to_cpu(htt_stats_buf->engage_time_hi_ms) << 32) |
->>          |                                                                              ^~
+> Hi Vamsi,
 >
-> Out of curiosity is there a way to tell if this is a 32-bit build vs a 64-bit
-> build? I just want to verify that the issue is that unsigned long is 32-bits
-> and not that the shift occurs before the typecast
-
-The config is i386-allmodconfig so it has to be 32-bit. The report also
-includes link to the actual .config file.
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 7ec462100ef9142344ddbf86f2c3008b97acddbe]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Vamsi-Krishna-Brah=
+majosyula/gpu-drm-set-gamma_lut-or-degamma_lut-based-on-HW-in-setcmap_atomi=
+c/20241003-200835
+> base:   7ec462100ef9142344ddbf86f2c3008b97acddbe
+> patch link:    https://lore.kernel.org/r/20241003120655.53663-1-vamsikris=
+hna.brahmajosyula%40gmail.com
+> patch subject: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW =
+in setcmap_atomic
+> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241006=
+/202410060802.Ln9ygpuY-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241006/202410060802.Ln9ygpuY-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410060802.Ln9ygpuY-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+Based on the kernel bot compile failure I received,
+> >> ERROR: modpost: "drm_mode_obj_find_prop_id" [drivers/gpu/drm/drm_kms_h=
+elper.ko] undefined!
+I realised I can not use drm_mode_obj_find_prop_id in setcmap_atomic
+(in atomic context).
+I am exploring atomic functions which access gamma_lut and degamma_lut
+via state.
+I will send a v2 with a new approach.
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
