@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB842206E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 21:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1497474C08
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 21:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728336862; cv=none; b=mBaP02QeDUeD6sZshycQ71VvDKBu7xpN5N6Zz2jMQOI5t2K6CcCj7dMqUpZcmwfQU1AU6Q5VHoKHEXsOr8d13TRK3irGPmAMVuMUeL+Q9VnXwy540crdP1OhArvNLBy8UeBhVi2uvSA24iKjDd/8V5JIO8emOB4B2XCEkbtwWlA=
+	t=1728338061; cv=none; b=f6JR5n+NfCBjYlObTYIKCHYOXiyVTAVE0oFxxUsygnNjv8HYQSjoYvI5z9es+U9aHIyAT2V9YahweWbdYkvhJCLA4O7UULzwZO4pifZjKQvXYuLYgLy4VencmZM1mwV1dg9pNX6GF/aN76fuY0/eRVDdTcPMyVIin7owHaMPPVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728336862; c=relaxed/simple;
-	bh=uaMyzD5C3CI/9OcpCdVnuv2C2597Tnofy/2xheO+Pks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aZ4CwFoqa7N4j17srpQAM5VQRAHIK1At4zKCRqbNlh5bLX3ABIEpaBA2HiEywM6Hh81t3Or/ZKa62CjzZKhobxa0ZHGIJ34EpB2WtFMlbdkrzMwGaOpTV+07nUU8lqsrQSAEfUlHVp/yns32f2Mb5HN4i8XI6KVAe7fV2S3iJyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUSPJ0NS; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1728338061; c=relaxed/simple;
+	bh=/uKLFY48i/ABip0v4YBqXATpu5If7MVZns01tj1PEh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=To4z+LTabxtkbbQwLcQdlDdcbqHcd0phTwE9hj0iHpmXbXiI6jWrZ5B3x/acftvEmAMgGz7d9vLfpSBdXlwjP3XchmWKK/vsVulnRz/WiHZ0b+TkSluboXns3IrBEb/0k3uvI7U7zIFDTVWbWIvFtN80e+twSctsxAJ08by2fv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePErFvC5; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUSPJ0NS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePErFvC5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728336860; x=1759872860;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uaMyzD5C3CI/9OcpCdVnuv2C2597Tnofy/2xheO+Pks=;
-  b=jUSPJ0NSZP4qaD7Ya/RLXR+NPRuxWfTkUX0r8fiR+5bRsyleafK9qN8E
-   Bpqn4+rpRzSEGGEWuOvwhWNj4yorPcZaQoxXrKHBt4GOEi8sAnkOo26Rh
-   1XKTDRukuRnKMOiku/dtfD3l3RgyzFwHnzKFpUC7Nl7vH2G3vmULQVtBx
-   vykmNkQUryQbxQYCO7I5j3Bc/03K+/0lugGjKMpWigKqOpvFOIATF6Pot
-   f1KaWSmVf02Cto8kmQZ083lw5XhshBPUp6zAKItw2MQT+ICP8fa/GigCB
-   ECiGNFldgspOeTPF7AA4OR7BTPaaTjJGUB5Gal7WWs0xMIYRIqckUgvFn
-   A==;
-X-CSE-ConnectionGUID: hER/JQEnTAm7KyLfIozW1Q==
-X-CSE-MsgGUID: 6SJ9IY+5ROOlb9v+fZ/Ufg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27384889"
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="27384889"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 14:34:19 -0700
-X-CSE-ConnectionGUID: onf92s/HQOCVUb6mTfg6oA==
-X-CSE-MsgGUID: LsWpRk82S5Oc3AIFcNg59Q==
+  t=1728338059; x=1759874059;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/uKLFY48i/ABip0v4YBqXATpu5If7MVZns01tj1PEh8=;
+  b=ePErFvC5ghsHfiFxBQDEdDnnuCX1JjyemkvJUw5C/IAUbGZFm0BCOfO5
+   GNYeWWalo+i6VmpAcclQRhQ3hbEt+jwq66C/MRJUfE8Yh2KUsndkVS3/C
+   RiHcI9AL1rqnhJB3lh4omrhEZRCVhYNz+R8ylsmx8DY1Y5/1q9wekcBDf
+   DkK9SmrDdNkxXqJAy4gJYYS10LR4SpvlCSqRWbRjJJOj87VTlE2MhqcqX
+   epmvvn180JlLPl+hlMzlvrOXw56T0jJ71XdOaqw2v603En0CF7QOht346
+   Tj4Zc3NvLYKBi/8hgCtUCh8VZzKfVDSxLPZFj6h8i/5P7yzQJOUakzggc
+   Q==;
+X-CSE-ConnectionGUID: KHqmLNiyRYeiXKHoTz0nIw==
+X-CSE-MsgGUID: EgbL1v6PRPqdInwDoEOHxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27676521"
+X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
+   d="scan'208";a="27676521"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 14:54:18 -0700
+X-CSE-ConnectionGUID: cnsgP9kjQ3e4tmszKI6ZTw==
+X-CSE-MsgGUID: o3Tt6RbaSQ2r3cnra42wvg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="75608247"
+X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
+   d="scan'208";a="75451161"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Oct 2024 14:34:16 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Oct 2024 14:54:17 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxvMs-0005YQ-0H;
-	Mon, 07 Oct 2024 21:34:14 +0000
-Date: Tue, 8 Oct 2024 05:33:43 +0800
+	id 1sxvgE-0005a4-2q;
+	Mon, 07 Oct 2024 21:54:14 +0000
+Date: Tue, 8 Oct 2024 05:54:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Hwang <leon.hwang@linux.dev>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, toke@redhat.com, martin.lau@kernel.org,
-	yonghong.song@linux.dev, puranjay@kernel.org,
-	xukuohai@huaweicloud.com, eddyz87@gmail.com, iii@linux.ibm.com,
-	leon.hwang@linux.dev, kernel-patches-bot@fb.com
-Subject: Re: [PATCH bpf-next v5 1/3] bpf: Prevent tailcall infinite loop
- caused by freplace
-Message-ID: <202410080522.O8nxCK2v-lkp@intel.com>
-References: <20241006130130.77125-2-leon.hwang@linux.dev>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.12-rc1 62/132] drivers/acpi/pptt.c:311:
+ warning: Function parameter or struct member 'callback' not described in
+ 'acpi_pptt_for_each_container'
+Message-ID: <202410080526.UiAXVFlu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,219 +62,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241006130130.77125-2-leon.hwang@linux.dev>
 
-Hi Leon,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-Prevent-tailcall-infinite-loop-caused-by-freplace/20241006-210309
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241006130130.77125-2-leon.hwang%40linux.dev
-patch subject: [PATCH bpf-next v5 1/3] bpf: Prevent tailcall infinite loop caused by freplace
-config: powerpc64-randconfig-r071-20241008 (https://download.01.org/0day-ci/archive/20241008/202410080522.O8nxCK2v-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410080522.O8nxCK2v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.12-rc1
+head:   4d17b37b670795954fd7a70c8ec83fb705a5e2ad
+commit: fa2c70af89532df5517d08e95af357c58772bb60 [62/132] ACPI / PPTT: Provide a helper to walk processor containers
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20241008/202410080526.UiAXVFlu-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410080526.UiAXVFlu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410080522.O8nxCK2v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410080526.UiAXVFlu-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/security.h:35,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from init/main.c:21:
->> include/linux/bpf.h:1392:5: warning: no previous prototype for 'bpf_extension_link_prog' [-Wmissing-prototypes]
-    1392 | int bpf_extension_link_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:1398:5: warning: no previous prototype for 'bpf_extension_unlink_prog' [-Wmissing-prototypes]
-    1398 | int bpf_extension_unlink_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/security.h:35,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/trace_events.h:21,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/events/workqueue.h:132,
-                    from kernel/workqueue.c:531:
->> include/linux/bpf.h:1392:5: warning: no previous prototype for 'bpf_extension_link_prog' [-Wmissing-prototypes]
-    1392 | int bpf_extension_link_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:1398:5: warning: no previous prototype for 'bpf_extension_unlink_prog' [-Wmissing-prototypes]
-    1398 | int bpf_extension_unlink_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/workqueue.c: In function '__alloc_workqueue':
-   kernel/workqueue.c:5665:9: warning: function '__alloc_workqueue' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    5665 |         name_len = vsnprintf(wq->name, sizeof(wq->name), fmt, args);
-         |         ^~~~~~~~
---
-   In file included from include/linux/security.h:35,
-                    from include/net/scm.h:9,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:44,
-                    from include/net/sock.h:46,
-                    from include/linux/tcp.h:19,
-                    from include/linux/ipv6.h:102,
-                    from include/net/addrconf.h:65,
-                    from lib/vsprintf.c:41:
->> include/linux/bpf.h:1392:5: warning: no previous prototype for 'bpf_extension_link_prog' [-Wmissing-prototypes]
-    1392 | int bpf_extension_link_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:1398:5: warning: no previous prototype for 'bpf_extension_unlink_prog' [-Wmissing-prototypes]
-    1398 | int bpf_extension_unlink_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c: In function 'va_format':
-   lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
---
-   In file included from include/linux/security.h:35,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from kernel/time/hrtimer.c:30:
->> include/linux/bpf.h:1392:5: warning: no previous prototype for 'bpf_extension_link_prog' [-Wmissing-prototypes]
-    1392 | int bpf_extension_link_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:1398:5: warning: no previous prototype for 'bpf_extension_unlink_prog' [-Wmissing-prototypes]
-    1398 | int bpf_extension_unlink_prog(struct bpf_tramp_link *link,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:124:35: warning: initialized field overwritten [-Woverride-init]
-     124 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:124:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
---
-   powerpc64-linux-ld: drivers/char/tpm/eventlog/tpm1.o: in function `bpf_extension_link_prog':
->> tpm1.c:(.text+0x494): multiple definition of `bpf_extension_link_prog'; drivers/char/tpm/eventlog/common.o:common.c:(.text+0x130): first defined here
-   powerpc64-linux-ld: drivers/char/tpm/eventlog/tpm1.o: in function `bpf_extension_unlink_prog':
->> tpm1.c:(.text+0x4a4): multiple definition of `bpf_extension_unlink_prog'; drivers/char/tpm/eventlog/common.o:common.c:(.text+0x140): first defined here
-   powerpc64-linux-ld: drivers/char/tpm/eventlog/tpm2.o: in function `bpf_extension_link_prog':
-   tpm2.c:(.text+0x3d0): multiple definition of `bpf_extension_link_prog'; drivers/char/tpm/eventlog/common.o:common.c:(.text+0x130): first defined here
-   powerpc64-linux-ld: drivers/char/tpm/eventlog/tpm2.o: in function `bpf_extension_unlink_prog':
-   tpm2.c:(.text+0x3e0): multiple definition of `bpf_extension_unlink_prog'; drivers/char/tpm/eventlog/common.o:common.c:(.text+0x140): first defined here
---
-   powerpc64-linux-ld: drivers/i2c/i2c-core-smbus.o: in function `bpf_extension_link_prog':
->> i2c-core-smbus.c:(.text+0x1d40): multiple definition of `bpf_extension_link_prog'; drivers/i2c/i2c-core-base.o:i2c-core-base.c:(.text+0x3e60): first defined here
-   powerpc64-linux-ld: drivers/i2c/i2c-core-smbus.o: in function `bpf_extension_unlink_prog':
->> i2c-core-smbus.c:(.text+0x1d50): multiple definition of `bpf_extension_unlink_prog'; drivers/i2c/i2c-core-base.o:i2c-core-base.c:(.text+0x3e70): first defined here
-   powerpc64-linux-ld: drivers/i2c/i2c-core-slave.o: in function `bpf_extension_link_prog':
-   i2c-core-slave.c:(.text+0x73c): multiple definition of `bpf_extension_link_prog'; drivers/i2c/i2c-core-base.o:i2c-core-base.c:(.text+0x3e60): first defined here
-   powerpc64-linux-ld: drivers/i2c/i2c-core-slave.o: in function `bpf_extension_unlink_prog':
-   i2c-core-slave.c:(.text+0x74c): multiple definition of `bpf_extension_unlink_prog'; drivers/i2c/i2c-core-base.o:i2c-core-base.c:(.text+0x3e70): first defined here
---
-   powerpc64-linux-ld: drivers/scsi/snic/snic_main.o: in function `bpf_extension_link_prog':
->> snic_main.c:(.text+0x234): multiple definition of `bpf_extension_link_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1d4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_main.o: in function `bpf_extension_unlink_prog':
->> snic_main.c:(.text+0x244): multiple definition of `bpf_extension_unlink_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1e4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_res.o: in function `bpf_extension_link_prog':
-   snic_res.c:(.text+0x0): multiple definition of `bpf_extension_link_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1d4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_res.o: in function `bpf_extension_unlink_prog':
-   snic_res.c:(.text+0x10): multiple definition of `bpf_extension_unlink_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1e4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_isr.o: in function `bpf_extension_link_prog':
-   snic_isr.c:(.text+0x1ec): multiple definition of `bpf_extension_link_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1d4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_isr.o: in function `bpf_extension_unlink_prog':
-   snic_isr.c:(.text+0x1fc): multiple definition of `bpf_extension_unlink_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1e4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_ctl.o: in function `bpf_extension_link_prog':
-   snic_ctl.c:(.text+0x0): multiple definition of `bpf_extension_link_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1d4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_ctl.o: in function `bpf_extension_unlink_prog':
-   snic_ctl.c:(.text+0x10): multiple definition of `bpf_extension_unlink_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1e4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_io.o: in function `bpf_extension_link_prog':
-   snic_io.c:(.text+0x310): multiple definition of `bpf_extension_link_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1d4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_io.o: in function `bpf_extension_unlink_prog':
-   snic_io.c:(.text+0x320): multiple definition of `bpf_extension_unlink_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1e4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_scsi.o: in function `bpf_extension_link_prog':
-   snic_scsi.c:(.text+0x3dfc): multiple definition of `bpf_extension_link_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1d4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_scsi.o: in function `bpf_extension_unlink_prog':
-   snic_scsi.c:(.text+0x3e0c): multiple definition of `bpf_extension_unlink_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1e4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_disc.o: in function `bpf_extension_link_prog':
-   snic_disc.c:(.text+0xbf8): multiple definition of `bpf_extension_link_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1d4): first defined here
-   powerpc64-linux-ld: drivers/scsi/snic/snic_disc.o: in function `bpf_extension_unlink_prog':
-   snic_disc.c:(.text+0xc08): multiple definition of `bpf_extension_unlink_prog'; drivers/scsi/snic/snic_attrs.o:snic_attrs.c:(.text+0x1e4): first defined here
---
-   powerpc64-linux-ld: fs/ext2/xattr.o: in function `bpf_extension_link_prog':
->> xattr.c:(.text+0xd24): multiple definition of `bpf_extension_link_prog'; fs/ext2/trace.o:trace.c:(.text+0x7c0): first defined here
-   powerpc64-linux-ld: fs/ext2/xattr.o: in function `bpf_extension_unlink_prog':
->> xattr.c:(.text+0xd34): multiple definition of `bpf_extension_unlink_prog'; fs/ext2/trace.o:trace.c:(.text+0x7d0): first defined here
-   powerpc64-linux-ld: fs/ext2/xattr_security.o: in function `bpf_extension_link_prog':
-   xattr_security.c:(.text+0xdc): multiple definition of `bpf_extension_link_prog'; fs/ext2/trace.o:trace.c:(.text+0x7c0): first defined here
-   powerpc64-linux-ld: fs/ext2/xattr_security.o: in function `bpf_extension_unlink_prog':
-   xattr_security.c:(.text+0xec): multiple definition of `bpf_extension_unlink_prog'; fs/ext2/trace.o:trace.c:(.text+0x7d0): first defined here
---
-   powerpc64-linux-ld: drivers/nvdimm/bus.o: in function `bpf_extension_link_prog':
->> bus.c:(.text+0x1384): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/bus.o: in function `bpf_extension_unlink_prog':
->> bus.c:(.text+0x1394): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/dimm_devs.o: in function `bpf_extension_link_prog':
-   dimm_devs.c:(.text+0x12c0): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/dimm_devs.o: in function `bpf_extension_unlink_prog':
-   dimm_devs.c:(.text+0x12d0): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/dimm.o: in function `bpf_extension_link_prog':
-   dimm.c:(.text+0x2d0): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/dimm.o: in function `bpf_extension_unlink_prog':
-   dimm.c:(.text+0x2e0): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/region_devs.o: in function `bpf_extension_link_prog':
-   region_devs.c:(.text+0x1388): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/region_devs.o: in function `bpf_extension_unlink_prog':
-   region_devs.c:(.text+0x1398): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/region.o: in function `bpf_extension_link_prog':
-   region.c:(.text+0x3d4): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/region.o: in function `bpf_extension_unlink_prog':
-   region.c:(.text+0x3e4): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/namespace_devs.o: in function `bpf_extension_link_prog':
-   namespace_devs.c:(.text+0x2efc): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/namespace_devs.o: in function `bpf_extension_unlink_prog':
-   namespace_devs.c:(.text+0x2f0c): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/label.o: in function `bpf_extension_link_prog':
-   label.c:(.text+0x324): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/label.o: in function `bpf_extension_unlink_prog':
-   label.c:(.text+0x334): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/badrange.o: in function `bpf_extension_link_prog':
-   badrange.c:(.text+0x674): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/badrange.o: in function `bpf_extension_unlink_prog':
-   badrange.c:(.text+0x684): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/claim.o: in function `bpf_extension_link_prog':
-   claim.c:(.text+0x380): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/claim.o: in function `bpf_extension_unlink_prog':
-   claim.c:(.text+0x390): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/btt_devs.o: in function `bpf_extension_link_prog':
-   btt_devs.c:(.text+0xb24): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/btt_devs.o: in function `bpf_extension_unlink_prog':
-   btt_devs.c:(.text+0xb34): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/security.o: in function `bpf_extension_link_prog':
-   security.c:(.text+0x4c0): multiple definition of `bpf_extension_link_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe48): first defined here
-   powerpc64-linux-ld: drivers/nvdimm/security.o: in function `bpf_extension_unlink_prog':
-   security.c:(.text+0x4d0): multiple definition of `bpf_extension_unlink_prog'; drivers/nvdimm/core.o:core.c:(.text+0xe58): first defined here
---
-   powerpc64-linux-ld: drivers/pcmcia/cistpl.o: in function `bpf_extension_link_prog':
->> cistpl.c:(.text+0x1430): multiple definition of `bpf_extension_link_prog'; drivers/pcmcia/pcmcia_resource.o:pcmcia_resource.c:(.text+0xec0): first defined here
-   powerpc64-linux-ld: drivers/pcmcia/cistpl.o: in function `bpf_extension_unlink_prog':
->> cistpl.c:(.text+0x1440): multiple definition of `bpf_extension_unlink_prog'; drivers/pcmcia/pcmcia_resource.o:pcmcia_resource.c:(.text+0xed0): first defined here
-   powerpc64-linux-ld: drivers/pcmcia/pcmcia_cis.o: in function `bpf_extension_link_prog':
-   pcmcia_cis.c:(.text+0x718): multiple definition of `bpf_extension_link_prog'; drivers/pcmcia/pcmcia_resource.o:pcmcia_resource.c:(.text+0xec0): first defined here
-   powerpc64-linux-ld: drivers/pcmcia/pcmcia_cis.o: in function `bpf_extension_unlink_prog':
-   pcmcia_cis.c:(.text+0x728): multiple definition of `bpf_extension_unlink_prog'; drivers/pcmcia/pcmcia_resource.o:pcmcia_resource.c:(.text+0xed0): first defined here
+>> drivers/acpi/pptt.c:311: warning: Function parameter or struct member 'callback' not described in 'acpi_pptt_for_each_container'
+>> drivers/acpi/pptt.c:311: warning: Function parameter or struct member 'arg' not described in 'acpi_pptt_for_each_container'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+
+
+vim +311 drivers/acpi/pptt.c
+
+   297	
+   298	/**
+   299	 * acpi_pptt_for_each_container() - Iterate over all processor containers
+   300	 *
+   301	 * Not all 'Processor' entries in the PPTT are either a CPU or a Processor
+   302	 * Container, they may exist purely to describe a Private resource. CPUs
+   303	 * have to be leaves, so a Processor Container is a non-leaf that has the
+   304	 * 'ACPI Processor ID valid' flag set.
+   305	 *
+   306	 * Return: 0 for a complete walk, or the first non-zero value from the callback
+   307	 *         that stopped the walk.
+   308	 */
+   309	static int __maybe_unused
+   310	acpi_pptt_for_each_container(acpi_pptt_cpu_callback_t callback, void *arg)
+ > 311	{
+   312		struct acpi_pptt_processor *cpu_node;
+   313		struct acpi_table_header *table_hdr;
+   314		struct acpi_subtable_header *entry;
+   315		bool leaf_flag, has_leaf_flag = false;
+   316		unsigned long table_end;
+   317		acpi_status status;
+   318		u32 proc_sz;
+   319		int ret = 0;
+   320	
+   321		status = acpi_get_table(ACPI_SIG_PPTT, 0, &table_hdr);
+   322		if (ACPI_FAILURE(status))
+   323			return 0;
+   324	
+   325		if (table_hdr->revision > 1)
+   326			has_leaf_flag = true;
+   327	
+   328		table_end = (unsigned long)table_hdr + table_hdr->length;
+   329		entry = ACPI_ADD_PTR(struct acpi_subtable_header, table_hdr,
+   330				     sizeof(struct acpi_table_pptt));
+   331		proc_sz = sizeof(struct acpi_pptt_processor);
+   332		while ((unsigned long)entry + proc_sz < table_end) {
+   333			cpu_node = (struct acpi_pptt_processor *)entry;
+   334			if (entry->type == ACPI_PPTT_TYPE_PROCESSOR &&
+   335			    cpu_node->flags & ACPI_PPTT_ACPI_PROCESSOR_ID_VALID)
+   336			{
+   337				leaf_flag = cpu_node->flags & ACPI_PPTT_ACPI_LEAF_NODE;
+   338				if ((has_leaf_flag && !leaf_flag) ||
+   339				    (!has_leaf_flag && !acpi_pptt_leaf_node(table_hdr, cpu_node)))
+   340				{
+   341					ret = callback(cpu_node, arg);
+   342					if (ret)
+   343						break;
+   344				}
+   345			}
+   346			entry = ACPI_ADD_PTR(struct acpi_subtable_header, entry,
+   347					     entry->length);
+   348		}
+   349	
+   350		acpi_put_table(table_hdr);
+   351	
+   352		return ret;
+   353	}
+   354	
 
 -- 
 0-DAY CI Kernel Test Service
