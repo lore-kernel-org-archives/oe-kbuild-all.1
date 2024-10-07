@@ -1,62 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79B11D222A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Oct 2024 12:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062181D2B0E;
+	Mon,  7 Oct 2024 12:48:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728305335; cv=none; b=dN56Xs7O/10YUOSFjYz2RLi6QAH2Y8ClVVwi9XHtx2cC5kMCvihoeoaQnCJUhygEXJwvUtAqodMQ3o2P/Eul6c3GHhsu0P1/djENo2Y4oHyIBSYRykkff04oj8anY4lqvc8RMWL2XIYbWsxq9rHDulS3s1oaWverT658W5RFIk4=
+	t=1728305337; cv=none; b=qAToJUNGNbheBvtD82C7TtDmTxGl91kGJz/C7ZxZBH+rdjTh9VIUU22tE5Ed7ojR0GRJd/ZbBrSFZXTG2pm9QsM+g8+eVJLfH7sVFsj7NbtiE0DKnnMrzntLsZvuAY8w31iyhb9OWJ30VyL8U5iswprwlKon3s2pb4N353xRRJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728305335; c=relaxed/simple;
-	bh=ysVTXNU2ucl9SaVTZ5Lr60rELrWrYmvaQrJsrccxSBU=;
+	s=arc-20240116; t=1728305337; c=relaxed/simple;
+	bh=XWgabam3fhc3PvpjHHnnru1mmimtxFrWT467mkfuww0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRN3zHUTJ7v2IrJxbBVvRJf0tlW03BWecQzGsDUb0C68vGZXNzz9V5dYCWg5MB7+lhA8Di4S7FFvSnNDHFFFbC0bbk3WI5V+ArK5JFm+NrQmdypU4qt1btOmibLbvIrdOLAWF52CWa6fuojS9ICboIyJLt9QYg0rubvWa6N9/Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOCowZrJ; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=DxJuWrHGk3KCXOrrHp3xidwDziNi+IdyPDwBbcRZPukYr1F8E1B9lrxBt/GA+SDv94rvQ8YszXryoRBW02GKW4Lj2/TsUTZfWe7fz70a9V77zIQocQBnYTfAMwt8CPbq74pplO2LOjJqfouG6uYsp2qB5BeZt9aEBhdiVXxghQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdGBAFz1; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOCowZrJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdGBAFz1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728305334; x=1759841334;
+  t=1728305337; x=1759841337;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ysVTXNU2ucl9SaVTZ5Lr60rELrWrYmvaQrJsrccxSBU=;
-  b=nOCowZrJd17QRSvrOMUuGd2ktId2QP0xzV64GRNKr4uYC5LULm/poYh+
-   kdOLgR8GylSewRBkuUvLT1gEwndxUjHlSyUNPpHCAD/AxR9JKePzkfplu
-   fcmfvAbOVW09jEgP3H73i0yPGtuWv+eLDE0NKdlQjPp6SpFjOj5RKjKvv
-   HhPTiX1GyWlSKcoz4N6VzwXoxtlIriML3qlCZikgGWla1Q/6JUFR+TsJc
-   BMd/NKi4UxqV2V6ficS2DTLyPHjiYiaLGMk+wl+SBg2XpIS9CcKNmFLgG
-   auckBgF9gbP/uEYleoaNV/nPZ4p5hN7nVASgxREXcrGBSlvxuwCMs53VV
+  bh=XWgabam3fhc3PvpjHHnnru1mmimtxFrWT467mkfuww0=;
+  b=TdGBAFz1gctBFaNvuP2HLd7UHw1XMfxCdG0ZodmaT1ZOhImu84+Wb7Fg
+   68M/qkgX/Y1m0BfBq/YPQTQ+7UA+BkG/ogsQTADxbqHTNdFbJI6cMjaGZ
+   M32yDT0E7sSxImHpydpaOoiLau+dUGawlnV9sTYRebOHeON/NNbAPJ1+g
+   8lkMXwSBEEmOYOxOxJ9ovbhsGaeIVDaXG2l+E8QKMif+CQMk6xg017Rvn
+   R4Bw9nYqg4t5h//yM2Oju83HdYmVPvzOTc5h8zr+rkXuyMvYnBJYqhwwf
+   fTzhfD4+rcRXgaz+Dmetym4CNoD5Okx0x+ZqP5P01EUDTshf+f/EOL2/S
    w==;
-X-CSE-ConnectionGUID: ww/XR4AuTfaIejMsHGbLJQ==
-X-CSE-MsgGUID: KgnKhbPnQxy10nD8UistJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31152288"
+X-CSE-ConnectionGUID: W7PnSknlRgCFxnUcqpki6Q==
+X-CSE-MsgGUID: vTvR+kSgRtG5slW52Q7WYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31152293"
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="31152288"
+   d="scan'208";a="31152293"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 05:48:52 -0700
-X-CSE-ConnectionGUID: PCsGns7aSCa0E0+nXwQVvg==
-X-CSE-MsgGUID: OfEO/U3ZRS2nSXhbTggRCw==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 05:48:54 -0700
+X-CSE-ConnectionGUID: bP6fMKj0RnyrWoAmPTX4GQ==
+X-CSE-MsgGUID: rdegqp39TlWWvVoSaAoULg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="80055133"
+   d="scan'208";a="80055132"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 07 Oct 2024 05:48:50 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxnAO-0004zB-0r;
+	id 1sxnAO-0004z2-0K;
 	Mon, 07 Oct 2024 12:48:48 +0000
-Date: Mon, 7 Oct 2024 20:48:40 +0800
+Date: Mon, 7 Oct 2024 20:48:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
-	linux-fbdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	thomas.zimmermann@suse.de,
-	Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
-Subject: Re: [PATCH v2] fbdev: sstfb: Make CONFIG_FB_DEVICE optional
-Message-ID: <202410072022.oRqUf7DT-lkp@intel.com>
-References: <20241004152429.4329-1-gonzalo.silvalde@gmail.com>
+To: Daniel Yang <danielyangkang@gmail.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Jan Karcher <jaka@linux.ibm.com>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Tony Lu <tonylu@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, danielyangkang@gmail.com,
+	syzbot+e953a8f3071f5c0a28fd@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] resolve gtp possible deadlock warning
+Message-ID: <202410072002.hT2D7135-lkp@intel.com>
+References: <20241005045411.118720-1-danielyangkang@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,199 +73,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241004152429.4329-1-gonzalo.silvalde@gmail.com>
+In-Reply-To: <20241005045411.118720-1-danielyangkang@gmail.com>
 
-Hi Gonzalo,
+Hi Daniel,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.12-rc2 next-20241004]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc2 next-20241004]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gonzalo-Silvalde-Blanco/fbdev-sstfb-Make-CONFIG_FB_DEVICE-optional/20241004-232658
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20241004152429.4329-1-gonzalo.silvalde%40gmail.com
-patch subject: [PATCH v2] fbdev: sstfb: Make CONFIG_FB_DEVICE optional
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241007/202410072022.oRqUf7DT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410072022.oRqUf7DT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Yang/resolve-gtp-possible-deadlock-warning/20241005-125510
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241005045411.118720-1-danielyangkang%40gmail.com
+patch subject: [PATCH v2] resolve gtp possible deadlock warning
+config: x86_64-buildonly-randconfig-005-20241007 (https://download.01.org/0day-ci/archive/20241007/202410072002.hT2D7135-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410072002.hT2D7135-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410072022.oRqUf7DT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410072002.hT2D7135-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/video/fbdev/sstfb.c: In function 'sstfb_probe':
->> drivers/video/fbdev/sstfb.c:1439:2: error: invalid preprocessing directive #fdef; did you mean #ifdef?
-    1439 | #fdef CONFIG_FB_DEVICE
-         |  ^~~~
-         |  ifdef
-   drivers/video/fbdev/sstfb.c:1442:2: error: #endif without #if
-    1442 | #endif
-         |  ^~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+>> net/smc/af_smc.c:22:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
+      22 | #define pr_fmt(fmt) KMSG_COMPONENT ": " fmt
+         |         ^
+   include/linux/printk.h:380:9: note: previous definition is here
+     380 | #define pr_fmt(fmt) fmt
+         |         ^
+   1 warning generated.
 
 
-vim +1439 drivers/video/fbdev/sstfb.c
+vim +/pr_fmt +22 net/smc/af_smc.c
 
-  1320	
-  1321	static int sstfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-  1322	{
-  1323		struct fb_info *info;
-  1324		struct fb_fix_screeninfo *fix;
-  1325		struct sstfb_par *par;
-  1326		struct sst_spec *spec;
-  1327		int err;
-  1328	
-  1329		err = aperture_remove_conflicting_pci_devices(pdev, "sstfb");
-  1330		if (err)
-  1331			return err;
-  1332	
-  1333		/* Enable device in PCI config. */
-  1334		if ((err=pci_enable_device(pdev))) {
-  1335			printk(KERN_ERR "cannot enable device\n");
-  1336			return err;
-  1337		}
-  1338	
-  1339		/* Allocate the fb and par structures.  */
-  1340		info = framebuffer_alloc(sizeof(struct sstfb_par), &pdev->dev);
-  1341		if (!info)
-  1342			return -ENOMEM;
-  1343	
-  1344		pci_set_drvdata(pdev, info);
-  1345	
-  1346		par  = info->par;
-  1347		fix  = &info->fix;
-  1348	
-  1349		par->type = id->driver_data;
-  1350		spec = &voodoo_spec[par->type];
-  1351		f_ddprintk("found device : %s\n", spec->name);
-  1352	
-  1353		par->dev = pdev;
-  1354		par->revision = pdev->revision;
-  1355	
-  1356		fix->mmio_start = pci_resource_start(pdev,0);
-  1357		fix->mmio_len	= 0x400000;
-  1358		fix->smem_start = fix->mmio_start + 0x400000;
-  1359	
-  1360		if (!request_mem_region(fix->mmio_start, fix->mmio_len, "sstfb MMIO")) {
-  1361			printk(KERN_ERR "sstfb: cannot reserve mmio memory\n");
-  1362			goto fail_mmio_mem;
-  1363		}
-  1364	
-  1365		if (!request_mem_region(fix->smem_start, 0x400000,"sstfb FB")) {
-  1366			printk(KERN_ERR "sstfb: cannot reserve fb memory\n");
-  1367			goto fail_fb_mem;
-  1368		}
-  1369	
-  1370		par->mmio_vbase = ioremap(fix->mmio_start,
-  1371						fix->mmio_len);
-  1372		if (!par->mmio_vbase) {
-  1373			printk(KERN_ERR "sstfb: cannot remap register area %#lx\n",
-  1374			        fix->mmio_start);
-  1375			goto fail_mmio_remap;
-  1376		}
-  1377		info->screen_base = ioremap(fix->smem_start, 0x400000);
-  1378		if (!info->screen_base) {
-  1379			printk(KERN_ERR "sstfb: cannot remap framebuffer %#lx\n",
-  1380			        fix->smem_start);
-  1381			goto fail_fb_remap;
-  1382		}
-  1383	
-  1384		if (!sst_init(info, par)) {
-  1385			printk(KERN_ERR "sstfb: Init failed\n");
-  1386			goto fail;
-  1387		}
-  1388		sst_get_memsize(info, &fix->smem_len);
-  1389		strscpy(fix->id, spec->name, sizeof(fix->id));
-  1390	
-  1391		printk(KERN_INFO "%s (revision %d) with %s dac\n",
-  1392			fix->id, par->revision, par->dac_sw.name);
-  1393		printk(KERN_INFO "framebuffer at %#lx, mapped to 0x%p, size %dMB\n",
-  1394		        fix->smem_start, info->screen_base,
-  1395		        fix->smem_len >> 20);
-  1396	
-  1397		f_ddprintk("regbase_virt: %p\n", par->mmio_vbase);
-  1398		f_ddprintk("membase_phys: %#lx\n", fix->smem_start);
-  1399		f_ddprintk("fbbase_virt: %p\n", info->screen_base);
-  1400	
-  1401		info->fbops	= &sstfb_ops;
-  1402		info->pseudo_palette = par->palette;
-  1403	
-  1404		fix->type	= FB_TYPE_PACKED_PIXELS;
-  1405		fix->visual	= FB_VISUAL_TRUECOLOR;
-  1406		fix->accel	= FB_ACCEL_NONE;  /* FIXME */
-  1407		/*
-  1408		 * According to the specs, the linelength must be of 1024 *pixels*
-  1409		 * and the 24bpp mode is in fact a 32 bpp mode (and both are in
-  1410		 * fact dithered to 16bit).
-  1411		 */
-  1412		fix->line_length = 2048; /* default value, for 24 or 32bit: 4096 */
-  1413	
-  1414		fb_find_mode(&info->var, info, mode_option, NULL, 0, NULL, 16);
-  1415	
-  1416		if (sstfb_check_var(&info->var, info)) {
-  1417			printk(KERN_ERR "sstfb: invalid video mode.\n");
-  1418			goto fail;
-  1419		}
-  1420	
-  1421		if (sstfb_set_par(info)) {
-  1422			printk(KERN_ERR "sstfb: can't set default video mode.\n");
-  1423			goto fail;
-  1424		}
-  1425	
-  1426		if (fb_alloc_cmap(&info->cmap, 256, 0)) {
-  1427			printk(KERN_ERR "sstfb: can't alloc cmap memory.\n");
-  1428			goto fail;
-  1429		}
-  1430	
-  1431		/* register fb */
-  1432		info->device = &pdev->dev;
-  1433		if (register_framebuffer(info) < 0) {
-  1434			printk(KERN_ERR "sstfb: can't register framebuffer.\n");
-  1435			goto fail_register;
-  1436		}
-  1437	
-  1438		sstfb_clear_screen(info);
-> 1439	#fdef CONFIG_FB_DEVICE
-  1440		if (device_create_file(info->dev, &device_attrs[0]))
-  1441			printk(KERN_WARNING "sstfb: can't create sysfs entry.\n");
-  1442	#endif
-  1443	
-  1444		fb_info(info, "%s frame buffer device at 0x%p\n",
-  1445			fix->id, info->screen_base);
-  1446	
-  1447		return 0;
-  1448	
-  1449	fail_register:
-  1450		fb_dealloc_cmap(&info->cmap);
-  1451	fail:
-  1452		iounmap(info->screen_base);
-  1453	fail_fb_remap:
-  1454		iounmap(par->mmio_vbase);
-  1455	fail_mmio_remap:
-  1456		release_mem_region(fix->smem_start, 0x400000);
-  1457	fail_fb_mem:
-  1458		release_mem_region(fix->mmio_start, info->fix.mmio_len);
-  1459	fail_mmio_mem:
-  1460		framebuffer_release(info);
-  1461		return -ENXIO; 	/* no voodoo detected */
-  1462	}
-  1463	
+ac7138746e1413 Ursula Braun 2017-01-09 @22  #define pr_fmt(fmt) KMSG_COMPONENT ": " fmt
+ac7138746e1413 Ursula Braun 2017-01-09  23  
 
 -- 
 0-DAY CI Kernel Test Service
