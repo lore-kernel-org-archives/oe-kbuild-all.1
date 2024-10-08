@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEFF1E0DFB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Oct 2024 19:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBF1213EC1;
+	Tue,  8 Oct 2024 19:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728414608; cv=none; b=cCWkeqM1ACsrPJmvRFYvhPrUkIhlnSfuKZd5r2ZLXpxRTecFJBoI2DtN/JqhZW1ixoLUu94WSLmrmomVoBOLZiMKqJq/Rw+bGj10MYhCqSvAxwSzV5U8DLueHkgJHdRtRatoP/yQU/rIZE1a1lfXxQXgebnkuOsIAnY9A6w8TtY=
+	t=1728415811; cv=none; b=JR2eXyQNANPUz9q8jRf0iPYsolQjsJ5s2WvBQyvwbDgAiwPVGvq7fdfFwGGWXtJO0tAHqEmF5PYmnHJDToixnasfecygV76n3nRxtgOwINJxto6Zy+lYUm+2bZuwiwtDgdmPkXB4suSXmTIZBN9rQpZIbjtMq5DYhgrAwtFMFbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728414608; c=relaxed/simple;
-	bh=lWhHwzEaci2akHFYOCECVyd4nVD3bYWjF+k05JbpWRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jyLE+1d5LgdorUXn2WgHpbCkwpHDXwxfF+lj2iJWXsYZ5hd1TGN8sTY4U4WKgaYepNqpTz4yimhfG/2QhfSgnH+ZpYODrj1Km4I/xqUnsgptaacm+buQvoFygrccFjUYPFoNoT3aXDKURcRMe3CKfZXRWgNmZsaUv2O/XQwuXJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ktjqbyrh; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1728415811; c=relaxed/simple;
+	bh=dXtAb0QVDHqUCH+D1YOwgAbi29h8B3NCCdv1wgQL7eY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gaSJulX8k3Nje3UprTprP3sZJi7SRxXHXfxy1FVynDZzROWqrrlwGL5EUzQDGi55nemoMhmFTT/z/dyOT0hktFbhLPzqhB2pJSzGY/J9G9v/Qjt4oATQxvz/wHSvgaGre2S5P+SZjY+34zkkNH4z/AGPx3ECTj2W4lLx9kHXdpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESSlpcru; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ktjqbyrh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESSlpcru"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728414607; x=1759950607;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lWhHwzEaci2akHFYOCECVyd4nVD3bYWjF+k05JbpWRQ=;
-  b=ktjqbyrhztFyQrxkVhrxl6Pt1PW3aQZma1J+S5IqsPpEMQqwMqtndOQs
-   ITsue2a+1P9hEkc++xg5fB3BDPPWGHD9sG3ypnD6Cz6LHaJYpgOdMOQhc
-   o61s1SZNpz6srkLolhljdlT6M2pEZv9iIW6y1FmWQxjX6iCrB61OONLIm
-   EF870aneWdreqz3dcg2yud6L+BWdZJyxICWANU1gek4wiYs/OUSsUDiow
-   EgFq0e0JKCWcorBGPApiD9XcbUgNrzY7BHp4wzIexeaZG8T6T1PxGkOhq
-   jYMXvMVx7PNMJ06s+XdsZhpWz1OiIYjT/WfASvNKPkB4PwA6uSK27Yc6Q
-   g==;
-X-CSE-ConnectionGUID: QH34b3thRei8OkkrvXAkfg==
-X-CSE-MsgGUID: vKKURmXhR8mTHxiec0GMWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27737631"
+  t=1728415809; x=1759951809;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dXtAb0QVDHqUCH+D1YOwgAbi29h8B3NCCdv1wgQL7eY=;
+  b=ESSlpcrusj/kd4aAIJ8J00jTlFA9uOLpvmYMrvF6Kn+FCsuHm0DJk/gk
+   fyOBq/BC8Ufah2V2X74+LBrw7jX+zXxmfvdhlByBhOPzerSaeKiSQp5Gd
+   7liXLaumXkCozUoZhhOOl8DQlHTy3J9lW2AvnvfbJ1PBIWBfbXX1mthnT
+   XNp9pLKROE0vDw7oK+7xn5Nou6deqqdOGjbY4iYb+2NBXphoP7Gz8q0gm
+   2wm+TGs18H7smNbMKNktJ8KqW2WTB+h+kHr9fGttu7gETw1Sp/K+TQBsh
+   b6PSug6860w7EMt9s/gKOkrU/i3Q1aHkNNjjmv4lSSRyHrDAqmn0WRXr+
+   Q==;
+X-CSE-ConnectionGUID: gom+yfgJTzW1sqaM32Mw0Q==
+X-CSE-MsgGUID: lMTEWgDATG6RzJGwEOGi0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27600552"
 X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
-   d="scan'208";a="27737631"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 12:10:07 -0700
-X-CSE-ConnectionGUID: ItgDFrkjSpq6tc0WjCJTaQ==
-X-CSE-MsgGUID: mXcj7gaHQKSpM7dZfwis6w==
+   d="scan'208";a="27600552"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 12:30:08 -0700
+X-CSE-ConnectionGUID: G+AnJdxlSwaMXXdfJ0fIag==
+X-CSE-MsgGUID: 5Uq+7RNCQ2i7djkSKD2oSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
-   d="scan'208";a="76208263"
+   d="scan'208";a="75835543"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Oct 2024 12:10:06 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Oct 2024 12:30:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syFat-0008I1-1J;
-	Tue, 08 Oct 2024 19:10:03 +0000
-Date: Wed, 9 Oct 2024 03:09:03 +0800
+	id 1syFuG-0008JI-2H;
+	Tue, 08 Oct 2024 19:30:04 +0000
+Date: Wed, 9 Oct 2024 03:29:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:cpumask_next_wrap 4/9] include/linux/cpumask.h:290:67: error:
- use of undeclared identifier 'n'
-Message-ID: <202410090547.SDSIHHcU-lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
+Subject: Re: [PATCH v2 5/7] bootmem: Stop using page->index
+Message-ID: <202410090311.eaqcL7IZ-lkp@intel.com>
+References: <20241005200121.3231142-6-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,140 +65,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241005200121.3231142-6-willy@infradead.org>
 
-tree:   https://github.com/norov/linux cpumask_next_wrap
-head:   cd9cf48999c063af9112b67b7ba6a8e4de3a6397
-commit: 154672762d63148534b3de1b42f1fb807e286f0c [4/9] cpumask: temp cpumask_next_wrap__
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241009/202410090547.SDSIHHcU-lkp@intel.com/config)
+Hi Matthew,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on tip/locking/core tip/x86/mm dennis-percpu/for-next linus/master v6.12-rc2 next-20241008]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/mm-Convert-page_to_pgoff-to-page_pgoff/20241006-040239
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241005200121.3231142-6-willy%40infradead.org
+patch subject: [PATCH v2 5/7] bootmem: Stop using page->index
+config: x86_64-randconfig-014-20241008 (https://download.01.org/0day-ci/archive/20241009/202410090311.eaqcL7IZ-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090547.SDSIHHcU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090311.eaqcL7IZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410090547.SDSIHHcU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410090311.eaqcL7IZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:63:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:13:
->> include/linux/cpumask.h:290:67: error: use of undeclared identifier 'n'
-     290 |         return find_next_bit_wrap(cpumask_bits(src), small_cpumask_bits, n + 1);
-         |                                                                          ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+>> arch/x86/mm/init_64.c:992:28: error: call to undeclared function 'bootmem_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     992 |                 enum bootmem_type type = bootmem_type(page);
+         |                                          ^
+   1 error generated.
 
 
-vim +/n +290 include/linux/cpumask.h
+vim +/bootmem_type +992 arch/x86/mm/init_64.c
 
-   286	
-   287	static __always_inline
-   288	unsigned int cpumask_next_wrap__(int start, const struct cpumask *src)
-   289	{
- > 290		return find_next_bit_wrap(cpumask_bits(src), small_cpumask_bits, n + 1);
-   291	}
-   292	
+   987	
+   988	static void __meminit free_pagetable(struct page *page, int order)
+   989	{
+   990		/* bootmem page has reserved flag */
+   991		if (PageReserved(page)) {
+ > 992			enum bootmem_type type = bootmem_type(page);
+   993			unsigned long nr_pages = 1 << order;
+   994	
+   995			if (type == SECTION_INFO || type == MIX_SECTION_INFO) {
+   996				while (nr_pages--)
+   997					put_page_bootmem(page++);
+   998			} else
+   999				while (nr_pages--)
+  1000					free_reserved_page(page++);
+  1001		} else
+  1002			free_pages((unsigned long)page_address(page), order);
+  1003	}
+  1004	
 
 -- 
 0-DAY CI Kernel Test Service
