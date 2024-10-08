@@ -1,69 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708D2537E9
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Oct 2024 05:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7677518C93F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Oct 2024 06:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728365860; cv=none; b=BAy6MtVj7TY9o//vMmfXvY1+tvK6mMEG4RuzdNtpAJEK/bwNfCDZXabIo/fTvPHkupPBZaRE9Xtczc4m//AWwnXgAU0DGMmjyC4LBQ+c2aemDm/5YrURuFqsJq6Pz9Nrq+CpCDALX1yOp4dK3ALMK2+OGgSFsB6/UUgzAOaNS4M=
+	t=1728368384; cv=none; b=owMfpxwPm1FoNLRNres8Gjexot/gl8Eaj251a0RErhPM/Fzmk2DF6cyBJzw40wmcpolPsPYXd+qiCGJHnJGQB/MEs+XOLJWoFZg7UgJWSlM0wm5xTA/zoPI14xfydFfL6+ZUtMZHyCiacbXFpN4iX0Lv0RLrYMoWuzNtTELnJcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728365860; c=relaxed/simple;
-	bh=5bGqT5cG+g0suqPMvIhI/iPquao/pCryXnCeO9M5BUQ=;
+	s=arc-20240116; t=1728368384; c=relaxed/simple;
+	bh=9/cAtOyeoqfcoMdj6oFodLlnbOe7lWY5jYZsIuvI8jo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDuWZQMevWrByufA5wwI+6L5KiutwdR6+7o4XE4soU5iddBMU97FlgRUUDPS2p0o0Rx82m8VNXuGFbBe5zCn49nIRkbg5LAflGyriZ/Xx+HNRY24OXhe7P5kMAcCkX9e9Is5HPcJgE27lZ3OydsS3dFVDuebq6Segt/4zrY3i9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3fMCfHo; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=eBid7PzJn5ubvaNWEzS83xmA3ucjxZe8rQFXnEBgUWoh0wOeGDUDMeeTiVcbQhcP9pdJ9L85NiTdL3OaF8ZFWrlTHnl14rxhHxN6C24Px90MHvbicXf8N9tD34MVOga5+t939QpCuiZXIOXIC+ZHZ3AUOe2P4Cby7rkurrVvNsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oxa6nOQ8; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3fMCfHo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oxa6nOQ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728365859; x=1759901859;
+  t=1728368382; x=1759904382;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5bGqT5cG+g0suqPMvIhI/iPquao/pCryXnCeO9M5BUQ=;
-  b=M3fMCfHoQiS3/gX12w8UeEVfdZqNQHomJGIrk7k06/TCSK3xYe/1O5Q3
-   eYllR1uAb2XRqby+MVW2Ik71maeyXVYFA1G8EaMS8elUVtogAICVsUMav
-   9aXllmS8QPku4afQihFMrzQVdltHYe+OnrYSZ8iN0zMlWQo9/SWCPCQkk
-   8g+oB+xU1Vg+BW+Q3PCi9cjHGck2RRVKwN7mtG9aCHc9k6LPS4nFHTHeQ
-   DVyQ2YyfZ/itoYeebc7goO9nxOCI6DGthodwCyo5CbqbR1NWWMcJPI+TV
-   pCvhu7Xb8jewyDDz7V1mDE70Sf7T4e5X1tgJxwqajr4m6wxwSGJUQFxIX
+  bh=9/cAtOyeoqfcoMdj6oFodLlnbOe7lWY5jYZsIuvI8jo=;
+  b=Oxa6nOQ839xazrwRShekYgUE6sce3hKXAHXQwi2PCAhrat3Ae2iQyXBz
+   uUuGTA/PDCH3cjWCjxDUGDSygYFLfnY0O1dSVkNmxnHZ2pp79nRyKJOmB
+   9MhYksNTygIru9Bladg+I4CtuUDaP4QPX1xANVBzrRZQ0HZw0ctE9mLRC
+   eklRKcJl5kbWOJgy9ApLjeR3gx7tIe9Oo2N3Zusam5ruZ2xoh8HHNaDUj
+   ClY0Ww2DkgIceTLNSERtOgh57MEPrZOOH9RlR404MjHfiGfV5yfj0i+Jy
+   7EupXr+DnJb7BujYxP5vJpTUGLqek6HiGPxXdJ5xuD1IF6XKYtHxFmw50
    g==;
-X-CSE-ConnectionGUID: UVPLkzxSRSSyINs+bGDrmw==
-X-CSE-MsgGUID: nAr6UNBwQa6ZDvYeLEMWIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="52943729"
+X-CSE-ConnectionGUID: QuIxLnxkTWehLUoBsrmGDQ==
+X-CSE-MsgGUID: zkG8+ur5RT2vh1tGFZ3Qbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31238491"
 X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="52943729"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 22:37:38 -0700
-X-CSE-ConnectionGUID: q1I5LljeSRWJnBqG7AjxNw==
-X-CSE-MsgGUID: 83/VUB4bRMGUhI0pqGi5tQ==
+   d="scan'208";a="31238491"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 23:19:42 -0700
+X-CSE-ConnectionGUID: pZn01ajnRgieV7brOfNpiA==
+X-CSE-MsgGUID: fzv5U/I4QwiPuAvz4ZSf/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="75955281"
+   d="scan'208";a="75400397"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Oct 2024 22:37:35 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Oct 2024 23:19:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sy2ub-0005wS-19;
-	Tue, 08 Oct 2024 05:37:33 +0000
-Date: Tue, 8 Oct 2024 13:37:25 +0800
+	id 1sy3ZI-0005yu-0x;
+	Tue, 08 Oct 2024 06:19:36 +0000
+Date: Tue, 8 Oct 2024 14:18:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Peter Xu <peterx@redhat.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	David Hildenbrand <david@redhat.com>,
-	Donet Tom <donettom@linux.ibm.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Michal Hocko <mhocko@suse.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Oscar Salvador <osalvador@suse.de>
-Subject: Re: [PATCH v4 9/9] mm: Consolidate common checks in
- hugetlb_get_unmapped_area
-Message-ID: <202410081210.uNLbf3Jk-lkp@intel.com>
-References: <20241007075037.267650-10-osalvador@suse.de>
+To: Puranjay Mohan <puranjay@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, puranjay12@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH bpf-next v3 1/2] bpf: implement bpf_send_signal_task()
+ kfunc
+Message-ID: <202410081401.fYRMhL8t-lkp@intel.com>
+References: <20241007103426.128923-2-puranjay@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,59 +72,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007075037.267650-10-osalvador@suse.de>
+In-Reply-To: <20241007103426.128923-2-puranjay@kernel.org>
 
-Hi Oscar,
+Hi Puranjay,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on s390/features]
-[also build test WARNING on brauner-vfs/vfs.all akpm-mm/mm-everything linus/master v6.12-rc2 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-mmap-Teach-generic_get_unmapped_area-_topdown-to-handle-hugetlb-mappings/20241007-155328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/20241007075037.267650-10-osalvador%40suse.de
-patch subject: [PATCH v4 9/9] mm: Consolidate common checks in hugetlb_get_unmapped_area
-config: mips-cavium_octeon_defconfig (https://download.01.org/0day-ci/archive/20241008/202410081210.uNLbf3Jk-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410081210.uNLbf3Jk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Puranjay-Mohan/bpf-implement-bpf_send_signal_task-kfunc/20241007-183648
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241007103426.128923-2-puranjay%40kernel.org
+patch subject: [PATCH bpf-next v3 1/2] bpf: implement bpf_send_signal_task() kfunc
+config: x86_64-randconfig-121-20241008 (https://download.01.org/0day-ci/archive/20241008/202410081401.fYRMhL8t-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410081401.fYRMhL8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410081210.uNLbf3Jk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410081401.fYRMhL8t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/bpf_trace.c:839:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr @@     got void * @@
+   kernel/trace/bpf_trace.c:839:41: sparse:     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr
+   kernel/trace/bpf_trace.c:839:41: sparse:     got void *
+   kernel/trace/bpf_trace.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   kernel/trace/bpf_trace.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:880:25: sparse: sparse: context imbalance in 'uprobe_prog_run' - unexpected unlock
 
-   In file included from include/linux/hugetlb.h:789,
-                    from kernel/fork.c:53:
-   arch/mips/include/asm/hugetlb.h: In function 'prepare_hugepage_range':
->> arch/mips/include/asm/hugetlb.h:20:24: warning: unused variable 'h' [-Wunused-variable]
-      20 |         struct hstate *h = hstate_file(file);
-         |                        ^
+vim +839 kernel/trace/bpf_trace.c
 
-
-vim +/h +20 arch/mips/include/asm/hugetlb.h
-
-50a41ff292fafe David Daney     2009-05-27  13  
-78d6e4e8ea8700 Alexandre Ghiti 2018-10-26  14  #define __HAVE_ARCH_PREPARE_HUGEPAGE_RANGE
-50a41ff292fafe David Daney     2009-05-27  15  static inline int prepare_hugepage_range(struct file *file,
-50a41ff292fafe David Daney     2009-05-27  16  					 unsigned long addr,
-50a41ff292fafe David Daney     2009-05-27  17  					 unsigned long len)
-50a41ff292fafe David Daney     2009-05-27  18  {
-50a41ff292fafe David Daney     2009-05-27  19  	unsigned long task_size = STACK_TOP;
-50a41ff292fafe David Daney     2009-05-27 @20  	struct hstate *h = hstate_file(file);
-50a41ff292fafe David Daney     2009-05-27  21  
-50a41ff292fafe David Daney     2009-05-27  22  	if (len > task_size)
-50a41ff292fafe David Daney     2009-05-27  23  		return -ENOMEM;
-50a41ff292fafe David Daney     2009-05-27  24  	if (task_size - len < addr)
-50a41ff292fafe David Daney     2009-05-27  25  		return -EINVAL;
-50a41ff292fafe David Daney     2009-05-27  26  	return 0;
-50a41ff292fafe David Daney     2009-05-27  27  }
-50a41ff292fafe David Daney     2009-05-27  28  
+   822	
+   823	static int bpf_send_signal_common(u32 sig, enum pid_type type, struct task_struct *tsk, u64 value)
+   824	{
+   825		struct send_signal_irq_work *work = NULL;
+   826		kernel_siginfo_t info;
+   827		bool has_siginfo = false;
+   828	
+   829		if (!tsk) {
+   830			tsk = current;
+   831		} else {
+   832			has_siginfo = true;
+   833			clear_siginfo(&info);
+   834			info.si_signo = sig;
+   835			info.si_errno = 0;
+   836			info.si_code = SI_KERNEL;
+   837			info.si_pid = 0;
+   838			info.si_uid = 0;
+ > 839			info.si_value.sival_ptr = (void *)value;
+   840		}
+   841	
+   842		/* Similar to bpf_probe_write_user, task needs to be
+   843		 * in a sound condition and kernel memory access be
+   844		 * permitted in order to send signal to the current
+   845		 * task.
+   846		 */
+   847		if (unlikely(tsk->flags & (PF_KTHREAD | PF_EXITING)))
+   848			return -EPERM;
+   849		if (unlikely(!nmi_uaccess_okay()))
+   850			return -EPERM;
+   851		/* Task should not be pid=1 to avoid kernel panic. */
+   852		if (unlikely(is_global_init(tsk)))
+   853			return -EPERM;
+   854	
+   855		if (irqs_disabled()) {
+   856			/* Do an early check on signal validity. Otherwise,
+   857			 * the error is lost in deferred irq_work.
+   858			 */
+   859			if (unlikely(!valid_signal(sig)))
+   860				return -EINVAL;
+   861	
+   862			work = this_cpu_ptr(&send_signal_work);
+   863			if (irq_work_is_busy(&work->irq_work))
+   864				return -EBUSY;
+   865	
+   866			/* Add the current task, which is the target of sending signal,
+   867			 * to the irq_work. The current task may change when queued
+   868			 * irq works get executed.
+   869			 */
+   870			work->task = get_task_struct(tsk);
+   871			work->has_siginfo = has_siginfo;
+   872			work->info = info;
+   873			work->sig = sig;
+   874			work->type = type;
+   875			irq_work_queue(&work->irq_work);
+   876			return 0;
+   877		}
+   878	
+   879		if (has_siginfo)
+   880			return group_send_sig_info(sig, &info, tsk, type);
+   881	
+   882		return group_send_sig_info(sig, SEND_SIG_PRIV, tsk, type);
+   883	}
+   884	
 
 -- 
 0-DAY CI Kernel Test Service
