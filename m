@@ -1,59 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF3414EC59
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Oct 2024 14:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C0F1DF97E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Oct 2024 14:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728397371; cv=none; b=mG9HdbehwtwuNLLTK8BsxXK7LH1ypwj3vaMxxV8dy0rkjFzyXoh0Zb50uGyoXcVD6fpMLlWsx0ue1qoAk8/X6FGvtejjto9ERQeVAdIcRqW47djC14wzudlcILGXOD08F81aU68eK6u5Mt3PkshtJFbDL1Cr/eUtUCdY+q7dEN8=
+	t=1728397397; cv=none; b=I0q7UEbXRXRrCh2fM2OEKZMw13vJiTocFDr82Y6jdPCiBwbMf9+wsYB87JZwv16R5S5NKHHJoQR6kZ8NmLmXVmqW0s346VAVy1wl4FJe/kXnqrkWn7o7V4j0s+tpwGnUsyZ4MrjBZEePo8l5AX6VaFaK8bouzUq26viNPuCBJOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728397371; c=relaxed/simple;
-	bh=k4o15T0IVAeLkorMxWJC1iDRugfJQ4+6ViD62eyx0iA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R7/du5m6Ru4NWpjP9N2z6qzxargYp+WzLmwJUSw6zLxJNqg9b3ISHhV3rCZWQzk6a1Td+7NCMlogUs50pu6s/mnXYOzdQAVy3lpRc6rkfShTZ7L18fgTwqrlfysoh6MCLMM6qe+okRi+Sy46d9k0OTPUOvWM7VaRdUDcwtntEbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c3UDnswi; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728397397; c=relaxed/simple;
+	bh=oovhDjQ+h+tGiTzVPs+Bd3Ctyp+vKbNtabnaRMLZ0MM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q8VKW57EN8t0cz5JorPu9MPoE6zQ7DmyIavSHKjYICMFKITIVDS0qTBQaNcYs8aEjFgNsGRMeW0MEyLcbnUs+gawU34TOgJHKsdQm3lKhz5DuFts7gTfnopSHQD3IkVl4Zy6YjlS80o37I10kL8DW4hfxZpkD1MBdfGNz8qxSgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dwtT8cOF; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c3UDnswi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728397369; x=1759933369;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k4o15T0IVAeLkorMxWJC1iDRugfJQ4+6ViD62eyx0iA=;
-  b=c3UDnswiAkhhhihX3h0eOVLa9HrmSu8K6EXoLpwYe+apcl4kjt+lt0Ui
-   I3PB9wgjgNqwoqOvclAp6BC1YwzJXbWbZBela9a9ck4IaVSKLq2Z+stei
-   YXEJ/dpmLn8gfViok9Fzs+hyDMFUNEU63CBgPcHoo2D0n05c8PxHL0zzE
-   1dNgXKuhJJQGwH0JANdT74sItX1zBhCuGYf36VGjtZfO4L3HUl20vyDG+
-   telULSSMPaOlGuYa75lSIwIgx1EJ9YfO2O6/uD9vzUqwhIY5pL3de/Yzd
-   S9vno+fExAIkxQLkcpHrKPRLDSc3OSNAk3PR25R5/5DKviNLvAjDqYhZ7
-   Q==;
-X-CSE-ConnectionGUID: ig/l74XhTtqcEyhCMZa3GQ==
-X-CSE-MsgGUID: WwdYPOWfQJiLY58j5bOzoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38163496"
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
-   d="scan'208";a="38163496"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 07:22:49 -0700
-X-CSE-ConnectionGUID: RbDiaOLMR92rQsCjXx81uw==
-X-CSE-MsgGUID: 0VwTwishQ2irbhSAvn0C1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
-   d="scan'208";a="80450819"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Oct 2024 07:22:48 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1syB6r-0007xo-0l;
-	Tue, 08 Oct 2024 14:22:45 +0000
-Date: Tue, 8 Oct 2024 22:22:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-f9d942cf7d57 14593/22147]
- drivers/gpu/drm/img-rogue/1.17/mmu_common.c:400:25: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202410082208.2VqmTX79-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dwtT8cOF"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71def715ebdso2691390b3a.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 08 Oct 2024 07:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728397394; x=1729002194; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3s0y0U4U/zNTntZ4JNtG+dOk0GuXy1+AAJizNLWCVpk=;
+        b=dwtT8cOFMCDAEGcH4SmlSburhHgOaIl+IZ5lBIxBLBRkoq+STaCssAjxkaRm1Nfjnj
+         glI+9ELCId9R3Vlks9hxMD4H/8YVqaFerY4mZ3j0y5WXuLqO7OUo2TrlUpISWTq66VEE
+         /xy+xXnJh7+IdjZJ12Jao5AzvXUlyoCzlPeI3NtSlmWz8zUXPG9ywkRbxLyn7hLdes+e
+         MNlM9sY/phKHnVu/JOggXLy6WywjJ96TkFtjCg+BMfq+jjaWv2QTT+CjHfGz3oBoTTK6
+         2m6mVIibatLuhlGmdPKjfmyJnACpy3ZMe9mg7cqbHYNN+x/Q0GXJW00/n87FNtJCctNF
+         LP/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728397394; x=1729002194;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3s0y0U4U/zNTntZ4JNtG+dOk0GuXy1+AAJizNLWCVpk=;
+        b=toJsbgskOd9sZeTI2jvWoIx6iLbgdFeq/Nh/rSCbZRurxpToUJa3xX4NrPFmuUXnw7
+         hZ5hjzETVAuJompc2M/79roa3lx02BU7UUy4MeeQHiTU4vBtM8LcypJKT005ZfTBokdH
+         R4qG+Y4KusH+lYhZL654gIoWA+1l2o07eD+Z09J7jOERJWJnGhI/y61WeT/wCPXxp1H4
+         hAsve2b5aDMk87k1MO7T6dYrhZk/A2RlSqhYiXhhiZN9QGpD4qvg3wHJ6o2yci/k7M3W
+         cYLw3aHxT2rX/swRpWEQOjMBMObaJxEBv65g+Q6Ei3aDtS9ASHGfj9BLJFh0SQ906DRu
+         mh/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVKjCO2S/KIa/g4xFtZm9OO67cvuoUK4HOgBjvefC9+DiTeq3zRBkBZLe6VUfUOTYONSYHRqIpmHcXw/yiB@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVyofziuSX6W2cZ9M3VFU2T1BZW2AMlpKHmUkQFJ/Jk75Cjc0L
+	hwBc/13Kzd7fDXGOgm//Vg3PKVkjurJie9KUgoDCS2it+HfELkJpUg57kGqtXY4=
+X-Google-Smtp-Source: AGHT+IET4qjoJB1wWodF/QyFu2wMpdITwsro6eNAfvM/IE1PiYckOL2Jg39NTknxUkJQohIJiVZU3w==
+X-Received: by 2002:a05:6a20:d50b:b0:1d7:1040:8519 with SMTP id adf61e73a8af0-1d710408630mr2986112637.42.1728397394539;
+        Tue, 08 Oct 2024 07:23:14 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:e3a0:1c0:95c8:8b16])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71df0cd2a1bsm6168882b3a.85.2024.10.08.07.23.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 07:23:14 -0700 (PDT)
+Date: Tue, 8 Oct 2024 08:23:10 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v10 7/7] remoteproc: stm32: Add support of an OP-TEE TA
+ to load the firmware
+Message-ID: <ZwVATlRbo0OdRLbj@p14s>
+References: <20241007131620.2090104-8-arnaud.pouliquen@foss.st.com>
+ <202410081902.TwQcmWjk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,132 +79,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202410081902.TwQcmWjk-lkp@intel.com>
 
-Hi Luigi,
+From hereon and starting with this version, I will not review patchets that
+don't pass the compilation bots.
 
-FYI, the error/warning still remains.
+Mathieu
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
-head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
-commit: 7b4b976d249b9ae5dbb9fa954bdcb09c4dde6dfd [14593/22147] CHROMIUM: drm/img-rogue: Add 1.17 IMG PowerVR Rogue driver
-config: arm64-randconfig-r112-20241008 (https://download.01.org/0day-ci/archive/20241008/202410082208.2VqmTX79-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce: (https://download.01.org/0day-ci/archive/20241008/202410082208.2VqmTX79-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410082208.2VqmTX79-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/img-rogue/1.17/rgxhwperf_common.c:3410:15: warning: variable 'ui32TlPackets' set but not used [-Wunused-but-set-variable]
-    3410 |         IMG_UINT32                      ui32TlPackets = 0;
-         |                                         ^
-   1 warning generated.
---
-   In file included from drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:45:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2222:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:869:15: warning: variable 'ui32TlPackets' set but not used [-Wunused-but-set-variable]
-     869 |         IMG_UINT32                      ui32TlPackets = 0;
-         |                                         ^
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:870:15: warning: variable 'ui32HWPerfPackets' set but not used [-Wunused-but-set-variable]
-     870 |         IMG_UINT32                      ui32HWPerfPackets = 0;
-         |                                         ^
->> drivers/gpu/drm/img-rogue/1.17/pvr_gputrace.c:871:15: warning: variable 'ui32HWPerfPacketsSent' set but not used [-Wunused-but-set-variable]
-     871 |         IMG_UINT32                      ui32HWPerfPacketsSent = 0;
-         |                                         ^
-   4 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/img-rogue/1.17/mmu_common.c:400:25: sparse: sparse: cast removes address space '__iomem' of expression
---
->> drivers/gpu/drm/img-rogue/1.17/pvrsrv.c:2675:36: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/img-rogue/1.17/pvrsrv.c:2710:14: sparse: sparse: cast removes address space '__iomem' of expression
---
->> drivers/gpu/drm/img-rogue/1.17/mem_utils.c:322:31: sparse: sparse: cannot dereference this type
---
->> drivers/gpu/drm/img-rogue/1.17/rgxfwutils.c:254:31: sparse: sparse: cast removes address space '__iomem' of expression
-
-vim +/__iomem +400 drivers/gpu/drm/img-rogue/1.17/mmu_common.c
-
-   362	
-   363	@Return         PVRSRV_OK if successful otherwise PVRSRV_ERROR_RETRY
-   364	 */
-   365	/*****************************************************************************/
-   366	static PVRSRV_ERROR
-   367	_CleanupThread_FreeMMUMapping(void* pvData)
-   368	{
-   369		PVRSRV_ERROR eError;
-   370		MMU_CLEANUP_ITEM *psCleanup = (MMU_CLEANUP_ITEM *)pvData;
-   371		MMU_CTX_CLEANUP_DATA *psMMUCtxCleanupData = psCleanup->psMMUCtxCleanupData;
-   372		PVRSRV_DEVICE_NODE *psDevNode = psCleanup->psDevNode;
-   373		IMG_BOOL bFreeNow;
-   374		IMG_UINT32 uiSyncCurrent;
-   375		IMG_UINT32 uiSyncReq;
-   376	
-   377		OSLockAcquire(psMMUCtxCleanupData->hCleanupLock);
-   378	
-   379		/* Don't attempt to free anything when the context has been destroyed.
-   380		 * Especially don't access any device specific structures any more!*/
-   381		if (!psMMUCtxCleanupData->bMMUContextExists)
-   382		{
-   383			OSFreeMem(psCleanup);
-   384			PVR_GOTO_WITH_ERROR(eError, PVRSRV_OK, e0);
-   385		}
-   386	
-   387		if (psCleanup->psSync == NULL)
-   388		{
-   389			/* Kick to invalidate the MMU caches and get sync info */
-   390			eError = psDevNode->pfnMMUCacheInvalidateKick(psDevNode,
-   391			                                     &psCleanup->uiRequiredSyncVal);
-   392			if (eError != PVRSRV_OK)
-   393			{
-   394				OSLockRelease(psMMUCtxCleanupData->hCleanupLock);
-   395				return PVRSRV_ERROR_RETRY;
-   396			}
-   397			psCleanup->psSync = psDevNode->psMMUCacheSyncPrim;
-   398		}
-   399	
- > 400		uiSyncCurrent = OSReadDeviceMem32(psCleanup->psSync->pui32LinAddr);
-   401		uiSyncReq = psCleanup->uiRequiredSyncVal;
-   402	
-   403		/* Has the invalidate executed */
-   404		bFreeNow = (uiSyncCurrent >= uiSyncReq) ?
-   405				/* ... with the counter wrapped around ...
-   406				 * There can't be 3*1024*1024 transactions completed, so consider wrapped */
-   407				(((uiSyncCurrent - uiSyncReq) > 0xF0000000UL)? IMG_FALSE : IMG_TRUE):
-   408				/* There can't be 3*1024*1024 transactions pending, so consider wrapped */
-   409				(((uiSyncReq - uiSyncCurrent) > 0xF0000000UL)? IMG_TRUE : IMG_FALSE);
-   410	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Tue, Oct 08, 2024 at 07:07:40PM +0800, kernel test robot wrote:
+> Hi Arnaud,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-core-Introduce-rproc_pa_to_va-helper/20241007-212358
+> base:   9852d85ec9d492ebef56dc5f229416c925758edc
+> patch link:    https://lore.kernel.org/r/20241007131620.2090104-8-arnaud.pouliquen%40foss.st.com
+> patch subject: [PATCH v10 7/7] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
+> config: alpha-kismet-CONFIG_REMOTEPROC_TEE-CONFIG_STM32_RPROC-0-0 (https://download.01.org/0day-ci/archive/20241008/202410081902.TwQcmWjk-lkp@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20241008/202410081902.TwQcmWjk-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410081902.TwQcmWjk-lkp@intel.com/
+> 
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for REMOTEPROC_TEE when selected by STM32_RPROC
+>    WARNING: unmet direct dependencies detected for REMOTEPROC_TEE
+>      Depends on [n]: REMOTEPROC [=y] && OPTEE [=n]
+>      Selected by [y]:
+>      - STM32_RPROC [=y] && (ARCH_STM32 || COMPILE_TEST [=y]) && REMOTEPROC [=y]
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
