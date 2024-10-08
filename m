@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A8814A82
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Oct 2024 22:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F0B219CA0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Oct 2024 22:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728426257; cv=none; b=hJpBTPPeZY13xp3kbqvcqxmNECRNXAl2jRUYbPpwdD1oA9A9lcDSreAONoOyQo9wYwN0aJ4/XeRBB5A0k+cN1lJV1j2kWn0E0BEMSmS2fjQiupqJ4ekQA9VAmeCJ28KeIfcWWbgrg01Qb2NMrNY8qZa0O3P5pVsoIT+0t/5+cPg=
+	t=1728427518; cv=none; b=XOZal/GeHrzTeVdRxZ5RawwSseSw/PcDI1jW3jWMETe7O+hoKnHepB3rII5xkGRA0UWiNCIVw7wMELFmCKHrqIjb9nzgfPkpkRXiKEQjL3MXiEUdfsptrwb/XQCCGiK7d15r1YrZhjn65cBeVuLTIqtqJu7RJ+ENHKxHCnxFuyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728426257; c=relaxed/simple;
-	bh=MlQBdMmyt+xdQTFbzTz0g0CCHtJkjSfS1vO673WVL6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PIDoJjjllyxvPhSztemajGc/XfB5+2Z6fnzdOGW+1JSjm6oC+nrOm8b/+w4j/DodtylmuHprYFSN9Zh2j+S63yj3N8mMKECdhK1vZ+8PWCt8KlwzWKxf9o/Lc+k/NFRaO5HIGJQgVokSr456tZ17ccP/btTC3LVNM0IYdK0tiJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlLcJt1p; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1728427518; c=relaxed/simple;
+	bh=Gk580rjiDxgF7YwO5s3wxuTmM7IrxPdN+2ai82g118U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VSFvG4a+WKcrmmCiCvUdwSwlOqkXyiXLkptpXI2QFcCrh0SmBc2Wxl+nVZA1LAHti4enKrv2tLU9fGj6Auxv8Q3GyFm/CnjonOH3GPGWdKlpwhBnUDcwfa6rf3qBhEX0++5sIqSg8oETXZaZcA1nxxR6hwIIfNk9jVvx9rHTlaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cL20ExjE; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlLcJt1p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cL20ExjE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728426254; x=1759962254;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MlQBdMmyt+xdQTFbzTz0g0CCHtJkjSfS1vO673WVL6w=;
-  b=nlLcJt1pDi7FQUZzcIELCDbJuXHZscQS11XqRSoEYSQBTg32sAmzvM48
-   BQjV/MihqXJhAKdbSWtsJmvGOqoyTGl5s3ObWRNeP6HjkIqL5sc4PJQ59
-   UA9Y9c8co+WwJw8mSGhVI+6OXkzy9BuwZsAnHLLQzYckD3mlyRfM43pni
-   Ih8+9hRs9vrEIZvzb2t79IPB2d43XPDYvDxzfgZJ98hvPJzj4jsoSQplg
-   lFCHOSKU1WpyvgYFIrKU90HHEDwtU8YtZwQiTZ1vuhsOD602GvrUgy/MR
-   ObPCeHYrwzAEOkHzQuBDw3NoBLA+y2D7PSaL6wcr4xfNYg3edRXuoJ/nd
-   w==;
-X-CSE-ConnectionGUID: nAMUAn+sRZCck5/WKjKp2w==
-X-CSE-MsgGUID: dTIxLOcUROqshNPzAPKdUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="50217912"
+  t=1728427517; x=1759963517;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Gk580rjiDxgF7YwO5s3wxuTmM7IrxPdN+2ai82g118U=;
+  b=cL20ExjE8m/hxlNSNsdCT5L35kcmgGfQ7HDj3frsosHdqfeR7QhvGFUN
+   +8ycFziWvSN9pCQdqbNVq/ek/dl7tREDUNZnMSNCpc04hE7TWJjatUp/t
+   seC+WfI9jG8gLwTicuByG/XfK1WKVMls5YUrIaNvLc0chv1QydsOGaZVu
+   WjO0nSBtJXFRSW8BCRYUheaUQ5KBlNpT70fo/ddOCd2XkQ3BhJZxLpoTQ
+   7OfHmshCNo8vkUtPzL+zpT9jwU118YNZ2i4K1TOAXokWRz2nEAdBaT0w6
+   3R7ZlVqUVWRxl2WwmogMa9opiab5PM+7cvXxDwjSDg5MovLgk+SU2pfSj
+   A==;
+X-CSE-ConnectionGUID: yGF/JjfgRpyHcLZW7/apmQ==
+X-CSE-MsgGUID: lCdsDimPSGizXdhv+iJNQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27810505"
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="50217912"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 15:24:14 -0700
-X-CSE-ConnectionGUID: 3eCTuKcPSIOSZVs7txuvHg==
-X-CSE-MsgGUID: 45ePklEiRdOEZOAlJ6nvHw==
+   d="scan'208";a="27810505"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 15:45:16 -0700
+X-CSE-ConnectionGUID: xhvqv0qXQxOYbkci+1Si9w==
+X-CSE-MsgGUID: taWMAtFRRgiW0/f99iXx3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="75701917"
+   d="scan'208";a="99368575"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Oct 2024 15:24:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 Oct 2024 15:45:12 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syIcj-0008Qi-1x;
-	Tue, 08 Oct 2024 22:24:09 +0000
-Date: Wed, 9 Oct 2024 06:23:52 +0800
+	id 1syIx4-0008Rq-19;
+	Tue, 08 Oct 2024 22:45:10 +0000
+Date: Wed, 9 Oct 2024 06:45:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-5.10.y-cip 27/40] powerpc-linux-ld: warning: orphan
- section `.data..LASANLOC1' from
- `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section
- `.data..LASANLOC1'
-Message-ID: <202410090618.z8XD2fXI-lkp@intel.com>
+To: Jann Horn <jannh@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Hugh Dickins <hughd@google.com>, Oleg Nesterov <oleg@redhat.com>,
+	Michal Hocko <mhocko@suse.com>, Helge Deller <deller@gmx.de>,
+	Vlastimil Babka <vbabka@suse.cz>, Ben Hutchings <bwh@kernel.org>,
+	Willy Tarreau <w@1wt.eu>, Rik van Riel <riel@redhat.com>,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH] mm: Enforce a minimal stack gap even against
+ inaccessible VMAs
+Message-ID: <202410090632.brLG8w0b-lkp@intel.com>
+References: <20241008-stack-gap-inaccessible-v1-1-848d4d891f21@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,433 +70,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241008-stack-gap-inaccessible-v1-1-848d4d891f21@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip
-head:   a577cba74b0361ca30fea73b63c849f5c3b9b521
-commit: 29e1590867e4a0c6167df02c62c03ba22f09c746 [27/40] drm: Place Renesas drivers in a separate dir
-config: powerpc-randconfig-001-20241008 (https://download.01.org/0day-ci/archive/20241009/202410090618.z8XD2fXI-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090618.z8XD2fXI-lkp@intel.com/reproduce)
+Hi Jann,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/mm-Enforce-a-minimal-stack-gap-even-against-inaccessible-VMAs/20241008-065733
+base:   8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+patch link:    https://lore.kernel.org/r/20241008-stack-gap-inaccessible-v1-1-848d4d891f21%40google.com
+patch subject: [PATCH] mm: Enforce a minimal stack gap even against inaccessible VMAs
+config: parisc-randconfig-r072-20241009 (https://download.01.org/0day-ci/archive/20241009/202410090632.brLG8w0b-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090632.brLG8w0b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410090618.z8XD2fXI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410090632.brLG8w0b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_managed.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_vblank_work.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_vblank_work.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_bufs.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_context.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_context.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_dma.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_scatter.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_lock.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_gem_cma_helper.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_gem_cma_helper.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_gem_cma_helper.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_panel.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_panel.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_panel.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_of.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_debugfs_crc.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_debugfs_crc.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_debugfs_crc.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_output.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_output.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_output.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_gem.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_gem.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_composer.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_composer.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASAN0'
->> powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC4'
->> powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC11' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC11'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC12' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC12'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC13' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC13'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC14' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC14'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC15' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC15'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC16' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC16'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC17' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC17'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC18' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC18'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC19' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC19'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC20' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC20'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC11' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC11'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC12' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC12'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC13' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC13'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC14' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC14'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC15' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC15'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC16' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC16'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC17' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC17'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC18' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC18'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC19' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC19'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC20' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC20'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC11' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC11'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC12' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC12'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC13' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC13'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC14' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC14'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC15' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC15'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC16' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC16'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC17' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC17'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC18' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC18'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC19' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC19'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC20' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC20'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC21' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC21'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC22' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC22'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC23' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC23'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC24' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC24'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC25' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC25'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC26' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC26'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC27' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC27'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC28' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC28'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC29' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC29'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC30' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC30'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC31' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC31'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC32' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC32'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC33' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC33'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC34' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC34'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC35' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC35'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC36' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC36'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC37' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC37'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC38' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC38'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC39' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC39'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC40' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC40'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC41' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC41'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC42' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC42'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC43' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC43'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC44' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC44'
---
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_managed.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_vblank_work.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_vblank_work.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_legacy_misc.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_bufs.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_context.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_context.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_dma.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_scatter.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_lock.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_vm.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_gem_cma_helper.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_gem_cma_helper.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_gem_cma_helper.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_panel.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_panel.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_panel.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_of.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_debugfs.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_debugfs_crc.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_debugfs_crc.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_debugfs_crc.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_mipi_dbi.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/drm_mipi_dsi.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vgem/vgem_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vgem/vgem_fence.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_plane.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_output.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_output.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_output.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_crtc.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_gem.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_gem.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_composer.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_composer.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/vkms/vkms_writeback.o' being placed in section `.data..LASAN0'
->> powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASANLOC4'
->> powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC11' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC11'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC12' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC12'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC13' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC13'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC14' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC14'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC15' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC15'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC16' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC16'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC17' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC17'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC18' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC18'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC19' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC19'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC20' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASANLOC20'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/ch7006_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/ch7006_mode.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/sil164_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC11' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC11'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC12' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC12'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC13' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC13'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC14' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC14'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC15' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC15'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC16' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC16'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC17' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC17'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC18' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC18'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC19' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC19'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC20' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASANLOC20'
-   powerpc-linux-ld: warning: orphan section `.data..LASAN0' from `drivers/gpu/drm/i2c/tda998x_drv.o' being placed in section `.data..LASAN0'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC1' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC1'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC2' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC2'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC3' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC3'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC4' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC4'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC5' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC5'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC6' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC6'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC7' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC7'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC8' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC8'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC9' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC9'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC10' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC10'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC11' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC11'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC12' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC12'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC13' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC13'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC14' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC14'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC15' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC15'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC16' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC16'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC17' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC17'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC18' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC18'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC19' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC19'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC20' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC20'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC21' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC21'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC22' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC22'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC23' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC23'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC24' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC24'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC25' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC25'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC26' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC26'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC27' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC27'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC28' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC28'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC29' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC29'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC30' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC30'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC31' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC31'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC32' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC32'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC33' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC33'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC34' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC34'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC35' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC35'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC36' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC36'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC37' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC37'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC38' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC38'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC39' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC39'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC40' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC40'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC41' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC41'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC42' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC42'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC43' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC43'
-   powerpc-linux-ld: warning: orphan section `.data..LASANLOC44' from `drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o' being placed in section `.data..LASANLOC44'
-..
+   mm/mmap.c: In function 'expand_upwards':
+>> mm/mmap.c:1069:39: error: 'prev' undeclared (first use in this function)
+    1069 |                 if (vma_is_accessible(prev))
+         |                                       ^~~~
+   mm/mmap.c:1069:39: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/prev +1069 mm/mmap.c
+
+  1036	
+  1037	#if defined(CONFIG_STACK_GROWSUP)
+  1038	/*
+  1039	 * PA-RISC uses this for its stack.
+  1040	 * vma is the last one with address > vma->vm_end.  Have to extend vma.
+  1041	 */
+  1042	static int expand_upwards(struct vm_area_struct *vma, unsigned long address)
+  1043	{
+  1044		struct mm_struct *mm = vma->vm_mm;
+  1045		struct vm_area_struct *next;
+  1046		unsigned long gap_addr;
+  1047		int error = 0;
+  1048		VMA_ITERATOR(vmi, mm, vma->vm_start);
+  1049	
+  1050		if (!(vma->vm_flags & VM_GROWSUP))
+  1051			return -EFAULT;
+  1052	
+  1053		/* Guard against exceeding limits of the address space. */
+  1054		address &= PAGE_MASK;
+  1055		if (address >= (TASK_SIZE & PAGE_MASK))
+  1056			return -ENOMEM;
+  1057		address += PAGE_SIZE;
+  1058	
+  1059		/* Enforce stack_guard_gap */
+  1060		gap_addr = address + stack_guard_gap;
+  1061	
+  1062		/* Guard against overflow */
+  1063		if (gap_addr < address || gap_addr > TASK_SIZE)
+  1064			gap_addr = TASK_SIZE;
+  1065	
+  1066		next = find_vma_intersection(mm, vma->vm_end, gap_addr);
+  1067		if (next && !(next->vm_flags & VM_GROWSUP)) {
+  1068			/* see comments in expand_downwards() */
+> 1069			if (vma_is_accessible(prev))
+  1070				return -ENOMEM;
+  1071			if (address == next->vm_start)
+  1072				return -ENOMEM;
+  1073		}
+  1074	
+  1075		if (next)
+  1076			vma_iter_prev_range_limit(&vmi, address);
+  1077	
+  1078		vma_iter_config(&vmi, vma->vm_start, address);
+  1079		if (vma_iter_prealloc(&vmi, vma))
+  1080			return -ENOMEM;
+  1081	
+  1082		/* We must make sure the anon_vma is allocated. */
+  1083		if (unlikely(anon_vma_prepare(vma))) {
+  1084			vma_iter_free(&vmi);
+  1085			return -ENOMEM;
+  1086		}
+  1087	
+  1088		/* Lock the VMA before expanding to prevent concurrent page faults */
+  1089		vma_start_write(vma);
+  1090		/*
+  1091		 * vma->vm_start/vm_end cannot change under us because the caller
+  1092		 * is required to hold the mmap_lock in read mode.  We need the
+  1093		 * anon_vma lock to serialize against concurrent expand_stacks.
+  1094		 */
+  1095		anon_vma_lock_write(vma->anon_vma);
+  1096	
+  1097		/* Somebody else might have raced and expanded it already */
+  1098		if (address > vma->vm_end) {
+  1099			unsigned long size, grow;
+  1100	
+  1101			size = address - vma->vm_start;
+  1102			grow = (address - vma->vm_end) >> PAGE_SHIFT;
+  1103	
+  1104			error = -ENOMEM;
+  1105			if (vma->vm_pgoff + (size >> PAGE_SHIFT) >= vma->vm_pgoff) {
+  1106				error = acct_stack_growth(vma, size, grow);
+  1107				if (!error) {
+  1108					/*
+  1109					 * We only hold a shared mmap_lock lock here, so
+  1110					 * we need to protect against concurrent vma
+  1111					 * expansions.  anon_vma_lock_write() doesn't
+  1112					 * help here, as we don't guarantee that all
+  1113					 * growable vmas in a mm share the same root
+  1114					 * anon vma.  So, we reuse mm->page_table_lock
+  1115					 * to guard against concurrent vma expansions.
+  1116					 */
+  1117					spin_lock(&mm->page_table_lock);
+  1118					if (vma->vm_flags & VM_LOCKED)
+  1119						mm->locked_vm += grow;
+  1120					vm_stat_account(mm, vma->vm_flags, grow);
+  1121					anon_vma_interval_tree_pre_update_vma(vma);
+  1122					vma->vm_end = address;
+  1123					/* Overwrite old entry in mtree. */
+  1124					vma_iter_store(&vmi, vma);
+  1125					anon_vma_interval_tree_post_update_vma(vma);
+  1126					spin_unlock(&mm->page_table_lock);
+  1127	
+  1128					perf_event_mmap(vma);
+  1129				}
+  1130			}
+  1131		}
+  1132		anon_vma_unlock_write(vma->anon_vma);
+  1133		vma_iter_free(&vmi);
+  1134		validate_mm(mm);
+  1135		return error;
+  1136	}
+  1137	#endif /* CONFIG_STACK_GROWSUP */
+  1138	
 
 -- 
 0-DAY CI Kernel Test Service
