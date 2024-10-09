@@ -1,65 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC31EADC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 09:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA9A191461;
+	Wed,  9 Oct 2024 09:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728464507; cv=none; b=k2f73jEHNIon2K+J1IKuCBQ4FODlk9bP4W6IWrPzhms/SEYVjp/7GwDl71/SKze6g5JZMM5/FYMu1XIZh7gtA0BJCjHShg0bA/UFwzC1xtR4YmwHf/Q7maUL233oF0R386/YYmYOkDt12oPa3R/15BuQJuitjOFzMHvrIii32xQ=
+	t=1728467632; cv=none; b=X9R9Wqw+6kTuYqIyXbcaNlStRbBrMYfMta1RbFRA4aUGx2H/i9FWU2jFRUyUmoyOCSHeIkmC+bjC0ziZT/5fMDTachjaFsUtHPX406LVjPFS9pZriAOjYh4AglINIC+6JyLP19vYGPO2mV8NS63XAgWilD/TnUDzxTywIVFYAeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728464507; c=relaxed/simple;
-	bh=ZJVBHZGvtKxbvpjFmlBpj6KCGjNmtHop4yOFN0tcpYY=;
+	s=arc-20240116; t=1728467632; c=relaxed/simple;
+	bh=NIyPMmhdZjGAs7fBYKVzyddUl0tMwlIKJxqntEDOS0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rf/xJnk4hrZB/wUYnnnpvKf14L9+ngyGQM3UYIxmDBPMf27mavzbseh7px/u6/U955okl9j3g4JHcO1824Hb0G4FcStZ09B+Z+L1DEPL11axysfUNCzXOemvqeLpjrs6729gBT337ut5s1GFTPxftfJ9OvFy4YxJjFn9Q4tgf8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6g2TRzG; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=qVrD/Tt4LMPTQqUbQuuWc7+CpN5MP9k8jje8/q5FlIw/jgK56UT+GFO0T0ZL7KW729/hldnXEtqpcNj2a6iGwQsRcFeFehC83186tkwiv8FTR8TBwPgecEaFx/0ynRiwMn+mCSgVCP65oeK4DlkjdKelCQmGJThtpbMNULp9QPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KUe/1xJ5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6g2TRzG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KUe/1xJ5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728464506; x=1760000506;
+  t=1728467630; x=1760003630;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZJVBHZGvtKxbvpjFmlBpj6KCGjNmtHop4yOFN0tcpYY=;
-  b=U6g2TRzGdCgtGHww1fl1E2BGMEGsaVT15zt0D4MKRsnm6EoYKRea2otT
-   NKD7zsv7C1kWCFUDF9LWY52iIcHER0MkfB5CtFX+zoE2xBGoYyOx7h74L
-   k4+Zj9npDNKEoFzzpksMb6acM13Bk/Z1xduneC7i7ppZUYq8y6Qbc0DVs
-   cKWvyvjSZ9Wkvtb13p8YgPoF7yp5UOSZor9WSgLW+0qJOzjFamHz9fbML
-   yxhNPPksqH+YYWfS5kJhgFeOzeIlalXqg1766el5LjSfTL2/4smupctOa
-   RFPI/qn4iqJK9+uANCHl0Ph2pDp5JnTDqdB3RdRFsw8x2gpB9HHf5CEXB
-   A==;
-X-CSE-ConnectionGUID: tcM5VQb1SfiS+IUNEkNkRg==
-X-CSE-MsgGUID: tqtmwFltSeqIR61wjN8y7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="31451013"
+  bh=NIyPMmhdZjGAs7fBYKVzyddUl0tMwlIKJxqntEDOS0U=;
+  b=KUe/1xJ5HdFIHVEzFOqY2wND0iAcOsFmA4hScwa5gUjiJVAnwSohUwKE
+   fJkKz0WCkQXBS+Ea4qC95J+Jhi1Dl8jYIHtPXhzCxYrIOV8uIBlA9yGzo
+   2CegD5nvlvtC+jH+UfYgRop7EWX5gqOqgT2DqaPtfJW27dqJ4B25G/6xM
+   ySUbZfFduM0t6Q0XxjficufUEkIfmgxpkdr9uSwgR8DpIEI0r2LSCvmuZ
+   wOdB4fhdrrloIrU4AAeWBo5Mr2HuH9Zg4w/vTfJTQ5q9qgldPd6brYI23
+   ayAMyjCQqqQol8dlDDuyApA+l9V6pJtiCTgXqBUEC8nq6Uw6wvNxiVjCj
+   Q==;
+X-CSE-ConnectionGUID: AkrugihmTV+2hbpL+ChfSw==
+X-CSE-MsgGUID: dQusL8fnQHSvyTSZcWTfzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27649799"
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="31451013"
+   d="scan'208";a="27649799"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 02:01:45 -0700
-X-CSE-ConnectionGUID: wcu5qtTISe2Vnw8WgQXuow==
-X-CSE-MsgGUID: aHGKTm2kTe2d2jOBhrmJNw==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 02:53:49 -0700
+X-CSE-ConnectionGUID: tMctLKAAQnSQz9R1a7sZow==
+X-CSE-MsgGUID: /L/cKijTS2CyMnLn+ctVzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="75778756"
+   d="scan'208";a="75789835"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Oct 2024 02:01:44 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 09 Oct 2024 02:53:45 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sySZh-00091w-0c;
-	Wed, 09 Oct 2024 09:01:41 +0000
-Date: Wed, 9 Oct 2024 17:01:28 +0800
+	id 1syTO2-00094m-2v;
+	Wed, 09 Oct 2024 09:53:42 +0000
+Date: Wed, 9 Oct 2024 17:52:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Zhang <yidong.zhang@amd.com>, linux-kernel@vger.kernel.org,
-	linux-fpga@vger.kernel.org, mdf@kernel.org, hao.wu@intel.com,
-	yilun.xu@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Yidong Zhang <yidong.zhang@amd.com>,
-	lizhi.hou@amd.com, DMG Karthik <Karthik.DMG@amd.com>,
-	Nishad Saraf <nishads@amd.com>,
-	Prapul Krishnamurthy <prapulk@amd.com>
-Subject: Re: [PATCH V1 1/3] drivers/fpga/amd: Add new driver for AMD Versal
- PCIe card
-Message-ID: <202410091652.aQHmRoj1-lkp@intel.com>
-References: <20241007220128.3023169-1-yidong.zhang@amd.com>
+To: Xu Yang <xu.yang_2@nxp.com>, vkoul@kernel.org, kishon@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, gregkh@linuxfoundation.org,
+	peter.chen@kernel.org, herve.codina@bootlin.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	jun.li@nxp.com
+Subject: Re: [PATCH v6 1/3] phy: fsl-imx8mq-usb: add tca function driver for
+ imx95
+Message-ID: <202410091742.HgStY96T-lkp@intel.com>
+References: <20241008062744.2211539-1-xu.yang_2@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,42 +70,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007220128.3023169-1-yidong.zhang@amd.com>
+In-Reply-To: <20241008062744.2211539-1-xu.yang_2@nxp.com>
 
-Hi David,
+Hi Xu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.12-rc2 next-20241008]
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on linus/master v6.12-rc2 next-20241008]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Zhang/drivers-fpga-amd-Add-communication-with-firmware/20241008-060253
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241007220128.3023169-1-yidong.zhang%40amd.com
-patch subject: [PATCH V1 1/3] drivers/fpga/amd: Add new driver for AMD Versal PCIe card
-config: x86_64-randconfig-121-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091652.aQHmRoj1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091652.aQHmRoj1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Yang/arm64-dts-imx95-add-usb3-related-nodes/20241008-152345
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241008062744.2211539-1-xu.yang_2%40nxp.com
+patch subject: [PATCH v6 1/3] phy: fsl-imx8mq-usb: add tca function driver for imx95
+config: arm-randconfig-r121-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091742.HgStY96T-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241009/202410091742.HgStY96T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091652.aQHmRoj1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410091742.HgStY96T-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/fpga/amd/vmgmt.c:33:14: sparse: sparse: symbol 'vmgmt_class' was not declared. Should it be static?
+>> drivers/phy/freescale/phy-fsl-imx8mq-usb.c:264:24: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/phy/freescale/phy-fsl-imx8mq-usb.c:272:27: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct tca_blk * @@     got void [noderef] __iomem *base @@
+   drivers/phy/freescale/phy-fsl-imx8mq-usb.c:272:27: sparse:     expected struct tca_blk *
+   drivers/phy/freescale/phy-fsl-imx8mq-usb.c:272:27: sparse:     got void [noderef] __iomem *base
+   drivers/phy/freescale/phy-fsl-imx8mq-usb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +/vmgmt_class +33 drivers/fpga/amd/vmgmt.c
+vim +264 drivers/phy/freescale/phy-fsl-imx8mq-usb.c
 
-    30	
-    31	static DEFINE_IDA(vmgmt_dev_minor_ida);
-    32	static dev_t vmgmt_devnode;
-  > 33	struct class *vmgmt_class;
-    34	static struct fpga_bridge_ops vmgmt_br_ops;
-    35	
+   254	
+   255	static struct tca_blk *imx95_usb_phy_get_tca(struct platform_device *pdev,
+   256					struct imx8mq_usb_phy *imx_phy)
+   257	{
+   258		struct device *dev = &pdev->dev;
+   259		struct resource *res;
+   260		struct tca_blk *tca;
+   261	
+   262		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+   263		if (!res)
+ > 264			return 0;
+   265	
+   266		tca = devm_kzalloc(dev, sizeof(*tca), GFP_KERNEL);
+   267		if (!tca)
+   268			return ERR_PTR(-ENOMEM);
+   269	
+   270		tca->base = devm_ioremap_resource(&pdev->dev, res);
+   271		if (IS_ERR(tca->base))
+ > 272			return tca->base;
+   273	
+   274		mutex_init(&tca->mutex);
+   275	
+   276		tca->orientation = TYPEC_ORIENTATION_NORMAL;
+   277		tca->sw = tca_blk_get_typec_switch(pdev, imx_phy);
+   278	
+   279		return tca;
+   280	}
+   281	
 
 -- 
 0-DAY CI Kernel Test Service
