@@ -1,150 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936FF1684AE;
-	Wed,  9 Oct 2024 21:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A201A0AFA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 21:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728509681; cv=none; b=RfqJy5LqMxCLN1FLSmmYW7OaBBAURp/YkjQ6xAqiFKpLw51hRodekaiWm/n1Cvk0c4CbB9eXagvbRgZVhIxLh36kS9JZtdxQrXNyopTQWIeciay/aHyolpzH6TWyc5JvMr/BLSePGe/6HxeI7IjuEXuvXT5yMLdBs/+2IKJ/KGw=
+	t=1728510205; cv=none; b=ZiKyv15A/zpXCt6+9DTs/Hj/p3+Jg3xxkSdmEwqA0Zd3WSTMGKLBDDsIEI7FyGsqaC31Sk6nYjURVC8def/B2WJ0pbJJXkNWe3wSdb0xVJsL8BCbRYA1rquSvTaCRGdtmbjZlrxDmbuLZJ5OGDIx54nt2LFE6CZxBEsglOJW5xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728509681; c=relaxed/simple;
-	bh=AL/TAIuYwo9I9vylr0IBpxC01yZi40nGYC9ux9xmKqE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=h/jFADiH+SvFVW/5eL6FYVn2dhsRy6d9uPBgs7CoYlAkwZAeJD18de4zNn9VM0VTIAuLnqleELmJDkq5EvpARlpPedKHWA1KhdaRdiH50WKI0ockd4O0E0ADUWtHxTBkcvCYeQ2oeHbADTOH4kDMCgPct60JiqkYlu39ATT8G2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=xN6+xbk6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728510205; c=relaxed/simple;
+	bh=4GEMwaZLiExs19R90QtDeDjjXM7G+HvxTdA+0WoFtUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c6/sx6z1x1chFMXfKscsM6j0WakkN0dlz8+2buCHX5U0PMWoIhSmD1FsexUpwydhSc4jONxVjjyUs99DiXSmTYir6i1iqlqC9pJfUo1yYrmxDpHfEovjmgwjfagt71uQWUklCaglLK3yOwxCcAQEW7EOrH/Hq75swT8pREDYJXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CVz+00GO; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="xN6+xbk6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30B0C4CEC3;
-	Wed,  9 Oct 2024 21:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1728509681;
-	bh=AL/TAIuYwo9I9vylr0IBpxC01yZi40nGYC9ux9xmKqE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=xN6+xbk6AbriEnMTCDyd+KOtGhVVv/qPlXBYjJsaQtNAlrbj6vM5GPFw8LcX8pFmM
-	 nPtrgFZBCoubtJPNJaImbaQLO1f+pzB7nSdpL4oW66QnPp1PAKxIOGqhM0iDKORFT5
-	 l6KXMEX0uKww2OCtOKTGH0jYm6qUxbgswaXx4IHQ=
-Date: Wed, 9 Oct 2024 14:34:40 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [PATCH v2 5/7] bootmem: Stop using page->index
-Message-Id: <20241009143440.7794c67db6406305730bb625@linux-foundation.org>
-In-Reply-To: <202410090311.eaqcL7IZ-lkp@intel.com>
-References: <20241005200121.3231142-6-willy@infradead.org>
-	<202410090311.eaqcL7IZ-lkp@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CVz+00GO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728510204; x=1760046204;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4GEMwaZLiExs19R90QtDeDjjXM7G+HvxTdA+0WoFtUc=;
+  b=CVz+00GOo+ytFMkO3wEpViwFATNmPndL9Y4ifxm/Ewe0ATM/OZ3EO8TG
+   4/HWTT7Jt5PWq2p0FKhppEGefPrzhnpXs6bNpXr5HXk7iSh8Nk74v3RXh
+   GbE90QKlpB/UIM9Y3wsx2AK2P055CNp2bAzJN7EfiyLsZqt/5/d/7FMDT
+   Erl7i6ojUTdL3M9hlcZokUAcRA65310QsGWV5T2VBmsFnSdGPbLMjteWr
+   GS2LLfZD11HzfF2fZGZbngxW1PvvV8gSleI6/Mve6FXT3tSMeGH/OROkc
+   N2ZKzv6Zfhvd5RI1bSVSU1U0fsxm3xIVBjQpNSNE5+xUUF5rxqKlsJnur
+   A==;
+X-CSE-ConnectionGUID: Lbf31biqSTi4FMya/dCRDQ==
+X-CSE-MsgGUID: 45FOcd7ARxuSoAFXrXavKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27652501"
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="27652501"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 14:43:23 -0700
+X-CSE-ConnectionGUID: U2NIrgl8T4qgvaijjuKaDw==
+X-CSE-MsgGUID: 9djeIIT+TjKGWs+bOF2fog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="80908318"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2024 14:43:22 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1syeSl-0009pw-2T;
+	Wed, 09 Oct 2024 21:43:19 +0000
+Date: Thu, 10 Oct 2024 05:43:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Li Yuting <liyuting2071@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3405/14324]
+ drivers/gpu/drm/phytium/phytium_pci.c:236:9: error: call to undeclared
+ function 'pci_enable_msi'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202410100523.x3WsGWyG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 9 Oct 2024 03:29:37 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi Li,
 
-> Hi Matthew,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on akpm-mm/mm-everything]
-> [also build test ERROR on tip/locking/core tip/x86/mm dennis-percpu/for-next linus/master v6.12-rc2 next-20241008]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/mm-Convert-page_to_pgoff-to-page_pgoff/20241006-040239
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20241005200121.3231142-6-willy%40infradead.org
-> patch subject: [PATCH v2 5/7] bootmem: Stop using page->index
-> config: x86_64-randconfig-014-20241008 (https://download.01.org/0day-ci/archive/20241009/202410090311.eaqcL7IZ-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090311.eaqcL7IZ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410090311.eaqcL7IZ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> arch/x86/mm/init_64.c:992:28: error: call to undeclared function 'bootmem_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      992 |                 enum bootmem_type type = bootmem_type(page);
->          |                                          ^
->    1 error generated.
-> 
+FYI, the error/warning still remains.
 
-Thanks, I did the below.  
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   5d76abff5e121f2d916bcbc121f558c82e5dc221
+commit: 792b82446538ed840a6e23b89673ce21564702bd [3405/14324] Fix gic support for Phytium S2500
+config: arm64-randconfig-002-20241010 (https://download.01.org/0day-ci/archive/20241010/202410100523.x3WsGWyG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410100523.x3WsGWyG-lkp@intel.com/reproduce)
 
-I do wonder whether we should be using free_bootmem_page() in the
-CONFIG_HAVE_BOOTMEM_INFO_NODE=n case,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410100523.x3WsGWyG-lkp@intel.com/
 
-And in the CONFIG_HAVE_BOOTMEM_INFO_NODE=y case, the logic in
-free_pagetable() looks quite duplicative of the logic in
-free_bootmem_page() (which seems too large to be inlined).
+All errors (new ones prefixed by >>):
 
-My new free_reserved_pages() should be moved elsewhere so riscv and
-powerpc (at least) can use it.
+   In file included from drivers/gpu/drm/phytium/phytium_pci.c:7:
+   In file included from include/linux/pci.h:2106:
+   In file included from arch/arm64/include/asm/pci.h:7:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2193:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   drivers/gpu/drm/phytium/phytium_pci.c:23:6: warning: no previous prototype for function 'phytium_pci_vram_hw_init' [-Wmissing-prototypes]
+      23 | void phytium_pci_vram_hw_init(struct phytium_display_private *priv)
+         |      ^
+   drivers/gpu/drm/phytium/phytium_pci.c:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      23 | void phytium_pci_vram_hw_init(struct phytium_display_private *priv)
+         | ^
+         | static 
+   drivers/gpu/drm/phytium/phytium_pci.c:30:5: warning: no previous prototype for function 'phytium_pci_vram_init' [-Wmissing-prototypes]
+      30 | int phytium_pci_vram_init(struct pci_dev *pdev, struct phytium_display_private *priv)
+         |     ^
+   drivers/gpu/drm/phytium/phytium_pci.c:30:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      30 | int phytium_pci_vram_init(struct pci_dev *pdev, struct phytium_display_private *priv)
+         | ^
+         | static 
+   drivers/gpu/drm/phytium/phytium_pci.c:68:6: warning: no previous prototype for function 'phytium_pci_vram_fini' [-Wmissing-prototypes]
+      68 | void phytium_pci_vram_fini(struct pci_dev *pdev, struct phytium_display_private *priv)
+         |      ^
+   drivers/gpu/drm/phytium/phytium_pci.c:68:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      68 | void phytium_pci_vram_fini(struct pci_dev *pdev, struct phytium_display_private *priv)
+         | ^
+         | static 
+   drivers/gpu/drm/phytium/phytium_pci.c:89:5: warning: no previous prototype for function 'phytium_pci_dma_init' [-Wmissing-prototypes]
+      89 | int phytium_pci_dma_init(struct phytium_display_private *priv)
+         |     ^
+   drivers/gpu/drm/phytium/phytium_pci.c:89:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      89 | int phytium_pci_dma_init(struct phytium_display_private *priv)
+         | ^
+         | static 
+   drivers/gpu/drm/phytium/phytium_pci.c:137:6: warning: no previous prototype for function 'phytium_pci_dma_fini' [-Wmissing-prototypes]
+     137 | void phytium_pci_dma_fini(struct phytium_display_private *priv)
+         |      ^
+   drivers/gpu/drm/phytium/phytium_pci.c:137:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     137 | void phytium_pci_dma_fini(struct phytium_display_private *priv)
+         | ^
+         | static 
+>> drivers/gpu/drm/phytium/phytium_pci.c:236:9: error: call to undeclared function 'pci_enable_msi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     236 |                 ret = pci_enable_msi(pdev);
+         |                       ^
+>> drivers/gpu/drm/phytium/phytium_pci.c:271:3: error: call to undeclared function 'pci_disable_msi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     271 |                 pci_disable_msi(pdev);
+         |                 ^
+   drivers/gpu/drm/phytium/phytium_pci.c:271:3: note: did you mean 'pci_disable_sriov'?
+   include/linux/pci.h:2437:20: note: 'pci_disable_sriov' declared here
+    2437 | static inline void pci_disable_sriov(struct pci_dev *dev) { }
+         |                    ^
+   drivers/gpu/drm/phytium/phytium_pci.c:291:3: error: call to undeclared function 'pci_disable_msi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     291 |                 pci_disable_msi(pdev);
+         |                 ^
+   6 warnings and 3 errors generated.
 
 
+vim +/pci_enable_msi +236 drivers/gpu/drm/phytium/phytium_pci.c
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: bootmem-stop-using-page-index-fix
-Date: Wed Oct  9 02:16:16 PM PDT 2024
+b80df10f845813 lishuo 2024-01-31  215  
+b80df10f845813 lishuo 2024-01-31  216  static int phytium_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+b80df10f845813 lishuo 2024-01-31  217  {
+b80df10f845813 lishuo 2024-01-31  218  	struct phytium_display_private *priv = NULL;
+b80df10f845813 lishuo 2024-01-31  219  	struct drm_device *dev = NULL;
+b80df10f845813 lishuo 2024-01-31  220  	int ret = 0;
+b80df10f845813 lishuo 2024-01-31  221  
+b80df10f845813 lishuo 2024-01-31  222  	dev = drm_dev_alloc(&phytium_display_drm_driver, &pdev->dev);
+b80df10f845813 lishuo 2024-01-31  223  	if (IS_ERR(dev)) {
+b80df10f845813 lishuo 2024-01-31  224  		DRM_ERROR("failed to allocate drm_device\n");
+b80df10f845813 lishuo 2024-01-31  225  		return PTR_ERR(dev);
+b80df10f845813 lishuo 2024-01-31  226  	}
+b80df10f845813 lishuo 2024-01-31  227  	pci_set_drvdata(pdev, dev);
+b80df10f845813 lishuo 2024-01-31  228  	pci_set_master(pdev);
+b80df10f845813 lishuo 2024-01-31  229  	ret = pci_enable_device(pdev);
+b80df10f845813 lishuo 2024-01-31  230  	if (ret) {
+b80df10f845813 lishuo 2024-01-31  231  		DRM_ERROR("pci enable device fail\n");
+b80df10f845813 lishuo 2024-01-31  232  		goto failed_enable_device;
+b80df10f845813 lishuo 2024-01-31  233  	}
+b80df10f845813 lishuo 2024-01-31  234  
+b80df10f845813 lishuo 2024-01-31  235  	if (dc_msi_enable) {
+b80df10f845813 lishuo 2024-01-31 @236  		ret = pci_enable_msi(pdev);
+b80df10f845813 lishuo 2024-01-31  237  		if (ret)
+b80df10f845813 lishuo 2024-01-31  238  			DRM_ERROR("pci enable msi fail\n");
+b80df10f845813 lishuo 2024-01-31  239  	}
+b80df10f845813 lishuo 2024-01-31  240  
+b80df10f845813 lishuo 2024-01-31  241  	dma_set_mask(&pdev->dev, DMA_BIT_MASK(40));
+b80df10f845813 lishuo 2024-01-31  242  
+b80df10f845813 lishuo 2024-01-31  243  	priv = phytium_pci_private_init(pdev, ent);
+b80df10f845813 lishuo 2024-01-31  244  	if (priv)
+b80df10f845813 lishuo 2024-01-31  245  		dev->dev_private = priv;
+b80df10f845813 lishuo 2024-01-31  246  	else
+b80df10f845813 lishuo 2024-01-31  247  		goto failed_pci_private_init;
+b80df10f845813 lishuo 2024-01-31  248  
+b80df10f845813 lishuo 2024-01-31  249  	ret = phytium_pci_vram_init(pdev, priv);
+b80df10f845813 lishuo 2024-01-31  250  	if (ret) {
+b80df10f845813 lishuo 2024-01-31  251  		DRM_ERROR("failed to init pci vram\n");
+b80df10f845813 lishuo 2024-01-31  252  		goto failed_pci_vram_init;
+b80df10f845813 lishuo 2024-01-31  253  	}
+b80df10f845813 lishuo 2024-01-31  254  
+b80df10f845813 lishuo 2024-01-31  255  	ret = drm_dev_register(dev, 0);
+b80df10f845813 lishuo 2024-01-31  256  	if (ret) {
+b80df10f845813 lishuo 2024-01-31  257  		DRM_ERROR("failed to register drm dev\n");
+b80df10f845813 lishuo 2024-01-31  258  		goto failed_register_drm;
+b80df10f845813 lishuo 2024-01-31  259  	}
+b80df10f845813 lishuo 2024-01-31  260  
+b80df10f845813 lishuo 2024-01-31  261  	phytium_dp_hpd_irq_setup(dev, true);
+b80df10f845813 lishuo 2024-01-31  262  
+b80df10f845813 lishuo 2024-01-31  263  	return 0;
+b80df10f845813 lishuo 2024-01-31  264  
+b80df10f845813 lishuo 2024-01-31  265  failed_register_drm:
+b80df10f845813 lishuo 2024-01-31  266  	phytium_pci_vram_fini(pdev, priv);
+b80df10f845813 lishuo 2024-01-31  267  failed_pci_vram_init:
+b80df10f845813 lishuo 2024-01-31  268  	phytium_pci_private_fini(pdev, priv);
+b80df10f845813 lishuo 2024-01-31  269  failed_pci_private_init:
+b80df10f845813 lishuo 2024-01-31  270  	if (pdev->msi_enabled)
+b80df10f845813 lishuo 2024-01-31 @271  		pci_disable_msi(pdev);
+b80df10f845813 lishuo 2024-01-31  272  	pci_disable_device(pdev);
+b80df10f845813 lishuo 2024-01-31  273  failed_enable_device:
+b80df10f845813 lishuo 2024-01-31  274  	pci_set_drvdata(pdev, NULL);
+b80df10f845813 lishuo 2024-01-31  275  	drm_dev_put(dev);
+b80df10f845813 lishuo 2024-01-31  276  
+b80df10f845813 lishuo 2024-01-31  277  	return -1;
+b80df10f845813 lishuo 2024-01-31  278  }
+b80df10f845813 lishuo 2024-01-31  279  
 
-fix arch/x86/mm/init_64.c build with !CONFIG_HAVE_BOOTMEM_INFO_NODE
+:::::: The code at line 236 was first introduced by commit
+:::::: b80df10f845813bb4fc2002b5386ecdfa8be5f6c DRM: Phytium display DRM driver
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202410090311.eaqcL7IZ-lkp@intel.com/
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
+:::::: TO: lishuo <lishuo@phytium.com.cn>
+:::::: CC: lishuo <lishuo@phytium.com.cn>
 
- arch/x86/mm/init_64.c |   21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
-
---- a/arch/x86/mm/init_64.c~bootmem-stop-using-page-index-fix
-+++ a/arch/x86/mm/init_64.c
-@@ -985,21 +985,32 @@ int arch_add_memory(int nid, u64 start,
- 	return add_pages(nid, start_pfn, nr_pages, params);
- }
- 
-+static void free_reserved_pages(struct page *page, unsigned long nr_pages)
-+{
-+	while (nr_pages--)
-+		free_reserved_page(page++);
-+}
-+
- static void __meminit free_pagetable(struct page *page, int order)
- {
- 	/* bootmem page has reserved flag */
- 	if (PageReserved(page)) {
--		enum bootmem_type type = bootmem_type(page);
- 		unsigned long nr_pages = 1 << order;
-+#ifdef CONFIG_HAVE_BOOTMEM_INFO_NODE
-+		enum bootmem_type type = bootmem_type(page);
- 
- 		if (type == SECTION_INFO || type == MIX_SECTION_INFO) {
- 			while (nr_pages--)
- 				put_page_bootmem(page++);
--		} else
--			while (nr_pages--)
--				free_reserved_page(page++);
--	} else
-+		} else {
-+			free_reserved_pages(page, nr_pages);
-+		}
-+#else
-+		free_reserved_pages(page, nr_pages);
-+#endif
-+	} else {
- 		free_pages((unsigned long)page_address(page), order);
-+	}
- }
- 
- static void __meminit free_hugepage_table(struct page *page,
-_
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
