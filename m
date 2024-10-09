@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3BE18F2FC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 23:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CC7169397
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 23:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728515258; cv=none; b=g+puxmMzMyDVeq4T59ZBmB91VeV9DTsyJEqtIoFiL2JkXPPiA1XS29WGVw+egKvhETBVYidjBV7lj5+/kdwa4Vt61fhoNkfQ9qX8MAShx72ULoaAPJQRfhVhAu5aRdS0R5UTCZ5LJNP68htb0MFEM3TxSkWGAaKbXbHpsz5147c=
+	t=1728517112; cv=none; b=uvna3TqhiGjmqQtBWBFiT2G8qQHhr9VVlHWqzeIIljDWx0csMc6S/ofbhKHWTPTl9z8vz1SWK0zIhwH+2XOHtlBFk1YyKzdUPuEEWiqntoL62nuIeEbWzVrSxe4Ze0SqmaNUc3gBU6PGcdGdWZ5oPFcLC9MQrBnH7bpEibm9a/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728515258; c=relaxed/simple;
-	bh=Vp0ilngeKL3FP5KnLcNHxqs78IkXv+9ZZZg2SDpaBcY=;
+	s=arc-20240116; t=1728517112; c=relaxed/simple;
+	bh=r1tP94I8S4GrcwJWK1zbJcjOHsEVIvNCAoGX/8ylhhE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IhBMl9WhVGTfkp8JqjFyLHKxo/+W+k4vBp5b82XYicwNr/uiXHOL2+lOtzPo8nlqj93nw8dmsAikRlwPRDQc2w/tMdPu/i/tBRpmZUp51ZRVnzR3tlb525cZtZ5oXH8ti0KzGfNnuREZAwj2W6NyIbCceTuE1l+EvkZ4zrkCeWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/Fa5GIY; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=nSbNwH6ahxkI/yRvm/fh2p0CbR/gzvB+0VMHoiruM593NJAjEED6VXy3dx3hwVp4pVe5mMFNmwqbK7hLBJmDx9MZYuhdOUd032nDX530vQN5SXUG6u6y8+sbx/u0SGmYdCRYiLISM4lpz1DdPm397vkrCLxhoWVPTfGDj402ZTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7WWhqH4; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/Fa5GIY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7WWhqH4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728515256; x=1760051256;
+  t=1728517110; x=1760053110;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vp0ilngeKL3FP5KnLcNHxqs78IkXv+9ZZZg2SDpaBcY=;
-  b=X/Fa5GIYkn4Y+tIXI7TJHlw7+XD2lXaiBxzn4t3poZ3UUUVgdT7N/eaC
-   1tbVFpjUWCcx5+vQHZPIHb/V0pSm1RVEWfItFx82/cLNFFVyYcMyx0Zdn
-   PQUeg90nR9MreRddZsOyV6Nd2Gpwd0c0qm70kKQm8mkN77/VUNR+o+6D1
-   4PaodOp2ZzHvUuujj0tZW2v17MjSuv7XL/tHYYK60pHFP0jPCL/J4wsyb
-   DScwJXCaunrNnaHrWdrrPKleRk7njUIM8983aO+jgJDnRU7dM61UK2w8F
-   cuwvXXThj2c3wZqGgTDgkxjNEPccblObf5vlrtp2QtBsfkszk2C1Rn53X
-   g==;
-X-CSE-ConnectionGUID: +3vY0yKrTbCGhGR/909DLQ==
-X-CSE-MsgGUID: hQ+mN0iySrWAM51QzjvoLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="45363300"
+  bh=r1tP94I8S4GrcwJWK1zbJcjOHsEVIvNCAoGX/8ylhhE=;
+  b=W7WWhqH49J5yrS0insik8wSofXZME2MRLkkrX5elZKhdBDj2JQCOUVHH
+   nYXwSYsaaXgYaV83zQ3OXmvaSvynpSDBguo1KS9u8khse/G8E7fFgCIMn
+   u9LWn9Y1UFJv3hL/7EYi4Su7WhTZoy1ghGAk2FORwnG1w9NzjtnPr5Z1g
+   A7a1pboYJktV7MfkS73EtlZJh/GL4UvXobGPZSs5+uUVkzCAOtPSe27gE
+   xbcDtMOIDROXChtRxBwV6X25ImdRK6PFKOFEjY54Vt5nWNfuNrZzmtvMd
+   fko85xy7fK/f73q0H+UUPOe4YfNRYpCJv2gwpAr2nti2YdBPI+VJhDmIX
+   Q==;
+X-CSE-ConnectionGUID: F07djAZaQSWT/q6EWV4I9Q==
+X-CSE-MsgGUID: 2flpg7IsSRyQDEu1wUZyyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="50388140"
 X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="45363300"
+   d="scan'208";a="50388140"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 16:07:28 -0700
-X-CSE-ConnectionGUID: 6mEAXWQiSvuBMYULEyXN5w==
-X-CSE-MsgGUID: Z59XJY3vSkyXHrghnBWK2Q==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 16:38:30 -0700
+X-CSE-ConnectionGUID: hM5ckebhR3C3J7DFJCpoDg==
+X-CSE-MsgGUID: 014Iz1HKTWaMPjWLnjFMxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="99723087"
+   d="scan'208";a="99727835"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2024 16:07:27 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2024 16:38:28 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syfm8-0009ty-2s;
-	Wed, 09 Oct 2024 23:07:24 +0000
-Date: Thu, 10 Oct 2024 07:06:37 +0800
+	id 1sygG9-0009vK-32;
+	Wed, 09 Oct 2024 23:38:25 +0000
+Date: Thu, 10 Oct 2024 07:37:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Johan Hovold <johan+linaro@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 2858/3432] arch/x86/mm/init_64.c:992:42: error:
- implicit declaration of function 'bootmem_type'
-Message-ID: <202410100651.b7lLTUtA-lkp@intel.com>
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Subject: [linux-next:master 2227/3432]
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c06000:
+ clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is
+ too long
+Message-ID: <202410100709.S66ycGvw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,45 +69,160 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   b6270c3bca987530eafc6a15f9d54ecd0033e0e3
-commit: cdaa5412be9ac6dcf7649c5f5ab8f8874b9716a8 [2858/3432] bootmem: stop using page->index
-config: x86_64-randconfig-121-20241010 (https://download.01.org/0day-ci/archive/20241010/202410100651.b7lLTUtA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410100651.b7lLTUtA-lkp@intel.com/reproduce)
+commit: 0b80b3c0f6d20f1bc1f7fea6176a8df15619e884 [2227/3432] arm64: dts: qcom: x1e80100: fix PCIe5 PHY clocks
+config: arm64-randconfig-051-20241008 (https://download.01.org/0day-ci/archive/20241010/202410100709.S66ycGvw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev4+g577c1ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410100709.S66ycGvw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410100651.b7lLTUtA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410100709.S66ycGvw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/x86/mm/init_64.c: In function 'free_pagetable':
->> arch/x86/mm/init_64.c:992:42: error: implicit declaration of function 'bootmem_type' [-Werror=implicit-function-declaration]
-     992 |                 enum bootmem_type type = bootmem_type(page);
-         |                                          ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/bootmem_type +992 arch/x86/mm/init_64.c
-
-   987	
-   988	static void __meminit free_pagetable(struct page *page, int order)
-   989	{
-   990		/* bootmem page has reserved flag */
-   991		if (PageReserved(page)) {
- > 992			enum bootmem_type type = bootmem_type(page);
-   993			unsigned long nr_pages = 1 << order;
-   994	
-   995			if (type == SECTION_INFO || type == MIX_SECTION_INFO) {
-   996				while (nr_pages--)
-   997					put_page_bootmem(page++);
-   998			} else
-   999				while (nr_pages--)
-  1000					free_reserved_page(page++);
-  1001		} else
-  1002			free_pages((unsigned long)page_address(page), order);
-  1003	}
-  1004	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4147.11-4157.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [139, 10], [52, 123], [52, 125], [52, 127]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [139, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4147.11-4157.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [138, 10], [52, 123], [52, 125], [52, 127]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [138, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [138, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4147.11-4157.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [139, 10], [52, 123], [52, 125], [52, 127]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [139, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4147.11-4157.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [139, 10], [52, 123], [52, 125], [52, 127]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfacmn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfa0p8-supply' is a required property
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4147.11-4157.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [137, 10], [52, 123], [52, 125], [52, 127]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [137, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [137, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4147.11-4157.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [137, 10], [52, 123], [52, 125], [52, 127]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [137, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [137, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4147.11-4157.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [135, 10], [52, 123], [52, 125], [52, 127]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [135, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [135, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
