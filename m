@@ -1,76 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA08156653;
-	Wed,  9 Oct 2024 07:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD6A17DFFD
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 07:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728457423; cv=none; b=uUoaLR1fezrHlwTxgr95pYmZv4lQ6BqxO54eAJ/M6Uuq528Xcrvwx5E2e/2Ige+7+kVfD3HywFpW/tZe1leSx2MLspkhwt9HE7d/oUCC824BxBxQu7N/i56A88R0SHMF+qZLieA22ilmgQ/l57NegMWhXIZhOUxzpOFvWN/pTkM=
+	t=1728458083; cv=none; b=d/kXlck3PaEcEfgjmMr3N5l7qn5sFT6DZFVEW0q2lXLTKUyL1ZJBN61+9+KWM4KIdohHgyUWkwMmlqZAhSt7MyNX+LVmnCdL6Cl/FANbywbtvtQ0EP6cc7evWS6lXi3AIKTEAp8JxoKl5EGP9ATvob416KUyChvP7oKY7Xa9M3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728457423; c=relaxed/simple;
-	bh=GGBUpEj3Aa8bQVhLa2+tJ/yY3cOwqwI3rmuFtWCWhtw=;
+	s=arc-20240116; t=1728458083; c=relaxed/simple;
+	bh=m17sdrYRBmfrCEo9usomhJOmDw78sWaZlC5tm9EazsY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ri/gbgY+bDrjm5R0ljpPw2TQChmOjnjISYI0gKgC47QbeSUxRbczUdkRgOm12ZCI64Jx7Vubdn55gO46rgFyzoTyUqya+gycFvAti8TSOIOLz56Yi+bmsuSa8wYOEJznhx2sZAW6etcv6iMq/ftqXWzmsglf0qlmQD+m/rZX2xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nK3O7ZJQ; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=PYl7P0dcqcfkn9HeGnhmz5gtB4Mq8g+XWm7M36FrdLCSgOouTXexJY44Wotm9YaeF+1Swip5pXNXJPZ0+cepV+DnQyzf8BaKlwu2biUDF63KUmPuNs4vBkEAqJv7Tgm4BOkFA2X1oFWKYrSYI/r/LWAjewy6epXJubo7A7lYdKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nn9D5q9s; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nK3O7ZJQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nn9D5q9s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728457422; x=1759993422;
+  t=1728458082; x=1759994082;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GGBUpEj3Aa8bQVhLa2+tJ/yY3cOwqwI3rmuFtWCWhtw=;
-  b=nK3O7ZJQ1tsQJH7va2ih5EjdQ4sYuVMpMyN++Xgru8V/UY3NTrFqvoUt
-   l94OUiGjUGL0m9j17/4nf26CSkPjlgEWEZIud+MYxVPrhDDRSZme1CC3a
-   EGI1fn1zgW4w+a4PQEdyiyaqUX8rn2sitk6yBxoLAfwRPaOzBczrAMdiS
-   +TlYBS6YMxVEL6hVQPXIntfdtJ8F9k824TJcD1C/SLHqe7MqbWXAefIag
-   XvLfUiPkhR8djByJYGqAU0at3GDQ7xTG01DXW4Jtv/MyLGXSHegX7O6yr
-   fZJHVSRYdAlXVowOZIhLot7oI6wzO0iblGLNw7/MDqmQpG9vluQ3ucN6M
-   A==;
-X-CSE-ConnectionGUID: zwLyO++tRJ+TnZFnm9Ln9g==
-X-CSE-MsgGUID: gzPXr0c0T/Oou6HE6708mQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="45256853"
+  bh=m17sdrYRBmfrCEo9usomhJOmDw78sWaZlC5tm9EazsY=;
+  b=nn9D5q9sSeAzLoSBl+t8JplSDWQgF+nfABFP82679jQ76zYVv3Yx167g
+   DOtPwxuFq5yPB/wTcETQbjsfGuoEkPDIPEQnrkwzk6sF/oufC79WiXwbb
+   HinKhpFyFEwM0yQAwSWVNnRbtlvsgnH7Ap0T+L+CgsNDJwPeoPIdXeBg8
+   vs1Xfc9AsP1zbjf992FQrWZ7g/us9saNNny3OGgq5OBAgFKyS8wPPsTAq
+   ZQ6ryfYXlZbKgu4a5HS7oM3PNyiQ455TBXdyK/GMI23qSnNDAfJ6hU3yo
+   m7R7u2ThBP7qG8F91W4tCEYzf1oar7UUQXVKsiw62cLnLye6ohIyaHdz2
+   g==;
+X-CSE-ConnectionGUID: 2q2r8E//Qdm4ocy8FXVHjg==
+X-CSE-MsgGUID: dsNCT7P6RV+vhv1YK2k7ZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="45260809"
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="45256853"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 00:03:41 -0700
-X-CSE-ConnectionGUID: 04Hw06M3S3qS49BFtFIKVQ==
-X-CSE-MsgGUID: 8YkUtXahSKW0YFOZWstskA==
+   d="scan'208";a="45260809"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 00:14:41 -0700
+X-CSE-ConnectionGUID: 3+LEDsoyRZOe/UG+VQsOdg==
+X-CSE-MsgGUID: B+ITTU1YQsmd/+VIvVOkVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="106911467"
+   d="scan'208";a="75741048"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Oct 2024 00:03:36 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 09 Oct 2024 00:14:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syQjN-0008u4-2o;
-	Wed, 09 Oct 2024 07:03:33 +0000
-Date: Wed, 9 Oct 2024 15:03:27 +0800
+	id 1syQu4-0008vO-2F;
+	Wed, 09 Oct 2024 07:14:36 +0000
+Date: Wed, 9 Oct 2024 15:13:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Price <steven.price@arm.com>, kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Steven Price <steven.price@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Joey Gouly <joey.gouly@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Christoffer Dall <christoffer.dall@arm.com>,
-	Fuad Tabba <tabba@google.com>, linux-coco@lists.linux.dev,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
-	Gavin Shan <gshan@redhat.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Alper Gun <alpergun@google.com>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>
-Subject: Re: [PATCH v5 42/43] arm64: kvm: Expose support for private memory
-Message-ID: <202410091403.EUd787Qt-lkp@intel.com>
-References: <20241004152804.72508-43-steven.price@arm.com>
+To: David Zhang <yidong.zhang@amd.com>, linux-kernel@vger.kernel.org,
+	linux-fpga@vger.kernel.org, mdf@kernel.org, hao.wu@intel.com,
+	yilun.xu@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Yidong Zhang <yidong.zhang@amd.com>,
+	lizhi.hou@amd.com, Nishad Saraf <nishads@amd.com>,
+	Prapul Krishnamurthy <prapulk@amd.com>
+Subject: Re: [PATCH V1 3/3] drivers/fpga/amd: Add remote queue service APIs
+Message-ID: <202410091512.rcCqJO6z-lkp@intel.com>
+References: <20241007220128.3023169-3-yidong.zhang@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,89 +66,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241004152804.72508-43-steven.price@arm.com>
+In-Reply-To: <20241007220128.3023169-3-yidong.zhang@amd.com>
 
-Hi Steven,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on linus/master v6.12-rc2 next-20241008]
-[cannot apply to kvmarm/next kvm/queue kvm/linux-next]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc2 next-20241008]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Price/KVM-Prepare-for-handling-only-shared-mappings-in-mmu_notifier-events/20241005-000420
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20241004152804.72508-43-steven.price%40arm.com
-patch subject: [PATCH v5 42/43] arm64: kvm: Expose support for private memory
-config: arm64-randconfig-r121-20241008 (https://download.01.org/0day-ci/archive/20241009/202410091403.EUd787Qt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241009/202410091403.EUd787Qt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Zhang/drivers-fpga-amd-Add-communication-with-firmware/20241008-060253
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241007220128.3023169-3-yidong.zhang%40amd.com
+patch subject: [PATCH V1 3/3] drivers/fpga/amd: Add remote queue service APIs
+config: i386-randconfig-054-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091512.rcCqJO6z-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091403.EUd787Qt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410091512.rcCqJO6z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:563:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:563:18: sparse:    struct file *
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:563:18: sparse:    struct file [noderef] __rcu *
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:130:17: sparse: sparse: context imbalance in 'kvm_gmem_invalidate_begin' - different lock contexts for basic block
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse:     expected struct file **f
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse:     got struct file [noderef] __rcu **
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse:     expected struct file **f
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse:     got struct file [noderef] __rcu **
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse:     expected struct file **f
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:302:33: sparse:     got struct file [noderef] __rcu **
+cocci warnings: (new ones prefixed by >>)
+>> drivers/fpga/amd/vmgmt-rm-queue.c:280:2-3: Unneeded semicolon
 
-vim +563 arch/arm64/kvm/../../../virt/kvm/guest_memfd.c
+vim +280 drivers/fpga/amd/vmgmt-rm-queue.c
 
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  552  
-78c4293372fe1f Paolo Bonzini       2024-07-11  553  /* Returns a locked folio on success.  */
-d0d87226f53596 Paolo Bonzini       2024-07-11  554  static struct folio *
-d0d87226f53596 Paolo Bonzini       2024-07-11  555  __kvm_gmem_get_pfn(struct file *file, struct kvm_memory_slot *slot,
-66a644c09fbed0 Paolo Bonzini       2024-07-26  556  		   gfn_t gfn, kvm_pfn_t *pfn, bool *is_prepared,
-66a644c09fbed0 Paolo Bonzini       2024-07-26  557  		   int *max_order)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  558  {
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  559  	pgoff_t index = gfn - slot->base_gfn + slot->gmem.pgoff;
-17573fd971f9e3 Paolo Bonzini       2024-04-04  560  	struct kvm_gmem *gmem = file->private_data;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  561  	struct folio *folio;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  562  
-17573fd971f9e3 Paolo Bonzini       2024-04-04 @563  	if (file != slot->gmem.file) {
-17573fd971f9e3 Paolo Bonzini       2024-04-04  564  		WARN_ON_ONCE(slot->gmem.file);
-d0d87226f53596 Paolo Bonzini       2024-07-11  565  		return ERR_PTR(-EFAULT);
-17573fd971f9e3 Paolo Bonzini       2024-04-04  566  	}
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  567  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  568  	gmem = file->private_data;
-fa30b0dc91c815 Paolo Bonzini       2024-04-04  569  	if (xa_load(&gmem->bindings, index) != slot) {
-fa30b0dc91c815 Paolo Bonzini       2024-04-04  570  		WARN_ON_ONCE(xa_load(&gmem->bindings, index));
-d0d87226f53596 Paolo Bonzini       2024-07-11  571  		return ERR_PTR(-EIO);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  572  	}
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  573  
-b85524314a3db6 Paolo Bonzini       2024-07-11  574  	folio = kvm_gmem_get_folio(file_inode(file), index);
-17573fd971f9e3 Paolo Bonzini       2024-04-04  575  	if (IS_ERR(folio))
-d0d87226f53596 Paolo Bonzini       2024-07-11  576  		return folio;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  577  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  578  	if (folio_test_hwpoison(folio)) {
-c31745d2c50879 Paolo Bonzini       2024-06-11  579  		folio_unlock(folio);
-c31745d2c50879 Paolo Bonzini       2024-06-11  580  		folio_put(folio);
-d0d87226f53596 Paolo Bonzini       2024-07-11  581  		return ERR_PTR(-EHWPOISON);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  582  	}
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  583  
-7fbdda31b0a14f Paolo Bonzini       2024-07-11  584  	*pfn = folio_file_pfn(folio, index);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  585  	if (max_order)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  586  		*max_order = 0;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  587  
-66a644c09fbed0 Paolo Bonzini       2024-07-26  588  	*is_prepared = folio_test_uptodate(folio);
-d0d87226f53596 Paolo Bonzini       2024-07-11  589  	return folio;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  590  }
-17573fd971f9e3 Paolo Bonzini       2024-04-04  591  
+   254	
+   255	static void rm_check_msg(struct work_struct *w)
+   256	{
+   257		struct rm_device *rdev = to_rdev_msg_monitor(w);
+   258		int ret;
+   259	
+   260		mutex_lock(&rdev->queue);
+   261	
+   262		ret = rm_queue_get_cidx(rdev, RM_QUEUE_SQ, &rdev->sq.cidx);
+   263		if (ret)
+   264			goto error;
+   265	
+   266		ret = rm_queue_get_pidx(rdev, RM_QUEUE_CQ, &rdev->cq.pidx);
+   267		if (ret)
+   268			goto error;
+   269	
+   270		while (rdev->cq.cidx < rdev->cq.pidx) {
+   271			ret = rm_process_msg(rdev);
+   272			if (ret)
+   273				break;
+   274	
+   275			rdev->cq.cidx++;
+   276	
+   277			ret = rm_queue_set_cidx(rdev, RM_QUEUE_CQ, rdev->cq.cidx);
+   278			if (ret)
+   279				break;
+ > 280		};
+   281	
+   282	error:
+   283		mutex_unlock(&rdev->queue);
+   284	}
+   285	
 
 -- 
 0-DAY CI Kernel Test Service
