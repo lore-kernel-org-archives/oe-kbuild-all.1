@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D3D152E02
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 05:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20438156242
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 05:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728451232; cv=none; b=MEdBAFKDP65VcO2e7CirAbTfq6Vj3cI+Sce6FKPZXL0ZNcPeXCGiBa78vzI4+DXDUEJGx5uv5I7JkB8FSe5ee3VA9TCKo6GrWqHP5I6mtt70hjmIHV//qltgBBVOrYYQUeWI0o9Orod4mMKM3d1dvYTu3l0nv8GUWSrIjjX2ehk=
+	t=1728451834; cv=none; b=jy82fDuqVPF94vVbKp+QElBX0VasWE4jkgk0IMdmhT52uSLd8N6ss19g8yLy7Bwiyem0CjPrMu+QdK0uP+V6YIy6hGgxST/IticBbxgbNMlKJ5KMX7T6GQsfB9BOCyogITVHbJAbFe2VW9pWD80T4Ymh+gmMpN8l3HzrFUnfTH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728451232; c=relaxed/simple;
-	bh=4Pz3Qx/bcNes21jTM5RdIrj/QX2lZR28+duwJVMTfgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AISz8/3yqTfZqcEu+IvfEGmz1zMKbl31CmnHzap5mt/IFQ5n4qdLYPnUjQXHfTcmNOHfQC+Ad6xIx4RPJWr1Wg/p26aomfGYN0yOxbij4GOdM4Ikj+Zf3u4LmtGPHNnFi/Rppf1qzW94dLYavuuGuvMz9eR3DP8y7aHqinMmH7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IXJod/fP; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1728451834; c=relaxed/simple;
+	bh=VSUYUmtY8quANbEQtNDYVtgnqU7DGn2JR+gtgjQdhfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eUI3WBAhx9cClT6yUB8754amQikk3vprJ+UhK4aDyvH/VavWg9CVmEC3TpCCLM5/A8i77/BQyiJi54abkBBI68Tpca9l0OfiYCQMGuSZDk6m1cTPo2xx4KeexTKc1teAez7r3nDqEwvrEnH8TWS2DnGvVYc8mIieBWKz9EndPYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIlUGqCy; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IXJod/fP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIlUGqCy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728451231; x=1759987231;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Pz3Qx/bcNes21jTM5RdIrj/QX2lZR28+duwJVMTfgM=;
-  b=IXJod/fPjtNpR15mLAB/YVpAao93KhE5C5nZFAeoGXfie1RgzgMpERst
-   PhcbEVU1KaaTZpziVmNnlwryUrAmi3Hi1Xzk8ZZKkAktFmpCXwWf190hY
-   h4x1YumYpuQCBM7XK/CqEjilMLkc/3hpDApKgr0X2WjpQJV2L5e1H0Pww
-   HfSqyE7IoQGh22sIz7dtAw6JO2naZzpFS0N+N39jRlAEdN7KDKLikw1Jq
-   C8/m4wtewSCAaj6FZbKTfqu9GJcjdjF5RTDPcaQT6NmXGT5HCMhimC7lR
-   1YL+vEelYBXcbYLmM/w/AV7wgS6ij6v22vg68oQ8LGZ4NSq5dEt6rRb1J
-   A==;
-X-CSE-ConnectionGUID: mvtuf9lPSDeM/jIVg4jksQ==
-X-CSE-MsgGUID: cwttfT6fTYeXBQSI13qyTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38856783"
+  t=1728451832; x=1759987832;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VSUYUmtY8quANbEQtNDYVtgnqU7DGn2JR+gtgjQdhfI=;
+  b=FIlUGqCyd0VEay7VtYh2FdAQDqUm50w++TexV5C/s0Z+GOxJ065Ww52x
+   1f1j74e5w3eOM7urb6PuCswmaoRU4pfH+LA4SKcXoupv+JUi3PHlEcGuB
+   DgbfeNCqsh4IiKGasSPXKXnBOSAmvmatHWCZjaFHorMtR90cjW8/afPKV
+   ZLBKhJ1I5iJ9IeFIs7NhiNE90U2n21r8Tctryh6+1ixqXKdRbwJ9CAXQ8
+   uITn9DChOTIm9m4kxiFrMWaDVBA7IM7n1k/sYymjelXDr2zNEA62GxujS
+   H4ULk94oDQmpuccyUpT0HLn8e6sFlvqjjyZ8YiyNEgXKD8Y/WtgVjZFmk
+   g==;
+X-CSE-ConnectionGUID: ahQlhTgJRNSPnKi0p6l8Hg==
+X-CSE-MsgGUID: u29sL0PeS4Cei5oRKOz4+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38315939"
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="38856783"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 22:20:31 -0700
-X-CSE-ConnectionGUID: ug8ZliapTCC7uB/90rNT7g==
-X-CSE-MsgGUID: Ws2UPZuwRKiw+lHcYe0BWw==
+   d="scan'208";a="38315939"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 22:30:32 -0700
+X-CSE-ConnectionGUID: G0K6UK4bRL2KJG2uRRWW1Q==
+X-CSE-MsgGUID: 9nJqYqatTDq4Ckt1kyH8rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="80924482"
+   d="scan'208";a="106891950"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Oct 2024 22:20:30 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 08 Oct 2024 22:30:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syP7a-0008m4-2P;
-	Wed, 09 Oct 2024 05:20:26 +0000
-Date: Wed, 9 Oct 2024 13:19:33 +0800
+	id 1syPHH-0008my-0a;
+	Wed, 09 Oct 2024 05:30:27 +0000
+Date: Wed, 9 Oct 2024 13:29:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?B?Suly9G1l?= de Bretagne <jerome.debretagne@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 2344/2853]
- arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth:
- 'vddaon-supply' is a required property
-Message-ID: <202410091319.PtAQYmM9-lkp@intel.com>
+To: David Zhang <yidong.zhang@amd.com>, linux-kernel@vger.kernel.org,
+	linux-fpga@vger.kernel.org, mdf@kernel.org, hao.wu@intel.com,
+	yilun.xu@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Yidong Zhang <yidong.zhang@amd.com>,
+	lizhi.hou@amd.com, Nishad Saraf <nishads@amd.com>,
+	Prapul Krishnamurthy <prapulk@amd.com>
+Subject: Re: [PATCH V1 2/3] drivers/fpga/amd: Add communication with firmware
+Message-ID: <202410091338.c38eM1Hd-lkp@intel.com>
+References: <20241007220128.3023169-2-yidong.zhang@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,31 +66,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241007220128.3023169-2-yidong.zhang@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   33ce24234fca4c083e6685a18b460a18ebb5d5c1
-commit: f6231a2eefd430b8b8798911f023891ea51d1d09 [2344/2853] arm64: dts: qcom: sc8280xp: Add Microsoft Surface Pro 9 5G
-config: arm64-randconfig-051-20241008 (https://download.01.org/0day-ci/archive/20241009/202410091319.PtAQYmM9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev4+g577c1ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091319.PtAQYmM9-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc2 next-20241008]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Zhang/drivers-fpga-amd-Add-communication-with-firmware/20241008-060253
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241007220128.3023169-2-yidong.zhang%40amd.com
+patch subject: [PATCH V1 2/3] drivers/fpga/amd: Add communication with firmware
+config: i386-randconfig-054-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091338.c38eM1Hd-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091319.PtAQYmM9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410091338.c38eM1Hd-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddbtcmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> drivers/fpga/amd/vmgmt-rm.c:183:2-3: Unneeded semicolon
+--
+>> drivers/fpga/amd/vmgmt-rm.c:498:10-17: WARNING: vzalloc should be used for buffer, instead of vmalloc/memset
+
+vim +183 drivers/fpga/amd/vmgmt-rm.c
+
+   146	
+   147	int rm_queue_create_cmd(struct rm_device *rdev, enum rm_queue_opcode opcode,
+   148				struct rm_cmd **cmd_ptr)
+   149	{
+   150		struct rm_cmd *cmd = NULL;
+   151		int ret, id;
+   152		u16 size;
+   153	
+   154		if (rdev->firewall_tripped)
+   155			return -ENODEV;
+   156	
+   157		cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
+   158		if (!cmd)
+   159			return -ENOMEM;
+   160		cmd->rdev = rdev;
+   161	
+   162		switch (opcode) {
+   163		case RM_QUEUE_OP_LOAD_XCLBIN:
+   164			fallthrough;
+   165		case RM_QUEUE_OP_LOAD_FW:
+   166			fallthrough;
+   167		case RM_QUEUE_OP_LOAD_APU_FW:
+   168			size = sizeof(struct rm_cmd_sq_bin);
+   169			break;
+   170		case RM_QUEUE_OP_GET_LOG_PAGE:
+   171			size = sizeof(struct rm_cmd_sq_log_page);
+   172			break;
+   173		case RM_QUEUE_OP_IDENTIFY:
+   174			size = 0;
+   175			break;
+   176		case RM_QUEUE_OP_VMR_CONTROL:
+   177			size = sizeof(struct rm_cmd_sq_ctrl);
+   178			break;
+   179		default:
+   180			vmgmt_err(rdev->vdev, "Invalid cmd opcode %d", opcode);
+   181			ret = -EINVAL;
+   182			goto error;
+ > 183		};
+   184	
+   185		cmd->opcode = opcode;
+   186		cmd->sq_msg.hdr.opcode = FIELD_PREP(RM_CMD_SQ_HDR_OPS_MSK, opcode);
+   187		cmd->sq_msg.hdr.msg_size = FIELD_PREP(RM_CMD_SQ_HDR_SIZE_MSK, size);
+   188	
+   189		id = ida_alloc_range(&rm_cmd_ids, RM_CMD_ID_MIN, RM_CMD_ID_MAX, GFP_KERNEL);
+   190		if (id < 0) {
+   191			vmgmt_err(rdev->vdev, "Failed to alloc cmd ID: %d", id);
+   192			ret = id;
+   193			goto error;
+   194		}
+   195		cmd->sq_msg.hdr.id = id;
+   196	
+   197		init_completion(&cmd->executed);
+   198	
+   199		*cmd_ptr = cmd;
+   200		return 0;
+   201	error:
+   202		kfree(cmd);
+   203		return ret;
+   204	}
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
