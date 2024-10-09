@@ -1,105 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC85B155316;
-	Wed,  9 Oct 2024 22:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3BE18F2FC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 23:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728514737; cv=none; b=KCU5aeMrj6cdo4iI8pwd0ugFi1Yp/9OT53UhkwW37SrMkZmQ2kKVzeqh5+0wczdcGxWWxz15rgTyhN4D0o2+Qhm9VfOocWnU/gWz9uBjQxAKhA4fDS9h7qW0FlhT3ssP3O3PougbPGMrVL5lkzHV74Qn0aM8DT/UT55O4JSRExM=
+	t=1728515258; cv=none; b=g+puxmMzMyDVeq4T59ZBmB91VeV9DTsyJEqtIoFiL2JkXPPiA1XS29WGVw+egKvhETBVYidjBV7lj5+/kdwa4Vt61fhoNkfQ9qX8MAShx72ULoaAPJQRfhVhAu5aRdS0R5UTCZ5LJNP68htb0MFEM3TxSkWGAaKbXbHpsz5147c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728514737; c=relaxed/simple;
-	bh=SnQ1TywTJdfiF9q3SWAVcOKq00ppyhQzP1+meZIxSns=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=K2lr5uhgQjMSeEbrFjYOssu9oYZ7reLYdXi/WdyKe0DN2t7C8JTWmkQDIrsMtozdiFc8YV7zzVPPFdK9FcrYAanmUONs5EZ3ootXszUefLjacbKqRxmQ+0gry7dvileLwTta1r1KvLN+dpnvWC+OqBb+RTGSLhoRc7Ebll6wLKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aK28biQj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728515258; c=relaxed/simple;
+	bh=Vp0ilngeKL3FP5KnLcNHxqs78IkXv+9ZZZg2SDpaBcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IhBMl9WhVGTfkp8JqjFyLHKxo/+W+k4vBp5b82XYicwNr/uiXHOL2+lOtzPo8nlqj93nw8dmsAikRlwPRDQc2w/tMdPu/i/tBRpmZUp51ZRVnzR3tlb525cZtZ5oXH8ti0KzGfNnuREZAwj2W6NyIbCceTuE1l+EvkZ4zrkCeWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/Fa5GIY; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aK28biQj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64742C4CEC3;
-	Wed,  9 Oct 2024 22:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728514736;
-	bh=SnQ1TywTJdfiF9q3SWAVcOKq00ppyhQzP1+meZIxSns=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=aK28biQjaP6bjx/B8Atm1VT/A82PqyXoZ3g7jhRZFMu3HMPuADGGTIJr6CWQ3P/6Z
-	 UUWZq4uWl85+ObwDDWHgNfKHs/8gE1tY4srXaezJDL5Ujwpzyz0oUHPNLCwqlFNadC
-	 ELb2C5VHm8ryyqVBJd+N+TawSWYu+cu/eJtBo3eMCe6Cwe9rRTbhdh/banEldPxpDs
-	 rhEqMsL7gv6kMdYWYRkd4JcwAmOKOtjXb6EsWYEPYdX8TkpXWx3+fTG8mEyG9cyuXE
-	 aKrhj8Pds6ZSFXVrO/xWjJymNX/bMAcFEOsSuQlyEm9dLY9WYc4lyEcpnXk5vwg9Q+
-	 GUgTyym4beFkQ==
-Message-ID: <92d5e28d2e7013ff393ed5d0ce1538fd.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/Fa5GIY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728515256; x=1760051256;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Vp0ilngeKL3FP5KnLcNHxqs78IkXv+9ZZZg2SDpaBcY=;
+  b=X/Fa5GIYkn4Y+tIXI7TJHlw7+XD2lXaiBxzn4t3poZ3UUUVgdT7N/eaC
+   1tbVFpjUWCcx5+vQHZPIHb/V0pSm1RVEWfItFx82/cLNFFVyYcMyx0Zdn
+   PQUeg90nR9MreRddZsOyV6Nd2Gpwd0c0qm70kKQm8mkN77/VUNR+o+6D1
+   4PaodOp2ZzHvUuujj0tZW2v17MjSuv7XL/tHYYK60pHFP0jPCL/J4wsyb
+   DScwJXCaunrNnaHrWdrrPKleRk7njUIM8983aO+jgJDnRU7dM61UK2w8F
+   cuwvXXThj2c3wZqGgTDgkxjNEPccblObf5vlrtp2QtBsfkszk2C1Rn53X
+   g==;
+X-CSE-ConnectionGUID: +3vY0yKrTbCGhGR/909DLQ==
+X-CSE-MsgGUID: hQ+mN0iySrWAM51QzjvoLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="45363300"
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="45363300"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 16:07:28 -0700
+X-CSE-ConnectionGUID: 6mEAXWQiSvuBMYULEyXN5w==
+X-CSE-MsgGUID: Z59XJY3vSkyXHrghnBWK2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="99723087"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2024 16:07:27 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1syfm8-0009ty-2s;
+	Wed, 09 Oct 2024 23:07:24 +0000
+Date: Thu, 10 Oct 2024 07:06:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 2858/3432] arch/x86/mm/init_64.c:992:42: error:
+ implicit declaration of function 'bootmem_type'
+Message-ID: <202410100651.b7lLTUtA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <67cf80cf-d96d-4249-ac34-6085d4b32948@suswa.mountain>
-References: <67cf80cf-d96d-4249-ac34-6085d4b32948@suswa.mountain>
-Subject: Re: drivers/spmi/spmi-pmic-arb.c:1782 spmi_pmic_arb_register_buses() error: uninitialized symbol 'ret'.
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-To: Abel Vesa <abel.vesa@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Date: Wed, 09 Oct 2024 15:58:54 -0700
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Quoting Dan Carpenter (2024-09-18 03:29:07)
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   adfc3ded5c33d67e822525f95404ef0becb099b8
-> commit: 9799873717398e8fa1727482e578b9d777da645e spmi: pmic-arb: Add mult=
-i bus support
-> config: mips-randconfig-r072-20240916 (https://download.01.org/0day-ci/ar=
-chive/20240916/202409162313.TnpH4qKB-lkp@intel.com/config)
-> compiler: mips64-linux-gcc (GCC) 14.1.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202409162313.TnpH4qKB-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/spmi/spmi-pmic-arb.c:1782 spmi_pmic_arb_register_buses() error: u=
-ninitialized symbol 'ret'.
->=20
-> vim +/ret +1782 drivers/spmi/spmi-pmic-arb.c
->=20
-> 9799873717398e8 Abel Vesa 2024-05-07  1762  static int spmi_pmic_arb_regi=
-ster_buses(struct spmi_pmic_arb *pmic_arb,
-> 9799873717398e8 Abel Vesa 2024-05-07  1763                               =
-       struct platform_device *pdev)
-> 9799873717398e8 Abel Vesa 2024-05-07  1764  {
-> 9799873717398e8 Abel Vesa 2024-05-07  1765      struct device *dev =3D &p=
-dev->dev;
-> 9799873717398e8 Abel Vesa 2024-05-07  1766      struct device_node *node =
-=3D dev->of_node;
-> 9799873717398e8 Abel Vesa 2024-05-07  1767      struct device_node *child;
-> 9799873717398e8 Abel Vesa 2024-05-07  1768      int ret;
-> 9799873717398e8 Abel Vesa 2024-05-07  1769 =20
-> 9799873717398e8 Abel Vesa 2024-05-07  1770      /* legacy mode doesn't pr=
-ovide child node for the bus */
-> 9799873717398e8 Abel Vesa 2024-05-07  1771      if (of_device_is_compatib=
-le(node, "qcom,spmi-pmic-arb"))
-> 9799873717398e8 Abel Vesa 2024-05-07  1772              return spmi_pmic_=
-arb_bus_init(pdev, node, pmic_arb);
-> 9799873717398e8 Abel Vesa 2024-05-07  1773 =20
-> 9799873717398e8 Abel Vesa 2024-05-07  1774      for_each_available_child_=
-of_node(node, child) {
-> 9799873717398e8 Abel Vesa 2024-05-07  1775              if (of_node_name_=
-eq(child, "spmi")) {
-> 9799873717398e8 Abel Vesa 2024-05-07  1776                      ret =3D s=
-pmi_pmic_arb_bus_init(pdev, child, pmic_arb);
-> 9799873717398e8 Abel Vesa 2024-05-07  1777                      if (ret)
-> 9799873717398e8 Abel Vesa 2024-05-07  1778                              r=
-eturn ret;
-> 9799873717398e8 Abel Vesa 2024-05-07  1779              }
-> 9799873717398e8 Abel Vesa 2024-05-07  1780      }
-> 9799873717398e8 Abel Vesa 2024-05-07  1781 =20
-> 9799873717398e8 Abel Vesa 2024-05-07 @1782      return ret;
->=20
-> Is it possible to not have an spmi node?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b6270c3bca987530eafc6a15f9d54ecd0033e0e3
+commit: cdaa5412be9ac6dcf7649c5f5ab8f8874b9716a8 [2858/3432] bootmem: stop using page->index
+config: x86_64-randconfig-121-20241010 (https://download.01.org/0day-ci/archive/20241010/202410100651.b7lLTUtA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410100651.b7lLTUtA-lkp@intel.com/reproduce)
 
-I'm amendable to a 'return 0' here.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410100651.b7lLTUtA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/x86/mm/init_64.c: In function 'free_pagetable':
+>> arch/x86/mm/init_64.c:992:42: error: implicit declaration of function 'bootmem_type' [-Werror=implicit-function-declaration]
+     992 |                 enum bootmem_type type = bootmem_type(page);
+         |                                          ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/bootmem_type +992 arch/x86/mm/init_64.c
+
+   987	
+   988	static void __meminit free_pagetable(struct page *page, int order)
+   989	{
+   990		/* bootmem page has reserved flag */
+   991		if (PageReserved(page)) {
+ > 992			enum bootmem_type type = bootmem_type(page);
+   993			unsigned long nr_pages = 1 << order;
+   994	
+   995			if (type == SECTION_INFO || type == MIX_SECTION_INFO) {
+   996				while (nr_pages--)
+   997					put_page_bootmem(page++);
+   998			} else
+   999				while (nr_pages--)
+  1000					free_reserved_page(page++);
+  1001		} else
+  1002			free_pages((unsigned long)page_address(page), order);
+  1003	}
+  1004	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
