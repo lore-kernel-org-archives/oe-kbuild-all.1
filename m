@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF1B2943F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 02:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2394920B0F;
+	Wed,  9 Oct 2024 02:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728441268; cv=none; b=jW/wVlwMe6OMT+GLzoyOLW8I8GTBxUqsw3MnYAZGff3G+mpg58eRQnFPc57HyP72upyOf+Qi/m0vbREklBycjGFfuFuNRRvwNZDyXwmZ8v9Ipsw/v8X1l+fy85sRiMaC/kg78Z3U7TkeNohZlPJLuDHqZO2ZJQAwRef4cJFUrLo=
+	t=1728442525; cv=none; b=WjGIUzvcNcdetfDE3r53wizvxdRe+Om7wZQvku5/DJfcmi9hO89oURUG0gSugaLVCctGjXHUM+BpbqkFNOeXohsNjXA57XFV9lDiKZiokE38DrITd+3JkfFg3kDM7D5Zhp3/Syh+iNarliJ205w60LIquiy9MY6IJQAwKeErDkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728441268; c=relaxed/simple;
-	bh=w/uG2F7+b3lmtyFgYfJ4/QgE5UHrbECT3Fe3GLCEX/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G7WvapT7SJgGBpXwOwyElCsUqFiTM2b5QgmRgDbujWHpDXxkyskm0+AA+e8CARsSW48vpPb15H6d5kd2D8P1NQ7fzFx5T92OOTaAmi1BtjhHSZIwbfPaqbinX4GGtGzPtWXghQ83nldWUSUqWcWtRH6Ei0GbHVJ2Rd1ZfqBcvfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HUxZj9YY; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1728442525; c=relaxed/simple;
+	bh=IKAx6DCqtMaamqHSW4Z4VEl/bc8Clk7e32rT50Bgq80=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YLoeC3TJ7tndjatJE24KhYeMF75oOIpZIrm5KXfAGMBeGvh4Pm1t8AaX/KK53UkHv9qIF3MOtGDZyzlzS+xGVrlvCmE8KtcRDt35g/FkDrX1voJWFsiy+oDMtQFI5ElujSYgFINOaCiNRAH+vDysBZ3ooDRzLSv6JmXyKG8PXUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M06Rp+7K; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HUxZj9YY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M06Rp+7K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728441268; x=1759977268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w/uG2F7+b3lmtyFgYfJ4/QgE5UHrbECT3Fe3GLCEX/g=;
-  b=HUxZj9YYRL2J+/Glih22nUgnINwxnWQGqd1Dbbb//y9ayb2UvTTzsKeR
-   JJGx0TbTFN6rMoJTw0nsKSAp48mppGinAa/htLkPJc6BQA6lm4t9m2jfh
-   uCVzhlgg0z2hfiTkRzdfyNVxRexjF898mQGCWLTTV9mlxoS2Z4e+nKEE4
-   uy++DEqvOv4OKNNz+yQvt+OJeR6HtCQxyBPDSvtPHrGvHI9L9oH4PJJNE
-   njy8rQMaUQAXXtQLN4tX2AASqgPruO+qZUH6SWXlGQSwcbhATJK/ItkbQ
-   ZGR76oWFrOZSqOGee/VlTPHok5wl+frwsnY6ydwNIw0LCHUk9PLO6SUpg
+  t=1728442524; x=1759978524;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IKAx6DCqtMaamqHSW4Z4VEl/bc8Clk7e32rT50Bgq80=;
+  b=M06Rp+7KpIyoGRvktrY37FH3aZDB6b2z06PHYlWyY+ujsBNOyQtc59Fn
+   dNUUU+nWzw5AhooDyAPAOkZTMoCxSMwao8HosD50eCdxV2VvOfYIvuV2h
+   XWbPsZMCrDbn+JvqtudP7NyuXPfwfIRHeBnoQ1NaHGO1Z8HXYQTF0Ly48
+   p8KmklQ7O0YTGGqrkdypXYa3eZDo9yGsRpc0SmOGae6mN/xPbkF5O3Fx6
+   6f0qWORC8M4Nrug6fIttkM2Dd1vz3FYV5VwYgskNBG1LTvSefi0wdGunQ
+   oy7ocKbl3EdSOqEdl1zhQ8S6bF3kSwt7tg6XgTUoEbsxjWLvcsH2H1xHS
    Q==;
-X-CSE-ConnectionGUID: wTCdpp8ITcitQYlMFQ+Usg==
-X-CSE-MsgGUID: Wzc+RmaVTLqwkPa1015HVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="39105630"
+X-CSE-ConnectionGUID: P6fzk7jMSGK3hkx8h9EQLg==
+X-CSE-MsgGUID: NfLjQp63QaqsYQDLo/RlVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="50252873"
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="39105630"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 19:34:27 -0700
-X-CSE-ConnectionGUID: zjmCndsUS4yOkYYOPBD4kQ==
-X-CSE-MsgGUID: wWPACbChQKie7Y85XO0JOw==
+   d="scan'208";a="50252873"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 19:55:24 -0700
+X-CSE-ConnectionGUID: dAXbqeetSWygckUWRdCqnw==
+X-CSE-MsgGUID: N68XK36ATyKW7x14TFrPhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="80887962"
+   d="scan'208";a="80919228"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Oct 2024 19:34:21 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 Oct 2024 19:55:22 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syMWp-0008cg-0h;
-	Wed, 09 Oct 2024 02:34:19 +0000
-Date: Wed, 9 Oct 2024 10:33:50 +0800
+	id 1syMr9-0008dU-23;
+	Wed, 09 Oct 2024 02:55:19 +0000
+Date: Wed, 9 Oct 2024 10:54:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
-	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
-	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
-Subject: Re: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx
- timestamps
-Message-ID: <202410090912.5vZnvozX-lkp@intel.com>
-References: <20241008095109.99918-9-kerneljasonxing@gmail.com>
+To: Filipe Manana <fdmanana@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Sterba <dsterba@suse.com>, Qu Wenruo <wqu@suse.com>
+Subject: [linux-next:pending-fixes 207/319] fs/btrfs/qgroup.c:2014:6: error:
+ use of undeclared identifier 'bytenr'
+Message-ID: <202410091038.SI34ZULQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,115 +63,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008095109.99918-9-kerneljasonxing@gmail.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-add-bpf-infrastructure-to-allow-exposing-more-information-later/20241008-175458
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241008095109.99918-9-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx timestamps
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20241009/202410090912.5vZnvozX-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090912.5vZnvozX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
+head:   47fa0de9b07c6214b57458e965646a3e25656b69
+commit: 5c0ea18d992fffc948e087c0002560d747e6edd9 [207/319] btrfs: use sector numbers as keys for the dirty extents xarray
+config: arm-randconfig-002-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091038.SI34ZULQ-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091038.SI34ZULQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410090912.5vZnvozX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410091038.SI34ZULQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/ipv4/tcp.c: In function 'tcp_recv_timestamp':
->> net/ipv4/tcp.c:2297:36: warning: passing argument 1 of 'tcp_bpf_recv_timestamp' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    2297 |         if (tcp_bpf_recv_timestamp(sk, tss))
-         |                                    ^~
-   net/ipv4/tcp.c:2279:49: note: expected 'struct sock *' but argument is of type 'const struct sock *'
-    2279 | static bool tcp_bpf_recv_timestamp(struct sock *sk, struct scm_timestamping_internal *tss)
-         |                                    ~~~~~~~~~~~~~^~
+>> fs/btrfs/qgroup.c:2014:6: error: use of undeclared identifier 'bytenr'
+           if (bytenr >= MAX_LFS_FILESIZE) {
+               ^
+   fs/btrfs/qgroup.c:2017:9: error: use of undeclared identifier 'bytenr'
+                                bytenr);
+                                ^
+   2 errors generated.
 
 
-vim +2297 net/ipv4/tcp.c
+vim +/bytenr +2014 fs/btrfs/qgroup.c
 
-  2288	
-  2289	/* Similar to __sock_recv_timestamp, but does not require an skb */
-  2290	void tcp_recv_timestamp(struct msghdr *msg, const struct sock *sk,
-  2291				struct scm_timestamping_internal *tss)
-  2292	{
-  2293		int new_tstamp = sock_flag(sk, SOCK_TSTAMP_NEW);
-  2294		u32 tsflags = READ_ONCE(sk->sk_tsflags);
-  2295		bool has_timestamping = false;
-  2296	
-> 2297		if (tcp_bpf_recv_timestamp(sk, tss))
-  2298			return;
-  2299	
-  2300		if (tss->ts[0].tv_sec || tss->ts[0].tv_nsec) {
-  2301			if (sock_flag(sk, SOCK_RCVTSTAMP)) {
-  2302				if (sock_flag(sk, SOCK_RCVTSTAMPNS)) {
-  2303					if (new_tstamp) {
-  2304						struct __kernel_timespec kts = {
-  2305							.tv_sec = tss->ts[0].tv_sec,
-  2306							.tv_nsec = tss->ts[0].tv_nsec,
-  2307						};
-  2308						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_NEW,
-  2309							 sizeof(kts), &kts);
-  2310					} else {
-  2311						struct __kernel_old_timespec ts_old = {
-  2312							.tv_sec = tss->ts[0].tv_sec,
-  2313							.tv_nsec = tss->ts[0].tv_nsec,
-  2314						};
-  2315						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_OLD,
-  2316							 sizeof(ts_old), &ts_old);
-  2317					}
-  2318				} else {
-  2319					if (new_tstamp) {
-  2320						struct __kernel_sock_timeval stv = {
-  2321							.tv_sec = tss->ts[0].tv_sec,
-  2322							.tv_usec = tss->ts[0].tv_nsec / 1000,
-  2323						};
-  2324						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_NEW,
-  2325							 sizeof(stv), &stv);
-  2326					} else {
-  2327						struct __kernel_old_timeval tv = {
-  2328							.tv_sec = tss->ts[0].tv_sec,
-  2329							.tv_usec = tss->ts[0].tv_nsec / 1000,
-  2330						};
-  2331						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_OLD,
-  2332							 sizeof(tv), &tv);
-  2333					}
-  2334				}
-  2335			}
-  2336	
-  2337			if (tsflags & SOF_TIMESTAMPING_SOFTWARE &&
-  2338			    (tsflags & SOF_TIMESTAMPING_RX_SOFTWARE ||
-  2339			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
-  2340				has_timestamping = true;
-  2341			else
-  2342				tss->ts[0] = (struct timespec64) {0};
-  2343		}
-  2344	
-  2345		if (tss->ts[2].tv_sec || tss->ts[2].tv_nsec) {
-  2346			if (tsflags & SOF_TIMESTAMPING_RAW_HARDWARE &&
-  2347			    (tsflags & SOF_TIMESTAMPING_RX_HARDWARE ||
-  2348			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
-  2349				has_timestamping = true;
-  2350			else
-  2351				tss->ts[2] = (struct timespec64) {0};
-  2352		}
-  2353	
-  2354		if (has_timestamping) {
-  2355			tss->ts[1] = (struct timespec64) {0};
-  2356			if (sock_flag(sk, SOCK_TSTAMP_NEW))
-  2357				put_cmsg_scm_timestamping64(msg, tss);
-  2358			else
-  2359				put_cmsg_scm_timestamping(msg, tss);
-  2360		}
-  2361	}
-  2362	
+  1991	
+  1992	/*
+  1993	 * Inform qgroup to trace one dirty extent, its info is recorded in @record.
+  1994	 * So qgroup can account it at transaction committing time.
+  1995	 *
+  1996	 * No lock version, caller must acquire delayed ref lock and allocated memory,
+  1997	 * then call btrfs_qgroup_trace_extent_post() after exiting lock context.
+  1998	 *
+  1999	 * Return 0 for success insert
+  2000	 * Return >0 for existing record, caller can free @record safely.
+  2001	 * Return <0 for insertion failure, caller can free @record safely.
+  2002	 */
+  2003	int btrfs_qgroup_trace_extent_nolock(struct btrfs_fs_info *fs_info,
+  2004					struct btrfs_delayed_ref_root *delayed_refs,
+  2005					struct btrfs_qgroup_extent_record *record)
+  2006	{
+  2007		struct btrfs_qgroup_extent_record *existing, *ret;
+  2008		const unsigned long index = (record->bytenr >> fs_info->sectorsize_bits);
+  2009	
+  2010		if (!btrfs_qgroup_full_accounting(fs_info))
+  2011			return 1;
+  2012	
+  2013	#if BITS_PER_LONG == 32
+> 2014		if (bytenr >= MAX_LFS_FILESIZE) {
+  2015			btrfs_err_rl(fs_info,
+  2016	"qgroup record for extent at %llu is beyond 32bit page cache and xarray index limit",
+  2017				     bytenr);
+  2018			btrfs_err_32bit_limit(fs_info);
+  2019			return -EOVERFLOW;
+  2020		}
+  2021	#endif
+  2022	
+  2023		lockdep_assert_held(&delayed_refs->lock);
+  2024		trace_btrfs_qgroup_trace_extent(fs_info, record);
+  2025	
+  2026		xa_lock(&delayed_refs->dirty_extents);
+  2027		existing = xa_load(&delayed_refs->dirty_extents, index);
+  2028		if (existing) {
+  2029			if (record->data_rsv && !existing->data_rsv) {
+  2030				existing->data_rsv = record->data_rsv;
+  2031				existing->data_rsv_refroot = record->data_rsv_refroot;
+  2032			}
+  2033			xa_unlock(&delayed_refs->dirty_extents);
+  2034			return 1;
+  2035		}
+  2036	
+  2037		ret = __xa_store(&delayed_refs->dirty_extents, index, record, GFP_ATOMIC);
+  2038		xa_unlock(&delayed_refs->dirty_extents);
+  2039		if (xa_is_err(ret)) {
+  2040			qgroup_mark_inconsistent(fs_info);
+  2041			return xa_err(ret);
+  2042		}
+  2043	
+  2044		return 0;
+  2045	}
+  2046	
 
 -- 
 0-DAY CI Kernel Test Service
