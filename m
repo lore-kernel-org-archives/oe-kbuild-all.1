@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C481E49F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 02:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF1B2943F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 02:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728440009; cv=none; b=J0q5Oo72OH9SGzbNi5ph4IjMMr5ONhI3MMCB5y+03+CuJCTgd3ATUHytZIFL+EXHGWESQu9SFYNNwXafbXUVyDIe8w65DJm8W7em8X4KCTJcSmt23Iw+5kLOwZKBxpiwUjiPcAFw6+HceRfy/UuohRScbKAHvIygtk8MGy8jo2s=
+	t=1728441268; cv=none; b=jW/wVlwMe6OMT+GLzoyOLW8I8GTBxUqsw3MnYAZGff3G+mpg58eRQnFPc57HyP72upyOf+Qi/m0vbREklBycjGFfuFuNRRvwNZDyXwmZ8v9Ipsw/v8X1l+fy85sRiMaC/kg78Z3U7TkeNohZlPJLuDHqZO2ZJQAwRef4cJFUrLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728440009; c=relaxed/simple;
-	bh=vQMulf4awjipnv2OcgKktvAJdKcER+pOWOanNdC+OBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ODVS8AY9iBZNFZhlDdlzbuzi7HtvlNs5kWToZjb2zJkSGTZQdlxt4ADZ5xeugoEETAqNG3uV8uIAdtJQBbgmQm08jg7R1BrNkL20Ouuw4Xk1BzVqMnk9MbEFii8iMf1TgCW9gPuBmBTNLuVl0E28M2XsVj6dJwlh9hcEEQ8mfoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bHj835vu; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1728441268; c=relaxed/simple;
+	bh=w/uG2F7+b3lmtyFgYfJ4/QgE5UHrbECT3Fe3GLCEX/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G7WvapT7SJgGBpXwOwyElCsUqFiTM2b5QgmRgDbujWHpDXxkyskm0+AA+e8CARsSW48vpPb15H6d5kd2D8P1NQ7fzFx5T92OOTaAmi1BtjhHSZIwbfPaqbinX4GGtGzPtWXghQ83nldWUSUqWcWtRH6Ei0GbHVJ2Rd1ZfqBcvfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HUxZj9YY; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bHj835vu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HUxZj9YY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728440007; x=1759976007;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vQMulf4awjipnv2OcgKktvAJdKcER+pOWOanNdC+OBM=;
-  b=bHj835vupUVngnRqg3nUTkpDqpT2jq44cuP9RV1WbbE/UDvsddIHrg8x
-   Ld7tsUuN5WSYtxjDWH66Rtwm8K9xxbna1SFtGUoqLzwURSE5kLdwNTeXq
-   16ECWvxTTICtHBD/a6xT5o00qlBSQuFFV52aX+a94NXMZ8Psi13BTCvxx
-   NbXdtItFwxGtqc1mlN2YeEFUZWFmoIOJkXqm4n0QVmaWjkuYQZqdYW9Em
-   nBdZJG3/bSGZ+nxHQGj9M+kvKihGDJKf0UqBmBuhF/YTN9PzcCpx9YLGK
-   xWSPRek1YpW6mbdYWlhpyCbp4gqG8W/Ott3bh9TGhZisqm3fzIE0kT9oi
-   w==;
-X-CSE-ConnectionGUID: ZClFFSW/Q+S6a39Of/czyQ==
-X-CSE-MsgGUID: vCFDmq8RSBOhYUA8135ZiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38299507"
+  t=1728441268; x=1759977268;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w/uG2F7+b3lmtyFgYfJ4/QgE5UHrbECT3Fe3GLCEX/g=;
+  b=HUxZj9YYRL2J+/Glih22nUgnINwxnWQGqd1Dbbb//y9ayb2UvTTzsKeR
+   JJGx0TbTFN6rMoJTw0nsKSAp48mppGinAa/htLkPJc6BQA6lm4t9m2jfh
+   uCVzhlgg0z2hfiTkRzdfyNVxRexjF898mQGCWLTTV9mlxoS2Z4e+nKEE4
+   uy++DEqvOv4OKNNz+yQvt+OJeR6HtCQxyBPDSvtPHrGvHI9L9oH4PJJNE
+   njy8rQMaUQAXXtQLN4tX2AASqgPruO+qZUH6SWXlGQSwcbhATJK/ItkbQ
+   ZGR76oWFrOZSqOGee/VlTPHok5wl+frwsnY6ydwNIw0LCHUk9PLO6SUpg
+   Q==;
+X-CSE-ConnectionGUID: wTCdpp8ITcitQYlMFQ+Usg==
+X-CSE-MsgGUID: Wzc+RmaVTLqwkPa1015HVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="39105630"
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="38299507"
+   d="scan'208";a="39105630"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 19:13:22 -0700
-X-CSE-ConnectionGUID: XYMLABGZR8qvGaL3i9CcUQ==
-X-CSE-MsgGUID: 9FBjf7aLRJydvzDHixGfOg==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 19:34:27 -0700
+X-CSE-ConnectionGUID: zjmCndsUS4yOkYYOPBD4kQ==
+X-CSE-MsgGUID: wWPACbChQKie7Y85XO0JOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="80884919"
+   d="scan'208";a="80887962"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Oct 2024 19:13:21 -0700
+  by orviesa005.jf.intel.com with ESMTP; 08 Oct 2024 19:34:21 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syMCU-0008bk-2H;
-	Wed, 09 Oct 2024 02:13:18 +0000
-Date: Wed, 9 Oct 2024 10:13:18 +0800
+	id 1syMWp-0008cg-0h;
+	Wed, 09 Oct 2024 02:34:19 +0000
+Date: Wed, 9 Oct 2024 10:33:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3892/14286] include/linux/mmzone.h:1788:2: error:
- #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202410091038.th2Iv8Hi-lkp@intel.com>
+To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
+	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
+Subject: Re: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx
+ timestamps
+Message-ID: <202410090912.5vZnvozX-lkp@intel.com>
+References: <20241008095109.99918-9-kerneljasonxing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,90 +71,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241008095109.99918-9-kerneljasonxing@gmail.com>
 
-Hi zhangtianyang,
+Hi Jason,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   fb512ada4da1a8aefba17392d87452a37796a0f2
-commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [3892/14286] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-002-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091038.th2Iv8Hi-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091038.th2Iv8Hi-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-add-bpf-infrastructure-to-allow-exposing-more-information-later/20241008-175458
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241008095109.99918-9-kerneljasonxing%40gmail.com
+patch subject: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx timestamps
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20241009/202410090912.5vZnvozX-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090912.5vZnvozX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091038.th2Iv8Hi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410090912.5vZnvozX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
->> include/linux/mmzone.h:1788:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^~~~~
-   arch/loongarch/kernel/asm-offsets.c:18:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      18 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:65:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      65 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:80:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      80 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:96:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      96 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:132:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     132 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:173:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     173 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:183:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     183 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:215:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     215 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:223:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     223 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:261:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     261 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:294:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     294 | void output_kvm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=526995723
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=526995723
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=526995723
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=526995723
-   make: Target 'prepare' not remade because of errors.
+   net/ipv4/tcp.c: In function 'tcp_recv_timestamp':
+>> net/ipv4/tcp.c:2297:36: warning: passing argument 1 of 'tcp_bpf_recv_timestamp' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    2297 |         if (tcp_bpf_recv_timestamp(sk, tss))
+         |                                    ^~
+   net/ipv4/tcp.c:2279:49: note: expected 'struct sock *' but argument is of type 'const struct sock *'
+    2279 | static bool tcp_bpf_recv_timestamp(struct sock *sk, struct scm_timestamping_internal *tss)
+         |                                    ~~~~~~~~~~~~~^~
 
 
-vim +1788 include/linux/mmzone.h
+vim +2297 net/ipv4/tcp.c
 
-d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
-835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1786  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  2288	
+  2289	/* Similar to __sock_recv_timestamp, but does not require an skb */
+  2290	void tcp_recv_timestamp(struct msghdr *msg, const struct sock *sk,
+  2291				struct scm_timestamping_internal *tss)
+  2292	{
+  2293		int new_tstamp = sock_flag(sk, SOCK_TSTAMP_NEW);
+  2294		u32 tsflags = READ_ONCE(sk->sk_tsflags);
+  2295		bool has_timestamping = false;
+  2296	
+> 2297		if (tcp_bpf_recv_timestamp(sk, tss))
+  2298			return;
+  2299	
+  2300		if (tss->ts[0].tv_sec || tss->ts[0].tv_nsec) {
+  2301			if (sock_flag(sk, SOCK_RCVTSTAMP)) {
+  2302				if (sock_flag(sk, SOCK_RCVTSTAMPNS)) {
+  2303					if (new_tstamp) {
+  2304						struct __kernel_timespec kts = {
+  2305							.tv_sec = tss->ts[0].tv_sec,
+  2306							.tv_nsec = tss->ts[0].tv_nsec,
+  2307						};
+  2308						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_NEW,
+  2309							 sizeof(kts), &kts);
+  2310					} else {
+  2311						struct __kernel_old_timespec ts_old = {
+  2312							.tv_sec = tss->ts[0].tv_sec,
+  2313							.tv_nsec = tss->ts[0].tv_nsec,
+  2314						};
+  2315						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_OLD,
+  2316							 sizeof(ts_old), &ts_old);
+  2317					}
+  2318				} else {
+  2319					if (new_tstamp) {
+  2320						struct __kernel_sock_timeval stv = {
+  2321							.tv_sec = tss->ts[0].tv_sec,
+  2322							.tv_usec = tss->ts[0].tv_nsec / 1000,
+  2323						};
+  2324						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_NEW,
+  2325							 sizeof(stv), &stv);
+  2326					} else {
+  2327						struct __kernel_old_timeval tv = {
+  2328							.tv_sec = tss->ts[0].tv_sec,
+  2329							.tv_usec = tss->ts[0].tv_nsec / 1000,
+  2330						};
+  2331						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_OLD,
+  2332							 sizeof(tv), &tv);
+  2333					}
+  2334				}
+  2335			}
+  2336	
+  2337			if (tsflags & SOF_TIMESTAMPING_SOFTWARE &&
+  2338			    (tsflags & SOF_TIMESTAMPING_RX_SOFTWARE ||
+  2339			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
+  2340				has_timestamping = true;
+  2341			else
+  2342				tss->ts[0] = (struct timespec64) {0};
+  2343		}
+  2344	
+  2345		if (tss->ts[2].tv_sec || tss->ts[2].tv_nsec) {
+  2346			if (tsflags & SOF_TIMESTAMPING_RAW_HARDWARE &&
+  2347			    (tsflags & SOF_TIMESTAMPING_RX_HARDWARE ||
+  2348			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
+  2349				has_timestamping = true;
+  2350			else
+  2351				tss->ts[2] = (struct timespec64) {0};
+  2352		}
+  2353	
+  2354		if (has_timestamping) {
+  2355			tss->ts[1] = (struct timespec64) {0};
+  2356			if (sock_flag(sk, SOCK_TSTAMP_NEW))
+  2357				put_cmsg_scm_timestamping64(msg, tss);
+  2358			else
+  2359				put_cmsg_scm_timestamping(msg, tss);
+  2360		}
+  2361	}
+  2362	
 
 -- 
 0-DAY CI Kernel Test Service
