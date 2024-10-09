@@ -1,72 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4892F46
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 05:09:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C034415099C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 05:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728450574; cv=none; b=i0ZePvhqYZSdCIMdRsKCL7Hu6NxDxTRfGbMDGEXsaB5yleNu4uupVUFZQ0H86FyrEp3z/fIsyK9/gsPCYrz2DxM/QZ38h297JoxGsYusytX1FWKXs2t9+WecLE993c5rYTo5WN39GNVyTtxoFIJRczqCktAKjRpS9MiwA1jMrI0=
+	t=1728450576; cv=none; b=Q+Ll2Agx1k9XT2Flyht0qG1kNPc/GTn2vzY77VFfvFWG9uk9ZlrrmoS9FE+LiZlXBHfyBU0pI5VjIFmfW0GSksXFaHNoJlZcpKroaKueexLKZPREtOnQCw5LDcei7RdHLFfMT3m6rYz8HzzWItKg3Hr9m9Bsn0AWKD8Y7v0g/00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728450574; c=relaxed/simple;
-	bh=+/lG6d/2yiL1coqVhRfclbMCgDsoHozt5HlulUhP8jQ=;
+	s=arc-20240116; t=1728450576; c=relaxed/simple;
+	bh=cRQu6dSg+KXJRcdUXDiLT0pDKaq08XlND9Hd5qQoN7o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtczRQjck+MBKtIf4clDBicrUei+M+nFFtSGrDfAfr/nuRA5RFRL6Dhs9DgPun00h2G8wB8RC+5D8EG65J5pYTXIWTspWzK4YE16gHGi4MIdsAn9LWgH8rMyyWGAvIhVpmpHP+aF00k28BRM8d4arm/cwMbqlldA7e3OEGdT6CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXXjcqWW; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=IT3uWJkyU1/ORpcVJp4nTpBJzRarKGHoj7eeU9iH9+xW+vaH2wakjeYT0nrzpjcD5AgjqfJmE8FPXrE0XM+umJgsOgnIS8ZhfxAg1tHIMj/l0FsLIojxMu/6WSvI6xarM2Rz8BKi2Zi8tVxi5jQvdMiGiaeUI32aFq/otWxCUVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSyNhwRc; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXXjcqWW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSyNhwRc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728450573; x=1759986573;
+  t=1728450575; x=1759986575;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+/lG6d/2yiL1coqVhRfclbMCgDsoHozt5HlulUhP8jQ=;
-  b=KXXjcqWWeEt06Pxu1tm4y7kB03Vpay/Q8CydyCkh6wVAW6OUvs03AoEu
-   lyhNCcA65vrhe+i8Nr8YXZW/TjroYa4/E4BBhojNweIibnggddwg/sBAo
-   9szFVm/FvsHCt4839nXsupemXWcgzIEd9CARv44/laOhtvllqXxxYdZmK
-   RfDoPJeSXJCLzcZPsX4PC5KSM9m7K7JAWFVzrwRRjS94D4i0p72K27I6y
-   rb0o0M6hvYv1OBp2lLASobZo/jYSnkwCg7x1MP7QTL7nplbaTlhr68SXJ
-   Tb7SbjGLcFKfwjifDmg0qB769hdoUqiHj2VkYufHz7W/yvTfe2VjBEf+h
-   g==;
-X-CSE-ConnectionGUID: a+TihPb/SQ2nl6+FE7VK3g==
-X-CSE-MsgGUID: UrOhY+OyTlKm2Ux2Lj1/bQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="31425387"
+  bh=cRQu6dSg+KXJRcdUXDiLT0pDKaq08XlND9Hd5qQoN7o=;
+  b=VSyNhwRcK7o86yuJqrkumuZ3GZOrrKWdvaa081zFQHjNqnUvuRpK1pjK
+   thD/NMWJ/54E0gGpe8iBz9eMB8IttnDxOJQj3UKMs6eJ1nn1wFos+MKaT
+   SBUVTG2QOhPPBk7H69rkFh46f5GBnjAfG4Q2DMXYyr0o/bT3OU4nRz1Ow
+   50cXK/Iw6TMr223ivIiDFBb/oZTCxjJSGiSaD1xU4J+J07Mnq93JVtzwc
+   Xoq6n2P5RhSxn4j3GBqtEvsOGYUs1TaEBp/SPhaD1qX9RyoRi8szXo/OS
+   /ksDs4b0pPUmPvMNW0XORu/sSFWKaaKWB7BniCe6ZKVTrspnrpnMRVAlj
+   Q==;
+X-CSE-ConnectionGUID: jyqQXgXgRm+yZMmcmHZHLw==
+X-CSE-MsgGUID: 54PpXTXURWi3gQEN+f95KA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="31425391"
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="31425387"
+   d="scan'208";a="31425391"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 22:09:32 -0700
-X-CSE-ConnectionGUID: HgE7S8OtTvum40XWD/P7BQ==
-X-CSE-MsgGUID: YcVLafYwToq0mu9eCJWT4w==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 22:09:33 -0700
+X-CSE-ConnectionGUID: Qef3H+ohRvWqoYtBMJ+aaw==
+X-CSE-MsgGUID: mKvwFVhwSmClTBEkXo/fYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="75995876"
+   d="scan'208";a="75995877"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 08 Oct 2024 22:09:28 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syOww-0008lM-0w;
+	id 1syOww-0008lO-11;
 	Wed, 09 Oct 2024 05:09:26 +0000
-Date: Wed, 9 Oct 2024 13:09:17 +0800
+Date: Wed, 9 Oct 2024 13:09:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: ed.tsai@mediatek.com, peter.wang@mediatek.com,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Stanley Jhu <chu.stanley@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, wsd_upstream@mediatek.com,
-	chun-hung.wu@mediatek.com, Ed Tsai <ed.tsai@mediatek.com>,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] scsi: ufs: ufs-mediatek: configure individual LU queue
- flags
-Message-ID: <202410091257.SE04cckD-lkp@intel.com>
-References: <20241008065950.23431-1-ed.tsai@mediatek.com>
+To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
+	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
+Subject: Re: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx
+ timestamps
+Message-ID: <202410091245.zCD0FszC-lkp@intel.com>
+References: <20241008095109.99918-9-kerneljasonxing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,58 +71,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008065950.23431-1-ed.tsai@mediatek.com>
+In-Reply-To: <20241008095109.99918-9-kerneljasonxing@gmail.com>
 
-Hi,
+Hi Jason,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on mkp-scsi/for-next]
-[also build test ERROR on jejb-scsi/for-next linus/master v6.12-rc2 next-20241008]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ed-tsai-mediatek-com/scsi-ufs-ufs-mediatek-configure-individual-LU-queue-flags/20241008-153700
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20241008065950.23431-1-ed.tsai%40mediatek.com
-patch subject: [PATCH] scsi: ufs: ufs-mediatek: configure individual LU queue flags
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20241009/202410091257.SE04cckD-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091257.SE04cckD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-add-bpf-infrastructure-to-allow-exposing-more-information-later/20241008-175458
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241008095109.99918-9-kerneljasonxing%40gmail.com
+patch subject: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx timestamps
+config: x86_64-randconfig-122-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091245.zCD0FszC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091245.zCD0FszC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091257.SE04cckD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410091245.zCD0FszC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/ipv4/tcp.c:2297:36: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct sock *sk @@     got struct sock const *sk @@
+   net/ipv4/tcp.c:2297:36: sparse:     expected struct sock *sk
+   net/ipv4/tcp.c:2297:36: sparse:     got struct sock const *sk
 
-   drivers/ufs/host/ufs-mediatek.c: In function 'ufs_mtk_config_scsi_dev':
->> drivers/ufs/host/ufs-mediatek.c:1789:65: error: 'struct scsi_device' has no member named 'reqeust_queue'; did you mean 'request_queue'?
-    1789 |                 blk_queue_flag_set(QUEUE_FLAG_SAME_FORCE, sdev->reqeust_queue);
-         |                                                                 ^~~~~~~~~~~~~
-         |                                                                 request_queue
+vim +2297 net/ipv4/tcp.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
-
-
-vim +1789 drivers/ufs/host/ufs-mediatek.c
-
-  1782	
-  1783	static void ufs_mtk_config_scsi_dev(struct scsi_device *sdev)
-  1784	{
-  1785		struct ufs_hba *hba = shost_priv(sdev->host);
-  1786	
-  1787		dev_dbg(hba->dev, "lu %llu scsi device configured", sdev->lun);
-  1788		if (sdev->lun == 2)
-> 1789			blk_queue_flag_set(QUEUE_FLAG_SAME_FORCE, sdev->reqeust_queue);
-  1790	}
-  1791	
+  2288	
+  2289	/* Similar to __sock_recv_timestamp, but does not require an skb */
+  2290	void tcp_recv_timestamp(struct msghdr *msg, const struct sock *sk,
+  2291				struct scm_timestamping_internal *tss)
+  2292	{
+  2293		int new_tstamp = sock_flag(sk, SOCK_TSTAMP_NEW);
+  2294		u32 tsflags = READ_ONCE(sk->sk_tsflags);
+  2295		bool has_timestamping = false;
+  2296	
+> 2297		if (tcp_bpf_recv_timestamp(sk, tss))
+  2298			return;
+  2299	
+  2300		if (tss->ts[0].tv_sec || tss->ts[0].tv_nsec) {
+  2301			if (sock_flag(sk, SOCK_RCVTSTAMP)) {
+  2302				if (sock_flag(sk, SOCK_RCVTSTAMPNS)) {
+  2303					if (new_tstamp) {
+  2304						struct __kernel_timespec kts = {
+  2305							.tv_sec = tss->ts[0].tv_sec,
+  2306							.tv_nsec = tss->ts[0].tv_nsec,
+  2307						};
+  2308						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_NEW,
+  2309							 sizeof(kts), &kts);
+  2310					} else {
+  2311						struct __kernel_old_timespec ts_old = {
+  2312							.tv_sec = tss->ts[0].tv_sec,
+  2313							.tv_nsec = tss->ts[0].tv_nsec,
+  2314						};
+  2315						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_OLD,
+  2316							 sizeof(ts_old), &ts_old);
+  2317					}
+  2318				} else {
+  2319					if (new_tstamp) {
+  2320						struct __kernel_sock_timeval stv = {
+  2321							.tv_sec = tss->ts[0].tv_sec,
+  2322							.tv_usec = tss->ts[0].tv_nsec / 1000,
+  2323						};
+  2324						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_NEW,
+  2325							 sizeof(stv), &stv);
+  2326					} else {
+  2327						struct __kernel_old_timeval tv = {
+  2328							.tv_sec = tss->ts[0].tv_sec,
+  2329							.tv_usec = tss->ts[0].tv_nsec / 1000,
+  2330						};
+  2331						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_OLD,
+  2332							 sizeof(tv), &tv);
+  2333					}
+  2334				}
+  2335			}
+  2336	
+  2337			if (tsflags & SOF_TIMESTAMPING_SOFTWARE &&
+  2338			    (tsflags & SOF_TIMESTAMPING_RX_SOFTWARE ||
+  2339			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
+  2340				has_timestamping = true;
+  2341			else
+  2342				tss->ts[0] = (struct timespec64) {0};
+  2343		}
+  2344	
+  2345		if (tss->ts[2].tv_sec || tss->ts[2].tv_nsec) {
+  2346			if (tsflags & SOF_TIMESTAMPING_RAW_HARDWARE &&
+  2347			    (tsflags & SOF_TIMESTAMPING_RX_HARDWARE ||
+  2348			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
+  2349				has_timestamping = true;
+  2350			else
+  2351				tss->ts[2] = (struct timespec64) {0};
+  2352		}
+  2353	
+  2354		if (has_timestamping) {
+  2355			tss->ts[1] = (struct timespec64) {0};
+  2356			if (sock_flag(sk, SOCK_TSTAMP_NEW))
+  2357				put_cmsg_scm_timestamping64(msg, tss);
+  2358			else
+  2359				put_cmsg_scm_timestamping(msg, tss);
+  2360		}
+  2361	}
+  2362	
 
 -- 
 0-DAY CI Kernel Test Service
