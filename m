@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C034415099C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 05:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D3D152E02
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 05:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728450576; cv=none; b=Q+Ll2Agx1k9XT2Flyht0qG1kNPc/GTn2vzY77VFfvFWG9uk9ZlrrmoS9FE+LiZlXBHfyBU0pI5VjIFmfW0GSksXFaHNoJlZcpKroaKueexLKZPREtOnQCw5LDcei7RdHLFfMT3m6rYz8HzzWItKg3Hr9m9Bsn0AWKD8Y7v0g/00=
+	t=1728451232; cv=none; b=MEdBAFKDP65VcO2e7CirAbTfq6Vj3cI+Sce6FKPZXL0ZNcPeXCGiBa78vzI4+DXDUEJGx5uv5I7JkB8FSe5ee3VA9TCKo6GrWqHP5I6mtt70hjmIHV//qltgBBVOrYYQUeWI0o9Orod4mMKM3d1dvYTu3l0nv8GUWSrIjjX2ehk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728450576; c=relaxed/simple;
-	bh=cRQu6dSg+KXJRcdUXDiLT0pDKaq08XlND9Hd5qQoN7o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IT3uWJkyU1/ORpcVJp4nTpBJzRarKGHoj7eeU9iH9+xW+vaH2wakjeYT0nrzpjcD5AgjqfJmE8FPXrE0XM+umJgsOgnIS8ZhfxAg1tHIMj/l0FsLIojxMu/6WSvI6xarM2Rz8BKi2Zi8tVxi5jQvdMiGiaeUI32aFq/otWxCUVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSyNhwRc; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1728451232; c=relaxed/simple;
+	bh=4Pz3Qx/bcNes21jTM5RdIrj/QX2lZR28+duwJVMTfgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AISz8/3yqTfZqcEu+IvfEGmz1zMKbl31CmnHzap5mt/IFQ5n4qdLYPnUjQXHfTcmNOHfQC+Ad6xIx4RPJWr1Wg/p26aomfGYN0yOxbij4GOdM4Ikj+Zf3u4LmtGPHNnFi/Rppf1qzW94dLYavuuGuvMz9eR3DP8y7aHqinMmH7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IXJod/fP; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSyNhwRc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IXJod/fP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728450575; x=1759986575;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cRQu6dSg+KXJRcdUXDiLT0pDKaq08XlND9Hd5qQoN7o=;
-  b=VSyNhwRcK7o86yuJqrkumuZ3GZOrrKWdvaa081zFQHjNqnUvuRpK1pjK
-   thD/NMWJ/54E0gGpe8iBz9eMB8IttnDxOJQj3UKMs6eJ1nn1wFos+MKaT
-   SBUVTG2QOhPPBk7H69rkFh46f5GBnjAfG4Q2DMXYyr0o/bT3OU4nRz1Ow
-   50cXK/Iw6TMr223ivIiDFBb/oZTCxjJSGiSaD1xU4J+J07Mnq93JVtzwc
-   Xoq6n2P5RhSxn4j3GBqtEvsOGYUs1TaEBp/SPhaD1qX9RyoRi8szXo/OS
-   /ksDs4b0pPUmPvMNW0XORu/sSFWKaaKWB7BniCe6ZKVTrspnrpnMRVAlj
-   Q==;
-X-CSE-ConnectionGUID: jyqQXgXgRm+yZMmcmHZHLw==
-X-CSE-MsgGUID: 54PpXTXURWi3gQEN+f95KA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="31425391"
+  t=1728451231; x=1759987231;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4Pz3Qx/bcNes21jTM5RdIrj/QX2lZR28+duwJVMTfgM=;
+  b=IXJod/fPjtNpR15mLAB/YVpAao93KhE5C5nZFAeoGXfie1RgzgMpERst
+   PhcbEVU1KaaTZpziVmNnlwryUrAmi3Hi1Xzk8ZZKkAktFmpCXwWf190hY
+   h4x1YumYpuQCBM7XK/CqEjilMLkc/3hpDApKgr0X2WjpQJV2L5e1H0Pww
+   HfSqyE7IoQGh22sIz7dtAw6JO2naZzpFS0N+N39jRlAEdN7KDKLikw1Jq
+   C8/m4wtewSCAaj6FZbKTfqu9GJcjdjF5RTDPcaQT6NmXGT5HCMhimC7lR
+   1YL+vEelYBXcbYLmM/w/AV7wgS6ij6v22vg68oQ8LGZ4NSq5dEt6rRb1J
+   A==;
+X-CSE-ConnectionGUID: mvtuf9lPSDeM/jIVg4jksQ==
+X-CSE-MsgGUID: cwttfT6fTYeXBQSI13qyTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38856783"
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="31425391"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 22:09:33 -0700
-X-CSE-ConnectionGUID: Qef3H+ohRvWqoYtBMJ+aaw==
-X-CSE-MsgGUID: mKvwFVhwSmClTBEkXo/fYQ==
+   d="scan'208";a="38856783"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 22:20:31 -0700
+X-CSE-ConnectionGUID: ug8ZliapTCC7uB/90rNT7g==
+X-CSE-MsgGUID: Ws2UPZuwRKiw+lHcYe0BWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="75995877"
+   d="scan'208";a="80924482"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Oct 2024 22:09:28 -0700
+  by orviesa005.jf.intel.com with ESMTP; 08 Oct 2024 22:20:30 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syOww-0008lO-11;
-	Wed, 09 Oct 2024 05:09:26 +0000
-Date: Wed, 9 Oct 2024 13:09:16 +0800
+	id 1syP7a-0008m4-2P;
+	Wed, 09 Oct 2024 05:20:26 +0000
+Date: Wed, 9 Oct 2024 13:19:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
-	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
-	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
-Subject: Re: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx
- timestamps
-Message-ID: <202410091245.zCD0FszC-lkp@intel.com>
-References: <20241008095109.99918-9-kerneljasonxing@gmail.com>
+To: =?iso-8859-1?B?Suly9G1l?= de Bretagne <jerome.debretagne@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 2344/2853]
+ arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth:
+ 'vddaon-supply' is a required property
+Message-ID: <202410091319.PtAQYmM9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,109 +65,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008095109.99918-9-kerneljasonxing@gmail.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-add-bpf-infrastructure-to-allow-exposing-more-information-later/20241008-175458
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241008095109.99918-9-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next 8/9] net-timestamp: add bpf framework for rx timestamps
-config: x86_64-randconfig-122-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091245.zCD0FszC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091245.zCD0FszC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   33ce24234fca4c083e6685a18b460a18ebb5d5c1
+commit: f6231a2eefd430b8b8798911f023891ea51d1d09 [2344/2853] arm64: dts: qcom: sc8280xp: Add Microsoft Surface Pro 9 5G
+config: arm64-randconfig-051-20241008 (https://download.01.org/0day-ci/archive/20241009/202410091319.PtAQYmM9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev4+g577c1ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091319.PtAQYmM9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091245.zCD0FszC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410091319.PtAQYmM9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/ipv4/tcp.c:2297:36: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct sock *sk @@     got struct sock const *sk @@
-   net/ipv4/tcp.c:2297:36: sparse:     expected struct sock *sk
-   net/ipv4/tcp.c:2297:36: sparse:     got struct sock const *sk
-
-vim +2297 net/ipv4/tcp.c
-
-  2288	
-  2289	/* Similar to __sock_recv_timestamp, but does not require an skb */
-  2290	void tcp_recv_timestamp(struct msghdr *msg, const struct sock *sk,
-  2291				struct scm_timestamping_internal *tss)
-  2292	{
-  2293		int new_tstamp = sock_flag(sk, SOCK_TSTAMP_NEW);
-  2294		u32 tsflags = READ_ONCE(sk->sk_tsflags);
-  2295		bool has_timestamping = false;
-  2296	
-> 2297		if (tcp_bpf_recv_timestamp(sk, tss))
-  2298			return;
-  2299	
-  2300		if (tss->ts[0].tv_sec || tss->ts[0].tv_nsec) {
-  2301			if (sock_flag(sk, SOCK_RCVTSTAMP)) {
-  2302				if (sock_flag(sk, SOCK_RCVTSTAMPNS)) {
-  2303					if (new_tstamp) {
-  2304						struct __kernel_timespec kts = {
-  2305							.tv_sec = tss->ts[0].tv_sec,
-  2306							.tv_nsec = tss->ts[0].tv_nsec,
-  2307						};
-  2308						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_NEW,
-  2309							 sizeof(kts), &kts);
-  2310					} else {
-  2311						struct __kernel_old_timespec ts_old = {
-  2312							.tv_sec = tss->ts[0].tv_sec,
-  2313							.tv_nsec = tss->ts[0].tv_nsec,
-  2314						};
-  2315						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMPNS_OLD,
-  2316							 sizeof(ts_old), &ts_old);
-  2317					}
-  2318				} else {
-  2319					if (new_tstamp) {
-  2320						struct __kernel_sock_timeval stv = {
-  2321							.tv_sec = tss->ts[0].tv_sec,
-  2322							.tv_usec = tss->ts[0].tv_nsec / 1000,
-  2323						};
-  2324						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_NEW,
-  2325							 sizeof(stv), &stv);
-  2326					} else {
-  2327						struct __kernel_old_timeval tv = {
-  2328							.tv_sec = tss->ts[0].tv_sec,
-  2329							.tv_usec = tss->ts[0].tv_nsec / 1000,
-  2330						};
-  2331						put_cmsg(msg, SOL_SOCKET, SO_TIMESTAMP_OLD,
-  2332							 sizeof(tv), &tv);
-  2333					}
-  2334				}
-  2335			}
-  2336	
-  2337			if (tsflags & SOF_TIMESTAMPING_SOFTWARE &&
-  2338			    (tsflags & SOF_TIMESTAMPING_RX_SOFTWARE ||
-  2339			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
-  2340				has_timestamping = true;
-  2341			else
-  2342				tss->ts[0] = (struct timespec64) {0};
-  2343		}
-  2344	
-  2345		if (tss->ts[2].tv_sec || tss->ts[2].tv_nsec) {
-  2346			if (tsflags & SOF_TIMESTAMPING_RAW_HARDWARE &&
-  2347			    (tsflags & SOF_TIMESTAMPING_RX_HARDWARE ||
-  2348			     !(tsflags & SOF_TIMESTAMPING_OPT_RX_FILTER)))
-  2349				has_timestamping = true;
-  2350			else
-  2351				tss->ts[2] = (struct timespec64) {0};
-  2352		}
-  2353	
-  2354		if (has_timestamping) {
-  2355			tss->ts[1] = (struct timespec64) {0};
-  2356			if (sock_flag(sk, SOCK_TSTAMP_NEW))
-  2357				put_cmsg_scm_timestamping64(msg, tss);
-  2358			else
-  2359				put_cmsg_scm_timestamping(msg, tss);
-  2360		}
-  2361	}
-  2362	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddbtcmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
