@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651A77462
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 00:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4764518EBF;
+	Wed,  9 Oct 2024 01:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728435032; cv=none; b=lqpfFZnrX8TklYYJBAn3eJA2g020eJOFj1emXO4YOw2R0xFa9pgL+w+KiioeqPsRqjnfXYqc+3OTt2CoBLvi+zeGGQNEvHaOBZ6hWBPziFOQU3EF+YH2EtSDPMOEG/N+GKlU151tJMOTNhO5AS+T/Ja5D2AE1PJTEE7Tqm0CMTY=
+	t=1728437544; cv=none; b=HtIkqNNnOFpy9TE18ozahTJsOQTHWGi/TcOQz9oypQ2p0sSk5hUIg2QrUgNvzawETFM7Ea3EPuSd2yDDbthfKNvqC5jxiFkQJpNV1wzA9v3JPq/yJ9hLOZECMaOiZN0a0biBohUkQzfrdhaf7c/d8GpjSvMi+OyWeOAvRUee6H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728435032; c=relaxed/simple;
-	bh=mm00jxsBdqrGj28hTnXqDIwmUJ7FSwzOATxvMfeQhb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D2EWln9h5g17ykrt4XBFXZ91f8AHey5Q67kmSLUJWxH9+7GuIA4N+a4K3OdYH0lrdhh9NwV0V6NPKt6Pv6HdtsSbJIgmEXFiEGBACWwYczF0tEbRse4k5WGt6B9WC0YAItZMujcSKFFyjn1BRNP+xlKfnEGyC2wjBxtQzIs4BDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtwvlBps; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1728437544; c=relaxed/simple;
+	bh=a0+uf+NfJtuPcLf+rkvKkv9Vp5YWhsAqpXpzGodzWmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R53G2T9uGX9jxJyDU8IGk9gzOWHs60OyYzw3R25UobQp41elGS20TJN+DwxoQxQUiSgl7xYvMlgm4ddoS24J58ksUaEAaZxzsDNVfb2dFF7mJ7ddXAQzin5hzI1U6+GRrqtvGEF77ObNjLjTsbNcC3bnVjZEuRRUqsrFnhhtCyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeeQx1Fb; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtwvlBps"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeeQx1Fb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728435030; x=1759971030;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mm00jxsBdqrGj28hTnXqDIwmUJ7FSwzOATxvMfeQhb0=;
-  b=QtwvlBpsYGLEEUe1jW9ujlBa50RfY9lyEIeEcXCtbhVRmCM6RoNDb/kK
-   RoajmdOvD5QHcvHjXgdGY9AL/i+YQHPxX7fpuznN4woerUvgVLFbZZ8aN
-   IRquQSHYCNoD+R78XCPD9KnKN2nif/Q4cUzdbyaEB/XjRpgSGSL3u17gN
-   jhVmakIUGWFFxiDaokhRf9iDDy89JQhn1wrt+rZSZ7jNQasPDGxE7oGZv
-   7tIU2eBuBoZYG517UpjkdXk+tdzLvH0xSPCAvoODvPI0B9kDszXKAW8G1
-   +1JiefjaZQnqkFmLx3EcBSs0Yw/UHQhCPhwf923ArUZbaYiJ4I9+0/b4Q
-   Q==;
-X-CSE-ConnectionGUID: 2+paicEYQqOdSfMVvGhQLw==
-X-CSE-MsgGUID: GhWGEh67RnS/pHjrf55NwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="30580417"
+  t=1728437543; x=1759973543;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a0+uf+NfJtuPcLf+rkvKkv9Vp5YWhsAqpXpzGodzWmM=;
+  b=eeeQx1FbhVCfl0WSWB6MVSKxiGIhsKCV7azwP2vJCsxPB4wd3tjGjMKq
+   jaOGoj5GPASutXRLiBWTjpSwoDXb7js60nLi8Var3zF3EjuousbtwHDWB
+   BOPLjsfkK+DXlRtqQkmuC7IuzncIEHv0ukvoXEhK6JLqcLLJYGHrOm09v
+   QWFqyR/1fg9ZEVwPtS1GNL5xL0Qn1Tzbyv2/e5fM8SZgw47XFv102Nv/2
+   kiBM7DA1g/OkkA+cZyT1qcpA/ZkmfIvXNptO1LrU2Kc9GdvsxZ5y5WsFN
+   cG+oGgJowTsh/W8TWF2hh7ACtQmTyNcy6WyA32ydaEKdl9io8ERpzyQiJ
+   g==;
+X-CSE-ConnectionGUID: 251SodlkSLyEGLXX9whCcg==
+X-CSE-MsgGUID: XxLqC+VSSLWpATod1/2AuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38270817"
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="30580417"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 17:50:28 -0700
-X-CSE-ConnectionGUID: CetsU61BRDGuy6Dn2vDP8w==
-X-CSE-MsgGUID: szTMG113Tuii9uF0ZiMD+A==
+   d="scan'208";a="38270817"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 18:32:22 -0700
+X-CSE-ConnectionGUID: 5RhY4zlETvCg1SzjXE5oGQ==
+X-CSE-MsgGUID: t+GgeUnaQT+AWsVc7A576A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="75642702"
+   d="scan'208";a="80874780"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Oct 2024 17:50:19 -0700
+  by orviesa005.jf.intel.com with ESMTP; 08 Oct 2024 18:32:19 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syKu8-0008YS-0U;
-	Wed, 09 Oct 2024 00:50:16 +0000
-Date: Wed, 9 Oct 2024 08:50:07 +0800
+	id 1syLYn-0008Zw-2C;
+	Wed, 09 Oct 2024 01:32:17 +0000
+Date: Wed, 9 Oct 2024 09:32:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arm-linux-gnueabi-ld: error: .tmp_vmlinux1.btf.o is already in final
- BE8 format
-Message-ID: <202410090844.AtobmcI7-lkp@intel.com>
+To: Dheeraj Kumar Srivastava <dheerajkumar.srivastava@amd.com>,
+	joro@8bytes.org, suravee.suthikulpanit@amd.com, will@kernel.org,
+	robin.murphy@arm.com, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 8/8] iommu/amd: Add documentation for AMD IOMMU debugfs
+ support
+Message-ID: <202410090917.z8aO1bNH-lkp@intel.com>
+References: <20241008104035.4008-9-dheerajkumar.srivastava@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +66,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241008104035.4008-9-dheerajkumar.srivastava@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   75b607fab38d149f232f01eae5e6392b394dd659
-commit: b1a9a5e04767e2a78783e19c9e55c25812ceccc3 kbuild: merge temporary vmlinux for BTF and kallsyms
-date:   3 months ago
-config: arm-randconfig-r062-20241009 (https://download.01.org/0day-ci/archive/20241009/202410090844.AtobmcI7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410090844.AtobmcI7-lkp@intel.com/reproduce)
+Hi Dheeraj,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dheeraj-Kumar-Srivastava/iommu-amd-Refactor-AMD-IOMMU-debugfs-initial-setup/20241008-184419
+base:   8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+patch link:    https://lore.kernel.org/r/20241008104035.4008-9-dheerajkumar.srivastava%40amd.com
+patch subject: [PATCH 8/8] iommu/amd: Add documentation for AMD IOMMU debugfs support
+reproduce: (https://download.01.org/0day-ci/archive/20241009/202410090917.z8aO1bNH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410090844.AtobmcI7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410090917.z8aO1bNH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arm-linux-gnueabi-ld: error: .tmp_vmlinux1.btf.o is already in final BE8 format
-   arm-linux-gnueabi-ld: failed to merge target specific data of file .tmp_vmlinux1.btf.o
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: /sys/kernel/debug/iommu/devtbl is defined 2 times:  ./Documentation/ABI/testing/debugfs-amd-iommu:105  ./Documentation/ABI/testing/debugfs-amd-iommu:119
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
