@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AD817109B;
-	Wed,  9 Oct 2024 07:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AA6187339
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 08:27:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728458747; cv=none; b=oqSe3teDq9DoVV20xPhyg49SXp6yP79s2tyi4gPqJXe5bfSw7cakcn1Mp9f1mtDrn9FAmIspQIHE2Dg38ZMeCKvYZ+SdSS+h7p/wh6tOFoJe/LKrg6zgScYxydigVMCswqB59rPH68wV3x66r4NyZ1YJfZNxAtix+UhtryH7BBw=
+	t=1728462467; cv=none; b=N5eKUoA0e+8556QQ82gl52/OHcuEMG3wVjXBfpUvH7+pgj+fe7PQGpouzxd4HeGKmI7Pp+XWQbU0uqCi8Qx48bh5Bis1Z1vHaByoxAJeiB7I4FbuG/aWIBPpGTRrGlirSlvAAhSVcg8ye8Idx3ynvGB4VlCV5kA6txioqv3VtBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728458747; c=relaxed/simple;
-	bh=THs6DsM2Xg4UTWWWqLhNNVBQwRFrpO8EbsVy7gJTpJw=;
+	s=arc-20240116; t=1728462467; c=relaxed/simple;
+	bh=2FpFUMarsu8M9dnnDu129HfHD3t925/h1nSZ+wj/9Zg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5UJrmjiNaP7/BThqR8IDEsxQ6G+1JG6GoLrzOqmzx2/f2oE0yahJBMMfxPHqZ1XXgfljWPhVrLnr/73Mzw1/Hj3iTqlTlx8U7plT9l9Md91J04i3hYqq4NEaiLtLjs/AVQP0CSfwe69QiBzf/ZSzDYZPw71isgjaYXPJhz6aHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnUWskTQ; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=kuzb+9+Bs9nB2bO4TNJeqpYjblsuca44rvWSruY8IJ6/rs70uwRoIDTqhlO0vBKD+D94xSebF/ukk1yImw6FqJs9eEDYA7aojroTpckOYdUIFlrR1mOtoAQ+ZdcUDOD2qUs1vXMlSNzB7GIt6ib6+9RolLg5w5Lqk+PDlIJAmZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FysrNx5S; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnUWskTQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FysrNx5S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728458745; x=1759994745;
+  t=1728462466; x=1759998466;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=THs6DsM2Xg4UTWWWqLhNNVBQwRFrpO8EbsVy7gJTpJw=;
-  b=WnUWskTQ1RnAAseWjMO4n3YEZ+F5P+dxA1BZWs1cmIG8mHvkxKODKsAT
-   mAj/GrnPdStbn3peL7RCGAIFHjDc1GaTdwCe0pv3zV+awhZzRcOje+g0H
-   x9IyrbfVTHmN8zHeOP58C93+q4TumZcHv+9zLaCov7kK/Bc1fVb5tqMu/
-   7tOA36OEkm1A30MIvCATvgc0TUi4IPiKTXKfoFt/Mn0FjrPQNeKP3cDH9
-   p78islm+Ea1P/Trgof2DgS/jby8YR3ZbuOX/l7FNkq9h0RvFHG9fYQh1E
-   pKhAtuFboKoE8ff1L4iJaqziSZO0LJBLhEr+kIw3jsyheD/hEeL3OQORD
-   w==;
-X-CSE-ConnectionGUID: kVKBbDe0TwuBq1GI/nkGCw==
-X-CSE-MsgGUID: Z82xRXnWQN+LRhnxuW5AlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27619861"
+  bh=2FpFUMarsu8M9dnnDu129HfHD3t925/h1nSZ+wj/9Zg=;
+  b=FysrNx5So5QtNPrSQLCyULqkd/LIC9OItNt+nX5DJKeyH2I0aZiqv2XA
+   kjV8uqEPZCJUlXEFQns5IFm5Ep6cTNQO/N988aN9t4jCNDPYUbILjKQtE
+   wKMhCodZyUVmorD6TPjCEVAH6ff37HlhklBzyE8Gn83F2GsbqFMM/n0fj
+   E+NDNKeySOGufCt7j5VV0cC3GZg5D5iMNn9R99WaV15bvVpLVCzTudSEf
+   jTupUXRJwtbl8YykwS5LGuKvet0KTfbVNJuBAZGcE2qydFAayAxS94NJK
+   ldbEz3X7qEfuLZqK+IgbQlLHGMxmVsggKZnDX5U+j8vLSmZDINin8mPA7
+   Q==;
+X-CSE-ConnectionGUID: /Sf9ArhhTae0n9LhZYGj3A==
+X-CSE-MsgGUID: 0ZJhsFd3QTKj2DoibexO8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="45267632"
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="27619861"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 00:25:41 -0700
-X-CSE-ConnectionGUID: KcgUVk6zQhC/pebS0QZcaA==
-X-CSE-MsgGUID: 6KHKilN3SGaWaVPjcfJcpg==
+   d="scan'208";a="45267632"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 01:27:45 -0700
+X-CSE-ConnectionGUID: 5uR5IR++R0+M5stWNSg57A==
+X-CSE-MsgGUID: g12ceAbYQHeVUjPm3weNgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="99482400"
+   d="scan'208";a="76137983"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2024 00:25:39 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 Oct 2024 01:27:43 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syR4j-0008w4-0F;
-	Wed, 09 Oct 2024 07:25:37 +0000
-Date: Wed, 9 Oct 2024 15:24:39 +0800
+	id 1syS2m-000904-18;
+	Wed, 09 Oct 2024 08:27:40 +0000
+Date: Wed, 9 Oct 2024 16:26:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Tang Yizhou <yizhou.tang@shopee.com>, jack@suse.cz, hch@infradead.org,
 	willy@infradead.org, akpm@linux-foundation.org,
 	chandan.babu@oracle.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, Tang Yizhou <yizhou.tang@shopee.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	Tang Yizhou <yizhou.tang@shopee.com>
 Subject: Re: [PATCH v2 3/3] xfs: Let the max iomap length be consistent with
  the writeback code
-Message-ID: <202410091559.uWiy0Oj0-lkp@intel.com>
+Message-ID: <202410091647.eyo14ayt-lkp@intel.com>
 References: <20241006152849.247152-4-yizhou.tang@shopee.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,27 +83,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Tang-Yizhou/mm-page-write
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20241006152849.247152-4-yizhou.tang%40shopee.com
 patch subject: [PATCH v2 3/3] xfs: Let the max iomap length be consistent with the writeback code
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241009/202410091559.uWiy0Oj0-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091559.uWiy0Oj0-lkp@intel.com/reproduce)
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241009/202410091647.eyo14ayt-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410091647.eyo14ayt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091559.uWiy0Oj0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410091647.eyo14ayt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/xfs/xfs_iomap.c:768:7: error: call to undeclared function 'inode_to_wb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   fs/xfs/xfs_iomap.c: In function 'xfs_max_map_length':
+   fs/xfs/xfs_iomap.c:768:14: error: implicit declaration of function 'inode_to_wb' [-Wimplicit-function-declaration]
      768 |         wb = inode_to_wb(wb);
-         |              ^
->> fs/xfs/xfs_iomap.c:768:5: error: incompatible integer to pointer conversion assigning to 'struct bdi_writeback *' from 'int' [-Wint-conversion]
+         |              ^~~~~~~~~~~
+>> fs/xfs/xfs_iomap.c:768:12: error: assignment to 'struct bdi_writeback *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
      768 |         wb = inode_to_wb(wb);
-         |            ^ ~~~~~~~~~~~~~~~
-   2 errors generated.
+         |            ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +/inode_to_wb +768 fs/xfs/xfs_iomap.c
+vim +768 fs/xfs/xfs_iomap.c
 
    748	
    749	/*
