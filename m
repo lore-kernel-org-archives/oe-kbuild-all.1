@@ -1,140 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA9A191461;
-	Wed,  9 Oct 2024 09:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11AF18DF9B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Oct 2024 10:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728467632; cv=none; b=X9R9Wqw+6kTuYqIyXbcaNlStRbBrMYfMta1RbFRA4aUGx2H/i9FWU2jFRUyUmoyOCSHeIkmC+bjC0ziZT/5fMDTachjaFsUtHPX406LVjPFS9pZriAOjYh4AglINIC+6JyLP19vYGPO2mV8NS63XAgWilD/TnUDzxTywIVFYAeo=
+	t=1728468569; cv=none; b=W5PxScyqFrkaPSLmk8yJkSnxZOQZcGHBo4Y6ilymcgcigxvqOAL1PNxyjxQbGbXzmvU4UbCyqR6uN7DwgZf9SlUC+s7CqEXxLP6R+CwIWRwUSAxGnkePXrxOMQeinzbZURZf3LErIkjs5N5fL48/NABq+Hd4O1zYdj+mx2GURow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728467632; c=relaxed/simple;
-	bh=NIyPMmhdZjGAs7fBYKVzyddUl0tMwlIKJxqntEDOS0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVrD/Tt4LMPTQqUbQuuWc7+CpN5MP9k8jje8/q5FlIw/jgK56UT+GFO0T0ZL7KW729/hldnXEtqpcNj2a6iGwQsRcFeFehC83186tkwiv8FTR8TBwPgecEaFx/0ynRiwMn+mCSgVCP65oeK4DlkjdKelCQmGJThtpbMNULp9QPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KUe/1xJ5; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728468569; c=relaxed/simple;
+	bh=Yfb4Jj4d9DKxDIfB/e69j839hlEqbcwzQIsu8yjAq2g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YQLKprUy/v1s/0eU6MeKaW1Vhiky8H553TldRqXxvmsv1mCxsAWdjrZSURFJd8DhAt95J9SbIrarew+K9Xm+xOSauRWGv+IvilZtEM3awIfetjCq5XgIjU8Jbx0KpJhICNYYTtQIvXr0bmWnOhcxnnLDPLYo157hR+LR/QJRfEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XNFXhXKM; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KUe/1xJ5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728467630; x=1760003630;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NIyPMmhdZjGAs7fBYKVzyddUl0tMwlIKJxqntEDOS0U=;
-  b=KUe/1xJ5HdFIHVEzFOqY2wND0iAcOsFmA4hScwa5gUjiJVAnwSohUwKE
-   fJkKz0WCkQXBS+Ea4qC95J+Jhi1Dl8jYIHtPXhzCxYrIOV8uIBlA9yGzo
-   2CegD5nvlvtC+jH+UfYgRop7EWX5gqOqgT2DqaPtfJW27dqJ4B25G/6xM
-   ySUbZfFduM0t6Q0XxjficufUEkIfmgxpkdr9uSwgR8DpIEI0r2LSCvmuZ
-   wOdB4fhdrrloIrU4AAeWBo5Mr2HuH9Zg4w/vTfJTQ5q9qgldPd6brYI23
-   ayAMyjCQqqQol8dlDDuyApA+l9V6pJtiCTgXqBUEC8nq6Uw6wvNxiVjCj
-   Q==;
-X-CSE-ConnectionGUID: AkrugihmTV+2hbpL+ChfSw==
-X-CSE-MsgGUID: dQusL8fnQHSvyTSZcWTfzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27649799"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="27649799"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 02:53:49 -0700
-X-CSE-ConnectionGUID: tMctLKAAQnSQz9R1a7sZow==
-X-CSE-MsgGUID: /L/cKijTS2CyMnLn+ctVzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="75789835"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Oct 2024 02:53:45 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1syTO2-00094m-2v;
-	Wed, 09 Oct 2024 09:53:42 +0000
-Date: Wed, 9 Oct 2024 17:52:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xu Yang <xu.yang_2@nxp.com>, vkoul@kernel.org, kishon@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, gregkh@linuxfoundation.org,
-	peter.chen@kernel.org, herve.codina@bootlin.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-	jun.li@nxp.com
-Subject: Re: [PATCH v6 1/3] phy: fsl-imx8mq-usb: add tca function driver for
- imx95
-Message-ID: <202410091742.HgStY96T-lkp@intel.com>
-References: <20241008062744.2211539-1-xu.yang_2@nxp.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XNFXhXKM"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5389917ef34so7615313e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Oct 2024 03:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1728468565; x=1729073365; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/JCN+MqNwKB+xq7DJqcu2c22e3shYGFUi85UwCEHpck=;
+        b=XNFXhXKMsYGjDzDvkiR3a0g8nuogyHI94d1upCkESsH8OyqopBwbA9eiqvGvBODPoh
+         aQ1t946ZSzRDUThqCigkvj2/iE43Jay1XUL9UqdXX+eJhFdkM4/A2q+2yJl2POus4H6y
+         WuKqWutfBYMZknexjuMF5g90yChSCokYW696KqHLIXnyqII0eAcQlXVvUCHq12ECtLpB
+         M2D5IR1u+wWvhEyDZwUV0kaYuiws/dleOk+OH9r0jmlsPIwTqnXJPYLys5OTl7byEKqa
+         tZAvJ5aZdJMTtGX531hFKtsaMNY+awCGvZGZsTFFYrST4IJ3ugaE0vlQa5bEOiW+j+nO
+         aaoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728468565; x=1729073365;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/JCN+MqNwKB+xq7DJqcu2c22e3shYGFUi85UwCEHpck=;
+        b=vTjWTQ+in/j50Mzh8o8OWl1/zFj37lanw2TwxMXiD8yGU6tUyle2aSy4zsyrxI+u/v
+         PkHMBAifs3jMNDKatUQxoq/7QhyQiBO2GRIWNNUVe8iTNhwn20QsIGBNtFBB3UvA7G6J
+         gFkwjy8UaDbXPly/2Yhpl+5/PClts5p4kePIm5311Jynxz+SqZjmyycnWZM3R1MfTGrd
+         THDQ6CEG29RMMRyCaRb013fiKlVdGq3EEPUHKAkpLiNlaGGGIVpujHJnhDLa/KQ95wDh
+         3VNMxTDDj/UDbugMvewr3M3J2xgtd3IpMb4x08fP7nvYD5oq8mpA/9EYEJvramoV2x8M
+         mjQA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3AIG34Zq57qnilQGMlzoUo3mJyY+nAQttbWt40ZkcL0pCf3Yiess5nBX1U4Q5QoJkD7dvwIMqTMsqzVC5@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxd7IrvJFUVL5RoKoskSLDBjXzVH2RYBfwcH6Q59l8EiYG8N+Mt
+	p62SoFKSr+FM8usVCsIwxs1DSzv/2VvDrw0pS0U5H537Iz7OjHD1MGVj3SoKN3VAs54f4I8rsJX
+	+mcm+geCm3N3UWOaEDPLq+MbdxW1Qf1rKZ4GT+g==
+X-Google-Smtp-Source: AGHT+IFTR4aAdG0xRnbrM1o9GBPsFiAJ6nHLa2xX7thhMATNrBF1ULIeimPZZaeqCiGE8ZQokCDJj12FbT6MOOZiYvk=
+X-Received: by 2002:a05:6512:110e:b0:536:a275:9d61 with SMTP id
+ 2adb3069b0e04-539c48c3883mr1055475e87.21.1728468564615; Wed, 09 Oct 2024
+ 03:09:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241008062744.2211539-1-xu.yang_2@nxp.com>
+References: <202410091038.SI34ZULQ-lkp@intel.com>
+In-Reply-To: <202410091038.SI34ZULQ-lkp@intel.com>
+From: Filipe Manana <fdmanana@suse.com>
+Date: Wed, 9 Oct 2024 11:09:13 +0100
+Message-ID: <CAKisOQHVBRbpsDnWRa40Rga1hjW_5xuwPAshXY=6+nNb6O8OOg@mail.gmail.com>
+Subject: Re: [linux-next:pending-fixes 207/319] fs/btrfs/qgroup.c:2014:6:
+ error: use of undeclared identifier 'bytenr'
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, David Sterba <dsterba@suse.com>, Qu Wenruo <wqu@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Xu,
+On Wed, Oct 9, 2024 at 3:55=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it pending-fixes
+> head:   47fa0de9b07c6214b57458e965646a3e25656b69
+> commit: 5c0ea18d992fffc948e087c0002560d747e6edd9 [207/319] btrfs: use sec=
+tor numbers as keys for the dirty extents xarray
+> config: arm-randconfig-002-20241009 (https://download.01.org/0day-ci/arch=
+ive/20241009/202410091038.SI34ZULQ-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfd=
+cc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241009/202410091038.SI34ZULQ-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410091038.SI34ZULQ-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> fs/btrfs/qgroup.c:2014:6: error: use of undeclared identifier 'bytenr'
+>            if (bytenr >=3D MAX_LFS_FILESIZE) {
 
-kernel test robot noticed the following build warnings:
+Ah this should be record->bytenr.
+The issue is actually fixed in a later patch of the same patchset,
+where bytenr is a function argument.
 
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on linus/master v6.12-rc2 next-20241008]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I can update the patch but then it will require updating the patches
+that come next from the same patchset and rebasing the for-next
+branch.
+And I see it's already in the next-fixes branch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Yang/arm64-dts-imx95-add-usb3-related-nodes/20241008-152345
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241008062744.2211539-1-xu.yang_2%40nxp.com
-patch subject: [PATCH v6 1/3] phy: fsl-imx8mq-usb: add tca function driver for imx95
-config: arm-randconfig-r121-20241009 (https://download.01.org/0day-ci/archive/20241009/202410091742.HgStY96T-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241009/202410091742.HgStY96T-lkp@intel.com/reproduce)
+David, how do you prefer to proceed here? Do you want me to fix this
+and resend the patchset?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410091742.HgStY96T-lkp@intel.com/
+Thanks.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/phy/freescale/phy-fsl-imx8mq-usb.c:264:24: sparse: sparse: Using plain integer as NULL pointer
->> drivers/phy/freescale/phy-fsl-imx8mq-usb.c:272:27: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct tca_blk * @@     got void [noderef] __iomem *base @@
-   drivers/phy/freescale/phy-fsl-imx8mq-usb.c:272:27: sparse:     expected struct tca_blk *
-   drivers/phy/freescale/phy-fsl-imx8mq-usb.c:272:27: sparse:     got void [noderef] __iomem *base
-   drivers/phy/freescale/phy-fsl-imx8mq-usb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +264 drivers/phy/freescale/phy-fsl-imx8mq-usb.c
-
-   254	
-   255	static struct tca_blk *imx95_usb_phy_get_tca(struct platform_device *pdev,
-   256					struct imx8mq_usb_phy *imx_phy)
-   257	{
-   258		struct device *dev = &pdev->dev;
-   259		struct resource *res;
-   260		struct tca_blk *tca;
-   261	
-   262		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-   263		if (!res)
- > 264			return 0;
-   265	
-   266		tca = devm_kzalloc(dev, sizeof(*tca), GFP_KERNEL);
-   267		if (!tca)
-   268			return ERR_PTR(-ENOMEM);
-   269	
-   270		tca->base = devm_ioremap_resource(&pdev->dev, res);
-   271		if (IS_ERR(tca->base))
- > 272			return tca->base;
-   273	
-   274		mutex_init(&tca->mutex);
-   275	
-   276		tca->orientation = TYPEC_ORIENTATION_NORMAL;
-   277		tca->sw = tca_blk_get_typec_switch(pdev, imx_phy);
-   278	
-   279		return tca;
-   280	}
-   281	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>                ^
+>    fs/btrfs/qgroup.c:2017:9: error: use of undeclared identifier 'bytenr'
+>                                 bytenr);
+>                                 ^
+>    2 errors generated.
+>
+>
+> vim +/bytenr +2014 fs/btrfs/qgroup.c
+>
+>   1991
+>   1992  /*
+>   1993   * Inform qgroup to trace one dirty extent, its info is recorded =
+in @record.
+>   1994   * So qgroup can account it at transaction committing time.
+>   1995   *
+>   1996   * No lock version, caller must acquire delayed ref lock and allo=
+cated memory,
+>   1997   * then call btrfs_qgroup_trace_extent_post() after exiting lock =
+context.
+>   1998   *
+>   1999   * Return 0 for success insert
+>   2000   * Return >0 for existing record, caller can free @record safely.
+>   2001   * Return <0 for insertion failure, caller can free @record safel=
+y.
+>   2002   */
+>   2003  int btrfs_qgroup_trace_extent_nolock(struct btrfs_fs_info *fs_inf=
+o,
+>   2004                                  struct btrfs_delayed_ref_root *de=
+layed_refs,
+>   2005                                  struct btrfs_qgroup_extent_record=
+ *record)
+>   2006  {
+>   2007          struct btrfs_qgroup_extent_record *existing, *ret;
+>   2008          const unsigned long index =3D (record->bytenr >> fs_info-=
+>sectorsize_bits);
+>   2009
+>   2010          if (!btrfs_qgroup_full_accounting(fs_info))
+>   2011                  return 1;
+>   2012
+>   2013  #if BITS_PER_LONG =3D=3D 32
+> > 2014          if (bytenr >=3D MAX_LFS_FILESIZE) {
+>   2015                  btrfs_err_rl(fs_info,
+>   2016  "qgroup record for extent at %llu is beyond 32bit page cache and =
+xarray index limit",
+>   2017                               bytenr);
+>   2018                  btrfs_err_32bit_limit(fs_info);
+>   2019                  return -EOVERFLOW;
+>   2020          }
+>   2021  #endif
+>   2022
+>   2023          lockdep_assert_held(&delayed_refs->lock);
+>   2024          trace_btrfs_qgroup_trace_extent(fs_info, record);
+>   2025
+>   2026          xa_lock(&delayed_refs->dirty_extents);
+>   2027          existing =3D xa_load(&delayed_refs->dirty_extents, index)=
+;
+>   2028          if (existing) {
+>   2029                  if (record->data_rsv && !existing->data_rsv) {
+>   2030                          existing->data_rsv =3D record->data_rsv;
+>   2031                          existing->data_rsv_refroot =3D record->da=
+ta_rsv_refroot;
+>   2032                  }
+>   2033                  xa_unlock(&delayed_refs->dirty_extents);
+>   2034                  return 1;
+>   2035          }
+>   2036
+>   2037          ret =3D __xa_store(&delayed_refs->dirty_extents, index, r=
+ecord, GFP_ATOMIC);
+>   2038          xa_unlock(&delayed_refs->dirty_extents);
+>   2039          if (xa_is_err(ret)) {
+>   2040                  qgroup_mark_inconsistent(fs_info);
+>   2041                  return xa_err(ret);
+>   2042          }
+>   2043
+>   2044          return 0;
+>   2045  }
+>   2046
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
