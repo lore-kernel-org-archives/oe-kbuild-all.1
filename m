@@ -1,62 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E354B1922DD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 09:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF224187859
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 09:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728551826; cv=none; b=HJjRY+49RibRT3llOB1GCl+Z4XeEFwwZQbBTrQcWkkqiCDPz7QyXXOkfIjqrJ5FqojDthQtM6odt7guixF0TxHAB8AIOMmAdWUBa5sGALiyNTcbTDzYgCBGNrHNjqd6NV/ZKq0VVvzYMFtYXBJRZNrGlwOTn9sU8FC7cI6KjPyM=
+	t=1728553153; cv=none; b=tdqQWrxtFknVdhcjPck5TSSvx/WoPQ79Ih/3bWoSzn6dqi+uei+mDPDJW8K/Sep45FggsiFpW4IW31TJYTQkV2IjKqjoFTsXGYtUUYdwFCfatSFiXWgvIiGNP9DHAkhgK0Os+GdMQIe8buYpG3eRz30va8wD32fz3TgHA/4zOwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728551826; c=relaxed/simple;
-	bh=4aEHzzGF6+o72+fcCB0fM7BDVwJUCvOO3tBCeG5qOJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JfQ7/uWvdU9a5v8TYKDSJ/+7c0bsofl3AVQVYaMhg8/gfrB0f3pkid83wYO8CYq/lOR2espyGSSCADjhsVUYvyJzSW6vn8giZcIajvDVpg3Wd4HxKOko41n/J9Ca+ojwaSAtGXtFKhcCm/UAiosgtHdDc+zVB/3RajcTKy1h274=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHeC6f65; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728553153; c=relaxed/simple;
+	bh=qYSZWnkyxaA3Jj9vXrwoqqK1aquLJcjN5MHNVYvr53I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YeQj4nVIG56DK7s4KtpeoOlD5A3T+HsYeCp5t4e35Va204IccGlKbKrntVOiOhD37beBaHCSIbBl/CxTAUrCQu9z8FgB2zGejwGyW0+bKDBT8wEZ+61rcd6UK1sVD5m1eTSCxJVmz4d5vmJPbLzV5jBfpoAufr8duuMlaxEoge4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKP9BTyQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHeC6f65"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728551825; x=1760087825;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4aEHzzGF6+o72+fcCB0fM7BDVwJUCvOO3tBCeG5qOJc=;
-  b=QHeC6f65t+DZnSDHqqY6RX0sj1BrWgdHF/RXRZBNWdzcjpDpmkeOGhYz
-   uiaId5lF6v65CmP+HcdEGOMBdJTHfP2c6FZkSYCXJiUr/0lz+S/AWuEgu
-   3BQNmjW6BkOZ9gJClFvNu0R7KENs3YM9VSxE3mAG5YBzJm0U1rUKP8p5e
-   eB9SXBvmQyw9TFubguFT2iUAodpig/v6ei7CJbSJsYbwCocc7qhR9P+K1
-   i4+oH4kC7WDeLlV/mmyM/dFHaLywUvq9O6m4XeHtyT74gyPeq8FwWwIbf
-   V40B6HsLpd0Sl5yrZE+TwUPpgvi6IiRk9LnYqe07+EZyrBq3hDRoQrGLJ
-   Q==;
-X-CSE-ConnectionGUID: gPaCwdq3R1m7TlxMZzBIUw==
-X-CSE-MsgGUID: jGXWi9mhRKimkU38lm7i3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="39289944"
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="39289944"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 02:17:05 -0700
-X-CSE-ConnectionGUID: WP8tkThpQWqqWGVZLUOVvA==
-X-CSE-MsgGUID: ykmPLdq4QLeWa/RXDsFYqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="81343094"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Oct 2024 02:17:04 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sypI4-000AYP-1d;
-	Thu, 10 Oct 2024 09:17:00 +0000
-Date: Thu, 10 Oct 2024 17:16:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fei Shao <fshao@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKP9BTyQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3315C4CEC5;
+	Thu, 10 Oct 2024 09:39:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728553152;
+	bh=qYSZWnkyxaA3Jj9vXrwoqqK1aquLJcjN5MHNVYvr53I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EKP9BTyQbzaAR5XSGTeN3ec0F0PDs2P27T+I38oTHK6tQSaxxALaIFu7xFts686dA
+	 9hXD33Bvk+RLsU90slzNXksqsImXzs9zqatS11MbC5+OwChN5iFZudDIfJXWTFWsFT
+	 h0gZIugi1Gx/rinChVRzl/aonnqwFANrBng4RBKnMdUAOyWz3vcc0yPcDPZjFNVXKM
+	 RX0yUxDiE5YhBazLrt0tnOUFnknYk+iKOyWSNQjLAlCckrHCTdEVnl0E7tt27LL1PS
+	 zreh+kT/0iWRQDwDqF2WYhCbMtf0i2lqdussTFJ2BMWgR4yKsmYaM0YhevuadkxNiw
+	 iZLthiw4drqIQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1sypdd-000000001h4-0yYf;
+	Thu, 10 Oct 2024 11:39:17 +0200
+Date: Thu, 10 Oct 2024 11:39:17 +0200
+From: Johan Hovold <johan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Johan Hovold <johan+linaro@kernel.org>, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [linux-next:master 3043/3432]
- arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: jpeg-decoder@1a040000: iommus:
- [[98, 685], [98, 686], [98, 690], [98, 691], [98, 692], [98, 693]] is too
- long
-Message-ID: <202410101707.id93rViK-lkp@intel.com>
+	Bjorn Andersson <andersson@kernel.org>,
+	Abel Vesa <abel.vesa@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [linux-next:master 2312/2853]
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000:
+ clocks: [[52, 122], [52, 120], [139, 10], [52, 123], [52, 125], [52, 127]]
+ is too long
+Message-ID: <ZwegxZBIXYrSVK2i@hovoldconsulting.com>
+References: <202410092304.nR7sBZ4r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,47 +52,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202410092304.nR7sBZ4r-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0cca97bf23640ff68a6e8a74e9b6659fdc27f48c
-commit: 9e85e3cc81df168592b3aedb9f363ff020b2f2c7 [3043/3432] arm64: dts: mediatek: mt8188: Add JPEG decoder and encoder nodes
-config: arm64-randconfig-051-20241009 (https://download.01.org/0day-ci/archive/20241010/202410101707.id93rViK-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-dtschema version: 2024.10.dev4+g577c1ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101707.id93rViK-lkp@intel.com/reproduce)
+On Wed, Oct 09, 2024 at 11:54:32PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   33ce24234fca4c083e6685a18b460a18ebb5d5c1
+> commit: 27727cb6604e0998d03d9ec063b517b239d2bb0f [2312/2853] arm64: dts: qcom: x1e80100: fix PCIe4 and PCIe6a PHY clocks
+> config: arm64-randconfig-051-20241008 (https://download.01.org/0day-ci/archive/20241009/202410092304.nR7sBZ4r-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.1.0
+> dtschema version: 2024.10.dev4+g577c1ab
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410092304.nR7sBZ4r-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410092304.nR7sBZ4r-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>    arch/arm64/boot/dts/qcom/x1e80100.dtsi:4145.11-4155.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+>    	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+>    	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+> >> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: clocks: [[52, 122], [52, 120], [139, 10], [52, 123], [52, 125], [52, 127]] is too long
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+> >> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+> >> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [139, 0], [52, 100], [52, 102], [52, 104]] is too long
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+> >> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+>    	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410101707.id93rViK-lkp@intel.com/
+Judging from a quick look all of this is due to the fact that the
+PHY binding update has not been merged yet:
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: spmi@10027000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/spmi@10027000: failed to match any schema with compatible: ['mediatek,mt8188-spmi', 'mediatek,mt8195-spmi']
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: t-phy@11c20700: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: jpeg-decoder@1a040000: iommus: [[98, 685], [98, 686], [98, 690], [98, 691], [98, 692], [98, 693]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: spmi@10027000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/spmi@10027000: failed to match any schema with compatible: ['mediatek,mt8188-spmi', 'mediatek,mt8195-spmi']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: t-phy@11c20700: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: jpeg-decoder@1a040000: iommus: [[109, 685], [109, 686], [109, 690], [109, 691], [109, 692], [109, 693]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
+	https://lore.kernel.org/lkml/20240916082307.29393-2-johan+linaro@kernel.org/
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So should sort itself out soonish.
+
+Johan
