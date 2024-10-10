@@ -1,87 +1,62 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6464183CD9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 11:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12591C7B6A;
+	Thu, 10 Oct 2024 12:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728561218; cv=none; b=gJUCC0ioGyUMsObl45Oif+S2q76+qsA5F/ZtcMgeuajHLG48fTv7jM5pFqtCGphCooL8sESmbYWH3iJwCEL7q16IxBKPNLR6yNjRDWQ9NlMbmKWQut2+VetyMD6wHJ0S9U837bmGMAk8khV2eh79Ymj5sZNqgInh/E85ZNC4qjM=
+	t=1728564736; cv=none; b=CX/MtGDdwczRYMmR3RbqtDIPB0+eCbaCvjdVMdbrTsJWmIUsVwLU6BIMxa8ofGKQFZGrMPl5kd3ZskwqpxOBh/Q++5LUIC4+jvxg9yZmuAHJp8HJxnM4h1FqJfacG+Dvm2UslC29STj4qrTO2uF5JesDhxcfLVJm9hx9xk7PFJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728561218; c=relaxed/simple;
-	bh=c2PBpEQaVCGGjvXlitYnnCFLAIoKMZaBYiJP2MkUj4w=;
+	s=arc-20240116; t=1728564736; c=relaxed/simple;
+	bh=OWW31GL+prw9JjHftIiHStrX0S42nNFeYgoHhk2i+vI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MF+btRWBMff0EOr/bEdQOdgcHNvB/Gfty1ZePkHOysdQXdXtkUBeETQGpkp+CbjnwodP3M49bjELrVyfPGqdDg9xRFoy7eSylDjr7/ByKTZmTUBjnAgKXXfYo4e5wEAqkSV9CE1RMWx7Ap8O8DTNuITYtTR/mKwM4shM/lO3TZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GdeeXvJu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=b1S8niPx; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cj9uBe/h; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7nhUVg//; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=AuQ/o30hEwnftfi4i5FaiuQhYfLfO2OqCCgm5e8qgC20hvbUMaMDv089ovEcWpSGL5z/EBAUz4icBdzWrxBH2G8mqS3G0yLxZ/Ulom+USwtv7TD9lYh5G/2EYvedavID2uS1R5f7CryB8y7KM6sVA9ATrgLk2lFrX/I3mYf9fZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrQFwCiQ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GdeeXvJu";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="b1S8niPx";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cj9uBe/h";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7nhUVg//"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CCAF421E30;
-	Thu, 10 Oct 2024 11:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1728561214;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
-	b=GdeeXvJuqjRpcr2Wa1y2h0wIy06cpzIfvzphPz0Wwg3CbBumPPIU68T+OeEJGaDv2s6yF8
-	ny9hlhRtnVyEjQbIbXj+R4q+8vIPUKCUkcN7TpM/FQF+9bnAoYTuR0ttjIyH/B75l6s5AF
-	4R5rFHctgCf7w2mekst9oiMhaDy7tOM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1728561214;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
-	b=b1S8niPxEKwEfZtipHeoVUJQQ9CFNEZk8PBUTLpv9gyqJCI/h/YL8lVztMd+K0wUzSLBpy
-	3pDQ8tXXqBpRnPBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1728561213;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
-	b=cj9uBe/hQ8K5UG3oux0iZ5G/oDD4OPzqGZR9SBoePybzN4HYkGNT4+P0/Kko9xjAV4gjmb
-	uZS4YPzGD7M313pJzrUh9L0UexcIXKjFmVix5zRJ4KMC+T2UFTAWw/QlMQpvHJX4iamAFv
-	ZvzLw5U2wXbufkeiDqBe2vvMzT721Os=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1728561213;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
-	b=7nhUVg//tfju0/sLCVbSrztu4ZWBZw4QcKdmfzYLX5hKvLEnCNUfZrKufNJQtS1XNLdcOQ
-	IoxDv/lAu8UhkrDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB0D913A6E;
-	Thu, 10 Oct 2024 11:53:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5/iKKT3AB2eGNQAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 10 Oct 2024 11:53:33 +0000
-Date: Thu, 10 Oct 2024 13:53:28 +0200
-From: David Sterba <dsterba@suse.cz>
-To: linux-btrfs@vger.kernel.org
-Cc: Boris Burkov <boris@bur.io>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, David Sterba <dsterba@suse.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: fs/btrfs/send.c:6877:5-8: Unneeded variable: "ret". Return "0"
- on line 6883
-Message-ID: <20241010115328.GP1609@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <202410092305.WbyqspH8-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrQFwCiQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728564735; x=1760100735;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OWW31GL+prw9JjHftIiHStrX0S42nNFeYgoHhk2i+vI=;
+  b=UrQFwCiQzWq6TeQOHiGOHAyltZgz3TmwapzuKsAOSNhnl7yiadyKTnrS
+   GBn/3gAUK1S2Rd7jN/s7rcv5iUkBiXb/+txHigIz2GGEBQuo7GycLhw8Q
+   N3B5GODkIVAHHR9w70AGonpgqZJI9pMEmV0CBTASZwUq67afGzWhCl0Br
+   3/6fAetsLRZ3xeR09Lgw/BQdvTeOW+Ypb0e9x0ncspwppXrsJTFs8HmFf
+   KGkjVLk/D+NpVxUA5kSly3gfQ64vicrB8AIDxSDODSOOKmJef2OJrlzKm
+   r/vGtmwcP1IH8kLXR485YDZHOIknmhNPvRUoR1TP1/+ZCUOH1dJLDo3I+
+   Q==;
+X-CSE-ConnectionGUID: IMd1W9nfQza/tUQLwqLWBg==
+X-CSE-MsgGUID: 3DmokyicTYSRpMQv3slZzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27389355"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="27389355"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 05:52:14 -0700
+X-CSE-ConnectionGUID: XyoHadmPQHqZ8Op9r+OaMw==
+X-CSE-MsgGUID: ayORUROpT3eXjEsJfskqng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="99917176"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Oct 2024 05:52:12 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1syseH-000AlL-2t;
+	Thu, 10 Oct 2024 12:52:09 +0000
+Date: Thu, 10 Oct 2024 20:52:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Edward Adam Davis <eadavis@qq.com>,
+	syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
+Cc: oe-kbuild-all@lists.linux.dev, almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
+Message-ID: <202410102052.KIxxilgH-lkp@intel.com>
+References: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -90,63 +65,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202410092305.WbyqspH8-lkp@intel.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto,suse.cz:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
-X-Spam-Score: -4.00
-X-Spam-Flag: NO
+In-Reply-To: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
 
-On Thu, Oct 10, 2024 at 12:04:53AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   75b607fab38d149f232f01eae5e6392b394dd659
-> commit: 38622010a6de3a62cc72688348548854ed82dcf5 btrfs: send: add support for fs-verity
-> date:   2 years ago
-> config: i386-randconfig-052-20241009 (https://download.01.org/0day-ci/archive/20241009/202410092305.WbyqspH8-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410092305.WbyqspH8-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> fs/btrfs/send.c:6877:5-8: Unneeded variable: "ret". Return "0" on line 6883
-> 
-> vim +6877 fs/btrfs/send.c
-> 
->   6874	
->   6875	static int changed_verity(struct send_ctx *sctx, enum btrfs_compare_tree_result result)
->   6876	{
-> > 6877		int ret = 0;
->   6878	
->   6879		if (!sctx->cur_inode_new_gen && !sctx->cur_inode_deleted) {
->   6880			if (result == BTRFS_COMPARE_TREE_NEW)
->   6881				sctx->cur_inode_needs_verity = true;
->   6882		}
-> > 6883		return ret;
+Hi Edward,
 
-Trivial fix if somebody wants to take it. All changed_ callbacks must
-return a value but here the verity status is passed via the context so
-this should be 'return 0'.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.12-rc2 next-20241010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/ntfs3-Fix-WARNING-in-ntfs_extend_initialized_size/20241007-191224
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907%40qq.com
+patch subject: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
+config: i386-randconfig-003-20241010 (https://download.01.org/0day-ci/archive/20241010/202410102052.KIxxilgH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410102052.KIxxilgH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410102052.KIxxilgH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/bug.h:99,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/backing-dev.h:13,
+                    from fs/ntfs3/file.c:10:
+   fs/ntfs3/file.c: In function 'ntfs_extend':
+>> fs/ntfs3/file.c:402:29: error: 'struct ntfs_inode' has no member named 'valid'; did you mean 'i_valid'?
+     402 |                 WARN_ON(ni->valid >= pos);
+         |                             ^~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+
+
+vim +402 fs/ntfs3/file.c
+
+   379	
+   380	static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
+   381			       struct file *file)
+   382	{
+   383		struct ntfs_inode *ni = ntfs_i(inode);
+   384		struct address_space *mapping = inode->i_mapping;
+   385		loff_t end = pos + count;
+   386		bool extend_init = file && pos > ni->i_valid;
+   387		int err;
+   388	
+   389		if (end <= inode->i_size && !extend_init)
+   390			return 0;
+   391	
+   392		/* Mark rw ntfs as dirty. It will be cleared at umount. */
+   393		ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_DIRTY);
+   394	
+   395		if (end > inode->i_size) {
+   396			err = ntfs_set_size(inode, end);
+   397			if (err)
+   398				goto out;
+   399		}
+   400	
+   401		if (extend_init && !is_compressed(ni)) {
+ > 402			WARN_ON(ni->valid >= pos);
+   403			err = ntfs_extend_initialized_size(file, ni, ni->i_valid, pos);
+   404			if (err)
+   405				goto out;
+   406		} else {
+   407			err = 0;
+   408		}
+   409	
+   410		inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+   411		mark_inode_dirty(inode);
+   412	
+   413		if (IS_SYNC(inode)) {
+   414			int err2;
+   415	
+   416			err = filemap_fdatawrite_range(mapping, pos, end - 1);
+   417			err2 = sync_mapping_buffers(mapping);
+   418			if (!err)
+   419				err = err2;
+   420			err2 = write_inode_now(inode, 1);
+   421			if (!err)
+   422				err = err2;
+   423			if (!err)
+   424				err = filemap_fdatawait_range(mapping, pos, end - 1);
+   425		}
+   426	
+   427	out:
+   428		return err;
+   429	}
+   430	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
