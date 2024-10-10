@@ -1,80 +1,167 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201891BF322;
-	Thu, 10 Oct 2024 08:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BE819D8BB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 08:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728549659; cv=none; b=nmDlQsrFU/hd3Mi9kPN7RcUHCfr8L31XfwutZc/zaNfZ70aAp4D9TjiZ4SCoKn32JgegxgE33+WjdvWNytMrUXiiBtKPj7PRLhrjzvyW4Y3EHcbUDg/WlXilOWsO4vMuD9KC2HMrsap+lYXExQSxiVaqnh3jcvMf9BqvGq3Q3lA=
+	t=1728549751; cv=none; b=GsmsZV5wh+cwU2K5oOA1A1FKAzifBF2NtJYw69i0WZSsMxLFD4w1O7xdNo+Wf4w0JmlgKsbBvlofj5PJFhC3cPCauFhy/UtudO6AK6U13EkRrBNaHcqhYVTrxaiGOmpIJMBKq3h+70hNx/+gnGmtysaRSUlTBvhyl59DAtbXEG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728549659; c=relaxed/simple;
-	bh=90vxXsx2oRvzxGDopEo5+qSMo0jQCscmJyIdkiKViog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImuM4rJmGScE3ip+cwOn2MNP/4HRlnMIU8V7IMEmwtemTAg3DIPvClcSCZHDteI8kbgm0Ve6UFzVfsyw/gEqHKxgOOuv5tw4P3PtAGAlYGB0CJi6prRn+nLxuyQn/esyW+ZZT/OBQ4882oy5gyDxBRkf5FQNm7WdDjDnBIVp/z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=L9P38nIn; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1728549751; c=relaxed/simple;
+	bh=liESgrUNAjNr62K9nnrQ8ZXrQKqAIZWrvyhjoeAUnJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XmXMrHgxVPpkC3Bz0wR4d5XHKe1Nn6dXLEr1DK328QtsCgyc/LbmTH0p1oHjmdU1Qweh/srjCaZqVdV/Kz7zPvFy8s4yUkN7zsB53UARI6CdmYTfUyh+cbw8sMS+u/Jb5H8D/QWfT1eZJFLNyzUmB76qIY/7tDO+DTYD7S0scp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DHnbGvtM; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="L9P38nIn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=KNFeZPwsXdKsBcX3uUpDInf5sJ7Tv8OC8VcZMT67wdg=; b=L9P38nInvsOEuUuWw+wmWovqCz
-	n271/H9ri/SK2ZXCtBZ1gDRCJWrwB26TUaXewjNnxyBJlOJun5g6QE0pkOdAxCDy0o96Lz1KbCTHH
-	Q7kBWmMpI12hM61325TJ1AcjqOYjvzJN2pDFAmXVQ1UxRef+WhWEkBYsqgaXUe/SVLESn5NDEohRF
-	yNpBgRWqROzSfxmCKkKNZ8kmN5lB94UH3Jzl7609esyFPgJdvwF3eFKw42t82p8iEH8/8fq0yXlLs
-	qF1PhqprHj/WVdS9Qz2wUr1pOH40NJvjBOyxGbhJmE6orkJ8VMNgQhNbCYGhNPr51c3eyq+y37H9U
-	akPSIyUA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1syoZ0-008HQ1-1t;
-	Thu, 10 Oct 2024 16:40:41 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 10 Oct 2024 16:40:40 +0800
-Date: Thu, 10 Oct 2024 16:40:40 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-crypto@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 RESEND] crypto: lib/mpi - Extend support for
- scope-based resource management
-Message-ID: <ZweTCO8cFtP_pvOu@gondor.apana.org.au>
-References: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
- <202409180725.ZV8DCvII-lkp@intel.com>
- <91d10516-4ba9-4fe0-8f63-86205cc4f88c@web.de>
- <ZwDPp4bU1J5uEgQe@gondor.apana.org.au>
- <9ddc71e7-e98a-4fa8-b140-4035dd2874b6@web.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DHnbGvtM"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-37d375ecc5eso409579f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 01:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728549747; x=1729154547; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ED+cepi9AKIjMRyR1qXeMbEFRTtBTVfdWiXsEi6z2Ks=;
+        b=DHnbGvtMrBOh2BXfdwRkXR/Qxql1+KSdhQQTHg1iZF3Pc7HQ6Vjql8BxyuaYWF/1QN
+         FVNLdDyLoCed2Pi+XjGSxo1PNapq2yip71HCEX+jXTNK/3MBdtF6q/ffCgzKSHUREPsd
+         jeC1M7dOHgAhxjxBmx2ZRKsgPiHI40PHEu3MyQmsYF6nSPRllLItLmowNOQlp3znCBtG
+         BnQ24LCckpXVa5t70mSo6BQdduxQ14DzsByeA5yH1vWjY+BX+vaGl99SumafnU2WYzU/
+         0ajmM0sCrQIjq35QyPJQJvZir1TfNEaV7wkSMFHzjq/jD6MKHIMVegW8pyHnKPIEU5AD
+         lmIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728549747; x=1729154547;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ED+cepi9AKIjMRyR1qXeMbEFRTtBTVfdWiXsEi6z2Ks=;
+        b=tp0HM/9he2jRWioXjW4B6AtdoHiiEnR+8WDnFQSoTSpQ+pmb/tpqkCS18BimltmNib
+         LtGppMfHHd5uR8wOS6Mi90A0dy1xJZ+YfeJHj/5OMNMxXj8Y6ZTep1BdXM7m/F/BR0Bw
+         4BJ2QpnyrXZPJhbv9d/1JnIt6SAtKXN4LIojiINpbcNYJSBDWIDDkbIngPJxq6oa7ZWR
+         LvE+3786eQvZsTLgOow6wLsoz4VbQWCGU1f12hCYBnedTDGtDWFrZ3Xr9P5TCqsu6mgO
+         gohKMRxouRzKaJlB7RaUHvrKOemhhkA+UTwbAry+5SUHIeXsUTSaA2KlvJOPMyK+hQ7G
+         Ca8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVPQr4ryRxV2DAbJEaif4u8KfuxL74dE+Y0Ojeap/pukaF3HjcMn0MEmnVSeKsRdNNVpcyCRJkH2/+iQdo/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzM9netF2OUEGGNhKnbyfQcyKSR8VnkPrcTRO6al1sKaFzLyq3S
+	nfB5BqG6a8m0QFHfQH0R1v/9D6EjuuSetF2j3ZLSrdwio/xjhOq1bv/IQufjD08=
+X-Google-Smtp-Source: AGHT+IH8Dd3Q2ssIxbkX3XdNsQQ9uYYsbdFWsigd/TF3OZGZ094HwBLU5Itcskr2lHZCtjSjSSXnRw==
+X-Received: by 2002:a5d:4a92:0:b0:37d:4e59:549a with SMTP id ffacd0b85a97d-37d4e595983mr578154f8f.16.1728549747322;
+        Thu, 10 Oct 2024 01:42:27 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6bd057sm863827f8f.35.2024.10.10.01.42.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 01:42:26 -0700 (PDT)
+Date: Thu, 10 Oct 2024 11:42:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 4286/30000]
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c:776 virtio_gpu_context_init_ioctl()
+ warn: inconsistent returns '&vfpriv->context_lock'.
+Message-ID: <bc926e4c-644a-41e1-bac3-af0ab806380f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9ddc71e7-e98a-4fa8-b140-4035dd2874b6@web.de>
 
-On Sat, Oct 05, 2024 at 08:27:03AM +0200, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Wed, 18 Sep 2024 11:06:35 +0200
-> 
-> Scope-based resource management became supported for some
-> programming interfaces by contributions of Peter Zijlstra on 2023-05-26.
-> See also the commit 54da6a0924311c7cf5015533991e44fb8eb12773 ("locking:
-> Introduce __cleanup() based infrastructure").
-> 
-> Thus add a macro call so that the attribute “__free(mpi_free)” can be
-> applied accordingly.
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   a008d597f5ebedde0d000d27364ddb38be189ae4
+commit: 8815d47cf0d4cf662b4209e3a3edfe7bef0a4bca [4286/30000] CHROMIUM: drm/virtio: implement context init: support init ioctl
+config: x86_64-randconfig-161-20241010 (https://download.01.org/0day-ci/archive/20241010/202410101617.JslGNk0O-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-So where are the users of this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410101617.JslGNk0O-lkp@intel.com/
 
-Thanks,
+New smatch warnings:
+drivers/gpu/drm/virtio/virtgpu_ioctl.c:776 virtio_gpu_context_init_ioctl() warn: inconsistent returns '&vfpriv->context_lock'.
+
+vim +776 drivers/gpu/drm/virtio/virtgpu_ioctl.c
+
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  714  static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  715  					 void *data, struct drm_file *file)
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  716  {
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  717  	int ret = 0;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  718  	uint32_t num_params, i, param, value;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  719  	size_t len;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  720  	struct drm_virtgpu_context_set_param *ctx_set_params;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  721  	struct virtio_gpu_device *vgdev = dev->dev_private;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  722  	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  723  	struct drm_virtgpu_context_init *args = data;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  724  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  725  	num_params = args->num_params;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  726  	len = num_params * sizeof(struct drm_virtgpu_context_set_param);
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  727  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  728  	if (!vgdev->has_context_init || !vgdev->has_virgl_3d)
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  729  		return -EINVAL;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  730  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  731  	/* Number of unique parameters supported at this time. */
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  732  	if (num_params > 1)
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  733  		return -EINVAL;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  734  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  735  	ctx_set_params = memdup_user(u64_to_user_ptr(args->ctx_set_params),
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  736  				     len);
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  737  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  738  	if (IS_ERR(ctx_set_params))
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  739  		return PTR_ERR(ctx_set_params);
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  740  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  741  	mutex_lock(&vfpriv->context_lock);
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  742  	if (vfpriv->context_created) {
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  743  		ret = -EEXIST;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  744  		goto out_unlock;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  745  	}
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  746  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  747  	for (i = 0; i < num_params; i++) {
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  748  		param = ctx_set_params[i].param;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  749  		value = ctx_set_params[i].value;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  750  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  751  		switch (param) {
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  752  		case VIRTGPU_CONTEXT_PARAM_CAPSET_ID:
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  753  			if (value > MAX_CAPSET_ID)
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  754  				return -EINVAL;
+
+goto out_lock
+
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  755  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  756  			if ((vgdev->capset_id_mask & (1 << value)) == 0)
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  757  				return -EINVAL;
+
+same
+
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  758  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  759  			/* Context capset ID already set */
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  760  			if (vfpriv->context_init &
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  761  			    VIRTIO_GPU_CONTEXT_INIT_CAPSET_ID_MASK)
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  762  				return -EINVAL;
+
+same
+
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  763  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  764  			vfpriv->context_init |= value;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  765  			break;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  766  		default:
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  767  			return -EINVAL;
+
+same
+
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  768  		}
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  769  	}
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  770  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  771  	virtio_gpu_create_context_locked(vgdev, vfpriv);
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  772  	virtio_gpu_notify(vgdev);
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  773  
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  774  out_unlock:
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  775  	mutex_unlock(&vfpriv->context_lock);
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27 @776  	return ret;
+8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  777  }
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
