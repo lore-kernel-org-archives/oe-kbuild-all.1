@@ -1,82 +1,155 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650431DFDB0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 18:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091DE193407
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 19:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728585600; cv=none; b=AaEzzU0l+vgQFKVCeP2xgTQy3GiIkLC8d7WJHsuyo1TxfdY9qVOChIfKO4fdcZaT2AIKDb2QUIDtgu5xDVT1QF5s2WIQFydX3EPbUNvkpiGbT1p5RZKNNdwsC/76CB33+KpsmgemQr2hs4FVjVXhvoXobzRI0tyTIrterAm08oU=
+	t=1728587017; cv=none; b=fKTWsziKamJi0S81oFTviGKcOIN4ysPe+kuNC0WXy0Xh8rrgHlFyZ1R1EfoW9QblcUyMVn75UyV5vJT7g3KCP+6vOzYrtdO7ggYY/0TMFZGTWuZA2CiD+kZyfuwlcBL75sfKTSHZmksufgTxDj99MIOcn2Pr0tu5AAODnZtMZBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728585600; c=relaxed/simple;
-	bh=vt0d7PTWUJpwYF67FaqTOwRZSMHKQVroP6ADdcxk0tk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rm7miGOYM259oJpcyJf3cSsd12uyq7e7h2XIK+B+pc0o70fAY1bVXMC93B5LHDPynNVJU9QlM9EZf8ceovxe5/gUfPLJWkmfJvnwQIgPptXYnv7Fa4wzXtcURNXUaRLakjSNSDx7fUiQ56WSPKLT6CyNspdduGX8MrNuOhtROyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFiK4z2Z; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728587017; c=relaxed/simple;
+	bh=Y16JbD2tTLMVZ+XQHkqkCO/EcAcy4g8c84gyNLuC2Ok=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AUeDZ3b5unJ1M1cPWFKADjUmHjqWd0I5OO3tJY60WC0djtj/ELOciwOjGDGX3mpuJcENK0Qc2E6mswLMu3B1AP17dIFLDsLsrOW+DdHvHE5ABR8f28DiQNVNKVtQfzYb1+uDBCXjoUPocrsd5JtTSkaxbho0s6BMqLg3rSg7t9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ijy9bFwY; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFiK4z2Z"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7e6cbf6cd1dso935164a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 11:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728585599; x=1729190399; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vt0d7PTWUJpwYF67FaqTOwRZSMHKQVroP6ADdcxk0tk=;
-        b=VFiK4z2Z+eixoXT7AV6nPFbL9ebuoabrWLqLsFDsPdBF/a+oXfgzxAbLhYwZGHqc2h
-         sQnV/yCvpj6jqX5QoXCu3ZCLMAQxlYmS7Vw1MP0msy+ZzfLmYhTSHSrXUkBW5pgO3Pbl
-         iN26AeM4ALplkEnbjlbmUjLzCGyI3oZsKX6nfo0eF8niMZwdXivwabawhXUAI2gEpaKs
-         DTso6AbEgjJgXDCUVA/0h9NJMqiwQrg1q7TORcOXlD28W89ckK2dtR8LudI6wRhXtLMe
-         6IrWx6hQyp9mLzOx5P+32BPzJmvabg6xGudp1TCOD/JbouW6v7xP7tDybEuB4XcAQCIt
-         cZPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728585599; x=1729190399;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vt0d7PTWUJpwYF67FaqTOwRZSMHKQVroP6ADdcxk0tk=;
-        b=fsiO78J/Pc26g5Qo5WT4u8PaRtr7fxXj28R1b9KzOeq+gseUm8sco+P4utYSQzJwy2
-         QsKqzfYbzEFUD6I4q+zhYLxW1yE9u8NEX/aOzGO1FRoY+hM9mJDkqSp9dulPPKvflBnF
-         QWDOmz/RIvTdbIf0ATMeFmBwg/ZNHRQJa4Kwa6+ftwDwD5W3CfuvA7CRhBzOvXpVWvhF
-         YroBg1RLg8lOlFLzB/qP5qTOxm2V1xwP70kqML0ySy10IwCjwNepbtGJZg8b2KTniihg
-         MXzTsiCJh8WwleL7HqRn86sK+4/uN2Q1fUqNqgvkjrEl/2PQJFeNYFCco/9sq+BZ7WNp
-         9btQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYhaADoMaXoGgNmU+DP+a3W9GsWFWrqDCcjuW2aKRg4BkU0nyS8BcPMhEFyqqiKUF5ocqo9b5+StirOIl8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0rlQnhwwjkFRt6XZL8maDYZ0cktRy2y0z9Ssn864jNKGq9T/W
-	742p7ibD89MbV0LavehMauW0uaVue1oe/wTeDZ120s7w16ivKWpP
-X-Google-Smtp-Source: AGHT+IH68yKbuVbBykHvA5QRrX99U7UIh7JlELPRwWGopc9OZpqMcdOZLjwzgB7xwIE7KEFGDm9iIg==
-X-Received: by 2002:a17:90a:d90f:b0:2e0:b5c8:9ca2 with SMTP id 98e67ed59e1d1-2e2f0a971bamr148279a91.9.1728585598626;
-        Thu, 10 Oct 2024 11:39:58 -0700 (PDT)
-Received: from localhost.localdomain (host95.181-12-202.telecom.net.ar. [181.12.202.95])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2e6ef1ad0sm681846a91.49.2024.10.10.11.39.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 11:39:58 -0700 (PDT)
-From: Kurt Borja <kuurtb@gmail.com>
-To: ilpo.jarvinen@linux.intel.com
-Cc: Dell.Client.Kernel@dell.com,
-	hdegoede@redhat.com,
-	kuurtb@gmail.com,
-	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3] alienware-wmi: Dell AWCC platform_profile support
-Date: Thu, 10 Oct 2024 15:39:53 -0300
-Message-ID: <20241010183953.13231-1-kuurtb@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <b4746132-2282-3cb4-64f5-bc83afbcafae@linux.intel.com>
-References: <b4746132-2282-3cb4-64f5-bc83afbcafae@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ijy9bFwY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728587016; x=1760123016;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y16JbD2tTLMVZ+XQHkqkCO/EcAcy4g8c84gyNLuC2Ok=;
+  b=Ijy9bFwYUn1zkDi1HgmVCQnYX08g0Eg+llbN1wqvlLHSLIOW1eOFPAmj
+   MLyljcvkRmntuSM3zB74gUwdfKORhYix5O4q93s3V1UtWq7vBHpfU6Lye
+   et82PDcBVU6km+nKUmcMaP4Um7/6UfOBKUOYWMlOnDlAwoACevOGemy6B
+   C1RlKmDS9tHtcW+rMWv00QGFcQGT7l7/kpAJpL8G0n+o4slLUvOcFZEYg
+   52kawSMlNsO8A8jSqok+IJgx8+tDhuY8aiDIKe+9Ut8xwm+eBArD9jMI2
+   TwJvCdecqTSxMZkkfQU8zKj176IadS4TikHi/rMHQamuh3DdlZ1Bn/pCd
+   w==;
+X-CSE-ConnectionGUID: hRd+GjScSr6t+S/gRceRcg==
+X-CSE-MsgGUID: KLyAh5eqS+euNe7d9J2BOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="31664569"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="31664569"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 12:03:35 -0700
+X-CSE-ConnectionGUID: ehKnKpFWST6T8cGjMdRl8w==
+X-CSE-MsgGUID: W0m087IXRB2TQuPrC2Zyxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="76337924"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 10 Oct 2024 12:03:28 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1syyRa-000B9h-2L;
+	Thu, 10 Oct 2024 19:03:26 +0000
+Date: Fri, 11 Oct 2024 03:03:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrea della Porta <andrea.porta@suse.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Saravana Kannan <saravanak@google.com>, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Stefan Wahren <wahrenst@gmx.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 11/14] misc: rp1: RaspberryPi RP1 misc driver
+Message-ID: <202410110257.OAO10pXN-lkp@intel.com>
+References: <c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta@suse.com>
 
-Thank you! I noticed the kernel thanks to the kernel robot too. I will
-be sure to add them in v4.
+Hi Andrea,
 
-Kurt
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on clk/clk-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.12-rc2 next-20241010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-della-Porta/dt-bindings-clock-Add-RaspberryPi-RP1-clock-bindings/20241007-204440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta%40suse.com
+patch subject: [PATCH v2 11/14] misc: rp1: RaspberryPi RP1 misc driver
+config: alpha-randconfig-r061-20241011 (https://download.01.org/0day-ci/archive/20241011/202410110257.OAO10pXN-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410110257.OAO10pXN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410110257.OAO10pXN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/misc/rp1/rp1_pci.c: In function 'rp1_mask_irq':
+>> drivers/misc/rp1/rp1_pci.c:139:9: error: implicit declaration of function 'pci_msi_mask_irq'; did you mean 'pci_msix_free_irq'? [-Werror=implicit-function-declaration]
+     139 |         pci_msi_mask_irq(pcie_irqd);
+         |         ^~~~~~~~~~~~~~~~
+         |         pci_msix_free_irq
+   drivers/misc/rp1/rp1_pci.c: In function 'rp1_unmask_irq':
+>> drivers/misc/rp1/rp1_pci.c:147:9: error: implicit declaration of function 'pci_msi_unmask_irq' [-Werror=implicit-function-declaration]
+     147 |         pci_msi_unmask_irq(pcie_irqd);
+         |         ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +139 drivers/misc/rp1/rp1_pci.c
+
+   133	
+   134	static void rp1_mask_irq(struct irq_data *irqd)
+   135	{
+   136		struct rp1_dev *rp1 = irqd->domain->host_data;
+   137		struct irq_data *pcie_irqd = rp1->pcie_irqds[irqd->hwirq];
+   138	
+ > 139		pci_msi_mask_irq(pcie_irqd);
+   140	}
+   141	
+   142	static void rp1_unmask_irq(struct irq_data *irqd)
+   143	{
+   144		struct rp1_dev *rp1 = irqd->domain->host_data;
+   145		struct irq_data *pcie_irqd = rp1->pcie_irqds[irqd->hwirq];
+   146	
+ > 147		pci_msi_unmask_irq(pcie_irqd);
+   148	}
+   149	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
