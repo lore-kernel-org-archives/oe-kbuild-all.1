@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12591C7B6A;
-	Thu, 10 Oct 2024 12:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E498D1C7B84
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 13:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728564736; cv=none; b=CX/MtGDdwczRYMmR3RbqtDIPB0+eCbaCvjdVMdbrTsJWmIUsVwLU6BIMxa8ofGKQFZGrMPl5kd3ZskwqpxOBh/Q++5LUIC4+jvxg9yZmuAHJp8HJxnM4h1FqJfacG+Dvm2UslC29STj4qrTO2uF5JesDhxcfLVJm9hx9xk7PFJ8=
+	t=1728566598; cv=none; b=e7+tHFYNGl8dPz5j3ErnxqRvB0ZmoMphpLJ3BtR3NMfBoR8IdfrACmpwcw8Y5IQeljLLSeyEJr5NZoCbzOlTeAVq8tvRm4B1DBAgsdRHqzyZIRxZ8MBX6MAHy6iunA1MGOaXY/YZAP3Ou/JY5XisRrALg9WrUuZe23tlCTAzyvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728564736; c=relaxed/simple;
-	bh=OWW31GL+prw9JjHftIiHStrX0S42nNFeYgoHhk2i+vI=;
+	s=arc-20240116; t=1728566598; c=relaxed/simple;
+	bh=8gkgQpfHiPKDNwXXX6H42EXWbu+1NYnLstaEU40yiVg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AuQ/o30hEwnftfi4i5FaiuQhYfLfO2OqCCgm5e8qgC20hvbUMaMDv089ovEcWpSGL5z/EBAUz4icBdzWrxBH2G8mqS3G0yLxZ/Ulom+USwtv7TD9lYh5G/2EYvedavID2uS1R5f7CryB8y7KM6sVA9ATrgLk2lFrX/I3mYf9fZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrQFwCiQ; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z1IvP9lDCTVW11LB7xF3vxamyrCRBV1zAH0BCkMyIirqmIvM64u3uDeVlILvSoyNU3HHoZycGGmCAOcZz/iZ+2ghCggv3sJWRkyrgYG/p6Nq5b0j5fWOCM9mDxN/o6I5vQlAQVW9GsQeKERS9D2wYjlc7wNwbkxsdct1hzmhaaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2N2DsUm; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrQFwCiQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2N2DsUm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728564735; x=1760100735;
+  t=1728566597; x=1760102597;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OWW31GL+prw9JjHftIiHStrX0S42nNFeYgoHhk2i+vI=;
-  b=UrQFwCiQzWq6TeQOHiGOHAyltZgz3TmwapzuKsAOSNhnl7yiadyKTnrS
-   GBn/3gAUK1S2Rd7jN/s7rcv5iUkBiXb/+txHigIz2GGEBQuo7GycLhw8Q
-   N3B5GODkIVAHHR9w70AGonpgqZJI9pMEmV0CBTASZwUq67afGzWhCl0Br
-   3/6fAetsLRZ3xeR09Lgw/BQdvTeOW+Ypb0e9x0ncspwppXrsJTFs8HmFf
-   KGkjVLk/D+NpVxUA5kSly3gfQ64vicrB8AIDxSDODSOOKmJef2OJrlzKm
-   r/vGtmwcP1IH8kLXR485YDZHOIknmhNPvRUoR1TP1/+ZCUOH1dJLDo3I+
-   Q==;
-X-CSE-ConnectionGUID: IMd1W9nfQza/tUQLwqLWBg==
-X-CSE-MsgGUID: 3DmokyicTYSRpMQv3slZzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27389355"
+  bh=8gkgQpfHiPKDNwXXX6H42EXWbu+1NYnLstaEU40yiVg=;
+  b=X2N2DsUm4hoDOWEf/CBoVeCLB6MnVwOM2iZ7GEEJeSv9BWKsibUzePlf
+   RffRys6rG5MOJUObP3R6tIXFzH2/H0kfOKZSZ48vz9afZ0gmTyoQo2XGk
+   di3SQm8USmKdXz6f1NVOZ3PSPprYMiFEXWhtK/xGTO5SebFZoHV4PQFph
+   R5AMtBNBDpwwjnb6EQEA/9dWuINeyzT1aieqbCKv0uXbekQDbLdHyeKyG
+   +lyX7elteCACyiT8vcqVWx++b3I2ywMp4j/aT6ZehI+VxJPj73PvmnchK
+   oq6fLINbPPCPvSPmJab3suSD3oekA1axmbgvcyQTrw5jyk24ePzStmWe0
+   A==;
+X-CSE-ConnectionGUID: SXQ8IqEZR1eyEO+VKzHoAg==
+X-CSE-MsgGUID: uVFMVlm/RWCC0ZMW0QVDAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="39288621"
 X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="27389355"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 05:52:14 -0700
-X-CSE-ConnectionGUID: XyoHadmPQHqZ8Op9r+OaMw==
-X-CSE-MsgGUID: ayORUROpT3eXjEsJfskqng==
+   d="scan'208";a="39288621"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 06:23:16 -0700
+X-CSE-ConnectionGUID: 8m+xtbiWRPKjBiHC/Uu+Ag==
+X-CSE-MsgGUID: g4DDWm/IRbWUAcw1Dj6xWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="99917176"
+   d="scan'208";a="76777958"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Oct 2024 05:52:12 -0700
+  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2024 06:23:14 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syseH-000AlL-2t;
-	Thu, 10 Oct 2024 12:52:09 +0000
-Date: Thu, 10 Oct 2024 20:52:03 +0800
+	id 1syt8I-000An3-2K;
+	Thu, 10 Oct 2024 13:23:10 +0000
+Date: Thu, 10 Oct 2024 21:23:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Edward Adam Davis <eadavis@qq.com>,
-	syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
-Cc: oe-kbuild-all@lists.linux.dev, almaz.alexandrovich@paragon-software.com,
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
-Message-ID: <202410102052.KIxxilgH-lkp@intel.com>
-References: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
+To: Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next] net: phy: intel-xway: add support for PHY LEDs
+Message-ID: <202410102110.ts6N9Ge2-lkp@intel.com>
+References: <c1358e27e3fea346600369bb5d9195e6ccfbcf50.1728440758.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,105 +68,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
+In-Reply-To: <c1358e27e3fea346600369bb5d9195e6ccfbcf50.1728440758.git.daniel@makrotopia.org>
 
-Hi Edward,
+Hi Daniel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.12-rc2 next-20241010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/ntfs3-Fix-WARNING-in-ntfs_extend_initialized_size/20241007-191224
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907%40qq.com
-patch subject: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
-config: i386-randconfig-003-20241010 (https://download.01.org/0day-ci/archive/20241010/202410102052.KIxxilgH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410102052.KIxxilgH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-phy-intel-xway-add-support-for-PHY-LEDs/20241009-103036
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/c1358e27e3fea346600369bb5d9195e6ccfbcf50.1728440758.git.daniel%40makrotopia.org
+patch subject: [PATCH net-next] net: phy: intel-xway: add support for PHY LEDs
+config: xtensa-randconfig-r073-20241010 (https://download.01.org/0day-ci/archive/20241010/202410102110.ts6N9Ge2-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410102110.ts6N9Ge2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410102052.KIxxilgH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410102110.ts6N9Ge2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:99,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/backing-dev.h:13,
-                    from fs/ntfs3/file.c:10:
-   fs/ntfs3/file.c: In function 'ntfs_extend':
->> fs/ntfs3/file.c:402:29: error: 'struct ntfs_inode' has no member named 'valid'; did you mean 'i_valid'?
-     402 |                 WARN_ON(ni->valid >= pos);
-         |                             ^~~~~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
+   drivers/net/phy/intel-xway.c: In function 'xway_gphy_led_polarity_set':
+>> drivers/net/phy/intel-xway.c:518:22: error: 'PHY_LED_ACTIVE_HIGH' undeclared (first use in this function); did you mean 'PHY_LED_ACTIVE_LOW'?
+     518 |                 case PHY_LED_ACTIVE_HIGH:
+         |                      ^~~~~~~~~~~~~~~~~~~
+         |                      PHY_LED_ACTIVE_LOW
+   drivers/net/phy/intel-xway.c:518:22: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +402 fs/ntfs3/file.c
+vim +518 drivers/net/phy/intel-xway.c
 
-   379	
-   380	static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
-   381			       struct file *file)
-   382	{
-   383		struct ntfs_inode *ni = ntfs_i(inode);
-   384		struct address_space *mapping = inode->i_mapping;
-   385		loff_t end = pos + count;
-   386		bool extend_init = file && pos > ni->i_valid;
-   387		int err;
-   388	
-   389		if (end <= inode->i_size && !extend_init)
-   390			return 0;
-   391	
-   392		/* Mark rw ntfs as dirty. It will be cleared at umount. */
-   393		ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_DIRTY);
-   394	
-   395		if (end > inode->i_size) {
-   396			err = ntfs_set_size(inode, end);
-   397			if (err)
-   398				goto out;
-   399		}
-   400	
-   401		if (extend_init && !is_compressed(ni)) {
- > 402			WARN_ON(ni->valid >= pos);
-   403			err = ntfs_extend_initialized_size(file, ni, ni->i_valid, pos);
-   404			if (err)
-   405				goto out;
-   406		} else {
-   407			err = 0;
-   408		}
-   409	
-   410		inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
-   411		mark_inode_dirty(inode);
-   412	
-   413		if (IS_SYNC(inode)) {
-   414			int err2;
-   415	
-   416			err = filemap_fdatawrite_range(mapping, pos, end - 1);
-   417			err2 = sync_mapping_buffers(mapping);
-   418			if (!err)
-   419				err = err2;
-   420			err2 = write_inode_now(inode, 1);
-   421			if (!err)
-   422				err = err2;
-   423			if (!err)
-   424				err = filemap_fdatawait_range(mapping, pos, end - 1);
-   425		}
-   426	
-   427	out:
-   428		return err;
-   429	}
-   430	
+   503	
+   504	static int xway_gphy_led_polarity_set(struct phy_device *phydev, int index,
+   505					      unsigned long modes)
+   506	{
+   507		bool active_low = false;
+   508		u32 mode;
+   509	
+   510		if (index >= XWAY_GPHY_MAX_LEDS)
+   511			return -EINVAL;
+   512	
+   513		for_each_set_bit(mode, &modes, __PHY_LED_MODES_NUM) {
+   514			switch (mode) {
+   515			case PHY_LED_ACTIVE_LOW:
+   516				active_low = true;
+   517				break;
+ > 518			case PHY_LED_ACTIVE_HIGH:
+   519				break;
+   520			default:
+   521				return -EINVAL;
+   522			}
+   523		}
+   524	
+   525		return phy_modify(phydev, XWAY_MDIO_LED, XWAY_GPHY_LED_INV(index),
+   526				  active_low ? XWAY_GPHY_LED_INV(index) : 0);
+   527	}
+   528	
 
 -- 
 0-DAY CI Kernel Test Service
