@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FC779D2;
-	Thu, 10 Oct 2024 20:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BB01CDFD4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 21:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728593198; cv=none; b=iI+ngfTO3GrXKu26bcAVWzkV7firC8OPF87AE1xTk1lzmEDJ3XmbhvBkt1M7pNXp9HlqpECaJcji5xbwyGNbaGF9aFR38LF3nuHz87sHIzEDAPFXiqp+DR+UxWw9cpzA39PrrBQQi0N78uhUwuj5MlMiS225//xHoIi/g3AdyAw=
+	t=1728595658; cv=none; b=BXk/ZEtDz2OyenOul6hGxXL5fZOueuUyo0XlJPGBa9381mAhhv9XPBee3EitBvdTtq2COZdHENI00wHYTlIIbYFEV+X4VzT2zehYbspMKROAwAaIC5jUkBdah8Xw/lVJjuYqLPCMsqW02PtPKHw2dJaVJA4OTxLAqlWtijpOdYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728593198; c=relaxed/simple;
-	bh=S1ahpzpXNdPKM3/solNYAwx4dKLcG2Uf70uStU5gJNo=;
+	s=arc-20240116; t=1728595658; c=relaxed/simple;
+	bh=cMjG2vAYtWdpt9XwYTmcmGJdVX1vdODwVNOaK1Qy7ys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g3Np8zar9Ozda2QHks2tvJAjhRWysQsMpgmUWvifflQuBTHiBhKIFUP9ilMEH7bPKrudOayFbO7bEPPLmmnDJif/TdPeCaoABBQj33OJnw4wv4ufyhDcUNRG7G4frfQ34Abjp2FnUd3u6lk3X7FILrV3uYlpPIME4RIU5+MUCD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Km089xt7; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=UEppf10A+EZDLb3gLB0Ul7Q7ZRxvhuzb5I+YFhH4bHVP8m2afGPnITGplmnC9nHwC9xFABFF0b0zRsVqAILIyCt/rnkboF3ubnBEOD2Z1KbJGlEvHPj1xzyWOzO9ip1l/CNLOHXUXLa3630Dkgqa9bLwrADSP5NTjgCtqMYnLRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LsI3Ef+4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Km089xt7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LsI3Ef+4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728593197; x=1760129197;
+  t=1728595656; x=1760131656;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S1ahpzpXNdPKM3/solNYAwx4dKLcG2Uf70uStU5gJNo=;
-  b=Km089xt7jjBBbrl1FoamTn66FSve28nFF6jr53gcGDgoHJw4nkW80N+y
-   zNPLIfZu4tB+wi0LIFu4ZkY7oKQALbmBj2quPyrTHsPFwVyRmFP0FH8T6
-   Sx/zv0RMHvQMFU5efSb+ScA3MK7U+UWcTct+9RyQxu/0tW+UZ9LJ2XdTz
-   ytcRhEUjOaBlqDb6n4gEDDJq+8+73cieF5amb9GWlieV1io1x52YbLr9X
-   6mIT7VFybQGtOy7wtIR+67uGuA19FuqCiywyhHqDcCC/RlXYyKZ+Mbw9J
-   S1CI2dsX0ivEMWh1GpiMXvDACGJLULhBmqvSHczB0YCvSxWcBXaylBaip
-   g==;
-X-CSE-ConnectionGUID: 0GBmfL7SQEy1pR+cFJH6Iw==
-X-CSE-MsgGUID: P2MKzXSNTPqzbo1VExCMGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="27429743"
+  bh=cMjG2vAYtWdpt9XwYTmcmGJdVX1vdODwVNOaK1Qy7ys=;
+  b=LsI3Ef+436Sar0rWdWI40IBT+wjJPzIZ3CFPfSoFfxLnHZ6Kg1rFoetk
+   9l8B7uEBTsfA2xAfh5JVA8GFObff9V8BfpczFz7hezCcGou2H9D1krWlv
+   IG9pw6WYkUDFAAnolnTNvhPscucEmSs6r4Y4J+GUqqSaeHLuP35UQmSmI
+   jslQ+TTSMOz2jtM2Ctbu6P6Hpnlbg2wIlyC4c6LuJTtynmwziw5hNPUx3
+   5d6w40dQVaWq6wTBx7JjDS/8uu4M9WHOLDN3zcTYdxtRetWZcF/oeIsV2
+   n8+I+85pY2FugcnHfZaagSRmwrTQWbYxERaaLVxuoOxuF1C2ccKWisy98
+   A==;
+X-CSE-ConnectionGUID: 3tcQiGpZR1mKXaf8/VcakQ==
+X-CSE-MsgGUID: gVjAc47BR2qmx1I8uOeSUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="31880258"
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="27429743"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 13:46:36 -0700
-X-CSE-ConnectionGUID: to4zHtkIQx2umYFIna6ERg==
-X-CSE-MsgGUID: 53zt824LRBeCJ7+J+CsTBQ==
+   d="scan'208";a="31880258"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 14:27:35 -0700
+X-CSE-ConnectionGUID: m/Qe04pbQXmzI9vZDNmzmA==
+X-CSE-MsgGUID: C1HTkPzxRuGYni1dG0JDUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="76803645"
+   d="scan'208";a="76637765"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Oct 2024 13:46:33 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Oct 2024 14:27:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sz03K-000BFr-0D;
-	Thu, 10 Oct 2024 20:46:30 +0000
-Date: Fri, 11 Oct 2024 04:45:59 +0800
+	id 1sz0h2-000BI1-1k;
+	Thu, 10 Oct 2024 21:27:32 +0000
+Date: Fri, 11 Oct 2024 05:27:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: Re: [PATCH v6 6/7] power: supply: max77705: Add fuel gauge driver
- for Maxim 77705
-Message-ID: <202410110404.etzjIhE5-lkp@intel.com>
-References: <20241007-starqltechn_integration_upstream-v6-6-0d38b5090c57@gmail.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] mmc: suspend MMC also when unbinding
+Message-ID: <202410110517.E2SBXURn-lkp@intel.com>
+References: <20241007093447.33084-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,129 +62,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007-starqltechn_integration_upstream-v6-6-0d38b5090c57@gmail.com>
+In-Reply-To: <20241007093447.33084-2-wsa+renesas@sang-engineering.com>
 
-Hi Dzmitry,
+Hi Wolfram,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 58ca61c1a866bfdaa5e19fb19a2416764f847d75]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc2 next-20241010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/power-supply-add-undervoltage-health-status-property/20241008-000014
-base:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
-patch link:    https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-6-0d38b5090c57%40gmail.com
-patch subject: [PATCH v6 6/7] power: supply: max77705: Add fuel gauge driver for Maxim 77705
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241011/202410110404.etzjIhE5-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410110404.etzjIhE5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/mmc-suspend-MMC-also-when-unbinding/20241007-173705
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241007093447.33084-2-wsa%2Brenesas%40sang-engineering.com
+patch subject: [RFC PATCH] mmc: suspend MMC also when unbinding
+config: i386-randconfig-141-20241010 (https://download.01.org/0day-ci/archive/20241011/202410110517.E2SBXURn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410110404.etzjIhE5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410110517.E2SBXURn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/mmc/core/mmc.c:2124 _mmc_suspend() warn: inconsistent indenting
 
->> drivers/power/supply/max77705_fuel_gauge.c:220:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     220 |         case POWER_SUPPLY_PROP_MANUFACTURER:
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/power/supply/max77705_fuel_gauge.c:227:6: note: uninitialized use occurs here
-     227 |         if (ret)
-         |             ^~~
-   drivers/power/supply/max77705_fuel_gauge.c:217:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     217 |         case POWER_SUPPLY_PROP_MODEL_NAME:
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/power/supply/max77705_fuel_gauge.c:227:6: note: uninitialized use occurs here
-     227 |         if (ret)
-         |             ^~~
-   drivers/power/supply/max77705_fuel_gauge.c:169:9: note: initialize the variable 'ret' to silence this warning
-     169 |         int ret;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+vim +2124 drivers/mmc/core/mmc.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +/ret +220 drivers/power/supply/max77705_fuel_gauge.c
-
-   162	
-   163	static int max77705_fg_get_property(struct power_supply *psy,
-   164					    enum power_supply_property psp,
-   165					    union power_supply_propval *val)
-   166	{
-   167		struct max77705_fuelgauge_data *fuelgauge =
-   168		    power_supply_get_drvdata(psy);
-   169		int ret;
-   170	
-   171		switch (psp) {
-   172		case POWER_SUPPLY_PROP_STATUS:
-   173			ret = max77705_battery_get_status(fuelgauge, &val->intval);
-   174			break;
-   175		case POWER_SUPPLY_PROP_PRESENT:
-   176			ret = max77705_fg_check_battery_present(fuelgauge, &val->intval);
-   177			break;
-   178		case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-   179			ret = max77705_fg_read_reg(fuelgauge, VCELL_REG, &val->intval);
-   180			break;
-   181		case POWER_SUPPLY_PROP_VOLTAGE_OCV:
-   182			ret = max77705_fg_read_reg(fuelgauge, VFOCV_REG, &val->intval);
-   183			break;
-   184		case POWER_SUPPLY_PROP_VOLTAGE_AVG:
-   185			ret = max77705_fg_read_reg(fuelgauge, AVR_VCELL_REG, &val->intval);
-   186			break;
-   187		case POWER_SUPPLY_PROP_CURRENT_NOW:
-   188			ret = max77705_fg_read_reg(fuelgauge, CURRENT_REG, &val->intval);
-   189			break;
-   190		case POWER_SUPPLY_PROP_CURRENT_AVG:
-   191			ret = max77705_fg_read_reg(fuelgauge, AVG_CURRENT_REG, &val->intval);
-   192			break;
-   193		case POWER_SUPPLY_PROP_CHARGE_NOW:
-   194			ret = max77705_fg_read_reg(fuelgauge, REMCAP_REP_REG, &val->intval);
-   195			break;
-   196		case POWER_SUPPLY_PROP_CHARGE_FULL:
-   197			ret = max77705_fg_read_reg(fuelgauge, FULLCAP_REP_REG, &val->intval);
-   198			break;
-   199		case POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN:
-   200			ret = max77705_fg_read_reg(fuelgauge, DESIGNCAP_REG, &val->intval);
-   201			break;
-   202		case POWER_SUPPLY_PROP_CAPACITY:
-   203			ret = max77705_fg_read_reg(fuelgauge, SOCREP_REG, &val->intval);
-   204			break;
-   205		case POWER_SUPPLY_PROP_TEMP:
-   206			ret = max77705_fg_read_temp(fuelgauge, &val->intval);
-   207			break;
-   208		case POWER_SUPPLY_PROP_TIME_TO_EMPTY_NOW:
-   209			ret = max77705_fg_read_reg(fuelgauge, TIME_TO_EMPTY_REG, &val->intval);
-   210			break;
-   211		case POWER_SUPPLY_PROP_TIME_TO_FULL_NOW:
-   212			ret = max77705_fg_read_reg(fuelgauge, TIME_TO_FULL_REG, &val->intval);
-   213			break;
-   214		case POWER_SUPPLY_PROP_CYCLE_COUNT:
-   215			ret = max77705_fg_read_reg(fuelgauge, CYCLES_REG, &val->intval);
-   216			break;
-   217		case POWER_SUPPLY_PROP_MODEL_NAME:
-   218			val->strval = max77705_fuelgauge_model;
-   219			break;
- > 220		case POWER_SUPPLY_PROP_MANUFACTURER:
-   221			val->strval = max77705_fuelgauge_manufacturer;
-   222			break;
-   223		default:
-   224			return -EINVAL;
-   225		}
-   226	
-   227		if (ret)
-   228			return ret;
-   229	
-   230		max77705_unit_adjustment(fuelgauge, psp, val);
-   231	
-   232		return 0;
-   233	}
-   234	
+  2114	
+  2115	static int _mmc_suspend(struct mmc_host *host, enum mmc_pm_reason reason)
+  2116	{
+  2117		int err = 0;
+  2118		unsigned int notify_type = reason == MMC_PM_REASON_SUSPEND ?
+  2119					   EXT_CSD_POWER_OFF_SHORT : EXT_CSD_POWER_OFF_LONG;
+  2120		bool can_pwr_cycle_now = (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) ||
+  2121					  ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND) &&
+  2122					    reason == MMC_PM_REASON_SUSPEND);
+  2123	
+> 2124	pr_info("%s: suspend reason %d, can pwr cycle %d\n", mmc_hostname(host), reason, can_pwr_cycle_now);
+  2125	
+  2126		mmc_claim_host(host);
+  2127	
+  2128		if (mmc_card_suspended(host->card))
+  2129			goto out;
+  2130	
+  2131		err = _mmc_flush_cache(host);
+  2132		if (err)
+  2133			goto out;
+  2134	
+  2135		/* Notify if pwr_cycle is possible or power gets cut because of shutdown */
+  2136		if (mmc_can_poweroff_notify(host->card) &&
+  2137		    (reason == MMC_PM_REASON_SHUTDOWN || can_pwr_cycle_now))
+  2138			err = mmc_poweroff_notify(host->card, notify_type);
+  2139		else if (mmc_can_sleep(host->card))
+  2140			err = mmc_sleep(host);
+  2141		else if (!mmc_host_is_spi(host))
+  2142			err = mmc_deselect_cards(host);
+  2143	
+  2144		if (!err) {
+  2145			mmc_power_off(host);
+  2146			mmc_card_set_suspended(host->card);
+  2147		}
+  2148	out:
+  2149		mmc_release_host(host);
+  2150		return err;
+  2151	}
+  2152	
 
 -- 
 0-DAY CI Kernel Test Service
