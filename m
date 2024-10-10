@@ -1,101 +1,111 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEEF1BFDF7;
-	Thu, 10 Oct 2024 09:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E354B1922DD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 09:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728551451; cv=none; b=BcgeO29ktZswRrLTa2ZXQkLD9bnwdhtCo91RbPNDZuWeZTBFiTud6SuLhAwOvDvRmg39PaMgFVtRJ5GBA+migxXsCGb8isT/xFys3Bs6Alg/pMbIvXtAVS5Oa0+dAxVqtCneaPYc2RcPz7fx/FEk2CyzNvlWwIVgKTfbcfb5Ifw=
+	t=1728551826; cv=none; b=HJjRY+49RibRT3llOB1GCl+Z4XeEFwwZQbBTrQcWkkqiCDPz7QyXXOkfIjqrJ5FqojDthQtM6odt7guixF0TxHAB8AIOMmAdWUBa5sGALiyNTcbTDzYgCBGNrHNjqd6NV/ZKq0VVvzYMFtYXBJRZNrGlwOTn9sU8FC7cI6KjPyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728551451; c=relaxed/simple;
-	bh=07x78Sg1amxalMRiVKpv9RyTwRr1zMKzZxbI/cyJf18=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L0b1ZfaUD7yY9YJqkkIJnD1RSm254wenuMwXrfyZinqsKFfCwZO1QHsqEb+P5HRYDEcqoUO17YR111iFYTOZZkE6HTst2909eGeNTMvbIrV8ZDow8oEFt5kuYbuUmjw2LXYxIEbMSb817FxxZCidqrTIrn0+yziOREVjoHgG0bU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=IJupk2Kg; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1728551826; c=relaxed/simple;
+	bh=4aEHzzGF6+o72+fcCB0fM7BDVwJUCvOO3tBCeG5qOJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JfQ7/uWvdU9a5v8TYKDSJ/+7c0bsofl3AVQVYaMhg8/gfrB0f3pkid83wYO8CYq/lOR2espyGSSCADjhsVUYvyJzSW6vn8giZcIajvDVpg3Wd4HxKOko41n/J9Ca+ojwaSAtGXtFKhcCm/UAiosgtHdDc+zVB/3RajcTKy1h274=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHeC6f65; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="IJupk2Kg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1728551432; x=1729156232; i=markus.elfring@web.de;
-	bh=07x78Sg1amxalMRiVKpv9RyTwRr1zMKzZxbI/cyJf18=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=IJupk2KgLk98gJ0eIxIQ4gk89gymoyZ2JK40dq8FePmNOAKAG1ZWNoy+KB4F2b2A
-	 XwquA/zJfIEbId4EWdgP+GmL424jT/n27cN9XxhD9lU/iSlJv8xA+Mf/fy8oiJjw4
-	 fySkqrBYgvtD+kq16mwj2+htT2nm6YFAtyLlH6djYzbwtiiCLV533zQ0uNBbqaieX
-	 dtoVNYjOnpZVbSfln4bnit1CaoWKSkgjvtqyUvUoAN+WYkzC6KTpIf4/00s1421FO
-	 cnqhfX3cNVHosG04ZTUUbTmA7x9GCBM5on0wo4pGlBUodDPe30iWfnmvwZ2vOtVos
-	 SzBjyOl9nCcyj0kHug==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MxYbD-1tvqxl0F6f-00xKlj; Thu, 10
- Oct 2024 11:10:32 +0200
-Message-ID: <1df1df73-e741-4ebe-9514-8466b4b276e8@web.de>
-Date: Thu, 10 Oct 2024 11:10:30 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHeC6f65"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728551825; x=1760087825;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4aEHzzGF6+o72+fcCB0fM7BDVwJUCvOO3tBCeG5qOJc=;
+  b=QHeC6f65t+DZnSDHqqY6RX0sj1BrWgdHF/RXRZBNWdzcjpDpmkeOGhYz
+   uiaId5lF6v65CmP+HcdEGOMBdJTHfP2c6FZkSYCXJiUr/0lz+S/AWuEgu
+   3BQNmjW6BkOZ9gJClFvNu0R7KENs3YM9VSxE3mAG5YBzJm0U1rUKP8p5e
+   eB9SXBvmQyw9TFubguFT2iUAodpig/v6ei7CJbSJsYbwCocc7qhR9P+K1
+   i4+oH4kC7WDeLlV/mmyM/dFHaLywUvq9O6m4XeHtyT74gyPeq8FwWwIbf
+   V40B6HsLpd0Sl5yrZE+TwUPpgvi6IiRk9LnYqe07+EZyrBq3hDRoQrGLJ
+   Q==;
+X-CSE-ConnectionGUID: gPaCwdq3R1m7TlxMZzBIUw==
+X-CSE-MsgGUID: jGXWi9mhRKimkU38lm7i3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="39289944"
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
+   d="scan'208";a="39289944"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 02:17:05 -0700
+X-CSE-ConnectionGUID: WP8tkThpQWqqWGVZLUOVvA==
+X-CSE-MsgGUID: ykmPLdq4QLeWa/RXDsFYqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
+   d="scan'208";a="81343094"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 10 Oct 2024 02:17:04 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sypI4-000AYP-1d;
+	Thu, 10 Oct 2024 09:17:00 +0000
+Date: Thu, 10 Oct 2024 17:16:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fei Shao <fshao@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 3043/3432]
+ arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: jpeg-decoder@1a040000: iommus:
+ [[98, 685], [98, 686], [98, 690], [98, 691], [98, 692], [98, 693]] is too
+ long
+Message-ID: <202410101707.id93rViK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2] crypto: lib/mpi - Extend support for scope-based resource
- management
-To: Herbert Xu <herbert@gondor.apana.org.au>, linux-crypto@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel test robot <lkp@intel.com>,
- oe-kbuild-all@lists.linux.dev
-References: <bc5ce9ad-acbd-4f3b-91d6-10cf62bf5afc@web.de>
- <202409180725.ZV8DCvII-lkp@intel.com>
- <91d10516-4ba9-4fe0-8f63-86205cc4f88c@web.de>
- <ZwDPp4bU1J5uEgQe@gondor.apana.org.au>
- <9ddc71e7-e98a-4fa8-b140-4035dd2874b6@web.de>
- <ZweTCO8cFtP_pvOu@gondor.apana.org.au>
- <4aef34ca-4665-4e92-8ce8-8a8a2fb472c9@web.de>
- <ZweXlC7G8rEK9rB7@gondor.apana.org.au>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <ZweXlC7G8rEK9rB7@gondor.apana.org.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:95Ta7s8qYi4mGs53r1PV8Gfa3Lxp61fGKOWaCTgnyTxoqll4vBd
- 6cjxlpuXklwiOXmqZy9hH2CWR+n6WRUah5IDnKiGhaFV6Nvd93qQOJAtmTRISs7Y3ChlLu2
- WETHu12d+aITHuLbkPvm3lKzPfIQLgC5S32EkFVCFA7L2T89J3OV9Sp+qnNC6GQjY6NPx2B
- +nT8hoc1j1tnwHbfDsEJw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:2NCzZm+tM24=;hohcUvjS/CGjznp4tKpsRsApGQJ
- vrXNV7XHyseqJE6wk1hBB8yzUQXHmE5xAzaGLDW5Zk9TNleQbOrb7FiU1+sxhJ7W2sRLxVs5l
- krxXAjhvHBbeS6zBN/y+yLmtqffD3C4/bH1GTElryIHQZEivk98AzqZw5S8uJsoh5ZUHivhqf
- D9Re3H2zuHMu6P3Rt+NqysCbq9/Tnb6M20Lc7gGMMzhjrsSralqqQ1123Cu+eWeifYot7rq3G
- UlUkdd+DfMK2SxW1mgJLzkAD1Gb26TfjGqFjIoo0N1gxBH2fFhbdWm1rBs0VT9jVS1jnrGPp1
- /QRs9CUEwjIozhwB73zgTjB95D/3iMKYGS+ATK9lA3xzJyDBDFjTO/SKmuaTJGc0Po2HiCbRS
- EB8z7JbzZ7Ntc11jAcGQ1E5zG0Yz586hFD0XJ94t6G2/y4Cf0I2D+4Wbzha8CWo7bO2XzMdrn
- eG4hy/oVXbdlIWNxFKujiOQmXkl/wn9zKj5U/zPQXsLAnv7o+FsHrLEhyVdiyat0MknjNVsGc
- Jzbhx7ZAce3w/jRWqp/pssRKp4iQyeQ7CZxrThFjBdsIMQ0ylvWLzfENl7fqN+xE/7UUhpHkC
- 5uhK5SRXZ8vry/rvVbxFygyIotDeeMa65PvkPaKfTdgTi+25zAZESNuut+byRp8PETYnepAib
- XWG4U8NV9gtudY325+AyhoxFxG9EJMvAMLkWpcve5X/08PWJnEJzaF8jEKKTI6rkShymBfq3l
- I4HCYddACpHIdgVYkHOr2PCPkrxUO6ZuKIm3Kd9K7/2EehY0Bj5nlYn1Dc2pKZo+UeJrhJBHx
- snJh5fnhe1a7DvafZQGTM0Qw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->> Do you find the proposed software extension generally reasonable?
->>
->> Can any more source code places benefit from such a programming interfa=
-ce adjustment?
->> https://elixir.bootlin.com/linux/v6.12-rc2/A/ident/mpi_free
->
-> Please submit actual patches using this.
-I would appreciate more positive indications according to scope-based reso=
-urce management
-extensions before.
-I hope that change resistance/acceptance can be clarified already.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0cca97bf23640ff68a6e8a74e9b6659fdc27f48c
+commit: 9e85e3cc81df168592b3aedb9f363ff020b2f2c7 [3043/3432] arm64: dts: mediatek: mt8188: Add JPEG decoder and encoder nodes
+config: arm64-randconfig-051-20241009 (https://download.01.org/0day-ci/archive/20241010/202410101707.id93rViK-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
+dtschema version: 2024.10.dev4+g577c1ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101707.id93rViK-lkp@intel.com/reproduce)
 
-Would there be a need to make the activation of discussed special macro ca=
-lls
-depend on other constraints?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410101707.id93rViK-lkp@intel.com/
 
-Regards,
-Markus
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: spmi@10027000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/spmi@10027000: failed to match any schema with compatible: ['mediatek,mt8188-spmi', 'mediatek,mt8195-spmi']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: t-phy@11c20700: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: jpeg-decoder@1a040000: iommus: [[98, 685], [98, 686], [98, 690], [98, 691], [98, 692], [98, 693]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: spmi@10027000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/spmi@10027000: failed to match any schema with compatible: ['mediatek,mt8188-spmi', 'mediatek,mt8195-spmi']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: t-phy@11c20700: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: jpeg-decoder@1a040000: iommus: [[109, 685], [109, 686], [109, 690], [109, 691], [109, 692], [109, 693]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
