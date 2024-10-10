@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F873D6B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 06:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0213D6B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 06:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728541914; cv=none; b=KbOYPb3u1+7emdiyGEmNfAqNzGqde6up5ElwyNpzt9fZyc0JUnG7lUcHSaBsdrhS4P228juylHxflJU0SMSjaTcGULy6x5+rDEOMWp+oiKkLysKTUn1vSuHy5Zbczacn9QZqnNyBJooC1AVGtAUUXMYGWlVcROku4lhpjLmi5UA=
+	t=1728541918; cv=none; b=NiYmmeezSkms4AoNfcmZZD5Fzp1I8IjSTY5bdAPMVyBFX81TRbRAc4xnGUFDImQdFBAvguk24duTWXahLnQCYybPXZTan9Pam0aqyICHxfPPUvB+C8JhjYENh69m9k6tsxVrmP+5qiE1GjYfFkRLCbe+FxgkFDdVqQzsanxN+Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728541914; c=relaxed/simple;
-	bh=nEB9CnaFyHshzLVDKmeAOsnYguvl0Nqwa5hDfbG0WWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WPgmB8/IVQzeyE3EtCfY/iyF6xEV/8/KYm0Fa07tBF2KM4NripRC8vCpsJlRSUOfsHFQ+3/w3M/4+0Unc94psb1VCQ/ImTiP0+M82vN+G+jQOlsfyW3nhitDiQefzWaO7N9pL038Z9RxdnmNrKA1kn03ojBPlv/8QWZxu/otsRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoFPEbW5; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1728541918; c=relaxed/simple;
+	bh=AOXY/7XJtJw0s2SV+scdj5EAD0vNp2265poPJb6jL9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=amN6diuoQqqF1pFZP9IPb2NWVJg48Ldx3qrbFbzI2isNOvfn5vOWM1Gvi8Ws8LZ0KFc9W8hWacWuDqWSHAqmULgk21gmzTeuIgR/L3Oe5EfH7sYLqgRScQVStziK46jsn+xvgRP1/7Vt2I94rheJYvTMjs2wW4yQrle3al9kCcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WpyS+KIH; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoFPEbW5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WpyS+KIH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728541913; x=1760077913;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nEB9CnaFyHshzLVDKmeAOsnYguvl0Nqwa5hDfbG0WWQ=;
-  b=ZoFPEbW5jGNHm6+YXprnZ0YbOAQ4NTXs8U4hR2F/c0vGdgpxm0CHMblQ
-   PLG4n24SCRXLctlNnrZK9pjC3k6lMkddeleDgtGTknnrlmwtr8WDtVTc/
-   rlsYemFRj4JQfWsLXAh7MSFZDcBJN2L4/piuJrrdrKi98rhkOGtq9wUPd
-   C4jS44r0i1zwyuPrxK4le+KIk78LIATdPSHlAaBhNj+t7QEumwVPtO4VX
-   O+UHk2V+EAqFQuxAx0RtpHn5vN4Y0cZwblB+A2ZVYCIZ9e97Rpy6TKoUg
-   U49y2ED4QHadW0qY2bcE39bHcNH4hzvpbNYzyBnaowjM1Zqhp1K4i5YGO
-   g==;
-X-CSE-ConnectionGUID: JzAZXphCRXKoJQWzZiVZGw==
-X-CSE-MsgGUID: 1mxFKlY4Sz2GCq4bq4+cSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31580391"
+  t=1728541917; x=1760077917;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AOXY/7XJtJw0s2SV+scdj5EAD0vNp2265poPJb6jL9w=;
+  b=WpyS+KIHktYXv481QYTJDhMTEmPX3Rh0RxDwPVBp6NvLZK9mMD1xYNHb
+   vi+hwlbLkmQcmBmnv8lByXW6oc43IgN9KtGhYJZHJiTKuUXwC74q8sZ9a
+   sQg4FWNO8E9ftAxT7jNaVWFqltx5uq5Wuc/4LcwfzCLoY9fwv6appMWMY
+   79nNWDYtGrIQsrROnA1SG53Na50fFCebFs9MA4v+I+gwjTR/t+vNVLET+
+   zjlyCngSA61NV0vNhRPgLkDKgSFj4kgobVc/1m8uIb9GWioZ2KsJ46aEl
+   KIjUPng6hyuywVzSGPUjPMie8nJ8ULr8rU4YBoI4CUYMxtB1lDJWwu+vK
+   A==;
+X-CSE-ConnectionGUID: 2BhoTvaaQlChzR5x6SLRnw==
+X-CSE-MsgGUID: 08kO7yeWTXaf1dZIEsnwPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="53284280"
 X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="31580391"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 23:31:52 -0700
-X-CSE-ConnectionGUID: F/fi5L5eTCeXyioYpl7YlA==
-X-CSE-MsgGUID: nfJXybg4Q0K4bJRw3RX39A==
+   d="scan'208";a="53284280"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 23:31:56 -0700
+X-CSE-ConnectionGUID: CSBrZBxxSSaRjHZRjd9Ufw==
+X-CSE-MsgGUID: b11rVd95R0WakFa04NsjHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="76809553"
+   d="scan'208";a="81020464"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Oct 2024 23:31:51 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2024 23:31:51 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1symiC-000AHB-2p;
+	id 1symiC-000AHD-2s;
 	Thu, 10 Oct 2024 06:31:48 +0000
-Date: Thu, 10 Oct 2024 14:31:29 +0800
+Date: Thu, 10 Oct 2024 14:31:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "steve.jeong" <jkhpro1003@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-5.15.y 137/204] ERROR: modpost:
- "phys_mem_access_prot" [drivers/char/aml-gpiomem.ko] undefined!
-Message-ID: <202410101407.xZthHOaH-lkp@intel.com>
+To: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>, andersson@kernel.org,
+	mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+	catalin.marinas@arm.com, will@kernel.org, p.zabel@pengutronix.de,
+	richardcochran@gmail.com, geert+renesas@glider.be,
+	dmitry.baryshkov@linaro.org, neil.armstrong@linaro.org,
+	arnd@arndb.de, nfraprado@collabora.com, quic_anusha@quicinc.com,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
+	quic_varada@quicinc.com
+Subject: Re: [PATCH v7 4/6] clk: qcom: Add NSS clock Controller driver for
+ IPQ9574
+Message-ID: <202410101431.tjpSRNTY-lkp@intel.com>
+References: <20241009074125.794997-5-quic_mmanikan@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +73,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241009074125.794997-5-quic_mmanikan@quicinc.com>
 
-tree:   https://github.com/tobetter/linux odroid-5.15.y
-head:   2402b85f3675cd92c0ba7cb5f051596e07bd3971
-commit: 0a01b3c15e7c03cfbd687185d96a66d0cca87069 [137/204] ODROID-N2/C4: char: Add /dev/gpiomem device for rootless user GPIO access.
-config: i386-buildonly-randconfig-004-20241010 (https://download.01.org/0day-ci/archive/20241010/202410101407.xZthHOaH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101407.xZthHOaH-lkp@intel.com/reproduce)
+Hi Manikanta,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on robh/for-next arm64/for-next/core linus/master v6.12-rc2 next-20241009]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Mylavarapu/dt-bindings-clock-gcc-ipq9574-Add-definition-for-GPLL0_OUT_AUX/20241009-154517
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20241009074125.794997-5-quic_mmanikan%40quicinc.com
+patch subject: [PATCH v7 4/6] clk: qcom: Add NSS clock Controller driver for IPQ9574
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241010/202410101431.tjpSRNTY-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101431.tjpSRNTY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410101407.xZthHOaH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410101431.tjpSRNTY-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "phys_mem_access_prot" [drivers/char/aml-gpiomem.ko] undefined!
-ERROR: modpost: "phys_mem_access_prot" [drivers/char/exynos-gpiomem.ko] undefined!
+>> drivers/clk/qcom/nsscc-ipq9574.c:80:36: error: 'CLK_ALPHA_PLL_TYPE_NSS_HUAYRA' undeclared here (not in a function); did you mean 'CLK_ALPHA_PLL_TYPE_HUAYRA'?
+      80 |         .regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_NSS_HUAYRA],
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    CLK_ALPHA_PLL_TYPE_HUAYRA
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +80 drivers/clk/qcom/nsscc-ipq9574.c
+
+    77	
+    78	static struct clk_alpha_pll ubi32_pll_main = {
+    79		.offset = 0x28000,
+  > 80		.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_NSS_HUAYRA],
+    81		.flags = SUPPORTS_DYNAMIC_UPDATE,
+    82		.clkr = {
+    83			.hw.init = &(const struct clk_init_data) {
+    84				.name = "ubi32_pll_main",
+    85				.parent_data = &(const struct clk_parent_data) {
+    86					.index = DT_XO,
+    87				},
+    88				.num_parents = 1,
+    89				.ops = &clk_alpha_pll_huayra_ops,
+    90			},
+    91		},
+    92	};
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
