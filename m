@@ -1,61 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582314C6C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 02:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7041F6BB5B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 02:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728525766; cv=none; b=eXG+tWfO5XQYBsowwj84g2gbtntgEs7WIn3mbdyPK5p9UUWMaGZLToL7UsS+IQoakeakiudOFlaixUJCqrhwJWppvN73QVeZjybBHF0jPdY8jy8pSQ54IDJgwBCwGwL8yELREwSQHhgpoJqddN8AuAy9SKJh9663dDht+Ein1fc=
+	t=1728528228; cv=none; b=Qeqrkr7RP2SeEtoZQbWmutKDMfgeos/2htrP8ifJI3HqshYN9ObdPE/tH9TWoLRDWrQeKIcUc+r3wjVz07WwYvSBGDOVq0UK82MwJWw6OdsxBHDL321MzI70OzDf4E5yOxEfV/zKK5d5GvllWmA1beNsnnx32Xtqk6utld0YXaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728525766; c=relaxed/simple;
-	bh=146MWhbvnL0QPV8/5EDGNlQVb2xoqyhzotIXaJu+f2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FGbY7u+YNsOmpvLIdKodOKG5cWV9hZz/Haldj4SPzGowO4i9/zT2AHwykNx6MfNllwF6dUmjBTzkFQEVbpLMXzVXVII5ara3hfgwYkgcj/ZvAli1lw5ZqQx+zbPWXwBlEZ/l2avgE8HVPF94O7pxSuMrCofXM9fmQRV9WdOMGR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YYIRu7Mj; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1728528228; c=relaxed/simple;
+	bh=Nq3W6E/fBAbdamPvD166i+gTBRozQvXbP8fpNhuQSn0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rn5ZY8BuQcK6k1q+5HZMSD27METmjk7zZsvIZEvOUNlkaSnY/HcWeZTftCwsj7+ykTXHYExfo5Fl0qX3YrHnWAwyR/KdyZMDqvy/HvxB6n3Kyb0C+zzmeVnm8wLcrpgn/ck6KqLcSrSiHx3ExD4KryPDmCEgxM6znlNwYsnOcOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RKGqOsVu; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YYIRu7Mj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RKGqOsVu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728525762; x=1760061762;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=146MWhbvnL0QPV8/5EDGNlQVb2xoqyhzotIXaJu+f2A=;
-  b=YYIRu7Mja6tjdsLnSB+++109DakT3jXROwC9i8Qo/GX40MtqH7r049tP
-   XOMjxVR6nkhkpCyIrtQpPvx+bMEknrl+uElqNR0iYGXIzQU5k1lJg7S28
-   9Qyr86lK+BJQW6KDpI7LGjvyA8HCxCe1Wta4hpdQj0njHXUSGbdlgxwMH
-   i2k6PVXRCU03DxeOgRPUfjFG9FJoHHvTB2U34nDGZXJ0keaULx+SMrjeI
-   OAt9oMd1xoyBQAjadjuLqPRSj83/uCQBgH5PJYEkmCA/B3+ChI/K+UDwq
-   w/IK+ig51DMA2hGh5mZ9kSC79lRKTWOI0+8iahMVCtpsNTsLJX1uKutr4
-   w==;
-X-CSE-ConnectionGUID: fm+UYcIVRduWRGiXITLGaw==
-X-CSE-MsgGUID: BimRyuYdQR+yV3cCaXtB4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="38991254"
+  t=1728528226; x=1760064226;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nq3W6E/fBAbdamPvD166i+gTBRozQvXbP8fpNhuQSn0=;
+  b=RKGqOsVuuYRj/HIlUjsEsiEYjTIPni9L36pPqFIx8FdBM1SYykKhbYDk
+   4098OCoRq6B1uUxqJo2TE64H12hSzOWe/J1Q9T0MHhO/5nLmXlpIDtrmF
+   e5qXZv10wIWpuTazwx8aLm6bFBkXhhkBpx75YLYbiR36fUPi4+UTgTVJH
+   BW4DB0pdbjV8+PwDiU7WTsZtSQLskTf2aLTp4EiJaFrQR6IH4crsA3wDp
+   VEcez6n/7hL3UHisVgVpahSz7EEF0tC7oq3iivbc4k/JVGVHLBRw8WHg3
+   eDxS5s7lvuE8ywMU+9CZr1+L1i+y5Ux35589alB/wM8wGBEdBx8f5ZK2M
+   A==;
+X-CSE-ConnectionGUID: efHAivp3SpKigGzSJknw3w==
+X-CSE-MsgGUID: G5mCIFZiSeGQs05P5hl7bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27995957"
 X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="38991254"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 19:02:41 -0700
-X-CSE-ConnectionGUID: Exa57pdNSySxP83MBuiApw==
-X-CSE-MsgGUID: rE3vOCCCRBajFo7ofMbWSg==
+   d="scan'208";a="27995957"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 19:43:45 -0700
+X-CSE-ConnectionGUID: V2RqSgWmRFukWWGdHiONpg==
+X-CSE-MsgGUID: 4gj8LtXVTwKdcJfOFYktLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="77266376"
+   d="scan'208";a="76380482"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Oct 2024 19:02:39 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 Oct 2024 19:43:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syiVg-000A3C-33;
-	Thu, 10 Oct 2024 02:02:36 +0000
-Date: Thu, 10 Oct 2024 10:01:54 +0800
+	id 1syj9N-000A4k-2w;
+	Thu, 10 Oct 2024 02:43:37 +0000
+Date: Thu, 10 Oct 2024 10:43:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [linux-next:master 1572/3432]
- arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: vcodec@17020000:
- 'assigned-clocks' is a required property
-Message-ID: <202410100954.KjkXdtHY-lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v3 05/12] PCI: rockchip-ep: Implement the .map_align()
+ controller operation
+Message-ID: <202410101044.3nr7XIR9-lkp@intel.com>
+References: <20241007041218.157516-6-dlemoal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,592 +76,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241007041218.157516-6-dlemoal@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b6270c3bca987530eafc6a15f9d54ecd0033e0e3
-commit: 4045f71f24d81235d0554b25257e56962ff8e9e2 [1572/3432] arm64: dts: mt8183: Add encoder node
-config: arm64-randconfig-051-20241009 (https://download.01.org/0day-ci/archive/20241010/202410100954.KjkXdtHY-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-dtschema version: 2024.10.dev4+g577c1ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410100954.KjkXdtHY-lkp@intel.com/reproduce)
+Hi Damien,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus mani-mhi/mhi-next linus/master v6.12-rc2 next-20241009]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/PCI-rockchip-ep-Use-a-macro-to-define-EP-controller-align-feature/20241007-131224
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20241007041218.157516-6-dlemoal%40kernel.org
+patch subject: [PATCH v3 05/12] PCI: rockchip-ep: Implement the .map_align() controller operation
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241010/202410101044.3nr7XIR9-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101044.3nr7XIR9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410100954.KjkXdtHY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410101044.3nr7XIR9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dpi@14015000: power-domains: False schema does not allow [[69, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: thermal-sensor: $nodename:0: 'thermal-sensor' does not match '^thermistor(.*)?$'
-   	from schema $id: http://devicetree.org/schemas/hwmon/ntc-thermistor.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: dpi@14015000: power-domains: False schema does not allow [[91, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dpi@14015000: power-domains: False schema does not allow [[93, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dpi@14015000: power-domains: False schema does not allow [[86, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dpi@14015000: power-domains: False schema does not allow [[86, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dpi@14015000: power-domains: False schema does not allow [[87, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dpi@14015000: power-domains: False schema does not allow [[87, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dpi@14015000: power-domains: False schema does not allow [[85, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dpi@14015000: power-domains: False schema does not allow [[85, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dpi@14015000: power-domains: False schema does not allow [[85, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dpi@14015000: power-domains: False schema does not allow [[85, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dpi@14015000: power-domains: False schema does not allow [[86, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dpi@14015000: power-domains: False schema does not allow [[86, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: thermal-zones: 'tboard1', 'tboard2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: dpi@14015000: power-domains: False schema does not allow [[76, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: vcodec@17020000: 'assigned-clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/pci/controller/pcie-rockchip-ep.c:239:46: warning: 'struct pci_epc_map' declared inside parameter list will not be visible outside of this definition or declaration
+     239 |                                       struct pci_epc_map *map)
+         |                                              ^~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_map_align':
+>> drivers/pci/controller/pcie-rockchip-ep.c:245:52: error: invalid use of undefined type 'struct pci_epc_map'
+     245 |                                                 map->pci_addr, map->pci_size);
+         |                                                    ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:245:67: error: invalid use of undefined type 'struct pci_epc_map'
+     245 |                                                 map->pci_addr, map->pci_size);
+         |                                                                   ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:247:12: error: invalid use of undefined type 'struct pci_epc_map'
+     247 |         map->map_pci_addr = map->pci_addr & ~((1ULL << num_bits) - 1);
+         |            ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:247:32: error: invalid use of undefined type 'struct pci_epc_map'
+     247 |         map->map_pci_addr = map->pci_addr & ~((1ULL << num_bits) - 1);
+         |                                ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:248:12: error: invalid use of undefined type 'struct pci_epc_map'
+     248 |         map->map_ofst = map->pci_addr - map->map_pci_addr;
+         |            ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:248:28: error: invalid use of undefined type 'struct pci_epc_map'
+     248 |         map->map_ofst = map->pci_addr - map->map_pci_addr;
+         |                            ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:248:44: error: invalid use of undefined type 'struct pci_epc_map'
+     248 |         map->map_ofst = map->pci_addr - map->map_pci_addr;
+         |                                            ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:250:16: error: invalid use of undefined type 'struct pci_epc_map'
+     250 |         if (map->map_ofst + map->pci_size > SZ_1M)
+         |                ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:250:32: error: invalid use of undefined type 'struct pci_epc_map'
+     250 |         if (map->map_ofst + map->pci_size > SZ_1M)
+         |                                ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:251:20: error: invalid use of undefined type 'struct pci_epc_map'
+     251 |                 map->pci_size = SZ_1M - map->map_ofst;
+         |                    ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:251:44: error: invalid use of undefined type 'struct pci_epc_map'
+     251 |                 map->pci_size = SZ_1M - map->map_ofst;
+         |                                            ^~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:12: error: invalid use of undefined type 'struct pci_epc_map'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |            ^~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/uapi/linux/kernel.h:6,
+                    from include/linux/cache.h:5,
+                    from include/linux/time.h:5,
+                    from include/linux/stat.h:19,
+                    from include/linux/configfs.h:22,
+                    from drivers/pci/controller/pcie-rockchip-ep.c:11:
+   drivers/pci/controller/pcie-rockchip-ep.c:253:34: error: invalid use of undefined type 'struct pci_epc_map'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                                  ^~
+   include/uapi/linux/const.h:49:44: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                            ^
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:25: note: in expansion of macro 'ALIGN'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                         ^~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:50: error: invalid use of undefined type 'struct pci_epc_map'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                                                  ^~
+   include/uapi/linux/const.h:49:44: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                            ^
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:25: note: in expansion of macro 'ALIGN'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                         ^~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:34: error: invalid use of undefined type 'struct pci_epc_map'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                                  ^~
+   include/uapi/linux/const.h:49:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:25: note: in expansion of macro 'ALIGN'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                         ^~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:50: error: invalid use of undefined type 'struct pci_epc_map'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                                                  ^~
+   include/uapi/linux/const.h:49:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:25: note: in expansion of macro 'ALIGN'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                         ^~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:34: error: invalid use of undefined type 'struct pci_epc_map'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                                  ^~
+   include/uapi/linux/const.h:49:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:25: note: in expansion of macro 'ALIGN'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                         ^~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:50: error: invalid use of undefined type 'struct pci_epc_map'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                                                  ^~
+   include/uapi/linux/const.h:49:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:253:25: note: in expansion of macro 'ALIGN'
+     253 |         map->map_size = ALIGN(map->map_ofst + map->pci_size,
+         |                         ^~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c: At top level:
+>> drivers/pci/controller/pcie-rockchip-ep.c:482:10: error: 'const struct pci_epc_ops' has no member named 'map_align'
+     482 |         .map_align      = rockchip_pcie_ep_map_align,
+         |          ^~~~~~~~~
+>> drivers/pci/controller/pcie-rockchip-ep.c:482:27: error: initialization of 'int (*)(struct pci_epc *, u8,  u8,  phys_addr_t,  u64,  size_t)' {aka 'int (*)(struct pci_epc *, unsigned char,  unsigned char,  long long unsigned int,  long long unsigned int,  long unsigned int)'} from incompatible pointer type 'int (*)(struct pci_epc *, u8,  u8,  struct pci_epc_map *)' {aka 'int (*)(struct pci_epc *, unsigned char,  unsigned char,  struct pci_epc_map *)'} [-Wincompatible-pointer-types]
+     482 |         .map_align      = rockchip_pcie_ep_map_align,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:482:27: note: (near initialization for 'rockchip_pcie_epc_ops.map_addr')
+   drivers/pci/controller/pcie-rockchip-ep.c:483:27: warning: initialized field overwritten [-Woverride-init]
+     483 |         .map_addr       = rockchip_pcie_ep_map_addr,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:483:27: note: (near initialization for 'rockchip_pcie_epc_ops.map_addr')
+
+
+vim +245 drivers/pci/controller/pcie-rockchip-ep.c
+
+   237	
+   238	static int rockchip_pcie_ep_map_align(struct pci_epc *epc, u8 fn, u8 vfn,
+ > 239					      struct pci_epc_map *map)
+   240	{
+   241		struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
+   242		int num_bits;
+   243	
+   244		num_bits = rockchip_pcie_ep_ob_atu_num_bits(&ep->rockchip,
+ > 245							map->pci_addr, map->pci_size);
+   246	
+   247		map->map_pci_addr = map->pci_addr & ~((1ULL << num_bits) - 1);
+   248		map->map_ofst = map->pci_addr - map->map_pci_addr;
+   249	
+   250		if (map->map_ofst + map->pci_size > SZ_1M)
+   251			map->pci_size = SZ_1M - map->map_ofst;
+   252	
+   253		map->map_size = ALIGN(map->map_ofst + map->pci_size,
+   254				      ROCKCHIP_PCIE_AT_SIZE_ALIGN);
+   255	
+   256		return 0;
+   257	}
+   258	
 
 -- 
 0-DAY CI Kernel Test Service
