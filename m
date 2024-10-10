@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCE71D041A;
-	Thu, 10 Oct 2024 20:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477B11E00AC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 20:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728592595; cv=none; b=q6lKvYnM4FDUusWWtNS8uF8A6KySr0XEeT1fHltKeC5lD6ExTe3TvsZ3NNFj50fQadaLOlJPvT8RNEYnYttSL4eqUgYEyQSyUQNtTAiHqVentZ9byimO715rpSSzXqNbh9n3+8yrcUPM32XxYE+1FvENpKIHzQ3WT/UMorQJUcE=
+	t=1728592600; cv=none; b=QGlepZa3YIbuQGtVqjIglEsUeFtMCIAhtaAh1xR+rLwA9qh6OPPBuWmCxjuHdoIRknCNBoPzVxRRaoJzA+wo1tvs3qqXcmPiM+06+JMRm8lUrGsTmgB6DQr76JooW0OQ/35k4n+4eMf6EYVaVA2XQdSEmTz3IrY033I/rq8eUKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728592595; c=relaxed/simple;
-	bh=d2Aw5DP9ua7gQuvx1cYA0VH+kutfaRfJs5BI5Z4ra/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uIy//404HjM4TlK41S3PZoG2Kqcvl/H9EjiHlJxKfB+vN3k+HsbA86ap0hUF4+uL8BWgAWSF+o7BoBtq+fGIpoMnKY6eKT4df0BzNiCjbCd4qQJzMV2wxb9GKgrCr4ZfoNWdImmDpruEGFClT2x2AhcJ8DEewSeeLKtT1iZ1jxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z1z2j5Pz; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1728592600; c=relaxed/simple;
+	bh=PEOrMed0XoOGSxfnnHoSuxxB2fcADkrYpaZ2gR/BVCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N4CdGVnOup6326D8FCFYOPw8CFoTgNRMVeskvSywgkPIXiU40Of2vwOpnaQKh6sV2rrLEOMQcZA5JkFXwj6IAuKbKTdVnxlW4cIEatQpvss5Zcnlh+j+i7Ti5BGSFB88njm+1oELLNNShBqiZ/kttsa3z4gem3g6pFS7mUArimo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NJeVJQBo; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z1z2j5Pz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NJeVJQBo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728592593; x=1760128593;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d2Aw5DP9ua7gQuvx1cYA0VH+kutfaRfJs5BI5Z4ra/A=;
-  b=Z1z2j5Pz5TSf9GDw1JRs+WfF3GOYJ5ZO4S6D5XcJq18yaCK+eyh6xhrg
-   5XFIxkgjUvPtKLert27P7b9X+QvaxtjtRYy/LSN09PCwX+4jKSQfTYJPK
-   GM4LtIVF83Ny4OShq4i81sFO7LkiCbKlaBK1g0ykYNcav9E0KkXMa01rh
-   Y9uT9vhB3Ip/wsk2viD+4JFSENjDwaWEeweC+oN0OHh8ltt+48rDubRoA
-   9ch62lb+gxJ08agXzuSD8E4J1HHZ1hriWgDlY8yI8P1d9oUBiBk7zYA7g
-   RbE3CYibvGBwg8jg5Y0pVqRM9i+LmQjewVfdgWSJMm9W/M4a89F7llohp
-   g==;
-X-CSE-ConnectionGUID: ADj+ALoLR6WycPOsRJZlew==
-X-CSE-MsgGUID: 6gG3L5wfSHKjdPWtvB+cEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="28121497"
+  t=1728592599; x=1760128599;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PEOrMed0XoOGSxfnnHoSuxxB2fcADkrYpaZ2gR/BVCE=;
+  b=NJeVJQBoM+m/SMtPOs5VxF/2nGDkZS8PCvuanjIRxWgCCe5CLVQE915F
+   3w1VbwzOWXUFTZsnYJ4qQs4a03sXAJCiKZNp/h+G5E9ghb1NxKE3sVwqC
+   cS/tv4VRIvPejF6Jeh0P3BNiPnHZpO3JHSgd7W5PLo7zFGeZU1ReoW1r4
+   UuF/Yq2ai/vfiD1RMR4NH57fJffVQLuiJMchLWfeHIXDA/TBoLC/sotb/
+   pBuQpzEAPWdLNWLqRaQHqN07Y7XfF9yn6H2YVO8XeiIq1rkBa4omfPRJq
+   ipGNUid6q+KWtap8PCp3ToXR7gRuM5YHIJKga7MoanprYEvAAOh1iPXQS
+   w==;
+X-CSE-ConnectionGUID: zS6vvpjnT9SoYPVDZCqMng==
+X-CSE-MsgGUID: AbxPVffTRcSdx/reWE2pCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39373347"
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="28121497"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 13:36:33 -0700
-X-CSE-ConnectionGUID: q27T7ruVRLuIqPd/Ge3Qnw==
-X-CSE-MsgGUID: Qpc6BGtWT32/i+LJfWsw1g==
+   d="scan'208";a="39373347"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 13:36:38 -0700
+X-CSE-ConnectionGUID: zsUJwG1uSc2QB6hgk5nb5Q==
+X-CSE-MsgGUID: Mv/wsEi3Qfy8gL8addNwnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="76912561"
+   d="scan'208";a="81508557"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2024 13:36:31 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 Oct 2024 13:36:32 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syztd-000BEj-1k;
+	id 1syztd-000BEl-1o;
 	Thu, 10 Oct 2024 20:36:29 +0000
-Date: Fri, 11 Oct 2024 04:35:42 +0800
+Date: Fri, 11 Oct 2024 04:35:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vincent-guittot:scmi/ffa-transport 1/1]
- drivers/firmware/arm_scmi/transports/ffa.c:117: warning: Function parameter
- or struct member 'ffa_dev' not described in 'scmi_ffa_service'
-Message-ID: <202410110427.dXKHEJVt-lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
+	miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
+	nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
+ conversions
+Message-ID: <202410110407.EHvadSaF-lkp@intel.com>
+References: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,43 +78,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
 
-tree:   https://git.linaro.org/people/vincent.guittot/kernel.git scmi/ffa-transport
-head:   d613a19181fee0ca12b6b5a9dff302c1207a2e15
-commit: d613a19181fee0ca12b6b5a9dff302c1207a2e15 [1/1] scmi/ffa: add a new scmi transport layer based on ffa
-config: arm64-randconfig-002-20241011 (https://download.01.org/0day-ci/archive/20241011/202410110427.dXKHEJVt-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410110427.dXKHEJVt-lkp@intel.com/reproduce)
+Hi Louis,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 82fe69e63d2b5a5e86ea94c7361c833d3848ab69]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-vkms-Code-formatting/20241008-001316
+base:   82fe69e63d2b5a5e86ea94c7361c833d3848ab69
+patch link:    https://lore.kernel.org/r/20241007-yuv-v12-13-01c1ada6fec8%40bootlin.com
+patch subject: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
+config: i386-randconfig-013-20241010 (https://download.01.org/0day-ci/archive/20241011/202410110407.EHvadSaF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410110407.EHvadSaF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410110427.dXKHEJVt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410110407.EHvadSaF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/firmware/arm_scmi/transports/ffa.c:117: warning: Function parameter or struct member 'ffa_dev' not described in 'scmi_ffa_service'
->> drivers/firmware/arm_scmi/transports/ffa.c:117: warning: Excess struct member 'dev' description in 'scmi_ffa_service'
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+>> ERROR: modpost: "drm_get_color_range_name" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
+>> ERROR: modpost: "drm_get_color_encoding_name" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
+>> ERROR: modpost: "get_conversion_matrix_to_argb_u16" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
 
-
-vim +117 drivers/firmware/arm_scmi/transports/ffa.c
-
-   103	
-   104	/**
-   105	 * struct scmi_ffa_service - FFA transport private data
-   106	 *
-   107	 * @dev: Device used for communication with Secure Partition
-   108	 * @caps: Supported capabilities
-   109	 * @mu: Mutex for protection of @channel_list
-   110	 * @channel_list: List of all created channels for the agent
-   111	 */
-   112	struct scmi_ffa_service {
-   113		struct ffa_device *ffa_dev;
-   114		u32 caps;
-   115		struct mutex mu;
-   116		struct list_head channel_list;
- > 117	};
-   118	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
