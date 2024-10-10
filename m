@@ -1,63 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E3F1BE251
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 11:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6464183CD9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Oct 2024 11:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728558671; cv=none; b=cLm93XxSH8xjAQo94r2oyWmIv9LEnv4oDt7lEUQsxkfjB809S4TQbpB0S0M0mTrq7diUsbzO5RdHSFkgb6V9zsnk7ldPFqWR2DitHv24sJcMcpauhpZpAFfqPnmhkK+Zy7f+vkmsdDsgFwRWGQncLDdj9sJk81ZgsSQ0bCbfDEI=
+	t=1728561218; cv=none; b=gJUCC0ioGyUMsObl45Oif+S2q76+qsA5F/ZtcMgeuajHLG48fTv7jM5pFqtCGphCooL8sESmbYWH3iJwCEL7q16IxBKPNLR6yNjRDWQ9NlMbmKWQut2+VetyMD6wHJ0S9U837bmGMAk8khV2eh79Ymj5sZNqgInh/E85ZNC4qjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728558671; c=relaxed/simple;
-	bh=qskQ9Pc2rAvU/5fzY5fLriiftxdikhuBE+wSE0DnDJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KbWH76am0Bc881MyJGDm0GyHqEhs9GPaZ2TbYP/MfWa1lAv3eu/t9wRRvJDqpLHEsCFdunmpIaF2wDMsBUdb1g5n6aWdHFdHCO5FUamPctVDXnw0HGyVw5NWOkvg+nKGs94ZqPwGLtcv+xgDFZlLTdBlHCM2S6KbEJzFtgM8XpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KkLM8x8h; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728561218; c=relaxed/simple;
+	bh=c2PBpEQaVCGGjvXlitYnnCFLAIoKMZaBYiJP2MkUj4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MF+btRWBMff0EOr/bEdQOdgcHNvB/Gfty1ZePkHOysdQXdXtkUBeETQGpkp+CbjnwodP3M49bjELrVyfPGqdDg9xRFoy7eSylDjr7/ByKTZmTUBjnAgKXXfYo4e5wEAqkSV9CE1RMWx7Ap8O8DTNuITYtTR/mKwM4shM/lO3TZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GdeeXvJu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=b1S8niPx; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cj9uBe/h; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7nhUVg//; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KkLM8x8h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728558669; x=1760094669;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qskQ9Pc2rAvU/5fzY5fLriiftxdikhuBE+wSE0DnDJc=;
-  b=KkLM8x8h8TL6DAWTMbu99oBKnGLoJQW1wsj2K7mkjVVoOYRf7QN8G+mW
-   WYL15rP0mljuJ6QERbV32aPnprTbw2Vf5MlLTKwcRDV5Y586kthr4dAX8
-   6U9HobgsbCyfbX9xdvK05hANn6aqFOH2h2aKzhjrqNbAZquKwbBwWlqmL
-   UztcShrlGYfPwOeaeQ+qHMj7OqRq1PFuEaQRWnQ/M/W1oZANuqKccDN/l
-   +ix8P4tzjQ7YZyMlWUY6sw3ZzmQneqCD5gv6P0DJsYueDng7wBsmq8GJB
-   47BuXcYKhvzCkn13mnfB8RLVIBUcuUueEBD0YZSL/YMic/HxiHsK7QL6V
-   Q==;
-X-CSE-ConnectionGUID: bXyML5GSR8aQvLiXJSDFbg==
-X-CSE-MsgGUID: 2hfwnqDmTUO2VFYa2bp+0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="28023856"
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="28023856"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 04:11:09 -0700
-X-CSE-ConnectionGUID: Ux7Zj7l+ScWmOgsXtbRddQ==
-X-CSE-MsgGUID: BMfx20IHRdGXHpJrwgnTfA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="76469547"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Oct 2024 04:11:08 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1syr4T-000AgD-0g;
-	Thu, 10 Oct 2024 11:11:05 +0000
-Date: Thu, 10 Oct 2024 19:10:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 2957/3639]
- arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: panel-lvds: compatible:0:
- 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05',
- 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2',
- 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a...
-Message-ID: <202410101917.TVYgF8rx-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GdeeXvJu";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="b1S8niPx";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cj9uBe/h";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7nhUVg//"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CCAF421E30;
+	Thu, 10 Oct 2024 11:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728561214;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
+	b=GdeeXvJuqjRpcr2Wa1y2h0wIy06cpzIfvzphPz0Wwg3CbBumPPIU68T+OeEJGaDv2s6yF8
+	ny9hlhRtnVyEjQbIbXj+R4q+8vIPUKCUkcN7TpM/FQF+9bnAoYTuR0ttjIyH/B75l6s5AF
+	4R5rFHctgCf7w2mekst9oiMhaDy7tOM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728561214;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
+	b=b1S8niPxEKwEfZtipHeoVUJQQ9CFNEZk8PBUTLpv9gyqJCI/h/YL8lVztMd+K0wUzSLBpy
+	3pDQ8tXXqBpRnPBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728561213;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
+	b=cj9uBe/hQ8K5UG3oux0iZ5G/oDD4OPzqGZR9SBoePybzN4HYkGNT4+P0/Kko9xjAV4gjmb
+	uZS4YPzGD7M313pJzrUh9L0UexcIXKjFmVix5zRJ4KMC+T2UFTAWw/QlMQpvHJX4iamAFv
+	ZvzLw5U2wXbufkeiDqBe2vvMzT721Os=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728561213;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5yYMuPFjh4KdzM3a/JrcSVg/IEXWiTpTxB74qAXsmFc=;
+	b=7nhUVg//tfju0/sLCVbSrztu4ZWBZw4QcKdmfzYLX5hKvLEnCNUfZrKufNJQtS1XNLdcOQ
+	IoxDv/lAu8UhkrDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB0D913A6E;
+	Thu, 10 Oct 2024 11:53:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5/iKKT3AB2eGNQAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Thu, 10 Oct 2024 11:53:33 +0000
+Date: Thu, 10 Oct 2024 13:53:28 +0200
+From: David Sterba <dsterba@suse.cz>
+To: linux-btrfs@vger.kernel.org
+Cc: Boris Burkov <boris@bur.io>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: fs/btrfs/send.c:6877:5-8: Unneeded variable: "ret". Return "0"
+ on line 6883
+Message-ID: <20241010115328.GP1609@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <202410092305.WbyqspH8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,41 +90,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202410092305.WbyqspH8-lkp@intel.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto,suse.cz:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Score: -4.00
+X-Spam-Flag: NO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0cca97bf23640ff68a6e8a74e9b6659fdc27f48c
-commit: 15bda06bc93fca828e5f11ca6b773fed19e45b8e [2957/3639] dt-bindings: display: panel-lvds: Add compatible for Jenson BL-JT60050-01A
-config: arm64-randconfig-052-20241010 (https://download.01.org/0day-ci/archive/20241010/202410101917.TVYgF8rx-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-dtschema version: 2024.10.dev4+g577c1ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101917.TVYgF8rx-lkp@intel.com/reproduce)
+On Thu, Oct 10, 2024 at 12:04:53AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   75b607fab38d149f232f01eae5e6392b394dd659
+> commit: 38622010a6de3a62cc72688348548854ed82dcf5 btrfs: send: add support for fs-verity
+> date:   2 years ago
+> config: i386-randconfig-052-20241009 (https://download.01.org/0day-ci/archive/20241009/202410092305.WbyqspH8-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410092305.WbyqspH8-lkp@intel.com/
+> 
+> cocci warnings: (new ones prefixed by >>)
+> >> fs/btrfs/send.c:6877:5-8: Unneeded variable: "ret". Return "0" on line 6883
+> 
+> vim +6877 fs/btrfs/send.c
+> 
+>   6874	
+>   6875	static int changed_verity(struct send_ctx *sctx, enum btrfs_compare_tree_result result)
+>   6876	{
+> > 6877		int ret = 0;
+>   6878	
+>   6879		if (!sctx->cur_inode_new_gen && !sctx->cur_inode_deleted) {
+>   6880			if (result == BTRFS_COMPARE_TREE_NEW)
+>   6881				sctx->cur_inode_needs_verity = true;
+>   6882		}
+> > 6883		return ret;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410101917.TVYgF8rx-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: panel: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: panel: compatible: ['panel-lvds'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: panel: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Trivial fix if somebody wants to take it. All changed_ callbacks must
+return a value but here the verity status is passed via the context so
+this should be 'return 0'.
