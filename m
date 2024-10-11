@@ -1,66 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2891C7B6F;
-	Fri, 11 Oct 2024 17:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8CC1B3B2E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 17:12:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728666753; cv=none; b=XTJNdjsDEbS9jJS/dDEqIpu8fexqCPp8SbNV+PdqyoRCzVyfU0WbDOiFjzshgcPxx2ogKBLBRng4xPjrEGwQen8etVKP5MqtzeUITzau5pS1IyXUjl+ofumH48PXEz3bXkHAxF0g9z1SYCqzkzz66ABz4MYC9l2UoiMQgJdbn4Y=
+	t=1728666755; cv=none; b=TGEHyCjk7twZgydvx2cqoHh00zcaOdnfIt34oZ5qjV7JwtSX6gdsgpgbW+zjkHxh0jNmP0Z4REW0Hnd7KKDX71cXcyCK5p7DNoX3DZuofxkMZX3m2FKa9ywbL5uVLiBgS4m+YVHXkLgsAkHYDHmntk9qsxY3T+NAZayiy+U/Lgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728666753; c=relaxed/simple;
-	bh=HyzgzEpwQ6CUwvYBP98vuPcTjkwqLs1z7z5alGx6okQ=;
+	s=arc-20240116; t=1728666755; c=relaxed/simple;
+	bh=bp3RXhYCSr41eXrHdNkF5Ty/7bBo7bu9rMhEzmkm/5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tQqK+CN1WBBT3+9uQFFNM7IMS68/1ORa++jmWfkL6+PeEIRdYp7uo6jEFuEmDi5sxXFmygW4aEH1ytjAS9U9NWfjs1cfqjD+xKzo3vGVpfgOVSqQikfMzKcyHjrq22jwgt7jwd7vZAKllkMI22j2JuNOSFja5qv06pKAeVemMgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRJk3LXq; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=rSEQgomsCF+sos56MUOfsb8t5Y61V+psiLqz6flM6f3fgL+Wun7fxRYNVFVUHJjMGz+EqHfgrXJ039vsLhJGTyq7+eVU4BMyJbapjKEdOxU/4NxDaMO0K7ks1STahgzz3QIa4Tfk6EWO6fx1TsKy6zAkBKZ351y1HGDgJEdXK6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVClyw6y; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRJk3LXq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVClyw6y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728666752; x=1760202752;
+  t=1728666754; x=1760202754;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HyzgzEpwQ6CUwvYBP98vuPcTjkwqLs1z7z5alGx6okQ=;
-  b=iRJk3LXqDJ5GqOh8pU/Fy8zXJxCgg8bLNf83WGtBYs6RY3qw96Ks+5lP
-   ZE+RrGYQhPTCXM6L16UCkpTx4HxMq6efhrns5ZE4v5wavmXLe0hemrS1f
-   C5S7D2I+nAG3c4r/i30zdKIFkN8swQ9xRfAGD2JPjDDKGB2kKQ3EzQaiA
-   23tYStp9495fBt23iucqFFMmEjElywgwPNo80O4is0dr13/p0Ftqb2kdy
-   pEMUDkrrAVrWmmKYl1eJQDxF53QaFqXqhhtU0wpYMP+Ajsh/tNCUpA3m/
-   RDRW9kmDLrESUhJPQhkRV2J89MhrN0UHGr2P+FwgOyFKRX4JSlgWYRGzH
+  bh=bp3RXhYCSr41eXrHdNkF5Ty/7bBo7bu9rMhEzmkm/5A=;
+  b=KVClyw6yRtPkpnIJudRbSxmkOOiMTgLCyiN58deh/dE5n7GJoDrzUvOV
+   PAkyW1Y7Jv/7Al8R8JG4LYNb666QTd1Q4YqIqf/CloK/9zJRtw40tZI6U
+   yadLl1+PhdBFJ3tkcq3GAhQ1hI4jA6TjCbri2ryIDk5lyYzDnZrViWaQb
+   AQbJ9tCMXTVVo/ZmWRLqg/5LfPxAVERe492rHluUu6GWJ6gr7NkEfJHUs
+   uwGNWMP5dQHDlKVKkaFI4kOkmeMxeE6ARIPuuVPgmVI5d/uCJ+1Pog1Ok
+   gSo+LBgEUDVj8/AQb4UpnPZOWw0BQTMREbl54rqHpkls4jm0L11uYnS+u
    A==;
-X-CSE-ConnectionGUID: f5OnHWeZSgiYRWCjtX9rJw==
-X-CSE-MsgGUID: v4t2694FRUCqH+Fmfbimbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39199833"
+X-CSE-ConnectionGUID: AMt0JtATTayQ1tDW6ntkdQ==
+X-CSE-MsgGUID: AQfh+YX8TDGSmPZoTFsIPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39199842"
 X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="39199833"
+   d="scan'208";a="39199842"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:12:31 -0700
-X-CSE-ConnectionGUID: TPnuj3nzQkSC8HF/G6hGcg==
-X-CSE-MsgGUID: EgMvq0ZMSj2HDRuNpYuKxQ==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:12:32 -0700
+X-CSE-ConnectionGUID: PTlI3y8yRcS0Sxbx54d+1Q==
+X-CSE-MsgGUID: HDc5vyy2Q/WeJAj6ESrd0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="114426526"
+   d="scan'208";a="114426529"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 11 Oct 2024 10:12:28 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szJBi-000CXX-18;
+	id 1szJBi-000CXb-1G;
 	Fri, 11 Oct 2024 17:12:26 +0000
-Date: Sat, 12 Oct 2024 01:11:42 +0800
+Date: Sat, 12 Oct 2024 01:11:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Wiehler <stefan.wiehler@nokia.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	David Ahern <dsahern@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Stefan Wiehler <stefan.wiehler@nokia.com>
-Subject: Re: [PATCH net v3 3/4] ip6mr: Lock RCU before ip6mr_get_table() call
- in ip6mr_compat_ioctl()
-Message-ID: <202410120109.QyXpPs23-lkp@intel.com>
-References: <20241010090741.1980100-7-stefan.wiehler@nokia.com>
+To: Matias =?iso-8859-1?Q?Bj=F8rling?= <m@bjorling.me>, kbusch@kernel.org,
+	hch@lst.de, dlemoal@kernel.org, cassel@kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, wangyugui@e16-tech.com,
+	martin.petersen@oracle.com, hare@suse.de
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3 v2] nvmet: add rotational support
+Message-ID: <202410120113.A3HaEkbg-lkp@intel.com>
+References: <20241010123951.1226105-4-m@bjorling.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,119 +66,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241010090741.1980100-7-stefan.wiehler@nokia.com>
+In-Reply-To: <20241010123951.1226105-4-m@bjorling.me>
 
-Hi Stefan,
+Hi Matias,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
+[auto build test WARNING on v6.12-rc2]
+[also build test WARNING on linus/master next-20241011]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wiehler/ip6mr-Lock-RCU-before-ip6mr_get_table-call-in-ip6mr_ioctl/20241010-171634
-base:   net/main
-patch link:    https://lore.kernel.org/r/20241010090741.1980100-7-stefan.wiehler%40nokia.com
-patch subject: [PATCH net v3 3/4] ip6mr: Lock RCU before ip6mr_get_table() call in ip6mr_compat_ioctl()
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20241012/202410120109.QyXpPs23-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410120109.QyXpPs23-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matias-Bj-rling/nvme-make-independent-ns-identify-default/20241010-204205
+base:   v6.12-rc2
+patch link:    https://lore.kernel.org/r/20241010123951.1226105-4-m%40bjorling.me
+patch subject: [PATCH 3/3 v2] nvmet: add rotational support
+config: i386-randconfig-062-20241011 (https://download.01.org/0day-ci/archive/20241012/202410120113.A3HaEkbg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410120113.A3HaEkbg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410120109.QyXpPs23-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410120113.A3HaEkbg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/admin-cmd.c:704:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] anagrpid @@     got unsigned int [usertype] anagrpid @@
+   drivers/nvme/target/admin-cmd.c:704:22: sparse:     expected restricted __le32 [usertype] anagrpid
+   drivers/nvme/target/admin-cmd.c:704:22: sparse:     got unsigned int [usertype] anagrpid
 
->> net/ipv6/ip6mr.c:1970:18: warning: variable 'mrt' is uninitialized when used here [-Wuninitialized]
-    1970 |                 if (vr.mifi >= mrt->maxvif)
-         |                                ^~~
-   net/ipv6/ip6mr.c:1963:22: note: initialize the variable 'mrt' to silence this warning
-    1963 |         struct mr_table *mrt;
-         |                             ^
-         |                              = NULL
-   1 warning generated.
+vim +704 drivers/nvme/target/admin-cmd.c
 
-
-vim +/mrt +1970 net/ipv6/ip6mr.c
-
-e2d57766e6744f David S. Miller   2011-02-03  1955  
-e2d57766e6744f David S. Miller   2011-02-03  1956  int ip6mr_compat_ioctl(struct sock *sk, unsigned int cmd, void __user *arg)
-e2d57766e6744f David S. Miller   2011-02-03  1957  {
-e2d57766e6744f David S. Miller   2011-02-03  1958  	struct compat_sioc_sg_req6 sr;
-e2d57766e6744f David S. Miller   2011-02-03  1959  	struct compat_sioc_mif_req6 vr;
-6853f21f764b04 Yuval Mintz       2018-02-28  1960  	struct vif_device *vif;
-e2d57766e6744f David S. Miller   2011-02-03  1961  	struct mfc6_cache *c;
-e2d57766e6744f David S. Miller   2011-02-03  1962  	struct net *net = sock_net(sk);
-b70432f7319eb7 Yuval Mintz       2018-02-28  1963  	struct mr_table *mrt;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1964  	int err;
-e2d57766e6744f David S. Miller   2011-02-03  1965  
-e2d57766e6744f David S. Miller   2011-02-03  1966  	switch (cmd) {
-e2d57766e6744f David S. Miller   2011-02-03  1967  	case SIOCGETMIFCNT_IN6:
-e2d57766e6744f David S. Miller   2011-02-03  1968  		if (copy_from_user(&vr, arg, sizeof(vr)))
-e2d57766e6744f David S. Miller   2011-02-03  1969  			return -EFAULT;
-e2d57766e6744f David S. Miller   2011-02-03 @1970  		if (vr.mifi >= mrt->maxvif)
-e2d57766e6744f David S. Miller   2011-02-03  1971  			return -EINVAL;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1972  		break;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1973  	case SIOCGETSGCNT_IN6:
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1974  		if (copy_from_user(&sr, arg, sizeof(sr)))
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1975  			return -EFAULT;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1976  		break;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1977  	default:
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1978  		return -ENOIOCTLCMD;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1979  	}
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1980  
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1981  
-638cf4a24a09d1 Eric Dumazet      2022-06-23  1982  	rcu_read_lock();
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1983  	mrt = ip6mr_get_table(net, raw6_sk(sk)->ip6mr_table ? : RT6_TABLE_DFLT);
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1984  	if (!mrt) {
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1985  		err = -ENOENT;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1986  		goto out;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1987  	}
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1988  
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1989  	switch (cmd) {
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1990  	case SIOCGETMIFCNT_IN6:
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1991  		if (vr.mifi >= mrt->maxvif) {
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1992  			err = -EINVAL;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1993  			goto out;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1994  		}
-9135a3aca0c10d Stefan Wiehler    2024-10-10  1995  		vr.mifi = array_index_nospec(vr.mifi, mrt->maxvif);
-b70432f7319eb7 Yuval Mintz       2018-02-28  1996  		vif = &mrt->vif_table[vr.mifi];
-b70432f7319eb7 Yuval Mintz       2018-02-28  1997  		if (VIF_EXISTS(mrt, vr.mifi)) {
-638cf4a24a09d1 Eric Dumazet      2022-06-23  1998  			vr.icount = READ_ONCE(vif->pkt_in);
-638cf4a24a09d1 Eric Dumazet      2022-06-23  1999  			vr.ocount = READ_ONCE(vif->pkt_out);
-638cf4a24a09d1 Eric Dumazet      2022-06-23  2000  			vr.ibytes = READ_ONCE(vif->bytes_in);
-638cf4a24a09d1 Eric Dumazet      2022-06-23  2001  			vr.obytes = READ_ONCE(vif->bytes_out);
-638cf4a24a09d1 Eric Dumazet      2022-06-23  2002  			rcu_read_unlock();
-e2d57766e6744f David S. Miller   2011-02-03  2003  
-e2d57766e6744f David S. Miller   2011-02-03  2004  			if (copy_to_user(arg, &vr, sizeof(vr)))
-e2d57766e6744f David S. Miller   2011-02-03  2005  				return -EFAULT;
-e2d57766e6744f David S. Miller   2011-02-03  2006  			return 0;
-e2d57766e6744f David S. Miller   2011-02-03  2007  		}
-638cf4a24a09d1 Eric Dumazet      2022-06-23  2008  		rcu_read_unlock();
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2009  		err = -EADDRNOTAVAIL;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2010  		goto out;
-e2d57766e6744f David S. Miller   2011-02-03  2011  	case SIOCGETSGCNT_IN6:
-e2d57766e6744f David S. Miller   2011-02-03  2012  		c = ip6mr_cache_find(mrt, &sr.src.sin6_addr, &sr.grp.sin6_addr);
-e2d57766e6744f David S. Miller   2011-02-03  2013  		if (c) {
-494fff56379c4a Yuval Mintz       2018-02-28  2014  			sr.pktcnt = c->_c.mfc_un.res.pkt;
-494fff56379c4a Yuval Mintz       2018-02-28  2015  			sr.bytecnt = c->_c.mfc_un.res.bytes;
-494fff56379c4a Yuval Mintz       2018-02-28  2016  			sr.wrong_if = c->_c.mfc_un.res.wrong_if;
-87c418bf1323d5 Yuval Mintz       2018-02-28  2017  			rcu_read_unlock();
-e2d57766e6744f David S. Miller   2011-02-03  2018  
-e2d57766e6744f David S. Miller   2011-02-03  2019  			if (copy_to_user(arg, &sr, sizeof(sr)))
-e2d57766e6744f David S. Miller   2011-02-03  2020  				return -EFAULT;
-e2d57766e6744f David S. Miller   2011-02-03  2021  			return 0;
-e2d57766e6744f David S. Miller   2011-02-03  2022  		}
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2023  		err = -EADDRNOTAVAIL;
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2024  		goto out;
-e2d57766e6744f David S. Miller   2011-02-03  2025  	}
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2026  
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2027  out:
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2028  	rcu_read_unlock();
-9135a3aca0c10d Stefan Wiehler    2024-10-10  2029  	return err;
-e2d57766e6744f David S. Miller   2011-02-03  2030  }
-e2d57766e6744f David S. Miller   2011-02-03  2031  #endif
-7bc570c8b4f75d YOSHIFUJI Hideaki 2008-04-03  2032  
+   687	
+   688	static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
+   689	{
+   690		struct nvme_id_ns_cs_indep *id;
+   691		u16 status;
+   692	
+   693		status = nvmet_req_find_ns(req);
+   694		if (status)
+   695			goto out;
+   696	
+   697		id = kzalloc(sizeof(*id), GFP_KERNEL);
+   698		if (!id) {
+   699			status = NVME_SC_INTERNAL;
+   700			goto out;
+   701		}
+   702	
+   703		id->nstat = NVME_NSTAT_NRDY;
+ > 704		id->anagrpid = req->ns->anagrpid;
+   705		id->nmic = NVME_NS_NMIC_SHARED;
+   706		if (req->ns->readonly)
+   707			id->nsattr |= NVME_NS_ATTR_RO;
+   708		if (req->ns->bdev && !bdev_nonrot(req->ns->bdev))
+   709			id->nsfeat |= NVME_NS_ROTATIONAL;
+   710	
+   711		status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+   712		kfree(id);
+   713	out:
+   714		nvmet_req_complete(req, status);
+   715	}
+   716	
 
 -- 
 0-DAY CI Kernel Test Service
