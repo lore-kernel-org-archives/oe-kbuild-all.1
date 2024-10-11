@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062E41CDA19
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 07:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFF2209F2E;
+	Fri, 11 Oct 2024 07:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728631626; cv=none; b=hJuYL+rQlEteA7Pzmx2Py7ve55QoCiX4n0rYzKxdDenbsw0qG3wfA5XIvibiti8qh+whnkniXgZQlVBX1K4vEryYsvSJzelacr1gRwlf2JUdGtkPpM+jNsMTFB1pq9+tbhiC7xemOcEasGoFecwSyVrblH859T8WDNQ1VaOR05E=
+	t=1728632227; cv=none; b=XqIJMZBMfbTg4DYLGaVNxcoNrxijk+NmEziwhwjVJLiNsG2IcgJdgSKSyMRHmuUmoLBo9Ix+sDWpaO8uAzXUf9qnpg77ROHU4n6EJ5epS1tyQ4SmSgzVBcg9NBlWREA/LlQDZ9xF+RDLr3Peew2gdSoIXcI3KIJJwGb3l5WTq0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728631626; c=relaxed/simple;
-	bh=5ekHiaGRSCUKPgAMPLVD4/JBCdQNPRCeh646qLYPFI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pU6FDobVmZK+KBdBJtwkCoJPDr6W025eLIo5HxrXsF7XiVzwvg5X+FvwjEWlY1wuBkiczoaZPtzt44Qgb2/rO/sQjwv6fpAns4uN2SEquMvUPFz4kKFLMhqBtdWALyS4eUiSZWCOFnhGS5MG1MvRVLBpgtXuqDWb3SMjj/NOf7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PzI0UAUs; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1728632227; c=relaxed/simple;
+	bh=s4RuEDltlOx33XubHqRMeZqvqZx3eBzoF/ha8Wdypyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U6Qsp0O5cgp5ikutiAg9o0p4/FzAWBBINGKoFJjvlPb241WMknXOPkYTDxkqiIkQ9afRV7GscGtPVBCG6ZVPMf5DFlxZtalA5nxakp3s/UAMtxRzCELAFRs5j3Go6hogQudb8CN/ZGCgXW0a+dxb8KqpTfojvqqEJj3MAfOF9f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VcBo70I/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PzI0UAUs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VcBo70I/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728631624; x=1760167624;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ekHiaGRSCUKPgAMPLVD4/JBCdQNPRCeh646qLYPFI8=;
-  b=PzI0UAUsosvgLUHrZ6ZWWKEGNuoP2vfW6VVUjWrNhQwLG3CkfYOtcsK5
-   mShJDQw5A2w3es4oBrNAwEbORdyiHWJIOnsUGfU61ASSevUvdYqnPUXYg
-   dJk3aBYiBRqWDieMuv/QhLQa4UyA1+z7sCrJvSlg+mWI5ZGt09oVwIgDU
-   D/q8U4Q6JGFNnQf+kyZa7VmDpjqZQfQ3sMIK+BXYB81qUkdoeyYCIYvcf
-   BmBDoJFBrL/6yIPJGyZBnCg11h/4mmpf2vTpoOHm055WGNA43UqJEjSrL
-   mZViq2G4mwdtJdELh2wwsA7ypQPhVcEG5UN0Gw596HbJ0V95eYUrVNMKz
-   Q==;
-X-CSE-ConnectionGUID: QglQEj0FTXOfuz2hYjoudA==
-X-CSE-MsgGUID: dgMhQKiGQ1C3G13jaQ8MEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="38670683"
+  t=1728632226; x=1760168226;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s4RuEDltlOx33XubHqRMeZqvqZx3eBzoF/ha8Wdypyg=;
+  b=VcBo70I/jJNU9dAIZTq9y6m0GRwDA9zFnq19zEdzsu5aqsDeN92Wwsaj
+   MSF8CUkpTg6cFoN1p54ibeV+832SvG0oME/THoPiExwKoImepBhZm3iyh
+   IqIqXzbNmhOeYOs1sqAb0rxmMXLF3nBPimewm3vNAOTRPAfZD4sQQ2vBK
+   s6pduam2n3AfTqosipl+u43ePLM0SW3nAu7HY7Yi/W8FVIYFJeYTn2s//
+   +N76WHi/Le39mUonT8CLgADakRYB7OqTX0v/hVCXJLbDmsxSzJOIb8wol
+   eeczzvGps1Bd5LYifoQ4LHPLlintVsOz2GtG++i5Q0TbKLEq7lrjPF1pM
+   g==;
+X-CSE-ConnectionGUID: 9OItYT6nR/KwoV1D8+h1BA==
+X-CSE-MsgGUID: l2EJuz0QTXSWNbf0SHyYsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="45535167"
 X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="38670683"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:27:03 -0700
-X-CSE-ConnectionGUID: WC6lATgbQmKF4rxPe8UWyA==
-X-CSE-MsgGUID: mAkAlc2SRqSZ+Bc3ToQSIw==
+   d="scan'208";a="45535167"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:37:05 -0700
+X-CSE-ConnectionGUID: OAH9lEStTmSICSvgwIVnGQ==
+X-CSE-MsgGUID: BpF+X5SETbKLWMYX+Mj5LQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="76480498"
+   d="scan'208";a="77146119"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Oct 2024 00:27:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Oct 2024 00:37:03 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szA3A-000Bzl-1C;
-	Fri, 11 Oct 2024 07:27:00 +0000
-Date: Fri, 11 Oct 2024 15:26:42 +0800
+	id 1szACq-000C0X-2c;
+	Fri, 11 Oct 2024 07:37:00 +0000
+Date: Fri, 11 Oct 2024 15:36:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 777/14350]
- arch/loongarch/kernel/legacy_boot.c:439:25-27: WARNING !A || A && B is
- equivalent to !A || B
-Message-ID: <202410111529.bqXXUCAv-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Kuniyuki Iwashima <kuniyu@amazon.com>
+Subject: Re: [PATCH v1 net-next 12/13] rtnetlink: Call
+ rtnl_link_get_net_capable() in do_setlink().
+Message-ID: <202410111515.TbOH4hSS-lkp@intel.com>
+References: <20241009231656.57830-13-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +67,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241009231656.57830-13-kuniyu@amazon.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   f7c1291d7c3f15bc448cd93e29fa539386fe85fe
-commit: db5bb24abc8dd120fd81b7ce21819e96578d011e [777/14350] LoongArch: Old BPI compatibility
-config: loongarch-randconfig-r062-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111529.bqXXUCAv-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+Hi Kuniyuki,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/rtnetlink-Allocate-linkinfo-as-struct-rtnl_newlink_tbs/20241010-072158
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241009231656.57830-13-kuniyu%40amazon.com
+patch subject: [PATCH v1 net-next 12/13] rtnetlink: Call rtnl_link_get_net_capable() in do_setlink().
+config: x86_64-buildonly-randconfig-003-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111515.TbOH4hSS-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111515.TbOH4hSS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111529.bqXXUCAv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410111515.TbOH4hSS-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/loongarch/kernel/legacy_boot.c:439:25-27: WARNING !A || A && B is equivalent to !A || B
+All warnings (new ones prefixed by >>):
 
-vim +439 arch/loongarch/kernel/legacy_boot.c
+>> net/core/rtnetlink.c:3281:6: warning: variable 'tgt_net' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    3281 |         if (err < 0)
+         |             ^~~~~~~
+   net/core/rtnetlink.c:3301:10: note: uninitialized use occurs here
+    3301 |         put_net(tgt_net);
+         |                 ^~~~~~~
+   net/core/rtnetlink.c:3281:2: note: remove the 'if' if its condition is always false
+    3281 |         if (err < 0)
+         |         ^~~~~~~~~~~~
+    3282 |                 goto errout;
+         |                 ~~~~~~~~~~~
+   net/core/rtnetlink.c:3277:6: warning: variable 'tgt_net' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    3277 |         if (err < 0)
+         |             ^~~~~~~
+   net/core/rtnetlink.c:3301:10: note: uninitialized use occurs here
+    3301 |         put_net(tgt_net);
+         |                 ^~~~~~~
+   net/core/rtnetlink.c:3277:2: note: remove the 'if' if its condition is always false
+    3277 |         if (err < 0)
+         |         ^~~~~~~~~~~~
+    3278 |                 goto errout;
+         |                 ~~~~~~~~~~~
+   net/core/rtnetlink.c:3272:21: note: initialize the variable 'tgt_net' to silence this warning
+    3272 |         struct net *tgt_net;
+         |                            ^
+         |                             = NULL
+   2 warnings generated.
 
-   423	
-   424	static struct fwnode_handle * __init parse_isa_base(u64 *cpu_addr)
-   425	{
-   426		struct device_node *np;
-   427		const __be32 *ranges = NULL;
-   428		int len;
-   429		struct device_node *node;
-   430	
-   431		for_each_node_by_name(np, "isa") {
-   432			node = of_node_get(np);
-   433	
-   434			if (!node)
-   435				break;
-   436	
-   437			ranges = of_get_property(node, "ranges", &len);
-   438	
- > 439			if (!ranges || (ranges && len > 0))
-   440				break;
-   441		}
-   442		if (ranges) {
-   443			ranges += 2;
-   444			*cpu_addr = of_translate_address(np, ranges);
-   445			return &np->fwnode;
-   446		}
-   447	
-   448		return NULL;
-   449	}
-   450	
+
+vim +3281 net/core/rtnetlink.c
+
+cc6090e985d7d6 Jiri Pirko        2019-09-30  3264  
+c21ef3e343ae91 David Ahern       2017-04-16  3265  static int rtnl_setlink(struct sk_buff *skb, struct nlmsghdr *nlh,
+c21ef3e343ae91 David Ahern       2017-04-16  3266  			struct netlink_ext_ack *extack)
+0157f60c0caea2 Patrick McHardy   2007-06-13  3267  {
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3268  	struct ifinfomsg *ifm = nlmsg_data(nlh);
+3b1e0a655f8eba YOSHIFUJI Hideaki 2008-03-26  3269  	struct net *net = sock_net(skb->sk);
+0157f60c0caea2 Patrick McHardy   2007-06-13  3270  	struct nlattr *tb[IFLA_MAX+1];
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3271  	struct net_device *dev = NULL;
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3272  	struct net *tgt_net;
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3273  	int err;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3274  
+8cb081746c031f Johannes Berg     2019-04-26  3275  	err = nlmsg_parse_deprecated(nlh, sizeof(*ifm), tb, IFLA_MAX,
+8cb081746c031f Johannes Berg     2019-04-26  3276  				     ifla_policy, extack);
+0157f60c0caea2 Patrick McHardy   2007-06-13  3277  	if (err < 0)
+0157f60c0caea2 Patrick McHardy   2007-06-13  3278  		goto errout;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3279  
+4ff66cae7f10b6 Christian Brauner 2018-02-07  3280  	err = rtnl_ensure_unique_netns(tb, extack, false);
+4ff66cae7f10b6 Christian Brauner 2018-02-07 @3281  	if (err < 0)
+4ff66cae7f10b6 Christian Brauner 2018-02-07  3282  		goto errout;
+4ff66cae7f10b6 Christian Brauner 2018-02-07  3283  
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3284  	tgt_net = rtnl_link_get_net_capable(skb, net, tb, CAP_NET_ADMIN);
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3285  	if (IS_ERR(tgt_net))
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3286  		return PTR_ERR(tgt_net);
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3287  
+0157f60c0caea2 Patrick McHardy   2007-06-13  3288  	if (ifm->ifi_index > 0)
+a3d1289126e7b1 Eric Dumazet      2009-10-21  3289  		dev = __dev_get_by_index(net, ifm->ifi_index);
+76c9ac0ee878f6 Jiri Pirko        2019-09-30  3290  	else if (tb[IFLA_IFNAME] || tb[IFLA_ALT_IFNAME])
+5ea08b5286f66e Florent Fourcot   2022-04-15  3291  		dev = rtnl_dev_get(net, tb);
+0157f60c0caea2 Patrick McHardy   2007-06-13  3292  	else
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3293  		err = -EINVAL;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3294  
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3295  	if (dev)
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3296  		err = do_setlink(skb, dev, tgt_net, ifm, extack, tb, 0);
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3297  	else if (!err)
+0157f60c0caea2 Patrick McHardy   2007-06-13  3298  		err = -ENODEV;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3299  
+da5e0494c542dd Thomas Graf       2006-08-10  3300  errout:
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3301  	put_net(tgt_net);
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3302  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3303  	return err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3304  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3305  
 
 -- 
 0-DAY CI Kernel Test Service
