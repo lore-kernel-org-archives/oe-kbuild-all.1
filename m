@@ -1,59 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29821C7B6A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 04:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3F6567D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 05:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728622500; cv=none; b=lfamuvG27XtoyWlJ0TFA01bPdxHpgYlJPhyKuN9gccuGCmMKXgFx/qLLFZkFiVw0PGz3wRQsoJM3JcRZ6WtvgjuUkDkvgh8tSVTk8XxKTpXbPn53uCpTlJg5HfqEcaxWEXmPZvMlM1c2xA+SLNwTqVYXoYh1YTryb4VTEG/8+7U=
+	t=1728623766; cv=none; b=B7SJxVp/7z70sbjVEkDBQDg9c/7iO5f9L/ZhpDPLcfOjdTaAE1oGJU/Fy6F8TNQqCRBrYO6Yw10Yf05sz4X4j5MM3crVoj+q5X9dNpgzJcKqjRD0a2a0HOGG75NlZEFEkAmWf5hD7AEPzww8Rbsfl/Y871Q/nR0K/N/PMS61J5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728622500; c=relaxed/simple;
-	bh=ctM6S9WmsfMPKXUNokW2BeLVsRw06gX4Z4aqoOoS3T4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KGrFnBYqgWGaQMvJMVsmRE9isdp65tUli82CXF25Y3/9wnokpt2J89TNLGta7nNngPWMda3I96VunBY5uAplhBxx6cLgs+MHaFQQN7n9GmzTDGlgVhHsSmS97qLKBTK2omtsoTsE18Ww4/xXyjLTSIXULGUl5BGbDoHFFA6xbuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jolUWnXs; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1728623766; c=relaxed/simple;
+	bh=oXPKp2uZEnGUtYeEYnykIZVlicObW/XIzlul2tJetiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D5YUyOLiC5UW8mLDUyF1yAyBZsnFu/vSKc42Xi45UYjywQ/TZj0jb7GmtJrPn1OCifh6qiPwvw6S1G66WH44Rtqtb63Ct1WVI5f7+z72SbJWTksvKYKBnAfhFXAWNCRftr0TCo9IV/PQplLxio8VUmvsWc/i7khRYb1pAgNwpwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqDn6Jub; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jolUWnXs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqDn6Jub"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728622497; x=1760158497;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ctM6S9WmsfMPKXUNokW2BeLVsRw06gX4Z4aqoOoS3T4=;
-  b=jolUWnXscSwI6ywieyIVIFCZYKDvCh/OJtyX/1zfqyUE0VV4fKnjIi4k
-   LeKClm4XS+ITWjMBXagYtsCFzr7Y4wIf2sIKH6OcTkLSEd/L4S6vhGAyl
-   LoBQ8CAKc8E099paVH9mh9FQLvzuWxozmF2RtGkUY79xfZg5VYOEc4ipM
-   8qBNTilsNmt1McTZSGcg4RPYFRZgwmlw0BufpwFoNTTpJ68OpR5CRKH3o
-   HgVso8/BVfwmaLdtf6rvUHNg6fOdDjbVF/gJCeT/SGX/gh9USyaEmnjzK
-   Esdd+h72O072+2KdLE1pcZosCxqQ1Y6yUSmq0F2MXyXsX+gd+kH8STcsL
+  t=1728623765; x=1760159765;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oXPKp2uZEnGUtYeEYnykIZVlicObW/XIzlul2tJetiM=;
+  b=aqDn6Jub7ozeAIoxC89IEE0rH5sUrzxTa1FHevE35iqRvBgW9CR7FGdV
+   BZpIHQffGs+82CPwX++P6Qx8pPmpqNwP7yaBOa2hwiVmTr0qOCj2+cplU
+   hRcqaXXHPIkxCbAyJ6+pJNwTHOCHPArFwk3tK7yiqThLmQ93zwcUving4
+   R1MFYqGf358jglqN1PLuJDgXbH9W2L/iRoY5IzE7QyaeWQY0eAfKMt6ag
+   x9rgzz2RejXtsc8GPe+nRCZZ13gjKuODmRklSpNizP1CMAf82/k1wz2gv
+   sMx+JK3x6MPIpGYlaV/X2DRTR+EQwb0E4kUV6vImvXSsIMIzQF6dHZ5gB
    A==;
-X-CSE-ConnectionGUID: ES0wP5HmTaOnpJMg4fTVcw==
-X-CSE-MsgGUID: 0p/D5TOGQKGjCqqLmDdiTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39141710"
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="39141710"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 21:54:57 -0700
-X-CSE-ConnectionGUID: C4PyD3t9QU69QTTXoQoaFA==
-X-CSE-MsgGUID: JraFvWlbRaWWuAKVpf3o8Q==
+X-CSE-ConnectionGUID: +iFMQxcrQYKINAjHxmbUZQ==
+X-CSE-MsgGUID: weDaX0VRTYGlSfT0nppsig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="15635864"
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="15635864"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 22:16:04 -0700
+X-CSE-ConnectionGUID: OcOAqgggRkynTfXpGipgfQ==
+X-CSE-MsgGUID: FrTbE1n2TLajNJFQH08VTQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="80809222"
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="76716322"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Oct 2024 21:54:56 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Oct 2024 22:15:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sz7fx-000BpW-2C;
-	Fri, 11 Oct 2024 04:54:53 +0000
-Date: Fri, 11 Oct 2024 12:54:31 +0800
+	id 1sz80I-000Bq9-0p;
+	Fri, 11 Oct 2024 05:15:54 +0000
+Date: Fri, 11 Oct 2024 13:15:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, chench00 <chench@hygon.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13318/14350]
- drivers/crypto/ccp/hygon/tdm-dev.c:340:63: error: incomplete definition of
- type 'struct module'
-Message-ID: <202410111205.LRqw3beL-lkp@intel.com>
+To: Andrea della Porta <andrea.porta@suse.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Saravana Kannan <saravanak@google.com>, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Stefan Wahren <wahrenst@gmx.net>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 11/14] misc: rp1: RaspberryPi RP1 misc driver
+Message-ID: <202410111247.L5n2NDAU-lkp@intel.com>
+References: <c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,151 +87,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta@suse.com>
 
-Hi chench00,
+Hi Andrea,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   f7c1291d7c3f15bc448cd93e29fa539386fe85fe
-commit: a1dd4972da4e66d9a9d1a89b3dfd8f742c20193b [13318/14350] crypto: tdm: Add Hygon TDM driver
-config: x86_64-buildonly-randconfig-003-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111205.LRqw3beL-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111205.LRqw3beL-lkp@intel.com/reproduce)
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on clk/clk-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.12-rc2 next-20241010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-della-Porta/dt-bindings-clock-Add-RaspberryPi-RP1-clock-bindings/20241007-204440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta%40suse.com
+patch subject: [PATCH v2 11/14] misc: rp1: RaspberryPi RP1 misc driver
+config: sparc-kismet-CONFIG_OF_IRQ-CONFIG_MISC_RP1-0-0 (https://download.01.org/0day-ci/archive/20241011/202410111247.L5n2NDAU-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241011/202410111247.L5n2NDAU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111205.LRqw3beL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410111247.L5n2NDAU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/crypto/ccp/hygon/tdm-dev.c:94:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      94 |         int ret = 0;
-         |             ^
->> drivers/crypto/ccp/hygon/tdm-dev.c:340:63: error: incomplete definition of type 'struct module'
-     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-         |                                                                            ~~~~~~~~^
-   include/linux/fortify-string.h:707:53: note: expanded from macro 'memcpy'
-     707 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                                                     ^
-   include/linux/fortify-string.h:650:41: note: expanded from macro '__fortify_memcpy_chk'
-     650 |         const size_t __fortify_size = (size_t)(size);                   \
-         |                                                ^~~~
-   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
-     103 | struct module;
-         |        ^
-   drivers/crypto/ccp/hygon/tdm-dev.c:340:40: error: incomplete definition of type 'struct module'
-     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-         |                                                     ~~~~~~~~^
-   include/linux/fortify-string.h:708:35: note: expanded from macro 'memcpy'
-     708 |                 __struct_size(p), __struct_size(q),                     \
-         |                                                 ^
-   include/linux/fortify-string.h:110:56: note: expanded from macro '__struct_size'
-     110 | #define __struct_size(p)        __builtin_dynamic_object_size(p, 0)
-         |                                                               ^
-   include/linux/fortify-string.h:652:27: note: expanded from macro '__fortify_memcpy_chk'
-     652 |         const size_t __q_size = (q_size);                               \
-         |                                  ^~~~~~
-   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
-     103 | struct module;
-         |        ^
-   drivers/crypto/ccp/hygon/tdm-dev.c:340:40: error: incomplete definition of type 'struct module'
-     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-         |                                                     ~~~~~~~~^
-   include/linux/fortify-string.h:709:35: note: expanded from macro 'memcpy'
-     709 |                 __member_size(p), __member_size(q),                     \
-         |                                                 ^
-   include/linux/fortify-string.h:111:56: note: expanded from macro '__member_size'
-     111 | #define __member_size(p)        __builtin_dynamic_object_size(p, 1)
-         |                                                               ^
-   include/linux/fortify-string.h:654:33: note: expanded from macro '__fortify_memcpy_chk'
-     654 |         const size_t __q_size_field = (q_size_field);                   \
-         |                                        ^~~~~~~~~~~~
-   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
-     103 | struct module;
-         |        ^
-   drivers/crypto/ccp/hygon/tdm-dev.c:340:40: error: incomplete definition of type 'struct module'
-     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-         |                                                     ~~~~~~~~^
-   include/linux/fortify-string.h:707:50: note: expanded from macro 'memcpy'
-     707 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                                                  ^
-   include/linux/fortify-string.h:662:23: note: expanded from macro '__fortify_memcpy_chk'
-     662 |         __underlying_##op(p, q, __fortify_size);                        \
-         |                              ^
-   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
-     103 | struct module;
-         |        ^
-   drivers/crypto/ccp/hygon/tdm-dev.c:606:20: warning: variable 'head' set but not used [-Wunused-but-set-variable]
-     606 |         struct list_head *head = NULL;
-         |                           ^
-   2 warnings and 4 errors generated.
-
-
-vim +340 drivers/crypto/ccp/hygon/tdm-dev.c
-
-   323	
-   324		if (!hash) {
-   325			ret = -DYN_NULL_POINTER;
-   326			pr_err("Null pointer\n");
-   327			goto end;
-   328		}
-   329	
-   330		ctx_msg.flag = flag;
-   331		ctx_msg.pid = current->pid;
-   332		memcpy(ctx_msg.comm, current->comm, sizeof(current->comm));
-   333	
-   334		return_address = CALLER_ADDR1;
-   335		if (return_address) {
-   336	#if IS_BUILTIN(CONFIG_CRYPTO_DEV_CCP_DD)
-   337			p_module = __module_address(return_address);
-   338			// caller is module
-   339			if (p_module)
- > 340				memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-   341			// caller is build-in
-   342			else
-   343				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   344	#elif IS_ENABLED(CONFIG_KALLSYMS)
-   345			symbol_len = sprint_symbol((char *)symbol_buf, return_address);
-   346			if (!symbol_len) {
-   347				ret = -DYN_ERR_API;
-   348				pr_err("sprint_symbol failed\n");
-   349				goto end;
-   350			}
-   351			symbol_begin = strchr((char *)symbol_buf, '[');
-   352			if (!symbol_begin) {
-   353				ret = -DYN_NULL_POINTER;
-   354				pr_err("module name is not exist\n");
-   355				goto end;
-   356			}
-   357			symbol_end = strchr((char *)symbol_buf, ']');
-   358			if (!symbol_end) {
-   359				ret = -DYN_NULL_POINTER;
-   360				pr_err("module name is not exist\n");
-   361				goto end;
-   362			}
-   363			symbol_begin++;
-   364			if (symbol_end - symbol_begin)
-   365				memcpy(ctx_msg.module_name, symbol_begin, symbol_end - symbol_begin);
-   366			else
-   367				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   368	#else
-   369			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   370	#endif
-   371		} else
-   372			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   373	
-   374		ret = calc_task_context_hash(ctx_msg, hash);
-   375		if (ret) {
-   376			pr_err("calc_task_context_hash failed\n");
-   377			goto end;
-   378		}
-   379	
-   380	end:
-   381		return ret;
-   382	}
-   383	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for OF_IRQ when selected by MISC_RP1
+   WARNING: unmet direct dependencies detected for OF_IRQ
+     Depends on [n]: OF [=y] && !SPARC [=y] && IRQ_DOMAIN [=y]
+     Selected by [y]:
+     - MISC_RP1 [=y] && PCI [=y] && PCI_QUIRKS [=y]
+   
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+     Depends on [n]: SPARSEMEM [=n]
+     Selected by [y]:
+     - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
