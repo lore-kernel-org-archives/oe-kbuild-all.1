@@ -1,84 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com [99.78.197.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A3683CA0;
-	Fri, 11 Oct 2024 15:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C3314D6F9;
+	Fri, 11 Oct 2024 16:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728659423; cv=none; b=VD9DXehAt4O/DIVJwk+Rz8cArKLRWxYAboi1irqR9IzbC9LpoQTlfUKpXt0Ix8GECl8HjKYLB3uam/fUORIc1IjxmDyXd4YaSoYquOJ59r2eWnwkxIXQ+tRC+HN36WYYbRgJYW5nbYgw62xyt2jGGaI24xVeeouZfOMicdKgPPg=
+	t=1728663481; cv=none; b=QFXshZW79OSjiNEsEf87xI0/gv58CR8hHOQjxjsRTJzYYFuVuH4v/hgEdUrQprpwn5yA2BTs/3Vyao4p/bnuC1Ph6e6aQTEeLvGCXbNnU/asBMa8lcywCIP3cC8VCotc2qj5qKTZdph+TLbplKUfsVH/KOS3FM5sHK1a4VRNOng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728659423; c=relaxed/simple;
-	bh=BITzZWOBYiKSQs7RO3y9Qo2D6+NZ9/R64VIoSIBuWpQ=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tMTKuDpxQxrvfxvWVVQnXErHWey4Mmq/FGM0qq84c4NYy281VZYi2yIvwHTVhrOg/8xTAWVtLEc6riY3Uhe7rn4TmO58hN2mehQCU0A3yBi9Uv1fOEfNUFAT5PpZce0oKY6EBexfQbKlOl1+17Il0vbKNSfh7B3YG0IPH7dbhwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PboKjhT+; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728663481; c=relaxed/simple;
+	bh=wQaXXBzmdSwPzDo3+l6LyGev6C0BwkZiX3MuPz/vVt4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J+UHS9UUmWwLJye+LfflVPTzYu4t7nT11eFGktYlyqQJ1Wr/TgxM8ThaauhHMTO3nNCl9C0EYHRh+E07BaPLyWyK4ZkyAgGQM5Gd1D7LrT9Gl/HjHGOj8ToCsmhA4+T7U4BWNInAuCSry3fioOwSxjPDXnikwyl1q9rpJZFLwMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=m+INzFeS; arc=none smtp.client-ip=99.78.197.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PboKjhT+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728659422; x=1760195422;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=BITzZWOBYiKSQs7RO3y9Qo2D6+NZ9/R64VIoSIBuWpQ=;
-  b=PboKjhT+UJoCqvSQtnt+nKbyfMJJqN6mglkvGEwlckyzzA20xQGQLWdW
-   HUs/8z32JwJppo+mIFT9JwVUBi1MaNHRJPEgg6pxtAu/b/SY9pNxous9C
-   Zgm6a7iVX416BlGFaCTIFf/2ShQMObmuj7Dnc3o+at2SM3r8D48CMKx12
-   1YCXyy/MvZlngXa82L5wo8jEaZWxjOnkluKlmorbJBcyicf6UHlKglsZY
-   08CPxfY9GvX1iexeDaIluR5964aXvGWn+14vtRzJYG8T0I9DAfweL4MiC
-   Y08+RoLwylzGflSfBXh6IelJO0Pru56POE0pdsogEbVrqXRZrqAGtXN1/
-   Q==;
-X-CSE-ConnectionGUID: uHoffNujQPWDRE1oZvCbQg==
-X-CSE-MsgGUID: iYelENNbSXe1juLV2mEbIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="27869677"
-X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="27869677"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 08:10:21 -0700
-X-CSE-ConnectionGUID: 9A3dWHrxSK2EIL2kr6r6cw==
-X-CSE-MsgGUID: dpPXcyOGTnC2hoY0iYu+Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="81482253"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Oct 2024 08:10:20 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1szHHW-000CQ3-0S;
-	Fri, 11 Oct 2024 15:10:18 +0000
-Date: Fri, 11 Oct 2024 23:09:54 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [linux-next:master 3809/4143] clang: error: unknown argument: '-n'
-Message-ID: <202410112358.PQKsOin2-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="m+INzFeS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1728663480; x=1760199480;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=4yVolXS4ygYJ4EHLSGnNlhbJIVixMaa+YdbdfVJpNsY=;
+  b=m+INzFeSpPKN7RGcHCUZ8O5RYv0inPpU+0B2VoxCpqz4970C6po820Tm
+   5RK4D8DzWZG614n1n6/GH5S3aB1JFAiGKhg0rBka5P8Rw4Gu5pH7gHzXJ
+   WveaPgIeY54cGN5hhquL3jh7SNk4abkA8KCKGMlwpjLF3gHXCZk8e6HVc
+   w=;
+X-IronPort-AV: E=Sophos;i="6.11,196,1725321600"; 
+   d="scan'208";a="137830654"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 16:17:58 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [10.0.38.20:47658]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.5.202:2525] with esmtp (Farcaster)
+ id 437482ba-543a-46d3-a842-485b20c15479; Fri, 11 Oct 2024 16:17:58 +0000 (UTC)
+X-Farcaster-Flow-ID: 437482ba-543a-46d3-a842-485b20c15479
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 11 Oct 2024 16:17:57 +0000
+Received: from 6c7e67c6786f.amazon.com (10.106.100.8) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Fri, 11 Oct 2024 16:17:54 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <lkp@intel.com>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<kuniyu@amazon.com>, <llvm@lists.linux.dev>, <netdev@vger.kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>
+Subject: Re: [PATCH v1 net-next 12/13] rtnetlink: Call rtnl_link_get_net_capable() in do_setlink().
+Date: Fri, 11 Oct 2024 09:17:51 -0700
+Message-ID: <20241011161751.6563-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <202410111515.TbOH4hSS-lkp@intel.com>
+References: <202410111515.TbOH4hSS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D043UWC002.ant.amazon.com (10.13.139.222) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-TO: Benjamin Berg <benjamin.berg@intel.com>
-CC: Johannes Berg <johannes.berg@intel.com>
+From: kernel test robot <lkp@intel.com>
+Date: Fri, 11 Oct 2024 15:36:55 +0800
+> cc6090e985d7d6 Jiri Pirko        2019-09-30  3264  
+> c21ef3e343ae91 David Ahern       2017-04-16  3265  static int rtnl_setlink(struct sk_buff *skb, struct nlmsghdr *nlh,
+> c21ef3e343ae91 David Ahern       2017-04-16  3266  			struct netlink_ext_ack *extack)
+> 0157f60c0caea2 Patrick McHardy   2007-06-13  3267  {
+> 3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3268  	struct ifinfomsg *ifm = nlmsg_data(nlh);
+> 3b1e0a655f8eba YOSHIFUJI Hideaki 2008-03-26  3269  	struct net *net = sock_net(skb->sk);
+> 0157f60c0caea2 Patrick McHardy   2007-06-13  3270  	struct nlattr *tb[IFLA_MAX+1];
+> 3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3271  	struct net_device *dev = NULL;
+> b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3272  	struct net *tgt_net;
+> 3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3273  	int err;
+> 0157f60c0caea2 Patrick McHardy   2007-06-13  3274  
+> 8cb081746c031f Johannes Berg     2019-04-26  3275  	err = nlmsg_parse_deprecated(nlh, sizeof(*ifm), tb, IFLA_MAX,
+> 8cb081746c031f Johannes Berg     2019-04-26  3276  				     ifla_policy, extack);
+> 0157f60c0caea2 Patrick McHardy   2007-06-13  3277  	if (err < 0)
+> 0157f60c0caea2 Patrick McHardy   2007-06-13  3278  		goto errout;
+> 0157f60c0caea2 Patrick McHardy   2007-06-13  3279  
+> 4ff66cae7f10b6 Christian Brauner 2018-02-07  3280  	err = rtnl_ensure_unique_netns(tb, extack, false);
+> 4ff66cae7f10b6 Christian Brauner 2018-02-07 @3281  	if (err < 0)
+> 4ff66cae7f10b6 Christian Brauner 2018-02-07  3282  		goto errout;
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d61a00525464bfc5fe92c6ad713350988e492b88
-commit: 32e8eaf263d9be014ba1970444f745682fa9c6c0 [3809/4143] um: use execveat to create userspace MMs
-config: um-defconfig (https://download.01.org/0day-ci/archive/20241011/202410112358.PQKsOin2-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410112358.PQKsOin2-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410112358.PQKsOin2-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> clang: error: unknown argument: '-n'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oops, I'll simply remove the errout label in v2.
