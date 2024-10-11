@@ -1,89 +1,188 @@
-Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com [99.78.197.219])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C3314D6F9;
-	Fri, 11 Oct 2024 16:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2891C7B6F;
+	Fri, 11 Oct 2024 17:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728663481; cv=none; b=QFXshZW79OSjiNEsEf87xI0/gv58CR8hHOQjxjsRTJzYYFuVuH4v/hgEdUrQprpwn5yA2BTs/3Vyao4p/bnuC1Ph6e6aQTEeLvGCXbNnU/asBMa8lcywCIP3cC8VCotc2qj5qKTZdph+TLbplKUfsVH/KOS3FM5sHK1a4VRNOng=
+	t=1728666753; cv=none; b=XTJNdjsDEbS9jJS/dDEqIpu8fexqCPp8SbNV+PdqyoRCzVyfU0WbDOiFjzshgcPxx2ogKBLBRng4xPjrEGwQen8etVKP5MqtzeUITzau5pS1IyXUjl+ofumH48PXEz3bXkHAxF0g9z1SYCqzkzz66ABz4MYC9l2UoiMQgJdbn4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728663481; c=relaxed/simple;
-	bh=wQaXXBzmdSwPzDo3+l6LyGev6C0BwkZiX3MuPz/vVt4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J+UHS9UUmWwLJye+LfflVPTzYu4t7nT11eFGktYlyqQJ1Wr/TgxM8ThaauhHMTO3nNCl9C0EYHRh+E07BaPLyWyK4ZkyAgGQM5Gd1D7LrT9Gl/HjHGOj8ToCsmhA4+T7U4BWNInAuCSry3fioOwSxjPDXnikwyl1q9rpJZFLwMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=m+INzFeS; arc=none smtp.client-ip=99.78.197.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	s=arc-20240116; t=1728666753; c=relaxed/simple;
+	bh=HyzgzEpwQ6CUwvYBP98vuPcTjkwqLs1z7z5alGx6okQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQqK+CN1WBBT3+9uQFFNM7IMS68/1ORa++jmWfkL6+PeEIRdYp7uo6jEFuEmDi5sxXFmygW4aEH1ytjAS9U9NWfjs1cfqjD+xKzo3vGVpfgOVSqQikfMzKcyHjrq22jwgt7jwd7vZAKllkMI22j2JuNOSFja5qv06pKAeVemMgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRJk3LXq; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="m+INzFeS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1728663480; x=1760199480;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4yVolXS4ygYJ4EHLSGnNlhbJIVixMaa+YdbdfVJpNsY=;
-  b=m+INzFeSpPKN7RGcHCUZ8O5RYv0inPpU+0B2VoxCpqz4970C6po820Tm
-   5RK4D8DzWZG614n1n6/GH5S3aB1JFAiGKhg0rBka5P8Rw4Gu5pH7gHzXJ
-   WveaPgIeY54cGN5hhquL3jh7SNk4abkA8KCKGMlwpjLF3gHXCZk8e6HVc
-   w=;
-X-IronPort-AV: E=Sophos;i="6.11,196,1725321600"; 
-   d="scan'208";a="137830654"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 16:17:58 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.38.20:47658]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.5.202:2525] with esmtp (Farcaster)
- id 437482ba-543a-46d3-a842-485b20c15479; Fri, 11 Oct 2024 16:17:58 +0000 (UTC)
-X-Farcaster-Flow-ID: 437482ba-543a-46d3-a842-485b20c15479
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Fri, 11 Oct 2024 16:17:57 +0000
-Received: from 6c7e67c6786f.amazon.com (10.106.100.8) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Fri, 11 Oct 2024 16:17:54 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <lkp@intel.com>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<kuniyu@amazon.com>, <llvm@lists.linux.dev>, <netdev@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>
-Subject: Re: [PATCH v1 net-next 12/13] rtnetlink: Call rtnl_link_get_net_capable() in do_setlink().
-Date: Fri, 11 Oct 2024 09:17:51 -0700
-Message-ID: <20241011161751.6563-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <202410111515.TbOH4hSS-lkp@intel.com>
-References: <202410111515.TbOH4hSS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRJk3LXq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728666752; x=1760202752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HyzgzEpwQ6CUwvYBP98vuPcTjkwqLs1z7z5alGx6okQ=;
+  b=iRJk3LXqDJ5GqOh8pU/Fy8zXJxCgg8bLNf83WGtBYs6RY3qw96Ks+5lP
+   ZE+RrGYQhPTCXM6L16UCkpTx4HxMq6efhrns5ZE4v5wavmXLe0hemrS1f
+   C5S7D2I+nAG3c4r/i30zdKIFkN8swQ9xRfAGD2JPjDDKGB2kKQ3EzQaiA
+   23tYStp9495fBt23iucqFFMmEjElywgwPNo80O4is0dr13/p0Ftqb2kdy
+   pEMUDkrrAVrWmmKYl1eJQDxF53QaFqXqhhtU0wpYMP+Ajsh/tNCUpA3m/
+   RDRW9kmDLrESUhJPQhkRV2J89MhrN0UHGr2P+FwgOyFKRX4JSlgWYRGzH
+   A==;
+X-CSE-ConnectionGUID: f5OnHWeZSgiYRWCjtX9rJw==
+X-CSE-MsgGUID: v4t2694FRUCqH+Fmfbimbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39199833"
+X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
+   d="scan'208";a="39199833"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:12:31 -0700
+X-CSE-ConnectionGUID: TPnuj3nzQkSC8HF/G6hGcg==
+X-CSE-MsgGUID: EgMvq0ZMSj2HDRuNpYuKxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
+   d="scan'208";a="114426526"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Oct 2024 10:12:28 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1szJBi-000CXX-18;
+	Fri, 11 Oct 2024 17:12:26 +0000
+Date: Sat, 12 Oct 2024 01:11:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stefan Wiehler <stefan.wiehler@nokia.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Stefan Wiehler <stefan.wiehler@nokia.com>
+Subject: Re: [PATCH net v3 3/4] ip6mr: Lock RCU before ip6mr_get_table() call
+ in ip6mr_compat_ioctl()
+Message-ID: <202410120109.QyXpPs23-lkp@intel.com>
+References: <20241010090741.1980100-7-stefan.wiehler@nokia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D043UWC002.ant.amazon.com (10.13.139.222) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241010090741.1980100-7-stefan.wiehler@nokia.com>
 
-From: kernel test robot <lkp@intel.com>
-Date: Fri, 11 Oct 2024 15:36:55 +0800
-> cc6090e985d7d6 Jiri Pirko        2019-09-30  3264  
-> c21ef3e343ae91 David Ahern       2017-04-16  3265  static int rtnl_setlink(struct sk_buff *skb, struct nlmsghdr *nlh,
-> c21ef3e343ae91 David Ahern       2017-04-16  3266  			struct netlink_ext_ack *extack)
-> 0157f60c0caea2 Patrick McHardy   2007-06-13  3267  {
-> 3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3268  	struct ifinfomsg *ifm = nlmsg_data(nlh);
-> 3b1e0a655f8eba YOSHIFUJI Hideaki 2008-03-26  3269  	struct net *net = sock_net(skb->sk);
-> 0157f60c0caea2 Patrick McHardy   2007-06-13  3270  	struct nlattr *tb[IFLA_MAX+1];
-> 3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3271  	struct net_device *dev = NULL;
-> b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3272  	struct net *tgt_net;
-> 3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3273  	int err;
-> 0157f60c0caea2 Patrick McHardy   2007-06-13  3274  
-> 8cb081746c031f Johannes Berg     2019-04-26  3275  	err = nlmsg_parse_deprecated(nlh, sizeof(*ifm), tb, IFLA_MAX,
-> 8cb081746c031f Johannes Berg     2019-04-26  3276  				     ifla_policy, extack);
-> 0157f60c0caea2 Patrick McHardy   2007-06-13  3277  	if (err < 0)
-> 0157f60c0caea2 Patrick McHardy   2007-06-13  3278  		goto errout;
-> 0157f60c0caea2 Patrick McHardy   2007-06-13  3279  
-> 4ff66cae7f10b6 Christian Brauner 2018-02-07  3280  	err = rtnl_ensure_unique_netns(tb, extack, false);
-> 4ff66cae7f10b6 Christian Brauner 2018-02-07 @3281  	if (err < 0)
-> 4ff66cae7f10b6 Christian Brauner 2018-02-07  3282  		goto errout;
+Hi Stefan,
 
-Oops, I'll simply remove the errout label in v2.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wiehler/ip6mr-Lock-RCU-before-ip6mr_get_table-call-in-ip6mr_ioctl/20241010-171634
+base:   net/main
+patch link:    https://lore.kernel.org/r/20241010090741.1980100-7-stefan.wiehler%40nokia.com
+patch subject: [PATCH net v3 3/4] ip6mr: Lock RCU before ip6mr_get_table() call in ip6mr_compat_ioctl()
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20241012/202410120109.QyXpPs23-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410120109.QyXpPs23-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410120109.QyXpPs23-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> net/ipv6/ip6mr.c:1970:18: warning: variable 'mrt' is uninitialized when used here [-Wuninitialized]
+    1970 |                 if (vr.mifi >= mrt->maxvif)
+         |                                ^~~
+   net/ipv6/ip6mr.c:1963:22: note: initialize the variable 'mrt' to silence this warning
+    1963 |         struct mr_table *mrt;
+         |                             ^
+         |                              = NULL
+   1 warning generated.
+
+
+vim +/mrt +1970 net/ipv6/ip6mr.c
+
+e2d57766e6744f David S. Miller   2011-02-03  1955  
+e2d57766e6744f David S. Miller   2011-02-03  1956  int ip6mr_compat_ioctl(struct sock *sk, unsigned int cmd, void __user *arg)
+e2d57766e6744f David S. Miller   2011-02-03  1957  {
+e2d57766e6744f David S. Miller   2011-02-03  1958  	struct compat_sioc_sg_req6 sr;
+e2d57766e6744f David S. Miller   2011-02-03  1959  	struct compat_sioc_mif_req6 vr;
+6853f21f764b04 Yuval Mintz       2018-02-28  1960  	struct vif_device *vif;
+e2d57766e6744f David S. Miller   2011-02-03  1961  	struct mfc6_cache *c;
+e2d57766e6744f David S. Miller   2011-02-03  1962  	struct net *net = sock_net(sk);
+b70432f7319eb7 Yuval Mintz       2018-02-28  1963  	struct mr_table *mrt;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1964  	int err;
+e2d57766e6744f David S. Miller   2011-02-03  1965  
+e2d57766e6744f David S. Miller   2011-02-03  1966  	switch (cmd) {
+e2d57766e6744f David S. Miller   2011-02-03  1967  	case SIOCGETMIFCNT_IN6:
+e2d57766e6744f David S. Miller   2011-02-03  1968  		if (copy_from_user(&vr, arg, sizeof(vr)))
+e2d57766e6744f David S. Miller   2011-02-03  1969  			return -EFAULT;
+e2d57766e6744f David S. Miller   2011-02-03 @1970  		if (vr.mifi >= mrt->maxvif)
+e2d57766e6744f David S. Miller   2011-02-03  1971  			return -EINVAL;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1972  		break;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1973  	case SIOCGETSGCNT_IN6:
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1974  		if (copy_from_user(&sr, arg, sizeof(sr)))
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1975  			return -EFAULT;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1976  		break;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1977  	default:
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1978  		return -ENOIOCTLCMD;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1979  	}
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1980  
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1981  
+638cf4a24a09d1 Eric Dumazet      2022-06-23  1982  	rcu_read_lock();
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1983  	mrt = ip6mr_get_table(net, raw6_sk(sk)->ip6mr_table ? : RT6_TABLE_DFLT);
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1984  	if (!mrt) {
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1985  		err = -ENOENT;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1986  		goto out;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1987  	}
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1988  
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1989  	switch (cmd) {
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1990  	case SIOCGETMIFCNT_IN6:
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1991  		if (vr.mifi >= mrt->maxvif) {
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1992  			err = -EINVAL;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1993  			goto out;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1994  		}
+9135a3aca0c10d Stefan Wiehler    2024-10-10  1995  		vr.mifi = array_index_nospec(vr.mifi, mrt->maxvif);
+b70432f7319eb7 Yuval Mintz       2018-02-28  1996  		vif = &mrt->vif_table[vr.mifi];
+b70432f7319eb7 Yuval Mintz       2018-02-28  1997  		if (VIF_EXISTS(mrt, vr.mifi)) {
+638cf4a24a09d1 Eric Dumazet      2022-06-23  1998  			vr.icount = READ_ONCE(vif->pkt_in);
+638cf4a24a09d1 Eric Dumazet      2022-06-23  1999  			vr.ocount = READ_ONCE(vif->pkt_out);
+638cf4a24a09d1 Eric Dumazet      2022-06-23  2000  			vr.ibytes = READ_ONCE(vif->bytes_in);
+638cf4a24a09d1 Eric Dumazet      2022-06-23  2001  			vr.obytes = READ_ONCE(vif->bytes_out);
+638cf4a24a09d1 Eric Dumazet      2022-06-23  2002  			rcu_read_unlock();
+e2d57766e6744f David S. Miller   2011-02-03  2003  
+e2d57766e6744f David S. Miller   2011-02-03  2004  			if (copy_to_user(arg, &vr, sizeof(vr)))
+e2d57766e6744f David S. Miller   2011-02-03  2005  				return -EFAULT;
+e2d57766e6744f David S. Miller   2011-02-03  2006  			return 0;
+e2d57766e6744f David S. Miller   2011-02-03  2007  		}
+638cf4a24a09d1 Eric Dumazet      2022-06-23  2008  		rcu_read_unlock();
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2009  		err = -EADDRNOTAVAIL;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2010  		goto out;
+e2d57766e6744f David S. Miller   2011-02-03  2011  	case SIOCGETSGCNT_IN6:
+e2d57766e6744f David S. Miller   2011-02-03  2012  		c = ip6mr_cache_find(mrt, &sr.src.sin6_addr, &sr.grp.sin6_addr);
+e2d57766e6744f David S. Miller   2011-02-03  2013  		if (c) {
+494fff56379c4a Yuval Mintz       2018-02-28  2014  			sr.pktcnt = c->_c.mfc_un.res.pkt;
+494fff56379c4a Yuval Mintz       2018-02-28  2015  			sr.bytecnt = c->_c.mfc_un.res.bytes;
+494fff56379c4a Yuval Mintz       2018-02-28  2016  			sr.wrong_if = c->_c.mfc_un.res.wrong_if;
+87c418bf1323d5 Yuval Mintz       2018-02-28  2017  			rcu_read_unlock();
+e2d57766e6744f David S. Miller   2011-02-03  2018  
+e2d57766e6744f David S. Miller   2011-02-03  2019  			if (copy_to_user(arg, &sr, sizeof(sr)))
+e2d57766e6744f David S. Miller   2011-02-03  2020  				return -EFAULT;
+e2d57766e6744f David S. Miller   2011-02-03  2021  			return 0;
+e2d57766e6744f David S. Miller   2011-02-03  2022  		}
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2023  		err = -EADDRNOTAVAIL;
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2024  		goto out;
+e2d57766e6744f David S. Miller   2011-02-03  2025  	}
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2026  
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2027  out:
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2028  	rcu_read_unlock();
+9135a3aca0c10d Stefan Wiehler    2024-10-10  2029  	return err;
+e2d57766e6744f David S. Miller   2011-02-03  2030  }
+e2d57766e6744f David S. Miller   2011-02-03  2031  #endif
+7bc570c8b4f75d YOSHIFUJI Hideaki 2008-04-03  2032  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
