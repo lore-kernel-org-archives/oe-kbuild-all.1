@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1C312E5B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 03:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3361CB50C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 03:19:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728616793; cv=none; b=IbmqIFGQWEx7JjCVawBDogzzlwVZOAu1HHMUSbYqKDlkjIFV9SGuID44km18tv8PCLTRIrofKGiVW4WCBjgdl0vz6QwFSuSh6+S29W0+XEtPR78vPVhkqh7KB1+Jak4qET14ooXEGXvuXcXm5pShHyy9f0kefC/et5lmpkD/hpU=
+	t=1728616795; cv=none; b=MAQUkeZjeWU+RP3aBihowq3EBdMxce6JorD+9PMJ2wwRXHBFApNd6G6i5A8ORA3SNZsxtT/7qQcux32neI5RwEo4sJw7PZ2PfLYfMv4kc4Gpr6K8K0sjRHg+dq+O4F8tnd+uF7PTv3luW2yyjXwDSjBahryxg/Gew66yn2z9rrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728616793; c=relaxed/simple;
-	bh=txaYUegfFab5WEb9d71ls+yKKoUSoAgtcW5erx1xGr0=;
+	s=arc-20240116; t=1728616795; c=relaxed/simple;
+	bh=Vc97G5aHWA5dhs7iAgIs6fVwhD7LYK2sBq8/2Mvvxz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UksrzG9OF7Z6/emm45zR4y7rQqhx+DV55iPgU/KTBbo2F609QDYnaeIVL65p2/EfZfmPHZg27nU7kw6xOaM0day3dA/AQYISC7UYofx9ITplm8O0X1fxdj7A1/YvimYot35NwSMN1AEbeHWpwFa/tEmNA5UlG8uYUItvqqVHXHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AsrwUEmi; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=rwAaYvPorT6GageixYoPrN8ev7Z7/MR6iCcvtYtjsfiCxycXElHGZkAu5fdpIoduhEWqEVfia0uw/0XTPrZURdyfj+0P+Tl9Q77KbcG0g2/VCJqCVn9Vvrm2mkMTc/p+QPLYLCD8kzaV//ShQ0CjvPt1dcqibIqdITxR1cntk4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iO/1sOZx; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AsrwUEmi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iO/1sOZx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728616791; x=1760152791;
+  t=1728616793; x=1760152793;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=txaYUegfFab5WEb9d71ls+yKKoUSoAgtcW5erx1xGr0=;
-  b=AsrwUEmi/XpztIzzZT4v07bPHSvX6FPvXMrOQtgqJM8TpsQjaeS6zgQP
-   y4hkRy9AfG8pOQb25JZLgSrpZknCoktpbTMKCslxw5MGdABK8zbzlMaRR
-   7QQEC2e5k8wbmONbKR3ynSq2ux+VZ+lsiJLidUmsxgzWKTnh4Orwr9zV1
-   6feAL17xnhAU1vrNnqWoBSEOsqfslNODhrSdBX+9qmzSg1yaKgP0sDHa2
-   P5dDjxUte6lSfvVIbCU8eu6k20knbekrFOzeaq1VxurHvfRavRrI0pL9M
-   vMQxAxE8hEpHSzLj/D+gILc9c2FCF6tC15sU7WR90XM4fcsnk+DnrIXhM
-   g==;
-X-CSE-ConnectionGUID: CiuoH+C/R9aesVYs5EY6Jw==
-X-CSE-MsgGUID: 1Xo+ycnFSHCE7ZHbVPmCfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39137039"
+  bh=Vc97G5aHWA5dhs7iAgIs6fVwhD7LYK2sBq8/2Mvvxz8=;
+  b=iO/1sOZxc8oZ5jnvJ797+/DU8Y4QnkEwwYPPT2Ylyjw3aD8j2Qa1Tro2
+   x9ddulM08XX4ALKfixTUmFHZwVfkfnlh9BOTCXc54ikPlScmYueF5sbpc
+   ONubpz7SzjlYowDrwNEz/dOeS3WMV2yJqV+RvzzkCC4d63omImOksr/mU
+   khdHqgZj4aw9DJSWDXsRtgV11bVpjp0+KW3nXRPbmG7I4I/Kc/8Ve0icR
+   lAxgjqmvF8i2QpzMJJoAYkmLkeZW/hkKY6Gr1gHcYODaBkxz2BP/i5G/M
+   JFnfihiLcYTn4rnV3DphqGWajLZ+ZPf1EI19N78COp3C6g3YoEpNr3u3/
+   w==;
+X-CSE-ConnectionGUID: uo1d7R10QUu+H1tBQ8ua+A==
+X-CSE-MsgGUID: rvCHj5lDSoOkOIKwgyFsFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39137041"
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="39137039"
+   d="scan'208";a="39137041"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 20:19:50 -0700
-X-CSE-ConnectionGUID: TZ7wj0OORsCqzEoMFGvzCQ==
-X-CSE-MsgGUID: HZbc8NgBSFaQU3NO06MbqQ==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 20:19:51 -0700
+X-CSE-ConnectionGUID: A1Zywl/GRLa2ni5LYlG6VA==
+X-CSE-MsgGUID: qXCCdElGRG2Kh5B79P/WWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="77099201"
+   d="scan'208";a="77099202"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 10 Oct 2024 20:19:49 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sz6Bu-000Bfn-2x;
+	id 1sz6Bu-000Bfl-2u;
 	Fri, 11 Oct 2024 03:19:46 +0000
-Date: Fri, 11 Oct 2024 11:19:41 +0800
+Date: Fri, 11 Oct 2024 11:19:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/v5 6/17] net/ipv4/tcp.c:2479:29: error: use of
- undeclared identifier 'dmabuf_devmem_ops'
-Message-ID: <202410111147.mAa8ymox-lkp@intel.com>
+Subject: [isilence:zcrx/v5 6/17] net/ipv4/tcp.c:2479:50: error:
+ 'dmabuf_devmem_ops' undeclared
+Message-ID: <202410111131.hj9PoVFl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,21 +65,22 @@ Content-Disposition: inline
 tree:   https://github.com/isilence/linux zcrx/v5
 head:   d4e027e3d3f5ec0c2cf67a06df841fa6e0e8016f
 commit: 7d14efdc8782b0359d840b3434d06415162da138 [6/17] net: prepare for non devmem TCP memory providers
-config: i386-randconfig-002-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111147.mAa8ymox-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111147.mAa8ymox-lkp@intel.com/reproduce)
+config: i386-randconfig-001-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111131.hj9PoVFl-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111131.hj9PoVFl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111147.mAa8ymox-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410111131.hj9PoVFl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/ipv4/tcp.c:2479:29: error: use of undeclared identifier 'dmabuf_devmem_ops'
+   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
+>> net/ipv4/tcp.c:2479:50: error: 'dmabuf_devmem_ops' undeclared (first use in this function)
     2479 |                         if (niov->pp->mp_ops != &dmabuf_devmem_ops) {
-         |                                                  ^
-   1 error generated.
+         |                                                  ^~~~~~~~~~~~~~~~~
+   net/ipv4/tcp.c:2479:50: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/dmabuf_devmem_ops +2479 net/ipv4/tcp.c
