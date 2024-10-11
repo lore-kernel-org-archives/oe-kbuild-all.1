@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755051917FB;
-	Fri, 11 Oct 2024 04:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B560928EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 04:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728621181; cv=none; b=DMezbhNBDVwb6H1GwXC6IgYDaEExNExGhCXFirMLOwG1XFoEgQUx+Y4Vbz3Sg3twtcj2i4j93KbOVBT5tsccyrA9KCLXum0mV79Vwhof14AKt/mlbFKrZEuDmaCA2DmINT3R8yz+FjzWQTSvfYwfZEzT0MfHLnWdgq3+mQNGZ5U=
+	t=1728621778; cv=none; b=o873cVzfkgsUHhMmo54aKFp9h2/ucs5Z5uaTnEHaxP77gynXM2BwOCoO/TfzCVM8ZGtjhz1jG6NS78YUf+cLhz3DN/TTPPkizoKg4jvwH8ZL7ojqQVgTSTOkV0Z+zu6bytHPPUfH67Lpb24a4HOVJiSA6MwZMwecFkz+jR58xbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728621181; c=relaxed/simple;
-	bh=WPsimNbw3/FLAWkS8kcN9an0/txl+7xFw5VfWVObtaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iuTh2r0Ut0TI3BH3St6WQCwu96qa6ED/U2+OCcLIfyh+NrGd1Zq8kD37Ety5Fvk0cYshwYEER0hUeKlaMqTixrYm7D2xWDtm+88GaNG4qss0CCF43a0psgF58pYOUJxUip6ltMbU03KBcLiQ4B5r3kbmmj60Tu2t5hJp1XlivDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tv1AikhY; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1728621778; c=relaxed/simple;
+	bh=+jCMTcr2YNfp0I9IIHpuQy/RU9BmpHT+Nb+yREQhuv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kkLsTcYZJrFQGAlHK9j7uPedtSOL4kf7+rKxuALEQ1ArKSMngWrKw0l8LmTgw6d9rcsKGU95MFNLjNmdpQs6n7fkkS/jTt0+hy9WfT1iOQsAmus2oO21ETifyAD7majbMRrGAcbO7659p6W0EGwSKeBqAec9oCDppixfKeVpbrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbCdKhLc; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tv1AikhY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbCdKhLc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728621179; x=1760157179;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WPsimNbw3/FLAWkS8kcN9an0/txl+7xFw5VfWVObtaw=;
-  b=Tv1AikhY8Kox4VOCJL7kxr7ZJaAalqdrO1unoO83Nsx8L4/xg9t+rSgn
-   nJHThvh9zKY5xtJPX4nnF2lhLPibD0Ehf1S7wImw7t6cK44gAxuA6HG29
-   J49HkrOvwAfAMfDybV5x9+mQwiChFBgNCZkW2njcgNRH+i1acofbcf1nK
-   Ony5QnklTPBCuVWBdSp3heUKj9mjOzFczV3SunzSB3ckEknfe+PbvnL7Z
-   YxXsobQ8hyQtNXmvNTungHXRQhs6y+j89EhNpbu24iHWsdaZuqP878CgA
-   jCCrOo8zsbOyv3d4bpeIEQejimo21uxqvGtAXpupw7kkPGICeIoE/dhVI
-   Q==;
-X-CSE-ConnectionGUID: 81QeIauiQkKdTRjVix7AmA==
-X-CSE-MsgGUID: 6DcJk8tASSaXpZhrN+9Dcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="28101884"
+  t=1728621777; x=1760157777;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+jCMTcr2YNfp0I9IIHpuQy/RU9BmpHT+Nb+yREQhuv8=;
+  b=lbCdKhLcYLXCK3negIfaOWfDNxELe0hmX+CsCEKoZZrvpSwvDqkNL5es
+   uS4+/bQFkN+bgcQ29SzoZ//USoO+cU6nNMbVFX16B8YKCyQTNgc2OJoiC
+   ORtGuiyIGjinCSIzNS/ZtUl1+a45EbKk55eeiTA1xuaRY9zbUyZT5UcfQ
+   u5yY3Bz6Qt1PUjQjDXwWt3Fakunxl/vyS+metGKeHmgv42KWjQ8fznClk
+   e7oxwzM5YdqbWuRENoXY79TQSCSVLHe1Ya1qaWXjWZv9vAqvW/8oBE5tD
+   LHAPZXjXn4qSLYElNCg6ubqsRLl7oAp9g9hbVfytTkAYWbZQPBPBD0OOD
+   w==;
+X-CSE-ConnectionGUID: XbD2WxmhRh6+1CcdHH41yA==
+X-CSE-MsgGUID: yltUft6RTi6u9D6pmta2IA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="27959184"
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="28101884"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 21:32:59 -0700
-X-CSE-ConnectionGUID: xlrxdYeoRVCGPpSXEZMSUQ==
-X-CSE-MsgGUID: 18hiwM1BSyycpyc4jLTsYw==
+   d="scan'208";a="27959184"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 21:42:56 -0700
+X-CSE-ConnectionGUID: fNuYAbd5RBe3pgmRl94MfQ==
+X-CSE-MsgGUID: AsmmP6POScG75dJCt8MHSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="81412364"
+   d="scan'208";a="76712343"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Oct 2024 21:32:54 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Oct 2024 21:42:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sz7Ke-000BnT-1j;
-	Fri, 11 Oct 2024 04:32:52 +0000
-Date: Fri, 11 Oct 2024 12:32:12 +0800
+	id 1sz7UL-000Bof-0N;
+	Fri, 11 Oct 2024 04:42:53 +0000
+Date: Fri, 11 Oct 2024 12:42:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vasileios Amoiridis <vassilisamir@gmail.com>, jic23@kernel.org,
-	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, andriy.shevchenko@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	vassilisamir@gmail.com, ang.iglesiasg@gmail.com,
-	linus.walleij@linaro.org, biju.das.jz@bp.renesas.com,
-	javier.carrasco.cruz@gmail.com, semen.protsenko@linaro.org,
-	579lpy@gmail.com, ak@it-klinger.de, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	christophe.jaillet@wanadoo.fr
-Subject: Re: [PATCH v8 1/4] iio: pressure: bmp280: Use sleep and forced mode
- for oneshot captures
-Message-ID: <202410111221.YIeXHxOv-lkp@intel.com>
-References: <20241007194945.66192-2-vassilisamir@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:kfifo-include 1/1] include/linux/kfifo.h:745:60: error:
+ 'DMA_MAPPING_ERROR' undeclared
+Message-ID: <202410111216.3o3f3B02-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,83 +61,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007194945.66192-2-vassilisamir@gmail.com>
 
-Hi Vasileios,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 96be67caa0f0420d4128cb67f07bbd7a6f49e03a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vasileios-Amoiridis/iio-pressure-bmp280-Use-sleep-and-forced-mode-for-oneshot-captures/20241008-035238
-base:   96be67caa0f0420d4128cb67f07bbd7a6f49e03a
-patch link:    https://lore.kernel.org/r/20241007194945.66192-2-vassilisamir%40gmail.com
-patch subject: [PATCH v8 1/4] iio: pressure: bmp280: Use sleep and forced mode for oneshot captures
-config: i386-randconfig-006-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111221.YIeXHxOv-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111221.YIeXHxOv-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git kfifo-include
+head:   5a122872045100223f0e44256a62ed2b1f85d985
+commit: 5a122872045100223f0e44256a62ed2b1f85d985 [1/1] kfifo: don't include dma-mapping.h in kfifo.h
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241011/202410111216.3o3f3B02-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111216.3o3f3B02-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111221.YIeXHxOv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410111216.3o3f3B02-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/pressure/bmp280-core.c:1051:3: warning: variable 'meas_time_us' is uninitialized when used here [-Wuninitialized]
-    1051 |                 meas_time_us += BMP280_PRESS_HUMID_MEAS_OFFSET +
-         |                 ^~~~~~~~~~~~
-   drivers/iio/pressure/bmp280-core.c:1046:32: note: initialize the variable 'meas_time_us' to silence this warning
-    1046 |         unsigned int reg, meas_time_us;
-         |                                       ^
-         |                                        = 0
-   drivers/iio/pressure/bmp280-core.c:2452:2: warning: variable 'offset' is uninitialized when used here [-Wuninitialized]
-    2452 |         offset += sizeof(s32);
-         |         ^~~~~~
-   drivers/iio/pressure/bmp280-core.c:2437:17: note: initialize the variable 'offset' to silence this warning
-    2437 |         int ret, offset;
-         |                        ^
-         |                         = 0
-   2 warnings generated.
+   In file included from samples/kfifo/dma-example.c:9:
+   samples/kfifo/dma-example.c: In function 'example_init':
+>> include/linux/kfifo.h:745:60: error: 'DMA_MAPPING_ERROR' undeclared (first use in this function)
+     745 |         kfifo_dma_in_prepare_mapped(fifo, sgl, nents, len, DMA_MAPPING_ERROR)
+         |                                                            ^~~~~~~~~~~~~~~~~
+   include/linux/kfifo.h:740:34: note: in definition of macro 'kfifo_dma_in_prepare_mapped'
+     740 |                                  dma) : \
+         |                                  ^~~
+   samples/kfifo/dma-example.c:64:17: note: in expansion of macro 'kfifo_dma_in_prepare'
+      64 |         nents = kfifo_dma_in_prepare(&fifo, sg, ARRAY_SIZE(sg), FIFO_SIZE);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/kfifo.h:745:60: note: each undeclared identifier is reported only once for each function it appears in
+     745 |         kfifo_dma_in_prepare_mapped(fifo, sgl, nents, len, DMA_MAPPING_ERROR)
+         |                                                            ^~~~~~~~~~~~~~~~~
+   include/linux/kfifo.h:740:34: note: in definition of macro 'kfifo_dma_in_prepare_mapped'
+     740 |                                  dma) : \
+         |                                  ^~~
+   samples/kfifo/dma-example.c:64:17: note: in expansion of macro 'kfifo_dma_in_prepare'
+      64 |         nents = kfifo_dma_in_prepare(&fifo, sg, ARRAY_SIZE(sg), FIFO_SIZE);
+         |                 ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/meas_time_us +1051 drivers/iio/pressure/bmp280-core.c
+vim +/DMA_MAPPING_ERROR +745 include/linux/kfifo.h
 
-  1043	
-  1044	static int bmp280_wait_conv(struct bmp280_data *data)
-  1045	{
-  1046		unsigned int reg, meas_time_us;
-  1047		int ret;
-  1048	
-  1049		/* Check if we are using a BME280 device */
-  1050		if (data->oversampling_humid)
-> 1051			meas_time_us += BMP280_PRESS_HUMID_MEAS_OFFSET +
-  1052					BIT(data->oversampling_humid) * BMP280_MEAS_DUR;
-  1053	
-  1054		/* Pressure measurement time */
-  1055		meas_time_us += BMP280_PRESS_HUMID_MEAS_OFFSET +
-  1056				BIT(data->oversampling_press) * BMP280_MEAS_DUR;
-  1057	
-  1058		/* Temperature measurement time */
-  1059		meas_time_us += BIT(data->oversampling_temp) * BMP280_MEAS_DUR;
-  1060	
-  1061		/* Waiting time according to the BM(P/E)2 Sensor API */
-  1062		fsleep(meas_time_us);
-  1063	
-  1064		ret = regmap_read(data->regmap, BMP280_REG_STATUS, &reg);
-  1065		if (ret) {
-  1066			dev_err(data->dev, "failed to read status register.\n");
-  1067			return ret;
-  1068		}
-  1069	
-  1070		if (reg & BMP280_REG_STATUS_MEAS_BIT) {
-  1071			dev_err(data->dev, "Measurement cycle didn't complete.\n");
-  1072			return -EBUSY;
-  1073		}
-  1074	
-  1075		return 0;
-  1076	}
-  1077	
+86d48803136038 Stefani Seibold   2009-12-21  743  
+d52b761e4b1acc Jiri Slaby (SUSE  2024-04-05  744) #define kfifo_dma_in_prepare(fifo, sgl, nents, len) \
+d52b761e4b1acc Jiri Slaby (SUSE  2024-04-05 @745) 	kfifo_dma_in_prepare_mapped(fifo, sgl, nents, len, DMA_MAPPING_ERROR)
+d52b761e4b1acc Jiri Slaby (SUSE  2024-04-05  746) 
+
+:::::: The code at line 745 was first introduced by commit
+:::::: d52b761e4b1acc897e65bcc8eff42b0537ac0134 kfifo: add kfifo_dma_out_prepare_mapped()
+
+:::::: TO: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
