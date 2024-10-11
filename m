@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D8328EB;
-	Fri, 11 Oct 2024 04:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29821C7B6A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 04:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728621780; cv=none; b=GYjIzolxON8aB8iNqsdExlvrbcmsEsd/kjBJavH5jAfqpp1WekENiIP4ukRCHKegeu07yFaL4qgvitP+6bnpp+GplaEjNlDiD7/HQskCMEacGQXrR4esXZHKGEG3i7H+BsHNZRvQrCS+AZuvp5u0Cd+NavCZ2wf8oMOh4lPxyXE=
+	t=1728622500; cv=none; b=lfamuvG27XtoyWlJ0TFA01bPdxHpgYlJPhyKuN9gccuGCmMKXgFx/qLLFZkFiVw0PGz3wRQsoJM3JcRZ6WtvgjuUkDkvgh8tSVTk8XxKTpXbPn53uCpTlJg5HfqEcaxWEXmPZvMlM1c2xA+SLNwTqVYXoYh1YTryb4VTEG/8+7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728621780; c=relaxed/simple;
-	bh=xq2xYxCeEvzyDD2ePxSl33QtiL+L//1dLF/xG9ewvDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lEYxwvCYENKF749T5gfDOEey/UPjDE62IHuI8Clrq35NEYV9RqjM5D4i0S0RmmrVzVXhwa7H7fjMFqP3A8J6ylv0ZQXbbnkykDTnSA/pnJhdEinl7wxAkHt0wq5gdgbc8c905jxiJisFU8TmRHB725c65qwWs4bovm0pTKJzCS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atp8cQGB; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1728622500; c=relaxed/simple;
+	bh=ctM6S9WmsfMPKXUNokW2BeLVsRw06gX4Z4aqoOoS3T4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KGrFnBYqgWGaQMvJMVsmRE9isdp65tUli82CXF25Y3/9wnokpt2J89TNLGta7nNngPWMda3I96VunBY5uAplhBxx6cLgs+MHaFQQN7n9GmzTDGlgVhHsSmS97qLKBTK2omtsoTsE18Ww4/xXyjLTSIXULGUl5BGbDoHFFA6xbuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jolUWnXs; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atp8cQGB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jolUWnXs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728621779; x=1760157779;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xq2xYxCeEvzyDD2ePxSl33QtiL+L//1dLF/xG9ewvDY=;
-  b=atp8cQGBnaXZD94EGyNjUFBhGdxLN9wU/slXctT6mftbVYSfAQkimm5L
-   GgC8M6hmhJKE/txmuIHMBBWWkk9Jh/ckudzvF7EXkUT67OKtNXdDkCMDQ
-   4GSIRGBbuFiS5rg3MyWJNqFPli/ko0fiyRx2xZRfwA/9pDPGioD3YhNE4
-   2O8uiKao7jt+uJCN5SPzUemwT8136FbTSn+lDW9yTqiMLa4kiAA3UdXH8
-   ZQ4NDXoq+kR0B8V22DuOJwYj3npmQT9HrjrjKa9gwlUMmdsSbuz7R2jM5
-   pQ5SCGDOeFTaf3ItLBmxPpDydJyME+22BrCNtmC3+i5kkT8UHwM8FDXwo
+  t=1728622497; x=1760158497;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ctM6S9WmsfMPKXUNokW2BeLVsRw06gX4Z4aqoOoS3T4=;
+  b=jolUWnXscSwI6ywieyIVIFCZYKDvCh/OJtyX/1zfqyUE0VV4fKnjIi4k
+   LeKClm4XS+ITWjMBXagYtsCFzr7Y4wIf2sIKH6OcTkLSEd/L4S6vhGAyl
+   LoBQ8CAKc8E099paVH9mh9FQLvzuWxozmF2RtGkUY79xfZg5VYOEc4ipM
+   8qBNTilsNmt1McTZSGcg4RPYFRZgwmlw0BufpwFoNTTpJ68OpR5CRKH3o
+   HgVso8/BVfwmaLdtf6rvUHNg6fOdDjbVF/gJCeT/SGX/gh9USyaEmnjzK
+   Esdd+h72O072+2KdLE1pcZosCxqQ1Y6yUSmq0F2MXyXsX+gd+kH8STcsL
    A==;
-X-CSE-ConnectionGUID: +s20Rls7TOilnNCq+IYzwg==
-X-CSE-MsgGUID: QZuKZKPzQCGTC+7FpSP1Dg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="27959202"
+X-CSE-ConnectionGUID: ES0wP5HmTaOnpJMg4fTVcw==
+X-CSE-MsgGUID: 0p/D5TOGQKGjCqqLmDdiTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39141710"
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="27959202"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 21:42:58 -0700
-X-CSE-ConnectionGUID: pbRcFdqLRZmQX/JmBKPFNg==
-X-CSE-MsgGUID: /8q1Oky7SJmnO1TALXDWhw==
+   d="scan'208";a="39141710"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 21:54:57 -0700
+X-CSE-ConnectionGUID: C4PyD3t9QU69QTTXoQoaFA==
+X-CSE-MsgGUID: JraFvWlbRaWWuAKVpf3o8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="76712344"
+   d="scan'208";a="80809222"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Oct 2024 21:42:56 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 10 Oct 2024 21:54:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sz7UL-000Bod-0J;
-	Fri, 11 Oct 2024 04:42:53 +0000
-Date: Fri, 11 Oct 2024 12:42:35 +0800
+	id 1sz7fx-000BpW-2C;
+	Fri, 11 Oct 2024 04:54:53 +0000
+Date: Fri, 11 Oct 2024 12:54:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>,
-	Barry Song <baohua@kernel.org>, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH 2/4] mm/sparse-vmemmap: set pte_init when vmemmap is
- created
-Message-ID: <202410111254.kon5pPzX-lkp@intel.com>
-References: <20241010035048.3422527-3-maobibo@loongson.cn>
+To: kernel@openeuler.org, chench00 <chench@hygon.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 13318/14350]
+ drivers/crypto/ccp/hygon/tdm-dev.c:340:63: error: incomplete definition of
+ type 'struct module'
+Message-ID: <202410111205.LRqw3beL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,114 +62,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241010035048.3422527-3-maobibo@loongson.cn>
 
-Hi Bibo,
+Hi chench00,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 87d6aab2389e5ce0197d8257d5f8ee965a67c4cd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Set-pte-entry-with-PAGE_GLOBAL-for-kernel-space/20241010-115120
-base:   87d6aab2389e5ce0197d8257d5f8ee965a67c4cd
-patch link:    https://lore.kernel.org/r/20241010035048.3422527-3-maobibo%40loongson.cn
-patch subject: [PATCH 2/4] mm/sparse-vmemmap: set pte_init when vmemmap is created
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241011/202410111254.kon5pPzX-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111254.kon5pPzX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f7c1291d7c3f15bc448cd93e29fa539386fe85fe
+commit: a1dd4972da4e66d9a9d1a89b3dfd8f742c20193b [13318/14350] crypto: tdm: Add Hygon TDM driver
+config: x86_64-buildonly-randconfig-003-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111205.LRqw3beL-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111205.LRqw3beL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111254.kon5pPzX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410111205.LRqw3beL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from mm/sparse-vmemmap.c:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/sparse-vmemmap.c:23:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from mm/sparse-vmemmap.c:23:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from mm/sparse-vmemmap.c:23:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/sparse-vmemmap.c:187:23: warning: no previous prototype for function 'kernel_pte_init' [-Wmissing-prototypes]
-     187 | void __weak __meminit kernel_pte_init(void *addr)
-         |                       ^
-   mm/sparse-vmemmap.c:187:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     187 | void __weak __meminit kernel_pte_init(void *addr)
-         | ^
-         | static 
-   14 warnings generated.
+   drivers/crypto/ccp/hygon/tdm-dev.c:94:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      94 |         int ret = 0;
+         |             ^
+>> drivers/crypto/ccp/hygon/tdm-dev.c:340:63: error: incomplete definition of type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                                            ~~~~~~~~^
+   include/linux/fortify-string.h:707:53: note: expanded from macro 'memcpy'
+     707 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                                                     ^
+   include/linux/fortify-string.h:650:41: note: expanded from macro '__fortify_memcpy_chk'
+     650 |         const size_t __fortify_size = (size_t)(size);                   \
+         |                                                ^~~~
+   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
+     103 | struct module;
+         |        ^
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:40: error: incomplete definition of type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                     ~~~~~~~~^
+   include/linux/fortify-string.h:708:35: note: expanded from macro 'memcpy'
+     708 |                 __struct_size(p), __struct_size(q),                     \
+         |                                                 ^
+   include/linux/fortify-string.h:110:56: note: expanded from macro '__struct_size'
+     110 | #define __struct_size(p)        __builtin_dynamic_object_size(p, 0)
+         |                                                               ^
+   include/linux/fortify-string.h:652:27: note: expanded from macro '__fortify_memcpy_chk'
+     652 |         const size_t __q_size = (q_size);                               \
+         |                                  ^~~~~~
+   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
+     103 | struct module;
+         |        ^
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:40: error: incomplete definition of type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                     ~~~~~~~~^
+   include/linux/fortify-string.h:709:35: note: expanded from macro 'memcpy'
+     709 |                 __member_size(p), __member_size(q),                     \
+         |                                                 ^
+   include/linux/fortify-string.h:111:56: note: expanded from macro '__member_size'
+     111 | #define __member_size(p)        __builtin_dynamic_object_size(p, 1)
+         |                                                               ^
+   include/linux/fortify-string.h:654:33: note: expanded from macro '__fortify_memcpy_chk'
+     654 |         const size_t __q_size_field = (q_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
+     103 | struct module;
+         |        ^
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:40: error: incomplete definition of type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                     ~~~~~~~~^
+   include/linux/fortify-string.h:707:50: note: expanded from macro 'memcpy'
+     707 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                                                  ^
+   include/linux/fortify-string.h:662:23: note: expanded from macro '__fortify_memcpy_chk'
+     662 |         __underlying_##op(p, q, __fortify_size);                        \
+         |                              ^
+   arch/x86/include/asm/alternative.h:103:8: note: forward declaration of 'struct module'
+     103 | struct module;
+         |        ^
+   drivers/crypto/ccp/hygon/tdm-dev.c:606:20: warning: variable 'head' set but not used [-Wunused-but-set-variable]
+     606 |         struct list_head *head = NULL;
+         |                           ^
+   2 warnings and 4 errors generated.
 
 
-vim +/kernel_pte_init +187 mm/sparse-vmemmap.c
+vim +340 drivers/crypto/ccp/hygon/tdm-dev.c
 
-   186	
- > 187	void __weak __meminit kernel_pte_init(void *addr)
-   188	{
-   189	}
-   190	
+   323	
+   324		if (!hash) {
+   325			ret = -DYN_NULL_POINTER;
+   326			pr_err("Null pointer\n");
+   327			goto end;
+   328		}
+   329	
+   330		ctx_msg.flag = flag;
+   331		ctx_msg.pid = current->pid;
+   332		memcpy(ctx_msg.comm, current->comm, sizeof(current->comm));
+   333	
+   334		return_address = CALLER_ADDR1;
+   335		if (return_address) {
+   336	#if IS_BUILTIN(CONFIG_CRYPTO_DEV_CCP_DD)
+   337			p_module = __module_address(return_address);
+   338			// caller is module
+   339			if (p_module)
+ > 340				memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+   341			// caller is build-in
+   342			else
+   343				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   344	#elif IS_ENABLED(CONFIG_KALLSYMS)
+   345			symbol_len = sprint_symbol((char *)symbol_buf, return_address);
+   346			if (!symbol_len) {
+   347				ret = -DYN_ERR_API;
+   348				pr_err("sprint_symbol failed\n");
+   349				goto end;
+   350			}
+   351			symbol_begin = strchr((char *)symbol_buf, '[');
+   352			if (!symbol_begin) {
+   353				ret = -DYN_NULL_POINTER;
+   354				pr_err("module name is not exist\n");
+   355				goto end;
+   356			}
+   357			symbol_end = strchr((char *)symbol_buf, ']');
+   358			if (!symbol_end) {
+   359				ret = -DYN_NULL_POINTER;
+   360				pr_err("module name is not exist\n");
+   361				goto end;
+   362			}
+   363			symbol_begin++;
+   364			if (symbol_end - symbol_begin)
+   365				memcpy(ctx_msg.module_name, symbol_begin, symbol_end - symbol_begin);
+   366			else
+   367				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   368	#else
+   369			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   370	#endif
+   371		} else
+   372			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   373	
+   374		ret = calc_task_context_hash(ctx_msg, hash);
+   375		if (ret) {
+   376			pr_err("calc_task_context_hash failed\n");
+   377			goto end;
+   378		}
+   379	
+   380	end:
+   381		return ret;
+   382	}
+   383	
 
 -- 
 0-DAY CI Kernel Test Service
