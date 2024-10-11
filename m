@@ -1,84 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3F6567D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 05:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B311F7062;
+	Fri, 11 Oct 2024 05:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728623766; cv=none; b=B7SJxVp/7z70sbjVEkDBQDg9c/7iO5f9L/ZhpDPLcfOjdTaAE1oGJU/Fy6F8TNQqCRBrYO6Yw10Yf05sz4X4j5MM3crVoj+q5X9dNpgzJcKqjRD0a2a0HOGG75NlZEFEkAmWf5hD7AEPzww8Rbsfl/Y871Q/nR0K/N/PMS61J5w=
+	t=1728624481; cv=none; b=K/spWdOB0z+L2HTiAUygkLn2fbA4wvuuUvAZir2ls/LjaAIQXhQxl+YKzHx4DBlgd9q63OeOY3xYm2IcV5qO7n6TBkf5vihp+3wFmM86y+HrrydfcvvVU7a+ikCuKavzg6C455YhyjO4h2RCQe2o3sctbXJCeLCBAmNF7fHPyqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728623766; c=relaxed/simple;
-	bh=oXPKp2uZEnGUtYeEYnykIZVlicObW/XIzlul2tJetiM=;
+	s=arc-20240116; t=1728624481; c=relaxed/simple;
+	bh=goCG6LuCMyfTeKQKHyln6y/2A0/7zl/mSrjhumcIpf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5YUyOLiC5UW8mLDUyF1yAyBZsnFu/vSKc42Xi45UYjywQ/TZj0jb7GmtJrPn1OCifh6qiPwvw6S1G66WH44Rtqtb63Ct1WVI5f7+z72SbJWTksvKYKBnAfhFXAWNCRftr0TCo9IV/PQplLxio8VUmvsWc/i7khRYb1pAgNwpwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqDn6Jub; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPc6/0BF8/7tvvl4Bmt41BUyokgugEiBfr2njE2VWQUTvs7fAAef/Lll081pPGUyMGLd9n/SdSX0ngMXJy3G2HDtTop+QzIGqxSlI8PNnKtIBeNIkbcW8C8rxZZptyrNM2+ZDGFLaIuh3nZZ1brOb2gbW7E2AjRSU82bpunYOVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BuSrlhBs; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqDn6Jub"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuSrlhBs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728623765; x=1760159765;
+  t=1728624480; x=1760160480;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oXPKp2uZEnGUtYeEYnykIZVlicObW/XIzlul2tJetiM=;
-  b=aqDn6Jub7ozeAIoxC89IEE0rH5sUrzxTa1FHevE35iqRvBgW9CR7FGdV
-   BZpIHQffGs+82CPwX++P6Qx8pPmpqNwP7yaBOa2hwiVmTr0qOCj2+cplU
-   hRcqaXXHPIkxCbAyJ6+pJNwTHOCHPArFwk3tK7yiqThLmQ93zwcUving4
-   R1MFYqGf358jglqN1PLuJDgXbH9W2L/iRoY5IzE7QyaeWQY0eAfKMt6ag
-   x9rgzz2RejXtsc8GPe+nRCZZ13gjKuODmRklSpNizP1CMAf82/k1wz2gv
-   sMx+JK3x6MPIpGYlaV/X2DRTR+EQwb0E4kUV6vImvXSsIMIzQF6dHZ5gB
-   A==;
-X-CSE-ConnectionGUID: +iFMQxcrQYKINAjHxmbUZQ==
-X-CSE-MsgGUID: weDaX0VRTYGlSfT0nppsig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="15635864"
+  bh=goCG6LuCMyfTeKQKHyln6y/2A0/7zl/mSrjhumcIpf8=;
+  b=BuSrlhBsGdesdRYHx2Vyot5wvyD6FKH4hcmYWmAYZ93e/RT0MJBe9m8J
+   pqLlcn3Z1soF/fLwtY+xjtxqACLvEXJHI1a2Os1WrjrlDG4JId7SfssJw
+   c2/3UIYZx5CGXZVLavmtEz1J1iZLXFzq38W56K+2npR3BDPQSWFr+2T2E
+   4+H6Uy8tRetkF1/ugjY/F/YHlHX2ZbaPShTPfcb6+YvczaWRURgM/8arU
+   Bfh4q2RbvcPIaDiz8DSvX7V+/RUh6ftc8zsDjxGdWhNPgkDmp+6mJHb3c
+   F72qeo0IaACDiHVHiMOUQk7IDjg5jVRtSUuMKEBGVkbuXB0jxXVIihR3r
+   w==;
+X-CSE-ConnectionGUID: ncX/jZlFSVC5UACylKQ3GQ==
+X-CSE-MsgGUID: aSZzVi1oT2uU38FMWI1k1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="28145118"
 X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="15635864"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 22:16:04 -0700
-X-CSE-ConnectionGUID: OcOAqgggRkynTfXpGipgfQ==
-X-CSE-MsgGUID: FrTbE1n2TLajNJFQH08VTQ==
+   d="scan'208";a="28145118"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 22:27:59 -0700
+X-CSE-ConnectionGUID: gr19AF24RDe1lwNh+/M43w==
+X-CSE-MsgGUID: AUDeKc8zTfmC6HBM0MTIHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="76716322"
+   d="scan'208";a="77017453"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Oct 2024 22:15:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2024 22:27:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sz80I-000Bq9-0p;
-	Fri, 11 Oct 2024 05:15:54 +0000
-Date: Fri, 11 Oct 2024 13:15:32 +0800
+	id 1sz8Bu-000Bqb-1h;
+	Fri, 11 Oct 2024 05:27:54 +0000
+Date: Fri, 11 Oct 2024 13:27:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrea della Porta <andrea.porta@suse.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Saravana Kannan <saravanak@google.com>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Stefan Wahren <wahrenst@gmx.net>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 11/14] misc: rp1: RaspberryPi RP1 misc driver
-Message-ID: <202410111247.L5n2NDAU-lkp@intel.com>
-References: <c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta@suse.com>
+To: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+	daxing.li@intel.com, hao.yao@intel.com,
+	dongcheng.yan@linux.intel.com
+Subject: Re: [PATCH v1] media: i2c: add lt6911uxe hdmi bridge driver
+Message-ID: <202410111357.m9iK4rKf-lkp@intel.com>
+References: <20241010071010.3275452-1-dongcheng.yan@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,41 +66,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta@suse.com>
+In-Reply-To: <20241010071010.3275452-1-dongcheng.yan@intel.com>
 
-Hi Andrea,
+Hi Dongcheng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on clk/clk-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.12-rc2 next-20241010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 6ba59ff4227927d3a8530fc2973b80e94b54d58f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-della-Porta/dt-bindings-clock-Add-RaspberryPi-RP1-clock-bindings/20241007-204440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/c5b072393d2dc157d34f6dbeff6261d142d4de69.1728300190.git.andrea.porta%40suse.com
-patch subject: [PATCH v2 11/14] misc: rp1: RaspberryPi RP1 misc driver
-config: sparc-kismet-CONFIG_OF_IRQ-CONFIG_MISC_RP1-0-0 (https://download.01.org/0day-ci/archive/20241011/202410111247.L5n2NDAU-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241011/202410111247.L5n2NDAU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-add-lt6911uxe-hdmi-bridge-driver/20241010-161811
+base:   6ba59ff4227927d3a8530fc2973b80e94b54d58f
+patch link:    https://lore.kernel.org/r/20241010071010.3275452-1-dongcheng.yan%40intel.com
+patch subject: [PATCH v1] media: i2c: add lt6911uxe hdmi bridge driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241011/202410111357.m9iK4rKf-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111357.m9iK4rKf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111247.L5n2NDAU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410111357.m9iK4rKf-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for OF_IRQ when selected by MISC_RP1
-   WARNING: unmet direct dependencies detected for OF_IRQ
-     Depends on [n]: OF [=y] && !SPARC [=y] && IRQ_DOMAIN [=y]
-     Selected by [y]:
-     - MISC_RP1 [=y] && PCI [=y] && PCI_QUIRKS [=y]
-   
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-     Depends on [n]: SPARSEMEM [=n]
-     Selected by [y]:
-     - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+All errors (new ones prefixed by >>):
+
+>> drivers/media/i2c/lt6911uxe.c:222:8: error: use of undeclared identifier 'V4L2_CID_CUR_LINK_FREQ'
+     222 |                                                  V4L2_CID_CUR_LINK_FREQ, 0,
+         |                                                  ^
+   1 error generated.
+
+
+vim +/V4L2_CID_CUR_LINK_FREQ +222 drivers/media/i2c/lt6911uxe.c
+
+   208	
+   209	static int lt6911uxe_init_controls(struct lt6911uxe *lt6911uxe)
+   210	{
+   211		struct v4l2_ctrl_handler *ctrl_hdlr;
+   212		s64 pixel_rate;
+   213		int ret;
+   214	
+   215		ctrl_hdlr = &lt6911uxe->ctrl_handler;
+   216		ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+   217		if (ret)
+   218			return ret;
+   219	
+   220		ctrl_hdlr->lock = &lt6911uxe->mutex;
+   221		lt6911uxe->link_freq = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
+ > 222							 V4L2_CID_CUR_LINK_FREQ, 0,
+   223							 LT6911UXE_MAX_LINK_FREQ, 1,
+   224							 lt6911uxe->cur_mode.link_freq);
+   225	
+   226		pixel_rate = get_pixel_rate(lt6911uxe);
+   227		lt6911uxe->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
+   228							  V4L2_CID_PIXEL_RATE,
+   229							  pixel_rate, pixel_rate, 1,
+   230							  pixel_rate);
+   231	
+   232		if (ctrl_hdlr->error) {
+   233			ret = ctrl_hdlr->error;
+   234			goto hdlr_free;
+   235		}
+   236		lt6911uxe->sd.ctrl_handler = ctrl_hdlr;
+   237	
+   238		return 0;
+   239	
+   240	hdlr_free:
+   241		v4l2_ctrl_handler_free(ctrl_hdlr);
+   242		return ret;
+   243	}
+   244	
 
 -- 
 0-DAY CI Kernel Test Service
