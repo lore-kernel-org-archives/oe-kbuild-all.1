@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB011494BF;
-	Sat, 12 Oct 2024 22:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDA4146D5A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 23:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728772767; cv=none; b=nK98a2gVqwc6cliLZ7cQFcI+h/bS4ui9nkB5/t1wEz7yykfy2oBqCo1hjtwWwogmgcopCHSwB8GBuOYF0W+gurzeu9dWLbwYgVb+iWV5UO3AN46DUgKkcaC3t3Fgg12Y324u5vatJFUYeUgMAjJL/bATgLqVqu5UwOKYwk/wnPg=
+	t=1728776427; cv=none; b=FJS6iZrQWj5msEexe+Q3QO142FdFKU7k3bWgy+3902zhL66WRe7yW2yKHywRLOSc282Txso4BN7/kMIZRl+JdMjIPF5D8TnUtm9Bf+CUdx8sM4BGU7RK2b4NXAj+pBkmWFARdVpk45P1d96gg3UJ7Ws8NAChLJvM43lX20cPcxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728772767; c=relaxed/simple;
-	bh=vUqSywD6bEG5s9eVMG4TABdSWJ+YjqAfWvG2aa+0MbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i1RDmeF7IDM0hNJAB75izEPY5nFPezAs/RRvqjtDRuZaHMqK2uOPCzZcfo9f3nP3p9Buz32328Z/9IC45Do7mOGdL0HlOPovwoA3MaXjwFHW0eY6k/kknMGW8oiV9tCVBC1CFFArgREUoJWOSMVAl5CmGYvGUa2g6i7yY37HKbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O3zml3fN; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1728776427; c=relaxed/simple;
+	bh=6iLHxCBmVZUWmq3bX2dxlvgfac92uSNUQqhnmVC/aUY=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ci0TAlK7hUkKUeRhi5ghxZrhKR+YCZNBEowGBhtGIOGHWRUiOTccvDyCceOuzYiA3G7zVQigMdB+140OvW2vj4ai1DaeWmkzSyyxC4SHA9IQulmx67XUxaZloJabvtfXPGS8dBFQRGC+V51HsuOaXnJUnOI4HBmutVVfvDd+HZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ynn3OtN9; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3zml3fN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ynn3OtN9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728772765; x=1760308765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vUqSywD6bEG5s9eVMG4TABdSWJ+YjqAfWvG2aa+0MbM=;
-  b=O3zml3fN0lnQBZPICyPct2wTr8WhVhSpFXFL/zRW9FHTaXsvip12rYkK
-   IdRhko+1hdmHGmhW9pEfHEnNHesqreQ72iap20/vvc7rNXjN+D9WDiPE/
-   3vJaxuwCalIp2ulvOBEXrZQrLEM5JVps2DjjwSwgQv7nckdyybWFdgXcA
-   2NmkPZUTVqpvIKpm872kztV+LEYRVn2mnOW5bS1576Z2zil5Kfmem4GPo
-   kEhzM7EftZ5m+4jdiOfdmiJtoOqm/0QmXILkljwSQoagSAGrMoR29ddGn
-   AzLnHaeAhYUcJEj9Yi34+zzXQJcZy62DCymbfvzW3vqCuF+IkplqqtxSn
-   Q==;
-X-CSE-ConnectionGUID: 0KanP5btTsqbqKt8vlDs2Q==
-X-CSE-MsgGUID: xdtDd3e3QfKh2uJclNBD8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39268039"
+  t=1728776425; x=1760312425;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=6iLHxCBmVZUWmq3bX2dxlvgfac92uSNUQqhnmVC/aUY=;
+  b=Ynn3OtN90C7kdYvF9dPOPPPeuWOSZcuPLMZdIvy6ayqxDx+rn8MGYorl
+   sMYw250v21YR/5I6VtG3LmtA17afqNUqGIsBbFSFQXVJ3ALAeEydYN2l9
+   PNfNbgtIfm+F79jLxvlTZjHOXlyNGe5DBgNlVxC+FSgIDUe8ciRqE0E62
+   2kOqhaW/2ZBlpxq1on1XYp7Iq/bBGOJn7+Q2SKeQ5k40I5zwUHtCehSt+
+   OD+Y+ETjV3xg10ZtpF4FekFH5kB4HpmPUB7PGFCxgR8iFOXdd9ufl5Mna
+   eAEqPY7Y4nnhxT3by5kSUaX1bDazfljxmE+iJhKaAVW/lPDVbdPvz7tw9
+   g==;
+X-CSE-ConnectionGUID: DIeebei3QkirNeQ0lQVnNw==
+X-CSE-MsgGUID: 7W3BRSVGS9q+BmsO05Pjug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28281585"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39268039"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 15:39:24 -0700
-X-CSE-ConnectionGUID: xUWRXF1LQhqVkyRqWFD5Jw==
-X-CSE-MsgGUID: E3YglmguSgeChnM50lXO1g==
+   d="scan'208";a="28281585"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 16:40:25 -0700
+X-CSE-ConnectionGUID: C6rm/yRRRWu6Q48HIR/yeg==
+X-CSE-MsgGUID: gkOGHoYMRwymekyblpV+Sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="107953216"
+   d="scan'208";a="77326704"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Oct 2024 15:39:22 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 Oct 2024 16:40:24 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szklb-000DoJ-2L;
-	Sat, 12 Oct 2024 22:39:19 +0000
-Date: Sun, 13 Oct 2024 06:38:42 +0800
+	id 1szlif-000Dr9-1o;
+	Sat, 12 Oct 2024 23:40:21 +0000
+Date: Sun, 13 Oct 2024 07:40:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Arnd Bergmann <arnd@arndb.de>, Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] acpi: processor_perflib: extend X86 dependency
-Message-ID: <202410130611.9S3HzhgF-lkp@intel.com>
-References: <20241011061948.3211423-3-arnd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Jai Luthra <j-luthra@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y 45/107] kismet: WARNING: unmet direct
+ dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+Message-ID: <202410130734.msHfpn3i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,47 +61,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241011061948.3211423-3-arnd@kernel.org>
 
-Hi Arnd,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus groeck-staging/hwmon-next soc/for-next linus/master v6.12-rc2 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/acpi-allow-building-without-CONFIG_HAS_IOPORT/20241011-142245
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20241011061948.3211423-3-arnd%40kernel.org
-patch subject: [PATCH v2 3/3] acpi: processor_perflib: extend X86 dependency
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20241013/202410130611.9S3HzhgF-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410130611.9S3HzhgF-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
+head:   451df8c0a2a3bcf0656b2f6fdc49d6fb4d05f186
+commit: cf0136753f9892c69092d959eb86c8e06e706138 [45/107] media: i2c: add DS90UB960 driver
+config: alpha-kismet-CONFIG_GPIOLIB_IRQCHIP-CONFIG_PINCTRL_STMFX-0-0 (https://download.01.org/0day-ci/archive/20241013/202410130734.msHfpn3i-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241013/202410130734.msHfpn3i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410130611.9S3HzhgF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410130734.msHfpn3i-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/acpi/processor_perflib.c:27:21: warning: unused variable 'performance_mutex' [-Wunused-variable]
-      27 | static DEFINE_MUTEX(performance_mutex);
-         |                     ^~~~~~~~~~~~~~~~~
-   include/linux/mutex.h:112:15: note: expanded from macro 'DEFINE_MUTEX'
-     112 |         struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
-         |                      ^~~~~~~~~
-   1 warning generated.
-
-
-vim +/performance_mutex +27 drivers/acpi/processor_perflib.c
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  26  
-65c19bbd28cba5 Arjan van de Ven 2006-04-27 @27  static DEFINE_MUTEX(performance_mutex);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  28  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+   WARNING: unmet direct dependencies detected for OF_GPIO
+     Depends on [n]: GPIOLIB [=n] && OF [=y] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - VIDEO_DS90UB960 [=y] && MEDIA_SUPPORT [=y] && OF [=y] && I2C [=y] && VIDEO_DEV [=y]
+   
+   WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP
+     Depends on [n]: GPIOLIB [=n]
+     Selected by [y]:
+     - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y]
 
 -- 
 0-DAY CI Kernel Test Service
