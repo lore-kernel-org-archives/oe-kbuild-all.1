@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18225137742
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 08:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373E281723;
+	Sat, 12 Oct 2024 08:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728720605; cv=none; b=cl4osO9gy5rC6Yx0LzJ1H5cl1ai1RKfXh961psZvfuKI769KHu8+7h7BpO/h1Ldm/C+3EQ6t4Hhww5BzDZ7Sr7AHk9Rg9MAUOmNnIOVM72+3Eh5pbn6ei46HiWwWzbHOs5WooFS89TZYiz8P5idv+oG9eZ/0l3TVG4MhLMuIhdc=
+	t=1728721201; cv=none; b=Hn4ywUb0bjR8LkxkWd38qdGEL0rS4Om1xOU9r3UseLVhSLPtcrbVTCpb4pYjSoJD+A1n8bcmWmRV8ipW0bzEbt1Nj2rWzUxuIuQ5jewjVX1x2CZ1c4FihtsuhIF9o9VTg3Hf5xh0IfmqCMqsidqNM5GMaBAtxCFL0wdI0EFpFyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728720605; c=relaxed/simple;
-	bh=IRFRClIYONgdiEOMKeSINr0GwJJTjPi8PBGY44mZ92Y=;
+	s=arc-20240116; t=1728721201; c=relaxed/simple;
+	bh=NqIiEhbbxN8hJyx4P7r6NaG/98K5LACXmeO9phrs+RE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ePHnUxIpskj8OcDXwc0eb+Cb6MlGgGjQaQWou10dPYzMAqe7B4z0VtZ6aoIjNIvdAk6mNv7vK8p67sediNGr1bZUjEz5Ya/ut+GS7NMSIpjaVamsTp6RR7R+hyhMxcC48RcASapbar+MF5Nn6DYrIvVhYKia+lFR+R/zjlLcjq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QofDKWNq; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=hfM4RnYj9Io83WM471enCEsIRQFNMa9RcCu7xHEwNJkE7N6EfSWAv81jRlzcli5Uu0kokoxgomixmuPSDuK4q0LKUGPkGeeRDsgqLT9Cuwi6E0PhB3+zZW6o+QyJxOKvF3D8u1nRmUBr1gRkd1AFu+CqpChqrATgwu+wvJz44Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOc1EFo5; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QofDKWNq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOc1EFo5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728720604; x=1760256604;
+  t=1728721200; x=1760257200;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IRFRClIYONgdiEOMKeSINr0GwJJTjPi8PBGY44mZ92Y=;
-  b=QofDKWNqRT3keB8aXlE7xs6PM4gxwACA2/5OFnevTfWwZNOLtBI96fKM
-   WdQSZqq5lmyCdSRK7ISAS0PJWbPeUvjccoDY1jtas17n/Kq3+XMROxc56
-   pCNY5BUlPmtg0qZe7b86iZ84ppojEeQVqRsZneGCi3FgZM+WN97HIIV1D
-   +78tf4ED0geTRQwd6+rGYb2xgLoWJRFH2EZJLqBDhP8xbd9W72Kcqh1ns
-   VBQPMam/LxRq4u4BXbW2076SbvOSKf8RV9JlgGu9VCmuk2KyWqg1N0baZ
-   8qhCUFiqK654UQXudsAQRqq8AEpeg9TZvusXJRu7LnFojLoR79R5qdfBJ
-   w==;
-X-CSE-ConnectionGUID: yvtf2NlqQT+8/Dq7eYNtKA==
-X-CSE-MsgGUID: p2M4cq4CTK+bMN8YmfdUxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31001634"
+  bh=NqIiEhbbxN8hJyx4P7r6NaG/98K5LACXmeO9phrs+RE=;
+  b=UOc1EFo5LcrvwLzuw2Bmme1Qt2zIE9bXfLIZCR8wQ6Mp60avT1dZ69+U
+   xvactM+wWHTaQNgtlBarbd8pcWHCPJE9C8Ocddri4aHqiz0hBfcWSf4xo
+   K90ymJ2mqfc98IyAnjG3DOZYMV0OvaGKa9kG37iBYgJqVnj3aC8L++AvT
+   NlZZX16c88Qrj/W14upp4UOPkwaSDcDmR+bxsTXRD5qgXvyKm032kVGBv
+   572fYtgJuVG+ZYYvLbatMZl1AOT4zN82Dv30Yl2G2+7Wo+i5lhfL/KDFr
+   /H8DeYYc0jGZ/VF1tYI1g0/kdkjtV/RuNCg1sIuMpNVwVXFeg9O9NuXFA
+   g==;
+X-CSE-ConnectionGUID: 40A2FpNuT5WIsXPL/3W3Qw==
+X-CSE-MsgGUID: Zty7onhIQ+Spm7SMpfp9kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45600181"
 X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="31001634"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 01:10:04 -0700
-X-CSE-ConnectionGUID: VZElFrpkQ8irvAlqFCqruw==
-X-CSE-MsgGUID: sUd1gg0WSpenQmblxe0jBw==
+   d="scan'208";a="45600181"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 01:19:59 -0700
+X-CSE-ConnectionGUID: U6aJh22jQRuRziwmOkcrhQ==
+X-CSE-MsgGUID: 8r2eiGJBTUes0KzaKjtqRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="81671048"
+   d="scan'208";a="76992768"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Oct 2024 01:09:57 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Oct 2024 01:19:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szXCE-000DBn-38;
-	Sat, 12 Oct 2024 08:09:54 +0000
-Date: Sat, 12 Oct 2024 16:09:22 +0800
+	id 1szXLv-000DCB-0U;
+	Sat, 12 Oct 2024 08:19:55 +0000
+Date: Sat, 12 Oct 2024 16:19:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Robert Hu <robert.hu@intel.com>,
-	Farrah Chen <farrah.chen@intel.com>,
-	Danmei Wei <danmei.wei@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Kai Huang <kai.huang@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>
-Subject: [kvm:kvm-coco-queue 62/109] arch/x86/kvm/mmu/tdp_mmu.c:474:14:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202410121644.Eq7zRGPO-lkp@intel.com>
+To: Pavan Holla <pholla@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Lee Jones <lee@kernel.org>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Subject: [lee-mfd:for-mfd-next 13/27] drivers/mfd/cros_ec_dev.c:132:10:
+ error: use of undeclared identifier 'EC_FEATURE_UCSI_PPM'; did you mean
+ 'EC_FEATURE_USB_PD'?
+Message-ID: <202410121638.6L1KYC3r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,99 +65,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
-head:   d2c7662a6ea1c325a9ae878b3f1a265264bcd18b
-commit: b6bcd88ad43aebc2385c7ff418b0532e80e60e19 [62/109] KVM: x86/tdp_mmu: Propagate building mirror page tables
-config: x86_64-randconfig-121-20241011 (https://download.01.org/0day-ci/archive/20241012/202410121644.Eq7zRGPO-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+head:   bc37b44978d38e1b38373b2a5774e4b4753a7523
+commit: e5d1202b6b1efa2a533564e21476dadb1b838f6b [13/27] mfd: cros_ec: Load cros_ec_ucsi on supported ECs
+config: i386-buildonly-randconfig-002-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121638.6L1KYC3r-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121644.Eq7zRGPO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121638.6L1KYC3r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410121644.Eq7zRGPO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121638.6L1KYC3r-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr @@
-   arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse:     expected void const volatile *v
-   arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse:     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:754:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:754:29: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:754:29: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1246:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1246:25: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1246:25: sparse:     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: dereference of noderef expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: dereference of noderef expression
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1536:33: sparse: sparse: context imbalance in 'tdp_mmu_split_huge_pages_root' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+All errors (new ones prefixed by >>):
 
-vim +474 arch/x86/kvm/mmu/tdp_mmu.c
+>> drivers/mfd/cros_ec_dev.c:132:10: error: use of undeclared identifier 'EC_FEATURE_UCSI_PPM'; did you mean 'EC_FEATURE_USB_PD'?
+     132 |                 .id             = EC_FEATURE_UCSI_PPM,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+         |                                   EC_FEATURE_USB_PD
+   include/linux/platform_data/cros_ec_commands.h:1252:2: note: 'EC_FEATURE_USB_PD' declared here
+    1252 |         EC_FEATURE_USB_PD = 22,
+         |         ^
+   1 error generated.
 
-   455	
-   456	static int __must_check set_external_spte_present(struct kvm *kvm, tdp_ptep_t sptep,
-   457							 gfn_t gfn, u64 old_spte,
-   458							 u64 new_spte, int level)
-   459	{
-   460		bool was_present = is_shadow_present_pte(old_spte);
-   461		bool is_present = is_shadow_present_pte(new_spte);
-   462		bool is_leaf = is_present && is_last_spte(new_spte, level);
-   463		kvm_pfn_t new_pfn = spte_to_pfn(new_spte);
-   464		int ret = 0;
-   465	
-   466		KVM_BUG_ON(was_present, kvm);
-   467	
-   468		lockdep_assert_held(&kvm->mmu_lock);
-   469		/*
-   470		 * We need to lock out other updates to the SPTE until the external
-   471		 * page table has been modified. Use FROZEN_SPTE similar to
-   472		 * the zapping case.
-   473		 */
- > 474		if (!try_cmpxchg64(sptep, &old_spte, FROZEN_SPTE))
-   475			return -EBUSY;
-   476	
-   477		/*
-   478		 * Use different call to either set up middle level
-   479		 * external page table, or leaf.
-   480		 */
-   481		if (is_leaf) {
-   482			ret = static_call(kvm_x86_set_external_spte)(kvm, gfn, level, new_pfn);
-   483		} else {
-   484			void *external_spt = get_external_spt(gfn, new_spte, level);
-   485	
-   486			KVM_BUG_ON(!external_spt, kvm);
-   487			ret = static_call(kvm_x86_link_external_spt)(kvm, gfn, level, external_spt);
-   488		}
-   489		if (ret)
-   490			__kvm_tdp_mmu_write_spte(sptep, old_spte);
-   491		else
-   492			__kvm_tdp_mmu_write_spte(sptep, new_spte);
-   493		return ret;
-   494	}
-   495	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +132 drivers/mfd/cros_ec_dev.c
+
+   114	
+   115	static const struct cros_feature_to_cells cros_subdevices[] = {
+   116		{
+   117			.id		= EC_FEATURE_CEC,
+   118			.mfd_cells	= cros_ec_cec_cells,
+   119			.num_cells	= ARRAY_SIZE(cros_ec_cec_cells),
+   120		},
+   121		{
+   122			.id		= EC_FEATURE_GPIO,
+   123			.mfd_cells	= cros_ec_gpio_cells,
+   124			.num_cells	= ARRAY_SIZE(cros_ec_gpio_cells),
+   125		},
+   126		{
+   127			.id		= EC_FEATURE_RTC,
+   128			.mfd_cells	= cros_ec_rtc_cells,
+   129			.num_cells	= ARRAY_SIZE(cros_ec_rtc_cells),
+   130		},
+   131		{
+ > 132			.id		= EC_FEATURE_UCSI_PPM,
+   133			.mfd_cells	= cros_ec_ucsi_cells,
+   134			.num_cells	= ARRAY_SIZE(cros_ec_ucsi_cells),
+   135		},
+   136		{
+   137			.id		= EC_FEATURE_USB_PD,
+   138			.mfd_cells	= cros_usbpd_charger_cells,
+   139			.num_cells	= ARRAY_SIZE(cros_usbpd_charger_cells),
+   140		},
+   141		{
+   142			.id		= EC_FEATURE_HANG_DETECT,
+   143			.mfd_cells	= cros_ec_wdt_cells,
+   144			.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
+   145		},
+   146		{
+   147			.id		= EC_FEATURE_LED,
+   148			.mfd_cells	= cros_ec_led_cells,
+   149			.num_cells	= ARRAY_SIZE(cros_ec_led_cells),
+   150		},
+   151		{
+   152			.id		= EC_FEATURE_PWM_KEYB,
+   153			.mfd_cells	= cros_ec_keyboard_leds_cells,
+   154			.num_cells	= ARRAY_SIZE(cros_ec_keyboard_leds_cells),
+   155		},
+   156	};
+   157	
 
 -- 
 0-DAY CI Kernel Test Service
