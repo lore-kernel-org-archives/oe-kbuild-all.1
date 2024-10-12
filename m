@@ -1,136 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B1914EC73;
-	Sat, 12 Oct 2024 09:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE8C136330
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 10:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728726942; cv=none; b=X+wGS2aEldJoUC85AI1giok4sdtrn+Q91/ZSzEigr/85iQuywnjq3BquAZ2qVYkNtR7HdNuOB3/pR+J10lXrGT3BoQPK9f0O8x4UOCaSjXKpCwxYnBHv3TqfdNmx5SD57FtvoeSox+/6iIPplRRGzZ8vYxtwW9qXn8v20YT/5Wo=
+	t=1728727383; cv=none; b=X2RkGFQh9yVmHdx1ixvtw1I2vYQCA1yaBHy5Xt5MGWBymzusjwvcCUOF+p72prodO4OjY1cOlfO7G6wL9jaMhZxEUFWSbNMyizCBjj8U2uPxfB4wu9lk+hj5r4eyGmiIKu/A5ulViUPn8jb5qnQisKXPNk171aKBidf0DCDGwq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728726942; c=relaxed/simple;
-	bh=OHBEqpSE2yLuJGFPNyn+i72FET0rIUgTS5kPDw/JRqc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SNIE73s4w+4yoSoHJeJ0lBuVMFyyJiS9tjSalYDDhkvGy4LtG6j6dxs/Gj2aOahAJvi9VWLw0VLZGwsxNtW24x8NDefOw6wGu31kmzDsc3xeFVZJn6F2znliXvJUmrGYG8fX3W0fGh1or+p0SnOTgIFHo0shZQS29kNndYUYKdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikFdJkMz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728727383; c=relaxed/simple;
+	bh=nmlAjfNGi3ABER0TwECO9DOevtZq/1Of4BYl9YiL5NM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ALWATTYfEuuZkUdWcnTk4LG99/TKgOdx2JS+YNz2REtSWO0fIlJJGlRg+fRghmZRYwFlT1LF6LQOgw3yRB2xSXegm07sMzXEmDDTvMlHIacIc2EWboGHCMr/v9xA65NJJLAuRtAjnT2+eXAXZ5BfWYcqb2O1fAtQ6oD7+3NUEDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iwcziJ4J; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikFdJkMz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E80C4CEC6;
-	Sat, 12 Oct 2024 09:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728726941;
-	bh=OHBEqpSE2yLuJGFPNyn+i72FET0rIUgTS5kPDw/JRqc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ikFdJkMzaYH1B3l0E8/1JuEfI0oVf2wXryW7quGhPQpdipXLpMbJLwCY6/SOpxlJ5
-	 1RPeZjIqjoEOtqejed5hUsMmgFi99lCO79zH/U3Fp+RZGgBZ/bixCm2MRBMhKoEDdf
-	 gmPjLq3iOExf1J729di01MUItIDB+WKuhFBJhIJ9MwRkM6FOv6VKOaeAdneCTSfNv7
-	 m3EFE7JDqSXkxvC1YAANwW1vWiQU15R20iF0n+9brEpkTwMS5fsi08RjTaAHcIKOMP
-	 bMtZLTtEPA6EH8WKimEyqZ0PzuXsuge7IVq3+gloqLvTDYreC5NV68/vq9eYTGG8WN
-	 WfJDIqvX9QzqQ==
-Message-ID: <ff48995d-99b5-4563-b548-ebc58fd7ed45@kernel.org>
-Date: Sat, 12 Oct 2024 11:55:34 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwcziJ4J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728727382; x=1760263382;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nmlAjfNGi3ABER0TwECO9DOevtZq/1Of4BYl9YiL5NM=;
+  b=iwcziJ4JLWiY5p9LBm2Kctzb4ksW2qw3cN8XIoRr6wyypFEmpHJSJYbT
+   ZkuzeIpdKwY4OCY1d6p8OPb/HwJEh7j4dcg3vJqiGBnxkpHLlKQZatUoN
+   Ip/H5ATYIg5MWcurRg6W31gr0FE2FnaA2Kp/mJtYGf0DyoNZK4b7bCLZF
+   +Sz95hPIRcNK5ymKQYfOVBOpU52ayZPjv7uqiHmvfg39RUjpDuSWdyr4+
+   KUm4sTp2qESKH+dIvOmwu9/PZONVXWISqXaleHX9aWNNsLtqMmeLGWWp3
+   Fh+Jeq/NVlKWt5KrJDwGrGM5hxB4Pqd8gQjvx+jHqas7ZQZyCuQeGzBsB
+   w==;
+X-CSE-ConnectionGUID: HJ1UJZCnS8ayKblaiJXyKQ==
+X-CSE-MsgGUID: hAif+P7VR+GCIVzjqEz+GA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28001383"
+X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
+   d="scan'208";a="28001383"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 03:03:01 -0700
+X-CSE-ConnectionGUID: NEOS3dfdRgSuLzPxNJpnCg==
+X-CSE-MsgGUID: D4ziohFRTgasoSZlA47ktQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
+   d="scan'208";a="77947693"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 12 Oct 2024 03:03:00 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1szYxd-000DGZ-2M;
+	Sat, 12 Oct 2024 10:02:57 +0000
+Date: Sat, 12 Oct 2024 18:02:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/14]
+ include/trace/hooks/madvise.h:10:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202410121830.39GFesS8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream
- alloc
-To: kernel test robot <lkp@intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
- Alexey Klimov <alexey.klimov@linaro.org>, Steev Klimaszewski <steev@kali.org>
-References: <20241010054109.16938-1-krzysztof.kozlowski@linaro.org>
- <202410121144.H6lBicv6-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <202410121144.H6lBicv6-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12/10/2024 05:37, kernel test robot wrote:
-> Hi Krzysztof,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on broonie-sound/for-next]
-> [also build test ERROR on linus/master v6.12-rc2 next-20241011]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/ASoC-qcom-sc7280-Fix-missing-Soundwire-runtime-stream-alloc/20241010-134305
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> patch link:    https://lore.kernel.org/r/20241010054109.16938-1-krzysztof.kozlowski%40linaro.org
-> patch subject: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
-> config: powerpc64-randconfig-r052-20241011 (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410121144.H6lBicv6-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
->>> ERROR: modpost: "qcom_snd_sdw_startup" [sound/soc/qcom/snd-soc-sc7280.ko] undefined!
-> 
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5f5ee6d2aa03c08776343157079820a6c07748bc
+commit: c9b85866c78e7e00085c89ee4fd3b93f54659682 [2/14] ANDROID: madvise: add vendor hook to bypass process madvise
+config: i386-randconfig-061-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121830.39GFesS8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121830.39GFesS8-lkp@intel.com/reproduce)
 
-I'll fix it up. Already applied sdm845 also has this issue, I think, so
-I will send a follow up.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121830.39GFesS8-lkp@intel.com/
 
-Best regards,
-Krzysztof
+sparse warnings: (new ones prefixed by >>)
+   mm/madvise.c: note: in included file:
+   include/trace/hooks/madvise.h:21:31: sparse: sparse: no newline at end of file
+   mm/madvise.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'madvise_cold_or_pageout_pte_range' - unexpected unlock
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'madvise_free_pte_range' - unexpected unlock
+   mm/madvise.c: note: in included file:
+>> include/trace/hooks/madvise.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/madvise.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/madvise.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
+vim +10 include/trace/hooks/madvise.h
+
+     9	
+  > 10	DECLARE_RESTRICTED_HOOK(android_rvh_process_madvise_bypass,
+    11		TP_PROTO(int pidfd, const struct iovec __user *vec, size_t vlen,
+    12			int behavior, unsigned int flags, ssize_t *ret, bool *bypass),
+    13		TP_ARGS(pidfd, vec, vlen, behavior, flags, ret, bypass), 1);
+    14	struct vm_area_struct;
+    15	DECLARE_HOOK(android_vh_update_vma_flags,
+    16		TP_PROTO(struct vm_area_struct *vma),
+    17		TP_ARGS(vma));
+    18	
+    19	#endif
+    20	
+  > 21	#include <trace/define_trace.h>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
