@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A031FDD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 01:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E6A4642D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 03:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728696769; cv=none; b=YgIUSmjSqGTYrsz9RVlU9XR4qthqXmvvoaYoLyILc6wsGpxMiC0E/U1l4/3sfIOvtPrbPwzRviF5j4jzigV8AQz7RnJO8+hXAd4INzwKni1k52EOHW/sNuz2bD6+fYPOjo+BhGTfaHaJS1PVXtHCd33kCiM6La2fVmdemAvLaf4=
+	t=1728704275; cv=none; b=BoIzl74tesKgSRk/JXYmLQ/lYLNuHAcronOj1C9bly3TudMpH+pXNMh+bU8HQeFVdLOlUGV47wi/93wXtfrHx8zWO7nQovnBBpnrjyInoISln3+Mwxlf2GjywCLlu+UwzMFBe3RSHRuLl/wc2myNvbLaaheuAPBHns+XlLAP+UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728696769; c=relaxed/simple;
-	bh=6vEtviPJZ8D85x6E4Fy11yj63GfON+A/rXIAgBkmKhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nVB5c6E72u0gknvidQK8uFz59s4zlBq6GWMDKZ5unmFn2geFDqsdxSRldGBVQwjIzCaBC7LXH+oYSad9skiQcFTTRT2V4lLumU+DNa/1KJpHrjQFmeHa6itPtCBVcVzKpcuFDeJl1zivvjmDBoAU1Wb86Mz83ZF75oWSemzc/EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzoNLjHd; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1728704275; c=relaxed/simple;
+	bh=nDTLNW21/SY6L/1mKys6bWAEfSqQxK7ebVskE/LZEU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0Y0JraxDTBDDW+CMULE8SaIr1uBl1tRpFlWxVEOJeg2g9Ox6oh20+VmKdrjHIZ60spufHSdqjYBlNtkrMrBy7eoKGM8cXKkx0hv39G4tmZR8JkvmwoMjpC6h1TG4ivQyGYyyA9mCU4ptfAqHJazd7w7u12bsnA5omw1KzwWkv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Onmg9MY+; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzoNLjHd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Onmg9MY+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728696767; x=1760232767;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6vEtviPJZ8D85x6E4Fy11yj63GfON+A/rXIAgBkmKhs=;
-  b=mzoNLjHdxUWaUUY89J06LFXQAU/jOMD96Rix8NpN8g5EIhOUjrlLfP7v
-   Br7V8DcbfiTsEtVdF6nyuqP8UxFs1aaf8YVJxYjJ70d1/uQSli61tafA4
-   6OtrBa5mJVWsPxFxAik++mCZICRZzozExvcZvnd+M3vMvMD/nCDs+XJZG
-   /BbaaIAdTauvtGerAbcfEv9b6aD+XWvHjXzh4i1Z2ECrVjsnrDVr/jLgB
-   7B4pRyDiLPwFaJSrqNpYAqSDkJFLfFSSzv2sumv9+wingswBA4+r58ADz
-   cAFGhkn17QszZD/4/mehYQj448n/y6UyGtQ6pHtWT1we7VRYYvCZMTWgx
-   g==;
-X-CSE-ConnectionGUID: h1VIg8wsQom43JIF3fPnBQ==
-X-CSE-MsgGUID: OuOuNCeiTvqfLw2y+VhSxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32020993"
+  t=1728704274; x=1760240274;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nDTLNW21/SY6L/1mKys6bWAEfSqQxK7ebVskE/LZEU4=;
+  b=Onmg9MY+R2xtj3pq1bd4j6xv8QMaln1iK+m/yIU+eBW3PAio8VfWhwcw
+   I1fTPbOuh1GkS46L7TyEg3oRlD7vwpT63EuytEXlofpbdWW/jmDNRKxcS
+   Vt9O2TfhYMQkkI+LbKX/eu9cUOrLw1sTFxuvVCHNiMLs3zzDNvMq/YZnd
+   3FWqd1QbhGexjE65qTXgRSvPKSdvsRM6fhJYLB+uJlhSTD7Uybdgd1iiK
+   vPmSU+dv7iQI3HCWbNS1D0agydoBcsx+WlkmbMlNbv0CqwvPwDI3Z7Zi0
+   nlqKavuxp1vwe2gr5QXf9sY/+FKhGNhP4NZs+TKayi0u+cbKrtBhe9sQt
+   Q==;
+X-CSE-ConnectionGUID: viJr5YE4RPe/4e3WA7Z+4g==
+X-CSE-MsgGUID: BXiLODUZThelBO+36uyK5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45589903"
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="32020993"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 18:32:47 -0700
-X-CSE-ConnectionGUID: HYeix3OtQMSQNGgIukBKMA==
-X-CSE-MsgGUID: xwFsn1r8QJKTYATp1GgmqA==
+   d="scan'208";a="45589903"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 20:37:54 -0700
+X-CSE-ConnectionGUID: UWAFK5xlQImDOpIn5TSDug==
+X-CSE-MsgGUID: /sCsxcU+TXWuOY4tkY0i7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="77166662"
+   d="scan'208";a="77557665"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Oct 2024 18:32:46 -0700
+  by orviesa007.jf.intel.com with ESMTP; 11 Oct 2024 20:37:51 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szQzr-000Cvj-2G;
-	Sat, 12 Oct 2024 01:32:43 +0000
-Date: Sat, 12 Oct 2024 09:32:18 +0800
+	id 1szSwu-000D0l-1M;
+	Sat, 12 Oct 2024 03:37:48 +0000
+Date: Sat, 12 Oct 2024 11:37:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 4034/23827] fs/file.c:368:17: sparse:
- sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202410120916.m0AjmQWh-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	Steev Klimaszewski <steev@kali.org>
+Subject: Re: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream
+ alloc
+Message-ID: <202410121144.H6lBicv6-lkp@intel.com>
+References: <20241010054109.16938-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,154 +72,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241010054109.16938-1-krzysztof.kozlowski@linaro.org>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   9b2f1457c730cd7915663ac5d9ccb849f2657714
-commit: 72ee1590dc860d0091f8e7714b467be5878d51ae [4034/23827] cgroups: Resource controller for open files
-config: x86_64-randconfig-123-20241012 (https://download.01.org/0day-ci/archive/20241012/202410120916.m0AjmQWh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410120916.m0AjmQWh-lkp@intel.com/reproduce)
+Hi Krzysztof,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.12-rc2 next-20241011]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/ASoC-qcom-sc7280-Fix-missing-Soundwire-runtime-stream-alloc/20241010-134305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20241010054109.16938-1-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
+config: powerpc64-randconfig-r052-20241011 (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410120916.m0AjmQWh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121144.H6lBicv6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/file.c:339:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] <asn:4> **fd @@
-   fs/file.c:339:17: sparse:     expected struct file **old_fds
-   fs/file.c:339:17: sparse:     got struct file [noderef] <asn:4> **fd
-   fs/file.c:340:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] <asn:4> **fd @@
-   fs/file.c:340:17: sparse:     expected struct file **new_fds
-   fs/file.c:340:17: sparse:     got struct file [noderef] <asn:4> **fd
->> fs/file.c:368:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **[assigned] new_fds @@     got struct file [noderef] <asn:4> **fd @@
-   fs/file.c:368:17: sparse:     expected struct file **[assigned] new_fds
-   fs/file.c:368:17: sparse:     got struct file [noderef] <asn:4> **fd
-   fs/file.c:409:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> *[assigned] __ret @@
-   fs/file.c:409:54: sparse:     expected struct file *file
-   fs/file.c:409:54: sparse:     got struct file [noderef] <asn:4> *[assigned] __ret
-   fs/file.c:477:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] <asn:4> *fdt @@     got struct fdtable * @@
-   fs/file.c:477:28: sparse:     expected struct fdtable [noderef] <asn:4> *fdt
-   fs/file.c:477:28: sparse:     got struct fdtable *
-   fs/file.c:666:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
-   fs/file.c:666:14: sparse:     expected struct file *file
-   fs/file.c:666:14: sparse:     got struct file [noderef] <asn:4> *
-   fs/file.c:701:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
-   fs/file.c:701:30: sparse:     expected struct file *file
-   fs/file.c:701:30: sparse:     got struct file [noderef] <asn:4> *
-   fs/file.c:868:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] <asn:4> * @@
-   fs/file.c:868:16: sparse:     expected struct file *tofree
-   fs/file.c:868:16: sparse:     got struct file [noderef] <asn:4> *
-   fs/file.o: warning: objtool: alloc_fdtable()+0x2d: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: __fget()+0x2c3: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: __put_unused_fd()+0x56: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: __close_fd()+0x63: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: do_dup2()+0x62: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: iterate_fd.part.0()+0x187: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: expand_fdtable.constprop.0()+0x108: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: expand_files()+0x145: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: ksys_dup3()+0x148: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: __se_sys_dup2()+0x1da: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: dup_fd()+0x87e: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: __alloc_fd()+0x39e: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: __fd_install()+0xb1: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: do_close_on_exec()+0x9d: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: set_close_on_exec()+0x97: sibling call from callable instruction with modified stack frame
-   fs/file.o: warning: objtool: get_close_on_exec()+0x141: sibling call from callable instruction with modified stack frame
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +368 fs/file.c
-
-   300	
-   301		spin_lock(&oldf->file_lock);
-   302		old_fdt = files_fdtable(oldf);
-   303		open_files = count_open_files(old_fdt);
-   304	
-   305		/*
-   306		 * Check whether we need to allocate a larger fd array and fd set.
-   307		 */
-   308		while (unlikely(open_files > new_fdt->max_fds)) {
-   309			spin_unlock(&oldf->file_lock);
-   310	
-   311			if (new_fdt != &newf->fdtab)
-   312				__free_fdtable(new_fdt);
-   313	
-   314			new_fdt = alloc_fdtable(open_files - 1);
-   315			if (!new_fdt) {
-   316				*errorp = -ENOMEM;
-   317				goto out_release;
-   318			}
-   319	
-   320			/* beyond sysctl_nr_open; nothing to do */
-   321			if (unlikely(new_fdt->max_fds < open_files)) {
-   322				__free_fdtable(new_fdt);
-   323				*errorp = -EMFILE;
-   324				goto out_release;
-   325			}
-   326	
-   327			/*
-   328			 * Reacquire the oldf lock and a pointer to its fd table
-   329			 * who knows it may have a new bigger fd table. We need
-   330			 * the latest pointer.
-   331			 */
-   332			spin_lock(&oldf->file_lock);
-   333			old_fdt = files_fdtable(oldf);
-   334			open_files = count_open_files(old_fdt);
-   335		}
-   336	
-   337		copy_fd_bitmaps(new_fdt, old_fdt, open_files);
-   338	
-   339		old_fds = old_fdt->fd;
-   340		new_fds = new_fdt->fd;
-   341	
-   342		for (i = open_files; i != 0; i--) {
-   343			struct file *f = *old_fds++;
-   344			if (f) {
-   345				get_file(f);
-   346			} else {
-   347				/*
-   348				 * The fd may be claimed in the fd bitmap but not yet
-   349				 * instantiated in the files array if a sibling thread
-   350				 * is partway through open().  So make sure that this
-   351				 * fd is available to the new process.
-   352				 */
-   353				__clear_open_fd(open_files - i, new_fdt);
-   354			}
-   355			rcu_assign_pointer(*new_fds++, f);
-   356		}
-   357		spin_unlock(&oldf->file_lock);
-   358	
-   359		/* clear the remainder */
-   360		memset(new_fds, 0, (new_fdt->max_fds - open_files) * sizeof(struct file *));
-   361	
-   362		rcu_assign_pointer(newf->fdt, new_fdt);
-   363	#ifdef CONFIG_CGROUP_FILES
-   364		if (!files_cgroup_alloc_fd(newf, files_cgroup_count_fds(newf)))
-   365			return newf;
-   366	
-   367	/* could not get enough FD resources.  Need to clean up. */
- > 368		new_fds = new_fdt->fd;
-   369		for (i = open_files; i != 0; i--) {
-   370			struct file *f = *new_fds++;
-   371	
-   372			if (f)
-   373				fput(f);
-   374		}
-   375		if (new_fdt != &newf->fdtab)
-   376			__free_fdtable(new_fdt);
-   377		*errorp = -EMFILE;
-   378	#else
-   379		return newf;
-   380	#endif
-   381	
-   382	out_release:
-   383	#ifdef CONFIG_CGROUP_FILES
-   384		files_cgroup_remove(newf);
-   385	#endif
-   386		kmem_cache_free(files_cachep, newf);
-   387	out:
-   388		return NULL;
-   389	}
-   390	
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+>> ERROR: modpost: "qcom_snd_sdw_startup" [sound/soc/qcom/snd-soc-sc7280.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
