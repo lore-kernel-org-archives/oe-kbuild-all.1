@@ -1,240 +1,166 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B42BBA49
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 07:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18225137742
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 08:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728719952; cv=none; b=eLxaKLTTjn4Pyu6Cu3GcuAOrA4Vwt5BPC8SEB0rolRJCzBhKIQs7hkzVV6T+KJiNMjy4JPINM6a8ZhPDZ4HWk5UA+NCqRJmKKVZcciNZFdVctSYgraf7VoVLreoKnBA/Ih3sToti8unk8lD8Sa7Ww4qlHoaBXpSraIu3Mr/9d2U=
+	t=1728720605; cv=none; b=cl4osO9gy5rC6Yx0LzJ1H5cl1ai1RKfXh961psZvfuKI769KHu8+7h7BpO/h1Ldm/C+3EQ6t4Hhww5BzDZ7Sr7AHk9Rg9MAUOmNnIOVM72+3Eh5pbn6ei46HiWwWzbHOs5WooFS89TZYiz8P5idv+oG9eZ/0l3TVG4MhLMuIhdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728719952; c=relaxed/simple;
-	bh=cxzXg9dgC9cCXyIdI31fmObrQTvtxDdxIW73/tNO8aM=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=YjnQ2+jVydn2YChbuC8smcY8sh0mtw/fJc9p8+P+dkEJfYMlhuK/FUpP5SMsR9euqzA0IMiSvyfwYCuv7gLllVtmdCMOXra2eIbEaPgOnD35xASwSdaRCTcggziYV8eSj5USoAltoALO95Tj10FhL/NOV+HnooJOD24Ga5qXOxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=djDhLAS4; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1728720605; c=relaxed/simple;
+	bh=IRFRClIYONgdiEOMKeSINr0GwJJTjPi8PBGY44mZ92Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ePHnUxIpskj8OcDXwc0eb+Cb6MlGgGjQaQWou10dPYzMAqe7B4z0VtZ6aoIjNIvdAk6mNv7vK8p67sediNGr1bZUjEz5Ya/ut+GS7NMSIpjaVamsTp6RR7R+hyhMxcC48RcASapbar+MF5Nn6DYrIvVhYKia+lFR+R/zjlLcjq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QofDKWNq; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="djDhLAS4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QofDKWNq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728720604; x=1760256604;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xc7x//zeily7GNGxNXuk+OmlA9OzzeNt8gs2K3SzbdM=;
-  b=djDhLAS4jFt7ePhEFr1//4zAboYyM9RmjYna1Yv2rzfA47oTAuBWXJ7V
-   BTeNdpCPDa0hDvh58St3hdQnC3mynRU4MZkqYwPjiPCbfoEQAXFINK5ra
-   I4HIBQg0GqUz+mXly6Op+mvNjA7ikSH5wi2I7TAaeDhmQ4tom1OUv6pKa
-   c=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.11,198,1725314400"; 
-   d="scan'208";a="98914526"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 09:59:01 +0200
-Date: Sat, 12 Oct 2024 09:59:00 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Karol Kolacinski <karol.kolacinski@intel.com>, 
-    Jakub Kicinski <kuba@kernel.org>, 
-    Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-    Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, 
-    Jacob Keller <jacob.e.keller@intel.com>
-cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity
- for str_enabled_disabled(dw24 . ts_pll_enable) (fwd)
-Message-ID: <alpine.DEB.2.22.394.2410120958080.3377@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+  bh=IRFRClIYONgdiEOMKeSINr0GwJJTjPi8PBGY44mZ92Y=;
+  b=QofDKWNqRT3keB8aXlE7xs6PM4gxwACA2/5OFnevTfWwZNOLtBI96fKM
+   WdQSZqq5lmyCdSRK7ISAS0PJWbPeUvjccoDY1jtas17n/Kq3+XMROxc56
+   pCNY5BUlPmtg0qZe7b86iZ84ppojEeQVqRsZneGCi3FgZM+WN97HIIV1D
+   +78tf4ED0geTRQwd6+rGYb2xgLoWJRFH2EZJLqBDhP8xbd9W72Kcqh1ns
+   VBQPMam/LxRq4u4BXbW2076SbvOSKf8RV9JlgGu9VCmuk2KyWqg1N0baZ
+   8qhCUFiqK654UQXudsAQRqq8AEpeg9TZvusXJRu7LnFojLoR79R5qdfBJ
+   w==;
+X-CSE-ConnectionGUID: yvtf2NlqQT+8/Dq7eYNtKA==
+X-CSE-MsgGUID: p2M4cq4CTK+bMN8YmfdUxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31001634"
+X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
+   d="scan'208";a="31001634"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 01:10:04 -0700
+X-CSE-ConnectionGUID: VZElFrpkQ8irvAlqFCqruw==
+X-CSE-MsgGUID: sUd1gg0WSpenQmblxe0jBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
+   d="scan'208";a="81671048"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 12 Oct 2024 01:09:57 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1szXCE-000DBn-38;
+	Sat, 12 Oct 2024 08:09:54 +0000
+Date: Sat, 12 Oct 2024 16:09:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Robert Hu <robert.hu@intel.com>,
+	Farrah Chen <farrah.chen@intel.com>,
+	Danmei Wei <danmei.wei@intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Kai Huang <kai.huang@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>
+Subject: [kvm:kvm-coco-queue 62/109] arch/x86/kvm/mmu/tdp_mmu.c:474:14:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202410121644.Eq7zRGPO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-
-
----------- Forwarded message ----------
-Date: Sat, 12 Oct 2024 15:17:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for
-    str_enabled_disabled(dw24 . ts_pll_enable)
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Karol Kolacinski <karol.kolacinski@intel.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-CC: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   09f6b0c8904bfaa1e0601bc102e1b6aa6de8c98f
-commit: b390ecc2e375f8973c512a5041a69555069f502a ice: Change CGU regs struct to anonymous
-date:   4 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-051-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121553.SRNFzc2M-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
+head:   d2c7662a6ea1c325a9ae878b3f1a265264bcd18b
+commit: b6bcd88ad43aebc2385c7ff418b0532e80e60e19 [62/109] KVM: x86/tdp_mmu: Propagate building mirror page tables
+config: x86_64-randconfig-121-20241011 (https://download.01.org/0day-ci/archive/20241012/202410121644.Eq7zRGPO-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121644.Eq7zRGPO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410121553.SRNFzc2M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121644.Eq7zRGPO-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:474:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr @@
+   arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse:     expected void const volatile *v
+   arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse:     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr
+>> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
+>> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
+>> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
+>> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
+>> arch/x86/kvm/mmu/tdp_mmu.c:754:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:754:29: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:754:29: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1246:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:1246:25: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1246:25: sparse:     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+>> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: dereference of noderef expression
+>> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: dereference of noderef expression
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1536:33: sparse: sparse: context imbalance in 'tdp_mmu_split_huge_pages_root' - unexpected unlock
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:618:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
 
-vim +396 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
+vim +474 arch/x86/kvm/mmu/tdp_mmu.c
 
-3a7496234d179a Jacob Keller       2021-10-13  336
-3a7496234d179a Jacob Keller       2021-10-13  337  /**
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  338   * ice_cfg_cgu_pll_e82x - Configure the Clock Generation Unit
-d551d075b04382 Karol Kolacinski   2024-05-28  339   * @hw: pointer to the HW struct
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  340   * @clk_freq: Clock frequency to program
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  341   * @clk_src: Clock source to select (TIME_REF, or TCX0)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  342   *
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  343   * Configure the Clock Generation Unit with the desired clock frequency and
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  344   * time reference, enabling the PLL which drives the PTP hardware clock.
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  345   *
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  346   * Return:
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  347   * * %0       - success
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  348   * * %-EINVAL - input parameters are incorrect
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  349   * * %-EBUSY  - failed to lock TS PLL
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  350   * * %other   - CGU read/write failure
-3a7496234d179a Jacob Keller       2021-10-13  351   */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  352  static int ice_cfg_cgu_pll_e82x(struct ice_hw *hw,
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  353  				enum ice_time_ref_freq clk_freq,
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  354  				enum ice_clk_src clk_src)
-3a7496234d179a Jacob Keller       2021-10-13  355  {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  356  	union tspll_ro_bwm_lf bwm_lf;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  357  	union nac_cgu_dword19 dw19;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  358  	union nac_cgu_dword22 dw22;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  359  	union nac_cgu_dword24 dw24;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  360  	union nac_cgu_dword9 dw9;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  361  	int err;
-3a7496234d179a Jacob Keller       2021-10-13  362
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  363  	if (clk_freq >= NUM_ICE_TIME_REF_FREQ) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  364  		dev_warn(ice_hw_to_dev(hw), "Invalid TIME_REF frequency %u\n",
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  365  			 clk_freq);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  366  		return -EINVAL;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  367  	}
-3a7496234d179a Jacob Keller       2021-10-13  368
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  369  	if (clk_src >= NUM_ICE_CLK_SRC) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  370  		dev_warn(ice_hw_to_dev(hw), "Invalid clock source %u\n",
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  371  			 clk_src);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  372  		return -EINVAL;
-3a7496234d179a Jacob Keller       2021-10-13  373  	}
-3a7496234d179a Jacob Keller       2021-10-13  374
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  375  	if (clk_src == ICE_CLK_SRC_TCX0 &&
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  376  	    clk_freq != ICE_TIME_REF_FREQ_25_000) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  377  		dev_warn(ice_hw_to_dev(hw),
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  378  			 "TCX0 only supports 25 MHz frequency\n");
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  379  		return -EINVAL;
-3a7496234d179a Jacob Keller       2021-10-13  380  	}
-3a7496234d179a Jacob Keller       2021-10-13  381
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  382  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD9, &dw9.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  383  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  384  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  385
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  386  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  387  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  388  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  389
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  390  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  391  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  392  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  393
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  394  	/* Log the current clock configuration */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  395  	ice_debug(hw, ICE_DBG_PTP, "Current CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28 @396  		  dw24.ts_pll_enable ? "enabled" : "disabled",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  397  		  ice_clk_src_str(dw24.time_ref_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  398  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  399  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
-3a7496234d179a Jacob Keller       2021-10-13  400
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  401  	/* Disable the PLL before changing the clock source or frequency */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  402  	if (dw24.ts_pll_enable) {
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  403  		dw24.ts_pll_enable = 0;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  404
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  405  		err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  406  		if (err)
-3a7496234d179a Jacob Keller       2021-10-13  407  			return err;
-3a7496234d179a Jacob Keller       2021-10-13  408  	}
-3a7496234d179a Jacob Keller       2021-10-13  409
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  410  	/* Set the frequency */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  411  	dw9.time_ref_freq_sel = clk_freq;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  412  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD9, dw9.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  413  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  414  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  415
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  416  	/* Configure the TS PLL feedback divisor */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  417  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD19, &dw19.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  418  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  419  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  420
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  421  	dw19.tspll_fbdiv_intgr = e822_cgu_params[clk_freq].feedback_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  422  	dw19.tspll_ndivratio = 1;
-3a7496234d179a Jacob Keller       2021-10-13  423
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  424  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD19, dw19.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  425  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  426  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  427
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  428  	/* Configure the TS PLL post divisor */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  429  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD22, &dw22.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  430  	if (err)
-3a7496234d179a Jacob Keller       2021-10-13  431  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  432
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  433  	dw22.time1588clk_div = e822_cgu_params[clk_freq].post_pll_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  434  	dw22.time1588clk_sel_div2 = 0;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  435
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  436  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD22, dw22.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  437  	if (err)
-3a7496234d179a Jacob Keller       2021-10-13  438  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  439
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  440  	/* Configure the TS PLL pre divisor and clock source */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  441  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  442  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  443  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  444
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  445  	dw24.ref1588_ck_div = e822_cgu_params[clk_freq].refclk_pre_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  446  	dw24.tspll_fbdiv_frac = e822_cgu_params[clk_freq].frac_n_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  447  	dw24.time_ref_sel = clk_src;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  448
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  449  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  450  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  451  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  452
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  453  	/* Finally, enable the PLL */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  454  	dw24.ts_pll_enable = 1;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  455
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  456  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  457  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  458  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  459
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  460  	/* Wait to verify if the PLL locks */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  461  	usleep_range(1000, 5000);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  462
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  463  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  464  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  465  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  466
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  467  	if (!bwm_lf.plllock_true_lock_cri) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  468  		dev_warn(ice_hw_to_dev(hw), "CGU PLL failed to lock\n");
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  469  		return -EBUSY;
-3a7496234d179a Jacob Keller       2021-10-13  470  	}
-3a7496234d179a Jacob Keller       2021-10-13  471
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  472  	/* Log the current clock configuration */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  473  	ice_debug(hw, ICE_DBG_PTP, "New CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  474  		  dw24.ts_pll_enable ? "enabled" : "disabled",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  475  		  ice_clk_src_str(dw24.time_ref_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  476  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  477  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
-3a7496234d179a Jacob Keller       2021-10-13  478
-3a7496234d179a Jacob Keller       2021-10-13  479  	return 0;
-3a7496234d179a Jacob Keller       2021-10-13  480  }
-3a7496234d179a Jacob Keller       2021-10-13  481
+   455	
+   456	static int __must_check set_external_spte_present(struct kvm *kvm, tdp_ptep_t sptep,
+   457							 gfn_t gfn, u64 old_spte,
+   458							 u64 new_spte, int level)
+   459	{
+   460		bool was_present = is_shadow_present_pte(old_spte);
+   461		bool is_present = is_shadow_present_pte(new_spte);
+   462		bool is_leaf = is_present && is_last_spte(new_spte, level);
+   463		kvm_pfn_t new_pfn = spte_to_pfn(new_spte);
+   464		int ret = 0;
+   465	
+   466		KVM_BUG_ON(was_present, kvm);
+   467	
+   468		lockdep_assert_held(&kvm->mmu_lock);
+   469		/*
+   470		 * We need to lock out other updates to the SPTE until the external
+   471		 * page table has been modified. Use FROZEN_SPTE similar to
+   472		 * the zapping case.
+   473		 */
+ > 474		if (!try_cmpxchg64(sptep, &old_spte, FROZEN_SPTE))
+   475			return -EBUSY;
+   476	
+   477		/*
+   478		 * Use different call to either set up middle level
+   479		 * external page table, or leaf.
+   480		 */
+   481		if (is_leaf) {
+   482			ret = static_call(kvm_x86_set_external_spte)(kvm, gfn, level, new_pfn);
+   483		} else {
+   484			void *external_spt = get_external_spt(gfn, new_spte, level);
+   485	
+   486			KVM_BUG_ON(!external_spt, kvm);
+   487			ret = static_call(kvm_x86_link_external_spt)(kvm, gfn, level, external_spt);
+   488		}
+   489		if (ret)
+   490			__kvm_tdp_mmu_write_spte(sptep, old_spte);
+   491		else
+   492			__kvm_tdp_mmu_write_spte(sptep, new_spte);
+   493		return ret;
+   494	}
+   495	
 
 -- 
 0-DAY CI Kernel Test Service
