@@ -1,160 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74568161302
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 11:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806AE175D5E;
+	Sat, 12 Oct 2024 11:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728732966; cv=none; b=eDqzyEY5dZlNAwt36WH+0RPFlD6bijL0HhiCQit5RZcY50y5o1c4w19WXeHxPCc6ygg31diRRwBXylKoT+saI5vMTpa535yy+ZNTq2G7Kld8F607cX9ofs2DK9lUXllnMGUsHe4x8kKEA8qaH6M1NXkhv2c2828MauFDgBUDizA=
+	t=1728733625; cv=none; b=I8u5K3z18wuP89qdgKg9msyf2W/n1KXgJDf+N3Lmz9go7NVQ6ESWjiiHTeW8Nelf9fx6cqea/jJNAfnRMi4qS24ILm+3E+Fz/m1NROFZZ/KshN4FGvA10ti1HNN6nh6JyyvmM42bMGe4FqcVBDZn9EEaqM6eu08h11jbZYk19Pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728732966; c=relaxed/simple;
-	bh=4vQXp2epcQb8vcQV7IRCgEesIWmN1jPTBLzSzkv3ae4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oEVKItMC25+tRHWFiD5qspvJv5DcS1mZNDC052qnZV0l641KeQDbNLW2gJBK+X1hi5HvE2McQQDo5ka0vqiGoXtU3S6Seryni4vOHgOaGruNgpOGWgY398MwDctcaYu78r5I3sVuOcfbUGhq38F/+m6oma3AqlpgFgbala7zh+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4e4W9l3; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1728733625; c=relaxed/simple;
+	bh=oQSwr7hVbpWZ+NncALtS0fH65mGwMztKrBDdktyw2XA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mgNAu/G8jXxZ260qxX3bidd0Nwe01wAfl2FCqd5U6EnPkv2YTvG8lgXGc1AA1CEz+Tko2gJ/dV5SfjXWhRkshYrwVtlZOmzNkwFyBY6mHfbluzYqzOO6kSBTQrudWltqKnNJYv/sO3jdB4og5/mC3GJms250kK3q5RATznv1x+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2kKM+IG; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4e4W9l3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2kKM+IG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728732964; x=1760268964;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=4vQXp2epcQb8vcQV7IRCgEesIWmN1jPTBLzSzkv3ae4=;
-  b=A4e4W9l3I55ZPEjoNoX/cXkx4lCpo9dWr8hcY8/rhDztBPqca2dua1LF
-   Y73xQnvfl/tigqmFaakM0nc0o26NAOaLCWUgZzDpbN3QJIufVZLn3417g
-   haOjFMsTaATDfKVuXpcc8X7cUVegDluUMvsgtSSA+MKapgID/BB8lAAMg
-   5zD0bMhfoET7sQ48PC8Z2ykhwR43LqLbRX2LGgvvLZUwiCRrY7cdyd7yl
-   mANmII8gGDWYeCYirO+t73/iCVwq2ElTOrShAoB4R2uBJ5vspMG8I0E2L
-   o/6fF6rW8q5yH9DcG/+iipYOG2fa9Z+g8lO7gtRd/XqSk/56iS24GOc+F
-   w==;
-X-CSE-ConnectionGUID: 5RbeWhzmTdm5B6hvtRyWpw==
-X-CSE-MsgGUID: sC2SA3xIQjaVaAe8xJijfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28263773"
+  t=1728733624; x=1760269624;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oQSwr7hVbpWZ+NncALtS0fH65mGwMztKrBDdktyw2XA=;
+  b=H2kKM+IG84Z6Xpxg9KMcfsvKNq0sw+3wCV3Hw+WLT72uPd3EQgznQ0rZ
+   hSdLujGaNCISpetEF0LLpOSeoXSUNJ+szphEoyfbH7Sgu96P2Xn9HZL+I
+   nrlquutXWHFLB0veT4hf3waJxUvdX3aA+Pz2a/iwk4pdfz1K3QGGpONFJ
+   +thF2/rJKMadG9OQC7AY2tWgWsqQ+Ae/Vcz6mise+4jnzo+8r19MYB7eB
+   ZAAa0tdH++rwAvoxSr+pLTrruOmmqiSDQY1V6fgbC4vRKEo1sj2DMbsIf
+   XZYRddYFQZoRgQDfjSIkQUgz8xmmK/0h7zf8r0yQozhKWO/OcaUKkJdw1
+   A==;
+X-CSE-ConnectionGUID: 4CfpP2XaRsOqqH+k6PD+6w==
+X-CSE-MsgGUID: U7XG79sFRM6orF59SNHNNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28232318"
 X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="28263773"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 04:36:04 -0700
-X-CSE-ConnectionGUID: VF2dQSviQnCTJfGpvqVBUQ==
-X-CSE-MsgGUID: UNxMs61SSa+EXsC1/dccQg==
+   d="scan'208";a="28232318"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 04:47:03 -0700
+X-CSE-ConnectionGUID: Qg1arbBLQmWP1K3QafQfvg==
+X-CSE-MsgGUID: BAZMZLegQjaPS7hg268LUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="114600220"
+   d="scan'208";a="82145078"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Oct 2024 04:36:02 -0700
+  by orviesa004.jf.intel.com with ESMTP; 12 Oct 2024 04:47:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szaPf-000DJp-2b;
-	Sat, 12 Oct 2024 11:35:59 +0000
-Date: Sat, 12 Oct 2024 19:35:44 +0800
+	id 1szaaJ-000DK3-2p;
+	Sat, 12 Oct 2024 11:46:59 +0000
+Date: Sat, 12 Oct 2024 19:46:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: jesse.zhang@amd.com, dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Alexander.Deucher@amd.com,
-	Christian Koenig <christian.koenig@amd.com>,
-	"Jesse.zhang@amd.com" <jesse.zhang@amd.com>
-Subject: Re: [PATCH 1/2] drm/sched: adding a new scheduling policy
-Message-ID: <202410121939.cZrBIAkO-lkp@intel.com>
-References: <20241011062136.1019695-1-jesse.zhang@amd.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:vdso/store 20/75]
+ arch/x86/entry/vdso/vma.c:199:3: warning: label followed by a declaration is
+ a C23 extension
+Message-ID: <202410121905.2nMyOLfW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241011062136.1019695-1-jesse.zhang@amd.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc2 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/jesse-zhang-amd-com/drm-amdgpu-add-the-ring-id-schedule-module-parameter-for-amdgpu/20241011-142247
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20241011062136.1019695-1-jesse.zhang%40amd.com
-patch subject: [PATCH 1/2] drm/sched: adding a new scheduling policy
-config: i386-randconfig-141-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121939.cZrBIAkO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121939.cZrBIAkO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git vdso/store
+head:   79c4677efae9ab2e20e0ff126c6528160f57b5eb
+commit: eb954cf66837e55fd111758f273e5bdf9ca148ee [20/75] x86: vdso: Split virtual clock pages into dedicated mapping
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241012/202410121905.2nMyOLfW-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121905.2nMyOLfW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410121939.cZrBIAkO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121905.2nMyOLfW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/xe/xe_sched_job.c: In function 'xe_sched_job_arm':
->> drivers/gpu/drm/xe/xe_sched_job.c:284:9: error: too few arguments to function 'drm_sched_job_arm'
-     284 |         drm_sched_job_arm(&job->drm);
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_sched_job_types.h:11,
-                    from drivers/gpu/drm/xe/xe_sched_job.h:9,
-                    from drivers/gpu/drm/xe/xe_sched_job.c:6:
-   include/drm/gpu_scheduler.h:556:6: note: declared here
-     556 | void drm_sched_job_arm(struct drm_sched_job *job, int ring);
-         |      ^~~~~~~~~~~~~~~~~
+>> arch/x86/entry/vdso/vma.c:199:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     199 |                 struct pvclock_vsyscall_time_info *pvti =
+         |                 ^
+   arch/x86/entry/vdso/vma.c:209:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     209 |                 unsigned long pfn = hv_get_tsc_pfn();
+         |                 ^
+   2 warnings generated.
 
 
-vim +/drm_sched_job_arm +284 drivers/gpu/drm/xe/xe_sched_job.c
+vim +199 arch/x86/entry/vdso/vma.c
 
-dd08ebf6c3525a Matthew Brost             2023-03-30  239  
-dd08ebf6c3525a Matthew Brost             2023-03-30  240  void xe_sched_job_arm(struct xe_sched_job *job)
-dd08ebf6c3525a Matthew Brost             2023-03-30  241  {
-4fc4899e86f7af Thomas Hellström          2024-03-27  242  	struct xe_exec_queue *q = job->q;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  243  	struct dma_fence *fence, *prev;
-4fc4899e86f7af Thomas Hellström          2024-03-27  244  	struct xe_vm *vm = q->vm;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  245  	u64 seqno = 0;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  246  	int i;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  247  
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  248  	/* Migration and kernel engines have their own locking */
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  249  	if (IS_ENABLED(CONFIG_LOCKDEP) &&
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  250  	    !(q->flags & (EXEC_QUEUE_FLAG_KERNEL | EXEC_QUEUE_FLAG_VM))) {
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  251  		lockdep_assert_held(&q->vm->lock);
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  252  		if (!xe_vm_in_lr_mode(q->vm))
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  253  			xe_vm_assert_held(q->vm);
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  254  	}
-4fc4899e86f7af Thomas Hellström          2024-03-27  255  
-4fc4899e86f7af Thomas Hellström          2024-03-27  256  	if (vm && !xe_sched_job_is_migration(q) && !xe_vm_in_lr_mode(vm) &&
-4fc4899e86f7af Thomas Hellström          2024-03-27  257  	    (vm->batch_invalidate_tlb || vm->tlb_flush_seqno != q->tlb_flush_seqno)) {
-4fc4899e86f7af Thomas Hellström          2024-03-27  258  		xe_vm_assert_held(vm);
-4fc4899e86f7af Thomas Hellström          2024-03-27  259  		q->tlb_flush_seqno = vm->tlb_flush_seqno;
-4fc4899e86f7af Thomas Hellström          2024-03-27  260  		job->ring_ops_flush_tlb = true;
-4fc4899e86f7af Thomas Hellström          2024-03-27  261  	}
-4fc4899e86f7af Thomas Hellström          2024-03-27  262  
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  263  	/* Arm the pre-allocated fences */
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  264  	for (i = 0; i < q->width; prev = fence, ++i) {
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  265  		struct dma_fence_chain *chain;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  266  
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  267  		fence = job->ptrs[i].lrc_fence;
-264eecdba211bb Niranjana Vishwanathapura 2024-05-29  268  		xe_lrc_init_seqno_fence(q->lrc[i], fence);
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  269  		job->ptrs[i].lrc_fence = NULL;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  270  		if (!i) {
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  271  			job->lrc_seqno = fence->seqno;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  272  			continue;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  273  		} else {
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  274  			xe_assert(gt_to_xe(q->gt), job->lrc_seqno == fence->seqno);
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  275  		}
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  276  
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  277  		chain = job->ptrs[i - 1].chain_fence;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  278  		dma_fence_chain_init(chain, prev, fence, seqno++);
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  279  		job->ptrs[i - 1].chain_fence = NULL;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  280  		fence = &chain->base;
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  281  	}
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  282  
-0ac7a2c745e8a4 Thomas Hellström          2024-05-27  283  	job->fence = fence;
-dd08ebf6c3525a Matthew Brost             2023-03-30 @284  	drm_sched_job_arm(&job->drm);
-dd08ebf6c3525a Matthew Brost             2023-03-30  285  }
-dd08ebf6c3525a Matthew Brost             2023-03-30  286  
+   192	
+   193	static vm_fault_t vvar_vclock_fault(const struct vm_special_mapping *sm,
+   194					    struct vm_area_struct *vma, struct vm_fault *vmf)
+   195	{
+   196		switch (vmf->pgoff) {
+   197	#ifdef CONFIG_PARAVIRT_CLOCK
+   198		case VDSO_PAGE_PVCLOCK_OFFSET:
+ > 199			struct pvclock_vsyscall_time_info *pvti =
+   200				pvclock_get_pvti_cpu0_va();
+   201			if (pvti && vclock_was_used(VDSO_CLOCKMODE_PVCLOCK))
+   202				return vmf_insert_pfn_prot(vma, vmf->address,
+   203						__pa(pvti) >> PAGE_SHIFT,
+   204						pgprot_decrypted(vma->vm_page_prot));
+   205			break;
+   206	#endif /* CONFIG_PARAVIRT_CLOCK */
+   207	#ifdef CONFIG_HYPERV_TIMER
+   208		case VDSO_PAGE_HVCLOCK_OFFSET:
+   209			unsigned long pfn = hv_get_tsc_pfn();
+   210	
+   211			if (pfn && vclock_was_used(VDSO_CLOCKMODE_HVCLOCK))
+   212				return vmf_insert_pfn(vma, vmf->address, pfn);
+   213			break;
+   214	#endif /* CONFIG_HYPERV_TIMER */
+   215		}
+   216	
+   217		return VM_FAULT_SIGBUS;
+   218	}
+   219	
 
 -- 
 0-DAY CI Kernel Test Service
