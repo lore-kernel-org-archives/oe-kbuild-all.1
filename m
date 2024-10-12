@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49FF1D2F55
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Oct 2024 23:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E52838C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 00:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728690047; cv=none; b=BfBAnb0BKERFsIhVNaBvH2ftigmns0ZJEZya7myFhWwiOgEZWdArgOfiItfgEIZiKrbMZ8cJPRIGLc591DrgDDwVfH3sVWoROhPm0zTndz3c41krJZ5T+iiYmnEnfP0fTooVQWwLSybOp52LLFfvgYlghxDF0aPnXOcjvO6526k=
+	t=1728691851; cv=none; b=dncdFWMjGIuZLB1RN+uBO81e2ToClqKtE++Cs0KPuOWEviUmrpYubjB99HymOCjGvNyZtH1C3ZwZrZBYFp/nNdHOZ5rHuIK9eAijT2hdiz3txexBIcnVvqsTiEinh9HLDlhsiMuimkoJwHFNer3GZ3GemZ+I1R1atdUkxFf1leE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728690047; c=relaxed/simple;
-	bh=61aGSVZPC1vG2CQyYIB/Uh6oYM9vSjSP8KkrDXWCbNI=;
+	s=arc-20240116; t=1728691851; c=relaxed/simple;
+	bh=E0RFbqikIkoA3KkqNL5ZRMolBELYaA7EJkna4JZX3OU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qj0QDLwfFacr4slmiX7/2KIctAjzudJx3OjoLT8PThjtp0SGfOV+OmAPiGClNH7jfN/m9qoP87ZvoCExBW0dW81FdpoS+Fg15IrqAqsnnFuf6RIoeUcbB2qH46iche7hOkFaBF8b5J2DHsdrAMgZzEd0SDfPa6HFEnGqrlgzZTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKDf59X5; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=uSS0b1j7JN85Q5MEDtI/2R55xPPyw0xb7Xz3unk39J0O6gt/XAMe+YkpxRTFXq8DtcljFdm4x+GvwgOqh6ZauLJCOqtsoodW8KWzSXPMGAeljKvu0qDoZeT/1cnbdITqaInK5VsvFapPMXAvXab8R9Zd2ugBZsYEKU06u5d/GYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aM5sln6f; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKDf59X5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aM5sln6f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728690045; x=1760226045;
+  t=1728691849; x=1760227849;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=61aGSVZPC1vG2CQyYIB/Uh6oYM9vSjSP8KkrDXWCbNI=;
-  b=OKDf59X55rT35EWxLm+jY6DA/BpFDIBZQK71XF3y4MBcGT4pUqoKwgIj
-   mKNrBQ0FNdSxppHl2soC5Qu2Qt1c/yLRGrWPfH36SssKQMDEUIBoWbXlJ
-   EGI/qrkSxTwsLo9f+VSvgDR+BjL/4J9tGnRHEvMEvea45MDiZuSK4+GsA
-   OmfvUEqa7JWh7sEKxk+A/a2rVf96vxFxOpNIA0ykMuEbp40H1viCfNSWr
-   sqizJpoFSiAFYB8E+iWXQ7Jv7GzDVS/q1UmBYQNMwiGAN2KoyD10etAkh
-   i52GBTa41W+t1TOSrndaqA5AsdZiwaSV80lAAZF1dBs6VF+ReEqos+5fe
-   Q==;
-X-CSE-ConnectionGUID: NULRLaQuRJax41L11B+BXA==
-X-CSE-MsgGUID: qVaz1nohSwacEbTT1u+zRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="27549723"
+  bh=E0RFbqikIkoA3KkqNL5ZRMolBELYaA7EJkna4JZX3OU=;
+  b=aM5sln6fDMV70UGW8MSnOxUvSRUUoXuzFVByImgYt2Z2qQ0SJpz080wr
+   xqOC8Ma7rb4uCloiadoDOKLn61WFn5CXjtJNldfl/VNyTFkr6xzrADg6O
+   Y9WWPMX83+VjPjjrSUpIzwG2H7D9ZYT/EoMrp4CLWZcHciTqFxpGPhemK
+   UFbq58WRwNldK7jNFe0VX7lP0DuJW99pusb0MxXVTAu7N+2zgp15cQpAE
+   5cfjeNvOeJ4z1m6XkxKPhlbgZ10Pp+2o5JFu5X2DpZC9o1UknUD2tyhvk
+   0ggaxxFbUcP0xxx5ph/A537YCwCkoXFL2jRJue1bAUNq+Dpi6BRYBSg8L
+   A==;
+X-CSE-ConnectionGUID: S6BROtdgRoGgSNxN8hl/Ug==
+X-CSE-MsgGUID: G9X6SQ/aRE6duStZX5dRjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="27584475"
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="27549723"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 16:40:44 -0700
-X-CSE-ConnectionGUID: BC2BeQEMRC6Yh929VuyjZw==
-X-CSE-MsgGUID: 62eh2BivSxmiurRZv2fXrA==
+   d="scan'208";a="27584475"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 17:10:48 -0700
+X-CSE-ConnectionGUID: xPRTGwb5Q+WZD4NIcfaKpA==
+X-CSE-MsgGUID: NfUMoa1NQsC51LT93p9IeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="81666590"
+   d="scan'208";a="82052444"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Oct 2024 16:40:43 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 Oct 2024 17:10:45 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szPFR-000CrD-14;
-	Fri, 11 Oct 2024 23:40:41 +0000
-Date: Sat, 12 Oct 2024 07:39:51 +0800
+	id 1szPiU-000Csp-0m;
+	Sat, 12 Oct 2024 00:10:42 +0000
+Date: Sat, 12 Oct 2024 08:10:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 18542/30000]
- drivers/firmware/smccc/smccc.c:11:10: fatal error: asm/archrandom.h: No such
- file or directory
-Message-ID: <202410120752.fnnQfG1b-lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Robert Hu <robert.hu@intel.com>,
+	Farrah Chen <farrah.chen@intel.com>,
+	Danmei Wei <danmei.wei@intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Kai Huang <kai.huang@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>
+Subject: [kvm:kvm-coco-queue 60/109] arch/x86/kvm/mmu/tdp_mmu.c:1176:25:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202410120851.DMfCaszW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +68,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Will,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   a008d597f5ebedde0d000d27364ddb38be189ae4
-commit: d9a579535cd0f4623e627c3375781fb29c78692b [18542/30000] BACKPORT: arm/arm64: Probe for the presence of KVM hypervisor
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241012/202410120752.fnnQfG1b-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410120752.fnnQfG1b-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
+head:   d2c7662a6ea1c325a9ae878b3f1a265264bcd18b
+commit: f6ab1baaf315a860e46baf9f7b1a5bf3db99f9ec [60/109] KVM: x86/tdp_mmu: Support mirror root for TDP MMU
+config: x86_64-randconfig-121-20241011 (https://download.01.org/0day-ci/archive/20241012/202410120851.DMfCaszW-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410120851.DMfCaszW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410120752.fnnQfG1b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410120851.DMfCaszW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/kvm/mmu/tdp_mmu.c:1176:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:1176:25: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1176:25: sparse:     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
+   arch/x86/kvm/mmu/tdp_mmu.c:1459:33: sparse: sparse: context imbalance in 'tdp_mmu_split_huge_pages_root' - unexpected unlock
 
->> drivers/firmware/smccc/smccc.c:11:10: fatal error: asm/archrandom.h: No such file or directory
-      11 | #include <asm/archrandom.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+vim +1176 arch/x86/kvm/mmu/tdp_mmu.c
 
-
-vim +11 drivers/firmware/smccc/smccc.c
-
-     7	
-     8	#include <linux/init.h>
-     9	#include <linux/arm-smccc.h>
-    10	#include <linux/kernel.h>
-  > 11	#include <asm/archrandom.h>
-    12	
+  1120	
+  1121	static int tdp_mmu_split_huge_page(struct kvm *kvm, struct tdp_iter *iter,
+  1122					   struct kvm_mmu_page *sp, bool shared);
+  1123	
+  1124	/*
+  1125	 * Handle a TDP page fault (NPT/EPT violation/misconfiguration) by installing
+  1126	 * page tables and SPTEs to translate the faulting guest physical address.
+  1127	 */
+  1128	int kvm_tdp_mmu_map(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+  1129	{
+  1130		struct kvm_mmu_page *root = tdp_mmu_get_root_for_fault(vcpu, fault);
+  1131		struct kvm *kvm = vcpu->kvm;
+  1132		struct tdp_iter iter;
+  1133		struct kvm_mmu_page *sp;
+  1134		int ret = RET_PF_RETRY;
+  1135	
+  1136		kvm_mmu_hugepage_adjust(vcpu, fault);
+  1137	
+  1138		trace_kvm_mmu_spte_requested(fault);
+  1139	
+  1140		rcu_read_lock();
+  1141	
+  1142		tdp_mmu_for_each_pte(iter, kvm, root, fault->gfn, fault->gfn + 1) {
+  1143			int r;
+  1144	
+  1145			if (fault->nx_huge_page_workaround_enabled)
+  1146				disallowed_hugepage_adjust(fault, iter.old_spte, iter.level);
+  1147	
+  1148			/*
+  1149			 * If SPTE has been frozen by another thread, just give up and
+  1150			 * retry, avoiding unnecessary page table allocation and free.
+  1151			 */
+  1152			if (is_frozen_spte(iter.old_spte))
+  1153				goto retry;
+  1154	
+  1155			if (iter.level == fault->goal_level)
+  1156				goto map_target_level;
+  1157	
+  1158			/* Step down into the lower level page table if it exists. */
+  1159			if (is_shadow_present_pte(iter.old_spte) &&
+  1160			    !is_large_pte(iter.old_spte))
+  1161				continue;
+  1162	
+  1163			/*
+  1164			 * The SPTE is either non-present or points to a huge page that
+  1165			 * needs to be split.
+  1166			 */
+  1167			sp = tdp_mmu_alloc_sp(vcpu);
+  1168			tdp_mmu_init_child_sp(sp, &iter);
+  1169			if (is_mirror_sp(sp))
+  1170				kvm_mmu_alloc_external_spt(vcpu, sp);
+  1171	
+  1172			sp->nx_huge_page_disallowed = fault->huge_page_disallowed;
+  1173	
+  1174			if (is_shadow_present_pte(iter.old_spte)) {
+  1175				/* Don't support large page for mirrored roots (TDX) */
+> 1176				KVM_BUG_ON(is_mirror_sptep(iter.sptep), vcpu->kvm);
+  1177				r = tdp_mmu_split_huge_page(kvm, &iter, sp, true);
+  1178			} else {
+  1179				r = tdp_mmu_link_sp(kvm, &iter, sp, true);
+  1180			}
+  1181	
+  1182			/*
+  1183			 * Force the guest to retry if installing an upper level SPTE
+  1184			 * failed, e.g. because a different task modified the SPTE.
+  1185			 */
+  1186			if (r) {
+  1187				tdp_mmu_free_sp(sp);
+  1188				goto retry;
+  1189			}
+  1190	
+  1191			if (fault->huge_page_disallowed &&
+  1192			    fault->req_level >= iter.level) {
+  1193				spin_lock(&kvm->arch.tdp_mmu_pages_lock);
+  1194				if (sp->nx_huge_page_disallowed)
+  1195					track_possible_nx_huge_page(kvm, sp);
+  1196				spin_unlock(&kvm->arch.tdp_mmu_pages_lock);
+  1197			}
+  1198		}
+  1199	
+  1200		/*
+  1201		 * The walk aborted before reaching the target level, e.g. because the
+  1202		 * iterator detected an upper level SPTE was frozen during traversal.
+  1203		 */
+  1204		WARN_ON_ONCE(iter.level == fault->goal_level);
+  1205		goto retry;
+  1206	
+  1207	map_target_level:
+  1208		ret = tdp_mmu_map_handle_target_level(vcpu, fault, &iter);
+  1209	
+  1210	retry:
+  1211		rcu_read_unlock();
+  1212		return ret;
+  1213	}
+  1214	
 
 -- 
 0-DAY CI Kernel Test Service
