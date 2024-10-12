@@ -1,190 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3CF13A256
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 18:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B463F1552FA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 18:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728756032; cv=none; b=C4CAz5Gsfhw5a0dEIS5uoA3qnoaB8curaijxIh/UBEXpt+SHTp7dDwBcLrZm9k3B9NsqqXEpPOVtTHRM/DNdJqBDJxYnhBiGkE1ki+sYRgfhkDKYXTyKQIxLmmMTzSGg5+1pmAcp1lgpprcTfWVYQzpJ0+7nF6DUP2Al3CgRnPQ=
+	t=1728756615; cv=none; b=cYFSi+4bhKt/SN7thZQ/wB/YC816XOsoN3yH6GwSgOnAz4hgT9VTjgWigcUxOAA86QijlHz3Yclfh4HhJ/VCVnTD5YEQFj8uxBLue0LPBTRhs9s3ZJi7OHgFJWGyT5LBxHE0ilvsEOPncQqq6+nmNgzu2las02A8jRTCSwoMK/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728756032; c=relaxed/simple;
-	bh=QZbghKMG5mddRcnYL0oUUjDtFdAbMtMB+WmbxAp1KO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ca7n/I4eHQzN85yXrjnyzCsCAqsYBehkawCLcAFXwrtYbBzcyY/G0JAYMkVuCHMPpc0LjHpL4J2ASZeBsXgqm7E29vKGYoKOk/kkSFYd9Ab5b3fPFANR4hIpNYn6rnCIgRg9eB0gvXUapma+TlOw+uE0RUPwDJErRSqi8G8j3p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJAI/2FC; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1728756615; c=relaxed/simple;
+	bh=wmY2JkxGXiLr9XeB9WLEARhPpP5kVc/7YbQU3o5t4r4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OsCTQcWdY1H6eeWzUsTCwAN+dikq/Zd6/R56EHqdRT59d68P6hFIaeozmBTWloNbaYIG2OWlidX+A/7Ct68fMzQSa+MyY/WfPyc7lbxL68r+vTchTRDhYUZkSb53KMaMSL57ZGo6BBsNhQ7tchpbjv7KPri5y9qpZi3NvPHebYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b2cdEkve; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJAI/2FC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b2cdEkve"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728756030; x=1760292030;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=QZbghKMG5mddRcnYL0oUUjDtFdAbMtMB+WmbxAp1KO4=;
-  b=fJAI/2FCrKTeHQcY6/IzK+EMXtRfjvkUuDFwD7PGX6mHLXweFNBsjzaD
-   gCdg9AM5b0KEDlmZsJN4sFtv6LZS0QS/TonauvlPXOKJXsdj9YfkydfoZ
-   2WO6H04FcKcUPh0hdgwtGiHLmz1mvAY4BtOIGVXEXb6cd0SVT4im9voAa
-   WyNfZ6csU7COqFeWNenuRljqD48y0Qe/7YTRWLoC21A1nY3Gn3vRW6iGh
-   WTf13BFYG7YB+IZCbGq6B/1aphMjXQYnE317K+IbcE/ang/pHy4v6GPl3
-   k/vx/uqsRnzvV11APffg/04r/bcxRXEHE4XAJo3DY94T/MwPVL2kiSScE
+  t=1728756613; x=1760292613;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wmY2JkxGXiLr9XeB9WLEARhPpP5kVc/7YbQU3o5t4r4=;
+  b=b2cdEkveVl8xOjwtpQJFyu+lgzs6E5C++ZzaUIg0ivCct3OYstFB66+H
+   8oS77NMLPK6rUxPzcfBecUcU2NdyuaPRQuG3wQt+MUNG6apQddkULZcZQ
+   dAbHNshnc7Bvbk624gmnFsoyPY/s2lWTEt2Yi0bdKgo10D9rhZ/Icppqx
+   WCNDiXk6ZeStPKW4wLjGk5C6H46oG0wp7YaKKu36ESG26XWVjBVrqyWcV
+   k17RmIaljCgTqjspJmf8QGZiUoXMAJeNqTJWa4epk0CNAfy9NecyWorRc
+   G22as8AvEJbDIfctLpCjVOCB84SjGlnqTCdCtbVUqx+dybcODYi4HvVtE
    Q==;
-X-CSE-ConnectionGUID: 2Q7L2ucxRWyWDFLGV9xUhA==
-X-CSE-MsgGUID: NyCediMaSMCjTuwU8jIrlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28315433"
+X-CSE-ConnectionGUID: 6fFJ787mTaGgjlk480U2YQ==
+X-CSE-MsgGUID: 1yuLwUIeRua86qebfSSmfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="38717879"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28315433"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 11:00:16 -0700
-X-CSE-ConnectionGUID: 2TXqMIK5QayDULncJRh8vA==
-X-CSE-MsgGUID: 9KGUO9srSdGv0XhB8YEqRg==
+   d="scan'208";a="38717879"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 11:10:13 -0700
+X-CSE-ConnectionGUID: NNT31RqXRUmKsXeUTolXEg==
+X-CSE-MsgGUID: xMsAFX2vQICD9wRojS/3Eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="81974009"
+   d="scan'208";a="100517638"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Oct 2024 10:58:12 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 Oct 2024 11:10:12 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szgNV-000DaJ-2b;
-	Sat, 12 Oct 2024 17:58:09 +0000
-Date: Sun, 13 Oct 2024 01:57:12 +0800
+	id 1szgZ8-000Daj-09;
+	Sat, 12 Oct 2024 18:10:10 +0000
+Date: Sun, 13 Oct 2024 02:09:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	andersson@kernel.org, konradybcio@kernel.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	manivannan.sadhasivam@linaro.org, arnd@arndb.de, esben@geanix.com,
-	nikita.shubin@maquefel.me, linux-arm-msm@vger.kernel.org,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
-	quic_varada@quicinc.com
-Subject: Re: [PATCH v11 4/8] mtd: nand: Add qpic_common API file
-Message-ID: <202410130129.M8J7VJoG-lkp@intel.com>
-References: <20241010070510.1504250-5-quic_mdalam@quicinc.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 2965/4143]
+ drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c:432: undefined
+ reference to `arc4_setkey'
+Message-ID: <202410130117.eD0x8fML-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241010070510.1504250-5-quic_mdalam@quicinc.com>
 
-Hi Md,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mtd/nand/next]
-[also build test ERROR on broonie-spi/for-next robh/for-next linus/master v6.12-rc2 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/spi-dt-bindings-Introduce-qcom-spi-qpic-snand/20241010-161236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20241010070510.1504250-5-quic_mdalam%40quicinc.com
-patch subject: [PATCH v11 4/8] mtd: nand: Add qpic_common API file
-config: csky-randconfig-r123-20241012 (https://download.01.org/0day-ci/archive/20241013/202410130129.M8J7VJoG-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241013/202410130129.M8J7VJoG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d61a00525464bfc5fe92c6ad713350988e492b88
+commit: 02f220b5267042d0de649614eec84ded8aeecb4f [2965/4143] wifi: ipw2x00/lib80211: move remaining lib80211 into libipw
+config: i386-randconfig-012-20241012 (https://download.01.org/0day-ci/archive/20241013/202410130117.eD0x8fML-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410130117.eD0x8fML-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410130129.M8J7VJoG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410130117.eD0x8fML-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_remove':
->> drivers/mtd/nand/raw/qcom_nandc.c:2347:(.text+0x3ce): undefined reference to `nand_cleanup'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `config_nand_page_write':
-   drivers/mtd/nand/raw/qcom_nandc.c:377:(.text+0x538): undefined reference to `nand_cleanup'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_parse_instructions':
->> drivers/mtd/nand/raw/qcom_nandc.c:1626:(.text+0x756): undefined reference to `nand_subop_get_addr_start_off'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1627:(.text+0x766): undefined reference to `nand_subop_get_num_addr_cyc'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_misc_cmd_type_exec':
-   drivers/mtd/nand/raw/qcom_nandc.c:1823:(.text+0x8a8): undefined reference to `nand_subop_get_addr_start_off'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1823:(.text+0x8ac): undefined reference to `nand_subop_get_num_addr_cyc'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_param_page_type_exec':
->> drivers/mtd/nand/raw/qcom_nandc.c:1917:(.text+0xa3e): undefined reference to `nand_subop_get_data_len'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1951:(.text+0xb64): undefined reference to `nand_subop_get_data_len'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_read_status_exec':
-   drivers/mtd/nand/raw/qcom_nandc.c:1747:(.text+0xcc6): undefined reference to `nand_subop_get_data_len'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1752:(.text+0xd14): undefined reference to `nand_subop_get_data_len'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_read_id_type_exec':
-   drivers/mtd/nand/raw/qcom_nandc.c:1794:(.text+0xdee): undefined reference to `nand_subop_get_data_len'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nand_attach_chip':
->> drivers/mtd/nand/raw/qcom_nandc.c:1393:(.text+0xe4c): undefined reference to `nand_ecc_choose_conf'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1403:(.text+0xed8): undefined reference to `nand_subop_get_data_len'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1403:(.text+0xee8): undefined reference to `nand_ecc_choose_conf'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_write_page_raw':
->> drivers/mtd/nand/raw/qcom_nandc.c:1054:(.text+0x10cc): undefined reference to `nand_prog_page_begin_op'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1109:(.text+0x11fe): undefined reference to `nand_prog_page_end_op'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1110:(.text+0x1218): undefined reference to `nand_prog_page_begin_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1110:(.text+0x1238): undefined reference to `nand_prog_page_end_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_read_cw_raw':
->> drivers/mtd/nand/raw/qcom_nandc.c:482:(.text+0x1266): undefined reference to `nand_read_page_op'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:542:(.text+0x1468): undefined reference to `nand_read_page_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `check_for_erased_page':
->> drivers/mtd/nand/raw/qcom_nandc.c:600:(.text+0x15bc): undefined reference to `nand_check_erased_ecc_chunk'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:613:(.text+0x1618): undefined reference to `nand_check_erased_ecc_chunk'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `nand_scan':
->> include/linux/mtd/rawnand.h:1592:(.text+0x1af6): undefined reference to `nand_scan_with_ids'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nand_host_parse_boot_partitions':
->> drivers/mtd/nand/raw/qcom_nandc.c:2091:(.text+0x1bb0): undefined reference to `nand_scan_with_ids'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nand_host_init_and_register':
-   drivers/mtd/nand/raw/qcom_nandc.c:2195:(.text+0x1c88): undefined reference to `nand_cleanup'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_check_op':
-   drivers/mtd/nand/raw/qcom_nandc.c:2008:(.text+0x1d4c): undefined reference to `nand_cleanup'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nand_exec_op':
->> drivers/mtd/nand/raw/qcom_nandc.c:2017:(.text+0x1d60): undefined reference to `nand_op_parser_exec_op'
->> csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:2018:(.text+0x1d94): undefined reference to `nand_op_parser_exec_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_read_page':
-   drivers/mtd/nand/raw/qcom_nandc.c:905:(.text+0x20fe): undefined reference to `nand_read_page_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:919:(.text+0x2198): undefined reference to `nand_read_page_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_block_markbad':
->> drivers/mtd/nand/raw/qcom_nandc.c:1234:(.text+0x228c): undefined reference to `nand_prog_page_end_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_write_oob':
-   drivers/mtd/nand/raw/qcom_nandc.c:1158:(.text+0x239a): undefined reference to `nand_prog_page_end_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1159:(.text+0x23cc): undefined reference to `nand_prog_page_end_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_write_page':
-   drivers/mtd/nand/raw/qcom_nandc.c:980:(.text+0x2410): undefined reference to `nand_prog_page_begin_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1036:(.text+0x2524): undefined reference to `nand_prog_page_end_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.o: in function `qcom_nandc_block_bad':
-   drivers/mtd/nand/raw/qcom_nandc.c:1167:(.text+0x2648): undefined reference to `nand_prog_page_begin_op'
-   csky-linux-ld: drivers/mtd/nand/raw/qcom_nandc.c:1167:(.text+0x2668): undefined reference to `nand_prog_page_end_op'
+   ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.o: in function `libipw_tkip_decrypt':
+>> drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c:432: undefined reference to `arc4_setkey'
+>> ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c:433: undefined reference to `arc4_crypt'
+   ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.o: in function `libipw_tkip_encrypt':
+   drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c:350: undefined reference to `arc4_setkey'
+   ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c:351: undefined reference to `arc4_crypt'
+   ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_wep.o: in function `libipw_wep_decrypt':
+>> drivers/net/wireless/intel/ipw2x00/libipw_crypto_wep.c:171: undefined reference to `arc4_setkey'
+>> ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_wep.c:172: undefined reference to `arc4_crypt'
+   ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_wep.o: in function `libipw_wep_encrypt':
+   drivers/net/wireless/intel/ipw2x00/libipw_crypto_wep.c:132: undefined reference to `arc4_setkey'
+   ld: drivers/net/wireless/intel/ipw2x00/libipw_crypto_wep.c:133: undefined reference to `arc4_crypt'
 
 
-vim +2347 drivers/mtd/nand/raw/qcom_nandc.c
+vim +432 drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c
 
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2334  
-ec185b18c22323 drivers/mtd/nand/raw/qcom_nandc.c Uwe Kleine-König 2023-04-11  2335  static void qcom_nandc_remove(struct platform_device *pdev)
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2336  {
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2337  	struct qcom_nand_controller *nandc = platform_get_drvdata(pdev);
-7330fc505af4af drivers/mtd/nand/raw/qcom_nandc.c Arnd Bergmann    2018-07-17  2338  	struct resource *res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2339  	struct qcom_nand_host *host;
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19  2340  	struct nand_chip *chip;
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19  2341  	int ret;
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2342  
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19  2343  	list_for_each_entry(host, &nandc->host_list, node) {
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19  2344  		chip = &host->chip;
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19  2345  		ret = mtd_device_unregister(nand_to_mtd(chip));
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19  2346  		WARN_ON(ret);
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19 @2347  		nand_cleanup(chip);
-0a2bc9919cf74e drivers/mtd/nand/raw/qcom_nandc.c Miquel Raynal    2020-05-19  2348  	}
-7330fc505af4af drivers/mtd/nand/raw/qcom_nandc.c Arnd Bergmann    2018-07-17  2349  
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2350  	qcom_nandc_unalloc(nandc);
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2351  
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2352  	clk_disable_unprepare(nandc->aon_clk);
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2353  	clk_disable_unprepare(nandc->core_clk);
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2354  
-7330fc505af4af drivers/mtd/nand/raw/qcom_nandc.c Arnd Bergmann    2018-07-17  2355  	dma_unmap_resource(&pdev->dev, nandc->base_dma, resource_size(res),
-7330fc505af4af drivers/mtd/nand/raw/qcom_nandc.c Arnd Bergmann    2018-07-17  2356  			   DMA_BIDIRECTIONAL, 0);
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2357  }
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja    2016-02-03  2358  
+183798799216fa net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2006-09-22  368  
+02f220b5267042 drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c Johannes Berg    2024-10-07  369  static int libipw_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  370  {
+02f220b5267042 drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c Johannes Berg    2024-10-07  371  	struct libipw_tkip_data *tkey = priv;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  372  	u8 rc4key[16];
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  373  	u8 keyidx, *pos;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  374  	u32 iv32;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  375  	u16 iv16;
+274bfb8dc5ffa1 net/wireless/lib80211_crypt_tkip.c                      John W. Linville 2008-10-29  376  	struct ieee80211_hdr *hdr;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  377  	u8 icv[4];
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  378  	u32 crc;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  379  	int plen;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  380  
+274bfb8dc5ffa1 net/wireless/lib80211_crypt_tkip.c                      John W. Linville 2008-10-29  381  	hdr = (struct ieee80211_hdr *)skb->data;
+20d64713ae71c0 net/ieee80211/ieee80211_crypt_tkip.c                    James Ketrenos   2005-09-21  382  
+6eb6edf04acd09 net/ieee80211/ieee80211_crypt_tkip.c                    James Ketrenos   2005-09-22  383  	if (tkey->flags & IEEE80211_CRYPTO_TKIP_COUNTERMEASURES) {
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  384  		net_dbg_ratelimited("TKIP countermeasures: dropped received packet from %pM\n",
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  385  				    hdr->addr2);
+20d64713ae71c0 net/ieee80211/ieee80211_crypt_tkip.c                    James Ketrenos   2005-09-21  386  		return -1;
+20d64713ae71c0 net/ieee80211/ieee80211_crypt_tkip.c                    James Ketrenos   2005-09-21  387  	}
+20d64713ae71c0 net/ieee80211/ieee80211_crypt_tkip.c                    James Ketrenos   2005-09-21  388  
+299af9d3db0fd3 net/wireless/lib80211_crypt_tkip.c                      Andriy Tkachuk   2010-02-02  389  	if (skb->len < hdr_len + TKIP_HDR_LEN + 4)
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  390  		return -1;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  391  
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  392  	pos = skb->data + hdr_len;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  393  	keyidx = pos[3];
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  394  	if (!(keyidx & (1 << 5))) {
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  395  		net_dbg_ratelimited("TKIP: received packet without ExtIV flag from %pM\n",
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  396  				    hdr->addr2);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  397  		return -2;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  398  	}
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  399  	keyidx >>= 6;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  400  	if (tkey->key_idx != keyidx) {
+996bf99c719445 net/wireless/lib80211_crypt_tkip.c                      Johannes Berg    2015-11-06  401  		net_dbg_ratelimited("TKIP: RX tkey->key_idx=%d frame keyidx=%d\n",
+996bf99c719445 net/wireless/lib80211_crypt_tkip.c                      Johannes Berg    2015-11-06  402  				    tkey->key_idx, keyidx);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  403  		return -6;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  404  	}
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  405  	if (!tkey->key_set) {
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  406  		net_dbg_ratelimited("TKIP: received packet from %pM with keyid=%d that does not have a configured key\n",
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  407  				    hdr->addr2, keyidx);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  408  		return -3;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  409  	}
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  410  	iv16 = (pos[0] << 8) | pos[2];
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  411  	iv32 = pos[4] | (pos[5] << 8) | (pos[6] << 16) | (pos[7] << 24);
+299af9d3db0fd3 net/wireless/lib80211_crypt_tkip.c                      Andriy Tkachuk   2010-02-02  412  	pos += TKIP_HDR_LEN;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  413  
+b4328d87ec5711 net/ieee80211/ieee80211_crypt_tkip.c                    Zhu Yi           2006-08-21  414  	if (tkip_replay_check(iv32, iv16, tkey->rx_iv32, tkey->rx_iv16)) {
+02f220b5267042 drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c Johannes Berg    2024-10-07  415  #ifdef CONFIG_LIBIPW_DEBUG
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  416  		net_dbg_ratelimited("TKIP: replay detected: STA=%pM previous TSC %08x%04x received TSC %08x%04x\n",
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  417  				    hdr->addr2, tkey->rx_iv32, tkey->rx_iv16,
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  418  				    iv32, iv16);
+6f16bf3bdb94b5 net/wireless/lib80211_crypt_tkip.c                      John W. Linville 2009-03-11  419  #endif
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  420  		tkey->dot11RSNAStatsTKIPReplays++;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  421  		return -4;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  422  	}
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  423  
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  424  	if (iv32 != tkey->rx_iv32 || !tkey->rx_phase1_done) {
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  425  		tkip_mixing_phase1(tkey->rx_ttak, tkey->key, hdr->addr2, iv32);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  426  		tkey->rx_phase1_done = 1;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  427  	}
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  428  	tkip_mixing_phase2(rc4key, tkey->key, tkey->rx_ttak, iv16);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  429  
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  430  	plen = skb->len - hdr_len - 12;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  431  
+4be297016cd3a6 net/wireless/lib80211_crypt_tkip.c                      Ard Biesheuvel   2019-06-12 @432  	arc4_setkey(&tkey->rx_ctx_arc4, rc4key, 16);
+4be297016cd3a6 net/wireless/lib80211_crypt_tkip.c                      Ard Biesheuvel   2019-06-12 @433  	arc4_crypt(&tkey->rx_ctx_arc4, pos, pos, plen + 4);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  434  
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  435  	crc = ~crc32_le(~0, pos, plen);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  436  	icv[0] = crc;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  437  	icv[1] = crc >> 8;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  438  	icv[2] = crc >> 16;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  439  	icv[3] = crc >> 24;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  440  	if (memcmp(icv, pos + plen, 4) != 0) {
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  441  		if (iv32 != tkey->rx_iv32) {
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  442  			/* Previously cached Phase1 result was already lost, so
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  443  			 * it needs to be recalculated for the next packet. */
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  444  			tkey->rx_phase1_done = 0;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  445  		}
+02f220b5267042 drivers/net/wireless/intel/ipw2x00/libipw_crypto_tkip.c Johannes Berg    2024-10-07  446  #ifdef CONFIG_LIBIPW_DEBUG
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  447  		net_dbg_ratelimited("TKIP: ICV error detected: STA=%pM\n",
+e87cc4728f0e2f net/wireless/lib80211_crypt_tkip.c                      Joe Perches      2012-05-13  448  				    hdr->addr2);
+6f16bf3bdb94b5 net/wireless/lib80211_crypt_tkip.c                      John W. Linville 2009-03-11  449  #endif
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  450  		tkey->dot11RSNAStatsTKIPICVErrors++;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  451  		return -5;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  452  	}
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  453  
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  454  	/* Update real counters only after Michael MIC verification has
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  455  	 * completed */
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  456  	tkey->rx_iv32_new = iv32;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  457  	tkey->rx_iv16_new = iv16;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  458  
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  459  	/* Remove IV and ICV */
+299af9d3db0fd3 net/wireless/lib80211_crypt_tkip.c                      Andriy Tkachuk   2010-02-02  460  	memmove(skb->data + TKIP_HDR_LEN, skb->data, hdr_len);
+299af9d3db0fd3 net/wireless/lib80211_crypt_tkip.c                      Andriy Tkachuk   2010-02-02  461  	skb_pull(skb, TKIP_HDR_LEN);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  462  	skb_trim(skb, skb->len - 4);
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  463  
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  464  	return keyidx;
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  465  }
+b453872c35cfcb net/ieee80211/ieee80211_crypt_tkip.c                    Jeff Garzik      2005-05-12  466  
+
+:::::: The code at line 432 was first introduced by commit
+:::::: 4be297016cd3a6aedbcc3b053da16cdd42546f04 net/lib80211: move TKIP handling to ARC4 library code
+
+:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
