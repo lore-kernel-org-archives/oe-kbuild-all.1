@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373E281723;
-	Sat, 12 Oct 2024 08:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF411145A18
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 08:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728721201; cv=none; b=Hn4ywUb0bjR8LkxkWd38qdGEL0rS4Om1xOU9r3UseLVhSLPtcrbVTCpb4pYjSoJD+A1n8bcmWmRV8ipW0bzEbt1Nj2rWzUxuIuQ5jewjVX1x2CZ1c4FihtsuhIF9o9VTg3Hf5xh0IfmqCMqsidqNM5GMaBAtxCFL0wdI0EFpFyI=
+	t=1728721203; cv=none; b=i9hhw/JIG6WvYKaaiQxQ0LeX7rLOTogpxDzYE7+NOs3H3yQiw9Jc/+U+v6hbye4PRFN3h9TNFFjHIQ2I0DtmkAlmiQXL1tCDstqE2B/0Uz4QJEjB94CMDviKQvLkMeCrevOhCyil3JCa1zJnbIX4h2MEchFrLXVTGA7rN/eyqi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728721201; c=relaxed/simple;
-	bh=NqIiEhbbxN8hJyx4P7r6NaG/98K5LACXmeO9phrs+RE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hfM4RnYj9Io83WM471enCEsIRQFNMa9RcCu7xHEwNJkE7N6EfSWAv81jRlzcli5Uu0kokoxgomixmuPSDuK4q0LKUGPkGeeRDsgqLT9Cuwi6E0PhB3+zZW6o+QyJxOKvF3D8u1nRmUBr1gRkd1AFu+CqpChqrATgwu+wvJz44Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOc1EFo5; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1728721203; c=relaxed/simple;
+	bh=qiNaSkFLsiZlpmEX7fbpzHz/timLHlWrozlUIAzDUaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UI1rNQKJIj8d62qLUZ8hpwolTOHliyX1SIeOzO8d2NzQJk93PRFtNsdxory1xSKS6yrKp9LDxHsE3mTvaqdISXSrKiA5yjcE34tJ+jf2Pc/dzbU4MtdAm8UkXLgYallK8/rz5rmSyYguRRSueAQ9YHqzT3d64DeMdaUIQYQE96o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGhD2UdA; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOc1EFo5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGhD2UdA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728721200; x=1760257200;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NqIiEhbbxN8hJyx4P7r6NaG/98K5LACXmeO9phrs+RE=;
-  b=UOc1EFo5LcrvwLzuw2Bmme1Qt2zIE9bXfLIZCR8wQ6Mp60avT1dZ69+U
-   xvactM+wWHTaQNgtlBarbd8pcWHCPJE9C8Ocddri4aHqiz0hBfcWSf4xo
-   K90ymJ2mqfc98IyAnjG3DOZYMV0OvaGKa9kG37iBYgJqVnj3aC8L++AvT
-   NlZZX16c88Qrj/W14upp4UOPkwaSDcDmR+bxsTXRD5qgXvyKm032kVGBv
-   572fYtgJuVG+ZYYvLbatMZl1AOT4zN82Dv30Yl2G2+7Wo+i5lhfL/KDFr
-   /H8DeYYc0jGZ/VF1tYI1g0/kdkjtV/RuNCg1sIuMpNVwVXFeg9O9NuXFA
-   g==;
-X-CSE-ConnectionGUID: 40A2FpNuT5WIsXPL/3W3Qw==
-X-CSE-MsgGUID: Zty7onhIQ+Spm7SMpfp9kQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45600181"
+  t=1728721202; x=1760257202;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qiNaSkFLsiZlpmEX7fbpzHz/timLHlWrozlUIAzDUaI=;
+  b=mGhD2UdAkVIuvXy/RWHm6Ft/hUlH4cI8ZbamGoFXlHvVpG8yv2b1LSYA
+   AhBJBEXxo5GHevGvWgdqHC8wvjErHanYyvlaTX5hVvwjawD94RGhjusRs
+   Je20m5MEymyr61LWv8T9WxIVN6plu/ZHzu+AS0JbRtNPJJMUN61PRC/tS
+   1H51+MPZWkZOHg9ZFCS+gKqLC/+YTkdRwSW877YFRU2piSr+wsKBY4R7v
+   NHe1iqCsb9Dbg1bfe1mfF3QX5+MUBXNsPz5hHnxg+vhcTICfnbG8xFouK
+   I4GtniJR5eQpuqQ3gUI/LlmbSNJByliXIYrfpy4FNcU3jFA1KkwotKPO6
+   A==;
+X-CSE-ConnectionGUID: GNK6LMyISheD+K6cJoY3KA==
+X-CSE-MsgGUID: vH/EvVimRhicSroD5bC1PQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53546799"
 X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="45600181"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 01:19:59 -0700
-X-CSE-ConnectionGUID: U6aJh22jQRuRziwmOkcrhQ==
-X-CSE-MsgGUID: 8r2eiGJBTUes0KzaKjtqRA==
+   d="scan'208";a="53546799"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 01:20:01 -0700
+X-CSE-ConnectionGUID: viBG/oxRREOEnhV0oyHeAA==
+X-CSE-MsgGUID: 81gwA3J1Sg+6tqid8/OKdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="76992768"
+   d="scan'208";a="77428329"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 12 Oct 2024 01:19:57 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 12 Oct 2024 01:19:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szXLv-000DCB-0U;
+	id 1szXLv-000DCD-0Y;
 	Sat, 12 Oct 2024 08:19:55 +0000
-Date: Sat, 12 Oct 2024 16:19:42 +0800
+Date: Sat, 12 Oct 2024 16:19:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavan Holla <pholla@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Lee Jones <lee@kernel.org>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Subject: [lee-mfd:for-mfd-next 13/27] drivers/mfd/cros_ec_dev.c:132:10:
- error: use of undeclared identifier 'EC_FEATURE_UCSI_PPM'; did you mean
- 'EC_FEATURE_USB_PD'?
-Message-ID: <202410121638.6L1KYC3r-lkp@intel.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>, drew@pdp7.com,
+	guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	m.szyprowski@samsung.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Michal Wilczynski <m.wilczynski@samsung.com>
+Subject: Re: [PATCH v3 1/3] mailbox: Introduce support for T-head TH1520
+ Mailbox driver
+Message-ID: <202410121547.KF1WUbP1-lkp@intel.com>
+References: <20241008174852.222374-2-m.wilczynski@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,83 +69,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241008174852.222374-2-m.wilczynski@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-head:   bc37b44978d38e1b38373b2a5774e4b4753a7523
-commit: e5d1202b6b1efa2a533564e21476dadb1b838f6b [13/27] mfd: cros_ec: Load cros_ec_ucsi on supported ECs
-config: i386-buildonly-randconfig-002-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121638.6L1KYC3r-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121638.6L1KYC3r-lkp@intel.com/reproduce)
+Hi Michal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.12-rc2]
+[cannot apply to next-20241011]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/mailbox-Introduce-support-for-T-head-TH1520-Mailbox-driver/20241009-015033
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241008174852.222374-2-m.wilczynski%40samsung.com
+patch subject: [PATCH v3 1/3] mailbox: Introduce support for T-head TH1520 Mailbox driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241012/202410121547.KF1WUbP1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121547.KF1WUbP1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410121638.6L1KYC3r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121547.KF1WUbP1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/mfd/cros_ec_dev.c:132:10: error: use of undeclared identifier 'EC_FEATURE_UCSI_PPM'; did you mean 'EC_FEATURE_USB_PD'?
-     132 |                 .id             = EC_FEATURE_UCSI_PPM,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-         |                                   EC_FEATURE_USB_PD
-   include/linux/platform_data/cros_ec_commands.h:1252:2: note: 'EC_FEATURE_USB_PD' declared here
-    1252 |         EC_FEATURE_USB_PD = 22,
-         |         ^
-   1 error generated.
+   drivers/mailbox/mailbox-th1520.c: In function 'th1520_mbox_chan_id_to_mapbit':
+>> drivers/mailbox/mailbox-th1520.c:196:34: warning: unused variable 'priv' [-Wunused-variable]
+     196 |         struct th1520_mbox_priv *priv = to_th1520_mbox_priv(cp->chan->mbox);
+         |                                  ^~~~
+   drivers/mailbox/mailbox-th1520.c: In function 'th1520_mbox_xlate':
+   drivers/mailbox/mailbox-th1520.c:381:34: warning: unused variable 'priv' [-Wunused-variable]
+     381 |         struct th1520_mbox_priv *priv = to_th1520_mbox_priv(mbox);
+         |                                  ^~~~
+   drivers/mailbox/mailbox-th1520.c: In function 'th1520_mbox_probe':
+>> drivers/mailbox/mailbox-th1520.c:441:26: warning: unused variable 'res' [-Wunused-variable]
+     441 |         struct resource *res;
+         |                          ^~~
+>> drivers/mailbox/mailbox-th1520.c:439:29: warning: unused variable 'np' [-Wunused-variable]
+     439 |         struct device_node *np = dev->of_node;
+         |                             ^~
 
 Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
    WARNING: unmet direct dependencies detected for GET_FREE_REGION
    Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +132 drivers/mfd/cros_ec_dev.c
+vim +/priv +196 drivers/mailbox/mailbox-th1520.c
 
-   114	
-   115	static const struct cros_feature_to_cells cros_subdevices[] = {
-   116		{
-   117			.id		= EC_FEATURE_CEC,
-   118			.mfd_cells	= cros_ec_cec_cells,
-   119			.num_cells	= ARRAY_SIZE(cros_ec_cec_cells),
-   120		},
-   121		{
-   122			.id		= EC_FEATURE_GPIO,
-   123			.mfd_cells	= cros_ec_gpio_cells,
-   124			.num_cells	= ARRAY_SIZE(cros_ec_gpio_cells),
-   125		},
-   126		{
-   127			.id		= EC_FEATURE_RTC,
-   128			.mfd_cells	= cros_ec_rtc_cells,
-   129			.num_cells	= ARRAY_SIZE(cros_ec_rtc_cells),
-   130		},
-   131		{
- > 132			.id		= EC_FEATURE_UCSI_PPM,
-   133			.mfd_cells	= cros_ec_ucsi_cells,
-   134			.num_cells	= ARRAY_SIZE(cros_ec_ucsi_cells),
-   135		},
-   136		{
-   137			.id		= EC_FEATURE_USB_PD,
-   138			.mfd_cells	= cros_usbpd_charger_cells,
-   139			.num_cells	= ARRAY_SIZE(cros_usbpd_charger_cells),
-   140		},
-   141		{
-   142			.id		= EC_FEATURE_HANG_DETECT,
-   143			.mfd_cells	= cros_ec_wdt_cells,
-   144			.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
-   145		},
-   146		{
-   147			.id		= EC_FEATURE_LED,
-   148			.mfd_cells	= cros_ec_led_cells,
-   149			.num_cells	= ARRAY_SIZE(cros_ec_led_cells),
-   150		},
-   151		{
-   152			.id		= EC_FEATURE_PWM_KEYB,
-   153			.mfd_cells	= cros_ec_keyboard_leds_cells,
-   154			.num_cells	= ARRAY_SIZE(cros_ec_keyboard_leds_cells),
-   155		},
-   156	};
-   157	
+   193	
+   194	static int th1520_mbox_chan_id_to_mapbit(struct th1520_mbox_con_priv *cp)
+   195	{
+ > 196		struct th1520_mbox_priv *priv = to_th1520_mbox_priv(cp->chan->mbox);
+   197		int mapbit = 0;
+   198		int i;
+   199	
+   200		for (i = 0; i < TH_1520_MBOX_CHANS; i++) {
+   201			if (i == cp->idx)
+   202				return mapbit;
+   203	
+   204			if (i != TH_1520_MBOX_ICU_KERNEL_CPU0)
+   205				mapbit++;
+   206		}
+   207	
+   208		if (i == TH_1520_MBOX_CHANS)
+   209			dev_err(cp->chan->mbox->dev, "convert to mapbit failed\n");
+   210	
+   211		return 0;
+   212	}
+   213	
 
 -- 
 0-DAY CI Kernel Test Service
