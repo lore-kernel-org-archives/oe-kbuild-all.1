@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935EF1993A9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 15:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0343528370
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 15:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728745990; cv=none; b=TX3T24PTJGkkWMVhoRHkJyEa3ajarSNG11UWwc/uTa9a9JlNQFHb6lVYMaULYc798tfJvV2NJ80kmJKbt66vdBwnQCYnqMkiQGm+0JiErJxHOyiY+oKiWfMeRcTxTo6tSUwDzY0x2ZlAQGAAfmd4OBcu8yHGwnYMpI4lMld5df0=
+	t=1728748455; cv=none; b=dOQqyEa/OFgfJTgw7oTT4TLSGiSTL/d0RKF5mFQHcKvQlf35ft3vdSOhXh3yZj9HyGbSUJwEk0HSv9IdrZuaQJ/mYLdypprA1BSl6VKyzV7E/yR4o8djINi1Nx/CtRMuwrWUjmyPut+DMVFlGBmER3oAF8M2WuAcv8eIPN0xmdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728745990; c=relaxed/simple;
-	bh=slk9YIMrwx4QFSHXS0SwHjH3GZbEyCvhv95kOyjQJPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HInB3LTkkOUD4e2GgButc4jdGDXlxD3Q4LdbD8dJnR+Pj4hJD66DIYezg3vleszDsZPDtG0kA2qTj4IqTPdW2Bo+9f6GSTlEd9i7QVRJYcZpZgcKAI0oIxqvYeR86GK05Conc6NaPJuVSNvPjSeroV9JFg6l59Pjc3lGn6K8aME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PzNtZDFQ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1728748455; c=relaxed/simple;
+	bh=/xFDZcInBNyx3eprUGQX66jP+aFDV4sLoV0PFfDSzE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=epibMLhWmEbY7RBdwv+7nn7k3S27eeSVbc0LW2+qoAMfAYBiBtit+1mU+15DX8eC+/3vtxBL/CgQj3pXHNvRxUpTXren8O0HUrtheNYbYE5qWM9vP4B6LL5qus9GWc0WElNdyRN08f5A2D2nv7TN3VBfb4okKyq5hl4TFCtI5zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jS+BECPX; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PzNtZDFQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS+BECPX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728745989; x=1760281989;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=slk9YIMrwx4QFSHXS0SwHjH3GZbEyCvhv95kOyjQJPU=;
-  b=PzNtZDFQIT/W0xFv+3N0y2+PTU1Kp7egv06Jevfvwj4WOR2fnSj4VL2u
-   FbeSvBZ7v2iRU8UPzlLnoQMess1GOUosz9CFMlyCa9PgH1e/42uGfYbYL
-   S7ymGzbOhvcn1oPDo0RfeG9nz4pHHCP21TqzL6ykKBM4N9UuW57xznnuM
-   xfQyfdnwRQjvDCtufc+ZBLZttlt7+1NQjcR4xEAH2USOvisUwwocJBok3
-   +jNBOUqH3v5J5ZHHNb9H0JHOqMGljF9sO6xPYir2GmfKw/qmJ19ixUcTW
-   NPeTk+MU9pu37y90kMNzPymou05tGPDrUPrffb6kgn9WnBk0kbGt6kbu9
-   A==;
-X-CSE-ConnectionGUID: /NWxdvQaTa2vPSmpR3PUlw==
-X-CSE-MsgGUID: lUGEUOWOSm+fsmQQwgH+Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28010986"
+  t=1728748452; x=1760284452;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/xFDZcInBNyx3eprUGQX66jP+aFDV4sLoV0PFfDSzE8=;
+  b=jS+BECPXjTXcpCLOwNgDm9c6etndAX09bjXCfoVgy0RNr8tEsD9BL177
+   VJnIJTlB4SKVhAlLXeltrGhwARO5SONOT7OzYbQgWhTK7KeVHBFj7pRRD
+   NsnyuaRvFyptPKBnHAJIBMFsXaYOSooLXWiVxFmSn6lMT88K7muk6u5an
+   PmbBjoptnrXyvZkvAHnT5fmjjtwuMCECvA2RxT5qGGlnEaSNIdEuBIMfh
+   c5RRkbTjnQvM3NzRfCVH+323dAq4VUhBbSOg9FHEr6bfdub6dfi++76GL
+   GAA4cwzYXZs+KSaSnH3vQ/HMVjNB2szJGxFbm0MOK2pKqUQnhWmxyfs7H
+   g==;
+X-CSE-ConnectionGUID: kTMR/B/lQoSP/buGwz5WHw==
+X-CSE-MsgGUID: mRsmU/PKQsKQGpe0/bogMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31016502"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28010986"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 08:13:08 -0700
-X-CSE-ConnectionGUID: KsZTSsCFRvq5xYa0qAKVFA==
-X-CSE-MsgGUID: /8dF2DAAR4e9LxIzOijhwg==
+   d="scan'208";a="31016502"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 08:54:11 -0700
+X-CSE-ConnectionGUID: XJoT6DYaSx2ZhvHRDDVN2A==
+X-CSE-MsgGUID: hi0fRxUkT9aYvCiN1D5MRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="81729321"
+   d="scan'208";a="81997792"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Oct 2024 08:13:07 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Oct 2024 08:54:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szdnl-000DSl-0F;
-	Sat, 12 Oct 2024 15:13:05 +0000
-Date: Sat, 12 Oct 2024 23:12:16 +0800
+	id 1szeRR-000DUV-33;
+	Sat, 12 Oct 2024 15:54:05 +0000
+Date: Sat, 12 Oct 2024 23:53:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 4/5] mm/swap.c:718:2: error: call to
- undeclared function 'folio_update_drain'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202410122305.60IQb4cw-lkp@intel.com>
+To: Richard Weinberger <richard@nod.at>, linux-remoteproc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mathieu.poirier@linaro.org, andersson@kernel.org,
+	upstream+rproc@sigma-star.at, Richard Weinberger <richard@nod.at>,
+	ohad@wizery.com, s-anna@ti.com, t-kristo@ti.com
+Subject: Re: [PATCH] rpmsg_ns: Work around TI non-standard message
+Message-ID: <202410122348.irTWFe4S-lkp@intel.com>
+References: <20241011123922.23135-1-richard@nod.at>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +65,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241011123922.23135-1-richard@nod.at>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   dc34775004416cce5b19d0d38d0b0988891cb80b
-commit: f57164f428fb8ac2d5fa64a5717c8fff1f24bc21 [4/5] CHROMIUM: mm/mglru: slow down promotion through page tables
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241012/202410122305.60IQb4cw-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410122305.60IQb4cw-lkp@intel.com/reproduce)
+Hi Richard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rpmsg-next]
+[also build test WARNING on linus/master v6.12-rc2 next-20241011]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Weinberger/rpmsg_ns-Work-around-TI-non-standard-message/20241011-204122
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rpmsg-next
+patch link:    https://lore.kernel.org/r/20241011123922.23135-1-richard%40nod.at
+patch subject: [PATCH] rpmsg_ns: Work around TI non-standard message
+config: x86_64-randconfig-121-20241012 (https://download.01.org/0day-ci/archive/20241012/202410122348.irTWFe4S-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410122348.irTWFe4S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410122305.60IQb4cw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410122348.irTWFe4S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/rpmsg/rpmsg_ns.c:55:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __rpmsg32 [assigned] [usertype] ns_addr @@     got unsigned int [usertype] addr @@
+   drivers/rpmsg/rpmsg_ns.c:55:25: sparse:     expected restricted __rpmsg32 [assigned] [usertype] ns_addr
+   drivers/rpmsg/rpmsg_ns.c:55:25: sparse:     got unsigned int [usertype] addr
+>> drivers/rpmsg/rpmsg_ns.c:56:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __rpmsg32 [assigned] [usertype] ns_flags @@     got unsigned int [usertype] flags @@
+   drivers/rpmsg/rpmsg_ns.c:56:26: sparse:     expected restricted __rpmsg32 [assigned] [usertype] ns_flags
+   drivers/rpmsg/rpmsg_ns.c:56:26: sparse:     got unsigned int [usertype] flags
 
-   In file included from mm/swap.c:17:
-   In file included from include/linux/mm.h:2194:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/swap.c:26:
-   include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/swap.c:718:2: error: call to undeclared function 'folio_update_drain'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     718 |         folio_update_drain(cpu);
-         |         ^
-   mm/swap.c:718:2: note: did you mean 'folio_activate_drain'?
-   mm/swap.c:394:20: note: 'folio_activate_drain' declared here
-     394 | static inline void folio_activate_drain(int cpu)
-         |                    ^
-   3 warnings and 1 error generated.
+vim +55 drivers/rpmsg/rpmsg_ns.c
 
-
-vim +/folio_update_drain +718 mm/swap.c
-
-   681	
-   682	/*
-   683	 * Drain pages out of the cpu's folio_batch.
-   684	 * Either "cpu" is the current CPU, and preemption has already been
-   685	 * disabled; or "cpu" is being hot-unplugged, and is already dead.
-   686	 */
-   687	void lru_add_drain_cpu(int cpu)
-   688	{
-   689		struct cpu_fbatches *fbatches = &per_cpu(cpu_fbatches, cpu);
-   690		struct folio_batch *fbatch = &fbatches->lru_add;
-   691	
-   692		if (folio_batch_count(fbatch))
-   693			folio_batch_move_lru(fbatch, lru_add_fn);
-   694	
-   695		fbatch = &per_cpu(lru_rotate.fbatch, cpu);
-   696		/* Disabling interrupts below acts as a compiler barrier. */
-   697		if (data_race(folio_batch_count(fbatch))) {
-   698			unsigned long flags;
-   699	
-   700			/* No harm done if a racing interrupt already did this */
-   701			local_lock_irqsave(&lru_rotate.lock, flags);
-   702			folio_batch_move_lru(fbatch, lru_move_tail_fn);
-   703			local_unlock_irqrestore(&lru_rotate.lock, flags);
-   704		}
-   705	
-   706		fbatch = &fbatches->lru_deactivate_file;
-   707		if (folio_batch_count(fbatch))
-   708			folio_batch_move_lru(fbatch, lru_deactivate_file_fn);
-   709	
-   710		fbatch = &fbatches->lru_deactivate;
-   711		if (folio_batch_count(fbatch))
-   712			folio_batch_move_lru(fbatch, lru_deactivate_fn);
-   713	
-   714		fbatch = &fbatches->lru_lazyfree;
-   715		if (folio_batch_count(fbatch))
-   716			folio_batch_move_lru(fbatch, lru_lazyfree_fn);
-   717	
- > 718		folio_update_drain(cpu);
-   719	}
-   720	
+    45	
+    46		if (len == sizeof(struct rpmsg_ns_msg)) {
+    47			struct rpmsg_ns_msg *msg = data;
+    48	
+    49			ns_addr = msg->addr;
+    50			ns_flags = msg->flags;
+    51			ns_name = msg->name;
+    52		} else if (len == sizeof(struct __rpmsg_ns_msg_ti)) {
+    53			struct __rpmsg_ns_msg_ti *msg = data;
+    54	
+  > 55			ns_addr = msg->addr;
+  > 56			ns_flags = msg->flags;
+    57			ns_name = msg->name;
+    58			dev_warn(dev, "non-standard ns msg found\n");
+    59		} else {
+    60			dev_err(dev, "malformed ns msg (%d)\n", len);
+    61			return -EINVAL;
+    62		}
+    63	
+    64		/* don't trust the remote processor for null terminating the name */
+    65		ns_name[RPMSG_NAME_SIZE - 1] = '\0';
+    66	
+    67		strscpy_pad(chinfo.name, ns_name, sizeof(chinfo.name));
+    68		chinfo.src = RPMSG_ADDR_ANY;
+    69		chinfo.dst = rpmsg32_to_cpu(rpdev, ns_addr);
+    70	
+    71		dev_info(dev, "%sing channel %s addr 0x%x\n",
+    72			 rpmsg32_to_cpu(rpdev, ns_flags) & RPMSG_NS_DESTROY ?
+    73			 "destroy" : "creat", ns_name, chinfo.dst);
+    74	
+    75		if (rpmsg32_to_cpu(rpdev, ns_flags) & RPMSG_NS_DESTROY) {
+    76			ret = rpmsg_release_channel(rpdev, &chinfo);
+    77			if (ret)
+    78				dev_err(dev, "rpmsg_destroy_channel failed: %d\n", ret);
+    79		} else {
+    80			newch = rpmsg_create_channel(rpdev, &chinfo);
+    81			if (!newch)
+    82				dev_err(dev, "rpmsg_create_channel failed\n");
+    83		}
+    84	
+    85		return 0;
+    86	}
+    87	
 
 -- 
 0-DAY CI Kernel Test Service
