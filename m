@@ -1,296 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC50F2581
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 07:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B42BBA49
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 07:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728718140; cv=none; b=mJ9yDDaN3Jhu+ClhEIBl8Scdu5CUyGQNEU0mkea0sZNw3eMc1qQQUmbBGQNFatOGUFeVSFtrcO8Ik3n0as6ibd5J7M/lKqGMs1JKvpfYqGvApfW0MXCGVaCN6Ez0JDY8W0ATtq9WENWNlMMju5eYTDiQhrQsuOGHUu22HOeoG3o=
+	t=1728719952; cv=none; b=eLxaKLTTjn4Pyu6Cu3GcuAOrA4Vwt5BPC8SEB0rolRJCzBhKIQs7hkzVV6T+KJiNMjy4JPINM6a8ZhPDZ4HWk5UA+NCqRJmKKVZcciNZFdVctSYgraf7VoVLreoKnBA/Ih3sToti8unk8lD8Sa7Ww4qlHoaBXpSraIu3Mr/9d2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728718140; c=relaxed/simple;
-	bh=DHqgC9riqIPSeVXZ0S0J8nRUtjG3WkcyNMIppuPpTbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PUT0an5TFf7SX325Gkc8SywktT7GNfC11egqQlT8TT3v36FtzB8iD2HluY4tkkMKUP3AhuZjEwFAh7TF8w+odpt3vVGBV7vtYLki3b3pX2VNpKly5ST+5nRj44VAal1XGNBg+WX1r0VL6Y9/ExtVvnLSTJAs0tzAxXJjKfI5RHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTniRnMQ; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728719952; c=relaxed/simple;
+	bh=cxzXg9dgC9cCXyIdI31fmObrQTvtxDdxIW73/tNO8aM=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=YjnQ2+jVydn2YChbuC8smcY8sh0mtw/fJc9p8+P+dkEJfYMlhuK/FUpP5SMsR9euqzA0IMiSvyfwYCuv7gLllVtmdCMOXra2eIbEaPgOnD35xASwSdaRCTcggziYV8eSj5USoAltoALO95Tj10FhL/NOV+HnooJOD24Ga5qXOxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=djDhLAS4; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTniRnMQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728718137; x=1760254137;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="djDhLAS4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DHqgC9riqIPSeVXZ0S0J8nRUtjG3WkcyNMIppuPpTbQ=;
-  b=nTniRnMQdsogTBT9yjErz3TA2sDid9UosFKLabfMcm1L06QvvMBnriWm
-   7lp4cdWAVVp628JhKsGno+bdZ4VbMjpw9TLKAX7A42yB3kpWRRoD3I9q5
-   ms56U5FVUhxZ0jAO/XnVLl9uYQu7Qh79rW9R40zvpvWOZDXMMRgQcIFDn
-   e9ujvIJfU39L52VTjxMlrXC4nque3Nori5Q38H8VX4rpmM2eYn5aEASp0
-   dolfiZ7VX6Y7lcsMM0qFR2hAQy3ThIkZ/6Pjl1IXH+BlOH1U7e3o0gCmq
-   kdgtt7FW/MToSFlhuXpBrVgQzW+I+xMEqAPGZUkxvUbA53bVznelLsUVa
-   g==;
-X-CSE-ConnectionGUID: Nrhg52M5QG6TuKo9otBYEA==
-X-CSE-MsgGUID: TYpcgMvhTjauluPFmaXjgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31913902"
-X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="31913902"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 00:28:57 -0700
-X-CSE-ConnectionGUID: kzvxSaR4SzWFI+Ql0X/C+g==
-X-CSE-MsgGUID: SgJJzPPmSNCh1PXDwV1QXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; 
-   d="scan'208";a="76739429"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Oct 2024 00:28:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1szWYX-000D9j-2n;
-	Sat, 12 Oct 2024 07:28:53 +0000
-Date: Sat, 12 Oct 2024 15:28:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 15673/22157]
- drivers/md/dm-verity-chromeos.c:177:47: sparse: sparse: incorrect type in
- argument 4 (different base types)
-Message-ID: <202410121529.imhfBNdb-lkp@intel.com>
+  bh=xc7x//zeily7GNGxNXuk+OmlA9OzzeNt8gs2K3SzbdM=;
+  b=djDhLAS4jFt7ePhEFr1//4zAboYyM9RmjYna1Yv2rzfA47oTAuBWXJ7V
+   BTeNdpCPDa0hDvh58St3hdQnC3mynRU4MZkqYwPjiPCbfoEQAXFINK5ra
+   I4HIBQg0GqUz+mXly6Op+mvNjA7ikSH5wi2I7TAaeDhmQ4tom1OUv6pKa
+   c=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.11,198,1725314400"; 
+   d="scan'208";a="98914526"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 09:59:01 +0200
+Date: Sat, 12 Oct 2024 09:59:00 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Karol Kolacinski <karol.kolacinski@intel.com>, 
+    Jakub Kicinski <kuba@kernel.org>, 
+    Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+    Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, 
+    Jacob Keller <jacob.e.keller@intel.com>
+cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity
+ for str_enabled_disabled(dw24 . ts_pll_enable) (fwd)
+Message-ID: <alpine.DEB.2.22.394.2410120958080.3377@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   02f7b4a245a8145dae0565f010ac1e00d499e6d5
-commit: 06f9a01849d1cf93952a0917dab68817394a53a8 [15673/22157] CHROMIUM: dm-verity: Remove REQ_PREFLUSH during REQ_OP_READ
-config: i386-randconfig-061-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121529.imhfBNdb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121529.imhfBNdb-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Sat, 12 Oct 2024 15:17:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for
+    str_enabled_disabled(dw24 . ts_pll_enable)
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Karol Kolacinski <karol.kolacinski@intel.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+CC: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+CC: Jacob Keller <jacob.e.keller@intel.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   09f6b0c8904bfaa1e0601bc102e1b6aa6de8c98f
+commit: b390ecc2e375f8973c512a5041a69555069f502a ice: Change CGU regs struct to anonymous
+date:   4 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-051-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121553.SRNFzc2M-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410121529.imhfBNdb-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410121553.SRNFzc2M-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/md/dm-verity-chromeos.c:67:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_opf_t [usertype] bi_opf @@     got unsigned int @@
-   drivers/md/dm-verity-chromeos.c:67:21: sparse:     expected restricted blk_opf_t [usertype] bi_opf
-   drivers/md/dm-verity-chromeos.c:67:21: sparse:     got unsigned int
-   drivers/md/dm-verity-chromeos.c:176:47: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t @@
-   drivers/md/dm-verity-chromeos.c:176:47: sparse:     expected unsigned int op
-   drivers/md/dm-verity-chromeos.c:176:47: sparse:     got restricted blk_opf_t
->> drivers/md/dm-verity-chromeos.c:177:47: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int op_flags @@     got restricted blk_opf_t [usertype] @@
-   drivers/md/dm-verity-chromeos.c:177:47: sparse:     expected unsigned int op_flags
-   drivers/md/dm-verity-chromeos.c:177:47: sparse:     got restricted blk_opf_t [usertype]
-   drivers/md/dm-verity-chromeos.c:217:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t @@
-   drivers/md/dm-verity-chromeos.c:217:58: sparse:     expected unsigned int op
-   drivers/md/dm-verity-chromeos.c:217:58: sparse:     got restricted blk_opf_t
-   drivers/md/dm-verity-chromeos.c:218:56: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int op_flags @@     got restricted blk_opf_t @@
-   drivers/md/dm-verity-chromeos.c:218:56: sparse:     expected unsigned int op_flags
-   drivers/md/dm-verity-chromeos.c:218:56: sparse:     got restricted blk_opf_t
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
+   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:474:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
 
-vim +177 drivers/md/dm-verity-chromeos.c
+vim +396 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
 
-    45	
-    46	static int chromeos_invalidate_kernel_submit(struct bio *bio,
-    47						     struct block_device *bdev,
-    48						     unsigned int op,
-    49						     unsigned int op_flags,
-    50						     struct page *page)
-    51	{
-    52		DECLARE_COMPLETION_ONSTACK(wait);
-    53		unsigned int block_size = bdev_logical_block_size(bdev);
-    54	
-    55		if (block_size > page_size(page))
-    56			panic("dm-verity failed to override signature");
-    57	
-    58		bio->bi_private = &wait;
-    59		bio->bi_end_io = chromeos_invalidate_kernel_endio;
-    60		bio_set_dev(bio, bdev);
-    61	
-    62		bio->bi_iter.bi_sector = 0;
-    63		bio->bi_vcnt = 1;
-    64		bio->bi_iter.bi_idx = 0;
-    65		bio->bi_iter.bi_size = block_size;
-    66		bio->bi_iter.bi_bvec_done = 0;
-  > 67		bio->bi_opf =  op | op_flags;
-    68		bio->bi_io_vec[0].bv_page = page;
-    69		bio->bi_io_vec[0].bv_len = block_size;
-    70		bio->bi_io_vec[0].bv_offset = 0;
-    71	
-    72		submit_bio(bio);
-    73		/* Wait up to 2 seconds for completion or fail. */
-    74		if (!wait_for_completion_timeout(&wait, msecs_to_jiffies(2000)))
-    75			return -1;
-    76		return 0;
-    77	}
-    78	
-    79	static dev_t get_boot_dev_from_root_dev(struct block_device *root_bdev)
-    80	{
-    81		/* Very basic sanity checking. This should be better. */
-    82		if (!root_bdev || MAJOR(root_bdev->bd_dev) == 254 ||
-    83		    root_bdev->bd_partno <= 1) {
-    84			return 0;
-    85		}
-    86		return MKDEV(MAJOR(root_bdev->bd_dev), MINOR(root_bdev->bd_dev) - 1);
-    87	}
-    88	
-    89	static char kern_guid[48];
-    90	
-    91	/*
-    92	 * get_boot_dev is based on dm_get_device_by_uuid in dm_bootcache.
-    93	 *
-    94	 * This function is marked __ref because it calls the __init marked
-    95	 * early_lookup_bdev when called from the early boot code.
-    96	 */
-    97	static dev_t __ref get_boot_dev(void)
-    98	{
-    99		const char partuuid[] = "PARTUUID=";
-   100		char uuid[sizeof(partuuid) + 36];
-   101		char *uuid_str;
-   102		dev_t devt;
-   103	
-   104		if (!strlen(kern_guid)) {
-   105			DMERR("Couldn't get uuid, try root dev");
-   106			return 0;
-   107		}
-   108	
-   109		if (strncmp(kern_guid, partuuid, strlen(partuuid))) {
-   110			/* Not prefixed with "PARTUUID=", so add it */
-   111			strcpy(uuid, partuuid);
-   112			strlcat(uuid, kern_guid, sizeof(uuid));
-   113			uuid_str = uuid;
-   114		} else {
-   115			uuid_str = kern_guid;
-   116		}
-   117	        if (early_lookup_bdev(uuid_str, &devt)) {
-   118	                DMDEBUG("No matching partition for GUID: %s", uuid_str);
-   119	                return 0;
-   120	        }
-   121		return devt;
-   122	}
-   123	
-   124	/*
-   125	 * Invalidate the kernel which corresponds to the root block device.
-   126	 *
-   127	 * This function stamps DMVERROR on the beginning of the kernel partition.
-   128	 *
-   129	 * The kernel_guid commandline parameter is used to find the kernel partition
-   130	 *  number.
-   131	 * If that fails, the kernel partition is found by subtracting 1 from
-   132	 *  the root partition.
-   133	 * The DMVERROR string is stamped over only the CHROMEOS string at the
-   134	 *  beginning of the kernel blob, leaving the rest of it intact.
-   135	 */
-   136	static int chromeos_invalidate_kernel_bio(struct block_device *root_bdev)
-   137	{
-   138		int ret = 0;
-   139		struct block_device *bdev;
-   140		struct bio *bio;
-   141		struct page *page;
-   142		dev_t devt;
-   143		blk_mode_t dev_mode;
-   144	
-   145		devt = get_boot_dev();
-   146		if (!devt) {
-   147			devt = get_boot_dev_from_root_dev(root_bdev);
-   148			if (!devt)
-   149				return -EINVAL;
-   150		}
-   151	
-   152		/* First we open the device for reading. */
-   153		dev_mode = BLK_OPEN_READ | BLK_OPEN_EXCL;
-   154		bdev = blkdev_get_by_dev(devt, dev_mode,
-   155					 chromeos_invalidate_kernel_bio, NULL);
-   156		if (IS_ERR(bdev)) {
-   157			DMERR("invalidate_kernel: could not open device for reading");
-   158			dev_mode = 0;
-   159			ret = -1;
-   160			goto failed_to_read;
-   161		}
-   162	
-   163		bio = bio_alloc(NULL, 1, 0, GFP_NOIO);
-   164		if (!bio) {
-   165			ret = -1;
-   166			goto failed_bio_alloc;
-   167		}
-   168	
-   169		page = alloc_page(GFP_NOIO);
-   170		if (!page) {
-   171			ret = -ENOMEM;
-   172			goto failed_to_alloc_page;
-   173		}
-   174	
-   175		if (chromeos_invalidate_kernel_submit(bio, bdev,
-   176						      REQ_OP_READ,
- > 177						      REQ_SYNC,
-   178						      page)) {
-   179			ret = -1;
-   180			goto failed_to_submit_read;
-   181		}
-   182	
-   183		/* We have a page. Let's make sure it looks right. */
-   184		if (memcmp("CHROMEOS", page_address(page), 8)) {
-   185			DMERR("invalidate_kernel called on non-kernel partition");
-   186			ret = -EINVAL;
-   187			goto invalid_header;
-   188		} else {
-   189			DMERR("invalidate_kernel: found CHROMEOS kernel partition");
-   190		}
-   191	
-   192		/* Stamp it and rewrite */
-   193		memcpy(page_address(page), DMVERROR, strlen(DMVERROR));
-   194	
-   195		/* The block dev was being changed on read. Let's reopen here. */
-   196		blkdev_put(bdev, chromeos_invalidate_kernel_bio);
-   197		dev_mode = BLK_OPEN_WRITE | BLK_OPEN_EXCL;
-   198		bdev = blkdev_get_by_dev(devt, dev_mode,
-   199					 chromeos_invalidate_kernel_bio, NULL);
-   200		if (IS_ERR(bdev)) {
-   201			DMERR("invalidate_kernel: could not open device for writing");
-   202			dev_mode = 0;
-   203			ret = -1;
-   204			goto failed_to_write;
-   205		}
-   206	
-   207		/* We re-use the same bio to do the write after the read. Need to reset
-   208		 * it to initialize bio->bi_remaining.
-   209		 */
-   210		bio_reset(bio, NULL, 0);
-   211	
-   212		/*
-   213		 * Request write operation with REQ_FUA flag to ensure that I/O
-   214		 * completion for the write is signaled only after the data has been
-   215		 * committed to non-volatile storage.
-   216		 */
-   217		if (chromeos_invalidate_kernel_submit(bio, bdev, REQ_OP_WRITE,
-   218						      REQ_SYNC | REQ_FUA, page)) {
-   219			ret = -1;
-   220			goto failed_to_submit_write;
-   221		}
-   222	
-   223		DMERR("invalidate_kernel: completed.");
-   224		ret = 0;
-   225	failed_to_submit_write:
-   226	failed_to_write:
-   227	invalid_header:
-   228		__free_page(page);
-   229	failed_to_submit_read:
-   230		/* Technically, we'll leak a page with the pending bio, but
-   231		 *  we're about to panic so it's safer to do the panic() we expect.
-   232		 */
-   233	failed_to_alloc_page:
-   234		bio_put(bio);
-   235	failed_bio_alloc:
-   236		if (dev_mode)
-   237			blkdev_put(bdev, chromeos_invalidate_kernel_bio);
-   238	failed_to_read:
-   239		return ret;
-   240	}
-   241	
+3a7496234d179a Jacob Keller       2021-10-13  336
+3a7496234d179a Jacob Keller       2021-10-13  337  /**
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  338   * ice_cfg_cgu_pll_e82x - Configure the Clock Generation Unit
+d551d075b04382 Karol Kolacinski   2024-05-28  339   * @hw: pointer to the HW struct
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  340   * @clk_freq: Clock frequency to program
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  341   * @clk_src: Clock source to select (TIME_REF, or TCX0)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  342   *
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  343   * Configure the Clock Generation Unit with the desired clock frequency and
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  344   * time reference, enabling the PLL which drives the PTP hardware clock.
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  345   *
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  346   * Return:
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  347   * * %0       - success
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  348   * * %-EINVAL - input parameters are incorrect
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  349   * * %-EBUSY  - failed to lock TS PLL
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  350   * * %other   - CGU read/write failure
+3a7496234d179a Jacob Keller       2021-10-13  351   */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  352  static int ice_cfg_cgu_pll_e82x(struct ice_hw *hw,
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  353  				enum ice_time_ref_freq clk_freq,
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  354  				enum ice_clk_src clk_src)
+3a7496234d179a Jacob Keller       2021-10-13  355  {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  356  	union tspll_ro_bwm_lf bwm_lf;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  357  	union nac_cgu_dword19 dw19;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  358  	union nac_cgu_dword22 dw22;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  359  	union nac_cgu_dword24 dw24;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  360  	union nac_cgu_dword9 dw9;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  361  	int err;
+3a7496234d179a Jacob Keller       2021-10-13  362
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  363  	if (clk_freq >= NUM_ICE_TIME_REF_FREQ) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  364  		dev_warn(ice_hw_to_dev(hw), "Invalid TIME_REF frequency %u\n",
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  365  			 clk_freq);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  366  		return -EINVAL;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  367  	}
+3a7496234d179a Jacob Keller       2021-10-13  368
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  369  	if (clk_src >= NUM_ICE_CLK_SRC) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  370  		dev_warn(ice_hw_to_dev(hw), "Invalid clock source %u\n",
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  371  			 clk_src);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  372  		return -EINVAL;
+3a7496234d179a Jacob Keller       2021-10-13  373  	}
+3a7496234d179a Jacob Keller       2021-10-13  374
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  375  	if (clk_src == ICE_CLK_SRC_TCX0 &&
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  376  	    clk_freq != ICE_TIME_REF_FREQ_25_000) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  377  		dev_warn(ice_hw_to_dev(hw),
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  378  			 "TCX0 only supports 25 MHz frequency\n");
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  379  		return -EINVAL;
+3a7496234d179a Jacob Keller       2021-10-13  380  	}
+3a7496234d179a Jacob Keller       2021-10-13  381
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  382  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD9, &dw9.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  383  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  384  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  385
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  386  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  387  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  388  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  389
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  390  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  391  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  392  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  393
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  394  	/* Log the current clock configuration */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  395  	ice_debug(hw, ICE_DBG_PTP, "Current CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28 @396  		  dw24.ts_pll_enable ? "enabled" : "disabled",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  397  		  ice_clk_src_str(dw24.time_ref_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  398  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  399  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
+3a7496234d179a Jacob Keller       2021-10-13  400
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  401  	/* Disable the PLL before changing the clock source or frequency */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  402  	if (dw24.ts_pll_enable) {
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  403  		dw24.ts_pll_enable = 0;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  404
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  405  		err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  406  		if (err)
+3a7496234d179a Jacob Keller       2021-10-13  407  			return err;
+3a7496234d179a Jacob Keller       2021-10-13  408  	}
+3a7496234d179a Jacob Keller       2021-10-13  409
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  410  	/* Set the frequency */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  411  	dw9.time_ref_freq_sel = clk_freq;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  412  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD9, dw9.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  413  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  414  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  415
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  416  	/* Configure the TS PLL feedback divisor */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  417  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD19, &dw19.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  418  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  419  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  420
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  421  	dw19.tspll_fbdiv_intgr = e822_cgu_params[clk_freq].feedback_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  422  	dw19.tspll_ndivratio = 1;
+3a7496234d179a Jacob Keller       2021-10-13  423
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  424  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD19, dw19.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  425  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  426  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  427
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  428  	/* Configure the TS PLL post divisor */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  429  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD22, &dw22.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  430  	if (err)
+3a7496234d179a Jacob Keller       2021-10-13  431  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  432
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  433  	dw22.time1588clk_div = e822_cgu_params[clk_freq].post_pll_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  434  	dw22.time1588clk_sel_div2 = 0;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  435
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  436  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD22, dw22.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  437  	if (err)
+3a7496234d179a Jacob Keller       2021-10-13  438  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  439
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  440  	/* Configure the TS PLL pre divisor and clock source */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  441  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  442  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  443  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  444
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  445  	dw24.ref1588_ck_div = e822_cgu_params[clk_freq].refclk_pre_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  446  	dw24.tspll_fbdiv_frac = e822_cgu_params[clk_freq].frac_n_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  447  	dw24.time_ref_sel = clk_src;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  448
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  449  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  450  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  451  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  452
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  453  	/* Finally, enable the PLL */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  454  	dw24.ts_pll_enable = 1;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  455
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  456  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  457  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  458  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  459
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  460  	/* Wait to verify if the PLL locks */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  461  	usleep_range(1000, 5000);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  462
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  463  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  464  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  465  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  466
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  467  	if (!bwm_lf.plllock_true_lock_cri) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  468  		dev_warn(ice_hw_to_dev(hw), "CGU PLL failed to lock\n");
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  469  		return -EBUSY;
+3a7496234d179a Jacob Keller       2021-10-13  470  	}
+3a7496234d179a Jacob Keller       2021-10-13  471
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  472  	/* Log the current clock configuration */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  473  	ice_debug(hw, ICE_DBG_PTP, "New CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  474  		  dw24.ts_pll_enable ? "enabled" : "disabled",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  475  		  ice_clk_src_str(dw24.time_ref_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  476  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  477  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
+3a7496234d179a Jacob Keller       2021-10-13  478
+3a7496234d179a Jacob Keller       2021-10-13  479  	return 0;
+3a7496234d179a Jacob Keller       2021-10-13  480  }
+3a7496234d179a Jacob Keller       2021-10-13  481
 
 -- 
 0-DAY CI Kernel Test Service
