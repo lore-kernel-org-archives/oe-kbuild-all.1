@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D96C4A1E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 06:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5779286277
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 06:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728712979; cv=none; b=rEAVFm4eH5ISYHneu9YeFtRxtv8m7EUixW22UevTKv/dvw8kDwVdsG+2AC8C7belYJzJLJROIHe1oE7xbadYr2JnB/k7PmWK1QH2RQilALH34/7oT1iB/xqFG8hU7Z9d1wAr+i7uuZzM8zra2NQY/vkE/7tHfk8/kESrWYDzZR8=
+	t=1728713578; cv=none; b=DMjTmLgOQ1IcsOQv515us6OG9MV9SFJC4cJlZNpMQ0Ux4eLDLAEaYkpi92REh037f3FUXrMPUJDWQgQ9bNsG6SEH1mgIq5lDFSaBfbScF4m7A2lrvXW3IQiEcQ48T/XHZF6f49kqh9fSHvHKeIaFrfVLsKHBlm9p2hFSPA0OrcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728712979; c=relaxed/simple;
-	bh=A7FjRmnsyk6d4iUhqSs97v4tsjcTawgTD0MzrH+wosM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W1F/36YvDV9iwyTikDI9gmDLMrm+VxjiL413+R13VHNlBGISUUbXG5IM+e4m4/5LkDCZCht0OaF3xTp3k00HANt25B2nWbOwPhe2JvkDCp+9Mnijo9zyCvHdt8Qpdsvi5W1FqfmWFrJEtS+AYQ2euN73cm05cO4TPmx5jbKBdZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fi4kafsg; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1728713578; c=relaxed/simple;
+	bh=HrwfpR6MApueHIvmpFEsucjp44XnXiI+LWo2n1gX26A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dDvp8Mfkn7m77rVAWDWuKo8cAEwJ3jrTrVuy1XKbik5Gan5xOabyUaC/3DT46YV2orqFn4f5S/YJCqsVM3VyBQnygiHTPjLitwjjMV+FnWQCtpkeqVLi1g/T1V79z3VE0PEhCH5/BeMaWIZ41caitU+2XzeNFtj6qyGC6pyDFj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bFqDJtsc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fi4kafsg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFqDJtsc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728712978; x=1760248978;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A7FjRmnsyk6d4iUhqSs97v4tsjcTawgTD0MzrH+wosM=;
-  b=fi4kafsgZnFVHgITM49mlj2LajrsEzBV6Ww0nK2k9DfxiVmlRzcPOxgl
-   TmCjFiYdRkV/a4syoImKdbiRm+9HB5WoQxRtO66VxNYycMNCLS1+PxO2I
-   lAGtEMtBRnFtjLhRMdx+G6nexAGTwNARFfXatRRvJwx1tqPcHzyllZ3Pe
-   iVkDRto/bD5sK+Vk7fa/J5iAiGjF2/Q0snXdt358lph/FF31vShuTXLfe
-   WQHxXuqSs9QY1ySb8EcUWej6JEGbw5Xh/BaC7OD2oCQVPvGl23g7VRR8w
-   nnpZGDbtSrdsuk6H86ItMMs36F05tDW/3bMLCUbLP5VQD3eF9jv+nJurd
-   A==;
-X-CSE-ConnectionGUID: C9HK3vW+QBCmN6OjhOykgw==
-X-CSE-MsgGUID: RyWIk1fzSn6kYV1izADgaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28006622"
+  t=1728713576; x=1760249576;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HrwfpR6MApueHIvmpFEsucjp44XnXiI+LWo2n1gX26A=;
+  b=bFqDJtscp0776TrWUmjo2Jb/akBBtI/O4kYLHT0Qlj/A4ex1t+N9gAW1
+   ZV5Rnps+xo6dI26ffXG1QAdHOzFd6zjulR123WP01nniHW8hoJMwZHPeu
+   Re/tfb4Bq0uIiMDL/eC9mQp2+ipO9Fu4gyHzsc4KmgzlUCKcrVLLJnm7K
+   FgicUi5VgnQFyVx7aH4ier8X4DaAb3LrZTE4GoP9M55p5n5u0i8xW62Zx
+   wnUCM39HGKGt9nmJLI3NYMx7fjhPsEPV2QTx3a/tCDJoJte2mOaBVABbz
+   3x+QPgb+VEJAUiLTh1rDncJJhnFZJw0iZWoKmcp/sySiaOufmT8GfW/0w
+   g==;
+X-CSE-ConnectionGUID: tLyAGAoSTTufqVII8y44ow==
+X-CSE-MsgGUID: 0eYBuiTeS1yYDjHwTK5fJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="38761177"
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="28006622"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 23:02:57 -0700
-X-CSE-ConnectionGUID: 2hDEfXAeQyqXFPqmZAcwVw==
-X-CSE-MsgGUID: t/h7jt9KT7yIuStUV/dxiw==
+   d="scan'208";a="38761177"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 23:12:55 -0700
+X-CSE-ConnectionGUID: +iVbF2NcTfSGpASYR1HQYw==
+X-CSE-MsgGUID: XMr40zCrT/+TkSMSVwfd3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="77920453"
+   d="scan'208";a="77412332"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Oct 2024 23:02:55 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Oct 2024 23:12:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szVDH-000D6N-3D;
-	Sat, 12 Oct 2024 06:02:51 +0000
-Date: Sat, 12 Oct 2024 14:02:15 +0800
+	id 1szVMy-000D6f-0L;
+	Sat, 12 Oct 2024 06:12:52 +0000
+Date: Sat, 12 Oct 2024 14:12:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Juri Lelli <juri.lelli@redhat.com>,
-	John Stultz <jstultz@google.com>, Metin Kaya <metin.kaya@arm.com>
-Subject: [peterz-queue:sched/core 4/10] kernel/locking/rtmutex_api.c:296:
- warning: Function parameter or struct member 'wake_q' not described in
- '__rt_mutex_start_proxy_lock'
-Message-ID: <202410121433.jYN4ypTb-lkp@intel.com>
+To: Naohiro Aota <naohiro.aota@wdc.com>, linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, wqu@suse.com, hch@lst.de,
+	Naohiro Aota <naohiro.aota@wdc.com>
+Subject: Re: [PATCH] btrfs: fix error propagation of split bios
+Message-ID: <202410121307.AKR3Gyyc-lkp@intel.com>
+References: <db5c272fc27c59ddded5c691373c26458698cb1a.1728489285.git.naohiro.aota@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,81 +63,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <db5c272fc27c59ddded5c691373c26458698cb1a.1728489285.git.naohiro.aota@wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
-head:   f3542dc97564eea82e113e7978ed9ea5ccc7f37e
-commit: 8d8fcb8c6a67c5c2674c25effa5c728b1410232d [4/10] locking/mutex: Remove wakeups from under mutex::wait_lock
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241012/202410121433.jYN4ypTb-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121433.jYN4ypTb-lkp@intel.com/reproduce)
+Hi Naohiro,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.12-rc2 next-20241011]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-fix-error-propagation-of-split-bios/20241010-001915
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/db5c272fc27c59ddded5c691373c26458698cb1a.1728489285.git.naohiro.aota%40wdc.com
+patch subject: [PATCH] btrfs: fix error propagation of split bios
+config: i386-randconfig-061-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121307.AKR3Gyyc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121307.AKR3Gyyc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410121433.jYN4ypTb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121307.AKR3Gyyc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/btrfs/bio.c:125:65: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int i @@     got restricted blk_status_t [usertype] bi_status @@
+   fs/btrfs/bio.c:125:65: sparse:     expected int i
+   fs/btrfs/bio.c:125:65: sparse:     got restricted blk_status_t [usertype] bi_status
+>> fs/btrfs/bio.c:133:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_status_t [usertype] bi_status @@     got int @@
+   fs/btrfs/bio.c:133:45: sparse:     expected restricted blk_status_t [usertype] bi_status
+   fs/btrfs/bio.c:133:45: sparse:     got int
 
->> kernel/locking/rtmutex_api.c:296: warning: Function parameter or struct member 'wake_q' not described in '__rt_mutex_start_proxy_lock'
+vim +125 fs/btrfs/bio.c
 
-
-vim +296 kernel/locking/rtmutex_api.c
-
-531ae4b06a737e Thomas Gleixner 2021-08-15  272  
-531ae4b06a737e Thomas Gleixner 2021-08-15  273  /**
-531ae4b06a737e Thomas Gleixner 2021-08-15  274   * __rt_mutex_start_proxy_lock() - Start lock acquisition for another task
-531ae4b06a737e Thomas Gleixner 2021-08-15  275   * @lock:		the rt_mutex to take
-531ae4b06a737e Thomas Gleixner 2021-08-15  276   * @waiter:		the pre-initialized rt_mutex_waiter
-531ae4b06a737e Thomas Gleixner 2021-08-15  277   * @task:		the task to prepare
-531ae4b06a737e Thomas Gleixner 2021-08-15  278   *
-531ae4b06a737e Thomas Gleixner 2021-08-15  279   * Starts the rt_mutex acquire; it enqueues the @waiter and does deadlock
-531ae4b06a737e Thomas Gleixner 2021-08-15  280   * detection. It does not wait, see rt_mutex_wait_proxy_lock() for that.
-531ae4b06a737e Thomas Gleixner 2021-08-15  281   *
-531ae4b06a737e Thomas Gleixner 2021-08-15  282   * NOTE: does _NOT_ remove the @waiter on failure; must either call
-531ae4b06a737e Thomas Gleixner 2021-08-15  283   * rt_mutex_wait_proxy_lock() or rt_mutex_cleanup_proxy_lock() after this.
-531ae4b06a737e Thomas Gleixner 2021-08-15  284   *
-531ae4b06a737e Thomas Gleixner 2021-08-15  285   * Returns:
-531ae4b06a737e Thomas Gleixner 2021-08-15  286   *  0 - task blocked on lock
-531ae4b06a737e Thomas Gleixner 2021-08-15  287   *  1 - acquired the lock for task, caller should wake it up
-531ae4b06a737e Thomas Gleixner 2021-08-15  288   * <0 - error
-531ae4b06a737e Thomas Gleixner 2021-08-15  289   *
-531ae4b06a737e Thomas Gleixner 2021-08-15  290   * Special API call for PI-futex support.
-531ae4b06a737e Thomas Gleixner 2021-08-15  291   */
-830e6acc8a1caf Peter Zijlstra  2021-08-15  292  int __sched __rt_mutex_start_proxy_lock(struct rt_mutex_base *lock,
-531ae4b06a737e Thomas Gleixner 2021-08-15  293  					struct rt_mutex_waiter *waiter,
-8d8fcb8c6a67c5 Peter Zijlstra  2024-10-09  294  					struct task_struct *task,
-8d8fcb8c6a67c5 Peter Zijlstra  2024-10-09  295  					struct wake_q_head *wake_q)
-531ae4b06a737e Thomas Gleixner 2021-08-15 @296  {
-531ae4b06a737e Thomas Gleixner 2021-08-15  297  	int ret;
-531ae4b06a737e Thomas Gleixner 2021-08-15  298  
-531ae4b06a737e Thomas Gleixner 2021-08-15  299  	lockdep_assert_held(&lock->wait_lock);
-531ae4b06a737e Thomas Gleixner 2021-08-15  300  
-531ae4b06a737e Thomas Gleixner 2021-08-15  301  	if (try_to_take_rt_mutex(lock, task, NULL))
-531ae4b06a737e Thomas Gleixner 2021-08-15  302  		return 1;
-531ae4b06a737e Thomas Gleixner 2021-08-15  303  
-531ae4b06a737e Thomas Gleixner 2021-08-15  304  	/* We enforce deadlock detection for futexes */
-add461325ec5bc Peter Zijlstra  2021-08-15  305  	ret = task_blocks_on_rt_mutex(lock, waiter, task, NULL,
-8d8fcb8c6a67c5 Peter Zijlstra  2024-10-09  306  				      RT_MUTEX_FULL_CHAINWALK, wake_q);
-531ae4b06a737e Thomas Gleixner 2021-08-15  307  
-531ae4b06a737e Thomas Gleixner 2021-08-15  308  	if (ret && !rt_mutex_owner(lock)) {
-531ae4b06a737e Thomas Gleixner 2021-08-15  309  		/*
-531ae4b06a737e Thomas Gleixner 2021-08-15  310  		 * Reset the return value. We might have
-531ae4b06a737e Thomas Gleixner 2021-08-15  311  		 * returned with -EDEADLK and the owner
-531ae4b06a737e Thomas Gleixner 2021-08-15  312  		 * released the lock while we were walking the
-531ae4b06a737e Thomas Gleixner 2021-08-15  313  		 * pi chain.  Let the waiter sort it out.
-531ae4b06a737e Thomas Gleixner 2021-08-15  314  		 */
-531ae4b06a737e Thomas Gleixner 2021-08-15  315  		ret = 0;
-531ae4b06a737e Thomas Gleixner 2021-08-15  316  	}
-531ae4b06a737e Thomas Gleixner 2021-08-15  317  
-531ae4b06a737e Thomas Gleixner 2021-08-15  318  	return ret;
-531ae4b06a737e Thomas Gleixner 2021-08-15  319  }
-531ae4b06a737e Thomas Gleixner 2021-08-15  320  
-
-:::::: The code at line 296 was first introduced by commit
-:::::: 531ae4b06a737ed5539cd75dc6f6b9a28f900bba locking/rtmutex: Split API from implementation
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   116	
+   117	void btrfs_bio_end_io(struct btrfs_bio *bbio, blk_status_t status)
+   118	{
+   119		bbio->bio.bi_status = status;
+   120		if (bbio->bio.bi_pool == &btrfs_clone_bioset) {
+   121			struct btrfs_bio *orig_bbio = bbio->private;
+   122	
+   123			/* Save the last error. */
+   124			if (bbio->bio.bi_status != BLK_STS_OK)
+ > 125				atomic_set(&orig_bbio->status, bbio->bio.bi_status);
+   126			btrfs_cleanup_bio(bbio);
+   127			bbio = orig_bbio;
+   128		}
+   129	
+   130		if (atomic_dec_and_test(&bbio->pending_ios)) {
+   131			/* Load split bio's error which might be set above. */
+   132			if (status == BLK_STS_OK)
+ > 133				bbio->bio.bi_status = atomic_read(&bbio->status);
+   134			__btrfs_bio_end_io(bbio);
+   135		}
+   136	}
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
