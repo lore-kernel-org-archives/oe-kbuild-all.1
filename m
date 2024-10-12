@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B431F5FA;
-	Sat, 12 Oct 2024 05:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D96C4A1E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Oct 2024 06:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728709918; cv=none; b=NZ6rUwx3f18RO9k6EkiAFga9BC3ZhQ6Rf8ER5pXVaB6vYie3176yjxnGYQ67uQU7qccsgKC0I4slb8ak+Huxh1SJDaum7FojtApEpXo59QDzMh+3zKYrMz6+8UEuJzDHJcADmdDHYuZdCQIYMF2vNejtSKirkZFGWy5MSPzkCsc=
+	t=1728712979; cv=none; b=rEAVFm4eH5ISYHneu9YeFtRxtv8m7EUixW22UevTKv/dvw8kDwVdsG+2AC8C7belYJzJLJROIHe1oE7xbadYr2JnB/k7PmWK1QH2RQilALH34/7oT1iB/xqFG8hU7Z9d1wAr+i7uuZzM8zra2NQY/vkE/7tHfk8/kESrWYDzZR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728709918; c=relaxed/simple;
-	bh=9URWjLVUuXH6EM4/81n+fInF10p4dbmeg76Hqhl2mHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tl8FMn13WLRJmOWee9yp/4r2Kr0vOAyhl+BNRwQRCATIqRZrfd88og11L23d8wC8WY3dvhqMnxKmPjat9IEH1NCq6JQhbDCbGlz5MTvF2Bxg0CryjJinQDY7WL3WEjvWLT/1AirVCAQKNMpxd7q0shU8MzOAa5PUmPInC7YPe7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMPwiafx; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1728712979; c=relaxed/simple;
+	bh=A7FjRmnsyk6d4iUhqSs97v4tsjcTawgTD0MzrH+wosM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W1F/36YvDV9iwyTikDI9gmDLMrm+VxjiL413+R13VHNlBGISUUbXG5IM+e4m4/5LkDCZCht0OaF3xTp3k00HANt25B2nWbOwPhe2JvkDCp+9Mnijo9zyCvHdt8Qpdsvi5W1FqfmWFrJEtS+AYQ2euN73cm05cO4TPmx5jbKBdZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fi4kafsg; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMPwiafx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fi4kafsg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728709916; x=1760245916;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9URWjLVUuXH6EM4/81n+fInF10p4dbmeg76Hqhl2mHE=;
-  b=KMPwiafxJPoXaii4b8rF0DfZ2iPeb6J+LlgmSmB/v86WQrqFNbxIZj1a
-   XHmHoq/c2FgtmQgv1zRgbTf/lJ7BUXkvgMM9VvU/JnyCVGninHGfETmmQ
-   5PB1l0FzrkQgewEmnSDNRJ0dR91YyAYOAC2nUU1L3BR/L7ahGqluR+xyf
-   4SKpp9o5I+AaDFfYQ5QbFJl9yHIwEkzE6Z0yl0xizyp0dD3SZpyn/8QuE
-   pG+P7DBHNvwJwygOyH/Ue84jW+2vK3W2Fs8EHtz/oJ0AsFyP0f33FiPGn
-   uBn0QX/E7itrciJioCbZ37jqHqY4SXLQWbAWCeQ5vvEETGsIXr77GwV6o
-   Q==;
-X-CSE-ConnectionGUID: eSgZ2brjTbib8jELWV5ECA==
-X-CSE-MsgGUID: PrDNPFbOQ/6EY8lRyjHQmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="15744064"
+  t=1728712978; x=1760248978;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A7FjRmnsyk6d4iUhqSs97v4tsjcTawgTD0MzrH+wosM=;
+  b=fi4kafsgZnFVHgITM49mlj2LajrsEzBV6Ww0nK2k9DfxiVmlRzcPOxgl
+   TmCjFiYdRkV/a4syoImKdbiRm+9HB5WoQxRtO66VxNYycMNCLS1+PxO2I
+   lAGtEMtBRnFtjLhRMdx+G6nexAGTwNARFfXatRRvJwx1tqPcHzyllZ3Pe
+   iVkDRto/bD5sK+Vk7fa/J5iAiGjF2/Q0snXdt358lph/FF31vShuTXLfe
+   WQHxXuqSs9QY1ySb8EcUWej6JEGbw5Xh/BaC7OD2oCQVPvGl23g7VRR8w
+   nnpZGDbtSrdsuk6H86ItMMs36F05tDW/3bMLCUbLP5VQD3eF9jv+nJurd
+   A==;
+X-CSE-ConnectionGUID: C9HK3vW+QBCmN6OjhOykgw==
+X-CSE-MsgGUID: RyWIk1fzSn6kYV1izADgaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28006622"
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="15744064"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 22:11:55 -0700
-X-CSE-ConnectionGUID: mDhZUBsrSrGC3ADLyeHnQA==
-X-CSE-MsgGUID: 2R8BEaIZSYSGB/erV/WhGA==
+   d="scan'208";a="28006622"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 23:02:57 -0700
+X-CSE-ConnectionGUID: 2hDEfXAeQyqXFPqmZAcwVw==
+X-CSE-MsgGUID: t/h7jt9KT7yIuStUV/dxiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="81917257"
+   d="scan'208";a="77920453"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Oct 2024 22:11:54 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Oct 2024 23:02:55 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szUPv-000D4t-0J;
-	Sat, 12 Oct 2024 05:11:51 +0000
-Date: Sat, 12 Oct 2024 13:11:06 +0800
+	id 1szVDH-000D6N-3D;
+	Sat, 12 Oct 2024 06:02:51 +0000
+Date: Sat, 12 Oct 2024 14:02:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zi Yan <ziy@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/1] mm/huge_memory: buddy allocator like
- folio_split()
-Message-ID: <202410121223.xbtQrdr0-lkp@intel.com>
-References: <20241008223748.555845-2-ziy@nvidia.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, Juri Lelli <juri.lelli@redhat.com>,
+	John Stultz <jstultz@google.com>, Metin Kaya <metin.kaya@arm.com>
+Subject: [peterz-queue:sched/core 4/10] kernel/locking/rtmutex_api.c:296:
+ warning: Function parameter or struct member 'wake_q' not described in
+ '__rt_mutex_start_proxy_lock'
+Message-ID: <202410121433.jYN4ypTb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,197 +63,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008223748.555845-2-ziy@nvidia.com>
 
-Hi Zi,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.12-rc2 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-huge_memory-buddy-allocator-like-folio_split/20241009-063901
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241008223748.555845-2-ziy%40nvidia.com
-patch subject: [RFC PATCH 1/1] mm/huge_memory: buddy allocator like folio_split()
-config: i386-buildonly-randconfig-002-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121223.xbtQrdr0-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121223.xbtQrdr0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+head:   f3542dc97564eea82e113e7978ed9ea5ccc7f37e
+commit: 8d8fcb8c6a67c5c2674c25effa5c728b1410232d [4/10] locking/mutex: Remove wakeups from under mutex::wait_lock
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241012/202410121433.jYN4ypTb-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121433.jYN4ypTb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410121223.xbtQrdr0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121433.jYN4ypTb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/huge_memory.c:3735:6: warning: variable 'nr_dropped' set but not used [-Wunused-but-set-variable]
-    3735 |         int nr_dropped = 0;
-         |             ^
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+>> kernel/locking/rtmutex_api.c:296: warning: Function parameter or struct member 'wake_q' not described in '__rt_mutex_start_proxy_lock'
 
 
-vim +/nr_dropped +3735 mm/huge_memory.c
+vim +296 kernel/locking/rtmutex_api.c
 
-  3717	
-  3718	#define for_each_folio_until_end_safe(iter, iter2, start, end)	\
-  3719		for (iter = start, iter2 = folio_next(start);		\
-  3720		     iter != end;					\
-  3721		     iter = iter2, iter2 = folio_next(iter2))
-  3722	
-  3723	static int __folio_split_without_mapping(struct folio *folio, int new_order,
-  3724			struct page *page, struct list_head *list, pgoff_t end,
-  3725			struct xa_state *xas, struct address_space *mapping)
-  3726	{
-  3727		struct lruvec *lruvec;
-  3728		struct address_space *swap_cache = NULL;
-  3729		struct folio *origin_folio = folio;
-  3730		struct folio *next_folio = folio_next(folio);
-  3731		struct folio *new_folio;
-  3732		struct folio *next;
-  3733		int order = folio_order(folio);
-  3734		int split_order = order - 1;
-> 3735		int nr_dropped = 0;
-  3736	
-  3737		if (folio_test_anon(folio) && folio_test_swapcache(folio))
-  3738			return -EINVAL;
-  3739	
-  3740		if (folio_test_anon(folio))
-  3741			mod_mthp_stat(order, MTHP_STAT_NR_ANON, -1);
-  3742		/* lock lru list/PageCompound, ref frozen by page_ref_freeze */
-  3743		lruvec = folio_lruvec_lock(folio);
-  3744	
-  3745		/* work on the other folio contains page */
-  3746		for (split_order = order - 1; split_order >= new_order; split_order--) {
-  3747			int old_order = folio_order(folio);
-  3748			struct folio *release;
-  3749			struct folio *end_folio = folio_next(folio);
-  3750			int status;
-  3751	
-  3752			if (folio_test_anon(folio) && split_order == 1)
-  3753				continue;
-  3754	
-  3755			if (mapping) {
-  3756				xas_set_order(xas, folio->index, split_order);
-  3757				xas_split_alloc(xas, folio, old_order, 0);
-  3758				if (xas_error(xas)) {
-  3759					unlock_page_lruvec(lruvec);
-  3760					local_irq_enable();
-  3761					return -ENOMEM;
-  3762				}
-  3763				xas_split(xas, folio, old_order);
-  3764			}
-  3765	
-  3766			/* complete memcg works before add pages to LRU */
-  3767			split_page_memcg(&folio->page, old_order, split_order);
-  3768			split_page_owner(&folio->page, old_order, split_order);
-  3769			pgalloc_tag_split(folio, old_order, split_order);
-  3770	
-  3771			status = __split_folio_to_order(folio, split_order);
-  3772	
-  3773			if (status < 0)
-  3774				return status;
-  3775	
-  3776			/*
-  3777			 * Add folios without page to list, since they are no longer
-  3778			 * going to be split, but if its index > end, drop it.
-  3779			 */
-  3780			/* Unfreeze refcount first. Additional reference from page cache. */
-  3781			for_each_folio_until_end_safe(release, next, folio, end_folio) {
-  3782				if (page_in_folio_offset(page, release) >= 0) {
-  3783					folio = release;
-  3784					continue;
-  3785				}
-  3786				if (folio_test_anon(release))
-  3787					mod_mthp_stat(folio_order(release),
-  3788							MTHP_STAT_NR_ANON, 1);
-  3789	
-  3790				folio_ref_unfreeze(release,
-  3791					1 + ((!folio_test_anon(origin_folio) ||
-  3792					     folio_test_swapcache(origin_folio)) ?
-  3793						     folio_nr_pages(release) : 0));
-  3794	
-  3795				if (release != origin_folio)
-  3796					lru_add_page_tail(origin_folio, &release->page,
-  3797							lruvec, list);
-  3798	
-  3799				/* Some pages can be beyond EOF: drop them from page cache */
-  3800				if (release->index >= end) {
-  3801					if (shmem_mapping(origin_folio->mapping))
-  3802						nr_dropped++;
-  3803					else if (folio_test_clear_dirty(release))
-  3804						folio_account_cleaned(release,
-  3805							inode_to_wb(origin_folio->mapping->host));
-  3806					__filemap_remove_folio(release, NULL);
-  3807					folio_put(release);
-  3808				} else if (!folio_test_anon(release)) {
-  3809					__xa_store(&origin_folio->mapping->i_pages,
-  3810							release->index, &release->page, 0);
-  3811				} else if (swap_cache) {
-  3812					return -EINVAL;
-  3813				}
-  3814			}
-  3815		}
-  3816	
-  3817		/* Some pages can be beyond EOF: drop them from page cache */
-  3818		if (folio->index >= end) {
-  3819			if (shmem_mapping(folio->mapping))
-  3820				nr_dropped++;
-  3821			else if (folio_test_clear_dirty(folio))
-  3822				folio_account_cleaned(folio,
-  3823					inode_to_wb(folio->mapping->host));
-  3824			__filemap_remove_folio(folio, NULL);
-  3825			folio_put(folio);
-  3826		} else if (!folio_test_anon(folio)) {
-  3827			__xa_store(&folio->mapping->i_pages, folio->index,
-  3828					&folio->page, 0);
-  3829		} else if (swap_cache) {
-  3830			return -EINVAL;
-  3831		}
-  3832		if (folio_test_anon(folio))
-  3833			mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON, 1);
-  3834	
-  3835		if (folio != origin_folio)
-  3836			lru_add_page_tail(origin_folio, &folio->page, lruvec, list);
-  3837	
-  3838		unlock_page_lruvec(lruvec);
-  3839		/* Caller disabled irqs, so they are still disabled here */
-  3840	
-  3841		if (folio_test_anon(folio)) {
-  3842			/* Additional pin to swap cache */
-  3843			if (folio_test_swapcache(folio))
-  3844				return -EINVAL;
-  3845			folio_ref_inc(folio);
-  3846		} else {
-  3847			/* Additional pin to page cache */
-  3848			folio_ref_add(folio, 1 + (1 << new_order));
-  3849			xa_unlock(&folio->mapping->i_pages);
-  3850		}
-  3851	
-  3852		local_irq_enable();
-  3853	
-  3854		remap_page(origin_folio, 1 << order, 0);
-  3855	
-  3856		for_each_folio_until_end_safe(new_folio, next, origin_folio, next_folio) {
-  3857			if (new_folio == folio)
-  3858				continue;
-  3859	
-  3860			folio_unlock(new_folio);
-  3861			free_page_and_swap_cache(&new_folio->page);
-  3862		}
-  3863		return 0;
-  3864	}
-  3865	
+531ae4b06a737e Thomas Gleixner 2021-08-15  272  
+531ae4b06a737e Thomas Gleixner 2021-08-15  273  /**
+531ae4b06a737e Thomas Gleixner 2021-08-15  274   * __rt_mutex_start_proxy_lock() - Start lock acquisition for another task
+531ae4b06a737e Thomas Gleixner 2021-08-15  275   * @lock:		the rt_mutex to take
+531ae4b06a737e Thomas Gleixner 2021-08-15  276   * @waiter:		the pre-initialized rt_mutex_waiter
+531ae4b06a737e Thomas Gleixner 2021-08-15  277   * @task:		the task to prepare
+531ae4b06a737e Thomas Gleixner 2021-08-15  278   *
+531ae4b06a737e Thomas Gleixner 2021-08-15  279   * Starts the rt_mutex acquire; it enqueues the @waiter and does deadlock
+531ae4b06a737e Thomas Gleixner 2021-08-15  280   * detection. It does not wait, see rt_mutex_wait_proxy_lock() for that.
+531ae4b06a737e Thomas Gleixner 2021-08-15  281   *
+531ae4b06a737e Thomas Gleixner 2021-08-15  282   * NOTE: does _NOT_ remove the @waiter on failure; must either call
+531ae4b06a737e Thomas Gleixner 2021-08-15  283   * rt_mutex_wait_proxy_lock() or rt_mutex_cleanup_proxy_lock() after this.
+531ae4b06a737e Thomas Gleixner 2021-08-15  284   *
+531ae4b06a737e Thomas Gleixner 2021-08-15  285   * Returns:
+531ae4b06a737e Thomas Gleixner 2021-08-15  286   *  0 - task blocked on lock
+531ae4b06a737e Thomas Gleixner 2021-08-15  287   *  1 - acquired the lock for task, caller should wake it up
+531ae4b06a737e Thomas Gleixner 2021-08-15  288   * <0 - error
+531ae4b06a737e Thomas Gleixner 2021-08-15  289   *
+531ae4b06a737e Thomas Gleixner 2021-08-15  290   * Special API call for PI-futex support.
+531ae4b06a737e Thomas Gleixner 2021-08-15  291   */
+830e6acc8a1caf Peter Zijlstra  2021-08-15  292  int __sched __rt_mutex_start_proxy_lock(struct rt_mutex_base *lock,
+531ae4b06a737e Thomas Gleixner 2021-08-15  293  					struct rt_mutex_waiter *waiter,
+8d8fcb8c6a67c5 Peter Zijlstra  2024-10-09  294  					struct task_struct *task,
+8d8fcb8c6a67c5 Peter Zijlstra  2024-10-09  295  					struct wake_q_head *wake_q)
+531ae4b06a737e Thomas Gleixner 2021-08-15 @296  {
+531ae4b06a737e Thomas Gleixner 2021-08-15  297  	int ret;
+531ae4b06a737e Thomas Gleixner 2021-08-15  298  
+531ae4b06a737e Thomas Gleixner 2021-08-15  299  	lockdep_assert_held(&lock->wait_lock);
+531ae4b06a737e Thomas Gleixner 2021-08-15  300  
+531ae4b06a737e Thomas Gleixner 2021-08-15  301  	if (try_to_take_rt_mutex(lock, task, NULL))
+531ae4b06a737e Thomas Gleixner 2021-08-15  302  		return 1;
+531ae4b06a737e Thomas Gleixner 2021-08-15  303  
+531ae4b06a737e Thomas Gleixner 2021-08-15  304  	/* We enforce deadlock detection for futexes */
+add461325ec5bc Peter Zijlstra  2021-08-15  305  	ret = task_blocks_on_rt_mutex(lock, waiter, task, NULL,
+8d8fcb8c6a67c5 Peter Zijlstra  2024-10-09  306  				      RT_MUTEX_FULL_CHAINWALK, wake_q);
+531ae4b06a737e Thomas Gleixner 2021-08-15  307  
+531ae4b06a737e Thomas Gleixner 2021-08-15  308  	if (ret && !rt_mutex_owner(lock)) {
+531ae4b06a737e Thomas Gleixner 2021-08-15  309  		/*
+531ae4b06a737e Thomas Gleixner 2021-08-15  310  		 * Reset the return value. We might have
+531ae4b06a737e Thomas Gleixner 2021-08-15  311  		 * returned with -EDEADLK and the owner
+531ae4b06a737e Thomas Gleixner 2021-08-15  312  		 * released the lock while we were walking the
+531ae4b06a737e Thomas Gleixner 2021-08-15  313  		 * pi chain.  Let the waiter sort it out.
+531ae4b06a737e Thomas Gleixner 2021-08-15  314  		 */
+531ae4b06a737e Thomas Gleixner 2021-08-15  315  		ret = 0;
+531ae4b06a737e Thomas Gleixner 2021-08-15  316  	}
+531ae4b06a737e Thomas Gleixner 2021-08-15  317  
+531ae4b06a737e Thomas Gleixner 2021-08-15  318  	return ret;
+531ae4b06a737e Thomas Gleixner 2021-08-15  319  }
+531ae4b06a737e Thomas Gleixner 2021-08-15  320  
+
+:::::: The code at line 296 was first introduced by commit
+:::::: 531ae4b06a737ed5539cd75dc6f6b9a28f900bba locking/rtmutex: Split API from implementation
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
