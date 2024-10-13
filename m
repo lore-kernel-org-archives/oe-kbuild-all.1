@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA5813D899
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Oct 2024 11:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF49B13D504;
+	Sun, 13 Oct 2024 12:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728820790; cv=none; b=DoXH/Yel3/6itu6yVN1zrp+Hn0xPGL68PmXYjN28bng+muca6UPB0aF8ByPqQRohwc4ROc60njA3kZIfoyRsMmnMs01GO0MRNwI6AN0UJDe2d9pZTcemqQ19SapQtndRWXUzYrBfi3e1J7WhIvJNuBs0estk5VPu32XVoEbmpuI=
+	t=1728823252; cv=none; b=E4wbMqCa/t0HmFbnvUbRlLYYFnG/rqTG4KZwL4CafQda8iahDhOVUnqOjXJ92JWhyV7dZGAK0BZ/rAg6FmSCbzv1EyDNYjGYedG7o/kGHU2G0IMJ9wddnoUB5+xHBj8giDIUGFLaCQ7PWyvXI9a6g7NxNJzZb7d3BroM/0XdtlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728820790; c=relaxed/simple;
-	bh=XVbJiYqty3f6n3F+8aixmb82OsLGcT9cp7zc4W2GQmk=;
+	s=arc-20240116; t=1728823252; c=relaxed/simple;
+	bh=RLpaMXDfUakxynthv8XolAg1Sclf4muscRuSRMQTz4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P17ovKiTsaDGxs/31wJUOjm37Exgy+r8+7Nb0dlPrbLoSZ3QMMji4pg6q8oJSGcPZUyYjVZXqrBUlPKu4MEAaGcuUdl1qdnLUxCkLhQOM8ImKTFleimRitixox2IwNGPDE6pvzsme0sEccZW/wp/paploglEFCFa6v5fJKdU9QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XjwZbE4Q; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=oyK236LUKKnRGnLKzRwEgs0HQETAiiXDGNhHNcnhsrXoOBTNpiB/fR65Cl+Ns6Xl1vgHgid/hhw+21ouzc/6Dx7XCN9GYQzk721ux31CIc1ntIwLr4iKgkNSTUpfe2d86Ex5YHqIl1YPbidkBQW4dxO8AaXdYtiUWHPQxOetueI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FUmNVV4z; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XjwZbE4Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FUmNVV4z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728820789; x=1760356789;
+  t=1728823249; x=1760359249;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XVbJiYqty3f6n3F+8aixmb82OsLGcT9cp7zc4W2GQmk=;
-  b=XjwZbE4QtCXw2H81PZWtC3j4h+W+WGhSQHwui1C1PbWH8PbnXMQc4RGd
-   pIkM1vgLULy3ICvzMMc3oSvvpqhS9q7Bq2ShqJIrnAi4/czkK71zkcBy/
-   IIySvLRJ1tWSWgvzsS1yI0G5eo2kYIiKglMInJ6AEtlOEkdz4TfIj2PMW
-   5NFtotwXmR3/MkUxNetKiRWFmA8XTPpnjBjI+jFqgWmzyk97mdlQF7jFz
-   ES+5bSp2ZPa0uStAJkhGA5E222bs94Kh2UAK3Ma+8wcXvYGwLi8o3REle
-   e+5V1ihqu0wVhaw+JYQA3lD9JzQk8YAMsz+07OQ2IMoN1FCdNEtOW5VTh
-   Q==;
-X-CSE-ConnectionGUID: JBTlZwF8SL2iSc3gOMmvjA==
-X-CSE-MsgGUID: C7rGtIJfTyiyMtX5/MLecQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39556737"
-X-IronPort-AV: E=Sophos;i="6.11,200,1725346800"; 
-   d="scan'208";a="39556737"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2024 04:59:48 -0700
-X-CSE-ConnectionGUID: aUF6A0t4Qs6Ox1QsMgTgJA==
-X-CSE-MsgGUID: CQrPwEtEQLKRfu6Obn21kA==
+  bh=RLpaMXDfUakxynthv8XolAg1Sclf4muscRuSRMQTz4Y=;
+  b=FUmNVV4zQQr6of0MBRbgPVIB07WqrkXVUSihnvmFne8lgnCh+flyilsz
+   BUF9ovq+TSqrIBIQl4mNBr508wKyrp+zo6v8R7tfLD8zUoIUvMjEbNAZt
+   jZhRJBhNFb/bsARJYLLOGyVxAwHZyFNPKASXqARfGzY3Y6TcMT3F7HXN+
+   tbtaP0OzuNtX1Dhhr8Cnz5tE2K1SlHL9oesT3eYgcFUWaSWUxbba4nftI
+   TGyW0Okiz3WI3qycMYLp76FgGGye5k3Cr3eakm7rfKHZVXOu5SfNlMoSt
+   3j7XKHvgBLsQHetzSIRvR2M/ROryPMsnmHgJg1w/0Or+/Te+tpq9pt9Nh
+   g==;
+X-CSE-ConnectionGUID: iAZKU7AcTFOkn84vI9ErCg==
+X-CSE-MsgGUID: tA4nZuiHQ/CWNk9VzEIYRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31871401"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31871401"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2024 05:40:49 -0700
+X-CSE-ConnectionGUID: 7Rwf/GtbRreGSNd4EmIItw==
+X-CSE-MsgGUID: ZgcExqH3SZmq34LLKDBhbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,200,1725346800"; 
-   d="scan'208";a="108117631"
+   d="scan'208";a="76978328"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Oct 2024 04:59:46 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 Oct 2024 05:40:46 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szxGB-000ELl-1k;
-	Sun, 13 Oct 2024 11:59:43 +0000
-Date: Sun, 13 Oct 2024 19:59:27 +0800
+	id 1szxts-000EMl-0d;
+	Sun, 13 Oct 2024 12:40:44 +0000
+Date: Sun, 13 Oct 2024 20:40:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org
 Subject: [rafael-pm:bleeding-edge 158/161]
- drivers/thermal/thermal_sysfs.c:726:17: error: label 'unlock' used but not
- defined
-Message-ID: <202410131909.OG5cXVR5-lkp@intel.com>
+ drivers/thermal/thermal_sysfs.c:726:8: error: use of undeclared label
+ 'unlock'
+Message-ID: <202410132024.xuSMJC7v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,27 +68,21 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
 head:   c7d553cb161f03e4424c88bddc26fadcbbf4b6d5
 commit: db8666152df8b016530452714b0ad8c7f1b37f3c [158/161] thermal: core: Add and use cooling device guard
-config: i386-buildonly-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241013/202410131909.OG5cXVR5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410131909.OG5cXVR5-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-005-20241013 (https://download.01.org/0day-ci/archive/20241013/202410132024.xuSMJC7v-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410132024.xuSMJC7v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410131909.OG5cXVR5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410132024.xuSMJC7v-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/thermal/thermal_sysfs.c: In function 'trans_table_show':
->> drivers/thermal/thermal_sysfs.c:726:17: error: label 'unlock' used but not defined
+>> drivers/thermal/thermal_sysfs.c:726:8: error: use of undeclared label 'unlock'
      726 |                 goto unlock;
-         |                 ^~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+         |                      ^
+   1 error generated.
 
 
 vim +/unlock +726 drivers/thermal/thermal_sysfs.c
