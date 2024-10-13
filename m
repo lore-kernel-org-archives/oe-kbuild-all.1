@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C6E1862
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482481870
 	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Oct 2024 01:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728781413; cv=none; b=JhBvNDAQObrLB6kb4Y345EuAK0VyfAlDzFh3u46nTXDzpnOMpXykoifiYHVEXIqvtL/6SUPjt/CL394FIWECWT2NBDJfRh4rAZdpIJvjFC8oKTS80S7GTcHf3IprGcU+gyBcyNfl+fULtNFIfwQdlYQPRSg7Qy7zHDzSZm0DYDY=
+	t=1728781413; cv=none; b=Zg75P6tcw+Lmi/L+88N1DXfwCyiv3ZBPWGEXOknPD2Y/KoC+6RTtVKMUYOMH/shZies912m2JFLo4oOz46m+qBAYUHkRkj1y4xv0hTgWCnVGgDjIAa0Q8ZEF7TpmGvqtY3ZH09gqOWCtSU4I31GGZQVKHr6wO3DUoBSNrHOrJCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728781413; c=relaxed/simple;
-	bh=onQianqy7lCHxn/BoIBolTQEGs3mPxp+R6ytz+PsC1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pojW4HUi1i0MTnUY+JnDI49n6OG9lZY08h9w21O4Nldvukh/01r7JXLWCoJpKZejyQ4CVn9+5/ZW9BInrPpU0JrgC91RpAW/HISF6LwKJsX2lrHiG+cdZtkKO7TrB3DMSa5fNFQ6dIKWdMC7Vly7sQUwxEDAhQzWwJMQRwIHlm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLYwXtdf; arc=none smtp.client-ip=198.175.65.14
+	bh=QcQYa1ODV6ghqEQilsh7TeDIq/lwM8eMLDSiSI+zLOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pYMICfzQLRhh12vDtzbYXgZszERH9AS+o3qDeXVpol+wlH8mjp94Z6Cv2ZgoXwidK96Z5YMzWi2RxJtJR4uNH/r0mbRdq6ZBXgB9AcyaJadY9oj8I6CVX2lHRO1H3bZ4klGhUpXPtExx2u/AiOW3VhrhOzdePlIR9Lwejo80JxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb3QySbL; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLYwXtdf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb3QySbL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728781411; x=1760317411;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=onQianqy7lCHxn/BoIBolTQEGs3mPxp+R6ytz+PsC1s=;
-  b=YLYwXtdf5Z29PJV5mA/RlfOsslsnBaNnLskxqA8nbD52li3hzY+DZoPC
-   Jj+ZhHZUHS+zq+ak1c884R+env6NDnd2WL9Oaw/sdsehQyzM1TMTFm/53
-   eYM/xOwMDdcK4kpSiwSFXc1eCf1/WT81nGHfg66jeO+DXekqnDzJFUIyv
-   iW6zTJ/stv1+uuC9JSa+7O9kBcK8ub7LGWLihziR/wTxn8mToE7XnTuMC
-   OjHC9+n5JPjo++ripr7GsW3gw8jpDIhAdvQmVpa6cKPWzOY/DaqUoVP6a
-   sVBpj6sghzGNhy/zwMrudmIJcLXrYKuZwyJyL+xnKYRINnmNm98cicCfY
-   w==;
-X-CSE-ConnectionGUID: jrad9oMrToiJPiEFuzDuTA==
-X-CSE-MsgGUID: T/jsuG+oRVOND2PPPKP9Jw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31956497"
+  t=1728781412; x=1760317412;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QcQYa1ODV6ghqEQilsh7TeDIq/lwM8eMLDSiSI+zLOw=;
+  b=Yb3QySbL8gXS6rjnCbvha3m9kFxY+G/+8zMk/AfrkFOY//vtd78EweF6
+   utR6+YO8/4I/qb5WwjqLaqqt7+Nzq08vvV08HFhlvcbrqW/VSKWoBFzR1
+   T1TiG7n18C36706HS06dvGNj03F52w0p2Dio8wU4wVmJdiEC8BsWGWCQn
+   NSSwFgyJAU0AXslw0lvw2AT29ztG+K7JTJVMxuBIMKGXTJFAqj3zkaOQJ
+   806BnG3JFhImJTLDGabgpFicJ5WBwf8yk8aLnIs1jF5OXnopan5ZJVpSz
+   r9wVrxLv5+CaRWdeW/ZGjgpkd/cSuOwTu4suUX2Oq+oNRT9CQj2eaoCAv
+   Q==;
+X-CSE-ConnectionGUID: YUIwKuOnS92uVhuCtd30OA==
+X-CSE-MsgGUID: LDEkLXQlSaaVOHvBnRIF7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28033801"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31956497"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 18:03:31 -0700
-X-CSE-ConnectionGUID: zBXMegZAR6aIgE9z8KwoIA==
-X-CSE-MsgGUID: IN2Ixr8xQZitWCFXHJymXA==
+   d="scan'208";a="28033801"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 18:03:31 -0700
+X-CSE-ConnectionGUID: auB/X7fzTiido9E8dFWWbQ==
+X-CSE-MsgGUID: hgUCZIdwTai4gKuG8YbkLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="77337101"
+   d="scan'208";a="108049958"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Oct 2024 18:03:30 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Oct 2024 18:03:30 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szn15-000Dvp-0M;
+	id 1szn15-000Dvn-0E;
 	Sun, 13 Oct 2024 01:03:27 +0000
-Date: Sun, 13 Oct 2024 09:03:14 +0800
+Date: Sun, 13 Oct 2024 09:03:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gerhard Engleder <gerhard@engleder-embedded.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	gregkh@linuxfoundation.org,
-	Gerhard Engleder <gerhard@engleder-embedded.com>
-Subject: Re: [PATCH 1/6] misc: keba: Add SPI controller device
-Message-ID: <202410130817.NXBCxx4q-lkp@intel.com>
-References: <20241009202949.20164-2-gerhard@engleder-embedded.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-kiwi-5.4 657/30000] ld.lld: error:
+ -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.
+  Try: 'ld.lld --help'
+Message-ID: <202410130850.KqruMQaa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +62,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241009202949.20164-2-gerhard@engleder-embedded.com>
 
-Hi Gerhard,
+Hi Sami,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.12-rc2 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/misc-keba-Add-SPI-controller-device/20241010-051016
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20241009202949.20164-2-gerhard%40engleder-embedded.com
-patch subject: [PATCH 1/6] misc: keba: Add SPI controller device
-config: csky-randconfig-r123-20241012 (https://download.01.org/0day-ci/archive/20241013/202410130817.NXBCxx4q-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241013/202410130817.NXBCxx4q-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   b6fa9127e7956ef52ab962c92735504ad8055955
+commit: 6f0e552d0f4018b3731866fd18f32c1295175a91 [657/30000] ANDROID: x86, build: allow LTO_CLANG and THINLTO to be selected
+config: x86_64-buildonly-randconfig-005-20241013 (https://download.01.org/0day-ci/archive/20241013/202410130850.KqruMQaa-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410130850.KqruMQaa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410130817.NXBCxx4q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410130850.KqruMQaa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   csky-linux-ld: drivers/misc/keba/cp500.o: in function `cp500_nvmem_match':
->> drivers/misc/keba/cp500.c:396:(.text+0x15e): undefined reference to `i2c_verify_client'
-   csky-linux-ld: drivers/misc/keba/cp500.o: in function `cp500_i2c_release':
-   drivers/misc/keba/cp500.c:287:(.text+0x1c0): undefined reference to `i2c_verify_client'
-
-
-vim +396 drivers/misc/keba/cp500.c
-
-   388	
-   389	static int cp500_nvmem_match(struct device *dev, const void *data)
-   390	{
-   391		const struct cp500 *cp500 = data;
-   392		struct i2c_client *client;
-   393	
-   394		/* match only CPU EEPROM below the cp500 device */
-   395		dev = dev->parent;
- > 396		client = i2c_verify_client(dev);
-   397		if (!client || client->addr != CP500_EEPROM_ADDR)
-   398			return 0;
-   399		while ((dev = dev->parent))
-   400			if (dev == &cp500->pci_dev->dev)
-   401				return 1;
-   402	
-   403		return 0;
-   404	}
-   405	
+   clang: warning: argument unused during compilation: '-MD' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-MF arch/x86/lib/.lib-ksyms.o.d' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-nostdinc' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-isystem /opt/cross/clang-3b5b5c1ec4/lib/clang/18/include' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D __KERNEL__' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D KBUILD_EXTRA_WARN1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D __ASSEMBLY__' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-Werror=unknown-warning-option' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SIGNAL_FRAME=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SECTIONS=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_SSSE3=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX2=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX512=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA1_NI=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA256_NI=1' [-Wunused-command-line-argument]
+>> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
+   ld.lld: Did you mean '--stackrealign=8'?
+--
+>> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
+   ld.lld: Did you mean '--stackrealign=8'?
+--
+   clang: warning: argument unused during compilation: '-MD' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-MF lib/.lib-ksyms.o.d' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-nostdinc' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-isystem /opt/cross/clang-3b5b5c1ec4/lib/clang/18/include' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D __KERNEL__' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D KBUILD_EXTRA_WARN1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D __ASSEMBLY__' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-Werror=unknown-warning-option' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SIGNAL_FRAME=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SECTIONS=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_SSSE3=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX2=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX512=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA1_NI=1' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA256_NI=1' [-Wunused-command-line-argument]
+>> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
+   ld.lld: Did you mean '--stackrealign=8'?
 
 -- 
 0-DAY CI Kernel Test Service
