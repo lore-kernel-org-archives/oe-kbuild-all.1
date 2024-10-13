@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF3923A9;
-	Sun, 13 Oct 2024 02:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D324B4D8CF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Oct 2024 02:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728786520; cv=none; b=Jm2ooTJfezVuVDBkBak9nxYw45YlPFeB2ihgcquEhvXaP1EpWrbyQBYUbCP0S1hZ8H3JrrG8hhMtB7sYB9X50ZyV26+Mz0Y1pYHcv8ieWW5uoCXHuCE6mTHLtsq++9ZSzVXCGZNKZCrUzOBo6AQLmT8JpFnINty5COBqB86ad4s=
+	t=1728788376; cv=none; b=nbOEmVoKQbZ5MHRycMt2aCysR/FA4yjJ4EIfCB9m5L3wOFqiEQkSL625thCPERaSP2133R2ZyAmRadgw5QSnkJbWeWIucrQMqEFLW9E/UD0yNU3vJ3NqunLOP2pzJUG8oQ/ikoIhY15runhvUTLK0i8wu1SN0/mYIugGA2K9OH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728786520; c=relaxed/simple;
-	bh=kxw0/5KQqdN8nbP5+1lX3aIizA0MM7Ku7mcSHuuSt78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q1z4baoQMNCnxUMMUXaZxpASYeM/L2cODz9BiupJJCnmDYxGCHM3BkPpH7jjWTd6pOB9fCbh3oYd93LnkMUdXs+0hL8gREs8ffvG62+O7oLg8XknhfpSbIrL0aF/v+eAkMtLSRGsCEVDUrEJy4BcpM6SsKahvl6ngmAThCuQdHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrGhdZ5A; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1728788376; c=relaxed/simple;
+	bh=+0QVnmhswolWcOsFIGh3TMz7OYZx8qiJweY+tqkeUG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r8J7C1kSzka2RAOvPfb911Qx6/zby40Heq/W0Y2xh//aFVyfHzeDwt2Q6Yq9knXZTgkkq70L42ZFDnOZ5GpnRyvlsM0dP1bPdRE9EiUDhpgTZLa5VzR+Qcx/k4eMD9m1LzBZrxvDHjz3j2GoiyGU9LlJ1yFcYISuHjhVx18v8vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JpuW7U9h; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrGhdZ5A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpuW7U9h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728786517; x=1760322517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kxw0/5KQqdN8nbP5+1lX3aIizA0MM7Ku7mcSHuuSt78=;
-  b=WrGhdZ5AosXWjiZOSFaMtToHiFij0gvT1WZ4p2gR0ui5X1+7VztdCtae
-   proKltb9ZHkdec2Lkpp+7nO3PXKEehyL3ZISX6TP6PIInjNG3+8Kbgkkn
-   6DQn4WTucTt21rZvqFVciFESRTb4NlMgwslJflFITKxFXpGPnZrhSXKaE
-   +WfBlreK82gMioCsQdSYKqaE5llbKInDKxH17AAv3r02Nyax+qJ4j3M9w
-   CSJCThAy0z1FxxU8emEIiFihUO94WXMlec9v+8jDCjbnA8qqnSzfpXoU+
-   JvnoemjKwTiZhd5ofU7qOak8TI25BP5bkyrJhAfKIA57mDiAJQa/jk//V
-   g==;
-X-CSE-ConnectionGUID: zL226nN5Qxun4J01FB1hiA==
-X-CSE-MsgGUID: P3aKUfNIT+OzhZKbYAiTog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="38731317"
+  t=1728788374; x=1760324374;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+0QVnmhswolWcOsFIGh3TMz7OYZx8qiJweY+tqkeUG0=;
+  b=JpuW7U9hjbBU0pYwXB0rx5Yuh/obevqDmiA9DUSrd3RPLj7UZgUwPjmQ
+   4UbTclX65x4h1b2KrChqO76HANNYuuv6kMw+jvSoEY2Jj/1pz6weJib2P
+   X86zP7BiasREutF/ifa/BEiRXnnS9TET4motQf0Vp3MgpkfnZyI98F+ZG
+   BkWeWU/M4gBmtp/B1/SgDuoOQ4Lk9afaEjrJb0qSon9o/gY4+PN0v02GQ
+   g/cP0zoMNlzLZWCQy3ReQT617CZN+9VTQ1EvmAQGpK3HI3rpqOJApb3Wv
+   QCNtJmznwbZd7LVNJEeDYGIALaAzKh3xL/CZzXaSoKGpBliWVlm6Mx5Jw
+   Q==;
+X-CSE-ConnectionGUID: rwFM79w8Q+S370nE8Bd7ig==
+X-CSE-MsgGUID: R/Aptyg2SnC2VJUhb70gCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28285994"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="38731317"
+   d="scan'208";a="28285994"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 19:28:37 -0700
-X-CSE-ConnectionGUID: do3bFO2CTB68Q54myxA8Nw==
-X-CSE-MsgGUID: pH9+hgyLT8y7Svldl/1AxA==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2024 19:59:34 -0700
+X-CSE-ConnectionGUID: vI3gpDjLSOaqcgJRl85WyQ==
+X-CSE-MsgGUID: 5cF+El5CR6u/A5UDnigAcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="77172345"
+   d="scan'208";a="77175200"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Oct 2024 19:28:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 12 Oct 2024 19:59:32 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szoLN-000E0B-1Z;
-	Sun, 13 Oct 2024 02:28:29 +0000
-Date: Sun, 13 Oct 2024 10:27:32 +0800
+	id 1szopO-000E1D-05;
+	Sun, 13 Oct 2024 02:59:30 +0000
+Date: Sun, 13 Oct 2024 10:59:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Fang <wei.fang@nxp.com>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.oltean@nxp.com,
-	claudiu.manoil@nxp.com, xiaoning.wang@nxp.com, Frank.Li@nxp.com,
-	christophe.leroy@csgroup.eu, linux@armlinux.org.uk,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH net-next 05/11] net: enetc: add enetc-pf-common driver
- support
-Message-ID: <202410131001.KjFCfYWr-lkp@intel.com>
-References: <20241009095116.147412-6-wei.fang@nxp.com>
+To: Kernel Patches Daemon <kernel-patches-bot@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_session_24 37/63]
+ .github/actions/veristat_baseline_compare/action.yml: warning: ignored by
+ one of the .gitignore files
+Message-ID: <202410131000.nESzo6bD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,89 +62,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241009095116.147412-6-wei.fang@nxp.com>
 
-Hi Wei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Fang/dt-bindings-net-add-compatible-string-for-i-MX95-EMDIO/20241009-181113
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241009095116.147412-6-wei.fang%40nxp.com
-patch subject: [PATCH net-next 05/11] net: enetc: add enetc-pf-common driver support
-config: powerpc-randconfig-r062-20241013 (https://download.01.org/0day-ci/archive/20241013/202410131001.KjFCfYWr-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410131001.KjFCfYWr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_session_24
+head:   dd7329015b4ba19e87403dfbe182346c318414e5
+commit: 455c0170b333fcd6826dcc0dfd4dacc047c55faa [37/63] adding ci files
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241013/202410131000.nESzo6bD-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410131000.nESzo6bD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410131001.KjFCfYWr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410131000.nESzo6bD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc-linux-ld: drivers/net/ethernet/freescale/enetc/enetc_pf_common.o: in function `enetc_sriov_configure':
->> drivers/net/ethernet/freescale/enetc/enetc_pf_common.c:336:(.text+0x55c): undefined reference to `enetc_msg_psi_free'
->> powerpc-linux-ld: drivers/net/ethernet/freescale/enetc/enetc_pf_common.c:349:(.text+0x5e4): undefined reference to `enetc_msg_psi_init'
->> powerpc-linux-ld: drivers/net/ethernet/freescale/enetc/enetc_pf_common.c:365:(.text+0x658): undefined reference to `enetc_msg_psi_free'
-   powerpc-linux-ld: drivers/net/ethernet/freescale/enetc/enetc_pf_common.o: in function `enetc_pf_netdev_setup':
-   drivers/net/ethernet/freescale/enetc/enetc_pf_common.c:106:(.text+0xb00): undefined reference to `enetc_set_ethtool_ops'
-
-
-vim +336 drivers/net/ethernet/freescale/enetc/enetc_pf_common.c
-
-   324	
-   325	int enetc_sriov_configure(struct pci_dev *pdev, int num_vfs)
-   326	{
-   327		struct enetc_si *si = pci_get_drvdata(pdev);
-   328		struct enetc_pf *pf = enetc_si_priv(si);
-   329		int err;
-   330	
-   331		if (!IS_ENABLED(CONFIG_PCI_IOV))
-   332			return 0;
-   333	
-   334		if (!num_vfs) {
-   335			pci_disable_sriov(pdev);
- > 336			enetc_msg_psi_free(pf);
-   337			kfree(pf->vf_state);
-   338			pf->num_vfs = 0;
-   339		} else {
-   340			pf->num_vfs = num_vfs;
-   341	
-   342			pf->vf_state = kcalloc(num_vfs, sizeof(struct enetc_vf_state),
-   343					       GFP_KERNEL);
-   344			if (!pf->vf_state) {
-   345				pf->num_vfs = 0;
-   346				return -ENOMEM;
-   347			}
-   348	
- > 349			err = enetc_msg_psi_init(pf);
-   350			if (err) {
-   351				dev_err(&pdev->dev, "enetc_msg_psi_init (%d)\n", err);
-   352				goto err_msg_psi;
-   353			}
-   354	
-   355			err = pci_enable_sriov(pdev, num_vfs);
-   356			if (err) {
-   357				dev_err(&pdev->dev, "pci_enable_sriov err %d\n", err);
-   358				goto err_en_sriov;
-   359			}
-   360		}
-   361	
-   362		return num_vfs;
-   363	
-   364	err_en_sriov:
- > 365		enetc_msg_psi_free(pf);
-   366	err_msg_psi:
-   367		kfree(pf->vf_state);
-   368		pf->num_vfs = 0;
-   369	
-   370		return err;
-   371	}
-   372	EXPORT_SYMBOL_GPL(enetc_sriov_configure);
-   373	
+>> .github/actions/veristat_baseline_compare/action.yml: warning: ignored by one of the .gitignore files
+>> .github/scripts/compare-veristat-results.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/matrix.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/tar-artifact.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/tests/test_veristat_compare.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/veristat_compare.py: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-build-test.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-build.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-test.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-veristat.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/lint.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/test.yml: warning: ignored by one of the .gitignore files
+>> ci/diffs/.keep: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-Revert-bpf-Avoid-unnecessary-audit-log-for-CPU-secur.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-arch-Kconfig-Move-SPECULATION_MITIGATIONS-to-arch-Kc.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-bpf-Fix-a-few-selftest-failures-due-to-llvm18-change.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-bpf-Fix-a-verifier-bug-due-to-incorrect-branch-offse.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-bpf-next-selftests-bpf-Fix-a-btf_dump-selftest-failure.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-net-bpf-Use-sockopt_lock_sock-in-ip_sock_set_tos.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-Filter-out-_GNU_SOURCE-when-compiling-.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-Fix-bpf_cookie-and-find_vma-in-nested-.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-Fix-pyperf180-compilation-failure-with.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-disable-detection-of-llvm-when-buildin.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-fix-inet_csk_accept-prototype-in-test_.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-work-around-latest-Clang-smartness.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-xskxceiver-ksft_print_msg-fix-format-t.patch: warning: ignored by one of the .gitignore files
+   ci/diffs/0001-tools-resolve_btfids-fix-cross-compilation-to-non-host-endianness.patch: warning: ignored by one of the .gitignore files
+   ci/diffs/0001-tracing-kprobes-Fix-symbol-counting-logic-by-looking.patch: warning: ignored by one of the .gitignore files
+   ci/diffs/0002-tools-resolve_btfids-fix-cross-compilation-to-non-host-endianness.patch: warning: ignored by one of the .gitignore files
+   ci/diffs/0199-iov_iter-fix-advancing-slot-in-iter_folioq_get_pages.patch: warning: ignored by one of the .gitignore files
+   ci/diffs/0299-selftests-bpf-Fix-uprobe-consumer-test.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
