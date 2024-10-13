@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EC513BAC6;
-	Sun, 13 Oct 2024 09:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07F96EB4A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Oct 2024 10:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728813352; cv=none; b=IjjOrQug2kRbb2bwgPt0GpYPabikc3A+/PTQ48R1K+h9l90kTx1iabhqx61v2ODFTYJoOMmA4utrxOzoD6fZ0gYNw6KfOviX6VtmMDDBGkMQuTl+hXbOBMdjhxhT8TbpJhBiVahKujGKj1UKzjdgciE6+gquDwAtAL2TZiGWb4w=
+	t=1728814607; cv=none; b=Jg7WEJ2eYafAmklcu7M2u2GNreMpIN/+Sodu/Up9SexpOHscWLC33bFiHkeANNHR9NkxUrZdnlSWaWriJr4Ki6iMqdEcCJR0gPI+quT8M5iZDFtKYVbxhmpQf6WKfQ7guM3kXVLLX/4jpGVb6730NxbaqT1hghMPrysmD72lVIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728813352; c=relaxed/simple;
-	bh=YHPZ9HiYk7Nmr2TKI3svodLUHbz2SvWcrN7V2Xi/ln8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WwdDD0Rqh995uQ8iFRyIzt3lkHvgytiGsGuwEp1TV5TZ3Qu6oOP2CTdyYWeMANo0/xalSRvGmmIzSQa5WS31u5P9cn9hX4iLsvRr/sxwgSEgvHHEpPxT0dvRdT9acZhmyMKWDydr229259vNT799ez4VSRgGUHCSrc7nFhu+0do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1J6nc0X; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1728814607; c=relaxed/simple;
+	bh=yRV/njj6cGTiVtlBaz5MxI19fX78/vJeo83KEADOqBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SgCoeUaHbdGZb5yC6BMtw7e3wDkzdw77wi3EdXo206oyVbs/JbFd84/vPcr6W817mJnWia0UBKFe97TMySI3W3tMb1ueF+Q/WMAztFwF7UlFzWPbZMQfwZy2xnHdeJsv8fYWCZqXw9GcgKwyReW2Mr9ywtB2tB/MtbKpBhpiuBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dl8xKPdj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1J6nc0X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dl8xKPdj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728813351; x=1760349351;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YHPZ9HiYk7Nmr2TKI3svodLUHbz2SvWcrN7V2Xi/ln8=;
-  b=b1J6nc0XHI4NnpMFjocBTJB2g03qvt+6rrVrhKg/eLpw/Tz7/3dB34LB
-   Iv/T6u0573Q4jZEseCvCpOBlp4fSxMGOciszttdphvD+0bto9NABvnms7
-   +bv9RRxSYd3EqQ/ZCOmu/PGmJulnwx9KJL+ZHxHXPmIuel8rTUW5cEkx4
-   cpXDAxmRKJ/TWOUNmxCzRzROtqK6qOOl5GZoYNEo1Jj++gmSZmTGNdb5b
-   omWjbD53XDJvWVTlaD39a6iwJZb/vsInRCYGMEpN5cx2ZXXu1jRY59YfK
-   dI7vfk6RYxbBEdo69jzcUJ8Og/YZKH16TNIxUHDzaes0gMkSTQvjO/oM9
-   w==;
-X-CSE-ConnectionGUID: TtcNcVLNRxKtL77+9MXi9w==
-X-CSE-MsgGUID: YqRnYxENTWS4rll/V4L30w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45646577"
+  t=1728814605; x=1760350605;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yRV/njj6cGTiVtlBaz5MxI19fX78/vJeo83KEADOqBc=;
+  b=dl8xKPdjTYawIE3LgJUtJGqhyxs89rSPYeeFqPU/czR1FCIConOi6UiD
+   Ru70de0iRrGuIyceIN2+L9KvAeGd25meGY5H9idjGvQNTdr3+YpVNC+jY
+   8F76fE6wqUqhDyk7N4evwCz4wAKUPV6N/W3tgFTNzrHsBv8MSJVlT4hBm
+   NxjXOlsEBncEaopkSyHf5ZuvSRHRJPpiy+vg0Po49wsFtivD3n+lgpXN1
+   DJ8iaYpciD93DjohiR3asxsXa56EDoPHsxlsWgWi5IrX9h/b47P1wTNr8
+   naUA5+FVX40/5OzLkBNSK/8JaKylFbM6qDLYZDKIoxKEEcuOrOggyueD0
+   Q==;
+X-CSE-ConnectionGUID: RxUZ+EIGTyymL5WKUnhYkA==
+X-CSE-MsgGUID: tnq55y7MTbq7lRfOuXX9GQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="27975279"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="45646577"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2024 02:55:46 -0700
-X-CSE-ConnectionGUID: 5QuhQ/mXQVaASKUyPZhk6Q==
-X-CSE-MsgGUID: lRhOdtMGSBKWB5HRI+PRKg==
+   d="scan'208";a="27975279"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2024 03:16:45 -0700
+X-CSE-ConnectionGUID: 3JZ1A+AETGG9me1PyRr9Qw==
+X-CSE-MsgGUID: d/VzHOamRQejfxjh8Y7e5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,200,1725346800"; 
-   d="scan'208";a="108051969"
+   d="scan'208";a="108106536"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Oct 2024 02:55:42 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Oct 2024 03:16:43 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szvK8-000EGp-1L;
-	Sun, 13 Oct 2024 09:55:40 +0000
-Date: Sun, 13 Oct 2024 17:54:43 +0800
+	id 1szveS-000EHr-3B;
+	Sun, 13 Oct 2024 10:16:40 +0000
+Date: Sun, 13 Oct 2024 18:15:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ankur Arora <ankur.a.arora@oracle.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	peterz@infradead.org, tglx@linutronix.de, paulmck@kernel.org,
-	mingo@kernel.org, bigeasy@linutronix.de, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	vschneid@redhat.com, frederic@kernel.org, ankur.a.arora@oracle.com,
-	efault@gmx.de
-Subject: Re: [PATCH 1/7] sched: warn for high latency with
- TIF_NEED_RESCHED_LAZY
-Message-ID: <202410131726.Gi9qvUP8-lkp@intel.com>
-References: <20241009165411.3426937-2-ankur.a.arora@oracle.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.4.y-st 1862/2707] drivers/watchdog/bcm2835_wdt.c:119:3:
+ error: 'struct watchdog_device' has no member named 'max_hw_heartbeat_ms'
+Message-ID: <202410131801.d5I7x6fp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,78 +61,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241009165411.3426937-2-ankur.a.arora@oracle.com>
 
-Hi Ankur,
+Hi Stefan,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on paulmck-rcu/dev]
-[also build test ERROR on powerpc/next powerpc/fixes tip/sched/core linus/master v6.12-rc2 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ankur-Arora/sched-warn-for-high-latency-with-TIF_NEED_RESCHED_LAZY/20241010-005819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
-patch link:    https://lore.kernel.org/r/20241009165411.3426937-2-ankur.a.arora%40oracle.com
-patch subject: [PATCH 1/7] sched: warn for high latency with TIF_NEED_RESCHED_LAZY
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241013/202410131726.Gi9qvUP8-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410131726.Gi9qvUP8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st
+head:   b5f5caba9e17aa617f5764a9888662c3d0a90540
+commit: 65e5abd22423bcb8597ee3d8213977a182916f52 [1862/2707] watchdog: bcm2835_wdt: Fix WDIOC_SETTIMEOUT handling
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241013/202410131801.d5I7x6fp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410131801.d5I7x6fp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410131726.Gi9qvUP8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410131801.d5I7x6fp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/core.c:5528:27: error: call to undeclared function 'tif_need_resched_lazy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    5528 |         if ((!need_resched() && !tif_need_resched_lazy()) || !latency_warn_ms)
-         |                                  ^
-   kernel/sched/core.c:5528:27: note: did you mean 'tif_need_resched'?
-   include/linux/thread_info.h:182:29: note: 'tif_need_resched' declared here
-     182 | static __always_inline bool tif_need_resched(void)
-         |                             ^
-   1 error generated.
+   In file included from include/linux/cpumask.h:11:0,
+                    from include/linux/rcupdate.h:40,
+                    from include/linux/srcu.h:33,
+                    from include/linux/notifier.h:15,
+                    from include/linux/reboot.h:5,
+                    from drivers/watchdog/bcm2835_wdt.c:17:
+   include/linux/bitmap.h: In function 'bitmap_empty':
+   include/linux/bitmap.h:300:36: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return find_first_bit(src, nbits) == nbits;
+                                       ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:308:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return find_first_zero_bit(src, nbits) == nbits;
+                                            ^~
+   In file included from arch/arm/include/asm/bug.h:62:0,
+                    from arch/arm/include/asm/div64.h:63,
+                    from include/linux/kernel.h:136,
+                    from include/linux/delay.h:10,
+                    from drivers/watchdog/bcm2835_wdt.c:16:
+   include/linux/cpumask.h: In function 'cpumask_check':
+   include/linux/cpumask.h:117:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     WARN_ON_ONCE(cpu >= nr_cpumask_bits);
+                      ^
+   include/asm-generic/bug.h:112:27: note: in definition of macro 'WARN_ON_ONCE'
+     int __ret_warn_once = !!(condition);   \
+                              ^~~~~~~~~
+   drivers/watchdog/bcm2835_wdt.c: At top level:
+>> drivers/watchdog/bcm2835_wdt.c:119:3: error: 'struct watchdog_device' has no member named 'max_hw_heartbeat_ms'
+     .max_hw_heartbeat_ms = WDOG_TICKS_TO_MSECS(PM_WDOG_TIME_SET),
+      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/tif_need_resched_lazy +5528 kernel/sched/core.c
+vim +119 drivers/watchdog/bcm2835_wdt.c
 
-  5517	
-  5518	#ifdef CONFIG_SCHED_DEBUG
-  5519	static u64 cpu_resched_latency(struct rq *rq)
-  5520	{
-  5521		int latency_warn_ms = READ_ONCE(sysctl_resched_latency_warn_ms);
-  5522		u64 resched_latency, now = rq_clock(rq);
-  5523		static bool warned_once;
-  5524	
-  5525		if (sysctl_resched_latency_warn_once && warned_once)
-  5526			return 0;
-  5527	
-> 5528		if ((!need_resched() && !tif_need_resched_lazy()) || !latency_warn_ms)
-  5529			return 0;
-  5530	
-  5531		if (system_state == SYSTEM_BOOTING)
-  5532			return 0;
-  5533	
-  5534		if (!rq->last_seen_need_resched_ns) {
-  5535			rq->last_seen_need_resched_ns = now;
-  5536			rq->ticks_without_resched = 0;
-  5537			return 0;
-  5538		}
-  5539	
-  5540		rq->ticks_without_resched++;
-  5541		resched_latency = now - rq->last_seen_need_resched_ns;
-  5542		if (resched_latency <= latency_warn_ms * NSEC_PER_MSEC)
-  5543			return 0;
-  5544	
-  5545		warned_once = true;
-  5546	
-  5547		return resched_latency;
-  5548	}
-  5549	
+  > 16	#include <linux/delay.h>
+    17	#include <linux/reboot.h>
+    18	#include <linux/types.h>
+    19	#include <linux/module.h>
+    20	#include <linux/io.h>
+    21	#include <linux/watchdog.h>
+    22	#include <linux/platform_device.h>
+    23	#include <linux/of_address.h>
+    24	#include <linux/of_platform.h>
+    25	
+    26	#define PM_RSTC				0x1c
+    27	#define PM_RSTS				0x20
+    28	#define PM_WDOG				0x24
+    29	
+    30	#define PM_PASSWORD			0x5a000000
+    31	
+    32	#define PM_WDOG_TIME_SET		0x000fffff
+    33	#define PM_RSTC_WRCFG_CLR		0xffffffcf
+    34	#define PM_RSTS_HADWRH_SET		0x00000040
+    35	#define PM_RSTC_WRCFG_SET		0x00000030
+    36	#define PM_RSTC_WRCFG_FULL_RESET	0x00000020
+    37	#define PM_RSTC_RESET			0x00000102
+    38	
+    39	/*
+    40	 * The Raspberry Pi firmware uses the RSTS register to know which partiton
+    41	 * to boot from. The partiton value is spread into bits 0, 2, 4, 6, 8, 10.
+    42	 * Partiton 63 is a special partition used by the firmware to indicate halt.
+    43	 */
+    44	#define PM_RSTS_RASPBERRYPI_HALT	0x555
+    45	
+    46	#define SECS_TO_WDOG_TICKS(x) ((x) << 16)
+    47	#define WDOG_TICKS_TO_SECS(x) ((x) >> 16)
+    48	#define WDOG_TICKS_TO_MSECS(x) ((x) * 1000 >> 16)
+    49	
+    50	struct bcm2835_wdt {
+    51		void __iomem		*base;
+    52		spinlock_t		lock;
+    53		struct notifier_block	restart_handler;
+    54	};
+    55	
+    56	static unsigned int heartbeat;
+    57	static bool nowayout = WATCHDOG_NOWAYOUT;
+    58	
+    59	static int bcm2835_wdt_start(struct watchdog_device *wdog)
+    60	{
+    61		struct bcm2835_wdt *wdt = watchdog_get_drvdata(wdog);
+    62		uint32_t cur;
+    63		unsigned long flags;
+    64	
+    65		spin_lock_irqsave(&wdt->lock, flags);
+    66	
+    67		writel_relaxed(PM_PASSWORD | (SECS_TO_WDOG_TICKS(wdog->timeout) &
+    68					PM_WDOG_TIME_SET), wdt->base + PM_WDOG);
+    69		cur = readl_relaxed(wdt->base + PM_RSTC);
+    70		writel_relaxed(PM_PASSWORD | (cur & PM_RSTC_WRCFG_CLR) |
+    71			  PM_RSTC_WRCFG_FULL_RESET, wdt->base + PM_RSTC);
+    72	
+    73		spin_unlock_irqrestore(&wdt->lock, flags);
+    74	
+    75		return 0;
+    76	}
+    77	
+    78	static int bcm2835_wdt_stop(struct watchdog_device *wdog)
+    79	{
+    80		struct bcm2835_wdt *wdt = watchdog_get_drvdata(wdog);
+    81	
+    82		writel_relaxed(PM_PASSWORD | PM_RSTC_RESET, wdt->base + PM_RSTC);
+    83		dev_info(wdog->dev, "Watchdog timer stopped");
+    84		return 0;
+    85	}
+    86	
+    87	static int bcm2835_wdt_set_timeout(struct watchdog_device *wdog, unsigned int t)
+    88	{
+    89		wdog->timeout = t;
+    90		return 0;
+    91	}
+    92	
+    93	static unsigned int bcm2835_wdt_get_timeleft(struct watchdog_device *wdog)
+    94	{
+    95		struct bcm2835_wdt *wdt = watchdog_get_drvdata(wdog);
+    96	
+    97		uint32_t ret = readl_relaxed(wdt->base + PM_WDOG);
+    98		return WDOG_TICKS_TO_SECS(ret & PM_WDOG_TIME_SET);
+    99	}
+   100	
+   101	static struct watchdog_ops bcm2835_wdt_ops = {
+   102		.owner =	THIS_MODULE,
+   103		.start =	bcm2835_wdt_start,
+   104		.stop =		bcm2835_wdt_stop,
+   105		.set_timeout =	bcm2835_wdt_set_timeout,
+   106		.get_timeleft =	bcm2835_wdt_get_timeleft,
+   107	};
+   108	
+   109	static struct watchdog_info bcm2835_wdt_info = {
+   110		.options =	WDIOF_SETTIMEOUT | WDIOF_MAGICCLOSE |
+   111				WDIOF_KEEPALIVEPING,
+   112		.identity =	"Broadcom BCM2835 Watchdog timer",
+   113	};
+   114	
+   115	static struct watchdog_device bcm2835_wdt_wdd = {
+   116		.info =		&bcm2835_wdt_info,
+   117		.ops =		&bcm2835_wdt_ops,
+   118		.min_timeout =	1,
+ > 119		.max_hw_heartbeat_ms =	WDOG_TICKS_TO_MSECS(PM_WDOG_TIME_SET),
+   120		.timeout =	WDOG_TICKS_TO_SECS(PM_WDOG_TIME_SET),
+   121	};
+   122	
 
 -- 
 0-DAY CI Kernel Test Service
