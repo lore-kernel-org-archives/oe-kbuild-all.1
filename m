@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC3D1EB2E;
-	Sun, 13 Oct 2024 13:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E456A13D245
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Oct 2024 14:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728826974; cv=none; b=PD1CTa4v8BiFt3z/c8CJlDuEpE0jR/mnNdR1Ge5uPmC3hHtduVc0yj26uLZvwXbiGAmpN08t/6sJzBtlVkDVBPvhM0sm3ZeGTasQvGkeDKNsX9TCw4bTmKy846fuMus6mL1J5TGPkW/8UZYRyFTcyknqwa33BcAhE44WH9ACIVw=
+	t=1728828233; cv=none; b=DM+1WeHWf0avWsdBG/jMVxqNRTk6Ev7KFtqN0etVaOwDOVVktSqVExpK8CKnRbv8xDbu7p/fCqOkKMG512UM3qPjQwQnOVLmnPALVqtdPeKRPmPN0KPxza8GWpX0peWpwOHhkTKwSIiGsiTlSwuIwbxJflCgiiZpYXqwL5wSoCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728826974; c=relaxed/simple;
-	bh=XS5iblfw1egF4iIUL7nQOMVI6cY6Z0WNfAVeAajuod0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kvTHHPBs7rYDcUiSdp++0hi/KsGtmXoj1aKcE1gv97uMR1lEg+VM/svSTObuXCz+SUHxmS7jwa9O1QSRwRmmHpTihVtrO4dFQusAm703F9HmzmhoXXYyQFTqMKuVM06lqL3urGNwCj6DpOrMBcKwLuD+K9ZPLRZbkwj8eFTsGAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vwdl2COu; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1728828233; c=relaxed/simple;
+	bh=a9MU0wNnjLVoUCv18GcJFPayp46wVYPuG32YMmH+toY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DD2DCOxy1WALlySCjAHvfTp6R1ALONzGeunwKryYV92zVvNto3Wpn65yt+9AkVg95twYHLg1ZNvP+a/2//YdjkbNjMUvq+55AObG1Dpyvkg74kswL1JJYDgByk7mEc1sWgZCRwzWZ7ioVEdIJ1cWo3hn0Y70dHkfcjeJD048czU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSHBoYKC; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vwdl2COu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSHBoYKC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728826972; x=1760362972;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XS5iblfw1egF4iIUL7nQOMVI6cY6Z0WNfAVeAajuod0=;
-  b=Vwdl2COuTzKHuyPJhHn37kcS2gBYz0AtDjKfjwpA4Om1q5ImeVrHPYjr
-   HFRil4GRHeqP6t6JODpfDUR+axdQpCPTrO/ZW5vr5/gT2fXBNemUpXqd1
-   BafEYqf+rDwAx1/qu6vSDG2E0gGpICd0unkxL2VhBeI20n0W80kY0/6K7
-   O4Mv9vqW3mNSmH7epaKLwGbVvn8TNvPLV8ri6EWqWt3Cv1JNgER+yr38U
-   UJf4nrkkrz7c2h4+jRsTutyuB5/OfVeMu1v+crc9HSoxz5LH2/A4k7nUP
-   PYjn2+8EflZ1Ivt9f3v2wf66Fm5Oi+gPEjeXKbX/OeMvk/uAPrSOTZkCd
-   Q==;
-X-CSE-ConnectionGUID: A93jJNQzRh2nUoyFtzbLYA==
-X-CSE-MsgGUID: cPdAn7BiRNqqX2GEq2z2FA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="27663438"
-X-IronPort-AV: E=Sophos;i="6.11,200,1725346800"; 
-   d="scan'208";a="27663438"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2024 06:42:51 -0700
-X-CSE-ConnectionGUID: LXyp+TOFRHqudCYB3U6i2w==
-X-CSE-MsgGUID: lCrNGTVASvK6mJLG8hKoYg==
+  t=1728828231; x=1760364231;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a9MU0wNnjLVoUCv18GcJFPayp46wVYPuG32YMmH+toY=;
+  b=QSHBoYKC2HJvrOLnzP7CCAKWaq2K8idS5Q9pzb7O36J71L1Z7/iljzpu
+   9cANyQn8hBFJh5lTLeiWuvvaoF0VineGrHs+Ug+DWqBukb3u2FwtpN8uP
+   TAe2vmoer08LkyBg8IZaigtiFq8sPfalE7KBqxTjgYGQJndmM3fBa9lE7
+   FUldflqlfwsXgZkeb0KL0ShYtKZN8bRuWcQb3HbrZ8VhsYH8qLAniG6tS
+   Mv0euKWruq0JiacC0b+txaA2L3MDHuQDdiPw4ooow9qZwwjIqzp0svtTm
+   PpLCI/hq4ZG02QShMS+xlkzqVS7dfWth69Q/PtVQ+Ydk0V/MDBvtnUSs6
+   w==;
+X-CSE-ConnectionGUID: VwwmagO+RxKxgA/UIdZBJQ==
+X-CSE-MsgGUID: 4lPN/0UeSaeqVsHgjV0W5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="38736267"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="38736267"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2024 07:03:50 -0700
+X-CSE-ConnectionGUID: jJIShQyZR4SJXfS851Om5g==
+X-CSE-MsgGUID: LKwdDhlCSxqg34V2gbEDJA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,200,1725346800"; 
-   d="scan'208";a="81333291"
+X-IronPort-AV: E=Sophos;i="6.11,201,1725346800"; 
+   d="scan'208";a="77666299"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Oct 2024 06:42:48 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 Oct 2024 07:03:49 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1szyru-000EOh-2N;
-	Sun, 13 Oct 2024 13:42:46 +0000
-Date: Sun, 13 Oct 2024 21:41:54 +0800
+	id 1szzCF-000EPH-0p;
+	Sun, 13 Oct 2024 14:03:47 +0000
+Date: Sun, 13 Oct 2024 22:03:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-	andi.shyti@kernel.org, quic_bjorande@quicinc.com,
-	--cc=linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org,
-	quic_vdadhani@quicinc.com, vkoul@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>
-Subject: Re: [PATCH v2] i2c: i2c-qcom-geni: Serve transfer during early
- resume stage
-Message-ID: <202410132130.a2tOwnm4-lkp@intel.com>
-References: <20241011121757.2267336-1-quic_msavaliy@quicinc.com>
+To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 9646/14354] drivers/iommu/iommu.c:1141: undefined
+ reference to `iova_reserve_domain_addr'
+Message-ID: <202410132114.NOaWoR8U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,111 +61,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241011121757.2267336-1-quic_msavaliy@quicinc.com>
 
-Hi Mukesh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.12-rc2]
-[also build test ERROR on linus/master]
-[cannot apply to andi-shyti/i2c/i2c-host next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Savaliya/i2c-i2c-qcom-geni-Serve-transfer-during-early-resume-stage/20241011-202013
-base:   v6.12-rc2
-patch link:    https://lore.kernel.org/r/20241011121757.2267336-1-quic_msavaliy%40quicinc.com
-patch subject: [PATCH v2] i2c: i2c-qcom-geni: Serve transfer during early resume stage
-config: i386-buildonly-randconfig-001-20241013 (https://download.01.org/0day-ci/archive/20241013/202410132130.a2tOwnm4-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410132130.a2tOwnm4-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b52135712fc8eae0751505713e1caf086a1437d4
+commit: 40c9fc02b0564bbcbc3fc6e14f3aea3639f0afa6 [9646/14354] iommu/vt-d: Add support for detecting ACPI namespace device in RMRR
+config: x86_64-randconfig-003-20241013 (https://download.01.org/0day-ci/archive/20241013/202410132114.NOaWoR8U-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241013/202410132114.NOaWoR8U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410132130.a2tOwnm4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410132114.NOaWoR8U-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-qcom-geni.c:711:28: error: no member named 'usage_count' in 'struct dev_pm_info'
-     711 |                         atomic_read(&dev->power.usage_count));
-         |                                      ~~~~~~~~~~ ^
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                              ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   1 error generated.
+   ld: drivers/iommu/iommu.o: in function `iommu_create_device_direct_mappings':
+>> drivers/iommu/iommu.c:1141: undefined reference to `iova_reserve_domain_addr'
 
 
-vim +711 drivers/i2c/busses/i2c-qcom-geni.c
+vim +1141 drivers/iommu/iommu.c
 
-   696	
-   697	static int geni_i2c_xfer(struct i2c_adapter *adap,
-   698				 struct i2c_msg msgs[],
-   699				 int num)
-   700	{
-   701		struct geni_i2c_dev *gi2c = i2c_get_adapdata(adap);
-   702		struct device *dev = gi2c->se.dev;
-   703		int ret;
-   704	
-   705		gi2c->err = 0;
-   706		reinit_completion(&gi2c->done);
-   707	
-   708		/* Serve I2C transfer by forced resume whether Runtime PM is enbled or not */
-   709		if (!pm_runtime_enabled(dev) && gi2c->suspended) {
-   710			dev_dbg(dev, "Runtime PM is disabled hence force resume, pm_usage_count: %d\n",
- > 711				atomic_read(&dev->power.usage_count));
-   712			ret = geni_i2c_force_resume(gi2c);
-   713			if (ret)
-   714				return ret;
-   715		} else {
-   716			ret = pm_runtime_get_sync(dev);
-   717			if (ret == -EACCES && gi2c->suspended) {
-   718				dev_dbg(dev, "pm_runtime_get_sync() failed-%d, force resume\n", ret);
-   719				ret = geni_i2c_force_resume(gi2c);
-   720				if (ret)
-   721					return ret;
-   722			}
-   723		}
-   724	
-   725		qcom_geni_i2c_conf(gi2c);
-   726	
-   727		if (gi2c->gpi_mode)
-   728			ret = geni_i2c_gpi_xfer(gi2c, msgs, num);
-   729		else
-   730			ret = geni_i2c_fifo_xfer(gi2c, msgs, num);
-   731	
-   732		/* Does Opposite to Forced Resume when runtime PM was not enabled and served
-   733		 * Transfer via forced resume.
-   734		 */
-   735		if (!pm_runtime_enabled(dev) && !gi2c->suspended) {
-   736			pm_runtime_put_noidle(dev);
-   737			pm_runtime_set_suspended(dev);
-   738			/* Reset flag same as runtime suspend, next xfer PM can be enabled */
-   739			gi2c->suspended = 0;
-   740		} else {
-   741			pm_runtime_mark_last_busy(gi2c->se.dev);
-   742			pm_runtime_put_autosuspend(gi2c->se.dev);
-   743		}
-   744	
-   745		gi2c->cur = NULL;
-   746		gi2c->err = 0;
-   747		return ret;
-   748	}
-   749	
+  1085	
+  1086	static int iommu_create_device_direct_mappings(struct iommu_domain *domain,
+  1087						       struct device *dev)
+  1088	{
+  1089		struct iommu_resv_region *entry;
+  1090		struct list_head mappings;
+  1091		unsigned long pg_size;
+  1092		int ret = 0;
+  1093	
+  1094		pg_size = domain->pgsize_bitmap ? 1UL << __ffs(domain->pgsize_bitmap) : 0;
+  1095		INIT_LIST_HEAD(&mappings);
+  1096	
+  1097		if (WARN_ON_ONCE(iommu_is_dma_domain(domain) && !pg_size))
+  1098			return -EINVAL;
+  1099	
+  1100		iommu_get_resv_regions(dev, &mappings);
+  1101	
+  1102		/* We need to consider overlapping regions for different devices */
+  1103		list_for_each_entry(entry, &mappings, list) {
+  1104			dma_addr_t start, end, addr;
+  1105			size_t map_size = 0;
+  1106	
+  1107			if (entry->type == IOMMU_RESV_DIRECT)
+  1108				dev->iommu->require_direct = 1;
+  1109	
+  1110			if ((entry->type != IOMMU_RESV_DIRECT &&
+  1111			     entry->type != IOMMU_RESV_DIRECT_RELAXABLE) ||
+  1112			    !iommu_is_dma_domain(domain))
+  1113				continue;
+  1114	
+  1115			start = ALIGN(entry->start, pg_size);
+  1116			end   = ALIGN(entry->start + entry->length, pg_size);
+  1117	
+  1118			for (addr = start; addr <= end; addr += pg_size) {
+  1119				phys_addr_t phys_addr;
+  1120	
+  1121				if (addr == end)
+  1122					goto map_end;
+  1123	
+  1124				phys_addr = iommu_iova_to_phys(domain, addr);
+  1125				if (!phys_addr) {
+  1126					map_size += pg_size;
+  1127					continue;
+  1128				}
+  1129	
+  1130	map_end:
+  1131				if (map_size) {
+  1132					ret = iommu_map(domain, addr - map_size,
+  1133							addr - map_size, map_size,
+  1134							entry->prot, GFP_KERNEL);
+  1135					if (ret)
+  1136						goto out;
+  1137					map_size = 0;
+  1138				}
+  1139			}
+  1140			if (apply_zhaoxin_dmar_acpi_a_behavior())
+> 1141				iova_reserve_domain_addr(domain, start, end);
+  1142		}
+  1143	
+  1144		if (!list_empty(&mappings) && iommu_is_dma_domain(domain))
+  1145			iommu_flush_iotlb_all(domain);
+  1146	
+  1147	out:
+  1148		iommu_put_resv_regions(dev, &mappings);
+  1149	
+  1150		return ret;
+  1151	}
+  1152	
 
 -- 
 0-DAY CI Kernel Test Service
