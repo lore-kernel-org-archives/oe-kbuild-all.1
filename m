@@ -1,113 +1,149 @@
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FF1194136;
-	Mon, 14 Oct 2024 10:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A732C142623
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 11:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728903471; cv=none; b=i6BfwEA6Pwwd1HhnUyBETf2tmzg/PP0kEVNWbfLGYlZ9M1Ljh+mCKreZd0hBEs9YfseIAEaaGesjNKqhhY+1crDsgvtGS1DoVrXSrNHDoauMgrrZ061myFf1jmhLh6KKz6I3m91G+fJl1tcM7LmphJj1QqFVfC6Eo4jIq9GcOu4=
+	t=1728903842; cv=none; b=lE2hAUIkjh5RljE2PNmRHuR96GTlgcw6to/88EG6KocFLVin/I7tM/hQ0hQ8Ctkoym6k3NxI8zLTlp7zJ988S0b8dgukkFnBoLOR/7kYVpWdFSaGjvBT2worcch3VgartVi6312RHyi1JScZXG0JhNt3nfIeTf2r3ALD4ILkm88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728903471; c=relaxed/simple;
-	bh=WHogghD46wGkUbr4KsXX6nEhwyIaa0/APKpE1+Qk/aU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=i1dJixcItBZUEbaVbgU60qpITAsBX0H6Wr6AlLaWWYM8B4ddqgLRHooZzKuqVP7nfYNufffcrSQF5bQ+imQt3FmqTXvrm36JJQTmng8mMkPU59+YDxcNppaY5oBwF7BkS8PsCTLCE2NWBN6F+UaniB459f1cc22aMql/2rE+/qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=ANXBgz7M; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l2erLWUO; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1728903842; c=relaxed/simple;
+	bh=6Z4qVQURxf1SBvWmJUcKVMoh9gyQmgUmfiRwicDgfn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ODNlmZRo5o/Qe9M3hGbnGT8JJaaXS0sFekQLcHvR0X6zW86NB6EYYIoldldLe3QjAxe25lHpZWnP+iEr96ucG76o8QViRyKL8YyUJloowxvIqG2eW6inP53PPWzJPt3GWI62WGMqETAs4oyOK3RutBchiEBVPKFGhld/G0bqooM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hAnqO4oK; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ANXBgz7M";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l2erLWUO"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4137D11401C7;
-	Mon, 14 Oct 2024 06:57:48 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Mon, 14 Oct 2024 06:57:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1728903468;
-	 x=1728989868; bh=Bv/TLNZRgpfIOvPe6ygAQOU1Awwm7f5igX2cR6hXyUE=; b=
-	ANXBgz7Mr04kJN+GkoNlC9aiXZ3xltz66M+oEdsdbAqXoDOyqQFKq2L0Dbp9wIeL
-	GkVbKc6zWcJKWHH1RdcS6HQNM/i12CelD300ZsBgtSaVAA8WzTDTdatH/vTrJh6s
-	2NBI4ePomUOFvhsbF5PqwBtdbQV2OxUKNuyIqzUQ6dKswHwWBoBYnB6UkZJK9mH2
-	WglpihY6MldYq6sGhPsrHwPd3TyW+JGp7f0uZWOg+BHqcDC/q/c44cd01UZsU4OG
-	qAw50WXbYOITZNmjKEURkDifqNdzRg443WeD5SsdWnr1S3wsQV3ZjO3feksVD8sF
-	zJUOb6rjYoAHr6QQl98p0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728903468; x=
-	1728989868; bh=Bv/TLNZRgpfIOvPe6ygAQOU1Awwm7f5igX2cR6hXyUE=; b=l
-	2erLWUO0Plwh5WamB1gGfz7GbrOSBljvv9/AUGSytE6uaUtQM4tMfnaYW+J6N1sc
-	qYAy95D1luy3hERDb+NhZ1UsTfyGuUB13+pqvgv07eV3GvJ3VeY7gltDum0+RT91
-	4Libajsw9XYWZsGjjAvIlx0vRafaUnGWUozRJ1G3a5/5OdVUi7/glMXcOYmujjtk
-	pjoyuPV7lwXX7eKHPWrg5UKF2HgoyJ2C76mgm6JOETf/RMd7g4afEmD2HtpijigV
-	m6a1UiXdvdmFj6Ef676l41iEXgW4/r00rnpPTQg8FuEmXZkx8BbaIK9Opy7yCnaI
-	P6u8zcwoZkqLpIuItQNqw==
-X-ME-Sender: <xms:LPkMZzNF2mtG26muiZXN06TkzNshmgCkzAa2bH-7l_97WWWCxkh5nA>
-    <xme:LPkMZ99kFVPnOzQ6YbQZaCFMEp81QS96aMKPklnmm16Mv4z6BF5224WLDvExovOVL
-    1gc4tYFLQpnaqeVxuA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeghedgfeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepgedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprh
-    gtphhtthhopehstghhnhgvlhhlvgeslhhinhhugidrihgsmhdrtghomhdprhgtphhtthho
-    pehllhhvmheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuh
-    hilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:LPkMZySlsO9z58kOXuolNp6C3o-LATmYwg8FiZpQcRmzyW79U49ueA>
-    <xmx:LPkMZ3sUqHybS9N2JozAKtJUDX6Z3S49iKeiV0Rpyo9FA950AqsVCQ>
-    <xmx:LPkMZ7f-nt3M51m8RZyfsBMh6R2RKiuENdl3Zo8s9grcwyHM0c1_Mg>
-    <xmx:LPkMZz16JTkohLP4Fyg47x3h0aE4BSVzWbVSMQjmKqEKWoUmQ7fLUQ>
-    <xmx:LPkMZ34KOhi-kALp9NJAk8TuVdPGC5nFrdcnUX1LxV02wQkXb8GgtUbG>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 030242220071; Mon, 14 Oct 2024 06:57:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hAnqO4oK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728903841; x=1760439841;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6Z4qVQURxf1SBvWmJUcKVMoh9gyQmgUmfiRwicDgfn4=;
+  b=hAnqO4oKIWyebM1+0gjduuGmy/UoMX4Lc41zn/yiJx4ze5k1kc2bQZCi
+   YqXLwEK4FZ1S8QYvSGSRT+6NRgKffiWmyZfkAVoU/5OczsM1TkGCDMCSo
+   quydF15fNZG97TuLCsVgZoltFBU0ep35Rwt0KKWNDanPK5vQhZ7zwZXuv
+   QLLXpxbaY4fbEijWx0A+La0jw+Sd2QKiIFY6QuMKmkIZRWhxhKovHclKq
+   ephY0WrIxjwdBgdIW1n9pWbkV2vRFh0mhjkIO6ut2ccYEskb0rwr5Qx3H
+   p3ZyRb65JCEbeHqFHk6V3MJXWudBi4XNXkNHPhWDIkiOSkU3l838MY81F
+   A==;
+X-CSE-ConnectionGUID: 9PBGQz9+Sji4//xby2nYxQ==
+X-CSE-MsgGUID: iMckNntHTfSWQ3oyUSFULA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="53666299"
+X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
+   d="scan'208";a="53666299"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 04:04:00 -0700
+X-CSE-ConnectionGUID: qlm+E1GxRrmupCF6mIpLsQ==
+X-CSE-MsgGUID: IaUQYsy5TkKiHthimQwC3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
+   d="scan'208";a="82169098"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 14 Oct 2024 04:03:59 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0Irl-000FD1-0h;
+	Mon, 14 Oct 2024 11:03:57 +0000
+Date: Mon, 14 Oct 2024 19:03:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-5.10.y-cip-rebase 633/1105]
+ drivers/soc/renesas/pwc-rzv2m.c:111:17: error: 'struct gpio_chip' has no
+ member named 'of_node'
+Message-ID: <202410141826.TibBqlDg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 14 Oct 2024 10:57:27 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Niklas Schnelle" <schnelle@linux.ibm.com>,
- "kernel test robot" <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Message-Id: <31b71656-3061-403b-b66f-231bd523190d@app.fastmail.com>
-In-Reply-To: <05f57955648080267d8b6ebda80edc0d36069e22.camel@linux.ibm.com>
-References: <20241008-b4-has_ioport-v8-5-793e68aeadda@linux.ibm.com>
- <202410120803.PveI3ZXV-lkp@intel.com>
- <05f57955648080267d8b6ebda80edc0d36069e22.camel@linux.ibm.com>
-Subject: Re: [PATCH v8 5/5] asm-generic/io.h: Remove I/O port accessors for
- HAS_IOPORT=n
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Oct 14, 2024, at 08:44, Niklas Schnelle wrote:
-> On Sat, 2024-10-12 at 09:11 +0800, kernel test robot wrote:
->
-> This one is a case of UML causing an x86_32 dependency to not be
-> sufficient for I/O ports. I've just created a new commit[0] adding
-> explicit HAS_IOPORT dependencies to both SBC8360 and replacing the !UML
-> dependency for SBC7240. It's tagged as fixing the watchdog HAS_IOPORT
-> change. Should I send this separately or a v9 of this series with that
-> one included?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip-rebase
+head:   3cdd0cc9c0e53917e2c4e56b1e7256ae8923845e
+commit: 3d9a05a9222314475269b92d395182af60e878b7 [633/1105] soc: renesas: Add PWC support for RZ/V2M
+config: sh-randconfig-001-20241014 (https://download.01.org/0day-ci/archive/20241014/202410141826.TibBqlDg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410141826.TibBqlDg-lkp@intel.com/reproduce)
 
-Please send it separately at first so we can get an Ack on that.
-I also just tried if there are any other instances of this problem
-in 32-bit UML allmodconfig without HAS_IOPORT, but SBC8360 seems
-to be the only one. 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410141826.TibBqlDg-lkp@intel.com/
 
-It's a bit weird that UML selects X86_64 or X86_32 (one of the
-two for any config) but not X86. There are many drivers that use
-port I/O that depend on X86, just not a lot that depend on X86_32.
+All error/warnings (new ones prefixed by >>):
 
-     Arnd
+   drivers/soc/renesas/pwc-rzv2m.c: In function 'rzv2m_pwc_probe':
+>> drivers/soc/renesas/pwc-rzv2m.c:111:17: error: 'struct gpio_chip' has no member named 'of_node'
+     111 |         priv->gp.of_node = pdev->dev.of_node;
+         |                 ^
+   drivers/soc/renesas/pwc-rzv2m.c: At top level:
+>> drivers/soc/renesas/pwc-rzv2m.c:134:34: warning: 'rzv2m_pwc_of_match' defined but not used [-Wunused-const-variable=]
+     134 | static const struct of_device_id rzv2m_pwc_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~
+
+
+vim +111 drivers/soc/renesas/pwc-rzv2m.c
+
+    86	
+    87	static int rzv2m_pwc_probe(struct platform_device *pdev)
+    88	{
+    89		struct rzv2m_pwc_priv *priv;
+    90		int ret;
+    91	
+    92		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+    93		if (!priv)
+    94			return -ENOMEM;
+    95	
+    96		priv->base = devm_platform_ioremap_resource(pdev, 0);
+    97		if (IS_ERR(priv->base))
+    98			return PTR_ERR(priv->base);
+    99	
+   100		/*
+   101		 * The register used by this driver cannot be read, therefore set the
+   102		 * outputs to their default values and initialize priv->ch_en_bits
+   103		 * accordingly. BIT 16 enables write to BIT 0, BIT 17 enables write to
+   104		 * BIT 1, and the default value of both BIT 0 and BIT 1 is 0.
+   105		 */
+   106		writel(BIT(17) | BIT(16), priv->base + PWC_GPIO);
+   107		bitmap_zero(priv->ch_en_bits, 2);
+   108	
+   109		priv->gp = rzv2m_pwc_gc;
+   110		priv->gp.parent = pdev->dev.parent;
+ > 111		priv->gp.of_node = pdev->dev.of_node;
+   112	
+   113		ret = devm_gpiochip_add_data(&pdev->dev, &priv->gp, priv);
+   114		if (ret)
+   115			return ret;
+   116	
+   117		if (device_property_read_bool(&pdev->dev, "renesas,rzv2m-pwc-power")) {
+   118			if (pm_power_off) {
+   119				char symname[KSYM_NAME_LEN];
+   120	
+   121				lookup_symbol_name((ulong)pm_power_off, symname);
+   122				dev_err(&pdev->dev, "pm_power_off already claimed %p %s",
+   123					pm_power_off, symname);
+   124				return -EBUSY;
+   125	
+   126			}
+   127			priv_pwc = priv;
+   128			pm_power_off = rzv2m_pwc_poweroff;
+   129		}
+   130	
+   131		return ret;
+   132	}
+   133	
+ > 134	static const struct of_device_id rzv2m_pwc_of_match[] = {
+   135		{ .compatible = "renesas,rzv2m-pwc" },
+   136		{ /* sentinel */ }
+   137	};
+   138	MODULE_DEVICE_TABLE(of, rzv2m_pwc_of_match);
+   139	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
