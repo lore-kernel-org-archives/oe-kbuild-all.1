@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A5681749
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 14:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C564B1ABEB7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 14:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728917367; cv=none; b=AW0nu1D8HmyiJ9/OWEGV5CchqSlI3Yq1I+Nf+inis3ORmYVl2Y/Eetmb1jIkatfuIX/0++XaNgLhZPBMHDcEyCOXQnNXO176DpSAEH6nA1DSsvNaKEOZjvThzoLBXs7FZromDo3D/6VXiIjtrPwsb1UsUiBmBATpThafQYmgkio=
+	t=1728917972; cv=none; b=k1YCruwOCV/Eb5V/bSCOxurC6DQVetDB5OdIQwfgBW9HVJd0vDniUghZbD2nRvZOj0cW+qPtzNd5i8IUk6JJ6GO4X4TEoyfChHeje7ntFjfY4SxRCz+xS53GvuKtT2UMea6Dus0C2IE8Rv6KGS43cYb8hNFXUVrVr9DBblMbkAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728917367; c=relaxed/simple;
-	bh=iv+C1HZxzkwzdBrMqV5AKD5Z05Lu3O7Jvw+mKpN7Olk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbfYaAY2tzjdtIEW2fU7X8xS0Parhm7gk7S40KeYCfxpOtXvB2ueSg4RkBMZkwZI7B7DCyWziMI+IW6QKi1cjkwZkizmGbOtOmaygijyEyBvkJF3WwXLWqXP/lrIJ9ui2t76vBxTxptv3rJNGbaVaw2KvvU2SH8R/NGSI3oO9xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXxkGsNw; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1728917972; c=relaxed/simple;
+	bh=5ai+5Djju1atMmYt6JiEE1PLV8hFiOAXL0MXgJalk6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FCavBGM+Ao9jLD31+Z5GtqxyuWAEwiHJCQTehsXPEj07gAPpxyxAWO3q5Ds0i2FXw0tYjVKTEU8IbAr16AjbAk7K4linKHL9oNUIkwUeFGcQ9qCGVH3Ic51/K8He8+R4cMZElkzDPRFlpnkGkgT72VbSoHbs6Hx0/UWlXyS24l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L6GJSxzD; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXxkGsNw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L6GJSxzD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728917366; x=1760453366;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iv+C1HZxzkwzdBrMqV5AKD5Z05Lu3O7Jvw+mKpN7Olk=;
-  b=VXxkGsNwZtTpQDdU3CMSt/WnPSL1/7cJqkHSbpDfKm8Rhb5ZG33S/EDi
-   jPvxUl2sF/kpZm8RCu4EngJ2OyaEBzUH0BZyY/fvvTcUlTuAxas1r/44b
-   MRZ7yyKy8V/mmUHXk8T5g4acx05lSUgrEDQY9MoEyRnDeI8gUJsDP3W4n
-   VGGs8HRHnrFsYCWw86jzsqWYQvG2XBO4nOH3w4R0DeW1DmV9e+CLs7GNP
-   jN0qX0FiMzyFumyf+JJNgbsHGWIOoWXccIcShmrXWjcn8yELBiUkzj+PU
-   bnHLkUt9lH4Gm4VlgXtbOZ3bWDDqyIy03346UQc9SaEElurQFI+D8ZabI
-   g==;
-X-CSE-ConnectionGUID: myQQRcghTaC4sBbNrJCGxg==
-X-CSE-MsgGUID: 3oYDmcznQeimWluA7X2dPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28362459"
+  t=1728917971; x=1760453971;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5ai+5Djju1atMmYt6JiEE1PLV8hFiOAXL0MXgJalk6Y=;
+  b=L6GJSxzDPyllOzNgEbUH1YkmzE7g6XIUaIGj6EiAxxvCZGCafUmCMJEx
+   z4Q/3Xg7Xp3M41IQ6tpnNYigGjzx0iIqbTRKDOGQ+w0pSc6WbnZ4lguDq
+   kF/bVOtn1ly8ic122Y4iidBcS3TEtSUqvVAb0oIyfrGKqQwkG3XKx0gUh
+   ZPIB1gahcquPFHm7ryFNqj4V8URhX+o61ZbLBuo1obhrRt2ZZaIMX+msz
+   EtQC4uLSOY4bKwJWe71EFNK+c+IzGcOhvjszWo0jrZyCMKfzLpb9HsJzh
+   4qbMJeKZs72klhA70zrwjw+jbIFFfZOSZ2EMJiKIGib5NpiQ/E/5tJg4S
+   Q==;
+X-CSE-ConnectionGUID: sZM8RfCKSnWhCqnOQUsSDA==
+X-CSE-MsgGUID: TS5KftirS8awtPRIzt9vsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28153846"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28362459"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 07:49:25 -0700
-X-CSE-ConnectionGUID: SZPReLnhTtK43Kb2dxd0aA==
-X-CSE-MsgGUID: 4j31P8pFSBy6W3pDcpXlVw==
+   d="scan'208";a="28153846"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 07:59:30 -0700
+X-CSE-ConnectionGUID: 4giX7Rr9Sbe6airty5Qzfg==
+X-CSE-MsgGUID: qf1ZMk6SRMGaGImS1hvD4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
-   d="scan'208";a="82357268"
+   d="scan'208";a="77258096"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Oct 2024 07:49:24 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Oct 2024 07:59:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0MNt-000Fq8-21;
-	Mon, 14 Oct 2024 14:49:21 +0000
-Date: Mon, 14 Oct 2024 22:48:20 +0800
+	id 1t0MXf-000G5H-0a;
+	Mon, 14 Oct 2024 14:59:27 +0000
+Date: Mon, 14 Oct 2024 22:58:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepak Gupta <debug@rivosinc.com>
+To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC/RFT 3/3] kernel: converge common shadow stack flow
- agnostic to arch
-Message-ID: <202410142234.xsR8s5Mp-lkp@intel.com>
-References: <20241010-shstk_converge-v1-3-631beca676e7@rivosinc.com>
+Subject: [norov:cpumask_next_wrap4 13/13] kernel/padata.c:277:27: error:
+ implicit declaration of function 'cpumask_next_wrap_old'; did you mean
+ 'cpumask_next_wrap'?
+Message-ID: <202410142245.DWSRLFUh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241010-shstk_converge-v1-3-631beca676e7@rivosinc.com>
 
-Hi Deepak,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/mm-Introduce-ARCH_HAS_USER_SHADOW_STACK/20241011-083424
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241010-shstk_converge-v1-3-631beca676e7%40rivosinc.com
-patch subject: [PATCH RFC/RFT 3/3] kernel: converge common shadow stack flow agnostic to arch
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20241014/202410142234.xsR8s5Mp-lkp@intel.com/config)
+tree:   https://github.com/norov/linux cpumask_next_wrap4
+head:   88192093b9133e4e21485afed62a2779c0025290
+commit: 88192093b9133e4e21485afed62a2779c0025290 [13/13] drop cpumask_next_wrap_old
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241014/202410142245.DWSRLFUh-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410142234.xsR8s5Mp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410142245.DWSRLFUh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410142234.xsR8s5Mp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410142245.DWSRLFUh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/usershstk.c: In function 'shstk_setup':
->> kernel/usershstk.c:223:30: warning: unused variable 'shstk' [-Wunused-variable]
-     223 |         struct thread_shstk *shstk = &current->thread.shstk;
-         |                              ^~~~~
-   kernel/usershstk.c: In function 'shstk_alloc_thread_stack':
-   kernel/usershstk.c:251:30: warning: unused variable 'shstk' [-Wunused-variable]
-     251 |         struct thread_shstk *shstk = &tsk->thread.shstk;
-         |                              ^~~~~
+   kernel/padata.c: In function 'padata_find_next':
+>> kernel/padata.c:277:27: error: implicit declaration of function 'cpumask_next_wrap_old'; did you mean 'cpumask_next_wrap'? [-Werror=implicit-function-declaration]
+     277 |                 pd->cpu = cpumask_next_wrap_old(cpu, pd->cpumask.pcpu, -1, false);
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+         |                           cpumask_next_wrap
+   cc1: some warnings being treated as errors
 
 
-vim +/shstk +223 kernel/usershstk.c
+vim +277 kernel/padata.c
 
-   220	
-   221	int shstk_setup(void)
-   222	{
- > 223		struct thread_shstk *shstk = &current->thread.shstk;
-   224		unsigned long addr, size;
-   225	
-   226		/* Already enabled */
-   227		if (is_shstk_enabled(current))
-   228			return 0;
-   229	
-   230		/* Also not supported for 32 bit */
-   231		if (!cpu_supports_shadow_stack() ||
-   232			(IS_ENABLED(CONFIG_X86_64) && in_ia32_syscall()))
-   233			return -EOPNOTSUPP;
-   234	
-   235		size = adjust_shstk_size(0);
-   236		addr = alloc_shstk(0, size, 0, false);
-   237		if (IS_ERR_VALUE(addr))
-   238			return PTR_ERR((void *)addr);
-   239	
-   240		set_shstk_ptr_and_enable(addr + size);
-   241		set_shstk_base_size(current, addr, size);
-   242	
-   243		set_thread_shstk_status(true);
-   244	
-   245		return 0;
-   246	}
-   247	
+16295bec6398a3 Steffen Klassert   2010-01-06  237  
+0198ffd135f51d Steffen Klassert   2010-05-19  238  /*
+bfde23ce200e6d Daniel Jordan      2019-09-05  239   * padata_find_next - Find the next object that needs serialization.
+0198ffd135f51d Steffen Klassert   2010-05-19  240   *
+bfcdcef8c8e346 Daniel Jordan      2019-12-03  241   * Return:
+bfcdcef8c8e346 Daniel Jordan      2019-12-03  242   * * A pointer to the control struct of the next object that needs
+0198ffd135f51d Steffen Klassert   2010-05-19  243   *   serialization, if present in one of the percpu reorder queues.
+bfcdcef8c8e346 Daniel Jordan      2019-12-03  244   * * NULL, if the next object that needs serialization will
+0198ffd135f51d Steffen Klassert   2010-05-19  245   *   be parallel processed by another cpu and is not yet present in
+0198ffd135f51d Steffen Klassert   2010-05-19  246   *   the cpu's reorder queue.
+0198ffd135f51d Steffen Klassert   2010-05-19  247   */
+bfde23ce200e6d Daniel Jordan      2019-09-05  248  static struct padata_priv *padata_find_next(struct parallel_data *pd,
+bfde23ce200e6d Daniel Jordan      2019-09-05  249  					    bool remove_object)
+16295bec6398a3 Steffen Klassert   2010-01-06  250  {
+16295bec6398a3 Steffen Klassert   2010-01-06  251  	struct padata_priv *padata;
+16295bec6398a3 Steffen Klassert   2010-01-06  252  	struct padata_list *reorder;
+6fc4dbcf027627 Herbert Xu         2019-07-18  253  	int cpu = pd->cpu;
+16295bec6398a3 Steffen Klassert   2010-01-06  254  
+f601c725a6ac07 Daniel Jordan      2020-07-14  255  	reorder = per_cpu_ptr(pd->reorder_list, cpu);
+16295bec6398a3 Steffen Klassert   2010-01-06  256  
+de5540d088fe97 Jason A. Donenfeld 2017-03-23  257  	spin_lock(&reorder->lock);
+bfde23ce200e6d Daniel Jordan      2019-09-05  258  	if (list_empty(&reorder->list)) {
+bfde23ce200e6d Daniel Jordan      2019-09-05  259  		spin_unlock(&reorder->lock);
+bfde23ce200e6d Daniel Jordan      2019-09-05  260  		return NULL;
+bfde23ce200e6d Daniel Jordan      2019-09-05  261  	}
+16295bec6398a3 Steffen Klassert   2010-01-06  262  
+bfde23ce200e6d Daniel Jordan      2019-09-05  263  	padata = list_entry(reorder->list.next, struct padata_priv, list);
+16295bec6398a3 Steffen Klassert   2010-01-06  264  
+bfde23ce200e6d Daniel Jordan      2019-09-05  265  	/*
+bfde23ce200e6d Daniel Jordan      2019-09-05  266  	 * Checks the rare case where two or more parallel jobs have hashed to
+bfde23ce200e6d Daniel Jordan      2019-09-05  267  	 * the same CPU and one of the later ones finishes first.
+bfde23ce200e6d Daniel Jordan      2019-09-05  268  	 */
+bfde23ce200e6d Daniel Jordan      2019-09-05  269  	if (padata->seq_nr != pd->processed) {
+de5540d088fe97 Jason A. Donenfeld 2017-03-23  270  		spin_unlock(&reorder->lock);
+bfde23ce200e6d Daniel Jordan      2019-09-05  271  		return NULL;
+16295bec6398a3 Steffen Klassert   2010-01-06  272  	}
+16295bec6398a3 Steffen Klassert   2010-01-06  273  
+bfde23ce200e6d Daniel Jordan      2019-09-05  274  	if (remove_object) {
+bfde23ce200e6d Daniel Jordan      2019-09-05  275  		list_del_init(&padata->list);
+bfde23ce200e6d Daniel Jordan      2019-09-05  276  		++pd->processed;
+02637a902619a6 Yury Norov         2024-10-07 @277  		pd->cpu = cpumask_next_wrap_old(cpu, pd->cpumask.pcpu, -1, false);
+16295bec6398a3 Steffen Klassert   2010-01-06  278  	}
+16295bec6398a3 Steffen Klassert   2010-01-06  279  
+bfde23ce200e6d Daniel Jordan      2019-09-05  280  	spin_unlock(&reorder->lock);
+16295bec6398a3 Steffen Klassert   2010-01-06  281  	return padata;
+16295bec6398a3 Steffen Klassert   2010-01-06  282  }
+16295bec6398a3 Steffen Klassert   2010-01-06  283  
+
+:::::: The code at line 277 was first introduced by commit
+:::::: 02637a902619a6c92c5dc0d39ba1fd9e9f0748e0 cpumask: deprecate cpumask_next_wrap()
+
+:::::: TO: Yury Norov <yury.norov@gmail.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
