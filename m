@@ -1,59 +1,34 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAC51487F4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 10:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA0A15B13B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 10:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728901382; cv=none; b=Iq3zW/KPKgFEWXnKzuUUdHxHQZ1gvCeLXtG4Its2dLB4NhiEey2jiidoOxUHZq4SEZEWtzpuJgRwFiOBAS9qbUZ/IC6+JMiQTPNKL2yZUQsEq47hW5r/CfxAliVj61amw3g9lAITvUhQPsWTOYrCbLzGzeZJN9kj8vjzMUVTnEE=
+	t=1728901511; cv=none; b=n0Xsc3hNpyyCOqype4m+dBU/lxdA9ejYhqhWEdpB65KOfG/l1K9QlmEhsaV9jX/171QY48A+HoE2KsW4s0Te2zd/rgNefz9HwmVhk3CT9yUg3H7VnzVmN0k+JSbsYKVsohInBPHQUA8lZFzc0Oi+XQW1z9mmk99FWGLgaVYiY3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728901382; c=relaxed/simple;
-	bh=ECxltupT/kNikrU904XdjmWDQnVaZmw3KS2bhxc1Vv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cWsos+VzXKq3Gvldjxqtl3KtWq8b/T+XDBrh3DxT5LJIZyKm6XRvuypcN4mgSxr7JYAlkXYveLNju0aiogBmEQsonHhxbuGukQYMs9mRFyiaJmXNkVB4/wF4Mj0u+qRg/Oelmgs6KTAdqr4bGnYCTM5NS+ln9Nhl/GJRbR0QV44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KblIHOtw; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KblIHOtw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728901380; x=1760437380;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ECxltupT/kNikrU904XdjmWDQnVaZmw3KS2bhxc1Vv4=;
-  b=KblIHOtwYs076cyRpsKD4YCDKLFmmMu1RE0B7LAvow9N+XvETM2lStyd
-   Gc16eMIQwX/UyXYXepZfYLmJxMW9b9BKBXFR1N25QItbNIeALGwgv2WsY
-   wzwiAjHH/43tExjJfVNZAK0FDa4Jh6BJQJ8gYaNPNvkTFfgi5Noq0pBM1
-   Nubx+1Uv6OsUsUqmTXVAefhbY5IAf8lMUD565eucwNHQovoxwoJI6DfLX
-   uhAclNUMSbZfLGkV+GjOmZaqVHjmQODvLiK53VjUl33J3mnYh05KJZjAi
-   DaSjBoIs7zO7m+KpfE5S2A3F1YoXZyY6hp+EHWiXFKxfBjFN11JPB8zKX
-   A==;
-X-CSE-ConnectionGUID: 2NVGQha+Tj+GwSirwwpupw==
-X-CSE-MsgGUID: OUAOIKieSoq24roLSXITPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28384849"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28384849"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 03:22:59 -0700
-X-CSE-ConnectionGUID: NrGRrBfVQ2KjMP4ad0jjRg==
-X-CSE-MsgGUID: 31l6HTU3RXmva30mQ4N14w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="82101733"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Oct 2024 03:22:58 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0IE4-000FBX-1C;
-	Mon, 14 Oct 2024 10:22:56 +0000
-Date: Mon, 14 Oct 2024 18:22:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.1.x-imx 1067/17816]
- include/drm/drm_of.h:87:12: warning: 'drm_of_component_probe_with_match'
- defined but not used
-Message-ID: <202410141851.2U3H5qma-lkp@intel.com>
+	s=arc-20240116; t=1728901511; c=relaxed/simple;
+	bh=CNygW/kkl9Igu70pgOcFfZSUKNxhD6nc465LoHDKeIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kldPdsKHCuJcGX7q1pZKhlRRr0EGFuK7Ua7BDLBB0NqAmRbWATcn0HK17+AzVAIyqr5vH7d8tUsAWFEPr15bIDqEOpJccZKN/9OUtchFPzmQIpdxwdo9JKD+7f50XhIwdtuKiVwb/V407kiBLQrvdY+i22y5PythdACdNYRkE9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 677C41007;
+	Mon, 14 Oct 2024 03:25:38 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC0DD3F51B;
+	Mon, 14 Oct 2024 03:25:07 -0700 (PDT)
+Date: Mon, 14 Oct 2024 11:24:47 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: drivers/firmware/arm_scmi/raw_mode.c:924:8-24: WARNING:
+ scmi_dbg_raw_mode_reset_fops: .write() has stream semantic; safe to change
+ nonseekable_open -> stream_open. (fwd)
+Message-ID: <Zwzxb9K3FzbqVy9t@pluto>
+References: <1bb364cc-d167-4ef8-9d94-29b1774068f8@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,43 +37,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1bb364cc-d167-4ef8-9d94-29b1774068f8@inria.fr>
 
-Hi Liu,
+On Wed, Oct 02, 2024 at 09:36:51AM +0200, Julia Lawall wrote:
+> Hello,
+> 
+> I'm just forwarding this for your consideration. I don't know about this
+> issue.
+> 
 
-FYI, the error/warning still remains.
+Hi Julia,
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.1.x-imx
-head:   d45fcfc7eac49282ddaa08a771318a9b0f4a01bc
-commit: dcc7dc895c2b1880da843c82b41c0ed26c5c5756 [1067/17816] MLK-16290 drm: Add drm_of_component_probe_with_match() helper
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241014/202410141851.2U3H5qma-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410141851.2U3H5qma-lkp@intel.com/reproduce)
+thanks for letting me know and sorry for the delay in this answer...
+...I'll have a look at this soon(-ish)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410141851.2U3H5qma-lkp@intel.com/
+Thanks,
+Cristian
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_bridge.c:34:
->> include/drm/drm_of.h:87:12: warning: 'drm_of_component_probe_with_match' defined but not used [-Wunused-function]
-      87 | static int drm_of_component_probe_with_match(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/drm_of_component_probe_with_match +87 include/drm/drm_of.h
-
-    86	
-  > 87	static int drm_of_component_probe_with_match(struct device *dev,
-    88				   struct component_match *match,
-    89				   int (*compare_of)(struct device *, void *),
-    90				   const struct component_master_ops *m_ops)
-    91	{
-    92		return -EINVAL;
-    93	}
-    94	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> julia
+> 
+> ---------- Forwarded message ----------
+> Date: Wed, 2 Oct 2024 05:16:38 +0800
+> From: kernel test robot <lkp@intel.com>
+> To: oe-kbuild@lists.linux.dev
+> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+> Subject: drivers/firmware/arm_scmi/raw_mode.c:924:8-24: WARNING:
+>     scmi_dbg_raw_mode_reset_fops: .write() has stream semantic; safe to change
+>     nonseekable_open -> stream_open.
+> 
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> CC: linux-kernel@vger.kernel.org
+> TO: Cristian Marussi <cristian.marussi@arm.com>
+> CC: Sudeep Holla <sudeep.holla@arm.com>
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+> commit: b70c7996d4ffb2e02895132e8a79a37cee66504f firmware: arm_scmi: Make raw debugfs entries non-seekable
+> date:   6 months ago
+> :::::: branch date: 25 hours ago
+> :::::: commit date: 6 months ago
+> config: arm64-randconfig-r053-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020543.MuCto6Eo-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> | Closes: https://lore.kernel.org/r/202410020543.MuCto6Eo-lkp@intel.com/
+> 
+> cocci warnings: (new ones prefixed by >>)
+> >> drivers/firmware/arm_scmi/raw_mode.c:924:8-24: WARNING: scmi_dbg_raw_mode_reset_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
+> 
+> vim +924 drivers/firmware/arm_scmi/raw_mode.c
+> 
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  886
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  887  static int scmi_dbg_raw_mode_open(struct inode *inode, struct file *filp)
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  888  {
+> 7860701d1e6e6e Cristian Marussi 2023-01-18  889  	u8 id;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  890  	struct scmi_raw_mode_info *raw;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  891  	struct scmi_dbg_raw_data *rd;
+> 7860701d1e6e6e Cristian Marussi 2023-01-18  892  	const char *id_str = filp->f_path.dentry->d_parent->d_name.name;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  893
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  894  	if (!inode->i_private)
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  895  		return -ENODEV;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  896
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  897  	raw = inode->i_private;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  898  	rd = kzalloc(sizeof(*rd), GFP_KERNEL);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  899  	if (!rd)
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  900  		return -ENOMEM;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  901
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  902  	rd->rx.len = raw->desc->max_msg_size + sizeof(u32);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  903  	rd->rx.buf = kzalloc(rd->rx.len, GFP_KERNEL);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  904  	if (!rd->rx.buf) {
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  905  		kfree(rd);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  906  		return -ENOMEM;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  907  	}
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  908
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  909  	rd->tx.len = raw->desc->max_msg_size + sizeof(u32);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  910  	rd->tx.buf = kzalloc(rd->tx.len, GFP_KERNEL);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  911  	if (!rd->tx.buf) {
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  912  		kfree(rd->rx.buf);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  913  		kfree(rd);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  914  		return -ENOMEM;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  915  	}
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  916
+> 7860701d1e6e6e Cristian Marussi 2023-01-18  917  	/* Grab channel ID from debugfs entry naming if any */
+> 7860701d1e6e6e Cristian Marussi 2023-01-18  918  	if (!kstrtou8(id_str, 16, &id))
+> 7860701d1e6e6e Cristian Marussi 2023-01-18  919  		rd->chan_id = id;
+> 7860701d1e6e6e Cristian Marussi 2023-01-18  920
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  921  	rd->raw = raw;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  922  	filp->private_data = rd;
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  923
+> b70c7996d4ffb2 Cristian Marussi 2024-03-15 @924  	return nonseekable_open(inode, filp);
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  925  }
+> 3c3d818a9317a5 Cristian Marussi 2023-01-18  926
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
