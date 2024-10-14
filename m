@@ -1,342 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9188914B946
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 08:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B211474A5;
+	Mon, 14 Oct 2024 08:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728895259; cv=none; b=h3zn2Rx0aX9nl8p8d4t9N7LHp9dbozWatsFySFH8258nuMg+1poXJ2s8/S6VfTYxuvBDm/w71ROGy+rY6dsl/jNGsX8edVh03H+0hw6p5fsyjrz+PI35aQpFxGSTgFfcb0c1Lx1c5TDoeKv4W1P/KLEyxiC9nBlzZf3ysoqVGzY=
+	t=1728895264; cv=none; b=ooPHyZYKHMS3Pr7N8V7sqDZ6OQU1E3CKdHL7leX2siAa0ljKgt154jCB3UzAx7kuqdBDr8tewMmJOOoGcyEJkcswhAB2w576KL0MJYqOzO/z1pYJO3t4vdoledndcwO9rSSWuEh+D9FsDqs9ZcS3E/C8+Bz9yPuNYZoV/03Gx7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728895259; c=relaxed/simple;
-	bh=VNFpwxzPWRjEFd4V3gDGuzvVEzFddcdLLjND+amKXFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJ4aPQ5tWxKyTJIw0ibvQRt9m7mqkpY2llXs6cmEqMjN5rbllcNeNyNp5HRVTVhwuKdYnhefDwNneCMVZxylRaCVQYaACW6oZoSfhnCj97wShmUJ7hnf1373IQgSCMe/OPXiZtI5VWV3nAtl1we04MPFM/tS0VEAeBH8x4glQsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eHl88SAT; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1728895264; c=relaxed/simple;
+	bh=6McgWTdSK9Egkkg7qjOMyJbOsm0OYaQ2Dxp90JCxbmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZUH4ZsvSxQZUFHDlPsznbSI3uszrt1yIpFn1oLVFXrHmh5bCw1VDOynkA1812rgCfpAQ71bgjZJH2EJHBBkg9u+8loNq+DE2Fy//R5K7aJ0+wLEf28BJ0ae549uaHMk2fRXtcm3XarcZaq1DMHE9HysV9/WCQYJum/RmxJ4MOhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEI2L8I6; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eHl88SAT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEI2L8I6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728895258; x=1760431258;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VNFpwxzPWRjEFd4V3gDGuzvVEzFddcdLLjND+amKXFI=;
-  b=eHl88SATHwJ+DI4KYljdyagKoB+HbTA7h2AfmC4nW7pJaKQOk3+vG0ax
-   T2yzXBs7oqQTHZauKWlmYEs6lLDt734pES9jcP+9oDuHy+iPKuadpEjM5
-   dRc3N/iSp6928UcZPUdeOz9q2lmzrjP3GqzdfzJK1fyDtl6blAdpfa47u
-   stu7Qj6xMOml4eEdHXabBlzy3v7ydJek+Df7bnfkziLrTOymXszd7wP54
-   yaR69T5WPaDjpSt4tuTYLFDZ4DvclOEBf4cbezacXPyuC+vkdo5tXKMWd
-   bZPQZgGkM97gF17tii1Pc9rjyWqQ8lAwN/zzWXgtIPQev+7ghhjZTxodn
-   Q==;
-X-CSE-ConnectionGUID: YUXO3IvGQDiH3NYGRWrXkQ==
-X-CSE-MsgGUID: Bt6a65NcTjaoAjZ6fpisNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="32030075"
+  t=1728895260; x=1760431260;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6McgWTdSK9Egkkg7qjOMyJbOsm0OYaQ2Dxp90JCxbmQ=;
+  b=eEI2L8I6+9PYA4pEWm1uIrumKPBZ7YNU70vJo0n1k0uxbQm0QyoJ7b/i
+   cKccMu0KckLd28xiFnM+upfm2Dn8X8AeJ87b5kyPOOJj5Zw+1IZgPupA8
+   WuNKL6TZUFfvmZnLqYeVTenTGiIfHvFQ3Dk3BaJ/lHNwYwI+C0DzTPrn2
+   MENxX+Q+suQkOsajbAXq0oHwZS1PTxg8zgWmLiFAaG78+D2vz2V4nWITd
+   1JUVUvTC1zPf2wpC4OvpBq60x6NU4JHHljXZmhBLrIBnmXSK2fXAeE6cB
+   GJoYSkhLZehq1/oodzhw8Ey9HD4Z5i0vd22eidSF6mGI/G7av1L3Ce2/v
+   g==;
+X-CSE-ConnectionGUID: Q7/zFureSqivgW/GpMAx/w==
+X-CSE-MsgGUID: sKw4nlSyR6W53uJko900jA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="45731218"
 X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="32030075"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 01:40:57 -0700
-X-CSE-ConnectionGUID: viUcZDhRRVKvFeXqcQQWMw==
-X-CSE-MsgGUID: A+MNcSyxS+yzmNmbsr1r3w==
+   d="scan'208";a="45731218"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 01:41:00 -0700
+X-CSE-ConnectionGUID: VWoTDhGlRfSNSuWWSRL/6w==
+X-CSE-MsgGUID: u/T6wF8kRs6GPaAvY5K89Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="82084584"
+   d="scan'208";a="81497339"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Oct 2024 01:40:55 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 14 Oct 2024 01:40:55 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0GdJ-000F5r-0V;
+	id 1t0GdJ-000F5t-0a;
 	Mon, 14 Oct 2024 08:40:53 +0000
 Date: Mon, 14 Oct 2024 16:40:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 1/7] fs: Add inode_get_ino() and implement
- get_ino() for NFS
-Message-ID: <202410141658.wS4Wexjt-lkp@intel.com>
-References: <20241010152649.849254-1-mic@digikod.net>
+To: Steve Jeong <how2soft@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.6.y 41/88] drivers/char/aml-gpiomem.c:129:20:
+ error: assigning to 'pgprot_t' from incompatible type 'int'
+Message-ID: <202410141610.uaqDcEo3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241010152649.849254-1-mic@digikod.net>
 
-Hi Mickaël,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on trondmy-nfs/linux-next pcmoore-selinux/next linus/master v6.12-rc3 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/audit-Fix-inode-numbers/20241010-232916
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20241010152649.849254-1-mic%40digikod.net
-patch subject: [RFC PATCH v1 1/7] fs: Add inode_get_ino() and implement get_ino() for NFS
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241014/202410141658.wS4Wexjt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410141658.wS4Wexjt-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   506d08468b830f4f71052cf0f23e9f1053f9c9b6
+commit: 5e7a0fcf547e3b4f54e37972019abef8e78192a7 [41/88] ODROID-N2/C4: char: Add /dev/gpiomem device
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20241014/202410141610.uaqDcEo3-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410141610.uaqDcEo3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410141658.wS4Wexjt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410141610.uaqDcEo3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/nfs/client.c:47:
->> fs/nfs/internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/client.c:25:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/client.c: In function 'nfs_free_client':
->> fs/nfs/client.c:244:9: error: implicit declaration of function 'nfs_local_disable'; did you mean 'nfs_local_probe'? [-Werror=implicit-function-declaration]
-     244 |         nfs_local_disable(clp);
-         |         ^~~~~~~~~~~~~~~~~
-         |         nfs_local_probe
-   cc1: some warnings being treated as errors
---
-   In file included from fs/nfs/dir.c:46:
->> fs/nfs/internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/dir.c:32:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/dir.c: In function 'nfs_do_filldir':
->> fs/nfs/dir.c:1107:46: warning: passing argument 1 of 'nfs_compat_user_ino64' makes pointer from integer without a cast [-Wint-conversion]
-    1107 |                     nfs_compat_user_ino64(ent->ino), ent->d_type)) {
-         |                                           ~~~^~~~~
-         |                                              |
-         |                                              u64 {aka long long unsigned int}
-   fs/nfs/internal.h:454:48: note: expected 'const int *' but argument is of type 'u64' {aka 'long long unsigned int'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                  ~~~~~~~~~~~~~~^~~~~
---
-   In file included from fs/nfs/file.c:37:
->> fs/nfs/internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/file.c:26:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from fs/nfs/inode.c:49:
->> fs/nfs/internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/inode.c:30:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> fs/nfs/inode.c:91:40: error: expected '{' before '*' token
-      91 | u64 nfs_compat_user_ino64(const struct *inode)
-         |                                        ^
->> fs/nfs/inode.c:91:5: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-      91 | u64 nfs_compat_user_ino64(const struct *inode)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/inode.c: In function 'nfs_compat_user_ino64':
->> fs/nfs/inode.c:98:33: error: passing argument 1 of 'NFS_FILEID' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      98 |         u64 fileid = NFS_FILEID(inode);
-         |                                 ^~~~~
-         |                                 |
-         |                                 const int *
-   include/linux/nfs_fs.h:369:52: note: expected 'const struct inode *' but argument is of type 'const int *'
-     369 | static inline __u64 NFS_FILEID(const struct inode *inode)
-         |                                ~~~~~~~~~~~~~~~~~~~~^~~~~
->> fs/nfs/inode.c:102:9: error: 'ino' undeclared (first use in this function); did you mean 'int'?
-     102 |         ino = fileid;
-         |         ^~~
-         |         int
-   fs/nfs/inode.c:102:9: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/linkage.h:7,
-                    from arch/x86/include/asm/cache.h:5,
-                    from include/linux/cache.h:6,
-                    from include/linux/time.h:5,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from fs/nfs/inode.c:17:
-   fs/nfs/inode.c: At top level:
-   fs/nfs/inode.c:107:19: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     107 | EXPORT_SYMBOL_GPL(nfs_compat_user_ino64);
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/nfs/inode.c:107:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     107 | EXPORT_SYMBOL_GPL(nfs_compat_user_ino64);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/inode.c: In function 'nfs_getattr':
->> fs/nfs/inode.c:986:43: warning: passing argument 1 of 'nfs_compat_user_ino64' makes pointer from integer without a cast [-Wint-conversion]
-     986 |         stat->ino = nfs_compat_user_ino64(NFS_FILEID(inode));
-         |                                           ^~~~~~~~~~~~~~~~~
-         |                                           |
-         |                                           __u64 {aka long long unsigned int}
-   fs/nfs/inode.c:107:19: note: expected 'const int *' but argument is of type '__u64' {aka 'long long unsigned int'}
-     107 | EXPORT_SYMBOL_GPL(nfs_compat_user_ino64);
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/nfs/inode.c:107:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     107 | EXPORT_SYMBOL_GPL(nfs_compat_user_ino64);
-         | ^~~~~~~~~~~~~~~~~
-   fs/nfs/inode.c: In function 'nfs_compat_user_ino64':
->> fs/nfs/inode.c:106:1: warning: control reaches end of non-void function [-Wreturn-type]
-     106 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from fs/nfs/namespace.c:21:
->> fs/nfs/internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/namespace.c:16:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> fs/nfs/namespace.c:235:27: error: initialization of 'u64 (*)(const struct inode *)' {aka 'long long unsigned int (*)(const struct inode *)'} from incompatible pointer type 'u64 (*)(const int *)' {aka 'long long unsigned int (*)(const int *)'} [-Werror=incompatible-pointer-types]
-     235 |         .get_ino        = nfs_compat_user_ino64,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/namespace.c:235:27: note: (near initialization for 'nfs_mountpoint_inode_operations.get_ino')
-   fs/nfs/namespace.c:241:27: error: initialization of 'u64 (*)(const struct inode *)' {aka 'long long unsigned int (*)(const struct inode *)'} from incompatible pointer type 'u64 (*)(const int *)' {aka 'long long unsigned int (*)(const int *)'} [-Werror=incompatible-pointer-types]
-     241 |         .get_ino        = nfs_compat_user_ino64,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/namespace.c:241:27: note: (near initialization for 'nfs_referral_inode_operations.get_ino')
-   cc1: some warnings being treated as errors
---
-   In file included from fs/nfs/nfs4proc.c:61:
->> fs/nfs/internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/nfs4proc.c:48:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4proc.c: In function 'nfs4_proc_create_session':
-   fs/nfs/nfs4proc.c:9462:19: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-    9462 |         unsigned *ptr;
-         |                   ^~~
---
-   In file included from fs/nfs/filelayout/filelayout.c:40:
->> fs/nfs/filelayout/../internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/filelayout/../internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/filelayout/filelayout.c:32:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from fs/nfs/blocklayout/blocklayout.c:43:
->> fs/nfs/blocklayout/../internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/blocklayout/../internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/blocklayout/../pnfs.h:34,
-                    from fs/nfs/blocklayout/blocklayout.c:41:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from fs/nfs/flexfilelayout/flexfilelayout.c:22:
->> fs/nfs/flexfilelayout/../internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/flexfilelayout/../internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/flexfilelayout/flexfilelayout.c:10:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/flexfilelayout/flexfilelayout.c: In function 'ff_layout_io_track_ds_error':
-   fs/nfs/flexfilelayout/flexfilelayout.c:1238:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1238 |         int err;
-         |             ^~~
---
-   In file included from fs/nfs/flexfilelayout/flexfilelayoutdev.c:15:
->> fs/nfs/flexfilelayout/../internal.h:454:47: error: expected '{' before '*' token
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |                                               ^
->> fs/nfs/flexfilelayout/../internal.h:454:12: error: conflicting types for 'nfs_compat_user_ino64'; have 'u64(const int *)' {aka 'long long unsigned int(const int *)'}
-     454 | extern u64 nfs_compat_user_ino64(const struct *inode);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/flexfilelayout/flexfilelayoutdev.c:10:
-   include/linux/nfs_fs.h:448:12: note: previous declaration of 'nfs_compat_user_ino64' with type 'u64(u64)' {aka 'long long unsigned int(long long unsigned int)'}
-     448 | extern u64 nfs_compat_user_ino64(u64 fileid);
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c: In function 'nfs4_ff_alloc_deviceid_node':
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c:55:16: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      55 |         int i, ret = -ENOMEM;
-         |                ^~~
+   In file included from drivers/char/aml-gpiomem.c:51:
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   drivers/char/aml-gpiomem.c:129:22: error: call to undeclared function 'phys_mem_access_prot'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     129 |         vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+         |                             ^
+>> drivers/char/aml-gpiomem.c:129:20: error: assigning to 'pgprot_t' from incompatible type 'int'
+     129 |         vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+         |                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     130 |                         vma->vm_end - vma->vm_start,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     131 |                         vma->vm_page_prot);
+         |                         ~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +454 fs/nfs/internal.h
+vim +129 drivers/char/aml-gpiomem.c
 
-   440	
-   441	/* inode.c */
-   442	extern struct workqueue_struct *nfsiod_workqueue;
-   443	extern struct workqueue_struct *nfslocaliod_workqueue;
-   444	extern struct inode *nfs_alloc_inode(struct super_block *sb);
-   445	extern void nfs_free_inode(struct inode *);
-   446	extern int nfs_write_inode(struct inode *, struct writeback_control *);
-   447	extern int nfs_drop_inode(struct inode *);
-   448	extern void nfs_clear_inode(struct inode *);
-   449	extern void nfs_evict_inode(struct inode *);
-   450	extern void nfs_zap_acl_cache(struct inode *inode);
-   451	extern void nfs_set_cache_invalid(struct inode *inode, unsigned long flags);
-   452	extern bool nfs_check_cache_invalid(struct inode *, unsigned long);
-   453	extern int nfs_wait_bit_killable(struct wait_bit_key *key, int mode);
- > 454	extern u64 nfs_compat_user_ino64(const struct *inode);
-   455	
+  > 51	#include <linux/mm.h>
+    52	#include <linux/slab.h>
+    53	#include <linux/cdev.h>
+    54	#include <linux/pagemap.h>
+    55	#include <linux/io.h>
+    56	#include <linux/of.h>
+    57	#include <asm/pgtable.h>
+    58	#include <asm/io.h>
+    59	
+    60	#define DEVICE_NAME "aml-gpiomem"
+    61	#define DRIVER_NAME "gpiomem-aml"
+    62	#define DEVICE_MINOR 0
+    63	
+    64	struct regs_phys {
+    65		unsigned long start;
+    66		unsigned long end;
+    67	};
+    68	
+    69	struct aml_gpiomem_instance {
+    70		struct regs_phys gpio_regs_phys[32];
+    71		int gpio_area_count;
+    72		struct device *dev;
+    73	};
+    74	
+    75	static struct cdev aml_gpiomem_cdev;
+    76	static dev_t aml_gpiomem_devid;
+    77	static struct class *aml_gpiomem_class;
+    78	static struct device *aml_gpiomem_dev;
+    79	static struct aml_gpiomem_instance *inst;
+    80	
+    81	static int aml_gpiomem_open(struct inode *inode, struct file *file)
+    82	{
+    83		int dev = iminor(inode);
+    84		int ret = 0;
+    85	
+    86		dev_info(inst->dev, "gpiomem device opened.");
+    87	
+    88		if (dev != DEVICE_MINOR) {
+    89			dev_err(inst->dev, "Unknown minor device: %d", dev);
+    90			ret = -ENXIO;
+    91		}
+    92		return ret;
+    93	}
+    94	
+    95	static int aml_gpiomem_release(struct inode *inode, struct file *file)
+    96	{
+    97		int dev = iminor(inode);
+    98		int ret = 0;
+    99	
+   100		if (dev != DEVICE_MINOR) {
+   101			dev_err(inst->dev, "Unknown minor device %d", dev);
+   102			ret = -ENXIO;
+   103		}
+   104		return ret;
+   105	}
+   106	
+   107	static const struct vm_operations_struct aml_gpiomem_vm_ops = {
+   108	#ifdef CONFIG_HAVE_IOREMAP_PROT
+   109		.access = generic_access_phys
+   110	#endif
+   111	};
+   112	
+   113	static int aml_gpiomem_mmap(struct file *file, struct vm_area_struct *vma)
+   114	{
+   115		int gpio_area = 0;
+   116		unsigned long start = vma->vm_pgoff << PAGE_SHIFT;
+   117		unsigned long end   = start + vma->vm_end - vma->vm_start;
+   118	
+   119		while (gpio_area < inst->gpio_area_count) {
+   120			if ((inst->gpio_regs_phys[gpio_area].start >= start) &&
+   121			    (inst->gpio_regs_phys[gpio_area].end   <= end))
+   122				goto found;
+   123			gpio_area++;
+   124		}
+   125	
+   126		return -EACCES;
+   127	
+   128	found:
+ > 129		vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+   130				vma->vm_end - vma->vm_start,
+   131				vma->vm_page_prot);
+   132	
+   133		vma->vm_ops = &aml_gpiomem_vm_ops;
+   134	
+   135		if (remap_pfn_range(vma, vma->vm_start,
+   136					vma->vm_pgoff,
+   137					vma->vm_end - vma->vm_start,
+   138					vma->vm_page_prot)) {
+   139			return -EAGAIN;
+   140		}
+   141	
+   142		return 0;
+   143	}
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
