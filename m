@@ -1,93 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBB81BC58
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 09:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622113A1BA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 09:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728896524; cv=none; b=FS7ginAd4VG9n4x1EkJMuLjXGG2kbIiY49gN3wzQazHSfz5Ei0m4jIhXHU+p5mom4l79HLzZJcAmTfwnr9tJHKlk0I2kc0077LQ+tV3V7lKE4ZzanxrGWpUCR/5wwTRX1x7cn3kRIbzwcVHVSjxkmw9/dUseZfGyG7zJnbi0T6c=
+	t=1728897878; cv=none; b=WBOiBfmHG00ciLTOlMMb2sfCiC4fLAy00B+EhaIeuUWyMuBHfqNmLFFPnaJUt4cmvTe0JHr7lyLDuoHYrTBiTrtyDjuogHLVohB4Xp6wQzwMxc0UDtKknxCNjFsyoMCQiag4bSfY645YJmpT5T3UWLAheCZvgtsyER50NhY/veQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728896524; c=relaxed/simple;
-	bh=pIXtCiwWyxWE8i6jcCRy0wtEdLXNz7jBbUm18NIBNVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LHwHEiLjbLfecY3PHHEZo8K1nIdNz3UO/FEgmdTqp9ArwyX4f1B/xKeKXcdMlvo6YS0dIxmiTTzUvfbUiUChVzf5wdw3v0gossW0ABNs9axrbpgVZnJDkVUuw6mOqFqicMc6xcUoqzOCRdj46EKg3uKFm/RMfW8d8bv9vOCSwNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/6K/ciP; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728897878; c=relaxed/simple;
+	bh=/e4tqHC/p5zxkCMGlUT2/bC91cPkeFYE5WBkqJ1XC3U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dNWcLGUQCdE1dVik6bvVEQgmVuUhDHdtAdFO0J5tg640Ds3l/AEWGAtk0JpybU0hdI05M7QLRJOwVUYA/sOxg1SKbBfC4g2TuhgtLaZXXsq/vZ7sfWWdp6QqTWHdm+gQtP+CJ7jWZo1aSiyiNVok8rJ45vClCkweP/joNdPXTDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at; spf=pass smtp.mailfrom=sigma-star.at; dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b=mwyAlmbV; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigma-star.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/6K/ciP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728896522; x=1760432522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pIXtCiwWyxWE8i6jcCRy0wtEdLXNz7jBbUm18NIBNVo=;
-  b=B/6K/ciPb6EolhmFY/rxe22+/IHXesSGhCVvFZ4rlriUTaK3s2wx4Vpc
-   0gOW5pt6Kg8nzn7ZJZXT3GCVw0DYdhtjMHR4JhfvG60BXucDQJ1RM8+oU
-   w6ue0efW+bXb8/VmzIZTnmhEWpKDhFK0nfvtPHP8H/Fnu7GwttAbYYOjK
-   ba+tWY87dMbBvUkjNInVgKqhRA8I9pkhI5zh/vupxsSFpeldjxikL8mUl
-   HcJnWuoejNPJcqfSVCZqHMX/15+Q9NU6+dqWnWIx7XWMsmprPliMtePSW
-   fIHaNtxBKszpEbmEsX10dt+8X6f2XB/KD+mdF+XwiiJQfR+dqmk41Amf1
-   g==;
-X-CSE-ConnectionGUID: tn8LlDQPTUanTaDrcOsGgA==
-X-CSE-MsgGUID: 9rLx4O6DSiieRM6dw7rEHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="32150929"
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="32150929"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 02:02:00 -0700
-X-CSE-ConnectionGUID: xnf0x5R3RXOmkKTjZiVAfw==
-X-CSE-MsgGUID: lU8CGTFKQoCHffnOxEznWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="78341968"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Oct 2024 02:01:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0Gxd-000F7D-30;
-	Mon, 14 Oct 2024 09:01:53 +0000
-Date: Mon, 14 Oct 2024 17:01:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 1/98] htmldocs: Warning:
- dist/templates/kernel.template.spec references a file that doesn't exist:
- linux-%%{kernel_unamer}/tools/perf/Documentation/examples.txt
-Message-ID: <202410141614.1FlidNP7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b="mwyAlmbV"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d462c91a9so2593900f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 02:24:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sigma-star.at; s=google; t=1728897875; x=1729502675; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lPYKRtrxZyyR3q/fRDlqu+geFEYUgeMUrrDvFjYtpas=;
+        b=mwyAlmbVqIUdLoVr8wY8Q2YKtVRZX0ofSLyMubCKmSHUZfQTweEbgE0gBPn+qKZonS
+         BLlrT0UrLNHcj8vV87IYhiV63WwHAsRtbcUEsqI+zF45LAYEBPmhJ9AkQvNPl0JLDLmz
+         ZQG8swu4vB1RUTycLT4i8Nk0ll6O1chVGBvGjYDFtsqx/3ENhfFlxOPM2LJedUW1p1vW
+         yL+YH7euoFUyyDEXuLPCnPCfpXMjLtmaghn1nkAbw6OQjVwet5/fal6dvhPCj+rvIl6l
+         tD25XggGHuIZOruJCwPDhjjjoKBSvPsloBFQCn6+GwFlAtH0BpktUr2I3gDOEc5JyB0d
+         sj5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728897875; x=1729502675;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lPYKRtrxZyyR3q/fRDlqu+geFEYUgeMUrrDvFjYtpas=;
+        b=LuDu8f30yXomor/gfjLBv+XrDBbIW4XZnVpOh99vFeHoHqyCuy6J8Gn8v4Hx1JTq1x
+         FiL/dt/xlvgk96C0G6ppp4eG/u6/cxjHBa0TAlSDGY0kpA69+KQbO1+jUGDcedbguaCB
+         fqNx1Jwuqav4ejruaMqtCDeVDIPPAxtrFS5sDRPNzUcIx+k5JZuVl1gIjfF2LcJfui+x
+         t0HMfoIQu0zQ2OR5Rx8wZESOYWz09+Q6FE+Bl/PSVzxMXxWMVu57TRJPErgikf4w4L31
+         RMCQWDOLfyi2i4TZCCZ3F77zrQxOnx3GU2iWgclLAWJ6Igd4ESjXyr+d4Ogic4pX4VIp
+         pfGg==
+X-Gm-Message-State: AOJu0YweUJmZroJcBEh8ewY+tWuMQBlCN+Yc0Xz/WhLyyYFf5dWxz+cD
+	b2IsM41hK/alsDl97wOabOIo2rRqmE5Y27D9g4kucXtiJaQjQRvOP7W3d1OLma4=
+X-Google-Smtp-Source: AGHT+IFHhT7ivLRs+wCzpu3gM4i2ZM3mZebwzlnJSQKdcY986zdcpiLJ0nRbULkMD61QdjgH1Ga36Q==
+X-Received: by 2002:a5d:618a:0:b0:37c:d225:6d33 with SMTP id ffacd0b85a97d-37d5529f9b4mr6484698f8f.55.1728897874663;
+        Mon, 14 Oct 2024 02:24:34 -0700 (PDT)
+Received: from blindfold.localnet ([82.150.214.1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311835d784sm114836605e9.46.2024.10.14.02.24.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 02:24:34 -0700 (PDT)
+From: Richard Weinberger <richard@sigma-star.at>
+To: Richard Weinberger <richard@nod.at>, linux-remoteproc@vger.kernel.org, upstream@sigma-star.at
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, mathieu.poirier@linaro.org, andersson@kernel.org, upstream+rproc@sigma-star.at, Richard Weinberger <richard@nod.at>, ohad@wizery.com, s-anna@ti.com, t-kristo@ti.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] rpmsg_ns: Work around TI non-standard message
+Date: Mon, 14 Oct 2024 11:24:33 +0200
+Message-ID: <2480985.jE0xQCEvom@somecomputer>
+In-Reply-To: <202410122348.irTWFe4S-lkp@intel.com>
+References: <20241011123922.23135-1-richard@nod.at> <202410122348.irTWFe4S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   413b1b249304f17f4514dd859a44e3959e5d7674
-commit: cf5d03932d492065885a8daef93b8f4b3f26176c [1/98] dist: initial support
-reproduce: (https://download.01.org/0day-ci/archive/20241014/202410141614.1FlidNP7-lkp@intel.com/reproduce)
+Am Samstag, 12. Oktober 2024, 17:53:16 CEST schrieb kernel test robot:
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/rpmsg/rpmsg_ns.c:55:25: sparse: sparse: incorrect type in assi=
+gnment (different base types) @@     expected restricted __rpmsg32 [assigne=
+d] [usertype] ns_addr @@     got unsigned int [usertype] addr @@
+>    drivers/rpmsg/rpmsg_ns.c:55:25: sparse:     expected restricted __rpms=
+g32 [assigned] [usertype] ns_addr
+>    drivers/rpmsg/rpmsg_ns.c:55:25: sparse:     got unsigned int [usertype=
+] addr
+> >> drivers/rpmsg/rpmsg_ns.c:56:26: sparse: sparse: incorrect type in assi=
+gnment (different base types) @@     expected restricted __rpmsg32 [assigne=
+d] [usertype] ns_flags @@     got unsigned int [usertype] flags @@
+>    drivers/rpmsg/rpmsg_ns.c:56:26: sparse:     expected restricted __rpms=
+g32 [assigned] [usertype] ns_flags
+>    drivers/rpmsg/rpmsg_ns.c:56:26: sparse:     got unsigned int [usertype=
+] flags
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410141614.1FlidNP7-lkp@intel.com/
+sprase is right.
+I missed to replace u32 in the struct by __rpmsg32.
 
-All warnings (new ones prefixed by >>):
+Thanks,
+//richard
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: dist/templates/kernel.template.spec references a file that doesn't exist: linux-%%{kernel_unamer}/tools/perf/Documentation/examples.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Using alabaster theme
+=2D-=20
+=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8Bsigma star gmbh | Eduard-Bodem=
+=2DGasse 6, 6020 Innsbruck, AUT
+UID/VAT Nr: ATU 66964118 | FN: 374287y
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
