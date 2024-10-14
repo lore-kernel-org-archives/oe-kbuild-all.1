@@ -1,59 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D654683
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 21:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B2213BC02;
+	Mon, 14 Oct 2024 22:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728940086; cv=none; b=qZXIypxGiAXQ/Z7qD9XXGD354AK1VD/dJuvJNPpyiF94+p528idh0BMKkSn9kTsTlT4LsSn25yVO4YrHHfX36ggV2k1D4LZl2NXJ84YjLDoDqIx3iadrPTwvV5wSuRaKjQzymQTvgOGdrfABITxDwHfpIwWfirczmR19UYpO2Ps=
+	t=1728943603; cv=none; b=cSrQzfeF6sRd7oL/pFq75YpFJ75AU+VzbaAqb55a21BD3PmpiX6gu/9gA7pQ4HLE9q6o7Nd7KAp9qjum7UqaAp3qa2njUoa3P2/M2/T9RBMf7fsCvvrByJjLk5sXjVkQHMW/StyM1n+7qLW6wbQJEGZPizsRcrVVzOCuZV54AIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728940086; c=relaxed/simple;
-	bh=GR4ftzykAoLBDWBKFlohuk0SZ/AJVix13DytP25lUnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F1U6GgfQQOZ4Kuo7ZWbz8KBbDuUNIoDH1xTfBb/zjxJBNLB/6a/7VjvZ2mta5oSaw6iVvTW0QxeU0is94kYa7kw1UxbU6gP7eQ/FQNizlx0993B2QQQe7aRb2ldwDvgEoV+Mptb5T7jhHAo72JiDcGvnE/bxe/b07N+E1B/sOyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHfEhhd3; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728943603; c=relaxed/simple;
+	bh=EZGFjWUqgzzMHtQSrMpOfKThJLG8PtzV5H6tNxA6KXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aDoGyWYPWEmVaZZ2kKH36Wuzrn2KYZqaB1ZjmU4gK/qOu4+z2BTfcjDVQxYrwOPyRc5WKsUcACx4xMy6eTNzVlNtV/PKJUmymhL37bWNWHw6K9kM0UcGlFUNRETv3R4U19FA/68r1TuagJj8eZR2FXsAO1VJrBrXJw955VwTbRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0gukJgxN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=3IjPwouf; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0gukJgxN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=3IjPwouf; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHfEhhd3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728940084; x=1760476084;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GR4ftzykAoLBDWBKFlohuk0SZ/AJVix13DytP25lUnc=;
-  b=JHfEhhd3A8hzvzTPHXwxmSKxCMap1K8xn6VZefNxSXSE1HjKYciQL9hR
-   J8wYe2vpzPNkn5WPko29eoSm7rCRrbXc4lus/THNQgG7JAoBu+VV2l3E4
-   Qox/NpYdyK0oLPCQVRDN3A7mgEFCeRx9JwKJBoE08gbCtlULweKIVGor6
-   5lV17vUmYCblWZQ3pC8JSE7hPAUEvRRvkudh9UH+W0DEswHz4pd5X2yuD
-   2h8nF7HgLbUQNqq6STsje6TmOZzEPvnXPJuBVQ1BCql8IjyzdaGOpJJ6h
-   V4Eg5J88EgstzwOKT85W3XD/9v0b26VlZYL5jcJcw8DCEVb6CyPi648zf
-   g==;
-X-CSE-ConnectionGUID: 6/ks3qrRTS+EU6nhQvEDKw==
-X-CSE-MsgGUID: YFP6XpjMTfK/c1F8DcvN0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39687010"
-X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
-   d="scan'208";a="39687010"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 14:08:03 -0700
-X-CSE-ConnectionGUID: PZexIuDrSqOQ3RxFG6aJ+w==
-X-CSE-MsgGUID: yXHVw19SRaa3PCK52VfawA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
-   d="scan'208";a="78032201"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Oct 2024 14:08:03 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0SIK-000H71-2z;
-	Mon, 14 Oct 2024 21:08:00 +0000
-Date: Tue, 15 Oct 2024 05:07:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-5.10.y-cip-rebase 1008/1105] drivers/gpu/drm/drm_plane.o:
- warning: objtool: __drm_universal_plane_init()+0x91d: unreachable
- instruction
-Message-ID: <202410150729.kDiWzbiH-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0gukJgxN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3IjPwouf";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0gukJgxN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3IjPwouf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 856891F7B0;
+	Mon, 14 Oct 2024 22:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728943598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXYy1ae4i2l5W8H+gc40HSWB7rYf7Al69VJDG7F/UPU=;
+	b=0gukJgxN+HbsNL4X9mBoGyxgIjbGI1fTtGlM5/IrNPXumAw19sIF9nhw+aMCz2QYDi4S13
+	TV+0OZ6Ej1AYYKTIQR2TpE7+MI7BdDYJ75crJYiGRMGbEs1+407UrxnTIv9aipktHlHTmP
+	O19IyFmme2f7AkKGcatuAa0Q0MpOsEs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728943598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXYy1ae4i2l5W8H+gc40HSWB7rYf7Al69VJDG7F/UPU=;
+	b=3IjPwoufJMJKuBjlZ4XgfiT8jCZbEmRo+P8u+SjZTHouSLhkno/zpoYXFPynhwy/O5bl3y
+	dwtewmSa1A5xg0BQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728943598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXYy1ae4i2l5W8H+gc40HSWB7rYf7Al69VJDG7F/UPU=;
+	b=0gukJgxN+HbsNL4X9mBoGyxgIjbGI1fTtGlM5/IrNPXumAw19sIF9nhw+aMCz2QYDi4S13
+	TV+0OZ6Ej1AYYKTIQR2TpE7+MI7BdDYJ75crJYiGRMGbEs1+407UrxnTIv9aipktHlHTmP
+	O19IyFmme2f7AkKGcatuAa0Q0MpOsEs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728943598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXYy1ae4i2l5W8H+gc40HSWB7rYf7Al69VJDG7F/UPU=;
+	b=3IjPwoufJMJKuBjlZ4XgfiT8jCZbEmRo+P8u+SjZTHouSLhkno/zpoYXFPynhwy/O5bl3y
+	dwtewmSa1A5xg0BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 563AB13A51;
+	Mon, 14 Oct 2024 22:06:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MniSFO6VDWfZawAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Mon, 14 Oct 2024 22:06:38 +0000
+Date: Tue, 15 Oct 2024 00:06:37 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Filipe Manana <fdmanana@suse.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Sterba <dsterba@suse.com>, Qu Wenruo <wqu@suse.com>
+Subject: Re: [linux-next:pending-fixes 207/319] fs/btrfs/qgroup.c:2014:6:
+ error: use of undeclared identifier 'bytenr'
+Message-ID: <20241014220637.GF1609@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <202410091038.SI34ZULQ-lkp@intel.com>
+ <CAKisOQHVBRbpsDnWRa40Rga1hjW_5xuwPAshXY=6+nNb6O8OOg@mail.gmail.com>
+ <20241009113029.GJ1609@suse.cz>
+ <CAKisOQGSRdm=XurQ_Fd83c6dRsVLeg7Jbh4DRMARRHqsxHvf=w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +94,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAKisOQGSRdm=XurQ_Fd83c6dRsVLeg7Jbh4DRMARRHqsxHvf=w@mail.gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Score: -4.00
+X-Spam-Flag: NO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip-rebase
-head:   3cdd0cc9c0e53917e2c4e56b1e7256ae8923845e
-commit: 260dda7ea67e77608153a73aa5133e18306419c0 [1008/1105] drm/plane: add drmm_universal_plane_alloc()
-config: x86_64-buildonly-randconfig-002-20241014 (https://download.01.org/0day-ci/archive/20241015/202410150729.kDiWzbiH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410150729.kDiWzbiH-lkp@intel.com/reproduce)
+On Mon, Oct 14, 2024 at 05:26:26PM +0100, Filipe Manana wrote:
+> > > David, how do you prefer to proceed here? Do you want me to fix this
+> > > and resend the patchset?
+> >
+> > No need to resend, I'll fix it locally, the patch in next-fixes was the
+> > old one so I'll sync it with what's in our development for-next (and
+> > also check the others just in case).  I'll also check and update all the
+> > branches involved in the for-next pulled by linux-next.
+> 
+> Btw, I noticed that only the 2nd patch ("btrfs: use sector numbers as
+> keys for the dirty extents xarray") was updated,
+> so now it doesn't break 32 bits builds anymore.
+> 
+> However the next patch in the series ("btrfs: qgroups: remove bytenr
+> field from struct btrfs_qgroup_extent_record") wasn't updated,
+> and it now breaks 32 bits builds. At the same location, it needs to
+> use "bytenr" instead of "record->bytenr".
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410150729.kDiWzbiH-lkp@intel.com/
+My bad, I manually tested the build combinations in the first patch only
+as it went to Linus' tree. I did not get any other linux-next build
+failures though.
 
-All warnings (new ones prefixed by >>):
+> Do you want me to update the patches and send them to the list?
+> 
+> There's one more change that needs to be squashed (to that last patch)
+> that triggers a use-after-free reported by syzbot, which is:
+> 
+> https://lore.kernel.org/linux-btrfs/02fc507b62b19be2348fc08de8b13bd7af1a440e.1728922973.git.fdmanana@suse.com/
 
->> drivers/gpu/drm/drm_plane.o: warning: objtool: __drm_universal_plane_init()+0x91d: unreachable instruction
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ok, please send it and feel free to update the patch in for-next too.
+Thanks.
