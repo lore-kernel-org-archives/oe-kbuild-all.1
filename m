@@ -1,113 +1,131 @@
-Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com [203.205.221.231])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FE17E574;
-	Mon, 14 Oct 2024 12:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAC8E571
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 14:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728908210; cv=none; b=NKjFhE4ywgt576++RZ+FMdTaZXjrlup9Jzzk87sOF362Fawdb/IRQP67tEMs+qve/Y12mQaHby7RKBGb0GpAUrGRuQpVO2srkxcyxv0KIo9+U9IG8T7LH5s+f2sGOcIPG4rhD2PEtAT0AIZKyRG6yEYXSFBsOPZDg99YlFfxtUo=
+	t=1728915503; cv=none; b=l87oNfHqMqpSxIqCwzK0qzzeB7uwyfe87QiZO4YppNQIWWI2ZJEzVLwEBOJPoNjKSJq6DR9rbIwB1v74v/dqAa07hP2RC7wck1wbVc1Q6k3CsTD+I28cJc8MVJnnJJ45fmUZjvV7pOD0xamFpfodoDa/8123jAh8X8bzpomFmss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728908210; c=relaxed/simple;
-	bh=/t+NgTaA1O61+C6GOXGVB3E7nwGJQe2W1TYCLhCGnH4=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=GP9+aQ6ZA8xT3LO1aoFlLYuUQlGRZH1tg7/MOqfXbGn3pwkjohdkUrDehD03SYCYYwDdrkMDWOzDRcw+D/TWMBTPKOucwChHkSUqLn2FgrjWOaXtfnr8LDCengZkbiidbyQnD1+STH63W25fmGJHnHqaeKCV2gp9EeuvxUkN+T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=phcAFiYv; arc=none smtp.client-ip=203.205.221.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1728915503; c=relaxed/simple;
+	bh=1gu0+jP4h1z4vpINpNyItu+7gAGY9ooBlxTL2UNRuxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=H5vHnXpl2h8Dqx6AtTq8ErcPMnn1+MElnVzVZzp5z9hGAk+T8fqJe19j0wNcDng01bpupCS0JgxtOIpghomUNiSe2dUMFcRE55oxH/I4iS1kXnO2DHgQddeQ8FiHQJI6Y7aE3HjG/pxrebtVsxO6sCuyaALS1aeliMJ1/HUxM94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOqCU8dL; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="phcAFiYv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1728908200; bh=4HCykBH28vledngsFUmD4YXkYerFdTE4qgvqgqxi7rk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=phcAFiYvsSaNN53dvG0xE60pxixBaLvelCV3pMKVdMKMpGNfDMckFloYK3VgXsAAI
-	 jrYFvI9Ff9nldUv0rT703h90Ii7IlpGvbM3GlK/aJSLMiT2l3ZdJr0BVo9LBc+Fnbn
-	 UhFNQK/qCiKheF03rA/Wf+mqioubseUOSCd+1UtU=
-Received: from pek-lxu-l1.wrs.com ([111.198.224.50])
-	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
-	id 425A6A9D; Mon, 14 Oct 2024 20:16:37 +0800
-X-QQ-mid: xmsmtpt1728908197tdz7iw01b
-Message-ID: <tencent_52D2C2064D49A96EDAEECB8C93A7C486C906@qq.com>
-X-QQ-XMAILINFO: NQR8mRxMnur9EjBHd0TTbrm1+xYycH76X0HNjKDgqNQ0LRu0Y/SnxSrCy2/NMQ
-	 r0TGgE/ADXODk/BAt6kCBh1StYOnPTi7rjaQiJAQ9+vw6uvxLyVuMNP5+txXCUtbqd160JuLdpEC
-	 k4x7eE1WjZuNP0h9t8Pzm3A1ouWMKFcAYgztPcmItfUfMdKfY6+nALvXUkGVIqjQ/iSCy/TOb5aj
-	 88pQMrDzUAaYDGZ75Ew7HPGTd1kqihFGOH13+rwg3dZU6rWlUB+GzYbgAj7ANfmhP/Ku6+OQLPB4
-	 0vRJh76U4RAIoxl7dlpfSSJRQm0XL4k0hh1K02pgESLaTWBXOZ3ce9bjRvgDxelIOQcv+JJ6Ht1d
-	 Qoi6k4wW7CUtXpS/s3FecjiB48rBKgGyl41Z2xAb+XOibU8SqulbDxC4HdI+tTW9ACZAP0YR29U+
-	 7woqbxl27H0HPdTd21mXvb+XPCjiVNB4CIXT6WE8KWDidlFTMEjAZqpx/dVudbQ8z0In48UUlWU0
-	 2ucJLU3Sd62iUvHFTLliBorT6ZALY2+668d9gqliKqQQE+7RTflMOEjE8/vSQ/e9gxvJaxWq0o6L
-	 ERgeGV3myGI2W9hOLemHOO3Y5kVyfIiqTKRcQ/t2dzmjgOPb7FX04Nl1BnOFHTxuDqRieyFMp05Q
-	 eb151k9TXOn/l3A09I1w0an8Fyw+SUar+Mn/0C5tV0q+P7HTZsg2bF+ig5l4XXJeM6ZXNk08SQGm
-	 88pNgbC0wbB7986ZgLNjR6o/VSSbEe6ADOSE/ZF72GP/O3MYl8H7FqcpkaU78itf/0JitXgicXo8
-	 vq20fljUQG7uaRyb6pErP7EJPGMradqZcAdC8MMurFvAjFgmdCKLLR4I7Je7GUeTtcDvPHc25pOt
-	 4dRhX9me67qFuU8iMmuR9Blpf7KLzq3nkYyIL2C8BwlrR/t7nAHgKakUdXXifVVux3VK6kWMKkLC
-	 4LojNhLuPLoXUlTyt5vTv5jRMbUEOxuTAtsr/4StmSt+iANaMyoQ==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-From: Edward Adam Davis <eadavis@qq.com>
-To: lkp@intel.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	eadavis@qq.com,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	ntfs3@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH V2] ntfs3: Fix WARNING in ntfs_extend_initialized_size
-Date: Mon, 14 Oct 2024 20:16:38 +0800
-X-OQ-MSGID: <20241014121637.3511987-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <202410101748.6VtnyCOG-lkp@intel.com>
-References: <202410101748.6VtnyCOG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOqCU8dL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728915501; x=1760451501;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1gu0+jP4h1z4vpINpNyItu+7gAGY9ooBlxTL2UNRuxA=;
+  b=TOqCU8dL4CZFTQdiOoOHtaiQg2cbA8z1meftXhwBY6j7R87RC4VoCIWa
+   IorAz25sOysi1wkHk1H0gvxSRMk3824BGJZsFFGLGVXGyEQAgWAsKziU2
+   i3xOZoUolNDRXHC4HqUfkz9mvZ2eaJBigh4JyeKldWfoJs74YPVjO/cac
+   nv24qvNb6wIBwBZHpmXLVLVYXDtlxlgneCMRvN9qZi791UwQ50OdDN5/V
+   X+5YV3HY9TFHM0XQoYHMq6joZbPmMY2gqQtghOXjQPvz6EmY8IoEssNpR
+   48l0c28ZmMLZTdjXRLww3vHoNC0jDvjR0HAoobDq5wwtqYjdo+MUFnpBU
+   g==;
+X-CSE-ConnectionGUID: gUGsP16pRui6sFizRAWkKQ==
+X-CSE-MsgGUID: ugtnMNd3S5qz9QYPv/ULgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="39645173"
+X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
+   d="scan'208";a="39645173"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 07:18:09 -0700
+X-CSE-ConnectionGUID: AeGNGHesQUqvJ+u15+/3CQ==
+X-CSE-MsgGUID: ldOMJDPqQeyuybSJS+y62A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
+   d="scan'208";a="100930199"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2024 07:18:08 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0Lte-000FNB-0a;
+	Mon, 14 Oct 2024 14:18:06 +0000
+Date: Mon, 14 Oct 2024 22:17:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Ma Wupeng <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 15571/30000] mm/memcontrol.c:5402:40: error:
+ implicit declaration of function 'ksm_process_profit'
+Message-ID: <202410142209.nmkFxV8P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Syzbot reported a WARNING in ntfs_extend_initialized_size.
-The data type of in->i_valid and to is u64 in ntfs_file_mmap().
-If their values are greater than LLONG_MAX, overflow will occur because
-the data types of the parameters valid and new_valid corresponding to
-the function ntfs_extend_initialized_size() are loff_t.
+Hi Nanyong,
 
-Before calling ntfs_extend_initialized_size() in the ntfs_file_mmap(),
-the "ni->i_valid < to" has been determined, so the same WARN_ON determination
-is not required in ntfs_extend_initialized_size(). 
-Just execute the ntfs_extend_initialized_size() in ntfs_extend() to make
-a WARN_ON check.
+FYI, the error/warning still remains.
 
-Reported-and-tested-by: syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=e37dd1dfc814b10caa55
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
-V1 -> V2: typo for ni->i_valid
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   748eeb7da1ecddfb1ace5ec61a512befe217702e
+commit: 0f6fb3570be40b783d8c756d64297be1a8e3d2b3 [15571/30000] memcg: support ksm merge any mode per cgroup
+config: x86_64-buildonly-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241014/202410142209.nmkFxV8P-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410142209.nmkFxV8P-lkp@intel.com/reproduce)
 
- fs/ntfs3/file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410142209.nmkFxV8P-lkp@intel.com/
 
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 6202895a4542..c42454a62314 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -178,7 +178,6 @@ static int ntfs_extend_initialized_size(struct file *file,
- 	}
- 
- 	WARN_ON(is_compressed(ni));
--	WARN_ON(valid >= new_valid);
- 
- 	for (;;) {
- 		u32 zerofrom, len;
-@@ -400,6 +399,7 @@ static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
- 	}
- 
- 	if (extend_init && !is_compressed(ni)) {
-+		WARN_ON(ni->i_valid >= pos);
- 		err = ntfs_extend_initialized_size(file, ni, ni->i_valid, pos);
- 		if (err)
- 			goto out;
+All errors (new ones prefixed by >>):
+
+   mm/memcontrol.c: In function 'memory_ksm_show':
+>> mm/memcontrol.c:5402:40: error: implicit declaration of function 'ksm_process_profit' [-Werror=implicit-function-declaration]
+    5402 |                 ksm_process_profits += ksm_process_profit(mm);
+         |                                        ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/ksm_process_profit +5402 mm/memcontrol.c
+
+  5379	
+  5380	static int memory_ksm_show(struct seq_file *m, void *v)
+  5381	{
+  5382		unsigned long ksm_merging_pages = 0;
+  5383		unsigned long ksm_rmap_items = 0;
+  5384		long ksm_process_profits = 0;
+  5385		unsigned int tasks = 0;
+  5386		struct task_struct *task;
+  5387		struct mm_struct *mm;
+  5388		struct css_task_iter it;
+  5389		struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+  5390	
+  5391		css_task_iter_start(&memcg->css, CSS_TASK_ITER_PROCS, &it);
+  5392		while ((task = css_task_iter_next(&it))) {
+  5393			mm = get_task_mm(task);
+  5394			if (!mm)
+  5395				continue;
+  5396	
+  5397			if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
+  5398				tasks++;
+  5399	
+  5400			ksm_rmap_items += mm->ksm_rmap_items;
+  5401			ksm_merging_pages += mm->ksm_merging_pages;
+> 5402			ksm_process_profits += ksm_process_profit(mm);
+  5403			mmput(mm);
+  5404		}
+  5405		css_task_iter_end(&it);
+  5406	
+  5407		seq_printf(m, "merge any state: %d\n", READ_ONCE(memcg->ksm_merge_any));
+  5408		seq_printf(m, "merge any tasks: %u\n", tasks);
+  5409		seq_printf(m, "ksm_rmap_items %lu\n", ksm_rmap_items);
+  5410		seq_printf(m, "ksm_merging_pages %lu\n", ksm_merging_pages);
+  5411		seq_printf(m, "ksm_process_profits %ld\n", ksm_process_profits);
+  5412		return 0;
+  5413	}
+  5414	
+
 -- 
-2.43.0
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
