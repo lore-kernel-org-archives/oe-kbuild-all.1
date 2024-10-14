@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA514A24
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 00:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE4F149013
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 07:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728866426; cv=none; b=h9eIkHSYEbqI/htM89V3Tj8r1koK5Vti295ldscX2pJR0eZYCbkKOXof9BFg3+Q7ul+h9MawiqIpp/EmGaKTH3wvSX3/6msTRlqxhI5M8HjFLzVBzWzl1iZXpxghkijTSOsJe94d+kbyRLDI5PiDp3S3/1TW0C2OHhm3ru6wx6E=
+	t=1728891476; cv=none; b=RaufkOCLecNNAZ9T2/cEofXwsrHMxN8TuyDn3FsSPLHqY75W+x7ZmsnClAPeUM5w5EO/53aDGegpGIQPLIKpieTlo0c8iTRRYgoZSMAAPAzFn5p+sncUXi975f2m4goaVfixDIEGSPkSmca1hdF+tRRbmTxfRhDlNgwuQb04cVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728866426; c=relaxed/simple;
-	bh=Dvpf7uGb45guqEjttgIF5nEh7hFJwy6SPLIRx7aPrJE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qCrO8n9fECphz8f15/nLpKGHd4jqFcDlJwDeeCz+cj/039TUIgGjkpDISF5nYqp+VyNm/3UzXDLeMtz/PZ6g5qgNFKVHbm7jcmrrYmEgf0jCN5mau8qZZk+6ycga21VvWRaWMbdAwR38Fs0YWVvZVtMiXyBKM57LT9IDQqZTk+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PassxRw+; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1728891476; c=relaxed/simple;
+	bh=S6qzZiNAy4J6iN415eQ/T6FZKRzjOrNUhZNLZzy9iv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cRae0lRf/BjTsoh+JyiAANd38wolfnhcqpMwsktvjrMR0C9glWA8wVrzodAiygbSPuEV1mne8EGC6BWATSw1t3e2KFaxZI/Kcv+p7ruT2FDqwnzH8C2y8atZMLjB1V3/vGi30u2JH+504YsyAl+RooLGZ7NsYqWx/TbMr64Ku2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NcmjC8NF; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PassxRw+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NcmjC8NF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728866425; x=1760402425;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Dvpf7uGb45guqEjttgIF5nEh7hFJwy6SPLIRx7aPrJE=;
-  b=PassxRw+IeDH0Q3o4SNRWm536EJfI7AuHhc+KZoGZWi2wjwUP0q+qewk
-   WCelS8pbzUIgDNhvWSUXP64OAAYAKJh64kMB/Wz3AH2oEN65nW+Yzw0/V
-   i5g9GCKcrZI7rrxb5oI0vGvdv2KzDQmwFjt3W74jvghvuWSyvpzxlFVsj
-   jVAshkO8slipcRgSdEdgX7eU3NxM++awe2Eo9IhPn3L33ILLcMJYsEafE
-   yJ6FM0QIZGe3B2WKURJN4iwxRmKOZdry0ZXT7b6g/PlgVHFIdPT+c1soP
-   +5Yvwh160hrunJy1bfatnBhubYz1CHev/PMrOSDdAphvWTnTrXp6fl2TB
-   w==;
-X-CSE-ConnectionGUID: DNr8uJlkQQGw8sNbt6z3Ag==
-X-CSE-MsgGUID: cU7W+NXUTDKahln6mcF3XQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45677355"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="45677355"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2024 17:40:24 -0700
-X-CSE-ConnectionGUID: GhojqkraTBuCXQBp+uJ35g==
-X-CSE-MsgGUID: TtZcJkDhS162jIvKGBQPWg==
+  t=1728891474; x=1760427474;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S6qzZiNAy4J6iN415eQ/T6FZKRzjOrNUhZNLZzy9iv8=;
+  b=NcmjC8NFuzL3ys8hksHSglI1xBCXMuaRf25j0oxzLE7x0cTy0jjTt+YB
+   VPJH7q/axk0Z8ivGkJpD/Bock5eEUceVel44HJSOxO8b908fMSzOhO71D
+   Ed0aWXM7YvNfLUw7SnPQB47e6l0aTSKJ62mPP3oyZ1ejg0PfjxxJ+dRvj
+   qtwnjQEE6agEKhN7DyejVlPHI2dTSlsT5TeiFwtLSZVvycz0147g1xDCC
+   jl1QrG1z5vy+0pxsgCvCMB3mvORMIFp9tBr51oiRuLxBMBi2N8//gD+Zo
+   5LnUsnWOpUgJSgJK4kQeUPa0SxmSSnEPFeeCzMRQTYgAAW0j2RuZIFJLi
+   A==;
+X-CSE-ConnectionGUID: jUtv6OQpRvamM5exIbiGgQ==
+X-CSE-MsgGUID: aaAGlsFoS7Owsg2PrX81ZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="32142389"
+X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
+   d="scan'208";a="32142389"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 00:37:54 -0700
+X-CSE-ConnectionGUID: iq/+saqwRbuVqEumz875fg==
+X-CSE-MsgGUID: nkrxef/PTDmLwIFDFwWXiQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="82207412"
+X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
+   d="scan'208";a="77122736"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Oct 2024 17:40:22 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 14 Oct 2024 00:37:53 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t098F-000EnP-1o;
-	Mon, 14 Oct 2024 00:40:19 +0000
-Date: Mon, 14 Oct 2024 08:40:14 +0800
+	id 1t0FeI-000F2H-2v;
+	Mon, 14 Oct 2024 07:37:50 +0000
+Date: Mon, 14 Oct 2024 15:37:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	tsbogend@alpha.franken.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH v3 3/3] spi: spi-mem: Add Realtek SPI-NAND controller
-Message-ID: <202410140710.qz1xiOo0-lkp@intel.com>
-References: <20241013223907.2459099-4-chris.packham@alliedtelesis.co.nz>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.1.x-imx 5741/17816]
+ drivers/net/pcs/pcs-xpcs.c:1382:5: warning: no previous prototype for
+ function 'xpcs_register_phy'
+Message-ID: <202410141510.PP63eCZ6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241013223907.2459099-4-chris.packham@alliedtelesis.co.nz>
 
-Hi Chris,
+Hi Clark,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on robh/for-next linus/master v6.12-rc3 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/dt-bindings-spi-Add-realtek-rtl9300-snand/20241014-064017
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20241013223907.2459099-4-chris.packham%40alliedtelesis.co.nz
-patch subject: [PATCH v3 3/3] spi: spi-mem: Add Realtek SPI-NAND controller
-reproduce: (https://download.01.org/0day-ci/archive/20241014/202410140710.qz1xiOo0-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.1.x-imx
+head:   d45fcfc7eac49282ddaa08a771318a9b0f4a01bc
+commit: f5d7b7a0ff41b77456b370b4e48051b0cdc00cc6 [5741/17816] LF-10639-4 net: pcs: xpcs: add mx95 serdes support
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241014/202410141510.PP63eCZ6-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410141510.PP63eCZ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410140710.qz1xiOo0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410141510.PP63eCZ6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/spi/realtek,rtl9300-snand.yaml
-   Using alabaster theme
+>> drivers/net/pcs/pcs-xpcs.c:1382:5: warning: no previous prototype for function 'xpcs_register_phy' [-Wmissing-prototypes]
+    1382 | u32 xpcs_register_phy(struct dw_xpcs *xpcs, struct mii_bus *bus)
+         |     ^
+   drivers/net/pcs/pcs-xpcs.c:1382:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1382 | u32 xpcs_register_phy(struct dw_xpcs *xpcs, struct mii_bus *bus)
+         | ^
+         | static 
+   1 warning generated.
+--
+>> drivers/net/pcs/pcs-xpcs-phy.c:228:5: warning: no previous prototype for function 'xpcs_phy_read_pma' [-Wmissing-prototypes]
+     228 | int xpcs_phy_read_pma(struct dw_xpcs *xpcs, u32 reg)
+         |     ^
+   drivers/net/pcs/pcs-xpcs-phy.c:228:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     228 | int xpcs_phy_read_pma(struct dw_xpcs *xpcs, u32 reg)
+         | ^
+         | static 
+>> drivers/net/pcs/pcs-xpcs-phy.c:233:5: warning: no previous prototype for function 'xpcs_phy_write_pma' [-Wmissing-prototypes]
+     233 | int xpcs_phy_write_pma(struct dw_xpcs *xpcs, int reg, u16 val)
+         |     ^
+   drivers/net/pcs/pcs-xpcs-phy.c:233:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     233 | int xpcs_phy_write_pma(struct dw_xpcs *xpcs, int reg, u16 val)
+         | ^
+         | static 
+>> drivers/net/pcs/pcs-xpcs-phy.c:238:5: warning: no previous prototype for function 'xpcs_phy_usxgmii_init_seq_2' [-Wmissing-prototypes]
+     238 | int xpcs_phy_usxgmii_init_seq_2(struct dw_xpcs *xpcs)
+         |     ^
+   drivers/net/pcs/pcs-xpcs-phy.c:238:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     238 | int xpcs_phy_usxgmii_init_seq_2(struct dw_xpcs *xpcs)
+         | ^
+         | static 
+   3 warnings generated.
+
+
+vim +/xpcs_register_phy +1382 drivers/net/pcs/pcs-xpcs.c
+
+  1381	
+> 1382	u32 xpcs_register_phy(struct dw_xpcs *xpcs, struct mii_bus *bus)
+  1383	{
+  1384		u32 xpcs_phy_id;
+  1385		int ret = 0;
+  1386	
+  1387		xpcs_phy_reg_lock(xpcs);
+  1388	
+  1389		xpcs_phy_id = xpcs_phy_get_id(xpcs);
+  1390		ret = xpcs_phy_check_id(xpcs_phy_id);
+  1391		if (!ret)
+  1392			return 0;
+  1393	
+  1394		return xpcs_phy_id;
+  1395	}
+  1396	
 
 -- 
 0-DAY CI Kernel Test Service
