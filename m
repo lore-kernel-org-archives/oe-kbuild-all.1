@@ -1,206 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C878745C1C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 15:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A0C28FC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 16:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728918579; cv=none; b=ihuZZq1OO/TIxq6I7Sv2cirtKgLvq6C9hfl4/93LhBZeyrqs4isP59VtnL30co8c3xC1cZS9cjbXcnBmh79lJ5sn7xN1K6bO+TevikKn7QFM71xUQfGB053KgsvvEI5e+dGGEkeFS97HgB+8y2/teTcfjYBJ6YLiONnKXzjuxNo=
+	t=1728923205; cv=none; b=IEfeDnQz/8O/8R63oZhXOXc4omGurLsLia1XM573XSwV0htsAxPobSjHFfbcyHoezqOHw9kzt3FYW2TLjrVSdPCvMPCMlVRDOhUUB0BMjSIneLr4oH+Y9FyrJ6LDn2E8k2qrYyjSXrIL5QN5GjLq3poEXJw4eDFxFFE+qlKG5jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728918579; c=relaxed/simple;
-	bh=9qlOaP8cTmqlTHKiUFowff6pVCaIHLaoJR27d1mSYqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SqIYCzrspgz6iwQIDuLEfkkbKyFQ4NTfi56ccbCk3JMaig2inzA2TZzPfF95HYK/08fQeVNWm6PnNED5UUJzZzSZjJM9iZcvSaz54x/68KCuUa6rV8igE1u6R1qioswxi6frCBUrdmcNUTywsv5tUUq5jgKS1GboxDlBpC4FYig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ip5dmjhz; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728923205; c=relaxed/simple;
+	bh=QvEXevIy9dd7VrawvS/ELLTEAUacoS7dBvsw2r64LGE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WCEvWVONyKp6gydLz9/Lhc0y1+lv/079SACCXOoO7caJQSHiS/X1O/pF/f9AjXXDKNdZ4jYbuOzQ5ID+TsbrARCqn0IEfoPaPVeWRnN2QvGOf1HzxmeVr8MrUpWYsXyyvXbdUZbKEDYJNXwLz8u6Ib4rCgPDQ8yzcURiCcmWLSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TJxcAWUX; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ip5dmjhz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728918578; x=1760454578;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9qlOaP8cTmqlTHKiUFowff6pVCaIHLaoJR27d1mSYqs=;
-  b=ip5dmjhzdSU6mmSPmYDgZWfg/m/arM6dxngaxFRqayrEC6Ik7KK3tzyh
-   L1Qo7CG65b8ty4vAZAMnewMcjSr4aDHueAjlyqy7Xnv2OU3m+OJMu53+X
-   QOLHft9yup7jqOET9sZslAM2xlzuaA5YAYjRnCnfBHPmvNvybMVvWP4S4
-   v8mEokrGwJPXWHdv71+mPIaa0gbiecZbYnW5pgQzEKtfeBmu3s6W43FGj
-   eX+I689RopYPVFNIdJkdDGk/EC73JYRH6XG1VhRLgMVrVrpduoq8cNHls
-   b2tpIvKAJI/ekLhdduELFahWnlIPyWo+y+Jp+Ki/svUFbXnxzhs3N0fY8
-   g==;
-X-CSE-ConnectionGUID: QwMnBWlXTUyKkZRk6EPKbg==
-X-CSE-MsgGUID: dVcwLqZqS1WmymJsE2ryRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28413625"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28413625"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 08:09:38 -0700
-X-CSE-ConnectionGUID: +0wgIEZvSiatrXUOCRM2/w==
-X-CSE-MsgGUID: KI/aGEVfS2uvBInJaQCiGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
-   d="scan'208";a="108343156"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Oct 2024 08:09:35 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0MhR-000GKK-0G;
-	Mon, 14 Oct 2024 15:09:33 +0000
-Date: Mon, 14 Oct 2024 23:09:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Selvin Xavier <selvin.xavier@broadcom.com>, leon@kernel.org,
-	jgg@ziepe.ca
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
-	andrew.gospodarek@broadcom.com, kalesh-anakkur.purayil@broadcom.com,
-	Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: Re: [PATCH for-next 1/4] RDMA/bnxt_re: Add support for optimized
- modify QP
-Message-ID: <202410142256.J3j7bGkA-lkp@intel.com>
-References: <1728623035-30657-2-git-send-email-selvin.xavier@broadcom.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TJxcAWUX"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539ebb5a20aso1812426e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Oct 2024 09:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1728923199; x=1729527999; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+IBErJIx/wIvP+a4LTNnwWE+t5/rP0cRqFDHeieH9Wk=;
+        b=TJxcAWUXUEwYdGAzPRVjFWd5U/V3TfcLfknHuwu2Vn7BONa7kspOJB5NhLrdkbEJfh
+         AysFabpPmAWfVYC3+BKggz3pFSgmB3/CWL1ECwe7BvaqX0r/Gk+tLHsDOkpzOAmdoWWU
+         xRBVdtaUi+7RbaKvaiYwgvu/gLfJafObxoHtT7Ryr6rh8tB2LMMPCeI8w+EHxK3Is5gK
+         pK5RTplwr0qqn4FIveWfE0Hy/wJPjzOC9Ab5EGTvDruPGtObuUahKYMUeJj4yTu4srOg
+         eAAWDNbQuDjAhFoE24FVNxwZKEcVNK3yOfiYDTF5x/J3z2VvNAPgKoIfDgjgg6c71uwI
+         Ip/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728923199; x=1729527999;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+IBErJIx/wIvP+a4LTNnwWE+t5/rP0cRqFDHeieH9Wk=;
+        b=XhK9EDFG2dAUol7aRXdtLeqd4tdwTBxojA3ODMbgTvQ27jF71eVqnXV8W1C5/TkIRx
+         BHI7vViIEwLWZ4opu/Zrz87XmqPx2hhH4yelK0QsrmjQHXRinSfu5Ij1o6H6SCpvHTEj
+         5+R61EsyZ89hUQ12dmN9SvCFn+PACXm3CWv5FHvB+SmyTGcQ8ThO25+PtXed/uKhO+b9
+         Mag03nEZo43Sm07DKtpOIrDF/t4b7drIiUypih2oCWTXsYIcBRetCuesuqsn1kUc3sgv
+         KBL0W/qS/fAJ1SANDmyo96/KUBjg+b3vZI1B83fQGdjNYA5FTuQN3CWBybpcD+CEKSrq
+         LVJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVylSPZWZg5sBSl7r6EilZIm9ocXBJu8Tj7pW8If3DSwl5fpqUGYMFSKtLnrZQEwaGR0EzX8aDXRXkfZHu@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZxqXvFor31V3vsK+M50/BMawM3/t45Fq6D0sP0IuGlWtp6gUK
+	bu+/jmojTUtgSmfaUhkxEPshzd4aPHjiY7SHVA/4GtQv+Pn4pf/FDBni5oNB2mo01Ni9oaHqCsJ
+	CEuywO3g+n9LiNQbVxMZojSSJdvgsGUpH/U8hYg==
+X-Google-Smtp-Source: AGHT+IFLbBXm/lwEAcA7Adg943gvOcisiTVZDOcTviAkuAYwY1R40RFo0n5I3CCEhKa3rGaJBXZhjQajsiomZmnRgVk=
+X-Received: by 2002:a05:6512:b14:b0:52e:9b2f:c313 with SMTP id
+ 2adb3069b0e04-539e54f8704mr3433678e87.22.1728923198611; Mon, 14 Oct 2024
+ 09:26:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1728623035-30657-2-git-send-email-selvin.xavier@broadcom.com>
+References: <202410091038.SI34ZULQ-lkp@intel.com> <CAKisOQHVBRbpsDnWRa40Rga1hjW_5xuwPAshXY=6+nNb6O8OOg@mail.gmail.com>
+ <20241009113029.GJ1609@suse.cz>
+In-Reply-To: <20241009113029.GJ1609@suse.cz>
+From: Filipe Manana <fdmanana@suse.com>
+Date: Mon, 14 Oct 2024 17:26:26 +0100
+Message-ID: <CAKisOQGSRdm=XurQ_Fd83c6dRsVLeg7Jbh4DRMARRHqsxHvf=w@mail.gmail.com>
+Subject: Re: [linux-next:pending-fixes 207/319] fs/btrfs/qgroup.c:2014:6:
+ error: use of undeclared identifier 'bytenr'
+To: dsterba@suse.cz
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, David Sterba <dsterba@suse.com>, Qu Wenruo <wqu@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Selvin,
+On Wed, Oct 9, 2024 at 12:30=E2=80=AFPM David Sterba <dsterba@suse.cz> wrot=
+e:
+>
+> On Wed, Oct 09, 2024 at 11:09:13AM +0100, Filipe Manana wrote:
+> > On Wed, Oct 9, 2024 at 3:55=E2=80=AFAM kernel test robot <lkp@intel.com=
+> wrote:
+> > >
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
+xt.git pending-fixes
+> > > head:   47fa0de9b07c6214b57458e965646a3e25656b69
+> > > commit: 5c0ea18d992fffc948e087c0002560d747e6edd9 [207/319] btrfs: use=
+ sector numbers as keys for the dirty extents xarray
+> > > config: arm-randconfig-002-20241009 (https://download.01.org/0day-ci/=
+archive/20241009/202410091038.SI34ZULQ-lkp@intel.com/config)
+> > > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project =
+8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20241009/202410091038.SI34ZULQ-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202410091038.SI34ZULQ=
+-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > > >> fs/btrfs/qgroup.c:2014:6: error: use of undeclared identifier 'byt=
+enr'
+> > >            if (bytenr >=3D MAX_LFS_FILESIZE) {
+> >
+> > Ah this should be record->bytenr.
+> > The issue is actually fixed in a later patch of the same patchset,
+> > where bytenr is a function argument.
+> >
+> > I can update the patch but then it will require updating the patches
+> > that come next from the same patchset and rebasing the for-next
+> > branch.
+> > And I see it's already in the next-fixes branch.
+> >
+> > David, how do you prefer to proceed here? Do you want me to fix this
+> > and resend the patchset?
+>
+> No need to resend, I'll fix it locally, the patch in next-fixes was the
+> old one so I'll sync it with what's in our development for-next (and
+> also check the others just in case).  I'll also check and update all the
+> branches involved in the for-next pulled by linux-next.
 
-kernel test robot noticed the following build warnings:
+Btw, I noticed that only the 2nd patch ("btrfs: use sector numbers as
+keys for the dirty extents xarray") was updated,
+so now it doesn't break 32 bits builds anymore.
 
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.12-rc3 next-20241014]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+However the next patch in the series ("btrfs: qgroups: remove bytenr
+field from struct btrfs_qgroup_extent_record") wasn't updated,
+and it now breaks 32 bits builds. At the same location, it needs to
+use "bytenr" instead of "record->bytenr".
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Selvin-Xavier/RDMA-bnxt_re-Add-support-for-optimized-modify-QP/20241011-133536
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/1728623035-30657-2-git-send-email-selvin.xavier%40broadcom.com
-patch subject: [PATCH for-next 1/4] RDMA/bnxt_re: Add support for optimized modify QP
-config: x86_64-randconfig-123-20241014 (https://download.01.org/0day-ci/archive/20241014/202410142256.J3j7bGkA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410142256.J3j7bGkA-lkp@intel.com/reproduce)
+Do you want me to update the patches and send them to the list?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410142256.J3j7bGkA-lkp@intel.com/
+There's one more change that needs to be squashed (to that last patch)
+that triggers a use-after-free reported by syzbot, which is:
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:910:23: sparse: sparse: invalid assignment: |=
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:910:23: sparse:    left side has type unsigned short
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:910:23: sparse:    right side has type restricted __le16
---
->> drivers/infiniband/hw/bnxt_re/qplib_fp.c:1291:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] flags @@     got unsigned long @@
-   drivers/infiniband/hw/bnxt_re/qplib_fp.c:1291:36: sparse:     expected restricted __le16 [usertype] flags
-   drivers/infiniband/hw/bnxt_re/qplib_fp.c:1291:36: sparse:     got unsigned long
-   drivers/infiniband/hw/bnxt_re/qplib_fp.c: note: in included file (through include/linux/smp.h, include/linux/alloc_tag.h, include/linux/percpu.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+https://lore.kernel.org/linux-btrfs/02fc507b62b19be2348fc08de8b13bd7af1a440=
+e.1728922973.git.fdmanana@suse.com/
 
-vim +910 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
-
-   828	
-   829	int bnxt_qplib_init_rcfw(struct bnxt_qplib_rcfw *rcfw,
-   830				 struct bnxt_qplib_ctx *ctx, int is_virtfn)
-   831	{
-   832		struct creq_initialize_fw_resp resp = {};
-   833		struct cmdq_initialize_fw req = {};
-   834		struct bnxt_qplib_cmdqmsg msg = {};
-   835		u16 flags = 0;
-   836		u8 pgsz, lvl;
-   837		int rc;
-   838	
-   839		bnxt_qplib_rcfw_cmd_prep((struct cmdq_base *)&req,
-   840					 CMDQ_BASE_OPCODE_INITIALIZE_FW,
-   841					 sizeof(req));
-   842		/* Supply (log-base-2-of-host-page-size - base-page-shift)
-   843		 * to bono to adjust the doorbell page sizes.
-   844		 */
-   845		req.log2_dbr_pg_size = cpu_to_le16(PAGE_SHIFT -
-   846						   RCFW_DBR_BASE_PAGE_SHIFT);
-   847		/*
-   848		 * Gen P5 devices doesn't require this allocation
-   849		 * as the L2 driver does the same for RoCE also.
-   850		 * Also, VFs need not setup the HW context area, PF
-   851		 * shall setup this area for VF. Skipping the
-   852		 * HW programming
-   853		 */
-   854		if (is_virtfn)
-   855			goto skip_ctx_setup;
-   856		if (bnxt_qplib_is_chip_gen_p5_p7(rcfw->res->cctx))
-   857			goto config_vf_res;
-   858	
-   859		lvl = ctx->qpc_tbl.level;
-   860		pgsz = bnxt_qplib_base_pg_size(&ctx->qpc_tbl);
-   861		req.qpc_pg_size_qpc_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
-   862					   lvl;
-   863		lvl = ctx->mrw_tbl.level;
-   864		pgsz = bnxt_qplib_base_pg_size(&ctx->mrw_tbl);
-   865		req.mrw_pg_size_mrw_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
-   866					   lvl;
-   867		lvl = ctx->srqc_tbl.level;
-   868		pgsz = bnxt_qplib_base_pg_size(&ctx->srqc_tbl);
-   869		req.srq_pg_size_srq_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
-   870					   lvl;
-   871		lvl = ctx->cq_tbl.level;
-   872		pgsz = bnxt_qplib_base_pg_size(&ctx->cq_tbl);
-   873		req.cq_pg_size_cq_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
-   874					 lvl;
-   875		lvl = ctx->tim_tbl.level;
-   876		pgsz = bnxt_qplib_base_pg_size(&ctx->tim_tbl);
-   877		req.tim_pg_size_tim_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
-   878					   lvl;
-   879		lvl = ctx->tqm_ctx.pde.level;
-   880		pgsz = bnxt_qplib_base_pg_size(&ctx->tqm_ctx.pde);
-   881		req.tqm_pg_size_tqm_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
-   882					   lvl;
-   883		req.qpc_page_dir =
-   884			cpu_to_le64(ctx->qpc_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
-   885		req.mrw_page_dir =
-   886			cpu_to_le64(ctx->mrw_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
-   887		req.srq_page_dir =
-   888			cpu_to_le64(ctx->srqc_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
-   889		req.cq_page_dir =
-   890			cpu_to_le64(ctx->cq_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
-   891		req.tim_page_dir =
-   892			cpu_to_le64(ctx->tim_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
-   893		req.tqm_page_dir =
-   894			cpu_to_le64(ctx->tqm_ctx.pde.pbl[PBL_LVL_0].pg_map_arr[0]);
-   895	
-   896		req.number_of_qp = cpu_to_le32(ctx->qpc_tbl.max_elements);
-   897		req.number_of_mrw = cpu_to_le32(ctx->mrw_tbl.max_elements);
-   898		req.number_of_srq = cpu_to_le32(ctx->srqc_tbl.max_elements);
-   899		req.number_of_cq = cpu_to_le32(ctx->cq_tbl.max_elements);
-   900	
-   901	config_vf_res:
-   902		req.max_qp_per_vf = cpu_to_le32(ctx->vf_res.max_qp_per_vf);
-   903		req.max_mrw_per_vf = cpu_to_le32(ctx->vf_res.max_mrw_per_vf);
-   904		req.max_srq_per_vf = cpu_to_le32(ctx->vf_res.max_srq_per_vf);
-   905		req.max_cq_per_vf = cpu_to_le32(ctx->vf_res.max_cq_per_vf);
-   906		req.max_gid_per_vf = cpu_to_le32(ctx->vf_res.max_gid_per_vf);
-   907	
-   908	skip_ctx_setup:
-   909		if (BNXT_RE_HW_RETX(rcfw->res->dattr->dev_cap_flags))
- > 910			flags |= cpu_to_le16(CMDQ_INITIALIZE_FW_FLAGS_HW_REQUESTER_RETX_SUPPORTED);
-   911		if (_is_optimize_modify_qp_supported(rcfw->res->dattr->dev_cap_flags2))
-   912			flags |= CMDQ_INITIALIZE_FW_FLAGS_OPTIMIZE_MODIFY_QP_SUPPORTED;
-   913		req.flags |= cpu_to_le16(flags);
-   914		req.stat_ctx_id = cpu_to_le32(ctx->stats.fw_id);
-   915		bnxt_qplib_fill_cmdqmsg(&msg, &req, &resp, NULL, sizeof(req), sizeof(resp), 0);
-   916		rc = bnxt_qplib_rcfw_send_message(rcfw, &msg);
-   917		if (rc)
-   918			return rc;
-   919		set_bit(FIRMWARE_INITIALIZED_FLAG, &rcfw->cmdq.flags);
-   920		return 0;
-   921	}
-   922	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks.
