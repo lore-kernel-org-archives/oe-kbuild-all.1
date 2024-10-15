@@ -1,153 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F781F5853
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 20:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677101F80DD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 20:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729025214; cv=none; b=Y4fUCKR9Z9FA5BtemrNkG2FjCd5JC6w6Whr1AW4gJp6HWvf16sfcvAfIJPDHg11jmArcZhO3EcGdmHSgIUTnqcpMjNzZI0eEDiK92d2aYEFUgE+RGq9RxAx4XwMKlYf39q66Buhb9KsBSt+TxKlnrcs9J0jRusK7l3XjX7529vM=
+	t=1729025710; cv=none; b=k1hf3t4FkWEBNPOyPLikzuysXvq7+TsnVDxMMGINuKhU+hVWNALV/h2HR5epvuda1BJso2fLNW2rq9sTFEQctOufu050Ry+S6iL+g4hmQJFQdNyv0PaJ7fN/TxyQIo55hgnR0zB2/ukwzaXdssT+v4IkktoV+uvxB1fwUOamrPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729025214; c=relaxed/simple;
-	bh=j3GtmwhKFyJfeeyHi+++6iBfpxuD/xvW8TWBFyVPnsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dfVypB2N+w/Opz3cXmKswLUH/2rwfWdB3Vp83y24y/hrvsR07TS+8JMo+otCrWVr+05G13uZ5ChXd7Dgti4oS43jAgD4DCGhZuAEwC3bg+8EtDMJfRChAAxa+NWFE2+dnhKio1Z0KsmhepJ/NsBBfPUB5d2GkD41Oo/skksH6mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqo+bFd9; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729025710; c=relaxed/simple;
+	bh=YmYRxqbQkOPzCcQtgkT/Iz21rZZItsqHASWDAAs2OyA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=QJQKlqIPqNAeU5V7Epw1MnGsRMHvThMDKKb14QvM3Qx9IjqKWfR0fDvk+sU/imxHm1N725CE4BDzlqlfoPgf6dfvHvJOE/krz3MFureag7EGqagVbpuTZ0HdElHa6w7rz9PDEk6oLirQqIfPbarXQVQKeSvoCwzTS3nnkDogFRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Y3wrCeuf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A3wcUSXT; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqo+bFd9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729025213; x=1760561213;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j3GtmwhKFyJfeeyHi+++6iBfpxuD/xvW8TWBFyVPnsk=;
-  b=aqo+bFd9/jhdPghTj9pAFT3NDK4p79BAi0BwVBEMBOEwi6kATjfvixNj
-   mgdyIn0Cax47e7xyiaq3vLJmFxL1neRdx+SDot/8pA0e10gKeZuLfgCuq
-   vRbxX3YYkI4c5kKGVvXCSx7nJzIA9F95izpYI9/bv3IIsVFMQO423LPVW
-   JQiCB5NXcrGVTxb0Z7Dohhd8iar0o/duu9a+IE3RoTQlaSCCudVsTVdFL
-   OQ9Om5Uyufrudvfbz2GA/zno1zOQxuNFCsgoWnPRA2gWanqT/SNAwPCfU
-   XBG4EuEC/EfrjAQgwMcXJCWjcKI6ImeXcOHf7SznvQek1OO0ql/YLXDGL
-   w==;
-X-CSE-ConnectionGUID: 55S2ZNhdT2yqhVp3yjBb6w==
-X-CSE-MsgGUID: oXX7a7BeRnmOVpV2hU2AVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39078687"
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="39078687"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 13:46:52 -0700
-X-CSE-ConnectionGUID: WDAobR3nTzqwxv22AgNFzw==
-X-CSE-MsgGUID: vgqutLJFRCuptDVHZpbwCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="82814929"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Oct 2024 13:46:50 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0oRL-000JvP-1H;
-	Tue, 15 Oct 2024 20:46:47 +0000
-Date: Wed, 16 Oct 2024 04:46:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Davis <afd@ti.com>, Jassi Brar <jassisinghbrar@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Martyn Welch <martyn.welch@collabora.com>,
-	Hari Nagalla <hnagalla@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>
-Subject: Re: [PATCH 2/2] mailbox: ti-msgmgr: Allow building under COMPILE_TEST
-Message-ID: <202410160435.WzzQa1p5-lkp@intel.com>
-References: <20241014144821.15094-3-afd@ti.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Y3wrCeuf";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A3wcUSXT"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 89262114017F;
+	Tue, 15 Oct 2024 16:55:06 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Tue, 15 Oct 2024 16:55:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1729025706;
+	 x=1729112106; bh=l3nJjodSpK/VVc6vgLT6oE+JqBcCQt2u95cPO9POPfs=; b=
+	Y3wrCeuf1llBsTrnZy8OLM/+iOlHiypvbRCBiDmJD0ivuVSvXaB0UiNRxVGlS5r0
+	DG5HQiz5GBP1ZWRjCD37Xn4yxVhPUZtgQT4Rovxq5tuUK7gUbqBTlihGRedCd9ZH
+	3GbVnGnlNXGGj/hSTTvLACZpB8Vt84XwcsDMlo976qMQ/D2aZdMDV3OePWdEnCPz
+	WN2JVWcbtZGCGb34W4nFfIGpNHqYAANM3ewfI8ElrXgdHx9LdTyhgy0S3/QPZmtK
+	TQUWh7HRX2epxiZiTAXQa5/NXRFwPusRIVl8k2xZ8kG0E1RBbR4iBLKhtC3bOaR3
+	33F/OwUaiyv1mAsHGm2ikw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1729025706; x=
+	1729112106; bh=l3nJjodSpK/VVc6vgLT6oE+JqBcCQt2u95cPO9POPfs=; b=A
+	3wcUSXTp4eswxdmECmOceVGzzuiPxxXTzS5nQ2X/xgITWvS9FngC2ljxP+OWN7CR
+	GuOvi3S2sFlfXfWAZQAZE9QEBvD3qztUGHUGjQHh3/UvKfKvd3CrY5eSXflA8PpL
+	/B5ChQb/kdYkJrFkAgp3jnTe3QxL9JI3vKLZWI//g7bIkzsMVp7GzK68UbWEKAt3
+	bILLRKrYlhGkru5wqy3abnvASQxC/qDY0JThoPds1IvzWVjvOlFc83vLs87LG5Gm
+	pFBrSoEb946ZK/RZ+T2nuPHo+E5A2AZLerdBiYcAmz9w2/11zMddiCqwuf61YCUZ
+	7CvmJ5Ul/eeQT3nyBAfMQ==
+X-ME-Sender: <xms:qdYOZ80FtrsZuc-Y4aWT49ztE4kKCjyqF_5BOwCy2K-krna0u4mlrw>
+    <xme:qdYOZ3HCqNxj67NadOnqxOtNmgHV5UEwfNQ997Zd-iiDB6oPb3CpgGuZbrcfeojrQ
+    qHs2I2HaUJeXrZ0Nv0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdegjedgudehhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
+    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedu
+    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrrhhthihnrdifvghltghhse
+    gtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepjhgrshhsihhsihhnghhhsghrrghr
+    sehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtph
+    htthhopegrnhguvghrshhsohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrght
+    hhhivghurdhpohhirhhivghrsehlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuh
+    igqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgt
+    phhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpd
+    hrtghpthhtoheprghfugesthhirdgtohhmpdhrtghpthhtohephhhnrghgrghllhgrseht
+    ihdrtghomh
+X-ME-Proxy: <xmx:qdYOZ06oGMglejHH6nCkHN2F-AfN5um0aMJDWe-2lq27KoZrc4QmHQ>
+    <xmx:qdYOZ10pgWqrhnvrRCAl9avcihUAlxuiYs4QPpdjTSavqpOMLBp7EA>
+    <xmx:qdYOZ_HuJ2iuEpO9K-AbXnIhEGSpLhcXypb3vKdXP5UM49QN_bMRig>
+    <xmx:qdYOZ-_ev_7sEc0laGyTrGPpv8Vc5YrqrZJY90O1-RWDWhFywAuq_g>
+    <xmx:qtYOZ2BbV8gZGX7gjqla_LvHFXolHX9gjRDsUT9WGrw-MktjYWN7a9Ah>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B64142220072; Tue, 15 Oct 2024 16:55:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014144821.15094-3-afd@ti.com>
+Date: Tue, 15 Oct 2024 20:54:45 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>, "Andrew Davis" <afd@ti.com>,
+ "Jassi Brar" <jassisinghbrar@gmail.com>,
+ "Bjorn Andersson" <andersson@kernel.org>,
+ "Mathieu Poirier" <mathieu.poirier@linaro.org>,
+ "Martyn Welch" <martyn.welch@collabora.com>, "Hari Nagalla" <hnagalla@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <1a88e7b5-582f-4d52-864a-e828f6619bc8@app.fastmail.com>
+In-Reply-To: <202410160435.WzzQa1p5-lkp@intel.com>
+References: <20241014144821.15094-3-afd@ti.com>
+ <202410160435.WzzQa1p5-lkp@intel.com>
+Subject: Re: [PATCH 2/2] mailbox: ti-msgmgr: Allow building under COMPILE_TEST
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 Hi Andrew,
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.12-rc3 next-20241015]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/mailbox-ti-msgmgr-Remove-use-of-of_match_ptr-helper/20241014-225353
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20241014144821.15094-3-afd%40ti.com
-patch subject: [PATCH 2/2] mailbox: ti-msgmgr: Allow building under COMPILE_TEST
-config: hexagon-randconfig-r131-20241015 (https://download.01.org/0day-ci/archive/20241016/202410160435.WzzQa1p5-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-reproduce: (https://download.01.org/0day-ci/archive/20241016/202410160435.WzzQa1p5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160435.WzzQa1p5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/firmware/ti_sci.c:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/firmware/ti_sci.c:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/firmware/ti_sci.c:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   drivers/firmware/ti_sci.c:200:20: warning: unused function 'ti_sci_debugfs_destroy' [-Wunused-function]
-     200 | static inline void ti_sci_debugfs_destroy(struct platform_device *dev,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/firmware/ti_sci.c:3285:34: warning: unused variable 'ti_sci_of_match' [-Wunused-const-variable]
-    3285 | static const struct of_device_id ti_sci_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~
-   8 warnings generated.
+On Tue, Oct 15, 2024, at 20:46, kernel test robot wrote:
+>    In file included from drivers/firmware/ti_sci.c:14:
+>    In file included from include/linux/io.h:14:
+>    In file included from arch/hexagon/include/asm/io.h:328:
+>    include/asm-generic/io.h:548:31: warning: performing pointer 
+> arithmetic on a null pointer has undefined behavior 
+> [-Wnull-pointer-arithmetic]
+>      548 |         val = __raw_readb(PCI_IOBASE + addr);
+>          |                           ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:561:61: warning: performing pointer 
+> arithmetic on a null pointer has undefined behavior 
+> [-Wnull-pointer-arithmetic]
+>      561 |         val = __le16_to_cpu((__le16 
+> __force)__raw_readw(PCI_IOBASE + addr));
+>          |                                                         
 
 
-vim +/ti_sci_of_match +3285 drivers/firmware/ti_sci.c
+Hopefully we will be able to finally address these in 6.13
+for all drivers, it's been a decade. Don't worry about
+the above.
 
-aa276781a64a5f Nishanth Menon 2016-10-18  3284  
-aa276781a64a5f Nishanth Menon 2016-10-18 @3285  static const struct of_device_id ti_sci_of_match[] = {
-aa276781a64a5f Nishanth Menon 2016-10-18  3286  	{.compatible = "ti,k2g-sci", .data = &ti_sci_pmmc_k2g_desc},
-754c9477ae7872 Peter Ujfalusi 2019-04-30  3287  	{.compatible = "ti,am654-sci", .data = &ti_sci_pmmc_am654_desc},
-aa276781a64a5f Nishanth Menon 2016-10-18  3288  	{ /* Sentinel */ },
-aa276781a64a5f Nishanth Menon 2016-10-18  3289  };
-aa276781a64a5f Nishanth Menon 2016-10-18  3290  MODULE_DEVICE_TABLE(of, ti_sci_of_match);
-aa276781a64a5f Nishanth Menon 2016-10-18  3291  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> platform_device *dev,
+>          |                    ^~~~~~~~~~~~~~~~~~~~~~
+>>> drivers/firmware/ti_sci.c:3285:34: warning: unused variable 'ti_sci_of_match' [-Wunused-const-variable]
+>     3285 | static const struct of_device_id ti_sci_of_match[] = {
+>          |                                  ^~~~~~~~~~~~~~~
+>    8 warnings generated.
+>
+
+Needs this change, please fold into your patch.
+
+diff --git a/drivers/firmware/ti_sci.c b/drivers/firmware/ti_sci.c
+index 160968301b1f..6a6bf7a2d134 100644
+--- a/drivers/firmware/ti_sci.c
++++ b/drivers/firmware/ti_sci.c
+@@ -3421,7 +3421,7 @@ static struct platform_driver ti_sci_driver = {
+        .probe = ti_sci_probe,
+        .driver = {
+                   .name = "ti-sci",
+-                  .of_match_table = of_match_ptr(ti_sci_of_match),
++                  .of_match_table = ti_sci_of_match,
+                   .suppress_bind_attrs = true,
+        },
+ };
+
+
