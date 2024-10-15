@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317F41F6677
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 16:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9381F667C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 16:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729009903; cv=none; b=nW4j11lFJC1BS9VEIsypVmbTDkzKzADrU6Uo8S/azOghSZuZJprHJ1ijteTj2S3l3BOo99JIaNF7nuPl1D5LbP+RNNHedxnczeZ9Ldrvgh7XOc4b7KwLnxq1/J4/2hPfjK4dJFAlZ1CuRLI0xNaIXbPpwyJgIVPieTeuXEOcFzY=
+	t=1729010500; cv=none; b=jD7xvl9gcgpHCJ1PZZA3k96MXLUjeoFMddJUs/sOPyoPY/Y1QKE2/jj1Z+ggV/Xadids8eJPD+aidZyVTh2cU7tJiB4nVPAtSNFlV9ZRGkJ22TSEpbp2h1r0+Gsmo7Fqh1iwkQ3Uers0RjFkTqfgRn7I/bcbSDBDcqkCA8ro9I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729009903; c=relaxed/simple;
-	bh=IE74QBPoqfGJir3d0htfuRFVPtrwtDK5zO8/52D6uOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ASIy2GNn9xJ6HT85ztyKb1fB960W3h7Vv3lkibK+c/QMONUSDBrKbeIiBOILU9pMapkxiRBSY8SkEvuloH85l7pO9ROaANYkz+JHb/np1B55yIefDvFXzQ6nb3YIyRhuI4VPRFUdrNjaUAXMOG+Q+h/kI5xMGnmAuWre84ZWNkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6a8vQdp; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1729010500; c=relaxed/simple;
+	bh=1RCvuv83jk4fBfbF/fCasfyo6o7vAPm6BJjDx/dVE1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajPV+IDfVIK3KRav/oh7ibFHFTHyMQa3euPzKz9XdF+6iBmPBxddPtrHXE9h/JY6/ne/NS0imcRJk7aiB91DthI6NbA4o11AwWFUwOLPe+P/YD7NqvuRVo1t0t4ao9bXMUYMBdVpsBUYm3KJGbA7F+rw8KTISn+T2ivmyd4DRHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AI19WCCq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6a8vQdp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AI19WCCq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729009901; x=1760545901;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IE74QBPoqfGJir3d0htfuRFVPtrwtDK5zO8/52D6uOw=;
-  b=M6a8vQdp1UT7leGbn/wQfzi1aL7AzE8KCp1iYXsrAYPualRvz6Qoz7/k
-   UUE0SRbhG0qMac4warJ3rJjk5rs5VqeYaZLKrrmaBERJyU2nnyYP93F6g
-   8pKS9obElQe4sSVZ+8A1e80xsZjQV8FMFphpzKPETDCI9ZNk1ojxmkzUV
-   ZnNkbxUqftgleAaFgBd5MFLzSkuAZNSuvR5ZfGR8qgigcWyOBFqkKQsrr
-   dZ4IyvQjYUYkrBCWgChHxFtVbIp7/RE6KdvwPtGMDwu8y03Z9dDffSYWF
-   JDSMYKxnM6Z8CgimpPtFbZR0FaInFOhCXCtthdSb/VCLElDAtAgoo/sVv
-   A==;
-X-CSE-ConnectionGUID: hWaLo86aSA2vDjTNWYOQDA==
-X-CSE-MsgGUID: viRTKhetRQ2gSUIsCt0BOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28617644"
+  t=1729010498; x=1760546498;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1RCvuv83jk4fBfbF/fCasfyo6o7vAPm6BJjDx/dVE1A=;
+  b=AI19WCCqRWbf9I7CUOJqlO/O4yIoI00s9A5swg7B+cxT+uYkaCv1v5g3
+   xS0xGgTHU0LNiFkHYHsq0dIAiIwE3xtbwf48qkIXvAHw8uB2TXG4Pc989
+   24oRsYWxLkas9juumr3hX8EbrbJqIBz5Y12e5FxCI4D+IozFPrX7VZn2N
+   VGlOaGKCKvr4wLVukCxoWTIm2d1D3+o+6nbLeJ79nvARTNP0ubQzIqOSu
+   RCqGEzrigXj5LP2TVFLnnHxXZCFfYG53a6qGisjids1z8yjN8WuP3kxMa
+   ByXBfnTkTFR2SAzkSJKUU1uzrJhNfG+YxsKf+qiQZmXG1j86E95tn6EU3
+   g==;
+X-CSE-ConnectionGUID: XxMqoF8kShC1lQT54mtMrA==
+X-CSE-MsgGUID: 3lHFy20yT3eQqXsO+hjJ0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28547867"
 X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="28617644"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 09:31:36 -0700
-X-CSE-ConnectionGUID: LWxy0vj/SpOszIpV367fMQ==
-X-CSE-MsgGUID: cijNqaSzTkW5+b9p2TLJfQ==
+   d="scan'208";a="28547867"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 09:41:38 -0700
+X-CSE-ConnectionGUID: SczcHlVvR2aaw+M8ZU1KJQ==
+X-CSE-MsgGUID: MBS919D0RLCIncI6MSDq/Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="82756294"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="78131266"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Oct 2024 09:31:35 -0700
+  by orviesa006.jf.intel.com with ESMTP; 15 Oct 2024 09:41:36 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0kSL-000Jar-05;
-	Tue, 15 Oct 2024 16:31:33 +0000
-Date: Wed, 16 Oct 2024 00:31:12 +0800
+	id 1t0kc1-000Jcn-2i;
+	Tue, 15 Oct 2024 16:41:33 +0000
+Date: Wed, 16 Oct 2024 00:41:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 5501/5503]
- include/linux/sched/task.h:59:28: error:
- 'CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX' undeclared here (not in a function)
-Message-ID: <202410160058.BMbrYYA7-lkp@intel.com>
+To: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+	intel-wired-lan@lists.osuosl.org, aleksander.lobakin@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v11 09/14] libeth: move
+ idpf_rx_csum_decoded and idpf_rx_extracted
+Message-ID: <202410160029.BdxyUZWz-lkp@intel.com>
+References: <20241013154415.20262-10-mateusz.polchlopek@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +65,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241013154415.20262-10-mateusz.polchlopek@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   21a62e214164c402d8af1c59d30ba1dc03b090a2
-commit: 1827ee5e5a2de323359c04153e268a7288061eda [5501/5503] ANDROID: GKI: Add padding after init_task structure
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241016/202410160058.BMbrYYA7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160058.BMbrYYA7-lkp@intel.com/reproduce)
+Hi Mateusz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a77c49f53be0af1efad5b4541a9a145505c81800]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Polchlopek/virtchnl-add-support-for-enabling-PTP-on-iAVF/20241014-174710
+base:   a77c49f53be0af1efad5b4541a9a145505c81800
+patch link:    https://lore.kernel.org/r/20241013154415.20262-10-mateusz.polchlopek%40intel.com
+patch subject: [Intel-wired-lan] [PATCH iwl-next v11 09/14] libeth: move idpf_rx_csum_decoded and idpf_rx_extracted
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241016/202410160029.BdxyUZWz-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160029.BdxyUZWz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160058.BMbrYYA7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160029.BdxyUZWz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/compat.h:17,
-                    from arch/x86/include/asm/ia32.h:7,
-                    from arch/x86/include/asm/elf.h:10,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/crypto/aria.h:22,
-                    from arch/x86/kernel/asm-offsets.c:10:
->> include/linux/sched/task.h:59:28: error: 'CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX' undeclared here (not in a function)
-      59 | extern u64 vendor_data_pad[CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX / sizeof(u64)];
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1265: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:242: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c: In function 'idpf_rx_singleq_clean':
+>> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:1040:78: error: expected ';' before 'napi_gro_receive'
+    1040 |                 idpf_rx_singleq_process_skb_fields(rx_q, skb, rx_desc, ptype)
+         |                                                                              ^
+         |                                                                              ;
+   ......
+    1043 |                 napi_gro_receive(rx_q->pp->p.napi, skb);
+         |                 ~~~~~~~~~~~~~~~~                                              
 
 
-vim +/CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX +59 include/linux/sched/task.h
+vim +1040 drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c
 
-    56	
-    57	extern union thread_union init_thread_union;
-    58	extern struct task_struct init_task;
-  > 59	extern u64 vendor_data_pad[CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX / sizeof(u64)];
-    60	
+   954	
+   955	/**
+   956	 * idpf_rx_singleq_clean - Reclaim resources after receive completes
+   957	 * @rx_q: rx queue to clean
+   958	 * @budget: Total limit on number of packets to process
+   959	 *
+   960	 * Returns true if there's any budget left (e.g. the clean is finished)
+   961	 */
+   962	static int idpf_rx_singleq_clean(struct idpf_rx_queue *rx_q, int budget)
+   963	{
+   964		unsigned int total_rx_bytes = 0, total_rx_pkts = 0;
+   965		struct sk_buff *skb = rx_q->skb;
+   966		u16 ntc = rx_q->next_to_clean;
+   967		u16 cleaned_count = 0;
+   968		bool failure = false;
+   969	
+   970		/* Process Rx packets bounded by budget */
+   971		while (likely(total_rx_pkts < (unsigned int)budget)) {
+   972			struct libeth_rqe_info fields = { };
+   973			union virtchnl2_rx_desc *rx_desc;
+   974			struct idpf_rx_buf *rx_buf;
+   975			u32 ptype;
+   976	
+   977			/* get the Rx desc from Rx queue based on 'next_to_clean' */
+   978			rx_desc = &rx_q->rx[ntc];
+   979	
+   980			/* status_error_ptype_len will always be zero for unused
+   981			 * descriptors because it's cleared in cleanup, and overlaps
+   982			 * with hdr_addr which is always zero because packet split
+   983			 * isn't used, if the hardware wrote DD then the length will be
+   984			 * non-zero
+   985			 */
+   986	#define IDPF_RXD_DD VIRTCHNL2_RX_BASE_DESC_STATUS_DD_M
+   987			if (!idpf_rx_singleq_test_staterr(rx_desc,
+   988							  IDPF_RXD_DD))
+   989				break;
+   990	
+   991			/* This memory barrier is needed to keep us from reading
+   992			 * any other fields out of the rx_desc
+   993			 */
+   994			dma_rmb();
+   995	
+   996			idpf_rx_singleq_extract_fields(rx_q, rx_desc, &fields, &ptype);
+   997	
+   998			rx_buf = &rx_q->rx_buf[ntc];
+   999			if (!libeth_rx_sync_for_cpu(rx_buf, fields.len))
+  1000				goto skip_data;
+  1001	
+  1002			if (skb)
+  1003				idpf_rx_add_frag(rx_buf, skb, fields.len);
+  1004			else
+  1005				skb = idpf_rx_build_skb(rx_buf, fields.len);
+  1006	
+  1007			/* exit if we failed to retrieve a buffer */
+  1008			if (!skb)
+  1009				break;
+  1010	
+  1011	skip_data:
+  1012			rx_buf->page = NULL;
+  1013	
+  1014			IDPF_SINGLEQ_BUMP_RING_IDX(rx_q, ntc);
+  1015			cleaned_count++;
+  1016	
+  1017			/* skip if it is non EOP desc */
+  1018			if (idpf_rx_singleq_is_non_eop(rx_desc) || unlikely(!skb))
+  1019				continue;
+  1020	
+  1021	#define IDPF_RXD_ERR_S FIELD_PREP(VIRTCHNL2_RX_BASE_DESC_QW1_ERROR_M, \
+  1022					  VIRTCHNL2_RX_BASE_DESC_ERROR_RXE_M)
+  1023			if (unlikely(idpf_rx_singleq_test_staterr(rx_desc,
+  1024								  IDPF_RXD_ERR_S))) {
+  1025				dev_kfree_skb_any(skb);
+  1026				skb = NULL;
+  1027				continue;
+  1028			}
+  1029	
+  1030			/* pad skb if needed (to make valid ethernet frame) */
+  1031			if (eth_skb_pad(skb)) {
+  1032				skb = NULL;
+  1033				continue;
+  1034			}
+  1035	
+  1036			/* probably a little skewed due to removing CRC */
+  1037			total_rx_bytes += skb->len;
+  1038	
+  1039			/* protocol */
+> 1040			idpf_rx_singleq_process_skb_fields(rx_q, skb, rx_desc, ptype)
+  1041	
+  1042			/* send completed skb up the stack */
+  1043			napi_gro_receive(rx_q->pp->p.napi, skb);
+  1044			skb = NULL;
+  1045	
+  1046			/* update budget accounting */
+  1047			total_rx_pkts++;
+  1048		}
+  1049	
+  1050		rx_q->skb = skb;
+  1051	
+  1052		rx_q->next_to_clean = ntc;
+  1053	
+  1054		page_pool_nid_changed(rx_q->pp, numa_mem_id());
+  1055		if (cleaned_count)
+  1056			failure = idpf_rx_singleq_buf_hw_alloc_all(rx_q, cleaned_count);
+  1057	
+  1058		u64_stats_update_begin(&rx_q->stats_sync);
+  1059		u64_stats_add(&rx_q->q_stats.packets, total_rx_pkts);
+  1060		u64_stats_add(&rx_q->q_stats.bytes, total_rx_bytes);
+  1061		u64_stats_update_end(&rx_q->stats_sync);
+  1062	
+  1063		/* guarantee a trip back through this routine if there was a failure */
+  1064		return failure ? budget : (int)total_rx_pkts;
+  1065	}
+  1066	
 
 -- 
 0-DAY CI Kernel Test Service
