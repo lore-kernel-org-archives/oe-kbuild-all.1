@@ -1,135 +1,121 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9654417623C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 09:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2948A1B0137;
+	Tue, 15 Oct 2024 09:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728984929; cv=none; b=M1maH2N60mnC47qibNtECLDqkl/o89T86iyaLdNul0hAG1X6AxOvdz6k1OV1CBTkbLCeVziptURvvq2x6yyO2pYbmdFHkap0+Bmbip4hYgjKGczg4znhHFQxutOUU2MGgUO5C9p19Q6S4u7ema9TwIFALxuPNMQsJZ3X9ZtVAQc=
+	t=1728985015; cv=none; b=KHgaL4Siz/tbkxArq3u9tVDk6cuwekhH8y/nckaPIjlzk0gIwOGwHAFbizWkFw7dkgS/1UsPaCWN/UdGeozuvr1x5VbADAg560hvbIXhtXqQdVyzZK9yKb33wuLnWYX9Ax9Hp0g38PAcRywN7hGBYmuy5+ga92xCNianKZDgHVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728984929; c=relaxed/simple;
-	bh=LtkGmQYJngv0+N5zowvnMUUtMR1wazMbXTqoPS4XZIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W6RVCcyf4Qb2L5IRTLp0lJn0m7Se7lT4mQDE5n9Ez6P84hL4w1sNX0kAyzqJztZ5w83f7euS1390asA8UWIIc8kj+RqL5bvqGqE+Xm+C5Xg6vKShNVfJLSsaA/r3SyAmdJzyjw8pnX5vpY4Jx/T1j4pTpksOC4PxXtSc3x8lGj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zeEPxpAw; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728985015; c=relaxed/simple;
+	bh=EuHSVp0ma6AF7blC/RGH7eF4epMQJtOuLhIEBG/TvBI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iaWIfYsXokkDoCyGSvFTXEwMjoJ9seEc0lVOV8N2b2onjkYUyBORUmVIMKm2uY+8rPu4+IUDNwrKHTPFHPqZlCEfQkMTO35gXG9HoDWJORwsmzvoPmiql4giB6vTL1xVt4+twFi5VYR1jbJ4O41O7KvmUTRO/Pr/YE6OehY4/6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LkGxGTj6; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zeEPxpAw"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c95a962c2bso3952837a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 02:35:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LkGxGTj6"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a39620ff54so18858085ab.1;
+        Tue, 15 Oct 2024 02:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728984926; x=1729589726; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dtt5ruZcTqXCpA5r4X1yvSpTefxk7jmtoHyp5gVIjPA=;
-        b=zeEPxpAw99b67zQ+HfOfasOoghqYhbXYflC3jDrSIuBaBpZ+NM7MNoHZAF02uhvroo
-         YGlvnBKEcvifMLhkhxz8x1HGGUhh3g6eJ9DFFLuJuhN3DOZvGyP6uYtzHQIdASotGWlV
-         2HJ9t4NH9+tN5X2E5Pu1Bk8HuG3rRTlPJpLhHFcoImNzBinvHd7Z/xuOZjJb7nBdPzWo
-         LtJxiLzaRar9ezFi2C7G5K21jK7QJlHO6wxuzYbJx3e345wwTn6emZZ0txKDJd6/19PL
-         bZh6OYq9aasGZXOM4E4Pzf8LqioqC0fkt3HHwk1DmxXNt7oIgZRFNK/FlYL4gvqKbqeL
-         Pxmw==
+        d=gmail.com; s=20230601; t=1728985013; x=1729589813; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sOzlHPSBobGuPptS2qSZ1QwRtjfsUbv4gGiNiZWPFR4=;
+        b=LkGxGTj6zWlRmNXI4QQA7yFWIovFgvqLZqnotcbnlM3xo/FoCBeolePQxzEqOeZbkh
+         zFz+nE/vWPW9qT/t3ErAsiV75h32YHcE3lJyJlyLT4xHWv6YDFFL4dFn9xQa0U+OlxCw
+         AuVKwlDTVc+wSvUtdobmkBV5jhTSyjLLqHaTlLXbqxpjciVVlyk6hMUsGMUKunIq28DL
+         2nagvRoy7vNSYHLyqk8oB6IUni27YbvwpzMIruUmyowu4x2oWE0wAUTu4Smt2jDMHxKs
+         BCvidtZsEkVHOmWh5MYm4bU0YsZdu8zw9rckuRN5JTmtgtTiIwswYXBlHv/4gZfo4GnT
+         kJxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728984926; x=1729589726;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dtt5ruZcTqXCpA5r4X1yvSpTefxk7jmtoHyp5gVIjPA=;
-        b=uxmhb69l47KYHQIo62EBXfIkoDojlFUXcX66Yx/7pVkJy7WPY85GqcrI3tdByU+ayr
-         4m7waHsnT54TiOKxsbwz3ISyRIRk1zIYgZXWjaXh21tqPEoKE9dquEJpKx6t+IKXm7+X
-         ZGn6WMBuL7SQJFoKFuy6fqcV6jSAK6MeLX95I2O8UoUbT7XAjVORpGGVxJNHvf4BMKvZ
-         heByZAl/0CffIoMWlBddRVQeyMJPJSTT0PPGab0/B6tvWq/nmH4LQuoW0YCeHq1t4xqt
-         oIEyAh6zYbCH2O82QsRDaecYXP4m5/WTy5a3SFopMotEykQZOVmvfmEvX+p/xWlFrGbP
-         vKCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrp84SGxPk+DMVqEPvDIrDWuOp/cyZ88i5x9d6HffOhmJxBLWnsnuS1axzrFI4AqCwEMrKFW8Rd4ljA3RW@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywo1t2bMkoxtuEfGWEcBwRfV4u7IYM8uTa3usMQQI0SERRawyR6
-	uHj5E3JNdqkWwOZxAbr9esDO3VvlMo4NWrGI27t8P6zINFPj7HCvnW0WZUrif5E=
-X-Google-Smtp-Source: AGHT+IEZzu3niH2ur1wKKaqKOt4J3IT5DAet4B+x9PtVAz5hyNU+yIZsMosyoGLTXXdQTnHuFDVwmg==
-X-Received: by 2002:a05:6402:210e:b0:5c9:84f5:d566 with SMTP id 4fb4d7f45d1cf-5c984f5d6a0mr3204312a12.12.1728984925779;
-        Tue, 15 Oct 2024 02:35:25 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d507755sm489819a12.44.2024.10.15.02.35.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 02:35:25 -0700 (PDT)
-Date: Tue, 15 Oct 2024 12:35:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-5.10.y-cip-rebase 606/1105]
- drivers/usb/host/xhci-plat.c:382 xhci_generic_plat_probe() error: we
- previously assumed 'sysdev' could be null (see line 372)
-Message-ID: <687d643d-9791-4f24-91d8-7a82847c3cab@stanley.mountain>
+        d=1e100.net; s=20230601; t=1728985013; x=1729589813;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sOzlHPSBobGuPptS2qSZ1QwRtjfsUbv4gGiNiZWPFR4=;
+        b=cXBtGY3nhvgeFLAPz37vFxAU4BMV1d9vStPDmM9Sn19kwU9qMRBoU7V+Kx/FQnwOi1
+         m9TFrGIb85VWNoOeHX7mgiD+ecKtUo0qlGG5Hyzq5r94sQTu+GpPXqg28W2OuEy/sYaZ
+         4mV5MMcbfOjfWujiRaGYC64/W0fra8oeicTPScks66+pTqpVzSJbbKgKct/rUg0Vdfkj
+         6GrwqWNe0eUKIC0uRsh8SJea8i0AB6lUorb01krjrgqZLn39GG0LXgrmmnlLVFb/01Cq
+         s19wZ+03Gafx4FWhEDbfdV+zXVOAL9wlj/DXlqLNy7s9XSefM2rSB5JPBXczQraY3LGs
+         VEzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYMUN5c+eeLMtRQ66y3VyhnRd4uJylceaGmUA9jtblUdWzWe2cToqvP7OH4gJRGHs795OAW/dUif+mxDTtLg==@lists.linux.dev, AJvYcCX8ffq57bDKKirAbNYAG7bR7oONvdj+3fre6Eb0gBL1UWm8R8ClAqa5rYCL4jRMVQUivhqm@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPKJVI3cNd2Q1f3rPucgA7q8ShTcTQaU4RbTGOsQ6X/yTMRiNb
+	AS6/u28TvBlXqMLcyBWJQ0a+BbBohi9v9idHHgmWjTvaVlRDFVCJRuRqTyRLgHmtsiLvahx7JjB
+	O/C7NaBtvLfeqljyHXQUJ1SAwrBs=
+X-Google-Smtp-Source: AGHT+IHAUit3P2s0RoURPDSBc3P7BsQ0e7J7JlVGM9tYWDXEhA89gyrAqTmPloyMh7hBhGScnTLEFj/4VJVnn72WJvY=
+X-Received: by 2002:a05:6e02:1a0b:b0:3a3:b4dd:4db with SMTP id
+ e9e14a558f8ab-3a3b5c73b7fmr147541985ab.0.1728985013202; Tue, 15 Oct 2024
+ 02:36:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241012040651.95616-10-kerneljasonxing@gmail.com> <202410151628.hcAdeahi-lkp@intel.com>
+In-Reply-To: <202410151628.hcAdeahi-lkp@intel.com>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Tue, 15 Oct 2024 17:36:16 +0800
+Message-ID: <CAL+tcoCsWdDKSfWfbAD2DtSFJRaCMJNVy4UbKqoLH8RfkPkBvA@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 09/12] net-timestamp: add tx OPT_ID_TCP
+ support for bpf case
+To: kernel test robot <lkp@intel.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, dsahern@kernel.org, willemdebruijn.kernel@gmail.com, 
+	willemb@google.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	Jason Xing <kernelxing@tencent.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip-rebase
-head:   3cdd0cc9c0e53917e2c4e56b1e7256ae8923845e
-commit: 7ce55f4ea24048dd70fb4aa8f522c94d5f767f08 [606/1105] xhci: split out rcar/rz support from xhci-plat.c
-config: x86_64-randconfig-161-20241014 (https://download.01.org/0day-ci/archive/20241015/202410150653.RDBoPiA3-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+On Tue, Oct 15, 2024 at 4:41=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Jason,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on net-next/main]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-tim=
+estamp-introduce-socket-tsflag-requestors/20241012-121010
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20241012040651.95616-10-kernelja=
+sonxing%40gmail.com
+> patch subject: [PATCH net-next v2 09/12] net-timestamp: add tx OPT_ID_TCP=
+ support for bpf case
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241015/20=
+2410151628.hcAdeahi-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
+5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241015/202410151628.hcAdeahi-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410151628.hcAdeahi-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> net/core/sock.c:926:2: warning: variable 'tsflags' is uninitialized wh=
+en used here [-Wuninitialized]
+>      926 |         tsflags |=3D (sk->sk_tsflags[SOCKETOPT_TS_REQUESTOR] |
+>          |         ^~~~~~~
+>    net/core/sock.c:920:13: note: initialize the variable 'tsflags' to sil=
+ence this warning
+>      920 |         u32 tsflags;
+>          |                    ^
+>          |                     =3D 0
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410150653.RDBoPiA3-lkp@intel.com/
-
-smatch warnings:
-drivers/usb/host/xhci-plat.c:382 xhci_generic_plat_probe() error: we previously assumed 'sysdev' could be null (see line 372)
-
-vim +/sysdev +382 drivers/usb/host/xhci-plat.c
-
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  359  static int xhci_generic_plat_probe(struct platform_device *pdev)
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  360  {
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  361  	const struct xhci_plat_priv *priv_match;
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  362  	struct device *sysdev;
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  363  	int ret;
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  364  
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  365  	/*
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  366  	 * sysdev must point to a device that is known to the system firmware
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  367  	 * or PCI hardware. We handle these three cases here:
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  368  	 * 1. xhci_plat comes from firmware
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  369  	 * 2. xhci_plat is child of a device from firmware (dwc3-plat)
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  370  	 * 3. xhci_plat is grandchild of a pci device (dwc3-pci)
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  371  	 */
-7ce55f4ea24048 Arnd Bergmann             2023-06-01 @372  	for (sysdev = &pdev->dev; sysdev; sysdev = sysdev->parent) {
-                                                                                          ^^^^^^
-This loop exits with a NULL sysdev pointer
-
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  373  		if (is_of_node(sysdev->fwnode) ||
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  374  			is_acpi_device_node(sysdev->fwnode))
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  375  			break;
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  376  #ifdef CONFIG_PCI
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  377  		else if (sysdev->bus == &pci_bus_type)
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  378  			break;
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  379  #endif
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  380  	}
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  381  
-7ce55f4ea24048 Arnd Bergmann             2023-06-01 @382  	if (WARN_ON(!sysdev->dma_mask)) {
-                                                                             ^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  383  		/* Platform did not initialize dma_mask */
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  384  		ret = dma_coerce_mask_and_coherent(sysdev, DMA_BIT_MASK(64));
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  385  		if (ret)
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  386  			return ret;
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  387  	}
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  388  
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  389  	if (pdev->dev.of_node)
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  390  		priv_match = of_device_get_match_data(&pdev->dev);
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  391  	else
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  392  		priv_match = dev_get_platdata(&pdev->dev);
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  393  
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  394  	return xhci_plat_probe(pdev, sysdev, priv_match);
-7ce55f4ea24048 Arnd Bergmann             2023-06-01  395  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Thanks! I will fix it!
