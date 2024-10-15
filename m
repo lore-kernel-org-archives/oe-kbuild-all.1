@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C02158A1F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 01:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE77155308
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 01:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728956184; cv=none; b=jhe08XCA9qIS2GoLWnXTyC21GlwnAL9kum+ZGIWadZYL1FNEQza0kH3aIwuPA0y4VQ21BMmnnj9mUAqIhypguozfrIFOExuGzqQZN96mdRJA/U+fcx8BtPpmGcKdhI1tEPRTXEFfgRLoZmAKXA42Kx0h0vORXPT7xn8ttL3TbGw=
+	t=1728956962; cv=none; b=ulT8NynZfU6ndpjtxlOIMj7dn27dJD+VY7qKN07+ac5mh3sjYgdvWfEOueV62RNFJhB8tB3RTUYeMWo18OKWHD/O9HBgtmiGCdlLYtVigiWLhtAcrQR6NTSK0GkSHiR6S8hNKTX/ELZ1CswqLRK4bM5y/kuhTx44NKIJK+qPizQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728956184; c=relaxed/simple;
-	bh=BxunOLC7SLYiMYlnQtABF4rqOdPefSeGirsL1mlD6ZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rVb7VBBMOttRTh3da3omlPpaYh5UnrHpxSiiNxkircnBQGRgFQiZ0B5NiMUckDPPNR5RlXVrGykicn1JaVvDzvzUD5GNebgp5K7A2JIQG73eZ2NG/O0gPLbXct2jAbLuxuQAV6PsAQvk1TxyGfEPZ3Nx32QURtvRSDusmmcpa8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acs4Ggvh; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1728956962; c=relaxed/simple;
+	bh=RhNyz76qPI6+n5RwAes9G5wRNWu5JEbCcb3TYxHs6ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=I4MFfEDZoKbzLa9EDrG8VPBj2sMlH9JQtX22CZBtqoZfJO5qFRXI7VfVyiEQEnsVRS2VzSMf4W1C8opopi1ppcYIPeEvBSj5ZfHErkNRdPhIXVAp2GnhzWyYZs/6TipAGtQ3ncvPcyU2mxoXyUWXNqYkYgbKH6zTPkvrcfILH38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LNJZZo1d; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acs4Ggvh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNJZZo1d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728956183; x=1760492183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BxunOLC7SLYiMYlnQtABF4rqOdPefSeGirsL1mlD6ZA=;
-  b=acs4GgvhfMQlQsqk0oSMy8qbAz35xYwc+DgUcxnpvT6bRdRDgZy8bTy7
-   F+v6mw1xOnS2GFDUVfZyn8UC1RMVioYdrIjc37pCHjoC48FYkunPhChsC
-   bBmOdopTTjdZF7FdhrU5sfjaN19tU9/qZsF+x9ngEQAx0jNCD4Ndvugzr
-   Sz6kr69HQ/72Lh0NKqKtGRZirclCw4fJFvJCZ6mU7VZ/VcqDGbJIQNLas
-   XhL0W8fdUr6CN1/+v3PoyS5vpqo6ZejNW7XD2581+Kb6ahWELlx8B3TjK
-   gpk7zpDxmt3USTcOAGP444ZWU8EmbH9dphbs0HVi4FmZzyIbmlxiDUUtK
-   w==;
-X-CSE-ConnectionGUID: 7mteh/flSPepxjei1hyWiw==
-X-CSE-MsgGUID: UBMpqrpGSAW5LhDCScitrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="38961849"
+  t=1728956961; x=1760492961;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=RhNyz76qPI6+n5RwAes9G5wRNWu5JEbCcb3TYxHs6ys=;
+  b=LNJZZo1dqZf/94pulKep2Em/JBjuM+ifGP4EAkSguBAwI08+aBAoojpP
+   fSaKKnSeQzWgNCj10N4L6jc/YSxTSgRf7AjI1KdW7ODuKCPt2/VJdODvU
+   0HbUdPe/JN2UgmxwG2zrbV2pTMQeSy3ZrMCKryfzAkVzwToM/r/Z7Rccz
+   ZofWALgcpQcn7vXSPFzxEDS98kZ0+VL5H0YBAHNdVk1cPN1Mwu18bEHmJ
+   xJlAE3J3JQqXMQgGe32UNX5r14m02yqp9rrUTJrKScJ7IRSZWtZCQn8yC
+   WZ9VnZhYtBy2fXSAMjHsHG7Q/fhVrfA+pDy7QmyQarK/3d8T5xqvEQGuc
+   A==;
+X-CSE-ConnectionGUID: evfKwrE+RgSl9L5/fXTppw==
+X-CSE-MsgGUID: 887bpQpMQTq+NpZnKNSusg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="15948788"
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="38961849"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 18:36:21 -0700
-X-CSE-ConnectionGUID: A+HDiqjaRMGA/VUwCnfLbQ==
-X-CSE-MsgGUID: gxxyTZ14QXWROMXSgMy4/A==
+   d="scan'208";a="15948788"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 18:49:20 -0700
+X-CSE-ConnectionGUID: Bc3Fn8NBTr2j1Sp+CFxS9A==
+X-CSE-MsgGUID: awmrzWz0TEul7DJNxZxr4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77604846"
+   d="scan'208";a="77914741"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 Oct 2024 18:36:19 -0700
+  by orviesa006.jf.intel.com with ESMTP; 14 Oct 2024 18:49:19 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0WTw-000HRe-25;
-	Tue, 15 Oct 2024 01:36:16 +0000
-Date: Tue, 15 Oct 2024 09:35:55 +0800
+	id 1t0WgX-000HSX-1K;
+	Tue, 15 Oct 2024 01:49:17 +0000
+Date: Tue, 15 Oct 2024 09:48:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kurt Borja <kuurtb@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com
-Subject: Re: [PATCH v3] alienware-wmi: Dell AWCC platform_profile support
-Message-ID: <202410150939.BgH8WpE3-lkp@intel.com>
-References: <20241008195642.36677-2-kuurtb@gmail.com>
+To: Liu Shixin <liushixin2@huawei.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] mm/swapfile: skip HugeTLB pages for unuse_vma
+Message-ID: <Zw3J8LYEeJ-Bs-Xy@841ce2d326e3>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,49 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008195642.36677-2-kuurtb@gmail.com>
+In-Reply-To: <20241015014521.570237-1-liushixin2@huawei.com>
 
-Hi Kurt,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.12-rc3 next-20241014]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/alienware-wmi-Dell-AWCC-platform_profile-support/20241011-184337
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241008195642.36677-2-kuurtb%40gmail.com
-patch subject: [PATCH v3] alienware-wmi: Dell AWCC platform_profile support
-config: x86_64-buildonly-randconfig-004-20241015 (https://download.01.org/0day-ci/archive/20241015/202410150939.BgH8WpE3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410150939.BgH8WpE3-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410150939.BgH8WpE3-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/platform/x86/dell/alienware-wmi.c: In function 'profile_to_wmax_arg':
->> drivers/platform/x86/dell/alienware-wmi.c:822:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     822 |         return FIELD_PREP(PROFILE_MASK, prof) | PROFILE_ACTIVATE;
-         |                ^~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_PREP +822 drivers/platform/x86/dell/alienware-wmi.c
-
-   819	
-   820	static u32 profile_to_wmax_arg(enum WMAX_THERMAL_PROFILE prof)
-   821	{
- > 822		return FIELD_PREP(PROFILE_MASK, prof) | PROFILE_ACTIVATE;
-   823	}
-   824	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] mm/swapfile: skip HugeTLB pages for unuse_vma
+Link: https://lore.kernel.org/stable/20241015014521.570237-1-liushixin2%40huawei.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
