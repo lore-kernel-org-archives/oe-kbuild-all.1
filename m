@@ -1,119 +1,126 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3001E2821
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 09:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E211B85DB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 10:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728986250; cv=none; b=HMzNwcygm0VoKoeFoewd3wUf5v2CGZ5Tmw+sWFBlwPD277obdefDf6EnpJlHzORyDUdyrS3yRZqWgwjsEhYWgrtLiQBqXMMnPZen5vDLNOBPgDJKsOWiyf90Qt16JM1B0NvKdy1vn/4PXt4+wINMZa15KRLS+fjr6A6skeTH5sg=
+	t=1728987231; cv=none; b=f9cBSJGsDTrF/qrH7CkB92vgft2SUKQHyq2E2GPxJ8VuDFXR+22juZ9FIQDzOowuofcGaZTdTbJ01bbKPv9m4WPuieZS6J2CiwE3MyxP1Vvq/+hVUYeqnFck2UPhDiIdlaHNk5QP3uPCkOanuf/MkORUf6iho4AH9KAjd9aa7Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728986250; c=relaxed/simple;
-	bh=Fts6/1RabYEbIy3v8+9FhvpEspO0TjKei/OAcyJOqr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QOqzKR6G6QBe8i+rQLo7qECtR1uh1gkMQ5sg6SotSkbd8oBojhvmVeGR9vIyfbRwcnE8eqljq6NyxweLW8F5p5zBmDjTTM1PTDq4Gr/cuc4xlsjMljwr3h1/au0uhU5Kmp6jOvKuCmf+Lrfm78pVBrm6klWPJfQHeEPIyoJvqME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GL5rx8rG; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728987231; c=relaxed/simple;
+	bh=jBNLiiDQztK8tDxklcBbYNKZ4i3UWrSzPxw5rOzncRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V7ML+TNKbRFQw6KGZQX84h0gfgtxVykvD98sEQ4KLutveJzAdc9NCNB9I5eUsxKZZ2F/t8L8NSLKvWh6UG00TDu/956z8+vIWjtED7MrFvbNi1/kjdBtEI7CaLPWUIGUU0SvxAC8NZK9E3wWHTwWpmmWGGb+OgagnGgpLm86pr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HfjL7TtX; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GL5rx8rG"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c97cc83832so2370203a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 02:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728986245; x=1729591045; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pfd9Ji8+CtIaiWyzsdO/tzYifkcmo2104Us2nW9BUHs=;
-        b=GL5rx8rGPFXs8OuyP4qW/QnclX/8bghXZ/2Xjfs2nNh1Bou2UwTj/TXRjJ+FHXHTnY
-         bKCDfvnLAR2ChUzHfQ7mY9iRi9FtJjFSbS/tXNK0riJvzSJjGfUYiKufELlI6XWHSEjy
-         hIRTFV91PPQ4dPK+BwgDzIo0PQFZTTdORZA+WxZdjQ//hTdG42YGiEgNtRGSkkC7mhLF
-         zdelakGsglyAtdtq1AptZTgXTPoCas4xA2cwWoDIMo5pcUi1meAh69KoYT53q3phYRuR
-         GztKO7P82IrnOn1Y4MbXkGyrscU+t5OBt11/wI0s1ZeLqJs3dA2UJTfm9EU6oEVHxUwV
-         rViA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728986245; x=1729591045;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Pfd9Ji8+CtIaiWyzsdO/tzYifkcmo2104Us2nW9BUHs=;
-        b=cAWISCB9bZzXt+MVT1GMr5DWBRw4SMC7KVILJ+geZTlh4mRk4b7ZYm7ewYAYiWOA1X
-         8x5yzCnUZnvcdybrQUHPChqzVgTpvLiek6mPsWZvx94HxxF3URLaXSvE2RrlTwF+8KT3
-         SOJQYjDbZsGVLC9W3clkULqSt3xu6qDThf1Rvr+Tok8FTtIGsLNp1KLrYPnCkwUuY2Cu
-         zZOvwdSQF9GwfQ448YES3PS3lwdNmLTuzdP+BC8pAD7cwRdVD6DoCMd8C80tlgoTi+4w
-         eIl6MIwMQYFmp7UtSM6/k+7hAUeXMu+ACC7gYUMfPT1brNSPZbvPj947KuzX62AauE6x
-         PiKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXwGL+/ZxBWEOQtcWzx5lC0UbrsiA7+aWlpUss8rmJOOiCWCNqDQPVeTh07FZp6FGI3Hc87XA9SzUV3wO1q@lists.linux.dev
-X-Gm-Message-State: AOJu0YySUHJET9bUoMTnBSzn7F5a4NAElNF3ODzWcti+eBo47bXf/Vwh
-	vJnHT6gS8eHqZ9aqS3EfKsc761zQBguV3EsYCXzhKk0UQeBcb6/CmIIRmUknCOI=
-X-Google-Smtp-Source: AGHT+IE/1hZx31jarMp7okmy+T78/Ax8AzJsjAdAGu3NJyFhcpkNjwkbPfAQFJPWV+XmxTiFfR5RNQ==
-X-Received: by 2002:a50:c90d:0:b0:5c9:3275:1ac5 with SMTP id 4fb4d7f45d1cf-5c948cd95d3mr8312547a12.20.1728986245095;
-        Tue, 15 Oct 2024 02:57:25 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d4d6297sm506909a12.15.2024.10.15.02.57.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 02:57:24 -0700 (PDT)
-Date: Tue, 15 Oct 2024 12:57:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 3/3] pinctrl: th1520: Factor out casts
-Message-ID: <1379102f-6de8-4346-9c42-af49dcfaea2e@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HfjL7TtX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728987229; x=1760523229;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jBNLiiDQztK8tDxklcBbYNKZ4i3UWrSzPxw5rOzncRg=;
+  b=HfjL7TtXY+R1B+LoVwVId9KVtVtSyKcx5/aOP0Fc+yV0iY8GmibPhI4I
+   8hnwzr5uWIZm4RON3HockQ05rvAf5mwhAbGa8SC9tVEfjJlkjfT9DxX1A
+   5sGXBRDBHJEReqgQHLCq22YiReGFeHmOYyEeAPpA0Comud/3FMXdGcmr2
+   qmr4FzmOdIESW9I+U43Ei7e6p/ZuONCjVQQVL5RL8by0yIrGg+Ndud9g/
+   5R2OYmQf/uwrTQbJszw9BgQJvBw+k4+8M4fuvhQBemQBZ4OD21eZsgxzb
+   H6uKK0+LEOtPTJ0kLmjWtiDZs5ejEpHghFjftbyZcmmOahdwlVubSjvcS
+   g==;
+X-CSE-ConnectionGUID: 7+KfVQZsSWexEad/gir29g==
+X-CSE-MsgGUID: 8Ti1gGEsT3CR2v/0tp0DCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28158111"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28158111"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:13:48 -0700
+X-CSE-ConnectionGUID: USzd0He1RrSE+DO0OgbOWg==
+X-CSE-MsgGUID: Iwu0yHTATwuaRIQb8BI1Fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
+   d="scan'208";a="108574767"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 03:13:44 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0eYg-000Hx3-0G;
+	Tue, 15 Oct 2024 10:13:42 +0000
+Date: Tue, 15 Oct 2024 18:13:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Giedrius =?utf-8?Q?Statkevi=C4=8Dius?= <giedriuswork@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Giedrius =?utf-8?Q?Statkevi=C4=8Dius?= <giedriuswork@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/lspcon: do not hardcode settle timeout
+Message-ID: <202410151813.Hw9oCTae-lkp@intel.com>
+References: <20241014093914.109162-1-giedriuswork@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241011144826.381104-4-emil.renner.berthing@canonical.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241014093914.109162-1-giedriuswork@gmail.com>
 
-Hi Emil,
+Hi Giedrius,
 
 kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc3 next-20241015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Emil-Renner-Berthing/pinctrl-th1520-Fix-pinconf-return-values/20241011-224939
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20241011144826.381104-4-emil.renner.berthing%40canonical.com
-patch subject: [PATCH v1 3/3] pinctrl: th1520: Factor out casts
-config: csky-randconfig-r073-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151731.MnWrd9PX-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Giedrius-Statkevi-ius/drm-i915-lspcon-do-not-hardcode-settle-timeout/20241014-174131
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241014093914.109162-1-giedriuswork%40gmail.com
+patch subject: [PATCH] drm/i915/lspcon: do not hardcode settle timeout
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241015/202410151813.Hw9oCTae-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151813.Hw9oCTae-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410151731.MnWrd9PX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151813.Hw9oCTae-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/pinctrl-th1520.c:808 th1520_pinmux_set_mux() warn: variable dereferenced before check 'func' (see line 806)
+All warnings (new ones prefixed by >>):
 
-vim +/func +808 drivers/pinctrl/pinctrl-th1520.c
+>> drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:495: warning: Function parameter or struct member 'time_out' not described in 'drm_lspcon_set_mode'
 
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  801  static int th1520_pinmux_set_mux(struct pinctrl_dev *pctldev,
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  802  				 unsigned int fsel, unsigned int gsel)
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  803  {
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  804  	struct th1520_pinctrl *thp = pinctrl_dev_get_drvdata(pctldev);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  805  	const struct function_desc *func = pinmux_generic_get_function(pctldev, fsel);
-3d7cbbc97d4a47 Emil Renner Berthing 2024-10-11 @806  	enum th1520_muxtype muxtype = (uintptr_t)func->data;
-                                                                                                 ^^^^^^^^^^
-Dereference
 
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  807  
-d01240b22abf28 clingfei             2024-10-03 @808  	if (!func)
-                                                             ^^^^
-Checked too late
+vim +495 drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
 
-d01240b22abf28 clingfei             2024-10-03  809  		return -EINVAL;
-3d7cbbc97d4a47 Emil Renner Berthing 2024-10-11  810  
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  811  	return th1520_pinmux_set(thp, thp->desc.pins[gsel].number,
-3d7cbbc97d4a47 Emil Renner Berthing 2024-10-11  812  				 th1520_pad_muxdata(thp->desc.pins[gsel].drv_data),
-3d7cbbc97d4a47 Emil Renner Berthing 2024-10-11  813  				 muxtype);
-bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  814  }
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  482  
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  483  /**
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  484   * drm_lspcon_set_mode: Change LSPCON's mode of operation by
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  485   * writing offset (0x80, 0x40)
+318fbd7dfedd67 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Lyude Paul            2021-04-23  486   * @dev: &drm_device to use
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  487   * @adapter: I2C-over-aux adapter
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  488   * @mode: required mode of operation
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  489   *
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  490   * Returns:
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  491   * 0 on success, -error on failure/timeout
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  492   */
+318fbd7dfedd67 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Lyude Paul            2021-04-23  493  int drm_lspcon_set_mode(const struct drm_device *dev, struct i2c_adapter *adapter,
+3d7a1094af9e7e drivers/gpu/drm/display/drm_dp_dual_mode_helper.c Giedrius Statkevičius 2024-10-14  494  			enum drm_lspcon_mode mode, int time_out)
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17 @495  {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
