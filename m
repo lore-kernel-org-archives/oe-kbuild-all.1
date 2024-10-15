@@ -1,121 +1,154 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2948A1B0137;
-	Tue, 15 Oct 2024 09:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC891D9A70
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 09:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728985015; cv=none; b=KHgaL4Siz/tbkxArq3u9tVDk6cuwekhH8y/nckaPIjlzk0gIwOGwHAFbizWkFw7dkgS/1UsPaCWN/UdGeozuvr1x5VbADAg560hvbIXhtXqQdVyzZK9yKb33wuLnWYX9Ax9Hp0g38PAcRywN7hGBYmuy5+ga92xCNianKZDgHVA=
+	t=1728985136; cv=none; b=qX1D+3Ormkmw4G165HK83l5+4I2JM5B/OowJI7IPeyzcTH00nsrTMwtS+C9BGReUAiWvlaixGZ2Xp9QQFl66Dn8K/0W9fz7ADe1y9IhFqGWHHBNiLlfXTVQVgyQ9kA0IBqtGk+aAv4n6eK5mNV7d+UYwV0cau7lwpK296NDpBFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728985015; c=relaxed/simple;
-	bh=EuHSVp0ma6AF7blC/RGH7eF4epMQJtOuLhIEBG/TvBI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iaWIfYsXokkDoCyGSvFTXEwMjoJ9seEc0lVOV8N2b2onjkYUyBORUmVIMKm2uY+8rPu4+IUDNwrKHTPFHPqZlCEfQkMTO35gXG9HoDWJORwsmzvoPmiql4giB6vTL1xVt4+twFi5VYR1jbJ4O41O7KvmUTRO/Pr/YE6OehY4/6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LkGxGTj6; arc=none smtp.client-ip=209.85.166.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728985136; c=relaxed/simple;
+	bh=BRwLXdhHh3Vz3/DnJ8+ebKBume2ui14fXBbSklIUOeo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jncTfzqCXejx4SDaCkHoFeobqkk1RO3AvtD8/vuBAmb8XNAICpfpzcLF7SLSpUuqgSiyNalBzzUSoxeAAFzvhHUKAqGNhC3SK3lkzk/Lt+axFnjx7OO3GBc7qkPDDMjruAC77LujQCvnhcauOZd0K1WgS6EYcSmdWcQeVlhHgCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UnDBqY49; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LkGxGTj6"
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a39620ff54so18858085ab.1;
-        Tue, 15 Oct 2024 02:36:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UnDBqY49"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c94b0b466cso4645837a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 02:38:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728985013; x=1729589813; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sOzlHPSBobGuPptS2qSZ1QwRtjfsUbv4gGiNiZWPFR4=;
-        b=LkGxGTj6zWlRmNXI4QQA7yFWIovFgvqLZqnotcbnlM3xo/FoCBeolePQxzEqOeZbkh
-         zFz+nE/vWPW9qT/t3ErAsiV75h32YHcE3lJyJlyLT4xHWv6YDFFL4dFn9xQa0U+OlxCw
-         AuVKwlDTVc+wSvUtdobmkBV5jhTSyjLLqHaTlLXbqxpjciVVlyk6hMUsGMUKunIq28DL
-         2nagvRoy7vNSYHLyqk8oB6IUni27YbvwpzMIruUmyowu4x2oWE0wAUTu4Smt2jDMHxKs
-         BCvidtZsEkVHOmWh5MYm4bU0YsZdu8zw9rckuRN5JTmtgtTiIwswYXBlHv/4gZfo4GnT
-         kJxQ==
+        d=linaro.org; s=google; t=1728985133; x=1729589933; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OfCai4eYiIudEPLa8OIXuMgd/jCd/LVKOPCeL3BPO54=;
+        b=UnDBqY49icisEsQ4xQm1zPAlzs/7Z++h+sQF1niXh1+GC2IaIyjZGUoDvSRxRKazoj
+         nK/wDyFXbT4r2fTpSNSfar6mGt7FWB8Hgr4eKKfX5WUHHhNIEy4OOqJ4bfb2NcakwdVY
+         8eOYdfCSIGV328RURnoTpBzECAJyCxpSjYB57O3gBk7K+oioqNPO7VL/ArJ9JUKrVbsw
+         nj2L6p4yCoMd+7ITg0I8cYZBoYxZqmWUQQeehtJgo7pg1JvQJbMXMm0VpxShaqrRkvQ4
+         38nezbf/uPhn+ZnN0uwxBBkRhEkBDPytHGwtvk8IMZGsnFFYeAt5suO+q+/rQPJN+3He
+         z0Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728985013; x=1729589813;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sOzlHPSBobGuPptS2qSZ1QwRtjfsUbv4gGiNiZWPFR4=;
-        b=cXBtGY3nhvgeFLAPz37vFxAU4BMV1d9vStPDmM9Sn19kwU9qMRBoU7V+Kx/FQnwOi1
-         m9TFrGIb85VWNoOeHX7mgiD+ecKtUo0qlGG5Hyzq5r94sQTu+GpPXqg28W2OuEy/sYaZ
-         4mV5MMcbfOjfWujiRaGYC64/W0fra8oeicTPScks66+pTqpVzSJbbKgKct/rUg0Vdfkj
-         6GrwqWNe0eUKIC0uRsh8SJea8i0AB6lUorb01krjrgqZLn39GG0LXgrmmnlLVFb/01Cq
-         s19wZ+03Gafx4FWhEDbfdV+zXVOAL9wlj/DXlqLNy7s9XSefM2rSB5JPBXczQraY3LGs
-         VEzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYMUN5c+eeLMtRQ66y3VyhnRd4uJylceaGmUA9jtblUdWzWe2cToqvP7OH4gJRGHs795OAW/dUif+mxDTtLg==@lists.linux.dev, AJvYcCX8ffq57bDKKirAbNYAG7bR7oONvdj+3fre6Eb0gBL1UWm8R8ClAqa5rYCL4jRMVQUivhqm@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPKJVI3cNd2Q1f3rPucgA7q8ShTcTQaU4RbTGOsQ6X/yTMRiNb
-	AS6/u28TvBlXqMLcyBWJQ0a+BbBohi9v9idHHgmWjTvaVlRDFVCJRuRqTyRLgHmtsiLvahx7JjB
-	O/C7NaBtvLfeqljyHXQUJ1SAwrBs=
-X-Google-Smtp-Source: AGHT+IHAUit3P2s0RoURPDSBc3P7BsQ0e7J7JlVGM9tYWDXEhA89gyrAqTmPloyMh7hBhGScnTLEFj/4VJVnn72WJvY=
-X-Received: by 2002:a05:6e02:1a0b:b0:3a3:b4dd:4db with SMTP id
- e9e14a558f8ab-3a3b5c73b7fmr147541985ab.0.1728985013202; Tue, 15 Oct 2024
- 02:36:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728985133; x=1729589933;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OfCai4eYiIudEPLa8OIXuMgd/jCd/LVKOPCeL3BPO54=;
+        b=NzsdGJROMBB/32MYfjMXzDxtIbf5vmAvAqjutCqqjOZ9pV7ULC4lV7N/vxZLG5Rd8i
+         /9xpcdfqAhWC+i8bYFWZeNwQXyOJ03c7J3PnLtV5QYoUpmytlBSM7x5Zmod45QhsFhJ4
+         iHI9/kp6hO6lUM4l7LRPacMaUEhgF9sw4qqnv5Etd4YVgvqrfnPvsoDSfJRD6MbeX/Mm
+         F/hBe9sUSKrpaIzHSbriZcRZ84T8YAVn0oRNvwthZkssigV8bxdoUzEU7gjhvKBdkbsu
+         yCnMfBNSgrWPM+u5foMD/PnLeQlQg90NRJGLjB1VwCkF8a0EjiHytyfLjgL6bFMN74/S
+         eRrA==
+X-Forwarded-Encrypted: i=1; AJvYcCUw6v6SHbsid9HC3lLfXHK6xJ1z9Q8yaHv6R0mqrD4qQj9Dw3ildJYnD/AmegChkNMrlzciO+sbFqTeUpcv@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOVg5JIIP4fpNlgLU0msxA4bw4Vxb+leoX3AtRwFK94Fd9TNpL
+	TIBsIYaI6AGdLPrm4W6MHZcbq9sX54ih12yh9iqbUQbGIWPNHw3Zkvu4sHs1aouhSJbGNEf4jEm
+	y
+X-Google-Smtp-Source: AGHT+IHi+UyZcvTJgtA3wJaM4UZwwbLFjmqDKXC1KoolvvarBuoRUPJxPQS0P9ols4cpyIhgleWiEQ==
+X-Received: by 2002:a05:6402:909:b0:5c9:1b50:1a5c with SMTP id 4fb4d7f45d1cf-5c948c96ab6mr10078087a12.9.1728985132633;
+        Tue, 15 Oct 2024 02:38:52 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d779ddcsm491701a12.73.2024.10.15.02.38.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 02:38:52 -0700 (PDT)
+Date: Tue, 15 Oct 2024 12:38:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Abhash Jha <abhashkumarjha123@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [jic23-iio:testing 24/26] drivers/iio/light/vl6180.c:268
+ vl6180_measure() warn: inconsistent returns '&data->lock'.
+Message-ID: <ad77aa66-0a9f-4d6c-be6a-7f0ebd4373b3@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241012040651.95616-10-kerneljasonxing@gmail.com> <202410151628.hcAdeahi-lkp@intel.com>
-In-Reply-To: <202410151628.hcAdeahi-lkp@intel.com>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Tue, 15 Oct 2024 17:36:16 +0800
-Message-ID: <CAL+tcoCsWdDKSfWfbAD2DtSFJRaCMJNVy4UbKqoLH8RfkPkBvA@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 09/12] net-timestamp: add tx OPT_ID_TCP
- support for bpf case
-To: kernel test robot <lkp@intel.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, dsahern@kernel.org, willemdebruijn.kernel@gmail.com, 
-	willemb@google.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
-	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
-	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	Jason Xing <kernelxing@tencent.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Oct 15, 2024 at 4:41=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Jason,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-tim=
-estamp-introduce-socket-tsflag-requestors/20241012-121010
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20241012040651.95616-10-kernelja=
-sonxing%40gmail.com
-> patch subject: [PATCH net-next v2 09/12] net-timestamp: add tx OPT_ID_TCP=
- support for bpf case
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241015/20=
-2410151628.hcAdeahi-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
-5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20241015/202410151628.hcAdeahi-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410151628.hcAdeahi-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> net/core/sock.c:926:2: warning: variable 'tsflags' is uninitialized wh=
-en used here [-Wuninitialized]
->      926 |         tsflags |=3D (sk->sk_tsflags[SOCKETOPT_TS_REQUESTOR] |
->          |         ^~~~~~~
->    net/core/sock.c:920:13: note: initialize the variable 'tsflags' to sil=
-ence this warning
->      920 |         u32 tsflags;
->          |                    ^
->          |                     =3D 0
->    1 warning generated.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   c3e9df514041ec6c46be83801b1891392f4522f7
+commit: acea0e6dd7d459e267efa0c4e8fa284669762e85 [24/26] iio: light: vl6180: Added Interrupt support for single shot access
+config: s390-randconfig-r073-20241014 (https://download.01.org/0day-ci/archive/20241015/202410150702.GKQ7QQ7l-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
-Thanks! I will fix it!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410150702.GKQ7QQ7l-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/light/vl6180.c:268 vl6180_measure() warn: inconsistent returns '&data->lock'.
+
+vim +268 drivers/iio/light/vl6180.c
+
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  212  static int vl6180_measure(struct vl6180_data *data, int addr)
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  213  {
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  214  	struct i2c_client *client = data->client;
+acea0e6dd7d459 Abhash Jha            2024-10-07  215  	unsigned long time_left;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  216  	int tries = 20, ret;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  217  	u16 value;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  218  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  219  	mutex_lock(&data->lock);
+acea0e6dd7d459 Abhash Jha            2024-10-07  220  	reinit_completion(&data->completion);
+acea0e6dd7d459 Abhash Jha            2024-10-07  221  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  222  	/* Start single shot measurement */
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  223  	ret = vl6180_write_byte(client,
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  224  		vl6180_chan_regs_table[addr].start_reg, VL6180_STARTSTOP);
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  225  	if (ret < 0)
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  226  		goto fail;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  227  
+acea0e6dd7d459 Abhash Jha            2024-10-07  228  	if (client->irq) {
+acea0e6dd7d459 Abhash Jha            2024-10-07  229  		time_left = wait_for_completion_timeout(&data->completion, HZ / 10);
+acea0e6dd7d459 Abhash Jha            2024-10-07  230  		if (time_left == 0)
+acea0e6dd7d459 Abhash Jha            2024-10-07  231  			return -ETIMEDOUT;
+
+ret = -ETIMEDOUT;
+goto fail;
+
+acea0e6dd7d459 Abhash Jha            2024-10-07  232  	} else {
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  233  		while (tries--) {
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  234  			ret = vl6180_read_byte(client, VL6180_INTR_STATUS);
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  235  			if (ret < 0)
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  236  				goto fail;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  237  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  238  			if (ret & vl6180_chan_regs_table[addr].drdy_mask)
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  239  				break;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  240  			msleep(20);
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  241  		}
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  242  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  243  		if (tries < 0) {
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  244  			ret = -EIO;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  245  			goto fail;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  246  		}
+acea0e6dd7d459 Abhash Jha            2024-10-07  247  	}
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  248  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  249  	/* Read result value from appropriate registers */
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  250  	ret = vl6180_chan_regs_table[addr].word ?
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  251  		vl6180_read_word(client, vl6180_chan_regs_table[addr].value_reg) :
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  252  		vl6180_read_byte(client, vl6180_chan_regs_table[addr].value_reg);
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  253  	if (ret < 0)
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  254  		goto fail;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  255  	value = ret;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  256  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  257  	/* Clear the interrupt flag after data read */
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  258  	ret = vl6180_write_byte(client, VL6180_INTR_CLEAR,
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  259  		VL6180_CLEAR_ERROR | VL6180_CLEAR_ALS | VL6180_CLEAR_RANGE);
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  260  	if (ret < 0)
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  261  		goto fail;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  262  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  263  	ret = value;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  264  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  265  fail:
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  266  	mutex_unlock(&data->lock);
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  267  
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19 @268  	return ret;
+5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  269  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
