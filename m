@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C3C1F585C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 20:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F781F5853
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 20:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729024613; cv=none; b=hqrVXk5ggYXP/EBvPiOmlUx02RkjSRbQI/SqE8yzfjjZPCrjV43iAi45lIbDfbX1SG1n6lOqcVcOPGZFYbMV8EstnwUTAGgv/KfY2KQcNnI0raaxUi321jZiK8XTtQ6x88Xw2utkGOpJL9CTzJS329/p180EqE98PGKkoLRjgXc=
+	t=1729025214; cv=none; b=Y4fUCKR9Z9FA5BtemrNkG2FjCd5JC6w6Whr1AW4gJp6HWvf16sfcvAfIJPDHg11jmArcZhO3EcGdmHSgIUTnqcpMjNzZI0eEDiK92d2aYEFUgE+RGq9RxAx4XwMKlYf39q66Buhb9KsBSt+TxKlnrcs9J0jRusK7l3XjX7529vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729024613; c=relaxed/simple;
-	bh=PxNg9e//Uj2iB519PkjX8NJ6AZJiVEkwP1CoX8ZQqNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GvLbUCS6a1nz1473hlRdpVB7hUUEnQSiaWpGXirkiAAQ0AfeHgSK+bI/tr6RaP1ed7hDUx7Y/WkcYWIMZE9OjAX7BzSMgHlU9O0d7HTGhhbEpR5nlYXSBeMqq5KD5RdpfZVU+Q0iRnb3quV83FoPiuGx+vfR0AlYGWEsFR8VEHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wj1721uM; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1729025214; c=relaxed/simple;
+	bh=j3GtmwhKFyJfeeyHi+++6iBfpxuD/xvW8TWBFyVPnsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dfVypB2N+w/Opz3cXmKswLUH/2rwfWdB3Vp83y24y/hrvsR07TS+8JMo+otCrWVr+05G13uZ5ChXd7Dgti4oS43jAgD4DCGhZuAEwC3bg+8EtDMJfRChAAxa+NWFE2+dnhKio1Z0KsmhepJ/NsBBfPUB5d2GkD41Oo/skksH6mE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqo+bFd9; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wj1721uM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqo+bFd9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729024611; x=1760560611;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PxNg9e//Uj2iB519PkjX8NJ6AZJiVEkwP1CoX8ZQqNM=;
-  b=Wj1721uM/8VIjddhJfaGfjwf56qF58DK+ipnCYoxigZ1mLlWwravEGai
-   OcrGfLI78Q9kIUUcKeDhdEnKFfE15jDycKJ/uRYvOsVu+r5FaItFmyQ2I
-   CxfLto6GlpPytzu7/f4kauQUvbjsc/ldEw86pPrTmRECxTxpVbGMDjJAe
-   JwcdQBZiJkNrsSRgfJsfdzzM+hEO60UlecI1/lI/sAyWlB2aA53UxIY81
-   Zv2BlFjAyU/tAm3qHh37uKe8HlzlnLkORAtALmMDwRNIaxa19mB183dJp
-   jc02VExEXPl++W3GX0wJajYp/AnrP59fBjyggcwvi9lCg+g9TDkYyaLia
-   Q==;
-X-CSE-ConnectionGUID: yyaht7+VToKY8zORs2tQeA==
-X-CSE-MsgGUID: 6QZrkh6mRiOqatWuVX1ERQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="53855825"
+  t=1729025213; x=1760561213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j3GtmwhKFyJfeeyHi+++6iBfpxuD/xvW8TWBFyVPnsk=;
+  b=aqo+bFd9/jhdPghTj9pAFT3NDK4p79BAi0BwVBEMBOEwi6kATjfvixNj
+   mgdyIn0Cax47e7xyiaq3vLJmFxL1neRdx+SDot/8pA0e10gKeZuLfgCuq
+   vRbxX3YYkI4c5kKGVvXCSx7nJzIA9F95izpYI9/bv3IIsVFMQO423LPVW
+   JQiCB5NXcrGVTxb0Z7Dohhd8iar0o/duu9a+IE3RoTQlaSCCudVsTVdFL
+   OQ9Om5Uyufrudvfbz2GA/zno1zOQxuNFCsgoWnPRA2gWanqT/SNAwPCfU
+   XBG4EuEC/EfrjAQgwMcXJCWjcKI6ImeXcOHf7SznvQek1OO0ql/YLXDGL
+   w==;
+X-CSE-ConnectionGUID: 55S2ZNhdT2yqhVp3yjBb6w==
+X-CSE-MsgGUID: oXX7a7BeRnmOVpV2hU2AVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39078687"
 X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="53855825"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 13:36:50 -0700
-X-CSE-ConnectionGUID: xry8Cxc7S7S8A193Ie8MqA==
-X-CSE-MsgGUID: etcp92BbRfKAOrDK2AWPJA==
+   d="scan'208";a="39078687"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 13:46:52 -0700
+X-CSE-ConnectionGUID: WDAobR3nTzqwxv22AgNFzw==
+X-CSE-MsgGUID: vgqutLJFRCuptDVHZpbwCQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="77634045"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="82814929"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Oct 2024 13:36:49 -0700
+  by orviesa003.jf.intel.com with ESMTP; 15 Oct 2024 13:46:50 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0oHf-000Juu-0h;
-	Tue, 15 Oct 2024 20:36:47 +0000
-Date: Wed, 16 Oct 2024 04:36:19 +0800
+	id 1t0oRL-000JvP-1H;
+	Tue, 15 Oct 2024 20:46:47 +0000
+Date: Wed, 16 Oct 2024 04:46:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/platform/x86/x86-android-tablets/lenovo.c:604:30: sparse:
- sparse: symbol 'lenovo_yoga_tab2_1380_bq24190_pdata' was not declared.
- Should it be static?
-Message-ID: <202410160432.oJAPbrW9-lkp@intel.com>
+To: Andrew Davis <afd@ti.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Martyn Welch <martyn.welch@collabora.com>,
+	Hari Nagalla <hnagalla@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH 2/2] mailbox: ti-msgmgr: Allow building under COMPILE_TEST
+Message-ID: <202410160435.WzzQa1p5-lkp@intel.com>
+References: <20241014144821.15094-3-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,160 +68,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241014144821.15094-3-afd@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eca631b8fe808748d7585059c4307005ca5c5820
-commit: 3eee73ad42c3899d97e073bf2c41e7670a3c575c platform/x86: x86-android-tablets: Add Lenovo Yoga Tablet 2 Pro 1380F/L data
-date:   6 months ago
-config: x86_64-randconfig-r133-20241015 (https://download.01.org/0day-ci/archive/20241016/202410160432.oJAPbrW9-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160432.oJAPbrW9-lkp@intel.com/reproduce)
+Hi Andrew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on linus/master v6.12-rc3 next-20241015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/mailbox-ti-msgmgr-Remove-use-of-of_match_ptr-helper/20241014-225353
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20241014144821.15094-3-afd%40ti.com
+patch subject: [PATCH 2/2] mailbox: ti-msgmgr: Allow building under COMPILE_TEST
+config: hexagon-randconfig-r131-20241015 (https://download.01.org/0day-ci/archive/20241016/202410160435.WzzQa1p5-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
+reproduce: (https://download.01.org/0day-ci/archive/20241016/202410160435.WzzQa1p5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160432.oJAPbrW9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160435.WzzQa1p5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/platform/x86/x86-android-tablets/lenovo.c:604:30: sparse: sparse: symbol 'lenovo_yoga_tab2_1380_bq24190_pdata' was not declared. Should it be static?
->> drivers/platform/x86/x86-android-tablets/lenovo.c:729:12: sparse: sparse: symbol 'lenovo_yoga_tab2_1380_modules' was not declared. Should it be static?
-   drivers/platform/x86/x86-android-tablets/lenovo.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +/lenovo_yoga_tab2_1380_bq24190_pdata +604 drivers/platform/x86/x86-android-tablets/lenovo.c
+   In file included from drivers/firmware/ti_sci.c:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/firmware/ti_sci.c:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/firmware/ti_sci.c:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   drivers/firmware/ti_sci.c:200:20: warning: unused function 'ti_sci_debugfs_destroy' [-Wunused-function]
+     200 | static inline void ti_sci_debugfs_destroy(struct platform_device *dev,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/firmware/ti_sci.c:3285:34: warning: unused variable 'ti_sci_of_match' [-Wunused-const-variable]
+    3285 | static const struct of_device_id ti_sci_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~
+   8 warnings generated.
 
-   603	
- > 604	struct bq24190_platform_data lenovo_yoga_tab2_1380_bq24190_pdata = {
-   605		.regulator_init_data = &lenovo_yoga_tab2_1380_bq24190_vbus_init_data,
-   606	};
-   607	
-   608	static const struct property_entry lenovo_yoga_tab2_1380_lc824206xa_props[] = {
-   609		PROPERTY_ENTRY_BOOL("onnn,enable-miclr-for-dcp"),
-   610		{ }
-   611	};
-   612	
-   613	static const struct software_node lenovo_yoga_tab2_1380_lc824206xa_node = {
-   614		.properties = lenovo_yoga_tab2_1380_lc824206xa_props,
-   615	};
-   616	
-   617	static const char * const lenovo_yoga_tab2_1380_lms303d_mount_matrix[] = {
-   618		"0", "-1", "0",
-   619		"-1", "0", "0",
-   620		"0", "0", "1"
-   621	};
-   622	
-   623	static const struct property_entry lenovo_yoga_tab2_1380_lms303d_props[] = {
-   624		PROPERTY_ENTRY_STRING_ARRAY("mount-matrix", lenovo_yoga_tab2_1380_lms303d_mount_matrix),
-   625		{ }
-   626	};
-   627	
-   628	static const struct software_node lenovo_yoga_tab2_1380_lms303d_node = {
-   629		.properties = lenovo_yoga_tab2_1380_lms303d_props,
-   630	};
-   631	
-   632	static const struct x86_i2c_client_info lenovo_yoga_tab2_1380_i2c_clients[] __initconst = {
-   633		{
-   634			/* BQ27541 fuel-gauge */
-   635			.board_info = {
-   636				.type = "bq27541",
-   637				.addr = 0x55,
-   638				.dev_name = "bq27541",
-   639				.swnode = &fg_bq24190_supply_node,
-   640			},
-   641			.adapter_path = "\\_SB_.I2C1",
-   642		}, {
-   643			/* bq24292i battery charger */
-   644			.board_info = {
-   645				.type = "bq24190",
-   646				.addr = 0x6b,
-   647				.dev_name = "bq24292i",
-   648				.swnode = &lenovo_yoga_tab2_1380_bq24190_node,
-   649				.platform_data = &lenovo_yoga_tab2_1380_bq24190_pdata,
-   650			},
-   651			.adapter_path = "\\_SB_.I2C1",
-   652			.irq_data = {
-   653				.type = X86_ACPI_IRQ_TYPE_GPIOINT,
-   654				.chip = "INT33FC:02",
-   655				.index = 2,
-   656				.trigger = ACPI_EDGE_SENSITIVE,
-   657				.polarity = ACPI_ACTIVE_HIGH,
-   658				.con_id = "bq24292i_irq",
-   659			},
-   660		}, {
-   661			/* LP8557 Backlight controller */
-   662			.board_info = {
-   663				.type = "lp8557",
-   664				.addr = 0x2c,
-   665				.dev_name = "lp8557",
-   666				.platform_data = &lenovo_lp8557_pwm_and_reg_pdata,
-   667			},
-   668			.adapter_path = "\\_SB_.I2C3",
-   669		}, {
-   670			/* LC824206XA Micro USB Switch */
-   671			.board_info = {
-   672				.type = "lc824206xa",
-   673				.addr = 0x48,
-   674				.dev_name = "lc824206xa",
-   675				.swnode = &lenovo_yoga_tab2_1380_lc824206xa_node,
-   676			},
-   677			.adapter_path = "\\_SB_.I2C3",
-   678			.irq_data = {
-   679				.type = X86_ACPI_IRQ_TYPE_GPIOINT,
-   680				.chip = "INT33FC:02",
-   681				.index = 1,
-   682				.trigger = ACPI_LEVEL_SENSITIVE,
-   683				.polarity = ACPI_ACTIVE_LOW,
-   684				.con_id = "lc824206xa_irq",
-   685			},
-   686		}, {
-   687			/* AL3320A ambient light sensor */
-   688			.board_info = {
-   689				.type = "al3320a",
-   690				.addr = 0x1c,
-   691				.dev_name = "al3320a",
-   692			},
-   693			.adapter_path = "\\_SB_.I2C5",
-   694		}, {
-   695			/* LSM303DA accelerometer + magnetometer */
-   696			.board_info = {
-   697				.type = "lsm303d",
-   698				.addr = 0x1d,
-   699				.dev_name = "lsm303d",
-   700				.swnode = &lenovo_yoga_tab2_1380_lms303d_node,
-   701			},
-   702			.adapter_path = "\\_SB_.I2C5",
-   703		}, {
-   704			/* Synaptics RMI touchscreen */
-   705			.board_info = {
-   706				.type = "rmi4_i2c",
-   707				.addr = 0x38,
-   708				.dev_name = "rmi4_i2c",
-   709				.platform_data = &lenovo_yoga_tab2_830_1050_rmi_pdata,
-   710			},
-   711			.adapter_path = "\\_SB_.I2C6",
-   712			.irq_data = {
-   713				.type = X86_ACPI_IRQ_TYPE_APIC,
-   714				.index = 0x45,
-   715				.trigger = ACPI_EDGE_SENSITIVE,
-   716				.polarity = ACPI_ACTIVE_HIGH,
-   717			},
-   718		}
-   719	};
-   720	
-   721	static const struct platform_device_info lenovo_yoga_tab2_1380_pdevs[] __initconst = {
-   722		{
-   723			/* For the Tablet 2 Pro 1380's custom fast charging driver */
-   724			.name = "lenovo-yoga-tab2-pro-1380-fastcharger",
-   725			.id = PLATFORM_DEVID_NONE,
-   726		},
-   727	};
-   728	
- > 729	const char * const lenovo_yoga_tab2_1380_modules[] __initconst = {
-   730		"bq24190_charger",            /* For the Vbus regulator for lc824206xa */
-   731		NULL
-   732	};
-   733	
+
+vim +/ti_sci_of_match +3285 drivers/firmware/ti_sci.c
+
+aa276781a64a5f Nishanth Menon 2016-10-18  3284  
+aa276781a64a5f Nishanth Menon 2016-10-18 @3285  static const struct of_device_id ti_sci_of_match[] = {
+aa276781a64a5f Nishanth Menon 2016-10-18  3286  	{.compatible = "ti,k2g-sci", .data = &ti_sci_pmmc_k2g_desc},
+754c9477ae7872 Peter Ujfalusi 2019-04-30  3287  	{.compatible = "ti,am654-sci", .data = &ti_sci_pmmc_am654_desc},
+aa276781a64a5f Nishanth Menon 2016-10-18  3288  	{ /* Sentinel */ },
+aa276781a64a5f Nishanth Menon 2016-10-18  3289  };
+aa276781a64a5f Nishanth Menon 2016-10-18  3290  MODULE_DEVICE_TABLE(of, ti_sci_of_match);
+aa276781a64a5f Nishanth Menon 2016-10-18  3291  
 
 -- 
 0-DAY CI Kernel Test Service
