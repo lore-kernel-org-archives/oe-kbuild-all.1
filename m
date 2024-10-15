@@ -1,129 +1,140 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF341F80CF;
-	Tue, 15 Oct 2024 21:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8141FDF9F;
+	Tue, 15 Oct 2024 21:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729028088; cv=none; b=hCMnWXwN/eqPhpiFHZbe7vMVxbPm4z+xyaOWFjzwi45MgdZ2KU/p365sWLj/CgP8d9gSLDna2b5YMlZpWPNj9CaQD8fnmCicgGcn/Wr+azsbr/WzeMhgdileMmAZEilCcfa94hkLEcdLwMX5CVA4X1sYfgIMLqF8rw50Z5tOV+4=
+	t=1729028334; cv=none; b=hFz0gCJcM336UPA/dG2pEW8kdmTlk/sRzG1zP2TY693dV3gVGXhDOwfiKKNQbYOv5gklHNHCy0iEcoO6P93hPPq9MzCTjSzC9ZwhTVHJhk3zEIe9yFOb7K5nh3MpeDORXec4iXNP9f0yq+hVYzhhYS3MS/m7GYIWS9MyXrF6qBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729028088; c=relaxed/simple;
-	bh=99hDOdD3Hoek2h3iWva2tdvABFqP0jl+Gw148X878sA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GoqCwFw3AgLfnVSiy7opXWhxQzZIc49vlUgUAEb6gQ+wGQm2U/ns7rpd4nhFj5gGULcko0TToFRd2rPnN0wtL0DOI+X9l77DyhOHKXLO8FvFvuIE3aNHSDtHuS/mnpjZ7EuqATrL2daJP3i0SbHRM3LTTiSgih/43xLOT8dmMFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=WvwVpx8G; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1729028334; c=relaxed/simple;
+	bh=upSAwv8V2SWbQWWWH/qg0f9Hf2B/D0MvKJy10z5anNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EumQzdEMQwj8y9bjO8tfxm6Gdg80XoaralQehhStFh3bFlzxoHnTPGeyZyHWnTwuNqk/tVHPe/xm3ZDP78HCUqlfAcMR8/vYFTTgO2Fhdx3vqhBabRQbVGSGKBn8P8nGe6hahr4Ori/5ehPvAbgORXR+Eq0uwcqHBiY7GGGlzXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L6U4yDlI; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="WvwVpx8G"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 49FLYZ6M011296;
-	Tue, 15 Oct 2024 16:34:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1729028075;
-	bh=gnM0sof5+5QgdAmcOQbB4PSeLMOw1mlIXfv+A5bnUms=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=WvwVpx8GFMKaGL0qlA6xeMOvK9e4rt6Ps62Bf0NdWSqJamCF8t+QUx+n55NhCSSQ4
-	 CxpeWFr5IohPPyBQMoxBOiHC7AunS3/J9hxlVomx9zQI+yghoWALVRHz4eI30ONV+V
-	 RWp4RfivXBe3emtoz/uuPp5/xs9FazBkC3VmQFwc=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 49FLYZYd039040
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 15 Oct 2024 16:34:35 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 15
- Oct 2024 16:34:35 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 15 Oct 2024 16:34:35 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49FLYYgM115618;
-	Tue, 15 Oct 2024 16:34:34 -0500
-Message-ID: <b6ddbcfa-91ce-4774-b577-08f41e773781@ti.com>
-Date: Tue, 15 Oct 2024 16:34:34 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L6U4yDlI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729028333; x=1760564333;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=upSAwv8V2SWbQWWWH/qg0f9Hf2B/D0MvKJy10z5anNg=;
+  b=L6U4yDlINFSXX3lVxmULgRWgj7uZuxrUHM5K3KPsM6Wijrl6gusKrJyX
+   lYciMi29LByW0MIi1wqOmPrtgW7VSaRpQMoU8v1k+kUq2VwW3+Mma7Vo+
+   LwEv1v7M9MIVKtQW7WieOcMQWziurMaH24e9/kJdBKLgg1X+3whPm5TEP
+   Pb7fLxqANxe/tE80/vEIWhitJmjYPUBzZLy6gtWln/q4lIuiojHDYiCgM
+   KEuuFUwL/NFZT31QJe1ksByu5Ad/cmUR0vNbq08opFLJX14a0vBGEp5Ky
+   LdR5DOx8djCGSle7EzIM/VDCcwtJWvksfUsTjtvEonN3Za4gKp8YWKm8c
+   g==;
+X-CSE-ConnectionGUID: svInU1QkTuCLqLcinPLRHg==
+X-CSE-MsgGUID: ngHyJHSPT8+E5LAjZ1veGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45926959"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="45926959"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 14:38:52 -0700
+X-CSE-ConnectionGUID: x66HpaXrTxKNAfuEcGEyDg==
+X-CSE-MsgGUID: I6JyoPSNRPGnUbEPxFAdvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
+   d="scan'208";a="77647449"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Oct 2024 14:38:51 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0pFh-000Jxj-1e;
+	Tue, 15 Oct 2024 21:38:49 +0000
+Date: Wed, 16 Oct 2024 05:38:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v11 11/14] iavf: refactor
+ iavf_clean_rx_irq to support legacy and flex descriptors
+Message-ID: <202410160511.XfTdTwCG-lkp@intel.com>
+References: <20241013154415.20262-12-mateusz.polchlopek@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] mailbox: ti-msgmgr: Allow building under COMPILE_TEST
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
-        Jassi
- Brar <jassisinghbrar@gmail.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Martyn Welch
-	<martyn.welch@collabora.com>,
-        Hari Nagalla <hnagalla@ti.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20241014144821.15094-3-afd@ti.com>
- <202410160435.WzzQa1p5-lkp@intel.com>
- <1a88e7b5-582f-4d52-864a-e828f6619bc8@app.fastmail.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <1a88e7b5-582f-4d52-864a-e828f6619bc8@app.fastmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241013154415.20262-12-mateusz.polchlopek@intel.com>
 
-On 10/15/24 3:54 PM, Arnd Bergmann wrote:
-> Hi Andrew,
-> 
-> On Tue, Oct 15, 2024, at 20:46, kernel test robot wrote:
->>     In file included from drivers/firmware/ti_sci.c:14:
->>     In file included from include/linux/io.h:14:
->>     In file included from arch/hexagon/include/asm/io.h:328:
->>     include/asm-generic/io.h:548:31: warning: performing pointer
->> arithmetic on a null pointer has undefined behavior
->> [-Wnull-pointer-arithmetic]
->>       548 |         val = __raw_readb(PCI_IOBASE + addr);
->>           |                           ~~~~~~~~~~ ^
->>     include/asm-generic/io.h:561:61: warning: performing pointer
->> arithmetic on a null pointer has undefined behavior
->> [-Wnull-pointer-arithmetic]
->>       561 |         val = __le16_to_cpu((__le16
->> __force)__raw_readw(PCI_IOBASE + addr));
->>           |
-> 
-> 
-> Hopefully we will be able to finally address these in 6.13
-> for all drivers, it's been a decade. Don't worry about
-> the above.
-> 
-> 
->> platform_device *dev,
->>           |                    ^~~~~~~~~~~~~~~~~~~~~~
->>>> drivers/firmware/ti_sci.c:3285:34: warning: unused variable 'ti_sci_of_match' [-Wunused-const-variable]
->>      3285 | static const struct of_device_id ti_sci_of_match[] = {
->>           |                                  ^~~~~~~~~~~~~~~
->>     8 warnings generated.
->>
-> 
-> Needs this change, please fold into your patch.
+Hi Mateusz,
 
-Was going to clean this up in several places in another series,
-but will add this one to this series, v2 on the way.
+kernel test robot noticed the following build warnings:
 
-Andrew
+[auto build test WARNING on a77c49f53be0af1efad5b4541a9a145505c81800]
 
-> 
-> diff --git a/drivers/firmware/ti_sci.c b/drivers/firmware/ti_sci.c
-> index 160968301b1f..6a6bf7a2d134 100644
-> --- a/drivers/firmware/ti_sci.c
-> +++ b/drivers/firmware/ti_sci.c
-> @@ -3421,7 +3421,7 @@ static struct platform_driver ti_sci_driver = {
->          .probe = ti_sci_probe,
->          .driver = {
->                     .name = "ti-sci",
-> -                  .of_match_table = of_match_ptr(ti_sci_of_match),
-> +                  .of_match_table = ti_sci_of_match,
->                     .suppress_bind_attrs = true,
->          },
->   };
-> 
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Polchlopek/virtchnl-add-support-for-enabling-PTP-on-iAVF/20241014-174710
+base:   a77c49f53be0af1efad5b4541a9a145505c81800
+patch link:    https://lore.kernel.org/r/20241013154415.20262-12-mateusz.polchlopek%40intel.com
+patch subject: [Intel-wired-lan] [PATCH iwl-next v11 11/14] iavf: refactor iavf_clean_rx_irq to support legacy and flex descriptors
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241016/202410160511.XfTdTwCG-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160511.XfTdTwCG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160511.XfTdTwCG-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/intel/iavf/iavf_txrx.c:963:10: warning: variable 'csum_bits' is uninitialized when used here [-Wuninitialized]
+     963 |                 return csum_bits;
+         |                        ^~~~~~~~~
+   drivers/net/ethernet/intel/iavf/iavf_txrx.c:960:2: note: variable 'csum_bits' is declared here
+     960 |         struct libeth_rx_csum csum_bits;
+         |         ^
+   drivers/net/ethernet/intel/iavf/iavf_txrx.c:993:10: warning: variable 'csum_bits' is uninitialized when used here [-Wuninitialized]
+     993 |                 return csum_bits;
+         |                        ^~~~~~~~~
+   drivers/net/ethernet/intel/iavf/iavf_txrx.c:990:2: note: variable 'csum_bits' is declared here
+     990 |         struct libeth_rx_csum csum_bits;
+         |         ^
+   2 warnings generated.
+
+
+vim +/csum_bits +963 drivers/net/ethernet/intel/iavf/iavf_txrx.c
+
+   944	
+   945	/**
+   946	 * iavf_legacy_rx_csum - Indicate in skb if hw indicated a good checksum
+   947	 * @vsi: the VSI we care about
+   948	 * @qw1: quad word 1
+   949	 * @decoded_pt: decoded packet type
+   950	 *
+   951	 * This function only operates on the VIRTCHNL_RXDID_1_32B_BASE legacy 32byte
+   952	 * descriptor writeback format.
+   953	 *
+   954	 * Return: decoded checksum bits.
+   955	 **/
+   956	static struct libeth_rx_csum
+   957	iavf_legacy_rx_csum(const struct iavf_vsi *vsi, u64 qw1,
+   958			    const struct libeth_rx_pt decoded_pt)
+   959	{
+   960		struct libeth_rx_csum csum_bits;
+   961	
+   962		if (!libeth_rx_pt_has_checksum(vsi->netdev, decoded_pt))
+ > 963			return csum_bits;
+   964	
+   965		csum_bits.ipe = FIELD_GET(IAVF_RXD_LEGACY_IPE_M, qw1);
+   966		csum_bits.eipe = FIELD_GET(IAVF_RXD_LEGACY_EIPE_M, qw1);
+   967		csum_bits.l4e = FIELD_GET(IAVF_RXD_LEGACY_L4E_M, qw1);
+   968		csum_bits.pprs = FIELD_GET(IAVF_RXD_LEGACY_PPRS_M, qw1);
+   969		csum_bits.l3l4p = FIELD_GET(IAVF_RXD_LEGACY_L3L4P_M, qw1);
+   970		csum_bits.ipv6exadd = FIELD_GET(IAVF_RXD_LEGACY_IPV6EXADD_M, qw1);
+   971	
+   972		return csum_bits;
+   973	}
+   974	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
