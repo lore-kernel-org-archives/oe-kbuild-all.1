@@ -1,107 +1,114 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34C9158DD8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 16:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317F41F6677
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 16:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729009157; cv=none; b=T2Plb+ndccyd9/ymz2NFOgWrEN3mmAiXbvQx+s6j8IjUCVLuBsl/Gi5sJD1ROZMq/D/EaAn7le8ycvhiNY9fwLke8uDfhgYmAduhzcO112tyOed4JRYqWLOJcMeLKovDXr5B5XXvf7ZEOPv12SoMkaYiRMZWVJf0cEqxMsQt1OU=
+	t=1729009903; cv=none; b=nW4j11lFJC1BS9VEIsypVmbTDkzKzADrU6Uo8S/azOghSZuZJprHJ1ijteTj2S3l3BOo99JIaNF7nuPl1D5LbP+RNNHedxnczeZ9Ldrvgh7XOc4b7KwLnxq1/J4/2hPfjK4dJFAlZ1CuRLI0xNaIXbPpwyJgIVPieTeuXEOcFzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729009157; c=relaxed/simple;
-	bh=zmA/00I/rJT/tqnmzKp6XjapkqZfWbScm/Yeourf5vU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QkaOHaR9qocURiPf2AgFTh4OoKG1o3SayETICTdQ5pKSSscjfoEml5uy/BGZapjThjRckaZ8eCVcD6xFR6SLwfLWxxbGaVJ9yHtdh/cfbBxrOlq1VlNF1K5PZv401S8QjMIvGtsSosdh+KXQ2Vo/ozmEO9WWRZcS7P0TCM0Bf+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=f3hqesS/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1729009903; c=relaxed/simple;
+	bh=IE74QBPoqfGJir3d0htfuRFVPtrwtDK5zO8/52D6uOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ASIy2GNn9xJ6HT85ztyKb1fB960W3h7Vv3lkibK+c/QMONUSDBrKbeIiBOILU9pMapkxiRBSY8SkEvuloH85l7pO9ROaANYkz+JHb/np1B55yIefDvFXzQ6nb3YIyRhuI4VPRFUdrNjaUAXMOG+Q+h/kI5xMGnmAuWre84ZWNkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6a8vQdp; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="f3hqesS/"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49F9qV3l027796;
-	Tue, 15 Oct 2024 16:18:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	r+FlGNemb68zVPoS1oWfgoA7NXvv0pIJi/EsE9mxPOI=; b=f3hqesS/1jiW0k2a
-	MCQ4x0nu7Fx7w15w7SBwqf8PnpvQWIUe+IqSsyTpCwVvyKZS0/nkwCDtJ0LsZz3J
-	KgLDgWP94jSZAqjlqHq30gw49hqhBKlpzvZb7z283emY5rOdZ7nAWVudU2P2h5Qh
-	7N0PP7qpFZ56N+3qwLPBfYamIN/Ru56Q1mg91h9J+RRMN3oNy7kKXk9C/PNKLKki
-	uUwB+VPdttT33x5REQ0Ek4J3Th8Il5aqbIAgZHI2jSH43KDXL1Jm8NU0GPPSTQOs
-	bmgUNB8hS4Gt6NQ2CV37ybqRPILVnbLd+t6+EskiuTtlSt52R0bVD3qZaP616j69
-	Dma9hA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427jd904tc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Oct 2024 16:18:47 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49FGIkRa005017
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Oct 2024 16:18:46 GMT
-Received: from [10.216.57.188] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 15 Oct
- 2024 09:18:38 -0700
-Message-ID: <382e2d4d-3bf8-d88b-29c1-37c1446a0843@quicinc.com>
-Date: Tue, 15 Oct 2024 21:48:21 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6a8vQdp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729009901; x=1760545901;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IE74QBPoqfGJir3d0htfuRFVPtrwtDK5zO8/52D6uOw=;
+  b=M6a8vQdp1UT7leGbn/wQfzi1aL7AzE8KCp1iYXsrAYPualRvz6Qoz7/k
+   UUE0SRbhG0qMac4warJ3rJjk5rs5VqeYaZLKrrmaBERJyU2nnyYP93F6g
+   8pKS9obElQe4sSVZ+8A1e80xsZjQV8FMFphpzKPETDCI9ZNk1ojxmkzUV
+   ZnNkbxUqftgleAaFgBd5MFLzSkuAZNSuvR5ZfGR8qgigcWyOBFqkKQsrr
+   dZ4IyvQjYUYkrBCWgChHxFtVbIp7/RE6KdvwPtGMDwu8y03Z9dDffSYWF
+   JDSMYKxnM6Z8CgimpPtFbZR0FaInFOhCXCtthdSb/VCLElDAtAgoo/sVv
+   A==;
+X-CSE-ConnectionGUID: hWaLo86aSA2vDjTNWYOQDA==
+X-CSE-MsgGUID: viRTKhetRQ2gSUIsCt0BOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28617644"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="28617644"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 09:31:36 -0700
+X-CSE-ConnectionGUID: LWxy0vj/SpOszIpV367fMQ==
+X-CSE-MsgGUID: cijNqaSzTkW5+b9p2TLJfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="82756294"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 15 Oct 2024 09:31:35 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0kSL-000Jar-05;
+	Tue, 15 Oct 2024 16:31:33 +0000
+Date: Wed, 16 Oct 2024 00:31:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 5501/5503]
+ include/linux/sched/task.h:59:28: error:
+ 'CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX' undeclared here (not in a function)
+Message-ID: <202410160058.BMbrYYA7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v11 4/8] mtd: nand: Add qpic_common API file
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
-        kernel test robot
-	<lkp@intel.com>
-CC: <broonie@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <andersson@kernel.org>,
-        <konradybcio@kernel.org>, <richard@nod.at>, <vigneshr@ti.com>,
-        <manivannan.sadhasivam@linaro.org>, <arnd@arndb.de>,
-        <esben@geanix.com>, <nikita.shubin@maquefel.me>,
-        <linux-arm-msm@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <oe-kbuild-all@lists.linux.dev>,
-        <quic_srichara@quicinc.com>, <quic_varada@quicinc.com>
-References: <20241010070510.1504250-5-quic_mdalam@quicinc.com>
- <202410130129.M8J7VJoG-lkp@intel.com> <20241015172955.7b0b6708@xps-13>
-Content-Language: en-US
-From: Md Sadre Alam <quic_mdalam@quicinc.com>
-In-Reply-To: <20241015172955.7b0b6708@xps-13>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 8z6kBnp7XghZECOsLn3_bo8kKUAu8CXp
-X-Proofpoint-ORIG-GUID: 8z6kBnp7XghZECOsLn3_bo8kKUAu8CXp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0 bulkscore=0
- mlxscore=0 mlxlogscore=857 malwarescore=0 priorityscore=1501 adultscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410150111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   21a62e214164c402d8af1c59d30ba1dc03b090a2
+commit: 1827ee5e5a2de323359c04153e268a7288061eda [5501/5503] ANDROID: GKI: Add padding after init_task structure
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241016/202410160058.BMbrYYA7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160058.BMbrYYA7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160058.BMbrYYA7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/compat.h:17,
+                    from arch/x86/include/asm/ia32.h:7,
+                    from arch/x86/include/asm/elf.h:10,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/crypto/aria.h:22,
+                    from arch/x86/kernel/asm-offsets.c:10:
+>> include/linux/sched/task.h:59:28: error: 'CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX' undeclared here (not in a function)
+      59 | extern u64 vendor_data_pad[CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX / sizeof(u64)];
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1265: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:242: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
+vim +/CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX +59 include/linux/sched/task.h
 
-On 10/15/2024 8:59 PM, Miquel Raynal wrote:
-> Hi,
-> 
-> lkp@intel.com wrote on Sun, 13 Oct 2024 01:57:12 +0800:
-> 
->> Hi Md,
->>
->> kernel test robot noticed the following build errors:
-> 
-> The below errors seem like basic Kconfig misconfiguration. To be clear,
-> I usually don't review series getting kernel test robot failures and I
-> am expecting that you will fix these errors and post an updated version.
-Sure Will fix this, and post next revision.
-> 
-> Thanks,
-> Miquèl
-> 
+    56	
+    57	extern union thread_union init_thread_union;
+    58	extern struct task_struct init_task;
+  > 59	extern u64 vendor_data_pad[CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX / sizeof(u64)];
+    60	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
