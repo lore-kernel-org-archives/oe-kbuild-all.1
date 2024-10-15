@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399E043ACB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 04:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD84442F;
+	Tue, 15 Oct 2024 04:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728967472; cv=none; b=XjAMxE8/kVE3gJrmtPiRV5EtdrXUHMKWTItUoxF692iyNjOkamMyhkVuBP1vmFHarJg9IpanBkvx4bdhe60UA9/mbbcaMMr7gVZCUOMPnPW4k6FN2MgRqIbQ7xylx0A0liU7F4qD+WyPR6ajvKS4wTDtaa1fU+LfFKWtHfrbULk=
+	t=1728968078; cv=none; b=J8pSABFiS3VvIWWeXkIpWslzmmnV5lfwxKNBBQ4L4k5IC5WUSN5dXIZGBilXCA6qMj8YDOqo5g4j/sRWc0hS3RuIz0wGn0c1ibI4TWkZP6p2ghiieG2w/hyhbXLjghFeQLRvr2CA76+o8p7gWVmrcgWWCpra/piKU4cXItEel0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728967472; c=relaxed/simple;
-	bh=Qnx4bGm6+CFLawiAZSyOUAVq1h+yXwRmkuE7eM4FUXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cljluzch/8ARPvDaoLtY/baG78ZEWQ4pgrrnfOKDPfHJRrePyj7rKndiNl2mksBbPm+yZDejZsEgot3Ts4t/9Xx7JGnnIa7BuEhOL3GK+z5/7MqkUKDCS3tIJVJ+u4RdAmGFi04N1iQdlD3MiS2sAXDxQkkdFGdpuLH3kt6aWxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IRLpYh5t; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1728968078; c=relaxed/simple;
+	bh=oVz47PuMBIBfEu4mr/NH3wXzWsFTytrvHYSGy9yzmwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bE/S1UfB7FvWLaprc18t1RO+/Lz66YX0EJKdmAuaB6OAIq0DUpCnPCsKMUDA26mOTKs2Pne7jGbEeXryranvM/RuObQ0mX6i1YW60LTHIrxujTiFyneoB3+vgG3ldZKBlq5re7d1jsDOO1WeN3p0ZAbwPFfWqZB2Jh4m6i9vw9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Py9yH+gR; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRLpYh5t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Py9yH+gR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728967470; x=1760503470;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qnx4bGm6+CFLawiAZSyOUAVq1h+yXwRmkuE7eM4FUXA=;
-  b=IRLpYh5tAyUPAklHG09aUHftg8iVPtUPi/ksYUeHtw5QHyYjYen9jaqe
-   ybtGv6Ei2TBF3KTgFJRo3XaXlHR2ynZ7AMlVNXnM1jnu5oseNgvXy0dKR
-   Rwwiso8EvVqRinQA/jYRjk00WoSXp/Kbj3vWO2i4w3gzO4JFj+p69rJZr
-   XRMRm2gPVMOggbxFRKLHA9XaIjaFFfNQBrEJ0i8K2/VwytRfcbYSEjYES
-   PPd4iFsGMZg2rCUZQGJ4tPFgnYQ8dXlTkxGhXm5HfxCFHmWYRfupg4cz2
-   EoMFniybEvtV0AB13Yu+cr+U4T7OM67/AsyUfLXqPBZPMRSJuJSB9Ovcr
-   w==;
-X-CSE-ConnectionGUID: vlZa+KwgRD+WRo7Q3FGwAw==
-X-CSE-MsgGUID: eIQz2l+ZSgi/Z2MLBpP5yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28294452"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28294452"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 21:44:30 -0700
-X-CSE-ConnectionGUID: AgzzTqQ6Qh6LisnyOB+PJw==
-X-CSE-MsgGUID: 49b8BDfVRCinDPAyzovs0A==
+  t=1728968076; x=1760504076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oVz47PuMBIBfEu4mr/NH3wXzWsFTytrvHYSGy9yzmwc=;
+  b=Py9yH+gRtMT1ruwBTz5aEwoKBed6KKSxOKRttDKOSKaA9hje2ZzZhHsj
+   suFg4ItcHaqOxCmqd9XjaLPD+DAlRcB04HnCMeBRHG9avG4V09oEaFHnE
+   zyWur4NlmmUXNWYfBk4rDPfZbLwRnsBL44OhonKIFWBKmjhF7S4rHPk8h
+   r80gYJO9YDMZc69vUqDeHQVYDFYdbwbvpplUHACRPExnYwhUTamwvey7E
+   BF6AeJyTPfUem0+pe+XlwaQ8YxAIylMEcTeFixkX/7z0VZ7kT5nv8iuW8
+   eWmLFyUg/Sr7kcOwT+QEl83+6YnDyaflrLlYwyZJqsyraJX5flMXqWNZr
+   g==;
+X-CSE-ConnectionGUID: oGJXKkuwSUOOjoHiA5yLNw==
+X-CSE-MsgGUID: sEVZQA3hSDSVLMpNBpn6gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="45845460"
+X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
+   d="scan'208";a="45845460"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 21:54:35 -0700
+X-CSE-ConnectionGUID: neUJbXNaRCiM7QAbRmJjQA==
+X-CSE-MsgGUID: dLERMooTToO/skjvgMDaBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77947104"
+   d="scan'208";a="77637593"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 14 Oct 2024 21:44:28 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Oct 2024 21:54:28 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0ZQ1-000Hcv-2U;
-	Tue, 15 Oct 2024 04:44:25 +0000
-Date: Tue, 15 Oct 2024 12:44:02 +0800
+	id 1t0ZZi-000Hdb-0C;
+	Tue, 15 Oct 2024 04:54:26 +0000
+Date: Tue, 15 Oct 2024 12:54:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: [linux-next:master 3233/4178] fs/inode.c:148:37: error: implicit
- declaration of function 'timekeeping_get_mg_floor_swaps'
-Message-ID: <202410151246.rfsfj0l3-lkp@intel.com>
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com,
+	will@kernel.org, quic_bjorande@quicinc.com, geert+renesas@glider.be,
+	dmitry.baryshkov@linaro.org, arnd@arndb.de, nfraprado@collabora.com
+Subject: Re: [PATCH v2 6/9] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+Message-ID: <202410151230.DwfMNFO5-lkp@intel.com>
+References: <20241012073543.1388069-7-victor.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +73,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241012073543.1388069-7-victor.liu@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7f773fd61baa9b136faa5c4e6555aa64c758d07c
-commit: 73a47cf40f84312cb6ea2b3583825d671930b24f [3233/4178] fs: add percpu counters for significant multigrain timestamp events
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241015/202410151246.rfsfj0l3-lkp@intel.com/config)
+Hi Liu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on arm64/for-next/core drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc3 next-20241014]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Ying/arm64-dts-imx8mp-skov-revb-mi1010ait-1cp1-Add-panel-timing-node-to-panel-node/20241012-154239
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241012073543.1388069-7-victor.liu%40nxp.com
+patch subject: [PATCH v2 6/9] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+config: i386-randconfig-052-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151230.DwfMNFO5-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151246.rfsfj0l3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151246.rfsfj0l3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151230.DwfMNFO5-lkp@intel.com/
 
-Note: the linux-next/master HEAD 7f773fd61baa9b136faa5c4e6555aa64c758d07c builds fine.
-      It may have been fixed somewhere.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/ite-it6263.c:683:57-62: WARNING: conversion to bool not needed here
 
-All errors (new ones prefixed by >>):
+vim +683 drivers/gpu/drm/bridge/ite-it6263.c
 
-   fs/inode.c: In function 'mgts_show':
->> fs/inode.c:148:37: error: implicit declaration of function 'timekeeping_get_mg_floor_swaps' [-Werror=implicit-function-declaration]
-     148 |         unsigned long floor_swaps = timekeeping_get_mg_floor_swaps();
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/inode.c: In function 'current_time':
-   fs/inode.c:2262:9: error: implicit declaration of function 'ktime_get_coarse_real_ts64_mg'; did you mean 'ktime_get_coarse_real_ts64'? [-Werror=implicit-function-declaration]
-    2262 |         ktime_get_coarse_real_ts64_mg(&now);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         ktime_get_coarse_real_ts64
-   fs/inode.c: In function 'inode_set_ctime_current':
-   fs/inode.c:2756:25: error: implicit declaration of function 'ktime_get_real_ts64_mg'; did you mean 'ktime_get_real_ts64'? [-Werror=implicit-function-declaration]
-    2756 |                         ktime_get_real_ts64_mg(&now);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-         |                         ktime_get_real_ts64
-   cc1: some warnings being treated as errors
-
-
-vim +/timekeeping_get_mg_floor_swaps +148 fs/inode.c
-
-   142	
-   143	static int mgts_show(struct seq_file *s, void *p)
-   144	{
-   145		unsigned long ctime_updates = get_mg_ctime_updates();
-   146		unsigned long ctime_swaps = get_mg_ctime_swaps();
-   147		unsigned long fine_stamps = get_mg_fine_stamps();
- > 148		unsigned long floor_swaps = timekeeping_get_mg_floor_swaps();
-   149	
-   150		seq_printf(s, "%lu %lu %lu %lu\n",
-   151			   ctime_updates, ctime_swaps, fine_stamps, floor_swaps);
-   152		return 0;
-   153	}
-   154	
+   655	
+   656	static void
+   657	it6263_bridge_atomic_enable(struct drm_bridge *bridge,
+   658				    struct drm_bridge_state *old_bridge_state)
+   659	{
+   660		struct drm_atomic_state *state = old_bridge_state->base.state;
+   661		struct it6263 *it = bridge_to_it6263(bridge);
+   662		const struct drm_crtc_state *crtc_state;
+   663		struct regmap *regmap = it->hdmi_regmap;
+   664		const struct drm_display_mode *mode;
+   665		struct drm_connector *connector;
+   666		bool is_stable = false;
+   667		struct drm_crtc *crtc;
+   668		unsigned int val;
+   669		bool pclk_high;
+   670		int i, ret;
+   671	
+   672		connector = drm_atomic_get_new_connector_for_encoder(state,
+   673								     bridge->encoder);
+   674		crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+   675		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+   676		mode = &crtc_state->adjusted_mode;
+   677	
+   678		regmap_write(regmap, HDMI_REG_HDMI_MODE, TX_HDMI_MODE);
+   679	
+   680		it6263_hdmi_avi_infoframe_configure(it, connector, mode);
+   681	
+   682		/* HDMI AFE setup */
+ > 683		pclk_high = mode->clock > HIGH_PIXEL_CLOCK_KHZ ? true : false;
+   684		regmap_write(regmap, HDMI_REG_AFE_DRV_CTRL, AFE_DRV_RST);
+   685		if (pclk_high)
+   686			regmap_write(regmap, HDMI_REG_AFE_XP_CTRL,
+   687				     AFE_XP_GAINBIT | AFE_XP_RESETB);
+   688		else
+   689			regmap_write(regmap, HDMI_REG_AFE_XP_CTRL,
+   690				     AFE_XP_ER0 | AFE_XP_RESETB);
+   691		regmap_write(regmap, HDMI_REG_AFE_ISW_CTRL, 0x10);
+   692		if (pclk_high)
+   693			regmap_write(regmap, HDMI_REG_AFE_IP_CTRL,
+   694				     AFE_IP_GAINBIT | AFE_IP_RESETB);
+   695		else
+   696			regmap_write(regmap, HDMI_REG_AFE_IP_CTRL,
+   697				     AFE_IP_ER0 | AFE_IP_RESETB);
+   698	
+   699		/* HDMI software video reset */
+   700		regmap_write_bits(regmap, HDMI_REG_SW_RST, SOFTV_RST, SOFTV_RST);
+   701		fsleep(1000);
+   702		regmap_write_bits(regmap, HDMI_REG_SW_RST, SOFTV_RST, 0);
+   703	
+   704		/* reconfigure LVDS and retry several times in case video is instable */
+   705		for (i = 0; i < 3; i++) {
+   706			ret = regmap_read_poll_timeout(regmap, HDMI_REG_SYS_STATUS, val,
+   707						       val & TXVIDSTABLE,
+   708						       20000, 500000);
+   709			if (!ret) {
+   710				is_stable = true;
+   711				break;
+   712			}
+   713	
+   714			it6263_lvds_config(it);
+   715		}
+   716	
+   717		if (!is_stable)
+   718			dev_warn(it->dev, "failed to wait for video stable\n");
+   719	
+   720		/* HDMI AFE reset release and power up */
+   721		regmap_write(regmap, HDMI_REG_AFE_DRV_CTRL, 0);
+   722	
+   723		regmap_write_bits(regmap, HDMI_REG_GCP, AVMUTE, 0);
+   724	
+   725		regmap_write(regmap, HDMI_REG_PKT_GENERAL_CTRL, ENABLE_PKT | REPEAT_PKT);
+   726	}
+   727	
 
 -- 
 0-DAY CI Kernel Test Service
