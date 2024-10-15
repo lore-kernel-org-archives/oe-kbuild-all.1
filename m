@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37921D89F5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 11:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA4919B3FF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 11:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728991621; cv=none; b=hAc+QDTTsanI9TwtT6f8C/c8tul50jRWwVznxLSpNmYYon4OnvIwp686O/5jw54iJNG4t2qIwmfHR5ReG7sIkxMz1KUHjl6UIPUxiegGZ4EbW+i1LkMgkbObgFfIUQ3T/Bk5Dxn6ZnHygeCfJ5uGzFPXPJlvmVdhukTLFwTd5g4=
+	t=1728993484; cv=none; b=Ko+AT7d1SMsoloseol19NtM9GcocNnNVDzbn+ioXQV8z8tv6SZfFunbe5//Vb5FGkupyTEkeOjh9ufa+w3aAaOjB69wV5b4dHCBTrwLYSB04XuDLOmgvxM2voGGkqiWN2ijlemlNMDX/hpdpgEEDrKWAdUxJW1gnqCyRi86huD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728991621; c=relaxed/simple;
-	bh=CU5Ivy8Z00Cv051dEKbRz2VOtggkLM1An6ezy/8TD6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qB55VQbGDLeIEgpgHSMOup0zEwXy6S1foTrcAeXIO1G1IL2IHNGCb9bLte+hhV9TDYmwviqye+NBE0Hpy0vRej0wAU8vfcu/l7GyLnTc+AUwyeRZYh+vpSlCVYrBP2cFKnJ3oSd8L9/RKbHQ91WGe9j0e61ZY3JJaFGlbWXU2sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8tpDc21; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1728993484; c=relaxed/simple;
+	bh=K1pUR7EXcsrVpqeCsF9LtLSC1G/KtIjxVoph8j4v/fM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ocSsTZckhAf5XWmtHEpGQ2Tp8RUh5RqrMU9DrTZc1TwPo1GCscjQyv1qdVB/TU9A2x2uFxU1JC/2c7dXsYPfavT8NfRfGLjLpufiQeOVSbbC5vGokf9nBe+L9fJcyJqmXElQdlNtvX+kPP05PQQLAGG7WukU3hKtVbB5nmEZZCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkT0VPQ1; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8tpDc21"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkT0VPQ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728991619; x=1760527619;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CU5Ivy8Z00Cv051dEKbRz2VOtggkLM1An6ezy/8TD6I=;
-  b=J8tpDc21aqSSMfA1s3sQNJOub+nFVsAcSepT1tdW60dFmBp7e+gi/72U
-   3+OFuvC5ylXomNS3GCzyDqErpjmgeUgVA9vhAl2wiIf9uaqg0tULgIL2U
-   +uubgz2DjDqQywUp5DBr8cK84xXK4elTv+1uAAClxJo+bx/56fBn/QKdE
-   c1eJ5fsTrmuqVS25DDI47SJQTKcDyWpTjfqv3hGOp10PFbhs7kD+f4H6w
-   v/Z8POY4daWyx1UGiBUUKNqNaa5QkNvaktvnvDR4VymWAWWmvala0Iz3M
-   BcI4UO9QeJecPNP8kZadZSGK7DFQDRml0xPY+Li+b/3MDjaAbVgdzy6KH
+  t=1728993483; x=1760529483;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K1pUR7EXcsrVpqeCsF9LtLSC1G/KtIjxVoph8j4v/fM=;
+  b=fkT0VPQ1hP3VFkuFEG9oBn7WewcvsXo2UE+mtX+vr+Romsox+xtoMvGp
+   IVhjlC+FeOp6N8cffhB8k6AvZoSBx45WD+6yOYXd34ruWKBhsYdZFIuko
+   3amjdtxovZeaBubiP4lyHEx9Lxvnboy+P4d6ATBK9QAjbm6yQgnm8TU+G
+   gPVnKzqh+s8s+IvAepq/bITDleGwyy7mWiSZ3SzCwxToQSgfYmzAUv9hu
+   DV6CTy8Um5fsYXPo1fkI10pGhI1oPl74FNuOho+oQ60Tc3vzIhyMdXL33
+   8bw3ZCzq/+Kq8sSd7/xOp/i91jQUtXwiH5mi33tYjnHfyZUOxay9eeL9O
    Q==;
-X-CSE-ConnectionGUID: iVA/QSJoTpCwn4MxVzhQTA==
-X-CSE-MsgGUID: R7qVA5AtQB24Z5/UHxjwxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39768516"
+X-CSE-ConnectionGUID: iGcw+v48R5aTGj2O9ZvgSg==
+X-CSE-MsgGUID: OFjTatDYThCdIhSCeWIj9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="32180354"
 X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="39768516"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:26:54 -0700
-X-CSE-ConnectionGUID: SVYhPXiBT5SLyftBMZcMKA==
-X-CSE-MsgGUID: ncKQkyxCRaeSGbYGnAeclg==
+   d="scan'208";a="32180354"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:58:02 -0700
+X-CSE-ConnectionGUID: eXbe0O5VRAyvT9jBxGLBPg==
+X-CSE-MsgGUID: VgIxkNLZSEirhb+djKQUbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="108592278"
+   d="scan'208";a="82528954"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 04:26:49 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Oct 2024 04:58:00 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0fhP-000I2R-08;
-	Tue, 15 Oct 2024 11:26:47 +0000
-Date: Tue, 15 Oct 2024 19:25:56 +0800
+	id 1t0gBa-000ITI-2C;
+	Tue, 15 Oct 2024 11:57:58 +0000
+Date: Tue, 15 Oct 2024 19:57:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: Re: [PATCH v4 08/28] media: iris: implement power management
-Message-ID: <202410151929.iJzD1Wez-lkp@intel.com>
-References: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.4.y-cip-rebase 2994/3670] ERROR:
+ "thermal_add_hwmon_sysfs" [drivers/thermal/rcar_thermal.ko] undefined!
+Message-ID: <202410151921.GWQfVuLX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,79 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
 
-Hi Dikshita,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal/dt-bindings-media-Add-video-support-for-QCOM-SM8550-SoC/20241014-171950
-base:   67cefecf2a039b9ed0030b9213ceafcd45e6f9e3
-patch link:    https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e%40quicinc.com
-patch subject: [PATCH v4 08/28] media: iris: implement power management
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241015/202410151929.iJzD1Wez-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151929.iJzD1Wez-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-cip-rebase
+head:   974fc3cebfd1b8ab1c4217a2e40429768e3de3f9
+commit: 79ae657a337042a64789caeb6b086dd975c27708 [2994/3670] thermal: rcar-thermal: enable hwmon when thermal_zone_of_sensor_register is used
+config: arm64-randconfig-003-20241013 (https://download.01.org/0day-ci/archive/20241015/202410151921.GWQfVuLX-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151921.GWQfVuLX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151929.iJzD1Wez-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151921.GWQfVuLX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/platform/qcom/iris/iris_probe.c:292:12: warning: 'iris_pm_resume' defined but not used [-Wunused-function]
-     292 | static int iris_pm_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~
->> drivers/media/platform/qcom/iris/iris_probe.c:273:12: warning: 'iris_pm_suspend' defined but not used [-Wunused-function]
-     273 | static int iris_pm_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
-
-
-vim +/iris_pm_resume +292 drivers/media/platform/qcom/iris/iris_probe.c
-
-   272	
- > 273	static int iris_pm_suspend(struct device *dev)
-   274	{
-   275		struct iris_core *core;
-   276		int ret;
-   277	
-   278		core = dev_get_drvdata(dev);
-   279	
-   280		mutex_lock(&core->lock);
-   281		if (core->state != IRIS_CORE_INIT)
-   282			goto exit;
-   283	
-   284		ret = iris_hfi_pm_suspend(core);
-   285	
-   286	exit:
-   287		mutex_unlock(&core->lock);
-   288	
-   289		return ret;
-   290	}
-   291	
- > 292	static int iris_pm_resume(struct device *dev)
-   293	{
-   294		struct iris_core *core;
-   295		int ret = 0;
-   296	
-   297		core = dev_get_drvdata(dev);
-   298	
-   299		mutex_lock(&core->lock);
-   300		if (core->state != IRIS_CORE_INIT)
-   301			goto exit;
-   302	
-   303		ret = iris_hfi_pm_resume(core);
-   304		pm_runtime_mark_last_busy(core->dev);
-   305	
-   306	exit:
-   307		mutex_unlock(&core->lock);
-   308	
-   309		return ret;
-   310	}
-   311	
+>> ERROR: "thermal_add_hwmon_sysfs" [drivers/thermal/rcar_thermal.ko] undefined!
+>> ERROR: "thermal_remove_hwmon_sysfs" [drivers/thermal/rcar_thermal.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
