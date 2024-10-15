@@ -1,62 +1,58 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BBE1EF08F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 12:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40261C07CA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 12:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728995144; cv=none; b=rnN8yP9+CxPPzEhuny2sK7MUG8jIajaGNNwWDz8ARd5Bly0S/XLnnEKRBxbYmPk5YTsrnMSBBd9zzrRt1UVumYwT5irbbMf9NlgA3Qw0XLK5ceEfKJfnDzI27CLdLqRE586dPZwWtLMswWNiZZZsqnO/b/57hJD4p9HX5JvUfYI=
+	t=1728996494; cv=none; b=JOtex4K7KhMOLWzmiCok4ppN6/SEr+yNEMPvkBYpJX41nH33RKoazRpJc1he1WFNk8OUAKqUj+/ONswS7sH0A7q854ksBehnFjpKc9Zwbu+kJloP8kMhdS+7yyGrxY8TLDI4mAds8KLO1mrgBc13ECZqvppE/tgij0teLpOqpjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728995144; c=relaxed/simple;
-	bh=/fihH2TP5jAc4kFfA/Zru4vSRQ/icfSmfcSO7Hdf1kg=;
+	s=arc-20240116; t=1728996494; c=relaxed/simple;
+	bh=Yj6T3HYU4dgVmjX5AdHX1JjKWVa0/Xr0X028o5r2lvU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=SQRctSt0LTpeED8gCdEFEm+lh2dMSStZdpHwGCrgCIT033/63gL4/+JLZ8D6EFgzF6j7UAOsyVSK7K1ia3hPIdeTCkihHqrAGvXWMRrLJ5m0zut9JYeXPQSKlPD81ewfnJC9u5l29ut7tHMrLTRSbM6zmRMMDX/WrisxYItfoe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VfBxYhjx; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition:In-Reply-To; b=bMFZbzw/lzlYcwBty76Yf6pmlWqSI+AM0YX1U+h6xa0tw+s0dSG607rj0T56XrVh6Mrg6WcdUQeU5DcHB8ABL+ij7I+wvJXbFJ9UCzIQEdEgEsYhNDsQrmOJUEOHyxsYu7H8+z/T64NcyBdW22Hq+BL440cRAy86pg0pnjtcYHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KHSL7JM5; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VfBxYhjx"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c96936065dso3435153a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 05:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728995141; x=1729599941; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i/d3qVqqk22QfcnD/K6lapI27GTkLDUZ0y+Zs6+bSDI=;
-        b=VfBxYhjxJSlYBJcEuV4+SN3F62zfGarzBdqjB+TE7n88TKrQNDien1DYkEMqg6MXY4
-         z0Kf+/IA4/rOB29QoOnFI7d2K5FcIPXa3UqPMpXR24e+bTHxh4HJ8LGY1bHb0pU5xTHh
-         4PU4S0eNavqNmc7halS3SGb2Lp1M5c+OlbeCso2FjLuTAZ1/HtdXa7oL+SUAR12fb4Hz
-         LeY3NpjG1zTi7kDcIRB2OsyDjf0MJp+2N8+j49C4gGKa2CHKUnMEcqI3j+wdOjox1PJQ
-         Pe6mWhOorMVHFwzHiteIet3iJ1FgU4/z7x+v+uuhfw8XdOeaPaHF/Ht5Jv2PPL1R4tR8
-         CDnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728995141; x=1729599941;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i/d3qVqqk22QfcnD/K6lapI27GTkLDUZ0y+Zs6+bSDI=;
-        b=GnvfvQVxW1bF+a6gt7K0zwGpuu3NjClqnL6As0xaqQPgv3Q699NCEGYZY/vCWZuf3J
-         erGJ0+CiRDvDEXWR4wpUbtKCGU7uxy4Roe2fhfLBwfkroqGJp/ixOkmjC2Y9b8I8mRVB
-         y1p6/b4pwAEtsAgHB5InzML2/dNhsbp+8GTxaltu7K8G3HF2oK5sDshrq0kjwiUL0LyA
-         DyHMxwAYABHQcg+Hvzd+EkGCiizsO73OX30dbJdulxInk5i/yRLPxBpze6gwWE0fVNYy
-         +S4WNLDY/ubFotThXpTCZ5BMedLyXUA+Fy2Fy+3OQntHLeKRTq4ICzyLUlvQMHqI/uko
-         hnsA==
-X-Forwarded-Encrypted: i=1; AJvYcCWrxeL1iy6hbSOcA4HqVNxawKjv6A+XpE/nV7QvW06ksApVbSbKeLhx61LVYAztD/PSjKj6hzfLoGyKeI1l@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy18Lm8o2Mh0vI9BNF6ZKbQn6dW15panm9X8XYbyhBsbXTGysFV
-	VD6nT57Q9KZLHvglacwoPylVqKIGA5ts73v5FM2xw9Slr6/LdA6j71XNY54tlPQ=
-X-Google-Smtp-Source: AGHT+IFXsBXCPILt7Y0b3y7N/JjP2t9J+Xd9na8ZFgF5el4RyVXEbaQnHtmkPRUWU6ByjHFpcRCbhA==
-X-Received: by 2002:a05:6402:1e8e:b0:5c9:6fc1:6177 with SMTP id 4fb4d7f45d1cf-5c96fc162e5mr6655232a12.11.1728995141215;
-        Tue, 15 Oct 2024 05:25:41 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d7b4a63sm649034a12.79.2024.10.15.05.25.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 05:25:40 -0700 (PDT)
-Date: Tue, 15 Oct 2024 15:25:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 3/9] can: m_can: Map WoL to device_set_wakeup_enable
-Message-ID: <e410f909-3932-4a8d-9225-d3c49f949443@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KHSL7JM5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728996492; x=1760532492;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Yj6T3HYU4dgVmjX5AdHX1JjKWVa0/Xr0X028o5r2lvU=;
+  b=KHSL7JM5V4aHJAGgEPYGWxor9XQs149KYy5td2xaPZaIs5hUcIx3iX4C
+   q+CKY9l8X3cMhVNJPfgSoINALk5zh8Q+DE993Fcsv9H+uhl3RVMN21q0+
+   vIU9nBeR+LY3KLu7nax/hV/Wb6G5/U+GS/Q6vIoCNPhYgxwlqksaIVtHg
+   kTwXvUHUelwe/uIjfTMpsVh5LTtLLAPoVZ9bA/oQBQbAGUCQiINTnp/sC
+   oY0yFna6GPn/c45mL2ySG1fssP/m3gC4O3eRn/2VUr4GNbXcwbWVeZ576
+   RJecVOZNTvLRoZktMrioK38MafZWJJg8LMR5Eo/g1Rn4qBtJph5hyNIF1
+   w==;
+X-CSE-ConnectionGUID: JYwscn5ySDi2E04Hh4QwcQ==
+X-CSE-MsgGUID: Y1uIjSZiRVSIxr5F54vy8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39776246"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="39776246"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 05:48:12 -0700
+X-CSE-ConnectionGUID: HWSUkD1FTNOf32oMfv4UiQ==
+X-CSE-MsgGUID: AWrXfEowTYWbU6zEkS5JKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="77761496"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 15 Oct 2024 05:48:11 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0gy9-000Ip7-0f;
+	Tue, 15 Oct 2024 12:48:09 +0000
+Date: Tue, 15 Oct 2024 20:47:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [char-misc-next v3] mei: use kvmalloc for read buffer
+Message-ID: <Zw5kT4LZq4K-hWR6@86e5a9022298>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,56 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241011-topic-mcan-wakeup-source-v6-12-v3-3-9752c714ad12@baylibre.com>
+In-Reply-To: <20241015123157.2337026-1-alexander.usyskin@intel.com>
 
-Hi Markus,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/dt-bindings-can-m_can-Add-wakeup-properties/20241011-212232
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241011-topic-mcan-wakeup-source-v6-12-v3-3-9752c714ad12%40baylibre.com
-patch subject: [PATCH v3 3/9] can: m_can: Map WoL to device_set_wakeup_enable
-config: i386-randconfig-141-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151950.6UahbF47-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410151950.6UahbF47-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-smatch warnings:
-drivers/net/can/m_can/m_can.c:2199 m_can_set_wol() warn: add some parenthesis here?
-
-vim +2199 drivers/net/can/m_can/m_can.c
-
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2196  static int m_can_set_wol(struct net_device *dev, struct ethtool_wolinfo *wol)
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2197  {
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2198  	struct m_can_classdev *cdev = netdev_priv(dev);
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11 @2199  	bool wol_enable = !!wol->wolopts & WAKE_PHY;
-
-!! has higher precedence than &.  This should be bool wol_enable = !!(wol->wolopts & WAKE_PHY);
-
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2200  	int ret;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2201  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2202  	if ((wol->wolopts & WAKE_PHY) != wol->wolopts)
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2203  		return -EINVAL;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2204  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2205  	if (wol_enable == device_may_wakeup(cdev->dev))
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2206  		return 0;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2207  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2208  	ret = device_set_wakeup_enable(cdev->dev, wol_enable);
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2209  	if (ret) {
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2210  		netdev_err(cdev->net, "Failed to set wakeup enable %pE\n",
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2211  			   ERR_PTR(ret));
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2212  		return ret;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2213  	}
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2214  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2215  	return 0;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2216  }
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [char-misc-next v3] mei: use kvmalloc for read buffer
+Link: https://lore.kernel.org/stable/20241015123157.2337026-1-alexander.usyskin%40intel.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
 
