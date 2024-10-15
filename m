@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1BC1E633B;
-	Tue, 15 Oct 2024 10:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D091EC015
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 10:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728988501; cv=none; b=P/pTjrxtmOThJ6AKzeyb+VHDcWa2DA7l33i11GJf8z+qf+zyazXKsbZ+M9/xhS3MxRpK+QUQImuRt+ug5xNJFgsK7V8OZVa226MOJDliOSUe98TJDWG+fK0nOAI9NDBBsyKxn/srkwZamjAOfNHfUwH1t9eJwf5LJEho4K5OPgs=
+	t=1728989752; cv=none; b=Cbs0oGxSBa0FTHapWSzx+BDefVx1/1omVRQGcyYl6iGRtbBmIRmxkTia/gzWfMaxjpoJrVj2H9Navb8LsbTqIiHX75paIDmCC6Tk9SIw2YVEmvpnX9enwkhTpoVJRIHqnn36DJsoUSxawYEj3v33JuJc+69FzXkimHTXRHQd+UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728988501; c=relaxed/simple;
-	bh=qWrhG0NPHfNgRsbGiYxw3eJsrWXs0X2A4BuV9LDFL4M=;
+	s=arc-20240116; t=1728989752; c=relaxed/simple;
+	bh=uJMnlV5EvOX/wkTrKl7C91ww1Y9UgHMvxyrx5CtEtL4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ie07rJ5kp6dwitDnOShZ2wOuKVHP7UZzMLL7/Or60ilp0gaBHqdcZicMu3eugLAb2mokjISC+GhKrx22p5CXaGHU2U9Q3phBAe+uRSRBRHqRBvDlHU/dO3lw5XUhnj2CGWYh9nW4Uga8w5v7OO0dRZFdAejuaGGPTtnqqj+r+oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BbPJHgqG; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=TF4pT8n5Y/asAoaenbD3FzEu+2h8BIgwRL4MmN9xId9jUUKtLLTawiaaZk0pj5cltqtoqJq6zQB+3iFX8liU+QHkl8e6OkoXSm0c+gGpD7N4npcgwVhj5+z+wTrQiS0f/7U8otOVxqRSdElTYdlapc0GjAxMFrWDyOoNEZGa4LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IwC2yp0o; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BbPJHgqG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IwC2yp0o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728988500; x=1760524500;
+  t=1728989750; x=1760525750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qWrhG0NPHfNgRsbGiYxw3eJsrWXs0X2A4BuV9LDFL4M=;
-  b=BbPJHgqGjl2IMa/0UPrmsRHBw/RGW9tgxvhsqMi224JUuRhF8N4j3tua
-   YB/HvTzQZvj1pWspseiMjz6DSdG5FU1qtxTVo7sax8zuhtZjCDhRCItIW
-   MbcSFM+e4zwwiGqaL6BYPgGLMM8fm5mBb5o3up1UgtRDQ5qQxuPcXUTWh
-   sqbXM5a99e8D2eZj6VUPmd+99Bj8qU2jprpFQ8TJBKlmzJEzlMdNwDagu
-   niNlHvlApGGuIgo6qnM+q/UmfihxTKTRh6a5UuSReU22NObPmXryrLgN3
-   wWxPVLffrJjjyJBqZV3nWV7Owj5e64q2FERitEyVpC7aeseGRs5iZfiv6
-   w==;
-X-CSE-ConnectionGUID: TJP3TyE4QbWJmYA2909dyQ==
-X-CSE-MsgGUID: q99G8k7BTYeIEPSW6IMMjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39495269"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39495269"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:34:49 -0700
-X-CSE-ConnectionGUID: WwDAtCrBSsesM0IvbEEAEQ==
-X-CSE-MsgGUID: +/dUy+AGQQmb8lwOmaH/Mw==
+  bh=uJMnlV5EvOX/wkTrKl7C91ww1Y9UgHMvxyrx5CtEtL4=;
+  b=IwC2yp0on3wgG5tBtLrDWWOMWSNbSPmT5reESp9MtDuPtbRC11vjhonN
+   zVfbzNjQiDUpmpE0sPdvVUNbip1hS1L3Q/jnKl7iS4YH1K11FoNmkvOLa
+   NEVFVqntOaLtPNLyYqHdmj9Jir5R6Yb4xF6fkoRA7tQ3ymehfeoC+IB7B
+   e92484Y2D9hKpRMuUQQXLkoHYxMfKdv+xnakHArMQSzMDhMF5Xnu8xsrT
+   HOB/OhhEAYj0ebu2+nR3wNPutBLmeRdPDX6M7uE+CGm9qr/HWxcQMkj2I
+   kipW+0WyPUc2Ek95EaoYfR7zDdN7qpU4LPip71ugQdSVZ49VoT80kkUXt
+   A==;
+X-CSE-ConnectionGUID: cxNdHyp1SH+ZrZVAwgvCDQ==
+X-CSE-MsgGUID: yZzx3kmfQD6EYvq9/KJQjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="32292804"
+X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
+   d="scan'208";a="32292804"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:55:49 -0700
+X-CSE-ConnectionGUID: WYeeysv3TiOgG4D01ZlyFA==
+X-CSE-MsgGUID: Ja9QJsuiTSqz5QwU+m7GuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="82904940"
+   d="scan'208";a="108585839"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Oct 2024 03:34:46 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 03:55:47 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0et2-000Hyd-1Z;
-	Tue, 15 Oct 2024 10:34:44 +0000
-Date: Tue, 15 Oct 2024 18:34:02 +0800
+	id 1t0fDN-000HzT-1q;
+	Tue, 15 Oct 2024 10:55:45 +0000
+Date: Tue, 15 Oct 2024 18:55:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:execmem/x86-rox/v6 8/8] arch/x86/mm/init.c:1056:6: warning: no
- previous prototype for function 'execmem_fill_trapping_insns'
-Message-ID: <202410151847.zZSyJZxK-lkp@intel.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@rivosinc.com>
+Subject: arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: restricted
+ __le32 degrades to integer
+Message-ID: <202410151825.Sp0CwJLa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,48 +63,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/x86-rox/v6
-head:   2b978e9386bfb02955ece81058a14103d1bb7504
-commit: 2b978e9386bfb02955ece81058a14103d1bb7504 [8/8] x86/module: enable ROX caches for module text
-config: i386-buildonly-randconfig-003-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151847.zZSyJZxK-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151847.zZSyJZxK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eca631b8fe808748d7585059c4307005ca5c5820
+commit: f072b272aa27d57cf7fe6fdedb30fb50f391974e RISC-V: KVM: Use correct restricted types
+date:   8 months ago
+config: riscv-randconfig-r132-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151825.Sp0CwJLa-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241015/202410151825.Sp0CwJLa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151847.zZSyJZxK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151825.Sp0CwJLa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: restricted __le32 degrades to integer
+>> arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: restricted __le32 degrades to integer
+   arch/riscv/kvm/vcpu_sbi_sta.c:59:13: sparse: sparse: cast to restricted __le32
+   arch/riscv/kvm/vcpu_sbi_sta.c:65:13: sparse: sparse: restricted __le32 degrades to integer
+   arch/riscv/kvm/vcpu_sbi_sta.c:65:13: sparse: sparse: restricted __le32 degrades to integer
+>> arch/riscv/kvm/vcpu_sbi_sta.c:65:13: sparse: sparse: cast from restricted __le32
+>> arch/riscv/kvm/vcpu_sbi_sta.c:68:14: sparse: sparse: restricted __le64 degrades to integer
+>> arch/riscv/kvm/vcpu_sbi_sta.c:68:14: sparse: sparse: restricted __le64 degrades to integer
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:14: sparse: sparse: cast to restricted __le64
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:17: sparse: sparse: restricted __le64 degrades to integer
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:17: sparse: sparse: restricted __le64 degrades to integer
+>> arch/riscv/kvm/vcpu_sbi_sta.c:72:17: sparse: sparse: cast from restricted __le64
+   arch/riscv/kvm/vcpu_sbi_sta.c:76:9: sparse: sparse: restricted __le32 degrades to integer
+   arch/riscv/kvm/vcpu_sbi_sta.c:76:9: sparse: sparse: restricted __le32 degrades to integer
+   arch/riscv/kvm/vcpu_sbi_sta.c:76:9: sparse: sparse: cast from restricted __le32
 
->> arch/x86/mm/init.c:1056:6: warning: no previous prototype for function 'execmem_fill_trapping_insns' [-Wmissing-prototypes]
-    1056 | void execmem_fill_trapping_insns(void *ptr, size_t size, bool writeable)
-         |      ^
-   arch/x86/mm/init.c:1056:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1056 | void execmem_fill_trapping_insns(void *ptr, size_t size, bool writeable)
-         | ^
-         | static 
-   1 warning generated.
+vim +59 arch/riscv/kvm/vcpu_sbi_sta.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +/execmem_fill_trapping_insns +1056 arch/x86/mm/init.c
-
-  1055	
-> 1056	void execmem_fill_trapping_insns(void *ptr, size_t size, bool writeable)
-  1057	{
-  1058		/* fill memory with INT3 instructions */
-  1059		if (writeable)
-  1060			memset(ptr, INT3_INSN_OPCODE, size);
-  1061		else
-  1062			text_poke_set(ptr, INT3_INSN_OPCODE, size);
-  1063	}
-  1064	
+    24	
+    25	void kvm_riscv_vcpu_record_steal_time(struct kvm_vcpu *vcpu)
+    26	{
+    27		gpa_t shmem = vcpu->arch.sta.shmem;
+    28		u64 last_steal = vcpu->arch.sta.last_steal;
+    29		__le32 __user *sequence_ptr;
+    30		__le64 __user *steal_ptr;
+    31		__le32 sequence_le;
+    32		__le64 steal_le;
+    33		u32 sequence;
+    34		u64 steal;
+    35		unsigned long hva;
+    36		gfn_t gfn;
+    37	
+    38		if (shmem == INVALID_GPA)
+    39			return;
+    40	
+    41		/*
+    42		 * shmem is 64-byte aligned (see the enforcement in
+    43		 * kvm_sbi_sta_steal_time_set_shmem()) and the size of sbi_sta_struct
+    44		 * is 64 bytes, so we know all its offsets are in the same page.
+    45		 */
+    46		gfn = shmem >> PAGE_SHIFT;
+    47		hva = kvm_vcpu_gfn_to_hva(vcpu, gfn);
+    48	
+    49		if (WARN_ON(kvm_is_error_hva(hva))) {
+    50			vcpu->arch.sta.shmem = INVALID_GPA;
+    51			return;
+    52		}
+    53	
+    54		sequence_ptr = (__le32 __user *)(hva + offset_in_page(shmem) +
+    55				       offsetof(struct sbi_sta_struct, sequence));
+    56		steal_ptr = (__le64 __user *)(hva + offset_in_page(shmem) +
+    57				    offsetof(struct sbi_sta_struct, steal));
+    58	
+  > 59		if (WARN_ON(get_user(sequence_le, sequence_ptr)))
+    60			return;
+    61	
+    62		sequence = le32_to_cpu(sequence_le);
+    63		sequence += 1;
+    64	
+  > 65		if (WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr)))
+    66			return;
+    67	
+  > 68		if (!WARN_ON(get_user(steal_le, steal_ptr))) {
+    69			steal = le64_to_cpu(steal_le);
+    70			vcpu->arch.sta.last_steal = READ_ONCE(current->sched_info.run_delay);
+    71			steal += vcpu->arch.sta.last_steal - last_steal;
+  > 72			WARN_ON(put_user(cpu_to_le64(steal), steal_ptr));
+    73		}
+    74	
+    75		sequence += 1;
+    76		WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr));
+    77	
+    78		kvm_vcpu_mark_page_dirty(vcpu, gfn);
+    79	}
+    80	
 
 -- 
 0-DAY CI Kernel Test Service
