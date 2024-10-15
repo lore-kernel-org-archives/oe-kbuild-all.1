@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250961F9ED1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 18:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABF81B6CEF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 20:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729016688; cv=none; b=hv8Uass9TiDVMgn+kTFd+R7DA+o7R8k13qm9uGzg9C5hclskJPs/5q/F2DiC6v0lmg4ojPNJsWy+u0voTKEuCLg8110lLRr3ZpTkPKAHQuXM46ig8Ks64ASefWuK19ZXxesCSbrK0blE5YcdBeUBWNPrWcSwxHS5lr8QdZFd8vY=
+	t=1729022753; cv=none; b=o6sNR8Fja6C0xK6qjl9l2W6jwG3JkEFkVlo+MZReXnPQB2KEqxLhLOUzdlcb0H25MpPQUkDAa5dvb/0AQ2guUADb6l0YWPiZe8qiudclJTylgpJd05xzG9bXsgz4+O7MOtSoOH2W/uneRFi+NW3QJBCzfiUwJXKprWoYkyoa6lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729016688; c=relaxed/simple;
-	bh=Nn7ZYV3Po0S80WTQj393Gi55UYM871POvZL//2+cfBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tXv6HK/GxW2by1HT/ssUg/yYsegmIVW1b+IjXh8A+kiNf0sDKuUzmZ6+iYTYUd3ihOe3P3FiDCwhIiNeVdILF1D4MOJHrEBD5eyqgLGiJFVxsOIfXRJI/LasbstWZvMy3hC0DmOA2wWcyvJWL8XieTS3iEjHpBuJqSlK+6R/Zlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DLx0a7eL; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1729022753; c=relaxed/simple;
+	bh=dX1g8jSzU+VXezh2f98dU2JeKi1rg/GRDajYDlMn9PA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f/WyIbcbNHaT8oVCzPeMqV0QV1uNdX4x9YDea5VPmHn0Ul6sh4fmleDXpX91DtZbHgUWb+HrHevJ9ufYuBkjJZzY0+dLqB6InjVSr691y1nX40j6EdnzOkEpCos1G3dnz2Ox9VGmTGs13pk+3jyb6O4sys3PM1ER+C2aUh7pXkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvppcI9V; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DLx0a7eL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvppcI9V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729016687; x=1760552687;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nn7ZYV3Po0S80WTQj393Gi55UYM871POvZL//2+cfBo=;
-  b=DLx0a7eLt1KiAzqSRay4lf/wFhKjEHDlN/Zuzlq13lutRXZkR1V5oCsh
-   onym7AAFSdA4sCwOokz4mOdazGWdZ6negdFD1XwNdiTxGKTkVhmQ4uC4q
-   nr0NSU0aUmVQ+Ba+dVSo5og+PcPlNKn3KMF4sQloYO70LjdgfzkUsHQm1
-   W71n2F09TRWJYWdEbkQj3jaDhYz2yDh2oqm/gVyyIXTY26K7T6uPqHdGA
-   g+WUDxabx1zw3aXjd1MMMH/sGfnI3Xe7jBORqH5ygYrqCOgcOuBJ1vEv2
-   WhkWpr6sB6j6u4kD5TqTJ776YAbld1B0kRdQtPehIz7taRwyZMj03Qk/E
-   Q==;
-X-CSE-ConnectionGUID: 9TDHXvg3RWuP8w89ahmwVg==
-X-CSE-MsgGUID: xfnsKJeSTT6dURlJyq+zhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45908211"
+  t=1729022752; x=1760558752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dX1g8jSzU+VXezh2f98dU2JeKi1rg/GRDajYDlMn9PA=;
+  b=AvppcI9VCI+6ZNsxOmhnG2LshdDcx1VapiAdQC5YdiUr1PWGB3gJxJFr
+   Xb5AUkP0pRbGJimZICe0svgb4SOJmPq4EqzV1gFJSyZF8rpDMjjzkm8U/
+   brgE6DqFcphnZ24CsnJoMmiPcSeYaf1roMyRBEG7JlpB4hFSr4LVV3KJi
+   jxk1KdY6L2xpjBm2ACdJD+Nrj19ngepc0B8a6smIxN3ZHfgtzq0kqYQDz
+   04AkJwvQGkaETQsQx9sJqmeD2Sd15H26wkUhhkGL8w4S+j9Pr86FyekVP
+   XEt9MV/GpHs/a8wT9f0w3ksHmSmGv1WQnjKmzUbewq2YEwB/cz77bmCdP
+   g==;
+X-CSE-ConnectionGUID: fDBOk0ZNSTmWjXlCwz5tTg==
+X-CSE-MsgGUID: omhZBvvbRsesgQXhxjfhJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28230124"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="45908211"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 11:24:46 -0700
-X-CSE-ConnectionGUID: 12CONR3FQc2m757Tsrc41Q==
-X-CSE-MsgGUID: UPfNFvfqRGGfR8pDa8Zxmg==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="28230124"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 13:05:52 -0700
+X-CSE-ConnectionGUID: 1C/qME2AT76iW7Hx1up+UA==
+X-CSE-MsgGUID: bI9P401BTACr5r2atWDXUg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="81957067"
+X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
+   d="scan'208";a="78834721"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Oct 2024 11:24:44 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2024 13:05:48 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0mDq-000Jmr-0o;
-	Tue, 15 Oct 2024 18:24:42 +0000
-Date: Wed, 16 Oct 2024 02:24:02 +0800
+	id 1t0nnd-000JsT-2V;
+	Tue, 15 Oct 2024 20:05:45 +0000
+Date: Wed, 16 Oct 2024 04:05:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 5501/5503]
- include/linux/sched/task.h:59:28: error: use of undeclared identifier
- 'CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX'
-Message-ID: <202410160459.bMIwAHyh-lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	John Ogness <john.ogness@linutronix.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+	bluescreen_avenger@verizon.net,
+	Caleb Connolly <caleb.connolly@linaro.org>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v4 3/7] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Message-ID: <202410160342.rkkekxWK-lkp@intel.com>
+References: <20241011105526.615812-4-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +73,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241011105526.615812-4-jfalempe@redhat.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   c783e8acd1cf0139e2b608eda85e90d30cbd8660
-commit: 1827ee5e5a2de323359c04153e268a7288061eda [5501/5503] ANDROID: GKI: Add padding after init_task structure
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241016/202410160459.bMIwAHyh-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160459.bMIwAHyh-lkp@intel.com/reproduce)
+Hi Jocelyn,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 33c255312660653cf54f8019896b5dca28e3c580]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-client-squash-of-drm-client-pending-series/20241011-225715
+base:   33c255312660653cf54f8019896b5dca28e3c580
+patch link:    https://lore.kernel.org/r/20241011105526.615812-4-jfalempe%40redhat.com
+patch subject: [PATCH v4 3/7] drm/log: Introduce a new boot logger to draw the kmsg on the screen
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241016/202410160342.rkkekxWK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160342.rkkekxWK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160459.bMIwAHyh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160342.rkkekxWK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:9:
->> include/linux/sched/task.h:59:28: error: use of undeclared identifier 'CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX'
-      59 | extern u64 vendor_data_pad[CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX / sizeof(u64)];
-         |                            ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1265: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:242: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/gpu/drm/drm_log.c:347:6: error: redefinition of 'drm_log_register'
+     347 | void drm_log_register(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_log.c:21:
+   drivers/gpu/drm/drm_log.h:8:20: note: previous definition of 'drm_log_register' with type 'void(struct drm_device *)'
+       8 | static inline void drm_log_register(struct drm_device *dev) {}
+         |                    ^~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +/CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX +59 include/linux/sched/task.h
+vim +/drm_log_register +347 drivers/gpu/drm/drm_log.c
 
-    56	
-    57	extern union thread_union init_thread_union;
-    58	extern struct task_struct init_task;
-  > 59	extern u64 vendor_data_pad[CONFIG_GKI_TASK_STRUCT_VENDOR_SIZE_MAX / sizeof(u64)];
-    60	
+   342	
+   343	/**
+   344	 * drm_log_register() - Register a drm device to drm_log
+   345	 * @dev: the drm device to register.
+   346	 */
+ > 347	void drm_log_register(struct drm_device *dev)
 
 -- 
 0-DAY CI Kernel Test Service
