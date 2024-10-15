@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C1D1CC8B9;
-	Tue, 15 Oct 2024 08:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2716F14C5B0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 08:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728981706; cv=none; b=eoq7L84rfyoZ5/RNacbpJQfEMYYuYfPPvvkqLTYu95GbcG2h59/Wpipr5xcfXxGcMyU2eaKAUeiTvohNIKN3sCd5nFjZDC6CdNpwDWcwB8YS/Qr204yrvH738E0GNpt+AuYBLIBSIoPVM1nBuFlS54+JmKSUHz09AQs3Abgia4E=
+	t=1728982302; cv=none; b=UL+5IiJWOfODRcHg9Jj35Glph+jqlAVQpV6ZdTSG8fCf8goegj16RQQ4F3WPG76ZX3w6VghgBoR7/QUHYKwZYS4DktAweo9M8K7zvaBdbe8uB9ty5iDZjJ1YmP7zqB4seHYzBFumvzbI3bgyQozfscCVRRxfZMqi1B2oSV3tCLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728981706; c=relaxed/simple;
-	bh=tkYKT0qhNdopo59+kDatOz0m4wIspOb4offytMS21BU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u09ae0qtViQWXScgyTVlSvAbRUpYxML5pKH6hUlGdt6XFKRCNSMXziNUAR8ysgWZC4xzICWItqaI8aEDJ4mTu/DdeWmv8EZyo1wpJrgt1dNARStlrIyFk7ESedFCNb8KyMJuQ3D4C/hHrLhGsffDvw7xlxmkK777BTGwOsPONDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpBKG8Bv; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1728982302; c=relaxed/simple;
+	bh=k4/tR0uSlc41POK6enwU5Q6/N4wbgBRcSiQXQWcMSEI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nU1FkzADdzmDqR+CYMK5I7Od6VS3/8PSLubi4NpDv7kg1inFgSYJWBHt7tXVqWITzoe7wp7My2yWnP0MWlSi8ehYy2WOCcoxSSJhVgB22XoZtMOADPRy8UYhgQUBESQiADzTZMBGfM1nY6aURsi9NSbBWvnUTMUt6cfiNEqjLCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1dTSlZa; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpBKG8Bv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1dTSlZa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728981705; x=1760517705;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tkYKT0qhNdopo59+kDatOz0m4wIspOb4offytMS21BU=;
-  b=hpBKG8Bv+ZpojP6AzOweMFQzqQVAoLQVALop+mrxfvugTVysUeAkf7rh
-   1YDHRmJxsPmh66iYfZbxZ+6swPKN2dVdLuXGdz0JjtiyImmb7GbkLbAbx
-   hyJFlR8q5mTlKd2pl9DHf2vc8RizF5S2Om7miOKxgCOjTovX5dmVrWpna
-   v4jjsNfwELFr3dsCWGuc3hToPyH37RMQf6tX7X589NN3BrYUQVSHEWExG
-   aeW/KU1PNnU9OAI6/4Upgfg5EjqsmkcFexT4kAHR+/ykKZXz5I9cdJgDt
-   nbSuyPx+KdlOLqjZJRlMD4sBZNDGYK3/T3O2U6XJKfPO9d3QVPzuJvkmK
-   w==;
-X-CSE-ConnectionGUID: wHTFf7q9SjOTN7Sm9hm0yg==
-X-CSE-MsgGUID: SzJYVOwmT1WrEmX4O3LLKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32053716"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32053716"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 01:41:44 -0700
-X-CSE-ConnectionGUID: ENqzNlPYRZSc4hqbKUM2hA==
-X-CSE-MsgGUID: fLhfj7PxSvakv22HHtyA0w==
+  t=1728982301; x=1760518301;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k4/tR0uSlc41POK6enwU5Q6/N4wbgBRcSiQXQWcMSEI=;
+  b=i1dTSlZaHAYKSl2hQKGCMOpPpx/byOrDx2nHt1MTmMEgs2Z2c1K2H1Ww
+   L7OQhgndO5hmZcFGwyCTiDOKzIPs8Xby7xWF9XYAlEiQtr6i+79qa8EtG
+   cOuKOMUeVth+LEEmBBpflPoFvmwafnmv8AJaBjeTGZWncxvnCz+VRD54Y
+   QxhH02VFsYQl7iRHdz+thSWI8mjDVcLr1NM9hUMO0F6QdVdnZ+3i2k56q
+   P5awUlY5WqkfZXz4U1lhFrxvd2uDNxeMqSZCWvKxj5AfWRMxVwB0yoC77
+   h35FS4kbRsvvLWDvRC2CEEQtsA0LLHNO72NdjRTgzu8EIZlfSSHy6t/bh
+   g==;
+X-CSE-ConnectionGUID: 7R0IjysjQ72VEL26KwxXVw==
+X-CSE-MsgGUID: 5VJlrB7IRviuHGW/Rqs2MQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28460332"
+X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
+   d="scan'208";a="28460332"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 01:51:41 -0700
+X-CSE-ConnectionGUID: yaLYxNBoRtmAO2fV5WnPng==
+X-CSE-MsgGUID: GAGVLaTlSSKIkRplH3B/Dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="81805941"
+   d="scan'208";a="78653388"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Oct 2024 01:41:39 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2024 01:51:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0d7Y-000Hpr-2Z;
-	Tue, 15 Oct 2024 08:41:36 +0000
-Date: Tue, 15 Oct 2024 16:40:39 +0800
+	id 1t0dHF-000Hqj-0b;
+	Tue, 15 Oct 2024 08:51:37 +0000
+Date: Tue, 15 Oct 2024 16:51:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
-	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
-	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, netdev@vger.kernel.org,
-	Jason Xing <kernelxing@tencent.com>
-Subject: Re: [PATCH net-next v2 09/12] net-timestamp: add tx OPT_ID_TCP
- support for bpf case
-Message-ID: <202410151628.hcAdeahi-lkp@intel.com>
-References: <20241012040651.95616-10-kerneljasonxing@gmail.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:objtool-jump-table-annotations-v3 10/10]
+ arch/x86/crypto/crc32c-intel.o: warning: objtool: crc_pcl+0x12e5: BP used as
+ a scratch register
+Message-ID: <202410151656.VgzPnTFf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,70 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241012040651.95616-10-kerneljasonxing@gmail.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-introduce-socket-tsflag-requestors/20241012-121010
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241012040651.95616-10-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next v2 09/12] net-timestamp: add tx OPT_ID_TCP support for bpf case
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241015/202410151628.hcAdeahi-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151628.hcAdeahi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git objtool-jump-table-annotations-v3
+head:   477193de52ecbc0367ed1db0439ae09f6396cf97
+commit: 477193de52ecbc0367ed1db0439ae09f6396cf97 [10/10] crypto: x86/crc32c-intel - Tweaks to make objtool's life harder
+config: x86_64-randconfig-003-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151656.VgzPnTFf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151656.VgzPnTFf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151628.hcAdeahi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151656.VgzPnTFf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/core/sock.c:926:2: warning: variable 'tsflags' is uninitialized when used here [-Wuninitialized]
-     926 |         tsflags |= (sk->sk_tsflags[SOCKETOPT_TS_REQUESTOR] |
-         |         ^~~~~~~
-   net/core/sock.c:920:13: note: initialize the variable 'tsflags' to silence this warning
-     920 |         u32 tsflags;
-         |                    ^
-         |                     = 0
-   1 warning generated.
-
-
-vim +/tsflags +926 net/core/sock.c
-
-   917	
-   918	int sock_set_tskey(struct sock *sk, int val, int type)
-   919	{
-   920		u32 tsflags;
-   921	
-   922		if (val & SOF_TIMESTAMPING_OPT_ID_TCP &&
-   923		    !(val & SOF_TIMESTAMPING_OPT_ID))
-   924			return -EINVAL;
-   925	
- > 926		tsflags |= (sk->sk_tsflags[SOCKETOPT_TS_REQUESTOR] |
-   927			    sk->sk_tsflags[BPFPROG_TS_REQUESTOR]);
-   928		if (val & SOF_TIMESTAMPING_OPT_ID &&
-   929		    !(tsflags & SOF_TIMESTAMPING_OPT_ID)) {
-   930			if (sk_is_tcp(sk)) {
-   931				if ((1 << sk->sk_state) &
-   932				    (TCPF_CLOSE | TCPF_LISTEN))
-   933					return -EINVAL;
-   934				if (val & SOF_TIMESTAMPING_OPT_ID_TCP)
-   935					atomic_set(&sk->sk_tskey, tcp_sk(sk)->write_seq);
-   936				else
-   937					atomic_set(&sk->sk_tskey, tcp_sk(sk)->snd_una);
-   938			} else {
-   939				atomic_set(&sk->sk_tskey, 0);
-   940			}
-   941		}
-   942	
-   943		return 0;
-   944	}
-   945	
+>> arch/x86/crypto/crc32c-intel.o: warning: objtool: crc_pcl+0x12e5: BP used as a scratch register
 
 -- 
 0-DAY CI Kernel Test Service
