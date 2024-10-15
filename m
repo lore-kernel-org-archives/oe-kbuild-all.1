@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9381F667C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 16:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7B71F9ECE;
+	Tue, 15 Oct 2024 17:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729010500; cv=none; b=jD7xvl9gcgpHCJ1PZZA3k96MXLUjeoFMddJUs/sOPyoPY/Y1QKE2/jj1Z+ggV/Xadids8eJPD+aidZyVTh2cU7tJiB4nVPAtSNFlV9ZRGkJ22TSEpbp2h1r0+Gsmo7Fqh1iwkQ3Uers0RjFkTqfgRn7I/bcbSDBDcqkCA8ro9I4=
+	t=1729011762; cv=none; b=l8J8Wwl4+X2+2ACJt5ZnZC7NMVeftcKr7iiXzdcudGzGxImhRMDK0xdF7L47tpvt/82Yqj671+NiU2zTPqeQ/f4HjS4OGynFrdE1rJZ9Qq9WqGnsQzpCSYIuur7VCyodrA05qwVlbKMr3DeuJV1npaw/o2xtG26cYWtdg/qWN8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729010500; c=relaxed/simple;
-	bh=1RCvuv83jk4fBfbF/fCasfyo6o7vAPm6BJjDx/dVE1A=;
+	s=arc-20240116; t=1729011762; c=relaxed/simple;
+	bh=25hxaowDpDYK8TbQdGfXRUfKvGkgzt+94kBWLP8fHPg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajPV+IDfVIK3KRav/oh7ibFHFTHyMQa3euPzKz9XdF+6iBmPBxddPtrHXE9h/JY6/ne/NS0imcRJk7aiB91DthI6NbA4o11AwWFUwOLPe+P/YD7NqvuRVo1t0t4ao9bXMUYMBdVpsBUYm3KJGbA7F+rw8KTISn+T2ivmyd4DRHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AI19WCCq; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Di8XuYw2xf0KM47J+muFj3pBRYDdOpnPuwPZkRDm/5TdDrqgLpP0fnqbzXgicR0gZESSMouoQoK050BCSym6I9I9vtAo0ucYzkJbfqF2hj8/FxFQHMeM/j2qqTMkvor2V5B0RiBIfYCVlcoCAh5+fBWuqE1T9ZNoNA4AD/dbk+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BVEy19Cq; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AI19WCCq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BVEy19Cq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729010498; x=1760546498;
+  t=1729011761; x=1760547761;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1RCvuv83jk4fBfbF/fCasfyo6o7vAPm6BJjDx/dVE1A=;
-  b=AI19WCCqRWbf9I7CUOJqlO/O4yIoI00s9A5swg7B+cxT+uYkaCv1v5g3
-   xS0xGgTHU0LNiFkHYHsq0dIAiIwE3xtbwf48qkIXvAHw8uB2TXG4Pc989
-   24oRsYWxLkas9juumr3hX8EbrbJqIBz5Y12e5FxCI4D+IozFPrX7VZn2N
-   VGlOaGKCKvr4wLVukCxoWTIm2d1D3+o+6nbLeJ79nvARTNP0ubQzIqOSu
-   RCqGEzrigXj5LP2TVFLnnHxXZCFfYG53a6qGisjids1z8yjN8WuP3kxMa
-   ByXBfnTkTFR2SAzkSJKUU1uzrJhNfG+YxsKf+qiQZmXG1j86E95tn6EU3
-   g==;
-X-CSE-ConnectionGUID: XxMqoF8kShC1lQT54mtMrA==
-X-CSE-MsgGUID: 3lHFy20yT3eQqXsO+hjJ0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28547867"
-X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="28547867"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 09:41:38 -0700
-X-CSE-ConnectionGUID: SczcHlVvR2aaw+M8ZU1KJQ==
-X-CSE-MsgGUID: MBS919D0RLCIncI6MSDq/Q==
+  bh=25hxaowDpDYK8TbQdGfXRUfKvGkgzt+94kBWLP8fHPg=;
+  b=BVEy19CqfS6trmppdI2a0By8mswxYT+J5U2nLf11LWKYhNVa2kq25f5U
+   mywUZVylxRhRCbE5+qMMi9GcGVbb5FZ4bGoYMWaBNRWq5qjqOeWMjrEfi
+   hLCu20NKR6l9jlhp5HmD2PUGKs5n4Gfi4j1+sD4jQ+WHHa7HDzsnFV+/y
+   pUVwG3Mfg1zP0gkQKhZRkSV9ftyJyNUDZ78fdznsZweTaaJpWYf0tMGgY
+   BTercVS86bnvDJFwMgxwU1daRZ+dgEwmmxwES6+FPIOIGYb/kjaUNCBGE
+   eIHzBWPdWQGLe65grFIl06ssAwup5SoTc1yv3aEz1ZNN0y+iUHetvLIUn
+   A==;
+X-CSE-ConnectionGUID: OjxhCVDwTEm9EJDXLCeZFw==
+X-CSE-MsgGUID: nDG4u00ORRyzG4vmrmzE5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="50957232"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="50957232"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 10:02:40 -0700
+X-CSE-ConnectionGUID: Bz2CBDoUQRq+0/Vjxz6R0Q==
+X-CSE-MsgGUID: OvGl0Vz1S8+8azJHYkXYfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="78131266"
+   d="scan'208";a="108691617"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 15 Oct 2024 09:41:36 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 10:02:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0kc1-000Jcn-2i;
-	Tue, 15 Oct 2024 16:41:33 +0000
-Date: Wed, 16 Oct 2024 00:41:24 +0800
+	id 1t0kwO-000Jdz-17;
+	Tue, 15 Oct 2024 17:02:36 +0000
+Date: Wed, 16 Oct 2024 01:01:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	intel-wired-lan@lists.osuosl.org, aleksander.lobakin@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v11 09/14] libeth: move
- idpf_rx_csum_decoded and idpf_rx_extracted
-Message-ID: <202410160029.BdxyUZWz-lkp@intel.com>
-References: <20241013154415.20262-10-mateusz.polchlopek@intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 6/9] drm/i915/display: Add DSC pixel replication
+Message-ID: <202410160018.hjWyI23D-lkp@intel.com>
+References: <20241014081000.2844245-7-ankit.k.nautiyal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,154 +64,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241013154415.20262-10-mateusz.polchlopek@intel.com>
+In-Reply-To: <20241014081000.2844245-7-ankit.k.nautiyal@intel.com>
 
-Hi Mateusz,
+Hi Ankit,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on a77c49f53be0af1efad5b4541a9a145505c81800]
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on next-20241015]
+[cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.12-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Polchlopek/virtchnl-add-support-for-enabling-PTP-on-iAVF/20241014-174710
-base:   a77c49f53be0af1efad5b4541a9a145505c81800
-patch link:    https://lore.kernel.org/r/20241013154415.20262-10-mateusz.polchlopek%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next v11 09/14] libeth: move idpf_rx_csum_decoded and idpf_rx_extracted
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241016/202410160029.BdxyUZWz-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160029.BdxyUZWz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ankit-Nautiyal/drm-i915-display-Prepare-for-dsc-3-stream-splitter/20241014-161007
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20241014081000.2844245-7-ankit.k.nautiyal%40intel.com
+patch subject: [PATCH 6/9] drm/i915/display: Add DSC pixel replication
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20241016/202410160018.hjWyI23D-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160018.hjWyI23D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160029.BdxyUZWz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160018.hjWyI23D-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c: In function 'idpf_rx_singleq_clean':
->> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:1040:78: error: expected ';' before 'napi_gro_receive'
-    1040 |                 idpf_rx_singleq_process_skb_fields(rx_q, skb, rx_desc, ptype)
-         |                                                                              ^
-         |                                                                              ;
-   ......
-    1043 |                 napi_gro_receive(rx_q->pp->p.napi, skb);
-         |                 ~~~~~~~~~~~~~~~~                                              
+>> drivers/gpu/drm/i915/display/intel_vdsc.c:1022:6: warning: variable 'dss_ctl3' is uninitialized when used here [-Wuninitialized]
+    1022 |         if (dss_ctl3 & DSC_PIXEL_REPLICATION_MASK)
+         |             ^~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vdsc.c:991:34: note: initialize the variable 'dss_ctl3' to silence this warning
+     991 |         u32 dss_ctl1, dss_ctl2, dss_ctl3;
+         |                                         ^
+         |                                          = 0
+   1 warning generated.
 
 
-vim +1040 drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c
+vim +/dss_ctl3 +1022 drivers/gpu/drm/i915/display/intel_vdsc.c
 
-   954	
-   955	/**
-   956	 * idpf_rx_singleq_clean - Reclaim resources after receive completes
-   957	 * @rx_q: rx queue to clean
-   958	 * @budget: Total limit on number of packets to process
-   959	 *
-   960	 * Returns true if there's any budget left (e.g. the clean is finished)
-   961	 */
-   962	static int idpf_rx_singleq_clean(struct idpf_rx_queue *rx_q, int budget)
-   963	{
-   964		unsigned int total_rx_bytes = 0, total_rx_pkts = 0;
-   965		struct sk_buff *skb = rx_q->skb;
-   966		u16 ntc = rx_q->next_to_clean;
-   967		u16 cleaned_count = 0;
-   968		bool failure = false;
-   969	
-   970		/* Process Rx packets bounded by budget */
-   971		while (likely(total_rx_pkts < (unsigned int)budget)) {
-   972			struct libeth_rqe_info fields = { };
-   973			union virtchnl2_rx_desc *rx_desc;
-   974			struct idpf_rx_buf *rx_buf;
-   975			u32 ptype;
-   976	
-   977			/* get the Rx desc from Rx queue based on 'next_to_clean' */
-   978			rx_desc = &rx_q->rx[ntc];
-   979	
-   980			/* status_error_ptype_len will always be zero for unused
-   981			 * descriptors because it's cleared in cleanup, and overlaps
-   982			 * with hdr_addr which is always zero because packet split
-   983			 * isn't used, if the hardware wrote DD then the length will be
-   984			 * non-zero
-   985			 */
-   986	#define IDPF_RXD_DD VIRTCHNL2_RX_BASE_DESC_STATUS_DD_M
-   987			if (!idpf_rx_singleq_test_staterr(rx_desc,
-   988							  IDPF_RXD_DD))
-   989				break;
-   990	
-   991			/* This memory barrier is needed to keep us from reading
-   992			 * any other fields out of the rx_desc
-   993			 */
-   994			dma_rmb();
+   983	
+   984	void intel_dsc_get_config(struct intel_crtc_state *crtc_state)
+   985	{
+   986		struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+   987		struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+   988		enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+   989		enum intel_display_power_domain power_domain;
+   990		intel_wakeref_t wakeref;
+   991		u32 dss_ctl1, dss_ctl2, dss_ctl3;
+   992	
+   993		if (!intel_dsc_source_support(crtc_state))
+   994			return;
    995	
-   996			idpf_rx_singleq_extract_fields(rx_q, rx_desc, &fields, &ptype);
+   996		power_domain = intel_dsc_power_domain(crtc, cpu_transcoder);
    997	
-   998			rx_buf = &rx_q->rx_buf[ntc];
-   999			if (!libeth_rx_sync_for_cpu(rx_buf, fields.len))
-  1000				goto skip_data;
+   998		wakeref = intel_display_power_get_if_enabled(dev_priv, power_domain);
+   999		if (!wakeref)
+  1000			return;
   1001	
-  1002			if (skb)
-  1003				idpf_rx_add_frag(rx_buf, skb, fields.len);
-  1004			else
-  1005				skb = idpf_rx_build_skb(rx_buf, fields.len);
-  1006	
-  1007			/* exit if we failed to retrieve a buffer */
-  1008			if (!skb)
-  1009				break;
-  1010	
-  1011	skip_data:
-  1012			rx_buf->page = NULL;
-  1013	
-  1014			IDPF_SINGLEQ_BUMP_RING_IDX(rx_q, ntc);
-  1015			cleaned_count++;
-  1016	
-  1017			/* skip if it is non EOP desc */
-  1018			if (idpf_rx_singleq_is_non_eop(rx_desc) || unlikely(!skb))
-  1019				continue;
-  1020	
-  1021	#define IDPF_RXD_ERR_S FIELD_PREP(VIRTCHNL2_RX_BASE_DESC_QW1_ERROR_M, \
-  1022					  VIRTCHNL2_RX_BASE_DESC_ERROR_RXE_M)
-  1023			if (unlikely(idpf_rx_singleq_test_staterr(rx_desc,
-  1024								  IDPF_RXD_ERR_S))) {
-  1025				dev_kfree_skb_any(skb);
-  1026				skb = NULL;
-  1027				continue;
-  1028			}
-  1029	
-  1030			/* pad skb if needed (to make valid ethernet frame) */
-  1031			if (eth_skb_pad(skb)) {
-  1032				skb = NULL;
-  1033				continue;
-  1034			}
-  1035	
-  1036			/* probably a little skewed due to removing CRC */
-  1037			total_rx_bytes += skb->len;
-  1038	
-  1039			/* protocol */
-> 1040			idpf_rx_singleq_process_skb_fields(rx_q, skb, rx_desc, ptype)
-  1041	
-  1042			/* send completed skb up the stack */
-  1043			napi_gro_receive(rx_q->pp->p.napi, skb);
-  1044			skb = NULL;
-  1045	
-  1046			/* update budget accounting */
-  1047			total_rx_pkts++;
-  1048		}
-  1049	
-  1050		rx_q->skb = skb;
-  1051	
-  1052		rx_q->next_to_clean = ntc;
-  1053	
-  1054		page_pool_nid_changed(rx_q->pp, numa_mem_id());
-  1055		if (cleaned_count)
-  1056			failure = idpf_rx_singleq_buf_hw_alloc_all(rx_q, cleaned_count);
-  1057	
-  1058		u64_stats_update_begin(&rx_q->stats_sync);
-  1059		u64_stats_add(&rx_q->q_stats.packets, total_rx_pkts);
-  1060		u64_stats_add(&rx_q->q_stats.bytes, total_rx_bytes);
-  1061		u64_stats_update_end(&rx_q->stats_sync);
-  1062	
-  1063		/* guarantee a trip back through this routine if there was a failure */
-  1064		return failure ? budget : (int)total_rx_pkts;
-  1065	}
-  1066	
+  1002		dss_ctl1 = intel_de_read(dev_priv, dss_ctl1_reg(crtc, cpu_transcoder));
+  1003		dss_ctl2 = intel_de_read(dev_priv, dss_ctl2_reg(crtc, cpu_transcoder));
+  1004	
+  1005		if (IS_BATTLEMAGE(dev_priv))
+  1006			dss_ctl3 = intel_de_read(dev_priv, BMG_PIPE_DSS_CTL3(crtc_state->cpu_transcoder));
+  1007	
+  1008		crtc_state->dsc.compression_enable = dss_ctl2 & VDSC0_ENABLE;
+  1009		if (!crtc_state->dsc.compression_enable)
+  1010			goto out;
+  1011	
+  1012		if (dss_ctl1 & JOINER_ENABLE) {
+  1013			if (dss_ctl2 & (VDSC2_ENABLE | SMALL_JOINER_CONFIG_3_ENGINES))
+  1014				crtc_state->dsc.dsc_split = INTEL_DSC_SPLIT_3_STREAMS;
+  1015	
+  1016			else if (dss_ctl2 & VDSC1_ENABLE)
+  1017				crtc_state->dsc.dsc_split = INTEL_DSC_SPLIT_2_STREAMS;
+  1018		} else {
+  1019			crtc_state->dsc.dsc_split = INTEL_DSC_SPLIT_DISABLED;
+  1020		}
+  1021	
+> 1022		if (dss_ctl3 & DSC_PIXEL_REPLICATION_MASK)
+  1023			crtc_state->dsc.pixel_replication_count =
+  1024				dss_ctl3 & DSC_PIXEL_REPLICATION_MASK;
+  1025	
+  1026		intel_dsc_get_pps_config(crtc_state);
+  1027	out:
+  1028		intel_display_power_put(dev_priv, power_domain, wakeref);
+  1029	}
+  1030	
 
 -- 
 0-DAY CI Kernel Test Service
