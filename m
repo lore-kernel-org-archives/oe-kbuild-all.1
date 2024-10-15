@@ -1,125 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E211B85DB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 10:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6EE1E3788
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 10:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728987231; cv=none; b=f9cBSJGsDTrF/qrH7CkB92vgft2SUKQHyq2E2GPxJ8VuDFXR+22juZ9FIQDzOowuofcGaZTdTbJ01bbKPv9m4WPuieZS6J2CiwE3MyxP1Vvq/+hVUYeqnFck2UPhDiIdlaHNk5QP3uPCkOanuf/MkORUf6iho4AH9KAjd9aa7Ec=
+	t=1728987828; cv=none; b=qLvSu1i96pr7TvAKK2gga+orj8CVPLoYIUwKRotu7ozm5uK1VLt1EzPIEmhKm0zI21rhwaczStbq40m2IhAJjaAzKgjqBL8qF5I6iZBBwNKH/ZRxafbd8RZ6pTNEThs9Yy+ek7ZKWgTWtxw6OgPkA066Ao6o/80TasADH4OJv7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728987231; c=relaxed/simple;
-	bh=jBNLiiDQztK8tDxklcBbYNKZ4i3UWrSzPxw5rOzncRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V7ML+TNKbRFQw6KGZQX84h0gfgtxVykvD98sEQ4KLutveJzAdc9NCNB9I5eUsxKZZ2F/t8L8NSLKvWh6UG00TDu/956z8+vIWjtED7MrFvbNi1/kjdBtEI7CaLPWUIGUU0SvxAC8NZK9E3wWHTwWpmmWGGb+OgagnGgpLm86pr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HfjL7TtX; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1728987828; c=relaxed/simple;
+	bh=WzxWkDXu6iiiABxXW62VvPWNSJDf9wpTO4gP9ILfz58=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sPQjGy59SoQg0c0AnVRdnMVNhpDtmMUZ5pzwBvmkCho9cERwUpSa8Uy4fkfi322C2ILNamNiQAU9xlO2+4t//Gnq0j5ObIq21GaTCFn8VJT1LDZn3dySQ9tOqJSnp6NY/9PZFqHVXhqdniZj5QM/Z5kNTQPOn1K8VChrjWwHa5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RzpJEfwz; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HfjL7TtX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzpJEfwz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728987229; x=1760523229;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=jBNLiiDQztK8tDxklcBbYNKZ4i3UWrSzPxw5rOzncRg=;
-  b=HfjL7TtXY+R1B+LoVwVId9KVtVtSyKcx5/aOP0Fc+yV0iY8GmibPhI4I
-   8hnwzr5uWIZm4RON3HockQ05rvAf5mwhAbGa8SC9tVEfjJlkjfT9DxX1A
-   5sGXBRDBHJEReqgQHLCq22YiReGFeHmOYyEeAPpA0Comud/3FMXdGcmr2
-   qmr4FzmOdIESW9I+U43Ei7e6p/ZuONCjVQQVL5RL8by0yIrGg+Ndud9g/
-   5R2OYmQf/uwrTQbJszw9BgQJvBw+k4+8M4fuvhQBemQBZ4OD21eZsgxzb
-   H6uKK0+LEOtPTJ0kLmjWtiDZs5ejEpHghFjftbyZcmmOahdwlVubSjvcS
-   g==;
-X-CSE-ConnectionGUID: 7+KfVQZsSWexEad/gir29g==
-X-CSE-MsgGUID: 8Ti1gGEsT3CR2v/0tp0DCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28158111"
+  t=1728987827; x=1760523827;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WzxWkDXu6iiiABxXW62VvPWNSJDf9wpTO4gP9ILfz58=;
+  b=RzpJEfwzHY6+fM2zIzGbLNyI/X/qt0SwIbpxBeoquS0SZ9ts6MRsgtg3
+   QhgfcGkz79thiWMieD7pNfq3hWtBOLu0R1QXvpC6BBQyEHKfOU/1xjQD+
+   oDT22/LiOm3YrmqeVv6slLkndGlWOqhmho1YZztRWQ+CNBTUVXr/M6KkE
+   Ia0drRrPf3oivfcW4FgU16F3bBhxwmzCgZghEDZXu1FHyhsP9sXdJpw0V
+   21njdNxofYt//mMCudaLbcXcs/kJNYI8WVq9yHu/urBuVd0EUWTzjn0TX
+   7chNNdKufaGOWbZY/yb9yULwmS37YdHVqaUUSwKgNRoDTQeaPHJG1muwY
+   w==;
+X-CSE-ConnectionGUID: hPl7WYZERSmAw845MUlsjw==
+X-CSE-MsgGUID: OsC8XmvpQRqLVEg91vSuLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32065191"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28158111"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:13:48 -0700
-X-CSE-ConnectionGUID: USzd0He1RrSE+DO0OgbOWg==
-X-CSE-MsgGUID: Iwu0yHTATwuaRIQb8BI1Fw==
+   d="scan'208";a="32065191"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:23:46 -0700
+X-CSE-ConnectionGUID: fzRVejrVRFiAuyZ8mz3v3Q==
+X-CSE-MsgGUID: ILWMBf19RYWNhB/XX1jQgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="108574767"
+   d="scan'208";a="82638546"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 03:13:44 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2024 03:23:46 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0eYg-000Hx3-0G;
-	Tue, 15 Oct 2024 10:13:42 +0000
-Date: Tue, 15 Oct 2024 18:13:07 +0800
+	id 1t0eiN-000Hxr-10;
+	Tue, 15 Oct 2024 10:23:43 +0000
+Date: Tue, 15 Oct 2024 18:23:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Giedrius =?utf-8?Q?Statkevi=C4=8Dius?= <giedriuswork@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Giedrius =?utf-8?Q?Statkevi=C4=8Dius?= <giedriuswork@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/lspcon: do not hardcode settle timeout
-Message-ID: <202410151813.Hw9oCTae-lkp@intel.com>
-References: <20241014093914.109162-1-giedriuswork@gmail.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:execmem/x86-rox/v6 8/8] arch/x86/mm/init.c:1056:6: warning: no
+ previous prototype for 'execmem_fill_trapping_insns'
+Message-ID: <202410151820.O7EszQ0n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241014093914.109162-1-giedriuswork@gmail.com>
 
-Hi Giedrius,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.12-rc3 next-20241015]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Giedrius-Statkevi-ius/drm-i915-lspcon-do-not-hardcode-settle-timeout/20241014-174131
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241014093914.109162-1-giedriuswork%40gmail.com
-patch subject: [PATCH] drm/i915/lspcon: do not hardcode settle timeout
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241015/202410151813.Hw9oCTae-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/x86-rox/v6
+head:   2b978e9386bfb02955ece81058a14103d1bb7504
+commit: 2b978e9386bfb02955ece81058a14103d1bb7504 [8/8] x86/module: enable ROX caches for module text
+config: i386-buildonly-randconfig-002-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151820.O7EszQ0n-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151813.Hw9oCTae-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151820.O7EszQ0n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151813.Hw9oCTae-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151820.O7EszQ0n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:495: warning: Function parameter or struct member 'time_out' not described in 'drm_lspcon_set_mode'
+>> arch/x86/mm/init.c:1056:6: warning: no previous prototype for 'execmem_fill_trapping_insns' [-Wmissing-prototypes]
+    1056 | void execmem_fill_trapping_insns(void *ptr, size_t size, bool writeable)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
 
 
-vim +495 drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+vim +/execmem_fill_trapping_insns +1056 arch/x86/mm/init.c
 
-056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  482  
-056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  483  /**
-613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  484   * drm_lspcon_set_mode: Change LSPCON's mode of operation by
-613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  485   * writing offset (0x80, 0x40)
-318fbd7dfedd67 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Lyude Paul            2021-04-23  486   * @dev: &drm_device to use
-613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  487   * @adapter: I2C-over-aux adapter
-613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  488   * @mode: required mode of operation
-056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  489   *
-056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  490   * Returns:
-056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  491   * 0 on success, -error on failure/timeout
-056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  492   */
-318fbd7dfedd67 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Lyude Paul            2021-04-23  493  int drm_lspcon_set_mode(const struct drm_device *dev, struct i2c_adapter *adapter,
-3d7a1094af9e7e drivers/gpu/drm/display/drm_dp_dual_mode_helper.c Giedrius Statkevičius 2024-10-14  494  			enum drm_lspcon_mode mode, int time_out)
-056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17 @495  {
+  1055	
+> 1056	void execmem_fill_trapping_insns(void *ptr, size_t size, bool writeable)
+  1057	{
+  1058		/* fill memory with INT3 instructions */
+  1059		if (writeable)
+  1060			memset(ptr, INT3_INSN_OPCODE, size);
+  1061		else
+  1062			text_poke_set(ptr, INT3_INSN_OPCODE, size);
+  1063	}
+  1064	
 
 -- 
 0-DAY CI Kernel Test Service
