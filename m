@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F0E1E764A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 11:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37921D89F5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 11:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728990952; cv=none; b=QIokxIe723VtG7yrcO0p+V56Mtt/enuCf67YvTZAbSuFhs9m9+zGgrXd3OYPVn9oc/mNnvmWPOk6KS5y6QYNMNJkpCG7RnPcpSvtYE+Dr5V+vNL8aUiJ2novwrmdum959pEElqZI9iIMlc77ZY0KL2HwgiIlvUQJtBC20+REWCM=
+	t=1728991621; cv=none; b=hAc+QDTTsanI9TwtT6f8C/c8tul50jRWwVznxLSpNmYYon4OnvIwp686O/5jw54iJNG4t2qIwmfHR5ReG7sIkxMz1KUHjl6UIPUxiegGZ4EbW+i1LkMgkbObgFfIUQ3T/Bk5Dxn6ZnHygeCfJ5uGzFPXPJlvmVdhukTLFwTd5g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728990952; c=relaxed/simple;
-	bh=lVjSrVnRY50pqp9Ex2c6t/OnmaWLV0LVKclb/uocaLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V5XULLbbbZE7+E5A4OhEMlO8TmhDl+r3x7nXPviQpLej7jBt5H3B4Tlum3f7Q9eI3HWTXfKXLFo3jTRUM3xEIW0evrqgD+VIciHdTAoUihpbZ2BY5u5JMdq3NS7Iue55Jdefnsbcq66XrsDBf+mI0a9KvD19sEJmuFusr5tOrYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTORbCVV; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1728991621; c=relaxed/simple;
+	bh=CU5Ivy8Z00Cv051dEKbRz2VOtggkLM1An6ezy/8TD6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qB55VQbGDLeIEgpgHSMOup0zEwXy6S1foTrcAeXIO1G1IL2IHNGCb9bLte+hhV9TDYmwviqye+NBE0Hpy0vRej0wAU8vfcu/l7GyLnTc+AUwyeRZYh+vpSlCVYrBP2cFKnJ3oSd8L9/RKbHQ91WGe9j0e61ZY3JJaFGlbWXU2sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8tpDc21; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTORbCVV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8tpDc21"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728990951; x=1760526951;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lVjSrVnRY50pqp9Ex2c6t/OnmaWLV0LVKclb/uocaLs=;
-  b=MTORbCVVXjkBNvlCSXVpQlpxftkRmfeSTle7GWJr6uhFYlcNwriU9f0p
-   lfmIxvqr5zvcu3LVCR7QCN2gfoju53kfFndBhnKFJy04kzHdpvR0A/ASZ
-   uQ4YulF38AlZe7mugAjvm8AGp9kYR9xRBcXO4jDF+28Ea00LyIxhqrP/J
-   5PV+pyWwQCQVzQwjM6lXC/TpI/Nza/3tKii+dOR3BKAFAJ2Ds3Ii7q9hL
-   pk0adblaZq/gFIhO5Hf+z1IauwgryZN9KmDYqe0/yXjz7ak5zjlke5eHm
-   0UA8RiAlnzSoCji9tua4o8ZlFZAFy8tophfiJSx9fi3hb5cX2jKqR73Nq
+  t=1728991619; x=1760527619;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CU5Ivy8Z00Cv051dEKbRz2VOtggkLM1An6ezy/8TD6I=;
+  b=J8tpDc21aqSSMfA1s3sQNJOub+nFVsAcSepT1tdW60dFmBp7e+gi/72U
+   3+OFuvC5ylXomNS3GCzyDqErpjmgeUgVA9vhAl2wiIf9uaqg0tULgIL2U
+   +uubgz2DjDqQywUp5DBr8cK84xXK4elTv+1uAAClxJo+bx/56fBn/QKdE
+   c1eJ5fsTrmuqVS25DDI47SJQTKcDyWpTjfqv3hGOp10PFbhs7kD+f4H6w
+   v/Z8POY4daWyx1UGiBUUKNqNaa5QkNvaktvnvDR4VymWAWWmvala0Iz3M
+   BcI4UO9QeJecPNP8kZadZSGK7DFQDRml0xPY+Li+b/3MDjaAbVgdzy6KH
    Q==;
-X-CSE-ConnectionGUID: HTPxBdRGSzmfb66Mt5XTJA==
-X-CSE-MsgGUID: ek/Ye1BjSyixCpjB9y1yOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45849976"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="45849976"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:15:50 -0700
-X-CSE-ConnectionGUID: r1LUvOWIQB25Wb+Oxew+oQ==
-X-CSE-MsgGUID: QnhVx835QSysj7QZF95J+g==
+X-CSE-ConnectionGUID: iVA/QSJoTpCwn4MxVzhQTA==
+X-CSE-MsgGUID: R7qVA5AtQB24Z5/UHxjwxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39768516"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="39768516"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:26:54 -0700
+X-CSE-ConnectionGUID: SVYhPXiBT5SLyftBMZcMKA==
+X-CSE-MsgGUID: ncKQkyxCRaeSGbYGnAeclg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77813178"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="108592278"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Oct 2024 04:15:49 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 04:26:49 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0fWk-000I1d-2P;
-	Tue, 15 Oct 2024 11:15:46 +0000
-Date: Tue, 15 Oct 2024 19:15:41 +0800
+	id 1t0fhP-000I2R-08;
+	Tue, 15 Oct 2024 11:26:47 +0000
+Date: Tue, 15 Oct 2024 19:25:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-6.1.y-cip-rt-rebase 190/440] kismet: WARNING: unmet
- direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by
- IPMMU_VMSA
-Message-ID: <202410151933.lsgoPBgA-lkp@intel.com>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: Re: [PATCH v4 08/28] media: iris: implement power management
+Message-ID: <202410151929.iJzD1Wez-lkp@intel.com>
+References: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +74,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip-rt-rebase
-head:   08788bbb26e6f92122914516e7d36ade297a3f3e
-commit: 5fa6f02b9ffaaf475cb48b2a6d3e31bfd2ba4735 [190/440] riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
-config: riscv-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_IPMMU_VMSA-0-0 (https://download.01.org/0day-ci/archive/20241015/202410151933.lsgoPBgA-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241015/202410151933.lsgoPBgA-lkp@intel.com/reproduce)
+Hi Dikshita,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal/dt-bindings-media-Add-video-support-for-QCOM-SM8550-SoC/20241014-171950
+base:   67cefecf2a039b9ed0030b9213ceafcd45e6f9e3
+patch link:    https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e%40quicinc.com
+patch subject: [PATCH v4 08/28] media: iris: implement power management
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241015/202410151929.iJzD1Wez-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151929.iJzD1Wez-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151933.lsgoPBgA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151929.iJzD1Wez-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by IPMMU_VMSA
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-     Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
-     Selected by [y]:
-     - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/qcom/iris/iris_probe.c:292:12: warning: 'iris_pm_resume' defined but not used [-Wunused-function]
+     292 | static int iris_pm_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/iris/iris_probe.c:273:12: warning: 'iris_pm_suspend' defined but not used [-Wunused-function]
+     273 | static int iris_pm_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
+
+
+vim +/iris_pm_resume +292 drivers/media/platform/qcom/iris/iris_probe.c
+
+   272	
+ > 273	static int iris_pm_suspend(struct device *dev)
+   274	{
+   275		struct iris_core *core;
+   276		int ret;
+   277	
+   278		core = dev_get_drvdata(dev);
+   279	
+   280		mutex_lock(&core->lock);
+   281		if (core->state != IRIS_CORE_INIT)
+   282			goto exit;
+   283	
+   284		ret = iris_hfi_pm_suspend(core);
+   285	
+   286	exit:
+   287		mutex_unlock(&core->lock);
+   288	
+   289		return ret;
+   290	}
+   291	
+ > 292	static int iris_pm_resume(struct device *dev)
+   293	{
+   294		struct iris_core *core;
+   295		int ret = 0;
+   296	
+   297		core = dev_get_drvdata(dev);
+   298	
+   299		mutex_lock(&core->lock);
+   300		if (core->state != IRIS_CORE_INIT)
+   301			goto exit;
+   302	
+   303		ret = iris_hfi_pm_resume(core);
+   304		pm_runtime_mark_last_busy(core->dev);
+   305	
+   306	exit:
+   307		mutex_unlock(&core->lock);
+   308	
+   309		return ret;
+   310	}
+   311	
 
 -- 
 0-DAY CI Kernel Test Service
