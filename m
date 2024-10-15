@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0091BF2B;
-	Tue, 15 Oct 2024 09:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9654417623C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 09:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728984765; cv=none; b=qwnBgpGq/7AzyZbOm5ULIrurNPHaWkYlkAoKUSZaFJNMZoWoICnY5j8sfEQ1B9Z4jSRvnv44nGJknaAEA+NMD07X6RLsbRdlTdaE81t5eu4akW79FXt7uD6UeJ0n+AJoy9YdXmr9abGNU/2CfTGpmBNf2rBNPr459q4U7kGIQuc=
+	t=1728984929; cv=none; b=M1maH2N60mnC47qibNtECLDqkl/o89T86iyaLdNul0hAG1X6AxOvdz6k1OV1CBTkbLCeVziptURvvq2x6yyO2pYbmdFHkap0+Bmbip4hYgjKGczg4znhHFQxutOUU2MGgUO5C9p19Q6S4u7ema9TwIFALxuPNMQsJZ3X9ZtVAQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728984765; c=relaxed/simple;
-	bh=DwXAbaj6iK+ikSt7t5O4YawWvOvZYFFiTORjiswVQak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=toqXH/BM0krJEVb+05sLB84/U/JETwMyaiIxNElI9NKXlgn16T8Mg4j9W71HNkqGniWfE7uDJilFfkk7VvILWI8AkBqeZr06OUnCxyT2e3rBZkqpC7oPH6QvQBl4oTymKvkqx8OQ/8MFHBXE2JwRx7LJYtfxCF4o3+EGh0htZGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2+cFv9U; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728984929; c=relaxed/simple;
+	bh=LtkGmQYJngv0+N5zowvnMUUtMR1wazMbXTqoPS4XZIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W6RVCcyf4Qb2L5IRTLp0lJn0m7Se7lT4mQDE5n9Ez6P84hL4w1sNX0kAyzqJztZ5w83f7euS1390asA8UWIIc8kj+RqL5bvqGqE+Xm+C5Xg6vKShNVfJLSsaA/r3SyAmdJzyjw8pnX5vpY4Jx/T1j4pTpksOC4PxXtSc3x8lGj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zeEPxpAw; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2+cFv9U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728984764; x=1760520764;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DwXAbaj6iK+ikSt7t5O4YawWvOvZYFFiTORjiswVQak=;
-  b=U2+cFv9U58M1kVoi2MCpr36vg4FW/L0aTIE932aX+u8A8EArlPpN0ryO
-   MJ2WSOseA91KplVFosc/f38i/btQ7IgbESYqFr8iV1Kpd6c5RRnoc7u0k
-   QU9ZFhEQXTHcWBQwI0YlHx1Q6WjlHXqVtJqvMxTPMAAlCXAI8+tL7Ut2E
-   2nT27XP6oapbm1ZWIsKoS6/73BXaPirTIfTbVwwKxE0HRZVDusAZsULgR
-   Z6UtDt3YyATZwRbYRa6WdWJfqjA2aBmxlmpptN+zDysn9mJ7db4cQDGll
-   g0BKnN9v2uIsOSBXZHi1jM5KzGzVPihWEim8s/pmTtBZxtZRPZAVNHr8V
-   Q==;
-X-CSE-ConnectionGUID: W1cIMR3OSb6Vn8MhKSvPEQ==
-X-CSE-MsgGUID: LIMUuTD5T7ScHJAmSjzveQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39756193"
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="39756193"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 02:32:43 -0700
-X-CSE-ConnectionGUID: 5bGJdhoxTrm6JryRqu//MA==
-X-CSE-MsgGUID: hnhVU1fWQHqxY7sBb6MPlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77505309"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Oct 2024 02:32:42 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0dux-000Hsl-2J;
-	Tue, 15 Oct 2024 09:32:39 +0000
-Date: Tue, 15 Oct 2024 17:32:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Duan Chenghao <duanchenghao@kylinos.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3] USB: Fix the issue of task recovery failure caused by
- USB status when S4 wakes up
-Message-ID: <202410151722.rfjtknRz-lkp@intel.com>
-References: <20241012094633.126736-1-duanchenghao@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zeEPxpAw"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c95a962c2bso3952837a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Oct 2024 02:35:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728984926; x=1729589726; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dtt5ruZcTqXCpA5r4X1yvSpTefxk7jmtoHyp5gVIjPA=;
+        b=zeEPxpAw99b67zQ+HfOfasOoghqYhbXYflC3jDrSIuBaBpZ+NM7MNoHZAF02uhvroo
+         YGlvnBKEcvifMLhkhxz8x1HGGUhh3g6eJ9DFFLuJuhN3DOZvGyP6uYtzHQIdASotGWlV
+         2HJ9t4NH9+tN5X2E5Pu1Bk8HuG3rRTlPJpLhHFcoImNzBinvHd7Z/xuOZjJb7nBdPzWo
+         LtJxiLzaRar9ezFi2C7G5K21jK7QJlHO6wxuzYbJx3e345wwTn6emZZ0txKDJd6/19PL
+         bZh6OYq9aasGZXOM4E4Pzf8LqioqC0fkt3HHwk1DmxXNt7oIgZRFNK/FlYL4gvqKbqeL
+         Pxmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728984926; x=1729589726;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dtt5ruZcTqXCpA5r4X1yvSpTefxk7jmtoHyp5gVIjPA=;
+        b=uxmhb69l47KYHQIo62EBXfIkoDojlFUXcX66Yx/7pVkJy7WPY85GqcrI3tdByU+ayr
+         4m7waHsnT54TiOKxsbwz3ISyRIRk1zIYgZXWjaXh21tqPEoKE9dquEJpKx6t+IKXm7+X
+         ZGn6WMBuL7SQJFoKFuy6fqcV6jSAK6MeLX95I2O8UoUbT7XAjVORpGGVxJNHvf4BMKvZ
+         heByZAl/0CffIoMWlBddRVQeyMJPJSTT0PPGab0/B6tvWq/nmH4LQuoW0YCeHq1t4xqt
+         oIEyAh6zYbCH2O82QsRDaecYXP4m5/WTy5a3SFopMotEykQZOVmvfmEvX+p/xWlFrGbP
+         vKCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrp84SGxPk+DMVqEPvDIrDWuOp/cyZ88i5x9d6HffOhmJxBLWnsnuS1axzrFI4AqCwEMrKFW8Rd4ljA3RW@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywo1t2bMkoxtuEfGWEcBwRfV4u7IYM8uTa3usMQQI0SERRawyR6
+	uHj5E3JNdqkWwOZxAbr9esDO3VvlMo4NWrGI27t8P6zINFPj7HCvnW0WZUrif5E=
+X-Google-Smtp-Source: AGHT+IEZzu3niH2ur1wKKaqKOt4J3IT5DAet4B+x9PtVAz5hyNU+yIZsMosyoGLTXXdQTnHuFDVwmg==
+X-Received: by 2002:a05:6402:210e:b0:5c9:84f5:d566 with SMTP id 4fb4d7f45d1cf-5c984f5d6a0mr3204312a12.12.1728984925779;
+        Tue, 15 Oct 2024 02:35:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d507755sm489819a12.44.2024.10.15.02.35.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 02:35:25 -0700 (PDT)
+Date: Tue, 15 Oct 2024 12:35:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-5.10.y-cip-rebase 606/1105]
+ drivers/usb/host/xhci-plat.c:382 xhci_generic_plat_probe() error: we
+ previously assumed 'sysdev' could be null (see line 372)
+Message-ID: <687d643d-9791-4f24-91d8-7a82847c3cab@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +67,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241012094633.126736-1-duanchenghao@kylinos.cn>
 
-Hi Duan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.12-rc3 next-20241014]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Duan-Chenghao/USB-Fix-the-issue-of-task-recovery-failure-caused-by-USB-status-when-S4-wakes-up/20241012-174830
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20241012094633.126736-1-duanchenghao%40kylinos.cn
-patch subject: [PATCH v3] USB: Fix the issue of task recovery failure caused by USB status when S4 wakes up
-config: i386-randconfig-004-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151722.rfjtknRz-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip-rebase
+head:   3cdd0cc9c0e53917e2c4e56b1e7256ae8923845e
+commit: 7ce55f4ea24048dd70fb4aa8f522c94d5f767f08 [606/1105] xhci: split out rcar/rz support from xhci-plat.c
+config: x86_64-randconfig-161-20241014 (https://download.01.org/0day-ci/archive/20241015/202410150653.RDBoPiA3-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151722.rfjtknRz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151722.rfjtknRz-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410150653.RDBoPiA3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/usb/host/xhci-plat.c:382 xhci_generic_plat_probe() error: we previously assumed 'sysdev' could be null (see line 372)
 
->> drivers/usb/core/hcd-pci.c:637:13: error: use of undeclared identifier 'hcd_pci_freeze'
-     637 |         .freeze         = hcd_pci_freeze,
-         |                           ^
-   1 error generated.
+vim +/sysdev +382 drivers/usb/host/xhci-plat.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  359  static int xhci_generic_plat_probe(struct platform_device *pdev)
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  360  {
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  361  	const struct xhci_plat_priv *priv_match;
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  362  	struct device *sysdev;
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  363  	int ret;
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  364  
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  365  	/*
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  366  	 * sysdev must point to a device that is known to the system firmware
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  367  	 * or PCI hardware. We handle these three cases here:
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  368  	 * 1. xhci_plat comes from firmware
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  369  	 * 2. xhci_plat is child of a device from firmware (dwc3-plat)
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  370  	 * 3. xhci_plat is grandchild of a pci device (dwc3-pci)
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  371  	 */
+7ce55f4ea24048 Arnd Bergmann             2023-06-01 @372  	for (sysdev = &pdev->dev; sysdev; sysdev = sysdev->parent) {
+                                                                                          ^^^^^^
+This loop exits with a NULL sysdev pointer
 
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  373  		if (is_of_node(sysdev->fwnode) ||
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  374  			is_acpi_device_node(sysdev->fwnode))
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  375  			break;
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  376  #ifdef CONFIG_PCI
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  377  		else if (sysdev->bus == &pci_bus_type)
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  378  			break;
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  379  #endif
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  380  	}
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  381  
+7ce55f4ea24048 Arnd Bergmann             2023-06-01 @382  	if (WARN_ON(!sysdev->dma_mask)) {
+                                                                             ^^^^^^^^^^^^^^^^
+Unchecked dereference
 
-vim +/hcd_pci_freeze +637 drivers/usb/core/hcd-pci.c
-
-   631	
-   632	const struct dev_pm_ops usb_hcd_pci_pm_ops = {
-   633		.suspend	= hcd_pci_suspend,
-   634		.suspend_noirq	= hcd_pci_suspend_noirq,
-   635		.resume_noirq	= hcd_pci_resume_noirq,
-   636		.resume		= hcd_pci_resume,
- > 637		.freeze		= hcd_pci_freeze,
-   638		.freeze_noirq	= check_root_hub_suspended,
-   639		.thaw_noirq	= NULL,
-   640		.thaw		= hcd_pci_resume,
-   641		.poweroff	= hcd_pci_suspend,
-   642		.poweroff_late	= hcd_pci_poweroff_late,
-   643		.poweroff_noirq	= hcd_pci_suspend_noirq,
-   644		.restore_noirq	= hcd_pci_resume_noirq,
-   645		.restore	= hcd_pci_restore,
-   646		.runtime_suspend = hcd_pci_runtime_suspend,
-   647		.runtime_resume	= hcd_pci_runtime_resume,
-   648	};
-   649	EXPORT_SYMBOL_GPL(usb_hcd_pci_pm_ops);
-   650	
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  383  		/* Platform did not initialize dma_mask */
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  384  		ret = dma_coerce_mask_and_coherent(sysdev, DMA_BIT_MASK(64));
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  385  		if (ret)
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  386  			return ret;
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  387  	}
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  388  
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  389  	if (pdev->dev.of_node)
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  390  		priv_match = of_device_get_match_data(&pdev->dev);
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  391  	else
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  392  		priv_match = dev_get_platdata(&pdev->dev);
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  393  
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  394  	return xhci_plat_probe(pdev, sysdev, priv_match);
+7ce55f4ea24048 Arnd Bergmann             2023-06-01  395  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
