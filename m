@@ -1,69 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76802101C4;
-	Wed, 16 Oct 2024 01:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4169C13B787
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 01:37:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729042029; cv=none; b=Y/scmAyhFT4hgCgV0kfM2gcN+QlRQv1IFtZ3cRSwZ73OhGVLpVFh84j7BD6NmnGx7GUGv2bFdTfDiHJh2qU5WGOKy67xRO47T5BjJQ0mz8PK2tVB9M44eTw1WzMJWfE59W4V0Fs0FTIEQm1YoBmErRqI+fkRVbQ6k6IKER6rigU=
+	t=1729042627; cv=none; b=DL7Q+beQFsA26r3YIrfF/UNMUUj658keNxT61++TllE6rzXNUG5h0fygycG4tYi/CPc/P+bnHCcMWj6rJFsGDKKCHELVAwZhH058mCu3EK1pgml8GrNOEzVt1AGzgXwCdimNq9jLtnBgPTdIHeDlKQYKM5cAI0dhqzLpqTkrM4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729042029; c=relaxed/simple;
-	bh=HJMAzk6TCzSstS6gquuELWdF1vJtpUiAEcwM2yjG5D4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dk1WnDWhOK5v84iWtylsdMQah3bzXHBh3To2OfReDW9VHTrWVyGcI01nwq0GskYpe0yxqhYC7iGEVuzQ2xU8Sc2/fSqJHbKezTlcGU/v+g+1cHOtBAW26AbrzHLRQl7x5Jj7v8EVyhc2tKr+INnFxRtbV7RZ5es/vA5QJMoDu5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BUB0J35f; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1729042627; c=relaxed/simple;
+	bh=te5qiaT8UFm6Vi70BQaYe2acR4TgN0M9Dw0e4KEWU7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jv+J3NEMPZFkduqD2ZdoLTwILfIXpHWPRGPFxTEY1aCvGiMPry5mR+9ORgk4Pgp+Ml8s5nsf3vwy9nbNkMdOqzIAxCVQaOfJTFsKr9KG2tUcySpPXCvKaYD48a1tywvwPIOIbVU6kermlddO5deuglSVwGGwOQtWGLVh2PRz/hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3TWAS52; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BUB0J35f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3TWAS52"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729042028; x=1760578028;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HJMAzk6TCzSstS6gquuELWdF1vJtpUiAEcwM2yjG5D4=;
-  b=BUB0J35f/efXv4ABG84A5wEz2oMoo8v+76mTrJB/c5PqPWHmOhqrdf6U
-   TBl40cSPhPXpCANMQs4NAB81rWlHPfCWHY0WdlPGwcO1EdvtvwZTY0FLK
-   m1qSoQOxr/zWAVwI1/13Rta1mn5jd9oxpS04TxwTkchzCG8/0xf194dNg
-   UdlMtpFjdBZwiXfm/htV8+fH8+yZ5B5cdtSvO0lhuMSCc1RWdmT624XTI
-   2H2n3/ofcZkp0640HuFh4rxX5vOv79uIVyWYVrnug/OasGLOkGxwObgLK
-   66F6XPHE+ULRXPbamMMvElsjSKX1YcNPVk5OB4jsvqDmmy7tZIK7Cfx9Z
-   A==;
-X-CSE-ConnectionGUID: BymNGqIfTcupe7dF+E7BYA==
-X-CSE-MsgGUID: 5pyAOtU3R4iXDU4/Ui5PFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32162209"
+  t=1729042626; x=1760578626;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=te5qiaT8UFm6Vi70BQaYe2acR4TgN0M9Dw0e4KEWU7o=;
+  b=d3TWAS52LtF5/JNdcR71H2tbO6Bxl19rKClAuRMsJKMFAI1i5Nlq5aY8
+   tfpTeo5UOMXRS8R5/RPNExuNb8wiU9D/10zXUV6+KhyYjYcr+G11lpwti
+   k+ahFahXR/Nlsw/Mc318qHR4OObPUJ+nAqRy2akNAcOTU9YyLHg71VdH7
+   jlr1YhjAATaZqKlNAutvDZgzXw5Oityb2ldciewTIbhSCUnr0mxJoL+G7
+   8kr9kfuTHo3L72BADzHFyPWbcQh543gqq/m8/ZONezGymPdxQMvLIgpLE
+   aD/4B2O4q3tbNItCrSLHW0Zke9GrXpvIGmjS72pL/DzM8+V4M11Ki/NrV
+   w==;
+X-CSE-ConnectionGUID: 0Oh6rToGRkWsFuvLmAzMLg==
+X-CSE-MsgGUID: +3zzPPJGQO6LqKPuBmqdIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32162876"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32162209"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 18:27:07 -0700
-X-CSE-ConnectionGUID: BVwuHcGoTxCUU1FcOHQXCg==
-X-CSE-MsgGUID: HOxmxGeSQRSaZ/fhM05eCQ==
+   d="scan'208";a="32162876"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 18:37:05 -0700
+X-CSE-ConnectionGUID: 8ongZS+rSuifpaP2DaLIgg==
+X-CSE-MsgGUID: KYoAbmtsR4qDWGGG8iRl+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="78084569"
+   d="scan'208";a="78910945"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Oct 2024 18:27:03 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2024 18:37:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0soX-000K7q-0o;
-	Wed, 16 Oct 2024 01:27:01 +0000
-Date: Wed, 16 Oct 2024 09:26:18 +0800
+	id 1t0syD-000K8f-2g;
+	Wed, 16 Oct 2024 01:37:01 +0000
+Date: Wed, 16 Oct 2024 09:36:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian dos Santos de Lima <christiansantoslima21@gmail.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	~lkcamp/patches@lists.sr.ht
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] rust: transmute: Add implementation for FromBytes
- trait
-Message-ID: <202410160946.XR7mVFjR-lkp@intel.com>
-References: <20241012070121.110481-1-christiansantoslima21@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:cpumask_next_wrap5 1/13] include/linux/objpool.h:173:6:
+ error: variable 'start' set but not used
+Message-ID: <202410160948.7SEfTmD4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,142 +61,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241012070121.110481-1-christiansantoslima21@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on next-20241015]
-[cannot apply to linus/master v6.12-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-dos-Santos-de-Lima/rust-transmute-Add-implementation-for-FromBytes-trait/20241012-150333
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20241012070121.110481-1-christiansantoslima21%40gmail.com
-patch subject: [PATCH v2] rust: transmute: Add implementation for FromBytes trait
-config: um-randconfig-002-20241015 (https://download.01.org/0day-ci/archive/20241016/202410160946.XR7mVFjR-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160946.XR7mVFjR-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux cpumask_next_wrap5
+head:   d2ce21c762c90540ac4114fe274ffa7bb0627c4c
+commit: baca98459e3b3f1c64f4d61deba92fa15a0a1c91 [1/13] objpool: rework objpool_pop()
+config: i386-buildonly-randconfig-005-20241016 (https://download.01.org/0day-ci/archive/20241016/202410160948.7SEfTmD4-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160948.7SEfTmD4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160946.XR7mVFjR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160948.7SEfTmD4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   |                                                   ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-   |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-   |                                                   ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   585 |         __raw_writeb(value, PCI_IOBASE + addr);
-   |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-   |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-   |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   693 |         readsb(PCI_IOBASE + addr, buffer, count);
-   |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   701 |         readsw(PCI_IOBASE + addr, buffer, count);
-   |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   709 |         readsl(PCI_IOBASE + addr, buffer, count);
-   |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   718 |         writesb(PCI_IOBASE + addr, buffer, count);
-   |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   727 |         writesw(PCI_IOBASE + addr, buffer, count);
-   |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   736 |         writesl(PCI_IOBASE + addr, buffer, count);
-   |                 ~~~~~~~~~~ ^
-   13 warnings generated.
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> error[E0432]: unresolved import `crate::transmute::AsBytes`
-   --> rust/kernel/uaccess.rs:12:17
-   |
-   12 |     transmute::{AsBytes, FromBytes},
-   |                 ^^^^^^^
-   |                 |
-   |                 no `AsBytes` in `transmute`
-   |                 help: a similar name exists in the module: `ToBytes`
+   In file included from drivers/gpu/drm/drm_debugfs_crc.c:35:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:29:
+>> include/linux/objpool.h:173:6: error: variable 'start' set but not used [-Werror,-Wunused-but-set-variable]
+     173 |         int start, cpu;
+         |             ^
+   1 error generated.
+
+
+vim +/start +173 include/linux/objpool.h
+
+   162	
+   163	/**
+   164	 * objpool_pop() - allocate an object from objpool
+   165	 * @pool: object pool
+   166	 *
+   167	 * return value: object ptr or NULL if failed
+   168	 */
+   169	static inline void *objpool_pop(struct objpool_head *pool)
+   170	{
+   171		void *obj = NULL;
+   172		unsigned long flags;
+ > 173		int start, cpu;
+   174	
+   175		/* disable local irq to avoid preemption & interruption */
+   176		raw_local_irq_save(flags);
+   177	
+   178		start = raw_smp_processor_id();
+   179		for_each_possible_cpu_wrap(cpu, start) {
+   180			obj = __objpool_try_get_slot(pool, cpu);
+   181			if (obj)
+   182				break;
+   183		}
+   184		raw_local_irq_restore(flags);
+   185	
+   186		return obj;
+   187	}
+   188	
 
 -- 
 0-DAY CI Kernel Test Service
