@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E4C16A94A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 03:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DA04A0C;
+	Wed, 16 Oct 2024 04:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729050935; cv=none; b=N0CFQW9U191NXHOAtSSVXXuILDAQRB1NkHMOuARjwNFx5lRUy8P5XKxDLyYujQSynJBWIg7HBHdOGd6Tw+pLQATtAjc23EFp8plNSQy5A76tPiyBFecFBiZTOqokSTglcHAjMbJXFcKfg5Oree124xb+LLzILhrX8YVFMFuK5wQ=
+	t=1729052198; cv=none; b=DISMO3s3lHhyhCLY7pR982jx89tMxRxhDez1DetSlF6OX66rZDTEHbm+oWrrivt0cY8+TytQ+gPdtiYaaipEh0+Or2GnK4ino5kXUe+wvwD7/tWKO9lA4UTkn6P5aADsG85BMuBcXTGh2IKfoj5ysDSiMzVodR3LD7sx4EuEvPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729050935; c=relaxed/simple;
-	bh=pcP3m+S5BCDKp+GWNOcS4iQgoYUKZtZCx/uvDquQ1h4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YNAGlBNUM8m1PEWLYo5ERb8KIWYdqeoPYRVAbC00ID7ry84EAfkWRjNXPcz1VX2i6c/GWPAicX7fnZRjMqaZb01DdwIRO5j6PaNfLurHMvgddlc4MWBCAUABXzhqw1k2f0bYXFA0dwdfQNI9bHRdWPRCePGADI8eQX/p3ME0Tww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R62Qlda2; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1729052198; c=relaxed/simple;
+	bh=yukfN/ZCUI8w67J+9BSDAj02fAIZcK3PJadJXWyhObs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=spGw5tdi11B4JWbrWrAKRgs7vEDvaOfS8AQWA+8mKy42DDd1NKJcuuqf9jwCHobGK1YK8FlwkPmqlvym0HEh/pgd6aS6qQvcdF1SX+ltFWplF8QreGgGfH76TDFx0zSDQcE+AEFieUJNymHZ6ABtWU4fTbVW7TqSXgvVZ5Fo1Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XkbDZS3J; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R62Qlda2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XkbDZS3J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729050933; x=1760586933;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pcP3m+S5BCDKp+GWNOcS4iQgoYUKZtZCx/uvDquQ1h4=;
-  b=R62Qlda2vYvURH9jj+9YuTdkkctWzk6ItR3ZUQoSXZC7D+qqH+99S0ap
-   LMu+GgviBLvLvNKXBNydYKZ6u6Ns/ASkM16sM8NAevdzC9zL8DoKAqJw6
-   hS6pdG+hp4T2YvUEe6o8lTltTek5yMfSrPwXllGbSyj7ChadoXJjPCRVQ
-   9iq7ljGcgE3euk9Do5vVGSdychFe4M2oU9DF8VqeTLtlrwWWSA9Ut+TC0
-   kfthwA1+1xUBFPBBkqWkMJ8WWLFUs+mH5UzxoRzwqehhOfqalEkpARByU
-   FaZ8KQN5DbrJWoqZ4PXTLJzR6VtCfKJ2ozYLBIqFpZrtkUeWYtclN11yk
-   A==;
-X-CSE-ConnectionGUID: eYb4+GF1TlSS5/19E2iyBA==
-X-CSE-MsgGUID: ZY8eleRGQb6ypPeoRntB/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28268905"
+  t=1729052196; x=1760588196;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yukfN/ZCUI8w67J+9BSDAj02fAIZcK3PJadJXWyhObs=;
+  b=XkbDZS3JLGbFe5MNbHOoTZ01tkToJm9VJDPG1dZYxtzLDhf9acGI/Uft
+   7+3/CSF3I7RsZQP1Z+TT53cBUMrs0IRnM5sKeTOha7XY1LiUeeT6eJ7xq
+   rxDdYOCiJLXU9Ly1Ff1/hSGNIzlved55CVDivddIhEYxlsqB6HIMGaZpF
+   tbyJsAWlOch96TdEjTu0DHpbrianXcZLikuPmet+hzk9ai0vL9KF89H3f
+   oLehfYz08c6IaRv5WuO0ixKYHu3EUy/2u32qiOJgV/WeWYCtWY6JNSKGR
+   fwYi2xr8Mvgh2PiKVrgSKz5d+XZYVxJrCEL6xl0S/AHA9EanDpArG+Mke
+   w==;
+X-CSE-ConnectionGUID: fQPQVPfbSqG3pAQDCXVv9A==
+X-CSE-MsgGUID: X1xLvqWYQ9SOWo1yVzJ0Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32173956"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28268905"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:55:33 -0700
-X-CSE-ConnectionGUID: jkpxWTquRAGS3GXpZ191QQ==
-X-CSE-MsgGUID: rNRWIaxDTFWVaT2DT+OMmw==
+   d="scan'208";a="32173956"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 21:16:35 -0700
+X-CSE-ConnectionGUID: pa5scYHvRkG216YIchzbWg==
+X-CSE-MsgGUID: z6ePPxEJQfW5OokfjShRdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="82756313"
+   d="scan'208";a="83180176"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Oct 2024 20:55:30 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Oct 2024 21:16:33 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0v8C-000KFX-2O;
-	Wed, 16 Oct 2024 03:55:28 +0000
-Date: Wed, 16 Oct 2024 11:55:18 +0800
+	id 1t0vSY-000KGs-2I;
+	Wed, 16 Oct 2024 04:16:30 +0000
+Date: Wed, 16 Oct 2024 12:16:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [iwlwifi-chromeos:chromeos-6.6__release/core91-69 1/1]
- drivers/net/wireless/iwl7000/hdrs/backports.h:85:42: error: too many
- arguments to function call, expected single argument 'sband', have 2
- arguments
-Message-ID: <202410161146.r1jPar8j-lkp@intel.com>
+To: Mukesh Ojha <quic_mojha@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: Re: [PATCH v2] remoteproc: Add a new remoteproc state RPROC_DEFUNCT
+Message-ID: <202410161111.ZSy2XQxP-lkp@intel.com>
+References: <20241014203118.1580024-1-quic_mojha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,82 +66,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241014203118.1580024-1-quic_mojha@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-6.6__release/core91-69
-head:   ebfb814a113b53c07fcd0ea2051998419e0a4b44
-commit: ebfb814a113b53c07fcd0ea2051998419e0a4b44 [1/1] Merge remote-tracking branch 'upstream/chromeos-6.6' into chromeos-6.6__release/core91-69 Change-Id: I7af1f4f90921ee4fb520d8a76ee531979ea05206
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241016/202410161146.r1jPar8j-lkp@intel.com/config)
+Hi Mukesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on linus/master v6.12-rc3 next-20241015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/remoteproc-Add-a-new-remoteproc-state-RPROC_DEFUNCT/20241015-043318
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20241014203118.1580024-1-quic_mojha%40quicinc.com
+patch subject: [PATCH v2] remoteproc: Add a new remoteproc state RPROC_DEFUNCT
+config: x86_64-buildonly-randconfig-003-20241016 (https://download.01.org/0day-ci/archive/20241016/202410161111.ZSy2XQxP-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161146.r1jPar8j-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161111.ZSy2XQxP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410161146.r1jPar8j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410161111.ZSy2XQxP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:4:
-   In file included from drivers/net/wireless/iwl7000/hdrs/iwl-chrome.h:72:
->> drivers/net/wireless/iwl7000/hdrs/backports.h:85:42: error: too many arguments to function call, expected single argument 'sband', have 2 arguments
-      85 |         return ieee80211_mandatory_rates(sband, NL80211_BSS_CHAN_WIDTH_20);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/cfg80211.h:6290:5: note: 'ieee80211_mandatory_rates' declared here
-    6290 | u32 ieee80211_mandatory_rates(struct ieee80211_supported_band *sband);
-         |     ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
-   In file included from <built-in>:4:
-   In file included from drivers/net/wireless/iwl7000/hdrs/iwl-chrome.h:72:
->> drivers/net/wireless/iwl7000/hdrs/backports.h:85:42: error: too many arguments to function call, expected single argument 'sband', have 2 arguments
-      85 |         return ieee80211_mandatory_rates(sband, NL80211_BSS_CHAN_WIDTH_20);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/cfg80211.h:6290:5: note: 'ieee80211_mandatory_rates' declared here
-    6290 | u32 ieee80211_mandatory_rates(struct ieee80211_supported_band *sband);
-         |     ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c:10:10: fatal error: 'linux/hsr_main.h' file not found
-      10 | #include <linux/hsr_main.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
-   In file included from <built-in>:4:
-   In file included from drivers/net/wireless/iwl7000/hdrs/iwl-chrome.h:72:
->> drivers/net/wireless/iwl7000/hdrs/backports.h:85:42: error: too many arguments to function call, expected single argument 'sband', have 2 arguments
-      85 |         return ieee80211_mandatory_rates(sband, NL80211_BSS_CHAN_WIDTH_20);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/cfg80211.h:6290:5: note: 'ieee80211_mandatory_rates' declared here
-    6290 | u32 ieee80211_mandatory_rates(struct ieee80211_supported_band *sband);
-         |     ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/iwl7000/iwlwifi/mld/scan.c:425:25: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always true [-Wtautological-constant-out-of-range-compare]
-     425 |         if (params->fw_link_id != IWL_MLD_INVALID_FW_ID)
-         |             ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+>> drivers/remoteproc/remoteproc_core.c:1843:18: warning: comparison between pointer and integer ('int (*)(struct rproc *, const struct firmware *)' and 'int') [-Wpointer-integer-compare]
+    1843 |         if (rproc_start == RPROC_DEFUNCT || rproc->state != RPROC_CRASHED)
+         |             ~~~~~~~~~~~ ^  ~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/sband +85 drivers/net/wireless/iwl7000/hdrs/backports.h
+vim +1843 drivers/remoteproc/remoteproc_core.c
 
-1e4a41b781a6ff drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Miri Korenblit   2023-12-12  73  
-1e4a41b781a6ff drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Miri Korenblit   2023-12-12  74  static inline void
-efe362122476b8 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Johannes Berg    2023-08-25  75  WRAP_LOCKED(cfg80211_links_removed)(struct net_device *dev, u16 removed_links)
-1e4a41b781a6ff drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Miri Korenblit   2023-12-12  76  {
-1e4a41b781a6ff drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Miri Korenblit   2023-12-12  77  	mutex_lock(&dev->ieee80211_ptr->mtx);
-efe362122476b8 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Johannes Berg    2023-08-25  78  	cfg80211_links_removed(dev, removed_links);
-1e4a41b781a6ff drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Miri Korenblit   2023-12-12  79  	mutex_unlock(&dev->ieee80211_ptr->mtx);
-1e4a41b781a6ff drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Miri Korenblit   2023-12-12  80  }
-efe362122476b8 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Johannes Berg    2023-08-25  81  #define cfg80211_links_removed WRAP_LOCKED(cfg80211_links_removed)
-581737203d19b3 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Gregory Greenman 2023-11-20  82  static inline u32
-581737203d19b3 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Gregory Greenman 2023-11-20  83  iwl7000_ieee80211_mandatory_rates(struct ieee80211_supported_band *sband)
-581737203d19b3 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Gregory Greenman 2023-11-20  84  {
-581737203d19b3 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Gregory Greenman 2023-11-20 @85  	return ieee80211_mandatory_rates(sband, NL80211_BSS_CHAN_WIDTH_20);
-581737203d19b3 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Gregory Greenman 2023-11-20  86  }
-581737203d19b3 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Gregory Greenman 2023-11-20  87  #define ieee80211_mandatory_rates iwl7000_ieee80211_mandatory_rates
-581737203d19b3 drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h Gregory Greenman 2023-11-20  88  
-
-:::::: The code at line 85 was first introduced by commit
-:::::: 581737203d19b3965a6d7454540c34537802f27b CHROMIUM: iwl7000: Merge remote-tracking branch 'auto/master'
-
-:::::: TO: Gregory Greenman <gregory.greenman@intel.com>
-:::::: CC: Intel ChromeOS bot <linuxwifi@intel.com>
+  1820	
+  1821	/**
+  1822	 * rproc_trigger_recovery() - recover a remoteproc
+  1823	 * @rproc: the remote processor
+  1824	 *
+  1825	 * The recovery is done by resetting all the virtio devices, that way all the
+  1826	 * rpmsg drivers will be reseted along with the remote processor making the
+  1827	 * remoteproc functional again.
+  1828	 *
+  1829	 * This function can sleep, so it cannot be called from atomic context.
+  1830	 *
+  1831	 * Return: 0 on success or a negative value upon failure
+  1832	 */
+  1833	int rproc_trigger_recovery(struct rproc *rproc)
+  1834	{
+  1835		struct device *dev = &rproc->dev;
+  1836		int ret;
+  1837	
+  1838		ret = mutex_lock_interruptible(&rproc->lock);
+  1839		if (ret)
+  1840			return ret;
+  1841	
+  1842		/* State could have changed before we got the mutex */
+> 1843		if (rproc_start == RPROC_DEFUNCT || rproc->state != RPROC_CRASHED)
+  1844			goto unlock_mutex;
+  1845	
+  1846		dev_err(dev, "recovering %s\n", rproc->name);
+  1847	
+  1848		if (rproc_has_feature(rproc, RPROC_FEAT_ATTACH_ON_RECOVERY))
+  1849			ret = rproc_attach_recovery(rproc);
+  1850		else
+  1851			ret = rproc_boot_recovery(rproc);
+  1852	
+  1853	unlock_mutex:
+  1854		mutex_unlock(&rproc->lock);
+  1855		return ret;
+  1856	}
+  1857	
 
 -- 
 0-DAY CI Kernel Test Service
