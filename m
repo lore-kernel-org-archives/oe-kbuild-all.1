@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A34C2144AA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 18:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34841885BB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 19:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729103812; cv=none; b=kpIaTeig6TnmW4SZf97r4HUQTvB5oFflY5ECKOpac2FPU4FARM6fzOK96gCIU6iYbWIdk0EnxvkLnlVv2eqkbxy682XvQFM8EnzXfB/rrurFyDNkrdBNaL/4Z41T7kxZnF3TZTuWds8P0/ey28DUbieocy5f/2srwbgx5HFMv8g=
+	t=1729105609; cv=none; b=hovXzZzP6OjwbyQdY+OqxmDuOWbBQsQj17IeATNsB7d8SlUXykDK+0BwGY857JOkc3WvRxrHeNUYId4Oe2x7WfIDeDgPhRojOCGhCS27VHxi51nUIBuIPthM1xCQR6DOpooHaKLtOC1Le7NdMwslrbfv4Q01MWUEqB5/inurX+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729103812; c=relaxed/simple;
-	bh=0odqZWPk+leaDU5OpiWhybSbr8swW1KSrnvPETAtWL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KYa2LcWD+4fEvyL50h3STsycz/+Fn5hXhb2xeZtlLWaiIe5oPEyapowAqcTRc/stuDuAiKM05+u2phLE+V3B1/eCBbnmXmtL/QpcJZZfyo6CuzFAPLnstZJnFSiexs8gmm5eXYtLpVNoJFLn8haZ6do0qh/ZTjUi8quVsq3Zahg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3Osrahl; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1729105609; c=relaxed/simple;
+	bh=YgmrGEqzK1Ys0pxhLhfCmeIQoc6TgpXEwuLXueDOBB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FB09ILCm8c5roI1Q39H+5nhctxT7SHOO+ot9SyKJw8y5ZAawwOS7TT/6q6Bbb3eTzvaDgU28K7PgNLiZv/BmSge0kLWljO7JWUuHgWdKwGildo92tianttMj3oyiFbINZ1bJ77Cwzb/yWwcx+MSzuJD6ysqySCX3a9Eddo2HNDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T7jc2qbY; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3Osrahl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7jc2qbY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729103811; x=1760639811;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0odqZWPk+leaDU5OpiWhybSbr8swW1KSrnvPETAtWL0=;
-  b=Q3OsrahlrhdsleWByz5g0HudWwPciPUwyldrvsaVZas0DVspgcdYDDKn
-   KF0AW7G+xRke6g/Mf47Wr5SsHI/X6hE5Jsi6Gb2udvCQoM+Zw0i0hlD2A
-   6mstiXmNmfWn2zMEz9lDnE6XCnqgO+/LTYsfAmO81fNxgUCo9igh7YkeY
-   oCM0cm7A2oASRuf2fRNU5M30prHWT9N7T5HTpyc+VFTn/7+oO/yUTUC2A
-   qUORnkt9DTB44Fo8uSY7DuHjf4oUFhl4bP8Nv7XKhYMytDzDr2KctnQbS
-   aeWlcuIxSfdgqPl4Z5WC2HHL5pMperS7W/32EB8EuDOgj1aK702M0IZyO
-   w==;
-X-CSE-ConnectionGUID: NdLOzpgUSEG4IfRLNn0q3w==
-X-CSE-MsgGUID: 2kd1skGMSXqGEDggIy8y9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28455245"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28455245"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 11:36:40 -0700
-X-CSE-ConnectionGUID: o1aRxQG6RVu3ESpyMhvD5w==
-X-CSE-MsgGUID: UeCZl5FKQpmyvsXMqjt2jQ==
+  t=1729105608; x=1760641608;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YgmrGEqzK1Ys0pxhLhfCmeIQoc6TgpXEwuLXueDOBB0=;
+  b=T7jc2qbY2fB0bI2NQLdyY4j6YWiw8Hz8YG29GF0iGSgf5tz8hTNNae0r
+   YLp73OIbqq/IiuwTkDRyMeWSKCA+sNaC1GslKZnshYi4QR7HBEGW+c5I9
+   2Eu6RG4CfwFI2sB4feJMSH2fEaNaH47yApbKu6SQijS7dBzeGh2xYfeJt
+   qJz94vA1LpS0Py1oqnFQfO72b9v8/ypQQH+YeSubZ0vQZTfvCzkNnB2Dd
+   SG2RMkZ+hcaB/725ZS1U0mGLL6/Dz+CS+/IpBgat+b6zMIUn0V9+/vhsf
+   SrtgH1BN0OadWrbHsjiSj0bDKucZLUCeWkDmVbTIF1zR6j6gIYNBrt9ug
+   Q==;
+X-CSE-ConnectionGUID: Um1f47DzRmi9xxQg5I8UkA==
+X-CSE-MsgGUID: E7r5iKcbSam9n03uWSxu5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28013164"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="28013164"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 12:06:41 -0700
+X-CSE-ConnectionGUID: WNQWn4/eRFqm6lxsQ96uZQ==
+X-CSE-MsgGUID: BpLYZa/NTNWdyAxOJB5cvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
-   d="scan'208";a="77967661"
+   d="scan'208";a="115761987"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Oct 2024 11:36:38 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Oct 2024 12:06:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t18su-000LGx-18;
-	Wed, 16 Oct 2024 18:36:36 +0000
-Date: Thu, 17 Oct 2024 02:35:51 +0800
+	id 1t19Lx-000LJb-2x;
+	Wed, 16 Oct 2024 19:06:37 +0000
+Date: Thu, 17 Oct 2024 03:06:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jann Horn <jannh@google.com>, Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Frank Mori Hess <fmh6jj@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH v2] comedi: Flush partial mappings in error case
-Message-ID: <202410170234.hthSWOJg-lkp@intel.com>
-References: <20241015-comedi-tlb-v2-1-cafb0e27dd9a@google.com>
+	Kees Cook <keescook@chromium.org>
+Subject: htmldocs: <built-in>:1:10: fatal error:
+ './include/linux/compiler-version.h' file not found
+Message-ID: <202410170214.gy9lNemy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,31 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015-comedi-tlb-v2-1-cafb0e27dd9a@google.com>
 
-Hi Jann,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 6485cf5ea253d40d507cd71253c9568c5470cd27]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/comedi-Flush-partial-mappings-in-error-case/20241016-022809
-base:   6485cf5ea253d40d507cd71253c9568c5470cd27
-patch link:    https://lore.kernel.org/r/20241015-comedi-tlb-v2-1-cafb0e27dd9a%40google.com
-patch subject: [PATCH v2] comedi: Flush partial mappings in error case
-config: m68k-randconfig-r071-20241016 (https://download.01.org/0day-ci/archive/20241017/202410170234.hthSWOJg-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410170234.hthSWOJg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
+commit: ce6ed1c4c9876c2880f52f18c41ef2a30d070bc5 kbuild: rebuild GCC plugins when the compiler is upgraded
+date:   3 years, 7 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20241017/202410170214.gy9lNemy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410170234.hthSWOJg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410170214.gy9lNemy-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
->> ERROR: modpost: "zap_vma_ptes" [drivers/comedi/comedi.ko] undefined!
+>> <built-in>:1:10: fatal error: './include/linux/compiler-version.h' file not found
+       1 | #include "./include/linux/compiler-version.h"
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+>> <built-in>:1:10: fatal error: './include/linux/compiler-version.h' file not found
+       1 | #include "./include/linux/compiler-version.h"
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+   make[1]: *** [scripts/Makefile.build:116: scripts/mod/devicetable-offsets.s] Error 1
+   make[1]: *** [scripts/Makefile.build:271: scripts/mod/empty.o] Error 1
 
 -- 
 0-DAY CI Kernel Test Service
