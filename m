@@ -1,90 +1,73 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2AF209F29
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 13:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9AA20C013
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 13:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729086569; cv=none; b=thSr/BQS/cZtpUNV0wPxR63nICAz+Y5geB5wjoTosErw5Ic85u4k8BGMP/R8nta0RgRpirqN8Hr3T+cMC4vWU1xLetKiWk4XPtZqi2+CJd/wJTzZfJpOp/QokxZpokMvvoqGW1hCDr7EDyGaN3cRwAIQqDF4mZi/wP/Sq0NSoHg=
+	t=1729087165; cv=none; b=NTVIULIiTW9+eb7wzrschabVgiI6aBa7H6CMQ8oTKpdaM6I4H8GRtExrKSVHKG1bU10SiDXhSe5uVlrdwmpgGXhItRbMCWEP6wl6ovow+Cc0T6loElNXSU0yplnnWqFBLCKICKtX/e7pli8D+1o4snukh8I1pPQ8CKwFywpUWQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729086569; c=relaxed/simple;
-	bh=T6S8MHzsWbbhpYc744BPFdnVgsatESf28s6fE5cIgzc=;
+	s=arc-20240116; t=1729087165; c=relaxed/simple;
+	bh=1QhS/ZQtaLfxfKipAIdLpF/f15cK8G1+3Y9DdLBavL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UPRPb3oNQhKjrI96z4lcIfzcdb0sjtRBRF32Tg2INxQkB5rk4iWltQV3IoK2A0mEcLh5k+v7+4iEysSiImzFNEVeGrJfONci86G7H5aMQhukJ+fPNnNoHNdcU9ByL3QBAuNIM6xFvZjb7jJLgbQ6ehdSPssmpY6k9EbRF0fNFIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YlWWN8i6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/XdrUWvi; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YlWWN8i6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/XdrUWvi; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=MoNnwNM1s2UA/TqFslen9Lgq2VpO551C+ltucgfCDv90sFtKJWKrvJs5L4z5tny8JAFYOKq5WDFcZeUo0L7hFAfqbWJIEh7SguB2niuWv3tfpd/gtWmwQceCcZtyHuHqtJCutcGWwmoGz7G31GRw6+M/l7B6AV4YLHLtn+qxK+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+rFV/ST; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YlWWN8i6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/XdrUWvi";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YlWWN8i6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/XdrUWvi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FBC91F7BF;
-	Wed, 16 Oct 2024 13:49:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729086564;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=48OaqHqP6b/X39O0Tmy1hbH3rm7+b4nKvK9d8AlpvyA=;
-	b=YlWWN8i6PN4mmfXfbNRlHh9xevZm279VV9a6dbcmhGzSCWhpJ9Sj1DJungPUP1Rvkz6ZmL
-	3m4CBGyai3yymS++ZhGaj4jwLJUojxpaMcXKDXrw52LJhR64suGV67Ls5yg9qeovqg2RJH
-	nif7cjUZxKQZNpweS6vhF2meDxhAk8A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729086564;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=48OaqHqP6b/X39O0Tmy1hbH3rm7+b4nKvK9d8AlpvyA=;
-	b=/XdrUWvi05UtXOFTd6Vnn2eoBrIACZIqGuEhu6TT1iT8ODQ22CuarPB172F/ScFcx+Hy2q
-	PbSie0zOl7TBCKBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=YlWWN8i6;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/XdrUWvi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729086564;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=48OaqHqP6b/X39O0Tmy1hbH3rm7+b4nKvK9d8AlpvyA=;
-	b=YlWWN8i6PN4mmfXfbNRlHh9xevZm279VV9a6dbcmhGzSCWhpJ9Sj1DJungPUP1Rvkz6ZmL
-	3m4CBGyai3yymS++ZhGaj4jwLJUojxpaMcXKDXrw52LJhR64suGV67Ls5yg9qeovqg2RJH
-	nif7cjUZxKQZNpweS6vhF2meDxhAk8A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729086564;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=48OaqHqP6b/X39O0Tmy1hbH3rm7+b4nKvK9d8AlpvyA=;
-	b=/XdrUWvi05UtXOFTd6Vnn2eoBrIACZIqGuEhu6TT1iT8ODQ22CuarPB172F/ScFcx+Hy2q
-	PbSie0zOl7TBCKBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F6341376C;
-	Wed, 16 Oct 2024 13:49:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BkneHmTED2cdEQAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Wed, 16 Oct 2024 13:49:24 +0000
-Date: Wed, 16 Oct 2024 15:49:19 +0200
-From: David Sterba <dsterba@suse.cz>
-To: kernel test robot <lkp@intel.com>
-Cc: Naohiro Aota <naohiro.aota@wdc.com>, oe-kbuild-all@lists.linux.dev,
-	David Sterba <dsterba@suse.com>, Qu Wenruo <wqu@suse.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	linux-btrfs@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [linux-next:master 4584/4954] ERROR: modpost: "__cmpxchg_small"
- [fs/btrfs/btrfs.ko] undefined!
-Message-ID: <20241016134919.GO1609@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <202410161911.LbOFjfPQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+rFV/ST"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729087165; x=1760623165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1QhS/ZQtaLfxfKipAIdLpF/f15cK8G1+3Y9DdLBavL8=;
+  b=L+rFV/STUS11d2+EMBMKt02rPROi9a2PyF88Y7uGD38sPV9uSFYoE5uu
+   trAVxB7LM+3kiaCBk9rDrMhXSeVIluuqizSQwck3m25wmIFw83wd95cbm
+   BrAuKDsJB4fN700GsNq/5zXDdBApENM3s3uJMpCWI4EQkiMVtPTMJE8Gb
+   afEwvZ2howneGAjCYOLlsAj+sFaa0uPwWT9Z5EBD/hPT6eZFNB+n9XaOT
+   CJNSaj6J1A47QDVjKGGkQmQ7+CK1YskZa7C6tfrKPk+X2nlxiA4xtAAjQ
+   aNF04Ms6q4weaXSA+dDT4Z7Qrtv+T+kRXBCMAPWVfzxN++FhO6w7LSU/9
+   g==;
+X-CSE-ConnectionGUID: ljdRzOiZSXa5EOs6X5nYzg==
+X-CSE-MsgGUID: 78Ml00e+QHuwo+hXPI48uw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="32335948"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="32335948"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 06:59:24 -0700
+X-CSE-ConnectionGUID: 35FUm06sQuSy7IjIHDMHBQ==
+X-CSE-MsgGUID: r23weTMzQI2u/Y7UX/aNkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="78284536"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 16 Oct 2024 06:59:18 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t14YW-000KyF-2E;
+	Wed, 16 Oct 2024 13:59:16 +0000
+Date: Wed, 16 Oct 2024 21:59:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Kurt Kanzenbach <kurt@linutronix.de>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	George McCollister <george.mccollister@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Rosen Penev <rosenp@gmail.com>, Simon Horman <horms@kernel.org>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Breno Leitao <leitao@debian.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: memcpy to ethtool_puts
+Message-ID: <202410162106.9WmH0oPN-lkp@intel.com>
+References: <20241015200222.12452-3-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -93,61 +76,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202410161911.LbOFjfPQ-lkp@intel.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Rspamd-Queue-Id: 9FBC91F7BF
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	SUBJECT_ENDS_EXCLAIM(0.20)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:replyto,suse.cz:dkim,suse.cz:mid,intel.com:email];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.01
-X-Spam-Flag: NO
+In-Reply-To: <20241015200222.12452-3-rosenp@gmail.com>
 
-On Wed, Oct 16, 2024 at 07:10:49PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   15e7d45e786a62a211dd0098fee7c57f84f8c681
-> commit: c87222d18145c93b0ebd860ae9166afb1457129c [4584/4954] btrfs: fix error propagation of split bios
-> config: mips-ip30_defconfig (https://download.01.org/0day-ci/archive/20241016/202410161911.LbOFjfPQ-lkp@intel.com/config)
-> compiler: mips64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161911.LbOFjfPQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410161911.LbOFjfPQ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
-> >> ERROR: modpost: "__cmpxchg_small" [fs/btrfs/btrfs.ko] undefined!
+Hi Rosen,
 
-On mips64-linux-gcc (mips-ip30_defconfig), arch/mips/kernel/cmpxchg.c:__cmpxchg_small()
-is not exported for modules.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.12-rc3 next-20241016]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-memcpy-to-ethtool_puts/20241016-040502
+base:   net/main
+patch link:    https://lore.kernel.org/r/20241015200222.12452-3-rosenp%40gmail.com
+patch subject: [PATCH] net: memcpy to ethtool_puts
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20241016/202410162106.9WmH0oPN-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410162106.9WmH0oPN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410162106.9WmH0oPN-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/dsa/mv88e6xxx/chip.c: In function 'mv88e6xxx_get_strings':
+>> drivers/net/dsa/mv88e6xxx/chip.c:1215:13: warning: variable 'count' set but not used [-Wunused-but-set-variable]
+    1215 |         int count = 0;
+         |             ^~~~~
+   during RTL pass: mach
+   drivers/net/dsa/mv88e6xxx/chip.c: In function 'mv88e6xxx_read':
+   drivers/net/dsa/mv88e6xxx/chip.c:68:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
+      68 | }
+         | ^
+   0x5b78c1 arc_ifcvt
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
+   0xe431b4 arc_reorg
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
+   0xaed299 execute
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +/count +1215 drivers/net/dsa/mv88e6xxx/chip.c
+
+65f60e4582bd32 drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-28  1210  
+dfafe449bbc91d drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2016-11-21  1211  static void mv88e6xxx_get_strings(struct dsa_switch *ds, int port,
+89f09048348936 drivers/net/dsa/mv88e6xxx/chip.c Florian Fainelli 2018-04-25  1212  				  u32 stringset, uint8_t *data)
+f5e2ed022dff60 drivers/net/dsa/mv88e6xxx.c      Andrew Lunn      2015-12-23  1213  {
+04bed1434df256 drivers/net/dsa/mv88e6xxx/chip.c Vivien Didelot   2016-08-31  1214  	struct mv88e6xxx_chip *chip = ds->priv;
+436fe17d273bed drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-01 @1215  	int count = 0;
+dfafe449bbc91d drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2016-11-21  1216  
+89f09048348936 drivers/net/dsa/mv88e6xxx/chip.c Florian Fainelli 2018-04-25  1217  	if (stringset != ETH_SS_STATS)
+89f09048348936 drivers/net/dsa/mv88e6xxx/chip.c Florian Fainelli 2018-04-25  1218  		return;
+89f09048348936 drivers/net/dsa/mv88e6xxx/chip.c Florian Fainelli 2018-04-25  1219  
+c9acece064e3f0 drivers/net/dsa/mv88e6xxx/chip.c Rasmus Villemoes 2019-06-20  1220  	mv88e6xxx_reg_lock(chip);
+c6c8cd5e3ce494 drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-01  1221  
+dfafe449bbc91d drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2016-11-21  1222  	if (chip->info->ops->stats_get_strings)
+436fe17d273bed drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-01  1223  		count = chip->info->ops->stats_get_strings(chip, data);
+436fe17d273bed drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-01  1224  
+577149384b2aab drivers/net/dsa/mv88e6xxx/chip.c Rosen Penev      2024-10-15  1225  	if (chip->info->ops->serdes_get_strings)
+65f60e4582bd32 drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-28  1226  		count = chip->info->ops->serdes_get_strings(chip, port, data);
+c6c8cd5e3ce494 drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-01  1227  
+65f60e4582bd32 drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-28  1228  	mv88e6xxx_atu_vtu_get_strings(data);
+65f60e4582bd32 drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2018-03-28  1229  
+c9acece064e3f0 drivers/net/dsa/mv88e6xxx/chip.c Rasmus Villemoes 2019-06-20  1230  	mv88e6xxx_reg_unlock(chip);
+dfafe449bbc91d drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2016-11-21  1231  }
+dfafe449bbc91d drivers/net/dsa/mv88e6xxx/chip.c Andrew Lunn      2016-11-21  1232  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
