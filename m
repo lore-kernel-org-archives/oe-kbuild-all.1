@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AEE139D1B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 01:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B61A502BE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 01:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729042629; cv=none; b=TcRxFK27VvYOR44R84GGcH2YQf6LVJlsXnYqSCKww8pIiDpUWPrZh1wU6dyTwyU5n7poQ5ZKHZ8ZCrcIHr+35dGJF6HBCJjibSpoXabEj74FGXoN5PRbxOxvuqcTOLv9HzSCPM1wSmip/85OoQTynbLOvZWpyVsNPvaGtn0nMaw=
+	t=1729043408; cv=none; b=V7Z9CmduWaGIuP+76KvWjGBfAm1skrhbEMHEqxLlTTy0iA49G9Oucjp34HRUjjH9NYZdUiUb6UIZBi2UhMhjCNAJwaZ0Om0HAW08ORvLY2/dBxyBY+YQZJ2qw5JQyN71+6pb84urIwwKYIkA5hs9zPKj9RzsVrFvXIGBASya2O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729042629; c=relaxed/simple;
-	bh=B+4c+zRx9oI2OosKzLBxQXE1doGvC4Xxrd85w17E9oM=;
+	s=arc-20240116; t=1729043408; c=relaxed/simple;
+	bh=Bshvfdj7euntKocUwKZdrvhD5zR+T3MRFGYP+CEJLlk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m2uwXPl5+48VXd36iHb6sESEInb66MPtUyblnIOQQL1eieqk/r0qwICVIN4q651HALOexnO3OzcCEnjayO2r/G1diWHQw2ZNdab1dqZB63BwXJvryfG0uctePmn87N8qKV64FnI6cJ15FhbLZaMQxTiLYT/yhSQlKABztxj+/fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RoNINxu7; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=cXsaizzwW6MKz4H+aVT/uTfgrSIxdCdQbvELMVvgSq1cCnaigOKnTBkBNQCMWrVpy5MD8NY98nO9y9/S8k61+xMUnRES77u1azZI8PWfKbeNJ1nKyO5DXP5yZcxSy2ANGIwwvAnkklXFYWnGLsSrHhtKAApIgIFwfRaJd73xKDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DQINxWUA; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RoNINxu7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQINxWUA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729042627; x=1760578627;
+  t=1729043407; x=1760579407;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B+4c+zRx9oI2OosKzLBxQXE1doGvC4Xxrd85w17E9oM=;
-  b=RoNINxu7fULR0MsUrkrDOdSNLJRMVBpPFMscPkLhTABHjUySwe03mQS3
-   3zp/fXq7Ff+lp2w7EcGPxVxqS1bd3g8ugbvLgHKSpp+hA7EXs5eqYo7HU
-   IctZrJksLy0lFnoufr7szadqGWvVNA/h50CT2l/AdNQHsP68dObX0t2zF
-   I4/ibqyYn/1bIInddvJO9J768CPS9QL2lym9rgbQQt/kIXCxUziIM0GcT
-   TDzLE3r7kXCHxuGLv6CW+/4lZPxIIGWTumkK9EUvFBmOUf4RPTGylC2b+
-   lbBS3OF5SEgMHCq8OD9Ji0XOhKoNmyHiPlYNMuhVHh2WcCQE2rzx3lscb
-   Q==;
-X-CSE-ConnectionGUID: FmSnhwWbS0iGTSeU8oodXw==
-X-CSE-MsgGUID: MauCI8PrR8q0gi16beLTVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32162877"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32162877"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 18:37:06 -0700
-X-CSE-ConnectionGUID: 2etnER1oTLeCZKzCAecIRw==
-X-CSE-MsgGUID: vo9mPeIwRjeYf6giTzcWEw==
+  bh=Bshvfdj7euntKocUwKZdrvhD5zR+T3MRFGYP+CEJLlk=;
+  b=DQINxWUABw/txo8ynI/CHRAy2UKuboEid7ZeEyKLAaBy5wMNlplWufwO
+   KbtK07XFuovzM/a2d00feeL9Osrwff5m1dr06iyHXwYQsCyPg5jIa+FxM
+   08Yn9LBjiO6HPyqhFlDPSti5TtKhl1Ef4fFb1Uw39FI3nQT3NxS6Bqf3D
+   F2GbXtECfynNRQ11U13WzdcfmRlhPFQju5enE3RdM4vwEJ64ehVMq4p8Z
+   T3HWrtxXmsuEU9iRxIeYSMn9zerHQR5jAES8R3x6VG171btbmxfk/oyEb
+   ugnOOlr/sUpcs3SK7z1O4zqvu+XgueKvFdtKlPmEjoRlUYGjrD0eSQe4y
+   g==;
+X-CSE-ConnectionGUID: kjJN+A5LSiyLiu/NfbZ1TQ==
+X-CSE-MsgGUID: MRpfveCIR5SP8oE5bFRETg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28568950"
+X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
+   d="scan'208";a="28568950"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 18:50:06 -0700
+X-CSE-ConnectionGUID: ZAUOEMZNQuWGzjUvfU6rSQ==
+X-CSE-MsgGUID: MUY432r0QRuR3FgLrq6ZRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="78910944"
+   d="scan'208";a="78028951"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2024 18:37:04 -0700
+  by orviesa010.jf.intel.com with ESMTP; 15 Oct 2024 18:50:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0syD-000K8d-2d;
-	Wed, 16 Oct 2024 01:37:01 +0000
-Date: Wed, 16 Oct 2024 09:36:58 +0800
+	id 1t0tAo-000K9P-1m;
+	Wed, 16 Oct 2024 01:50:02 +0000
+Date: Wed, 16 Oct 2024 09:49:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fei Shao <fshao@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>
-Subject: [linux-next:master 3879/4439]
- arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pinctrl@10005000:
- 'pcie-default' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-Message-ID: <202410160906.ckDFQWGk-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.11/main 283/1854] kernel/sched/cputime.c:256:24: error: use
+ of undeclared identifier 'paravirt_steal_enabled'
+Message-ID: <202410160946.QSSn4dl0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,41 +62,183 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
-commit: 355508880d41cfa5b0643515f27b6da490a1345e [3879/4439] arm64: dts: mediatek: mt8188: Add PCIe nodes
-config: arm64-randconfig-051-20241015 (https://download.01.org/0day-ci/archive/20241016/202410160906.ckDFQWGk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160906.ckDFQWGk-lkp@intel.com/reproduce)
+Hi Alfred,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/zen-kernel/zen-kernel 6.11/main
+head:   afade16a193faf08d100d52c254bb5c6c5605b8c
+commit: 2ae95ea38f6e661cbb9693419f15a8b73e01aaa6 [283/1854] sched/alt: Headers cleanup
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241016/202410160946.QSSn4dl0-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160946.QSSn4dl0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160906.ckDFQWGk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160946.QSSn4dl0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8188.dtsi:1442.35-1447.5: Warning (simple_bus_reg): /soc/mailbox@10b86000: simple-bus unit address format error, expected "10b86100"
-   arch/arm64/boot/dts/mediatek/mt8188.dtsi:1449.35-1454.5: Warning (simple_bus_reg): /soc/mailbox@10b87000: simple-bus unit address format error, expected "10b87100"
->> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pinctrl@10005000: 'pcie-default' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8188-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: syscon@10006000: power-controller:power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scpsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/keys: failed to match any schema with compatible: ['mediatek,mt6359-keys']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: spmi@10027000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8188-spmi', 'mediatek,mt8195-spmi'] is too long
-   	'mediatek,mt8188-spmi' is not one of ['mediatek,mt6873-spmi', 'mediatek,mt8195-spmi']
-   	'mediatek,mt8188-spmi' is not one of ['mediatek,mt8186-spmi']
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: spmi@10027000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/spmi@10027000: failed to match any schema with compatible: ['mediatek,mt8188-spmi', 'mediatek,mt8195-spmi']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/sched/build_policy.c:24:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/build_policy.c:56:
+>> kernel/sched/cputime.c:256:24: error: use of undeclared identifier 'paravirt_steal_enabled'
+     256 |         if (static_key_false(&paravirt_steal_enabled)) {
+         |                               ^
+   kernel/sched/cputime.c:259:11: error: call to undeclared function 'paravirt_steal_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     259 |                 steal = paravirt_steal_clock(smp_processor_id());
+         |                         ^
+   In file included from kernel/sched/build_policy.c:61:
+   kernel/sched/syscalls.c:23:6: error: call to undeclared function 'dl_policy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      23 |         if (dl_policy(policy))
+         |             ^
+   kernel/sched/syscalls.c:24:10: error: use of undeclared identifier 'MAX_DL_PRIO'
+      24 |                 prio = MAX_DL_PRIO - 1;
+         |                        ^
+   kernel/sched/syscalls.c:25:11: error: call to undeclared function 'rt_policy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      25 |         else if (rt_policy(policy))
+         |                  ^
+   kernel/sched/syscalls.c:77:2: error: unknown type name 'class_task_rq_lock_t'; did you mean 'class_task_lock_t'?
+      77 |         CLASS(task_rq_lock, rq_guard)(p);
+         |         ^
+   include/linux/cleanup.h:122:2: note: expanded from macro 'CLASS'
+     122 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:97:1: note: expanded from here
+      97 | class_task_rq_lock_t
+         | ^
+   include/linux/sched/task.h:231:1: note: 'class_task_lock_t' declared here
+     231 | DEFINE_GUARD(task_lock, struct task_struct *, task_lock(_T), task_unlock(_T))
+         | ^
+   include/linux/cleanup.h:155:2: note: expanded from macro 'DEFINE_GUARD'
+     155 |         DEFINE_CLASS(_name, _type, if (_T) { _unlock; }, ({ _lock; _T; }), _type _T); \
+         |         ^
+   include/linux/cleanup.h:108:15: note: expanded from macro 'DEFINE_CLASS'
+     108 | typedef _type class_##_name##_t;                                        \
+         |               ^
+   <scratch space>:27:1: note: expanded from here
+      27 | class_task_lock_t
+         | ^
+   In file included from kernel/sched/build_policy.c:61:
+   kernel/sched/syscalls.c:77:2: error: use of undeclared identifier 'class_task_rq_lock_destructor'; did you mean 'class_task_lock_destructor'?
+      77 |         CLASS(task_rq_lock, rq_guard)(p);
+         |         ^
+   include/linux/cleanup.h:122:34: note: expanded from macro 'CLASS'
+     122 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |                                         ^
+   <scratch space>:99:1: note: expanded from here
+      99 | class_task_rq_lock_destructor
+         | ^
+   include/linux/sched/task.h:231:1: note: 'class_task_lock_destructor' declared here
+     231 | DEFINE_GUARD(task_lock, struct task_struct *, task_lock(_T), task_unlock(_T))
+         | ^
+   include/linux/cleanup.h:155:2: note: expanded from macro 'DEFINE_GUARD'
+     155 |         DEFINE_CLASS(_name, _type, if (_T) { _unlock; }, ({ _lock; _T; }), _type _T); \
+         |         ^
+   include/linux/cleanup.h:109:20: note: expanded from macro 'DEFINE_CLASS'
+     109 | static inline void class_##_name##_destructor(_type *p)                 \
+         |                    ^
+   <scratch space>:29:1: note: expanded from here
+      29 | class_task_lock_destructor
+         | ^
+   In file included from kernel/sched/build_policy.c:61:
+   kernel/sched/syscalls.c:77:2: error: call to undeclared function 'class_task_rq_lock_constructor'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      77 |         CLASS(task_rq_lock, rq_guard)(p);
+         |         ^
+   include/linux/cleanup.h:123:3: note: expanded from macro 'CLASS'
+     123 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:101:1: note: expanded from here
+     101 | class_task_rq_lock_constructor
+         | ^
+   kernel/sched/syscalls.c:77:2: note: did you mean 'class_task_lock_constructor'?
+   include/linux/cleanup.h:123:3: note: expanded from macro 'CLASS'
+     123 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:101:1: note: expanded from here
+     101 | class_task_rq_lock_constructor
+         | ^
+   include/linux/sched/task.h:231:1: note: 'class_task_lock_constructor' declared here
+     231 | DEFINE_GUARD(task_lock, struct task_struct *, task_lock(_T), task_unlock(_T))
+         | ^
+   include/linux/cleanup.h:155:2: note: expanded from macro 'DEFINE_GUARD'
+     155 |         DEFINE_CLASS(_name, _type, if (_T) { _unlock; }, ({ _lock; _T; }), _type _T); \
+         |         ^
+   include/linux/cleanup.h:111:21: note: expanded from macro 'DEFINE_CLASS'
+     111 | static inline _type class_##_name##_constructor(_init_args)             \
+         |                     ^
+   <scratch space>:31:1: note: expanded from here
+      31 | class_task_lock_constructor
+         | ^
+   In file included from kernel/sched/build_policy.c:61:
+   kernel/sched/syscalls.c:77:22: error: incompatible integer to pointer conversion initializing 'class_task_lock_t' (aka 'struct task_struct *') with an expression of type 'int' [-Wint-conversion]
+      77 |         CLASS(task_rq_lock, rq_guard)(p);
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   include/linux/cleanup.h:122:20: note: expanded from macro 'CLASS'
+     122 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |                           ^
+   In file included from kernel/sched/build_policy.c:61:
+   kernel/sched/syscalls.c:78:15: error: member reference type 'class_task_lock_t' (aka 'struct task_struct *') is a pointer; did you mean to use '->'?
+      78 |         rq = rq_guard.rq;
+         |              ~~~~~~~~^
+         |                      ->
+   kernel/sched/syscalls.c:78:16: error: no member named 'rq' in 'struct task_struct'
+
+
+vim +/paravirt_steal_enabled +256 kernel/sched/cputime.c
+
+1fcf54deb767d4 Josh Don            2022-06-29  247  
+03cbc732639ddc Wanpeng Li          2016-08-17  248  /*
+03cbc732639ddc Wanpeng Li          2016-08-17  249   * When a guest is interrupted for a longer amount of time, missed clock
+03cbc732639ddc Wanpeng Li          2016-08-17  250   * ticks are not redelivered later. Due to that, this function may on
+03cbc732639ddc Wanpeng Li          2016-08-17  251   * occasion account more time than the calling functions think elapsed.
+03cbc732639ddc Wanpeng Li          2016-08-17  252   */
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  253  static __always_inline u64 steal_account_process_time(u64 maxtime)
+73fbec604432e1 Frederic Weisbecker 2012-06-16  254  {
+73fbec604432e1 Frederic Weisbecker 2012-06-16  255  #ifdef CONFIG_PARAVIRT
+73fbec604432e1 Frederic Weisbecker 2012-06-16 @256  	if (static_key_false(&paravirt_steal_enabled)) {
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  257  		u64 steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  258  
+73fbec604432e1 Frederic Weisbecker 2012-06-16  259  		steal = paravirt_steal_clock(smp_processor_id());
+73fbec604432e1 Frederic Weisbecker 2012-06-16  260  		steal -= this_rq()->prev_steal_time;
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  261  		steal = min(steal, maxtime);
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  262  		account_steal_time(steal);
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  263  		this_rq()->prev_steal_time += steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  264  
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  265  		return steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  266  	}
+73fbec604432e1 Frederic Weisbecker 2012-06-16  267  #endif
+807e5b80687c06 Wanpeng Li          2016-06-13  268  	return 0;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  269  }
+73fbec604432e1 Frederic Weisbecker 2012-06-16  270  
+
+:::::: The code at line 256 was first introduced by commit
+:::::: 73fbec604432e1fbfeb1bc59a110dac1f98160f6 sched: Move cputime code to its own file
+
+:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: CC: Frederic Weisbecker <fweisbec@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
