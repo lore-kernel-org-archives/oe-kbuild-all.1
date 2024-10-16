@@ -1,249 +1,128 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B26B20513C;
-	Wed, 16 Oct 2024 09:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D2420514E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 09:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729070195; cv=none; b=uORdE5dKqd8pcGxE9TSnU8oUBAWd84p//qspb+ULkHlTfVki152HvsN6hK6lcmTQEuxMC9hNrbWOFgKy3Pw6YK2usq7EWXNFc3WUdM1lStAkRuMvOauf6zClCf9MxzkjQWqHv72LgRGgt9H6uBTmiYa9CM8yWWi2LBT+50Wygvs=
+	t=1729070766; cv=none; b=fWbOrr/v527Fhf/V+X8Ddlu9I3bnr6VypPvuYgacz86a3KRZ16TRyTUR7SKgy8dHysNasCdvWAzAn/i8KTdv2i9L/VF1vcXvqHVibOK+ESRHf4sDH8KssquMqzy2cxNhF5YVv770whQpsZRytaO3OzaDbcNNk+EgvGEaFDeRssY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729070195; c=relaxed/simple;
-	bh=onyxEH1KISQiqYJGLI7raCS1+ZwS7w8hY8gPJibtVYU=;
+	s=arc-20240116; t=1729070766; c=relaxed/simple;
+	bh=qyCXe2hrEH83VZR4dKcRgeax49jUrWrEglhG4Tz7Ujk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KNJLI827mgD5hh8/CDCgJx4Wx5W19L6Cx3cdUvx6I8X6OVpxHWrfilTXPXEsTU5sUUkdOm+JA5+ow7Dx/yS/81HNr2s1ES0KRXrvE5QoPXgdJfJ6COoURcoiJRoe80tMqkb11OjZZ7mp/JX0HBXF1Oy2uZiccQbinQ0ilZMRZe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULt2O8QN; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=pZ4my8gdFjyuzUh1kEIH6P+lB+X3vL3kLYRCmPKYV4WxRDoKcIxN+2pQuPbZhmY56uEr5dOYO3nuhjC4PeavRF3oW7tUTLjH09wS97OlftuJqX8CefXf2PVAFxvZMfdNW4Y+BSarLicX457mekr1Mvy0tj8o+liVin7aCrefoY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ksZDjeMo; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULt2O8QN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ksZDjeMo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729070194; x=1760606194;
+  t=1729070764; x=1760606764;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=onyxEH1KISQiqYJGLI7raCS1+ZwS7w8hY8gPJibtVYU=;
-  b=ULt2O8QNhpnyVj9o/R6T4hbUzwu3fB3RWsoNFBwZhQXcud+v1QbOl7mC
-   w5hZt0YQIIXY6iDBgSOss+QjQBACE0Gk0qzyfeWPjiPzEsL4GyqpSqI8F
-   gYkbP0NMrHdiNFYNatXo/0SfHq0ctx7Sng1A9ORJaGM4HB/lrmNnQY2yY
-   Yx4JVWmYTtVhXM+1PYblULR/HbTdMgfK4uB/Dv8P4TDGPtFA/BweGhfqX
-   RXOqCsVbUwQoC7xo9713JLdfpq0JIBy5uMX8OaRTWPU7miLSJOFmRjhIQ
-   8UJ+rsxsMbYkYkTs2C8wtTlq4D8NpVecOHsXSWNJ4TzjKSGjU8lmJgyfc
-   A==;
-X-CSE-ConnectionGUID: VKk7v4RATQWbIq50qCHl3w==
-X-CSE-MsgGUID: JjTml2DgQISSG0a4RBkQ2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28707678"
+   mime-version:in-reply-to;
+  bh=qyCXe2hrEH83VZR4dKcRgeax49jUrWrEglhG4Tz7Ujk=;
+  b=ksZDjeMoDffA6gtrdVVH6o4llS+XH404a9bL2FTlNoG4qiqyhk70c/g9
+   Ep9z73bzuxRF7GXO9Tw4b+efQB/AbtD5Hrng4yR6DmaPYFknoZwVms30G
+   B1RPc5qdASODiwkxz3sBN8cly59XytqJsidg/WKUA4pNC/o6aP1GEOMUs
+   v4Gy8kwE1ahNjuFXJU+PfSMfE5zZzK4c8+G32euXbUlFcn0YrIq2OvbWN
+   /SFSWee9sshVGABcU8DXwB8r4NBNkIteNhMhT7AFjktbR3GHMx7lPAvxF
+   qEed8TcNd+5LqSvCGRicyYbMpNOs8My6InGcAHL/sLCCbeeTXsAEWPdSs
+   g==;
+X-CSE-ConnectionGUID: Um5ZjnoNTo2R44xtqfC+pw==
+X-CSE-MsgGUID: /Bx50bEwSqOuSqYmzLXN2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28708642"
 X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="28707678"
+   d="scan'208";a="28708642"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 02:15:06 -0700
-X-CSE-ConnectionGUID: 1MK7xEv8RT2+CXCKAsHcxw==
-X-CSE-MsgGUID: lNK2xPKSR/aLm2sD7BaYaA==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 02:26:04 -0700
+X-CSE-ConnectionGUID: 5qc4yB+uQYi8YgDxFCC7zw==
+X-CSE-MsgGUID: mKQQVIpGRYaPeF+mDpSpQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="78517618"
+   d="scan'208";a="78518811"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Oct 2024 02:15:01 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Oct 2024 02:26:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t107P-000Kfj-2u;
-	Wed, 16 Oct 2024 09:14:59 +0000
-Date: Wed, 16 Oct 2024 17:14:24 +0800
+	id 1t10I4-000KgV-0c;
+	Wed, 16 Oct 2024 09:26:00 +0000
+Date: Wed, 16 Oct 2024 17:25:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel@collabora.com,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/panthor: Rreset device and load FW after failed
- PM suspend
-Message-ID: <202410161634.8YjhTQM2-lkp@intel.com>
-References: <20241011225906.3789965-3-adrian.larumbe@collabora.com>
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	jic23@kernel.org, jmaneyrol@invensense.com, lars@metafoo.de
+Cc: oe-kbuild-all@lists.linux.dev,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: imu: inv_icm42600: Enable Pedometer Functionality
+Message-ID: <202410161606.EbqeKmdm-lkp@intel.com>
+References: <20241015092035.10482-1-hardevsinh.palaniya@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241011225906.3789965-3-adrian.larumbe@collabora.com>
+In-Reply-To: <20241015092035.10482-1-hardevsinh.palaniya@siliconsignals.io>
 
-Hi Adrián,
+Hi Hardevsinh,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.12-rc3 next-20241016]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.12-rc3 next-20241016]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-Retry-OPP-transition-to-suspension-state-a-few-times/20241012-070112
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20241011225906.3789965-3-adrian.larumbe%40collabora.com
-patch subject: [PATCH 3/3] drm/panthor: Rreset device and load FW after failed PM suspend
-config: i386-buildonly-randconfig-001-20241016 (https://download.01.org/0day-ci/archive/20241016/202410161634.8YjhTQM2-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161634.8YjhTQM2-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hardevsinh-Palaniya/iio-imu-inv_icm42600-Enable-Pedometer-Functionality/20241015-172227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20241015092035.10482-1-hardevsinh.palaniya%40siliconsignals.io
+patch subject: [PATCH] iio: imu: inv_icm42600: Enable Pedometer Functionality
+config: i386-randconfig-062-20241016 (https://download.01.org/0day-ci/archive/20241016/202410161606.EbqeKmdm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161606.EbqeKmdm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410161634.8YjhTQM2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410161606.EbqeKmdm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c:704:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int @@     got restricted __le16 [addressable] [usertype] steps @@
+   drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c:704:21: sparse:     expected int
+   drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c:704:21: sparse:     got restricted __le16 [addressable] [usertype] steps
 
->> drivers/gpu/drm/panthor/panthor_sched.c:3104:29: error: no member named 'runtime_error' in 'struct dev_pm_info'
-    3104 |         if (ptdev->base.dev->power.runtime_error) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~ ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
->> drivers/gpu/drm/panthor/panthor_sched.c:3104:29: error: no member named 'runtime_error' in 'struct dev_pm_info'
-    3104 |         if (ptdev->base.dev->power.runtime_error) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~ ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
->> drivers/gpu/drm/panthor/panthor_sched.c:3104:29: error: no member named 'runtime_error' in 'struct dev_pm_info'
-    3104 |         if (ptdev->base.dev->power.runtime_error) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~ ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                                                      ^~~~
-   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
-      68 |         (cond) ?                                        \
-         |          ^~~~
-   3 errors generated.
+vim +704 drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c
 
-
-vim +3104 drivers/gpu/drm/panthor/panthor_sched.c
-
-  3081	
-  3082	static struct dma_fence *
-  3083	queue_run_job(struct drm_sched_job *sched_job)
-  3084	{
-  3085		struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
-  3086		struct panthor_group *group = job->group;
-  3087		struct panthor_queue *queue = group->queues[job->queue_idx];
-  3088		struct panthor_device *ptdev = group->ptdev;
-  3089		struct panthor_scheduler *sched = ptdev->scheduler;
-  3090		struct panthor_job_ringbuf_instrs instrs;
-  3091		struct panthor_job_cs_params cs_params;
-  3092		struct dma_fence *done_fence;
-  3093		int ret;
-  3094	
-  3095		/* Stream size is zero, nothing to do except making sure all previously
-  3096		 * submitted jobs are done before we signal the
-  3097		 * drm_sched_job::s_fence::finished fence.
-  3098		 */
-  3099		if (!job->call_info.size) {
-  3100			job->done_fence = dma_fence_get(queue->fence_ctx.last_fence);
-  3101			return dma_fence_get(job->done_fence);
-  3102		}
-  3103	
-> 3104		if (ptdev->base.dev->power.runtime_error) {
-  3105			ret = panthor_device_reset_sync(ptdev);
-  3106			if (drm_WARN_ON(&ptdev->base, ret))
-  3107				return ERR_PTR(ret);
-  3108			drm_WARN_ON(&ptdev->base, pm_runtime_set_active(ptdev->base.dev));
-  3109		}
-  3110	
-  3111		ret = pm_runtime_resume_and_get(ptdev->base.dev);
-  3112		if (drm_WARN_ON(&ptdev->base, ret))
-  3113			return ERR_PTR(ret);
-  3114	
-  3115		mutex_lock(&sched->lock);
-  3116		if (!group_can_run(group)) {
-  3117			done_fence = ERR_PTR(-ECANCELED);
-  3118			goto out_unlock;
-  3119		}
-  3120	
-  3121		dma_fence_init(job->done_fence,
-  3122			       &panthor_queue_fence_ops,
-  3123			       &queue->fence_ctx.lock,
-  3124			       queue->fence_ctx.id,
-  3125			       atomic64_inc_return(&queue->fence_ctx.seqno));
-  3126	
-  3127		job->profiling.slot = queue->profiling.seqno++;
-  3128		if (queue->profiling.seqno == queue->profiling.slot_count)
-  3129			queue->profiling.seqno = 0;
-  3130	
-  3131		job->ringbuf.start = queue->iface.input->insert;
-  3132	
-  3133		get_job_cs_params(job, &cs_params);
-  3134		prepare_job_instrs(&cs_params, &instrs);
-  3135		copy_instrs_to_ringbuf(queue, job, &instrs);
-  3136	
-  3137		job->ringbuf.end = job->ringbuf.start + (instrs.count * sizeof(u64));
-  3138	
-  3139		panthor_job_get(&job->base);
-  3140		spin_lock(&queue->fence_ctx.lock);
-  3141		list_add_tail(&job->node, &queue->fence_ctx.in_flight_jobs);
-  3142		spin_unlock(&queue->fence_ctx.lock);
-  3143	
-  3144		/* Make sure the ring buffer is updated before the INSERT
-  3145		 * register.
-  3146		 */
-  3147		wmb();
-  3148	
-  3149		queue->iface.input->extract = queue->iface.output->extract;
-  3150		queue->iface.input->insert = job->ringbuf.end;
-  3151	
-  3152		if (group->csg_id < 0) {
-  3153			/* If the queue is blocked, we want to keep the timeout running, so we
-  3154			 * can detect unbounded waits and kill the group when that happens.
-  3155			 * Otherwise, we suspend the timeout so the time we spend waiting for
-  3156			 * a CSG slot is not counted.
-  3157			 */
-  3158			if (!(group->blocked_queues & BIT(job->queue_idx)) &&
-  3159			    !queue->timeout_suspended) {
-  3160				queue->remaining_time = drm_sched_suspend_timeout(&queue->scheduler);
-  3161				queue->timeout_suspended = true;
-  3162			}
-  3163	
-  3164			group_schedule_locked(group, BIT(job->queue_idx));
-  3165		} else {
-  3166			gpu_write(ptdev, CSF_DOORBELL(queue->doorbell_id), 1);
-  3167			if (!sched->pm.has_ref &&
-  3168			    !(group->blocked_queues & BIT(job->queue_idx))) {
-  3169				pm_runtime_get(ptdev->base.dev);
-  3170				sched->pm.has_ref = true;
-  3171			}
-  3172			panthor_devfreq_record_busy(sched->ptdev);
-  3173		}
-  3174	
-  3175		/* Update the last fence. */
-  3176		dma_fence_put(queue->fence_ctx.last_fence);
-  3177		queue->fence_ctx.last_fence = dma_fence_get(job->done_fence);
-  3178	
-  3179		done_fence = dma_fence_get(job->done_fence);
-  3180	
-  3181	out_unlock:
-  3182		mutex_unlock(&sched->lock);
-  3183		pm_runtime_mark_last_busy(ptdev->base.dev);
-  3184		pm_runtime_put_autosuspend(ptdev->base.dev);
-  3185	
-  3186		return done_fence;
-  3187	}
-  3188	
+   685	
+   686	static int inv_icm42600_steps_read_raw(struct iio_dev *indio_dev,
+   687	                               struct iio_chan_spec const *chan,
+   688	                               int *val, int *val2, long mask)
+   689	{
+   690	       struct inv_icm42600_state *st = iio_device_get_drvdata(indio_dev);
+   691	       __le16 steps;
+   692	       int ret;
+   693	
+   694	       if (mask == IIO_CHAN_INFO_PROCESSED) {
+   695	               ret = iio_device_claim_direct_mode(indio_dev);
+   696	               if (ret)
+   697	                       return ret;
+   698	               ret = regmap_bulk_read(st->map, INV_ICM42600_REG_APEX_DATA, &steps, sizeof(steps));
+   699	               if (ret)
+   700	                       return ret;
+   701	               iio_device_release_direct_mode(indio_dev);
+   702	               if (ret)
+   703	                       return ret;
+ > 704	               *val = steps;
+   705	               return IIO_VAL_INT;
+   706	       }
+   707	
+   708	       return -EINVAL;
+   709	}
+   710	
 
 -- 
 0-DAY CI Kernel Test Service
