@@ -1,76 +1,86 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEF61C07EA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 11:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4512018C920
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 11:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729076969; cv=none; b=P+qqjXKWb0pBdBDfPmZciE7VfnbyWYiM7K1SxQ/oP1QLltC+JUic1SFKKCOQob/+APFlNwnDhY/jUX0R3L/Qlt+63a9DVnt74FW42EymBNtahwsoEg7/GLYWH/xPneP6oojKfEvbmSO4mlOSUzTKEECTtLpSEWMvhos5OfM2qCA=
+	t=1729077073; cv=none; b=UhhXnNsjUOS4VSVjeiWDuIj3CB5zov7NG/WYZ6QIcD+CJfnoexnUbAvn8+V1a0UCmCE3jXndmfBxDiF5aRKHMTvs86bp1kA+umwdpFkhc5+T02eFAGQmC27sWGs/UUUwt4OWEi4KKEOlvpLslE4RZfD9IC02YO/aDTmu9VNZGHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729076969; c=relaxed/simple;
-	bh=8gP92A+Ze+n24rBoK52XoGxxw396/VWsU0nZSEiSWIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sdFfi7krcMgHlVplM1gV7UMpvxKZhhOIywsngntMOzZuIxPVMOupQFnjcfKxnsq7eabof8G8YYQTILak6ulwbNzvWeJRoe+Ts9hdMuAZZzsWz3AZKpADMTmqxFn2a6YAaArvM/97l+i/Xi6N4kR1d7mf1Ah5iyWB1b7q+wfgssA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=AkcDpWdh; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	s=arc-20240116; t=1729077073; c=relaxed/simple;
+	bh=Tz+QY/ieiDJBEFgsc1X5I0ZiwVIM5AqCZYKVxfMb9Ws=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IsRQEHmkIDFEr6eSowLAJig4KCX4B8Y2XzJsift5C3pz4nQkU3+OsQaNLlVJ+/Ckskz8Ux+zTI3ApGLpTRBf/PU8i3HUHUy++eWhz2c0+gYZFs6i17hTAPUrumWsu9q/xrQ0EO/8w/VtZR8RhNZazfD6eBUUFuNBYdobcg8Pk78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nYcQzXDo; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="AkcDpWdh"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a99f646ff1bso572181566b.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 04:09:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1729076966; x=1729681766; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8gP92A+Ze+n24rBoK52XoGxxw396/VWsU0nZSEiSWIg=;
-        b=AkcDpWdh2d2jG2tzNQUZAXutkeAwj0cTegZr/BLy3XUq2vWsMaHCIOGQh7zjUeD7vN
-         kvqG993Nkd1ES/f6Z7UNi61uPqvIG9EmTpVrqrsfpWXvLC9UoWBDs/+WX/ZXrNgl+FvF
-         0A5QpjVaaQVvRGMOJCC5gboZfao/zlQI4/oHk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729076966; x=1729681766;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8gP92A+Ze+n24rBoK52XoGxxw396/VWsU0nZSEiSWIg=;
-        b=FM5E9VsPjv+fWbP4bFtma1GWKkj2NS2UVk9elhz5Pvwo0Wb7MS6m4XB/7dkFqbBh1p
-         me6wtQXLn0xRTPFvNCHwAQ2I31ywOC40K9aUpsC2bVCmdnq/aZbbhKjcJV9f4s0tagT9
-         kWOZOv2ZuroCjTtTtjodsHkcK7+xzS3GXmNU6wBFuQfuzSiIg1BnLPVxRBuRWuvj2ije
-         Dtz/CVD50V9WLocD1LX13A+d9n1wE30EARluhcF4XXYgAc6sK8zzaDllhblZnOr5jjx8
-         aV5qEU5K+r3XmKamos3gyIilNp06OZr+W5ZPpdF9bJqVsyxsRG1jbCAACVp9BhFo9qFN
-         cdvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVsIVrLBWIVQ4LlcSvTtj5VXMfJj5+AMj9UgwnltinVtxhpQfN3bQw5aHapA/24Irmr2aJpxD8GTJFU3laB@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDqIYmxnJSHc68DxrEUx9LT2Bzp70uxrD8z/76nfAaUn/3TnKT
-	EyLh9LQFkU0QyXgx6NoO+Vfl/m+I5Th27SFakT8/a60HCC2jo55c+kP4TiZ2rWKR0NJ9FKenk6s
-	jVPSLbqGDdAuCmfSsiKtnBR3cMI36lqEqRP6ECA==
-X-Google-Smtp-Source: AGHT+IEBWK43pEuSVPY5kfHUSC1ctgBijgdwpK1K66HvvMpx96cAtgZ0O0oJMCEPtTEDN0Fi58hIKlah5t26W53KDfY=
-X-Received: by 2002:a17:907:74b:b0:a9a:222f:45bb with SMTP id
- a640c23a62f3a-a9a222f495bmr682124866b.35.1729076966086; Wed, 16 Oct 2024
- 04:09:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nYcQzXDo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729077072; x=1760613072;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Tz+QY/ieiDJBEFgsc1X5I0ZiwVIM5AqCZYKVxfMb9Ws=;
+  b=nYcQzXDozebCqnF9U4DMuSRvAL8PXKT1GXJrBQyzWhxfqAJkl7RKyMSu
+   6EcS25SEJYkAmP2P0dVptJd4lb1Sm8fUwXAejAzJz/JiMUnjHQoOMfOj5
+   YgvSPFzVatwk5p2pA0kdJQRqr2hIAovg7gVL03rYdZE3N1WC3rdqtM70P
+   PayRn7KqZ5sdnkllWP4MCeWa0VrydoFcuL8bUTkygLoveZIwIVURlVNYO
+   f1WPkZPx7u9M8A6JQAL4iYp0k8Z/PiZdWHIBAUgVRaAgZ1zhBNl+R+Me+
+   T/kyS218ffPvaNMOm9NJwim6xrsQ4JNQFn3p2ssB3qjj1FGcmsXVTq19L
+   w==;
+X-CSE-ConnectionGUID: L28b6O9mTFaa1bxh5Wx/sQ==
+X-CSE-MsgGUID: yM/d9TDsSPSDmtx5G2lRew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45991634"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="45991634"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 04:11:11 -0700
+X-CSE-ConnectionGUID: RDyls/NhRm22mJ/bdc4xIQ==
+X-CSE-MsgGUID: DAehHcgYQCOVu7qj/TvD9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="78255819"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 16 Oct 2024 04:11:09 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t11vm-000Kop-2P;
+	Wed, 16 Oct 2024 11:11:06 +0000
+Date: Wed, 16 Oct 2024 19:10:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Naohiro Aota <naohiro.aota@wdc.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>,
+	Qu Wenruo <wqu@suse.com>, Christoph Hellwig <hch@lst.de>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [linux-next:master 4584/4954] ERROR: modpost: "__cmpxchg_small"
+ [fs/btrfs/btrfs.ko] undefined!
+Message-ID: <202410161911.LbOFjfPQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202410161847.oG293ywD-lkp@intel.com> <CAOQ4uxhD1QYnZHRekQPm-A+3SFXMzv3vZW6r59kSOFAtXNWHEA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhD1QYnZHRekQPm-A+3SFXMzv3vZW6r59kSOFAtXNWHEA@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 16 Oct 2024 13:09:13 +0200
-Message-ID: <CAJfpegvecwzi4FccCaVc-UFhRD88evWEFqe8S_DqMBwSePHXGg@mail.gmail.com>
-Subject: Re: [linux-next:master 4258/4954] fs/overlayfs/file.c:234:57:
- warning: omitting the parameter name in a function definition is a C23 extension
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, overlayfs <linux-unionfs@vger.kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 16 Oct 2024 at 12:41, Amir Goldstein <amir73il@gmail.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   15e7d45e786a62a211dd0098fee7c57f84f8c681
+commit: c87222d18145c93b0ebd860ae9166afb1457129c [4584/4954] btrfs: fix error propagation of split bios
+config: mips-ip30_defconfig (https://download.01.org/0day-ci/archive/20241016/202410161911.LbOFjfPQ-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161911.LbOFjfPQ-lkp@intel.com/reproduce)
 
-> Preferably also the fuse_passthrough_end_write() function in the
-> first patch, so there is no build warning mid series.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410161911.LbOFjfPQ-lkp@intel.com/
 
-Fixed.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Thanks,
-Miklos
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
+>> ERROR: modpost: "__cmpxchg_small" [fs/btrfs/btrfs.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
