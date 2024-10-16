@@ -1,72 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C39502BE;
-	Wed, 16 Oct 2024 01:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2793213B298
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 02:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729043411; cv=none; b=PoJRrTj3JVdVU9VLd26TC8pMUrNSI5hTayMjX++aCHBnREiqttXdDS9wKmRbXXcIzoi4UqjLByVnrTeCeqMgQtyXiR40Tx3EXY2aTeVeRY5grELa9CkWnTVQZarETkQHBhZ9SJ9VPceUfns9w8HKsmfhHyPi+/tlrdfGWHU10jc=
+	t=1729044826; cv=none; b=NVV2zrtYWS/0YYtaGcNJtZYR50bdscIO764iGiZPnuOn62YyCaWsaIikZUk+LJCMooy2cPbTfghf1MQ2awTnuY7dnNlU7Z+fM06CKeSur+bVrLNd0hK7KXxrxiMB6t96Ga1UphviJLh4fZbNNi/D950L6PCvxiBGNxwoscr/b+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729043411; c=relaxed/simple;
-	bh=ogJRD7lo4S6s+KuznmGPgcg7uHGMRwprMLi5z+gZn+8=;
+	s=arc-20240116; t=1729044826; c=relaxed/simple;
+	bh=pLHR8sgV1YYQCR3HgSpvj06ZJH7LDxDS5GNtuTzF37I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AD1fAeHwvcnJpEpzCImxi05nwkOdusBq/twudc9colAt07/cyHRUJR+NFcS/ySU2sQhjMO7zKeN6hbkYlfZS+B2o5rhRyGTIJ1Co9tkq1kJAjfRIUv3MdoA2La7XD2zVjO3Lp7RAjxe5KVPOlQyO9iZDHtkZQE1EpKWRcgSOZEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H+vIragI; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=O/hh4npjDr9Mrpyqni48z6dEg4DntyAWyQjhcD8yukoJ/k3I5NmrPIR6c3PpkBzC1fwm0xQKjaMaVVcv/w03I0ILLE6Msi7Jm8GxhXR70iaDC+RsPEP94DluhLXPuQ788FSRCawQCPAAhdmlsHHF/kN8dOZwpzZ2zkvnsE1l3P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcz53zZk; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H+vIragI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcz53zZk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729043410; x=1760579410;
+  t=1729044824; x=1760580824;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ogJRD7lo4S6s+KuznmGPgcg7uHGMRwprMLi5z+gZn+8=;
-  b=H+vIragIqWwfMCbXDNVNNQ57z/boEQsZcM0LoJC7XI43odNca74wV7TZ
-   QFz8trIu8+n7J0So1X212BU/Q5JOcyXctJL5TAUVPtXyXncsS0xCMiQmR
-   QpGQnog1/1qtgo+RltWRzAYhDf6+5n/WAt8gBCTIUzNVeBXeA3shoKwWH
-   K/7RkdyCwWPQnj5qeUPWKTBDdkcId8+lpFuAhO2VyYuBeowhUkKu3ER57
-   9Xq7PSZFYo85OhBFShmiiQZoMi5ak57ZtVp02KcuLnPk1zlXJCcxXG/5n
-   Ciey3jJzcECxMTpwUI+wVCJJKNEAqqAGGLDMogAb3sFiGX1rwT8lNipYk
-   g==;
-X-CSE-ConnectionGUID: IuP5pPBQQgWAvBjV1DJejA==
-X-CSE-MsgGUID: lhq7EFp5TqKpoYRWurPrUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28568955"
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="28568955"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 18:50:10 -0700
-X-CSE-ConnectionGUID: ooHWMSH5QEWTfsT6B5/V8A==
-X-CSE-MsgGUID: nQ632r7fQSCDFT/zHroR2w==
+  bh=pLHR8sgV1YYQCR3HgSpvj06ZJH7LDxDS5GNtuTzF37I=;
+  b=mcz53zZki+5X9TMsUxfQxBDE3QkKftISG0uiBzdhz/pM9bdo/NZ4ZF/H
+   k/L1K8JhETSICTU44EYfe+pbuVsfjk58DnXRhn45STz3vjn5OFhoRnu8+
+   ANI6OkyUCy+tFI8S7euyesTeOEHO7d+5XmsTdUfQFPbjCH8KQjyPVHvzq
+   RDESaP08yAcFEWll4VmwgHwMXuVubIqIxV4asJj+6CO5CuV+aK9az+Dbe
+   iDoIikoGr9BOYXgygAz35W6/vhERjqyAIR4BC2SclKCHHAkYl/bx1VUbT
+   8noCjpPY+hVRS2eVgws/DYzCChjW0uBXgUrxWwtEKrq+4d7gHuNW9AODB
+   A==;
+X-CSE-ConnectionGUID: IpZMR8m9T/KlWmGg8TA+cg==
+X-CSE-MsgGUID: r+JwP/0hSV2L37PApNxKgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45950690"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="45950690"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 19:13:44 -0700
+X-CSE-ConnectionGUID: dKtKS4fOSgCcrnwxRcQPLg==
+X-CSE-MsgGUID: SBDcVXBHRh6IYvtfdIXW2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="78028952"
+   d="scan'208";a="77702802"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Oct 2024 18:50:05 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 Oct 2024 19:11:06 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0tAo-000K9V-2K;
-	Wed, 16 Oct 2024 01:50:02 +0000
-Date: Wed, 16 Oct 2024 09:49:40 +0800
+	id 1t0tV9-000KAF-2e;
+	Wed, 16 Oct 2024 02:11:03 +0000
+Date: Wed, 16 Oct 2024 10:10:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	upstream@airoha.com, benjamin.larsson@genexis.eu,
-	ansuelsmth@gmail.com, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v6 5/6] pinctrl: airoha: Add support for EN7581 SoC
-Message-ID: <202410160957.YN6r1XvO-lkp@intel.com>
-References: <20241013-en7581-pinctrl-v6-5-2048e2d099c2@kernel.org>
+To: Yang Li <yang.li85200@gmail.com>, guoren@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-csky@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yang Li <yang.li85200@gmail.com>
+Subject: Re: [PATCH] csky: fix csky_cmpxchg_fixup not working
+Message-ID: <202410160952.7oClZ4pG-lkp@intel.com>
+References: <20241008054615.43062-1-yang.li85200@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,50 +63,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241013-en7581-pinctrl-v6-5-2048e2d099c2@kernel.org>
+In-Reply-To: <20241008054615.43062-1-yang.li85200@gmail.com>
 
-Hi Lorenzo,
+Hi Yang,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 6dbd1577b7dc10263d515045ef6460e80d6c9afa]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.12-rc3 next-20241015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-arm-airoha-Add-the-chip-scu-node-for-EN7581-SoC/20241013-060857
-base:   6dbd1577b7dc10263d515045ef6460e80d6c9afa
-patch link:    https://lore.kernel.org/r/20241013-en7581-pinctrl-v6-5-2048e2d099c2%40kernel.org
-patch subject: [PATCH v6 5/6] pinctrl: airoha: Add support for EN7581 SoC
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241016/202410160957.YN6r1XvO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160957.YN6r1XvO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/csky-fix-csky_cmpxchg_fixup-not-working/20241008-134806
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241008054615.43062-1-yang.li85200%40gmail.com
+patch subject: [PATCH] csky: fix csky_cmpxchg_fixup not working
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20241016/202410160952.7oClZ4pG-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160952.7oClZ4pG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160957.YN6r1XvO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160952.7oClZ4pG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/mediatek/pinctrl-airoha.c:2884:35: warning: unused variable 'regmap_config' [-Wunused-const-variable]
-    2884 | static const struct regmap_config regmap_config = {
-         |                                   ^~~~~~~~~~~~~
-   1 warning generated.
+   arch/csky/mm/fault.c: In function 'csky_cmpxchg_fixup':
+>> arch/csky/mm/fault.c:48:39: warning: comparison between pointer and integer
+      48 |         if (instruction_pointer(regs) == &csky_cmpxchg_stw)
+         |                                       ^~
+>> arch/csky/mm/fault.c:49:47: error: passing argument 2 of 'instruction_pointer_set' makes integer from pointer without a cast [-Wint-conversion]
+      49 |                 instruction_pointer_set(regs, &csky_cmpxchg_ldw);
+         |                                               ^~~~~~~~~~~~~~~~~
+         |                                               |
+         |                                               long unsigned int *
+   In file included from arch/csky/include/asm/processor.h:8,
+                    from arch/csky/include/asm/thread_info.h:10,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/csky/include/generated/asm/current.h:1,
+                    from include/linux/mutex.h:14,
+                    from include/linux/notifier.h:14,
+                    from include/linux/kprobes.h:21,
+                    from arch/csky/mm/fault.c:5:
+   arch/csky/include/asm/ptrace.h:29:58: note: expected 'long unsigned int' but argument is of type 'long unsigned int *'
+      29 |                                            unsigned long val)
+         |                                            ~~~~~~~~~~~~~~^~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
+vim +/instruction_pointer_set +49 arch/csky/mm/fault.c
 
-vim +/regmap_config +2884 drivers/pinctrl/mediatek/pinctrl-airoha.c
-
-  2883	
-> 2884	static const struct regmap_config regmap_config = {
-  2885		.reg_bits		= 32,
-  2886		.val_bits		= 32,
-  2887		.reg_stride		= 4,
-  2888	};
-  2889	
+    34	
+    35	#ifdef CONFIG_CPU_HAS_LDSTEX
+    36	static inline void csky_cmpxchg_fixup(struct pt_regs *regs)
+    37	{
+    38		return;
+    39	}
+    40	#else
+    41	extern unsigned long csky_cmpxchg_ldw;
+    42	extern unsigned long csky_cmpxchg_stw;
+    43	static inline void csky_cmpxchg_fixup(struct pt_regs *regs)
+    44	{
+    45		if (trap_no(regs) != VEC_TLBMODIFIED)
+    46			return;
+    47	
+  > 48		if (instruction_pointer(regs) == &csky_cmpxchg_stw)
+  > 49			instruction_pointer_set(regs, &csky_cmpxchg_ldw);
+    50		return;
+    51	}
+    52	#endif
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
