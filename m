@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B65315C14B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 03:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696DD17CA1D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 03:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729049733; cv=none; b=m1H6gJNtFcwkh9+7abcTe+RTRjRM6wdDyZ2F0fu51LChDtVLECciGC57tC0MvrVse7WbiEBRi8QAAzxBKmGc3mSwyCFGKhUmS9iPemTHVkI22w/JEm6TCurAKC8ZKsGmOCJAPHHHC2vCnftQ1CT/k2pgbWpqq5aCoDMFT2TKKG0=
+	t=1729050935; cv=none; b=UUUYHTmiY1Vfdz/M+hxxhfq22W9IqAP5PwFdfbD4zYkM0fG/qo08FSm4GFO7bT2Z9Nt8chfCKMU6pfDP380M3no6xusXjQcGuX/S+jSrGdi3CYyE4hU2ryI3dZVBqpwCQHkDwCYvHntvuTdcAImLwyEMmoLdaWWbr5MMaDYq06E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729049733; c=relaxed/simple;
-	bh=2r0XWTddl4yepUFkW3TBdzMPf3nP/Gk+Qv9s97Xf9wA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y+SOkHvfIQ/M5/viekLF+74SdqZLZYXUlDLY6OoH+c0/1/6TaTlCo4L6wt5cFLcpAnwGlN5tI0+nHYmFyVYIyd632RGbMXPuGku0v2EuOc9XyvktTb7NJMGc4sNxp3h8ZSCjbwZpUUDLh6KXaDW3TQigawUimpnHcfKZLXapjrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0cpWyMU; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1729050935; c=relaxed/simple;
+	bh=jMBQQmq1sfnMHXR0h4yLcyqW3S/1KL6QUSbdQM1zeJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RyveAJVfOaYkFC3TGlEu43iweEv6znZjiCiIE7tBLRUbLSQ5U04x2U7IQAQCMTmHEFf/R49WbELzR+7o4TQDiYNyYflxZNEUMbyHanBL7rzl4r95at+kZOOiFaa0JS5H+rPCILG+faxKgTcedSf1ccTVZOzJdzgmLKZnzHhQG2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SFKohmJi; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0cpWyMU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFKohmJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729049732; x=1760585732;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2r0XWTddl4yepUFkW3TBdzMPf3nP/Gk+Qv9s97Xf9wA=;
-  b=n0cpWyMU7OwmYfk0quYBCGeHaXZ8LWtw3eF0GWIo/5IiBTQNUQpZ3C6J
-   enSvp2NBZBEe726GhNf5yEnhV03KDVW93PFeobZhyDi6jb45sxO6xeBB0
-   +MVlZL7FkZHTgwCHgSQaFdq2OiEWfBteNREsKQIJJQ2TBw8aWhfErqsHS
-   ek+wN83DpNDyL8YEBIK+OO5+F2621nk44pQnku1s18gase9uRLI9slHnN
-   fuuRs8iWf/mEulg8Y+nZlUGIgtsUK3/0NO90EK+zrqbjRviOxNYzro2Ya
-   feAnzvDKNb3COgUr0xcsXCp/lhL4EYD/hMM0Bu3llLTPjTsnORSGE/AId
+  t=1729050933; x=1760586933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jMBQQmq1sfnMHXR0h4yLcyqW3S/1KL6QUSbdQM1zeJw=;
+  b=SFKohmJiO3zRfCpcoc1mmiQlNT6hUnExaqYLHLQjo9hSc2ttyw4QWG+0
+   HdJUntnaWeDW3f4Vd7OT4Qvw7rpxQCMOrx9dgy89iwJKeG4P3QHka9T8S
+   gbDwo/siLM+9vTdVApg7e89H6sYcPOZR0Ki65cOMks6T/8DVQIwRas0zH
+   /zCC7eBh2im+8tpH00zIp9GxuRqVfoQcAoVFjX4mhKFCDkDXZF8wrGKwM
+   lyLMTOE3B0IOC3yRWmYuwOzjlLCVxJYXkiEyyiS+pPDyq0QXA+9ZvIIW9
+   Gt0lmgKYutvqwJpuVTB5vyfiTBO92uVI51v5xnwC52RHp0bWvdYEn7WPe
    w==;
-X-CSE-ConnectionGUID: AYIb+W+tQGSi7NTYNeABfQ==
-X-CSE-MsgGUID: FwCSVwnpQ2mxVC6GlCU8DQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32172022"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32172022"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:35:31 -0700
-X-CSE-ConnectionGUID: PvAJ2EOlT7m/4Ep04kkTsA==
-X-CSE-MsgGUID: QKb2nEhkRxCIbCN4KSp/7g==
+X-CSE-ConnectionGUID: WkNP2qVDR9mcM7p01Q9z7w==
+X-CSE-MsgGUID: Ucz7LcGZROGs3mftQDHs/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39870833"
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="39870833"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:55:33 -0700
+X-CSE-ConnectionGUID: 9UFGTod+Sv67xhuxDGsj4w==
+X-CSE-MsgGUID: 6ETfRyHuT/aP81KlFa5oQQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="82877817"
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="78052207"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2024 20:35:30 -0700
+  by orviesa010.jf.intel.com with ESMTP; 15 Oct 2024 20:55:31 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0uoq-000KEB-05;
-	Wed, 16 Oct 2024 03:35:28 +0000
-Date: Wed, 16 Oct 2024 11:34:43 +0800
+	id 1t0v8C-000KFa-2X;
+	Wed, 16 Oct 2024 03:55:28 +0000
+Date: Wed, 16 Oct 2024 11:55:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:cpumask_next_wrap6 1/14] include/linux/objpool.h:173:6:
- error: variable 'start' set but not used
-Message-ID: <202410161148.VLlWKc1n-lkp@intel.com>
+To: Mukesh Ojha <quic_mojha@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: Re: [PATCH v2] remoteproc: Add a new remoteproc state RPROC_DEFUNCT
+Message-ID: <202410161104.5ZIbsMLV-lkp@intel.com>
+References: <20241014203118.1580024-1-quic_mojha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,63 +65,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241014203118.1580024-1-quic_mojha@quicinc.com>
 
-tree:   https://github.com/norov/linux cpumask_next_wrap6
-head:   6088c779ec288831ae562a401799bcd2fb6d1bea
-commit: e6612c6b35959a3057b2b0f87e691e4eb33d6d64 [1/14] objpool: rework objpool_pop()
-config: i386-buildonly-randconfig-005-20241016 (https://download.01.org/0day-ci/archive/20241016/202410161148.VLlWKc1n-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161148.VLlWKc1n-lkp@intel.com/reproduce)
+Hi Mukesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on linus/master v6.12-rc3 next-20241015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/remoteproc-Add-a-new-remoteproc-state-RPROC_DEFUNCT/20241015-043318
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20241014203118.1580024-1-quic_mojha%40quicinc.com
+patch subject: [PATCH v2] remoteproc: Add a new remoteproc state RPROC_DEFUNCT
+config: x86_64-buildonly-randconfig-002-20241016 (https://download.01.org/0day-ci/archive/20241016/202410161104.5ZIbsMLV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161104.5ZIbsMLV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410161148.VLlWKc1n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410161104.5ZIbsMLV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/drm_debugfs_crc.c:35:
-   In file included from include/drm/drm_crtc.h:32:
-   In file included from include/drm/drm_modes.h:33:
-   In file included from include/drm/drm_connector.h:32:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:29:
->> include/linux/objpool.h:173:6: error: variable 'start' set but not used [-Werror,-Wunused-but-set-variable]
-     173 |         int start, cpu;
-         |             ^
-   1 error generated.
+   drivers/remoteproc/remoteproc_core.c: In function 'rproc_trigger_recovery':
+>> drivers/remoteproc/remoteproc_core.c:1843:25: warning: comparison between pointer and integer
+    1843 |         if (rproc_start == RPROC_DEFUNCT || rproc->state != RPROC_CRASHED)
+         |                         ^~
 
 
-vim +/start +173 include/linux/objpool.h
+vim +1843 drivers/remoteproc/remoteproc_core.c
 
-   162	
-   163	/**
-   164	 * objpool_pop() - allocate an object from objpool
-   165	 * @pool: object pool
-   166	 *
-   167	 * return value: object ptr or NULL if failed
-   168	 */
-   169	static inline void *objpool_pop(struct objpool_head *pool)
-   170	{
-   171		void *obj = NULL;
-   172		unsigned long flags;
- > 173		int start, cpu;
-   174	
-   175		/* disable local irq to avoid preemption & interruption */
-   176		raw_local_irq_save(flags);
-   177	
-   178		start = raw_smp_processor_id();
-   179		for_each_possible_cpu_wrap(cpu, start) {
-   180			obj = __objpool_try_get_slot(pool, cpu);
-   181			if (obj)
-   182				break;
-   183		}
-   184		raw_local_irq_restore(flags);
-   185	
-   186		return obj;
-   187	}
-   188	
+  1820	
+  1821	/**
+  1822	 * rproc_trigger_recovery() - recover a remoteproc
+  1823	 * @rproc: the remote processor
+  1824	 *
+  1825	 * The recovery is done by resetting all the virtio devices, that way all the
+  1826	 * rpmsg drivers will be reseted along with the remote processor making the
+  1827	 * remoteproc functional again.
+  1828	 *
+  1829	 * This function can sleep, so it cannot be called from atomic context.
+  1830	 *
+  1831	 * Return: 0 on success or a negative value upon failure
+  1832	 */
+  1833	int rproc_trigger_recovery(struct rproc *rproc)
+  1834	{
+  1835		struct device *dev = &rproc->dev;
+  1836		int ret;
+  1837	
+  1838		ret = mutex_lock_interruptible(&rproc->lock);
+  1839		if (ret)
+  1840			return ret;
+  1841	
+  1842		/* State could have changed before we got the mutex */
+> 1843		if (rproc_start == RPROC_DEFUNCT || rproc->state != RPROC_CRASHED)
+  1844			goto unlock_mutex;
+  1845	
+  1846		dev_err(dev, "recovering %s\n", rproc->name);
+  1847	
+  1848		if (rproc_has_feature(rproc, RPROC_FEAT_ATTACH_ON_RECOVERY))
+  1849			ret = rproc_attach_recovery(rproc);
+  1850		else
+  1851			ret = rproc_boot_recovery(rproc);
+  1852	
+  1853	unlock_mutex:
+  1854		mutex_unlock(&rproc->lock);
+  1855		return ret;
+  1856	}
+  1857	
 
 -- 
 0-DAY CI Kernel Test Service
