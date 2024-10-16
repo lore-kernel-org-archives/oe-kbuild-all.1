@@ -1,86 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0851FDF87;
-	Wed, 16 Oct 2024 09:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4EB21E3DC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Oct 2024 10:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729071366; cv=none; b=gZFfs7P/w+ovocKCSTn4zyLEqfQEdbX6LtRHoTmNM5F+WeoPeO6lk0T4tA03lgwXRq0+qyXhHIe1Os8Ht7eOqrVuhrI248lOT8/Ww1fSdOq4EC7e+M83K051semb1Ayx1mx6mdPk6mLA6cUAu9B8iEUpGA4qwlnTi0ADzjovFto=
+	t=1729073290; cv=none; b=MXiboNxrSIfhvJqsKLUdFQhl0afyeZ7RDyOwndQa7kwcHr50L8Sgi7cHoYhxXtuGyN+8sjW50TOq3lmGF7hefT9x8mLLsIVW6FpKXL0iqTxsyCtWU64zUgg0OfQeB4JkaSpByVQXkZ7rKvpcVsn84nt2sjiVUkdPZ//kAZLybYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729071366; c=relaxed/simple;
-	bh=Yhj6cd091kQ/pOwqBFbNErCYqoedpgLs45KQ6TSbvP0=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hi43fcC9PMbMwrVPu5z7FzjO9tjB1C21YVunsydC3aBl5zt6E5xWKiky+zfMgi8E9U5cbHRmFCZW0hJW0ZrytqJ6QYHcC0U03N5E9OA9mDtT8SAHClWxK/CxSaRoEUvV2JrXquEZGek6gngpyEjat+2iomc+53OuemsfnjBmRPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0nQKbje; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729073290; c=relaxed/simple;
+	bh=Bsj2wg8iNsBy17mCLRhdo23JB+yGKK06j/LOapxOPRs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nFXoChrZjBc4ssY2r5pVqINBbk9RBZ47gGzuQUZDgWY00FjMFV7lH2tlB3RUZwDeyGmzy9/Lal5W2rTt2MO/QFgDoJTe+MUVnvrp+zzMWHmRMlmF3uBWskYZrOwzcyqeUBsDJrgXNhH4v87nwopcvzEK5tnzlL4LJoXTg/XR/Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bss71Lo9; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0nQKbje"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729071365; x=1760607365;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Yhj6cd091kQ/pOwqBFbNErCYqoedpgLs45KQ6TSbvP0=;
-  b=G0nQKbje76fmjUfc9Wg9pfuzqSvwGja/ENi/1CwAjl9ITPRSpkvGKBlY
-   JVKxA+M958ZaGRe0/xKcVkaRqsk5lAbfTebsSSsZC1lpu8erUMHfKbVWJ
-   +hlnNAeqA0EhAKCKdSY4LFw0D5yqeDjn9vv2wtUfwnpdgw+Jykx07cp15
-   BOCyxm0BTo8ZEqE8bcaBvID9zWZxvgNtHu34qj2bn8ZWBD7fpgeDG/Wc4
-   d+mjAqeFlqGY+SIQR+XUOihFty3MkzizcbVKwxFh+gMdYaZN/EZ4Rdfod
-   6wLk5KdTXVOWyNy+LZoM3wbCnS6VRatCxH98ffskOxG0VktEAjGDWWQC0
-   w==;
-X-CSE-ConnectionGUID: OmoaRT14QXKDWk4LQi6Mcg==
-X-CSE-MsgGUID: lesV8+rdQJCZKu1KYuRz7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="31376578"
-X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="31376578"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 02:36:04 -0700
-X-CSE-ConnectionGUID: aS1IdZqbQW++Ly42c+pkXA==
-X-CSE-MsgGUID: QLHPNtTJQUS/MZnqiNr8uQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="115618430"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Oct 2024 02:36:03 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t10Rk-000KhH-2b;
-	Wed, 16 Oct 2024 09:36:00 +0000
-Date: Wed, 16 Oct 2024 17:35:54 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [linux-next:master 1848/4954] vmlinux.o: warning: objtool:
- hid_open_report+0x849: sibling call from callable instruction with modified
- stack frame
-Message-ID: <202410161730.CRySyFey-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bss71Lo9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1729073287;
+	bh=Bsj2wg8iNsBy17mCLRhdo23JB+yGKK06j/LOapxOPRs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bss71Lo9OQuQ5AogYz6rSQKRkwnjuC7D7cREGVEnXU3BoyBFK86FFu4PYx/MSlCo/
+	 UZKY1LQKgSHOs0Ybd5H3O5tsxu1uTkpkEvnHXtOuPskvMYFb+6E+DyVx7VC0U+fq2K
+	 8HzshMhfMZ4sqpD1biQHg249RRsrkSp0NL0orWjPkW65n5/12aQbz+YAhYpjnaF3mZ
+	 MJjSwKZ0QIgW8t++XQGSUPG0r/ztTkO/SSBztwyGkrGyusTkrUwCS0j8aEtwro7Iy/
+	 G6oQQvUOzVk7WC1FN3mopPB/3zwnSee7UdeACaIB79Qb2HOIjh3p1uZ7k9cRx36F2F
+	 1uX8ul41fhTgg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BAB2717E12AC;
+	Wed, 16 Oct 2024 12:08:06 +0200 (CEST)
+Message-ID: <c094ee1f-9870-4958-beaf-16d23c44ccb4@collabora.com>
+Date: Wed, 16 Oct 2024 12:08:06 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 3879/4439]
+ arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pinctrl@10005000:
+ 'pcie-default' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
+To: kernel test robot <lkp@intel.com>, Fei Shao <fshao@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Macpaul Lin <macpaul.lin@mediatek.com>
+References: <202410160906.ckDFQWGk-lkp@intel.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <202410160906.ckDFQWGk-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-TO: Benjamin Tissoires <bentiss@kernel.org>
+Il 16/10/24 03:36, kernel test robot ha scritto:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
+> commit: 355508880d41cfa5b0643515f27b6da490a1345e [3879/4439] arm64: dts: mediatek: mt8188: Add PCIe nodes
+> config: arm64-randconfig-051-20241015 (https://download.01.org/0day-ci/archive/20241016/202410160906.ckDFQWGk-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.1.0
+> dtschema version: 2024.10.dev6+g12c3cd5
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160906.ckDFQWGk-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410160906.ckDFQWGk-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>     arch/arm64/boot/dts/mediatek/mt8188.dtsi:1442.35-1447.5: Warning (simple_bus_reg): /soc/mailbox@10b86000: simple-bus unit address format error, expected "10b86100"
+>     arch/arm64/boot/dts/mediatek/mt8188.dtsi:1449.35-1454.5: Warning (simple_bus_reg): /soc/mailbox@10b87000: simple-bus unit address format error, expected "10b87100"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   15e7d45e786a62a211dd0098fee7c57f84f8c681
-commit: 2370acea1fa43deace47467ede6c400a4640d224 [1848/4954] Merge branch 'for-6.13/bpf' into for-next
-config: x86_64-randconfig-003-20241016 (https://download.01.org/0day-ci/archive/20241016/202410161730.CRySyFey-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161730.CRySyFey-lkp@intel.com/reproduce)
+That was bad. I fixed it directly. Fei, no action required from you.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410161730.CRySyFey-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> vmlinux.o: warning: objtool: hid_open_report+0x849: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: hid_scan_report() falls through to next function __cfi_hid_allocate_device()
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Angelo
