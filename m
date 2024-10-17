@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C774A17BB03
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 06:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA8817BB25;
+	Thu, 17 Oct 2024 06:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729146546; cv=none; b=Nh9xF1F5YpNluSzP8OU/qjUIatV8DxG8qUBQdNXZ++/FmfOxwIjPpdJ0maZVyd1a7VpHmMOPHeKzQV2rVMl9p5m4jF8kvoxZyTVHOdP1UA7f6o1IVF8VqfseHTlNyKEhNHrX1QK8R1VRm4eIqx3MCsVT+Z6pCkmfBtQbRfdNXrs=
+	t=1729146547; cv=none; b=JyswBCCx9f8pceTf9ye6OOTAWn8I3fEdgS8fiqNllwkoWNsP2xyQNL0k3PmdVpiq9oLd5G4NJh5pB4U5yvhVWvq5soZJcLPEiMlAjY0c2WKDJD/DA14JoG7AwGJ7oGFbyB/eH3R+mADOX4Faa3cpyweYP1YX/0tVm67AnOQVuPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729146546; c=relaxed/simple;
-	bh=C/7QGFPj2lCQwOtIkEL21evU1r6xm/ML1F+RP0xunW4=;
+	s=arc-20240116; t=1729146547; c=relaxed/simple;
+	bh=1mjhtsXUFihj7jqNw14s9sIs2pbGvU1NKo+IaA1DVns=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mc9js950q9AUnwtBdHDwNVoKlbq/a0fSjmw7xrJVFHDrltpsMp8aPTEOYuB+I1AvU6kIzKLatmZp2HivoSP27NV7AlsAaZQjdMLuMF3Bt6U2P8qiFXKPwNezGdvew9QCacLPOKPvoHUFMt6X8RKI8I/ykWxdc35NQo3dg2AjC5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIjxvK6G; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=mNDQs+EDePevZ0X8o0iI4qBTpssEpzkn+RohABiCkTYzCb+B3BvkERr+M+hsTS04OxmFM3vd1dPcFwncAuvZFMRXQzPKJs9LB8qknJr2B96fFEVUpZ4Ht+Pc/l1ONylQJ9JBVqmqGhx+hv63ZBnKuU2LPmM1EevWQ4IxqCrl7ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQ6tLHXK; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIjxvK6G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQ6tLHXK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729146543; x=1760682543;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C/7QGFPj2lCQwOtIkEL21evU1r6xm/ML1F+RP0xunW4=;
-  b=bIjxvK6GiieCxNeIkf4V/jgZNb6OMRu1mqlXBWvYaWaClzzUrCUv+ui0
-   nWZefuQpsLDl4TBlNAvC8XRNJqe/J54zcIvI1LflBYnDrcVx14wDY0Lky
-   WtBIGWOKpMTt85ICYR2Y+cMiTRQV4zu+6dwPYzdTpfiMCZSf2AKvIEBUH
-   4P4K/cUey9wg+FzZaL0mqiCbcHeFXZ7+l6w0lcbN5cMko2hAjcsS4aNAk
-   MVsWhVOub1r1oFzr/g0QkBYcsm16KBz7jI6NhOMrz7hsTuebOnUeZafis
-   BMe6mSpU3nlFemt4qx70vAvLN0lqTLbyz811pJ72Z7KWD/ofvZPjXmaec
-   A==;
-X-CSE-ConnectionGUID: M4OOei8lRnenFtLc/h6JPQ==
-X-CSE-MsgGUID: DtKs91U5QtuLi1us/qZcGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28504927"
+  bh=1mjhtsXUFihj7jqNw14s9sIs2pbGvU1NKo+IaA1DVns=;
+  b=VQ6tLHXKNWv9KCzXyvpq1L4WyF7f/7du1N09skvq6p4Ny0rS47vApM/u
+   XB01gCMEIqZHl/0iliSZmq95Hg2uSE1raCiJqWLk5pEYLTgZmdAOaqHHQ
+   dFEvOE/t6I5xIhRipRn9gxzihUqfFusuRGIDQJt1OFwav4Spde8KiBF2Z
+   rSJ6o+DAwJ/xGFOpK9FIssRypkl6YIoJpFkVg9PShHcrdgZ3TXQnflQZu
+   ecHiyF/9BOwVLErWQ5p/s7Bnd15fPzKIpIcsIB8zsK6GWg9jQK+o4Zcu/
+   1t2n30MJXIkyKruOPDRGUBGL98EO6M0IlSEtkXZXMxpOA2fcYdgl8bFvY
+   g==;
+X-CSE-ConnectionGUID: 1M4heb4CToqyM70jaumA4g==
+X-CSE-MsgGUID: ZEUeiEHiQWugYqjRsE504Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="51162182"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28504927"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 23:29:02 -0700
-X-CSE-ConnectionGUID: Vxf0nMNMR+qwjNYagIuPNA==
-X-CSE-MsgGUID: tLAZ9t5kQgaIHldZ0IpyTw==
+   d="scan'208";a="51162182"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 23:29:02 -0700
+X-CSE-ConnectionGUID: z6OP8+BYTk+e7onuG/hTOg==
+X-CSE-MsgGUID: xvF9UgIFS/qO+fhSycqFvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="78483779"
+   d="scan'208";a="78472031"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Oct 2024 23:29:01 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 16 Oct 2024 23:29:01 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1K0I-000Lof-2k;
+	id 1t1K0I-000Loi-2q;
 	Thu, 17 Oct 2024 06:28:58 +0000
-Date: Thu, 17 Oct 2024 14:28:37 +0800
+Date: Thu, 17 Oct 2024 14:28:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 4380/4439] include/linux/fortify-string.h:293:17:
- error: call to '__write_overflow' declared with attribute error: detected
- write beyond size of object (1st parameter)
-Message-ID: <202410171420.1V00ICVG-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20241015-2 5/18]
+ include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to
+ requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) ==
+ sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of
+ struct_group_tagged()
+Message-ID: <202410171407.Vjuq5QX1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,108 +67,217 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   15e7d45e786a62a211dd0098fee7c57f84f8c681
-commit: dfdb07df2ab66ff4fd2f82039e871e7ab922dc81 [4380/4439] Merge branch 'next' of git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git
-config: x86_64-randconfig-005-20241017 (https://download.01.org/0day-ci/archive/20241017/202410171420.1V00ICVG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171420.1V00ICVG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241015-2
+head:   41fe8a04339b3781dca5a8ba323ba77022acc441
+commit: 0057fa5576ef7f95f1e88ff06bc3445a15ba5338 [5/18] RDMA/uverbs: Use static_assert() to check struct sizes
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241017/202410171407.Vjuq5QX1-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171407.Vjuq5QX1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410171420.1V00ICVG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171407.Vjuq5QX1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:390,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from kernel/auditsc.c:37:
-   In function 'sized_strscpy',
-       inlined from '__audit_ptrace' at kernel/auditsc.c:2732:2:
->> include/linux/fortify-string.h:293:17: error: call to '__write_overflow' declared with attribute error: detected write beyond size of object (1st parameter)
-     293 |                 __write_overflow();
-         |                 ^~~~~~~~~~~~~~~~~~
-   In function 'sized_strscpy',
-       inlined from 'audit_signal_info_syscall' at kernel/auditsc.c:2759:3:
->> include/linux/fortify-string.h:293:17: error: call to '__write_overflow' declared with attribute error: detected write beyond size of object (1st parameter)
-     293 |                 __write_overflow();
-         |                 ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/infiniband/core/nldev.c:35:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2225:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/infiniband/core/nldev.c:37:
+   In file included from include/net/netlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/infiniband/core/nldev.c:37:
+   In file included from include/net/netlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/infiniband/core/nldev.c:37:
+   In file included from include/net/netlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/infiniband/core/nldev.c:44:
+   In file included from drivers/infiniband/core/uverbs.h:49:
+   In file included from include/rdma/uverbs_std_types.h:10:
+>> include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of struct_group_tagged()
+     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     644 |               "struct member likely outside of struct_group_tagged()");
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/rdma/uverbs_ioctl.h:643:58: note: expression evaluates to '56 == 52'
+     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     644 |               "struct member likely outside of struct_group_tagged()");
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   7 warnings and 1 error generated.
+--
+   In file included from drivers/infiniband/core/umem_dmabuf.c:6:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/infiniband/core/umem_dmabuf.c:6:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/infiniband/core/umem_dmabuf.c:6:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/infiniband/core/umem_dmabuf.c:6:
+   In file included from include/linux/dma-buf.h:19:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2225:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/infiniband/core/umem_dmabuf.c:11:
+   In file included from drivers/infiniband/core/uverbs.h:49:
+   In file included from include/rdma/uverbs_std_types.h:10:
+>> include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of struct_group_tagged()
+     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     644 |               "struct member likely outside of struct_group_tagged()");
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/rdma/uverbs_ioctl.h:643:58: note: expression evaluates to '56 == 52'
+     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     644 |               "struct member likely outside of struct_group_tagged()");
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   7 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +/__write_overflow +293 include/linux/fortify-string.h
+vim +643 include/rdma/uverbs_ioctl.h
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  274  
-03699f271de1f4 Kees Cook      2022-09-02  275  /* Defined after fortified strnlen() to reuse it. */
-e6584c3964f2ff Kees Cook      2023-09-20  276  extern ssize_t __real_strscpy(char *, const char *, size_t) __RENAME(sized_strscpy);
-e6584c3964f2ff Kees Cook      2023-09-20  277  __FORTIFY_INLINE ssize_t sized_strscpy(char * const POS p, const char * const POS q, size_t size)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  278  {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  279  	/* Use string size rather than possible enclosing struct size. */
-21a2c74b0a2a78 Kees Cook      2023-04-07  280  	const size_t p_size = __member_size(p);
-21a2c74b0a2a78 Kees Cook      2023-04-07  281  	const size_t q_size = __member_size(q);
-21a2c74b0a2a78 Kees Cook      2023-04-07  282  	size_t len;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  283  
-a28a6e860c6cf2 Francis Laniel 2021-02-25  284  	/* If we cannot get size of p and q default to call strscpy. */
-311fb40aa0569a Kees Cook      2022-09-02  285  	if (p_size == SIZE_MAX && q_size == SIZE_MAX)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  286  		return __real_strscpy(p, q, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  287  
-a28a6e860c6cf2 Francis Laniel 2021-02-25  288  	/*
-a28a6e860c6cf2 Francis Laniel 2021-02-25  289  	 * If size can be known at compile time and is greater than
-a28a6e860c6cf2 Francis Laniel 2021-02-25  290  	 * p_size, generate a compile time write overflow error.
-a28a6e860c6cf2 Francis Laniel 2021-02-25  291  	 */
-fa35198f39571b Kees Cook      2022-09-19  292  	if (__compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @293  		__write_overflow();
-a28a6e860c6cf2 Francis Laniel 2021-02-25  294  
-62e1cbfc5d7953 Kees Cook      2022-10-02  295  	/* Short-circuit for compile-time known-safe lengths. */
-62e1cbfc5d7953 Kees Cook      2022-10-02  296  	if (__compiletime_lessthan(p_size, SIZE_MAX)) {
-62e1cbfc5d7953 Kees Cook      2022-10-02  297  		len = __compiletime_strlen(q);
-62e1cbfc5d7953 Kees Cook      2022-10-02  298  
-62e1cbfc5d7953 Kees Cook      2022-10-02  299  		if (len < SIZE_MAX && __compiletime_lessthan(len, size)) {
-62e1cbfc5d7953 Kees Cook      2022-10-02  300  			__underlying_memcpy(p, q, len + 1);
-62e1cbfc5d7953 Kees Cook      2022-10-02  301  			return len;
-62e1cbfc5d7953 Kees Cook      2022-10-02  302  		}
-62e1cbfc5d7953 Kees Cook      2022-10-02  303  	}
-62e1cbfc5d7953 Kees Cook      2022-10-02  304  
-a28a6e860c6cf2 Francis Laniel 2021-02-25  305  	/*
-a28a6e860c6cf2 Francis Laniel 2021-02-25  306  	 * This call protects from read overflow, because len will default to q
-a28a6e860c6cf2 Francis Laniel 2021-02-25  307  	 * length if it smaller than size.
-a28a6e860c6cf2 Francis Laniel 2021-02-25  308  	 */
-a28a6e860c6cf2 Francis Laniel 2021-02-25  309  	len = strnlen(q, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  310  	/*
-a28a6e860c6cf2 Francis Laniel 2021-02-25  311  	 * If len equals size, we will copy only size bytes which leads to
-a28a6e860c6cf2 Francis Laniel 2021-02-25  312  	 * -E2BIG being returned.
-a28a6e860c6cf2 Francis Laniel 2021-02-25  313  	 * Otherwise we will copy len + 1 because of the final '\O'.
-a28a6e860c6cf2 Francis Laniel 2021-02-25  314  	 */
-a28a6e860c6cf2 Francis Laniel 2021-02-25  315  	len = len == size ? size : len + 1;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  316  
-a28a6e860c6cf2 Francis Laniel 2021-02-25  317  	/*
-a28a6e860c6cf2 Francis Laniel 2021-02-25  318  	 * Generate a runtime write overflow error if len is greater than
-a28a6e860c6cf2 Francis Laniel 2021-02-25  319  	 * p_size.
-a28a6e860c6cf2 Francis Laniel 2021-02-25  320  	 */
-3d965b33e40d97 Kees Cook      2023-04-07  321  	if (p_size < len)
-3d965b33e40d97 Kees Cook      2023-04-07  322  		fortify_panic(FORTIFY_FUNC_strscpy, FORTIFY_WRITE, p_size, len, -E2BIG);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  323  
-a28a6e860c6cf2 Francis Laniel 2021-02-25  324  	/*
-a28a6e860c6cf2 Francis Laniel 2021-02-25  325  	 * We can now safely call vanilla strscpy because we are protected from:
-a28a6e860c6cf2 Francis Laniel 2021-02-25  326  	 * 1. Read overflow thanks to call to strnlen().
-a28a6e860c6cf2 Francis Laniel 2021-02-25  327  	 * 2. Write overflow thanks to above ifs.
-a28a6e860c6cf2 Francis Laniel 2021-02-25  328  	 */
-a28a6e860c6cf2 Francis Laniel 2021-02-25  329  	return __real_strscpy(p, q, len);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  330  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  331  
-
-:::::: The code at line 293 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
-
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   630	
+   631	struct uverbs_attr_bundle {
+   632		/* New members MUST be added within the struct_group() macro below. */
+   633		struct_group_tagged(uverbs_attr_bundle_hdr, hdr,
+   634			struct ib_udata driver_udata;
+   635			struct ib_udata ucore;
+   636			struct ib_uverbs_file *ufile;
+   637			struct ib_ucontext *context;
+   638			struct ib_uobject *uobject;
+   639			DECLARE_BITMAP(attr_present, UVERBS_API_ATTR_BKEY_LEN);
+   640		);
+   641		struct uverbs_attr attrs[];
+   642	};
+ > 643	static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+   644		      "struct member likely outside of struct_group_tagged()");
+   645	
 
 -- 
 0-DAY CI Kernel Test Service
