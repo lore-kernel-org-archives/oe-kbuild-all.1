@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C001925B2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 07:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753AE1D6DB6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 09:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729150991; cv=none; b=aW48Qhl4aX0F+Qp4lF7aG3zxWrBuspGoHTbKR06CpM2IIHvMTIVGcSvjzk1229c1p5sM00IGuCfApHQnLugPD26BaB1OrKuyVzc26wIO0gJS1t2zgAJmDsDoF4V7W3JnEuNx0ITbklC/GCM+USkRuDttCPC1/bCL/gwgmbDOsSk=
+	t=1729157115; cv=none; b=m4zgVhvSNTk4U/KU2vRHy67H5g9M8r3PZFW/RCNIyaafPCcN0mpL0txx3AibqZ2iFWwZ8YGqmXBfp0oPbGv3YPYcOmo26aHxFyCoOBhqDMVccI93DEAcSPv3RsUVnwqVyur9AUQAo/WnqEnFBhiFj5Z1AeteYTJQbFZSajifrIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729150991; c=relaxed/simple;
-	bh=zjXOnpVg3YO/v5WC1ZRoTmp2lFkP/tJ10tDZqUyYkdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlepvAAhZNFyrHqv9LxmPws8+Rh/00jzII4SRMXPwaUN0rPeL2+cpcuLc021KTbKCWcJQO/FRl+TG4zxl6M55gWx1CzxX5RZJU9Uzc2SXtWNKKS3lYT0UtKSobyDuCqtFmRgTRcWw9dKGHVNCWgfLQEumT5xo76PVvM9bRg0F8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IbOHHlT/; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1729157115; c=relaxed/simple;
+	bh=KmJ4IIDBwiQmw+cGpwKcD6KO+rgwQC0feje6dTWBo4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W6XKIzTYCy3HMRmipN+LN/Fs5QDSDCRCHyMvxuGpru+0HcecaEjQ+kgsT9GUpYmYG4m/0wFfVOzCFVicz8292gdpAMc9H8YgOOW/fuzVm4ckK4v3rmgBiMjR42rPb4Rc3Uh0Q2/qbaP76RRINhGz5up8PHtzwmxR5CKRo3/c0f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h5YhDY6V; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IbOHHlT/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5YhDY6V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729150989; x=1760686989;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zjXOnpVg3YO/v5WC1ZRoTmp2lFkP/tJ10tDZqUyYkdw=;
-  b=IbOHHlT/29FqA5nwUvJCEeMEhFqHXTof5EUKVcbanzHcav98L9zUSg9U
-   R/nRG89uImbpv41Fj2gIz7TYFhc2pTCw8Cg2kXDfD+peoGB5bDm9Nt8op
-   1F0jz21h0MNi7W5FLxX99fboCrbAfRZ2fFbshYIDqm2bdSV605FUtZ/i9
-   XZ4fMPFP1CEXagfWPaUdW7FxoegSVEoZ4WJ+4fu38jkKgC5vAk8WNj49n
-   EKV4Pod6h75QTJWVUsSvYLOp5tWy8O07PV3Qq/gGl290RrLaCk4BjZYqg
-   6uSd/BC3blZWNaorS4mmv4BABT6WaNGCqnuXOjmAscmpW19x03gT4HG63
-   g==;
-X-CSE-ConnectionGUID: zV+9DLSGST6G0IJMUWO5/w==
-X-CSE-MsgGUID: l6QzRaP3T0iaYZsnLGSAfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="40022687"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="40022687"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 00:43:09 -0700
-X-CSE-ConnectionGUID: acJPe0JVSauLn/nltG7qEA==
-X-CSE-MsgGUID: 8N/QpAneSeedgmoZd+I7Iw==
+  t=1729157112; x=1760693112;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KmJ4IIDBwiQmw+cGpwKcD6KO+rgwQC0feje6dTWBo4o=;
+  b=h5YhDY6VkaIrHNWc0ptIuQKQ6Jfe/USN9U6xVfkzDl5poECLgd7ciK22
+   dyqmbXwVqqbMoVMo4j88aChP+VJKY0dElTwRsKf2ppsvs8oEx84H+IBhu
+   6tYLbamRPBFQTJrnk+JqFd0RiDpdUxFCoyNIREj0bi5BnLZ1ASG49i1pX
+   06+Zn0/5zoioe+8e/jCupwY6uaGs7n5cj7UOEe9g7tDFbMtP8WWTprOyr
+   XokIiAZaBUUNFB+W5dmtaLf2UgnuhCV6/y5okb1Cch9kM/sts2W60CYbC
+   H2Z/5AXf9tBcWGcXhh7xDDM9bSO96lUyDB0qdYsAzvBXzjo/juCb7NNha
+   w==;
+X-CSE-ConnectionGUID: rZ0WLLu4RBuSZZPeBpBLvw==
+X-CSE-MsgGUID: I6b9BARjRvWo/7Whi9hyvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="51178442"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="51178442"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 02:25:11 -0700
+X-CSE-ConnectionGUID: y8jB75SDQSO+xfyT7+pR/A==
+X-CSE-MsgGUID: KHT3evUOQR68274e86RRCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="109271908"
+   d="scan'208";a="78924011"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Oct 2024 00:43:05 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Oct 2024 02:25:11 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1L9y-000Ltf-1K;
-	Thu, 17 Oct 2024 07:43:02 +0000
-Date: Thu, 17 Oct 2024 15:42:30 +0800
+	id 1t1Mkn-000M75-03;
+	Thu, 17 Oct 2024 09:25:09 +0000
+Date: Thu, 17 Oct 2024 17:24:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikunj A Dadhania <nikunj@amd.com>, linux-kernel@vger.kernel.org,
-	thomas.lendacky@amd.com, bp@alien8.de, x86@kernel.org,
-	kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mingo@redhat.com, tglx@linutronix.de,
-	dave.hansen@linux.intel.com, pgonda@google.com, seanjc@google.com,
-	pbonzini@redhat.com, nikunj@amd.com
-Subject: Re: [PATCH v12 07/19] x86/sev: Carve out and export SNP guest
- messaging init routines
-Message-ID: <202410171505.gZbmXuo2-lkp@intel.com>
-References: <20241009092850.197575-8-nikunj@amd.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 16/447] drivers/char/pc8736x_gpio.c:236:19:
+ error: 'nsc_gpio_write' undeclared here (not in a function)
+Message-ID: <202410171738.Y9VrK5mC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,83 +61,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241009092850.197575-8-nikunj@amd.com>
 
-Hi Nikunj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/virt-sev-guest-Use-AES-GCM-crypto-library/20241009-173734
-base:   8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
-patch link:    https://lore.kernel.org/r/20241009092850.197575-8-nikunj%40amd.com
-patch subject: [PATCH v12 07/19] x86/sev: Carve out and export SNP guest messaging init routines
-config: x86_64-randconfig-121-20241017 (https://download.01.org/0day-ci/archive/20241017/202410171505.gZbmXuo2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171505.gZbmXuo2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   019e5b86faffd0b70c51787fb0e5d430438b1dec
+commit: fc9c917af3a60386818b0554243550687e4eb849 [16/447] char/nsc_gpio: convert to read/write iterators
+config: i386-randconfig-016-20241016 (https://download.01.org/0day-ci/archive/20241017/202410171738.Y9VrK5mC-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171738.Y9VrK5mC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410171505.gZbmXuo2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171738.Y9VrK5mC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/coco/sev/core.c:2663:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct snp_secrets_page *secrets @@     got void [noderef] __iomem * @@
-   arch/x86/coco/sev/core.c:2663:24: sparse:     expected struct snp_secrets_page *secrets
-   arch/x86/coco/sev/core.c:2663:24: sparse:     got void [noderef] __iomem *
->> arch/x86/coco/sev/core.c:2694:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct snp_secrets_page *secrets @@
-   arch/x86/coco/sev/core.c:2694:22: sparse:     expected void volatile [noderef] __iomem *addr
-   arch/x86/coco/sev/core.c:2694:22: sparse:     got struct snp_secrets_page *secrets
+Note: the axboe-block/rw_iter HEAD 019e5b86faffd0b70c51787fb0e5d430438b1dec builds fine.
+      It only hurts bisectability.
 
-vim +2663 arch/x86/coco/sev/core.c
+All errors (new ones prefixed by >>):
 
-  2649	
-  2650	struct snp_msg_desc *snp_msg_alloc(void)
-  2651	{
-  2652		struct snp_msg_desc *mdesc;
-  2653	
-  2654		BUILD_BUG_ON(sizeof(struct snp_guest_msg) > PAGE_SIZE);
-  2655	
-  2656		if (snp_mdesc)
-  2657			return snp_mdesc;
-  2658	
-  2659		mdesc = kzalloc(sizeof(struct snp_msg_desc), GFP_KERNEL);
-  2660		if (!mdesc)
-  2661			return ERR_PTR(-ENOMEM);
-  2662	
-> 2663		mdesc->secrets = ioremap_encrypted(secrets_pa, PAGE_SIZE);
-  2664		if (!mdesc->secrets)
-  2665			return ERR_PTR(-ENODEV);
-  2666	
-  2667		/* Allocate the shared page used for the request and response message. */
-  2668		mdesc->request = alloc_shared_pages(sizeof(struct snp_guest_msg));
-  2669		if (!mdesc->request)
-  2670			goto e_unmap;
-  2671	
-  2672		mdesc->response = alloc_shared_pages(sizeof(struct snp_guest_msg));
-  2673		if (!mdesc->response)
-  2674			goto e_free_request;
-  2675	
-  2676		mdesc->certs_data = alloc_shared_pages(SEV_FW_BLOB_MAX_SIZE);
-  2677		if (!mdesc->certs_data)
-  2678			goto e_free_response;
-  2679	
-  2680		/* initial the input address for guest request */
-  2681		mdesc->input.req_gpa = __pa(mdesc->request);
-  2682		mdesc->input.resp_gpa = __pa(mdesc->response);
-  2683		mdesc->input.data_gpa = __pa(mdesc->certs_data);
-  2684	
-  2685		snp_mdesc = mdesc;
-  2686	
-  2687		return mdesc;
-  2688	
-  2689	e_free_response:
-  2690		free_shared_pages(mdesc->response, sizeof(struct snp_guest_msg));
-  2691	e_free_request:
-  2692		free_shared_pages(mdesc->request, sizeof(struct snp_guest_msg));
-  2693	e_unmap:
-> 2694		iounmap(mdesc->secrets);
+>> drivers/char/pc8736x_gpio.c:236:19: error: 'nsc_gpio_write' undeclared here (not in a function)
+     236 |         .write  = nsc_gpio_write,
+         |                   ^~~~~~~~~~~~~~
+>> drivers/char/pc8736x_gpio.c:237:19: error: 'nsc_gpio_read' undeclared here (not in a function); did you mean 'nsc_gpio_dump'?
+     237 |         .read   = nsc_gpio_read,
+         |                   ^~~~~~~~~~~~~
+         |                   nsc_gpio_dump
+
+
+vim +/nsc_gpio_write +236 drivers/char/pc8736x_gpio.c
+
+681a3e7dab868a Jim Cromie 2006-06-27  232  
+2e8f7a3128bb8f Jim Cromie 2006-07-14  233  static const struct file_operations pc8736x_gpio_fileops = {
+681a3e7dab868a Jim Cromie 2006-06-27  234  	.owner	= THIS_MODULE,
+681a3e7dab868a Jim Cromie 2006-06-27  235  	.open	= pc8736x_gpio_open,
+681a3e7dab868a Jim Cromie 2006-06-27 @236  	.write	= nsc_gpio_write,
+681a3e7dab868a Jim Cromie 2006-06-27 @237  	.read	= nsc_gpio_read,
+681a3e7dab868a Jim Cromie 2006-06-27  238  };
+681a3e7dab868a Jim Cromie 2006-06-27  239  
+
+:::::: The code at line 236 was first introduced by commit
+:::::: 681a3e7dab868a8c390724494e8b79dc596b9e0f [PATCH] chardev: GPIO for SCx200 & PC-8736x: add new pc8736x_gpio module
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
