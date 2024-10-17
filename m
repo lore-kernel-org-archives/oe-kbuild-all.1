@@ -1,62 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E0316BE2A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 05:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353D914A0B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 06:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729144682; cv=none; b=KU7sA03bMISqVD8wxFHYBNHitLHXvsv9KwCjre4SznN+V/QvtAbmcpx+GFtfqT/IBT/I2NIjWOqz75WSDgFqUD+Cuvt2CFWvruEGpH0YvuyP0U2eRsYCPMB7eCpJevfMNIzdgjS3GfgqZ4uhfJaDZgizcvKA/KEEhYuC3xEvEtU=
+	t=1729145346; cv=none; b=jrV57xz8Y9YiebmFgWB80AsI1tw7LOcWRLHvPlF9iStylNuSxY+ea+TUQ7SjB/39gJrRbsffDV+57fG5zC8SW9eLVSJiPowGxIyOUVh7uBfuZS82L1zAoygGZ/pKYZeCNpmGM3aoAS6tV+o/AKOA3SQbwsXxOX0o/i+CkuUJXH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729144682; c=relaxed/simple;
-	bh=7WGbA3PFXNlP2WRPHXjStDQq4aIrBsORJow5PEnGhaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RTIxtHXwkGZOYgoInHs9ehpfAEagJ/EQLtFvUCTXhz8JFn8XrrCVYBGHbawDuvniWgNlXCVy9cJ2kr8e57mA/NIIm2e//JY28iaqjTfQWylE044lSFYLpHJp2vzTUxtiHQ0ibfZtUzatZ08Mk2EfahENI0Qu+6bylifciv0C+no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFeBewxO; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1729145346; c=relaxed/simple;
+	bh=zzviSHXex8TPLDdrZJqN5fZayjpTt4dWNyEM/M8atPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gmV+uAVfCal+8wghiSiq84MN19DIKa8EHxuwb7QuMqpEFzEuOEtlfGBtxCbL3GbGHkgfMJC+2bosSvEBAB5YfGKw1iq3FCRQy33U7yg9BSrNFCvuhhh4olmByuhVcRr/E0Q7yrFJqDQgqE0+m4OH7wrx9/6wSVTAm2u2/Ik2V10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gkSuFnwq; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFeBewxO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gkSuFnwq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729144681; x=1760680681;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7WGbA3PFXNlP2WRPHXjStDQq4aIrBsORJow5PEnGhaA=;
-  b=fFeBewxOYGQ1bOpZ7+0uV0e//bP5QbmEWz5cT3rFNffEf2T7KS1VBKD9
-   WupHyPRWqwcbzUiqpt6FqoI05P3uTTL8iGuWyfCKkfAUxKBZbyU55SoS6
-   8TPzOcPLU/MRgHZbQu8gHAprpo8apFJHuv4i38B0UKr5Dl7FWOaPjcokz
-   AdI+8ip63F1TwINUHUlQ9pFRnZ0o63EzQIZt4ey+eSLcqhi82B07hICwS
-   Rvw85Ni7msSpaQcIgjzq8uee4CqnEX76xixzBdDSUin526dxYY6IpVrLM
-   rkRK/1rfob2VmcIEVuJEeoPh8h4cHKIE52FpspEloVZHNBnEQN1mSrnle
-   w==;
-X-CSE-ConnectionGUID: EmR0CaJIST6owrl1NvCnDQ==
-X-CSE-MsgGUID: Cas1MAwyTXS1u+qgwnmZNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28821007"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="28821007"
+  t=1729145344; x=1760681344;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zzviSHXex8TPLDdrZJqN5fZayjpTt4dWNyEM/M8atPo=;
+  b=gkSuFnwq4TUUdvmlJ73Fzuif3pEngJO+UlJMq1SUzAen86tCJrOPLwFQ
+   HqUR+iF4FUvlUvGGHgmCPrsZWRAbQHztAkbxC4LTIL2JttFFsH6vE26jx
+   tnfh8fmylKXUdQpcZqukaBi4YcB9NMRjDjaqI3H+I1Ei/Pqf5LYIzPb58
+   2voTL8EyCX5WlluShDlIJ/Ip1/zyvAAH0d1mayGi3EoNtYjG1LXDVhOkr
+   eXOd1RcD7fYQsmrzoWIPCjmyWFuF50Ua5P9gn62kg7bKFbQp9PZ6K1bEU
+   7CYJRoEi5a4JELObz3paxVSuRWZXrCzLq1fHiNsxYA+716iJrrRCxr48H
+   Q==;
+X-CSE-ConnectionGUID: FMYi+BScRTWVn60vQ6Q5bg==
+X-CSE-MsgGUID: rsMy4PoVTQmDhXBMDw/BvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28405743"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28405743"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 22:58:00 -0700
-X-CSE-ConnectionGUID: BCUVYuMwQXGv0hG4Z/JSFA==
-X-CSE-MsgGUID: Ccyra/gyTyy9G5H5pNQBgw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 23:09:03 -0700
+X-CSE-ConnectionGUID: ZzgtjC7GShOjBNwP2TOfKA==
+X-CSE-MsgGUID: +iO2538wT/ymUYtHNPEhZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="83273201"
+   d="scan'208";a="83275367"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Oct 2024 22:57:59 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Oct 2024 23:08:59 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1JWG-000Lmf-1E;
-	Thu, 17 Oct 2024 05:57:56 +0000
-Date: Thu, 17 Oct 2024 13:57:34 +0800
+	id 1t1Jgu-000LnB-24;
+	Thu, 17 Oct 2024 06:08:56 +0000
+Date: Thu, 17 Oct 2024 14:08:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20241015-2 6/18]
- include/linux/compiler_types.h:517:45: error: call to
- '__compiletime_assert_854' declared with attribute error: BUILD_BUG_ON
- failed: conf->keylen < WLAN_KEY_LEN_CCMP
-Message-ID: <202410171314.IhaS4oSI-lkp@intel.com>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Vedang Nagar <quic_vnagar@quicinc.com>
+Subject: Re: [PATCH v4 25/28] media: iris: implement power scaling for vpu2
+ and vpu3
+Message-ID: <202410171314.IZGQN4kN-lkp@intel.com>
+References: <20241014-qcom-video-iris-v4-v4-25-c5eaa4e9ab9e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,85 +76,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241014-qcom-video-iris-v4-v4-25-c5eaa4e9ab9e@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241015-2
-head:   41fe8a04339b3781dca5a8ba323ba77022acc441
-commit: a1882510f2c31c9e3a9db8c138f5fa4b90eda0c8 [6/18] wifi: iwlwifi: mvm: Use __counted_by() and avoid -Wfamnae warnings
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20241017/202410171314.IhaS4oSI-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171314.IhaS4oSI-lkp@intel.com/reproduce)
+Hi Dikshita,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal/dt-bindings-media-Add-video-support-for-QCOM-SM8550-SoC/20241014-171950
+base:   67cefecf2a039b9ed0030b9213ceafcd45e6f9e3
+patch link:    https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-25-c5eaa4e9ab9e%40quicinc.com
+patch subject: [PATCH v4 25/28] media: iris: implement power scaling for vpu2 and vpu3
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20241017/202410171314.IZGQN4kN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171314.IZGQN4kN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410171314.IhaS4oSI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171314.IZGQN4kN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c: In function 'iwl_mvm_gtk_rekey':
->> include/linux/compiler_types.h:517:45: error: call to '__compiletime_assert_854' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:498:25: note: in definition of macro '__compiletime_assert'
-     498 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2148:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2148 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
-         |         ^~~~~~~~~~~~
->> include/linux/compiler_types.h:517:45: error: call to '__compiletime_assert_855' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:498:25: note: in definition of macro '__compiletime_assert'
-     498 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2149 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
-         |         ^~~~~~~~~~~~
+   arm-linux-gnueabi-ld: drivers/media/platform/qcom/iris/iris_vpu3.o: in function `iris_vpu3_calculate_frequency':
+>> iris_vpu3.c:(.text.iris_vpu3_calculate_frequency+0x114): undefined reference to `__aeabi_ldivmod'
 
-
-vim +/__compiletime_assert_854 +517 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  510   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  512   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  513   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  514   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  515   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  516  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @517  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  518  
-
-:::::: The code at line 517 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
