@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C3A1D0496
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF8A1D043D
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 21:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729200897; cv=none; b=BcMYsf0Ax+vpBAh4Dq1hZRY3KINfsjmJLAETftXY+iecpUjKWaEEQ48MDK7QoqLpNAHRFBgMTLTOuqxQrEGlbPMvDDzRH3NuE2mGVmzCTxy+5Ffl9epktvvGP5g9SUInj5BAFa48Hm4hH8MwFzhhh4o3FdqA43sO+keNEEWxNK8=
+	t=1729200898; cv=none; b=H6mBlVnvI2vGxeFiWa0Vz9qX7/nCvsp8FuK95TsQhqJzaoKMaDWCpNKSbEhfju/ULkLUOlejQSxFkdu3BE7ZSZ6rqiB1CJ+icRSR6YxQPj6qMByZfjV6/M1eauu48x+2YfLcAQwsJJqFVwEc9MEDZSC1GgtyW9kxKXY8nQ1Ofg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729200897; c=relaxed/simple;
-	bh=yz8mhqVRr/RlfMWpp6NxMaDoivmjoYVShHRYMyRmSQM=;
+	s=arc-20240116; t=1729200898; c=relaxed/simple;
+	bh=NgTQJ0eaY4RkfuA6bZIBptzUzUc1XC/5hsRkdiKoQiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qb+xs0DHHSBMKQrwLaUVS2pj8+HMGuf+yzlezhuT3WR/80wRhVeAlLZJDFzF2JcJ8Puxl47/fVlbKMssf6h7KUouCgRVH+1l8ywUSgHA8BB6yCBl/IOn9LTAfraahAUfskbyQuHGvsnigB21W03IFv2C/+jGtKsx5kKXKITAJqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DySTIvyl; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=RMcFkE75Lwl8/nnEhKoP/XpEJlTshc67KuhvWUmHs3x5X4Yp0RKJ8OfTf7XEtS7Z0IspMJjvYfdzEveD7Y9nqRfumsgDZRk3EOaefYLKxiTog1VIe40MJRrJN4ZBC0HnJGzOs0Pxn5Ohev9+gxVPAUfygKG/VUx71nOfo5GQIcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EtfOIfTj; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DySTIvyl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtfOIfTj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729200892; x=1760736892;
+  t=1729200893; x=1760736893;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yz8mhqVRr/RlfMWpp6NxMaDoivmjoYVShHRYMyRmSQM=;
-  b=DySTIvylsuDUNFnxj0EPIZb+uaCf/jkwfActQoenhmAPuF9nBlr2P/3f
-   184Pzsyg//KFQlXD9Qptfoh8b/4TADBsvTTxz8M0MB3l62gd0wNqqt8s1
-   jdoH9fhs/lWDazkmiv8MidW8T3whFN5mztkxkeE66sbcQE/e+bl53xgub
-   8Qcpn5k5D3nUW9v14FdSH/Th1mgdKCnao6V44NWakeYjI07CzB4Ny4Em7
-   TRfTAIKWqHIQIZkweOwtDvMtV9G7LcA10cV3kWiQ9ns+5Y2EA8k3t+ayf
-   vAMHd/s1YmowPHp2XcIbXHgsP9C7N77WhPpcj9K9xWij3Xi2Ve52Nr2Tq
-   Q==;
-X-CSE-ConnectionGUID: LgrIbn3oQbumCp3HwjbNaw==
-X-CSE-MsgGUID: U+At/wq2TB25OJ7wNluqRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28153940"
-X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
-   d="scan'208";a="28153940"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 14:34:52 -0700
-X-CSE-ConnectionGUID: uljl3NshTSC8/MvKHwQwnA==
-X-CSE-MsgGUID: JXhIDCO3QEykrHbJrvtnLA==
+  bh=NgTQJ0eaY4RkfuA6bZIBptzUzUc1XC/5hsRkdiKoQiE=;
+  b=EtfOIfTjddhTMsFlXbDwSwE7L8vc++UsfGnfdCYyPcj6UgecabuMpSt/
+   JqiMXGj/DK1OerZoqt10PZ9RpXxc3QVenEbThMMXy8r/iJVpU2fBFQjNq
+   6k0X3DtwFKyUNX11TWj3izCqaegL4/Wh1L1/b3fqGrN0H3Z67txgfTyGV
+   Yta4fP/MMQdktAgUiXxe73UmS//aQdlyZNa8T61IMdem3AOiFnXRJmHlC
+   32HMFAd9Qd2voJqvo/HTFcOX6ont9/+zPoRLs89trfzNbLnEkJlYCYogj
+   mQEIJ/wLJl2X8YkJetoANuJJ/xFmlYQrnAFclpyogr4nw5r238+BdamaJ
+   w==;
+X-CSE-ConnectionGUID: IN4j9/2LTTexaiBhpG1zQQ==
+X-CSE-MsgGUID: muBNt0MPRJqAtStKmaqzdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39257439"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="39257439"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 14:34:52 -0700
+X-CSE-ConnectionGUID: D5u3ivn6R0OzF9eQCJC3zA==
+X-CSE-MsgGUID: B+qlr/OmSuKCyIAlhYJPMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
-   d="scan'208";a="83313100"
+   d="scan'208";a="83755206"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2024 14:34:50 -0700
+  by orviesa004.jf.intel.com with ESMTP; 17 Oct 2024 14:34:51 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1Y8u-000My9-2s;
+	id 1t1Y8u-000My3-2b;
 	Thu, 17 Oct 2024 21:34:48 +0000
-Date: Fri, 18 Oct 2024 05:34:34 +0800
+Date: Fri, 18 Oct 2024 05:34:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>
-Subject: [linux-next:master 4569/5321] WARNING: modpost: vmlinux: section
- mismatch in reference: ip6_mr_cleanup+0x7 (section: .text) ->
- ip6mr_rtnl_msg_handlers (section: .init.rodata)
-Message-ID: <202410180543.4rFp8ThL-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-crypt 39/39] fs/afs/write.c:313:13: warning:
+ 'netfs_dump_sg' defined but not used
+Message-ID: <202410180540.4u2ARzKa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,21 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7df1e7189cecb6965ce672e820a5ec6cf499b65b
-commit: 3ac84e31b33e2051e59245b8ceb25d707fa0e553 [4569/5321] ipmr: Use rtnl_register_many().
-config: i386-buildonly-randconfig-001-20241017 (https://download.01.org/0day-ci/archive/20241018/202410180543.4rFp8ThL-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   9a23281066f1353d4e10d297b57c1755d5e67ede
+commit: 9a23281066f1353d4e10d297b57c1755d5e67ede [39/39] afs: [DON'T MERGE] Implement trivial content crypto for testing purposes
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241018/202410180540.4u2ARzKa-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180543.4rFp8ThL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180540.4u2ARzKa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410180543.4rFp8ThL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410180540.4u2ARzKa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: ip6_mr_cleanup+0x7 (section: .text) -> ip6mr_rtnl_msg_handlers (section: .init.rodata)
+>> fs/afs/write.c:313:13: warning: 'netfs_dump_sg' defined but not used [-Wunused-function]
+     313 | static void netfs_dump_sg(const char *prefix, struct scatterlist *sg, unsigned int n_sg)
+         |             ^~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +/netfs_dump_sg +313 fs/afs/write.c
+
+   312	
+ > 313	static void netfs_dump_sg(const char *prefix, struct scatterlist *sg, unsigned int n_sg)
+   314	{
+   315		unsigned int i;
+   316	
+   317		for (i = 0; i < n_sg; i++) {
+   318			void *p = kmap_local_page(sg_page(sg));
+   319			unsigned int l = min_t(size_t, sg->length, 16);
+   320	
+   321			printk("%s[%x] %016lx %04x %04x %*phN\n",
+   322			       prefix, i, sg->page_link, sg->offset, sg->length,
+   323			       l, p + sg->offset);
+   324			kunmap_local(p);
+   325			sg++;
+   326		}
+   327	}
+   328	
 
 -- 
 0-DAY CI Kernel Test Service
