@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DA8224CC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 04:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D15FB669
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 05:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729140243; cv=none; b=SiyKDIwXX073ODaKAp7nXBraqQOIP3402EkQVbn3WfIDzHPUa2u0jBfmYtLpC3mm/z0M94QL6Vaziv+fl23hMmp5AXE5mmuW82ECSGTF8RbMiZ79gwV4MxRb/HuI/RvnzkMw4ex+y/f83weRA9s+/Te5EaSRYeSdE3JsmXIC0y0=
+	t=1729144083; cv=none; b=CKJjOKY9Glr7e2MxumJd4RqPEExmPPrCGszUgEsMa9ocdIl+io7AAQh1cEiuyBgAQRMIokVE3I4KpgMqGcMsyjkDg/z1MBLkyB3PR7ZiRvVHNDqV+BNg3EToOYNCVPdi+6mfMO9z7V/NDyhiOg2L/mnO2wFkvJijyrJbGUH+36U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729140243; c=relaxed/simple;
-	bh=11YArkhZQS4c8MQnbYUnU5KYPuWA3mgk5RTZHB/jkR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PbIDKT1uUPqUTgFvwLSlxohqljeW3y9qx5hRXpLAfIKYdVubS8DRcOWWLlqESczWZkgHjOT7MvxdGrRzBsKtFjd453p/raP1w3oE+pXQyeW496r9lEYWzGC65QBlTmFHQSuV85qtvPPTuhyZkTjQB2lACUI9MM81tq3FgNLzdyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C70H4M8W; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1729144083; c=relaxed/simple;
+	bh=JdI560mGE1ydYY2U1ISr4jnftj9tZxdERmiaclpN7zE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UP4IPK9bpHaZ1KtaCQHdB0jeZEanIqtAUHtWDBTFYIJ9QnCDGw+SmAwczkdmbj/UIyN/2aTjUhdG3gLAX3AEBlpvtYZR1sGSuJHgatiFf3yhA5t0ef8+lAdg8EgzDmRLxCdxIpC+uXbjQz4vx0VTomgDdr6HdWiImhpXbNrvFsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWTB3lOd; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C70H4M8W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWTB3lOd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729140240; x=1760676240;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=11YArkhZQS4c8MQnbYUnU5KYPuWA3mgk5RTZHB/jkR0=;
-  b=C70H4M8Wiv7JA0SEM65j8wBwo2ExBPmHHQeIDMDWnIlozhFBVvRQfjs+
-   HVug1zGLJmVn0LsZxxZm5AnEViFMD2Q5LbMq3F5VRSW9LFdH6tX08djvO
-   5Je3WQMMIj5khDHG9osdjzCnrNuEe47MahHdMA8Iu+5E2MSMMD/XQhaMJ
-   1pi29FwJfczsrKejJugvKvT/dtI8ir4b9P8D+gNos49BdJjwqEK8cWGn2
-   37YqkB94R0WU071lVs3ahxTftEJUPCQcVn6mzI4zWNlmkPQLutl4SzSNC
-   BOS6vGhtSIAHUSZ08ZiiQVe4PjwkB7CN/90xQXrnspsh3TU1qoFF0sc1h
-   A==;
-X-CSE-ConnectionGUID: 1D8/AuhPSTu0Sflu0T64bg==
-X-CSE-MsgGUID: o/zKweRXTbeSYwf7YPEyCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="32538603"
+  t=1729144080; x=1760680080;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JdI560mGE1ydYY2U1ISr4jnftj9tZxdERmiaclpN7zE=;
+  b=LWTB3lOdKlpP0kjVuVqjmwC++KxwP43GIaFesTqjLe5m1YQbZ11K+TDl
+   Io3KX3UfoA+XFiMq5kdcnzNhJ4AnueLCEMSvQvGX74boJqx79uCMRzBQq
+   3HdfXoZVYv67Fdt2mH0Xonxq7eyVNddIW7iV5Wmbt0qn7DmBOuucnFMX/
+   zCZ5D46Q0aocTtg52CUJtrhnQOVQPi73J4SgzrxxY4+YokSdIcwep/CkC
+   /OQN7tKuo73WI8uXbh2Zd91yhe7xw5sKSlIEPAW0zcRXaZ+h3S7v3Nzdd
+   MgFaq+qiF5fk8UwOMsjgF6dipjaZV0xk9lkypGL/VlYKYClSL7Dfs14Uo
+   Q==;
+X-CSE-ConnectionGUID: PJ6U6gU4QtCufAYbUySBRA==
+X-CSE-MsgGUID: wKno0NMCQYmxHDOeYGZprA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="40011753"
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="32538603"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 21:44:00 -0700
-X-CSE-ConnectionGUID: RaXAfCgKTmeFaoCq0c1HyA==
-X-CSE-MsgGUID: JgNiXR5kQXGN1ipyHrpcEA==
+   d="scan'208";a="40011753"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 22:47:59 -0700
+X-CSE-ConnectionGUID: uob64dLaRbmp4JlgNILSsw==
+X-CSE-MsgGUID: 1OwBMn/SRnumtokRcbnzTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="78585172"
+   d="scan'208";a="78473232"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Oct 2024 21:43:56 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 16 Oct 2024 22:47:58 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1IMc-000Ljj-17;
-	Thu, 17 Oct 2024 04:43:54 +0000
-Date: Thu, 17 Oct 2024 12:43:49 +0800
+	id 1t1JMa-000LmF-0L;
+	Thu, 17 Oct 2024 05:47:56 +0000
+Date: Thu, 17 Oct 2024 13:46:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Per-Daniel Olsson <perdaniel.olsson@axis.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	rickard.andersson@axis.com, kernel@axis.com,
-	Per-Daniel Olsson <perdaniel.olsson@axis.com>
-Subject: Re: [PATCH v3 2/2] iio: light: Add support for TI OPT4060 color
- sensor
-Message-ID: <202410171258.CFrNPzC1-lkp@intel.com>
-References: <20241015143713.2017626-3-perdaniel.olsson@axis.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20241015 16/18]
+ ./usr/include/linux/wireless.h:860:33: error: field 'src_addr' has
+ incomplete type
+Message-ID: <202410171340.SzEKww7B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,70 +64,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015143713.2017626-3-perdaniel.olsson@axis.com>
 
-Hi Per-Daniel,
+Hi Gustavo,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on eca631b8fe808748d7585059c4307005ca5c5820]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Per-Daniel-Olsson/dt-bindings-iio-light-Document-TI-OPT4060-RGBW-sensor/20241015-224128
-base:   eca631b8fe808748d7585059c4307005ca5c5820
-patch link:    https://lore.kernel.org/r/20241015143713.2017626-3-perdaniel.olsson%40axis.com
-patch subject: [PATCH v3 2/2] iio: light: Add support for TI OPT4060 color sensor
-config: powerpc64-randconfig-r063-20241017 (https://download.01.org/0day-ci/archive/20241017/202410171258.CFrNPzC1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171258.CFrNPzC1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241015
+head:   d64af418459145b7d8eb94cd300fb4b7d2659a3c
+commit: d9e9d9c1ade33701172b069e7dea728b063b00ee [16/18] uapi: wireless: Avoid -Wflex-array-member-not-at-end warnings
+config: x86_64-buildonly-randconfig-002-20241017 (https://download.01.org/0day-ci/archive/20241017/202410171340.SzEKww7B-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171340.SzEKww7B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410171258.CFrNPzC1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171340.SzEKww7B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/light/opt4060.c:836:2: warning: label at end of compound statement is a C2x extension [-Wc2x-extensions]
-     836 |         }
-         |         ^
-   1 warning generated.
-
-
-vim +836 drivers/iio/light/opt4060.c
-
-   807	
-   808	static int opt4060_write_event(struct iio_dev *indio_dev,
-   809				       const struct iio_chan_spec *chan,
-   810				       enum iio_event_type type,
-   811				       enum iio_event_direction dir,
-   812				       enum iio_event_info info,
-   813				       int val, int val2)
-   814	{
-   815		struct opt4060_chip *chip = iio_priv(indio_dev);
-   816	
-   817		switch (info) {
-   818		case IIO_EV_INFO_VALUE:
-   819			if (chan->type == IIO_INTENSITY && type == IIO_EV_TYPE_THRESH) {
-   820				u32 th_lo, th_hi;
-   821	
-   822				if (opt4060_get_thresholds(chip, &th_lo, &th_hi))
-   823					return -EFAULT;
-   824				if (dir == IIO_EV_DIR_FALLING)
-   825					th_lo = val;
-   826				else if (dir == IIO_EV_DIR_RISING)
-   827					th_hi = val;
-   828				if (opt4060_set_thresholds(chip, th_lo, th_hi))
-   829					return -EFAULT;
-   830				return 0;
-   831			}
-   832			break;
-   833		case IIO_EV_INFO_PERIOD:
-   834			return opt4060_write_ev_period(chip, val, val2);
-   835		default:
- > 836		}
-   837		return -EINVAL;
-   838	}
-   839	
+   In file included from <command-line>:
+>> ./usr/include/linux/wireless.h:747:33: error: field 'addr' has incomplete type
+     747 |         struct sockaddr_legacy  addr;           /* Source address (hw/mac) */
+         |                                 ^~~~
+>> ./usr/include/linux/wireless.h:772:33: error: field 'bssid' has incomplete type
+     772 |         struct sockaddr_legacy  bssid; /* ff:ff:ff:ff:ff:ff for broadcast BSSID or
+         |                                 ^~~~~
+   ./usr/include/linux/wireless.h:829:33: error: field 'addr' has incomplete type
+     829 |         struct sockaddr_legacy  addr; /* ff:ff:ff:ff:ff:ff for broadcast/multicast
+         |                                 ^~~~
+   ./usr/include/linux/wireless.h:853:33: error: field 'bssid' has incomplete type
+     853 |         struct sockaddr_legacy  bssid;
+         |                                 ^~~~~
+>> ./usr/include/linux/wireless.h:860:33: error: field 'src_addr' has incomplete type
+     860 |         struct sockaddr_legacy  src_addr;
+         |                                 ^~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
