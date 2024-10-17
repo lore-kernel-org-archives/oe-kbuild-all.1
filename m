@@ -1,118 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83ED201009
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 18:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABF4219CA6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 19:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729190448; cv=none; b=QLH80nFx2R81kvJVRkP/PBVrSJR4cBDkboQNYq8kQCafKniEQK5NeIuEMn65d8UlnXSyOq+bfO/gEYrXkGexv/KRQZp1DwpxARzcjYIMSmwiKKESj4TC2lFdFqGUxqsXNdTeAOhElh6bghmgemS+ztNe+uwDnH4Ac0YC/kOzhVY=
+	t=1729192075; cv=none; b=JWs+4q0asiq00jeaIcZ/U/0WPB3vYBRbgJbo2gU+7USuiIOqju1iiEdBcMMOK+TiLPp11nblIFJorCSmuhG4TdE1th88vkBnxSC0w+yT0iRtaUAOflruDHWEYoTVEX4j9icBmeCWPMSHIPw8dtLxhIwgkpwMarGCIgTNVJcwep8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729190448; c=relaxed/simple;
-	bh=UxxPdsNDAgGxmoJmmD4R711CuDnHdJ2CQjGxtVLUVRQ=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jFeI13Yulm3KQH291SPz8/1+u9ykMYXy3FqgbWxaUrpNeGXhN8rC8WqolMJ+fpUpaxDtLykJ1kXxHJR0TUXIwHfQLga9Q6JtnN1vv48RVGe3TMdE2z/0MXdq2+IjF+TipNn7IX/BvaISpaabbGIgS8ZVr6TURavyngLsWiwqgVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bfU5hhQU; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729192075; c=relaxed/simple;
+	bh=4+ixJyekF1jl6uiAyjfdWox0tZfOmu1tTOx5QFEdE0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u2ex9w0ESSbfmcu8rfntJnggh32aFJyVWtk+l5rphgjTzBFyYA4iZp1vhEaFxAWlqINO1OlucmxJvN4r6CCNUeb0ciq8Uu4r2dPZ7fIXbvVDim84vhcpT8UyEA6RXdP77lbRBWHgy/mhTxs02OkvOW29hSezydf8Kla0DKvrAjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OrOLIKCa; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bfU5hhQU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729190443; x=1760726443;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=UxxPdsNDAgGxmoJmmD4R711CuDnHdJ2CQjGxtVLUVRQ=;
-  b=bfU5hhQU2Kpihi9GBMoZMjAxjSuGR6C6F3DYxzKSrn5fOX3zSRw+RrMJ
-   LlxHgq0vpP8Pgtm9XY6tEhJiO1MN8AfG1HUSQCGnJjq7fXTgCd+9OIROI
-   JbPX+kh9/RacROcJlX/KcpAfDcN8jNZ8MZVMtOE2HaB7trkYDnkFRfTvp
-   iqUCNs1xfP1SmRahvWCw3FSHaxp239VeT7Gf9Rgn54XCn99NDsIJlUVST
-   Q3ZewB2Oh87wpXHxMaClUsNFGMGD8vp9i+k3TUXB6O+PBWuK+VWma3L+u
-   CUkfF8Zy+ekLqNQodDyj93mBD0IBYrHacCOuSC0sMyEyqTLO4j5Tm0UBK
-   A==;
-X-CSE-ConnectionGUID: hYBZknZMSZmMHKsoTbMdYA==
-X-CSE-MsgGUID: imsEyz90SWyK2SFoEKokPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28847702"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28847702"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 11:40:42 -0700
-X-CSE-ConnectionGUID: 62cPyPQ+RfylqL1MerUNAA==
-X-CSE-MsgGUID: u6KPSNsnRNuY3R8LaLSrkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
-   d="scan'208";a="109457129"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Oct 2024 11:40:41 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t1VQM-000MkL-22;
-	Thu, 17 Oct 2024 18:40:38 +0000
-Date: Fri, 18 Oct 2024 02:39:47 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Sai Sree Kartheek Adivi <s-adivi@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 1/3]
- drivers/remoteproc/ti_k3_r5_remoteproc.c:187:12: warning: 'is_core_in_wfi'
- defined but not used
-Message-ID: <202410180213.iIynddZZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OrOLIKCa"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c932b47552so4915a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 12:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729192067; x=1729796867; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uixfl2jtVqbJqFwF+ymcJ/PUl6a3StJk/DrSTA+CVC0=;
+        b=OrOLIKCaW0iOFaRbih8C1BlYYPG7r+FMZKrQJTG30s2kxD9jnUDV61Xv9reyrQ0yZn
+         8EC/qlnV7EXBEJvajhCMo4/GlWmmclSYp3d0WpbJZJ0/FwNsLOTVA1WwuIYRbJsWEHPh
+         Rq3Op0PYuMoUKrmog8E/qZWQvttaRSR9hMDPrgKHZtOFwG5C6gcQcC4u4nhQbEPYlPok
+         Pk1b1y+tdpLBWIVAUOL7FXhCfnsre7+gC9G7UOmIoTVJXzCqlQs01GYmcJvWdBDJB4cK
+         MMY/M9WTEo6GxMamc/0Y6uTX2zS9+R77tvGCz6JoBLoSI7u1Dg7fPElMRx807FK6fiCs
+         JHXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729192067; x=1729796867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uixfl2jtVqbJqFwF+ymcJ/PUl6a3StJk/DrSTA+CVC0=;
+        b=wavPNZtiD0EWVpDcgNreQOz2mKigiPzDTZczQgp18nllXxiugY+dbOG/+wB/6Mbzy6
+         SxpugbJdrSRkM+3/+RXt32dkknbKFBWgwk8ZAMnOYvx1/98y7P7VxQnb2DzaWAG6cKMb
+         se4jAz3R/z7TJK7onRimcHbbVBd8biYCMe3L8yZ94OrjzlYoM+Jib/9MP3W/A3lql2Zr
+         jkqt7za5LTb0CtHddJW+qnY7Af5wDzWBWvKkQPFHHGD0J2/hQMufb5RD1qOy6y0NxOsj
+         /UEla9wUa+j5cVdId/0nT53HZzpvyTc+HvPPAhhoir4N3XzKCMT111QbzuCauiD9nB+W
+         9AKg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4QVPASOBopVBuFv0JtzYcLQLIrepkWVf7c2ojXk+a9Uz54yB4NQWKmP1bfkdrPm2nnwRwn5BQDhlVY3Rl@lists.linux.dev
+X-Gm-Message-State: AOJu0Yza51hdmrfUcxSfKnjbSCHM89hoxWH0hTRPtifuh8zeTwr79Cye
+	PfBwVdq3Ko6R0ho9UcVrk4BWn+sBdU1hcszWo9Cs/OyQQwjgTyks/BPTUnV1qbR80hNMOaTnoxy
+	obgF36DnDq+a/k2lPgE/1/qI7eMkX9hH4RBsx
+X-Google-Smtp-Source: AGHT+IGJ5bOtzlZwtV+s5IaY9jBglbZpjiJuoBwT3AgW89JKzeUwi0aGlcdr06htRSmxbUTs1hCk4iI1TzT9Wa0QxxI=
+X-Received: by 2002:a05:6402:2709:b0:5c8:84b5:7e78 with SMTP id
+ 4fb4d7f45d1cf-5ca0a186b93mr58751a12.4.1729192066673; Thu, 17 Oct 2024
+ 12:07:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241015-comedi-tlb-v2-1-cafb0e27dd9a@google.com>
+ <202410170111.K30oyTWa-lkp@intel.com> <CAG48ez2T7i_qCAcGi3nZqQeT8A3x42YSdL=rWqXOUDy5Eyaf6A@mail.gmail.com>
+ <ccc4e0a3-34f5-4793-bd05-ee0955c9c87b@mev.co.uk> <cf1a2818-1b78-4422-bb76-421732c428c0@mev.co.uk>
+In-Reply-To: <cf1a2818-1b78-4422-bb76-421732c428c0@mev.co.uk>
+From: Jann Horn <jannh@google.com>
+Date: Thu, 17 Oct 2024 21:07:10 +0200
+Message-ID: <CAG48ez1RWTEW_ZJBYbt6WWJX90haM61pwqqb3u9Pq8C_q71bQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] comedi: Flush partial mappings in error case
+To: Ian Abbott <abbotti@mev.co.uk>
+Cc: kernel test robot <lkp@intel.com>, H Hartley Sweeten <hsweeten@visionengravers.com>, 
+	Frank Mori Hess <fmh6jj@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   e680678e5fef8c191b1588d8d7520171011ebe93
-commit: 3dfcf0a746aa02fee2ef2c9ef37da637f38e3339 [1/3] Merge tag 'v6.1.105-rt38' into ti-rt-linux-6.1.y-cicd
-config: arm64-randconfig-003-20241017 (https://download.01.org/0day-ci/archive/20241018/202410180213.iIynddZZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180213.iIynddZZ-lkp@intel.com/reproduce)
+On Thu, Oct 17, 2024 at 11:48=E2=80=AFAM Ian Abbott <abbotti@mev.co.uk> wro=
+te:
+> On 17/10/2024 10:29, Ian Abbott wrote:
+> > On 16/10/2024 23:05, Jann Horn wrote:
+> >> On Wed, Oct 16, 2024 at 8:05=E2=80=AFPM kernel test robot <lkp@intel.c=
+om> wrote:
+> >>> [auto build test ERROR on 6485cf5ea253d40d507cd71253c9568c5470cd27]
+> >>>
+> >>> url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/
+> >>> comedi-Flush-partial-mappings-in-error-case/20241016-022809
+> >>> base:   6485cf5ea253d40d507cd71253c9568c5470cd27
+> >>> patch link:    https://lore.kernel.org/r/20241015-comedi-tlb-v2-1-
+> >>> cafb0e27dd9a%40google.com
+> >>> patch subject: [PATCH v2] comedi: Flush partial mappings in error cas=
+e
+> >>> config: arm-randconfig-004-20241016 (https://download.01.org/0day-ci/
+> >>> archive/20241017/202410170111.K30oyTWa-lkp@intel.com/config)
+> >>> compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+> >>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/
+> >>> archive/20241017/202410170111.K30oyTWa-lkp@intel.com/reproduce)
+> >>>
+> >>> If you fix the issue in a separate patch/commit (i.e. not just a new
+> >>> version of
+> >>> the same patch/commit), kindly add following tags
+> >>> | Reported-by: kernel test robot <lkp@intel.com>
+> >>> | Closes: https://lore.kernel.org/oe-kbuild-
+> >>> all/202410170111.K30oyTWa-lkp@intel.com/
+> >>>
+> >>> All errors (new ones prefixed by >>):
+> >>>
+> >>>     arm-linux-gnueabi-ld: drivers/comedi/comedi_fops.o: in function
+> >>> `comedi_mmap':
+> >>>>> comedi_fops.c:(.text+0x4be): undefined reference to `zap_vma_ptes'
+> >>
+> >> Ugh, this one is from a nommu build ("# CONFIG_MMU is not set"), it
+> >> makes sense that you can't zap PTEs when you don't have any PTEs at
+> >> all... what really impresses me about this is that the rest of the
+> >> code compiles on nommu. I'm pretty sure this codepath wouldn't
+> >> actually _work_ on nommu, but apparently compiling it works?
+> >>
+> >> I don't know what the right fix is here - should the entire comedi
+> >> driver be gated on CONFIG_MMU, or only a subset of the mmap handler,
+> >> or something else?
+> >
+> > Given that it would also affect a lot of fbdev drivers that would also
+> > benefit from zapping partial mappings, I suggest that gating on
+> > CONFIG_MMU would not be the correct fix.
+>
+> Perhaps just add an #ifdef CONFIG_MMU around the affected call for now?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410180213.iIynddZZ-lkp@intel.com/
+Sure, I guess that works, though it's not particularly pretty.
+(And this codepath looks like it won't really work on nommu either way...)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/remoteproc/ti_k3_r5_remoteproc.c:187:12: warning: 'is_core_in_wfi' defined but not used [-Wunused-function]
-     187 | static int is_core_in_wfi(struct k3_r5_core *core)
-         |            ^~~~~~~~~~~~~~
-
-
-vim +/is_core_in_wfi +187 drivers/remoteproc/ti_k3_r5_remoteproc.c
-
-6dedbd1d544389 Suman Anna   2020-10-02  179  
-1db4571a37a91d Hari Nagalla 2023-10-18  180  /**
-1db4571a37a91d Hari Nagalla 2023-10-18  181   * is_core_in_wfi - local utility function to check core status
-1db4571a37a91d Hari Nagalla 2023-10-18  182   * @core: remote core pointer used for checking core status
-1db4571a37a91d Hari Nagalla 2023-10-18  183   *
-1db4571a37a91d Hari Nagalla 2023-10-18  184   * This utility function is invoked by the shutdown sequence to ensure
-1db4571a37a91d Hari Nagalla 2023-10-18  185   * the remote core is in wfi, before asserting a reset.
-1db4571a37a91d Hari Nagalla 2023-10-18  186   */
-1db4571a37a91d Hari Nagalla 2023-10-18 @187  static int is_core_in_wfi(struct k3_r5_core *core)
-1db4571a37a91d Hari Nagalla 2023-10-18  188  {
-1db4571a37a91d Hari Nagalla 2023-10-18  189  	int ret;
-1db4571a37a91d Hari Nagalla 2023-10-18  190  	u64 boot_vec = 0;
-1db4571a37a91d Hari Nagalla 2023-10-18  191  	u32 cfg = 0, ctrl = 0, stat = 0;
-1db4571a37a91d Hari Nagalla 2023-10-18  192  
-1db4571a37a91d Hari Nagalla 2023-10-18  193  	ret = ti_sci_proc_get_status(core->tsp, &boot_vec, &cfg, &ctrl, &stat);
-1db4571a37a91d Hari Nagalla 2023-10-18  194  
-1db4571a37a91d Hari Nagalla 2023-10-18  195  	if (ret < 0)
-1db4571a37a91d Hari Nagalla 2023-10-18  196  		return 0;
-1db4571a37a91d Hari Nagalla 2023-10-18  197  
-1db4571a37a91d Hari Nagalla 2023-10-18  198  	return (stat & PROC_BOOT_STATUS_FLAG_R5_WFI);
-1db4571a37a91d Hari Nagalla 2023-10-18  199  }
-1db4571a37a91d Hari Nagalla 2023-10-18  200  
-
-:::::: The code at line 187 was first introduced by commit
-:::::: 1db4571a37a91dac5c68e6bb3337151028e4d52f remoteproc: k3-r5: support for graceful stop of remote cores
-
-:::::: TO: Hari Nagalla <hnagalla@ti.com>
-:::::: CC: Praneeth Bajjuri <praneeth@ti.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'll change it that way for now.
