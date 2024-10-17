@@ -1,149 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A161DA62E;
-	Thu, 17 Oct 2024 11:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A531DC1A4;
+	Thu, 17 Oct 2024 11:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729163244; cv=none; b=pcVYXvVeJZmBZ8JY3FCyG10PcDAfxlbUPlNExF44ZCT/1wtetACkYrOelvHcTDzusywnH0/S+0ZA53JrVv8o5Epx5cHPH8wRXucEg8sXRYUC3J9WAavuXb0ShEM+EDw3Y64YvZNJ6SfocSzBLOAHTMyqUoHZU2FzB70X9mi9Gec=
+	t=1729163355; cv=none; b=aHuBeE6Tou4m2bu9cb5Qi9isxJxdFEJWpZDmM034r5Uv2QoLve3Nbl6KlLq7OfErMP2wWdorerixJP2QzTI+57NgeRxLlqoaxuiErpMAQdohmhbXfYhSptZzVX53JoVmw2IGyXVfUB21UvXEUJhddlVMt1Qm48FemviPKynXoKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729163244; c=relaxed/simple;
-	bh=FC0Lxn6ChxB9i3JUJTg/0kuxPgCMromX4ji/2uy2t5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kwkc8WDpCVTuiOKoiXrUbxtJHomdkLuuetHFrr/cac9UYuQDSZ0kqgi9tZvxOmTA1fZp3w5vU1EoL/rN0fyMxPPrmTVireM5fmPuafAyw7Ygdb9pZS5w1r7HihMEZfcisoXAO+jIlkF4Hvy5fptlBP0cN23YXzmMzPgZOtaIQRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MOcOCskp; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729163355; c=relaxed/simple;
+	bh=2FNuYyeHMQ8JKGGNhq1qu5oZuY5ADJyF92IWL7xTkUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SKZ5klzGTRknwIeP0J4eow+2UCq7qaltCvU1yZepiC9IS416N7B7mog6Dmp23e9tmpMuOebhXPWlldzAPsQas+9NPpQAI4pWgASZa7YDSIlKZ59mMOJEWoGA/1wZcuxEsCzsPLepNEPVybBhDKzpJOfjiKjqcKxifPK87ZAFuiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FzbZZBDE; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MOcOCskp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729163242; x=1760699242;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FC0Lxn6ChxB9i3JUJTg/0kuxPgCMromX4ji/2uy2t5A=;
-  b=MOcOCskpxDmtsJs14Asv0wKqDo8/cUORFk4ugE1Uul2sxdTAq/sLL+bH
-   +moFco3I+7HeDdaPsHHMfbTKABkxdDFfbRue9OsfDqPA5hqpARczwEmT3
-   ji+cTd3Ooc3c05RoflfT/20doX3sWStZbLTC1y10or+WUl3JkSuUrAFCQ
-   /WpsFNxdTbM0V8TvwBWTAV+YD1tzZhHLBc1J9vEtWWjfUG2ANWP3KX57B
-   gl2THDlMZSpGKNcZQ83p3+UjdR4Kd9QFy70FTjAS5ehRnN75R/Cs5I1eT
-   fjU9uGKmQF7RKZ/Q3RnyseXR9cjbHElLJic+LzkNeJ8gdr2Mdhhs2YqtK
-   g==;
-X-CSE-ConnectionGUID: Rpc+WrA/Q4KDTSyYaiVLYw==
-X-CSE-MsgGUID: 9i16iAV7QN+MGk2fvdt61g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="31511693"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="31511693"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 04:07:21 -0700
-X-CSE-ConnectionGUID: lnCM6PewTuiAapcXonE70g==
-X-CSE-MsgGUID: 9BgmUhdnQ0aqJ9sGXdEq3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="109328173"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Oct 2024 04:07:17 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t1OLa-000MDz-0o;
-	Thu, 17 Oct 2024 11:07:14 +0000
-Date: Thu, 17 Oct 2024 19:07:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	rppt@kernel.org, david@redhat.com, yosryahmed@google.com,
-	shakeel.butt@linux.dev, Andrii Nakryiko <andrii@kernel.org>,
-	Yi Lai <yi1.lai@intel.com>
-Subject: Re: [PATCH v2 bpf] lib/buildid: handle memfd_secret() files in
- build_id_parse()
-Message-ID: <202410171803.RRmMX9xL-lkp@intel.com>
-References: <20241016221629.1043883-1-andrii@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FzbZZBDE"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c9150f9ed4so990100a12.0;
+        Thu, 17 Oct 2024 04:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729163350; x=1729768150; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3douvtpLsUx3AakEC5m5aR6A7p1Pr4kaWKKKD9KYE+Q=;
+        b=FzbZZBDEyP+wr9arFSCwmmT2PfIl4spbUh+qKo5UeITux5KhTBtrVq1VPyOxsZyrFF
+         xZ+FLDsL1xq2/Kq1jTCJT30GHAt0D7ReOfbafrwdVzhk+ucwVEUlOqpp++Glzh+agUGi
+         NzAz3DvvsaxagLAk2VOO/7bz5rEFPWMEhY3vXqd3BB5hfBKZDBhCT9yANT24SzMzefSs
+         Q0CEcAECXFZBWQDWR3TX5dOtOaQGOueLoJ0fC1nMNAym6ilMBxUubo2fFgH97AGqgZfI
+         nusRkXOowrrBGhwzE7rbOLiO6BMZUMky5VS/tcn6BvBgmorUnzwgnjzJ9V2aKhfNuV56
+         OkNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729163350; x=1729768150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3douvtpLsUx3AakEC5m5aR6A7p1Pr4kaWKKKD9KYE+Q=;
+        b=qj7aKmxdvH/iY9Ag8aOJYfesxvuj5BhSses72d1sVO8k7u5/99QfPSeHG+0Z2SnvSi
+         DW9d+4Z2VXNZdgoXa+cxSDVIm3W41O2s2RvPHgPRgHRT1UDS1rAioIM9sjSTz0/Ycwjg
+         7R0vHRCSWFAN/ssneMAbucsgUfDtaXTqCsjvn5XJV3aBMUwYtKIKZNU0SxJNLl+ZfSqv
+         0RUn4VWhUQeRn/lfUspzGZ16bSfxcE77n0ig/iqjyPoociTBMqpX0aJ5cwWN/sza+GG4
+         BsGWWzL7yxZe0x7DwW6SzZT7jArtk6MmoK4hQYCvIeKaSxaG/cJOei+leThwBEcDqg3K
+         fL/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVAQOab/2Hv0MsbpaCcH9uZvMrCqSdBIMCp98K80xual7qEVpwu/Q/PjKXcpuHqCuacurp9ZpRmEtFNo44T@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOzO9XMnDFuholEIOA8IDBElPjRBCzRzZnwyTzFHYUrO52Vexe
+	QN5BXEb4+rMIbziqRprcvzHzcsE//5v9nYQpVUE9tKOwzjnq/E2Kaqh21foYHkDyin4OnRa/peA
+	1f/xZrIq1CljfDzFgVc6SKBiuT4w=
+X-Google-Smtp-Source: AGHT+IHd22yNSgtHkexQd1qDKDJ44tq/+TpDvOZkbi+jKQMsmVZa3qkBv3TtbZgQcG7pUZABbm9JOkq2QMZ3n20X13o=
+X-Received: by 2002:a05:6402:520e:b0:5c8:9f81:43e4 with SMTP id
+ 4fb4d7f45d1cf-5c99501c722mr6352803a12.7.1729163350172; Thu, 17 Oct 2024
+ 04:09:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241016221629.1043883-1-andrii@kernel.org>
+References: <20241014131416.27324-1-vimal.agrawal@sophos.com> <f38e017e-40ef-4241-8701-fc56c5c2d06d@stanley.mountain>
+In-Reply-To: <f38e017e-40ef-4241-8701-fc56c5c2d06d@stanley.mountain>
+From: Vimal Agrawal <avimalin@gmail.com>
+Date: Thu, 17 Oct 2024 16:38:58 +0530
+Message-ID: <CALkUMdSzeH-7=jXsGV1+ubzfqHVOC3z0RbN9BG08HTKwFoAWeg@mail.gmail.com>
+Subject: Re: [PATCH] misc: misc_minor_alloc to allocate ids for all
+ dynamic/misc dynamic minors
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	gregkh@linuxfoundation.org, arnd@arndb.de, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, vimal.agrawal@sophos.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrii,
+Hi Dan,
 
-kernel test robot noticed the following build errors:
+Both warning and missed case for return from this function for static
+minor are already fixed in the v2 version of the patch. I will be
+sending out the v3 version shortly ( after splitting it from kunit
+changes).
+Thanks for pointing this out.
 
-[auto build test ERROR on bpf/master]
+Vimal
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/lib-buildid-handle-memfd_secret-files-in-build_id_parse/20241017-061747
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20241016221629.1043883-1-andrii%40kernel.org
-patch subject: [PATCH v2 bpf] lib/buildid: handle memfd_secret() files in build_id_parse()
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241017/202410171803.RRmMX9xL-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171803.RRmMX9xL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410171803.RRmMX9xL-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from lib/buildid.c:5:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> lib/buildid.c:79:7: error: call to undeclared function 'kernel_page_present'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      79 |             !kernel_page_present(&r->folio->page) ||
-         |              ^
-   1 warning and 1 error generated.
-
-
-vim +/kernel_page_present +79 lib/buildid.c
-
-    58	
-    59	static int freader_get_folio(struct freader *r, loff_t file_off)
-    60	{
-    61		/* check if we can just reuse current folio */
-    62		if (r->folio && file_off >= r->folio_off &&
-    63		    file_off < r->folio_off + folio_size(r->folio))
-    64			return 0;
-    65	
-    66		freader_put_folio(r);
-    67	
-    68		r->folio = filemap_get_folio(r->file->f_mapping, file_off >> PAGE_SHIFT);
-    69	
-    70		/* if sleeping is allowed, wait for the page, if necessary */
-    71		if (r->may_fault && (IS_ERR(r->folio) || !folio_test_uptodate(r->folio))) {
-    72			filemap_invalidate_lock_shared(r->file->f_mapping);
-    73			r->folio = read_cache_folio(r->file->f_mapping, file_off >> PAGE_SHIFT,
-    74						    NULL, r->file);
-    75			filemap_invalidate_unlock_shared(r->file->f_mapping);
-    76		}
-    77	
-    78		if (IS_ERR(r->folio) ||
-  > 79		    !kernel_page_present(&r->folio->page) ||
-    80		    !folio_test_uptodate(r->folio)) {
-    81			if (!IS_ERR(r->folio))
-    82				folio_put(r->folio);
-    83			r->folio = NULL;
-    84			return -EFAULT;
-    85		}
-    86	
-    87		r->folio_off = folio_pos(r->folio);
-    88		r->addr = kmap_local_folio(r->folio, 0);
-    89	
-    90		return 0;
-    91	}
-    92	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Wed, Oct 16, 2024 at 7:52=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> Hi Vimal,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Vimal-Agrawal/misc=
+-misc_minor_alloc-to-allocate-ids-for-all-dynamic-misc-dynamic-minors/20241=
+014-211915
+> base:   char-misc/char-misc-testing
+> patch link:    https://lore.kernel.org/r/20241014131416.27324-1-vimal.agr=
+awal%40sophos.com
+> patch subject: [PATCH] misc: misc_minor_alloc to allocate ids for all dyn=
+amic/misc dynamic minors
+> config: sparc64-randconfig-r072-20241015 (https://download.01.org/0day-ci=
+/archive/20241016/202410161811.aIPEJHOt-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 14.1.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410161811.aIPEJHOt-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/char/misc.c:89 misc_minor_alloc() error: uninitialized symbol 're=
+t'.
+>
+> vim +/ret +89 drivers/char/misc.c
+>
+> d52c84545e305b Vimal Agrawal    2024-10-14  66  static int misc_minor_all=
+oc(int minor)
+> ab760791c0cfbb D Scott Phillips 2022-11-14  67  {
+> ab760791c0cfbb D Scott Phillips 2022-11-14  68          int ret;
+> ab760791c0cfbb D Scott Phillips 2022-11-14  69
+> d52c84545e305b Vimal Agrawal    2024-10-14  70          if (minor =3D=3D =
+MISC_DYNAMIC_MINOR) {
+> d52c84545e305b Vimal Agrawal    2024-10-14  71                  /* alloca=
+te free id */
+> ab760791c0cfbb D Scott Phillips 2022-11-14  72                  ret =3D i=
+da_alloc_max(&misc_minors_ida, DYNAMIC_MINORS - 1, GFP_KERNEL);
+> ab760791c0cfbb D Scott Phillips 2022-11-14  73                  if (ret >=
+=3D 0) {
+> ab760791c0cfbb D Scott Phillips 2022-11-14  74                          r=
+et =3D DYNAMIC_MINORS - ret - 1;
+> ab760791c0cfbb D Scott Phillips 2022-11-14  75                  } else {
+> ab760791c0cfbb D Scott Phillips 2022-11-14  76                          r=
+et =3D ida_alloc_range(&misc_minors_ida, MISC_DYNAMIC_MINOR + 1,
+> ab760791c0cfbb D Scott Phillips 2022-11-14  77                           =
+             MINORMASK, GFP_KERNEL);
+> ab760791c0cfbb D Scott Phillips 2022-11-14  78                  }
+> d52c84545e305b Vimal Agrawal    2024-10-14  79          } else {
+> d52c84545e305b Vimal Agrawal    2024-10-14  80                  /* specif=
+ic minor, check if it is in dynamic or misc dynamic range  */
+> d52c84545e305b Vimal Agrawal    2024-10-14  81                  if (minor=
+ < DYNAMIC_MINORS) {
+> d52c84545e305b Vimal Agrawal    2024-10-14  82                          m=
+inor =3D DYNAMIC_MINORS - minor - 1;
+> d52c84545e305b Vimal Agrawal    2024-10-14  83                          r=
+et =3D ida_alloc_range(&misc_minors_ida, minor, minor, GFP_KERNEL);
+> d52c84545e305b Vimal Agrawal    2024-10-14  84                  }
+> d52c84545e305b Vimal Agrawal    2024-10-14  85
+> d52c84545e305b Vimal Agrawal    2024-10-14  86                  if (minor=
+ > MISC_DYNAMIC_MINOR)
+> d52c84545e305b Vimal Agrawal    2024-10-14  87                          r=
+et =3D ida_alloc_range(&misc_minors_ida, minor, minor, GFP_KERNEL);
+>
+> What about if minor is >=3D DYNAMIC_MINORS (128) but <=3D MISC_DYNAMIC_MI=
+NOR (255)?
+>
+> d52c84545e305b Vimal Agrawal    2024-10-14  88          }
+> ab760791c0cfbb D Scott Phillips 2022-11-14 @89          return ret;
+> ab760791c0cfbb D Scott Phillips 2022-11-14  90  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
