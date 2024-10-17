@@ -1,110 +1,149 @@
-Received: from smtp94.iad3a.emailsrvr.com (smtp94.iad3a.emailsrvr.com [173.203.187.94])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A011DB548
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 11:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.203.187.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A161DA62E;
+	Thu, 17 Oct 2024 11:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729163211; cv=none; b=igP8CRuzR0K46b/Pe2mTe0MtUlNgtjG8i8sy7cepHY0oJsF98F+s9WR90Xc6oy//j+IKa80TwBk1srOSGTq72hthSQrlhT6j9WBp80dFjCjn0Q3CNBjrBU8G/+iyts3Ex6iSMXx+AzQiTIPrz/HAxCt29neH6PwY11TzJqgD9zo=
+	t=1729163244; cv=none; b=pcVYXvVeJZmBZ8JY3FCyG10PcDAfxlbUPlNExF44ZCT/1wtetACkYrOelvHcTDzusywnH0/S+0ZA53JrVv8o5Epx5cHPH8wRXucEg8sXRYUC3J9WAavuXb0ShEM+EDw3Y64YvZNJ6SfocSzBLOAHTMyqUoHZU2FzB70X9mi9Gec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729163211; c=relaxed/simple;
-	bh=k+nJSUkwk5gDdPhRVLKpnQy8rkKfStfm9+TBQpiqX7M=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=S/9J0nU/6efRUD1AP/MO/MRji9xeoX8WZWoyl0rtyaDcPG56yOyVUz9HDN1ydDVagm2L44Dhhj8xT25kztsBCtRm41/oi61mkvOAQY3DEMrdiG3CY74MdaW7fI2dfP+rTvzwMj45SfsveZjWOsQI6Jk6zyRgrvWheSN6VEUsJ+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mev.co.uk; spf=pass smtp.mailfrom=mev.co.uk; dkim=pass (1024-bit key) header.d=mev.co.uk header.i=@mev.co.uk header.b=jfsS9CBm; arc=none smtp.client-ip=173.203.187.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mev.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mev.co.uk
+	s=arc-20240116; t=1729163244; c=relaxed/simple;
+	bh=FC0Lxn6ChxB9i3JUJTg/0kuxPgCMromX4ji/2uy2t5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kwkc8WDpCVTuiOKoiXrUbxtJHomdkLuuetHFrr/cac9UYuQDSZ0kqgi9tZvxOmTA1fZp3w5vU1EoL/rN0fyMxPPrmTVireM5fmPuafAyw7Ygdb9pZS5w1r7HihMEZfcisoXAO+jIlkF4Hvy5fptlBP0cN23YXzmMzPgZOtaIQRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MOcOCskp; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mev.co.uk header.i=@mev.co.uk header.b="jfsS9CBm"
-Received: from smtp78.iad3a.emailsrvr.com (relay.iad3a.rsapps.net [172.27.255.110])
-	by smtp28.relay.iad3a.emailsrvr.com (SMTP Server) with ESMTPS id C642D4359
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 05:48:18 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20221208-6x11dpa4; t=1729158491;
-	bh=k+nJSUkwk5gDdPhRVLKpnQy8rkKfStfm9+TBQpiqX7M=;
-	h=Date:Subject:From:To:From;
-	b=jfsS9CBm45aNY1mKc97yZw9PK64OCkqTc8SJy9NIquwJIG/1PNpJYOVZH3kA4XiHP
-	 ixurmWBREX3f16b9u62tEtgliUrORSCQeoiO9qtaC48npzJ//F59LMXSoYoi7hff9/
-	 Hfqk63J59qSpkBH2RwYe0m8g5kL2+btilOoGLenA=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp18.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id D4DCF25258;
-	Thu, 17 Oct 2024 05:48:10 -0400 (EDT)
-Message-ID: <cf1a2818-1b78-4422-bb76-421732c428c0@mev.co.uk>
-Date: Thu, 17 Oct 2024 10:48:10 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MOcOCskp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729163242; x=1760699242;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FC0Lxn6ChxB9i3JUJTg/0kuxPgCMromX4ji/2uy2t5A=;
+  b=MOcOCskpxDmtsJs14Asv0wKqDo8/cUORFk4ugE1Uul2sxdTAq/sLL+bH
+   +moFco3I+7HeDdaPsHHMfbTKABkxdDFfbRue9OsfDqPA5hqpARczwEmT3
+   ji+cTd3Ooc3c05RoflfT/20doX3sWStZbLTC1y10or+WUl3JkSuUrAFCQ
+   /WpsFNxdTbM0V8TvwBWTAV+YD1tzZhHLBc1J9vEtWWjfUG2ANWP3KX57B
+   gl2THDlMZSpGKNcZQ83p3+UjdR4Kd9QFy70FTjAS5ehRnN75R/Cs5I1eT
+   fjU9uGKmQF7RKZ/Q3RnyseXR9cjbHElLJic+LzkNeJ8gdr2Mdhhs2YqtK
+   g==;
+X-CSE-ConnectionGUID: Rpc+WrA/Q4KDTSyYaiVLYw==
+X-CSE-MsgGUID: 9i16iAV7QN+MGk2fvdt61g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="31511693"
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
+   d="scan'208";a="31511693"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 04:07:21 -0700
+X-CSE-ConnectionGUID: lnCM6PewTuiAapcXonE70g==
+X-CSE-MsgGUID: 9BgmUhdnQ0aqJ9sGXdEq3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
+   d="scan'208";a="109328173"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 17 Oct 2024 04:07:17 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1OLa-000MDz-0o;
+	Thu, 17 Oct 2024 11:07:14 +0000
+Date: Thu, 17 Oct 2024 19:07:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	rppt@kernel.org, david@redhat.com, yosryahmed@google.com,
+	shakeel.butt@linux.dev, Andrii Nakryiko <andrii@kernel.org>,
+	Yi Lai <yi1.lai@intel.com>
+Subject: Re: [PATCH v2 bpf] lib/buildid: handle memfd_secret() files in
+ build_id_parse()
+Message-ID: <202410171803.RRmMX9xL-lkp@intel.com>
+References: <20241016221629.1043883-1-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] comedi: Flush partial mappings in error case
-From: Ian Abbott <abbotti@mev.co.uk>
-To: Jann Horn <jannh@google.com>, kernel test robot <lkp@intel.com>
-Cc: H Hartley Sweeten <hsweeten@visionengravers.com>,
- Frank Mori Hess <fmh6jj@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241015-comedi-tlb-v2-1-cafb0e27dd9a@google.com>
- <202410170111.K30oyTWa-lkp@intel.com>
- <CAG48ez2T7i_qCAcGi3nZqQeT8A3x42YSdL=rWqXOUDy5Eyaf6A@mail.gmail.com>
- <ccc4e0a3-34f5-4793-bd05-ee0955c9c87b@mev.co.uk>
-Content-Language: en-GB
-Organization: MEV Ltd.
-In-Reply-To: <ccc4e0a3-34f5-4793-bd05-ee0955c9c87b@mev.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Classification-ID: ce5d4bf1-6887-48ca-a9be-2492341b77e4-1-2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241016221629.1043883-1-andrii@kernel.org>
 
-On 17/10/2024 10:29, Ian Abbott wrote:
-> On 16/10/2024 23:05, Jann Horn wrote:
->> On Wed, Oct 16, 2024 at 8:05 PM kernel test robot <lkp@intel.com> wrote:
->>> [auto build test ERROR on 6485cf5ea253d40d507cd71253c9568c5470cd27]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/ 
->>> comedi-Flush-partial-mappings-in-error-case/20241016-022809
->>> base:   6485cf5ea253d40d507cd71253c9568c5470cd27
->>> patch link:    https://lore.kernel.org/r/20241015-comedi-tlb-v2-1- 
->>> cafb0e27dd9a%40google.com
->>> patch subject: [PATCH v2] comedi: Flush partial mappings in error case
->>> config: arm-randconfig-004-20241016 (https://download.01.org/0day-ci/ 
->>> archive/20241017/202410170111.K30oyTWa-lkp@intel.com/config)
->>> compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/ 
->>> archive/20241017/202410170111.K30oyTWa-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new 
->>> version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild- 
->>> all/202410170111.K30oyTWa-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>     arm-linux-gnueabi-ld: drivers/comedi/comedi_fops.o: in function 
->>> `comedi_mmap':
->>>>> comedi_fops.c:(.text+0x4be): undefined reference to `zap_vma_ptes'
->>
->> Ugh, this one is from a nommu build ("# CONFIG_MMU is not set"), it
->> makes sense that you can't zap PTEs when you don't have any PTEs at
->> all... what really impresses me about this is that the rest of the
->> code compiles on nommu. I'm pretty sure this codepath wouldn't
->> actually _work_ on nommu, but apparently compiling it works?
->>
->> I don't know what the right fix is here - should the entire comedi
->> driver be gated on CONFIG_MMU, or only a subset of the mmap handler,
->> or something else?
-> 
-> Given that it would also affect a lot of fbdev drivers that would also 
-> benefit from zapping partial mappings, I suggest that gating on 
-> CONFIG_MMU would not be the correct fix.
+Hi Andrii,
 
-Perhaps just add an #ifdef CONFIG_MMU around the affected call for now?
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/lib-buildid-handle-memfd_secret-files-in-build_id_parse/20241017-061747
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20241016221629.1043883-1-andrii%40kernel.org
+patch subject: [PATCH v2 bpf] lib/buildid: handle memfd_secret() files in build_id_parse()
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241017/202410171803.RRmMX9xL-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171803.RRmMX9xL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171803.RRmMX9xL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from lib/buildid.c:5:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> lib/buildid.c:79:7: error: call to undeclared function 'kernel_page_present'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      79 |             !kernel_page_present(&r->folio->page) ||
+         |              ^
+   1 warning and 1 error generated.
+
+
+vim +/kernel_page_present +79 lib/buildid.c
+
+    58	
+    59	static int freader_get_folio(struct freader *r, loff_t file_off)
+    60	{
+    61		/* check if we can just reuse current folio */
+    62		if (r->folio && file_off >= r->folio_off &&
+    63		    file_off < r->folio_off + folio_size(r->folio))
+    64			return 0;
+    65	
+    66		freader_put_folio(r);
+    67	
+    68		r->folio = filemap_get_folio(r->file->f_mapping, file_off >> PAGE_SHIFT);
+    69	
+    70		/* if sleeping is allowed, wait for the page, if necessary */
+    71		if (r->may_fault && (IS_ERR(r->folio) || !folio_test_uptodate(r->folio))) {
+    72			filemap_invalidate_lock_shared(r->file->f_mapping);
+    73			r->folio = read_cache_folio(r->file->f_mapping, file_off >> PAGE_SHIFT,
+    74						    NULL, r->file);
+    75			filemap_invalidate_unlock_shared(r->file->f_mapping);
+    76		}
+    77	
+    78		if (IS_ERR(r->folio) ||
+  > 79		    !kernel_page_present(&r->folio->page) ||
+    80		    !folio_test_uptodate(r->folio)) {
+    81			if (!IS_ERR(r->folio))
+    82				folio_put(r->folio);
+    83			r->folio = NULL;
+    84			return -EFAULT;
+    85		}
+    86	
+    87		r->folio_off = folio_pos(r->folio);
+    88		r->addr = kmap_local_folio(r->folio, 0);
+    89	
+    90		return 0;
+    91	}
+    92	
 
 -- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
